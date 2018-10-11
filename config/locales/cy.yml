@@ -570,7 +570,7 @@ funding:
   digitalFund:
     title: Y Gronfa Ddigidol
     intro: Mae'r Gronfa Ddigidol yn rhaglen ariannu £15 miliwn newydd i gefnogi elusennau a mudiadau cymunedol. Mae'n ymwneud â helpu'r sector elusennol a gwirfoddol i ddefnyddio offer a dulliau digidol i gefnogi pobl a chymunedau i ffynnu.
-    openingDates: Bydd y rhaglen yn agor i geisiadau ar 22 Hydref 2018 ac yn cau ar 3 Rhagfyr 2018. Bydd cyfleoedd pellach i ymgeisio yn 2019.
+    openingDates: Gallwch gyflwyno ceisiadau amlinellol rhwng 22 Hydref 2018 a 5PM ar 3 Rhagfyr 2018. Bydd cyfleoedd pellach i ymgeisio yn 2019.
     aboutStrandLabel: Mwy o wybodaeth am yr edefyn hwn
     strand1:
       title: Rydym eisiau defnyddio digidol i newid ein gwaith
@@ -596,8 +596,8 @@ funding:
       title: Sut mae'r broses yn gweithio
       introduction: Nid ydym eisiau i chi dreulio llawer o amser yn paratoi i gael sgwrs gychwynnol gyda ni. Hoffem siarad a chi am eich syniad cyn i chi ddechrau datblygu cais manwl am grant.
       steps:
-      - title: Gofyn am alwad
-        description: Cysylltwch â ni i drefnu galwad i siarad am eich syniad—hoffem yn fawr gael sgwrs gyda chi mewn cam cynnar
+      - title: Cyflwynwch fraslun o’ch syniad trwy’r dudalen hon—sy’n mynd yn fyw ar 22 Hydref
+        description: O 22 Hydref byddwch yn gallu defnyddio’r dudalen we hon i yrru braslun o’ch syniad atom
       - title: "Siarad â ni"
         description: Byddwn yn ffonio chi ac yn gofyn ychydig o gwestiynau
       - title: Cyflwyno cais llawn
@@ -612,6 +612,7 @@ funding:
       title: Oes gennych gwestiynau?
       body: >
         <p>Cysylltwch â ni os oes gennych unrhyw gwestiynau ynglŷn â chymhwyster.</p>
+        <p>Noder, na allwn roi unrhyw adborth i chi ar syniadau yn y cam hwn. Yr unig ffordd o dderbyn adborth fydd dychwelyd at y dudalen hon o 22 Hydref i gyflwyno braslun.</p>
         <p><strong>Ffôn</strong>: <a href="tel:03001230735">0300 123 0735</a><br/>
         <strong>Cyfnewid testun</strong>: 18001 plws 0300 123 0735 (ar gyfer pobl sydd â nam ar y clyw neu'r lleferydd)<br/>
         <strong>E-bost</strong>: <a href="mailto:cymru@cronfaloterifawr.org.uk">cymru@cronfaloterifawr.org.uk</a></p>
@@ -688,7 +689,7 @@ funding:
     fullEligiblity:
       title: Meini prawf cymhwyster llawn
       introduction: >
-        <p>Bydd y Gronfa Ddigidol yn agor fesul cam dros y ddwy flynedd nesaf. Bydd y cam cyntaf, sydd ar agor rhwng 22 Hydref 2018 a 3 Rhagfyr 2018, yn derbyn ceisiadau trwy ddau edefyn.</p>
+        <p>Bydd y Gronfa Ddigidol yn agor fesul cam dros y ddwy flynedd nesaf. Bydd y cam cyntaf, a fydd ar agor rhwng 22 Hydref 2018 a 5pm ar 3 Rhagfyr 2018, yn derbyn ceisiadau trwy ddau edefyn.</p>
         <p><strong>Mae Edefyn 1</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi'i deilwra. Y nod yw helpu elusennau sefydledig i ddefnyddio digidol i gyflawni cam sylweddol ymlaen.</p>
         <p><strong>Mae Edefyn 2</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.</p>
         <p>Rydym yn disgwyl i grantiau yn y ddau edefyn bara rhwng 1 a 4 blynedd.</p>
