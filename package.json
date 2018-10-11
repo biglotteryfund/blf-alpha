@@ -18,7 +18,7 @@
     "test": "npm audit && eslint . && npm run test-unit",
     "test-cypress": "wait-on http://localhost:8090 && cypress run",
     "pretest-ci": "npm run build",
-    "test-ci": "./bin/start-test-server & concurrently --success --raw 'npm test' 'npm run test-cypress'",
+    "test-ci": "./bin/start-test-server & concurrently --raw npm:test npm:test-cypress",
     "clean": "del-cli $npm_package_config_dist_root/* ./config/assets.json",
     "build-sass": "node-sass assets/sass --output $npm_package_config_dist_css --source-map $npm_package_config_dist_css",
     "build-css": "npm run build-sass && postcss $npm_package_config_dist_css/*.css --replace --map",
@@ -29,9 +29,13 @@
     "watch-livereload": "livereload $npm_package_config_dist_css/style.css",
     "watch-css": "watch 'npm run build-css' assets/sass",
     "watch-js": "webpack --watch",
-    "watch": "npm run build && concurrently --kill-others 'npm run watch-js' 'npm run watch-css' 'npm run watch-livereload'",
-    "precommit": "lint-staged",
-    "prepush": "npm test"
+    "watch": "npm run build && concurrently --kill-others npm:watch-js npm:watch-css npm:watch-livereload"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm test"
+    }
   },
   "lint-staged": {
     "*.scss": [
@@ -132,28 +136,28 @@
     "babel-plugin-syntax-dynamic-import": "6.18.0",
     "babel-plugin-transform-es2015-modules-commonjs": "6.26.2",
     "babel-preset-env": "1.7.0",
-    "concurrently": "3.6.1",
+    "concurrently": "4.0.1",
     "css-loader": "1.0.0",
     "cssnano": "4.0.5",
     "cypress": "3.1.0",
     "del-cli": "1.1.0",
-    "dotenv": "6.0.0",
+    "dotenv": "6.1.0",
     "eslint": "^4.19.0",
     "eslint-plugin-vue": "4.7.1",
-    "husky": "^0.14.3",
-    "jest": "23.4.1",
-    "lint-staged": "7.2.0",
+    "husky": "1.1.2",
+    "jest": "23.6.0",
+    "lint-staged": "7.3.0",
     "livereload": "^0.7.0",
-    "node-mocks-http": "^1.7.0",
+    "node-mocks-http": "1.7.3",
     "node-sass": "4.9.3",
-    "nodemon": "1.18.3",
+    "nodemon": "1.18.4",
     "postcss-cli": "6.0.0",
     "postcss-fout-with-a-class": "1.1.0",
-    "prettier": "1.14.0",
+    "prettier": "1.14.3",
     "prompt": "^1.0.0",
     "vue-loader": "15.2.6",
     "vue-template-compiler": "2.5.17",
-    "wait-on": "^2.1.0",
+    "wait-on": "3.1.0",
     "watch": "1.0.2",
     "webpack": "4.16.3",
     "webpack-cli": "3.1.0"
