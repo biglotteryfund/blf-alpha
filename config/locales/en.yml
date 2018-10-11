@@ -660,8 +660,7 @@ funding:
   digitalFund:
     title: Digital Fund
     intro: The Digital Fund is a new UK wide £15 million funding programme to support charities and community organisations. It is about helping the charity and voluntary sector to use digital tools and approaches to support people and communities to thrive.
-    openingDates: Applications initially open on 22nd October 2018 and close on 3rd December 2018. There will be further opportunities to apply in 2019.
-    closedMessage: Applications initially open on 22nd October 2018
+    openingDates: You can submit outline proposals from 22nd October 2018 until 5pm 3rd December 2018. There will be further opportunities to apply in 2019.
     aboutStrandLabel: Find out more about this strand
     strand1:
       title: We want to use digital to change our work
@@ -685,10 +684,10 @@ funding:
             <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us on social media</a> or keep checking our website for up-to-date information.</p>
     process:
       title: How the process works
-      introduction: We don’t want you to spend a huge amount of time preparing to have an initial conversation with us. We would like to talk to you about your idea before you start developing a detailed funding proposal.
+      introduction: We don’t want you to spend a huge amount of time preparing to have an initial conversation with us. We would like to talk to you about your outline proposal before you start developing a detailed funding proposal.
       steps:
-      - title: Request a call
-        description: Contact us to arrange a call to talk about your idea—we’d love to have a chat at an early stage
+      - title: Submit an outline of your idea via this page—goes live on 22nd October
+        description: From 22nd October you’ll be able to use this web page to send us a brief outline of your idea
       - title: Talk to us
         description: We call you and ask a few questions
       - title: Submit a full proposal
@@ -703,6 +702,7 @@ funding:
       title: Have any questions?
       body: >
         <p>If you have any questions about eligibility, get in touch with us.</p>
+        <p>Please note, we can’t give you any feedback on ideas at this stage. The only way of getting feedback will be to return to this page from 22nd October and submit an outline.</p>
         <p><strong>Phone</strong>: <a href="tel:03454102030">0345 4 10 20 30</a><br/>
         <strong>Text relay</strong>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)<br/>
         <strong>Email</strong>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></p>
@@ -779,7 +779,7 @@ funding:
     fullEligiblity:
       title: Full eligibility criteria
       introduction: >
-        <p>The Digital Fund will open in phases over the next two years. The first phase, open from 22nd October 2018 to 3rd December 2018, will accept proposals in two strands.</p>
+        <p>The Digital Fund will open in phases over the next two years. <strong>The first phase, open from 22nd October 2018 to 5pm 3rd December 2018</strong>, will accept proposals in two strands.</p>
         <p><strong>Digital Fund Strand 1</strong> offers grants of up to £500,000 and a tailored support package. The aim is to help established charities use digital to take a major leap forward.</p>
         <p><strong>Digital Fund Strand 2</strong> offers grants of up to £500,000 for newer organisations that have already launched promising services that use digital to achieve scale or impact.</p>
         <p>We expect grants to both strands to last from 1 to 4 years.</p>

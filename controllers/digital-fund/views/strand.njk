@@ -56,13 +56,6 @@
                                     {{ copy.process.getStarted.body | safe }}
                                 {% endcall %}
                             </div>
-                        {% else %}
-                            {# Closed to applicants #}
-                            {% call actionCard({
-                                title: copy.closedMessage
-                            }, accent = pageAccent) %}
-                                {{ copy.process.getStarted.body | safe }}
-                            {% endcall %}
                         {% endif %}
                     </div>
                 </div>
