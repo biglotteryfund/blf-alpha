@@ -18,7 +18,7 @@
     "test": "npm audit && eslint . && npm run test-unit",
     "test-cypress": "wait-on http://localhost:8090 && cypress run",
     "pretest-ci": "npm run build",
-    "test-ci": "./bin/start-test-server & concurrently --success --raw 'npm test' 'npm run test-cypress'",
+    "test-ci": "./bin/start-test-server & concurrently --raw npm:test npm:test-cypress",
     "clean": "del-cli $npm_package_config_dist_root/* ./config/assets.json",
     "build-sass": "node-sass assets/sass --output $npm_package_config_dist_css --source-map $npm_package_config_dist_css",
     "build-css": "npm run build-sass && postcss $npm_package_config_dist_css/*.css --replace --map",
@@ -29,7 +29,7 @@
     "watch-livereload": "livereload $npm_package_config_dist_css/style.css",
     "watch-css": "watch 'npm run build-css' assets/sass",
     "watch-js": "webpack --watch",
-    "watch": "npm run build && concurrently --kill-others 'npm run watch-js' 'npm run watch-css' 'npm run watch-livereload'"
+    "watch": "npm run build && concurrently --kill-others npm:watch-js npm:watch-css npm:watch-livereload"
   },
   "husky": {
     "hooks": {
