@@ -1,8 +1,8 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav with context %}
 
-{% macro grantResultItem(grant) %}
-    <div class="u-margin-bottom" data-score="{{ grant._textScore }}">
+{% macro grantResultItem(grant, options) %}
+    <div class="u-margin-bottom{% if options.wrapperClass %} {{ options.wrapperClass }}{% endif %}" data-score="{{ grant._textScore }}">
         {% set subtitle %}
             £{{ grant.amountAwarded | numberWithCommas}} to
             <strong>{{ grant.recipientOrganization[0].name }}</strong>
@@ -40,12 +40,14 @@
     </div>
 {% endmacro %}
 
-{% macro grantResultList(grants) %}
+{% macro grantResultList(grants, options = {}) %}
     {% if grants.length > 0 %}
         {% for grant in grants %}
-            {{ grantResultItem(grant) }}
+            {{ grantResultItem(grant, options) }}
         {% endfor %}
-        {{ splitNav(pagination.prevLink, pagination.nextLink) }}
+        {% if not options.hidePagination %}
+            {{ splitNav(pagination.prevLink, pagination.nextLink) }}
+        {% endif %}
     {% else %}
         {# @TODO add suggested search results etc #}
         <p>No results</p>

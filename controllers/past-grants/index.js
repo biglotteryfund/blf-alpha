@@ -66,7 +66,11 @@ function buildAllowedParams(queryParams) {
         'country',
         'localAuthority',
         'constituency',
-        'recipient'
+        'recipient',
+        'skipFacets',
+        'fuzzy',
+        'exclude',
+        'limit'
     ];
     return pick(queryParams, allowedParams);
 }
@@ -138,11 +142,17 @@ router.get('/', async (req, res, next) => {
 
         // AJAX search for client-side app
         'application/json': () => {
+            const isRelatedSearch = req.query.related === 'true';
+
             // Repopulate existing app globals so Nunjucks can read them
             // outside of Express's view engine context
             const context = Object.assign({}, res.locals, req.app.locals, {
                 grants: data.results,
-                pagination: buildPagination(data.meta.pagination, queryWithPage)
+                pagination: buildPagination(data.meta.pagination, queryWithPage),
+                options: {
+                    wrapperClass: isRelatedSearch ? 'flex-grid__item' : false,
+                    hidePagination: isRelatedSearch
+                }
             });
             const template = path.resolve(__dirname, './views/ajax-results.njk');
 
