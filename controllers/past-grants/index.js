@@ -8,7 +8,7 @@ const nunjucks = require('nunjucks');
 const Raven = require('raven');
 
 const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
-const { injectBreadcrumbs } = require('../../middleware/inject-content');
+const { injectBreadcrumbs, injectHeroImage } = require('../../middleware/inject-content');
 const { sMaxAge } = require('../../middleware/cached');
 const contentApi = require('../../services/content-api');
 
@@ -92,13 +92,13 @@ async function queryGrantsApi(parameters) {
 
 router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-        label: 'Search past grants',
+        label: 'Search awarded grants',
         url: req.baseUrl
     });
     next();
 });
 
-router.get('/', async (req, res, next) => {
+router.get('/', injectHeroImage('active-plus-communities'), async (req, res, next) => {
     const facetParams = buildAllowedParams(req.query);
     const queryWithPage = addPaginationParameters(facetParams, req.query.page);
     let data;
@@ -122,7 +122,7 @@ router.get('/', async (req, res, next) => {
         // Initial / server-only search
         html: () => {
             res.render(path.resolve(__dirname, './views/index'), {
-                title: 'Search Past Grants',
+                title: 'Search awarded grants: Beta',
                 queryParams: isEmpty(facetParams) ? false : facetParams,
                 grants: data.results,
                 facets: data.facets,

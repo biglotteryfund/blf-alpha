@@ -5,6 +5,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import omit from 'lodash/omit';
 
 import GrantFilters from './components/grant-filters.vue';
+import GrantsTotalSummary from './components/grants-total-summary.vue';
+import GrantLoadingStatus from './components/grant-loading-status.vue';
 
 function init() {
     const mountEl = document.getElementById('js-past-grants');
@@ -14,8 +16,11 @@ function init() {
 
     new Vue({
         el: mountEl,
-        delimiters: ['<%', '%>'],
-        components: { 'grant-filters': GrantFilters },
+        components: {
+            'grant-filters': GrantFilters,
+            'grants-total-summary': GrantsTotalSummary,
+            'grant-loading-status': GrantLoadingStatus
+        },
         data() {
             // Populate data from global object (eg. to share server/client state)
             const PGS = window._PAST_GRANTS_SEARCH;

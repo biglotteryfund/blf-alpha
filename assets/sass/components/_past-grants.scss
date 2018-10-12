@@ -14,11 +14,16 @@
         padding: 0.5em 0;
     }
 
+    .grants-search__total {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
     .grants-search__content {
         display: flex;
     }
     .grants-search__filters {
-        flex: 0 0 280px;
+        flex: 0 0 320px;
         padding-right: $spacingUnit;
 
         select {
@@ -82,7 +87,7 @@
    Filters
    ========================================================================= */
 
-$filterSpacing: 10px;
+$filterSpacing: 8px;
 
 .search-filters {
     position: sticky;
