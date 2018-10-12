@@ -83,7 +83,7 @@
    ========================================================================= */
 
 .search-filters {
-    $filterSpacing: 8px;
+    $filterSpacing: 10px;
     position: sticky;
     top: $filterSpacing;
     background-color: palette('pale-grey');
@@ -98,8 +98,21 @@
     }
 
     &,
-    select {
+    select,
+    .btn-link {
         font-size: 16px;
+    }
+
+    .search-filters__header {
+        @include clearfix();
+        margin-bottom: $filterSpacing;
+    }
+
+    .search-filters__title {
+        float: left;
+    }
+    .search-filters__clear-all {
+        float: right;
     }
 
     .search-filters__facet {

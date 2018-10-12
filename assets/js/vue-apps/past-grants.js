@@ -4,21 +4,26 @@ import debounce from 'lodash/debounce';
 import cloneDeep from 'lodash/cloneDeep';
 import omit from 'lodash/omit';
 
+import GrantFilters from './components/grant-filters.vue';
+
 function init() {
-    const mountEl = document.getElementById('js-grant-filters');
+    const mountEl = document.getElementById('js-past-grants');
     if (!mountEl) {
         return;
     }
+
     new Vue({
         el: mountEl,
         delimiters: ['<%', '%>'],
+        components: { 'grant-filters': GrantFilters },
         data() {
             // Populate data from global object (eg. to share server/client state)
-            let PGS = window._PAST_GRANTS_SEARCH;
-            let queryParams = PGS && PGS.queryParams ? PGS.queryParams : {};
-            let existingFacets = PGS && PGS.facets ? PGS.facets : {};
-            let existingSort = PGS && PGS.sort ? PGS.sort : {};
-            let defaultFilters = {
+            const PGS = window._PAST_GRANTS_SEARCH;
+            const queryParams = PGS && PGS.queryParams ? PGS.queryParams : {};
+            const existingFacets = PGS && PGS.facets ? PGS.facets : {};
+            const existingSort = PGS && PGS.sort ? PGS.sort : {};
+
+            const defaultFilters = {
                 amount: '',
                 year: '',
                 programme: '',
@@ -26,6 +31,7 @@ function init() {
                 localAuthority: '',
                 constituency: ''
             };
+
             return {
                 defaultFilters,
                 sort: Object.assign({}, existingSort),
@@ -39,9 +45,9 @@ function init() {
             };
         },
         watch: {
-            // Watch for changes to filters then make AJAX call
             filters: {
-                handler: function() {
+                handler() {
+                    // Watch for changes to filters then make AJAX call
                     this.ignoreSort = !!this.filters.q;
                     this.isCalculating = true;
                     this.filterResults();
@@ -105,6 +111,7 @@ function init() {
 
             // Reset the filters back to their default state
             clearFilters: function(key) {
+                console.log('Clear filters', key);
                 if (key) {
                     this.filters[key] = this.defaultFilters[key];
                 } else {

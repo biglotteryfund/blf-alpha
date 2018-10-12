@@ -32,7 +32,7 @@
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             {{ breadcrumbTrail(breadcrumbs) }}
             <form class="grants-search"
-                  id="js-grant-filters"
+                  id="js-past-grants"
                   method="get"
                   action=""
                   v-on:submit.prevent>
@@ -164,22 +164,24 @@
                     </div>
 
                     <div class="grants-search__filters">
-                        <div class="search-filters"
-                             v-bind:class="{ 'search-filters--locked': isCalculating }">
+                        {# Javascript component version of filters #}
+                        <grant-filters
+                            :facets="facets"
+                            :filters="filters"
+                            :is-calculating="isCalculating"
+                            @clear-filters="clearFilters"
+                        />
 
-                            {# Filter: Amount awarded #}
-                            {% if facets.amountAwarded %}
-                                {% set options = [{ 'label': 'Any amount', 'value': '' }] %}
-                                {% for item in facets.amountAwarded %}
-                                    {% set options = (options.push({
-                                        'label': item.title + " (" + item.count + ")",
-                                        'value': item.value
-                                    }), options) %}
-                                {% endfor %}
-
-                                <div class="search-filters__facet">
-
-                                    <noscript>
+                        {# Noscript fallback filters #}
+                        <noscript>
+                            <div class="search-filters">
+                                {# Filter: Amount awarded #}
+                                {% if facets.amountAwarded %}
+                                    {% set options = (facets.amountAwarded.unshift({
+                                        'label': 'Any amount',
+                                        'value': ''
+                                    }), facets.amountAwarded) %}
+                                    <div class="search-filters__facet">
                                         {{ inputChoice({
                                             type: 'radio',
                                             name: 'amount',
@@ -188,79 +190,34 @@
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-                                    </noscript>
-
-                                    {# @TODO make this into a radio component #}
-                                    <div class="js-only" v-cloak>
-                                        <label class="ff-label">Amount awarded</label>
-                                        {{ clearButton('amount') }}
-                                        <select name="amount"
-                                                class="ff-select"
-                                                v-model="filters.amount"
-                                                disabled>
-                                            <option value="">Any amount</option>
-                                            <option v-for="option in facets.amountAwarded"
-                                                    v-bind:value="option.value">
-                                                <% option.title %> (<% option.count %>)
-                                            </option>
-                                        </select>
                                     </div>
-                                </div>
-                            {% endif %}
+                                {% endif %}
 
-                            {# Filter: Date of award #}
-                            {% if facets.awardDate %}
-                                {% set options = [{ 'label': 'All years', 'value': '' }] %}
-                                {% for item in facets.awardDate %}
-                                    {% set options = (options.push({
-                                        'label': item._id + " (" + item.count + ")",
-                                        'value': item._id.toString()
-                                    }), options) %}
-                                {% endfor %}
-
-                                <div class="search-filters__facet">
-
-                                    <noscript>
-                                        {{ inputSelect({
-                                            type: 'select',
-                                            name: 'year',
-                                            label: 'Award year',
-                                            value: queryParams.year,
+                                {# Filter: Country #}
+                                {% if facets.countries %}
+                                    {% set options = (facets.countries.unshift({
+                                        'label': 'All countries',
+                                        'value': ''
+                                    }), facets.countries) %}
+                                    <div class="search-filters__facet">
+                                        {{ inputChoice({
+                                            type: 'radio',
+                                            name: 'country',
+                                            label: 'Country',
+                                            value: queryParams.country,
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-                                    </noscript>
-
-                                    <div class="js-only" v-cloak>
-                                        <label class="ff-label">Award year</label>
-                                        {{ clearButton('year') }}
-                                        <select name="year"
-                                                class="ff-select"
-                                                v-model="filters.year" disabled>
-                                            <option value="">All years</option>
-                                            <option v-for="option in facets.awardDate"
-                                                    v-bind:value="option._id">
-                                                <% option._id %> (<% option.count %>)
-                                            </option>
-                                        </select>
                                     </div>
+                                {% endif %}
 
-                                </div>
-                            {% endif %}
-
-                            {# Filter: Grant programme #}
-                            {% if facets.grantProgramme %}
-                                {% set options = [{ 'label': 'All programmes', 'value': '' }] %}
-                                {% for item in facets.grantProgramme %}
-                                    {% set options = (options.push({
-                                        'label': item._id + " (" + item.count + ")",
-                                        'value': item._id.toString()
-                                    }), options) %}
-                                {% endfor %}
-
-                                <div class="search-filters__facet">
-
-                                    <noscript>
+                                {# Filter: Grant programme #}
+                                {% if facets.grantProgramme %}
+                                    {% set options = (facets.grantProgramme.unshift({
+                                        'label': 'All programmes',
+                                        'value': ''
+                                    }), facets.grantProgramme) %}
+                                    <div class="search-filters__facet">
                                         {{ inputSelect({
                                             type: 'select',
                                             name: 'programme',
@@ -269,39 +226,16 @@
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-                                    </noscript>
-
-                                    <div class="js-only" v-cloak>
-                                        <label class="ff-label">Programme</label>
-                                        {{ clearButton('programme') }}
-                                        <select name="programme"
-                                                class="ff-select"
-                                                v-model="filters.programme" disabled>
-                                            <option value="">All programmes</option>
-                                            <option v-for="option in facets.grantProgramme"
-                                                    v-bind:value="option._id">
-                                                <% option._id %> (<% option.count %>)
-                                            </option>
-                                        </select>
                                     </div>
+                                {% endif %}
 
-                                </div>
-
-                            {% endif %}
-
-                            {# Filter: Local Authority #}
-                            {% if facets.localAuthorities %}
-                                {% set options = [{ 'label': 'All areas', 'value': '' }] %}
-                                {% for item in facets.localAuthorities %}
-                                    {% set options = (options.push({
-                                        'label': item._id + " (" + item.count + ")",
-                                        'value': item.code
-                                    }), options) %}
-                                {% endfor %}
-
-                                <div class="search-filters__facet">
-
-                                    <noscript>
+                                {# Filter: Local Authority #}
+                                {% if facets.localAuthorities %}
+                                    {% set options = (facets.localAuthorities.unshift({
+                                        'label': 'All local authorities',
+                                        'value': ''
+                                    }), facets.localAuthorities) %}
+                                    <div class="search-filters__facet">
                                         {{ inputSelect({
                                             type: 'select',
                                             name: 'localAuthority',
@@ -310,117 +244,32 @@
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-                                    </noscript>
-
-                                    <div class="js-only" v-cloak>
-                                        <label class="ff-label">Local authority</label>
-                                        {{ clearButton('localAuthority') }}
-                                        <select name="localAuthority"
-                                                class="ff-select"
-                                                v-model="filters.localAuthority" disabled>
-                                            <option value="">All areas</option>
-                                            <option v-for="option in facets.localAuthorities"
-                                                    v-bind:value="option.code">
-                                                <% option._id %> (<% option.count %>)
-                                            </option>
-                                        </select>
                                     </div>
+                                {% endif %}
 
-                                </div>
-
-                            {% endif %}
-
-                            {# Filter: Constituency #}
-                            {% if facets.westminsterConstituencies %}
-                                {% set options = [{ 'label': 'All areas', 'value': '' }] %}
-                                {% for item in facets.westminsterConstituencies %}
-                                    {% set options = (options.push({
-                                        'label': item._id + " (" + item.count + ")",
-                                        'value': item.code
-                                    }), options) %}
-                                {% endfor %}
-
-                                <div class="search-filters__facet">
-
-                                    <noscript>
+                                {# Filter: Constituency #}
+                                {% if facets.westminsterConstituencies %}
+                                    {% set options = (facets.westminsterConstituencies.unshift({
+                                        'label': 'All constituencies',
+                                        'value': ''
+                                    }), facets.westminsterConstituencies) %}
+                                    <div class="search-filters__facet">
                                         {{ inputSelect({
                                             type: 'select',
                                             name: 'constituency',
-                                            label: 'Westminster Constituency',
+                                            label: 'Westminster constituency',
                                             value: queryParams.constituency,
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-                                    </noscript>
-
-                                    <div class="js-only" v-cloak>
-                                        <label class="ff-label">Westminster constituency</label>
-                                        {{ clearButton('constituency') }}
-                                        <select name="constituency"
-                                                class="ff-select"
-                                                v-model="filters.constituency" disabled>
-                                            <option value="">All areas</option>
-                                            <option v-for="option in facets.westminsterConstituencies"
-                                                    v-bind:value="option.code">
-                                                <% option._id %> (<% option.count %>)
-                                            </option>
-                                        </select>
                                     </div>
+                                {% endif %}
 
+                                <div class="search-filters__actions">
+                                    <input type="submit" value="Filter" class="btn btn--medium">
                                 </div>
-
-                            {% endif %}
-
-                            {# Filter: Country #}
-                            {% if facets.countries %}
-                                {% set options = [{ 'label': 'All countries', 'value': '' }] %}
-                                {% for item in facets.countries %}
-                                    {% set options = (options.push({
-                                        'label': item.name + " (" + item.count + ")",
-                                        'value': item.value
-                                    }), options) %}
-                                {% endfor %}
-
-                                <div class="search-filters__facet">
-
-                                    <noscript>
-                                        {{ inputSelect({
-                                            type: 'select',
-                                            name: 'country',
-                                            label: 'Country',
-                                            value: queryParams.country,
-                                            options: options,
-                                            silentlyOptional: true
-                                        }) }}
-                                    </noscript>
-
-                                    <div class="js-only" v-cloak>
-                                        <label class="ff-label">Country</label>
-                                        {{ clearButton('country') }}
-                                        <select name="country"
-                                                class="ff-select"
-                                                v-model="filters.country" disabled>
-                                            <option value="">All countries</option>
-                                            <option v-for="option in facets.countries"
-                                                    v-bind:value="option.value">
-                                                <% option.name %> (<% option.count %>)
-                                            </option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                            {% endif %}
-
-                            <div class="search-filters__actions">
-                                <input type="submit" value="Filter" class="btn btn--medium">
-                                <a href="/funding/search-past-grants-alpha"
-                                   class="btn-link"
-                                   v-on:click.prevent="clearFilters()">
-                                    Clear all filters
-                                </a>
                             </div>
-                        </div>
-
+                        </noscript>
                     </div>
                 </div>
             </form>
