@@ -111,7 +111,6 @@ function init() {
 
             // Reset the filters back to their default state
             clearFilters: function(key) {
-                console.log('Clear filters', key);
                 if (key) {
                     this.filters[key] = this.defaultFilters[key];
                 } else {

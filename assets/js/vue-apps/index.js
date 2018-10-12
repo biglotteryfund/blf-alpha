@@ -51,7 +51,9 @@ function initInlineFeedback() {
 }
 
 export const init = () => {
-    // Raven.addPlugin(RavenVue, Vue);
+    if (window.AppConfig.environment !== 'development') {
+        Raven.addPlugin(RavenVue, Vue);
+    }
 
     initCookieConsent();
     initSurvey();
