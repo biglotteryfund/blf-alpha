@@ -30,13 +30,16 @@ export default {
                 type: 'POST',
                 dataType: 'json',
                 data: this.response
-            }).then(response => {
-                if (response.status === 'success') {
-                    this.status = this.statuses.SUBMISSION_SUCCESS;
-                } else {
-                    this.status = this.statuses.SUBMISSION_ERROR;
-                }
-            }, () => (this.status = this.statuses.SUBMISSION_ERROR));
+            }).then(
+                response => {
+                    if (response.status === 'success') {
+                        this.status = this.statuses.SUBMISSION_SUCCESS;
+                    } else {
+                        this.status = this.statuses.SUBMISSION_ERROR;
+                    }
+                },
+                () => (this.status = this.statuses.SUBMISSION_ERROR)
+            );
         },
         selectChoice(choice) {
             if (choice === 'yes') {

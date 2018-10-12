@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div v-if="options.length > 0">
         <label class="ff-label" :for="'field-dynamic-' + name">
             {{ label }}
         </label>
@@ -17,15 +17,10 @@ export default {
             <option value="">{{ labelAny }}</option>
             <option
                 v-for="option in options"
-                v-bind:key="option.value"
+                v-bind:key="option.label"
                 :value="option.value">
-                {{ option.label }}
+                {{ option.label }} ({{ option.count }})
             </option>
         </select>
-
-        <button class="btn-link" v-if="value"
-            @click="$emit('clear-choice')">
-            Clear {{ label.toLowerCase() }}
-        </button>
     </div>
 </template>

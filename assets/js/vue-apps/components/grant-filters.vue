@@ -1,69 +1,111 @@
 <script>
-import IconClose from './icon-close.vue';
+import FacetGroup from './facet-group.vue';
 import FacetChoice from './facet-choice.vue';
 import FacetSelect from './facet-select.vue';
 
+import partition from 'lodash/partition';
+
 export default {
-    components: { IconClose, FacetChoice, FacetSelect },
-    props: [ 'facets', 'filters', 'isCalculating' ]
+    components: { FacetGroup, FacetChoice, FacetSelect },
+    props: ['facets', 'filters', 'isCalculating'],
+    computed: {
+        programmes() {
+            const [featured, other] = partition(this.facets.grantProgramme, programme => {
+                return ['awards for all'].some(allowed => programme.value.toLowerCase().indexOf(allowed) !== -1);
+            });
+
+            return { featured, other };
+        }
+    }
 };
 </script>
 
 <template>
-    <div class="search-filters" :class="{ 'search-filters--locked': isCalculating }">
+    <fieldset class="search-filters" :class="{ 'search-filters--locked': isCalculating }">
         <div class="search-filters__header">
-            <span class="search-filters__title">Filter by</span>
-
+            <legend class="search-filters__title">Filter by</legend>
             <button type="button" class="search-filters__clear-all btn-link"
                 @click="$emit('clear-filters')">
                 Clear all filters
             </button>
         </div>
 
-        <div class="search-filters__facet">
+        <FacetGroup
+            :value="filters.amount"
+            clearLabel="Clear amount"
+            @clear-choice="$emit('clear-filters', 'amount')"
+        >
             <FacetChoice
                 v-model="filters.amount"
                 type="radio"
                 name="amount"
                 label="Amount awarded"
-                labelAny="Any amount"
                 :options="facets.amountAwarded"
-                @clear-choice="$emit('clear-filters', 'amount')"
+                :optionLimit="3"
             />
-        </div>
+        </FacetGroup>
 
-        <div class="search-filters__facet">
+        <FacetGroup
+            :value="filters.country"
+            clearLabel="Clear country"
+            @clear-choice="$emit('clear-filters', 'country')"
+        >
             <FacetChoice
                 v-model="filters.country"
                 type="radio"
                 name="country"
                 label="Countries"
-                labelAny="All countries"
                 :options="facets.countries"
-                @clear-choice="$emit('clear-filters', 'country')"
             />
-        </div>
+       </FacetGroup>
 
-        <div class="search-filters__facet">
+        <FacetGroup
+            :value="filters.programme"
+            clearLabel="Clear funding programme"
+            @clear-choice="$emit('clear-filters', 'programme')"
+        >
+           <FacetChoice
+                v-model="filters.programme"
+                type="radio"
+                name="programme"
+                label="Funding programme"
+                :options="programmes.featured"
+            />
+            <FacetSelect
+                v-model="filters.programme"
+                name="programme"
+                labelAny="Select a programme"
+                label="Other programmes"
+                :options="programmes.other"
+            />
+       </FacetGroup>
+
+        <FacetGroup
+            :value="filters.localAuthority"
+            clearLabel="Clear local authority"
+            @clear-choice="$emit('clear-filters', 'localAuthority')"
+        >
             <FacetSelect
                 v-model="filters.localAuthority"
                 name="localAuthority"
                 label="Local authority"
-                labelAny="All local authorities"
+                labelAny="Select a local authority"
                 :options="facets.localAuthorities"
-                @clear-choice="$emit('clear-filters', 'localAuthority')"
             />
-        </div>
+       </FacetGroup>
 
-        <div class="search-filters__facet">
+        <FacetGroup
+            :value="filters.westminsterConstituency"
+            clearLabel="Clear constituency"
+            @clear-choice="$emit('clear-filters', 'westminsterConstituency')"
+        >
             <FacetSelect
                 v-model="filters.westminsterConstituency"
                 name="westminsterConstituency"
                 label="Westminster constituency"
-                labelAny="All constituencies"
+                labelAny="Select a constituency"
                 :options="facets.westminsterConstituencies"
-                @clear-choice="$emit('clear-filters', 'westminsterConstituency')"
             />
-        </div>
-    </div>
+       </FacetGroup>
+    </fieldset>
 </template>

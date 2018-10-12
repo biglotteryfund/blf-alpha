@@ -82,13 +82,16 @@
    Filters
    ========================================================================= */
 
+$filterSpacing: 10px;
+
 .search-filters {
-    $filterSpacing: 10px;
     position: sticky;
     top: $filterSpacing;
     background-color: palette('pale-grey');
     padding: $filterSpacing;
     transition: all 0.15s ease-in-out;
+    max-height: calc(100vh - #{$filterSpacing * 2});
+    overflow-y: scroll;
 
     &.search-filters--locked {
         opacity: 0.4;
@@ -115,40 +118,6 @@
         float: right;
     }
 
-    .search-filters__facet {
-        margin-bottom: $filterSpacing;
-        background-color: white;
-        padding: $filterSpacing;
-        position: relative;
-    }
-
-    .search-filters__facet-clear {
-        $iconSize: 18px;
-
-        padding: 0;
-        outline: none;
-        background: transparent;
-        border: none;
-        margin: 0;
-        line-height: 1;
-        position: absolute;
-        top: $filterSpacing - 2px;
-        right: $filterSpacing;
-
-        svg {
-            cursor: pointer;
-            background-color: palette('charcoal-note');
-            border-radius: 100%;
-            width: $iconSize;
-            height: $iconSize;
-            fill: #ffffff;
-            vertical-align: middle;
-            @include on-interact {
-                background-color: palette('charcoal');
-            }
-        }
-    }
-
     .search-filters__actions {
         padding: 5px 0;
 
@@ -162,6 +131,13 @@
             font-size: 16px;
         }
     }
+}
+
+.facet-group {
+    margin-bottom: $filterSpacing;
+    background-color: white;
+    padding: $filterSpacing;
+    position: relative;
 }
 
 /* =========================================================================
