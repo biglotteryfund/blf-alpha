@@ -7,14 +7,6 @@
 {% extends "layouts/main.njk" %}
 {% set bodyClass = 'has-static-header' %}
 
-{% macro clearButton(fieldName) %}
-    <button class="search-filters__facet-clear"
-        v-if="filters['{{ fieldName }}'] && !isCalculating"
-        v-on:click="clearFilters('{{ fieldName }}')">
-        {{ iconClose(title='Remove this filter') }}
-    </button>
-{% endmacro %}
-
 {% block extraHead %}
     <script>
         window._PAST_GRANTS_SEARCH = {
