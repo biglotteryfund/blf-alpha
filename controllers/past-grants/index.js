@@ -3,9 +3,10 @@ const path = require('path');
 const express = require('express');
 const request = require('request-promise-native');
 const querystring = require('querystring');
-const { concat, pick, isEmpty } = require('lodash');
+const { concat, pick, isEmpty, get } = require('lodash');
 const nunjucks = require('nunjucks');
 const Raven = require('raven');
+const moment = require('moment');
 
 const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
 const { injectBreadcrumbs } = require('../../middleware/inject-content');
@@ -87,11 +88,18 @@ async function queryGrantsApi(parameters) {
     });
 }
 
+function projectIsActive(project) {
+    const endDate = get(project, 'plannedDates[0].endDate', false);
+    const endsBeforeNow = moment(endDate).isBefore(moment());
+    return endDate ? !endsBeforeNow : false;
+}
+
 router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
         label: 'Search past grants',
         url: req.baseUrl
     });
+    res.locals.projectIsActive = projectIsActive;
     next();
 });
 

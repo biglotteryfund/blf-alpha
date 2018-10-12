@@ -1,6 +1,9 @@
 {% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/promo-card/macro.njk" import promoCard %}
+{% from "./grant-results.njk" import grantResultItem with context %}
+
 
 {% set bodyClass = 'has-static-header' %}
 
@@ -12,59 +15,141 @@
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             {{ breadcrumbTrail(breadcrumbs) }}
-            <div class="s-prose u-constrained-wide">
 
-                <h1>{{ title }}</h1>
-                <h4>Award details</h4>
-                <p>£{{ grant.amountAwarded | numberWithCommas}} to
-                    <strong><a href="{{ pgLink('recipient', grant.recipientOrganization[0].id) }}">{{ grant.recipientOrganization[0].name }}</a></strong>
-                on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
-                </p>
-                <h4>Applicant location</h4>
-                <p>
-                    {% for location in grant.beneficiaryLocation -%}
-                        {%- if location.geoCodeType === 'CMLAD' -%}
-                            <a href="{{ pgLink('localAuthority', location.geoCode) }}">
-                        {%- elseif location.geoCodeType === 'WPC' -%}
-                            <a href="{{ pgLink('constituency', location.geoCode) }}">
-                        {%- endif -%}
-                        {{ location.name -}}
-                        {%- if location.geoCodeType === 'CMLAD' or location.geoCodeType === 'WPC' -%}
-                            </a>
-                        {%- endif -%}
-                        {%- if not loop.last -%}, {% endif %}
-                    {%- endfor -%}
-                </p>
-                <h4>Grant description</h4>
-                <p>{{ grant.description }}</p>
+            <div class="content-sidebar">
 
-                <h4>Grant programme</h4>
-                <p>
-                    {% for programme in grant.grantProgramme %}
-                        <a href="{{ pgLink('programme', programme.title) }}">{{ programme.title }}</a>
-                    {% endfor %}
-                </p>
+                <div class="content-sidebar__primary">
+                    <div class="s-prose u-constrained-wide accent--pink">
+                        <h1>{{ title }}</h1>
+                        {% if projectIsActive(grant) %}
+                            <p>Active Project</p>
+                        {% endif %}
 
-                <h4>Organisation type</h4>
-                <p>
-                    {% set comma = joiner() %}
-                    {% for org in grant.recipientOrganization -%}
-                        {{ comma() }} <a href="{{ pgLink('orgType', org.organisationType) }}">{{ org.organisationType }}</a>
-                    {%- endfor %}
-                </p>
+                        <h2>Project overview</h2>
+                        <p>{{ grant.description }}</p>
+                    </div>
+                </div>
 
-                {% if grant.plannedDates %}
-                    <h4>Project date</h4>
-                    {% for dates in grant.plannedDates %}
-                        <p>
-                            {{ formatDate(dates.startDate, DATE_FORMATS.short) }}
-                            {% if dates.endDate %}
-                                – {{ formatDate(dates.endDate, DATE_FORMATS.short) }}
-                            {% endif %}
-                        </p>
-                    {% endfor %}
-                {% endif %}
+                <div class="content-sidebar__secondary u-tone-background-tint u-padded">
+                    <p>£{{ grant.amountAwarded | numberWithCommas }}</p>
+                    <p>{{ title }}</p>
+                    <p>{{ formatDate(grant.awardDate, DATE_FORMATS.slashed) }}</p>
+
+                    <dl class="o-definition-list o-definition-list--compact">
+                        {% if grant.plannedDates %}
+                            <dt>Duration</dt>
+                            {% for dates in grant.plannedDates %}
+                                <dd>
+                                    {{ fields.area.label }}
+                                    {{ formatDate(dates.startDate, DATE_FORMATS.slashed) }}
+                                    {% if dates.endDate %}
+                                        – {{ formatDate(dates.endDate, DATE_FORMATS.slashed) }}
+                                    {% endif %}
+                                </dd>
+                            {% endfor %}
+                        {% endif %}
+                        <dt>Status</dt>
+                        <dd>{% if projectIsActive(grant) %}Active {% else %}Inactive{% endif %}</dd>
+                    </dl>
+                </div>
+
             </div>
         </div>
+
+        <div class="u-inner-wide-only">
+            <div class="flex-grid">
+
+                <div class="flex-grid__item">
+                    <div class="card u-accent-border-top-pink">
+                        <h2>Recipient organisation</h2>
+
+                        {% for org in grant.recipientOrganization %}
+
+                            <dl class="o-definition-list o-definition-list--compact">
+                                <dt>Organisation name</dt>
+                                <dd>
+                                    <a href="{{ pgLink('recipient', org.id) }}">{{ org.name }}</a>
+                                </dd>
+
+                                <dt>Type</dt>
+                                <dd>
+                                    <a href="{{ pgLink('orgType', org.organisationType) }}">{{ org.organisationType }}</a>
+                                    {% if org.organisationSubtype %}
+                                        > <a href="{{ pgLink('orgType', org.organisationSubtype) }}">{{ org.organisationSubtype }}</a>
+                                        {% endif %}
+                                </dd>
+
+                                {% if org.charityNumber %}
+                                    <dt>Charity number</dt>
+                                    <dd>{{ org.charityNumber }}</dd>
+                                {% endif %}
+
+                                {% if org.companyNumber %}
+                                    <dt>Company number</dt>
+                                    <dd>{{ org.companyNumber }}</dd>
+                                {% endif %}
+
+                                <dt>Location</dt>
+                                <dd>
+                                    {% for location in grant.beneficiaryLocation -%}
+                                        {%- if location.geoCodeType === 'CMLAD' -%}
+                                            <a href="{{ pgLink('localAuthority', location.geoCode) }}">
+                                                {{ location.name -}}
+                                            </a>
+                                        {%- elseif location.geoCodeType === 'WPC' -%}
+                                            <a href="{{ pgLink('constituency', location.geoCode) }}">
+                                                {{ location.name -}}
+                                            </a>
+                                        {% else %}
+                                            {{ location.name -}}
+                                        {% endif %}
+                                        {%- if not loop.last -%}, {% endif %}
+                                    {%- endfor -%}
+                                </dd>
+                            </dl>
+
+                            <p>
+                                <a class="btn btn--small btn--outline accent--pink"
+                                   href="{{ pgLink('recipient', org.id) }}">
+                                    View all grants awarded to this recipient
+                                </a>
+                            </p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="flex-grid__item">
+                    {% set mainProgramme = grant.grantProgramme[0] %}
+                    {% set props = {
+                        "title": 'Funded by ' + mainProgramme.title,
+                        "trailText": '@TODO',
+                        "image": {
+                            "url": 'https://via.placeholder.com/640x280?text=Placeholder',
+                            "alt": mainProgramme.title
+                        },
+                        "link": {
+                            "label": 'Read more about ' + mainProgramme.title,
+                            "labelAria": 'Read more about ' + mainProgramme.title,
+                            "url": pgLink('programme', mainProgramme.title)
+                        }
+                    } %}
+                    {{ promoCard(props, tint = true) }}
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="u-inner-wide-only js-only"
+             id="js-grant-related-projects"
+             v-show="relatedGrants"
+             v-cloak=>
+            <h2>More like this</h2>
+            <div class="flex-grid flex-grid--3up"
+                 v-html="relatedGrants">
+            </div>
+        </div>
+
+
     </main>
 {% endblock %}
