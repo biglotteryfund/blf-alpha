@@ -10,26 +10,6 @@ const pkgConfig = pkg.config;
 
 assert(pkg.browserslist.length > 0);
 
-const babelOptions = {
-    plugins: ['syntax-dynamic-import'],
-    presets: [
-        [
-            'env',
-            {
-                modules: false,
-                targets: {
-                    browsers: pkg.browserslist
-                }
-            }
-        ]
-    ],
-    env: {
-        test: {
-            plugins: ['transform-es2015-modules-commonjs']
-        }
-    }
-};
-
 const commonConfig = {
     mode: isProduction ? 'production' : 'development',
     performance: {
@@ -41,7 +21,20 @@ const commonConfig = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader',
-                options: babelOptions
+                options: {
+                    plugins: ["@babel/plugin-syntax-dynamic-import"],
+                    presets: [
+                        [
+                            '@babel/preset-env',
+                            {
+                                modules: false,
+                                targets: {
+                                    browsers: pkg.browserslist
+                                }
+                            }
+                        ]
+                    ]
+                }
             },
             {
                 test: /\.vue$/,
