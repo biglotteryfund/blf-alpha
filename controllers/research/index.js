@@ -14,7 +14,7 @@ const appData = require('../../modules/appData');
 
 const router = express.Router();
 
-router.get('/', injectHeroImage('grassroots-project'), injectCopy('toplevel.research'), injectResearch, (req, res) => {
+router.get('/', injectHeroImage('hapani'), injectCopy('toplevel.research'), injectResearch, (req, res) => {
     const { copy } = res.locals;
     const researchEntries = get(res.locals, 'researchEntries', []);
 
