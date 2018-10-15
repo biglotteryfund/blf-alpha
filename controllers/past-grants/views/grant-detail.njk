@@ -23,13 +23,12 @@
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             {{ breadcrumbTrail(breadcrumbs) }}
-
+            
             <div class="content-sidebar">
-
                 <div class="content-sidebar__primary">
                     <div class="u-constrained-wide accent--pink">
                         <h1>{{ title }}</h1>
-                        {% if projectIsActive(grant) %}
+                        {% if grant.isActive %}
                             <p class="is-active-project u-margin-bottom-l">Active Project</p>
                         {% endif %}
 
@@ -61,7 +60,7 @@
                             {% endfor %}
                         {% endif %}
                         <dt>Status</dt>
-                        <dd>{% if projectIsActive(grant) %}Active {% else %}Inactive{% endif %}</dd>
+                        <dd>{% if grant.isActive %}Active {% else %}Inactive{% endif %}</dd>
                     </dl>
                 </div>
 
