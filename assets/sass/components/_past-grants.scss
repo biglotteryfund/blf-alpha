@@ -3,36 +3,55 @@
    ========================================================================= */
 
 /* =========================================================================
+   Grant Searchbar
+   ========================================================================= */
+
+.grants-searchbar {
+    margin-bottom: $spacingUnit;
+
+    @include mq('medium') {
+        padding: $spacingUnit;
+        background-color: palette('pale-grey');
+    }
+}
+/* =========================================================================
    Grant Search Layout
    ========================================================================= */
 
 .grants-search {
-    .grants-search__meta {
-        font-size: 16px;
-        display: flex;
-        justify-content: space-between;
-        padding: 0.5em 0;
-    }
-
     .grants-search__total {
         font-size: 18px;
         margin-bottom: 5px;
     }
 
-    .grants-search__content {
-        display: flex;
+    .grants-search__meta {
+        font-size: 16px;
+        margin-bottom: $spacingUnit / 2;
     }
-    .grants-search__filters {
-        flex: 0 0 320px;
-        padding-right: $spacingUnit;
 
-        select {
-            width: 100%;
+    @include mq('medium-major') {
+        .grants-search__meta {
+            display: flex;
+            justify-content: space-between;
         }
     }
-    .grants-search__results {
-        order: 2;
-        flex: 1 1 auto;
+
+    .grants-search__filters select {
+        width: 100%;
+    }
+
+    @include mq('medium') {
+        .grants-search__content {
+            display: flex;
+        }
+        .grants-search__filters {
+            flex: 0 0 320px;
+            padding-right: $spacingUnit;
+        }
+        .grants-search__results {
+            order: 2;
+            flex: 1 1 auto;
+        }
     }
 }
 
@@ -90,13 +109,17 @@
 $filterSpacing: 8px;
 
 .search-filters {
-    position: sticky;
-    top: $filterSpacing;
     background-color: palette('pale-grey');
     padding: $filterSpacing;
     transition: all 0.15s ease-in-out;
-    max-height: calc(100vh - #{$filterSpacing * 2});
-    overflow-y: scroll;
+    margin-bottom: 0.5em;
+
+    @include mq('medium') {
+        position: sticky;
+        top: $filterSpacing;
+        max-height: calc(100vh - #{$filterSpacing * 2});
+        overflow-y: scroll;
+    }
 
     &.search-filters--locked {
         opacity: 0.4;
