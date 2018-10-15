@@ -58,9 +58,9 @@
                                 id="search-query"
                                 name="q"
                                 value="{{ queryParams.q }}"
-                                placeholder="Enter a search term, location, or postcode"
+                                placeholder="Enter a keyword"
                                 autocomplete="nope"
-                                v-model="filters.q">
+                                @input="debounceQuery">
                         <input class="form-field-addon__action" type="submit" value="Search" />
                     </div>
                 </div>

@@ -22,7 +22,11 @@ function init() {
             'grant-loading-status': GrantLoadingStatus
         },
         data() {
-            // Populate data from global object (eg. to share server/client state)
+            /**
+             * Populate data from global object
+             * eg. to share server/client state
+             */
+            // @ts-ignore
             const PGS = window._PAST_GRANTS_SEARCH;
             const queryParams = PGS && PGS.queryParams ? PGS.queryParams : {};
             const existingFacets = PGS && PGS.facets ? PGS.facets : {};
@@ -54,19 +58,23 @@ function init() {
                 handler() {
                     // Watch for changes to filters then make AJAX call
                     this.ignoreSort = !!this.filters.q;
-                    this.isCalculating = true;
                     this.filterResults();
                 },
                 deep: true
             }
         },
-        mounted: function() {
+        mounted() {
             // Enable inputs (they're disabled by default to avoid double inputs for non-JS users)
             $(this.$el)
                 .find('[disabled]')
                 .removeAttr('disabled');
         },
         methods: {
+            debounceQuery: debounce(function(e) {
+                this.filters.q = e.target.value;
+                this.filterResults();
+            }, 500),
+
             // Create the sort parameters
             sortData: function(sortKey, currentDirection) {
                 // Flip reverse it
@@ -77,7 +85,6 @@ function init() {
                     direction: direction
                 };
                 this.filters.sort = `${sortKey}|${direction}`;
-                this.isCalculating = true;
                 this.filterResults();
             },
 
@@ -95,15 +102,12 @@ function init() {
                 };
             },
 
-            getSortTitle: function(ascTitle, descTitle) {
-                if (this.sort.direction === 'asc') {
-                    return ascTitle;
-                }
-                return descTitle;
+            getSortTitle(ascTitle, descTitle) {
+                return this.sort.direction === 'asc' ? ascTitle : descTitle;
             },
 
-            // Convert filters into URL-friendly state
-            filtersToString: function() {
+            filtersToString() {
+                // Convert filters into URL-friendly state
                 const filterClone = cloneDeep(this.filters);
                 const cleanFilters = this.ignoreSort && filterClone.sort ? omit(filterClone, 'sort') : filterClone;
                 return Object.keys(cleanFilters)
@@ -115,7 +119,7 @@ function init() {
             },
 
             // Reset the filters back to their default state
-            clearFilters: function(key) {
+            clearFilters(key) {
                 if (key) {
                     this.filters[key] = this.defaultFilters[key];
                 } else {
@@ -124,8 +128,8 @@ function init() {
                 this.filterResults();
             },
 
-            // Push URL state (@TODO support back/forward nav)
-            updateUrl: function() {
+            updateUrl() {
+                // Push URL state (@TODO support back/forward nav)
                 if (window.history.pushState) {
                     const newURL = new URL(window.location.href);
                     newURL.search = `?${this.filtersToString()}`;
@@ -134,38 +138,37 @@ function init() {
             },
 
             // Send the data to the AJAX endpoint and output the results to the page
-            filterResults: debounce(function() {
+            filterResults() {
+                this.isCalculating = true;
                 this.searchError = false;
 
-                setTimeout(() => {
-                    const $form = $(this.$el);
-                    const url = $form.attr('action');
-                    const urlWithParams = `${url}?${this.filtersToString()}`;
-                    $.ajax({
-                        url: urlWithParams,
-                        dataType: 'json',
-                        timeout: 20000
+                const $form = $(this.$el);
+                const url = $form.attr('action');
+                const urlWithParams = `${url}?${this.filtersToString()}`;
+                $.ajax({
+                    url: urlWithParams,
+                    dataType: 'json',
+                    timeout: 20000
+                })
+                    .then(response => {
+                        // @TODO vue-ize this
+                        $('#js-grant-results').html(response.resultsHtml);
+                        this.totalResults = response.meta.totalResults;
+                        this.totalAwarded = response.meta.totalAwarded;
+                        this.facets = response.facets;
+                        this.updateUrl();
+                        this.isCalculating = false;
                     })
-                        .then(response => {
-                            // @TODO vue-ize this
-                            $('#js-grant-results').html(response.resultsHtml);
-                            this.totalResults = response.meta.totalResults;
-                            this.totalAwarded = response.meta.totalAwarded;
-                            this.facets = response.facets;
-                            this.updateUrl();
-                            this.isCalculating = false;
-                        })
-                        .catch(err => {
-                            const error = err.responseJSON.error;
-                            this.isCalculating = false;
-                            if (error && error.code) {
-                                this.searchError = error.code;
-                            } else {
-                                this.searchError = true;
-                            }
-                        });
-                }, 500);
-            }, 500)
+                    .catch(err => {
+                        const error = err.responseJSON.error;
+                        this.isCalculating = false;
+                        if (error && error.code) {
+                            this.searchError = error.code;
+                        } else {
+                            this.searchError = true;
+                        }
+                    });
+            }
         }
     });
 }
