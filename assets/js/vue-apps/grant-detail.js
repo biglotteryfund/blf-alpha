@@ -39,9 +39,10 @@ function init() {
                 timeout: 20000
             })
             .then(response => {
-                this.relatedGrants = response.resultsHtml
+                if (response.meta.totalResults > 0) {
+                    this.relatedGrants = response.resultsHtml
+                }
             });
-            // @TODO catch errors
         }
     });
 }
