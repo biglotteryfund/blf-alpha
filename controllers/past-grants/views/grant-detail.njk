@@ -27,23 +27,27 @@
             <div class="content-sidebar">
 
                 <div class="content-sidebar__primary">
-                    <div class="s-prose u-constrained-wide accent--pink">
+                    <div class="u-constrained-wide accent--pink">
                         <h1>{{ title }}</h1>
                         {% if projectIsActive(grant) %}
-                            <p>Active Project</p>
+                            <p class="is-active-project u-margin-bottom-l">Active Project</p>
                         {% endif %}
 
-                        <h2>Project overview</h2>
+                        <h2 class="t3 t--underline accent--pink">Project overview</h2>
                         <p>{{ grant.description }}</p>
                     </div>
                 </div>
 
                 <div class="content-sidebar__secondary u-tone-background-tint u-padded">
-                    <p>£{{ grant.amountAwarded | numberWithCommas }}</p>
-                    <p>{{ title }}</p>
-                    <p>{{ formatDate(grant.awardDate, DATE_FORMATS.slashed) }}</p>
+                    <aside class="u-align-center accent--pink a--text">
+                        <p class="t1 u-no-margin">£{{ grant.amountAwarded | numberWithCommas }}</p>
+                        <p class="t5">
+                            {{ title }}<br/>
+                            {{ formatDate(grant.awardDate, DATE_FORMATS.slashed) }}
+                        </p>
+                    </aside>
 
-                    <dl class="o-definition-list o-definition-list--compact">
+                    <dl class="o-definition-list o-definition-list--compact project-details">
                         {% if grant.plannedDates %}
                             <dt>Duration</dt>
                             {% for dates in grant.plannedDates %}
@@ -68,12 +72,12 @@
             <div class="flex-grid">
 
                 <div class="flex-grid__item">
-                    <div class="card u-accent-border-top-pink">
-                        <h2>Recipient organisation</h2>
+                    <div class="content-box u-no-margin u-accent-border-top-pink">
+                        <h2 class="t3 t--underline accent--pink">Recipient organisation</h2>
 
                         {% for org in grant.recipientOrganization %}
 
-                            <dl class="o-definition-list o-definition-list--compact">
+                            <dl class="o-definition-list o-definition-list--compact project-details">
                                 <dt>Organisation name</dt>
                                 <dd>
                                     <a href="{{ pgLink('recipient', org.id) }}">{{ org.name }}</a>
@@ -83,8 +87,9 @@
                                 <dd>
                                     <a href="{{ pgLink('orgType', org.organisationType) }}">{{ org.organisationType }}</a>
                                     {% if org.organisationSubtype %}
-                                        > <a href="{{ pgLink('orgType', org.organisationSubtype) }}">{{ org.organisationSubtype }}</a>
-                                        {% endif %}
+                                        > <a
+                                        href="{{ pgLink('orgType', org.organisationSubtype) }}">{{ org.organisationSubtype }}</a>
+                                    {% endif %}
                                 </dd>
 
                                 {% if org.charityNumber %}
@@ -124,24 +129,22 @@
                             </p>
                         {% endfor %}
                     </div>
+
                 </div>
 
                 <div class="flex-grid__item">
                     {% set mainProgramme = grant.grantProgramme[0] %}
-                    {% set props = {
-                        "title": 'Funded by ' + mainProgramme.title,
-                        "trailText": '@TODO',
+                    {% call promoCard({
                         "image": {
-                            "url": 'https://via.placeholder.com/640x280?text=Placeholder',
+                            "url": 'https://via.placeholder.com/640x180?text=Placeholder',
                             "alt": mainProgramme.title
-                        },
-                        "link": {
-                            "label": 'Read more about ' + mainProgramme.title,
-                            "labelAria": 'Read more about ' + mainProgramme.title,
-                            "url": pgLink('programme', mainProgramme.title)
                         }
-                    } %}
-                    {{ promoCard(props, tint = true) }}
+                    }, featured = true) %}
+                        <h2 class="t3 t--underline accent--pink">Funded by {{ mainProgramme.title }}</h2>
+                        <p>@TODO description</p>
+                        <p><a href="#">Read more about {{ mainProgramme.title }}</a></p>
+                    {% endcall %}
+
                 </div>
 
             </div>
@@ -152,7 +155,7 @@
              id="js-grant-related-projects"
              v-show="relatedGrants"
              v-cloak=>
-            <h2>More like this</h2>
+            <h2 class="t3 t--underline accent--pink">More like this</h2>
             <div class="flex-grid flex-grid--3up"
                  v-html="relatedGrants">
             </div>
