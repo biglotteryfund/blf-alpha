@@ -92,5 +92,10 @@ export default {
                 @clear-selection="$emit('clear-filters', 'programme')"
             />
        </FacetGroup>
+
+       <div class="search-filters__extra">
+            <strong>Is something missing?</strong><br/>
+            Please <a href="#feedback">send us feedback</a> to help us improve this service
+       </div>
     </fieldset>
 </template>

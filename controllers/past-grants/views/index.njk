@@ -32,11 +32,13 @@
 
                 <p><strong>BETA:</strong> Thank you for choosing to use our new “search awarded grants” service. We are working to improve the service we currently offer, your feedback will help us do that.</p>
 
-                {{ inlineFeedback(
-                    description = "past_grants_beta",
-                    promptLabel = "Can you spare a minute to give us some feedback?",
-                    fieldLabel = "Tell us why you came to this page today"
-                )  }}
+                <div id="feedback">
+                    {{ inlineFeedback(
+                        description = "past_grants_beta",
+                        promptLabel = "Can you spare a minute to give us some feedback?",
+                        fieldLabel = "Tell us why you came to this page today"
+                    )  }}
+                </div>
             </div>
 
             <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>

@@ -69,7 +69,7 @@ function init() {
                 .removeAttr('disabled');
 
             window.onpopstate = event => {
-                if (event.state.path) {
+                if (event.state && event.state.path) {
                     this.filterResults(event.state.path);
                 }
             };
