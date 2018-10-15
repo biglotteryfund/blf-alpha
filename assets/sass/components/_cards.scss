@@ -28,6 +28,11 @@
     .card__footer {
         margin-top: auto;
     }
+
+    &.card--plain {
+        background-color: white;
+        border: 1px solid palette('border');
+    }
 }
 
 /* =========================================================================

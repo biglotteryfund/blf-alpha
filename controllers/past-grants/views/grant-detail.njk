@@ -72,7 +72,7 @@
             <div class="flex-grid">
 
                 <div class="flex-grid__item">
-                    <div class="content-box u-no-margin u-accent-border-top-pink">
+                    <div class="card card--plain u-no-margin u-accent-border-top-pink">
                         <h2 class="t3 t--underline accent--pink">Recipient organisation</h2>
 
                         {% for org in grant.recipientOrganization %}
@@ -135,30 +135,40 @@
                 <div class="flex-grid__item">
                     {% set mainProgramme = grant.grantProgramme[0] %}
 
-                    {% set promoParams = {
-                        "image": {
-                            "url": fallbackHeroImage.medium,
-                            "alt": mainProgramme.title
-                        }
+                    {% if mainProgramme.url %}
+                        {% set link = localify(mainProgramme.url) %}
+                    {% elseif fundingProgramme %}
+                        {% set link = localify(fundingProgramme.summary.linkUrl) %}
+                    {% else %}
+                        {% set link = localify('/funding/programmes') %}
+                    {% endif %}
+
+                    {% set heroImage = {
+                        "url": fallbackHeroImage.large,
+                        "alt": mainProgramme.title
                     } %}
 
                     {% if fundingProgramme and fundingProgramme.hero %}
-                        {% set promoParams = {
-                            "image": {
-                                "url": fundingProgramme.hero.large,
-                                "alt": mainProgramme.title
-                            },
-                            "kicker": fundingProgramme.hero.caption
+                        {% set heroImage = {
+                            "url": fundingProgramme.hero.large,
+                            "alt": mainProgramme.title
                         } %}
                     {% endif %}
 
-                    {% call promoCard(promoParams, featured = true) %}
-                        <h2 class="t3 t--underline accent--pink">Funded by {{ mainProgramme.title }}</h2>
-                        {% if fundingProgramme %}
-                            {{ fundingProgramme.intro | safe }}
-                            <p><strong><a href="{{ localify(fundingProgramme.summary.linkUrl) }}">Read more about {{ mainProgramme.title }}</a></strong></p>
-                        {% elseif mainProgramme.url %}
-                            <p><strong><a href="{{ localify(mainProgramme.url) }}">Read more about {{ mainProgramme.title }}</a></strong></p>
+                    {% set props = {
+                        "title": "Funded by " + mainProgramme.title,
+                        "trailText": fundingProgramme.intro,
+                        "image": heroImage,
+                        "link": {
+                            "label": "Read more about " + mainProgramme.title,
+                            "labelAria": "Read more about " + mainProgramme.title,
+                            "url": link
+                        }
+                    } %}
+
+                    {% call promoCard(props, featured = true) %}
+                        {% if fundingProgramme.hero.caption %}
+                            <p class="project-caption">Photo: {{ fundingProgramme.hero.caption }}</p>
                         {% endif %}
                     {% endcall %}
 
