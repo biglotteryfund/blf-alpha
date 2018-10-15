@@ -10,21 +10,30 @@ function init() {
         el: mountEl,
         delimiters: ['<%', '%>'],
         data() {
+            // Populate data from global object (eg. to share server/client state)
+            let PGS = window._PAST_GRANTS_SEARCH;
             return {
+                grant: PGS.project,
                 relatedGrants: false
             };
         },
         mounted: function() {
+            let geocode;
+            if (this.grant.beneficiaryLocation) {
+                let loc = this.grant.beneficiaryLocation.find(l => l.geoCodeType === 'CMLAD');
+                if (loc) {
+                    geocode = loc.geoCode
+                }
+            }
+
             $.ajax({
                 url: '/funding/search-past-grants-alpha/',
                 dataType: 'json',
                 data: {
                     limit: 3,
-                    programme: 'Reaching Communities',
-                    localAuthority: 'E08000012',
-                    exclude: '0031045037',
-                    fuzzy: true,
-                    skipFacets: true,
+                    programme: this.grant.grantProgramme[0].title,
+                    exclude: this.grant.id,
+                    localAuthority: geocode,
                     related: true
                 },
                 timeout: 20000

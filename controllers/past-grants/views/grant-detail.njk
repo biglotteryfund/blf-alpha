@@ -11,6 +11,14 @@
     {{ localify('/funding/search-past-grants-alpha?' + key + '=' + value) }}
 {% endmacro %}
 
+{% block extraHead %}
+    <script>
+        window._PAST_GRANTS_SEARCH = {
+            project: {{ grant | dump | safe }}
+        };
+    </script>
+{% endblock %}
+
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">

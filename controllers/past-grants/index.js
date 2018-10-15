@@ -67,8 +67,6 @@ function buildAllowedParams(queryParams) {
         'localAuthority',
         'constituency',
         'recipient',
-        'skipFacets',
-        'fuzzy',
         'exclude',
         'limit'
     ];
