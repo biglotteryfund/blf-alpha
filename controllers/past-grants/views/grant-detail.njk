@@ -134,15 +134,32 @@
 
                 <div class="flex-grid__item">
                     {% set mainProgramme = grant.grantProgramme[0] %}
-                    {% call promoCard({
+
+                    {% set promoParams = {
                         "image": {
-                            "url": 'https://via.placeholder.com/640x180?text=Placeholder',
+                            "url": fallbackHeroImage.medium,
                             "alt": mainProgramme.title
                         }
-                    }, featured = true) %}
+                    } %}
+
+                    {% if fundingProgramme and fundingProgramme.hero %}
+                        {% set promoParams = {
+                            "image": {
+                                "url": fundingProgramme.hero.large,
+                                "alt": mainProgramme.title
+                            },
+                            "kicker": fundingProgramme.hero.caption
+                        } %}
+                    {% endif %}
+
+                    {% call promoCard(promoParams, featured = true) %}
                         <h2 class="t3 t--underline accent--pink">Funded by {{ mainProgramme.title }}</h2>
-                        <p>@TODO description</p>
-                        <p><a href="#">Read more about {{ mainProgramme.title }}</a></p>
+                        {% if fundingProgramme %}
+                            {{ fundingProgramme.intro | safe }}
+                            <p><strong><a href="{{ localify(fundingProgramme.summary.linkUrl) }}">Read more about {{ mainProgramme.title }}</a></strong></p>
+                        {% elseif mainProgramme.url %}
+                            <p><strong><a href="{{ localify(mainProgramme.url) }}">Read more about {{ mainProgramme.title }}</a></strong></p>
+                        {% endif %}
                     {% endcall %}
 
                 </div>

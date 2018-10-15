@@ -6,11 +6,11 @@ const querystring = require('querystring');
 const { concat, pick, isEmpty, get } = require('lodash');
 const nunjucks = require('nunjucks');
 const Raven = require('raven');
-const moment = require('moment');
 
 const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
 const { injectBreadcrumbs } = require('../../middleware/inject-content');
 const { sMaxAge } = require('../../middleware/cached');
+const contentApi = require('../../services/content-api');
 
 const router = express.Router();
 
@@ -171,9 +171,22 @@ router.get('/:id', async (req, res, next) => {
         });
 
         if (data) {
+            let fundingProgramme;
+            const grant = data.result;
+            const grantProgramme = get(grant, 'grantProgramme[0]', false);
+            if (grantProgramme && grantProgramme.url && grantProgramme.url.indexOf('/') === -1) {
+                try {
+                    fundingProgramme = await contentApi.getFundingProgramme({
+                        slug: grantProgramme.url,
+                        locale: req.i18n.getLocale()
+                    });
+                } catch (e) {} // eslint-disable-line no-empty
+            }
+
             res.render(path.resolve(__dirname, './views/grant-detail'), {
                 title: data.result.title,
-                grant: data.result,
+                grant: grant,
+                fundingProgramme: fundingProgramme,
                 breadcrumbs: concat(res.locals.breadcrumbs, { label: data.result.title })
             });
         } else {
