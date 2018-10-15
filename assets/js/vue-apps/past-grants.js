@@ -3,9 +3,9 @@ import Vue from 'vue';
 import assign from 'lodash/assign';
 import cloneDeep from 'lodash/cloneDeep';
 import debounce from 'lodash/debounce';
-import omit from 'lodash/omit';
 
 import GrantFilters from './components/grant-filters.vue';
+import GrantsSort from './components/grants-sort.vue';
 import GrantsTotalSummary from './components/grants-total-summary.vue';
 import GrantLoadingStatus from './components/grant-loading-status.vue';
 
@@ -18,6 +18,7 @@ function init() {
     new Vue({
         el: mountEl,
         components: {
+            'grants-sort': GrantsSort,
             'grant-filters': GrantFilters,
             'grants-total-summary': GrantsTotalSummary,
             'grant-loading-status': GrantLoadingStatus
@@ -34,6 +35,7 @@ function init() {
             const existingSort = PGS && PGS.sort ? PGS.sort : {};
 
             const defaultFilters = {
+                sort: queryParams.q ? '' : `${existingSort.type}|${existingSort.direction}`,
                 amount: '',
                 year: '',
                 programme: '',
@@ -44,8 +46,6 @@ function init() {
 
             return {
                 defaultFilters,
-                sort: assign({}, existingSort),
-                ignoreSort: false,
                 facets: assign({}, existingFacets),
                 filters: assign({}, defaultFilters, queryParams),
                 isCalculating: false,
@@ -57,8 +57,6 @@ function init() {
         watch: {
             filters: {
                 handler() {
-                    // Watch for changes to filters then make AJAX call
-                    this.ignoreSort = !!this.filters.q;
                     this.filterResults();
                 },
                 deep: true
@@ -69,49 +67,28 @@ function init() {
             $(this.$el)
                 .find('[disabled]')
                 .removeAttr('disabled');
+
+            window.onpopstate = event => {
+                if (event.state.path) {
+                    this.filterResults(event.state.path);
+                }
+            };
         },
         methods: {
             debounceQuery: debounce(function(e) {
                 this.filters.q = e.target.value;
+                this.filters.sort = '';
                 this.filterResults();
             }, 500),
 
-            // Create the sort parameters
-            sortData: function(sortKey, currentDirection) {
-                // Flip reverse it
-                this.ignoreSort = false;
-                let direction = currentDirection === 'asc' ? 'desc' : 'asc';
-                this.sort = {
-                    type: sortKey,
-                    direction: direction
-                };
-                this.filters.sort = `${sortKey}|${direction}`;
-                this.filterResults();
-            },
-
-            // Generate CSS classes for sort links
-            sortLinkClasses: function(sortKey) {
-                if (this.ignoreSort) {
-                    return;
-                }
-                const type = this.sort.type;
-                const dir = this.sort.direction;
-                return {
-                    'is-active': type === sortKey,
-                    'is-descending': type === sortKey && dir === 'desc',
-                    'is-ascending': type === sortKey && dir === 'asc'
-                };
-            },
-
-            getSortTitle(ascTitle, descTitle) {
-                return this.sort.direction === 'asc' ? ascTitle : descTitle;
+            handleSort(sortValue) {
+                this.filters.sort = sortValue;
             },
 
             filtersToString() {
                 // Convert filters into URL-friendly state
                 const filterClone = cloneDeep(this.filters);
-                const cleanFilters = this.ignoreSort && filterClone.sort ? omit(filterClone, 'sort') : filterClone;
-                return Object.keys(cleanFilters)
+                return Object.keys(filterClone)
                     .filter(key => !!filterClone[key])
                     .map(key => {
                         return `${encodeURIComponent(key)}=${encodeURIComponent(filterClone[key])}`;
@@ -132,22 +109,23 @@ function init() {
             updateUrl() {
                 // Push URL state (@TODO support back/forward nav)
                 if (window.history.pushState) {
-                    const newURL = new URL(window.location.href);
-                    newURL.search = `?${this.filtersToString()}`;
-                    window.history.pushState({ path: newURL.href }, '', newURL.href);
+                    const path = `${window.location.pathname}?${this.filtersToString()}`;
+                    window.history.pushState({ path: path }, '', path);
                 }
             },
 
             // Send the data to the AJAX endpoint and output the results to the page
-            filterResults() {
+            filterResults(url = null) {
                 this.isCalculating = true;
                 this.searchError = false;
 
-                const $form = $(this.$el);
-                const url = $form.attr('action');
-                const urlWithParams = `${url}?${this.filtersToString()}`;
+                if (!url) {
+                    const $form = $(this.$el);
+                    url = `${$form.attr('action')}?${this.filtersToString()}`;
+                }
+
                 $.ajax({
-                    url: urlWithParams,
+                    url: url,
                     dataType: 'json',
                     timeout: 20000
                 })

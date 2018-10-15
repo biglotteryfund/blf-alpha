@@ -66,77 +66,22 @@
                 </div>
 
                 <div class="grants-search">
-                    <div class="grants-search__meta" v-bind:class="{ 'u-invisible': isCalculating }">
-
-                        <h2 class="grants-search__total accent--{{ pageAccent }} t--underline" v-cloak>
+                    <div class="grants-search__meta">
+                        <h2 class="grants-search__total accent--{{ pageAccent }} t--underline">
                             <grants-total-summary
                                 :total-results="totalResults"
                                 :total-awarded="totalAwarded"
                             />
-                            <noscript>{{ meta.totalResults | numberWithCommas }} projects found</noscript>
+                            {{ meta.totalResults | numberWithCommas }} projects found
+                            totalling £{{ meta.totalAwarded | numberWithCommas }}
                         </h2>
 
                         <div class="grants-search__sort">
-                            {# @TODO should there be a way to remove sorts and return to default? #}
-                            {# @TODO should sort controls be considered progressive enhancement #}
-                            <div class="sort-controls">
-                                <span class="sort-controls__prefix">
-                                    Sort:
-                                </span>
-
-                                <noscript>
-                                    {% if meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'desc' %}
-                                        <a class="sort-controls__item is-active is-descending"
-                                            href="?{{ queryParams | addQueryParam([['sort', 'awardDate|asc']]) }}"
-                                            aria-label="Sort by newest first">Award date</a>
-                                    {% elseif meta.currentSort.type === 'awardDate' and meta.currentSort.direction === 'asc'  %}
-                                        <a class="sort-controls__item is-active is-ascending"
-                                            href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
-                                            aria-label="Sort by oldest first">Award date</a>
-                                    {% else %}
-                                        <a class="sort-controls__item"
-                                            href="?{{ queryParams | addQueryParam([['sort', 'awardDate|desc']]) }}"
-                                            aria-label="Sort by oldest first">Award date</a>
-                                    {% endif %}
-
-                                    {% if meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'desc' %}
-                                        <a class="sort-controls__item is-active is-descending"
-                                            href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|asc']]) }}"
-                                            aria-label="Sort by highest amount awarded first">Amount awarded</a>
-                                    {% elseif meta.currentSort.type === 'amountAwarded' and meta.currentSort.direction === 'asc'  %}
-                                        <a class="sort-controls__item is-active is-ascending"
-                                            href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
-                                            aria-label="Sort by lowest amount awarded first">Amount awarded</a>
-                                    {% else %}
-                                        <a class="sort-controls__item"
-                                            href="?{{ queryParams | addQueryParam([['sort', 'amountAwarded|desc']]) }}"
-                                            aria-label="Sort by highest amount awarded first">Amount awarded</a>
-                                    {% endif %}
-
-                                    {% if meta.currentSort %}
-                                        <input type="hidden" name="sort" value="{{ meta.currentSort.type }}|{{ meta.currentSort.direction }}">
-                                    {% endif %}
-                                </noscript>
-
-                                <span class="js-only">
-
-                                    <a class="sort-controls__item"
-                                        v-bind:title="getSortTitle('Sort by newest first', 'Sort by oldest first')"
-                                        v-bind:aria-label="getSortTitle('Sort by newest first', 'Sort by oldest first')"
-                                        v-bind:class="sortLinkClasses('awardDate')"
-                                        v-bind:href="'?' + filtersToString()"
-                                        v-on:click.prevent="sortData('awardDate', sort.direction)"
-                                        v-cloak>Award date</a>
-
-                                    <a class="sort-controls__item"
-                                        v-bind:title="getSortTitle('Sort by highest amount awarded first', 'Sort by lowest amount awarded first')"
-                                        v-bind:aria-label="getSortTitle('Sort by highest amount awarded first', 'Sort by lowest amount awarded first')"
-                                        v-bind:class="sortLinkClasses('amountAwarded')"
-                                        v-bind:href="'?' + filtersToString()"
-                                        v-on:click.prevent="sortData('amountAwarded', sort.direction)"
-                                        v-cloak>Amount awarded</a>
-                                </span>
-                            </div>
+                            <grants-sort
+                                :query="filters.q"
+                                :sort="filters.sort"
+                                @sort-grants="handleSort"
+                            />
                         </div>
                     </div>
 
@@ -166,103 +111,106 @@
                             />
 
                             {# Noscript fallback filters #}
-                            <noscript>
-                                <div class="search-filters">
-                                    {# Filter: Amount awarded #}
-                                    {% if facets.amountAwarded %}
-                                        {% set options = (facets.amountAwarded.unshift({
-                                            'label': 'Any amount',
-                                            'value': ''
-                                        }), facets.amountAwarded) %}
-                                        <div class="facet-group">
-                                            {{ inputChoice({
-                                                type: 'radio',
-                                                name: 'amount',
-                                                label: 'Amount awarded',
-                                                value: queryParams.amount,
-                                                options: options,
-                                                silentlyOptional: true
-                                            }) }}
-                                        </div>
-                                    {% endif %}
+                            <fieldset class="search-filters">
+                                <div class="search-filters__header">
+                                    <legend class="search-filters__title">Filter by</legend>
+                                </div>
+                                {# Filter: Amount awarded #}
+                                {% if facets.amountAwarded %}
+                                    {% set options = (facets.amountAwarded.unshift({
+                                        'label': 'Any amount',
+                                        'value': ''
+                                    }), facets.amountAwarded) %}
+                                    <div class="facet-group">
+                                        {{ inputChoice({
+                                            type: 'radio',
+                                            name: 'amount',
+                                            label: 'Amount awarded',
+                                            value: queryParams.amount,
+                                            options: options,
+                                            silentlyOptional: true
+                                        }) }}
+                                    </div>
+                                {% endif %}
 
-                                    {# Filter: Country #}
-                                    {% if facets.countries %}
-                                        {% set options = (facets.countries.unshift({
-                                            'label': 'All countries',
-                                            'value': ''
-                                        }), facets.countries) %}
-                                        <div class="facet-group">
-                                            {{ inputChoice({
-                                                type: 'radio',
-                                                name: 'country',
-                                                label: 'Country',
-                                                value: queryParams.country,
-                                                options: options,
-                                                silentlyOptional: true
-                                            }) }}
-                                        </div>
-                                    {% endif %}
+                                {# Filter: Country #}
+                                {% if facets.countries %}
+                                    {% set options = (facets.countries.unshift({
+                                        'label': 'All countries',
+                                        'value': ''
+                                    }), facets.countries) %}
+                                    <div class="facet-group">
+                                        {{ inputChoice({
+                                            type: 'radio',
+                                            name: 'country',
+                                            label: 'Country',
+                                            value: queryParams.country,
+                                            options: options,
+                                            silentlyOptional: true
+                                        }) }}
+                                    </div>
+                                {% endif %}
 
-                                    {# Filter: Grant programme #}
-                                    {% if facets.grantProgramme %}
-                                        {% set options = (facets.grantProgramme.unshift({
-                                            'label': 'All programmes',
-                                            'value': ''
-                                        }), facets.grantProgramme) %}
-                                        <div class="facet-group">
-                                            {{ inputSelect({
-                                                type: 'select',
-                                                name: 'programme',
-                                                label: 'Programme',
-                                                value: queryParams.programme,
-                                                options: options,
-                                                silentlyOptional: true
-                                            }) }}
-                                        </div>
-                                    {% endif %}
+                                {# Filter: Grant programme #}
+                                {% if facets.grantProgramme %}
+                                    {% set options = (facets.grantProgramme.unshift({
+                                        'label': 'All programmes',
+                                        'value': ''
+                                    }), facets.grantProgramme) %}
+                                    <div class="facet-group">
+                                        {{ inputSelect({
+                                            type: 'select',
+                                            name: 'programme',
+                                            label: 'Programme',
+                                            value: queryParams.programme,
+                                            options: options,
+                                            silentlyOptional: true
+                                        }) }}
+                                    </div>
+                                {% endif %}
 
-                                    {# Filter: Local Authority #}
-                                    {% if facets.localAuthorities %}
-                                        {% set options = (facets.localAuthorities.unshift({
-                                            'label': 'All local authorities',
-                                            'value': ''
-                                        }), facets.localAuthorities) %}
-                                        <div class="facet-group">
-                                            {{ inputSelect({
-                                                type: 'select',
-                                                name: 'localAuthority',
-                                                label: 'Local authority',
-                                                value: queryParams.localAuthority,
-                                                options: options,
-                                                silentlyOptional: true
-                                            }) }}
-                                        </div>
-                                    {% endif %}
+                                {# Filter: Local Authority #}
+                                {% if facets.localAuthorities %}
+                                    {% set options = (facets.localAuthorities.unshift({
+                                        'label': 'All local authorities',
+                                        'value': ''
+                                    }), facets.localAuthorities) %}
+                                    <div class="facet-group">
+                                        {{ inputSelect({
+                                            type: 'select',
+                                            name: 'localAuthority',
+                                            label: 'Local authority',
+                                            value: queryParams.localAuthority,
+                                            options: options,
+                                            silentlyOptional: true
+                                        }) }}
+                                    </div>
+                                {% endif %}
 
-                                    {# Filter: Constituency #}
-                                    {% if facets.westminsterConstituencies %}
-                                        {% set options = (facets.westminsterConstituencies.unshift({
-                                            'label': 'All constituencies',
-                                            'value': ''
-                                        }), facets.westminsterConstituencies) %}
-                                        <div class="facet-group">
-                                            {{ inputSelect({
-                                                type: 'select',
-                                                name: 'constituency',
-                                                label: 'Westminster constituency',
-                                                value: queryParams.constituency,
-                                                options: options,
-                                                silentlyOptional: true
-                                            }) }}
-                                        </div>
-                                    {% endif %}
+                                {# Filter: Constituency #}
+                                {% if facets.westminsterConstituencies %}
+                                    {% set options = (facets.westminsterConstituencies.unshift({
+                                        'label': 'All constituencies',
+                                        'value': ''
+                                    }), facets.westminsterConstituencies) %}
+                                    <div class="facet-group">
+                                        {{ inputSelect({
+                                            type: 'select',
+                                            name: 'constituency',
+                                            label: 'Westminster constituency',
+                                            value: queryParams.constituency,
+                                            options: options,
+                                            silentlyOptional: true
+                                        }) }}
+                                    </div>
+                                {% endif %}
 
+                                <noscript>
                                     <div class="search-filters__actions">
                                         <input type="submit" value="Filter" class="btn btn--medium">
                                     </div>
-                                </div>
-                            </noscript>
+                                </noscript>
+                            </fieldset>
                         </div>
                     </div>
                 </div>{# End grants-search #}

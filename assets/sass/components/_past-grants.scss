@@ -60,45 +60,13 @@
    ========================================================================= */
 
 .sort-controls {
-    .sort-controls__prefix {
-        font-weight: bold;
-    }
-    .sort-controls__item {
+    .ff-label {
         display: inline-block;
-        padding: 0 10px;
-        border-right: 1px solid palette('border');
-        text-decoration: none;
+        margin-right: 0.5em;
+    }
 
-        &:last-of-type {
-            border: none;
-            padding-right: 0;
-        }
-
-        @include on-interact {
-            font-weight: bold;
-            text-decoration: underline;
-        }
-
-        &.is-active {
-            font-weight: bold;
-        }
-
-        &.is-ascending::before,
-        &.is-descending::before {
-            position: relative;
-            top: 2px; // Optically align
-            margin-right: 4px;
-            display: inline-block;
-            text-decoration: none;
-        }
-
-        &.is-ascending::before {
-            content: '↑ ';
-        }
-
-        &.is-descending::before {
-            content: '↓ ';
-        }
+    select {
+        font-size: 16px;
     }
 }
 
@@ -106,7 +74,7 @@
    Filters
    ========================================================================= */
 
-$filterSpacing: 8px;
+$filterSpacing: 10px;
 
 .search-filters {
     background-color: palette('pale-grey');
@@ -137,7 +105,7 @@ $filterSpacing: 8px;
 
     .search-filters__header {
         @include clearfix();
-        margin-bottom: $filterSpacing;
+        padding: 3px 0 $filterSpacing;
     }
 
     .search-filters__title {
@@ -162,11 +130,73 @@ $filterSpacing: 8px;
     }
 }
 
+/* =========================================================================
+   Facet Group
+   ========================================================================= */
+
 .facet-group {
-    margin-bottom: $filterSpacing;
     background-color: white;
-    padding: $filterSpacing;
     position: relative;
+    padding: $filterSpacing;
+    margin-bottom: $filterSpacing;
+
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .facet-group__toggle {
+        font-size: 14px;
+        background-color: transparent;
+        border-radius: 0;
+        border: none;
+        cursor: inherit;
+        margin: 0;
+        padding: 0;
+        text-align: inherit;
+        text-decoration: none;
+        white-space: normal;
+        word-wrap: break-word;
+
+        position: absolute;
+        top: $filterSpacing;
+        right: $filterSpacing;
+        padding-left: 100px;
+        text-align: right;
+
+        &:active,
+        &:focus {
+            outline: none;
+
+            .icon {
+                fill: black;
+            }
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+        }
+    }
+
+    .facet-group__legend {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .facet-group__body {
+        display: none;
+    }
+
+    &.is-open {
+        .facet-group__body {
+            display: block;
+        }
+
+        .facet-group__toggle .icon {
+            transform: rotate(180deg);
+        }
+    }
 }
 
 /* =========================================================================

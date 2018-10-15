@@ -1,16 +1,26 @@
 <script>
+import IconArrowDown from './icon-arrow-down.vue';
 export default {
-    props: ['value', 'clearLabel']
+    props: ['id', 'legend'],
+    components: { IconArrowDown },
+    data() {
+        return { isOpen: true };
+    }
 };
 </script>
 
 <template>
-    <div class="facet-group">
-        <slot></slot>
-
-        <button class="btn-link u-padded-top-s"
-            @click="$emit('clear-choice')" v-if="value">
-            {{ clearLabel }}
-        </button>
+    <div class="facet-group" :class="{ 'is-open': isOpen }">
+        <fieldset class="facet-group__fieldset">
+            <button class="facet-group__toggle" type="button" @click="isOpen = !isOpen">
+                <IconArrowDown id="1" :description="'Toggle ' + legend" />
+            </button>
+            <legend class="facet-group__legend">
+                {{ legend }}
+            </legend>
+            <div class="facet-group__body">
+                <slot></slot>
+            </div>
+        </fieldset>
     </div>
 </template>

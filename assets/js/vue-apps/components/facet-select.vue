@@ -5,7 +5,7 @@ export default {
 </script>
 
 <template>
-    <div v-if="options.length > 0">
+    <div class="u-margin-bottom-s" v-if="options.length > 0">
         <label class="ff-label" :for="'field-dynamic-' + name">
             {{ label }}
         </label>

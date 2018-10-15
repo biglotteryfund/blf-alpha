@@ -2,7 +2,7 @@
 import take from 'lodash/take';
 
 export default {
-    props: ['value', 'type', 'name', 'label', 'labelAny', 'options', 'optionLimit'],
+    props: ['value', 'type', 'name', 'label', 'hideLabel', 'labelAny', 'options', 'optionLimit'],
     data() {
         return { isToggled: false };
     },
@@ -28,7 +28,7 @@ export default {
 
 <template>
     <fieldset class="ff-choice" v-if="options.length > 0">
-        <legend class="ff-label">
+        <legend :class="{ 'ff-label': true, 'u-visually-hidden': hideLabel }">
             {{ label }}
         </legend>
          <ul class="ff-choice__list">
