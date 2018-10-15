@@ -2,16 +2,13 @@
 import take from 'lodash/take';
 
 export default {
-    props: ['value', 'type', 'name', 'label', 'hideLabel', 'labelAny', 'options', 'optionLimit'],
+    props: ['value', 'type', 'name', 'label', 'labelAny', 'options', 'optionLimit'],
     data() {
         return { isToggled: false };
     },
     computed: {
-        shouldTruncate() {
-            return this.optionLimit && this.options.length >= this.optionLimit + 2;
-        },
         optionsToDisplay() {
-            if (this.shouldTruncate) {
+            if (this.shouldTruncate()) {
                 return this.isToggled ? this.options : take(this.options, this.optionLimit);
             } else {
                 return this.options;
@@ -19,6 +16,9 @@ export default {
         }
     },
     methods: {
+        shouldTruncate() {
+            return this.optionLimit && this.options.length >= this.optionLimit + 2;
+        },
         fieldId(index) {
             return `field-dynamic-${this.name}-${index}`;
         }
@@ -28,7 +28,7 @@ export default {
 
 <template>
     <fieldset class="ff-choice" v-if="options.length > 0">
-        <legend :class="{ 'ff-label': true, 'u-visually-hidden': hideLabel }">
+        <legend class="ff-label">
             {{ label }}
         </legend>
          <ul class="ff-choice__list">
@@ -60,10 +60,20 @@ export default {
             </li>
         </ul>
 
-        <button type="button" class="btn-link"
-            v-on:click='isToggled = !isToggled'
-            v-if="shouldTruncate">
+        <button type="button"
+            class="btn-link"
+            v-if="shouldTruncate()"
+            @click='isToggled = !isToggled'
+        >
             {{ isToggled ? 'See fewer options' : 'See more options' }}
+        </button>
+
+        <button type="button"
+            class="btn-link"
+            v-if="value"
+            @click="$emit('clear-selection')"
+        >
+            Clear selection
         </button>
     </fieldset>
 </template>

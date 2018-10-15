@@ -27,7 +27,7 @@ export default {
             <legend class="search-filters__title">Filter by</legend>
             <button type="button" class="search-filters__clear-all btn-link"
                 @click="$emit('clear-filters')">
-                Clear all filters
+                Reset filters
             </button>
         </div>
 
@@ -37,9 +37,8 @@ export default {
                 type="radio"
                 name="country"
                 label="Countries"
-                :hideLabel="true"
-                labelAny="Any country"
                 :options="facets.countries"
+                @clear-selection="$emit('clear-filters', 'country')"
             />
 
             <FacetDisclose>
@@ -49,6 +48,7 @@ export default {
                     label="Local authority"
                     labelAny="Select a local authority"
                     :options="facets.localAuthorities"
+                    @clear-selection="$emit('clear-filters', 'localAuthority')"
                 />
 
                 <FacetSelect
@@ -57,20 +57,20 @@ export default {
                     label="Westminster constituency"
                     labelAny="Select a constituency"
                     :options="facets.westminsterConstituencies"
+                    @clear-selection="$emit('clear-filters', 'westminsterConstituency')"
                 />
             </FacetDisclose>
        </FacetGroup>
 
-        <FacetGroup legend="Amount awarded">
+        <FacetGroup legend="Grant size">
             <FacetChoice
                 v-model="filters.amount"
                 type="radio"
                 name="amount"
                 label="Amount awarded"
-                :hideLabel=true
-                labelAny="Any amount"
                 :options="facets.amountAwarded"
                 :optionLimit="3"
+                @clear-selection="$emit('clear-filters', 'amount')"
             />
         </FacetGroup>
 
@@ -79,9 +79,9 @@ export default {
                 v-model="filters.programme"
                 type="radio"
                 name="programme"
-                label="Funding programme"
-                :hideLabel=true
+                label="Featured programmes"
                 :options="programmes.featured"
+                @clear-selection="$emit('clear-filters', 'programme')"
             />
             <FacetSelect
                 v-model="filters.programme"
@@ -89,6 +89,7 @@ export default {
                 label="Other programmes"
                 labelAny="Select a programme"
                 :options="programmes.other"
+                @clear-selection="$emit('clear-filters', 'programme')"
             />
        </FacetGroup>
     </fieldset>

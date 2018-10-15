@@ -22,5 +22,13 @@ export default {
                 {{ option.label }} ({{ option.count }})
             </option>
         </select>
+
+        <button type="button"
+            class="btn-link"
+            v-if="value"
+            @click="$emit('clear-selection')"
+        >
+            Clear selection
+        </button>
     </div>
 </template>

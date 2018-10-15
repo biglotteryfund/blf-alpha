@@ -95,6 +95,14 @@ $filterSpacing: 10px;
         background-color: #eeeeee;
         cursor: progress;
         pointer-events: none;
+
+        .btn-link {
+            display: none;
+        }
+    }
+
+    .ff-label {
+        font-weight: normal;
     }
 
     &,
@@ -180,7 +188,7 @@ $filterSpacing: 10px;
 
     .facet-group__legend {
         display: block;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
         font-weight: bold;
     }
 

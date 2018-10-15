@@ -33,9 +33,6 @@ export default {
 
         return { sortOptions };
     },
-    mounted() {
-        console.log(this.sort);
-    },
     methods: {
         handleSort(e) {
             this.$emit('sort-grants', e.target.value);
