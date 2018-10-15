@@ -50,7 +50,7 @@
         }
         .grants-search__results {
             order: 2;
-            flex: 1 1 auto;
+            flex: 1 1 0%;
         }
     }
 }
@@ -119,6 +119,7 @@ $filterSpacing: 8px;
         top: $filterSpacing;
         max-height: calc(100vh - #{$filterSpacing * 2});
         overflow-y: scroll;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
     }
 
     &.search-filters--locked {

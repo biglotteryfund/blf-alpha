@@ -1,7 +1,8 @@
 import $ from 'jquery';
 import Vue from 'vue';
-import debounce from 'lodash/debounce';
+import assign from 'lodash/assign';
 import cloneDeep from 'lodash/cloneDeep';
+import debounce from 'lodash/debounce';
 import omit from 'lodash/omit';
 
 import GrantFilters from './components/grant-filters.vue';
@@ -43,10 +44,10 @@ function init() {
 
             return {
                 defaultFilters,
-                sort: Object.assign({}, existingSort),
+                sort: assign({}, existingSort),
                 ignoreSort: false,
-                facets: Object.assign({}, existingFacets),
-                filters: Object.assign({}, defaultFilters, queryParams),
+                facets: assign({}, existingFacets),
+                filters: assign({}, defaultFilters, queryParams),
                 isCalculating: false,
                 totalResults: PGS.totalResults || 0,
                 totalAwarded: PGS.totalAwarded || 0,
