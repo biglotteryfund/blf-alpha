@@ -8,7 +8,7 @@ import partition from 'lodash/partition';
 
 export default {
     components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
-    props: ['facets', 'filters', 'isCalculating'],
+    props: ['facets', 'filters', 'status'],
     computed: {
         programmes() {
             const [featured, other] = partition(this.facets.grantProgramme, programme => {
@@ -22,7 +22,9 @@ export default {
 </script>
 
 <template>
-    <fieldset class="search-filters" :class="{ 'search-filters--locked': isCalculating }">
+    <fieldset class="search-filters"
+        :class="{ 'search-filters--locked': status.state === 'Loading' }"
+    >
         <div class="search-filters__header">
             <legend class="search-filters__title">Filter by</legend>
             <button type="button" class="search-filters__clear-all btn-link"

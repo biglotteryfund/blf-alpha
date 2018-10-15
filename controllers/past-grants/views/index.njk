@@ -42,15 +42,15 @@
             </div>
 
             <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>
-                {# @TODO: Reinstate this #}
-                {# <span>
+                {# TODO: Improve this #}
+                <span>
                     {% if queryParams.recipient %}
                         <small v-show="filters.recipient">(Recipient: {{ grants[0].recipientOrganization[0].name }})</small>
                     {% endif %}
                     {% if queryParams.orgType %}
                         <small v-show="filters.orgType">(Organisation Type: {{ grants[0].recipientOrganization[0].organisationType }})</small>
                     {% endif %}
-                </span> #}
+                </span>
 
                 <div class="grants-searchbar">
                     <label class="u-visually-hidden" for="search-query">Search</label>
@@ -67,7 +67,7 @@
                     </div>
                 </div>
 
-                <div class="grants-search">
+                <div class="grants-search{% if meta.totalResults === 0 %} has-no-results{% endif %}" v-if="totalResults > 0">
                     <div class="grants-search__meta">
                         <h2 class="grants-search__total accent--{{ pageAccent }} t--underline">
                             <grants-total-summary
@@ -90,15 +90,11 @@
                     <div class="grants-search__content">
 
                         <div class="grants-search__results">
-                            <div class="grants-search__status">
-                                {# @TODO: Replace with single 'status' property #}
-                                <grant-loading-status
-                                    :is-calculating="isCalculating"
-                                    :search-error="searchError"
-                                />
+                            <div class="grants-search__sort">
+                                <grants-loading-status :status="status" />
                             </div>
 
-                            <div id="js-grant-results" v-show="!isCalculating && !searchError">
+                            <div id="js-grant-results" v-show="['NotAsked', 'Success'].indexOf(status.state) !== -1">
                                 {{ grantResultList(grants) }}
                             </div>
                         </div>
@@ -108,7 +104,7 @@
                             <grant-filters
                                 :facets="facets"
                                 :filters="filters"
-                                :is-calculating="isCalculating"
+                                :status="status"
                                 @clear-filters="clearFilters"
                             />
 
@@ -216,6 +212,25 @@
                         </div>
                     </div>
                 </div>{# End grants-search #}
+
+                <grants-no-results
+                    :total-results="totalResults"
+                    @clear-filters="clearFilters"
+                />
+
+                {% if meta.totalResults === 0 %}
+                    <div class="grants-no-results s-prose u-margin-bottom" v-if="totalResults === 0">
+                        <h3>We're sorry, we couldn't find any results matching your criteria</h3>
+                        <ul>
+                            <li>Try a different query or clear your filters</li>
+                            <li>Try searching something less specific — sometimes using a more general search term may help</li>
+                            <li>Double check the spelling of any keywords you are searching for</li>
+                            <li>Our database might not have the details for granst awarded under 1 month ago. Please check our <a href="/news-and-events">news section</a> if you are looking for a recently awarded grant</li>
+                        </ul>
+                        <p>If you're looking for something specific and would like some help <a href="/contact">please contact us</a></p>
+                        <p><a class="btn btn--medium" href="/funding/search-past-grants-alpha">Clear all filters</a></p>
+                    </div>
+                {% endif %}
             </form>
         </div>
     </main>

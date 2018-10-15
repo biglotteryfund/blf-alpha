@@ -7,7 +7,15 @@ import debounce from 'lodash/debounce';
 import GrantFilters from './components/grant-filters.vue';
 import GrantsSort from './components/grants-sort.vue';
 import GrantsTotalSummary from './components/grants-total-summary.vue';
-import GrantLoadingStatus from './components/grant-loading-status.vue';
+import GrantsLoadingStatus from './components/grants-loading-status.vue';
+import GrantsNoResults from './components/grants-no-results.vue';
+
+const states = {
+    NotAsked: 'NotAsked',
+    Loading: 'Loading',
+    Failure: 'Failure',
+    Success: 'Success'
+};
 
 function init() {
     const mountEl = document.getElementById('js-past-grants');
@@ -21,7 +29,8 @@ function init() {
             'grants-sort': GrantsSort,
             'grant-filters': GrantFilters,
             'grants-total-summary': GrantsTotalSummary,
-            'grant-loading-status': GrantLoadingStatus
+            'grants-loading-status': GrantsLoadingStatus,
+            'grants-no-results': GrantsNoResults
         },
         data() {
             /**
@@ -45,13 +54,12 @@ function init() {
             };
 
             return {
-                defaultFilters,
+                status: { state: states.NotAsked },
+                defaultFilters: defaultFilters,
                 facets: assign({}, existingFacets),
                 filters: assign({}, defaultFilters, queryParams),
-                isCalculating: false,
                 totalResults: PGS.totalResults || 0,
-                totalAwarded: PGS.totalAwarded || 0,
-                searchError: false
+                totalAwarded: PGS.totalAwarded || 0
             };
         },
         watch: {
@@ -107,7 +115,6 @@ function init() {
             },
 
             updateUrl() {
-                // Push URL state (@TODO support back/forward nav)
                 if (window.history.pushState) {
                     const path = `${window.location.pathname}?${this.filtersToString()}`;
                     window.history.pushState({ path: path }, '', path);
@@ -116,8 +123,7 @@ function init() {
 
             // Send the data to the AJAX endpoint and output the results to the page
             filterResults(url = null) {
-                this.isCalculating = true;
-                this.searchError = false;
+                this.status = { state: states.Loading };
 
                 if (!url) {
                     const $form = $(this.$el);
@@ -132,20 +138,15 @@ function init() {
                     .then(response => {
                         // @TODO vue-ize this
                         $('#js-grant-results').html(response.resultsHtml);
+
                         this.totalResults = response.meta.totalResults;
                         this.totalAwarded = response.meta.totalAwarded;
                         this.facets = response.facets;
+                        this.status = { state: states.Success, data: response };
                         this.updateUrl();
-                        this.isCalculating = false;
                     })
                     .catch(err => {
-                        const error = err.responseJSON.error;
-                        this.isCalculating = false;
-                        if (error && error.code) {
-                            this.searchError = error.code;
-                        } else {
-                            this.searchError = true;
-                        }
+                        this.status = { state: states.Failure, error: err.responseJSON.error };
                     });
             }
         }
