@@ -30,7 +30,7 @@
                     <div class="u-constrained-wide accent--pink">
                         <h1>{{ title }}</h1>
                         {% if grant.isActive %}
-                            <p class="is-active-project u-margin-bottom-l">Active Project</p>
+                            <p class="grant-programme is-active-project u-margin-bottom-l">Active Project</p>
                         {% endif %}
 
                         <h2 class="t3 t--underline accent--pink">Project overview</h2>
@@ -43,7 +43,7 @@
                         <p class="t1 u-no-margin">£{{ grant.amountAwarded | numberWithCommas }}</p>
                         <p class="t5">
                             {{ title }}<br/>
-                            {{ formatDate(grant.awardDate, DATE_FORMATS.slashed) }}
+                            {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
                         </p>
                     </aside>
 
@@ -53,9 +53,9 @@
                             {% for dates in grant.plannedDates %}
                                 <dd>
                                     {{ fields.area.label }}
-                                    {{ formatDate(dates.startDate, DATE_FORMATS.slashed) }}
+                                    {{ formatDate(dates.startDate, DATE_FORMATS.short) }}
                                     {% if dates.endDate %}
-                                        – {{ formatDate(dates.endDate, DATE_FORMATS.slashed) }}
+                                        – {{ formatDate(dates.endDate, DATE_FORMATS.short) }}
                                     {% endif %}
                                 </dd>
                             {% endfor %}
