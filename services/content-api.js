@@ -129,7 +129,7 @@ function getFundingProgrammes({ locale }) {
     });
 }
 
-function getFundingProgramme({ locale, slug, previewMode }) {
+function getFundingProgramme({ locale, slug, previewMode = false }) {
     return fetch(`/v1/${locale}/funding-programme/${slug}`, {
         qs: addPreviewParams(previewMode)
     }).then(response => {

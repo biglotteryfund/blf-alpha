@@ -3,13 +3,14 @@ const path = require('path');
 const express = require('express');
 const request = require('request-promise-native');
 const querystring = require('querystring');
-const { concat, pick, isEmpty } = require('lodash');
+const { concat, pick, isEmpty, get } = require('lodash');
 const nunjucks = require('nunjucks');
 const Raven = require('raven');
 
 const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
 const { injectBreadcrumbs } = require('../../middleware/inject-content');
 const { sMaxAge } = require('../../middleware/cached');
+const contentApi = require('../../services/content-api');
 
 const router = express.Router();
 
@@ -65,7 +66,9 @@ function buildAllowedParams(queryParams) {
         'country',
         'localAuthority',
         'constituency',
-        'recipient'
+        'recipient',
+        'exclude',
+        'limit'
     ];
     return pick(queryParams, allowedParams);
 }
@@ -130,11 +133,17 @@ router.get('/', async (req, res, next) => {
 
         // AJAX search for client-side app
         'application/json': () => {
+            const isRelatedSearch = req.query.related === 'true';
+
             // Repopulate existing app globals so Nunjucks can read them
             // outside of Express's view engine context
             const context = Object.assign({}, res.locals, req.app.locals, {
                 grants: data.results,
-                pagination: buildPagination(data.meta.pagination, queryWithPage)
+                pagination: buildPagination(data.meta.pagination, queryWithPage),
+                options: {
+                    wrapperClass: isRelatedSearch ? 'flex-grid__item' : false,
+                    hidePagination: isRelatedSearch
+                }
             });
             const template = path.resolve(__dirname, './views/ajax-results.njk');
 
@@ -162,9 +171,22 @@ router.get('/:id', async (req, res, next) => {
         });
 
         if (data) {
+            let fundingProgramme;
+            const grant = data.result;
+            const grantProgramme = get(grant, 'grantProgramme[0]', false);
+            if (grantProgramme && grantProgramme.url && grantProgramme.url.indexOf('/') === -1) {
+                try {
+                    fundingProgramme = await contentApi.getFundingProgramme({
+                        slug: grantProgramme.url,
+                        locale: req.i18n.getLocale()
+                    });
+                } catch (e) {} // eslint-disable-line no-empty
+            }
+
             res.render(path.resolve(__dirname, './views/grant-detail'), {
                 title: data.result.title,
-                grant: data.result,
+                grant: grant,
+                fundingProgramme: fundingProgramme,
                 breadcrumbs: concat(res.locals.breadcrumbs, { label: data.result.title })
             });
         } else {
