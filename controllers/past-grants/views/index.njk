@@ -53,18 +53,20 @@
                 </span>
 
                 <div class="grants-searchbar">
-                    <label class="u-visually-hidden" for="search-query">Search</label>
-                    <div class="form-field-addon">
+                    <label class="ff-label" for="search-query">Search awarded grants</label>
+                    <div class="form-field-addon u-margin-bottom-s">
                         <input class="form-field-addon__input"
                                 type="search"
                                 id="search-query"
                                 name="q"
                                 value="{{ queryParams.q }}"
-                                placeholder="Enter a keyword"
                                 autocomplete="nope"
                                 @input="debounceQuery">
                         <input class="form-field-addon__action" type="submit" value="Search" />
                     </div>
+                    <p class="ff-help">
+                        e.g. a keyword such as “loneliness”, a location, an organisation, or an area of work
+                    </p>
                 </div>
 
                 <div class="grants-search{% if meta.totalResults === 0 %} has-no-results{% endif %}" v-if="totalResults > 0">
