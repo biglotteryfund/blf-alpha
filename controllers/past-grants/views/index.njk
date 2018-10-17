@@ -55,13 +55,22 @@
                 <div class="grants-searchbar">
                     <label class="ff-label" for="search-query">Search awarded grants</label>
                     <div class="form-field-addon u-margin-bottom-s">
-                        <input class="form-field-addon__input"
-                                type="search"
-                                id="search-query"
-                                name="q"
-                                value="{{ queryParams.q }}"
-                                autocomplete="nope"
-                                @input="debounceQuery">
+                        <input class="form-field-addon__input js-only"
+                            type="search"
+                            id="search-query"
+                            name="q"
+                            :value="filters.q"
+                            autocomplete="no"
+                            @input="debounceQuery">
+
+                        <noscript>
+                            <input class="form-field-addon__input"
+                                    type="search"
+                                    id="search-query"
+                                    name="q"
+                                    value="{{ queryParams.q }}"
+                                    autocomplete="no">
+                        </noscript>
                         <input class="form-field-addon__action" type="submit" value="Search" />
                     </div>
                     <p class="ff-help">
@@ -77,13 +86,12 @@
                                 :total-awarded="totalAwarded"
                             />
                             {{ meta.totalResults | numberWithCommas }} projects found
-                            totalling £{{ meta.totalAwarded | numberWithCommas }}
                         </h2>
 
                         <div class="grants-search__sort">
                             <grants-sort
+                                :sort="sort"
                                 :query="filters.q"
-                                :sort="filters.sort"
                                 @sort-grants="handleSort"
                             />
                         </div>

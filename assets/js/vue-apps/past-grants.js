@@ -1,8 +1,9 @@
 import $ from 'jquery';
 import Vue from 'vue';
-import assign from 'lodash/assign';
+import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
 import debounce from 'lodash/debounce';
+import queryString from 'query-string';
 
 import GrantFilters from './components/grant-filters.vue';
 import GrantsSort from './components/grants-sort.vue';
@@ -15,6 +16,11 @@ const states = {
     Loading: 'Loading',
     Failure: 'Failure',
     Success: 'Success'
+};
+
+const sorts = {
+    default: { type: 'awardDate', direction: 'desc' },
+    defaultQuery: { type: 'score', direction: 'desc' }
 };
 
 function init() {
@@ -38,31 +44,25 @@ function init() {
              * eg. to share server/client state
              */
             // @ts-ignore
-            const PGS = window._PAST_GRANTS_SEARCH;
-            const queryParams = PGS && PGS.queryParams ? PGS.queryParams : {};
-            const existingFacets = PGS && PGS.facets ? PGS.facets : {};
-            const existingSort = PGS && PGS.sort ? PGS.sort : {};
-
-            const defaultFilters = {
-                sort: queryParams.q ? '' : `${existingSort.type}|${existingSort.direction}`,
-                amount: '',
-                year: '',
-                programme: '',
-                country: '',
-                localAuthority: '',
-                constituency: ''
-            };
+            const initialData = window._PAST_GRANTS_SEARCH;
 
             return {
                 status: { state: states.NotAsked },
-                defaultFilters: defaultFilters,
-                facets: assign({}, existingFacets),
-                filters: assign({}, defaultFilters, queryParams),
-                totalResults: PGS.totalResults || 0,
-                totalAwarded: PGS.totalAwarded || 0
+                defaultSort: sorts.default,
+                facets: get(initialData, 'facets', {}),
+                sort: get(initialData, 'sort', {}),
+                filters: get(initialData, 'queryParams', {}) || {},
+                totalResults: initialData.totalResults || 0,
+                totalAwarded: initialData.totalAwarded || 0
             };
         },
         watch: {
+            sort: {
+                handler() {
+                    this.filterResults();
+                },
+                deep: true
+            },
             filters: {
                 handler() {
                     this.filterResults();
@@ -71,67 +71,60 @@ function init() {
             }
         },
         mounted() {
-            // Enable inputs (they're disabled by default to avoid double inputs for non-JS users)
-            $(this.$el)
-                .find('[disabled]')
-                .removeAttr('disabled');
-
             window.onpopstate = event => {
-                if (event.state && event.state.path) {
-                    this.filterResults(event.state.path);
-                }
+                const historyUrlPath = get(event, 'state.urlPath');
+                historyUrlPath && this.updateResults(historyUrlPath);
             };
         },
         methods: {
             debounceQuery: debounce(function(e) {
                 this.filters.q = e.target.value;
-                this.filters.sort = '';
+                this.defaultSort = sorts.defaultQuery;
+                this.sort = sorts.defaultQuery;
                 this.filterResults();
             }, 500),
 
-            handleSort(sortValue) {
-                this.filters.sort = sortValue;
-            },
-
-            filtersToString() {
-                // Convert filters into URL-friendly state
-                const filterClone = cloneDeep(this.filters);
-                return Object.keys(filterClone)
-                    .filter(key => !!filterClone[key])
-                    .map(key => {
-                        return `${encodeURIComponent(key)}=${encodeURIComponent(filterClone[key])}`;
-                    })
-                    .join('&');
+            handleSort(newSort) {
+                this.sort = newSort;
             },
 
             // Reset the filters back to their default state
             clearFilters(key) {
                 if (key) {
-                    this.filters[key] = this.defaultFilters[key];
+                    delete this.filters[key];
                 } else {
-                    this.filters = Object.assign({}, this.defaultFilters);
+                    this.filters = {};
                 }
+
+                this.defaultSort = sorts.default;
+                this.sort = sorts.default;
+
                 this.filterResults();
             },
 
-            updateUrl() {
-                if (window.history.pushState) {
-                    const path = `${window.location.pathname}?${this.filtersToString()}`;
-                    window.history.pushState({ path: path }, '', path);
+            filterResults() {
+                const includeSort =
+                    this.sort.type !== this.defaultSort.type && this.sort.direction !== this.defaultSort.direction;
+
+                const combinedFilters = cloneDeep(this.filters);
+
+                if (includeSort) {
+                    combinedFilters.sort = `${this.sort.type}|${this.sort.direction}`;
                 }
+
+                const newQueryString = queryString.stringify(combinedFilters);
+
+                const urlPath = newQueryString
+                    ? `${window.location.pathname}?${newQueryString}`
+                    : window.location.pathname;
+
+                this.updateResults(urlPath);
             },
 
-            // Send the data to the AJAX endpoint and output the results to the page
-            filterResults(url = null) {
+            updateResults(urlPath) {
                 this.status = { state: states.Loading };
-
-                if (!url) {
-                    const $form = $(this.$el);
-                    url = `${$form.attr('action')}?${this.filtersToString()}`;
-                }
-
                 $.ajax({
-                    url: url,
+                    url: urlPath,
                     dataType: 'json',
                     timeout: 20000
                 })
@@ -143,9 +136,13 @@ function init() {
                         this.totalAwarded = response.meta.totalAwarded;
                         this.facets = response.facets;
                         this.status = { state: states.Success, data: response };
-                        this.updateUrl();
+
+                        if (window.history.pushState) {
+                            window.history.pushState({ urlPath: urlPath }, '', urlPath);
+                        }
                     })
                     .catch(err => {
+                        // @ts-ignore
                         this.status = { state: states.Failure, error: err.responseJSON.error };
                     });
             }

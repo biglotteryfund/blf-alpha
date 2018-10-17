@@ -27,15 +27,21 @@ export default {
         if (this.query) {
             sortOptions.unshift({
                 label: 'Most relevant',
-                value: ''
+                value: 'score|desc'
             });
         }
 
         return { sortOptions };
     },
+    computed: {
+        sortValue() {
+            return `${this.sort.type}|${this.sort.direction}`;
+        }
+    },
     methods: {
         handleSort(e) {
-            this.$emit('sort-grants', e.target.value);
+            const [type, direction] = e.target.value.split('|');
+            this.$emit('sort-grants', { type, direction });
         }
     }
 };
@@ -49,7 +55,7 @@ export default {
         <select
             class="ff-select"
             name="sort" id="field-sort"
-            :value="sort"
+            :value="sortValue"
             @input="handleSort">
             <option
                 v-for="option in sortOptions"
