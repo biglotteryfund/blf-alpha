@@ -4,12 +4,12 @@ import take from 'lodash/take';
 export default {
     props: ['value', 'type', 'name', 'label', 'labelAny', 'options', 'optionLimit'],
     data() {
-        return { isToggled: false };
+        return { isOpen: true };
     },
     computed: {
         optionsToDisplay() {
             if (this.shouldTruncate()) {
-                return this.isToggled ? this.options : take(this.options, this.optionLimit);
+                return this.isOpen ? take(this.options, this.optionLimit) : this.options;
             } else {
                 return this.options;
             }
@@ -63,9 +63,9 @@ export default {
         <button type="button"
             class="btn-link"
             v-if="shouldTruncate()"
-            @click='isToggled = !isToggled'
+            @click='isOpen = !isOpen'
         >
-            {{ isToggled ? 'See fewer options' : 'See more options' }}
+            {{ isOpen ? 'See fewer options' : 'See more options' }}
         </button>
 
         <button type="button"

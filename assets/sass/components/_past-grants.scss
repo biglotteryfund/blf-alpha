@@ -105,10 +105,6 @@ $filterSpacing: 10px;
         }
     }
 
-    .ff-label {
-        font-weight: normal;
-    }
-
     &,
     select,
     .btn-link {
@@ -192,12 +188,12 @@ $filterSpacing: 10px;
         .icon {
             width: 20px;
             height: 20px;
+            transition: transform 300ms ease-in-out;
         }
     }
 
     .facet-group__legend {
         display: block;
-        margin-bottom: 10px;
         font-weight: bold;
     }
 
@@ -206,12 +202,16 @@ $filterSpacing: 10px;
     }
 
     &.is-open {
-        .facet-group__body {
-            display: block;
+        .facet-group__legend {
+            @include visually-hidden();
         }
 
         .facet-group__toggle .icon {
             transform: rotate(180deg);
+        }
+
+        .facet-group__body {
+            display: block;
         }
     }
 }

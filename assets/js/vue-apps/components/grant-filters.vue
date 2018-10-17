@@ -8,16 +8,7 @@ import partition from 'lodash/partition';
 
 export default {
     components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
-    props: ['facets', 'filters', 'status'],
-    computed: {
-        programmes() {
-            const [featured, other] = partition(this.facets.grantProgramme, programme => {
-                return ['awards for all'].some(allowed => programme.value.toLowerCase().indexOf(allowed) !== -1);
-            });
-
-            return { featured, other };
-        }
-    }
+    props: ['facets', 'filters', 'status']
 };
 </script>
 
@@ -33,17 +24,33 @@ export default {
             </button>
         </div>
 
-        <FacetGroup legend="Recipient location">
+        <FacetGroup id="grant-size" legend="Amount awarded">
+            <FacetChoice
+                v-model="filters.amount"
+                type="radio"
+                name="amount"
+                label="Amount awarded"
+                :options="facets.amountAwarded"
+                :optionLimit="3"
+                @clear-selection="$emit('clear-filters', 'amount')"
+            />
+        </FacetGroup>
+
+
+        <FacetGroup id="location" legend="Location">
             <FacetChoice
                 v-model="filters.country"
                 type="radio"
                 name="country"
-                label="Countries"
+                label="Location"
                 :options="facets.countries"
                 @clear-selection="$emit('clear-filters', 'country')"
             />
 
-            <FacetDisclose>
+            <FacetDisclose
+                labelClosed="See advanced location options"
+                labelOpen="Hide advanced location options"
+            >
                 <FacetSelect
                     v-model="filters.localAuthority"
                     name="localAuthority"
@@ -64,33 +71,14 @@ export default {
             </FacetDisclose>
        </FacetGroup>
 
-        <FacetGroup legend="Grant size">
-            <FacetChoice
-                v-model="filters.amount"
-                type="radio"
-                name="amount"
-                label="Amount awarded"
-                :options="facets.amountAwarded"
-                :optionLimit="3"
-                @clear-selection="$emit('clear-filters', 'amount')"
-            />
-        </FacetGroup>
 
-        <FacetGroup legend="Funding programme">
-           <FacetChoice
-                v-model="filters.programme"
-                type="radio"
-                name="programme"
-                label="Featured programmes"
-                :options="programmes.featured"
-                @clear-selection="$emit('clear-filters', 'programme')"
-            />
+        <FacetGroup id="programme" legend="Funding programme">
             <FacetSelect
                 v-model="filters.programme"
                 name="programme"
-                label="Other programmes"
+                label="Funding programme"
                 labelAny="Select a programme"
-                :options="programmes.other"
+                :options="facets.grantProgramme"
                 @clear-selection="$emit('clear-filters', 'programme')"
             />
        </FacetGroup>

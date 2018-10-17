@@ -13,7 +13,8 @@ export default {
     <div class="facet-group" :class="{ 'is-open': isOpen }">
         <fieldset class="facet-group__fieldset">
             <button class="facet-group__toggle" type="button" @click="isOpen = !isOpen">
-                <IconArrowDown id="1" :description="'Toggle ' + legend" />
+                <IconArrowDown :id="'facet-' + id" :description="'Toggle ' + legend" />
+                <span class="u-visually-hidden">Toggle {{ legend }}</span>
             </button>
             <legend class="facet-group__legend">
                 {{ legend }}

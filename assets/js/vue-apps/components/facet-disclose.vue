@@ -1,5 +1,6 @@
 <script>
 export default {
+    props: ['labelOpen', 'labelClosed'],
     data() {
         return { isOpen: false };
     }
@@ -12,7 +13,7 @@ export default {
             <slot></slot>
         </template>
         <button class="btn-link" type="button" @click="isOpen = !isOpen">
-            {{ isOpen ? 'See fewer options' : 'See more options' }}
+            {{ isOpen ? labelOpen : labelClosed }}
         </button>
     </div>
 </template>

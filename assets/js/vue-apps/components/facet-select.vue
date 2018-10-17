@@ -1,12 +1,17 @@
 <script>
 export default {
-    props: ['value', 'name', 'label', 'labelAny', 'options']
+    props: ['value', 'name', 'label', 'labelAny', 'options'],
+    computed: {
+        id() {
+            return `field-dynamic-${name}`;
+        }
+    }
 };
 </script>
 
 <template>
     <div class="u-margin-bottom-s" v-if="options.length > 0">
-        <label class="ff-label" :for="'field-dynamic-' + name">
+        <label class="ff-label" :for="id">
             {{ label }}
         </label>
         <select
@@ -17,9 +22,9 @@ export default {
             <option value="">{{ labelAny }}</option>
             <option
                 v-for="option in options"
-                v-bind:key="option.label"
+                :key="option.label"
                 :value="option.value">
-                {{ option.label }} ({{ option.count }})
+                {{ option.label }}
             </option>
         </select>
 
