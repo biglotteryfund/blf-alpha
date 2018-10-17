@@ -179,7 +179,11 @@ async function injectFundingProgramme(req, res, next) {
         setCommonLocals({ res, entry, withFallbackHeroImage: true });
         next();
     } catch (error) {
-        next();
+        if (error.statusCode >= 500) {
+            next(error);
+        } else {
+            next();
+        }
     }
 }
 
@@ -190,7 +194,11 @@ async function injectFundingProgrammes(req, res, next) {
         });
         next();
     } catch (error) {
-        next();
+        if (error.statusCode >= 500) {
+            next(error);
+        } else {
+            next();
+        }
     }
 }
 
@@ -210,7 +218,11 @@ async function injectStrategicProgramme(req, res, next) {
         }
         next();
     } catch (error) {
-        next();
+        if (error.statusCode >= 500) {
+            next(error);
+        } else {
+            next();
+        }
     }
 }
 
@@ -221,7 +233,11 @@ async function injectStrategicProgrammes(req, res, next) {
         });
         next();
     } catch (error) {
-        next();
+        if (error.statusCode >= 500) {
+            next(error);
+        } else {
+            next();
+        }
     }
 }
 
@@ -233,7 +249,11 @@ async function injectResearch(req, res, next) {
         });
         next();
     } catch (error) {
-        next();
+        if (error.statusCode >= 500) {
+            next(error);
+        } else {
+            next();
+        }
     }
 }
 
@@ -253,7 +273,11 @@ async function injectResearchEntry(req, res, next) {
         }
         next();
     } catch (error) {
-        next();
+        if (error.statusCode >= 500) {
+            next(error);
+        } else {
+            next();
+        }
     }
 }
 
@@ -265,7 +289,11 @@ async function injectBlogPosts(req, res, next) {
         });
         next();
     } catch (error) {
-        next();
+        if (error.statusCode >= 500) {
+            next(error);
+        } else {
+            next();
+        }
     }
 }
 
@@ -287,7 +315,11 @@ async function injectBlogDetail(req, res, next) {
             next();
         }
     } catch (error) {
-        next();
+        if (error.statusCode >= 500) {
+            next(error);
+        } else {
+            next();
+        }
     }
 }
 
@@ -312,8 +344,7 @@ function injectProfiles(section) {
             });
             next();
         } catch (error) {
-            Raven.captureException(error);
-            next();
+            next(error);
         }
     };
 }
