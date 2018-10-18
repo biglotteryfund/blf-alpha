@@ -13,7 +13,7 @@
             queryParams: {{ queryParams | dump | safe }},
             totalResults: {{ meta.totalResults }},
             totalAwarded: {{ meta.totalAwarded}},
-            sort: {{ meta.currentSort | dump | safe }}
+            sort: {{ meta.sort | dump | safe }}
         };
     </script>
 {% endblock %}
@@ -73,7 +73,7 @@
                         </noscript>
                         <input class="form-field-addon__action" type="submit" value="Search" />
                     </div>
-                    <p class="ff-help">
+                    <p class="ff-help u-no-margin">
                         e.g. a keyword such as “loneliness”, a location, an organisation, or an area of work
                     </p>
                 </div>
@@ -91,8 +91,7 @@
                         <div class="grants-search__sort">
                             <grants-sort
                                 :sort="sort"
-                                :query="filters.q"
-                                @sort-grants="handleSort"
+                                @change-sort="handleChangeSort"
                             />
                         </div>
                     </div>
@@ -100,7 +99,7 @@
                     <div class="grants-search__content">
 
                         <div class="grants-search__results">
-                            <div class="grants-search__sort">
+                            <div class="grants-search__status">
                                 <grants-loading-status :status="status" />
                             </div>
 

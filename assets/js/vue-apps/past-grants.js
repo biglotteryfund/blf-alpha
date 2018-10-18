@@ -18,11 +18,6 @@ const states = {
     Success: 'Success'
 };
 
-const sorts = {
-    default: { type: 'awardDate', direction: 'desc' },
-    defaultQuery: { type: 'score', direction: 'desc' }
-};
-
 function init() {
     const mountEl = document.getElementById('js-past-grants');
     if (!mountEl) {
@@ -48,7 +43,6 @@ function init() {
 
             return {
                 status: { state: states.NotAsked },
-                defaultSort: sorts.default,
                 facets: get(initialData, 'facets', {}),
                 sort: get(initialData, 'sort', {}),
                 filters: get(initialData, 'queryParams', {}) || {},
@@ -57,12 +51,6 @@ function init() {
             };
         },
         watch: {
-            sort: {
-                handler() {
-                    this.filterResults();
-                },
-                deep: true
-            },
             filters: {
                 handler() {
                     this.filterResults();
@@ -79,37 +67,26 @@ function init() {
         methods: {
             debounceQuery: debounce(function(e) {
                 this.filters.q = e.target.value;
-                this.defaultSort = sorts.defaultQuery;
-                this.sort = sorts.defaultQuery;
                 this.filterResults();
             }, 500),
-
-            handleSort(newSort) {
-                this.sort = newSort;
-            },
 
             // Reset the filters back to their default state
             clearFilters(key) {
                 if (key) {
                     delete this.filters[key];
                 } else {
+                    this.sort.activeSort = null;
                     this.filters = {};
                 }
-
-                this.defaultSort = sorts.default;
-                this.sort = sorts.default;
 
                 this.filterResults();
             },
 
             filterResults() {
-                const includeSort =
-                    this.sort.type !== this.defaultSort.type && this.sort.direction !== this.defaultSort.direction;
-
                 const combinedFilters = cloneDeep(this.filters);
 
-                if (includeSort) {
-                    combinedFilters.sort = `${this.sort.type}|${this.sort.direction}`;
+                if (this.sort.activeSort && this.sort.activeSort !== this.sort.defaultSort) {
+                    combinedFilters.sort = this.sort.activeSort;
                 }
 
                 const newQueryString = queryString.stringify(combinedFilters);
@@ -119,6 +96,11 @@ function init() {
                     : window.location.pathname;
 
                 this.updateResults(urlPath);
+            },
+
+            handleChangeSort(newSort) {
+                this.sort.activeSort = newSort;
+                this.filterResults();
             },
 
             updateResults(urlPath) {
@@ -135,6 +117,7 @@ function init() {
                         this.totalResults = response.meta.totalResults;
                         this.totalAwarded = response.meta.totalAwarded;
                         this.facets = response.facets;
+                        this.sort = response.meta.sort;
                         this.status = { state: states.Success, data: response };
 
                         if (window.history.pushState) {
