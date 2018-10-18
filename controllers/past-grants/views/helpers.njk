@@ -1,0 +1,29 @@
+{% macro pgLink(key, value) -%}
+    {% set value = value | urlencode %}
+    {{ localify('/funding/search-past-grants-alpha?' + key + '=' + value) }}
+{% endmacro %}
+
+{% macro buildLocationList(locations) -%}
+    {% for location in locations -%}
+        {%- if location.geoCodeType === 'CMLAD' -%}
+            <a href="{{ pgLink('localAuthority', location.geoCode) }}">
+                {{ location.name -}}
+            </a>
+        {%- elseif location.geoCodeType === 'WPC' -%}
+            <a href="{{ pgLink('constituency', location.geoCode) }}">
+                {{ location.name -}}
+            </a>
+        {% else %}
+            {{ location.name -}}
+        {% endif %}
+        {%- if not loop.last -%}, {% endif %}
+    {%- endfor -%}
+{% endmacro %}
+
+{% macro buildOrgTypeList(organisation) %}
+    <a href="{{ pgLink('orgType', organisation.organisationType) }}">{{ organisation.organisationType }}</a>
+    {% if organisation.organisationSubtype %}
+        > <a href="{{ pgLink('orgType', organisation.organisationSubtype) }}">{{ organisation.organisationSubtype }}</a>
+    {% endif %}
+{% endmacro %}
+

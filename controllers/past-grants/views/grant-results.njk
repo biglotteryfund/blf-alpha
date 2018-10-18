@@ -1,5 +1,6 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav with context %}
+{% from './helpers.njk' import pgLink, buildLocationList with context %}
 
 {% macro grantResultItem(grant, options) %}
     <div class="u-margin-bottom-s{% if options.wrapperClass %} {{ options.wrapperClass }}{% endif %}" data-score="{{ grant._textScore }}">
@@ -7,34 +8,30 @@
             £{{ grant.amountAwarded | numberWithCommas}} to
             <strong>{{ grant.recipientOrganization[0].name }}</strong>
             on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
-            {% if grant.plannedDates.endDate | isBeforeNow %}
-                <strong>(Active project)</strong>
-            {% endif %}
         {% endset %}
         {% call promoCard({
-            "kicker": "Active programme",
             "title": grant.title,
             "subtitle": subtitle | safe,
-            "trailText": grant.description,
+            "trailText": false if options.hideDescription else grant.description,
             "link": {
                 "url": localify("/funding/search-past-grants-alpha/grant/" + grant.id),
                 "label": "View full details"
             }
         }) %}
             <dl class="o-definition-list o-definition-list--compact">
-                {% if grant.beneficiaryLocation %}
+                {% if grant.beneficiaryLocation and not options.hideLocation %}
                     <dt>Location</dt>
                     <dd>
-                        {% set comma = joiner() %}
-                        {% for location in grant.beneficiaryLocation -%}
-                            {{ comma() }} {{ location.name }}
-                        {%- endfor %}
+                        {{ buildLocationList(grant.beneficiaryLocation) }}
                     </dd>
                 {% endif %}
                 <dt>Grant programme</dt>
                 {% for programme in grant.grantProgramme %}
-                    <dd><a href="?programme={{ programme.title }}">{{ programme.title }}</a></dd>
+                    <dd><a href="{{ pgLink('programme', programme.title) }}">{{ programme.title }}</a></dd>
                 {% endfor %}
+                {% if grant.isActive %}
+                    <span class="grant-programme is-active-project u-margin-top-s">Active Project</span>
+                {% endif %}
             </dl>
         {% endcall %}
     </div>
