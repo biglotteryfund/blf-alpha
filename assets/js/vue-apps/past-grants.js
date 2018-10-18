@@ -5,7 +5,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import debounce from 'lodash/debounce';
 import queryString from 'query-string';
 
-import GrantFilters from './components/grant-filters.vue';
+import GrantsFilters from './components/grants-filters.vue';
 import GrantsSort from './components/grants-sort.vue';
 import GrantsTotalSummary from './components/grants-total-summary.vue';
 import GrantsLoadingStatus from './components/grants-loading-status.vue';
@@ -33,7 +33,7 @@ function init() {
         el: mountEl,
         components: {
             'grants-sort': GrantsSort,
-            'grant-filters': GrantFilters,
+            'grants-filters': GrantsFilters,
             'grants-total-summary': GrantsTotalSummary,
             'grants-loading-status': GrantsLoadingStatus,
             'grants-no-results': GrantsNoResults
