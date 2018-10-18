@@ -143,13 +143,9 @@ function getResearch({ locale, slug = null, searchQuery = null, previewMode = nu
             qs: addPreviewParams(previewMode)
         }).then(response => get('data.attributes')(response));
     } else {
-        return fetchAllLocales(reqLocale => {
-            const url = `/v1/${reqLocale}/research`;
-            return searchQuery ? `${url}?q=${searchQuery}` : url;
-        }).then(responses => {
-            const [enResults, cyResults] = responses.map(mapAttrs);
-            return mergeWelshBy('urlPath')(locale, enResults, cyResults);
-        });
+        const baseUrl = `/v1/${locale}/research`;
+        const url = searchQuery ? `${baseUrl}?q=${searchQuery}` : baseUrl;
+        return fetch(url).then(mapAttrs);
     }
 }
 
