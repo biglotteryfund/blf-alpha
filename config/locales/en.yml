@@ -1022,6 +1022,8 @@ apply:
         - legend: Your idea
     review:
       title: 'Check this is right before submitting your information'
+      declaration: >
+        As we are collecting personal data from you as part of the application process you can find more detail on how we will use your information in <a href="/about/customer-service/data-protection">our privacy notice</a>.
       proceedLabel: 'Submit'
     success:
       title: Thank you for getting in touch
