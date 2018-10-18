@@ -87,7 +87,6 @@ const funding = {
         {
             path: '/',
             lang: 'toplevel.funding',
-            heroSlug: 'active-plus-communities',
             router: require('./funding')
         },
         {

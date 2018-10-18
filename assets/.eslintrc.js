@@ -1,7 +1,10 @@
 'use strict';
 
 module.exports = {
-    extends: ['eslint:recommended', 'plugin:vue/recommended'],
+    extends: ['eslint:recommended', 'plugin:vue/recommended', 'plugin:compat/recommended'],
+    settings: {
+        polyfills: ['promises']
+    },
     env: {
         node: false,
         commonjs: true,

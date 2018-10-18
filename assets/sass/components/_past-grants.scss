@@ -3,31 +3,59 @@
    ========================================================================= */
 
 /* =========================================================================
+   Grant Searchbar
+   ========================================================================= */
+
+.grants-searchbar {
+    margin-bottom: $spacingUnit;
+
+    @include mq('medium') {
+        padding: $spacingUnit;
+        background-color: palette('pale-grey');
+    }
+}
+/* =========================================================================
    Grant Search Layout
    ========================================================================= */
 
 .grants-search {
+    .grants-search__total {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
     .grants-search__meta {
         font-size: 16px;
-        display: flex;
-        justify-content: space-between;
-        padding: 0.5em 0;
+        margin-bottom: $spacingUnit / 2;
     }
 
-    .grants-search__content {
-        display: flex;
-    }
-    .grants-search__filters {
-        flex: 0 0 280px;
-        padding-right: $spacingUnit;
-
-        select {
-            width: 100%;
+    @include mq('medium-major') {
+        .grants-search__meta {
+            display: flex;
+            justify-content: space-between;
         }
     }
-    .grants-search__results {
-        order: 2;
-        flex: 1 1 auto;
+
+    .grants-search__filters select {
+        width: 100%;
+    }
+
+    @include mq('medium') {
+        .grants-search__content {
+            display: flex;
+        }
+        .grants-search__filters {
+            flex: 0 0 320px;
+            padding-right: $spacingUnit;
+        }
+        .grants-search__results {
+            order: 2;
+            flex: 1 1 0%;
+        }
+    }
+
+    &.has-no-results {
+        display: none;
     }
 }
 
@@ -36,45 +64,13 @@
    ========================================================================= */
 
 .sort-controls {
-    .sort-controls__prefix {
-        font-weight: bold;
-    }
-    .sort-controls__item {
+    .ff-label {
         display: inline-block;
-        padding: 0 10px;
-        border-right: 1px solid palette('border');
-        text-decoration: none;
+        margin-right: 0.5em;
+    }
 
-        &:last-of-type {
-            border: none;
-            padding-right: 0;
-        }
-
-        @include on-interact {
-            font-weight: bold;
-            text-decoration: underline;
-        }
-
-        &.is-active {
-            font-weight: bold;
-        }
-
-        &.is-ascending::before,
-        &.is-descending::before {
-            position: relative;
-            top: 2px; // Optically align
-            margin-right: 4px;
-            display: inline-block;
-            text-decoration: none;
-        }
-
-        &.is-ascending::before {
-            content: '↑ ';
-        }
-
-        &.is-descending::before {
-            content: '↓ ';
-        }
+    select {
+        font-size: 16px;
     }
 }
 
@@ -82,30 +78,49 @@
    Filters
    ========================================================================= */
 
+$filterSpacing: 10px;
+
 .search-filters {
-    $filterSpacing: 8px;
-    position: sticky;
-    top: $filterSpacing;
     background-color: palette('pale-grey');
     padding: $filterSpacing;
     transition: all 0.15s ease-in-out;
+    margin-bottom: 0.5em;
+
+    @include mq('medium') {
+        position: sticky;
+        top: $filterSpacing;
+        max-height: calc(100vh - #{$filterSpacing * 2});
+        overflow-y: scroll;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+    }
 
     &.search-filters--locked {
         opacity: 0.4;
         background-color: #eeeeee;
         cursor: progress;
         pointer-events: none;
+
+        .btn-link {
+            display: none;
+        }
     }
 
     &,
-    select {
+    select,
+    .btn-link {
         font-size: 16px;
     }
 
-    .search-filters__facet {
-        margin-bottom: $filterSpacing;
-        background-color: white;
-        padding: $filterSpacing;
+    .search-filters__header {
+        @include clearfix();
+        padding: 3px 0 $filterSpacing;
+    }
+
+    .search-filters__title {
+        float: left;
+    }
+    .search-filters__clear-all {
+        float: right;
     }
 
     .search-filters__actions {
@@ -122,10 +137,82 @@
         }
     }
 
-    .search-filters__clear-facet {
-        display: block;
-        padding-top: 5px;
+    .search-filters__extra {
         font-size: 15px;
+        line-height: 1.25;
+    }
+}
+
+/* =========================================================================
+   Facet Group
+   ========================================================================= */
+
+.facet-group {
+    background-color: white;
+    position: relative;
+    padding: $filterSpacing;
+    margin-bottom: $filterSpacing;
+
+    &:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .facet-group__toggle {
+        font-size: 14px;
+        background-color: transparent;
+        border-radius: 0;
+        border: none;
+        cursor: inherit;
+        margin: 0;
+        padding: 0;
+        text-align: inherit;
+        text-decoration: none;
+        white-space: normal;
+        word-wrap: break-word;
+
+        position: absolute;
+        top: $filterSpacing;
+        right: $filterSpacing;
+        padding-left: 100px;
+        text-align: right;
+
+        &:active,
+        &:focus {
+            outline: none;
+
+            .icon {
+                fill: black;
+            }
+        }
+
+        .icon {
+            width: 20px;
+            height: 20px;
+            transition: transform 300ms ease-in-out;
+        }
+    }
+
+    .facet-group__legend {
+        display: block;
+        font-weight: bold;
+    }
+
+    .facet-group__body {
+        display: none;
+    }
+
+    &.is-open {
+        .facet-group__legend {
+            @include visually-hidden();
+        }
+
+        .facet-group__toggle .icon {
+            transform: rotate(180deg);
+        }
+
+        .facet-group__body {
+            display: block;
+        }
     }
 }
 

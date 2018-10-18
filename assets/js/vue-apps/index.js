@@ -6,9 +6,9 @@ import Feedback from './components/feedback.vue';
 import Prompt from './components/prompt.vue';
 import Survey from './components/survey.vue';
 
-import GrantFilters from './grant-filters.js';
 import GrantDetail from './grant-detail';
 import materials from './materials';
+import pastGrants from './past-grants';
 
 function initCookieConsent() {
     const el = document.getElementById('js-cookie-consent');
@@ -51,7 +51,9 @@ function initInlineFeedback() {
 }
 
 export const init = () => {
-    Raven.addPlugin(RavenVue, Vue);
+    if (window.AppConfig.environment !== 'development') {
+        Raven.addPlugin(RavenVue, Vue);
+    }
 
     initCookieConsent();
     initSurvey();
@@ -60,6 +62,6 @@ export const init = () => {
 
     materials.init();
 
-    GrantFilters.init();
     GrantDetail.init();
+    pastGrants.init();
 };

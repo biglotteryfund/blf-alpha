@@ -1,4 +1,5 @@
 /* global AppConfig */
+import 'details-element-polyfill';
 import FontFaceObserver from 'fontfaceobserver/fontfaceobserver.js';
 
 function getCommonBodyClasses() {
