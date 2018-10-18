@@ -6,7 +6,7 @@
     <div class="u-margin-bottom-s{% if options.wrapperClass %} {{ options.wrapperClass }}{% endif %}" data-score="{{ grant._textScore }}">
         {% set subtitle %}
             £{{ grant.amountAwarded | numberWithCommas}} to
-            <strong>{{ grant.recipientOrganization[0].name }}</strong>
+            <strong>{{ grant.recipientOrganization[0].name | striptags }}</strong>
             on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
         {% endset %}
         {% call promoCard({
