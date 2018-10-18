@@ -7,15 +7,12 @@
 {% extends "layouts/main.njk" %}
 {% set bodyClass = 'has-static-header' %}
 
-{% macro labelWithClearButton(label, fieldName) %}
-    <label class="ff-label">
-        {{ label }}
-        <i class="ff-label__icon"
-           v-if="filters['{{ fieldName }}'] && !isCalculating"
-           v-on:click="clearFilters('{{ fieldName }}')">
-            {{ iconClose(title='Remove this filter') }}
-        </i>
-    </label>
+{% macro clearButton(fieldName) %}
+    <button class="search-filters__facet-clear"
+        v-if="filters['{{ fieldName }}'] && !isCalculating"
+        v-on:click="clearFilters('{{ fieldName }}')">
+        {{ iconClose(title='Remove this filter') }}
+    </button>
 {% endmacro %}
 
 {% block extraHead %}
@@ -191,17 +188,12 @@
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-
-                                        {% if queryParams.amount %}
-                                            <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('amount') }}">
-                                                Clear amount
-                                            </a>
-                                        {% endif %}
                                     </noscript>
 
                                     {# @TODO make this into a radio component #}
                                     <div class="js-only" v-cloak>
-                                        {{ labelWithClearButton('Amount awarded', 'amount') }}
+                                        <label class="ff-label">Amount awarded</label>
+                                        {{ clearButton('amount') }}
                                         <select name="amount"
                                                 class="ff-select"
                                                 v-model="filters.amount"
@@ -237,15 +229,11 @@
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-                                        {% if queryParams.year %}
-                                            <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('year') }}">
-                                                Clear year
-                                            </a>
-                                        {% endif %}
                                     </noscript>
 
                                     <div class="js-only" v-cloak>
-                                        {{ labelWithClearButton('Award Year', 'year') }}
+                                        <label class="ff-label">Award year</label>
+                                        {{ clearButton('year') }}
                                         <select name="year"
                                                 class="ff-select"
                                                 v-model="filters.year" disabled>
@@ -281,15 +269,11 @@
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-                                        {% if queryParams.programme %}
-                                            <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('programme') }}">
-                                                Clear programme
-                                            </a>
-                                        {% endif %}
                                     </noscript>
 
                                     <div class="js-only" v-cloak>
-                                        {{ labelWithClearButton('Programme', 'programme') }}
+                                        <label class="ff-label">Programme</label>
+                                        {{ clearButton('programme') }}
                                         <select name="programme"
                                                 class="ff-select"
                                                 v-model="filters.programme" disabled>
@@ -321,20 +305,16 @@
                                         {{ inputSelect({
                                             type: 'select',
                                             name: 'localAuthority',
-                                            label: 'Local Authority',
+                                            label: 'Local authority',
                                             value: queryParams.localAuthority,
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-                                        {% if queryParams.localAuthority %}
-                                            <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('localAuthority') }}">
-                                                Clear Local Authority
-                                            </a>
-                                        {% endif %}
                                     </noscript>
 
                                     <div class="js-only" v-cloak>
-                                        {{ labelWithClearButton('Local Authority', 'localAuthority') }}
+                                        <label class="ff-label">Local authority</label>
+                                        {{ clearButton('localAuthority') }}
                                         <select name="localAuthority"
                                                 class="ff-select"
                                                 v-model="filters.localAuthority" disabled>
@@ -371,15 +351,11 @@
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-                                        {% if queryParams.constituency %}
-                                            <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('constituency') }}">
-                                                Clear Constituency
-                                            </a>
-                                        {% endif %}
                                     </noscript>
 
                                     <div class="js-only" v-cloak>
-                                        {{ labelWithClearButton('Westminster Constituency', 'constituency') }}
+                                        <label class="ff-label">Westminster constituency</label>
+                                        {{ clearButton('constituency') }}
                                         <select name="constituency"
                                                 class="ff-select"
                                                 v-model="filters.constituency" disabled>
@@ -416,15 +392,11 @@
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-                                        {% if queryParams.country %}
-                                            <a class="search-filters__clear-facet" href="?{{ queryParams | removeQueryParam('country') }}">
-                                                Clear Country
-                                            </a>
-                                        {% endif %}
                                     </noscript>
 
                                     <div class="js-only" v-cloak>
-                                        {{ labelWithClearButton('Country', 'country') }}
+                                        <label class="ff-label">Country</label>
+                                        {{ clearButton('country') }}
                                         <select name="country"
                                                 class="ff-select"
                                                 v-model="filters.country" disabled>

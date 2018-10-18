@@ -1,7 +1,10 @@
 import $ from 'jquery';
 import Vue from 'vue';
-import debounce from 'lodash/debounce';
+
+import assign from 'lodash/assign';
 import cloneDeep from 'lodash/cloneDeep';
+import debounce from 'lodash/debounce';
+import get from 'lodash/get';
 import omit from 'lodash/omit';
 
 function init() {
@@ -9,16 +12,25 @@ function init() {
     if (!mountEl) {
         return;
     }
+
     new Vue({
         el: mountEl,
         delimiters: ['<%', '%>'],
         data() {
             // Populate data from global object (eg. to share server/client state)
-            let PGS = window._PAST_GRANTS_SEARCH;
-            let queryParams = PGS && PGS.queryParams ? PGS.queryParams : {};
-            let existingFacets = PGS && PGS.facets ? PGS.facets : {};
-            let existingSort = PGS && PGS.sort ? PGS.sort : {};
-            let defaultFilters = {
+            const initialState = window._PAST_GRANTS_SEARCH;
+
+            const queryParams = get(initialState, 'queryParams', {});
+            const existingFacets = get(initialState, 'facets', {});
+            const existingSort = get(initialState, 'sort', {});
+
+            let previousFilters = {};
+            try {
+                const item = sessionStorage.getItem('biglotteryfund:grant-facets');
+                previousFilters = item && JSON.parse(item);
+            } catch (error) {} // eslint-disable-line
+
+            const defaultFilters = {
                 amount: '',
                 year: '',
                 programme: '',
@@ -26,15 +38,17 @@ function init() {
                 localAuthority: '',
                 constituency: ''
             };
+
             return {
                 defaultFilters,
-                sort: Object.assign({}, existingSort),
+                previousFilters,
+                sort: cloneDeep(existingSort),
                 ignoreSort: false,
-                facets: Object.assign({}, existingFacets),
-                filters: Object.assign({}, defaultFilters, queryParams),
+                facets: cloneDeep(existingFacets),
+                filters: assign({}, defaultFilters, previousFilters, queryParams),
                 isCalculating: false,
-                totalResults: PGS.totalResults || 0,
-                totalAwarded: PGS.totalAwarded || 0,
+                totalResults: initialState.totalResults || 0,
+                totalAwarded: initialState.totalAwarded || 0,
                 searchError: false
             };
         },
@@ -54,6 +68,10 @@ function init() {
             $(this.$el)
                 .find('[disabled]')
                 .removeAttr('disabled');
+
+            if (this.previousFilters) {
+                this.updateUrl();
+            }
         },
         methods: {
             // Create the sort parameters
@@ -84,11 +102,8 @@ function init() {
                 };
             },
 
-            getSortTitle: function(ascTitle, descTitle) {
-                if (this.sort.direction === 'asc') {
-                    return ascTitle;
-                }
-                return descTitle;
+            getSortTitle(ascTitle, descTitle) {
+                return this.sort.direction === 'asc' ? ascTitle : descTitle;
             },
 
             // Convert filters into URL-friendly state
@@ -110,11 +125,18 @@ function init() {
                 } else {
                     this.filters = Object.assign({}, this.defaultFilters);
                 }
+
                 this.filterResults();
             },
 
-            // Push URL state (@TODO support back/forward nav)
-            updateUrl: function() {
+            storeState() {
+                try {
+                    sessionStorage.setItem('biglotteryfund:grant-facets', JSON.stringify(this.filters));
+                } catch (error) {} // eslint-disable-line
+            },
+
+            updateUrl() {
+                // Push URL state (@TODO support back/forward nav)
                 if (window.history.pushState) {
                     const newURL = new URL(window.location.href);
                     newURL.search = `?${this.filtersToString()}`;
@@ -141,6 +163,7 @@ function init() {
                             this.totalResults = response.meta.totalResults;
                             this.totalAwarded = response.meta.totalAwarded;
                             this.facets = response.facets;
+                            this.storeState();
                             this.updateUrl();
                             this.isCalculating = false;
                         })
