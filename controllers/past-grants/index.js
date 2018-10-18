@@ -163,7 +163,7 @@ router.get('/', injectHeroImage('active-plus-communities'), async (req, res, nex
     });
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/grant/:id', async (req, res, next) => {
     try {
         const data = await request({
             url: `${PAST_GRANTS_API_URI}/${req.params.id}`,
