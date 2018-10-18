@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const request = require('request-promise-native');
 const querystring = require('querystring');
-const { concat, pick, isEmpty, get } = require('lodash');
+const { concat, pick, isEmpty, get, head } = require('lodash');
 const nunjucks = require('nunjucks');
 const Raven = require('raven');
 
@@ -188,6 +188,38 @@ router.get('/grant/:id', async (req, res, next) => {
                 grant: grant,
                 fundingProgramme: fundingProgramme,
                 breadcrumbs: concat(res.locals.breadcrumbs, { label: data.result.title })
+            });
+        } else {
+            next();
+        }
+    } catch (error) {
+        next(error);
+    }
+});
+
+router.get('/recipient/:id', async (req, res, next) => {
+    try {
+        let qs = addPaginationParameters({}, req.query.page);
+        qs.recipient = req.params.id;
+        const data = await request({
+            url: PAST_GRANTS_API_URI,
+            json: true,
+            qs: qs
+        });
+
+        if (data && data.meta.totalResults > 0) {
+            const firstResult = head(data.results);
+            const organisation = head(firstResult.recipientOrganization);
+            res.render(path.resolve(__dirname, './views/recipient-detail'), {
+                title: organisation.name,
+                organisation: organisation,
+                recipientGrants: data.results,
+                recipientProgrammes: data.facets.grantProgramme,
+                recipientLocalAuthorities: data.facets.localAuthorities,
+                totalAwarded: data.meta.totalAwarded.toLocaleString(),
+                totalResults: data.meta.totalResults.toLocaleString(),
+                breadcrumbs: concat(res.locals.breadcrumbs, { label: organisation.name }),
+                pagination: buildPagination(data.meta.pagination, qs)
             });
         } else {
             next();

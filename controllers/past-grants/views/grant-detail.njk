@@ -74,7 +74,7 @@
                             <dl class="o-definition-list o-definition-list--compact project-details">
                                 <dt>Organisation name</dt>
                                 <dd>
-                                    <a href="{{ pgLink('recipient', org.id) }}">{{ org.name }}</a>
+                                    <a href="{{ localify("/funding/search-past-grants-alpha/recipient/" + org.id) }}">{{ org.name }}</a>
                                 </dd>
 
                                 <dt>Type</dt>
@@ -100,7 +100,7 @@
 
                             <p>
                                 <a class="btn btn--small btn--outline accent--pink"
-                                   href="{{ pgLink('recipient', org.id) }}">
+                                   href="{{ localify("/funding/search-past-grants-alpha/recipient/" + org.id) }}">
                                     View all grants awarded to this recipient
                                 </a>
                             </p>
