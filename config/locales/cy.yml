@@ -749,6 +749,8 @@ funding:
             <p>Peidiwch â phoeni, mae <a href="/funding/programmes">rhaglenni ariannu eraill sy'n derbyn ceisiadau</a></p>
             <p>Bydd cyfleoedd ariannu pellach o fewn y Gronfa Ddigidol yn 2019
               <a href="https://en-gb.facebook.com/biglotteryfundwales/">Dilynwch ni ar gyfryngau cymdeithasol</a> neu gwiriwch ein gwefan am wybodaeth ddiweddar.</p>
+            <p>Os ydych yn elusen fach neu grŵp cymunedol bach, mae'n bosib y byddwn yn gallu cynnig
+              <a href="/welsh/funding/programmes/digital-fund/assistance">cefnogaeth ddigidol am ddim</a> i chi o 2019.</p>
       strand2:
         question: Oes gennych gynnyrch neu wasanaeth ar hyn o bryd sy'n weithredol ac yn cael ei ddefnyddio gan y math o bobl a chymunedau rydych yn bwriadu eu gwasanaethu yn y dyfodol?
         eligibilitySummary:
@@ -778,6 +780,9 @@ funding:
     assistance:
       title: Cymorth i gychwyn arni gyda digidol
       intro: Ydych chi'n gweithio neu'n gwirfoddoli dros fudiad sector gwirfoddol bach? Hoffech chi wybod sut gallai offer digidol fel apiau, gwefannau a chyfryngau cymdeithasol wneud eich gwaith yn fwy effeithiol?
+      actionText: >
+        <p>Os ydych yn elusen fach neu grŵp cymunedol bach, mae'n bosib y byddwn yn gallu cynnig
+        <a href="/welsh/funding/programmes/digital-fund/assistance">cefnogaeth ddigidol am ddim</a> i chi o 2019.</p>
       body: >
         <p>Rydym yn edrych ar sut y gallwn alluogi arbenigwyr digidol i gynnig cymorth am ddim i fudiadau llai. Nid yw'r meini prawf cymhwysedd wedi'u cadarnhau eto, ond os ydych am i ni yrru e-bost atoch pan fydd y rhaglen yn barod, rhowch eich manylion yma.</p>
       submission:

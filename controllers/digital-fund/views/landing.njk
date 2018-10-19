@@ -60,6 +60,9 @@
 
                 <h2>{{ copy.getStarted.assistance.title }}</h2>
                 {{ copy.getStarted.assistance.body | safe }}
+                {% if featurePreviewDigitalFund %}
+                    {{ copy.assistance.actionText | safe }}
+                {% endif %}
             {% endcall %}
         </div>
     </main>

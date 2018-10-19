@@ -101,6 +101,14 @@
 
             {% call contentBox(pageAccent) %}
                 <h2>{{ copy.wayfinding.title }}</h2>
+
+                {% if featurePreviewDigitalFund %}
+                    <p><a href="{{ localify('/funding/programmes/digital-fund/assistance') }}"
+                        class="btn btn--medium accent--pink a--btn">
+                        {{ copy.wayfinding.assistance }}
+                    </a></p>
+                {% endif %}
+
                 {% if currentStrand === 'strand1' %}
                     <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
                         class="btn btn--medium accent--cyan a--btn">

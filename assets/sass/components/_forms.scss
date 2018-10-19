@@ -100,7 +100,7 @@
         flex: 1 1 0%;
 
         padding: 6px 12px;
-        border: 2px solid palette('blue');
+        border: 2px solid palette('pink');
 
         &:focus {
             outline: 3px solid lighten(palette('turquoise'), 25%);
@@ -115,7 +115,7 @@
         color: white;
         border: none;
         -webkit-appearance: none;
-        background-color: palette('blue');
+        background-color: palette('pink');
         padding-left: $spacingUnit / 2;
         padding-right: $spacingUnit;
         border-radius: 0 50px 50px 0;

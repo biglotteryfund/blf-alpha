@@ -839,6 +839,8 @@ funding:
             <p>Don’t worry, there are <a href="/funding/programmes">other funding programmes</a> open for applications.</p>
             <p>There will be further funding opportunities within the Digital Fund in 2019.
               <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us on social media</a> or keep checking our website for up-to-date information.</p>
+            <p>If you’re a small charity or small community group, we may be able to offer you
+              <a href="/funding/programmes/digital-fund/assistance">free digital support</a> from 2019.</p>
       strand2:
         question: Do you currently have a product or service that is operational and that is being used by the type of people and communities you plan to serve in future?
         eligibilitySummary:
@@ -868,6 +870,8 @@ funding:
     assistance:
       title: Help getting started with digital
       intro: Do you work or volunteer for a small voluntary sector organisation? Would you like to know how digital tools like apps, websites, and social media could make your work more effective?
+      actionText: >
+        <p>If you’re a small charity or small community group, we may be able to offer you <a href="/funding/programmes/digital-fund/assistance">free digital support</a> from 2019.</p>
       body: >
         <p>We are looking at how we can enable digital specialists to offer free assistance to small organisations. Eligibility criteria are not yet confirmed, but if you’d like us to email you when the programme is ready, please submit your details here.</p>
       submission:
@@ -1022,6 +1026,8 @@ apply:
         - legend: Your idea
     review:
       title: 'Check this is right before submitting your information'
+      declaration: >
+        As we are collecting personal data from you as part of the application process you can find more detail on how we will use your information in <a href="/about/customer-service/data-protection">our privacy notice</a>.
       proceedLabel: 'Submit'
     success:
       title: Thank you for getting in touch
