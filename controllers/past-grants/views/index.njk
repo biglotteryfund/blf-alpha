@@ -56,20 +56,20 @@
                     <label class="ff-label" for="search-query">Search awarded grants</label>
                     <div class="form-field-addon u-margin-bottom-s">
                         <input class="form-field-addon__input js-only"
-                            type="search"
-                            id="search-query"
-                            name="q"
-                            :value="filters.q"
-                            autocomplete="no"
-                            @input="debounceQuery">
-
+                               disabled="disabled"
+                               type="search"
+                               id="search-query"
+                               name="q"
+                               :value="filters.q"
+                               autocomplete="off"
+                               @input="debounceQuery">
                         <noscript>
                             <input class="form-field-addon__input"
                                     type="search"
                                     id="search-query"
                                     name="q"
                                     value="{{ queryParams.q }}"
-                                    autocomplete="no">
+                                    autocomplete="off">
                         </noscript>
                         <input class="form-field-addon__action" type="submit" value="Search" />
                     </div>
@@ -78,7 +78,7 @@
                     </p>
                 </div>
 
-                <div class="grants-search{% if meta.totalResults === 0 %} has-no-results{% endif %}" v-if="totalResults > 0">
+                <div class="grants-search{% if meta.totalResults === 0 %} js-only{% endif %}" v-if="totalResults > 0">
                     <div class="grants-search__meta">
                         <h2 class="grants-search__total accent--{{ pageAccent }} t--underline">
                             <grants-total-summary
