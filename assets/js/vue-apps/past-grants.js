@@ -59,6 +59,11 @@ function init() {
             }
         },
         mounted() {
+            // Enable inputs (they're disabled by default to avoid double inputs for non-JS users)
+            $(this.$el)
+                .find('.js-only[disabled]')
+                .removeAttr('disabled');
+
             window.onpopstate = event => {
                 const historyUrlPath = get(event, 'state.urlPath');
                 historyUrlPath && this.updateResults(historyUrlPath);

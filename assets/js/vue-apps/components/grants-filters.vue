@@ -4,8 +4,6 @@ import FacetDisclose from './facet-disclose.vue';
 import FacetChoice from './facet-choice.vue';
 import FacetSelect from './facet-select.vue';
 
-import partition from 'lodash/partition';
-
 export default {
     components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
     props: ['facets', 'filters', 'status']
