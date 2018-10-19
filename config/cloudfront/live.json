@@ -989,9 +989,11 @@
               "version",
               "enable-feature",
               "disable-feature",
+              "redirectUrl",
+              "s",
               "token"
             ],
-            "Quantity": 5
+            "Quantity": 7
           },
           "QueryString": true,
           "Cookies": {
