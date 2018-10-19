@@ -7,6 +7,7 @@ const path = require('path');
 const Raven = require('raven');
 
 const cached = require('../../middleware/cached');
+const { localify } = require('../../modules/urls');
 const { flattenFormData, stepWithValues, stepsWithValues } = require('./helpers');
 
 function initFormRouter(form) {
@@ -91,7 +92,7 @@ function initFormRouter(form) {
                 form: form
             });
         } else if (startPage.urlPath) {
-            res.redirect(startPage.urlPath);
+            res.redirect(localify(req.i18n.getLocale())(startPage.urlPath));
         } else {
             throw new Error('No valid startpage types found');
         }
