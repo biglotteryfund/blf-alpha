@@ -22,7 +22,11 @@
             </div>
             {% if image.caption %}
                 <span class="hero__caption u-desktop-only">
+                    {% if image.grantId %}
+                        <a href="{{ localify("/funding/search-past-grants-alpha/grant/" + image.grantId) }}" class="u-link-unstyled">
+                    {% endif %}
                     <span class="u-caption">{{ image.caption }}</span>
+                    {% if image.grantId %}</a>{% endif %}
                 </span>
             {% endif %}
         </div>

@@ -1,5 +1,5 @@
 {% extends "layouts/main.njk" %}
-{% from "components/hero.njk" import hero %}
+{% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList with context %}
@@ -112,10 +112,10 @@
                 <div class="flex-grid__item">
                     {% set mainProgramme = grant.grantProgramme[0] %}
 
-                    {% if mainProgramme.url %}
-                        {% set link = localify(mainProgramme.url) %}
-                    {% elseif fundingProgramme %}
+                    {% if fundingProgramme %}
                         {% set link = localify(fundingProgramme.summary.linkUrl) %}
+                    {% elseif mainProgramme.url %}
+                        {% set link = localify(mainProgramme.url) %}
                     {% else %}
                         {% set link = localify('/funding/programmes') %}
                     {% endif %}
