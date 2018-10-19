@@ -42,15 +42,6 @@
             </div>
 
             <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>
-                {# TODO: Improve this #}
-                <span>
-                    {% if queryParams.recipient %}
-                        <small v-show="filters.recipient">(Recipient: {{ grants[0].recipientOrganization[0].name }})</small>
-                    {% endif %}
-                    {% if queryParams.orgType %}
-                        <small v-show="filters.orgType">(Organisation Type: {{ grants[0].recipientOrganization[0].organisationType }})</small>
-                    {% endif %}
-                </span>
 
                 <div class="grants-searchbar">
                     <label class="ff-label" for="search-query">Search awarded grants</label>
