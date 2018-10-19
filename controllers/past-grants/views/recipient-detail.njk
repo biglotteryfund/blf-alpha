@@ -58,23 +58,21 @@
                     </div>
                 </div>
 
-                <div class="content-sidebar__secondary u-tone-background-tint u-padded">
-                    <h2>Awarding programmes</h2>
-                        <ul>
-                            {% for programme in recipientProgrammes %}
-                                <li class="u-margin-bottom t5">
-                                    <a class="accent--pink a--text"
-                                       href="{{ pgLink('programme', programme.label) }}">
-                                        {{ programme.label }}</a>
-                                    {% if recipientProgrammes.length > 1 %}
-                                        <br />
-                                        <small>
-                                            ({{ programme.count }} award{{ programme.count | pluralise("", "s") }})
-                                        </small>
-                                    {% endif %}
-                                </li>
-                            {% endfor %}
-                        </ul>
+                <div class="content-sidebar__secondary">
+
+                    <aside class="card">
+                        <header class="card__header">
+                            <h3 class="card__title">Awarding programmes</h3>
+                            <div class="card__body">
+                                {% for programme in recipientProgrammes %}
+                                    <a href="{{ pgLink('programme', programme.label) }}"
+                                       class="related-programme">
+                                        {{ programme.label }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </header>
+                    </aside>
                 </div>
 
             </div>
@@ -85,25 +83,30 @@
             <div class="flex-grid">
                 {% for grant in recipientGrants %}
                     <div class="flex-grid__item">
-                        <div class="content-box content-box--borderless u-tone-background-pale-grey u-block-full u-no-margin">
-                            <h3 class="t5 u-no-margin">
-                                <a href="{{ localify("/funding/search-past-grants-alpha/grant/" + grant.id) }}">
-                                    {{ grant.title }}
-                                </a>
-                            </h3>
-                            <p class="project-caption">£{{ grant.amountAwarded | numberWithCommas}}
-                                on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}</p>
-                            <dl class="o-definition-list o-definition-list--compact u-margin-top-s project-details">
-                                <dt>Grant programme</dt>
-                                {% for programme in grant.grantProgramme %}
-                                    <dd>
-                                        <a href="{{ pgLink('programme', programme.title) }}">{{ programme.title }}</a>
-                                        {% if grant.isActive %}
-                                            <span class="u-pull-right grant-programme is-active-project">Active Project</span>
-                                        {% endif %}
-                                    </dd>
-                                {% endfor %}
-                            </dl>
+                        <div class="card u-no-margin">
+                            <header class="card__header">
+                                <h3 class="card__title u-no-margin">
+                                    <a href="{{ localify("/funding/search-past-grants-alpha/grant/" + grant.id) }}">
+                                        {{ grant.title }}
+                                    </a>
+                                </h3>
+                            </header>
+                            <div class="card__body">
+                                <p class="project-caption">£{{ grant.amountAwarded | numberWithCommas}}
+                                    on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}</p>
+                                <dl class="o-definition-list o-definition-list--compact u-margin-top-s project-details">
+                                    <dt>Grant programme</dt>
+                                    {% for programme in grant.grantProgramme %}
+                                        <dd>
+                                            <a href="{{ pgLink('programme', programme.title) }}">{{ programme.title }}</a>
+                                            {% if grant.isActive %}
+                                                <span class="u-pull-right grant-programme is-active-project">Active Project</span>
+                                            {% endif %}
+                                        </dd>
+                                    {% endfor %}
+                                </dl>
+                            </div>
+
                         </div>
                     </div>
                 {% endfor %}
