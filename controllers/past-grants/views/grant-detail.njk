@@ -112,10 +112,10 @@
                 <div class="flex-grid__item">
                     {% set mainProgramme = grant.grantProgramme[0] %}
 
-                    {% if mainProgramme.url %}
-                        {% set link = localify(mainProgramme.url) %}
-                    {% elseif fundingProgramme %}
+                    {% if fundingProgramme %}
                         {% set link = localify(fundingProgramme.summary.linkUrl) %}
+                    {% elseif mainProgramme.url %}
+                        {% set link = localify(mainProgramme.url) %}
                     {% else %}
                         {% set link = localify('/funding/programmes') %}
                     {% endif %}
