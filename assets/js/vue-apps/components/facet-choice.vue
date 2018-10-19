@@ -4,12 +4,12 @@ import take from 'lodash/take';
 export default {
     props: ['value', 'type', 'name', 'label', 'labelAny', 'options', 'optionLimit'],
     data() {
-        return { isOpen: true };
+        return { isOpen: false };
     },
     computed: {
         optionsToDisplay() {
             if (this.shouldTruncate()) {
-                return this.isOpen ? take(this.options, this.optionLimit) : this.options;
+                return this.isOpen ?  this.options : take(this.options, this.optionLimit);
             } else {
                 return this.options;
             }
