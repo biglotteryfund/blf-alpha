@@ -575,7 +575,7 @@ funding:
     strand1:
       title: Rydym eisiau defnyddio digidol i newid ein gwaith
       shortTitle: Edefyn 1
-      introduction: Mae <strong>Edefyn 1</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi'i deilwra. Y nod yw helpu elusennau sefydledig i ddefnyddio digidol i gyflawni cam sylweddol ymlaen. Rydym yn disgwyl i grantiau bara rhwng 1 a 4 blwyddyn. 
+      introduction: Mae <strong>Edefyn 1</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi’i deilwra. Y nod yw helpu mudiadau sefydledig i ddefnyddio digidol i gymryd cam sylweddol ymlaen. Rydym yn disgwyl y bydd grantiau’n para rhwng 1 a 4 blynedd.
       startApplying: Dechrau ymgeisio am edefyn 1
     strand2:
       title: Rydym eisoes yn defnyddio digidol llawer, ac eisiau ehangu ein heffaith
@@ -599,15 +599,15 @@ funding:
       - title: Cyflwynwch fraslun o’ch syniad trwy’r dudalen hon—sy’n mynd yn fyw ar 22 Hydref
         description: O 22 Hydref byddwch yn gallu defnyddio’r dudalen we hon i yrru braslun o’ch syniad atom
       - title: "Siarad â ni"
-        description: Byddwn yn ffonio chi ac yn gofyn ychydig o gwestiynau
+        description: Os yw’n ymddangos bod eich syniad yn cyfateb i feini prawf y Gronfa Ddigidol, byddwn yn trefnu galwad gyda chi
       - title: Cyflwyno cais llawn
         description: Os ydym yn teimlo y gallai'r Gronfa Ddigidol weithio i chi, byddwn yn gofyn i chi  gyflwyno cais llawn
       getStarted:
         title: Cychwyn arni
         body: >
           <p><strong>Mae gennym ddiddordeb mawr mewn clywed eich syniadau</strong>. Siaradwch â ni, hyd yn oed os ydych mewn cam cynnar. Does dim angen i chi fod wedi gwneud unrhyw waith paratoi arbennig cyn gofyn am alwad.</p>
-        teaser: Os tybiwch y gallai'r Gronfa hon fod yn iawn i chi, y cam cyntaf yw cael sgwrs gyda ni.
-        linkText: Gofyn am alwad
+        teaser: Os tybiwch y gallai’r gronfa hon fod yn addas i chi, y cam cyntaf yw esbonio eich syniad i ni.
+        linkText: Dywedwch wrthym beth yw eich syniad
     questions:
       title: Oes gennych gwestiynau?
       body: >
@@ -690,7 +690,7 @@ funding:
       title: Meini prawf cymhwyster llawn
       introduction: >
         <p>Bydd y Gronfa Ddigidol yn agor fesul cam dros y ddwy flynedd nesaf. Bydd y cam cyntaf, a fydd ar agor rhwng 22 Hydref 2018 a 5pm ar 3 Rhagfyr 2018, yn derbyn ceisiadau trwy ddau edefyn.</p>
-        <p><strong>Mae Edefyn 1</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi'i deilwra. Y nod yw helpu elusennau sefydledig i ddefnyddio digidol i gyflawni cam sylweddol ymlaen.</p>
+        <p><strong>Mae Edefyn 1</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi’i deilwra. Y nod yw helpu mudiadau sefydledig i ddefnyddio digidol i gymryd cam sylweddol ymlaen.</p>
         <p><strong>Mae Edefyn 2</strong> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.</p>
         <p>Rydym yn disgwyl i grantiau yn y ddau edefyn bara rhwng 1 a 4 blynedd.</p>
       teaser:
@@ -716,13 +716,13 @@ funding:
               <li>mudiadau sydd wedi’u lleoli y tu allan i'r Deyrnas Unedig</li>
               <li>eitemau sy'n cael eu prynu ar ran mudiad arall</li>
               <li>mae gan eich mudiad o leiaf dau o bobl nad oes cyswllt rhyngddynt ar y bwrdd neu bwyllgor.</li>
-              <li>cwmnïau y mae eu bwriad yw creu elw yn bennaf i'w ddosbarthu'n breifat.</li>
+              <li>cwmnïau y mae eu nod yw creu elw i’w ddosbarthu’n breifat.</li>
           </ul>
           <p><em>(* wrth 'nad oes unrhyw gyswllt rhyngddynt', rydym yn golygu perthynas trwy waed, wedi priodi, mewn perthynas hir dymor neu bobl sy'n cydfyw yn yr un cyfeiriad)</em></p>
       strand1:
         title: Meini prawf cymhwyster ychwanegol sy'n berthnasol dim ond i Edefyn 1
         criteria:
-        - Mae'n rhaid bod gan eich mudiad incwm o dros £500,000 y flwyddyn. Os oedd gan eich mudiad incwm o dros £10m y llynedd, byddwn yn gofyn am gyfraniad cyfatebol a fydd wedi'i deilwra i'ch maint
+        - Mae’n rhaid bod eich mudiad wedi derbyn incwm o dros £500,000 y llynedd. Os oedd gan eich mudiad incwm o dros £10m y llynedd, byddwn yn gofyn am gyfraniad cyfatebol a fydd wedi'i deilwra i'ch maint
         - Mae'n rhaid bod eich mudiad yn gorfforedig yn y Deyrnas Unedig, a gweithio'n bennaf yn y sector gwirfoddol a chymunedol
       strand2:
         title: Meini prawf cymhwyster ychwanegol sy'n berthnasol dim ond i Edefyn 2
@@ -731,7 +731,7 @@ funding:
         - Mae'n rhaid i chi weithredu cynnyrch neu wasanaeth ar hyn o bryd sy'n weithredol ac yn cael ei ddefnyddio gan y math o bobl a chymunedau rydych yn bwriadu eu gwasanaethu yn y dyfodol
     eligibilityChecker:
       title: Gofyn am alwad
-      introduction: I ddechrau trefnu galwad, atebwch y cwestiwn hwn yn gyntaf.
+      introduction: I gychwyn arni, atebwch y cwestiwn cyntaf hwn.
       unsureTitle: Dydw i ddim yn siŵ
       ineligibleTitle: Anghymwys i gael eich ariannu
       strand1:
@@ -742,7 +742,7 @@ funding:
             - ag incwm o dros £500,000 y flwyddyn
             - â strwythurau a dulliau gweithio a ddatblygwyd cyn i'r rhyngrwyd gael ei ddefnyddio'n gyffredinol
             - am wneud newid mawr i'r ffordd yr ydym yn gweithio
-            - yn helpu pobl yn y Deyrnas Unedig yn bennaf
+            - helpu pobl yn y Deyrnas Unedig
         ineligible:
           introduction: Mae'n flin gennym, dydych chi ddim yn gymwys i dderbyn grant Edefyn 1.
           body: >
@@ -771,12 +771,8 @@ funding:
               <li><a href="https://www.unltd.org.uk/">UnLtd (allanol)</a>
             </li>
       faqs:
-      - question: Pam mae angen i mi siarad â chi? A allaf anfon cais i mewn yn unig?
-        answer: Rydym yn hoffi siarad â chi mor gynnar â phosib, fel y gallwn eich helpu penderfynu ai dyma'r grant iawn i chi ai beidio. Mae'r alwad hefyd yn rhoi cyfle i ni ateb unrhyw gwestiynau sydd gennych.
-      - question: Oes angen i mi baratoi ar gyfer yr alwad?
-        answer: Nid oes angen i chi wneud unrhyw waith paratoi arbennig. Dydy'r alwad ddim yn gais llawn ac mae'n iawn os nad oes gennych yr atebion i gyd ar hyn o bryd. Y cyfan rydym eisiau yw clywed ychydig amdanoch chi ac ar gyfer beth yr hoffech gael eich ariannu.
-      - question: Sut ydw i'n gofyn am alwad?
-        answer: Atebwch y cwestiwn ydw/nad ydw uchod ac wedyn llenwch y ffurflen. Ar ôl i chi gyflwyno'r wybodaeth hon, byddwn mewn cyswllt â chi trwy e-bost i gadarnhau bod galwad yn syniad da ac i drefnu amser.
+      - question: A allaf ddim ond yrru cais i mewn?
+        answer: Rydym yn hoffi sgwrsio mor fuan â phosib, fel y gallwn helpu chi i benderfynu a yw’r grant hwn yn iawn i chi. Bydd eich braslun o’ch syniad yn helpu ni ddweud wrthych p’un a yw’r Gronfa Ddigidol yn iawn i chi ai beidio.
     assistance:
       title: Cymorth i gychwyn arni gyda digidol
       intro: Ydych chi'n gweithio neu'n gwirfoddoli dros fudiad sector gwirfoddol bach? Hoffech chi wybod sut gallai offer digidol fel apiau, gwefannau a chyfryngau cymdeithasol wneud eich gwaith yn fwy effeithiol?
@@ -818,7 +814,7 @@ apply:
       <p>Rydym wedi cael ein hysbysu am y broblem.</p>
       <p>Dychwelwch at y cam adolygu a rhowch gynnig arall arni. Os byddwch yn gweld gwall o hyd, ffoniwch <a href="tel:03001230735">0300 123 0735</a> (Dydd Llun i ddydd Gwener, 9am tan 5pm)</p>
   digitalFundDefaults: &digitalFundDefaults
-    title: Cael Sgwrs
+    title: Dywedwch wrthym beth yw eich syniad
     errorTitle: There was a problem with your submission
     fields:
       name:
@@ -846,15 +842,18 @@ apply:
       - name: Eich manylion
         fieldsets:
         - legend: Eich manylion cyswllt
-          introduction: Dywedwch ychydig wrthym am eich prosiect a mudiad fel y gallwn gysylltu â chi
+          introduction: Dywedwch ychydig wrthym am eich syniad a’ch mudiad fel y gallwn gysylltu â chi
         - legend: Eich syniad
     review:
       title: Gwiriwch fod hyn yn gywir cyn cyflwyno eich gwybodaeth
+      declaration: >
+        Gan ein bod yn cywain data personol gennych fel rhan o’r broses ymgeisio, gallwch weld manylion sut y byddwn yn defnyddio’ch gwybodaeth yn ein
+        <a href="/welsh/about/customer-service/data-protection" target="_blank" rel="noopener">hysbysiad preifatrwydd</a>.
       proceedLabel: Cyflwyno
     success:
       title: Diolch am gysylltu â ni
       confirmation: Rydym wedi gyrru copi o'r hyn a gyflwynoch atoch trwy e-bost
-      message: Byddwn yn cysylltu â chi ynglŷn â galwad mor fuan ag y gallwn.
+      message: Byddwn yn cysylltu’n ôl â chi mor fuan ag y gallwn.
       nextStepsTitle: Beth sy'n digwydd nesaf?
       feedback:
         promptLabel: "Oes gennych funud sbâr i roi adborth i ni?"
@@ -862,7 +861,7 @@ apply:
         helpText: "Mae hwn yn gwbl ddienw ac nid yw'n ffurfio rhan o'ch cyflwyniad. Peidiwch â chynnwys unrhyw fanylion am eich syniad, dim ond sut brofiad yr oedd."
   digitalFundStrand1:
     <<: *digitalFundDefaults
-    description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-1">Edefyn 1</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi'i deilwra. Y nod yw helpu elusennau sefydledig i ddefnyddio digidol i gyflawni cam sylweddol ymlaen.
+    description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-1">Edefyn 1</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 a phecyn cefnogaeth wedi’i deilwra. Y nod yw helpu mudiadau sefydledig i ddefnyddio digidol i gymryd cam sylweddol ymlaen
   digitalFundStrand2:
     <<: *digitalFundDefaults
     description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-2">Edefyn 2</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.
