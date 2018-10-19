@@ -2,15 +2,9 @@
 {% from "components/hero.njk" import hero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/promo-card/macro.njk" import promoCard %}
-{% from "./grant-results.njk" import grantResultItem with context %}
-
+{% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList with context %}
 
 {% set bodyClass = 'has-static-header' %}
-
-{% macro pgLink(key, value) -%}
-    {% set value = value | urlencode %}
-    {{ localify('/funding/search-past-grants-alpha?' + key + '=' + value) }}
-{% endmacro %}
 
 {% block extraHead %}
     <script>
@@ -80,16 +74,12 @@
                             <dl class="o-definition-list o-definition-list--compact project-details">
                                 <dt>Organisation name</dt>
                                 <dd>
-                                    <a href="{{ pgLink('recipient', org.id) }}">{{ org.name }}</a>
+                                    <a href="{{ localify("/funding/search-past-grants-alpha/recipient/" + org.id) }}">{{ org.name }}</a>
                                 </dd>
 
                                 <dt>Type</dt>
                                 <dd>
-                                    <a href="{{ pgLink('orgType', org.organisationType) }}">{{ org.organisationType }}</a>
-                                    {% if org.organisationSubtype %}
-                                        > <a
-                                        href="{{ pgLink('orgType', org.organisationSubtype) }}">{{ org.organisationSubtype }}</a>
-                                    {% endif %}
+                                    {{ buildOrgTypeList(org) }}
                                 </dd>
 
                                 {% if org.charityNumber %}
@@ -104,26 +94,13 @@
 
                                 <dt>Location</dt>
                                 <dd>
-                                    {% for location in grant.beneficiaryLocation -%}
-                                        {%- if location.geoCodeType === 'CMLAD' -%}
-                                            <a href="{{ pgLink('localAuthority', location.geoCode) }}">
-                                                {{ location.name -}}
-                                            </a>
-                                        {%- elseif location.geoCodeType === 'WPC' -%}
-                                            <a href="{{ pgLink('constituency', location.geoCode) }}">
-                                                {{ location.name -}}
-                                            </a>
-                                        {% else %}
-                                            {{ location.name -}}
-                                        {% endif %}
-                                        {%- if not loop.last -%}, {% endif %}
-                                    {%- endfor -%}
+                                    {{ buildLocationList(grant.beneficiaryLocation) }}
                                 </dd>
                             </dl>
 
                             <p>
                                 <a class="btn btn--small btn--outline accent--pink"
-                                   href="{{ pgLink('recipient', org.id) }}">
+                                   href="{{ localify("/funding/search-past-grants-alpha/recipient/" + org.id) }}">
                                     View all grants awarded to this recipient
                                 </a>
                             </p>
