@@ -22,7 +22,7 @@ function init() {
             if (this.grant.beneficiaryLocation) {
                 let loc = this.grant.beneficiaryLocation.find(l => l.geoCodeType === 'CMLAD');
                 if (loc) {
-                    geocode = loc.geoCode
+                    geocode = loc.geoCode;
                 }
             }
 
@@ -37,10 +37,9 @@ function init() {
                     related: true
                 },
                 timeout: 20000
-            })
-            .then(response => {
+            }).then(response => {
                 if (response.meta.totalResults > 0) {
-                    this.relatedGrants = response.resultsHtml
+                    this.relatedGrants = response.resultsHtml;
                 }
             });
         }

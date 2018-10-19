@@ -36,6 +36,16 @@ export default {
             />
         </FacetGroup>
 
+        <FacetGroup id="grant-size" legend="Organisation type">
+            <FacetSelect
+                v-model="filters.orgType"
+                name="orgType"
+                label="Organisation type"
+                labelAny="Select an organisation type"
+                :options="facets.orgType"
+                @clear-selection="$emit('clear-filters', 'orgType')"
+            />
+        </FacetGroup>
 
         <FacetGroup id="location" legend="Location">
             <FacetChoice

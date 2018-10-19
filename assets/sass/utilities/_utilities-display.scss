@@ -43,6 +43,10 @@
     padding-top: $spacingUnit;
     padding-bottom: $spacingUnit;
 }
+.u-padded-vertical-s {
+    padding-top: $spacingUnit / 2;
+    padding-bottom: $spacingUnit / 2;
+}
 .u-padded-vertical-l {
     padding-top: $spacingUnit * 1.5;
     padding-bottom: $spacingUnit * 1.5;
