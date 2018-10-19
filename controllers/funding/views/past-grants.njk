@@ -1,0 +1,128 @@
+{% from "components/hero.njk" import hero with context %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/feedback.njk" import inlineFeedback with context %}
+{% from "components/promo-card/macro.njk" import promoCard %}
+
+{% extends "layouts/main.njk" %}
+
+{% set grantNavLink = "http://grantnav.threesixtygiving.org/search?json_query=%7B%22query%22%3A+%7B%22bool%22%3A+%7B%22filter%22%3A+%5B%7B%22bool%22%3A+%7B%22should%22%3A+%5B%7B%22term%22%3A+%7B%22fundingOrganization.id_and_name%22%3A+%22%5B%5C%22The+Big+Lottery+Fund%5C%22%2C+%5C%22360G-blf%5C%22%5D%22%7D%7D%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%2C+%22must%22%3A+%7B%7D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%7B%22range%22%3A+%7B%22amountAwarded%22%3A+%7B%7D%7D%7D%2C+%22must%22%3A+%7B%7D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%5D%2C+%22must%22%3A+%7B%22query_string%22%3A+%7B%22default_field%22%3A+%22_all%22%2C+%22query%22%3A+%22%2A%22%7D%7D%7D%7D%2C+%22sort%22%3A+%7B%22_score%22%3A+%7B%22order%22%3A+%22desc%22%7D%7D%2C+%22aggs%22%3A+%7B%22recipientDistrictName%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientDistrictName%22%7D%7D%2C+%22currency%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22currency%22%7D%7D%2C+%22recipientOrganization%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientOrganization.id_and_name%22%7D%7D%2C+%22fundingOrganization%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22fundingOrganization.id_and_name%22%7D%7D%2C+%22recipientRegionName%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientRegionName%22%7D%7D%7D%2C+%22extra_context%22%3A+%7B%22awardYear_facet_size%22%3A+3%2C+%22amountAwardedFixed_facet_size%22%3A+3%7D%7D" %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = copy.title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
+
+                {% if not enableNewPastGrantsSearch %}
+
+                    <section class="s-prose u-constrained-content-wide">
+                        <p>{{ copy.intro }}</p>
+                        {{ inlineFeedback(
+                            description = "Past Grants",
+                            promptLabel = copy.survey.prompt,
+                            fieldLabel = copy.survey.label
+                        )  }}
+
+                        <hr />
+                        <p>{{ copy.optionsIntro }}</p>
+                    </section>
+
+                    <ul class="flex-grid">
+                        <li class="flex-grid__item">
+                            <div class="card">
+                                <header class="card__header">
+                                    <h2 class="card__title">{{ copy.grantnav.title }}</h2>
+                                </header>
+                                <div class="card__body">
+                                    <p><a
+                                        data-ga-on="click"
+                                        data-ga-event-category="Past grants"
+                                        data-ga-event-action="GrantNav"
+                                        class="btn btn--medium"
+                                        href="{{ grantNavLink }}">
+                                        {{ copy.grantnav.linkText }}
+                                    </a><p>
+                                    <p>{{ copy.grantnav.subtitle }}</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="flex-grid__item">
+                            <div class="card">
+                                <header class="card__header">
+                                    <h2 class="card__title">{{ copy.legacy.title }}</h2>
+                                </header>
+                                <div class="card__body">
+                                    <p><a
+                                        data-ga-on="click"
+                                        data-ga-event-category="Past grants"
+                                        data-ga-event-action="Legacy past grants"
+                                        class="btn btn--medium"
+                                        href="{{ localify('/funding/search-past-grants') }}">
+                                        {{ copy.legacy.linkText }}
+                                    </a></p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+
+                {% else %}
+                    <section class="s-prose u-constrained-content-wide">
+                        <p>Explore our database to find out what we've funded since 2004.</p>
+                        <p>We understand that searching through the Big Lottery Fund's past grants is important for many people. We are currently working to improve the service we currently offer.</p>
+                        <p>You can try our new service in Beta now, <a href="{{ grantNavLink }}">explore our data with GrantNav</a> or use our <a href="{{ localify('/funding/search-past-grants') }}">old past grants database</a>.</p>
+                    </section>
+
+                    <form class="grants-searchbar"
+                          method="get"
+                          action="{{ localify('/funding/search-past-grants-alpha') }}">
+                        <label class="ff-label ff-label--append"
+                               data-append="Beta"
+                               for="search-query">Search awarded grants</label>
+                        <div class="form-field-addon u-margin-bottom-s">
+                            <input class="form-field-addon__input js-only"
+                                   type="search"
+                                   name="q"
+                                   autocomplete="off">
+                            <input class="form-field-addon__action" type="submit" value="Search" />
+                        </div>
+                        <p class="ff-help u-no-margin">
+                            e.g. a keyword such as “loneliness”, a location, an organisation, or an area of work
+                        </p>
+                    </form>
+
+                    {% if caseStudies %}
+                        <h3 class="t3 t--underline accent--pink a--text">Featured grants</h3>
+                        <ul class="flex-grid flex-grid--3up">
+                            {% for caseStudy in caseStudies %}
+                                <li class="flex-grid__item">
+                                    {% set props = {
+                                        "title": caseStudy.title,
+                                        "subtitle": caseStudy.grantAmount,
+                                        "trailText": caseStudy.trailText,
+                                        "image": {
+                                            "url": caseStudy.thumbnailUrl,
+                                            "alt": caseStudy.title
+                                        },
+                                        "link": {
+                                            "label": 'View full grant details',
+                                            "labelAria": 'View full grant details',
+                                            "url": localify("/funding/search-past-grants-alpha/grant/" + caseStudy.grantId)
+                                        }
+                                    } %}
+                                    {{ promoCard(props, tint = true) }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                {% endif %}
+            </div>
+        </div>
+    </main>
+{% endblock %}
