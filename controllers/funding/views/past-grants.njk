@@ -96,7 +96,7 @@
                         </p>
                     </form>
 
-                    {% if caseStudies %}
+                    {% if caseStudies and caseStudies.length > 0 %}
                         <h3 class="t3 t--underline accent--pink a--text">Featured grants</h3>
                         <ul class="flex-grid flex-grid--3up">
                             {% for caseStudy in caseStudies %}

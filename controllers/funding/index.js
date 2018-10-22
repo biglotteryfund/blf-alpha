@@ -31,19 +31,23 @@ router.get('/', sMaxAge('30m'), injectHeroImage('active-plus-communities'), inje
     });
 });
 
-router.get('/past-grants', injectCopy('funding.pastGrants'), injectHeroImage('active-plus-communities'), async (req, res, next) => {
+router.get(
+    '/past-grants',
+    injectCopy('funding.pastGrants'),
+    injectHeroImage('active-plus-communities'),
+    async (req, res, next) => {
+        let caseStudies = await contentApi.getCaseStudies({
+            locale: req.i18n.getLocale()
+        });
 
-    let caseStudies = await contentApi.getCaseStudies({
-        locale: req.i18n.getLocale()
-    });
+        // Shuffle the valid case studies and grab the first few
+        caseStudies = take(shuffle(caseStudies.filter(c => c.grantId)), 3);
 
-    // Shuffle the valid case studies and grab the first few
-    caseStudies = take(shuffle(caseStudies.filter(c => c.grantId)), 3);
-
-    res.render(path.resolve(__dirname, './views/past-grants'), {
-        title: 'Search awarded grants: Beta',
-        caseStudies: caseStudies
-    });
-});
+        res.render(path.resolve(__dirname, './views/past-grants'), {
+            title: 'Search awarded grants: Beta',
+            caseStudies: caseStudies
+        });
+    }
+);
 
 module.exports = router;
