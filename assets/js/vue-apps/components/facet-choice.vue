@@ -2,7 +2,7 @@
 import take from 'lodash/take';
 
 export default {
-    props: ['value', 'type', 'name', 'label', 'labelAny', 'options', 'optionLimit'],
+    props: ['value', 'type', 'name', 'label', 'hideLabel', 'options', 'optionLimit'],
     data() {
         return { isOpen: false };
     },
@@ -28,23 +28,10 @@ export default {
 
 <template>
     <fieldset class="ff-choice" v-if="options.length > 0">
-        <legend class="ff-label">
+        <legend class="ff-label" :class="{ 'u-visually-hidden': hideLabel }">
             {{ label }}
         </legend>
          <ul class="ff-choice__list">
-             <li class="ff-choice__option" v-if="labelAny">
-                <input
-                    :type="type"
-                    :id="fieldId('any')"
-                    :name="name"
-                    value=""
-                    :checked="value === ''"
-                    v-on:input="$emit('input', $event.target.value)"
-                />
-                <label class="ff-choice__label" :for="fieldId('any')">
-                    {{ labelAny }}
-                </label>
-            </li>
             <li class="ff-choice__option" v-for="(option, index) in optionsToDisplay" v-bind:key="option.value">
                 <input
                     :type="type"

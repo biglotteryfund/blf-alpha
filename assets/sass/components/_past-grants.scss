@@ -192,9 +192,17 @@ $filterSpacing: 10px;
         }
     }
 
+    .ff-label {
+        font-weight: normal;
+    }
+
     .facet-group__legend {
         display: block;
         font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 14px;
+        margin-bottom: $filterSpacing / 2;
     }
 
     .facet-group__body {
@@ -202,10 +210,6 @@ $filterSpacing: 10px;
     }
 
     &.is-open {
-        .facet-group__legend {
-            @include visually-hidden();
-        }
-
         .facet-group__toggle .icon {
             transform: rotate(180deg);
         }
