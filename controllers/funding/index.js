@@ -44,7 +44,7 @@ router.get(
         caseStudies = take(shuffle(caseStudies.filter(c => c.grantId)), 3);
 
         res.render(path.resolve(__dirname, './views/past-grants'), {
-            title: 'Search awarded grants: Beta',
+            title: res.locals.copy.title,
             caseStudies: caseStudies
         });
     }
