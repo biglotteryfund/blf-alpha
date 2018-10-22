@@ -605,7 +605,7 @@ funding:
       recipientDetail:
         awardingProgrammes: Awarding programmes
         searchGoogle: Search for %s with Google
-        numFundedTotal: %s project(s) funded by Big Lottery Fund (£%s awarded in total)
+        numFundedTotal: '%s project(s) funded by Big Lottery Fund (£%s awarded in total)'
   guidance:
     order-free-materials:
       title: How to get free branded materials
