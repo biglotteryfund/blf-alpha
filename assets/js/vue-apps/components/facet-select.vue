@@ -4,7 +4,7 @@ import isPlainObject from 'lodash/isPlainObject';
 import map from 'lodash/map';
 
 export default {
-    props: ['value', 'name', 'label', 'labelAny', 'options'],
+    props: ['value', 'name', 'label', 'labelAny', 'options', 'copy'],
     computed: {
         isOptgroup() {
             return isPlainObject(this.options);
@@ -43,7 +43,7 @@ export default {
 
         <div class="u-padded-vertical-s" v-if="value">
             <button type="button" class="btn-link" @click="$emit('clear-selection')">
-                Clear selection
+                {{ copy.filters.clearSelection }}
             </button>
         </div>
     </div>

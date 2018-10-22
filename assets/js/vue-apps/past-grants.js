@@ -47,7 +47,8 @@ function init() {
                 sort: get(initialData, 'sort', {}),
                 filters: get(initialData, 'queryParams', {}) || {},
                 totalResults: initialData.totalResults || 0,
-                totalAwarded: initialData.totalAwarded || 0
+                totalAwarded: initialData.totalAwarded || 0,
+                copy: initialData.lang
             };
         },
         watch: {

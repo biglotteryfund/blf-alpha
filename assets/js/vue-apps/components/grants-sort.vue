@@ -2,7 +2,7 @@
 import FacetSelect from './facet-select.vue';
 
 export default {
-    props: ['sort'],
+    props: ['sort', 'copy'],
     components: { FacetSelect }
 };
 </script>
@@ -10,7 +10,7 @@ export default {
 <template>
     <div class="sort-controls">
         <label class="ff-label" for="field-sort">
-            Ordered by
+            {{ copy.sort.orderedBy }}
         </label>
         <select
             class="ff-select"

@@ -2,7 +2,7 @@
 import take from 'lodash/take';
 
 export default {
-    props: ['value', 'type', 'name', 'label', 'labelAny', 'options', 'optionLimit'],
+    props: ['value', 'type', 'name', 'label', 'labelAny', 'options', 'optionLimit', 'copy'],
     data() {
         return { isOpen: true };
     },
@@ -65,7 +65,7 @@ export default {
             v-if="shouldTruncate()"
             @click='isOpen = !isOpen'
         >
-            {{ isOpen ? 'See fewer options' : 'See more options' }}
+            {{ isOpen ? copy.filters.options.truncate.seeFewer : copy.filters.options.truncate.seeMore }}
         </button>
 
         <button type="button"
@@ -73,7 +73,7 @@ export default {
             v-if="value"
             @click="$emit('clear-selection')"
         >
-            Clear selection
+            {{ copy.filters.clearSelection }}
         </button>
     </fieldset>
 </template>
