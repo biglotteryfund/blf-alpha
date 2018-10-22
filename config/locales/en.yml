@@ -411,6 +411,11 @@ toplevel:
       - label: Answering big questions
         caption: Impacts and lessons learned from our evaluation and research (PDF 1.8MB)
         href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_answering_big_questions.pdf
+  researchNew:
+    title: Research
+    intro: >
+      <p>At the Big Lottery Fund we're committed to openness and transparency. To support this, we publish our grant data as well as datasets and related information used in our research.</p>
+    moreLinkText: View more research and insights
   data:
     title: "Key data about the Big Lottery Fund: financial year 2017/18"
     keyStats: Key statistics

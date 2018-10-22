@@ -43,7 +43,7 @@ if (appData.isNotProduction) {
     router.get(
         '/landing-new',
         injectHeroImage('hapani'),
-        injectCopy('toplevel.research'),
+        injectCopy('toplevel.researchNew'),
         injectResearch,
         (req, res) => {
             res.render(path.resolve(__dirname, './views/research-landing-new'));
