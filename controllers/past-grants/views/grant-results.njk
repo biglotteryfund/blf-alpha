@@ -5,8 +5,9 @@
 {% macro grantResultItem(grant, options) %}
     <div class="u-margin-bottom-s{% if options.wrapperClass %} {{ options.wrapperClass }}{% endif %}" data-score="{{ grant._textScore }}">
         {% set subtitle %}
+            {% set mainRecipient = grant.recipientOrganization[0] %}
             £{{ grant.amountAwarded | numberWithCommas}} to
-            <strong>{{ grant.recipientOrganization[0].name | striptags }}</strong>
+            <strong><a href="{{ localify("/funding/search-past-grants-alpha/recipient/" + mainRecipient.id) }}">{{ mainRecipient.name | striptags }}</a></strong>
             on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
         {% endset %}
         {% call promoCard({

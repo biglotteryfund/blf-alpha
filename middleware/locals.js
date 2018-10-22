@@ -49,6 +49,7 @@ module.exports = {
          */
         res.locals.enablePrompt = config.get('features.enablePrompt');
         res.locals.enableSurvey = config.get('features.enableSurvey');
+        res.locals.enableNewPastGrantsSearch = config.get('features.enableNewPastGrantsSearch');
 
         /**
          * Metadata (e.g. global title, description)

@@ -1,5 +1,6 @@
 {
   "features": {
-    "useRemoteAssets": false
+    "useRemoteAssets": false,
+    "enableNewPastGrantsSearch": true
   }
 }
