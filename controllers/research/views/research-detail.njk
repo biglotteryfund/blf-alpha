@@ -37,7 +37,7 @@
                         <div class="content-meta">
                             <dl class="o-definition-list o-definition-list--compact">
                                 <dt>{{ __('research.detail.datePublished') }}</dt>
-                                <dd>{{ formatDate(entry.dateCreated.date, DATE_FORMATS.month) }}</dd>
+                                <dd>{{ formatDate(entry.postDate.date, DATE_FORMATS.month) }}</dd>
                                 {% if entry.researchPartners %}
                                     <dt>{{ __('research.detail.researchPartners') }}</dt>
                                     <dd>{{ entry.researchPartners }}</dd>
