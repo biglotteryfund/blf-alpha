@@ -98,7 +98,8 @@ router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
     next();
 });
 
-router.get('/',
+router.get(
+    '/',
     injectHeroImage('active-plus-communities'),
     injectCopy('funding.pastGrants.search'),
     async (req, res, next) => {
@@ -167,76 +168,70 @@ router.get('/',
     }
 );
 
-router.get('/grant/:id',
-    injectCopy('funding.pastGrants.search'),
-    async (req, res, next) => {
-        try {
-            const data = await request({
-                url: `${PAST_GRANTS_API_URI}/${req.params.id}`,
-                json: true
-            });
+router.get('/grant/:id', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
+    try {
+        const data = await request({
+            url: `${PAST_GRANTS_API_URI}/${req.params.id}`,
+            json: true
+        });
 
-            if (data) {
-                let fundingProgramme;
-                const grant = data.result;
-                const grantProgramme = get(grant, 'grantProgramme[0]', false);
-                if (grantProgramme && grantProgramme.url && grantProgramme.url.indexOf('/') === -1) {
-                    try {
-                        fundingProgramme = await contentApi.getFundingProgramme({
-                            slug: grantProgramme.url,
-                            locale: req.i18n.getLocale()
-                        });
-                    } catch (e) {} // eslint-disable-line no-empty
-                }
-
-                res.render(path.resolve(__dirname, './views/grant-detail'), {
-                    title: data.result.title,
-                    grant: grant,
-                    fundingProgramme: fundingProgramme,
-                    breadcrumbs: concat(res.locals.breadcrumbs, { label: data.result.title })
-                });
-            } else {
-                next();
+        if (data) {
+            let fundingProgramme;
+            const grant = data.result;
+            const grantProgramme = get(grant, 'grantProgramme[0]', false);
+            if (grantProgramme && grantProgramme.url && grantProgramme.url.indexOf('/') === -1) {
+                try {
+                    fundingProgramme = await contentApi.getFundingProgramme({
+                        slug: grantProgramme.url,
+                        locale: req.i18n.getLocale()
+                    });
+                } catch (e) {} // eslint-disable-line no-empty
             }
-        } catch (error) {
-            next(error);
-        }
-    }
-);
 
-router.get('/recipient/:id',
-    injectCopy('funding.pastGrants.search'),
-    async (req, res, next) => {
-        try {
-            let qs = addPaginationParameters({}, req.query.page);
-            qs.recipient = req.params.id;
-            const data = await request({
-                url: PAST_GRANTS_API_URI,
-                json: true,
-                qs: qs
+            res.render(path.resolve(__dirname, './views/grant-detail'), {
+                title: data.result.title,
+                grant: grant,
+                fundingProgramme: fundingProgramme,
+                breadcrumbs: concat(res.locals.breadcrumbs, { label: data.result.title })
             });
-
-            if (data && data.meta.totalResults > 0) {
-                const firstResult = head(data.results);
-                const organisation = head(firstResult.recipientOrganization);
-                res.render(path.resolve(__dirname, './views/recipient-detail'), {
-                    title: organisation.name,
-                    organisation: organisation,
-                    recipientGrants: data.results,
-                    recipientProgrammes: data.facets.grantProgramme,
-                    recipientLocalAuthorities: data.facets.localAuthorities,
-                    totalAwarded: data.meta.totalAwarded.toLocaleString(),
-                    totalResults: data.meta.totalResults.toLocaleString(),
-                    breadcrumbs: concat(res.locals.breadcrumbs, { label: organisation.name }),
-                    pagination: buildPagination(data.meta.pagination, qs)
-                });
-            } else {
-                next();
-            }
-        } catch (error) {
-            next(error);
+        } else {
+            next();
         }
+    } catch (error) {
+        next(error);
     }
-);
+});
+
+router.get('/recipient/:id', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
+    try {
+        let qs = addPaginationParameters({}, req.query.page);
+        qs.recipient = req.params.id;
+        const data = await request({
+            url: PAST_GRANTS_API_URI,
+            json: true,
+            qs: qs
+        });
+
+        if (data && data.meta.totalResults > 0) {
+            const firstResult = head(data.results);
+            const organisation = head(firstResult.recipientOrganization);
+            res.render(path.resolve(__dirname, './views/recipient-detail'), {
+                title: organisation.name,
+                organisation: organisation,
+                recipientGrants: data.results,
+                recipientProgrammes: data.facets.grantProgramme,
+                recipientLocalAuthorities: data.facets.localAuthorities,
+                totalAwarded: data.meta.totalAwarded.toLocaleString(),
+                totalResults: data.meta.totalResults.toLocaleString(),
+                breadcrumbs: concat(res.locals.breadcrumbs, { label: organisation.name }),
+                pagination: buildPagination(data.meta.pagination, qs)
+            });
+        } else {
+            next();
+        }
+    } catch (error) {
+        next(error);
+    }
+});
 
 module.exports = router;
