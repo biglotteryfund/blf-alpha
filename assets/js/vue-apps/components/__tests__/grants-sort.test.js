@@ -6,7 +6,7 @@ import { shallowMount } from '@vue/test-utils';
 import GrantsSort from '../grants-sort.vue';
 
 describe('GrantsSort', () => {
-    it('should render', () => {
+    it.skip('should render', () => {
         const sort = {
             defaultSort: 'awardDate|desc',
             activeSort: 'amountAwarded|asc',

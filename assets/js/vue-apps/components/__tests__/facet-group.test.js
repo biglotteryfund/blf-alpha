@@ -6,7 +6,7 @@ import { shallowMount } from '@vue/test-utils';
 import FacetGroup from '../facet-group.vue';
 
 describe('FacetGroup', () => {
-    it('should render', () => {
+    it.skip('should render', () => {
         const wrapper = shallowMount(FacetGroup, {
             propsData: {
                 id: 'test',

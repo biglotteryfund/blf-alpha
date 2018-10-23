@@ -6,7 +6,7 @@ import { mount } from '@vue/test-utils';
 import FacetSelect from '../facet-select.vue';
 
 describe('FacetSelect', () => {
-    it('should render with plain options', () => {
+    it.skip('should render with plain options', () => {
         const wrapper = mount(FacetSelect, {
             propsData: {
                 name: 'example',
@@ -28,7 +28,7 @@ describe('FacetSelect', () => {
         expect(wrapper.element).toMatchSnapshot();
     });
 
-    it('should render with optgroup', () => {
+    it.skip('should render with optgroup', () => {
         const wrapper = mount(FacetSelect, {
             propsData: {
                 name: 'example',
