@@ -15,10 +15,12 @@
         <div class="nudge-up">
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ breadcrumbTrail(breadcrumbs) }}
-                <div class="s-prose u-constrained-wide">
-                    <p><strong>{{ copy.assistance.intro }}</strong></p>
+                <div class="u-constrained-wide">
 
-                    {{ copy.assistance.body | safe }}
+                    <div class="s-prose">
+                        <p><strong>{{ copy.assistance.intro }}</strong></p>
+                        {{ copy.assistance.body | safe }}
+                    </div>
 
                     {% if status === 'SUBMISSION_SUCCESS' %}
                         <div class="submission-message u-tone-background-pale-grey u-padded">
@@ -37,28 +39,30 @@
                             </div>
                         {% endif %}
 
-                        <form class="u-tone-background-pale-grey u-padded" method="post" action="">
+                        <form method="post" action="">
                             {{ formErrors(errors) }}
 
-                            <label for="email" class="ff-label">
-                                {{ copy.assistance.submission.emailAddress }}
-                            </label>
+                            <div class="u-tone-background-pale-grey u-padded">
+                                <label for="form-field-email" class="ff-label">
+                                    {{ copy.assistance.submission.emailAddress }}
+                                </label>
 
-                            <p class="ff-help">
-                                {{ copy.assistance.submission.explanation }}
-                            </p>
+                                <p class="ff-help">
+                                    {{ copy.assistance.submission.explanation }}
+                                </p>
 
-                            <div class="form-field-addon u-constrained">
-                                <input class="form-field-addon__input"
-                                    id="email"
-                                    type="email"
-                                    name="email"
-                                    placeholder="your.email@example.com"
-                                />
-                                <input class="form-field-addon__action"
-                                    type="submit"
-                                    value="{{ copy.assistance.submission.proceedLabel }}"
-                                />
+                                <div class="form-field-addon u-constrained">
+                                    <input class="form-field-addon__input"
+                                        id="form-field-email"
+                                        type="email"
+                                        name="email"
+                                        placeholder="your.email@example.com"
+                                    />
+                                    <input class="form-field-addon__action"
+                                        type="submit"
+                                        value="{{ copy.assistance.submission.proceedLabel }}"
+                                    />
+                                </div>
                             </div>
                         </form>
                     {% endif %}
