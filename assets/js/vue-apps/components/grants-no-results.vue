@@ -1,6 +1,6 @@
 <script>
     export default {
-        props: ['totalResults', 'clearFilters', 'copy']
+        props: ['totalResults', 'copy']
     };
 </script>
 <template>
@@ -8,7 +8,7 @@
         <h3>{{ copy.errors.noResults.heading }}</h3>
 
         <ul>
-            <li v-for="suggestion in copy.errors.noResults.suggestions" v-html="suggestion"></li>
+            <li v-for="suggestion in copy.errors.noResults.suggestions" v-html="suggestion" :key="suggestion"></li>
         </ul>
 
         <p><button type="button" class="btn btn--medium"

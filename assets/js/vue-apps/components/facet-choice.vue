@@ -9,7 +9,7 @@ export default {
     computed: {
         optionsToDisplay() {
             if (this.shouldTruncate()) {
-                return this.isOpen ?  this.options : take(this.options, this.optionLimit);
+                return this.isOpen ? this.options : take(this.options, this.optionLimit);
             } else {
                 return this.options;
             }

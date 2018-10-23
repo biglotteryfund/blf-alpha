@@ -1,9 +1,6 @@
 <script>
-import FacetSelect from './facet-select.vue';
-
 export default {
-    props: ['sort', 'copy'],
-    components: { FacetSelect }
+    props: ['sort', 'copy']
 };
 </script>
 

@@ -2,11 +2,11 @@
 import IconArrowDown from './icon-arrow-down.vue';
 export default {
     props: {
-        'legend': {
+        legend: {
             type: String,
             required: true
         },
-        'openByDefault': {
+        openByDefault: {
             type: Boolean,
             default: true
         },
@@ -21,7 +21,9 @@ export default {
     },
     computed: {
         id() {
-            return Math.random().toString(36).substr(2, 9);
+            return Math.random()
+                .toString(36)
+                .substr(2, 9);
         },
         ariaId() {
             return `facet-group-${this.id}`;

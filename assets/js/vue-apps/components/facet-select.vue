@@ -26,7 +26,7 @@ export default {
             :name="name" :id="'field-dynamic-' + name"
             :value="value"
             @input="$emit('input', $event.target.value)">
-            <option value="">{{ labelAny }}</option>
+            <option value="" v-if="labelAny">{{ labelAny }}</option>
             <template v-if="isOptgroup">
                 <optgroup v-for="(group, name) in options" :label="name" :key="name">
                     <option v-for="(option, index) in group" :value="option.value" :key="index">

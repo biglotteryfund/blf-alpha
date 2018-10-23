@@ -2,13 +2,10 @@
 'use strict';
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const assert = require('assert');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const pkg = require('./package.json');
 const pkgConfig = pkg.config;
-
-assert(pkg.browserslist.length > 0);
 
 const commonConfig = {
     mode: isProduction ? 'production' : 'development',
@@ -20,21 +17,7 @@ const commonConfig = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader',
-                options: {
-                    plugins: ["@babel/plugin-syntax-dynamic-import"],
-                    presets: [
-                        [
-                            '@babel/preset-env',
-                            {
-                                modules: false,
-                                targets: {
-                                    browsers: pkg.browserslist
-                                }
-                            }
-                        ]
-                    ]
-                }
+                loader: 'babel-loader'
             },
             {
                 test: /\.vue$/,
