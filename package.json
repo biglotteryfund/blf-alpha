@@ -13,9 +13,10 @@
   "scripts": {
     "start": "node ./bin/www",
     "startDev": "export DEBUG=biglotteryfund:*; nodemon --inspect ./bin/www",
+    "lint": "eslint . --ext .js,.vue",
     "test-unit": "jest --maxWorkers=4",
     "test-watch": "jest --watch",
-    "test": "npm audit && eslint . && npm run test-unit",
+    "test": "npm audit && npm run lint && npm run test-unit",
     "test-cypress": "wait-on http://localhost:8090 && cypress run",
     "pretest-ci": "npm run build",
     "test-ci": "./bin/start-test-server & concurrently --raw npm:test npm:test-cypress",
@@ -45,12 +46,25 @@
       "prettier --write",
       "eslint"
     ],
+    "*.vue": [
+      "prettier --write",
+      "eslint"
+    ],
     "{controllers/routes.js,controllers/aliases.js,config/default.json}": [
       "./bin/generate-cloudfront-config"
     ]
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      ".*\\.(vue)$": "vue-jest"
+    }
   },
   "prettier": {
     "singleQuote": true
@@ -133,8 +147,11 @@
     "@babel/core": "7.1.2",
     "@babel/plugin-syntax-dynamic-import": "7.0.0",
     "@babel/preset-env": "7.1.0",
+    "@vue/test-utils": "1.0.0-beta.25",
     "autoprefixer": "9.1.1",
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.1",
+    "babel-jest": "23.6.0",
     "babel-loader": "8.0.4",
     "concurrently": "4.0.1",
     "css-loader": "1.0.0",
@@ -142,7 +159,7 @@
     "cypress": "3.1.0",
     "del-cli": "1.1.0",
     "dotenv": "6.1.0",
-    "eslint": "5.6.1",
+    "eslint": "5.7.0",
     "eslint-plugin-compat": "2.6.2",
     "eslint-plugin-vue": "next",
     "husky": "1.1.2",
@@ -156,11 +173,13 @@
     "postcss-fout-with-a-class": "1.1.0",
     "prettier": "1.14.3",
     "prompt": "^1.0.0",
+    "regenerator-runtime": "0.12.1",
+    "vue-jest": "3.0.0",
     "vue-loader": "15.4.2",
     "vue-template-compiler": "2.5.17",
     "wait-on": "3.1.0",
     "watch": "1.0.2",
-    "webpack": "4.20.2",
+    "webpack": "4.22.0",
     "webpack-cli": "3.1.2"
   }
 }

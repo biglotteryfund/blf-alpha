@@ -1,13 +1,13 @@
 <script>
-    import FacetGroup from './facet-group.vue';
-    import FacetDisclose from './facet-disclose.vue';
-    import FacetChoice from './facet-choice.vue';
-    import FacetSelect from './facet-select.vue';
+import FacetGroup from './facet-group.vue';
+import FacetDisclose from './facet-disclose.vue';
+import FacetChoice from './facet-choice.vue';
+import FacetSelect from './facet-select.vue';
 
-    export default {
-        components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
-        props: ['facets', 'filters', 'status', 'copy']
-    };
+export default {
+    components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
+    props: ['facets', 'filters', 'status', 'copy']
+};
 </script>
 
 <template>
@@ -22,29 +22,33 @@
             </button>
         </div>
 
-        <FacetGroup :legend="copy.filters.options.amountAwarded.label"
-                    :copy="copy">
+        <FacetGroup
+            :legend="copy.filters.options.amountAwarded.label"
+            :toggle-label="copy.filters.toggle"
+        >
             <FacetChoice
                 v-model="filters.amount"
                 type="radio"
                 name="amount"
                 :copy="copy"
                 :label="copy.filters.options.amountAwarded.label"
-                :hideLabel="true"
+                :hide-label="true"
                 :options="facets.amountAwarded"
-                :optionLimit="3"
+                :option-limit="3"
                 @clear-selection="$emit('clear-filters', 'amount')"
             />
         </FacetGroup>
 
-        <FacetGroup :legend="copy.filters.options.organisation"
-                    :copy="copy">
+        <FacetGroup
+            :legend="copy.filters.options.organisation"
+            :toggle-label="copy.filters.toggle"
+        >
             <FacetSelect
                 v-model="filters.orgType"
                 name="orgType"
                 :label="copy.filters.options.organisationType.label"
-                :labelAny="copy.filters.options.organisationType.any"
-                :copy="copy"
+                :label-any="copy.filters.options.organisationType.any"
+                :clear-label="copy.filters.clearSelection"
                 :options="facets.orgType"
                 @clear-selection="$emit('clear-filters', 'orgType')"
             />
@@ -53,15 +57,17 @@
                 v-model="filters.programme"
                 name="programme"
                 :label="copy.filters.options.programme.label"
-                :labelAny="copy.filters.options.programme.any"
+                :label-any="copy.filters.options.programme.any"
                 :copy="copy"
                 :options="facets.grantProgramme"
                 @clear-selection="$emit('clear-filters', 'programme')"
             />
         </FacetGroup>
 
-        <FacetGroup :legend="copy.filters.options.country.label"
-                    :copy="copy">
+        <FacetGroup
+            :legend="copy.filters.options.country.label"
+            :toggle-label="copy.filters.toggle"
+        >
             <FacetChoice
                 v-model="filters.country"
                 type="radio"
@@ -74,15 +80,15 @@
             />
 
             <FacetDisclose
-                :labelClosed="copy.filters.options.country.labelClosed"
-                :labelOpen="copy.filters.options.country.labelOpen"
+                :label-closed="copy.filters.options.country.labelClosed"
+                :label-open="copy.filters.options.country.labelOpen"
             >
                 <FacetSelect
                     v-model="filters.localAuthority"
                     name="localAuthority"
                     :label="copy.filters.options.localAuthority.label"
-                    :labelAny="copy.filters.options.localAuthority.any"
-                    :copy="copy"
+                    :label-any="copy.filters.options.localAuthority.any"
+                    :clear-label="copy.filters.clearSelection"
                     :options="facets.localAuthorities"
                     @clear-selection="$emit('clear-filters', 'localAuthority')"
                 />
@@ -91,17 +97,16 @@
                     v-model="filters.westminsterConstituency"
                     name="westminsterConstituency"
                     :label="copy.filters.options.westminsterConstituency.label"
-                    :labelAny="copy.filters.options.westminsterConstituency.any"
-                    :copy="copy"
+                    :label-any="copy.filters.options.westminsterConstituency.any"
+                    :clear-label="copy.filters.clearSelection"
                     :options="facets.westminsterConstituencies"
                     @clear-selection="$emit('clear-filters', 'westminsterConstituency')"
                 />
             </FacetDisclose>
         </FacetGroup>
 
-
         <div class="search-filters__extra">
-            <strong>{{ copy.feedback.title }}</strong><br/>
+            <strong>{{ copy.feedback.title }}</strong><br />
             <div v-html="copy.feedback.body"></div>
         </div>
     </fieldset>

@@ -2,16 +2,16 @@
 import IconArrowDown from './icon-arrow-down.vue';
 export default {
     props: {
-        'legend': {
+        legend: {
             type: String,
             required: true
         },
-        'openByDefault': {
+        openByDefault: {
             type: Boolean,
             default: true
         },
-        'copy': {
-            type: Object,
+        toggleLabel: {
+            type: String,
             required: true
         }
     },
@@ -21,7 +21,9 @@ export default {
     },
     computed: {
         id() {
-            return Math.random().toString(36).substr(2, 9);
+            return Math.random()
+                .toString(36)
+                .substr(2, 9);
         },
         ariaId() {
             return `facet-group-${this.id}`;
@@ -34,14 +36,16 @@ export default {
     <div class="facet-group" :class="{ 'is-open': isOpen }" :aria-expanded="isOpen ? 'true' : 'false'" :aria-controls="ariaId">
         <fieldset class="facet-group__fieldset">
             <button class="facet-group__toggle" type="button" @click="isOpen = !isOpen">
-                <IconArrowDown :id="'facet-' + id"
-                               :description="copy.filters.toggle + ' ' + legend" />
-                <span class="u-visually-hidden">{{ copy.filters.toggle }} {{ legend }}</span>
+                <IconArrowDown
+                    :id="'facet-' + id"
+                    :description="toggleLabel + ' ' + legend"
+                />
+                <span class="u-visually-hidden">{{ toggleLabel }} {{ legend }}</span>
             </button>
             <legend class="facet-group__legend">
                 {{ legend }}
             </legend>
-            <div class="facet-group__body"  :id="ariaId" :aria-hidden="isOpen ? 'false' : 'true'">
+            <div class="facet-group__body" :id="ariaId" :aria-hidden="isOpen ? 'false' : 'true'">
                 <slot></slot>
             </div>
         </fieldset>

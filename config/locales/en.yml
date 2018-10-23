@@ -82,6 +82,7 @@ global:
     documents: documents
     download: download
     edit: Edit
+    errorTitle: There was a problem with your submission
     imageCredit: Image credit
     latestNews: Latest news
     next: next

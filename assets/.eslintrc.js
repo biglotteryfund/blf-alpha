@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    extends: ['eslint:recommended', 'plugin:vue/recommended', 'plugin:compat/recommended'],
+    extends: ['eslint:recommended', 'plugin:vue/strongly-recommended', 'plugin:compat/recommended'],
     settings: {
         polyfills: ['promises']
     },
@@ -15,5 +15,12 @@ module.exports = {
         parser: 'babel-eslint',
         sourceType: 'module',
         allowImportExportEverywhere: true
+    },
+    rules: {
+        'vue/html-closing-bracket-newline': 'off',
+        'vue/html-indent': 'off',
+        'vue/html-self-closing': 'off',
+        'vue/max-attributes-per-line': 'off',
+        'vue/require-prop-types': 'warn'
     }
 };

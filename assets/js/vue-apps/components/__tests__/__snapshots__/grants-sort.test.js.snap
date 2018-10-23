@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GrantsSort should render 1`] = `
+<div
+  class="sort-controls"
+>
+  <label
+    class="ff-label"
+    for="field-sort"
+  >
+    
+        Ordered by
+    
+  </label>
+   
+  <select
+    class="ff-select"
+    id="field-sort"
+    name="sort"
+  >
+    <option
+      value="awardDate|desc"
+    >
+      
+            Most recent
+        
+    </option>
+    <option
+      value="awardDate|asc"
+    >
+      
+            Oldest first
+        
+    </option>
+    <option
+      value="amountAwarded|asc"
+    >
+      
+            Lowest amount first
+        
+    </option>
+    <option
+      value="amountAwarded|desc"
+    >
+      
+            Highest amount first
+        
+    </option>
+  </select>
+</div>
+`;

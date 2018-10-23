@@ -1,10 +1,8 @@
 <script>
-import reduce from 'lodash/reduce';
 import isPlainObject from 'lodash/isPlainObject';
-import map from 'lodash/map';
 
 export default {
-    props: ['value', 'name', 'label', 'labelAny', 'options', 'copy'],
+    props: ['value', 'name', 'label', 'labelAny', 'options', 'clearLabel'],
     computed: {
         isOptgroup() {
             return isPlainObject(this.options);
@@ -26,9 +24,9 @@ export default {
             :name="name" :id="'field-dynamic-' + name"
             :value="value"
             @input="$emit('input', $event.target.value)">
-            <option value="">{{ labelAny }}</option>
+            <option value="" v-if="labelAny">{{ labelAny }}</option>
             <template v-if="isOptgroup">
-                <optgroup v-for="(group, name) in options" :label="name" :key="name">
+                <optgroup v-for="(group, groupLabel) in options" :label="groupLabel" :key="groupLabel">
                     <option v-for="(option, index) in group" :value="option.value" :key="index">
                         {{ option.label }}
                     </option>
@@ -43,7 +41,7 @@ export default {
 
         <div class="u-padded-vertical-s" v-if="value">
             <button type="button" class="btn-link" @click="$emit('clear-selection')">
-                {{ copy.filters.clearSelection }}
+                {{ clearLabel }}
             </button>
         </div>
     </div>

@@ -1,0 +1,114 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FacetSelect should render with optgroup 1`] = `
+<div
+  class="u-margin-bottom-s"
+>
+  <label
+    class="ff-label"
+    for="field-dynamic-nodejs"
+  >
+    
+        Example
+    
+  </label>
+   
+  <select
+    class="ff-select"
+    id="field-dynamic-example"
+    name="example"
+  >
+    <!---->
+     
+    <optgroup
+      label="Group 1"
+    >
+      <option
+        value="option-1"
+      >
+        
+                    Option 1
+                
+      </option>
+      <option
+        value="option-2"
+      >
+        
+                    Option 2
+                
+      </option>
+    </optgroup>
+    <optgroup
+      label="Group 2"
+    >
+      <option
+        value="option-2"
+      >
+        
+                    Option 3
+                
+      </option>
+      <option
+        value="option-4"
+      >
+        
+                    Option 4
+                
+      </option>
+    </optgroup>
+  </select>
+   
+  <!---->
+</div>
+`;
+
+exports[`FacetSelect should render with plain options 1`] = `
+<div
+  class="u-margin-bottom-s"
+>
+  <label
+    class="ff-label"
+    for="field-dynamic-nodejs"
+  >
+    
+        Example
+    
+  </label>
+   
+  <select
+    class="ff-select"
+    id="field-dynamic-example"
+    name="example"
+  >
+    <!---->
+     
+    <option
+      value="option-1"
+    >
+      
+                Option 1
+            
+    </option>
+    <option
+      value="option-2"
+    >
+      
+                Option 2
+            
+    </option>
+  </select>
+   
+  <div
+    class="u-padded-vertical-s"
+  >
+    <button
+      class="btn-link"
+      type="button"
+    >
+      
+            Clear selection
+        
+    </button>
+  </div>
+</div>
+`;

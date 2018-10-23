@@ -81,6 +81,7 @@ global:
     documents: dogfennau
     download: lawrlwytho'r
     edit: Golygu
+    errorTitle: Cafwyd problem gyda'ch cyflwyniad
     imageCredit: Cydnabyddiaeth i’r llun
     latestNews: Newyddion diweddaraf
     next: nesaf
@@ -903,7 +904,7 @@ apply:
       <p>Dychwelwch at y cam adolygu a rhowch gynnig arall arni. Os byddwch yn gweld gwall o hyd, ffoniwch <a href="tel:03001230735">0300 123 0735</a> (Dydd Llun i ddydd Gwener, 9am tan 5pm)</p>
   digitalFundDefaults: &digitalFundDefaults
     title: Dywedwch wrthym beth yw eich syniad
-    errorTitle: There was a problem with your submission
+    errorTitle: Cafwyd problem gyda'ch cyflwyniad
     fields:
       name:
         label: Eich enw
