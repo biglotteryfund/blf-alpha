@@ -46,6 +46,10 @@
       "prettier --write",
       "eslint"
     ],
+    "*.vue": [
+      "prettier --write",
+      "eslint"
+    ],
     "{controllers/routes.js,controllers/aliases.js,config/default.json}": [
       "./bin/generate-cloudfront-config"
     ]
