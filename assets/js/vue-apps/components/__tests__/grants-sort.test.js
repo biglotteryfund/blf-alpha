@@ -6,7 +6,7 @@ import { shallowMount } from '@vue/test-utils';
 import GrantsSort from '../grants-sort.vue';
 
 describe('GrantsSort', () => {
-    it.skip('should render', () => {
+    it('should render', () => {
         const sort = {
             defaultSort: 'awardDate|desc',
             activeSort: 'amountAwarded|asc',
@@ -31,7 +31,7 @@ describe('GrantsSort', () => {
         };
 
         const wrapper = shallowMount(GrantsSort, {
-            propsData: { sort }
+            propsData: { sort, label: 'Ordered by' }
         });
 
         expect(wrapper.element).toMatchSnapshot();

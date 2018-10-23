@@ -1,13 +1,13 @@
 <script>
 export default {
-    props: ['sort', 'copy']
+    props: ['sort', 'label']
 };
 </script>
 
 <template>
     <div class="sort-controls">
         <label class="ff-label" for="field-sort">
-            {{ copy.sort.orderedBy }}
+            {{ label }}
         </label>
         <select
             class="ff-select"

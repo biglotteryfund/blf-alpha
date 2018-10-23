@@ -6,14 +6,15 @@ import { shallowMount } from '@vue/test-utils';
 import FacetGroup from '../facet-group.vue';
 
 describe('FacetGroup', () => {
-    it.skip('should render', () => {
+    it('should render', () => {
         const wrapper = shallowMount(FacetGroup, {
             propsData: {
                 id: 'test',
-                legend: 'Testing'
+                legend: 'Testing',
+                toggleLabel: 'Toggle'
             },
             slots: {
-                default: '<div class="fake-msg"></div>'
+                default: '<div>dummy content</div>'
             }
         });
 

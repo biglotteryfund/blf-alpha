@@ -10,8 +10,8 @@ export default {
             type: Boolean,
             default: true
         },
-        copy: {
-            type: Object,
+        toggleLabel: {
+            type: String,
             required: true
         }
     },
@@ -36,9 +36,11 @@ export default {
     <div class="facet-group" :class="{ 'is-open': isOpen }" :aria-expanded="isOpen ? 'true' : 'false'" :aria-controls="ariaId">
         <fieldset class="facet-group__fieldset">
             <button class="facet-group__toggle" type="button" @click="isOpen = !isOpen">
-                <IconArrowDown :id="'facet-' + id"
-                               :description="copy.filters.toggle + ' ' + legend" />
-                <span class="u-visually-hidden">{{ copy.filters.toggle }} {{ legend }}</span>
+                <IconArrowDown
+                    :id="'facet-' + id"
+                    :description="toggleLabel + ' ' + legend"
+                />
+                <span class="u-visually-hidden">{{ toggleLabel }} {{ legend }}</span>
             </button>
             <legend class="facet-group__legend">
                 {{ legend }}

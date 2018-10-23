@@ -22,8 +22,10 @@ export default {
             </button>
         </div>
 
-        <FacetGroup :legend="copy.filters.options.amountAwarded.label"
-                    :copy="copy">
+        <FacetGroup
+            :legend="copy.filters.options.amountAwarded.label"
+            :toggle-label="copy.filters.toggle"
+        >
             <FacetChoice
                 v-model="filters.amount"
                 type="radio"
@@ -37,14 +39,16 @@ export default {
             />
         </FacetGroup>
 
-        <FacetGroup :legend="copy.filters.options.organisation"
-                    :copy="copy">
+        <FacetGroup
+            :legend="copy.filters.options.organisation"
+            :toggle-label="copy.filters.toggle"
+        >
             <FacetSelect
                 v-model="filters.orgType"
                 name="orgType"
                 :label="copy.filters.options.organisationType.label"
                 :label-any="copy.filters.options.organisationType.any"
-                :copy="copy"
+                :clear-label="copy.filters.clearSelection"
                 :options="facets.orgType"
                 @clear-selection="$emit('clear-filters', 'orgType')"
             />
@@ -60,8 +64,10 @@ export default {
             />
         </FacetGroup>
 
-        <FacetGroup :legend="copy.filters.options.country.label"
-                    :copy="copy">
+        <FacetGroup
+            :legend="copy.filters.options.country.label"
+            :toggle-label="copy.filters.toggle"
+        >
             <FacetChoice
                 v-model="filters.country"
                 type="radio"
@@ -81,7 +87,7 @@ export default {
                     name="localAuthority"
                     :label="copy.filters.options.localAuthority.label"
                     :label-any="copy.filters.options.localAuthority.any"
-                    :copy="copy"
+                    :clear-label="copy.filters.clearSelection"
                     :options="facets.localAuthorities"
                     @clear-selection="$emit('clear-filters', 'localAuthority')"
                 />
@@ -91,13 +97,12 @@ export default {
                     name="westminsterConstituency"
                     :label="copy.filters.options.westminsterConstituency.label"
                     :label-any="copy.filters.options.westminsterConstituency.any"
-                    :copy="copy"
+                    :clear-label="copy.filters.clearSelection"
                     :options="facets.westminsterConstituencies"
                     @clear-selection="$emit('clear-filters', 'westminsterConstituency')"
                 />
             </FacetDisclose>
         </FacetGroup>
-
 
         <div class="search-filters__extra">
             <strong>{{ copy.feedback.title }}</strong><br />
