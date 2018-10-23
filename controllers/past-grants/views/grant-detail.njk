@@ -98,10 +98,12 @@
                                     <dd>{{ org.companyNumber }}</dd>
                                 {% endif %}
 
-                                <dt>{{ copy.grantDetail.fields.location }}</dt>
-                                <dd>
-                                    {{ buildLocationList(grant.beneficiaryLocation) }}
-                                </dd>
+                                {% if grant.beneficiaryLocation %}
+                                    <dt>{{ copy.grantDetail.fields.location }}</dt>
+                                    <dd>
+                                        {{ buildLocationList(grant.beneficiaryLocation) }}
+                                    </dd>
+                                {% endif %}
                             </dl>
 
                             <p>
