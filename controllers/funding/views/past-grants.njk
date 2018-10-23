@@ -28,7 +28,6 @@
                             promptLabel = copy.survey.prompt,
                             fieldLabel = copy.survey.label
                         )  }}
-
                         <hr />
                         <p>{{ copy.optionsIntro }}</p>
                     </section>
@@ -73,31 +72,33 @@
 
                 {% else %}
                     <section class="s-prose u-constrained-content-wide">
-                        <p>Explore our database to find out what we've funded since 2004.</p>
-                        <p>We understand that searching through the Big Lottery Fund's past grants is important for many people. We are currently working to improve the service we currently offer.</p>
-                        <p>You can try our new service in Beta now, <a href="{{ grantNavLink }}">explore our data with GrantNav</a> or use our <a href="{{ localify('/funding/search-past-grants') }}">old past grants database</a>.</p>
+                        {{ __('funding.pastGrants.intro', grantNavLink) | safe }}
                     </section>
 
                     <form class="grants-searchbar"
                           method="get"
                           action="{{ localify('/funding/search-past-grants-alpha') }}">
                         <label class="ff-label ff-label--append"
-                               data-append="Beta"
-                               for="search-query">Search awarded grants</label>
+                               data-append="{{ copy.search.beta }}"
+                               for="search-query">
+                            {{ copy.search.title }}
+                        </label>
                         <div class="form-field-addon u-margin-bottom-s">
-                            <input class="form-field-addon__input js-only"
+                            <input class="form-field-addon__input"
                                    type="search"
                                    name="q"
                                    autocomplete="off">
-                            <input class="form-field-addon__action" type="submit" value="Search" />
+                            <input class="form-field-addon__action"
+                                   type="submit"
+                                   value="{{ copy.search.submit }}" />
                         </div>
                         <p class="ff-help u-no-margin">
-                            e.g. a keyword such as “loneliness”, a location, an organisation, or an area of work
+                            {{ copy.search.helpText }}
                         </p>
                     </form>
 
                     {% if caseStudies and caseStudies.length > 0 %}
-                        <h3 class="t3 t--underline accent--pink a--text">Featured grants</h3>
+                        <h3 class="t3 t--underline accent--pink a--text">{{ copy.search.featuredGrants }}</h3>
                         <ul class="flex-grid flex-grid--3up">
                             {% for caseStudy in caseStudies %}
                                 <li class="flex-grid__item">
@@ -110,8 +111,8 @@
                                             "alt": caseStudy.title
                                         },
                                         "link": {
-                                            "label": 'View full grant details',
-                                            "labelAria": 'View full grant details',
+                                            "label": copy.search.viewGrantDetails,
+                                            "labelAria": copy.search.viewGrantDetails,
                                             "url": localify("/funding/search-past-grants-alpha/grant/" + caseStudy.grantId)
                                         }
                                     } %}

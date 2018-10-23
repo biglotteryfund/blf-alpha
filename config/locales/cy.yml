@@ -429,6 +429,93 @@ funding:
     legacy:
       title: 2. Defnyddio ein cronfa ddata grantiau bresennol
       linkText: Chwilio grantiau blaenorol
+    search:
+      title: Search awarded grants
+      beta: Beta
+      intro: Thank you for choosing to use our new “search awarded grants” service. We are working to improve the service we currently offer, your feedback will help us do that.
+      helpText: e.g. a keyword such as “loneliness”, a location, an organisation, or an area of work
+      submit: Search
+      pleaseWait: Searching, please wait...
+      resultsCount: projects found
+      totalCount: totalling
+      sort:
+        orderedBy: Ordered by
+      filters:
+        title: Filter by
+        submit: Filter
+        clear: Clear all filters
+        reset: Reset filters
+        clearSelection: Clear selection
+        toggle: Toggle
+        options:
+          truncate:
+            seeMore: See more options
+            seeFewer: See fewer options
+          amountAwarded:
+            label: Grant amount
+            any: Any amount
+          country:
+            label: Location
+            any: All countries
+            labelClosed: See advanced location options
+            labelOpen: Hide advanced location options
+          programme:
+            label: Funding programme
+            any: All programmes
+          localAuthority:
+            label: Local authority
+            any: All local authorities
+          westminsterConstituency:
+            label: Westminster constituency
+            any: All constituencies
+          organisationType:
+            label: Organisation
+            any: Select an organisation type
+          organisation: Organisation
+      errors:
+        noResults:
+          heading: We're sorry, we couldn't find any results matching your criteria
+          suggestions:
+          - Try a different query or clear your filters
+          - Try searching something less specific — sometimes using a more general search term may help
+          - Double check the spelling of any keywords you are searching for
+          - 'Our database might not have the details for grants awarded under 1 month ago. Please check our <a href="/news-and-events">news section</a> if you are looking for a recently awarded grant'
+          otherOptions: >
+            If you're looking for something specific and would like some help <a href="/contact">please contact us</a>.
+        postcode: The postcode you entered was invalid – please try another one.
+        generic: There was an error with your search.
+      featuredGrants: Featured grants
+      viewGrantDetails: View full grant details
+      feedback:
+        title: Is something missing?
+        body: >
+          Please <a href="#feedback">send us feedback</a> to help us improve this service
+      grantDetail:
+        projectOverview: Project overview
+        viewAllForRecipient: View all grants awarded to this recipient
+        fundedBy: Funded by
+        readMoreAbout: Read more about
+        photoCaption: Photo
+        moreLikeThis: More like this
+        fields:
+          location: Location
+          multipleLocations: Multiple locations
+          duration: Duration
+          programme: Grant Programme
+          status: Status
+          recipientOrg: Recipient organisation
+          orgName: Organisation name
+          type: Type
+          charityNumber: Charity number
+          companyNumber: Company number
+        statuses:
+          active: Active
+          inactive: inActive
+          activeProject: Active Project
+      recipientDetail:
+        awardingProgrammes: Awarding programmes
+        searchGoogle: Search for %s with Google
+        numFundedTotal: '%s project(s) funded by Big Lottery Fund (£%s awarded in total)'
   guidance:
     order-free-materials:
       title: Sut i gael deunyddiau â'n brand arnynt am ddim

@@ -1,33 +1,35 @@
 <script>
-import FacetGroup from './facet-group.vue';
-import FacetDisclose from './facet-disclose.vue';
-import FacetChoice from './facet-choice.vue';
-import FacetSelect from './facet-select.vue';
+    import FacetGroup from './facet-group.vue';
+    import FacetDisclose from './facet-disclose.vue';
+    import FacetChoice from './facet-choice.vue';
+    import FacetSelect from './facet-select.vue';
 
-export default {
-    components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
-    props: ['facets', 'filters', 'status']
-};
+    export default {
+        components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
+        props: ['facets', 'filters', 'status', 'copy']
+    };
 </script>
 
 <template>
     <fieldset class="search-filters"
-        :class="{ 'search-filters--locked': status.state === 'Loading' }"
+              :class="{ 'search-filters--locked': status.state === 'Loading' }"
     >
         <div class="search-filters__header">
-            <legend class="search-filters__title">Filter by</legend>
+            <legend class="search-filters__title">{{ copy.filters.title }}</legend>
             <button type="button" class="search-filters__clear-all btn-link"
-                @click="$emit('clear-filters')">
-                Reset filters
+                    @click="$emit('clear-filters')">
+                {{ copy.filters.reset }}
             </button>
         </div>
 
-        <FacetGroup legend="Grant amount">
+        <FacetGroup :legend="copy.filters.options.amountAwarded.label"
+                    :copy="copy">
             <FacetChoice
                 v-model="filters.amount"
                 type="radio"
                 name="amount"
-                label="Amount awarded"
+                :copy="copy"
+                :label="copy.filters.options.amountAwarded.label"
                 :hideLabel="true"
                 :options="facets.amountAwarded"
                 :optionLimit="3"
@@ -35,12 +37,14 @@ export default {
             />
         </FacetGroup>
 
-        <FacetGroup legend="Organisation">
+        <FacetGroup :legend="copy.filters.options.organisation"
+                    :copy="copy">
             <FacetSelect
                 v-model="filters.orgType"
                 name="orgType"
-                label="Type of organisation"
-                labelAny="Select an organisation type"
+                :label="copy.filters.options.organisationType.label"
+                :labelAny="copy.filters.options.organisationType.any"
+                :copy="copy"
                 :options="facets.orgType"
                 @clear-selection="$emit('clear-filters', 'orgType')"
             />
@@ -48,33 +52,36 @@ export default {
             <FacetSelect
                 v-model="filters.programme"
                 name="programme"
-                label="Funding programme"
-                labelAny="Select a programme"
+                :label="copy.filters.options.programme.label"
+                :labelAny="copy.filters.options.programme.any"
+                :copy="copy"
                 :options="facets.grantProgramme"
                 @clear-selection="$emit('clear-filters', 'programme')"
             />
         </FacetGroup>
 
-        <FacetGroup legend="Location">
+        <FacetGroup :legend="copy.filters.options.country.label"
+                    :copy="copy">
             <FacetChoice
                 v-model="filters.country"
                 type="radio"
                 name="country"
-                label="Country"
+                :label="copy.filters.options.country.label"
                 :hideLabel="true"
                 :options="facets.countries"
                 @clear-selection="$emit('clear-filters', 'country')"
             />
 
             <FacetDisclose
-                labelClosed="See advanced location options"
-                labelOpen="Hide advanced location options"
+                :labelClosed="copy.filters.options.country.labelClosed"
+                :labelOpen="copy.filters.options.country.labelOpen"
             >
                 <FacetSelect
                     v-model="filters.localAuthority"
                     name="localAuthority"
-                    label="Local authority"
-                    labelAny="Select a local authority"
+                    :label="copy.filters.options.localAuthority.label"
+                    :labelAny="copy.filters.options.localAuthority.any"
+                    :copy="copy"
                     :options="facets.localAuthorities"
                     @clear-selection="$emit('clear-filters', 'localAuthority')"
                 />
@@ -82,18 +89,19 @@ export default {
                 <FacetSelect
                     v-model="filters.westminsterConstituency"
                     name="westminsterConstituency"
-                    label="Westminster constituency"
-                    labelAny="Select a constituency"
+                    :label="copy.filters.options.westminsterConstituency.label"
+                    :labelAny="copy.filters.options.westminsterConstituency.any"
+                    :copy="copy"
                     :options="facets.westminsterConstituencies"
                     @clear-selection="$emit('clear-filters', 'westminsterConstituency')"
                 />
             </FacetDisclose>
-       </FacetGroup>
+        </FacetGroup>
 
 
-       <div class="search-filters__extra">
-            <strong>Is something missing?</strong><br/>
-            Please <a href="#feedback">send us feedback</a> to help us improve this service
-       </div>
+        <div class="search-filters__extra">
+            <strong>{{ copy.feedback.title }}</strong><br/>
+            <div v-html="copy.feedback.body"></div>
+        </div>
     </fieldset>
 </template>

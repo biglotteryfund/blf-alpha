@@ -13,7 +13,8 @@
             queryParams: {{ queryParams | dump | safe }},
             totalResults: {{ meta.totalResults }},
             totalAwarded: {{ meta.totalAwarded}},
-            sort: {{ meta.sort | dump | safe }}
+            sort: {{ meta.sort | dump | safe }},
+            lang: {{ copy | dump | safe }}
         };
     </script>
 {% endblock %}
@@ -30,9 +31,10 @@
             <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
-                <p><strong>BETA:</strong> Thank you for choosing to use our new “search awarded grants” service. We are working to improve the service we currently offer, your feedback will help us do that.</p>
+                <p><strong>{{ copy.beta | upper }}:</strong> {{ copy.intro }}</p>
 
                 <div id="feedback">
+                    {# @TODO i18n #}
                     {{ inlineFeedback(
                         description = "past_grants_beta",
                         promptLabel = "Can you spare a minute to give us some feedback?",
@@ -44,7 +46,7 @@
             <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>
 
                 <div class="grants-searchbar">
-                    <label class="ff-label" for="search-query">Search awarded grants</label>
+                    <label class="ff-label" for="search-query">{{ copy.title }}</label>
                     <div class="form-field-addon u-margin-bottom-s">
                         <input class="form-field-addon__input js-only"
                                disabled="disabled"
@@ -59,10 +61,12 @@
                                 name="q"
                                 value="{{ queryParams.q }}">
                         </noscript>
-                        <input class="form-field-addon__action" type="submit" value="Search" @click="updateQuery" />
+
+                        <input class="form-field-addon__action" type="submit" value="{{ copy.submit }}" @click="updateQuery" />
+
                     </div>
                     <p class="ff-help u-no-margin">
-                        e.g. a keyword such as “loneliness”, a location, an organisation, or an area of work
+                        {{ copy.helpText }}
                     </p>
                 </div>
 
@@ -72,13 +76,15 @@
                             <grants-total-summary
                                 :total-results="totalResults"
                                 :total-awarded="totalAwarded"
+                                :copy="copy"
                             />
-                            {{ meta.totalResults | numberWithCommas }} projects found
+                            {{ meta.totalResults | numberWithCommas }} {{ copy.resultsCount }}
                         </h2>
 
                         <div class="grants-search__sort">
                             <grants-sort
                                 :sort="sort"
+                                :copy="copy"
                                 @change-sort="handleChangeSort"
                             />
                         </div>
@@ -88,7 +94,10 @@
 
                         <div class="grants-search__results">
                             <div class="grants-search__status">
-                                <grants-loading-status :status="status" />
+                                <grants-loading-status
+                                    :status="status"
+                                    :copy="copy"
+                                />
                             </div>
 
                             <div id="js-grant-results" v-show="['NotAsked', 'Success'].indexOf(status.state) !== -1">
@@ -102,25 +111,26 @@
                                 :facets="facets"
                                 :filters="filters"
                                 :status="status"
+                                :copy="copy"
                                 @clear-filters="clearFilters"
                             />
 
                             {# Noscript fallback filters #}
                             <fieldset class="search-filters">
                                 <div class="search-filters__header">
-                                    <legend class="search-filters__title">Filter by</legend>
+                                    <legend class="search-filters__title">{{ copy.filters.title }}</legend>
                                 </div>
                                 {# Filter: Amount awarded #}
                                 {% if facets.amountAwarded %}
                                     {% set options = (facets.amountAwarded.unshift({
-                                        'label': 'Any amount',
+                                        'label': copy.filters.options.amountAwarded.any,
                                         'value': ''
                                     }), facets.amountAwarded) %}
                                     <div class="facet-group">
                                         {{ inputChoice({
                                             type: 'radio',
                                             name: 'amount',
-                                            label: 'Amount awarded',
+                                            label: copy.filters.options.amountAwarded.label,
                                             value: queryParams.amount,
                                             options: options,
                                             silentlyOptional: true
@@ -131,14 +141,14 @@
                                 {# Filter: Country #}
                                 {% if facets.countries %}
                                     {% set options = (facets.countries.unshift({
-                                        'label': 'All countries',
+                                        'label': copy.filters.options.country.any,
                                         'value': ''
                                     }), facets.countries) %}
                                     <div class="facet-group">
                                         {{ inputChoice({
                                             type: 'radio',
                                             name: 'country',
-                                            label: 'Country',
+                                            label: copy.filters.options.country.label,
                                             value: queryParams.country,
                                             options: options,
                                             silentlyOptional: true
@@ -149,14 +159,14 @@
                                 {# Filter: Grant programme #}
                                 {% if facets.grantProgramme %}
                                     {% set options = (facets.grantProgramme.unshift({
-                                        'label': 'All programmes',
+                                        'label': copy.filters.options.programme.any,
                                         'value': ''
                                     }), facets.grantProgramme) %}
                                     <div class="facet-group">
                                         {{ inputSelect({
                                             type: 'select',
                                             name: 'programme',
-                                            label: 'Programme',
+                                            label: copy.filters.options.programme.label,
                                             value: queryParams.programme,
                                             options: options,
                                             silentlyOptional: true
@@ -167,14 +177,14 @@
                                 {# Filter: Local Authority #}
                                 {% if facets.localAuthorities %}
                                     {% set options = (facets.localAuthorities.unshift({
-                                        'label': 'All local authorities',
+                                        'label': copy.filters.options.localAuthority.any,
                                         'value': ''
                                     }), facets.localAuthorities) %}
                                     <div class="facet-group">
                                         {{ inputSelect({
                                             type: 'select',
                                             name: 'localAuthority',
-                                            label: 'Local authority',
+                                            label: copy.filters.options.localAuthority.label,
                                             value: queryParams.localAuthority,
                                             options: options,
                                             silentlyOptional: true
@@ -185,14 +195,14 @@
                                 {# Filter: Constituency #}
                                 {% if facets.westminsterConstituencies %}
                                     {% set options = (facets.westminsterConstituencies.unshift({
-                                        'label': 'All constituencies',
+                                        'label': copy.filters.options.westminsterConstituency.any,
                                         'value': ''
                                     }), facets.westminsterConstituencies) %}
                                     <div class="facet-group">
                                         {{ inputSelect({
                                             type: 'select',
                                             name: 'constituency',
-                                            label: 'Westminster constituency',
+                                            label: copy.filters.options.westminsterConstituency.label,
                                             value: queryParams.constituency,
                                             options: options,
                                             silentlyOptional: true
@@ -202,7 +212,9 @@
 
                                 <noscript>
                                     <div class="search-filters__actions">
-                                        <input type="submit" value="Filter" class="btn btn--medium">
+                                        <input type="submit"
+                                               value="{{ copy.filters.submit }}"
+                                               class="btn btn--medium">
                                     </div>
                                 </noscript>
                             </fieldset>
@@ -212,20 +224,25 @@
 
                 <grants-no-results
                     :total-results="totalResults"
+                    :copy="copy"
                     @clear-filters="clearFilters"
                 />
 
                 {% if meta.totalResults === 0 %}
                     <div class="grants-no-results s-prose u-margin-bottom" v-if="totalResults === 0">
-                        <h3>We're sorry, we couldn't find any results matching your criteria</h3>
+                        <h3>{{ copy.errors.noResults.title }}</h3>
                         <ul>
-                            <li>Try a different query or clear your filters</li>
-                            <li>Try searching something less specific — sometimes using a more general search term may help</li>
-                            <li>Double check the spelling of any keywords you are searching for</li>
-                            <li>Our database might not have the details for granst awarded under 1 month ago. Please check our <a href="/news-and-events">news section</a> if you are looking for a recently awarded grant</li>
+                            {% for s in copy.errors.noResults.suggestions %}
+                                <li>{{ s | safe }}</li>
+                            {% endfor %}
                         </ul>
-                        <p>If you're looking for something specific and would like some help <a href="/contact">please contact us</a></p>
-                        <p><a class="btn btn--medium" href="/funding/search-past-grants-alpha">Clear all filters</a></p>
+                        <p>{{ copy.errors.noResults.otherOptions | safe }}</p>
+                        <p>
+                            <a class="btn btn--medium"
+                              href="{{ localify('/funding/search-past-grants-alpha') }}">
+                                {{ copy.filters.clear }}
+                            </a>
+                        </p>
                     </div>
                 {% endif %}
             </form>

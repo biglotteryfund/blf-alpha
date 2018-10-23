@@ -16,23 +16,23 @@
             "trailText": false if options.hideDescription else grant.description,
             "link": {
                 "url": localify("/funding/search-past-grants-alpha/grant/" + grant.id),
-                "label": "View full details"
+                "label": copy.viewGrantDetails
             }
         }) %}
             <dl class="o-definition-list o-definition-list--compact">
                 {% if grant.beneficiaryLocation and not options.hideLocation %}
-                    <dt>Location</dt>
+                    <dt>{{ copy.grantDetail.fields.location }}</dt>
                     <dd>
                         {{ buildLocationList(grant.beneficiaryLocation) }}
                     </dd>
                 {% endif %}
-                <dt>Grant programme</dt>
+                <dt>{{ copy.grantDetail.fields.programme }}</dt>
                 {% for programme in grant.grantProgramme %}
                     <dd><a href="{{ pgLink('programme', programme.title) }}">{{ programme.title }}</a></dd>
                 {% endfor %}
             </dl>
             {% if grant.isActive %}
-                <span class="active-badge">Active Project</span>
+                <span class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</span>
             {% endif %}
         {% endcall %}
     </div>
@@ -46,8 +46,5 @@
         {% if not options.hidePagination %}
             {{ splitNav(pagination.prevLink, pagination.nextLink) }}
         {% endif %}
-    {% else %}
-        {# @TODO add suggested search results etc #}
-        <p>No results</p>
     {% endif %}
 {% endmacro %}

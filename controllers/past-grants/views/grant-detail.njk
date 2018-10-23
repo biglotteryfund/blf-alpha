@@ -24,10 +24,10 @@
                     <div class="u-constrained-wide accent--pink">
                         <h1>{{ title }}</h1>
                         {% if grant.isActive %}
-                            <p class="active-badge">Active Project</p>
+                            <p class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</p>
                         {% endif %}
 
-                        <h2 class="t3 t--underline accent--pink">Project overview</h2>
+                        <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
                         <p>{{ grant.description }}</p>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
 
                     <dl class="o-definition-list o-definition-list--compact project-details">
                         {% if grant.plannedDates %}
-                            <dt>Duration</dt>
+                            <dt>{{ copy.grantDetail.fields.duration }}</dt>
                             {% for dates in grant.plannedDates %}
                                 <dd>
                                     {{ fields.area.label }}
@@ -54,8 +54,14 @@
                                 </dd>
                             {% endfor %}
                         {% endif %}
-                        <dt>Status</dt>
-                        <dd>{% if grant.isActive %}Active {% else %}Inactive{% endif %}</dd>
+                        <dt>{{ copy.grantDetail.fields.status }}</dt>
+                        <dd>
+                            {% if grant.isActive %}
+                                {{ copy.grantDetail.statuses.active }}
+                            {% else %}
+                                {{ copy.grantDetail.statuses.inactive }}
+                            {% endif %}
+                        </dd>
                     </dl>
                 </div>
 
@@ -67,32 +73,32 @@
 
                 <div class="flex-grid__item">
                     <div class="card card--plain u-no-margin u-accent-border-top-pink">
-                        <h2 class="t3 t--underline accent--pink">Recipient organisation</h2>
+                        <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.fields.recipientOrg }}</h2>
 
                         {% for org in grant.recipientOrganization %}
 
                             <dl class="o-definition-list o-definition-list--compact project-details">
-                                <dt>Organisation name</dt>
+                                <dt>{{ copy.grantDetail.fields.orgName }}</dt>
                                 <dd>
                                     <a href="{{ localify("/funding/search-past-grants-alpha/recipient/" + org.id) }}">{{ org.name }}</a>
                                 </dd>
 
-                                <dt>Type</dt>
+                                <dt>{{ copy.grantDetail.fields.type }}</dt>
                                 <dd>
                                     {{ buildOrgTypeList(org) }}
                                 </dd>
 
                                 {% if org.charityNumber %}
-                                    <dt>Charity number</dt>
+                                    <dt>{{ copy.grantDetail.fields.charityNumber }}</dt>
                                     <dd>{{ org.charityNumber }}</dd>
                                 {% endif %}
 
                                 {% if org.companyNumber %}
-                                    <dt>Company number</dt>
+                                    <dt>{{ copy.grantDetail.fields.companyNumber }}</dt>
                                     <dd>{{ org.companyNumber }}</dd>
                                 {% endif %}
 
-                                <dt>Location</dt>
+                                <dt>{{ copy.grantDetail.fields.location }}</dt>
                                 <dd>
                                     {{ buildLocationList(grant.beneficiaryLocation) }}
                                 </dd>
@@ -101,7 +107,7 @@
                             <p>
                                 <a class="btn btn--small btn--outline accent--pink"
                                    href="{{ localify("/funding/search-past-grants-alpha/recipient/" + org.id) }}">
-                                    View all grants awarded to this recipient
+                                    {{ copy.grantDetail.viewAllForRecipient }}
                                 </a>
                             </p>
                         {% endfor %}
@@ -133,19 +139,19 @@
                     {% endif %}
 
                     {% set props = {
-                        "title": "Funded by " + mainProgramme.title,
+                        "title": copy.grantDetail.fundedBy + ' ' + mainProgramme.title,
                         "trailText": fundingProgramme.intro,
                         "image": heroImage,
                         "link": {
-                            "label": "Read more about " + mainProgramme.title,
-                            "labelAria": "Read more about " + mainProgramme.title,
+                            "label": copy.grantDetail.readMoreAbout + ' ' + mainProgramme.title,
+                            "labelAria": copy.grantDetail.readMoreAbout + ' ' + mainProgramme.title,
                             "url": link
                         }
                     } %}
 
                     {% call promoCard(props, featured = true) %}
                         {% if fundingProgramme.hero.caption %}
-                            <p class="project-caption">Photo: {{ fundingProgramme.hero.caption }}</p>
+                            <p class="project-caption">{{ copy.grantDetail.photoCaption }}: {{ fundingProgramme.hero.caption }}</p>
                         {% endif %}
                     {% endcall %}
 
@@ -159,12 +165,11 @@
              id="js-grant-related-projects"
              v-show="relatedGrants"
              v-cloak=>
-            <h2 class="t3 t--underline accent--pink">More like this</h2>
+            <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.moreLikeThis }}</h2>
             <div class="flex-grid flex-grid--3up"
                  v-html="relatedGrants">
             </div>
         </div>
-
 
     </main>
 {% endblock %}
