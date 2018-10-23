@@ -65,7 +65,7 @@ function buildAllowedParams(queryParams) {
         'sort',
         'country',
         'localAuthority',
-        'constituency',
+        'westminsterConstituency',
         'recipient',
         'exclude',
         'limit'
