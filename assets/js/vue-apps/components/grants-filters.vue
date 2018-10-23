@@ -22,35 +22,46 @@ export default {
             </button>
         </div>
 
-        <FacetGroup id="grant-size" legend="Amount awarded">
+        <FacetGroup legend="Grant amount">
             <FacetChoice
                 v-model="filters.amount"
                 type="radio"
                 name="amount"
                 label="Amount awarded"
+                :hideLabel="true"
                 :options="facets.amountAwarded"
                 :optionLimit="3"
                 @clear-selection="$emit('clear-filters', 'amount')"
             />
         </FacetGroup>
 
-        <FacetGroup id="grant-size" legend="Organisation type">
+        <FacetGroup legend="Organisation">
             <FacetSelect
                 v-model="filters.orgType"
                 name="orgType"
-                label="Organisation type"
+                label="Type of organisation"
                 labelAny="Select an organisation type"
                 :options="facets.orgType"
                 @clear-selection="$emit('clear-filters', 'orgType')"
             />
+
+            <FacetSelect
+                v-model="filters.programme"
+                name="programme"
+                label="Funding programme"
+                labelAny="Select a programme"
+                :options="facets.grantProgramme"
+                @clear-selection="$emit('clear-filters', 'programme')"
+            />
         </FacetGroup>
 
-        <FacetGroup id="location" legend="Location">
+        <FacetGroup legend="Location">
             <FacetChoice
                 v-model="filters.country"
                 type="radio"
                 name="country"
-                label="Location"
+                label="Country"
+                :hideLabel="true"
                 :options="facets.countries"
                 @clear-selection="$emit('clear-filters', 'country')"
             />
@@ -79,17 +90,6 @@ export default {
             </FacetDisclose>
        </FacetGroup>
 
-
-        <FacetGroup id="programme" legend="Funding programme">
-            <FacetSelect
-                v-model="filters.programme"
-                name="programme"
-                label="Funding programme"
-                labelAny="Select a programme"
-                :options="facets.grantProgramme"
-                @clear-selection="$emit('clear-filters', 'programme')"
-            />
-       </FacetGroup>
 
        <div class="search-filters__extra">
             <strong>Is something missing?</strong><br/>

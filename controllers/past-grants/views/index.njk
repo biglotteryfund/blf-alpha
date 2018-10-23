@@ -51,18 +51,15 @@
                                type="search"
                                id="search-query"
                                name="q"
-                               :value="filters.q"
-                               autocomplete="off"
-                               @input="debounceQuery">
+                               v-model="activeQuery">
                         <noscript>
                             <input class="form-field-addon__input"
-                                    type="search"
-                                    id="search-query"
-                                    name="q"
-                                    value="{{ queryParams.q }}"
-                                    autocomplete="off">
+                                type="search"
+                                id="search-query"
+                                name="q"
+                                value="{{ queryParams.q }}">
                         </noscript>
-                        <input class="form-field-addon__action" type="submit" value="Search" />
+                        <input class="form-field-addon__action" type="submit" value="Search" @click="updateQuery" />
                     </div>
                     <p class="ff-help u-no-margin">
                         e.g. a keyword such as “loneliness”, a location, an organisation, or an area of work
