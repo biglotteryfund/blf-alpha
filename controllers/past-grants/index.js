@@ -104,7 +104,8 @@ router.get(
     injectCopy('funding.pastGrants.search'),
     async (req, res, next) => {
         const facetParams = buildAllowedParams(req.query);
-        const queryWithPage = addPaginationParameters(facetParams, req.query.page);
+        let queryWithPage = addPaginationParameters(facetParams, req.query.page);
+        queryWithPage.locale = res.locals.locale;
         let data;
 
         try {
@@ -172,7 +173,10 @@ router.get('/grant/:id', injectCopy('funding.pastGrants.search'), async (req, re
     try {
         const data = await request({
             url: `${PAST_GRANTS_API_URI}/${req.params.id}`,
-            json: true
+            json: true,
+            qs: {
+                locale: res.locals.locale
+            }
         });
 
         if (data) {
@@ -206,6 +210,7 @@ router.get('/recipient/:id', injectCopy('funding.pastGrants.search'), async (req
     try {
         let qs = addPaginationParameters({}, req.query.page);
         qs.recipient = req.params.id;
+        qs.locale = res.locals.locale;
         const data = await request({
             url: PAST_GRANTS_API_URI,
             json: true,
