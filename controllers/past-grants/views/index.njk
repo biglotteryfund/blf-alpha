@@ -45,30 +45,53 @@
 
             <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>
 
-                <div class="grants-searchbar">
+                <div class="grants-searchbar js-only">
                     <label class="ff-label" for="search-query">{{ copy.title }}</label>
                     <div class="form-field-addon u-margin-bottom-s">
-                        <input class="form-field-addon__input js-only"
-                               disabled="disabled"
-                               type="search"
-                               id="search-query"
-                               name="q"
-                               v-model="activeQuery">
-                        <noscript>
-                            <input class="form-field-addon__input"
-                                type="search"
-                                id="search-query"
-                                name="q"
-                                value="{{ queryParams.q }}">
-                        </noscript>
-
-                        <input class="form-field-addon__action" type="submit" value="{{ copy.submit }}" @click="updateQuery" />
-
+                        <input
+                            class="form-field-addon__input "
+                            disabled="disabled"
+                            type="search"
+                            id="search-query"
+                            name="q"
+                            v-model="activeQuery"
+                        />
+                        <input
+                            class="form-field-addon__action"
+                            type="submit"
+                            value="{{ copy.submit }}"
+                            @click="updateQuery"
+                        />
                     </div>
                     <p class="ff-help u-no-margin">
                         {{ copy.helpText }}
                     </p>
                 </div>
+
+                <noscript>
+                    <div class="grants-searchbar">
+                        <label class="ff-label" for="search-query-fallback">
+                            {{ copy.title }}
+                        </label>
+                        <div class="form-field-addon u-margin-bottom-s">
+                            <input
+                                class="form-field-addon__input"
+                                type="search"
+                                id="search-query-fallback"
+                                name="q"
+                                value="{{ queryParams.q }}"
+                            />
+                            <input
+                                class="form-field-addon__action"
+                                type="submit"
+                                value="{{ copy.submit }}"
+                            />
+                        </div>
+                        <p class="ff-help u-no-margin">
+                            {{ copy.helpText }}
+                        </p>
+                    </div>
+                </noscript>
 
                 <div class="grants-search{% if meta.totalResults === 0 %} js-only{% endif %}" v-if="totalResults > 0">
                     <div class="grants-search__meta">

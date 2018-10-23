@@ -6,7 +6,7 @@ exports[`FacetSelect should render with optgroup 1`] = `
 >
   <label
     class="ff-label"
-    for="field-dynamic-nodejs"
+    for="field-dynamic-example"
   >
     
         Example
@@ -68,7 +68,7 @@ exports[`FacetSelect should render with plain options 1`] = `
 >
   <label
     class="ff-label"
-    for="field-dynamic-nodejs"
+    for="field-dynamic-example"
   >
     
         Example

@@ -27,26 +27,27 @@ export default {
 </script>
 
 <template>
-    <fieldset class="ff-choice" v-if="options.length > 0">
-        <legend class="ff-label" :class="{ 'u-visually-hidden': hideLabel }">
-            {{ label }}
-        </legend>
-         <ul class="ff-choice__list">
-            <li class="ff-choice__option" v-for="(option, index) in optionsToDisplay" :key="option.value">
-                <input
-                    :type="type"
-                    :id="fieldId(index)"
-                    :name="name"
-                    :value="option.value"
-                    :checked="option.value === value"
-                    @input="$emit('input', $event.target.value)"
-                />
-                <label class="ff-choice__label" :for="fieldId(index)">
-                    {{ option.label }}
-                </label>
-            </li>
-        </ul>
-
+    <div>
+        <fieldset class="ff-choice" v-if="options.length > 0">
+            <legend class="ff-label">
+                {{ label }}
+            </legend>
+            <ul class="ff-choice__list">
+                <li class="ff-choice__option" v-for="(option, index) in optionsToDisplay" :key="option.value">
+                    <input
+                        :type="type"
+                        :id="fieldId(index)"
+                        :name="name"
+                        :value="option.value"
+                        :checked="option.value === value"
+                        @input="$emit('input', $event.target.value)"
+                    />
+                    <label class="ff-choice__label" :for="fieldId(index)">
+                        {{ option.label }}
+                    </label>
+                </li>
+            </ul>
+        </fieldset>
         <button type="button"
             class="btn-link"
             v-if="shouldTruncate()"
@@ -62,5 +63,5 @@ export default {
         >
             {{ copy.filters.clearSelection }}
         </button>
-    </fieldset>
+    </div>
 </template>
