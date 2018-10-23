@@ -147,11 +147,7 @@ const funding = {
         },
         {
             path: '/past-grants',
-            lang: 'funding.pastGrants',
-            heroSlug: 'active-plus-communities',
-            router: staticPage({
-                template: 'static-pages/past-grants'
-            })
+            router: require('./funding')
         },
         {
             path: '/search-past-grants-alpha',
