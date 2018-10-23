@@ -53,18 +53,17 @@
                                type="search"
                                id="search-query"
                                name="q"
-                               :value="filters.q"
-                               autocomplete="off"
-                               @input="debounceQuery">
+                               v-model="activeQuery">
                         <noscript>
                             <input class="form-field-addon__input"
-                                    type="search"
-                                    id="search-query"
-                                    name="q"
-                                    value="{{ queryParams.q }}"
-                                    autocomplete="off">
+                                type="search"
+                                id="search-query"
+                                name="q"
+                                value="{{ queryParams.q }}">
                         </noscript>
-                        <input class="form-field-addon__action" type="submit" value="{{ copy.submit }}" />
+
+                        <input class="form-field-addon__action" type="submit" value="{{ copy.submit }}" @click="updateQuery" />
+
                     </div>
                     <p class="ff-help u-no-margin">
                         {{ copy.helpText }}

@@ -102,9 +102,7 @@
                                         <dd>
                                             <a href="{{ pgLink('programme', programme.title) }}">{{ programme.title }}</a>
                                             {% if grant.isActive %}
-                                                <span class="u-pull-right grant-programme is-active-project">
-                                                    {{ copy.grantDetail.statuses.activeProject }}
-                                                </span>
+                                                <span class="u-pull-right active-badge">{{ copy.grantDetail.statuses.activeProject }}</span>
                                             {% endif %}
                                         </dd>
                                     {% endfor %}

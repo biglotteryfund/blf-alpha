@@ -43,20 +43,17 @@
                     </div>
 
                     <div class="content-sidebar__secondary">
-                        {% if featurePreviewDigitalFund %}
-                            {# Open to applicants #}
-                            <div class="u-sticky-offset">
-                                {% call actionCard({
-                                    title: copy.process.getStarted.title,
-                                    link: {
-                                        url: eligibilityLink,
-                                        label: copy.process.getStarted.linkText
-                                    }
-                                }, accent = pageAccent) %}
-                                    {{ copy.process.getStarted.body | safe }}
-                                {% endcall %}
-                            </div>
-                        {% endif %}
+                        <div class="u-sticky-offset">
+                            {% call actionCard({
+                                title: copy.process.getStarted.title,
+                                link: {
+                                    url: eligibilityLink,
+                                    label: copy.process.getStarted.linkText
+                                }
+                            }, accent = pageAccent) %}
+                                {{ copy.process.getStarted.body | safe }}
+                            {% endcall %}
+                        </div>
                     </div>
                 </div>
             </section>
@@ -81,18 +78,16 @@
                 {{ copy.successFactors[currentStrand] | safe }}
             {% endcall %}
 
-            {% if featurePreviewDigitalFund %}
-                {% call contentBox(pageAccent, id="segment-5") %}
-                    <h2>{{ copy.process.getStarted.title }}</h2>
-                    <p>{{ copy.process.getStarted.teaser }}</p>
-                    <p>
-                        <a href="{{ eligibilityLink }}"
-                           class="btn btn--medium accent--{{ pageAccent }} a--btn">
-                            {{ copy.process.getStarted.linkText }}
-                        </a>
-                    </p>
-                {% endcall %}
-            {% endif %}
+            {% call contentBox(pageAccent, id="segment-5") %}
+                <h2>{{ copy.process.getStarted.title }}</h2>
+                <p>{{ copy.process.getStarted.teaser }}</p>
+                <p>
+                    <a href="{{ eligibilityLink }}"
+                        class="btn btn--medium accent--{{ pageAccent }} a--btn">
+                        {{ copy.process.getStarted.linkText }}
+                    </a>
+                </p>
+            {% endcall %}
 
             {% call contentBox(pageAccent, id="segment-6") %}
                 <h2>{{ copy.questions.title }}</h2>
@@ -102,12 +97,10 @@
             {% call contentBox(pageAccent) %}
                 <h2>{{ copy.wayfinding.title }}</h2>
 
-                {% if featurePreviewDigitalFund %}
-                    <p><a href="{{ localify('/funding/programmes/digital-fund/assistance') }}"
-                        class="btn btn--medium accent--pink a--btn">
-                        {{ copy.wayfinding.assistance }}
-                    </a></p>
-                {% endif %}
+                <p><a href="{{ localify('/funding/programmes/digital-fund/assistance') }}"
+                    class="btn btn--medium accent--pink a--btn">
+                    {{ copy.wayfinding.assistance }}
+                </a></p>
 
                 {% if currentStrand === 'strand1' %}
                     <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"

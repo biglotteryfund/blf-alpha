@@ -30,12 +30,10 @@
                 {% for programme in grant.grantProgramme %}
                     <dd><a href="{{ pgLink('programme', programme.title) }}">{{ programme.title }}</a></dd>
                 {% endfor %}
-                {% if grant.isActive %}
-                    <span class="grant-programme is-active-project u-margin-top-s">
-                        {{ copy.grantDetail.statuses.activeProject }}
-                    </span>
-                {% endif %}
             </dl>
+            {% if grant.isActive %}
+                <span class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</span>
+            {% endif %}
         {% endcall %}
     </div>
 {% endmacro %}

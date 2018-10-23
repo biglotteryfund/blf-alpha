@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const { find, get, shuffle, take } = require('lodash');
+const { find, get, sampleSize } = require('lodash');
 
 const { injectFundingProgrammes, injectHeroImage, injectCopy } = require('../../middleware/inject-content');
 const { sMaxAge } = require('../../middleware/cached');
@@ -41,7 +41,7 @@ router.get(
         });
 
         // Shuffle the valid case studies and grab the first few
-        caseStudies = take(shuffle(caseStudies.filter(c => c.grantId)), 3);
+        caseStudies = sampleSize(caseStudies.filter(c => c.grantId), 3);
 
         res.render(path.resolve(__dirname, './views/past-grants'), {
             title: res.locals.copy.title,

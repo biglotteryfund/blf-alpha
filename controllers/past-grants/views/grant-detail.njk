@@ -24,9 +24,7 @@
                     <div class="u-constrained-wide accent--pink">
                         <h1>{{ title }}</h1>
                         {% if grant.isActive %}
-                            <p class="grant-programme is-active-project u-margin-bottom-l">
-                                {{ copy.grantDetail.statuses.activeProject }}
-                            </p>
+                            <p class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</p>
                         {% endif %}
 
                         <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>

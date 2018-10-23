@@ -2,7 +2,6 @@ import $ from 'jquery';
 import Vue from 'vue';
 import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
-import debounce from 'lodash/debounce';
 import queryString from 'query-string';
 
 import GrantsFilters from './components/grants-filters.vue';
@@ -40,12 +39,14 @@ function init() {
              */
             // @ts-ignore
             const initialData = window._PAST_GRANTS_SEARCH;
+            const initialQueryParams = get(initialData, 'queryParams', {}) || {};
 
             return {
                 status: { state: states.NotAsked },
+                activeQuery: initialQueryParams.q || null,
                 facets: get(initialData, 'facets', {}),
                 sort: get(initialData, 'sort', {}),
-                filters: get(initialData, 'queryParams', {}) || {},
+                filters: initialQueryParams,
                 totalResults: initialData.totalResults || 0,
                 totalAwarded: initialData.totalAwarded || 0,
                 copy: initialData.lang
@@ -71,12 +72,6 @@ function init() {
             };
         },
         methods: {
-            debounceQuery: debounce(function(e) {
-                this.filters.q = e.target.value;
-                this.filterResults();
-            }, 500),
-
-            // Reset the filters back to their default state
             clearFilters(key) {
                 if (key) {
                     delete this.filters[key];
@@ -85,6 +80,11 @@ function init() {
                     this.filters = {};
                 }
 
+                this.filterResults();
+            },
+
+            updateQuery() {
+                this.filters.q = this.activeQuery;
                 this.filterResults();
             },
 
@@ -111,6 +111,11 @@ function init() {
 
             updateResults(urlPath) {
                 this.status = { state: states.Loading };
+
+                if (window.history.pushState) {
+                    window.history.pushState({ urlPath: urlPath }, '', urlPath);
+                }
+
                 $.ajax({
                     url: urlPath,
                     dataType: 'json',
@@ -125,10 +130,6 @@ function init() {
                         this.facets = response.facets;
                         this.sort = response.meta.sort;
                         this.status = { state: states.Success, data: response };
-
-                        if (window.history.pushState) {
-                            window.history.pushState({ urlPath: urlPath }, '', urlPath);
-                        }
                     })
                     .catch(err => {
                         // @ts-ignore
