@@ -17,6 +17,13 @@ stages:
 language: node_js
 node_js: '10'
 
+addons:
+  apt:
+    sources:
+      - google-chrome
+    packages:
+      - google-chrome-stable
+
 # Install dependencies
 install: npm ci --quiet --prefer-offline
 
