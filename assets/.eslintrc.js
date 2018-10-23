@@ -17,8 +17,10 @@ module.exports = {
         allowImportExportEverywhere: true
     },
     rules: {
+        'vue/html-closing-bracket-newline': 'off',
         'vue/html-indent': 'off',
+        'vue/html-self-closing': 'off',
         'vue/max-attributes-per-line': 'off',
-        'vue/html-closing-bracket-newline': 'off'
+        'vue/require-prop-types': 'warn'
     }
 };

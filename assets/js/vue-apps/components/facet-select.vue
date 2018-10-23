@@ -1,7 +1,5 @@
 <script>
-import reduce from 'lodash/reduce';
 import isPlainObject from 'lodash/isPlainObject';
-import map from 'lodash/map';
 
 export default {
     props: ['value', 'name', 'label', 'labelAny', 'options', 'copy'],
@@ -28,7 +26,7 @@ export default {
             @input="$emit('input', $event.target.value)">
             <option value="" v-if="labelAny">{{ labelAny }}</option>
             <template v-if="isOptgroup">
-                <optgroup v-for="(group, name) in options" :label="name" :key="name">
+                <optgroup v-for="(group, groupLabel) in options" :label="groupLabel" :key="groupLabel">
                     <option v-for="(option, index) in group" :value="option.value" :key="index">
                         {{ option.label }}
                     </option>

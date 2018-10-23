@@ -62,10 +62,10 @@ export default {
                 <p class="survey__choices-question">{{ question }}</p>
                 <div class="survey__choices-actions">
                     <button class="btn btn--small survey__choice" type="button"
-                        v-on:click="selectChoice('yes')"
+                        @click="selectChoice('yes')"
                     >{{ yes }}</button>
                     <button class="btn btn--small survey__choice" type="button"
-                        v-on:click="selectChoice('no')"
+                        @click="selectChoice('no')"
                     >{{ no }}</button>
                 </div>
             </div>
@@ -79,14 +79,14 @@ export default {
             </p>
 
             <div class="survey__extra" v-if="status === statuses.MESSAGE_BOX_SHOWN">
-                <form class="survey__form" v-on:submit.prevent="storeResponse('no')">
+                <form class="survey__form" @submit.prevent="storeResponse('no')">
                     <div class="survey__form-fields">
                         <label class="ff-label" for="survey-extra-msg">{{ prompt }}</label>
                         <textarea class="ff-textarea" id="survey-extra-msg" v-model="response.message"></textarea>
                     </div>
                     <div class="survey__form-actions">
                         <input type="submit" class="btn btn--small" :value="submit" />
-                        <button type="reset" class="btn-link" v-on:click="resetChoice">{{ cancel }}</button>
+                        <button type="reset" class="btn-link" @click="resetChoice">{{ cancel }}</button>
                     </div>
                 </form>
             </div>

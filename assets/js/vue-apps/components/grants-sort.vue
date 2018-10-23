@@ -16,7 +16,7 @@ export default {
             @input="$emit('change-sort', $event.target.value)">
             <option
                 v-for="option in sort.sortOptions"
-                v-bind:key="option.label"
+                :key="option.label"
                 :value="option.value">
                 {{ option.label }}
             </option>

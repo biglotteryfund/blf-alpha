@@ -1,13 +1,13 @@
 <script>
-    import FacetGroup from './facet-group.vue';
-    import FacetDisclose from './facet-disclose.vue';
-    import FacetChoice from './facet-choice.vue';
-    import FacetSelect from './facet-select.vue';
+import FacetGroup from './facet-group.vue';
+import FacetDisclose from './facet-disclose.vue';
+import FacetChoice from './facet-choice.vue';
+import FacetSelect from './facet-select.vue';
 
-    export default {
-        components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
-        props: ['facets', 'filters', 'status', 'copy']
-    };
+export default {
+    components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
+    props: ['facets', 'filters', 'status', 'copy']
+};
 </script>
 
 <template>
@@ -30,9 +30,9 @@
                 name="amount"
                 :copy="copy"
                 :label="copy.filters.options.amountAwarded.label"
-                :hideLabel="true"
+                :hide-label="true"
                 :options="facets.amountAwarded"
-                :optionLimit="3"
+                :option-limit="3"
                 @clear-selection="$emit('clear-filters', 'amount')"
             />
         </FacetGroup>
@@ -43,7 +43,7 @@
                 v-model="filters.orgType"
                 name="orgType"
                 :label="copy.filters.options.organisationType.label"
-                :labelAny="copy.filters.options.organisationType.any"
+                :label-any="copy.filters.options.organisationType.any"
                 :copy="copy"
                 :options="facets.orgType"
                 @clear-selection="$emit('clear-filters', 'orgType')"
@@ -53,7 +53,7 @@
                 v-model="filters.programme"
                 name="programme"
                 :label="copy.filters.options.programme.label"
-                :labelAny="copy.filters.options.programme.any"
+                :label-any="copy.filters.options.programme.any"
                 :copy="copy"
                 :options="facets.grantProgramme"
                 @clear-selection="$emit('clear-filters', 'programme')"
@@ -67,20 +67,20 @@
                 type="radio"
                 name="country"
                 :label="copy.filters.options.country.label"
-                :hideLabel="true"
+                :hide-label="true"
                 :options="facets.countries"
                 @clear-selection="$emit('clear-filters', 'country')"
             />
 
             <FacetDisclose
-                :labelClosed="copy.filters.options.country.labelClosed"
-                :labelOpen="copy.filters.options.country.labelOpen"
+                :label-closed="copy.filters.options.country.labelClosed"
+                :label-open="copy.filters.options.country.labelOpen"
             >
                 <FacetSelect
                     v-model="filters.localAuthority"
                     name="localAuthority"
                     :label="copy.filters.options.localAuthority.label"
-                    :labelAny="copy.filters.options.localAuthority.any"
+                    :label-any="copy.filters.options.localAuthority.any"
                     :copy="copy"
                     :options="facets.localAuthorities"
                     @clear-selection="$emit('clear-filters', 'localAuthority')"
@@ -90,7 +90,7 @@
                     v-model="filters.westminsterConstituency"
                     name="westminsterConstituency"
                     :label="copy.filters.options.westminsterConstituency.label"
-                    :labelAny="copy.filters.options.westminsterConstituency.any"
+                    :label-any="copy.filters.options.westminsterConstituency.any"
                     :copy="copy"
                     :options="facets.westminsterConstituencies"
                     @clear-selection="$emit('clear-filters', 'westminsterConstituency')"
@@ -100,7 +100,7 @@
 
 
         <div class="search-filters__extra">
-            <strong>{{ copy.feedback.title }}</strong><br/>
+            <strong>{{ copy.feedback.title }}</strong><br />
             <div v-html="copy.feedback.body"></div>
         </div>
     </fieldset>

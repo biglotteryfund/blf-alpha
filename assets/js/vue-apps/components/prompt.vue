@@ -1,6 +1,5 @@
 <script>
 const { trackEvent } = require('../../helpers/metrics');
-import $ from 'jquery';
 import includes from 'lodash/includes';
 import IconClose from './icon-close.vue';
 
@@ -47,7 +46,7 @@ export default {
 </script>
 
 <template>
-    <aside role="complementary" class="prompt" v-bind:class="{ 'is-shown': isShown }">
+    <aside role="complementary" class="prompt" :class="{ 'is-shown': isShown }">
         <div class="prompt__body">
             <div class="prompt__content">
                 {{ message }}
@@ -59,7 +58,7 @@ export default {
                 </a>
             </div>
             <span class="prompt__close">
-                <button class="icon-btn" v-on:click="closePrompt()"
+                <button class="icon-btn" @click="closePrompt()"
                     data-ga-on="click"
                     :data-ga-event-category="'Prompt: ' + id"
                     data-ga-event-action="Dismissed prompt"

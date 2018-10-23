@@ -10,7 +10,7 @@ export default {
             type: Boolean,
             default: true
         },
-        'copy': {
+        copy: {
             type: Object,
             required: true
         }
@@ -43,7 +43,7 @@ export default {
             <legend class="facet-group__legend">
                 {{ legend }}
             </legend>
-            <div class="facet-group__body"  :id="ariaId" :aria-hidden="isOpen ? 'false' : 'true'">
+            <div class="facet-group__body" :id="ariaId" :aria-hidden="isOpen ? 'false' : 'true'">
                 <slot></slot>
             </div>
         </fieldset>

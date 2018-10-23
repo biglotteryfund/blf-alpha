@@ -32,14 +32,14 @@ export default {
             {{ label }}
         </legend>
          <ul class="ff-choice__list">
-            <li class="ff-choice__option" v-for="(option, index) in optionsToDisplay" v-bind:key="option.value">
+            <li class="ff-choice__option" v-for="(option, index) in optionsToDisplay" :key="option.value">
                 <input
                     :type="type"
                     :id="fieldId(index)"
                     :name="name"
                     :value="option.value"
                     :checked="option.value === value"
-                    v-on:input="$emit('input', $event.target.value)"
+                    @input="$emit('input', $event.target.value)"
                 />
                 <label class="ff-choice__label" :for="fieldId(index)">
                     {{ option.label }}

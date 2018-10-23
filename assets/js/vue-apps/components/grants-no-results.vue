@@ -1,7 +1,7 @@
 <script>
-    export default {
-        props: ['totalResults', 'copy']
-    };
+export default {
+    props: ['totalResults', 'copy']
+};
 </script>
 <template>
     <div class="grants-no-results s-prose" v-if="totalResults === 0">
