@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GrantsTotalSummary should render 1`] = `
+<span>
+  
+    190,000 projects found
+    totalling £123,456,789
+</span>
+`;

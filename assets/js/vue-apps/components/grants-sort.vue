@@ -1,16 +1,13 @@
 <script>
-import FacetSelect from './facet-select.vue';
-
 export default {
-    props: ['sort', 'copy'],
-    components: { FacetSelect }
+    props: ['sort', 'label']
 };
 </script>
 
 <template>
     <div class="sort-controls">
         <label class="ff-label" for="field-sort">
-            {{ copy.sort.orderedBy }}
+            {{ label }}
         </label>
         <select
             class="ff-select"
@@ -19,7 +16,7 @@ export default {
             @input="$emit('change-sort', $event.target.value)">
             <option
                 v-for="option in sort.sortOptions"
-                v-bind:key="option.label"
+                :key="option.label"
                 :value="option.value">
                 {{ option.label }}
             </option>

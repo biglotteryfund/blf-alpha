@@ -1,5 +1,4 @@
 <script>
-import $ from 'jquery';
 import { storageAvailable } from '../../helpers/storage';
 const { trackEvent } = require('../../helpers/metrics');
 
@@ -23,7 +22,7 @@ export default {
 </script>
 
 <template>
-    <aside class="cookie-consent" v-bind:class="{ 'is-shown': isShown }">
+    <aside class="cookie-consent" :class="{ 'is-shown': isShown }">
         <div class="cookie-consent__inner">
             <div class="cookie-consent__content">
                 <h4 class="cookie-consent__title">{{ title }}</h4>
