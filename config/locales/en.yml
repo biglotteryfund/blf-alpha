@@ -610,7 +610,7 @@ funding:
           companyNumber: Company number
         statuses:
           active: Active
-          inactive: inActive
+          inactive: Inactive
           activeProject: Active Project
       recipientDetail:
         awardingProgrammes: Awarding programmes

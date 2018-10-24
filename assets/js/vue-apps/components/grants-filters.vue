@@ -57,7 +57,7 @@ export default {
                 name="programme"
                 :label="copy.filters.options.programme.label"
                 :label-any="copy.filters.options.programme.any"
-                :copy="copy"
+                :clear-label="copy.filters.clearSelection"
                 :options="facets.grantProgramme"
                 @clear-selection="$emit('clear-filters', 'programme')"
             />
