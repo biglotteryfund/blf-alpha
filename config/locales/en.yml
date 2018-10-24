@@ -544,6 +544,9 @@ funding:
         reset: Reset filters
         clearSelection: Clear selection
         toggle: Toggle
+        organisationLegend: Organisation
+        grantLegend: Grant
+        locationLegend: Location
         options:
           truncate:
             seeMore: See more options
@@ -552,7 +555,7 @@ funding:
             label: Grant amount
             any: Any amount
           country:
-            label: Location
+            label: Country
             any: All countries
             labelClosed: See advanced location options
             labelOpen: Hide advanced location options

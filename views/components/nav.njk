@@ -13,10 +13,8 @@
 {% macro navSearchForm(isOffset = false) %}
     {% set id = 'global-search-input-' | appendUuid %}
     <form class="global-search{% if isOffset %} global-search--offset{% endif %} js-global-search-form" role="search" action="/search">
-        <label class="u-visually-hidden" for="{{ id }}">
-            {{ __("global.misc.search") }}
-        </label>
         <input
+            aria-label="{{ __("global.misc.search") }}"
             class="global-search__input ff-text"
             id="{{ id }}"
             name="q"

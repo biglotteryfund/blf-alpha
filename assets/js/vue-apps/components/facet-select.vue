@@ -8,7 +8,7 @@ export default {
             return isPlainObject(this.options);
         },
         id() {
-            return `field-dynamic-${name}`;
+            return `field-dynamic-${this.name}`;
         }
     }
 };
@@ -21,7 +21,8 @@ export default {
         </label>
         <select
             class="ff-select"
-            :name="name" :id="'field-dynamic-' + name"
+            :id="id"
+            :name="name"
             :value="value"
             @input="$emit('input', $event.target.value)">
             <option value="" v-if="labelAny">{{ labelAny }}</option>

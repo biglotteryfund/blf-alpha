@@ -23,7 +23,7 @@ export default {
         </div>
 
         <FacetGroup
-            :legend="copy.filters.options.amountAwarded.label"
+            :legend="copy.filters.grantLegend"
             :toggle-label="copy.filters.toggle"
         >
             <FacetChoice
@@ -32,7 +32,6 @@ export default {
                 name="amount"
                 :copy="copy"
                 :label="copy.filters.options.amountAwarded.label"
-                :hide-label="true"
                 :options="facets.amountAwarded"
                 :option-limit="3"
                 @clear-selection="$emit('clear-filters', 'amount')"
@@ -40,7 +39,7 @@ export default {
         </FacetGroup>
 
         <FacetGroup
-            :legend="copy.filters.options.organisation"
+            :legend="copy.filters.organisationLegend"
             :toggle-label="copy.filters.toggle"
         >
             <FacetSelect
@@ -65,7 +64,7 @@ export default {
         </FacetGroup>
 
         <FacetGroup
-            :legend="copy.filters.options.country.label"
+            :legend="copy.filters.locationLegend"
             :toggle-label="copy.filters.toggle"
         >
             <FacetChoice

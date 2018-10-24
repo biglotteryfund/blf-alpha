@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+urls=(
+    "/"
+    "/about"
+    "/apply/digital-fund-strand-1/1"
+    "/apply/your-idea/1"
+    "/funding"
+    "/funding/programmes"
+    "/funding/programmes/digital-fund"
+    "/funding/programmes/national-lottery-awards-for-all-england"
+    "/funding/programmes/reaching-communities-england"
+    "/funding/search-past-grants-alpha"
+    "/funding/under10k"
+    "/research"
+)
+
+domain=${1:-http://localhost:8090}
+urls_list=$(printf "${domain}%s " "${urls[@]}")
+
+./node_modules/.bin/axe --disable color-contrast --exclude iframe --exit $urls_list
