@@ -63,7 +63,7 @@ function init() {
         mounted() {
             // Enable inputs (they're disabled by default to avoid double inputs for non-JS users)
             $(this.$el)
-                .find('.js-only[disabled]')
+                .find('[disabled]')
                 .removeAttr('disabled');
 
             window.onpopstate = event => {
