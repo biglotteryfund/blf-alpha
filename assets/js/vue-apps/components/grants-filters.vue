@@ -73,6 +73,7 @@ export default {
                 type="radio"
                 name="country"
                 :label="copy.filters.options.country.label"
+                :copy="copy"
                 :hide-label="true"
                 :options="facets.countries"
                 @clear-selection="$emit('clear-filters', 'country')"
