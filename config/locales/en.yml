@@ -511,7 +511,8 @@ funding:
     browseAll: Browse all funded projects
   pastGrants:
     title: Search All Funded Projects
-    intro: >
+    intro: We understand that searching through the Big Lottery Fund's past grants is important for many people. We are currently working to improve the service we currently offer.
+    introBeta: >
       <p>Explore our database to find out what we've funded since 2004.</p>
       <p>We understand that searching through the Big Lottery Fund's past grants is important for many people. We are currently working to improve the service we currently offer.</p>
       <p>You can try our new service in Beta now, <a href="%s">explore our data with GrantNav</a> or use our <a href="/funding/search-past-grants">old past grants database</a>.</p>
