@@ -1,28 +1,14 @@
-{% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
-{% from "components/form-fields/macros.njk" import inputChoice, inputSelect with context %}
-{% from "components/hero.njk" import hero with context %}
-{% from "components/split-nav/macro.njk" import splitNav with context %}
-{% from "./grant-results.njk" import grantResultList with context %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 
-{% block extraHead %}
-    <script>
-        window._PAST_GRANTS_SEARCH = {
-            facets: {{ facets | dump | safe }},
-            queryParams: {{ queryParams | dump | safe }},
-            totalResults: {{ meta.totalResults }},
-            totalAwarded: {{ meta.totalAwarded}},
-            sort: {{ meta.sort | dump | safe }},
-            lang: {{ copy | dump | safe }}
-        };
-    </script>
-{% endblock %}
+{% extends "layouts/main.njk" %}
 
 {% block content %}
     <main role="main">
         {{ hero(
-            titleText = title,
+            titleText = copy.title,
             image = heroImage,
             accent = pageAccent
         ) }}
@@ -31,244 +17,55 @@
             <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
-                <p><strong>{{ copy.beta | upper }}:</strong> {{ copy.intro }}</p>
-
-                <div id="feedback">
-                    {# @TODO i18n #}
+                <section class="s-prose u-constrained-content-wide">
+                    <p>{{ copy.intro }}</p>
                     {{ inlineFeedback(
-                        description = "past_grants_beta",
-                        promptLabel = "Can you spare a minute to give us some feedback?",
-                        fieldLabel = "Tell us why you came to this page today"
+                        description = "Past Grants",
+                        promptLabel = copy.survey.prompt,
+                        fieldLabel = copy.survey.label
                     )  }}
-                </div>
+                    <hr />
+                    <p>{{ copy.optionsIntro }}</p>
+                </section>
+
+                <ul class="flex-grid">
+                    <li class="flex-grid__item">
+                        <div class="card">
+                            <header class="card__header">
+                                <h2 class="card__title">{{ copy.grantnav.title }}</h2>
+                            </header>
+                            <div class="card__body">
+                                <p><a
+                                    data-ga-on="click"
+                                    data-ga-event-category="Past grants"
+                                    data-ga-event-action="GrantNav"
+                                    class="btn btn--medium"
+                                    href="{{ grantNavLink }}">
+                                    {{ copy.grantnav.linkText }}
+                                </a><p>
+                                <p>{{ copy.grantnav.subtitle }}</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="flex-grid__item">
+                        <div class="card">
+                            <header class="card__header">
+                                <h2 class="card__title">{{ copy.legacy.title }}</h2>
+                            </header>
+                            <div class="card__body">
+                                <p><a
+                                    data-ga-on="click"
+                                    data-ga-event-category="Past grants"
+                                    data-ga-event-action="Legacy past grants"
+                                    class="btn btn--medium"
+                                    href="{{ localify('/funding/search-past-grants') }}">
+                                    {{ copy.legacy.linkText }}
+                                </a></p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
             </div>
-
-            <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>
-
-                <div class="grants-searchbar js-only">
-                    <label class="ff-label" for="search-query">{{ copy.title }}</label>
-                    <div class="form-field-addon u-margin-bottom-s">
-                        <input
-                            class="form-field-addon__input "
-                            disabled="disabled"
-                            type="search"
-                            id="search-query"
-                            name="q"
-                            v-model="activeQuery"
-                        />
-                        <input
-                            class="form-field-addon__action"
-                            type="submit"
-                            value="{{ copy.submit }}"
-                            @click="updateQuery"
-                        />
-                    </div>
-                    <p class="ff-help u-no-margin">
-                        {{ copy.helpText }}
-                    </p>
-                </div>
-
-                <noscript>
-                    <div class="grants-searchbar">
-                        <label class="ff-label" for="search-query-fallback">
-                            {{ copy.title }}
-                        </label>
-                        <div class="form-field-addon u-margin-bottom-s">
-                            <input
-                                class="form-field-addon__input"
-                                type="search"
-                                id="search-query-fallback"
-                                name="q"
-                                value="{{ queryParams.q }}"
-                            />
-                            <input
-                                class="form-field-addon__action"
-                                type="submit"
-                                value="{{ copy.submit }}"
-                            />
-                        </div>
-                        <p class="ff-help u-no-margin">
-                            {{ copy.helpText }}
-                        </p>
-                    </div>
-                </noscript>
-
-                <div class="grants-search{% if meta.totalResults === 0 %} js-only{% endif %}" v-if="totalResults > 0">
-                    <div class="grants-search__meta">
-                        <h2 class="grants-search__total accent--{{ pageAccent }} t--underline">
-                            <grants-total-summary
-                                :total-results="totalResults"
-                                :total-awarded="totalAwarded"
-                                :copy="copy"
-                            />
-                            {{ meta.totalResults | numberWithCommas }} {{ copy.resultsCount }}
-                        </h2>
-
-                        <div class="grants-search__sort">
-                            <grants-sort
-                                :sort="sort"
-                                label="{{ copy.sort.orderedBy }}"
-                                @change-sort="handleChangeSort"
-                            />
-                        </div>
-                    </div>
-
-                    <div class="grants-search__content">
-
-                        <div class="grants-search__results">
-                            <div class="grants-search__status">
-                                <grants-loading-status
-                                    :status="status"
-                                    :copy="copy"
-                                />
-                            </div>
-
-                            <div id="js-grant-results" v-show="['NotAsked', 'Success'].indexOf(status.state) !== -1">
-                                {{ grantResultList(grants) }}
-                            </div>
-                        </div>
-
-                        <div class="grants-search__filters">
-                            {# Javascript component version of filters #}
-                            <grants-filters
-                                :facets="facets"
-                                :filters="filters"
-                                :status="status"
-                                :copy="copy"
-                                @clear-filters="clearFilters"
-                            />
-
-                            {# Noscript fallback filters #}
-                            <fieldset class="search-filters">
-                                <div class="search-filters__header">
-                                    <legend class="search-filters__title">{{ copy.filters.title }}</legend>
-                                </div>
-                                {# Filter: Amount awarded #}
-                                {% if facets.amountAwarded %}
-                                    {% set options = (facets.amountAwarded.unshift({
-                                        'label': copy.filters.options.amountAwarded.any,
-                                        'value': ''
-                                    }), facets.amountAwarded) %}
-                                    <div class="facet-group">
-                                        {{ inputChoice({
-                                            type: 'radio',
-                                            name: 'amount',
-                                            label: copy.filters.options.amountAwarded.label,
-                                            value: queryParams.amount,
-                                            options: options,
-                                            silentlyOptional: true
-                                        }) }}
-                                    </div>
-                                {% endif %}
-
-                                {# Filter: Country #}
-                                {% if facets.countries %}
-                                    {% set options = (facets.countries.unshift({
-                                        'label': copy.filters.options.country.any,
-                                        'value': ''
-                                    }), facets.countries) %}
-                                    <div class="facet-group">
-                                        {{ inputChoice({
-                                            type: 'radio',
-                                            name: 'country',
-                                            label: copy.filters.options.country.label,
-                                            value: queryParams.country,
-                                            options: options,
-                                            silentlyOptional: true
-                                        }) }}
-                                    </div>
-                                {% endif %}
-
-                                {# Filter: Grant programme #}
-                                {% if facets.grantProgramme %}
-                                    {% set options = (facets.grantProgramme.unshift({
-                                        'label': copy.filters.options.programme.any,
-                                        'value': ''
-                                    }), facets.grantProgramme) %}
-                                    <div class="facet-group">
-                                        {{ inputSelect({
-                                            type: 'select',
-                                            name: 'programme',
-                                            label: copy.filters.options.programme.label,
-                                            value: queryParams.programme,
-                                            options: options,
-                                            silentlyOptional: true
-                                        }) }}
-                                    </div>
-                                {% endif %}
-
-                                {# Filter: Local Authority #}
-                                {% if facets.localAuthorities %}
-                                    {% set options = (facets.localAuthorities.unshift({
-                                        'label': copy.filters.options.localAuthority.any,
-                                        'value': ''
-                                    }), facets.localAuthorities) %}
-                                    <div class="facet-group">
-                                        {{ inputSelect({
-                                            type: 'select',
-                                            name: 'localAuthority',
-                                            label: copy.filters.options.localAuthority.label,
-                                            value: queryParams.localAuthority,
-                                            options: options,
-                                            silentlyOptional: true
-                                        }) }}
-                                    </div>
-                                {% endif %}
-
-                                {# Filter: Constituency #}
-                                {% if facets.westminsterConstituencies %}
-                                    {% set options = (facets.westminsterConstituencies.unshift({
-                                        'label': copy.filters.options.westminsterConstituency.any,
-                                        'value': ''
-                                    }), facets.westminsterConstituencies) %}
-                                    <div class="facet-group">
-                                        {{ inputSelect({
-                                            type: 'select',
-                                            name: 'westminsterConstituency',
-                                            label: copy.filters.options.westminsterConstituency.label,
-                                            value: queryParams.westminsterConstituency,
-                                            options: options,
-                                            silentlyOptional: true
-                                        }) }}
-                                    </div>
-                                {% endif %}
-
-                                <noscript>
-                                    <div class="search-filters__actions">
-                                        <input type="submit"
-                                               value="{{ copy.filters.submit }}"
-                                               class="btn btn--medium">
-                                    </div>
-                                </noscript>
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>{# End grants-search #}
-
-                <grants-no-results
-                    :total-results="totalResults"
-                    :copy="copy"
-                    @clear-filters="clearFilters"
-                />
-
-                {% if meta.totalResults === 0 %}
-                    <div class="grants-no-results s-prose u-margin-bottom" v-if="totalResults === 0">
-                        <h3>{{ copy.errors.noResults.title }}</h3>
-                        <ul>
-                            {% for s in copy.errors.noResults.suggestions %}
-                                <li>{{ s | safe }}</li>
-                            {% endfor %}
-                        </ul>
-                        <p>{{ copy.errors.noResults.otherOptions | safe }}</p>
-                        <p>
-                            <a class="btn btn--medium"
-                              href="{{ localify('/funding/search-past-grants-alpha') }}">
-                                {{ copy.filters.clear }}
-                            </a>
-                        </p>
-                    </div>
-                {% endif %}
-            </form>
         </div>
     </main>
 {% endblock %}

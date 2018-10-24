@@ -28,7 +28,7 @@ function init() {
 
             const localePrefix = window.AppConfig.localePrefix;
             $.ajax({
-                url: `${localePrefix}/funding/search-past-grants-alpha`,
+                url: `${localePrefix}/funding/past-grants/search`,
                 dataType: 'json',
                 data: {
                     limit: 3,
