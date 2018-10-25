@@ -46,7 +46,11 @@
             <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>
 
                 <div class="grants-searchbar js-only">
-                    <label class="ff-label" for="search-query">{{ copy.title }}</label>
+                    <label class="ff-label ff-label--append"
+                           for="search-query"
+                           data-append="{{ copy.beta }}">
+                        {{ copy.title }}
+                    </label>
                     <div class="form-field-addon u-margin-bottom-s">
                         <input
                             class="form-field-addon__input "
