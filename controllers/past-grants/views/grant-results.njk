@@ -7,7 +7,7 @@
         {% set subtitle %}
             {% set mainRecipient = grant.recipientOrganization[0] %}
             £{{ grant.amountAwarded | numberWithCommas}} to
-            <strong><a href="{{ localify("/funding/search-past-grants-alpha/recipient/" + mainRecipient.id) }}">{{ mainRecipient.name | striptags }}</a></strong>
+            <strong><a href="{{ localify("/funding/past-grants/search/recipient/" + mainRecipient.id) }}">{{ mainRecipient.name | striptags }}</a></strong>
             on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
         {% endset %}
         {% call promoCard({
@@ -15,7 +15,7 @@
             "subtitle": subtitle | safe,
             "trailText": false if options.hideDescription else grant.description,
             "link": {
-                "url": localify("/funding/search-past-grants-alpha/grant/" + grant.id),
+                "url": localify("/funding/past-grants/search/grant/" + grant.id),
                 "label": copy.viewGrantDetails
             }
         }) %}

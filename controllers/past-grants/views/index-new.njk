@@ -22,7 +22,7 @@
                 </section>
             </div>
 
-            <form method="get" action="{{ localify('/funding/search-past-grants-alpha') }}" class="u-inner-wide-only">
+            <form method="get" action="{{ localify('/funding/past-grants/search') }}" class="u-inner-wide-only">
                 <div class="grants-searchbar">
                     <label class="ff-label ff-label--append"
                         data-append="{{ copy.search.beta }}"
@@ -67,7 +67,7 @@
                                         "link": {
                                             "label": copy.search.viewGrantDetails,
                                             "labelAria": copy.search.viewGrantDetails,
-                                            "url": localify("/funding/search-past-grants-alpha/grant/" + caseStudy.grantId)
+                                            "url": localify("/funding/past-grants/search/grant/" + caseStudy.grantId)
                                         }
                                     } %}
                                     {{ promoCard(props, tint = true) }}
