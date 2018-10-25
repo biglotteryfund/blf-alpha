@@ -231,6 +231,11 @@
     display: table;
     margin-bottom: 5px;
 
+    &.ff-choice__option--flex {
+        display: flex;
+        align-items: center;
+    }
+
     input[type='radio'],
     input[type='checkbox'] {
         margin: 0 0.5em 0 0;
