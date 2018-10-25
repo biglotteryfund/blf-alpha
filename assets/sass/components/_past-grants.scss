@@ -152,7 +152,6 @@ $filterSpacing: 10px;
     }
 }
 
-
 /* =========================================================================
    Facet Group
    ========================================================================= */
@@ -216,7 +215,6 @@ $filterSpacing: 10px;
     }
 
     &.is-open {
-
         .facet-group__legend {
             padding-bottom: $filterSpacing / 2;
             border-bottom: 1px solid palette('border');
@@ -230,10 +228,17 @@ $filterSpacing: 10px;
         .facet-group__body {
             display: block;
 
-            > * {
+            .facet-group__item {
                 border-bottom: 1px solid palette('border');
                 margin-bottom: $filterSpacing;
                 padding-bottom: $filterSpacing;
+
+                &:last-child {
+                    border-bottom: none;
+                    margin-bottom: 0;
+                    padding-bottom: 0;
+                }
+
             }
         }
     }

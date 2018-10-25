@@ -58,7 +58,7 @@ export default {
             </ul>
         </fieldset>
         <button type="button"
-            class="btn-link u-margin-bottom"
+            class="btn-link"
             v-if="shouldTruncate()"
             @click='isOpen = !isOpen'
         >

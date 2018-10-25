@@ -30,6 +30,7 @@ export default {
                 v-model="filters.amount"
                 type="radio"
                 name="amount"
+                class="facet-group__item"
                 :copy="copy"
                 :label="copy.filters.options.amountAwarded.label"
                 :options="facets.amountAwarded"
@@ -40,6 +41,7 @@ export default {
                 v-model="filters.awardDate"
                 type="radio"
                 name="awardDate"
+                class="facet-group__item"
                 :copy="copy"
                 :label="copy.filters.options.awardDate.label"
                 :options="facets.awardDate"
@@ -76,10 +78,12 @@ export default {
             <FacetDisclose
                 :label-closed="copy.filters.options.country.labelClosed"
                 :label-open="copy.filters.options.country.labelOpen"
+                class="facet-group__item"
             >
                 <FacetSelect
                     v-model="filters.localAuthority"
                     name="localAuthority"
+                    class="facet-group__item"
                     :label="copy.filters.options.localAuthority.label"
                     :label-any="copy.filters.options.localAuthority.any"
                     :clear-label="copy.filters.clearSelection"
@@ -90,6 +94,7 @@ export default {
                 <FacetSelect
                     v-model="filters.westminsterConstituency"
                     name="westminsterConstituency"
+                    class="facet-group__item"
                     :label="copy.filters.options.westminsterConstituency.label"
                     :label-any="copy.filters.options.westminsterConstituency.any"
                     :clear-label="copy.filters.clearSelection"
