@@ -63,7 +63,7 @@
     ],
     "transform": {
       "^.+\\.js$": "babel-jest",
-      ".*\\.(vue)$": "vue-jest"
+      ".*\\.vue$": "vue-jest"
     }
   },
   "prettier": {

@@ -73,13 +73,14 @@ function init() {
         },
         methods: {
             clearFilters(key) {
+                this.status = { state: states.Loading };
                 if (key) {
                     delete this.filters[key];
                 } else {
                     this.sort.activeSort = null;
                     this.filters = {};
+                    this.activeQuery = null;
                 }
-
                 this.filterResults();
             },
 

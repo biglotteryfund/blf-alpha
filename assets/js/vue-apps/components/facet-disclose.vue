@@ -22,7 +22,7 @@ export default {
         <div v-show="isOpen" :id="ariaId" :aria-hidden="isOpen ? 'false' : 'true'">
             <slot></slot>
         </div>
-        <button class="btn-link" type="button" @click="isOpen = !isOpen">
+        <button class="btn-link u-margin-bottom" type="button" @click="isOpen = !isOpen">
             {{ isOpen ? labelOpen : labelClosed }}
         </button>
     </div>

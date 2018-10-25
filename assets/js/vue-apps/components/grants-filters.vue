@@ -36,20 +36,15 @@ export default {
                 :option-limit="3"
                 @clear-selection="$emit('clear-filters', 'amount')"
             />
-        </FacetGroup>
-
-        <FacetGroup
-            :legend="copy.filters.organisationLegend"
-            :toggle-label="copy.filters.toggle"
-        >
-            <FacetSelect
-                v-model="filters.orgType"
-                name="orgType"
-                :label="copy.filters.options.organisationType.label"
-                :label-any="copy.filters.options.organisationType.any"
-                :clear-label="copy.filters.clearSelection"
-                :options="facets.orgType"
-                @clear-selection="$emit('clear-filters', 'orgType')"
+            <FacetChoice
+                v-model="filters.awardDate"
+                type="radio"
+                name="awardDate"
+                :copy="copy"
+                :label="copy.filters.options.awardDate.label"
+                :options="facets.awardDate"
+                :option-limit="5"
+                @clear-selection="$emit('clear-filters', 'awardDate')"
             />
 
             <FacetSelect
@@ -57,14 +52,14 @@ export default {
                 name="programme"
                 :label="copy.filters.options.programme.label"
                 :label-any="copy.filters.options.programme.any"
-                :copy="copy"
+                :clear-label="copy.filters.clearSelection"
                 :options="facets.grantProgramme"
                 @clear-selection="$emit('clear-filters', 'programme')"
             />
         </FacetGroup>
 
         <FacetGroup
-            :legend="copy.filters.locationLegend"
+            :legend="copy.filters.organisationLegend"
             :toggle-label="copy.filters.toggle"
         >
             <FacetChoice
@@ -102,6 +97,16 @@ export default {
                     @clear-selection="$emit('clear-filters', 'westminsterConstituency')"
                 />
             </FacetDisclose>
+
+            <FacetSelect
+                v-model="filters.orgType"
+                name="orgType"
+                :label="copy.filters.options.organisationType.label"
+                :label-any="copy.filters.options.organisationType.any"
+                :clear-label="copy.filters.clearSelection"
+                :options="facets.orgType"
+                @clear-selection="$emit('clear-filters', 'orgType')"
+            />
         </FacetGroup>
 
         <div class="search-filters__extra">

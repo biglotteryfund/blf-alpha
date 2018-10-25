@@ -555,6 +555,8 @@ funding:
           amountAwarded:
             label: Grant amount
             any: Any amount
+          awardDate:
+            label: Award date
           country:
             label: Country
             any: All countries
@@ -570,7 +572,7 @@ funding:
             label: Westminster constituency
             any: All constituencies
           organisationType:
-            label: Organisation
+            label: Organisation type
             any: Select an organisation type
           organisation: Organisation
       errors:
@@ -611,7 +613,7 @@ funding:
           companyNumber: Company number
         statuses:
           active: Active
-          inactive: inActive
+          inactive: Inactive
           activeProject: Active Project
       recipientDetail:
         awardingProgrammes: Awarding programmes

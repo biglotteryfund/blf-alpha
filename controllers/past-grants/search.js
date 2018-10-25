@@ -61,6 +61,7 @@ function buildAllowedParams(queryParams) {
         'orgType',
         'sort',
         'country',
+        'awardDate',
         'localAuthority',
         'westminsterConstituency',
         'recipient',
