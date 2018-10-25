@@ -80,7 +80,7 @@
                             <dl class="o-definition-list o-definition-list--compact project-details">
                                 <dt>{{ copy.grantDetail.fields.orgName }}</dt>
                                 <dd>
-                                    <a href="{{ localify("/funding/search-past-grants-alpha/recipient/" + org.id) }}">{{ org.name }}</a>
+                                    <a href="../recipient/{{ org.id }}">{{ org.name }}</a>
                                 </dd>
 
                                 <dt>{{ copy.grantDetail.fields.type }}</dt>
@@ -118,7 +118,7 @@
 
                             <p>
                                 <a class="btn btn--small btn--outline accent--pink"
-                                   href="{{ localify("/funding/search-past-grants-alpha/recipient/" + org.id) }}">
+                                    href="../recipient/{{ org.id }}">
                                     {{ copy.grantDetail.viewAllForRecipient }}
                                 </a>
                             </p>

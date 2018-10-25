@@ -147,11 +147,6 @@ const funding = {
         },
         {
             path: '/past-grants',
-            router: require('./funding')
-        },
-        {
-            path: '/search-past-grants-alpha',
-            isDraft: true,
             router: require('./past-grants')
         },
         {

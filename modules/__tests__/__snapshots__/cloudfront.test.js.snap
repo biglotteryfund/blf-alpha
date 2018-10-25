@@ -427,6 +427,70 @@ Object {
           },
           "Items": Array [
             "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session",
+              ],
+              "Quantity": 3,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/funding/past-grants/search",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
             "GET",
           ],
           "Quantity": 2,
@@ -538,70 +602,6 @@ Object {
           "Quantity": 0,
         },
         "ViewerProtocolPolicy": "allow-all",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH",
-          ],
-          "Quantity": 7,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
-            "Forward": "whitelist",
-            "WhitelistedNames": Object {
-              "Items": Array [
-                "contrastMode",
-                "blf-features",
-                "blf-alpha-session",
-              ],
-              "Quantity": 3,
-            },
-          },
-          "Headers": Object {
-            "Items": Array [
-              "Accept",
-              "Host",
-            ],
-            "Quantity": 2,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "/funding/search-past-grants-alpha",
-        "SmoothStreaming": false,
-        "TargetOriginId": "ELB_LIVE",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "redirect-to-https",
       },
       Object {
         "AllowedMethods": Object {
@@ -1029,6 +1029,70 @@ Object {
           },
           "Items": Array [
             "HEAD",
+            "DELETE",
+            "POST",
+            "GET",
+            "OPTIONS",
+            "PUT",
+            "PATCH",
+          ],
+          "Quantity": 7,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "contrastMode",
+                "blf-features",
+                "blf-alpha-session",
+              ],
+              "Quantity": 3,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [],
+            "Quantity": 0,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/welsh/funding/past-grants/search",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
             "GET",
           ],
           "Quantity": 2,
@@ -1077,70 +1141,6 @@ Object {
         "MaxTTL": 31536000,
         "MinTTL": 0,
         "PathPattern": "/welsh/funding/programmes",
-        "SmoothStreaming": false,
-        "TargetOriginId": "ELB_LIVE",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "redirect-to-https",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH",
-          ],
-          "Quantity": 7,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
-            "Forward": "whitelist",
-            "WhitelistedNames": Object {
-              "Items": Array [
-                "contrastMode",
-                "blf-features",
-                "blf-alpha-session",
-              ],
-              "Quantity": 3,
-            },
-          },
-          "Headers": Object {
-            "Items": Array [
-              "Accept",
-              "Host",
-            ],
-            "Quantity": 2,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "/welsh/funding/search-past-grants-alpha",
         "SmoothStreaming": false,
         "TargetOriginId": "ELB_LIVE",
         "TrustedSigners": Object {

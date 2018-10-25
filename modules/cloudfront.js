@@ -14,7 +14,7 @@ const CLOUDFRONT_PATHS = [
     { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
     { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
     { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
-    { path: '/funding/search-past-grants-alpha', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
+    { path: '/funding/past-grants/search', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
     { path: '/search', allowAllQueryStrings: true, isBilingual: true },
     { path: '/user/*', isPostable: true, queryStrings: ['redirectUrl', 's', 'token'] }
 ];

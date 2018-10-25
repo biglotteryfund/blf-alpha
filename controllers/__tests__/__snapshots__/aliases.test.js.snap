@@ -1443,46 +1443,6 @@ Array [
     "to": "/welsh/funding",
   },
   Object {
-    "from": "/funding/awards-for-all",
-    "to": "/funding/under10k",
-  },
-  Object {
-    "from": "/welsh/funding/awards-for-all",
-    "to": "/welsh/funding/under10k",
-  },
-  Object {
-    "from": "/england/funding/awards-for-all",
-    "to": "/funding/under10k",
-  },
-  Object {
-    "from": "/welsh/england/funding/awards-for-all",
-    "to": "/welsh/funding/under10k",
-  },
-  Object {
-    "from": "/scotland/funding/awards-for-all",
-    "to": "/funding/under10k",
-  },
-  Object {
-    "from": "/welsh/scotland/funding/awards-for-all",
-    "to": "/welsh/funding/under10k",
-  },
-  Object {
-    "from": "/northernireland/funding/awards-for-all",
-    "to": "/funding/under10k",
-  },
-  Object {
-    "from": "/welsh/northernireland/funding/awards-for-all",
-    "to": "/welsh/funding/under10k",
-  },
-  Object {
-    "from": "/wales/funding/awards-for-all",
-    "to": "/funding/under10k",
-  },
-  Object {
-    "from": "/welsh/wales/funding/awards-for-all",
-    "to": "/welsh/funding/under10k",
-  },
-  Object {
     "from": "/funding/Awards-For-All",
     "to": "/funding/under10k",
   },
@@ -1520,6 +1480,46 @@ Array [
   },
   Object {
     "from": "/welsh/wales/funding/Awards-For-All",
+    "to": "/welsh/funding/under10k",
+  },
+  Object {
+    "from": "/funding/awards-for-all",
+    "to": "/funding/under10k",
+  },
+  Object {
+    "from": "/welsh/funding/awards-for-all",
+    "to": "/welsh/funding/under10k",
+  },
+  Object {
+    "from": "/england/funding/awards-for-all",
+    "to": "/funding/under10k",
+  },
+  Object {
+    "from": "/welsh/england/funding/awards-for-all",
+    "to": "/welsh/funding/under10k",
+  },
+  Object {
+    "from": "/scotland/funding/awards-for-all",
+    "to": "/funding/under10k",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/awards-for-all",
+    "to": "/welsh/funding/under10k",
+  },
+  Object {
+    "from": "/northernireland/funding/awards-for-all",
+    "to": "/funding/under10k",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/awards-for-all",
+    "to": "/welsh/funding/under10k",
+  },
+  Object {
+    "from": "/wales/funding/awards-for-all",
+    "to": "/funding/under10k",
+  },
+  Object {
+    "from": "/welsh/wales/funding/awards-for-all",
     "to": "/welsh/funding/under10k",
   },
   Object {
@@ -2001,6 +2001,46 @@ Array [
   Object {
     "from": "/welsh/wales/funding/scotland-portfolio",
     "to": "/welsh/funding/programmes?location=scotland",
+  },
+  Object {
+    "from": "/funding/search-past-grants-alpha",
+    "to": "/funding/past-grants/search",
+  },
+  Object {
+    "from": "/welsh/funding/search-past-grants-alpha",
+    "to": "/welsh/funding/past-grants/search",
+  },
+  Object {
+    "from": "/england/funding/search-past-grants-alpha",
+    "to": "/funding/past-grants/search",
+  },
+  Object {
+    "from": "/welsh/england/funding/search-past-grants-alpha",
+    "to": "/welsh/funding/past-grants/search",
+  },
+  Object {
+    "from": "/scotland/funding/search-past-grants-alpha",
+    "to": "/funding/past-grants/search",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/search-past-grants-alpha",
+    "to": "/welsh/funding/past-grants/search",
+  },
+  Object {
+    "from": "/northernireland/funding/search-past-grants-alpha",
+    "to": "/funding/past-grants/search",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/search-past-grants-alpha",
+    "to": "/welsh/funding/past-grants/search",
+  },
+  Object {
+    "from": "/wales/funding/search-past-grants-alpha",
+    "to": "/funding/past-grants/search",
+  },
+  Object {
+    "from": "/welsh/wales/funding/search-past-grants-alpha",
+    "to": "/welsh/funding/past-grants/search",
   },
   Object {
     "from": "/global-content/programmes/england/awards-for-all-england",
