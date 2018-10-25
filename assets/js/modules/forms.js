@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import { featureIsEnabled } from '../helpers/features';
-const { trackEvent } = require('../helpers/metrics');
+import { trackEvent } from '../helpers/metrics';
 
 // Materials form logic
 function initLegacyForms() {

@@ -1,7 +1,7 @@
 /* global ga, cxApi */
 
 import forEach from 'lodash/forEach';
-const { trackEvent } = require('../helpers/metrics');
+import { trackEvent } from '../helpers/metrics';
 
 function trackDocumentDownloads() {
     const links = document.querySelectorAll('.content-box a[href]');
