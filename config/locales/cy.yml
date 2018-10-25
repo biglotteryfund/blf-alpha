@@ -473,7 +473,7 @@ funding:
             label: Westminster constituency
             any: All constituencies
           organisationType:
-            label: Organisation
+            label: Organisation type
             any: Select an organisation type
           organisation: Organisation
       errors:
