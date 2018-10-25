@@ -1,7 +1,8 @@
 import $ from 'jquery';
 import Vue from 'vue';
-import get from 'lodash/get';
 import cloneDeep from 'lodash/cloneDeep';
+import get from 'lodash/get';
+import pickBy from 'lodash/pickBy';
 import queryString from 'query-string';
 
 import GrantsFilters from './components/grants-filters.vue';
@@ -74,10 +75,10 @@ function init() {
             };
         },
         methods: {
-            clearFilters(key) {
+            clearFilters(name) {
                 this.status = { state: states.Loading };
-                if (key) {
-                    delete this.filters[key];
+                if (name) {
+                    this.filters = pickBy(this.filters, (value, key) => key !== name);
                 } else {
                     this.sort.activeSort = null;
                     this.filters = {};
