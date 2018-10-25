@@ -8,7 +8,6 @@ export default {
 
 <template>
     <div>
-        <span v-html="filters"></span>
         <ul class="filter-list">
             <li v-for="(value, key) in filters"
                 :key="key"
