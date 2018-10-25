@@ -49,7 +49,7 @@ export default {
             </ul>
         </fieldset>
         <button type="button"
-            class="btn-link"
+            class="btn-link u-margin-bottom"
             v-if="shouldTruncate()"
             @click='isOpen = !isOpen'
         >
@@ -57,7 +57,7 @@ export default {
         </button>
 
         <button type="button"
-            class="btn-link"
+            class="btn-link u-margin-bottom"
             v-if="value"
             @click="$emit('clear-selection')"
         >
