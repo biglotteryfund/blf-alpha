@@ -29,6 +29,9 @@
         font-size: 16px;
         margin-bottom: $spacingUnit / 2;
     }
+    .grants-search__sort {
+        flex-shrink: 0;
+    }
 
     @include mq('medium-major') {
         .grants-search__meta {

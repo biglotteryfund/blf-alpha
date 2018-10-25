@@ -108,6 +108,14 @@
                             {{ meta.totalResults | numberWithCommas }} {{ copy.resultsCount }}
                         </h2>
 
+                    </div>
+                    <div class="grants-search__meta">
+                        <div>
+                            <grants-filter-summary
+                                :filters="filters"
+                                :clear-label="copy.filters.clearSelection"
+                                @clear-filters="clearFilters" />
+                        </div>
                         <div class="grants-search__sort">
                             <grants-sort
                                 :sort="sort"
@@ -115,12 +123,6 @@
                                 @change-sort="handleChangeSort"
                             />
                         </div>
-                    </div>
-                    <div class="grants-search__meta">
-                        <grants-filter-summary
-                            :filters="filters"
-                            :clear-label="copy.filters.clearSelection"
-                            @clear-filters="clearFilters" />
                     </div>
 
                     <div class="grants-search__content">

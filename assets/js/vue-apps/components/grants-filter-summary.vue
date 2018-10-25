@@ -13,10 +13,10 @@ export default {
                 :key="key"
                 @click="$emit('clear-filters', key)"
                 class="filter-list__item">
-                {{ value }} ({{ key }})
+                {{ value }}
                 <IconClose id="prompt-close" description="Dismiss prompt" />
             </li>
-            <li>
+            <li v-if="Object.keys(filters).length > 0">
                 <button type="button" class="btn-link" @click="$emit('clear-filters')">
                     {{ clearLabel }}
                 </button>
