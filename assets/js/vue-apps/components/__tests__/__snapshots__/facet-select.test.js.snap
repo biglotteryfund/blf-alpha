@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`FacetSelect should render with optgroup 1`] = `
-<div
-  class="u-margin-bottom-s"
->
+<div>
   <label
     class="ff-label"
     for="field-dynamic-example"
@@ -13,16 +11,80 @@ exports[`FacetSelect should render with optgroup 1`] = `
     
   </label>
    
-  <select
-    class="ff-select"
-    id="field-dynamic-example"
-    name="example"
+  <div
+    class="ff-choice__option ff-choice__option--flex"
   >
-    <!---->
-     
-    <optgroup
-      label="Group 1"
+    <select
+      class="ff-select"
+      id="field-dynamic-example"
+      name="example"
     >
+      <!---->
+       
+      <optgroup
+        label="Group 1"
+      >
+        <option
+          value="option-1"
+        >
+          
+                        Option 1
+                    
+        </option>
+        <option
+          value="option-2"
+        >
+          
+                        Option 2
+                    
+        </option>
+      </optgroup>
+      <optgroup
+        label="Group 2"
+      >
+        <option
+          value="option-2"
+        >
+          
+                        Option 3
+                    
+        </option>
+        <option
+          value="option-4"
+        >
+          
+                        Option 4
+                    
+        </option>
+      </optgroup>
+    </select>
+     
+    <!---->
+  </div>
+</div>
+`;
+
+exports[`FacetSelect should render with plain options 1`] = `
+<div>
+  <label
+    class="ff-label"
+    for="field-dynamic-example"
+  >
+    
+        Example
+    
+  </label>
+   
+  <div
+    class="ff-choice__option ff-choice__option--flex"
+  >
+    <select
+      class="ff-select"
+      id="field-dynamic-example"
+      name="example"
+    >
+      <!---->
+       
       <option
         value="option-1"
       >
@@ -37,72 +99,10 @@ exports[`FacetSelect should render with optgroup 1`] = `
                     Option 2
                 
       </option>
-    </optgroup>
-    <optgroup
-      label="Group 2"
-    >
-      <option
-        value="option-2"
-      >
-        
-                    Option 3
-                
-      </option>
-      <option
-        value="option-4"
-      >
-        
-                    Option 4
-                
-      </option>
-    </optgroup>
-  </select>
-   
-  <!---->
-</div>
-`;
-
-exports[`FacetSelect should render with plain options 1`] = `
-<div
-  class="u-margin-bottom-s"
->
-  <label
-    class="ff-label"
-    for="field-dynamic-example"
-  >
-    
-        Example
-    
-  </label>
-   
-  <select
-    class="ff-select"
-    id="field-dynamic-example"
-    name="example"
-  >
-    <!---->
+    </select>
      
-    <option
-      value="option-1"
-    >
-      
-                Option 1
-            
-    </option>
-    <option
-      value="option-2"
-    >
-      
-                Option 2
-            
-    </option>
-  </select>
-   
-  <div
-    class="u-padded-vertical-s"
-  >
     <button
-      class="btn-link"
+      class="btn-link filter-clear-btn"
       type="button"
     >
       
