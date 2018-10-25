@@ -1,6 +1,6 @@
 /* global ga, cxApi */
 
-const { forEach } = require('lodash');
+import forEach from 'lodash/forEach';
 const { trackEvent } = require('../helpers/metrics');
 
 function trackDocumentDownloads() {
