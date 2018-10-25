@@ -257,3 +257,33 @@ $filterSpacing: 10px;
     color: palette('charcoal-note');
     margin-bottom: 0;
 }
+
+.filter-list {
+
+    li, button {
+        font-size: 13px;
+    }
+
+    li {
+        display: inline-block;
+        margin-right: 10px;
+
+        &.filter-list__item {
+            padding: 3px 5px 3px 10px;
+            background-color: palette('pale-grey');
+            color: palette('charcoal-note');
+
+            @include on-interact {
+                cursor: pointer;
+                background-color: palette('off-white');
+                color: palette('charcoal');
+            }
+        }
+
+        svg {
+            height: 20px;
+            width: 20px;
+            vertical-align: middle;
+        }
+    }
+}

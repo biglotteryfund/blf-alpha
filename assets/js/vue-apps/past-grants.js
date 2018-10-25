@@ -7,6 +7,7 @@ import queryString from 'query-string';
 import GrantsFilters from './components/grants-filters.vue';
 import GrantsSort from './components/grants-sort.vue';
 import GrantsTotalSummary from './components/grants-total-summary.vue';
+import GrantsFilterSummary from './components/grants-filter-summary.vue';
 import GrantsLoadingStatus from './components/grants-loading-status.vue';
 import GrantsNoResults from './components/grants-no-results.vue';
 
@@ -29,6 +30,7 @@ function init() {
             'grants-sort': GrantsSort,
             'grants-filters': GrantsFilters,
             'grants-total-summary': GrantsTotalSummary,
+            'grants-filter-summary': GrantsFilterSummary,
             'grants-loading-status': GrantsLoadingStatus,
             'grants-no-results': GrantsNoResults
         },
