@@ -250,8 +250,7 @@ const blog = {
     pages: [
         {
             path: '/',
-            router: require('./blog'),
-            isDraft: true
+            router: require('./blog')
         }
     ]
 };
