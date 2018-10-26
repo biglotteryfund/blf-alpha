@@ -1,13 +1,16 @@
-{% macro documentList(links) %}
+{% macro documentList(documents) %}
     <ul class="document-list">
-        {% for link in links %}
+        {% for document in documents %}
             <li class="document-list__item u-document-link">
-                <a class="document-list__link" href="{{ link.href }}">
-                    {{ link.label }}
+                <a class="document-list__link" href="{{ document.href }}">
+                    {{ document.label }}
+                    {% if document.filetype or document.filesize %}
+                        <small>({{ document.filetype | capitalize }} {{ document.filesize }})</small>
+                    {% endif %}
                 </a>
-                {% if link.caption %}
+                {% if document.caption %}
                     <span class="document-list__link-caption">
-                        {{ link.caption }}
+                        {{ document.caption }}
                     </span>
                 {% endif %}
             </li>

@@ -1,0 +1,22 @@
+{% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero with context %}
+{% from "components/section-links/macro.njk" import sectionLinks %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                <div class="s-prose">
+                    {{ copy.introduction | safe }}
+                </div>
+                {{ sectionLinks(links) }}
+            </section>
+        </div>
+    </main>
+{% endblock %}
