@@ -1,6 +1,10 @@
 /* global ga */
 
-function trackEvent(category, action, label) {
+/**
+ * Track event
+ * Helper to track a custom event in analytics
+ */
+export function trackEvent(category, action, label) {
     if (window.ga && category && action) {
         const payload = {
             hitType: 'event',
@@ -16,15 +20,3 @@ function trackEvent(category, action, label) {
         ga('send', payload);
     }
 }
-
-function setPageView(path) {
-    if (window.ga && path) {
-        ga('set', 'page', path);
-        ga('send', 'pageview');
-    }
-}
-
-module.exports = {
-    trackEvent,
-    setPageView
-};

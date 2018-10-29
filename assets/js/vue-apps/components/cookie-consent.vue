@@ -1,6 +1,6 @@
 <script>
 import { storageAvailable } from '../../helpers/storage';
-const { trackEvent } = require('../../helpers/metrics');
+import { trackEvent } from '../../helpers/metrics';
 
 const canStore = storageAvailable('localStorage');
 const STORAGE_KEY = 'biglotteryfund:cookie-consent';

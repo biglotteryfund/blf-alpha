@@ -1,5 +1,5 @@
-const $ = require('jquery');
-const fitvids = require('fitvids');
+import $ from 'jquery';
+import fitvids from 'fitvids';
 
 function initNavToggle() {
     // Mobile navigation toggle
@@ -14,6 +14,6 @@ function init() {
     fitvids('.video-container');
 }
 
-module.exports = {
+export default {
     init
 };

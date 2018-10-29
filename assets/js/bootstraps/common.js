@@ -2,10 +2,10 @@
  * Common modules that are run across the site.
  * (Non-Vue components)
  */
-const global = require('../modules/global');
+import global from '../modules/global';
 import tabs from '../modules/tabs';
 import heroImages from '../modules/heroImages';
-const logos = require('../modules/logos');
+import logos from '../modules/logos';
 import forms from '../modules/forms';
 
 function init() {

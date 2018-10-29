@@ -1,4 +1,4 @@
-const Raven = require('raven-js');
+import Raven from 'raven-js';
 
 function init() {
     Raven.config('https://53aa5923a25c43cd9a645d9207ae5b6c@sentry.io/226416', {
@@ -20,6 +20,6 @@ function init() {
     window.Raven = Raven;
 }
 
-module.exports = {
+export default {
     init
 };

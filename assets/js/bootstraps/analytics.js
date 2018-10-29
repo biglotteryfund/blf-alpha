@@ -1,13 +1,12 @@
 /* global ga, cxApi */
 
-const { forEach } = require('lodash');
-const { isDownloadLink } = require('../helpers/urls');
-const { trackEvent } = require('../helpers/metrics');
+import forEach from 'lodash/forEach';
+import { trackEvent } from '../helpers/metrics';
 
 function trackDocumentDownloads() {
     const links = document.querySelectorAll('.content-box a[href]');
     forEach(links, function(link) {
-        if (isDownloadLink(link.href)) {
+        if (/\.(pdf|doc|docx|xls|xlsx)$/i.test(link.href)) {
             link.addEventListener('click', () => {
                 trackEvent('Documents', 'Downloaded a document', link.href);
             });
