@@ -1,4 +1,4 @@
-const $ = require('jquery');
+import $ from 'jquery';
 
 function findSuccessBlock($el) {
     const logoId = $el.data('logo-id');
@@ -30,6 +30,6 @@ function init() {
     });
 }
 
-module.exports = {
+export default {
     init
 };

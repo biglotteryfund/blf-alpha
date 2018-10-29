@@ -39,8 +39,7 @@ module.exports = [
     }),
     Object.assign({}, commonConfig, {
         entry: {
-            app: './assets/js/main.js',
-            styleguide: './assets/js/styleguide.js'
+            app: './assets/js/main.js'
         },
         output: {
             filename: '[name].js',
