@@ -94,8 +94,8 @@ function init() {
                 } else {
                     this.sort.activeSort = null;
                     this.filters = {};
+                    this.filters.q = this.activeQuery; // reset query
                     this.filterSummary = [];
-                    this.activeQuery = null;
                 }
                 this.filterResults();
             },
