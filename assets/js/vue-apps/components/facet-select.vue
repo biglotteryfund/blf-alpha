@@ -2,13 +2,24 @@
 import isPlainObject from 'lodash/isPlainObject';
 
 export default {
-    props: ['value', 'name', 'label', 'labelAny', 'options', 'clearLabel'],
+    props: ['value', 'name', 'label', 'labelAny', 'options', 'clearLabel', 'handleActiveFilter'],
     computed: {
         isOptgroup() {
             return isPlainObject(this.options);
         },
         id() {
             return `field-dynamic-${this.name}`;
+        }
+    },
+    methods: {
+        handleInput($event) {
+            const target = $event.target;
+            const selectedOption = target.options[target.selectedIndex];
+            this.$emit('input', $event.target.value);
+            this.handleActiveFilter({
+                label: selectedOption.text,
+                name: this.name
+            });
         }
     }
 };
@@ -25,7 +36,7 @@ export default {
                 :id="id"
                 :name="name"
                 :value="value"
-                @input="$emit('input', $event.target.value)">
+                @input="handleInput">
                 <option value="" v-if="labelAny">{{ labelAny }}</option>
                 <template v-if="isOptgroup">
                     <optgroup v-for="(group, groupLabel) in options" :label="groupLabel" :key="groupLabel">

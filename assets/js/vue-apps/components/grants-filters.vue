@@ -6,7 +6,7 @@ import FacetSelect from './facet-select.vue';
 
 export default {
     components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
-    props: ['facets', 'filters', 'status', 'copy']
+    props: ['facets', 'filters', 'status', 'copy', 'handleActiveFilter']
 };
 </script>
 
@@ -36,6 +36,7 @@ export default {
                 :options="facets.amountAwarded"
                 :option-limit="3"
                 @clear-selection="$emit('clear-filters', 'amount')"
+                :handle-active-filter="handleActiveFilter"
             />
             <FacetChoice
                 v-model="filters.awardDate"
@@ -47,6 +48,7 @@ export default {
                 :options="facets.awardDate"
                 :option-limit="5"
                 @clear-selection="$emit('clear-filters', 'awardDate')"
+                :handle-active-filter="handleActiveFilter"
             />
 
             <FacetSelect
@@ -57,6 +59,7 @@ export default {
                 :clear-label="copy.filters.clearSelection"
                 :options="facets.grantProgramme"
                 @clear-selection="$emit('clear-filters', 'programme')"
+                :handle-active-filter="handleActiveFilter"
             />
         </FacetGroup>
 
@@ -73,6 +76,7 @@ export default {
                 :hide-label="true"
                 :options="facets.countries"
                 @clear-selection="$emit('clear-filters', 'country')"
+                :handle-active-filter="handleActiveFilter"
             />
 
             <FacetDisclose
@@ -89,6 +93,7 @@ export default {
                     :clear-label="copy.filters.clearSelection"
                     :options="facets.localAuthorities"
                     @clear-selection="$emit('clear-filters', 'localAuthority')"
+                    :handle-active-filter="handleActiveFilter"
                 />
 
                 <FacetSelect
@@ -100,6 +105,7 @@ export default {
                     :clear-label="copy.filters.clearSelection"
                     :options="facets.westminsterConstituencies"
                     @clear-selection="$emit('clear-filters', 'westminsterConstituency')"
+                    :handle-active-filter="handleActiveFilter"
                 />
             </FacetDisclose>
 
@@ -111,6 +117,7 @@ export default {
                 :clear-label="copy.filters.clearSelection"
                 :options="facets.orgType"
                 @clear-selection="$emit('clear-filters', 'orgType')"
+                :handle-active-filter="handleActiveFilter"
             />
         </FacetGroup>
 

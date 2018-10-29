@@ -2,7 +2,7 @@
 import take from 'lodash/take';
 
 export default {
-    props: ['value', 'type', 'name', 'label', 'hideLabel', 'options', 'optionLimit', 'copy'],
+    props: ['value', 'type', 'name', 'label', 'hideLabel', 'options', 'optionLimit', 'copy', 'handleActiveFilter'],
     data() {
         return { isOpen: false };
     },
@@ -16,6 +16,13 @@ export default {
         }
     },
     methods: {
+        handleInput($event, option) {
+            this.$emit('input', $event.target.value);
+            this.handleActiveFilter({
+                label: option.label,
+                name: this.name
+            });
+        },
         shouldTruncate() {
             return this.optionLimit && this.options.length >= this.optionLimit + 2;
         },
@@ -42,7 +49,7 @@ export default {
                         :name="name"
                         :value="option.value"
                         :checked="option.value === value"
-                        @input="$emit('input', $event.target.value)"
+                        @input="handleInput($event, option)"
                     />
                     <label class="ff-choice__label" :for="fieldId(index)">
                         {{ option.label }}

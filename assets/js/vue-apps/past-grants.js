@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import Vue from 'vue';
 import cloneDeep from 'lodash/cloneDeep';
+import find from 'lodash/find';
 import get from 'lodash/get';
 import pickBy from 'lodash/pickBy';
 import queryString from 'query-string';
@@ -50,6 +51,7 @@ function init() {
                 facets: get(initialData, 'facets', {}),
                 sort: get(initialData, 'sort', {}),
                 filters: initialQueryParams,
+                filterSummary: [],
                 totalResults: initialData.totalResults || 0,
                 totalAwarded: initialData.totalAwarded || 0,
                 copy: initialData.lang
@@ -75,13 +77,22 @@ function init() {
             };
         },
         methods: {
+            handleActiveFilter(payload) {
+                const match = find(this.filterSummary, item => item.name === payload.name);
+                if (!match) {
+                    this.filterSummary = [].concat(this.filterSummary, [payload]);
+                }
+            },
+
             clearFilters(name) {
                 this.status = { state: states.Loading };
                 if (name) {
                     this.filters = pickBy(this.filters, (value, key) => key !== name);
+                    this.filterSummary = this.filterSummary.filter(i => i.name !== name);
                 } else {
                     this.sort.activeSort = null;
                     this.filters = {};
+                    this.filterSummary = [];
                     this.activeQuery = null;
                 }
                 this.filterResults();
@@ -89,6 +100,7 @@ function init() {
 
             updateQuery() {
                 this.filters.q = this.activeQuery;
+                this.handleActiveFilter({ label: this.activeQuery, name: 'q' });
                 this.filterResults();
             },
 

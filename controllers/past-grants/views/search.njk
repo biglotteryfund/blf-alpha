@@ -112,7 +112,7 @@
                     <div class="grants-search__meta">
                         <div>
                             <grants-filter-summary
-                                :filters="filters"
+                                :filter-summary="filterSummary"
                                 :clear-label="copy.filters.clearSelection"
                                 @clear-filters="clearFilters" />
                         </div>
@@ -148,6 +148,7 @@
                                 :status="status"
                                 :copy="copy"
                                 @clear-filters="clearFilters"
+                                :handle-active-filter="handleActiveFilter"
                             />
 
                             {# Noscript fallback filters #}
