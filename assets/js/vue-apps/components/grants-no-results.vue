@@ -1,6 +1,16 @@
 <script>
 export default {
-    props: ['totalResults', 'copy']
+    props: ['totalResults', 'copy'],
+    computed: {
+        canGoBack() {
+            return window.history.length > 1
+        }
+    },
+    methods: {
+        goBack() {
+            return window.history.back();
+        }
+    }
 };
 </script>
 <template>
@@ -11,10 +21,22 @@ export default {
             <li v-for="suggestion in copy.errors.noResults.suggestions" v-html="suggestion" :key="suggestion"></li>
         </ul>
 
-        <p><button type="button" class="btn btn--medium"
-            @click="$emit('clear-filters')">
-            {{ copy.filters.clear }}
-        </button></p>
+        <p>
+            <button type="button"
+                    class="btn btn--medium"
+                    @click="$emit('clear-filters')">
+                {{ copy.filters.clear }}
+            </button>
+            <span v-if="canGoBack">
+                or
+                <!-- @TODO i18n -->
+                <button type="button"
+                        class="btn btn--medium"
+                        @click="goBack">
+                    Go back a step
+                </button>
+            </span>
+        </p>
 
         <p v-html="copy.errors.noResults.otherOptions"></p>
     </div>

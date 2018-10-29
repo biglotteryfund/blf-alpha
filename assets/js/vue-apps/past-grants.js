@@ -75,6 +75,10 @@ function init() {
                 const historyUrlPath = get(event, 'state.urlPath', window.location.pathname);
                 historyUrlPath && this.updateResults(historyUrlPath);
                 this.filters = queryString.parse(location.search);
+                // Reset the search query if it has just been removed
+                if (!this.filters.q) {
+                    this.activeQuery = null;
+                }
                 this.filterSummary = [];
             };
         },
