@@ -8,19 +8,29 @@ const { injectCopy, injectHeroImage, injectOurPeople, setCommonLocals } = requir
 const router = express.Router();
 
 router.use(injectCopy('ourPeople'), injectOurPeople, function(req, res, next) {
-    res.locals.sectionTitle = res.locals.copy.title;
+    const { title, legacyNavigation } = res.locals.copy;
+
+    res.locals.sectionTitle = title;
+
+    const links = res.locals.ourPeople.map(item => {
+        return {
+            label: item.title,
+            slug: item.slug,
+            href: item.linkUrl
+        };
+    });
+
+    // Merge items with legacy navigation to allow gradual migration
+    res.locals.ourPeopleLinks = legacyNavigation.map(legacy => {
+        const match = find(links, link => link.slug === legacy.slug);
+        return match ? match : legacy;
+    });
+
     next();
 });
 
 router.get('/', injectHeroImage('mental-health-foundation'), (req, res) => {
-    const links = res.locals.ourPeople.map(item => {
-        return {
-            href: item.linkUrl,
-            label: item.title
-        };
-    });
-
-    res.render(path.resolve(__dirname, './views/our-people'), { links });
+    res.render(path.resolve(__dirname, './views/our-people'));
 });
 
 router.get('/:slug', injectOurPeople, (req, res) => {

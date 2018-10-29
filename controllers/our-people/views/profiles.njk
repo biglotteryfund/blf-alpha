@@ -36,7 +36,7 @@
                     </article>
                 {% endfor %}
 
-                {% if entry.documents %}
+                {% if entry.documents and entry.documents.files.length > 0 %}
                     <section class="content-box accent--{{ pageAccent }} a--border-top">
                         <h3 class="t1 accent--{{ pageAccent }} a--text">{{ entry.documents.title }}</h3>
                         {{ documentList(entry.documents.files) }}
@@ -53,11 +53,11 @@
                             </a>
                         </h2>
                         <ul class="nested-menu__children">
-                            {% for page in ourPeople %}
+                            {% for link in ourPeopleLinks %}
                                 <li class="nested-menu__item">
-                                    <a class="nested-menu__link{% if page.title === title %} is-active{% endif %}"
-                                        href="{{ page.linkUrl }}">
-                                        {{ page.title }}
+                                    <a class="nested-menu__link{% if link.label === title %} is-active{% endif %}"
+                                        href="{{ link.href }}">
+                                        {{ link.label }}
                                     </a>
                                 </li>
                             {% endfor %}

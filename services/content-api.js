@@ -4,7 +4,6 @@ const { isArray } = require('lodash');
 const request = require('request-promise-native');
 const debug = require('debug')('biglotteryfund:content-api');
 
-const getAttrs = response => get('data.attributes')(response);
 const mapAttrs = response => map('attributes')(response.data);
 
 const { sanitiseUrlPath } = require('../modules/urls');
@@ -190,16 +189,10 @@ function getCaseStudies({ locale, slugs = [] }) {
     });
 }
 
-function getOurPeople({ locale, slug = null, previewMode = null }) {
-    if (slug) {
-        return fetch(`/v1/${locale}/our-people/${slug}`, {
-            qs: addPreviewParams(previewMode)
-        }).then(getAttrs);
-    } else {
-        return fetch(`/v1/${locale}/our-people`, {
-            qs: addPreviewParams(previewMode)
-        }).then(mapAttrs);
-    }
+function getOurPeople({ locale, previewMode = null }) {
+    return fetch(`/v1/${locale}/our-people`, {
+        qs: addPreviewParams(previewMode)
+    }).then(mapAttrs);
 }
 
 function getDataStats({ locale, previewMode }) {
