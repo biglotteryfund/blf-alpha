@@ -72,8 +72,10 @@ function init() {
                 .removeAttr('disabled');
 
             window.onpopstate = event => {
-                const historyUrlPath = get(event, 'state.urlPath');
+                const historyUrlPath = get(event, 'state.urlPath', window.location.pathname);
                 historyUrlPath && this.updateResults(historyUrlPath);
+                this.filters = queryString.parse(location.search);
+                this.filterSummary = [];
             };
         },
         methods: {
