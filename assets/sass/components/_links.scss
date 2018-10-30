@@ -86,11 +86,11 @@
    ========================================================================= */
 
 .document-list {
-    margin-bottom: $spacingUnit / 2;
+    margin-bottom: $spacingUnit;
 }
 .document-list__item {
     font-size: 18px;
-    margin-bottom: $spacingUnit;
+    margin-bottom: $spacingUnit / 2;
 
     &:last-child {
         margin-bottom: 0;

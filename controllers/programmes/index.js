@@ -1,6 +1,6 @@
 'use strict';
 const path = require('path');
-const { concat, map } = require('lodash');
+const { concat, map, groupBy } = require('lodash');
 const express = require('express');
 
 const {
@@ -38,12 +38,20 @@ router.get(
 
         const locationParam = getValidLocation(allFundingProgrammes, req.query.location);
 
-        const programmes = allFundingProgrammes
+        let programmes = allFundingProgrammes
             // @TODO: Remove fallback condition once active programme field exists in production
             .filter(p => (p.programmeType ? p.programmeType === 'activeProgramme' : true))
-            .filter(programmeFilters.filterByLocation(locationParam))
             .filter(programmeFilters.filterByMinAmount(req.query.min))
             .filter(programmeFilters.filterByMaxAmount(req.query.max));
+
+        // Group programmes by their region (if supplied)
+        if (locationParam) {
+            // We make two lists then join them so the filtered location is first in the group
+            let thisLocation = programmes.filter(programmeFilters.filterByLocation(locationParam));
+            let ukWide = programmes.filter(programmeFilters.filterByLocation('ukWide'));
+            let allProgrammes = thisLocation.concat(ukWide);
+            programmes = groupBy(allProgrammes, 'content.area.label');
+        }
 
         if (parseInt(req.query.min, 10) === 10000) {
             res.locals.breadcrumbs.push({
@@ -81,7 +89,8 @@ router.get(
 
         res.render(path.resolve(__dirname, './views/programmes-list'), {
             programmes,
-            activeBreadcrumbsSummary
+            activeBreadcrumbsSummary,
+            isGroupedByRegion: !!locationParam
         });
     }
 );

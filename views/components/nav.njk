@@ -28,27 +28,6 @@
     </form>
 {% endmacro %}
 
-{% macro nestedMenu(navigationModel, currentUrl) %}
-    <nav class="nested-menu">
-        <h2 class="nested-menu__section t4">
-            <a class="nested-menu__section-link"
-                href="{{ navigationModel.section.link }}">
-                {{ navigationModel.section.label }}
-            </a>
-        </h2>
-        <ul class="nested-menu__children">
-            {% for child in navigationModel.children %}
-                <li class="nested-menu__item">
-                    <a class="nested-menu__link{% if currentUrl === child.link %} is-active{% endif %}"
-                        href="{{ child.link }}">
-                        {{ child.label }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </nav>
-{% endmacro %}
-
 {% macro quickLinks(links, isSticky = false) %}
     <nav class="quicklinks quicklinks--sticky">
         <ul class="quicklinks__list">
