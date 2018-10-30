@@ -1,6 +1,6 @@
 <script>
 export default {
-    props: ['labelOpen', 'labelClosed'],
+    props: ['labelOpen', 'labelClosed', 'trackUi', 'filterName'],
     data() {
         return { isOpen: false };
     },
@@ -13,6 +13,14 @@ export default {
         ariaId() {
             return `facet-disclose-${this.id}`;
         }
+    },
+    methods: {
+        toggle() {
+            this.isOpen = !this.isOpen;
+            let action = 'Toggle disclose ';
+            action += this.isOpen ? 'on' : 'off';
+            this.trackUi(action, this.filterName);
+        }
     }
 };
 </script>
@@ -22,7 +30,7 @@ export default {
         <div v-show="isOpen" :id="ariaId" :aria-hidden="isOpen ? 'false' : 'true'">
             <slot></slot>
         </div>
-        <button class="btn-link" type="button" @click="isOpen = !isOpen">
+        <button class="btn-link" type="button" @click="toggle">
             {{ isOpen ? labelOpen : labelClosed }}
         </button>
     </div>
