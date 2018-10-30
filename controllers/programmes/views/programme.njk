@@ -69,6 +69,12 @@
                         </div>
                     </div>
                 {% endif %}
+
+                {% if entry.footer %}
+                    <div class="content-box content-box--frameless">
+                        {{ entry.footer | safe }}
+                    </div>
+                {% endif %}
             </div>
 
             {# Case Studies #}
