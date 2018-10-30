@@ -13,6 +13,10 @@ export default {
         toggleLabel: {
             type: String,
             required: true
+        },
+        trackUi: {
+            type: Function,
+            required: true
         }
     },
     components: { IconArrowDown },
@@ -28,6 +32,14 @@ export default {
         ariaId() {
             return `facet-group-${this.id}`;
         }
+    },
+    methods: {
+        toggle() {
+            this.isOpen = !this.isOpen;
+            let action = 'Toggle group ';
+            action += this.isOpen ? 'on' : 'off';
+            this.trackUi(action, this.legend);
+        }
     }
 };
 </script>
@@ -35,7 +47,7 @@ export default {
 <template>
     <div class="facet-group" :class="{ 'is-open': isOpen }" :aria-expanded="isOpen ? 'true' : 'false'" :aria-controls="ariaId">
         <fieldset class="facet-group__fieldset">
-            <button class="facet-group__toggle" type="button" @click="isOpen = !isOpen">
+            <button class="facet-group__toggle" type="button" @click="toggle">
                 <IconArrowDown
                     :id="'facet-' + id"
                     :description="toggleLabel + ' ' + legend"

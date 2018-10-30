@@ -6,7 +6,7 @@ import FacetSelect from './facet-select.vue';
 
 export default {
     components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
-    props: ['facets', 'filters', 'status', 'copy', 'handleActiveFilter']
+    props: ['facets', 'filters', 'status', 'copy', 'handleActiveFilter', 'trackUi']
 };
 </script>
 
@@ -25,6 +25,7 @@ export default {
         <FacetGroup
             :legend="copy.filters.grantLegend"
             :toggle-label="copy.filters.toggle"
+            :track-ui="trackUi"
         >
             <FacetChoice
                 v-model="filters.amount"
@@ -37,6 +38,7 @@ export default {
                 :option-limit="3"
                 @clear-selection="$emit('clear-filters', 'amount')"
                 :handle-active-filter="handleActiveFilter"
+                :track-ui="trackUi"
             />
             <FacetChoice
                 v-model="filters.awardDate"
@@ -49,6 +51,7 @@ export default {
                 :option-limit="5"
                 @clear-selection="$emit('clear-filters', 'awardDate')"
                 :handle-active-filter="handleActiveFilter"
+                :track-ui="trackUi"
             />
 
             <FacetSelect
@@ -66,6 +69,7 @@ export default {
         <FacetGroup
             :legend="copy.filters.organisationLegend"
             :toggle-label="copy.filters.toggle"
+            :track-ui="trackUi"
         >
             <FacetChoice
                 v-model="filters.country"
@@ -77,12 +81,15 @@ export default {
                 :options="facets.countries"
                 @clear-selection="$emit('clear-filters', 'country')"
                 :handle-active-filter="handleActiveFilter"
+                :track-ui="trackUi"
             />
 
             <FacetDisclose
                 :label-closed="copy.filters.options.country.labelClosed"
                 :label-open="copy.filters.options.country.labelOpen"
                 class="facet-group__item"
+                :track-ui="trackUi"
+                :filter-name="'country'"
             >
                 <FacetSelect
                     v-model="filters.localAuthority"
