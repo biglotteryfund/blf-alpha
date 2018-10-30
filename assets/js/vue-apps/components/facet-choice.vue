@@ -2,7 +2,18 @@
 import take from 'lodash/take';
 
 export default {
-    props: ['value', 'type', 'name', 'label', 'hideLabel', 'options', 'optionLimit', 'copy', 'handleActiveFilter'],
+    props: [
+        'value',
+        'type',
+        'name',
+        'label',
+        'hideLabel',
+        'options',
+        'optionLimit',
+        'copy',
+        'handleActiveFilter',
+        'trackUi'
+    ],
     data() {
         return { isOpen: false };
     },
@@ -28,6 +39,12 @@ export default {
         },
         fieldId(index) {
             return `field-dynamic-${this.name}-${index}`;
+        },
+        toggle() {
+            this.isOpen = !this.isOpen;
+            let action = 'Toggle additional options ';
+            action += this.isOpen ? 'on' : 'off';
+            this.trackUi(action, this.name);
         }
     }
 };
@@ -67,7 +84,7 @@ export default {
         <button type="button"
             class="btn-link"
             v-if="shouldTruncate()"
-            @click='isOpen = !isOpen'
+            @click='toggle'
         >
             {{ isOpen ? copy.filters.options.truncate.seeFewer : copy.filters.options.truncate.seeMore }}
         </button>

@@ -5,6 +5,7 @@ import find from 'lodash/find';
 import get from 'lodash/get';
 import pickBy from 'lodash/pickBy';
 import queryString from 'query-string';
+import { trackEvent } from '../helpers/metrics';
 
 import GrantsFilters from './components/grants-filters.vue';
 import GrantsSort from './components/grants-sort.vue';
@@ -80,14 +81,24 @@ function init() {
                     this.activeQuery = null;
                 }
                 this.filterSummary = [];
+                this.trackUi('Navigation', 'Back');
             };
         },
         methods: {
+            trackFilter(filterName, filterValue = null) {
+                trackEvent('Past Grants Filter', filterName, filterValue);
+            },
+
+            trackUi(category, label = null) {
+                trackEvent('Past Grants Interface', category, label);
+            },
+
             handleActiveFilter(payload) {
                 const match = find(this.filterSummary, item => item.name === payload.name);
                 if (!match) {
                     this.filterSummary = [].concat(this.filterSummary, [payload]);
                 }
+                this.trackFilter(payload.name, payload.label);
             },
 
             clearFilters(name) {
@@ -95,19 +106,23 @@ function init() {
                 if (name) {
                     this.filters = pickBy(this.filters, (value, key) => key !== name);
                     this.filterSummary = this.filterSummary.filter(i => i.name !== name);
+                    this.trackUi('Clear filter', name);
                 } else {
                     this.sort.activeSort = null;
                     this.filters = {};
                     this.filters.q = this.activeQuery; // reset query
                     this.filterSummary = [];
+                    this.trackUi('Clear all filters');
                 }
                 this.filterResults();
             },
 
             updateQuery() {
+                const filterName = 'q';
                 this.filters.q = this.activeQuery;
-                this.handleActiveFilter({ label: this.activeQuery, name: 'q' });
+                this.handleActiveFilter({ label: this.activeQuery, name: filterName });
                 this.filterResults();
+                this.trackFilter(filterName, this.activeQuery);
             },
 
             filterResults() {
@@ -123,15 +138,16 @@ function init() {
                     ? `${window.location.pathname}?${newQueryString}`
                     : window.location.pathname;
 
-                this.updateResults(urlPath);
+                this.updateResults(urlPath, newQueryString);
             },
 
             handleChangeSort(newSort) {
                 this.sort.activeSort = newSort;
                 this.filterResults();
+                this.trackUi('Sort results', newSort);
             },
 
-            updateResults(urlPath) {
+            updateResults(urlPath, queryString = null) {
                 this.status = { state: states.Loading };
 
                 if (window.history.pushState) {
@@ -152,10 +168,16 @@ function init() {
                         this.facets = response.facets;
                         this.sort = response.meta.sort;
                         this.status = { state: states.Success, data: response };
+
+                        if (this.totalResults === 0) {
+                            this.trackUi('No results', queryString);
+                        }
                     })
                     .catch(err => {
                         // @ts-ignore
-                        this.status = { state: states.Failure, error: err.responseJSON.error };
+                        const errMsg = err.responseJSON.error;
+                        this.status = { state: states.Failure, error: errMsg };
+                        this.trackUi('Search error', errMsg);
                     });
             }
         }
