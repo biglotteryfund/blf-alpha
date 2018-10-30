@@ -219,12 +219,9 @@ const about = {
             router: flexibleContent()
         },
         {
-            path: '/our-people/senior-management-team',
-            lang: 'about.ourPeople.seniorManagement',
-            heroSlug: 'mental-health-foundation',
-            router: require('./profiles')({
-                profilesSection: 'seniorManagementTeam'
-            })
+            path: '/our-people',
+            lang: 'about.ourPeople',
+            router: require('./our-people')
         },
         {
             path: '/ebulletin',

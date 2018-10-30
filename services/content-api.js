@@ -189,11 +189,10 @@ function getCaseStudies({ locale, slugs = [] }) {
     });
 }
 
-function getProfiles({ locale, section }) {
-    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/profiles/${section}`).then(responses => {
-        const [enResults, cyResults] = responses.map(mapAttrs);
-        return mergeWelshBy('slug')(locale, enResults, cyResults);
-    });
+function getOurPeople({ locale, previewMode = null }) {
+    return fetch(`/v1/${locale}/our-people`, {
+        qs: addPreviewParams(previewMode)
+    }).then(mapAttrs);
 }
 
 function getDataStats({ locale, previewMode }) {
@@ -239,7 +238,7 @@ module.exports = {
     getHomepage,
     getListingPage,
     getMerchandise,
-    getProfiles,
+    getOurPeople,
     getPromotedNews,
     getRoutes,
     getStatRegions,

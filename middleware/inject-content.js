@@ -281,6 +281,23 @@ async function injectResearchEntry(req, res, next) {
     }
 }
 
+async function injectOurPeople(req, res, next) {
+    try {
+        res.locals.ourPeople = await contentApi.getOurPeople({
+            locale: req.i18n.getLocale(),
+            previewMode: res.locals.PREVIEW_MODE || false
+        });
+
+        next();
+    } catch (error) {
+        if (error.statusCode >= 500) {
+            next(error);
+        } else {
+            next();
+        }
+    }
+}
+
 async function injectBlogPosts(req, res, next) {
     try {
         res.locals.blogPosts = await contentApi.getBlogPosts({
@@ -335,20 +352,6 @@ function injectMerchandise({ locale = null, showAll = false }) {
     };
 }
 
-function injectProfiles(section) {
-    return async function(req, res, next) {
-        try {
-            res.locals.profiles = await contentApi.getProfiles({
-                locale: req.i18n.getLocale(),
-                section: section
-            });
-            next();
-        } catch (error) {
-            next(error);
-        }
-    };
-}
-
 module.exports = {
     injectBlogDetail,
     injectBlogPosts,
@@ -361,9 +364,10 @@ module.exports = {
     injectHeroImage,
     injectListingContent,
     injectMerchandise,
-    injectProfiles,
+    injectOurPeople,
     injectResearch,
     injectResearchEntry,
     injectStrategicProgramme,
-    injectStrategicProgrammes
+    injectStrategicProgrammes,
+    setCommonLocals
 };

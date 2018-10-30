@@ -1,0 +1,90 @@
+{% extends "layouts/main.njk" %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/document-list/macro.njk" import documentList %}
+{% from "components/hero.njk" import hero with context %}
+{% from "components/nav.njk" import quickLinks %}
+
+{% block content %}
+    {{ hero(
+        titleText = title,
+        image = heroImage,
+        accent = pageAccent
+    ) }}
+
+    <main class="nudge-up">
+        <div class="page-section u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
+            <div class="page-section__content u-accent-border-top-{{ pageAccent }}">
+                {{ breadcrumbTrail(breadcrumbs) }}
+
+                {% for person in entry.people %}
+                    <article id="profile-{{ person.name | slugify }}"
+                        class="content-box {% if loop.index > 1 %} u-accent-border-top-{{ pageAccent }}{% endif %}">
+
+                        {% if person.image and person.image.type === 'large' %}
+                            <figure>
+                                <img src="{{ person.image.url }}" alt="{{ person.name }}">
+                            </figure>
+                        {% endif %}
+
+                        <div class="s-prose accent-content--{{ pageAccent }}">
+                            <h2>
+                                {{ person.name }}{% if person.role %}&thinsp;&mdash;&thinsp;{{ person.role }}{% endif %}
+                            </h2>
+
+                            {% if person.image and person.image.type === 'small' %}
+                                <img src="{{ person.image.url }}" alt="{{ person.name }}" width="100"
+                                    style="float: left; margin-right: 20px; margin-bottom: 10px;" />
+                            {% endif %}
+
+                            {{ person.bio | safe }}
+                        </div>
+
+                    </article>
+                {% endfor %}
+
+                {% if entry.documentGroups.length > 0 %}
+                    <section class="content-box accent--{{ pageAccent }} a--border-top">
+                        {% for group in entry.documentGroups  %}
+                            <h3 class="t1 accent--{{ pageAccent }} a--text">{{ group.title }}</h3>
+                            {{ documentList(group.files) }}
+                            {{ group.extraContent | safe }}
+                        {% endfor %}
+                    </section>
+                {% endif %}
+            </div>
+            <div class="page-section__supplementary u-accent-border-top-{{ pageAccent }}">
+                <aside class="content-box">
+                    {# @TODO: Should we share this component? #}
+                    <nav class="nested-menu">
+                        <h2 class="nested-menu__section t4">
+                            <a class="nested-menu__section-link" href="./">
+                                {{ sectionTitle }}
+                            </a>
+                        </h2>
+                        <ul class="nested-menu__children">
+                            {% for link in ourPeopleLinks %}
+                                <li class="nested-menu__item">
+                                    <a class="nested-menu__link{% if link.label === title %} is-active{% endif %}"
+                                        href="{{ link.href }}">
+                                        {{ link.label }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                </aside>
+
+                {% set quickLinksList = [] %}
+                {% for person in entry.people %}
+                    {% set quickLink = {
+                        href: '#profile-' + person.name | slugify,
+                        label: person.name,
+                        caption: person.role
+                    } %}
+                    {% set quickLinksList = (quickLinksList.push(quickLink), quickLinksList) %}
+                {% endfor %}
+                {{ quickLinks(quickLinksList, isSticky = true) }}
+            </div>
+        </div>
+    </main>
+{% endblock %}
