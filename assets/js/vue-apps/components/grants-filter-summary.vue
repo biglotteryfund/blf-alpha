@@ -17,7 +17,7 @@ export default {
                 <IconClose id="prompt-close" description="Dismiss prompt" />
             </li>
             <li v-if="filterSummary.length > 0">
-                <button type="button" class="btn-link" @click="$emit('clear-filters')">
+                <button type="button" class="btn-link" @click="$emit('clear-all')">
                     {{ clearLabel }}
                 </button>
             </li>

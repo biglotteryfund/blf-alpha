@@ -101,6 +101,15 @@ function init() {
                 this.trackFilter(payload.name, payload.label);
             },
 
+            // Resets filters *and* query search
+            clearAll() {
+                this.filters = {};
+                this.filterSummary = [];
+                this.activeQuery = null;
+                this.filterResults();
+                this.trackUi('Clear all filters and queries');
+            },
+
             clearFilters(name) {
                 this.status = { state: states.Loading };
                 if (name) {
@@ -111,7 +120,8 @@ function init() {
                     this.sort.activeSort = null;
                     this.filters = {};
                     this.filters.q = this.activeQuery; // reset query
-                    this.filterSummary = [];
+                    // remove everything except the query from the summary
+                    this.filterSummary = this.filterSummary.filter(i => i.name === 'q');
                     this.trackUi('Clear all filters');
                 }
                 this.filterResults();
@@ -119,8 +129,11 @@ function init() {
 
             updateQuery() {
                 const filterName = 'q';
-                this.filters.q = this.activeQuery;
-                this.handleActiveFilter({ label: this.activeQuery, name: filterName });
+                // Prevent a blank string from appearing in the filter summary
+                this.filters.q = this.activeQuery || undefined;
+                if (this.filters.q) {
+                    this.handleActiveFilter({ label: this.activeQuery, name: filterName });
+                }
                 this.filterResults();
                 this.trackFilter(filterName, this.activeQuery);
             },
