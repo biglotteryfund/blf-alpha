@@ -14,6 +14,7 @@
         background-color: palette('pale-grey');
     }
 }
+
 /* =========================================================================
    Grant Search Layout
    ========================================================================= */
@@ -27,6 +28,9 @@
     .grants-search__meta {
         font-size: 16px;
         margin-bottom: $spacingUnit / 2;
+    }
+    .grants-search__sort {
+        flex-shrink: 0;
     }
 
     @include mq('medium-major') {
@@ -141,6 +145,14 @@ $filterSpacing: 10px;
         font-size: 15px;
         line-height: 1.25;
     }
+
+    .filter-clear-btn {
+        font-size: 12px;
+        margin-left: auto;
+        padding-left: 10px;
+        max-width: 60px;
+        line-height: 1;
+    }
 }
 
 /* =========================================================================
@@ -192,10 +204,6 @@ $filterSpacing: 10px;
         }
     }
 
-    .ff-label {
-        font-weight: normal;
-    }
-
     .facet-group__legend {
         display: block;
         font-weight: bold;
@@ -210,12 +218,30 @@ $filterSpacing: 10px;
     }
 
     &.is-open {
+        .facet-group__legend {
+            padding-bottom: $filterSpacing / 2;
+            border-bottom: 1px solid palette('border');
+            width: 100%;
+        }
+
         .facet-group__toggle .icon {
             transform: rotate(180deg);
         }
 
         .facet-group__body {
             display: block;
+
+            .facet-group__item {
+                border-bottom: 1px solid palette('border');
+                margin-bottom: $filterSpacing;
+                padding-bottom: $filterSpacing;
+
+                &:last-child {
+                    border-bottom: none;
+                    margin-bottom: 0;
+                    padding-bottom: 0;
+                }
+            }
         }
     }
 }
@@ -256,4 +282,34 @@ $filterSpacing: 10px;
     font-size: 13px;
     color: palette('charcoal-note');
     margin-bottom: 0;
+}
+
+.filter-list {
+    li,
+    button {
+        font-size: 13px;
+    }
+
+    li {
+        display: inline-block;
+        margin-right: 10px;
+
+        &.filter-list__item {
+            padding: 3px 5px 3px 10px;
+            background-color: palette('pale-grey');
+            color: palette('charcoal-note');
+
+            @include on-interact {
+                cursor: pointer;
+                background-color: palette('off-white');
+                color: palette('charcoal');
+            }
+        }
+
+        svg {
+            height: 20px;
+            width: 20px;
+            vertical-align: middle;
+        }
+    }
 }

@@ -46,7 +46,11 @@
             <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>
 
                 <div class="grants-searchbar js-only">
-                    <label class="ff-label" for="search-query">{{ copy.title }}</label>
+                    <label class="ff-label ff-label--append"
+                           for="search-query"
+                           data-append="{{ copy.beta }}">
+                        {{ copy.title }}
+                    </label>
                     <div class="form-field-addon u-margin-bottom-s">
                         <input
                             class="form-field-addon__input "
@@ -104,6 +108,14 @@
                             {{ meta.totalResults | numberWithCommas }} {{ copy.resultsCount }}
                         </h2>
 
+                    </div>
+                    <div class="grants-search__meta">
+                        <div>
+                            <grants-filter-summary
+                                :filter-summary="filterSummary"
+                                :clear-label="copy.filters.clearSelection"
+                                @clear-filters="clearFilters" />
+                        </div>
                         <div class="grants-search__sort">
                             <grants-sort
                                 :sort="sort"
@@ -136,6 +148,7 @@
                                 :status="status"
                                 :copy="copy"
                                 @clear-filters="clearFilters"
+                                :handle-active-filter="handleActiveFilter"
                             />
 
                             {# Noscript fallback filters #}

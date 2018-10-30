@@ -27,8 +27,10 @@
                             <p class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</p>
                         {% endif %}
 
-                        <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
-                        <p>{{ grant.description }}</p>
+                        {% if grant.description !== grant.title %}
+                            <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
+                            <p>{{ grant.description }}</p>
+                        {% endif %}
                     </div>
                 </div>
 
@@ -54,14 +56,6 @@
                                 </dd>
                             {% endfor %}
                         {% endif %}
-                        <dt>{{ copy.grantDetail.fields.status }}</dt>
-                        <dd>
-                            {% if grant.isActive %}
-                                {{ copy.grantDetail.statuses.active }}
-                            {% else %}
-                                {{ copy.grantDetail.statuses.inactive }}
-                            {% endif %}
-                        </dd>
                     </dl>
                 </div>
 

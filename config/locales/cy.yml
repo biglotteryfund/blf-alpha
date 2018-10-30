@@ -474,7 +474,7 @@ funding:
             any: All constituencies
           organisationType:
             label: Organisation type
-            any: Select an organisation type
+            any: All organisation types
           organisation: Organisation
       errors:
         noResults:
