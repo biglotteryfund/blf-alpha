@@ -452,6 +452,9 @@ ourPeople:
   - label: UK funding committee
     slug: uk-funding-committee
     href: /about-big/our-people/uk-funding-committee
+  - label: Management expenses
+    slug: /directors-expenses
+    href: /about-big/our-people/directors-expenses
 funding:
   thinkingOfApplying:
     title: "Thinking of applying"

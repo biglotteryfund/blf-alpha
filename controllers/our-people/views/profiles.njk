@@ -1,9 +1,8 @@
-{% from "components/hero.njk" import hero with context %}
-{% from "components/nav.njk" import quickLinks %}
+{% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/document-list/macro.njk" import documentList %}
-
-{% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero with context %}
+{% from "components/nav.njk" import quickLinks %}
 
 {% block content %}
     {{ hero(
@@ -20,9 +19,10 @@
                 {% for person in entry.people %}
                     <article id="profile-{{ person.name | slugify }}"
                         class="content-box {% if loop.index > 1 %} u-accent-border-top-{{ pageAccent }}{% endif %}">
-                        {% if person.image %}
+
+                        {% if person.image and person.image.type === 'large' %}
                             <figure>
-                                <img src="{{ person.image }}" alt="{{ person.name }}">
+                                <img src="{{ person.image.url }}" alt="{{ person.name }}">
                             </figure>
                         {% endif %}
 
@@ -30,16 +30,25 @@
                             <h2>
                                 {{ person.name }}{% if person.role %}&thinsp;&mdash;&thinsp;{{ person.role }}{% endif %}
                             </h2>
+
+                            {% if person.image and person.image.type === 'small' %}
+                                <img src="{{ person.image.url }}" alt="{{ person.name }}" width="100"
+                                    style="float: left; margin-right: 20px; margin-bottom: 10px;" />
+                            {% endif %}
+
                             {{ person.bio | safe }}
                         </div>
 
                     </article>
                 {% endfor %}
 
-                {% if entry.documents and entry.documents.files.length > 0 %}
+                {% if entry.documentGroups.length > 0 %}
                     <section class="content-box accent--{{ pageAccent }} a--border-top">
-                        <h3 class="t1 accent--{{ pageAccent }} a--text">{{ entry.documents.title }}</h3>
-                        {{ documentList(entry.documents.files) }}
+                        {% for group in entry.documentGroups  %}
+                            <h3 class="t1 accent--{{ pageAccent }} a--text">{{ group.title }}</h3>
+                            {{ documentList(group.files) }}
+                            {{ group.extraContent | safe }}
+                        {% endfor %}
                     </section>
                 {% endif %}
             </div>

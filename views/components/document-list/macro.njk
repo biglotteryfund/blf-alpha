@@ -5,7 +5,7 @@
                 <a class="document-list__link" href="{{ document.href }}">
                     {{ document.label }}
                     {% if document.filetype or document.filesize %}
-                        <small>({{ document.filetype | capitalize }} {{ document.filesize }})</small>
+                        <small>({{ document.filetype | upper }} {{ document.filesize }})</small>
                     {% endif %}
                 </a>
                 {% if document.caption %}
