@@ -2,7 +2,18 @@
 import take from 'lodash/take';
 
 export default {
-    props: ['value', 'type', 'name', 'label', 'hideLabel', 'options', 'optionLimit', 'copy', 'handleActiveFilter', 'trackUi'],
+    props: [
+        'value',
+        'type',
+        'name',
+        'label',
+        'hideLabel',
+        'options',
+        'optionLimit',
+        'copy',
+        'handleActiveFilter',
+        'trackUi'
+    ],
     data() {
         return { isOpen: false };
     },

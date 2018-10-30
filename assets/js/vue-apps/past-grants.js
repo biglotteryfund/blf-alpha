@@ -85,7 +85,6 @@ function init() {
             };
         },
         methods: {
-
             trackFilter(filterName, filterValue = null) {
                 trackEvent('Past Grants Filter', filterName, filterValue);
             },
