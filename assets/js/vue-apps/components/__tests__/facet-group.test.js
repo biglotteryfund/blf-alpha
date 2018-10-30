@@ -11,7 +11,10 @@ describe('FacetGroup', () => {
             propsData: {
                 id: 'test',
                 legend: 'Testing',
-                toggleLabel: 'Toggle'
+                toggleLabel: 'Toggle',
+                trackUi: function() {
+                    // noop
+                }
             },
             slots: {
                 default: '<div>dummy content</div>'
