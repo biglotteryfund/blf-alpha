@@ -16,9 +16,15 @@
             {{ breadcrumbTrail(breadcrumbs) }}
             <h2 class="u-visually-hidden">{{ activeBreadcrumbsSummary }}</h2>
 
-            {% if programmes | length > 0 %}
+            {% if isGroupedByRegion and programmes %}
+                {% for region, regionProgrammes in programmes %}
+                    <h3>{{ region }}</h3>
+                    {{ programmeList(regionProgrammes, accent = pageAccent) }}
+                {% endfor %}
+            {% elseif programmes.length > 0 %}
                 {{ programmeList(programmes, accent = pageAccent) }}
             {% else %}
+                {# @TODO i18n #}
                 <p>No results</p>
             {% endif %}
         </section>
