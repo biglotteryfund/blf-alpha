@@ -101,14 +101,32 @@ exports[`FacetSelect should render with plain options 1`] = `
       </option>
     </select>
      
-    <button
-      class="btn-link filter-clear-btn"
-      type="button"
+    <ul
+      class="filter-list"
     >
-      
+      <li
+        class="filter-list__item filter-list__item--btn"
+      >
+        <svg
+          aria-describedby="aria-close-desc-clear-field-dynamic-example"
+          class="icon icon--close"
+          role="img"
+          viewBox="0 0 512 512"
+          width="46"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <desc
+            id="aria-close-desc-clear-field-dynamic-example"
+          >
             Clear selection
-        
-    </button>
+          </desc>
+           
+          <path
+            d="M340.2 160l-84.4 84.3-84-83.9-11.8 11.8 84 83.8-84 83.9 11.8 11.7 84-83.8 84.4 84.2 11.8-11.7-84.4-84.3 84.4-84.2z"
+          />
+        </svg>
+      </li>
+    </ul>
   </div>
 </div>
 `;
