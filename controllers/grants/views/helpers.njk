@@ -1,6 +1,6 @@
 {% macro pgLink(key, value) -%}
     {% set value = value | urlencode %}
-    {{ localify('/funding/past-grants/search?' + key + '=' + value) }}
+    {{ localify('/funding/grants?' + key + '=' + value) }}
 {% endmacro %}
 
 {% macro buildLocationList(locations) -%}

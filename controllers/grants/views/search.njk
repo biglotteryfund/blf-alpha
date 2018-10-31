@@ -4,6 +4,7 @@
 {% from "components/form-fields/macros.njk" import inputChoice, inputSelect with context %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/split-nav/macro.njk" import splitNav with context %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 {% from "./grant-results.njk" import grantResultList with context %}
 
 {% block extraHead %}
@@ -31,7 +32,13 @@
             <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
-                <p><strong>{{ copy.beta | upper }}:</strong> {{ copy.intro }}</p>
+                <p>
+                    <strong>{{ copy.beta | upper }}:</strong>
+                    {{ copy.intro }}
+                    You can try this new service in beta, <a href="{{ grantNavLink }}">explore our data with GrantNav</a> or use our <a href="{{ localify('/funding/search-past-grants') }}">old past grants database</a>.
+                </p>
+
+                {# @TODO i18n #}
 
                 <div id="feedback">
                     {# @TODO i18n #}
@@ -41,6 +48,12 @@
                         fieldLabel = "Tell us why you came to this page today"
                     )  }}
                 </div>
+
+                {% if grantDataDates %}
+                    <p class="u-margin-top">
+                        Our grants data currently runs from <strong>{{ grantDataDates.start }} &mdash; {{ grantDataDates.end }}</strong>. We update this data on a monthly basis.
+                    </p>
+                {% endif %}
             </div>
 
             <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>
@@ -277,7 +290,7 @@
                         <p>{{ copy.errors.noResults.otherOptions | safe }}</p>
                         <p>
                             <a class="btn btn--medium"
-                              href="{{ localify('/funding/past-grants/search') }}">
+                              href="{{ localify('/funding/grants') }}">
                                 {{ copy.filters.clear }}
                             </a>
                         </p>
@@ -285,5 +298,34 @@
                 {% endif %}
             </form>
         </div>
+
+        {% if caseStudies and caseStudies.length > 0 %}
+            <section id="section-case-studies" class="u-padded">
+                <div class="u-inner">
+                    <h3 class="t3 t--underline accent--pink a--text">{{ copy.featuredGrants }}</h3>
+                    <ul class="flex-grid flex-grid--3up">
+                        {% for caseStudy in caseStudies %}
+                            <li class="flex-grid__item">
+                                {% set props = {
+                                    "title": caseStudy.title,
+                                    "subtitle": caseStudy.grantAmount,
+                                    "trailText": caseStudy.trailText,
+                                    "image": {
+                                        "url": caseStudy.thumbnailUrl,
+                                        "alt": caseStudy.title
+                                    },
+                                    "link": {
+                                        "label": copy.viewGrantDetails,
+                                        "labelAria": copy.viewGrantDetails,
+                                        "url": localify("/funding/grants/" + caseStudy.grantId)
+                                    }
+                                } %}
+                                {{ promoCard(props, tint = true) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>
+        {% endif %}
     </main>
 {% endblock %}

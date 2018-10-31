@@ -11,7 +11,7 @@ urls=(
     "/funding/programmes/digital-fund"
     "/funding/programmes/national-lottery-awards-for-all-england"
     "/funding/programmes/reaching-communities-england"
-    "/funding/search-past-grants-alpha"
+    "/funding/grants"
     "/funding/under10k"
     "/research"
 )

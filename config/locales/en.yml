@@ -363,7 +363,7 @@ toplevel:
     - label: Strategic investments in England
       href: "/funding/strategic-investments"
     - label: Search funded projects
-      href: "/funding/past-grants"
+      href: "/funding/grants"
     - label: Help with managing your grant
       href: "/funding/funding-guidance/managing-your-funding"
     recentProgrammes:
@@ -498,7 +498,7 @@ funding:
     projectExamples: Examples of projects that have been funded
     browseAll: Browse all funded projects
   pastGrants:
-    title: Search All Funded Projects
+    title: Search all grants
     intro: We understand that searching through the Big Lottery Fund's past grants is important for many people. We are currently working to improve the service we currently offer.
     introBeta: >
       <p>Explore our database to find out what we've funded since 2004.</p>

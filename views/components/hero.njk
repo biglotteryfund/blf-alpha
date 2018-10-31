@@ -23,7 +23,7 @@
             {% if image.caption %}
                 <span class="hero__caption u-desktop-only">
                     {% if image.grantId and enableNewPastGrantsSearch %}
-                        <a href="{{ localify("/funding/search-past-grants-alpha/grant/" + image.grantId) }}" class="u-link-unstyled">
+                        <a href="{{ localify("/funding/grants/" + image.grantId) }}" class="u-link-unstyled">
                     {% endif %}
                     <span class="u-caption">{{ image.caption }}</span>
                     {% if image.grantId and enableNewPastGrantsSearch %}</a>{% endif %}
