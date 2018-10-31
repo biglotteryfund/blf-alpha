@@ -44,10 +44,8 @@
                     {% set tabItems = [] %}
                     {% for section in entry.contentSections -%}
                         {% set tabContent -%}
-                            <div class="content-box content-box--frameless">
-                                <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
-                                    {{ section.body | safe }}
-                                </div>
+                            <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                                {{ section.body | safe }}
                             </div>
                         {%- endset %}
 
@@ -67,6 +65,12 @@
                             <h2 class="t2 t--underline accent--{{ pageAccent }} a--text">{{ section.title }}</h2>
                             {{ section.body | safe }}
                         </div>
+                    </div>
+                {% endif %}
+
+                {% if entry.footer %}
+                    <div class="content-box content-box--frameless">
+                        {{ entry.footer | safe }}
                     </div>
                 {% endif %}
             </div>
