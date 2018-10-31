@@ -2,7 +2,7 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/promo-card/macro.njk" import promoCard %}
-{% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList with context %}
+{% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList, buildReturnLink with context %}
 
 {% set bodyClass = 'has-static-header' %}
 
@@ -31,6 +31,8 @@
                             <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
                             <p>{{ grant.description }}</p>
                         {% endif %}
+
+                        {{ buildReturnLink(returnLink) }}
                     </div>
                 </div>
 

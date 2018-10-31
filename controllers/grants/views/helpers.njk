@@ -1,3 +1,5 @@
+{% from "components/icons.njk" import iconArrowLeft %}
+
 {% macro pgLink(key, value) -%}
     {% set value = value | urlencode %}
     {{ localify('/funding/grants?' + key + '=' + value) }}
@@ -27,3 +29,16 @@
     {% endif %}
 {% endmacro %}
 
+{% macro buildReturnLink(returnLink) %}
+    {% if returnLink %}
+        <p class="u-no-margin">
+            <a class="btn btn--small btn--outline accent--pink"
+               href="{{ returnLink }}">
+                <span class="btn__icon btn__icon-left">
+                    {{ iconArrowLeft('small') }}
+                </span>
+                Back to your search results
+            </a>
+        </p>
+    {% endif %}
+{% endmacro %}
