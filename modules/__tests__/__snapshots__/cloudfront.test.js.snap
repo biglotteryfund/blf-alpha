@@ -470,7 +470,7 @@ Object {
         },
         "MaxTTL": 31536000,
         "MinTTL": 0,
-        "PathPattern": "/funding/past-grants/search",
+        "PathPattern": "/funding/grants",
         "SmoothStreaming": false,
         "TargetOriginId": "ELB_LIVE",
         "TrustedSigners": Object {
@@ -1072,7 +1072,7 @@ Object {
         },
         "MaxTTL": 31536000,
         "MinTTL": 0,
-        "PathPattern": "/welsh/funding/past-grants/search",
+        "PathPattern": "/welsh/funding/grants",
         "SmoothStreaming": false,
         "TargetOriginId": "ELB_LIVE",
         "TrustedSigners": Object {
