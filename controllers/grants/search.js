@@ -114,17 +114,12 @@ router.get(
         // Add a parameter so we know the user came from search
         // (so we can link them back to their results)
         const searchQueryString = querystring.stringify(
-            Object.assign(
-                {},
-                queryWithPage,
-                {
-                    from: 'search'
-                }
-            )
+            Object.assign({}, queryWithPage, {
+                from: 'search'
+            })
         );
 
         queryWithPage.locale = res.locals.locale;
-
 
         try {
             data = await queryGrantsApi(queryWithPage);
