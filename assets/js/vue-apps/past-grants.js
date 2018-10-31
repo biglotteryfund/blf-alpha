@@ -50,7 +50,28 @@ function init() {
             // Reconstruct the summary by grabbing labels from facets
             // (eg. for the subset of filters which have different labels
             // to their URL-provided values
-            const initialFilterSummary = () => {
+const initialFilterSummary = map(initialQueryParams, (value, key) => {
+    let label;
+    switch (key) {
+        case 'amount':
+            label = get(facets, 'amountAwarded[0].label');
+            break;
+        case 'awardDate':
+            label = get(facets, 'awardDate[0].label');
+            break;
+        case 'localAuthority':
+            label = get(facets, 'localAuthorities[0].label');
+            break;
+        case 'westminsterConstituency':
+            label = get(facets, 'westminsterConstituencies[0].label');
+            break;
+    }
+
+    return {
+        name: key,
+        label: label || value
+    };
+});
                 let summary = [];
                 for (const key in initialQueryParams) {
                     const defaultLabel = initialQueryParams[key];
