@@ -102,14 +102,6 @@ router.get(
         queryWithPage.locale = res.locals.locale;
         let data;
 
-        // Grab some case studies
-        const caseStudiesResponse = await contentApi.getCaseStudies({
-            locale: req.i18n.getLocale()
-        });
-
-        // Shuffle the valid case studies and grab the first few
-        const caseStudies = sampleSize(caseStudiesResponse.filter(c => c.grantId), 3);
-
         try {
             data = await queryGrantsApi(queryWithPage);
         } catch (errorResponse) {
@@ -127,7 +119,16 @@ router.get(
 
         res.format({
             // Initial / server-only search
-            html: () => {
+            html: async () => {
+
+                // Grab some case studies
+                const caseStudiesResponse = await contentApi.getCaseStudies({
+                    locale: req.i18n.getLocale()
+                });
+
+                // Shuffle the valid case studies and grab the first few
+                const caseStudies = sampleSize(caseStudiesResponse.filter(c => c.grantId), 3);
+
                 res.render(path.resolve(__dirname, './views/search'), {
                     title: res.locals.copy.title,
                     queryParams: isEmpty(facetParams) ? false : facetParams,
