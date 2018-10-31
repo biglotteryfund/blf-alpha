@@ -1,7 +1,9 @@
 <script>
 import take from 'lodash/take';
+import IconClose from './icon-close.vue';
 
 export default {
+    components: { IconClose },
     props: [
         'value',
         'type',
@@ -71,13 +73,13 @@ export default {
                     <label class="ff-choice__label" :for="fieldId(index)">
                         {{ option.label }}
                     </label>
-                    <button type="button"
-                            class="btn-link filter-clear-btn"
-                            v-if="option.value === value"
-                            @click="$emit('clear-selection')"
-                    >
-                        {{ copy.filters.clearSelection }}
-                    </button>
+                    <ul class="filter-list"
+                        v-if="option.value === value"
+                        @click="$emit('clear-selection')">
+                        <li class="filter-list__item filter-list__item--btn">
+                            <IconClose :id="'clear-' + fieldId(index)" :description="copy.filters.clearSelection" />
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </fieldset>

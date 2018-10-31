@@ -145,14 +145,6 @@ $filterSpacing: 10px;
         font-size: 15px;
         line-height: 1.25;
     }
-
-    .filter-clear-btn {
-        font-size: 12px;
-        margin-left: auto;
-        padding-left: 10px;
-        max-width: 60px;
-        line-height: 1;
-    }
 }
 
 /* =========================================================================
@@ -299,6 +291,12 @@ $filterSpacing: 10px;
             background-color: palette('pale-grey');
             color: palette('charcoal-note');
 
+            &.filter-list__item--btn {
+                padding: 0;
+                margin-left: 10px;
+                margin-right: 0;
+            }
+
             @include on-interact {
                 cursor: pointer;
                 background-color: palette('off-white');
@@ -310,6 +308,7 @@ $filterSpacing: 10px;
             height: 20px;
             width: 20px;
             vertical-align: middle;
+            fill: black;
         }
     }
 }
