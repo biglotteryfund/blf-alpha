@@ -18,12 +18,16 @@ accent: {String}
         <div class="media-card__body">
             <h4 class="media-card__title">{{ props.title }}</h4>
             <p class="media-card__subtitle">{{ props.subtitle }}</p>
-            <div class="media-card__trail-text s-prose">
-                {{ props.trailText | safe  }}
-                {% if props.link.url %}
-                    <a href="{{ props.link.url }}">{{ props.link.label }}</a>
-                {% endif %}
-            </div>
+            {% if props.trailText or props.link.url %}
+                <div class="media-card__trail-text s-prose">
+                    {% if props.trailText %}
+                        {{ props.trailText | safe  }}
+                    {% endif %}
+                    {% if props.link.url %}
+                        <a href="{{ props.link.url }}">{{ props.link.label }}</a>
+                    {% endif %}
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endmacro %}
