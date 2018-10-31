@@ -45,14 +45,47 @@ function init() {
             // @ts-ignore
             const initialData = window._PAST_GRANTS_SEARCH;
             const initialQueryParams = get(initialData, 'queryParams', {}) || {};
+            const facets = get(initialData, 'facets', {});
+
+            // Reconstruct the summary by grabbing labels from facets
+            // (eg. for the subset of filters which have different labels
+            // to their URL-provided values
+            const initialFilterSummary = () => {
+                let summary = [];
+                for (const key in initialQueryParams) {
+                    const defaultLabel = initialQueryParams[key];
+                    let filterItem = {
+                        name: key,
+                        label: defaultLabel
+                    };
+                    switch (key) {
+                        case 'amount':
+                            filterItem.label = get(facets, 'amountAwarded[0].label', defaultLabel);
+                            break;
+                        case 'awardDate':
+                            filterItem.label = get(facets, 'awardDate[0].label', defaultLabel);
+                            break;
+                        case 'localAuthority':
+                            filterItem.label = get(facets, 'localAuthorities[0].label', defaultLabel);
+                            break;
+                        case 'westminsterConstituency':
+                            filterItem.label = get(facets, 'westminsterConstituencies[0].label', defaultLabel);
+                            break;
+                    }
+                    if (filterItem) {
+                        summary.push(filterItem);
+                    }
+                }
+                return summary;
+            };
 
             return {
                 status: { state: states.NotAsked },
                 activeQuery: initialQueryParams.q || null,
-                facets: get(initialData, 'facets', {}),
+                facets: facets,
                 sort: get(initialData, 'sort', {}),
                 filters: initialQueryParams,
-                filterSummary: [],
+                filterSummary: initialFilterSummary(),
                 totalResults: initialData.totalResults || 0,
                 totalAwarded: initialData.totalAwarded || 0,
                 copy: initialData.lang
