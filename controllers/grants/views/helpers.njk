@@ -29,7 +29,7 @@
     {% endif %}
 {% endmacro %}
 
-{% macro buildReturnLink(returnLink) %}
+{% macro buildReturnLink(returnLink, label) %}
     {% if returnLink %}
         <p class="u-no-margin">
             <a class="btn btn--small btn--outline accent--pink"
@@ -37,7 +37,7 @@
                 <span class="btn__icon btn__icon-left">
                     {{ iconArrowLeft('small') }}
                 </span>
-                Back to your search results
+                {{ label }}
             </a>
         </p>
     {% endif %}

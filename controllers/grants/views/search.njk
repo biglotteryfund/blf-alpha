@@ -34,24 +34,21 @@
 
                 <p>
                     <strong>{{ copy.beta | upper }}:</strong>
-                    {{ copy.intro }}
-                    {# @TODO i18n #}
-                    You can try this new service in beta, <a href="{{ grantNavLink }}">explore our data with GrantNav</a> or use our <a href="{{ localify('/funding/search-past-grants') }}">old past grants database</a>.
+                    {{ __('funding.pastGrants.search.intro', grantNavLink) | safe }}
                 </p>
 
 
                 <div id="feedback">
-                    {# @TODO i18n #}
                     {{ inlineFeedback(
-                        description = "past_grants_beta",
-                        promptLabel = "Can you spare a minute to give us some feedback?",
-                        fieldLabel = "Tell us why you came to this page today"
+                        description = "past_grants_new",
+                        promptLabel = copy.survey.prompt,
+                        fieldLabel = copy.survey.label
                     )  }}
                 </div>
 
                 {% if grantDataDates %}
                     <p class="u-margin-top">
-                        Our grants data currently runs from <strong>{{ grantDataDates.start }} &mdash; {{ grantDataDates.end }}</strong>. We update this data on a monthly basis.
+                        {{ __("funding.pastGrants.search.dateRange", formatDate(grantDataDates.start, DATE_FORMATS.short), formatDate(grantDataDates.end, DATE_FORMATS.short)) | safe }}
                     </p>
                 {% endif %}
             </div>

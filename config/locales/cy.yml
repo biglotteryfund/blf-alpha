@@ -88,6 +88,8 @@ global:
     no: Nac ydw
     optional: Dewisol
     or: neu
+    to: i
+    on: ar
     printThisPage: Argraffu'r dudalen hon
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
     readMore: Darllen mwy
@@ -99,6 +101,9 @@ global:
     topics: pynciau
     viewAllNews: Gweld pob erthygl newyddion
     yes: Ydw
+    pagination:
+      prev: Tudalen flaenorol
+      next: Tudalen nesaf
   programmes:
     programmeLabels:
       area: Ardal
@@ -404,9 +409,6 @@ funding:
   pastGrants:
     title: Chwilio Pob Prosiect a Ariannwyd
     intro: Rydym yn deall bod chwilio trwy grantiau blaenorol y Gronfa Loteri Fawr yn bwysig i lawer o bobl. Rydym wrthi’n gwella’r gwasanaeth a gynigiwn ar hyn o bryd.
-    survey:
-      prompt: Helpwch ni i wneud chwilio am grantiau blaenorol yn well trwy ateb un cwestiwn
-      label: Dywedwch pam y daethoch i'r dudalen hon heddiw
     optionsIntro: Yn y cyfamser, mae dau ddull i chi chwilio trwy ein grantiau blaenorol.
     grantnav:
       title: 1. Defnyddio’r wefan GrantNav
@@ -416,95 +418,105 @@ funding:
       title: 2. Defnyddio ein cronfa ddata grantiau bresennol
       linkText: Chwilio grantiau blaenorol
     search:
-      title: Search awarded grants
+      title: Chwilio grantiau a ddyfarnwyd
+      survey:
+        prompt: Helpwch ni i wneud chwilio am grantiau blaenorol yn well trwy ateb un cwestiwn
+        label: Dywedwch pam y daethoch i'r dudalen hon heddiw
       beta: Beta
-      intro: Thank you for choosing to use our new “search awarded grants” service. We are working to improve the service we currently offer, your feedback will help us do that.
-      helpText: e.g. a keyword such as “loneliness”, a location, an organisation, or an area of work
-      submit: Search
-      pleaseWait: Searching, please wait...
-      resultsCount: projects found
-      totalCount: totalling
+      intro: >
+        Diolch am ddewis defnyddio ein gwasanaeth "chwilio grantiau a ddyfarnwyd" newydd. Rydym yn gweithio i wella'r gwasanaeth a gynigiwn i chi, bydd eich adborth yn ein helpu gwneud hynny. Gallwch roi cynnig ar ein gwasanaeth newydd mewn Beta nawr, <a href="%s">pori ein data gyda GrantNav</a> neu ddefnyddio ein hen <a href="/welsh/funding/search-past-grants">cronfa ddata grantiau blaenorol</a>.
+      helpText: e.e. allweddair fel "unigrwydd", lleoliad, mudiad neu faes gwaith
+      dateRange: >
+        Ar hyn o bryd mae ein data grantiau'n cwmpasu <strong>%s - %s</strong>. Rydym yn diweddaru'r data hwn bob mis.
+      submit: Chwilio
+      pleaseWait: Wrthi'n chwilio, arhoswch...
+      resultsCount: o brosiectau gwerth
+      totalCount: cyfanswm o
+      goBackAStep: Ewch gam yn ôl
+      backToSearch: Yn ôl i’ch canlyniadau chwilio
       sort:
-        orderedBy: Ordered by
+        orderedBy: Wedi'u trefnu fesul
       filters:
-        title: Filter by
-        submit: Filter
-        clear: Clear all filters
-        reset: Reset filters
-        clearSelection: Clear selection
-        toggle: Toggle
-        organisationLegend: Organisation
+        title: Hidlwch fesul
+        submit: Hidlo
+        clear: Clirio pob hidlydd
+        reset: Ail-osod hidlyddion
+        clearSelection: Clirio detholiad
+        toggle: Switsio
+        organisationLegend: Mudiad
         grantLegend: Grant
-        locationLegend: Location
+        locationLegend: Lleoliad
         options:
           truncate:
-            seeMore: See more options
-            seeFewer: See fewer options
+            seeMore: Gweld mwy o opsiynau
+            seeFewer: Gweld llai o opsiynau
           amountAwarded:
-            label: Grant amount
-            any: Any amount
+            label: Swm y grant
+            any: Unrhyw swm
+          awardDate:
+            label: Dyddiad dyfarnu
           country:
-            label: Country
-            any: All countries
-            labelClosed: See advanced location options
-            labelOpen: Hide advanced location options
+            label: Gwlad
+            any: Pob gwlad
+            labelClosed: Gweler opsiynau lleoliad manwl
+            labelOpen: Cuddio opsiynau lleoliad manwl
           programme:
-            label: Funding programme
-            any: All programmes
+            label: Rhaglen ariannu
+            any: Pob rhaglen
           localAuthority:
-            label: Local authority
-            any: All local authorities
+            label: Awdurdod lleol
+            any: Pob awdurdod lleol
           westminsterConstituency:
-            label: Westminster constituency
-            any: All constituencies
+            label: Etholaeth San Steffan
+            any: Pob etholaeth
           organisationType:
-            label: Organisation type
-            any: All organisation types
-          organisation: Organisation
+            label: Math o fudiad
+            any: Pob math o fudiad
+          organisation: Mudiad
       errors:
         noResults:
-          heading: We're sorry, we couldn't find any results matching your criteria
+          heading: Mae'n flin gennym, ni allem ddod o hyd i unrhyw ganlyniadau sy'n cyfateb i'ch meini prawf
           suggestions:
-          - Try a different query or clear your filters
-          - Try searching something less specific — sometimes using a more general search term may help
-          - Double check the spelling of any keywords you are searching for
-          - 'Our database might not have the details for grants awarded under 1 month ago. Please check our <a href="/news-and-events">news section</a> if you are looking for a recently awarded grant'
+            - Rhowch gynnig ar chwiliad gwahanol neu cliriwch eich hidlyddion
+            -	Ceisiwch chwilio am rywbeth llai penodol - weithiau gallai defnyddio term chwilio mwy cyffredinol helpu
+            -	Gwiriwch sillafu unrhyw allweddeiriau rydych yn eu chwilio'n ofalus
+            -	'Efallai nad fydd gan ein cronfa ddata fanylion grantiau a ddyfarnwyd o fewn y mis diwethaf. Gwiriwch ein <a href="/welsh/news-and-events">hadran newyddion</a> os ydych yn chwilio am grant a ddyfarnwyd yn ddiweddar'
           otherOptions: >
-            If you're looking for something specific and would like some help <a href="/contact">please contact us</a>.
-        postcode: The postcode you entered was invalid – please try another one.
-        generic: There was an error with your search.
-      featuredGrants: Featured grants
-      viewGrantDetails: View full grant details
+            Os ydych yn chwilio am rywbeth penodol ac fe hoffech gael cymorth <a href="/welsh/contact">cysylltwch â ni</a>.
+        postcode: Roedd y côd post a nodoch yn annilys - rhowch gynnig ar un arall.
+        generic: Cafwyd gwall gyda'ch chwiliad - rhowch gynnig ar un arall.
+      featuredGrants: Grantiau a amlygir
+      viewGrantDetails: Gweld manylion llawn y grant
       feedback:
-        title: Is something missing?
+        title: Oes rhywbeth ar goll?
         body: >
-          Please <a href="#feedback">send us feedback</a> to help us improve this service
+          <a href="#feedback">Gyrrwch adborth</a> atom i'n helpu gwella'r gwasanaeth hwn
       grantDetail:
-        projectOverview: Project overview
-        viewAllForRecipient: View all grants awarded to this recipient
-        fundedBy: Funded by
-        readMoreAbout: Read more about
-        photoCaption: Photo
-        moreLikeThis: More like this
+        projectOverview: Trosolwg o'r prosiect
+        viewAllForRecipient: Gweld pob grant a ddyfarnwyd i'r derbynnydd hwn
+        fundedBy: Ariannwyd gan
+        readMoreAbout: Darllen mwy am
+        photoCaption: Llun
+        moreLikeThis: Mwy fel hyn
         fields:
-          location: Location
-          multipleLocations: Multiple locations
-          duration: Duration
-          programme: Grant Programme
-          status: Status
-          recipientOrg: Recipient organisation
-          orgName: Organisation name
-          type: Type
-          charityNumber: Charity number
-          companyNumber: Company number
+          location: Lleoliad
+          multipleLocations: Lleoliadau lluosog
+          duration: Hyd
+          programme: Rhaglen grant
+          status: Statws
+          recipientOrg: Mudiad derbyn
+          orgName: Enw'r mudiad
+          type: Math
+          charityNumber: Rhif elusen
+          companyNumber: Rhif cwmni
         statuses:
-          active: Active
-          inactive: inActive
-          activeProject: Active Project
+          active: Gweithredol
+          inactive: Anweithredol
+          activeProject: Prosiect Gweithredol
       recipientDetail:
-        awardingProgrammes: Awarding programmes
-        searchGoogle: Search for %s with Google
-        numFundedTotal: '%s project(s) funded by Big Lottery Fund (£%s awarded in total)'
+        awardingProgrammes: Rhaglenni dyfarnu
+        searchGoogle: Chwilio am %s gyda Google
+        numFundedTotal: "ariannwyd %s o brosiectau gan y Gronfa Loteri Fawr (cyfanswm o £%s wedi'i ddyfarnu)"
   guidance:
     order-free-materials:
       title: Sut i gael deunyddiau â'n brand arnynt am ddim

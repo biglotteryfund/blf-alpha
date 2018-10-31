@@ -29,11 +29,10 @@ export default {
             </button>
             <span v-if="canGoBack">
                 or
-                <!-- @TODO i18n -->
                 <button type="button"
                         class="btn btn--medium"
                         @click="goBack">
-                    Go back a step
+                    {{ copy.goBackAStep }}
                 </button>
             </span>
         </p>
