@@ -158,7 +158,6 @@ function init() {
                     this.filterSummary = this.filterSummary.filter(i => i.name === 'q');
                     this.trackUi('Clear all filters');
                 }
-                this.filterResults();
             },
 
             updateQuery() {
