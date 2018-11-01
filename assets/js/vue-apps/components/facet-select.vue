@@ -38,7 +38,7 @@ export default {
                 :id="id"
                 :name="name"
                 :value="value"
-                @input="handleInput">
+                @change="handleInput">
                 <option value="" v-if="labelAny">{{ labelAny }}</option>
                 <template v-if="isOptgroup">
                     <optgroup v-for="(group, groupLabel) in options" :label="groupLabel" :key="groupLabel">
