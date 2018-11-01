@@ -4,7 +4,7 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav with context %}
 {% from "./grant-results.njk" import grantResultItem with context %}
-{% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList with context %}
+{% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList, buildReturnLink with context %}
 
 {% set bodyClass = 'has-static-header' %}
 
@@ -57,6 +57,8 @@
                             </strong>
                         </p>
 
+                        {{ buildReturnLink(returnLink) }}
+
                     </div>
                 </div>
 
@@ -90,7 +92,7 @@
                         <div class="card u-no-margin">
                             <header class="card__header">
                                 <h3 class="card__title u-no-margin">
-                                    <a href="{{ localify("/funding/past-grants/search/grant/" + grant.id) }}">
+                                    <a href="{{ localify("/funding/grants/" + grant.id) }}">
                                         {{ grant.title }}
                                     </a>
                                 </h3>

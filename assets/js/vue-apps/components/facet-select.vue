@@ -1,7 +1,9 @@
 <script>
 import isPlainObject from 'lodash/isPlainObject';
+import IconClose from './icon-close.vue';
 
 export default {
+    components: { IconClose },
     props: ['value', 'name', 'label', 'labelAny', 'options', 'clearLabel', 'handleActiveFilter'],
     computed: {
         isOptgroup() {
@@ -52,12 +54,14 @@ export default {
                 </template>
             </select>
 
-            <button type="button"
-                    class="btn-link filter-clear-btn"
-                    @click="$emit('clear-selection')"
-                    v-if="value">
-                {{ clearLabel }}
-            </button>
+            <ul class="filter-list"
+                v-if="value"
+                @click="$emit('clear-selection')">
+                <li class="filter-list__item filter-list__item--btn">
+                    <IconClose :id="'clear-' + id" :description="clearLabel" />
+                </li>
+            </ul>
+
         </div>
     </div>
 </template>

@@ -146,8 +146,8 @@ const funding = {
             router: require('./funding-finder')
         },
         {
-            path: '/past-grants',
-            router: require('./past-grants')
+            path: '/grants',
+            router: require('./grants')
         },
         {
             path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',

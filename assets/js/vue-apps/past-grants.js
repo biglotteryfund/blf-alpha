@@ -3,6 +3,7 @@ import Vue from 'vue';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 import get from 'lodash/get';
+import map from 'lodash/map';
 import pickBy from 'lodash/pickBy';
 import queryString from 'query-string';
 import { trackEvent } from '../helpers/metrics';
@@ -45,14 +46,41 @@ function init() {
             // @ts-ignore
             const initialData = window._PAST_GRANTS_SEARCH;
             const initialQueryParams = get(initialData, 'queryParams', {}) || {};
+            const facets = get(initialData, 'facets', {});
+
+            // Reconstruct the summary by grabbing labels from facets
+            // (eg. for the subset of filters which have different labels
+            // to their URL-provided values
+            const initialFilterSummary = map(initialQueryParams, (value, key) => {
+                let label;
+                switch (key) {
+                    case 'amount':
+                        label = get(facets, 'amountAwarded[0].label');
+                        break;
+                    case 'awardDate':
+                        label = get(facets, 'awardDate[0].label');
+                        break;
+                    case 'localAuthority':
+                        label = get(facets, 'localAuthorities[0].label');
+                        break;
+                    case 'westminsterConstituency':
+                        label = get(facets, 'westminsterConstituencies[0].label');
+                        break;
+                }
+
+                return {
+                    name: key,
+                    label: label || value
+                };
+            });
 
             return {
                 status: { state: states.NotAsked },
                 activeQuery: initialQueryParams.q || null,
-                facets: get(initialData, 'facets', {}),
+                facets: facets,
                 sort: get(initialData, 'sort', {}),
                 filters: initialQueryParams,
-                filterSummary: [],
+                filterSummary: initialFilterSummary,
                 totalResults: initialData.totalResults || 0,
                 totalAwarded: initialData.totalAwarded || 0,
                 copy: initialData.lang

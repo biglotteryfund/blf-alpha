@@ -11,9 +11,10 @@ export default {
         <li v-for="item in filterSummary"
             :key="item.name"
             @click="$emit('clear-filters', item.name)"
+            :title="item.name"
             class="filter-list__item">
             {{ item.label }}
-            <IconClose id="prompt-close" description="Dismiss prompt" />
+            <IconClose id="prompt-close" description="Remove this filter" />
         </li>
         <li v-if="filterSummary.length > 0">
             <button type="button" class="btn-link" @click="$emit('clear-all')">

@@ -543,7 +543,7 @@
           "Items": [],
           "Quantity": 0
         },
-        "PathPattern": "/funding/past-grants/search"
+        "PathPattern": "/funding/grants"
       },
       {
         "TargetOriginId": "ELB-TEST",
@@ -1145,7 +1145,7 @@
           "Items": [],
           "Quantity": 0
         },
-        "PathPattern": "/welsh/funding/past-grants/search"
+        "PathPattern": "/welsh/funding/grants"
       },
       {
         "TargetOriginId": "ELB-TEST",

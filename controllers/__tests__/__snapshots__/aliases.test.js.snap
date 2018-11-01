@@ -1364,43 +1364,43 @@ Array [
   },
   Object {
     "from": "/funded-projects",
-    "to": "/funding/past-grants",
+    "to": "/funding/grants",
   },
   Object {
     "from": "/welsh/funded-projects",
-    "to": "/welsh/funding/past-grants",
+    "to": "/welsh/funding/grants",
   },
   Object {
     "from": "/england/funded-projects",
-    "to": "/funding/past-grants",
+    "to": "/funding/grants",
   },
   Object {
     "from": "/welsh/england/funded-projects",
-    "to": "/welsh/funding/past-grants",
+    "to": "/welsh/funding/grants",
   },
   Object {
     "from": "/scotland/funded-projects",
-    "to": "/funding/past-grants",
+    "to": "/funding/grants",
   },
   Object {
     "from": "/welsh/scotland/funded-projects",
-    "to": "/welsh/funding/past-grants",
+    "to": "/welsh/funding/grants",
   },
   Object {
     "from": "/northernireland/funded-projects",
-    "to": "/funding/past-grants",
+    "to": "/funding/grants",
   },
   Object {
     "from": "/welsh/northernireland/funded-projects",
-    "to": "/welsh/funding/past-grants",
+    "to": "/welsh/funding/grants",
   },
   Object {
     "from": "/wales/funded-projects",
-    "to": "/funding/past-grants",
+    "to": "/funding/grants",
   },
   Object {
     "from": "/welsh/wales/funded-projects",
-    "to": "/welsh/funding/past-grants",
+    "to": "/welsh/funding/grants",
   },
   Object {
     "from": "/funding-uk",
@@ -2004,43 +2004,123 @@ Array [
   },
   Object {
     "from": "/funding/search-past-grants-alpha",
-    "to": "/funding/past-grants/search",
+    "to": "/funding/grants",
   },
   Object {
     "from": "/welsh/funding/search-past-grants-alpha",
-    "to": "/welsh/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
   },
   Object {
     "from": "/england/funding/search-past-grants-alpha",
-    "to": "/funding/past-grants/search",
+    "to": "/funding/grants",
   },
   Object {
     "from": "/welsh/england/funding/search-past-grants-alpha",
-    "to": "/welsh/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
   },
   Object {
     "from": "/scotland/funding/search-past-grants-alpha",
-    "to": "/funding/past-grants/search",
+    "to": "/funding/grants",
   },
   Object {
     "from": "/welsh/scotland/funding/search-past-grants-alpha",
-    "to": "/welsh/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
   },
   Object {
     "from": "/northernireland/funding/search-past-grants-alpha",
-    "to": "/funding/past-grants/search",
+    "to": "/funding/grants",
   },
   Object {
     "from": "/welsh/northernireland/funding/search-past-grants-alpha",
-    "to": "/welsh/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
   },
   Object {
     "from": "/wales/funding/search-past-grants-alpha",
-    "to": "/funding/past-grants/search",
+    "to": "/funding/grants",
   },
   Object {
     "from": "/welsh/wales/funding/search-past-grants-alpha",
-    "to": "/welsh/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/funding/past-grants",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/funding/past-grants",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/england/funding/past-grants",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/england/funding/past-grants",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/scotland/funding/past-grants",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/past-grants",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/northernireland/funding/past-grants",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/past-grants",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/wales/funding/past-grants",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/wales/funding/past-grants",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/funding/past-grants/search",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/england/funding/past-grants/search",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/england/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/scotland/funding/past-grants/search",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/northernireland/funding/past-grants/search",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/wales/funding/past-grants/search",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/wales/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
   },
   Object {
     "from": "/global-content/programmes/england/awards-for-all-england",
