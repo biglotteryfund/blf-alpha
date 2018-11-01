@@ -34,11 +34,11 @@
                                 <dd>{{ organisation.companyNumber }}</dd>
                             {% endif %}
 
+                            {% set grant = recipientGrants[0] %}
                             {% if grant.beneficiaryLocation %}
                                 <dt>{{ copy.grantDetail.fields.location }}</dt>
                                 <dd>
                                     {% if recipientLocalAuthorities.length === 1 %}
-                                        {% set grant = recipientGrants[0] %}
                                         {{ buildLocationList(grant.beneficiaryLocation) }}
                                     {% else %}
                                         {{ copy.grantDetail.fields.multipleLocations }}
