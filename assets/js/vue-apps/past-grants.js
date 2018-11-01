@@ -54,7 +54,7 @@ function init() {
                 facets: facets,
                 sort: get(initialData, 'sort', {}),
                 filters: initialQueryParams,
-                filterSummary: this.buildFilterSummary(initialQueryParams),
+                filterSummary: [],
                 totalResults: initialData.totalResults || 0,
                 totalAwarded: initialData.totalAwarded || 0,
                 copy: initialData.lang
@@ -73,6 +73,9 @@ function init() {
             $(this.$el)
                 .find('[disabled]')
                 .removeAttr('disabled');
+
+            // Generate summary once we've parsed the facets
+            this.filterSummary = this.buildFilterSummary(this.filters);
 
             window.onpopstate = event => {
                 const historyUrlPath = get(event, 'state.urlPath', window.location.pathname);
