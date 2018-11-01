@@ -24,7 +24,7 @@ export default {
         <p>
             <button type="button"
                     class="btn btn--medium"
-                    @click="$emit('clear-filters')">
+                    @click="$emit('clear-all')">
                 {{ copy.filters.clear }}
             </button>
             <span v-if="canGoBack">
