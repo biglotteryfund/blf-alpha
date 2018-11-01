@@ -68,18 +68,15 @@ export default {
                         :name="name"
                         :value="option.value"
                         :checked="option.value === value"
-                        @input="handleInput($event, option)"
+                        @change="handleInput($event, option)"
                     />
                     <label class="ff-choice__label" :for="fieldId(index)">
                         {{ option.label }}
                     </label>
-                    <ul class="filter-list"
-                        v-if="option.value === value"
-                        @click="$emit('clear-selection')">
-                        <li class="filter-list__item filter-list__item--btn">
-                            <IconClose :id="'clear-' + fieldId(index)" :description="copy.filters.clearSelection" />
-                        </li>
-                    </ul>
+
+                    <button class="active-filter active-filter--mini u-margin-left-s" @click="$emit('clear-selection')" v-if="option.value === value">
+                        <IconClose :id="'clear-' + fieldId(index)" :description="copy.filters.clearSelection" />
+                    </button>
                 </li>
             </ul>
         </fieldset>
