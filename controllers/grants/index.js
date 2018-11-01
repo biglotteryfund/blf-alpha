@@ -1,12 +1,11 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const { concat, sampleSize } = require('lodash');
+const { concat } = require('lodash');
 const config = require('config');
 
 const { injectBreadcrumbs, injectHeroImage, injectCopy } = require('../../middleware/inject-content');
 const { sMaxAge } = require('../../middleware/cached');
-const contentApi = require('../../services/content-api');
 
 const router = express.Router();
 
