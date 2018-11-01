@@ -1,11 +1,10 @@
-{% from "components/hero.njk" import hero with context %}
-{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% extends "layouts/main.njk" %}
+{% from "components/content-box-intro/macro.njk" import contentBoxIntro with context %}
 {% from "components/content-tabs/macro.njk" import contentTabs %}
+{% from "components/hero.njk" import hero with context %}
 {% from "components/inline-links/macro.njk" import inlineLinks %}
 {% from "components/media-object/macro.njk" import mediaObject %}
 {% from "components/promo-card/macro.njk" import promoCard %}
-
-{% extends "layouts/main.njk" %}
 
 {% macro renderContentBlocks(contentBlocks) %}
     {% for part in contentBlocks  %}
@@ -31,19 +30,9 @@
     ) }}
 
     <div class="nudge-up">
-        <section class="content-box content-box--tinted u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
-            {{ breadcrumbTrail(breadcrumbs, isTinted = true) }}
-            <div class="s-prose u-constrained-content-wide">
-                {{ strategicProgramme.intro | safe }}
-            </div>
-
-            {% if strategicProgramme.heroCredit %}
-                <p class="u-note u-no-margin">
-                    <strong>{{ __('global.misc.imageCredit') }}:</strong>
-                    {{ strategicProgramme.heroCredit }}
-                </p>
-            {% endif %}
-        </section>
+        {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = strategicProgramme.heroCredit) %}
+            {{ strategicProgramme.intro | safe }}
+        {% endcall %}
 
         <section class="u-inner-wide-only">
             {% set tabContentAims -%}
