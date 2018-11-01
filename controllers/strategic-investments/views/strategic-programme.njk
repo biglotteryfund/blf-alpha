@@ -36,6 +36,13 @@
             <div class="s-prose u-constrained-content-wide">
                 {{ strategicProgramme.intro | safe }}
             </div>
+
+            {% if strategicProgramme.heroCredit %}
+                <p class="u-note u-no-margin">
+                    <strong>{{ __('global.misc.imageCredit') }}:</strong>
+                    {{ strategicProgramme.heroCredit }}
+                </p>
+            {% endif %}
         </section>
 
         <section class="u-inner-wide-only">
