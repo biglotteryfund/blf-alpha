@@ -53,8 +53,8 @@
   "ebulletinApiEndpoint": "https://apiconnector.com/v2",
   "grantData": {
     "dateRange": {
-      "start": "1 April 2004",
-      "end": "12 September 2018"
+      "start": "2004-04-01",
+      "end": "2018-09-12"
     }
   }
 }

@@ -6,9 +6,9 @@
     <div class="u-margin-bottom-s{% if options.wrapperClass %} {{ options.wrapperClass }}{% endif %}" data-score="{{ grant._textScore }}">
         {% set subtitle %}
             {% set mainRecipient = grant.recipientOrganization[0] %}
-            £{{ grant.amountAwarded | numberWithCommas}} to
+            £{{ grant.amountAwarded | numberWithCommas}} {{ __('global.misc.to') }}
             <strong><a href="{{ localify("/funding/grants/recipients/" + mainRecipient.id + '?' + searchQueryString) }}">{{ mainRecipient.name | striptags }}</a></strong>
-            on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
+            {{ __('global.misc.on') }} {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
         {% endset %}
         {% set description = false if options.hideDescription or grant.description === grant.title else grant.description %}
         {% call promoCard({

@@ -89,6 +89,8 @@ global:
     no: No
     optional: Optional
     or: or
+    to: to
+    on: on
     printThisPage: Print this page
     projectExamples: Examples of projects that have been funded
     readMore: Read more
@@ -100,6 +102,9 @@ global:
     topics: topics
     viewAllNews: View all news articles
     yes: Yes
+    pagination:
+      prev: Previous page
+      next: Next page
   programmes:
     programmeLabels:
       area: Area
@@ -504,9 +509,6 @@ funding:
       <p>Explore our database to find out what we've funded since 2004.</p>
       <p>We understand that searching through the Big Lottery Fund's past grants is important for many people. We are currently working to improve the service we currently offer.</p>
       <p>You can try our new service in Beta now, <a href="%s">explore our data with GrantNav</a> or use our <a href="/funding/search-past-grants">old past grants database</a>.</p>
-    survey:
-      prompt: Please help us make the past grants search better by answering this one question
-      label: Tell us why you came to this page today
     optionsIntro: In the the meantime, there are two ways you can explore our past grants.
     grantnav:
       title: 1. Use the GrantNav site
@@ -516,14 +518,22 @@ funding:
       title: 2. Use our current grants database
       linkText: Search past grants
     search:
-      title: Search awarded grants
+      title: Search all grants
+      survey:
+        prompt: Please help us make the past grants search better by answering this one question
+        label: Tell us why you came to this page today
       beta: Beta
-      intro: Thank you for choosing to use our new “search awarded grants” service. We are working to improve the service we currently offer, your feedback will help us do that.
+      intro: >
+        Thank you for choosing to use our new “search awarded grants” service. We are working to improve the service we currently offer, your feedback will help us do that. You can try our new service in Beta now, <a href="%s">explore our data with GrantNav</a> or use our <a href="/funding/search-past-grants">old past grants database</a>.
       helpText: e.g. a keyword such as “loneliness”, a location, an organisation, or an area of work
+      dateRange: >
+        Our grants data currently runs from <strong>%s - %s</strong>. We update this data on a monthly basis.
       submit: Search
       pleaseWait: Searching, please wait...
       resultsCount: projects found
       totalCount: totalling
+      goBackAStep: Go back a step
+      backToSearch: Back to your search results
       sort:
         orderedBy: Ordered by
       filters:
@@ -574,7 +584,7 @@ funding:
           otherOptions: >
             If you're looking for something specific and would like some help <a href="/contact">please contact us</a>.
         postcode: The postcode you entered was invalid – please try another one.
-        generic: There was an error with your search.
+        generic: There was an error with your search – please try another one.
       featuredGrants: Featured grants
       viewGrantDetails: View full grant details
       feedback:

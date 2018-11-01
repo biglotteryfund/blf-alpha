@@ -27,19 +27,19 @@ function makePageLink(currentQuery, page) {
     return '?' + querystring.stringify(withPage);
 }
 
-function buildPagination(paginationMeta, currentQuery = {}) {
+function buildPagination(paginationMeta, currentQuery = {}, labels) {
     if (paginationMeta && paginationMeta.totalPages > 1) {
         const currentPage = paginationMeta.currentPage;
         const totalPages = paginationMeta.totalPages;
 
         const prevLink = {
             url: makePageLink(currentQuery, currentPage - 1),
-            label: 'Previous page'
+            label: labels.prev
         };
 
         const nextLink = {
             url: makePageLink(currentQuery, currentPage + 1),
-            label: 'Next page'
+            label: labels.next
         };
 
         return {
@@ -109,6 +109,7 @@ router.get(
     async (req, res, next) => {
         let data;
         const facetParams = buildAllowedParams(req.query);
+        const paginationLabels = req.i18n.__('global.misc.pagination');
         let queryWithPage = addPaginationParameters(facetParams, req.query.page);
 
         // Add a parameter so we know the user came from search
@@ -157,7 +158,7 @@ router.get(
                     caseStudies: caseStudies,
                     grantNavLink: grantNavLink,
                     searchQueryString: searchQueryString,
-                    pagination: buildPagination(data.meta.pagination, queryWithPage)
+                    pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels)
                 });
             },
 
@@ -170,7 +171,7 @@ router.get(
                 const context = Object.assign({}, res.locals, req.app.locals, {
                     grants: data.results,
                     searchQueryString: searchQueryString,
-                    pagination: buildPagination(data.meta.pagination, queryWithPage),
+                    pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels),
                     options: {
                         wrapperClass: isRelatedSearch ? 'flex-grid__item' : false,
                         hidePagination: isRelatedSearch
@@ -206,6 +207,8 @@ router.get('/recipients/:id', injectCopy('funding.pastGrants.search'), async (re
             qs: qs
         });
 
+        const paginationLabels = req.i18n.__('global.misc.pagination');
+
         if (data && data.meta.totalResults > 0) {
             const firstResult = head(data.results);
             const organisation = head(firstResult.recipientOrganization);
@@ -219,7 +222,7 @@ router.get('/recipients/:id', injectCopy('funding.pastGrants.search'), async (re
                 totalResults: data.meta.totalResults.toLocaleString(),
                 breadcrumbs: concat(res.locals.breadcrumbs, { label: organisation.name }),
                 returnLink: buildReturnLink(req.query, '../'),
-                pagination: buildPagination(data.meta.pagination, qs)
+                pagination: buildPagination(data.meta.pagination, qs, paginationLabels)
             });
         } else {
             next();
