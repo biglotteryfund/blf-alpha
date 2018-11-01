@@ -48,7 +48,7 @@ export default {
                 :copy="copy"
                 :label="copy.filters.options.awardDate.label"
                 :options="facets.awardDate"
-                :option-limit="5"
+                :option-limit="3"
                 @clear-selection="$emit('clear-filters', 'awardDate')"
                 :handle-active-filter="handleActiveFilter"
                 :track-ui="trackUi"

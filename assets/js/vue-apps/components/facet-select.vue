@@ -54,14 +54,9 @@ export default {
                 </template>
             </select>
 
-            <ul class="filter-list"
-                v-if="value"
-                @click="$emit('clear-selection')">
-                <li class="filter-list__item filter-list__item--btn">
-                    <IconClose :id="'clear-' + id" :description="clearLabel" />
-                </li>
-            </ul>
-
+            <button class="active-filter active-filter--mini u-margin-left-s" @click="$emit('clear-selection')" v-if="value">
+                <IconClose :id="'clear-' + id" :description="clearLabel" />
+            </button>
         </div>
     </div>
 </template>
