@@ -160,7 +160,7 @@ function init() {
                 }
             },
 
-            updateQuery() {
+            updateQuery(shouldFilterResults = true) {
                 const filterName = 'q';
                 // Prevent a blank string from appearing in the filter summary
                 this.filters.q = this.activeQuery || undefined;
@@ -170,11 +170,17 @@ function init() {
                     // Delete the query summary item
                     this.filterSummary = this.filterSummary.filter(i => i.name !== 'q');
                 }
-                this.filterResults();
-                this.trackFilter(filterName, this.activeQuery);
+                if (shouldFilterResults) {
+                    this.filterResults();
+                    this.trackFilter(filterName, this.activeQuery);
+                }
             },
 
             filterResults() {
+                // Grab the query value and update the filter object
+                // in case someone typed a search but didn't submit it
+                this.updateQuery(false);
+
                 const combinedFilters = cloneDeep(this.filters);
 
                 if (this.sort.activeSort && this.sort.activeSort !== this.sort.defaultSort) {
