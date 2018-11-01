@@ -42,7 +42,10 @@ export default {
                 <option value="" v-if="labelAny">{{ labelAny }}</option>
                 <template v-if="isOptgroup">
                     <optgroup v-for="(group, groupLabel) in options" :label="groupLabel" :key="groupLabel">
-                        <option v-for="(option, index) in group" :value="option.value" :key="index">
+                        <option v-for="(option, index) in group"
+                                :value="option.value"
+                                :selected="option.value === value"
+                                :key="index">
                             {{ option.label }}
                         </option>
                     </optgroup>
