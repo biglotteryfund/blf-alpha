@@ -1,0 +1,16 @@
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+
+{% macro contentBoxIntro(breadcrumbs, pageAccent, heroCredit = false) %}
+    <section class="content-box content-box--tinted u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+        {{ breadcrumbTrail(breadcrumbs, isTinted = true) }}
+        <div class="s-prose u-constrained-content-wide">
+            {{ caller() }}
+            {% if heroCredit %}
+                <p class="u-note u-no-margin">
+                    <strong>{{ __('global.misc.imageCredit') }}:</strong>
+                    {{ heroCredit }}
+                </p>
+            {% endif %}
+        </div>
+    </section>
+{% endmacro %}
