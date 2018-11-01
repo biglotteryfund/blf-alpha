@@ -122,9 +122,13 @@ function init() {
             },
 
             handleActiveFilter(payload) {
-                const match = find(this.filterSummary, item => item.name === payload.name);
+                let match = find(this.filterSummary, item => item.name === payload.name);
                 if (!match) {
+                    // Add the new summary item
                     this.filterSummary = [].concat(this.filterSummary, [payload]);
+                } else {
+                    // Update the existing one
+                    this.filterSummary.find(i => i.name === payload.name).label = payload.label;
                 }
                 this.trackFilter(payload.name, payload.label);
             },
@@ -161,6 +165,9 @@ function init() {
                 this.filters.q = this.activeQuery || undefined;
                 if (this.filters.q) {
                     this.handleActiveFilter({ label: this.activeQuery, name: filterName });
+                } else {
+                    // Delete the query summary item
+                    this.filterSummary = this.filterSummary.filter(i => i.name !== 'q');
                 }
                 this.filterResults();
                 this.trackFilter(filterName, this.activeQuery);
