@@ -8,6 +8,9 @@ const querystring = require('querystring');
 const { concat, pick, isEmpty, get, head, sampleSize } = require('lodash');
 const nunjucks = require('nunjucks');
 const Raven = require('raven');
+const enGB = require('dictionary-en-gb');
+const cyGB = require('dictionary-cy-gb');
+const nspell = require('nspell');
 
 const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
 const { injectHeroImage, injectCopy } = require('../../middleware/inject-content');
@@ -102,6 +105,52 @@ function buildReturnLink(queryParams, urlBase = './') {
     return returnLink;
 }
 
+async function checkSpelling(searchTerm, locale = 'en') {
+    const dictToUse = locale === 'cy' ? cyGB : enGB;
+    return new Promise((resolve, reject) => {
+        dictToUse((err, dict) => {
+            const alphaNumeric = /[^a-zA-Z0-9 -]/g;
+            let searchHadATypo = false;
+            let suggestions = [];
+
+            if (err) {
+                return reject(err);
+            }
+            const spell = nspell(dict);
+
+            searchTerm.split(' ').forEach(word => {
+                const wordAlphaNumeric = word.replace(alphaNumeric, '');
+                const isCorrect = spell.correct(wordAlphaNumeric);
+                const wordSuggestions = isCorrect ? [] : spell.suggest(wordAlphaNumeric);
+
+                if (!searchHadATypo && !isCorrect) {
+                    searchHadATypo = true;
+                }
+
+                // Build up a list of replaced words (allowing for multiple typos)
+                if (wordSuggestions.length > 0) {
+                    if (suggestions.length === 0) {
+                        suggestions = wordSuggestions.map(fixedWord => searchTerm.replace(word, fixedWord));
+                    } else {
+                        suggestions = suggestions.map(s => {
+                            let fixedSuggestion = s;
+                            wordSuggestions.forEach(fixedWord => {
+                                fixedSuggestion = fixedSuggestion.replace(word, fixedWord);
+                            });
+                            return fixedSuggestion;
+                        });
+                    }
+                }
+            });
+
+            return resolve({
+                searchHadATypo,
+                suggestions
+            });
+        });
+    });
+}
+
 router.get(
     '/',
     injectHeroImage('active-plus-communities'),
@@ -137,6 +186,11 @@ router.get(
             });
         }
 
+        let searchSuggestions = false;
+        if (data.meta.totalResults === 0) {
+            searchSuggestions = await checkSpelling(req.query.q, req.i18n.getLocale());
+        }
+
         res.format({
             // Initial / server-only search
             html: async () => {
@@ -158,6 +212,7 @@ router.get(
                     caseStudies: caseStudies,
                     grantNavLink: grantNavLink,
                     searchQueryString: searchQueryString,
+                    searchSuggestions: searchSuggestions,
                     pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels)
                 });
             },
@@ -187,6 +242,7 @@ router.get(
                         res.json({
                             meta: data.meta,
                             facets: data.facets,
+                            searchSuggestions: searchSuggestions,
                             resultsHtml: html
                         });
                     }

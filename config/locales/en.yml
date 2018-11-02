@@ -576,6 +576,8 @@ funding:
       errors:
         noResults:
           heading: We're sorry, we couldn't find any results matching your criteria
+          didYouMean: Did you mean...
+          tryTheseTips: 'Try these tips to improve your results:'
           suggestions:
             - Try a different query or clear your filters
             - Try searching something less specific — sometimes using a more general search term may help

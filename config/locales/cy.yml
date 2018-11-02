@@ -476,6 +476,8 @@ funding:
       errors:
         noResults:
           heading: Mae'n flin gennym, ni allem ddod o hyd i unrhyw ganlyniadau sy'n cyfateb i'ch meini prawf
+          didYouMean: A oeddech chi’n golygu...
+          tryTheseTips: 'Rhowch gynnig ar y rhain i wella’ch canlyniadau:'
           suggestions:
             - Rhowch gynnig ar chwiliad gwahanol neu cliriwch eich hidlyddion
             -	Ceisiwch chwilio am rywbeth llai penodol - weithiau gallai defnyddio term chwilio mwy cyffredinol helpu

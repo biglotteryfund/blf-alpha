@@ -15,7 +15,8 @@
             totalResults: {{ meta.totalResults }},
             totalAwarded: {{ meta.totalAwarded}},
             sort: {{ meta.sort | dump | safe }},
-            lang: {{ copy | dump | safe }}
+            lang: {{ copy | dump | safe }},
+            searchSuggestions: {{ searchSuggestions | dump | safe }}
         };
     </script>
 {% endblock %}
@@ -107,38 +108,42 @@
                     </div>
                 </noscript>
 
-                <div class="grants-search{% if meta.totalResults === 0 %} js-only{% endif %}" v-if="totalResults > 0">
-                    <div class="grants-search__meta">
-                        <h2 class="grants-search__total accent--{{ pageAccent }} t--underline">
-                            <grants-total-summary
-                                :total-results="totalResults"
-                                :total-awarded="totalAwarded"
-                                :copy="copy"
-                            />
-                            {{ meta.totalResults | numberWithCommas }} {{ copy.resultsCount }}
-                        </h2>
+                <div class="grants-search{% if meta.totalResults === 0 %} js-only{% endif %}">
 
-                    </div>
-                    <div class="grants-search__meta">
-                        <div>
-                            <grants-filter-summary
-                                :filter-summary="filterSummary"
-                                :clear-label="copy.filters.clearSelection"
-                                @clear-all="clearAll"
-                                @clear-filters="clearFilters" />
+                    <div v-if="totalResults > 0">
+                        <div class="grants-search__meta">
+                            <h2 class="grants-search__total accent--{{ pageAccent }} t--underline">
+                                <grants-total-summary
+                                    :total-results="totalResults"
+                                    :total-awarded="totalAwarded"
+                                    :copy="copy"
+                                />
+                                {{ meta.totalResults | numberWithCommas }} {{ copy.resultsCount }}
+                            </h2>
+
                         </div>
-                        <div class="grants-search__sort">
-                            <grants-sort
-                                :sort="sort"
-                                label="{{ copy.sort.orderedBy }}"
-                                @change-sort="handleChangeSort"
-                            />
+                        <div class="grants-search__meta">
+                            <div>
+                                <grants-filter-summary
+                                    :filter-summary="filterSummary"
+                                    :clear-label="copy.filters.clearSelection"
+                                    @clear-all="clearAll"
+                                    @clear-filters="clearFilters" />
+                            </div>
+                            <div class="grants-search__sort">
+                                <grants-sort
+                                    :sort="sort"
+                                    label="{{ copy.sort.orderedBy }}"
+                                    @change-sort="handleChangeSort"
+                                />
+                            </div>
                         </div>
                     </div>
 
                     <div class="grants-search__content">
 
                         <div class="grants-search__results">
+
                             <div class="grants-search__status">
                                 <grants-loading-status
                                     :status="status"
@@ -146,12 +151,14 @@
                                 />
                             </div>
 
-                            <div id="js-grant-results" v-show="['NotAsked', 'Success'].indexOf(status.state) !== -1">
+                            <div id="js-grant-results"
+                                 v-show="['NotAsked', 'Success'].indexOf(status.state) !== -1">
                                 {{ grantResultList(grants) }}
                             </div>
                         </div>
 
-                        <div class="grants-search__filters">
+                        <div class="grants-search__filters"
+                             v-if="totalResults > 0">
                             {# Javascript component version of filters #}
                             <grants-filters
                                 :facets="facets"
@@ -273,12 +280,26 @@
                 <grants-no-results
                     :total-results="totalResults"
                     :copy="copy"
+                    :status="status"
+                    :search-suggestions="searchSuggestions"
                     @clear-all="clearAll"
+                    @update-query="triggerQueryChange"
                 />
 
                 {% if meta.totalResults === 0 %}
                     <div class="grants-no-results s-prose u-margin-bottom" v-if="totalResults === 0">
                         <h3>{{ copy.errors.noResults.title }}</h3>
+
+                        {% if searchSuggestions and searchSuggestions.searchHadATypo %}
+                            <p>{{ copy.errors.noResults.didYouMean }}</p>
+                            <ul>
+                                {% for s in searchSuggestions.suggestions %}
+                                    <li><a href="?q={{ s }}">{{ s }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        <p>{{ copy.errors.noResults.tryTheseTips }}</p>
                         <ul>
                             {% for s in copy.errors.noResults.suggestions %}
                                 <li>{{ s | safe }}</li>
