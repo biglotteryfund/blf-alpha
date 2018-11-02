@@ -127,8 +127,19 @@ async function checkSpelling(searchTerm, locale = 'en') {
                     searchHadATypo = true;
                 }
 
-                if (wordSuggestions) {
-                    suggestions = wordSuggestions.map(s => searchTerm.replace(word, s));
+                // Build up a list of replaced words (allowing for multiple typos)
+                if (wordSuggestions.length > 0) {
+                    if (suggestions.length === 0) {
+                        suggestions = wordSuggestions.map(fixedWord => searchTerm.replace(word, fixedWord));
+                    } else {
+                        suggestions = suggestions.map(s => {
+                            let fixedSuggestion = s;
+                            wordSuggestions.forEach(fixedWord => {
+                                fixedSuggestion = fixedSuggestion.replace(word, fixedWord);
+                            });
+                            return fixedSuggestion;
+                        });
+                    }
                 }
             });
 
