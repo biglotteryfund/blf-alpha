@@ -38,20 +38,18 @@ router.get(
 
         const locationParam = getValidLocation(allFundingProgrammes, req.query.location);
 
-        let programmes = allFundingProgrammes
-            // @TODO: Remove fallback condition once active programme field exists in production
-            .filter(p => (p.programmeType ? p.programmeType === 'activeProgramme' : true))
+        const programmesFilteredByAmount = allFundingProgrammes
             .filter(programmeFilters.filterByMinAmount(req.query.min))
             .filter(programmeFilters.filterByMaxAmount(req.query.max));
 
-        // Group programmes by their region (if supplied)
-        if (locationParam) {
-            // We make two lists then join them so the filtered location is first in the group
-            let thisLocation = programmes.filter(programmeFilters.filterByLocation(locationParam));
-            let ukWide = programmes.filter(programmeFilters.filterByLocation('ukWide'));
-            let allProgrammes = thisLocation.concat(ukWide);
-            programmes = groupBy(allProgrammes, 'content.area.label');
-        }
+        const programmes = programmesFilteredByAmount.filter(programmeFilters.filterByLocation(locationParam));
+
+        const ukWideProgrammes = programmesFilteredByAmount.filter(programmeFilters.filterByLocation('ukWide'));
+
+        const groupedProgrammes =
+            locationParam && locationParam !== 'ukWide'
+                ? groupBy(concat(programmes, ukWideProgrammes), 'content.area.label')
+                : null;
 
         if (parseInt(req.query.min, 10) === 10000) {
             res.locals.breadcrumbs.push({
@@ -89,8 +87,8 @@ router.get(
 
         res.render(path.resolve(__dirname, './views/programmes-list'), {
             programmes,
-            activeBreadcrumbsSummary,
-            isGroupedByRegion: !!locationParam
+            groupedProgrammes,
+            activeBreadcrumbsSummary
         });
     }
 );
