@@ -15,7 +15,8 @@
             totalResults: {{ meta.totalResults }},
             totalAwarded: {{ meta.totalAwarded}},
             sort: {{ meta.sort | dump | safe }},
-            lang: {{ copy | dump | safe }}
+            lang: {{ copy | dump | safe }},
+            searchSuggestions: {{ searchSuggestions | dump | safe }}
         };
     </script>
 {% endblock %}
@@ -273,12 +274,25 @@
                 <grants-no-results
                     :total-results="totalResults"
                     :copy="copy"
+                    :search-suggestions="searchSuggestions"
                     @clear-all="clearAll"
+                    @update-query="triggerQueryChange"
                 />
 
                 {% if meta.totalResults === 0 %}
                     <div class="grants-no-results s-prose u-margin-bottom" v-if="totalResults === 0">
                         <h3>{{ copy.errors.noResults.title }}</h3>
+
+                        {% if searchSuggestions and searchSuggestions.searchHadATypo %}
+                            <p>Did you mean...</p>
+                            <ul>
+                                {% for s in searchSuggestions.suggestions %}
+                                    <li><a href="?q={{ s }}">{{ s }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+
+                        <p>Try these tips to improve your results:</p>
                         <ul>
                             {% for s in copy.errors.noResults.suggestions %}
                                 <li>{{ s | safe }}</li>

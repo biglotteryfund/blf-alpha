@@ -8,6 +8,8 @@ const querystring = require('querystring');
 const { concat, pick, isEmpty, get, head, sampleSize } = require('lodash');
 const nunjucks = require('nunjucks');
 const Raven = require('raven');
+const enGB = require('dictionary-en-gb');
+const nspell = require('nspell');
 
 const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
 const { injectHeroImage, injectCopy } = require('../../middleware/inject-content');
@@ -102,6 +104,43 @@ function buildReturnLink(queryParams, urlBase = './') {
     return returnLink;
 }
 
+async function checkSpelling(searchTerm) {
+    return new Promise((resolve, reject) => {
+        enGB((err, dict) => {
+            const alphaNumeric = /[^a-zA-Z0-9 -]/g;
+            let searchHadATypo = false;
+            let suggestions = [];
+
+            if (err) {
+                return reject(err);
+            }
+            const spell = nspell(dict);
+
+            searchTerm
+                .split(' ')
+                .forEach(word => {
+
+                    const wordAlphaNumeric = word.replace(alphaNumeric, '');
+                    const isCorrect = spell.correct(wordAlphaNumeric);
+                    const wordSuggestions = isCorrect ? [] : spell.suggest(wordAlphaNumeric);
+
+                    if (!searchHadATypo && !isCorrect) {
+                        searchHadATypo = true;
+                    }
+
+                    if (wordSuggestions) {
+                        suggestions = wordSuggestions.map(s => searchTerm.replace(word, s));
+                    }
+                });
+
+            return resolve({
+                searchHadATypo,
+                suggestions
+            });
+        });
+    });
+}
+
 router.get(
     '/',
     injectHeroImage('active-plus-communities'),
@@ -137,6 +176,11 @@ router.get(
             });
         }
 
+        let searchSuggestions = false;
+        if (data.meta.totalResults === 0) {
+            searchSuggestions = await checkSpelling(req.query.q);
+        }
+
         res.format({
             // Initial / server-only search
             html: async () => {
@@ -158,6 +202,7 @@ router.get(
                     caseStudies: caseStudies,
                     grantNavLink: grantNavLink,
                     searchQueryString: searchQueryString,
+                    searchSuggestions: searchSuggestions,
                     pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels)
                 });
             },
@@ -187,6 +232,7 @@ router.get(
                         res.json({
                             meta: data.meta,
                             facets: data.facets,
+                            searchSuggestions: searchSuggestions,
                             resultsHtml: html
                         });
                     }

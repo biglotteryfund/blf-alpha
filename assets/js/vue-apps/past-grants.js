@@ -57,6 +57,7 @@ function init() {
                 filterSummary: [],
                 totalResults: initialData.totalResults || 0,
                 totalAwarded: initialData.totalAwarded || 0,
+                searchSuggestions: initialData.searchSuggestions || null,
                 copy: initialData.lang
             };
         },
@@ -163,6 +164,11 @@ function init() {
                 }
             },
 
+            triggerQueryChange(newQuery) {
+                this.activeQuery = newQuery;
+                this.updateQuery();
+            },
+
             updateQuery(shouldFilterResults = true) {
                 const filterName = 'q';
                 // Prevent a blank string from appearing in the filter summary
@@ -224,6 +230,7 @@ function init() {
                         this.totalResults = response.meta.totalResults;
                         this.totalAwarded = response.meta.totalAwarded;
                         this.facets = response.facets;
+                        this.searchSuggestions = Object.assign({}, response.searchSuggestions);
                         this.sort = response.meta.sort;
                         this.status = { state: states.Success, data: response };
 
