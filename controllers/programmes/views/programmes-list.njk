@@ -16,8 +16,8 @@
             {{ breadcrumbTrail(breadcrumbs) }}
             <h2 class="u-visually-hidden">{{ activeBreadcrumbsSummary }}</h2>
 
-            {% if isGroupedByRegion and programmes %}
-                {% for region, regionProgrammes in programmes %}
+            {% if groupedProgrammes %}
+                {% for region, regionProgrammes in groupedProgrammes %}
                     <h3>{{ region }}</h3>
                     {{ programmeList(regionProgrammes, accent = pageAccent) }}
                 {% endfor %}
