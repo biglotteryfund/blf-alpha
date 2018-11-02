@@ -14,7 +14,8 @@ export default {
 };
 </script>
 <template>
-    <div class="grants-no-results s-prose" v-if="totalResults === 0">
+    <div class="grants-no-results s-prose u-padded"
+         v-if="totalResults === 0 && status.state !== 'Loading'">
         <h3>{{ copy.errors.noResults.heading }}</h3>
 
         <div v-if="searchSuggestions && searchSuggestions.suggestions.length > 0">
