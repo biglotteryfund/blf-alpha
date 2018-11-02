@@ -116,22 +116,19 @@ async function checkSpelling(searchTerm) {
             }
             const spell = nspell(dict);
 
-            searchTerm
-                .split(' ')
-                .forEach(word => {
+            searchTerm.split(' ').forEach(word => {
+                const wordAlphaNumeric = word.replace(alphaNumeric, '');
+                const isCorrect = spell.correct(wordAlphaNumeric);
+                const wordSuggestions = isCorrect ? [] : spell.suggest(wordAlphaNumeric);
 
-                    const wordAlphaNumeric = word.replace(alphaNumeric, '');
-                    const isCorrect = spell.correct(wordAlphaNumeric);
-                    const wordSuggestions = isCorrect ? [] : spell.suggest(wordAlphaNumeric);
+                if (!searchHadATypo && !isCorrect) {
+                    searchHadATypo = true;
+                }
 
-                    if (!searchHadATypo && !isCorrect) {
-                        searchHadATypo = true;
-                    }
-
-                    if (wordSuggestions) {
-                        suggestions = wordSuggestions.map(s => searchTerm.replace(word, s));
-                    }
-                });
+                if (wordSuggestions) {
+                    suggestions = wordSuggestions.map(s => searchTerm.replace(word, s));
+                }
+            });
 
             return resolve({
                 searchHadATypo,
