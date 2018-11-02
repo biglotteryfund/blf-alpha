@@ -19,7 +19,7 @@ export default {
         <h3>{{ copy.errors.noResults.heading }}</h3>
 
         <div v-if="searchSuggestions && searchSuggestions.suggestions.length > 0">
-            <p>Did you mean...</p>
+            <p v-html="copy.errors.noResults.didYouMean"></p>
             <ul>
                 <li v-for="suggestion in searchSuggestions.suggestions"
                     :key="suggestion">
@@ -31,7 +31,7 @@ export default {
             </ul>
         </div>
 
-        <p>Try these tips to improve your results:</p>
+        <p v-html="copy.errors.noResults.tryTheseTips"></p>
         <ul>
             <li v-for="suggestion in copy.errors.noResults.suggestions"
                 v-html="suggestion"

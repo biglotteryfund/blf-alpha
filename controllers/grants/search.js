@@ -9,6 +9,7 @@ const { concat, pick, isEmpty, get, head, sampleSize } = require('lodash');
 const nunjucks = require('nunjucks');
 const Raven = require('raven');
 const enGB = require('dictionary-en-gb');
+const cyGB = require('dictionary-cy-gb');
 const nspell = require('nspell');
 
 const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
@@ -104,9 +105,10 @@ function buildReturnLink(queryParams, urlBase = './') {
     return returnLink;
 }
 
-async function checkSpelling(searchTerm) {
+async function checkSpelling(searchTerm, locale = 'en') {
+    const dictToUse = locale === 'cy' ? cyGB : enGB;
     return new Promise((resolve, reject) => {
-        enGB((err, dict) => {
+        dictToUse((err, dict) => {
             const alphaNumeric = /[^a-zA-Z0-9 -]/g;
             let searchHadATypo = false;
             let suggestions = [];
@@ -175,7 +177,7 @@ router.get(
 
         let searchSuggestions = false;
         if (data.meta.totalResults === 0) {
-            searchSuggestions = await checkSpelling(req.query.q);
+            searchSuggestions = await checkSpelling(req.query.q, req.i18n.getLocale());
         }
 
         res.format({

@@ -291,7 +291,7 @@
                         <h3>{{ copy.errors.noResults.title }}</h3>
 
                         {% if searchSuggestions and searchSuggestions.searchHadATypo %}
-                            <p>Did you mean...</p>
+                            <p>{{ copy.errors.noResults.didYouMean }}</p>
                             <ul>
                                 {% for s in searchSuggestions.suggestions %}
                                     <li><a href="?q={{ s }}">{{ s }}</a></li>
@@ -299,7 +299,7 @@
                             </ul>
                         {% endif %}
 
-                        <p>Try these tips to improve your results:</p>
+                        <p>{{ copy.errors.noResults.tryTheseTips }}</p>
                         <ul>
                             {% for s in copy.errors.noResults.suggestions %}
                                 <li>{{ s | safe }}</li>
