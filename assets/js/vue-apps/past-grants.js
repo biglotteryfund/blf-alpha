@@ -175,13 +175,13 @@ function init() {
                 this.filters.q = this.activeQuery || undefined;
                 if (this.filters.q) {
                     this.handleActiveFilter({ label: this.activeQuery, name: filterName });
+                    this.trackFilter(filterName, this.activeQuery);
                 } else {
                     // Delete the query summary item
                     this.filterSummary = this.filterSummary.filter(i => i.name !== 'q');
                 }
                 if (shouldFilterResults) {
                     this.filterResults();
-                    this.trackFilter(filterName, this.activeQuery);
                 }
             },
 
