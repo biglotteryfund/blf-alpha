@@ -433,6 +433,7 @@ funding:
       resultsCount: o brosiectau gwerth
       totalCount: cyfanswm o
       goBackAStep: Ewch gam yn ôl
+      or: neu
       backToSearch: Yn ôl i’ch canlyniadau chwilio
       sort:
         orderedBy: Wedi'u trefnu fesul

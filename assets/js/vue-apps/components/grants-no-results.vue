@@ -45,7 +45,7 @@ export default {
                 {{ copy.filters.clear }}
             </button>
             <span v-if="canGoBack">
-                or
+                {{ copy.or }}
                 <button type="button"
                         class="btn btn--medium"
                         @click="goBack">
