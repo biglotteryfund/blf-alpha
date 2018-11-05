@@ -187,7 +187,7 @@ router.get(
         }
 
         let searchSuggestions = false;
-        if (data.meta.totalResults === 0) {
+        if (data.meta.totalResults === 0 && req.query.q) {
             searchSuggestions = await checkSpelling(req.query.q, req.i18n.getLocale());
         }
 
@@ -232,6 +232,7 @@ router.get(
                         hidePagination: isRelatedSearch
                     }
                 });
+
                 const template = path.resolve(__dirname, './views/ajax-results.njk');
 
                 nunjucks.render(template, context, (renderErr, html) => {
