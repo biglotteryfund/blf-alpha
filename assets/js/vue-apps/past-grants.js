@@ -50,6 +50,8 @@ function init() {
 
             return {
                 status: { state: states.NotAsked },
+                resultsWereFiltered: false,
+                resultsHtml: null,
                 activeQuery: initialQueryParams.q || null,
                 facets: facets,
                 sort: get(initialData, 'sort', {}),
@@ -214,6 +216,11 @@ function init() {
             updateResults(urlPath, queryString = null) {
                 this.status = { state: states.Loading };
 
+                // Hide server-rendered results
+                if (!this.resultsWereFiltered) {
+                    this.resultsWereFiltered = true;
+                }
+
                 if (window.history.pushState) {
                     window.history.pushState({ urlPath: urlPath }, '', urlPath);
                 }
@@ -224,9 +231,7 @@ function init() {
                     timeout: 20000
                 })
                     .then(response => {
-                        // @TODO vue-ize this
-                        $('#js-grant-results').html(response.resultsHtml);
-
+                        this.resultsHtml = response.resultsHtml;
                         this.totalResults = response.meta.totalResults;
                         this.totalAwarded = response.meta.totalAwarded;
                         this.facets = response.facets;
