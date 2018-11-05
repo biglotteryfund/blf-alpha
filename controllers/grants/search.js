@@ -5,7 +5,7 @@ const config = require('config');
 const router = express.Router();
 const request = require('request-promise-native');
 const querystring = require('querystring');
-const { concat, pick, isEmpty, get, head, sampleSize } = require('lodash');
+const { concat, clone, pick, isEmpty, get, head, sampleSize } = require('lodash');
 const nunjucks = require('nunjucks');
 const Raven = require('raven');
 const enGB = require('dictionary-en-gb');
@@ -161,13 +161,11 @@ router.get(
         const paginationLabels = req.i18n.__('global.misc.pagination');
         let queryWithPage = addPaginationParameters(facetParams, req.query.page);
 
-        // Add a parameter so we know the user came from search
-        // (so we can link them back to their results)
-        const searchQueryString = querystring.stringify(
-            Object.assign({}, queryWithPage, {
-                from: 'search'
-            })
-        );
+        /**
+         * Add a parameter so we know the user came from search
+         * so we can link them back to their results.
+         */
+        const searchQueryString = querystring.stringify({ ...queryWithPage, ...{ from: 'search' } });
 
         queryWithPage.locale = res.locals.locale;
 
@@ -219,23 +217,19 @@ router.get(
 
             // AJAX search for client-side app
             'application/json': () => {
-                const isRelatedSearch = req.query.related === 'true';
-
-                // Repopulate existing app globals so Nunjucks can read them
-                // outside of Express's view engine context
-                const context = Object.assign({}, res.locals, req.app.locals, {
+                /**
+                 * Repopulate existing app globals so Nunjucks
+                 * can read them outside of Express's view engine context
+                 */
+                const extraContext = {
                     grants: data.results,
                     searchQueryString: searchQueryString,
-                    pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels),
-                    options: {
-                        wrapperClass: isRelatedSearch ? 'flex-grid__item' : false,
-                        hidePagination: isRelatedSearch
-                    }
-                });
+                    pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels)
+                };
 
-                const template = path.resolve(__dirname, './views/ajax-results.njk');
+                const context = { ...res.locals, ...req.app.locals, ...extraContext };
 
-                nunjucks.render(template, context, (renderErr, html) => {
+                nunjucks.render(path.resolve(__dirname, './views/ajax-results.njk'), context, (renderErr, html) => {
                     if (renderErr) {
                         Raven.captureException(renderErr);
                         res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
@@ -252,6 +246,42 @@ router.get(
         });
     }
 );
+
+router.get('/related', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
+    try {
+        if (isEmpty(req.query)) {
+            return next();
+        }
+
+        const apiQuery = clone(req.query);
+        apiQuery.locale = res.locals.locale;
+        const data = await queryGrantsApi(apiQuery);
+
+        /**
+         * Repopulate existing app globals so Nunjucks
+         * can read them outside of Express's view engine context
+         */
+        const extraContext = { grants: data.results };
+        const context = { ...res.locals, ...req.app.locals, ...extraContext };
+
+        nunjucks.render(path.resolve(__dirname, './views/ajax-related.njk'), context, (renderErr, html) => {
+            if (renderErr) {
+                Raven.captureException(renderErr);
+                res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
+            } else {
+                res.json({
+                    meta: data.meta,
+                    resultsHtml: html
+                });
+            }
+        });
+    } catch (rawError) {
+        const errorResponse = rawError.error.error;
+        return res.status(errorResponse.status || 400).json({
+            error: errorResponse
+        });
+    }
+});
 
 router.get('/recipients/:id', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
     try {
@@ -299,7 +329,7 @@ router.get('/:id', injectCopy('funding.pastGrants.search'), async (req, res, nex
             }
         });
 
-        if (data) {
+        if (data && data.result) {
             let fundingProgramme;
             const grant = data.result;
             const grantProgramme = get(grant, 'grantProgramme[0]', false);
