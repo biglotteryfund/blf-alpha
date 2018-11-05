@@ -155,6 +155,9 @@ function init() {
                 if (name) {
                     this.filters = pickBy(this.filters, (value, key) => key !== name);
                     this.filterSummary = this.filterSummary.filter(i => i.name !== name);
+                    if (name === 'q') {
+                        this.activeQuery = null;
+                    }
                     this.trackUi('Clear filter', name);
                 } else {
                     this.sort.activeSort = null;
