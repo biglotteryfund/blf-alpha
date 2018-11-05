@@ -5,16 +5,20 @@
     {{ localify('/funding/grants?' + key + '=' + value) }}
 {% endmacro %}
 
-{% macro buildLocationList(locations) -%}
+{% macro buildLocationList(locations, showLinks = true) -%}
     {% for location in locations -%}
         {%- if location.geoCodeType === 'CMLAD' -%}
-            <a href="{{ pgLink('localAuthority', location.geoCode) }}">
+            {% if showLinks %}
+                <a href="{{ pgLink('localAuthority', location.geoCode) }}">
+            {% endif %}
                 {{ location.name -}}
-            </a>
+            {% if showLinks %}</a>{% endif %}
         {%- elseif location.geoCodeType === 'WPC' -%}
-            <a href="{{ pgLink('westminsterConstituency', location.geoCode) }}">
+            {% if showLinks %}
+                <a href="{{ pgLink('westminsterConstituency', location.geoCode) }}">
+            {% endif %}
                 {{ location.name -}}
-            </a>
+            {% if showLinks %}</a>{% endif %}
         {% else %}
             {{ location.name -}}
         {% endif %}
