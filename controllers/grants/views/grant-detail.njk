@@ -170,15 +170,7 @@
 
         </div>
 
-        <div class="u-inner-wide-only js-only"
-             id="js-grant-related-projects"
-             v-show="relatedGrants"
-             v-cloak=>
-            <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.moreLikeThis }}</h2>
-            <div class="flex-grid flex-grid--3up"
-                 v-html="relatedGrants">
-            </div>
-        </div>
-
+        {# Related projects widget #}
+        <div id="js-grant-related-projects" v-html="relatedGrants"></div>
     </main>
 {% endblock %}

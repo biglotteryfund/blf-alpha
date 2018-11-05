@@ -2,50 +2,48 @@
 {% from "components/split-nav/macro.njk" import splitNav with context %}
 {% from './helpers.njk' import pgLink, buildLocationList with context %}
 
-{% macro grantResultItem(grant, options) %}
-    <div class="u-margin-bottom-s{% if options.wrapperClass %} {{ options.wrapperClass }}{% endif %}" data-score="{{ grant._textScore }}">
-        {% set subtitle %}
-            {% set mainRecipient = grant.recipientOrganization[0] %}
-            £{{ grant.amountAwarded | numberWithCommas}} {{ __('global.misc.to') }}
-            <strong><a href="{{ localify("/funding/grants/recipients/" + mainRecipient.id + '?' + searchQueryString) }}">{{ mainRecipient.name | striptags }}</a></strong>
-            {{ __('global.misc.on') }} {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
-        {% endset %}
-        {% set description = false if options.hideDescription or grant.description === grant.title else grant.description %}
-        {% call promoCard({
-            "title": grant.title,
-            "subtitle": subtitle | safe,
-            "trailText": description,
-            "link": {
-                "url": localify("/funding/grants/" + grant.id) + '?' + searchQueryString,
-                "label": copy.viewGrantDetails
-            }
-        }) %}
-            <dl class="o-definition-list o-definition-list--compact">
-                {% if grant.beneficiaryLocation and not options.hideLocation %}
-                    <dt>{{ copy.grantDetail.fields.location }}</dt>
-                    <dd>
-                        {{ buildLocationList(grant.beneficiaryLocation, showLinks = false) }}
-                    </dd>
-                {% endif %}
-                <dt>{{ copy.grantDetail.fields.programme }}</dt>
-                {% for programme in grant.grantProgramme %}
-                    <dd>{{ programme.title }}</dd>
-                {% endfor %}
-            </dl>
-            {% if grant.isActive %}
-                <span class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</span>
+{% macro grantResultItem(grant) %}
+    {% set subtitle %}
+        {% set mainRecipient = grant.recipientOrganization[0] %}
+        £{{ grant.amountAwarded | numberWithCommas}} {{ __('global.misc.to') }}
+        <strong><a href="{{ localify("/funding/grants/recipients/" + mainRecipient.id + '?' + searchQueryString) }}">{{ mainRecipient.name | striptags }}</a></strong>
+        {{ __('global.misc.on') }} {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
+    {% endset %}
+    {% set description = false if grant.description === grant.title else grant.description %}
+    {% call promoCard({
+        "title": grant.title,
+        "subtitle": subtitle | safe,
+        "trailText": description,
+        "link": {
+            "url": localify("/funding/grants/" + grant.id) + '?' + searchQueryString,
+            "label": copy.viewGrantDetails
+        }
+    }) %}
+        <dl class="o-definition-list o-definition-list--compact">
+            {% if grant.beneficiaryLocation %}
+                <dt>{{ copy.grantDetail.fields.location }}</dt>
+                <dd>
+                    {{ buildLocationList(grant.beneficiaryLocation, showLinks = false) }}
+                </dd>
             {% endif %}
-        {% endcall %}
-    </div>
+            <dt>{{ copy.grantDetail.fields.programme }}</dt>
+            {% for programme in grant.grantProgramme %}
+                <dd>{{ programme.title }}</dd>
+            {% endfor %}
+        </dl>
+        {% if grant.isActive %}
+            <span class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</span>
+        {% endif %}
+    {% endcall %}
 {% endmacro %}
 
-{% macro grantResultList(grants, options = {}) %}
+{% macro grantResultList(grants) %}
     {% if grants.length > 0 %}
         {% for grant in grants %}
-            {{ grantResultItem(grant, options) }}
+            <div class="u-margin-bottom-s" data-score="{{ grant._textScore }}">
+                {{ grantResultItem(grant) }}
+            </div>
         {% endfor %}
-        {% if not options.hidePagination %}
-            {{ splitNav(pagination.prevLink, pagination.nextLink) }}
-        {% endif %}
+        {{ splitNav(pagination.prevLink, pagination.nextLink) }}
     {% endif %}
 {% endmacro %}
