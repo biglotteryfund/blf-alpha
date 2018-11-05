@@ -23,9 +23,6 @@
                 <div class="content-sidebar__primary">
                     <div class="u-constrained-wide accent--pink">
                         <h1>{{ title }}</h1>
-                        {% if grant.isActive %}
-                            <p class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</p>
-                        {% endif %}
 
                         {% if grant.description !== grant.title %}
                             <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
@@ -59,6 +56,10 @@
                             {% endfor %}
                         {% endif %}
                     </dl>
+
+                    {% if grant.isActive %}
+                        <p class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</p>
+                    {% endif %}
                 </div>
 
             </div>
