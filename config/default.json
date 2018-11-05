@@ -38,7 +38,7 @@
     "useRemoteAssets": true,
     "enableTimingMetrics": false,
     "enableMailSendMetrics": false,
-    "enableNewPastGrantsSearch": false
+    "enableNewPastGrantsSearch": true
   },
   "imgix": {
     "mediaDomain": "biglotteryfund-assets.imgix.net"
