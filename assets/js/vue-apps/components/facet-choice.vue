@@ -67,14 +67,14 @@ export default {
                         :id="fieldId(index)"
                         :name="name"
                         :value="option.value"
-                        :checked="option.value === value"
+                        :checked="option.value == value"
                         @change="handleInput($event, option)"
                     />
                     <label class="ff-choice__label" :for="fieldId(index)">
                         {{ option.label }}
                     </label>
 
-                    <button class="active-filter active-filter--mini u-margin-left-s" @click="$emit('clear-selection')" v-if="option.value === value">
+                    <button class="active-filter active-filter--mini u-margin-left-s" @click="$emit('clear-selection')" v-if="option.value == value">
                         <IconClose :id="'clear-' + fieldId(index)" :description="copy.filters.clearSelection" />
                     </button>
                 </li>
