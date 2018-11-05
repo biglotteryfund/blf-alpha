@@ -24,12 +24,12 @@
                 {% if grant.beneficiaryLocation and not options.hideLocation %}
                     <dt>{{ copy.grantDetail.fields.location }}</dt>
                     <dd>
-                        {{ buildLocationList(grant.beneficiaryLocation) }}
+                        {{ buildLocationList(grant.beneficiaryLocation, showLinks = false) }}
                     </dd>
                 {% endif %}
                 <dt>{{ copy.grantDetail.fields.programme }}</dt>
                 {% for programme in grant.grantProgramme %}
-                    <dd><a href="{{ pgLink('programme', programme.title) }}">{{ programme.title }}</a></dd>
+                    <dd>{{ programme.title }}</dd>
                 {% endfor %}
             </dl>
             {% if grant.isActive %}

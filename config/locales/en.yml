@@ -533,6 +533,7 @@ funding:
       resultsCount: projects found
       totalCount: totalling
       goBackAStep: Go back a step
+      or: or
       backToSearch: Back to your search results
       sort:
         orderedBy: Ordered by

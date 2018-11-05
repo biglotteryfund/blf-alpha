@@ -69,6 +69,7 @@
                             type="search"
                             id="search-query"
                             name="q"
+                            autocomplete="off"
                             v-model="activeQuery"
                         />
                         <input
@@ -151,8 +152,14 @@
                                 />
                             </div>
 
-                            <div id="js-grant-results"
-                                 v-show="['NotAsked', 'Success'].indexOf(status.state) !== -1">
+                            {# Placeholder for Vue-rendered HTML  #}
+                            <div v-show="['NotAsked', 'Success'].indexOf(status.state) !== -1"
+                                 v-if="resultsWereFiltered"
+                                 v-html="resultsHtml">
+                            </div>
+
+                            {# Placeholder for server-rendered HTML (later hidden) #}
+                            <div v-if="!resultsWereFiltered">
                                 {{ grantResultList(grants) }}
                             </div>
                         </div>
