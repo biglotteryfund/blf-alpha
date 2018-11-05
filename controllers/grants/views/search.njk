@@ -3,9 +3,11 @@
 {% from "components/feedback.njk" import inlineFeedback with context %}
 {% from "components/form-fields/macros.njk" import inputChoice, inputSelect with context %}
 {% from "components/hero.njk" import hero with context %}
-{% from "components/split-nav/macro.njk" import splitNav with context %}
 {% from "components/promo-card/macro.njk" import promoCard %}
+{% from "components/split-nav/macro.njk" import splitNav with context %}
+
 {% from "./grant-results.njk" import grantResultList with context %}
+{% from "./helpers.njk" import facetGroup %}
 
 {% block extraHead %}
     <script>
@@ -181,50 +183,41 @@
                             <fieldset class="search-filters">
                                 <div class="search-filters__header">
                                     <legend class="search-filters__title">{{ copy.filters.title }}</legend>
+                                    <a class="search-filters__clear-all btn-link" href="{{ localify('/funding/grants') }}">
+                                       {{ copy.filters.reset }}
+                                    </a>
                                 </div>
-                                {# Filter: Amount awarded #}
-                                {% if facets.amountAwarded %}
-                                    {% set options = (facets.amountAwarded.unshift({
-                                        'label': copy.filters.options.amountAwarded.any,
-                                        'value': ''
-                                    }), facets.amountAwarded) %}
-                                    <div class="facet-group">
+
+                                {% call facetGroup(copy.filters.grantLegend) %}
+                                    {# Filter: Amount awarded #}
+                                    {% if facets.amountAwarded %}
                                         {{ inputChoice({
                                             type: 'radio',
                                             name: 'amount',
                                             label: copy.filters.options.amountAwarded.label,
                                             value: queryParams.amount,
-                                            options: options,
+                                            options: facets.amountAwarded,
                                             silentlyOptional: true
                                         }) }}
-                                    </div>
-                                {% endif %}
+                                    {% endif %}
 
-                                {# Filter: Country #}
-                                {% if facets.countries %}
-                                    {% set options = (facets.countries.unshift({
-                                        'label': copy.filters.options.country.any,
-                                        'value': ''
-                                    }), facets.countries) %}
-                                    <div class="facet-group">
+                                    {% if facets.awardDate %}
                                         {{ inputChoice({
                                             type: 'radio',
-                                            name: 'country',
-                                            label: copy.filters.options.country.label,
-                                            value: queryParams.country,
-                                            options: options,
+                                            name: 'awardDate',
+                                            label: copy.filters.options.awardDate.label,
+                                            value: queryParams.awardDate,
+                                            options: facets.awardDate,
                                             silentlyOptional: true
                                         }) }}
-                                    </div>
-                                {% endif %}
+                                    {% endif %}
 
-                                {# Filter: Grant programme #}
-                                {% if facets.grantProgramme %}
-                                    {% set options = (facets.grantProgramme.unshift({
-                                        'label': copy.filters.options.programme.any,
-                                        'value': ''
-                                    }), facets.grantProgramme) %}
-                                    <div class="facet-group">
+                                    {# Filter: Grant programme #}
+                                    {% if facets.grantProgramme %}
+                                        {% set options = (facets.grantProgramme.unshift({
+                                            'label': copy.filters.options.programme.any,
+                                            'value': ''
+                                        }), facets.grantProgramme) %}
                                         {{ inputSelect({
                                             type: 'select',
                                             name: 'programme',
@@ -233,16 +226,32 @@
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-                                    </div>
-                                {% endif %}
+                                    {% endif %}
+                                {% endcall %}
 
-                                {# Filter: Local Authority #}
-                                {% if facets.localAuthorities %}
-                                    {% set options = (facets.localAuthorities.unshift({
-                                        'label': copy.filters.options.localAuthority.any,
-                                        'value': ''
-                                    }), facets.localAuthorities) %}
-                                    <div class="facet-group">
+                                {% call facetGroup(copy.filters.organisationLegend) %}
+                                    {# Filter: Country #}
+                                    {% if facets.countries %}
+                                        {% set options = (facets.countries.unshift({
+                                            'label': copy.filters.options.country.any,
+                                            'value': ''
+                                        }), facets.countries) %}
+                                        {{ inputChoice({
+                                            type: 'radio',
+                                            name: 'country',
+                                            label: copy.filters.options.country.label,
+                                            value: queryParams.country,
+                                            options: options,
+                                            silentlyOptional: true
+                                        }) }}
+                                    {% endif %}
+
+                                    {# Filter: Local Authority #}
+                                    {% if facets.localAuthorities %}
+                                        {% set options = (facets.localAuthorities.unshift({
+                                            'label': copy.filters.options.localAuthority.any,
+                                            'value': ''
+                                        }), facets.localAuthorities) %}
                                         {{ inputSelect({
                                             type: 'select',
                                             name: 'localAuthority',
@@ -251,16 +260,14 @@
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-                                    </div>
-                                {% endif %}
+                                    {% endif %}
 
-                                {# Filter: Constituency #}
-                                {% if facets.westminsterConstituencies %}
-                                    {% set options = (facets.westminsterConstituencies.unshift({
-                                        'label': copy.filters.options.westminsterConstituency.any,
-                                        'value': ''
-                                    }), facets.westminsterConstituencies) %}
-                                    <div class="facet-group">
+                                    {# Filter: Constituency #}
+                                    {% if facets.westminsterConstituencies %}
+                                        {% set options = (facets.westminsterConstituencies.unshift({
+                                            'label': copy.filters.options.westminsterConstituency.any,
+                                            'value': ''
+                                        }), facets.westminsterConstituencies) %}
                                         {{ inputSelect({
                                             type: 'select',
                                             name: 'westminsterConstituency',
@@ -269,14 +276,14 @@
                                             options: options,
                                             silentlyOptional: true
                                         }) }}
-                                    </div>
-                                {% endif %}
+                                    {% endif %}
+                                {% endcall %}
 
                                 <noscript>
                                     <div class="search-filters__actions">
                                         <input type="submit"
-                                               value="{{ copy.filters.submit }}"
-                                               class="btn btn--medium">
+                                            value="{{ copy.filters.submit }}"
+                                            class="btn btn--medium">
                                     </div>
                                 </noscript>
                             </fieldset>
