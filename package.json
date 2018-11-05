@@ -40,14 +40,17 @@
   },
   "lint-staged": {
     "*.scss": [
-      "prettier --write"
+      "prettier --write",
+      "git add"
     ],
     "*.js": [
       "prettier --write",
+      "git add",
       "eslint"
     ],
     "*.vue": [
       "prettier --write",
+      "git add",
       "eslint"
     ],
     "{controllers/routes.js,controllers/aliases.js,config/default.json}": [
