@@ -1,12 +1,10 @@
 <script>
 export default {
     props: ['totalResults', 'copy', 'status', 'searchSuggestions'],
-    computed: {
+    methods: {
         canGoBack() {
             return window.history.length > 1;
-        }
-    },
-    methods: {
+        },
         goBack() {
             return window.history.back();
         }
@@ -44,7 +42,7 @@ export default {
                     @click="$emit('clear-all')">
                 {{ copy.filters.clear }}
             </button>
-            <span v-if="canGoBack">
+            <span v-if="canGoBack()">
                 {{ copy.or }}
                 <button type="button"
                         class="btn btn--medium"
