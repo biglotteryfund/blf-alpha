@@ -79,7 +79,7 @@
                             class="form-field-addon__action"
                             type="submit"
                             value="{{ copy.submit }}"
-                            @click="updateQuery"
+                            @click="filterResults"
                         />
                     </div>
                     <p class="ff-help u-no-margin">
@@ -298,7 +298,7 @@
                     :status="status"
                     :search-suggestions="searchSuggestions"
                     @clear-all="clearAll"
-                    @update-query="triggerQueryChange"
+                    @update-query="handleSuggestion"
                 />
 
                 {% if meta.totalResults === 0 %}
