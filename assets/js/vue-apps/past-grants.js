@@ -4,6 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import map from 'lodash/map';
+import assign from 'lodash/assign';
 import pickBy from 'lodash/pickBy';
 import queryString from 'query-string';
 import { trackEvent } from '../helpers/metrics';
@@ -238,7 +239,7 @@ function init() {
                         this.totalResults = response.meta.totalResults;
                         this.totalAwarded = response.meta.totalAwarded;
                         this.facets = response.facets;
-                        this.searchSuggestions = Object.assign({}, response.searchSuggestions);
+                        this.searchSuggestions = assign({}, response.searchSuggestions);
                         this.sort = response.meta.sort;
                         this.status = { state: states.Success, data: response };
 
