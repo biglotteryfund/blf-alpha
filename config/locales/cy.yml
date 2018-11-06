@@ -96,6 +96,7 @@ global:
     readMoreAbout: Darllenwch fwy am
     required: Gorfodol
     search: Chwilio
+    searchGrants: Chwilio grantiau a ddyfarnwyd
     seeProgramme: Gweld y rhaglen
     stepProgress: "Cam %s o %s"
     topics: pynciau
@@ -158,7 +159,6 @@ toplevel:
       projectName: Y Sefydliad Iechyd Meddwl
       imageUrl: home/case-study-mental-health-foundation.jpg
       link: funding/big-stories/mental-health-foundation
-    browseFundedProjects: Pori'r holl brosiectau a ariannwyd
     social:
       followUsOn: Dilynwch ni ar
       instagram: Instagram
@@ -282,7 +282,7 @@ toplevel:
       href: "/welsh/funding/programmes"
     - label: Gweld pob rhaglen grantiau sydd ar gau
       href: "/welsh/funding/funding-finder?sc=1"
-    - label: Chwilio prosiectau a ariannwyd
+    - label: Chwilio grantiau a ddyfarnwyd
       href: "/welsh/funding/grants"
     - label: Cymorth rheoli’ch grant
       href: "/welsh/funding/funding-guidance/managing-your-funding"
@@ -389,7 +389,6 @@ funding:
       o wybodaeth am ein grantiau Deyrnas Unedig gyfan</a>. Rydym yn gwneud grantiau
       <a href="/welsh/over10k">dros £10,000</a> ar gyfer prosiectau tymor hirach hefyd. '
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
-    browseFundedProjects: Pori'r holl brosiectau a ariannwyd
   over10k:
     title: Darganfod ein rhaglenni grant am symiau dros £10,000
     intro: 'Mae grantiau mawr yn cael eu gwneud trwy amrywiaeth o raglenni sy''n cynnwys
@@ -405,7 +404,6 @@ funding:
       northernIreland: Gogledd Iwerddon
       ukWide: Bydd fy mhrosiect yn helpu pobl ar draws y Deyrnas Unedig
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
-    browseAll: Pori'r holl brosiectau a ariannwyd
   pastGrants:
     title: Chwilio Pob Prosiect a Ariannwyd
     intro: Rydym yn deall bod chwilio trwy grantiau blaenorol y Gronfa Loteri Fawr yn bwysig i lawer o bobl. Rydym wrthi’n gwella’r gwasanaeth a gynigiwn ar hyn o bryd.

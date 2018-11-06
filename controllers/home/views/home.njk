@@ -39,7 +39,7 @@
             <h2 class="t2 t--underline">
                 {{ __('global.misc.projectExamples') }}
             </h2>
-            <ul class="flex-grid flex-grid--3up">
+            <ul class="flex-grid flex-grid--3up u-margin-bottom-s">
                 {% for caseStudy in copy.caseStudies %}
                     <li class="flex-grid__item">
                         {% call promoCard({
@@ -59,10 +59,10 @@
                 {% endfor %}
             </ul>
 
-            <div class="u-padded u-align-center">
+            <div class="u-margin-bottom-l u-align-center">
                 <a href="{{ localify('/funding/grants') }}"
-                    class="btn accent--{{ pageAccent }} a--btn u-margin-bottom">
-                    {{ copy.browseFundedProjects }}
+                    class="btn btn--outline btn--medium  accent--{{ pageAccent }} a--btn">
+                    {{ __('global.misc.searchGrants') }}
                 </a>
             </div>
         </section>
