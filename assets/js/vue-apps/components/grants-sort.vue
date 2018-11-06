@@ -13,7 +13,7 @@ export default {
             class="ff-select"
             name="sort" id="field-sort"
             :value="sort.activeSort"
-            @input="$emit('change-sort', $event.target.value)">
+            @change="$emit('change-sort', $event.target.value)">
             <option
                 v-for="option in sort.sortOptions"
                 :key="option.label"
