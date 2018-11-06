@@ -16,7 +16,7 @@
     "lint": "eslint . --ext .js,.vue",
     "test-unit": "jest --maxWorkers=4",
     "test-watch": "jest --watch",
-    "test": "npm audit && npm run lint && npm run test-unit",
+    "test": "npm audit || true && npm run lint && npm run test-unit",
     "test-integration": "wait-on http://localhost:8090 && ./bin/run-a11y && cypress run",
     "pretest-ci": "npm run build",
     "test-ci": "./bin/start-test-server & concurrently --raw npm:test npm:test-integration",
