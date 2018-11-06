@@ -97,6 +97,7 @@ global:
     readMoreAbout: "Read more about %s"
     required: Required
     search: Search
+    searchGrants: Search all grants
     seeProgramme: See programme
     stepProgress: "Step %s of %s"
     topics: topics
@@ -159,7 +160,6 @@ toplevel:
       projectName: Mental Health Foundation
       imageUrl: home/case-study-mental-health-foundation.jpg
       link: funding/big-stories/mental-health-foundation
-    browseFundedProjects: Search for all funded projects
     social:
       followUsOn: Follow us on
       instagram: Instagram
@@ -367,7 +367,7 @@ toplevel:
       href: "/funding/funding-finder?sc=1"
     - label: Strategic investments in England
       href: "/funding/strategic-investments"
-    - label: Search funded projects
+    - label: Search all grants
       href: "/funding/grants"
     - label: Help with managing your grant
       href: "/funding/funding-guidance/managing-your-funding"
@@ -486,7 +486,6 @@ funding:
       out more about our UK-wide funding</a>. We also make grants of <a href="/over10k">more
       than £10,000</a> for longer term projects.
     projectExamples: Examples of projects that have been funded
-    browseFundedProjects: Browse all funded projects
   over10k:
     title: Discover our funding programmes for amounts above £10,000
     intro: Larger grants are made through a variety of programmes that cover every
@@ -501,7 +500,6 @@ funding:
       northernIreland: Northern Ireland
       ukWide: My project will help people right across the UK
     projectExamples: Examples of projects that have been funded
-    browseAll: Browse all funded projects
   pastGrants:
     title: Search all grants
     intro: We understand that searching through the Big Lottery Fund's past grants is important for many people. We are currently working to improve the service we currently offer.
