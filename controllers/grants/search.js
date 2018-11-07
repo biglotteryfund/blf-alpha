@@ -151,101 +151,96 @@ async function checkSpelling(searchTerm, locale = 'en') {
     });
 }
 
-router.get(
-    '/',
-    injectHeroImage('active-plus-communities'),
-    injectCopy('funding.pastGrants.search'),
-    async (req, res, next) => {
-        let data;
-        const facetParams = buildAllowedParams(req.query);
-        const paginationLabels = req.i18n.__('global.misc.pagination');
-        let queryWithPage = addPaginationParameters(facetParams, req.query.page);
+router.get('/', injectHeroImage('tinylife'), injectCopy('funding.pastGrants.search'), async (req, res, next) => {
+    let data;
+    const facetParams = buildAllowedParams(req.query);
+    const paginationLabels = req.i18n.__('global.misc.pagination');
+    let queryWithPage = addPaginationParameters(facetParams, req.query.page);
 
-        /**
-         * Add a parameter so we know the user came from search
-         * so we can link them back to their results.
-         */
-        const searchQueryString = querystring.stringify({ ...queryWithPage, ...{ from: 'search' } });
+    /**
+     * Add a parameter so we know the user came from search
+     * so we can link them back to their results.
+     */
+    const searchQueryString = querystring.stringify({ ...queryWithPage, ...{ from: 'search' } });
 
-        queryWithPage.locale = res.locals.locale;
+    queryWithPage.locale = res.locals.locale;
 
-        try {
-            data = await queryGrantsApi(queryWithPage);
-        } catch (errorResponse) {
-            return res.format({
-                html: () => {
-                    next(errorResponse.error);
-                },
-                'application/json': () => {
-                    res.status(errorResponse.error.error.status || 400).json({
-                        error: errorResponse.error.error
-                    });
-                }
-            });
-        }
-
-        let searchSuggestions = false;
-        if (data.meta.totalResults === 0 && req.query.q) {
-            searchSuggestions = await checkSpelling(req.query.q, req.i18n.getLocale());
-        }
-
-        res.format({
-            // Initial / server-only search
-            html: async () => {
-                // Grab some case studies
-                const caseStudiesResponse = await contentApi.getCaseStudies({
-                    locale: req.i18n.getLocale()
-                });
-
-                // Shuffle the valid case studies and grab the first few
-                const caseStudies = sampleSize(caseStudiesResponse.filter(c => c.grantId), 3);
-
-                res.render(path.resolve(__dirname, './views/search'), {
-                    title: res.locals.copy.title,
-                    queryParams: isEmpty(facetParams) ? false : facetParams,
-                    grants: data.results,
-                    facets: data.facets,
-                    meta: data.meta,
-                    grantDataDates: grantDataDates,
-                    caseStudies: caseStudies,
-                    grantNavLink: grantNavLink,
-                    searchQueryString: searchQueryString,
-                    searchSuggestions: searchSuggestions,
-                    pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels)
-                });
+    try {
+        data = await queryGrantsApi(queryWithPage);
+    } catch (errorResponse) {
+        return res.format({
+            html: () => {
+                next(errorResponse.error);
             },
-
-            // AJAX search for client-side app
             'application/json': () => {
-                /**
-                 * Repopulate existing app globals so Nunjucks
-                 * can read them outside of Express's view engine context
-                 */
-                const extraContext = {
-                    grants: data.results,
-                    searchQueryString: searchQueryString,
-                    pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels)
-                };
-
-                const context = { ...res.locals, ...req.app.locals, ...extraContext };
-
-                nunjucks.render(path.resolve(__dirname, './views/ajax-results.njk'), context, (renderErr, html) => {
-                    if (renderErr) {
-                        Raven.captureException(renderErr);
-                        res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
-                    } else {
-                        res.json({
-                            meta: data.meta,
-                            facets: data.facets,
-                            searchSuggestions: searchSuggestions,
-                            resultsHtml: html
-                        });
-                    }
+                res.status(errorResponse.error.error.status || 400).json({
+                    error: errorResponse.error.error
                 });
             }
         });
     }
-);
+
+    let searchSuggestions = false;
+    if (data.meta.totalResults === 0 && req.query.q) {
+        searchSuggestions = await checkSpelling(req.query.q, req.i18n.getLocale());
+    }
+
+    res.format({
+        // Initial / server-only search
+        html: async () => {
+            // Grab some case studies
+            const caseStudiesResponse = await contentApi.getCaseStudies({
+                locale: req.i18n.getLocale()
+            });
+
+            // Shuffle the valid case studies and grab the first few
+            const caseStudies = sampleSize(caseStudiesResponse.filter(c => c.grantId), 3);
+
+            res.render(path.resolve(__dirname, './views/search'), {
+                title: res.locals.copy.title,
+                queryParams: isEmpty(facetParams) ? false : facetParams,
+                grants: data.results,
+                facets: data.facets,
+                meta: data.meta,
+                grantDataDates: grantDataDates,
+                caseStudies: caseStudies,
+                grantNavLink: grantNavLink,
+                searchQueryString: searchQueryString,
+                searchSuggestions: searchSuggestions,
+                pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels)
+            });
+        },
+
+        // AJAX search for client-side app
+        'application/json': () => {
+            /**
+             * Repopulate existing app globals so Nunjucks
+             * can read them outside of Express's view engine context
+             */
+            const extraContext = {
+                grants: data.results,
+                searchQueryString: searchQueryString,
+                pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels)
+            };
+
+            const context = { ...res.locals, ...req.app.locals, ...extraContext };
+
+            nunjucks.render(path.resolve(__dirname, './views/ajax-results.njk'), context, (renderErr, html) => {
+                if (renderErr) {
+                    Raven.captureException(renderErr);
+                    res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
+                } else {
+                    res.json({
+                        meta: data.meta,
+                        facets: data.facets,
+                        searchSuggestions: searchSuggestions,
+                        resultsHtml: html
+                    });
+                }
+            });
+        }
+    });
+});
 
 router.get('/related', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
     try {

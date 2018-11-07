@@ -24,7 +24,7 @@ const grantNavLink =
 if (config.get('features.enableNewPastGrantsSearch')) {
     router.use('/', require('./search'));
 } else {
-    router.get('/', injectCopy('funding.pastGrants'), injectHeroImage('active-plus-communities'), async (req, res) => {
+    router.get('/', injectCopy('funding.pastGrants'), injectHeroImage('tinylife'), async (req, res) => {
         res.render(path.resolve(__dirname, './views/index'), { grantNavLink });
     });
 }

@@ -36,7 +36,7 @@ const toplevel = {
         {
             path: '/northern-ireland',
             lang: 'toplevel.northernIreland',
-            heroSlug: 'down-right-brilliant',
+            heroSlug: 'cruse-bereavement-care',
             router: staticPage({
                 disableLanguageLink: true,
                 template: 'static-pages/region'
@@ -45,7 +45,7 @@ const toplevel = {
         {
             path: '/wales',
             lang: 'toplevel.wales',
-            heroSlug: 'grassroots-wales',
+            heroSlug: 'the-outdoor-partnership-wales',
             router: staticPage({
                 template: 'static-pages/region'
             })
@@ -226,7 +226,7 @@ const about = {
         {
             path: '/ebulletin',
             lang: 'toplevel.ebulletin',
-            heroSlug: 'street-dreams',
+            heroSlug: 'the-outdoor-partnership',
             router: require('./ebulletin')
         },
         {

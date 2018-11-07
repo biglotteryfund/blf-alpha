@@ -8,7 +8,7 @@ const { sMaxAge } = require('../../middleware/cached');
 
 const router = express.Router();
 
-router.get('/', sMaxAge('30m'), injectHeroImage('active-plus-communities'), injectFundingProgrammes, (req, res) => {
+router.get('/', sMaxAge('30m'), injectHeroImage('manchester-cares'), injectFundingProgrammes, (req, res) => {
     const { copy, fundingProgrammes } = res.locals;
 
     /**
