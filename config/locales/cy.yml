@@ -817,7 +817,7 @@ funding:
       strand2:
         title: Meini prawf cymhwyster ychwanegol sy'n berthnasol dim ond i Edefyn 2
         criteria:
-        - Mae'n rhaid bod eich mudiad wedi cael ei gorffori ar ôl 2000
+        - Mae’n rhaid bod eich mudiad wedi sefydlu ei strwythur cyfreithiol ar ôl 2000
         - Mae'n rhaid i chi weithredu cynnyrch neu wasanaeth ar hyn o bryd sy'n weithredol ac yn cael ei ddefnyddio gan y math o bobl a chymunedau rydych yn bwriadu eu gwasanaethu yn y dyfodol
     eligibilityChecker:
       title: Gofyn am alwad

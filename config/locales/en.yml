@@ -919,7 +919,7 @@ funding:
       strand2:
         title: Additional eligibility criteria that apply only to Strand 2
         criteria:
-        - Your organisation must have been incorporated after the year 2000. We have taken a decision to focus on newer organisations in this strand following our research for the Digital Fund.
+        - Your organisation must have established its legal structure after the year 2000. We have taken a decision to focus on newer organisations in this strand following our research for the Digital Fund.
         - You must currently operate a product or service that is functional and being used by the type of people and communities you plan to serve in future
     eligibilityChecker:
       title: Tell us your idea
