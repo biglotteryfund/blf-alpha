@@ -131,15 +131,20 @@ function init() {
             },
 
             handleActiveFilter(payload) {
-                let match = find(this.filterSummary, item => item.name === payload.name);
-                if (!match) {
-                    // Add the new summary item
-                    this.filterSummary = [].concat(this.filterSummary, [payload]);
-                } else {
+                const match = find(this.filterSummary, item => item.name === payload.name);
+
+                if (match) {
+                    if (match.label !== payload.label) {
+                        this.trackFilter(payload.name, payload.label);
+                    }
+
                     // Update the existing one
                     this.filterSummary.find(i => i.name === payload.name).label = payload.label;
+                } else {
+                    // Add the new summary item
+                    this.filterSummary = [].concat(this.filterSummary, [payload]);
+                    this.trackFilter(payload.name, payload.label);
                 }
-                this.trackFilter(payload.name, payload.label);
             },
 
             // Resets filters *and* query search
@@ -147,7 +152,6 @@ function init() {
                 this.filters = {};
                 this.filterSummary = [];
                 this.activeQuery = null;
-                this.filterResults();
                 this.trackUi('Clear all filters and queries');
             },
 
@@ -170,33 +174,20 @@ function init() {
                 }
             },
 
-            triggerQueryChange(newQuery) {
-                this.activeQuery = newQuery;
-                this.updateQuery();
-            },
-
-            updateQuery(shouldFilterResults = true) {
-                const filterName = 'q';
-                // Prevent a blank string from appearing in the filter summary
-                this.filters.q = this.activeQuery || undefined;
-                if (this.filters.q) {
-                    this.handleActiveFilter({ label: this.activeQuery, name: filterName });
-                    this.trackFilter(filterName, this.activeQuery);
-                } else {
-                    // Delete the query summary item
-                    this.filterSummary = this.filterSummary.filter(i => i.name !== 'q');
-                }
-                if (shouldFilterResults) {
-                    this.filterResults();
-                }
+            handleSuggestion(suggestedQuery) {
+                this.activeQuery = suggestedQuery;
+                this.filterResults();
             },
 
             filterResults() {
-                // Grab the query value and update the filter object
-                // in case someone typed a search but didn't submit it
-                this.updateQuery(false);
-
                 const combinedFilters = cloneDeep(this.filters);
+
+                if (this.activeQuery) {
+                    combinedFilters.q = this.activeQuery;
+                    this.handleActiveFilter({ label: this.activeQuery || undefined, name: 'q' });
+                } else {
+                    this.filterSummary = this.filterSummary.filter(i => i.name !== 'q');
+                }
 
                 if (this.sort.activeSort && this.sort.activeSort !== this.sort.defaultSort) {
                     combinedFilters.sort = this.sort.activeSort;
