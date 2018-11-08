@@ -515,11 +515,14 @@ funding:
     legacy:
       title: 2. Use our current grants database
       linkText: Search past grants
+    survey:
+      prompt: Please help us make the past grants search better by answering this one question
+      label: Tell us why you came to this page today
     search:
       title: Search all grants
       survey:
-        prompt: Please help us make the past grants search better by answering this one question
-        label: Tell us why you came to this page today
+        prompt: Please help us improve this service by sending us feedback
+        label: How was your experience of using our past grants search today?
       beta: Beta
       intro: >
         Thank you for choosing to use our new “search awarded grants” service. We are working to improve the service we currently offer, your feedback will help us do that. You can try our new service in Beta now, <a href="%s">explore our data with GrantNav</a> or use our <a href="/funding/search-past-grants">old past grants database</a>.
