@@ -5,9 +5,20 @@ const { Order, OrderItem } = require('../models');
 const { take, countBy, meanBy, sortBy, flatMap, map, reverse } = require('lodash');
 const { filter } = require('lodash/fp');
 
-function getAllOrders() {
+function getAllOrders(dateRange = {}) {
+    let whereClause = {};
+
+    if (dateRange.start && dateRange.end) {
+        whereClause = {
+            createdAt: {
+                [Op.between]: [dateRange.start, dateRange.end]
+            }
+        };
+    }
+
     return Order.findAll({
         order: [['updatedAt', 'DESC']],
+        where: whereClause,
         include: [
             {
                 model: OrderItem,
@@ -84,6 +95,12 @@ function getAllOrders() {
     });
 }
 
+function getOldestOrder() {
+    return Order.findOne({
+        order: [['createdAt', 'ASC']]
+    });
+}
+
 function storeOrder({ grantAmount, orderReason, postcodeArea, items }) {
     cleanupOldOrders();
     return Order.create(
@@ -119,5 +136,6 @@ function cleanupOldOrders() {
 
 module.exports = {
     storeOrder,
-    getAllOrders
+    getAllOrders,
+    getOldestOrder
 };
