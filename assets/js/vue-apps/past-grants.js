@@ -7,7 +7,9 @@ import map from 'lodash/map';
 import assign from 'lodash/assign';
 import pickBy from 'lodash/pickBy';
 import queryString from 'query-string';
+
 import { trackEvent } from '../helpers/metrics';
+import { storageAvailable, setWithExpiry } from '../helpers/storage';
 
 import GrantsFilters from './components/grants-filters.vue';
 import GrantsSort from './components/grants-sort.vue';
@@ -23,7 +25,9 @@ const states = {
     Success: 'Success'
 };
 
-function init() {
+const canStore = storageAvailable('localStorage');
+
+function init(STORAGE_KEY) {
     const mountEl = document.getElementById('js-past-grants');
     if (!mountEl) {
         return;
@@ -179,6 +183,21 @@ function init() {
                 this.filterResults();
             },
 
+            storeSearchPath(filters) {
+                if (Object.keys(filters).length === 0) {
+                    return canStore && window.localStorage.removeItem(STORAGE_KEY);
+                }
+                return (
+                    canStore &&
+                    setWithExpiry({
+                        type: 'localStorage',
+                        key: STORAGE_KEY,
+                        data: filters,
+                        expiryInMinutes: 60
+                    })
+                );
+            },
+
             filterResults() {
                 const combinedFilters = cloneDeep(this.filters);
 
@@ -198,6 +217,8 @@ function init() {
                 const urlPath = newQueryString
                     ? `${window.location.pathname}?${newQueryString}`
                     : window.location.pathname;
+
+                this.storeSearchPath(newQueryString);
 
                 this.updateResults(urlPath, newQueryString);
             },

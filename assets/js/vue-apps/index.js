@@ -50,6 +50,8 @@ function initInlineFeedback() {
     }
 }
 
+const PAST_GRANTS_SESSION_KEY = 'app.pastGrantsFilters';
+
 export const init = () => {
     if (window.AppConfig.environment !== 'development') {
         Raven.addPlugin(RavenVue, Vue);
@@ -62,6 +64,6 @@ export const init = () => {
 
     materials.init();
 
-    GrantDetail.init();
-    pastGrants.init();
+    GrantDetail.init(PAST_GRANTS_SESSION_KEY);
+    pastGrants.init(PAST_GRANTS_SESSION_KEY);
 };
