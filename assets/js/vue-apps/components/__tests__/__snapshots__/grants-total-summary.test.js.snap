@@ -4,6 +4,8 @@ exports[`GrantsTotalSummary should render 1`] = `
 <span>
   
     190,000 projects found
-    totalling £123,456,789
+    
+        totalling £123,456,789
+    
 </span>
 `;

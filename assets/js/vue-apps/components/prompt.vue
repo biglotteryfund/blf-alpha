@@ -50,19 +50,24 @@ export default {
         <div class="prompt__body">
             <div class="prompt__content">
                 {{ message }}
-                <a :href="linkUrl"
+                <a
+                    :href="linkUrl"
                     data-ga-on="click"
                     :data-ga-event-category="'Prompt: ' + id"
-                    data-ga-event-action="Took action">
+                    data-ga-event-action="Took action"
+                >
                     {{ linkText }}
                 </a>
             </div>
             <span class="prompt__close">
-                <button class="icon-btn" @click="closePrompt()"
+                <button
+                    class="icon-btn"
+                    @click="closePrompt();"
                     data-ga-on="click"
                     :data-ga-event-category="'Prompt: ' + id"
                     data-ga-event-action="Dismissed prompt"
-                    aria-label="Dismiss prompt">
+                    aria-label="Dismiss prompt"
+                >
                     <IconClose id="prompt-close" description="Dismiss prompt" />
                 </button>
             </span>
