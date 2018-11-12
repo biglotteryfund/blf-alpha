@@ -22,7 +22,7 @@ router.use(injectCopy('ourPeople'), injectOurPeople, function(req, res, next) {
 
     // Merge items with legacy navigation to allow gradual migration
     res.locals.ourPeopleLinks = legacyNavigation.map(legacy => {
-        const match = find(links, link => link.slug === legacy.slug);
+        const match = find(links, link => link.slug.indexOf(legacy.match) !== -1);
         return match ? match : legacy;
     });
 
