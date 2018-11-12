@@ -8,9 +8,7 @@ exports[`GrantsSort should render 1`] = `
     class="ff-label"
     for="field-sort"
   >
-    
-        Ordered by
-    
+     Ordered by 
   </label>
    
   <select

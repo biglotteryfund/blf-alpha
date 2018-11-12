@@ -27,16 +27,10 @@ export default {
 </script>
 
 <template>
-    <div v-if="returnLink">
-        <a class="btn btn--small btn--outline accent--pink"
-           :href="this.returnLink">
-                <span class="btn__icon btn__icon-left">
-                    <IconArrowLeft
-                        :id="'back-to-search-' + id"
-                        :description="label"
-                    />
-                </span>
-            {{ label }}
-        </a>
-    </div>
+    <a class="btn btn--small btn--outline accent--pink" :href="returnLink" v-if="returnLink">
+        <span class="btn__icon btn__icon-left">
+            <IconArrowLeft :id="'back-to-search-' + id" :description="label" />
+        </span>
+        {{ label }}
+    </a>
 </template>

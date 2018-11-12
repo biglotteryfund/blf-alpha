@@ -55,36 +55,34 @@ export default {
 <template>
     <div>
         <fieldset class="ff-choice" v-if="options.length > 0">
-            <legend class="ff-label">
-                {{ label }}
-            </legend>
+            <legend class="ff-label">{{ label }}</legend>
             <ul class="ff-choice__list">
-                <li class="ff-choice__option ff-choice__option--flex"
+                <li
+                    class="ff-choice__option ff-choice__option--flex"
                     v-for="(option, index) in optionsToDisplay"
-                    :key="option.value">
+                    :key="option.value"
+                >
                     <input
                         :type="type"
                         :id="fieldId(index)"
                         :name="name"
                         :value="option.value"
                         :checked="option.value == value"
-                        @change="handleInput($event, option)"
+                        @change="handleInput($event, option);"
                     />
-                    <label class="ff-choice__label" :for="fieldId(index)">
-                        {{ option.label }}
-                    </label>
+                    <label class="ff-choice__label" :for="fieldId(index)"> {{ option.label }} </label>
 
-                    <button class="active-filter active-filter--mini u-margin-left-s" @click="$emit('clear-selection')" v-if="option.value == value">
+                    <button
+                        class="active-filter active-filter--mini u-margin-left-s"
+                        @click="$emit('clear-selection');"
+                        v-if="option.value == value"
+                    >
                         <IconClose :id="'clear-' + fieldId(index)" :description="copy.filters.clearSelection" />
                     </button>
                 </li>
             </ul>
         </fieldset>
-        <button type="button"
-            class="btn-link"
-            v-if="shouldTruncate()"
-            @click='toggle'
-        >
+        <button type="button" class="btn-link" v-if="shouldTruncate()" @click="toggle">
             {{ isOpen ? copy.filters.options.truncate.seeFewer : copy.filters.options.truncate.seeMore }}
         </button>
     </div>

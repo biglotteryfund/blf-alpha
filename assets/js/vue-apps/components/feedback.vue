@@ -30,7 +30,9 @@ export default {
 
 <template>
     <div class="content-box content-box--tinted">
-        <template v-if="statusMessage"><p>{{ statusMessage }}</p></template>
+        <template v-if="statusMessage">
+            <p>{{ statusMessage }}</p>
+        </template>
         <form v-if="!statusMessage" @submit.prevent="handleSubmit">
             <label class="ff-label" for="field-message">{{ fieldLabel }}</label>
             <p class="ff-help" v-if="helpText">{{ helpText }}</p>
@@ -42,7 +44,7 @@ export default {
                 required
                 aria-required="true"
             ></textarea>
-            <input class="btn btn--small" type="submit" :value=submitLabel />
+            <input class="btn btn--small" type="submit" :value="submitLabel" />
         </form>
     </div>
 </template>

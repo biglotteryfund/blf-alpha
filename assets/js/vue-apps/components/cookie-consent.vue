@@ -29,7 +29,7 @@ export default {
                 <div class="cookie-consent__message" v-html="message"></div>
             </div>
             <div class="cookie-consent__actions">
-                <button class="btn btn--small" @click="handleAccept()">{{ action }}</button>
+                <button class="btn btn--small" @click="handleAccept">{{ action }}</button>
             </div>
         </div>
     </aside>
