@@ -33,20 +33,6 @@
     {% endif %}
 {% endmacro %}
 
-{% macro buildReturnLink(returnLink, label) %}
-    {% if returnLink %}
-        <p class="u-no-margin">
-            <a class="btn btn--small btn--outline accent--pink"
-               href="{{ returnLink }}">
-                <span class="btn__icon btn__icon-left">
-                    {{ iconArrowLeft('small') }}
-                </span>
-                {{ label }}
-            </a>
-        </p>
-    {% endif %}
-{% endmacro %}
-
 {% macro facetGroup(legend) %}
     <div class="facet-group is-open">
         <fieldset class="facet-group__fieldset">

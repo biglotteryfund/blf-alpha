@@ -520,7 +520,9 @@ funding:
       recipientDetail:
         awardingProgrammes: Rhaglenni dyfarnu
         searchGoogle: Chwilio am %s gyda Google
-        numFundedTotal: "ariannwyd %s o brosiectau gan y Gronfa Loteri Fawr (cyfanswm o £%s wedi'i ddyfarnu)"
+        numFundedTotal:
+          one: "ariannwyd %s prosiect gan y Gronfa Loteri Fawr (cyfanswm o £%%s wedi'i ddyfarnu)"
+          other: "ariannwyd %s o brosiectau gan y Gronfa Loteri Fawr (cyfanswm o £%%s wedi'i ddyfarnu)"
   guidance:
     order-free-materials:
       title: Sut i gael deunyddiau â'n brand arnynt am ddim
