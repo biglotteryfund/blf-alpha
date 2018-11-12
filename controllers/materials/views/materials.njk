@@ -103,9 +103,12 @@
 {% macro listProducts(languageToShow) %}
     <ul class="flex-grid flex-grid--3up">
         {% for material in materials %}
-            <li class="flex-grid__item">
-                {{ materialCard(material, languageToShow, loop.index) }}
-            </li>
+            {% set productCount = material.products | filter("language", languageToShow) | length %}
+            {% if productCount > 0 %}
+                <li class="flex-grid__item">
+                    {{ materialCard(material, languageToShow, loop.index) }}
+                </li>
+            {% endif %}
         {% endfor %}
     </ul>
 {% endmacro %}
