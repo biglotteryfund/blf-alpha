@@ -95,16 +95,6 @@ async function queryGrantsApi(parameters) {
     });
 }
 
-function buildReturnLink(queryParams, urlBase = './') {
-    // Try to construct a URL to return the user to their search
-    let returnLink;
-    if (queryParams.from === 'search') {
-        delete queryParams.from;
-        returnLink = urlBase + '?' + querystring.stringify(queryParams);
-    }
-    return returnLink;
-}
-
 async function checkSpelling(searchTerm, locale = 'en') {
     const dictToUse = locale === 'cy' ? cyGB : enGB;
     return new Promise((resolve, reject) => {
@@ -303,7 +293,6 @@ router.get('/recipients/:id', injectCopy('funding.pastGrants.search'), async (re
                 totalAwarded: data.meta.totalAwarded.toLocaleString(),
                 totalResults: data.meta.totalResults.toLocaleString(),
                 breadcrumbs: concat(res.locals.breadcrumbs, { label: organisation.name }),
-                returnLink: buildReturnLink(req.query, '../'),
                 pagination: buildPagination(data.meta.pagination, qs, paginationLabels)
             });
         } else {
@@ -341,7 +330,6 @@ router.get('/:id', injectCopy('funding.pastGrants.search'), async (req, res, nex
                 title: data.result.title,
                 grant: grant,
                 fundingProgramme: fundingProgramme,
-                returnLink: buildReturnLink(req.query),
                 breadcrumbs: concat(res.locals.breadcrumbs, { label: data.result.title })
             });
         } else {

@@ -4,122 +4,126 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav with context %}
 {% from "./grant-results.njk" import grantResultItem with context %}
-{% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList, buildReturnLink with context %}
+{% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList with context %}
 
 {% set bodyClass = 'has-static-header' %}
 
 {% block content %}
     <main role="main" id="content">
-        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-            {{ breadcrumbTrail(breadcrumbs) }}
+        <div id="js-past-grants-detail">
+            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
 
-            <div class="content-sidebar">
-                <div class="content-sidebar__primary">
-                    <div class="u-constrained-wide accent--pink">
-                        <h1>{{ title }}</h1>
+                <div class="content-sidebar">
+                    <div class="content-sidebar__primary">
+                        <div class="u-constrained-wide accent--pink">
+                            <h1>{{ title }}</h1>
 
-                        <dl class="o-definition-list o-definition-list--compact project-details">
-                            <dt>{{ copy.grantDetail.fields.type }}</dt>
-                            <dd>
-                                {{ buildOrgTypeList(organisation) }}
-                            </dd>
-
-                            {% if organisation.charityNumber %}
-                                <dt>{{ copy.grantDetail.fields.charityNumber }}</dt>
-                                <dd>{{ organisation.charityNumber }}</dd>
-                            {% endif %}
-
-                            {% if organisation.companyNumber %}
-                                <dt>{{ copy.grantDetail.fields.companyNumber }}</dt>
-                                <dd>{{ organisation.companyNumber }}</dd>
-                            {% endif %}
-
-                            {% set grant = recipientGrants[0] %}
-                            {% if grant.beneficiaryLocation %}
-                                <dt>{{ copy.grantDetail.fields.location }}</dt>
+                            <dl class="o-definition-list o-definition-list--compact project-details">
+                                <dt>{{ copy.grantDetail.fields.type }}</dt>
                                 <dd>
-                                    {% if recipientLocalAuthorities.length === 1 %}
-                                        {{ buildLocationList(grant.beneficiaryLocation) }}
-                                    {% else %}
-                                        {{ copy.grantDetail.fields.multipleLocations }}
-                                    {% endif %}
+                                    {{ buildOrgTypeList(organisation) }}
                                 </dd>
-                            {% endif %}
 
-                        </dl>
+                                {% if organisation.charityNumber %}
+                                    <dt>{{ copy.grantDetail.fields.charityNumber }}</dt>
+                                    <dd>{{ organisation.charityNumber }}</dd>
+                                {% endif %}
 
-                        <p class="u-margin-top-l">
-                            {% set orgNameSafe = organisation.name | urlencode %}
-                            <strong>
-                                <a href="https://www.google.co.uk/search?q={{ orgNameSafe }}">
-                                    {{ __('funding.pastGrants.search.recipientDetail.searchGoogle', organisation.name) }}
-                                </a>
-                            </strong>
-                        </p>
+                                {% if organisation.companyNumber %}
+                                    <dt>{{ copy.grantDetail.fields.companyNumber }}</dt>
+                                    <dd>{{ organisation.companyNumber }}</dd>
+                                {% endif %}
 
-                        {{ buildReturnLink(returnLink, copy.backToSearch) }}
+                                {% set grant = recipientGrants[0] %}
+                                {% if grant.beneficiaryLocation %}
+                                    <dt>{{ copy.grantDetail.fields.location }}</dt>
+                                    <dd>
+                                        {% if recipientLocalAuthorities.length === 1 %}
+                                            {{ buildLocationList(grant.beneficiaryLocation) }}
+                                        {% else %}
+                                            {{ copy.grantDetail.fields.multipleLocations }}
+                                        {% endif %}
+                                    </dd>
+                                {% endif %}
 
-                    </div>
-                </div>
+                            </dl>
 
-                <div class="content-sidebar__secondary">
-
-                    <aside class="card">
-                        <header class="card__header">
-                            <h3 class="card__title">{{ copy.recipientDetail.awardingProgrammes }}</h3>
-                            <div class="card__body">
-                                {% for programme in recipientProgrammes %}
-                                    <a href="{{ pgLink('programme', programme.label) }}"
-                                       class="related-programme">
-                                        {{ programme.label }}
+                            <p class="u-margin-top-l">
+                                {% set orgNameSafe = organisation.name | urlencode %}
+                                <strong>
+                                    <a href="https://www.google.co.uk/search?q={{ orgNameSafe }}">
+                                        {{ __('funding.pastGrants.search.recipientDetail.searchGoogle', organisation.name) }}
                                     </a>
-                                {% endfor %}
-                            </div>
-                        </header>
-                    </aside>
-                </div>
+                                </strong>
+                            </p>
 
-            </div>
-        </div>
-
-        <div class="u-inner-wide-only">
-            <h2>
-                {{ __('funding.pastGrants.search.recipientDetail.numFundedTotal', totalResults, totalAwarded) }}
-            </h2>
-            <div class="flex-grid">
-                {% for grant in recipientGrants %}
-                    <div class="flex-grid__item">
-                        <div class="card u-no-margin">
-                            <header class="card__header">
-                                <h3 class="card__title u-no-margin">
-                                    <a href="{{ localify("/funding/grants/" + grant.id) }}">
-                                        {{ grant.title }}
-                                    </a>
-                                </h3>
-                            </header>
-                            <div class="card__body">
-                                <p class="project-caption">£{{ grant.amountAwarded | numberWithCommas}}
-                                    on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}</p>
-                                <dl class="o-definition-list o-definition-list--compact u-margin-top-s project-details">
-                                    <dt>{{ copy.grantDetail.fields.programme }}</dt>
-                                    {% for programme in grant.grantProgramme %}
-                                        <dd>
-                                            <a href="{{ pgLink('programme', programme.title) }}">{{ programme.title }}</a>
-                                            {% if grant.isActive %}
-                                                <span class="u-pull-right active-badge">{{ copy.grantDetail.statuses.activeProject }}</span>
-                                            {% endif %}
-                                        </dd>
-                                    {% endfor %}
-                                </dl>
-                            </div>
+                            <grants-back-to-search
+                                label="{{ copy.backToSearch }}"
+                                :storage-key="STORAGE_KEY"
+                                prefix="../" />
 
                         </div>
                     </div>
-                {% endfor %}
+
+                    <div class="content-sidebar__secondary">
+
+                        <aside class="card">
+                            <header class="card__header">
+                                <h3 class="card__title">{{ copy.recipientDetail.awardingProgrammes }}</h3>
+                                <div class="card__body">
+                                    {% for programme in recipientProgrammes %}
+                                        <a href="{{ pgLink('programme', programme.label) }}"
+                                           class="related-programme">
+                                            {{ programme.label }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </header>
+                        </aside>
+                    </div>
+
+                </div>
             </div>
 
-            {{ splitNav(pagination.prevLink, pagination.nextLink) }}
-        </div>
+            <div class="u-inner-wide-only">
+                <h2>
+                    {{ __('funding.pastGrants.search.recipientDetail.numFundedTotal', totalResults, totalAwarded) }}
+                </h2>
+                <div class="flex-grid">
+                    {% for grant in recipientGrants %}
+                        <div class="flex-grid__item">
+                            <div class="card u-no-margin">
+                                <header class="card__header">
+                                    <h3 class="card__title u-no-margin">
+                                        <a href="{{ localify("/funding/grants/" + grant.id) }}">
+                                            {{ grant.title }}
+                                        </a>
+                                    </h3>
+                                </header>
+                                <div class="card__body">
+                                    <p class="project-caption">£{{ grant.amountAwarded | numberWithCommas}}
+                                        on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}</p>
+                                    <dl class="o-definition-list o-definition-list--compact u-margin-top-s project-details">
+                                        <dt>{{ copy.grantDetail.fields.programme }}</dt>
+                                        {% for programme in grant.grantProgramme %}
+                                            <dd>
+                                                <a href="{{ pgLink('programme', programme.title) }}">{{ programme.title }}</a>
+                                                {% if grant.isActive %}
+                                                    <span class="u-pull-right active-badge">{{ copy.grantDetail.statuses.activeProject }}</span>
+                                                {% endif %}
+                                            </dd>
+                                        {% endfor %}
+                                    </dl>
+                                </div>
 
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                {{ splitNav(pagination.prevLink, pagination.nextLink) }}
+            </div>
+        </div>
     </main>
 {% endblock %}
