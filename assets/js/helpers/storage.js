@@ -25,7 +25,7 @@ export function storageAvailable(type) {
 
 // Based on https://gist.github.com/anhang/1096149
 export function setWithExpiry({ type, key, data, expiryInMinutes }) {
-    if (!storageAvailable) {
+    if (!storageAvailable(type)) {
         return;
     }
     const expirationMs = expiryInMinutes * 60 * 1000;
@@ -38,7 +38,7 @@ export function setWithExpiry({ type, key, data, expiryInMinutes }) {
 }
 
 export function getWithExpiry({ type, key }) {
-    if (!storageAvailable || !window[type].getItem(key)) {
+    if (!storageAvailable(type) || !window[type].getItem(key)) {
         return;
     }
     const record = JSON.parse(window[type].getItem(key));

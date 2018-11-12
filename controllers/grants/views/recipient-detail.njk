@@ -86,9 +86,9 @@
                 </div>
             </div>
 
-            <div class="u-inner-wide-only">
+            <div class="u-inner">
                 <h2>
-                    {{ __('funding.pastGrants.search.recipientDetail.numFundedTotal', totalResults, totalAwarded) }}
+                    {{ __n('funding.pastGrants.search.recipientDetail.numFundedTotal', totalResults, totalResults, totalAwarded) }}
                 </h2>
                 <div class="flex-grid">
                     {% for grant in recipientGrants %}

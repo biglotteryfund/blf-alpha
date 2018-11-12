@@ -187,15 +187,12 @@ function init(STORAGE_KEY) {
                 if (Object.keys(filters).length === 0) {
                     return canStore && window.localStorage.removeItem(STORAGE_KEY);
                 }
-                return (
-                    canStore &&
-                    setWithExpiry({
-                        type: 'localStorage',
-                        key: STORAGE_KEY,
-                        data: filters,
-                        expiryInMinutes: 60
-                    })
-                );
+                return setWithExpiry({
+                    type: 'localStorage',
+                    key: STORAGE_KEY,
+                    data: filters,
+                    expiryInMinutes: 60
+                });
             },
 
             filterResults() {

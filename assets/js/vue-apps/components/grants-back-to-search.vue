@@ -1,7 +1,6 @@
 <script>
-import { storageAvailable, getWithExpiry } from '../../helpers/storage';
+import { getWithExpiry } from '../../helpers/storage';
 import IconArrowLeft from './icon-arrow-left.vue';
-const canStore = storageAvailable('localStorage');
 
 export default {
     components: { IconArrowLeft },
@@ -19,19 +18,16 @@ export default {
         }
     },
     mounted: function() {
-        if (canStore) {
-            const searchData = getWithExpiry({ type: 'localStorage', key: this.storageKey });
-            if (searchData) {
-                this.returnLink = this.prefix + '?' + searchData;
-            }
+        const searchData = getWithExpiry({ type: 'localStorage', key: this.storageKey });
+        if (searchData) {
+            this.returnLink = this.prefix + '?' + searchData;
         }
     }
 };
 </script>
 
 <template>
-    <p class="u-no-margin"
-       v-if="returnLink">
+    <div v-if="returnLink">
         <a class="btn btn--small btn--outline accent--pink"
            :href="this.returnLink">
                 <span class="btn__icon btn__icon-left">
@@ -42,5 +38,5 @@ export default {
                 </span>
             {{ label }}
         </a>
-    </p>
+    </div>
 </template>
