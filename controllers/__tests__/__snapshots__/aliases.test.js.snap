@@ -883,6 +883,46 @@ Array [
     "to": "/welsh/about/customer-service/accessibility",
   },
   Object {
+    "from": "/about-big/our-people/northern-ireland-committee-members",
+    "to": "/about/our-people/northern-ireland-committee",
+  },
+  Object {
+    "from": "/welsh/about-big/our-people/northern-ireland-committee-members",
+    "to": "/welsh/about/our-people/northern-ireland-committee",
+  },
+  Object {
+    "from": "/england/about-big/our-people/northern-ireland-committee-members",
+    "to": "/about/our-people/northern-ireland-committee",
+  },
+  Object {
+    "from": "/welsh/england/about-big/our-people/northern-ireland-committee-members",
+    "to": "/welsh/about/our-people/northern-ireland-committee",
+  },
+  Object {
+    "from": "/scotland/about-big/our-people/northern-ireland-committee-members",
+    "to": "/about/our-people/northern-ireland-committee",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/our-people/northern-ireland-committee-members",
+    "to": "/welsh/about/our-people/northern-ireland-committee",
+  },
+  Object {
+    "from": "/northernireland/about-big/our-people/northern-ireland-committee-members",
+    "to": "/about/our-people/northern-ireland-committee",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/our-people/northern-ireland-committee-members",
+    "to": "/welsh/about/our-people/northern-ireland-committee",
+  },
+  Object {
+    "from": "/wales/about-big/our-people/northern-ireland-committee-members",
+    "to": "/about/our-people/northern-ireland-committee",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/our-people/northern-ireland-committee-members",
+    "to": "/welsh/about/our-people/northern-ireland-committee",
+  },
+  Object {
     "from": "/about-big/our-people/senior-management-team",
     "to": "/about/our-people/senior-management-team",
   },
@@ -921,6 +961,46 @@ Array [
   Object {
     "from": "/welsh/wales/about-big/our-people/senior-management-team",
     "to": "/welsh/about/our-people/senior-management-team",
+  },
+  Object {
+    "from": "/about-big/our-people/wales-committee-members",
+    "to": "/about/our-people/wales-committee",
+  },
+  Object {
+    "from": "/welsh/about-big/our-people/wales-committee-members",
+    "to": "/welsh/about/our-people/wales-committee",
+  },
+  Object {
+    "from": "/england/about-big/our-people/wales-committee-members",
+    "to": "/about/our-people/wales-committee",
+  },
+  Object {
+    "from": "/welsh/england/about-big/our-people/wales-committee-members",
+    "to": "/welsh/about/our-people/wales-committee",
+  },
+  Object {
+    "from": "/scotland/about-big/our-people/wales-committee-members",
+    "to": "/about/our-people/wales-committee",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/our-people/wales-committee-members",
+    "to": "/welsh/about/our-people/wales-committee",
+  },
+  Object {
+    "from": "/northernireland/about-big/our-people/wales-committee-members",
+    "to": "/about/our-people/wales-committee",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/our-people/wales-committee-members",
+    "to": "/welsh/about/our-people/wales-committee",
+  },
+  Object {
+    "from": "/wales/about-big/our-people/wales-committee-members",
+    "to": "/about/our-people/wales-committee",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/our-people/wales-committee-members",
+    "to": "/welsh/about/our-people/wales-committee",
   },
   Object {
     "from": "/about-big/strategic-framework",
