@@ -146,13 +146,6 @@ router.get('/', injectHeroImage('tinylife'), injectCopy('funding.pastGrants.sear
     const facetParams = buildAllowedParams(req.query);
     const paginationLabels = req.i18n.__('global.misc.pagination');
     let queryWithPage = addPaginationParameters(facetParams, req.query.page);
-
-    /**
-     * Add a parameter so we know the user came from search
-     * so we can link them back to their results.
-     */
-    const searchQueryString = querystring.stringify({ ...queryWithPage, ...{ from: 'search' } });
-
     queryWithPage.locale = res.locals.locale;
 
     try {
@@ -195,7 +188,6 @@ router.get('/', injectHeroImage('tinylife'), injectCopy('funding.pastGrants.sear
                 grantDataDates: grantDataDates,
                 caseStudies: caseStudies,
                 grantNavLink: grantNavLink,
-                searchQueryString: searchQueryString,
                 searchSuggestions: searchSuggestions,
                 pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels)
             });
@@ -209,7 +201,6 @@ router.get('/', injectHeroImage('tinylife'), injectCopy('funding.pastGrants.sear
              */
             const extraContext = {
                 grants: data.results,
-                searchQueryString: searchQueryString,
                 pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels)
             };
 

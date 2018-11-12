@@ -6,7 +6,7 @@
     {% set subtitle %}
         {% set mainRecipient = grant.recipientOrganization[0] %}
         £{{ grant.amountAwarded | numberWithCommas}} {{ __('global.misc.to') }}
-        <strong><a href="{{ localify("/funding/grants/recipients/" + mainRecipient.id + '?' + searchQueryString) }}">{{ mainRecipient.name | striptags }}</a></strong>
+        <strong><a href="{{ localify("/funding/grants/recipients/" + mainRecipient.id) }}">{{ mainRecipient.name | striptags }}</a></strong>
         {{ __('global.misc.on') }} {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
     {% endset %}
     {% set description = false if grant.description === grant.title else grant.description %}
@@ -15,7 +15,7 @@
         "subtitle": subtitle | safe,
         "trailText": description,
         "link": {
-            "url": localify("/funding/grants/" + grant.id) + '?' + searchQueryString,
+            "url": localify("/funding/grants/" + grant.id),
             "label": copy.viewGrantDetails
         }
     }) %}
