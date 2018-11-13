@@ -302,6 +302,7 @@ async function injectBlogPosts(req, res, next) {
     try {
         res.locals.blogPosts = await contentApi.getBlogPosts({
             locale: req.i18n.getLocale(),
+            previewMode: res.locals.PREVIEW_MODE || false,
             page: req.query.page || 1
         });
         next();

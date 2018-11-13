@@ -95,21 +95,18 @@ function getPromotedNews({ locale, limit }) {
     });
 }
 
-function getBlogPosts({ locale, page = 1, pageLimit = 10 }) {
-    return fetchAllLocales(reqLocale => {
-        return `/v1/${reqLocale}/blog?page=${page}&page-limit=${pageLimit}`;
-    }).then(responses => {
-        const [enResponse, cyResponse] = responses;
-        const entries = mergeWelshBy('slug')(locale, mapAttrs(enResponse), mapAttrs(cyResponse));
-
+function getBlogPosts({ locale, page = 1, pageLimit = 10, previewMode = null }) {
+    return fetch(`/v1/${locale}/blog`, {
+        qs: addPreviewParams(previewMode, { page: page, 'page-limit': pageLimit })
+    }).then(response => {
         return {
-            entries: entries,
-            meta: enResponse.meta
+            entries: mapAttrs(response),
+            meta: response.meta
         };
     });
 }
 
-function getBlogDetail({ locale, urlPath, previewMode }) {
+function getBlogDetail({ locale, urlPath, previewMode = null }) {
     return fetch(`/v1/${locale}/blog${urlPath}`, {
         qs: addPreviewParams(previewMode)
     }).then(response => {
