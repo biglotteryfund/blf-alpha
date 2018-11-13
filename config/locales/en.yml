@@ -20,6 +20,7 @@ global:
     research: Research
     about: About
     blog: Blog
+    updates: Updates
   contact:
     city: London
     phone: 0345 4 10 20 30

@@ -122,6 +122,18 @@ function getBlogDetail({ locale, urlPath, previewMode }) {
     });
 }
 
+function getUpdates({ locale, urlPath = '', query = {}, previewMode = false }) {
+    return fetch(`/v1/${locale}/updates${urlPath}`, {
+        qs: addPreviewParams(previewMode, { ...query, ...{ 'page-limit': 10 } })
+    }).then(response => {
+        const result = isArray(response.data) ? mapAttrs(response) : response.data.attributes;
+        return {
+            meta: response.meta,
+            result: result
+        };
+    });
+}
+
 function getFundingProgrammes({ locale }) {
     return fetchAllLocales(reqLocale => `/v1/${reqLocale}/funding-programmes`).then(responses => {
         const [enResults, cyResults] = responses.map(mapAttrs);
@@ -228,6 +240,7 @@ module.exports = {
     getAliases,
     getBlogDetail,
     getBlogPosts,
+    getUpdates,
     getCaseStudies,
     getFlexibleContent,
     getFundingProgramme,

@@ -253,6 +253,22 @@ const blog = {
 };
 
 /**
+ * Updates section
+ * @type {Section}
+ */
+const updates = {
+    path: '/news',
+    showInNavigation: false,
+    langTitlePath: 'global.nav.blog',
+    pages: [
+        {
+            path: '/',
+            router: require('./updates')
+        }
+    ]
+};
+
+/**
  * Sections
  * The order here defines the order of the navigation
  */
@@ -262,7 +278,8 @@ const sections = {
     local: local,
     research: research,
     about: about,
-    blog: blog
+    blog: blog,
+    updates: updates
 };
 
 module.exports = {
