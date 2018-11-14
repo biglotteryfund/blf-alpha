@@ -13,10 +13,11 @@ const CLOUDFRONT_PATHS = [
     { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
     { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
     { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
-    { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
     { path: '/funding/grants', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
     { path: '/funding/grants/*', allowAllQueryStrings: true, isBilingual: true },
     { path: '/funding/grants/recipients/*', allowAllQueryStrings: true, isBilingual: true },
+    { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
+    { path: '/news/*', queryStrings: ['page', 'tag', 'author', 'category'], isBilingual: true },
     { path: '/search', allowAllQueryStrings: true, isBilingual: true },
     { path: '/user/*', isPostable: true, queryStrings: ['redirectUrl', 's', 'token'] }
 ];
