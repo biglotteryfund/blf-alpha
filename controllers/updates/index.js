@@ -30,10 +30,7 @@ if (appData.isNotProduction) {
         const isSinglePost = req.params.date && req.params.slug;
 
         if (req.params.type) {
-            // Due to quirks of Craft's entry types,
-            // we have to convert snake_case into kebab-case
-            // both at the API end and then in reverse here.
-            urlPath += `/${req.params.type.replace('-', '_')}`;
+            urlPath += `/${req.params.type}`;
         }
 
         if (isSinglePost) {

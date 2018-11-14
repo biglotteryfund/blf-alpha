@@ -28,8 +28,7 @@
 
                 {% if isNewsLandingPage %}
                     {% for type, entrylist in entries | groupItemsBy('updateType.name') %}
-                        {# @TODO find a better way to handle this #}
-                        {% set typeLink = localify('/news/' + entrylist[0].updateType.handle.replace('_', '-')) %}
+                        {% set typeLink = localify('/news/' + entrylist[0].updateType.slug) %}
                         <section class="latest-news u-no-padding">
                             <header class="latest-news__header">
                                 <h2 class="t1 t--underline a--text accent--blue">
