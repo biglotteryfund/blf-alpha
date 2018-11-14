@@ -259,7 +259,7 @@ const blog = {
 const updates = {
     path: '/news',
     showInNavigation: false,
-    langTitlePath: 'global.nav.blog',
+    langTitlePath: 'global.nav.updates',
     pages: [
         {
             path: '/',
