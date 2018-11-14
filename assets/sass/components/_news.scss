@@ -9,12 +9,16 @@
 .article-teaser {
     margin: 0;
 }
-.article-teaser__title {
+.article-teaser__header {
     margin-bottom: $spacingUnit / 2;
-
-    @include mq('medium') {
-        margin-bottom: $spacingUnit;
-    }
+}
+.article-teaser__title {
+    margin-bottom: 3px;
+}
+.article-teaser__meta {
+    color: palette('charcoal-note');
+    font-size: 18px;
+    margin-bottom: 0;
 }
 .article-teaser__summary {
     font-size: 18px;
@@ -23,56 +27,33 @@
 
 .latest-news {
     position: relative;
-    padding: $spacingUnit / 2;
-
-    @include mq('medium') {
-        padding: $spacingUnit;
-    }
 }
 .latest-news__footer {
     margin-bottom: $spacingUnit;
 
     @include mq('medium') {
         position: absolute;
-        top: $spacingUnit;
-        right: $spacingUnit;
+        top: 0;
+        right: 0;
         margin: 0;
     }
 }
 
 /* =========================================================================
-   Blog Listing
+   Article Listing
    ========================================================================= */
 
-.blog-teaser {
-    margin-bottom: 0;
-}
-.blog-teaser__header {
-    margin-bottom: $spacingUnit / 2;
-}
-.blog-teaser__title {
-    margin-bottom: 0;
-}
-.blog-teaser__meta {
-    font-size: 18px;
-    margin-bottom: $spacingUnit / 2;
-    color: palette('charcoal-note');
-}
-.blog-teaser__summary {
-    font-size: 18px;
-    margin-bottom: 0;
-}
+.article-listing {
+    .article-listing__item {
+        margin-bottom: $spacingUnit;
+        padding-bottom: $spacingUnit / 2;
+        border-bottom: 1px solid palette('border');
 
-// .blog-listing { }
-.blog-listing__item {
-    margin-bottom: $spacingUnit;
-    padding-bottom: $spacingUnit / 2;
-    border-bottom: 1px solid palette('border');
-
-    &:last-child {
-        margin-bottom: 0;
-        padding-bottom: 0;
-        border-bottom: none;
+        &:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
     }
 }
 
@@ -129,4 +110,27 @@
 .article-meta__author,
 .article-meta__pubdate {
     margin-bottom: 4px;
+}
+
+/* =========================================================================
+   Blog Teaser (@TODO: Replace with more general article-teaser)
+   ========================================================================= */
+
+.blog-teaser {
+    margin-bottom: 0;
+}
+.blog-teaser__header {
+    margin-bottom: $spacingUnit / 2;
+}
+.blog-teaser__title {
+    margin-bottom: 0;
+}
+.blog-teaser__meta {
+    font-size: 18px;
+    margin-bottom: $spacingUnit / 2;
+    color: palette('charcoal-note');
+}
+.blog-teaser__summary {
+    font-size: 18px;
+    margin-bottom: 0;
 }

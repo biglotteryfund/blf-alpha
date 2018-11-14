@@ -1,5 +1,5 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/news.njk" import updateTeaser with context %}
+{% from "components/news.njk" import articleTeaser with context %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 
 {% set bodyClass = 'has-static-header' %}
@@ -26,10 +26,10 @@
                     <h1>{{ title }}</h1>
                 {% endif %}
 
-                <ol class="blog-listing">
+                <ol class="article-listing">
                     {% for entry in entries %}
-                        <li class="blog-listing__item">
-                            {{ updateTeaser(entry) }}
+                        <li class="article-listing__item">
+                            {{ articleTeaser(entry) }}
                         </li>
                     {% endfor %}
                 </ol>

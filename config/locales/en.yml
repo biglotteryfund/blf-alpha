@@ -433,6 +433,7 @@ toplevel:
       totalBeneficiaries: Total beneficiaries
       totalGrants: Total grants
   news:
+    allNews: All news
     types:
       blog:
         singular: Blog

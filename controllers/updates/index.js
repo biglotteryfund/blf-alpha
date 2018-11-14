@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const { concat, compact, isArray, pick, get, head } = require('lodash');
+const { compact, concat, get, groupBy, head, isArray, pick } = require('lodash');
 
 const { buildPagination } = require('../../modules/pagination');
 const { injectBreadcrumbs, injectCopy } = require('../../middleware/inject-content');
@@ -47,14 +47,15 @@ if (appData.isNotProduction) {
                 const pagination = buildPagination(entriesMeta.pagination);
 
                 if (filterType === 'single' && !req.params.type) {
+                    const pageTitle = res.locals.copy.allNews;
+                    const groupedEntries = groupBy(entries, 'entryType');
+
                     /**
                      * Render landing page
                      */
-                    const pageTitle = 'All news'; // @TODO: i18n
                     res.render(path.resolve(__dirname, `./views/landing`), {
                         title: pageTitle,
-                        entries: entries,
-                        entriesMeta: entriesMeta,
+                        groupedEntries: groupedEntries,
                         pagination: pagination,
                         breadcrumbs: concat(res.locals.breadcrumbs, {
                             label: pageTitle

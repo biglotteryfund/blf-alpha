@@ -1,5 +1,4 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/news.njk" import blogTeaser with context %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 
 {% set bodyClass = 'has-static-header' %}
@@ -26,10 +25,28 @@
                     <h1>{{ title }}</h1>
                 {% endif %}
 
-                <ol class="blog-listing">
+                <ol class="article-listing">
                     {% for entry in entries %}
-                        <li class="blog-listing__item">
-                            {{ blogTeaser(entry) }}
+                        <li class="article-listing__item">
+                            {# TODO: Combine with articleTeaser #}
+                            <article class="blog-teaser">
+                                <header class="blog-teaser__header">
+                                    <h2 class="blog-teaser__title t1">
+                                        <a class="u-link-minimal" href="{{ entry.link }}">{{ entry.title }}</a>
+                                    </h2>
+                                </header>
+                                <footer class="blog-teaser__meta">
+                                    <time class="blog-teaser__pubdate" pubdate datetime="{{ entry.postDate.date }}">
+                                        {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
+                                    </time>
+                                    {% if entry.category -%}
+                                        in <a href="{{ entry.category.link }}">{{ entry.category.title }}</a>
+                                    {%- endif %}
+                                </footer>
+                                <div class="blog-teaser__content u-constrained-content">
+                                    <p class="blog-teaser__trail">{{ entry.intro }}</p>
+                                </div>
+                            </article>
                         </li>
                     {% endfor %}
                 </ol>
