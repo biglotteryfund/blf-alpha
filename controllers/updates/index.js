@@ -43,9 +43,10 @@ if (appData.isNotProduction) {
                 const entries = response.result.map(entryWithTranslation);
 
                 const entriesMeta = response.meta;
+                const filterType = get(entriesMeta, 'pageType');
                 const pagination = buildPagination(entriesMeta.pagination);
 
-                if (urlParts.length === 0) {
+                if (filterType === 'single' && !req.params.type) {
                     /**
                      * Render landing page
                      */
@@ -60,8 +61,6 @@ if (appData.isNotProduction) {
                         })
                     });
                 } else {
-                    const filterType = get(response, 'meta.pageType');
-
                     const filterLabel = {
                         author: get(response, 'meta.activeAuthor'),
                         tag: get(response, 'meta.activeTag'),
