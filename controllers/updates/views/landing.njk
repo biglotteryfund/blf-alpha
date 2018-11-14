@@ -1,5 +1,5 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/news.njk" import updateTeaser, newsTitle with context %}
+{% from "components/news.njk" import updateTeaser with context %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 
 {% set bodyClass = 'has-static-header' %}
@@ -12,7 +12,7 @@
         <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             {{ breadcrumbTrail(breadcrumbs) }}
 
-            {{ newsTitle(entriesMeta) }}
+            <h1>{{ title }}</h1>
 
             {% for type, entrylist in entries | groupItemsBy('updateType.name.plural') %}
                 {% set typeLink = localify('/news/' + entrylist[0].updateType.slug) %}

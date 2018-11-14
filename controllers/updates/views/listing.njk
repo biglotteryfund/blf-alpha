@@ -1,5 +1,5 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/news.njk" import updateTeaser, newsTitle with context %}
+{% from "components/news.njk" import updateTeaser with context %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 
 {% set bodyClass = 'has-static-header' %}
@@ -13,7 +13,18 @@
             {{ breadcrumbTrail(breadcrumbs) }}
 
             <div class="u-constrained-wide">
-                {{ newsTitle(entriesMeta) }}
+                {% if entriesMeta.pageType === 'author' %}
+                    {% set activeAuthor = entriesMeta.activeAuthor %}
+                    <h1>Viewing all posts by {{ activeAuthor.title }}</h1>
+                {% elseif entriesMeta.pageType === 'tag' %}
+                    {% set activeTag = entriesMeta.activeTag %}
+                    <h1>Viewing all posts tagged {{ activeTag.title }}</h1>
+                {% elseif entriesMeta.pageType === 'category' %}
+                    {% set activeCategory = entriesMeta.activeCategory %}
+                    <h1>Viewing all posts in {{ activeCategory.title }}</h1>
+                {% else %}
+                    <h1>{{ title }}</h1>
+                {% endif %}
 
                 <ol class="blog-listing">
                     {% for entry in entries %}
