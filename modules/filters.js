@@ -11,6 +11,7 @@ const querystring = require('querystring');
 const slug = require('slugify');
 const uuid = require('uuid/v4');
 const moment = require('moment');
+const { groupBy, take } = require('lodash');
 
 let assets = {};
 try {
@@ -109,11 +110,6 @@ function addQueryParam(queryParams, newParams) {
     return querystring.stringify(clone);
 }
 
-function isBeforeNow(dt) {
-    const now = new Date();
-    return moment(dt).isBefore(now);
-}
-
 module.exports = {
     addQueryParam,
     appendUuid,
@@ -122,11 +118,12 @@ module.exports = {
     getCachebustedPath,
     getImagePath,
     isArray,
-    isBeforeNow,
     mailto,
     makePhoneLink,
     numberWithCommas,
     pluralise,
     removeQueryParam,
-    slugify
+    slugify,
+    groupItemsBy: groupBy,
+    takeItems: take
 };

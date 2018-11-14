@@ -4,7 +4,7 @@
             {%- if isFlush %} breadcrumb-trail--flush{% endif -%}
             {%- if isTinted %} breadcrumb-trail--tinted{% endif -%}">
             {% for crumb in trail %}
-                {% set isLinked = crumb.url and not loop.last  %}
+                {% set isLinked = crumb.url and not loop.last %}
                 <li class="breadcrumb-trail__item">
                     {%- if isLinked -%}<a class="breadcrumb-trail__link" href="{{ crumb.url }}">{%- endif -%}
                     {{ crumb.label }}
