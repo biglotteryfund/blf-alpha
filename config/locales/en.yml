@@ -432,6 +432,17 @@ toplevel:
       totalAwarded: Total awarded
       totalBeneficiaries: Total beneficiaries
       totalGrants: Total grants
+  news:
+    types:
+      blog:
+        singular: Blog
+        plural: Blog posts
+      press-releases:
+        singular: Press Release
+        plural: Press Releases
+      updates:
+        singular: Updates
+        plural: Updates
 ourPeople:
   title: Our People
   introduction: >
