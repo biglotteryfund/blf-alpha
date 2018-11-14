@@ -36,3 +36,40 @@
         </div>
     </article>
 {% endmacro %}
+
+{# @TODO remove above macro when converting blogs to updates #}
+{% macro updateTeaser(entry) %}
+    <article class="blog-teaser">
+        <header class="blog-teaser__header">
+            <h2 class="blog-teaser__title t1">
+                <a class="u-link-minimal" href="{{ entry.linkUrl }}">{{ entry.title }}</a>
+            </h2>
+        </header>
+        <footer class="blog-teaser__meta">
+            <time class="blog-teaser__pubdate" datetime="{{ entry.postDate.date }}">
+                {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
+            </time>
+            {% if entry.category -%}
+                in <a href="{{ localify('/news?category=' + entry.category.slug) }}">{{ entry.category.title }}</a>
+            {%- endif %}
+        </footer>
+        <div class="blog-teaser__content u-constrained-content">
+            <p class="blog-teaser__trail">{{ entry.summary }}</p>
+        </div>
+    </article>
+{% endmacro %}
+
+{% macro newsTitle(entriesMeta) %}
+    {% if entriesMeta.pageType === 'author' %}
+        {% set activeAuthor = entriesMeta.activeAuthor %}
+        <h1>Viewing all posts by {{ activeAuthor.title }}</h1>
+    {% elseif entriesMeta.pageType === 'tag' %}
+        {% set activeTag = entriesMeta.activeTag %}
+        <h1>Viewing all posts tagged {{ activeTag.title }}</h1>
+    {% elseif entriesMeta.pageType === 'category' %}
+        {% set activeCategory = entriesMeta.activeCategory %}
+        <h1>Viewing all posts in {{ activeCategory.title }}</h1>
+    {% else %}
+        <h1>{{ title }}</h1>
+    {% endif %}
+{% endmacro %}

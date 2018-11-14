@@ -1,0 +1,40 @@
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/news.njk" import updateTeaser, newsTitle with context %}
+{% from "components/split-nav/macro.njk" import splitNav %}
+
+{% set bodyClass = 'has-static-header' %}
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    {% set pageAccent = 'cyan' %}
+
+    <main role="main" id="content">
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
+
+            <div class="u-constrained-wide">
+                {{ newsTitle(entriesMeta) }}
+
+                <ol class="blog-listing">
+                    {% for entry in entries %}
+                        <li class="blog-listing__item">
+                            {{ updateTeaser(entry) }}
+                        </li>
+                    {% endfor %}
+                </ol>
+
+                {{ splitNav(
+                    prevLink = {
+                        "label": "Previous page",
+                        "url": pagination.prevLink
+                    },
+                    nextLink = {
+                        "label": "Next page",
+                        "url": pagination.nextLink
+                    }
+                ) }}
+            </div>
+
+        </section>
+    </main>
+{% endblock %}
