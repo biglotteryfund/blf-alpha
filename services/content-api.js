@@ -122,6 +122,7 @@ function getBlogDetail({ locale, urlPath, previewMode }) {
     });
 }
 
+// @TODO this should merge locales like below as not all entries will have translations
 function getUpdates({ locale, urlPath = '', query = {}, previewMode = false }) {
     return fetch(`/v1/${locale}/updates${urlPath}`, {
         qs: addPreviewParams(previewMode, { ...query, ...{ 'page-limit': 10 } })

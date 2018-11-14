@@ -1,0 +1,82 @@
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/news.njk" import updateTeaser with context %}
+{% from "components/split-nav/macro.njk" import splitNav %}
+
+{% set bodyClass = 'has-static-header' %}
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    {% set pageAccent = 'cyan' %}
+
+    <main role="main" id="content">
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
+
+            <div class="{% if not isNewsLandingPage %}u-constrained-wide{% endif %}">
+                {% if entriesMeta.pageType === 'author' %}
+                    {% set activeAuthor = entriesMeta.activeAuthor %}
+                    <h1>Viewing all posts by {{ activeAuthor.title }}</h1>
+                {% elseif entriesMeta.pageType === 'tag' %}
+                    {% set activeTag = entriesMeta.activeTag %}
+                    <h1>Viewing all posts tagged {{ activeTag.title }}</h1>
+                {% elseif entriesMeta.pageType === 'category' %}
+                    {% set activeCategory = entriesMeta.activeCategory %}
+                    <h1>Viewing all posts in {{ activeCategory.title }}</h1>
+                {% else %}
+                    <h1>{{ title }}</h1>
+                {% endif %}
+
+                {% if isNewsLandingPage %}
+                    {% for type, entrylist in entries | groupItemsBy('updateType.name') %}
+                        {# @TODO find a better way to handle this #}
+                        {% set typeLink = localify('/news/' + entrylist[0].updateType.handle.replace('_', '-')) %}
+                        <section class="latest-news u-no-padding">
+                            <header class="latest-news__header">
+                                <h2 class="t1 t--underline a--text accent--blue">
+                                    <a class="u-link-minimal" href="{{ typeLink }}">
+                                        {{ type }}
+                                    </a>
+                                </h2>
+                            </header>
+                            <div class="latest-news__content">
+                                <ul class="flex-grid flex-grid--3up">
+                                    {% for entry in entrylist | takeItems(3) %}
+                                        <li class="flex-grid__item">
+                                            {{ updateTeaser(entry) }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <footer class="latest-news__footer">
+                                <a class="latest-news__more" href="{{ typeLink }}">
+                                    View all
+                                </a>
+                            </footer>
+                        </section>
+
+                    {% endfor %}
+                {% else %}
+                    <ol class="blog-listing">
+                        {% for entry in entries %}
+                            <li class="blog-listing__item">
+                                {{ updateTeaser(entry) }}
+                            </li>
+                        {% endfor %}
+                    </ol>
+                {% endif %}
+
+                {{ splitNav(
+                    prevLink = {
+                        "label": "Previous page",
+                        "url": pagination.prevLink
+                    },
+                    nextLink = {
+                        "label": "Next page",
+                        "url": pagination.nextLink
+                    }
+                ) }}
+            </div>
+
+        </section>
+    </main>
+{% endblock %}
