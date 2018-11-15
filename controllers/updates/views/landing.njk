@@ -1,9 +1,35 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/news.njk" import updateTeaser, newsTitle with context %}
+{% from "components/news.njk" import articleTeaser with context %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 
 {% set bodyClass = 'has-static-header' %}
 {% extends "layouts/main.njk" %}
+
+{% macro newsSection(title, entries, allLink) %}
+    <section class="latest-news u-margin-bottom">
+        <header class="latest-news__header">
+            <h2 class="t1 t--underline a--text accent--blue">
+                <a class="u-link-minimal" href="{{ allLink }}">
+                    {{ title }}
+                </a>
+            </h2>
+        </header>
+        <div class="latest-news__content">
+            <ul class="flex-grid flex-grid--3up">
+                {% for entry in entries | takeItems(3) %}
+                    <li class="flex-grid__item">
+                        {{ articleTeaser(entry) }}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <footer class="latest-news__footer">
+            <a class="latest-news__more" href="{{ allLink }}">
+                View all {{ title | lower }} &rarr;
+            </a>
+        </footer>
+    </section>
+{% endmacro %}
 
 {% block content %}
     {% set pageAccent = 'cyan' %}
@@ -12,35 +38,29 @@
         <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             {{ breadcrumbTrail(breadcrumbs) }}
 
-            {{ newsTitle(entriesMeta) }}
+            <h1>{{ title }}</h1>
 
-            {% for type, entrylist in entries | groupItemsBy('updateType.name.plural') %}
-                {% set typeLink = localify('/news/' + entrylist[0].updateType.slug) %}
-                <section class="latest-news u-no-padding">
-                    <header class="latest-news__header">
-                        <h2 class="t1 t--underline a--text accent--blue">
-                            <a class="u-link-minimal" href="{{ typeLink }}">
-                                {{ type }}
-                            </a>
-                        </h2>
-                    </header>
-                    <div class="latest-news__content">
-                        <ul class="flex-grid flex-grid--3up">
-                            {% for entry in entrylist | takeItems(3) %}
-                                <li class="flex-grid__item">
-                                    {{ updateTeaser(entry) }}
-                                </li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                    <footer class="latest-news__footer">
-                        <a class="latest-news__more" href="{{ typeLink }}">
-                            View all
-                        </a>
-                    </footer>
-                </section>
+            {# Updates #}
+            {{ newsSection(
+                title = copy.types.updates.plural,
+                entries = groupedEntries.updates,
+                allLink = localify('/news/updates')
+            )}}
 
-            {% endfor %}
+
+            {# Blog posts #}
+            {{ newsSection(
+                title = copy.types.blog.plural,
+                entries = groupedEntries.blog,
+                allLink = localify('/news/blog')
+            )}}
+
+            {# Press releases #}
+            {{ newsSection(
+                title = copy.types['press-releases'].plural,
+                entries = groupedEntries.press_releases,
+                allLink = localify('/news/press-releases')
+            )}}
 
             {{ splitNav(
                 prevLink = {

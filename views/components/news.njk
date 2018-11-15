@@ -1,75 +1,24 @@
-{% macro articleTeaser(article) %}
+{% macro articleTeaser(entry) %}
     <article class="article-teaser">
         <header class="article-teaser__header">
-            <h3 class="article-teaser__title t2">
-                <a class="u-link-minimal" href="{{ article.link }}">
-                    {{ article.title }}
-                </a>
-            </h3>
-        </header>
-        <div class="article-teaser__content">
-            <p class="article-teaser__summary">
-                {{ article.summary }}
-            </p>
-        </div>
-    </article>
-{% endmacro %}
-
-{# TODO: Combine with articleTeaser? #}
-{% macro blogTeaser(entry) %}
-    <article class="blog-teaser">
-        <header class="blog-teaser__header">
-            <h2 class="blog-teaser__title t1">
-                <a class="u-link-minimal" href="{{ entry.link }}">{{ entry.title }}</a>
-            </h2>
-        </header>
-        <footer class="blog-teaser__meta">
-            <time class="blog-teaser__pubdate" pubdate datetime="{{ entry.postDate.date }}">
-                {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
-            </time>
-            {% if entry.category -%}
-                in <a href="{{ entry.category.link }}">{{ entry.category.title }}</a>
-            {%- endif %}
-        </footer>
-        <div class="blog-teaser__content u-constrained-content">
-            <p class="blog-teaser__trail">{{ entry.intro }}</p>
-        </div>
-    </article>
-{% endmacro %}
-
-{# @TODO remove above macro when converting blogs to updates #}
-{% macro updateTeaser(entry) %}
-    <article class="blog-teaser">
-        <header class="blog-teaser__header">
-            <h2 class="blog-teaser__title t1">
+            <h2 class="article-teaser__title t3">
                 <a class="u-link-minimal" href="{{ entry.linkUrl }}">{{ entry.title }}</a>
             </h2>
+
+            {% if entry.postDate.date %}
+                <p class="article-teaser__meta">
+                    <time class="article-teaser__pubdate" datetime="{{ entry.postDate.date }}">
+                        {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
+                    </time>
+                    {% if entry.category -%}
+                        {# Only blog posts have categories. @TODO: Can we express this logic at a higher level? #}
+                        in <a href="{{ localify('/news/blog/?category=' + entry.category.slug) }}">{{ entry.category.title }}</a>
+                    {%- endif %}
+                </p>
+            {% endif %}
         </header>
-        <footer class="blog-teaser__meta">
-            <time class="blog-teaser__pubdate" datetime="{{ entry.postDate.date }}">
-                {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
-            </time>
-            {% if entry.category -%}
-                in <a href="{{ localify('/news?category=' + entry.category.slug) }}">{{ entry.category.title }}</a>
-            {%- endif %}
-        </footer>
-        <div class="blog-teaser__content u-constrained-content">
-            <p class="blog-teaser__trail">{{ entry.summary }}</p>
+        <div class="article-teaser__content">
+            <p class="article-teaser__summary">{{ entry.summary }}</p>
         </div>
     </article>
-{% endmacro %}
-
-{% macro newsTitle(entriesMeta) %}
-    {% if entriesMeta.pageType === 'author' %}
-        {% set activeAuthor = entriesMeta.activeAuthor %}
-        <h1>Viewing all posts by {{ activeAuthor.title }}</h1>
-    {% elseif entriesMeta.pageType === 'tag' %}
-        {% set activeTag = entriesMeta.activeTag %}
-        <h1>Viewing all posts tagged {{ activeTag.title }}</h1>
-    {% elseif entriesMeta.pageType === 'category' %}
-        {% set activeCategory = entriesMeta.activeCategory %}
-        <h1>Viewing all posts in {{ activeCategory.title }}</h1>
-    {% else %}
-        <h1>{{ title }}</h1>
-    {% endif %}
 {% endmacro %}
