@@ -3,6 +3,7 @@ const { find, filter, get, getOr, map, sortBy, take } = require('lodash/fp');
 const { isArray } = require('lodash');
 const request = require('request-promise-native');
 const debug = require('debug')('biglotteryfund:content-api');
+const querystring = require('querystring');
 
 const mapAttrs = response => map('attributes')(response.data);
 
@@ -132,11 +133,22 @@ function getUpdates({ locale, urlPath = '', query = {}, previewMode = false }) {
     });
 }
 
-function getFundingProgrammes({ locale }) {
-    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/funding-programmes`).then(responses => {
-        const [enResults, cyResults] = responses.map(mapAttrs);
-        return mergeWelshBy('urlPath')(locale, enResults, cyResults);
-    });
+function getFundingProgrammes({ locale, page = 1, pageLimit = 10, showAll = false }) {
+    let qs = { page: page, 'page-limit': pageLimit };
+    if (showAll) {
+        qs.all = true;
+    }
+    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/funding-programmes?${querystring.stringify(qs)}`).then(
+        responses => {
+            const [enResults, cyResults] = responses.map(response => {
+                return {
+                    meta: response.meta,
+                    result: mapAttrs(response)
+                };
+            });
+            return mergeWelshBy('urlPath')(locale, enResults, cyResults);
+        }
+    );
 }
 
 function getFundingProgramme({ locale, slug, previewMode = false }) {

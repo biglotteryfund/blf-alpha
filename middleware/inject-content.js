@@ -190,7 +190,10 @@ async function injectFundingProgramme(req, res, next) {
 async function injectFundingProgrammes(req, res, next) {
     try {
         res.locals.fundingProgrammes = await contentApi.getFundingProgrammes({
-            locale: req.i18n.getLocale()
+            locale: req.i18n.getLocale(),
+            showAll: req.query.all,
+            page: req.query.page || 1,
+            pageLimit: req.query.all ? 10 : 100
         });
         next();
     } catch (error) {
