@@ -20,7 +20,7 @@ const grantsConfig = config.get('grants');
 
 const router = express.Router();
 
-router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
+router.use(sMaxAge('7d'), injectBreadcrumbs, (req, res, next) => {
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
         label: req.i18n.__('funding.pastGrants.title'),
         url: req.baseUrl
