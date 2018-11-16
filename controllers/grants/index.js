@@ -221,41 +221,43 @@ router.get('/', injectHeroImage('tinylife'), injectCopy('funding.pastGrants.sear
     }
 });
 
-router.get('/related', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
-    try {
-        if (isEmpty(req.query)) {
-            return next();
-        }
-
-        const apiQuery = clone(req.query);
-        apiQuery.locale = res.locals.locale;
-        const data = await queryGrantsApi(apiQuery);
-
-        /**
-         * Repopulate existing app globals so Nunjucks
-         * can read them outside of Express's view engine context
-         */
-        const extraContext = { grants: data.results };
-        const context = { ...res.locals, ...req.app.locals, ...extraContext };
-
-        nunjucks.render(path.resolve(__dirname, './views/ajax-related.njk'), context, (renderErr, html) => {
-            if (renderErr) {
-                Raven.captureException(renderErr);
-                res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
-            } else {
-                res.json({
-                    meta: data.meta,
-                    resultsHtml: html
-                });
+if (config.get('features.enableRelatedGrants')) {
+    router.get('/related', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
+        try {
+            if (isEmpty(req.query)) {
+                return next();
             }
-        });
-    } catch (rawError) {
-        const errorResponse = rawError.error.error;
-        return res.status(errorResponse.status || 400).json({
-            error: errorResponse
-        });
-    }
-});
+
+            const apiQuery = clone(req.query);
+            apiQuery.locale = res.locals.locale;
+            const data = await queryGrantsApi(apiQuery);
+
+            /**
+             * Repopulate existing app globals so Nunjucks
+             * can read them outside of Express's view engine context
+             */
+            const extraContext = { grants: data.results };
+            const context = { ...res.locals, ...req.app.locals, ...extraContext };
+
+            nunjucks.render(path.resolve(__dirname, './views/ajax-related.njk'), context, (renderErr, html) => {
+                if (renderErr) {
+                    Raven.captureException(renderErr);
+                    res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
+                } else {
+                    res.json({
+                        meta: data.meta,
+                        resultsHtml: html
+                    });
+                }
+            });
+        } catch (rawError) {
+            const errorResponse = rawError.error.error;
+            return res.status(errorResponse.status || 400).json({
+                error: errorResponse
+            });
+        }
+    });
+}
 
 router.get('/recipients/:id', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
     try {
