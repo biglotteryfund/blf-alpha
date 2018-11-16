@@ -31,10 +31,12 @@ router.get('/status', (req, res) => {
 router.get('/robots.txt', noCache, (req, res) => {
     const isProductionDomain = req.get('host') === config.get('siteDomain');
 
+    const disallowList = ['/funding/grants/related', '/welsh/funding/grants/related'];
+
     const text = [
         `User-agent: *`,
         `Sitemap: ${getAbsoluteUrl(req, '/sitemap.xml')}`,
-        `${isProductionDomain === true ? '' : 'Disallow /'}`
+        `${isProductionDomain === true ? disallowList.map(line => `Disallow ${line}`).join('\n') : 'Disallow /'}`
     ].join('\n');
 
     res.setHeader('Content-Type', 'text/plain');
