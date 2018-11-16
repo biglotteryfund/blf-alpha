@@ -2,6 +2,7 @@ import Raven from 'raven-js';
 
 function init() {
     Raven.config('https://53aa5923a25c43cd9a645d9207ae5b6c@sentry.io/226416', {
+        environment: window.AppConfig.environment,
         autoBreadcrumbs: {
             xhr: false,
             // https://github.com/getsentry/raven-js/issues/879

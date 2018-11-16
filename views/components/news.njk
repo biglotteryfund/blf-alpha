@@ -2,7 +2,8 @@
     <article class="article-teaser">
         <header class="article-teaser__header">
             <h2 class="article-teaser__title t3">
-                <a class="u-link-minimal" href="{{ entry.linkUrl }}">{{ entry.title }}</a>
+                {# @TODO: Normalise the name of this variable #}
+                <a class="u-link-minimal" href="{{ entry.link or entry.linkUrl }}">{{ entry.title }}</a>
             </h2>
 
             {% if entry.postDate.date %}
