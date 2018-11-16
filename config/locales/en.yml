@@ -615,6 +615,8 @@ funding:
         readMoreAbout: Read more about
         photoCaption: Photo
         moreLikeThis: More like this
+        viewCharityCommission: View on Charity Commission
+        viewCompaniesHouse: View on Companies House
         fields:
           location: Location
           multipleLocations: Multiple locations

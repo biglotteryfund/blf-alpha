@@ -503,6 +503,8 @@ funding:
         readMoreAbout: Darllen mwy am
         photoCaption: Llun
         moreLikeThis: Mwy fel hyn
+        viewCharityCommission: Gweld ar y Comisiwn Elusennau
+        viewCompaniesHouse: Gweld ar Dŷ’r Cwmnïau
         fields:
           location: Lleoliad
           multipleLocations: Lleoliadau lluosog

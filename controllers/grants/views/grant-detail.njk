@@ -89,7 +89,7 @@
                                         <dd>
                                             {{ org.charityNumber }} &mdash;
                                             <a href="http://beta.charitycommission.gov.uk/charity-search/?q={{ org.charityNumber }}">
-                                                View on Charity Commission
+                                                {{ copy.grantDetail.viewCharityCommission }}
                                             </a>
                                         </dd>
                                     {% endif %}
@@ -99,7 +99,7 @@
                                         <dd>
                                             {{ org.companyNumber }} &mdash;
                                             <a href="https://beta.companieshouse.gov.uk/search/companies?q={{ org.companyNumber }}">
-                                                View on Companies House
+                                                {{ copy.grantDetail.viewCompaniesHouse }}
                                             </a>
                                         </dd>
                                     {% endif %}
