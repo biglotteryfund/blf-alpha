@@ -3,6 +3,8 @@ const path = require('path');
 const { concat, map, groupBy } = require('lodash');
 const express = require('express');
 
+const { buildPagination } = require('../../modules/pagination');
+
 const {
     injectBreadcrumbs,
     injectCopy,
@@ -34,7 +36,8 @@ router.get(
     injectCopy('funding.programmes'),
     injectFundingProgrammes,
     (req, res) => {
-        const allFundingProgrammes = res.locals.fundingProgrammes || [];
+        const allFundingProgrammes = res.locals.fundingProgrammes.result || [];
+        const pagination = buildPagination(res.locals.fundingProgrammes.meta.pagination);
 
         const locationParam = getValidLocation(allFundingProgrammes, req.query.location);
 
@@ -87,6 +90,7 @@ router.get(
 
         res.render(path.resolve(__dirname, './views/programmes-list'), {
             programmes,
+            pagination,
             groupedProgrammes,
             activeBreadcrumbsSummary
         });

@@ -1,6 +1,7 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/programmes.njk" import programmeList with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/split-nav/macro.njk" import splitNav %}
 
 {% extends "layouts/main.njk" %}
 
@@ -23,6 +24,18 @@
                 {% endfor %}
             {% elseif programmes.length > 0 %}
                 {{ programmeList(programmes, accent = pageAccent) }}
+
+                {{ splitNav(
+                    prevLink = {
+                        "label": "Previous page",
+                        "url": pagination.prevLink
+                    },
+                    nextLink = {
+                        "label": "Next page",
+                        "url": pagination.nextLink
+                    }
+                ) }}
+
             {% else %}
                 {# @TODO i18n #}
                 <p>No results</p>
