@@ -28,8 +28,10 @@ router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
     next();
 });
 
-function buildPagination(paginationMeta, currentQuery = {}, labels) {
+function buildPagination(req, paginationMeta, currentQuery = {}) {
     if (paginationMeta && paginationMeta.totalPages > 1) {
+        const labels = req.i18n.__('global.misc.pagination');
+
         const currentPage = paginationMeta.currentPage;
         const totalPages = paginationMeta.totalPages;
 
@@ -124,7 +126,6 @@ router.get('/', injectHeroImage('tinylife'), injectCopy('funding.pastGrants.sear
             'limit'
         ]);
 
-        const paginationLabels = req.i18n.__('global.misc.pagination');
         const queryWithPage = { ...facetParams, ...{ page: req.query.page || 1, locale } };
         const data = await grantsService.query(queryWithPage);
 
@@ -145,7 +146,7 @@ router.get('/', injectHeroImage('tinylife'), injectCopy('funding.pastGrants.sear
                     grantDataDates: grantsConfig.dateRange,
                     grantNavLink: grantsConfig.grantNavLink,
                     searchSuggestions: searchSuggestions,
-                    pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels)
+                    pagination: buildPagination(req, data.meta.pagination, queryWithPage)
                 });
             },
 
@@ -157,7 +158,7 @@ router.get('/', injectHeroImage('tinylife'), injectCopy('funding.pastGrants.sear
                  */
                 const extraContext = {
                     grants: data.results,
-                    pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels)
+                    pagination: buildPagination(req, data.meta.pagination, queryWithPage)
                 };
 
                 const context = { ...res.locals, ...req.app.locals, ...extraContext };
@@ -232,15 +233,11 @@ if (config.get('features.enableRelatedGrants')) {
 
 router.get('/recipients/:id', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
     try {
-        const query = {
+        const data = await grantsService.query({
             page: req.query.page || 1,
             recipient: req.params.id,
             locale: req.i18n.getLocale()
-        };
-
-        const data = await grantsService.query(query);
-
-        const paginationLabels = req.i18n.__('global.misc.pagination');
+        });
 
         const organisation = get(data, 'results[0].recipientOrganization[0]');
 
@@ -254,7 +251,7 @@ router.get('/recipients/:id', injectCopy('funding.pastGrants.search'), async (re
                 totalAwarded: data.meta.totalAwarded.toLocaleString(),
                 totalResults: data.meta.totalResults.toLocaleString(),
                 breadcrumbs: concat(res.locals.breadcrumbs, { label: organisation.name }),
-                pagination: buildPagination(data.meta.pagination, query, paginationLabels)
+                pagination: buildPagination(req, data.meta.pagination)
             });
         } else {
             next();
