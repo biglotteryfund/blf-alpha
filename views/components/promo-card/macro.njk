@@ -30,6 +30,13 @@ featured: {Boolean} - Use featured style for promo card
             </div>
         {% endif %}
         <div class="promo-card__body">
+            {% if props.kicker and not props.image.url %}
+                <p class="promo-card__kicker">
+                    {% call overlayText(accent = accent) %}
+                        {{ props.kicker }}
+                    {% endcall %}
+                </p>
+            {% endif %}
             <h3 class="promo-card__title t5">
                 {% if props.link.url %}<a class="u-link-minimal" href="{{ props.link.url }}">{% endif %}
                 {{ props.title }}
