@@ -1,12 +1,13 @@
 import $ from 'jquery';
 import Vue from 'vue';
+import queryString from 'query-string';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import assign from 'lodash/assign';
 import pickBy from 'lodash/pickBy';
-import queryString from 'query-string';
+import trim from 'lodash/trim';
 
 import { trackEvent } from '../helpers/metrics';
 import { storageAvailable, setWithExpiry } from '../helpers/storage';
@@ -200,7 +201,7 @@ function init(STORAGE_KEY) {
                 const combinedFilters = cloneDeep(this.filters);
 
                 if (this.activeQuery) {
-                    combinedFilters.q = this.activeQuery;
+                    combinedFilters.q = trim(this.activeQuery);
                     this.handleActiveFilter({ label: this.activeQuery || undefined, name: 'q' });
                 } else {
                     this.filterSummary = this.filterSummary.filter(i => i.name !== 'q');
