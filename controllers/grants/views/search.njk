@@ -128,7 +128,7 @@
                                     @clear-all="clearAll"
                                     @clear-filters="clearFilters" />
                             </div>
-                            <div class="grants-search__sort">
+                            <div class="grants-search__sort" v-if="status.state !== 'Loading'">
                                 <grants-sort
                                     :sort="sort"
                                     label="{{ copy.sort.orderedBy }}"
