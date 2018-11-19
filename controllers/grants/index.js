@@ -1,5 +1,5 @@
 'use strict';
-const { concat, clone, pick, isEmpty, get, head, sampleSize } = require('lodash');
+const { concat, clone, pick, isEmpty, get } = require('lodash');
 const path = require('path');
 const config = require('config');
 const Raven = require('raven');
@@ -158,12 +158,6 @@ router.get('/', injectHeroImage('tinylife'), injectCopy('funding.pastGrants.sear
         res.format({
             // Initial / server-only search
             html: async () => {
-                // Grab some case studies
-                const caseStudiesResponse = await contentApi.getCaseStudies({ locale });
-
-                // Shuffle the valid case studies and grab the first few
-                const caseStudies = sampleSize(caseStudiesResponse.filter(c => c.grantId), 3);
-
                 res.render(path.resolve(__dirname, './views/search'), {
                     title: res.locals.copy.title,
                     queryParams: isEmpty(facetParams) ? false : facetParams,
@@ -171,7 +165,6 @@ router.get('/', injectHeroImage('tinylife'), injectCopy('funding.pastGrants.sear
                     facets: data.facets,
                     meta: data.meta,
                     grantDataDates: grantsConfig.dateRange,
-                    caseStudies: caseStudies,
                     grantNavLink: grantsConfig.grantNavLink,
                     searchSuggestions: searchSuggestions,
                     pagination: buildPagination(data.meta.pagination, queryWithPage, paginationLabels)

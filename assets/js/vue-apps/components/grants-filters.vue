@@ -116,11 +116,5 @@ export default {
                 :handle-active-filter="handleActiveFilter"
             />
         </FacetGroup>
-
-        <div class="search-filters__extra">
-            <strong>{{ copy.feedback.title }}</strong
-            ><br />
-            <div v-html="copy.feedback.body"></div>
-        </div>
     </fieldset>
 </template>
