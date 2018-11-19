@@ -1,15 +1,21 @@
 'use strict';
+const querystring = require('querystring');
 
 /**
  * Build pagination
  * Translate content API pagination into an object for use in views
  */
-function buildPagination(paginationMeta) {
+function buildPagination(paginationMeta, additionalParams = {}) {
     if (paginationMeta && paginationMeta.total_pages > 1) {
         const currentPage = paginationMeta.current_page;
         const totalPages = paginationMeta.total_pages;
-        const prevLink = `?page=${currentPage - 1}`;
-        const nextLink = `?page=${currentPage + 1}`;
+
+        let prevLink =
+            currentPage > 1 ? '?' + querystring.stringify({ ...additionalParams, ...{ page: currentPage - 1 } }) : null;
+        let nextLink =
+            currentPage < totalPages
+                ? '?' + querystring.stringify({ ...additionalParams, ...{ page: currentPage + 1 } })
+                : null;
 
         return {
             count: paginationMeta.count,
