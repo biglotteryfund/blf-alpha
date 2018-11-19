@@ -92,6 +92,7 @@ const aliases = {
     '/global-content/programmes/wales/helping-working-families': '/funding/programmes/helping-working-families',
     '/global-content/programmes/wales/people-and-places-large-grants': '/funding/programmes/people-and-places-large-grants',
     '/global-content/programmes/wales/people-and-places-medium-grants': '/funding/programmes/people-and-places-medium-grants',
+    '/global-content/programmes/wales/rural-programme-community-grants': '/funding/programmes/rural-programme',
     '/global-content/programmes/wales/people-and-places': '/funding/programmes?min=10000&location=wales',
     '/guidancetrackingprogress': '/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress',
     '/help-and-support': '/about',
