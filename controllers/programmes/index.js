@@ -37,7 +37,7 @@ router.get(
     injectFundingProgrammes,
     (req, res) => {
         const allFundingProgrammes = res.locals.fundingProgrammes.result || [];
-        const pagination = buildPagination(res.locals.fundingProgrammes.meta.pagination);
+        const pagination = buildPagination(res.locals.fundingProgrammes.meta.pagination, req.query);
 
         const locationParam = getValidLocation(allFundingProgrammes, req.query.location);
 
@@ -128,7 +128,7 @@ router.use('/digital-fund', require('../digital-fund'));
  */
 router.get('/:slug', injectFundingProgramme, (req, res, next) => {
     const { fundingProgramme } = res.locals;
-    if (fundingProgramme && fundingProgramme.contentSections.length > 0) {
+    if (fundingProgramme) {
         res.render(path.resolve(__dirname, './views/programme'), {
             entry: fundingProgramme,
             breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.title }])
