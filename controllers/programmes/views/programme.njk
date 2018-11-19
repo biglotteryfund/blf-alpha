@@ -47,12 +47,19 @@
                     {%- endfor %}
 
                     {{ contentTabs(tabItems) }}
-                {% else %}
+                {% elseif entry.contentSections.length === 1 %}
                     {% set section = entry.contentSections[0] %}
                     <div class="content-box content-box--borderless">
                         <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
                             <h2 class="t2 t--underline accent--{{ pageAccent }} a--text">{{ section.title }}</h2>
                             {{ section.body | safe }}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="content-box content-box--borderless">
+                        <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                            <h2 class="t2 t--underline accent--{{ pageAccent }} a--text">Archived programme</h2>
+                            <p>This programme is no longer available. </p>
                         </div>
                     </div>
                 {% endif %}
