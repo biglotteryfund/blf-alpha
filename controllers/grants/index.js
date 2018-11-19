@@ -5,16 +5,16 @@ const config = require('config');
 const Raven = require('raven');
 const express = require('express');
 const nunjucks = require('nunjucks');
-const request = require('request-promise-native');
+
 const querystring = require('querystring');
 const nspell = require('nspell');
 const cyGB = require('dictionary-cy-gb');
 const enGB = require('dictionary-en-gb');
 
-const { PAST_GRANTS_API_URI } = require('../../modules/secrets');
 const { injectBreadcrumbs, injectCopy, injectHeroImage } = require('../../middleware/inject-content');
 const { sMaxAge } = require('../../middleware/cached');
 const contentApi = require('../../services/content-api');
+const grantsService = require('../../services/grants');
 
 const grantsConfig = config.get('grants');
 
@@ -28,28 +28,18 @@ router.use(sMaxAge('1d'), injectBreadcrumbs, (req, res, next) => {
     next();
 });
 
-/**
- * Combine a ?page param with existing querystrings for grant search
- * @param {object} currentQuery
- * @param {number} page
- */
-function makePageLink(currentQuery, page) {
-    const withPage = Object.assign({}, currentQuery, { page });
-    return '?' + querystring.stringify(withPage);
-}
-
 function buildPagination(paginationMeta, currentQuery = {}, labels) {
     if (paginationMeta && paginationMeta.totalPages > 1) {
         const currentPage = paginationMeta.currentPage;
         const totalPages = paginationMeta.totalPages;
 
         const prevLink = {
-            url: makePageLink(currentQuery, currentPage - 1),
+            url: '?' + querystring.stringify({ ...currentQuery, ...{ page: currentPage - 1 } }),
             label: labels.prev
         };
 
         const nextLink = {
-            url: makePageLink(currentQuery, currentPage + 1),
+            url: '?' + querystring.stringify({ ...currentQuery, ...{ page: currentPage + 1 } }),
             label: labels.next
         };
 
@@ -62,38 +52,6 @@ function buildPagination(paginationMeta, currentQuery = {}, labels) {
     } else {
         return;
     }
-}
-
-/**
- * Pick out an allowed list of query parameters to forward on to the grants API
- */
-function buildAllowedParams(queryParams) {
-    const allowedParams = [
-        'q',
-        'amount',
-        'postcode',
-        'programme',
-        'year',
-        'orgType',
-        'sort',
-        'country',
-        'awardDate',
-        'localAuthority',
-        'westminsterConstituency',
-        'recipient',
-        'exclude',
-        'limit'
-    ];
-    return pick(queryParams, allowedParams);
-}
-
-// Query the API with a set of parameters and return a promise
-async function queryGrantsApi(parameters) {
-    return request({
-        url: PAST_GRANTS_API_URI,
-        json: true,
-        qs: parameters
-    });
 }
 
 async function checkSpelling(searchTerm, locale = 'en') {
@@ -145,10 +103,30 @@ async function checkSpelling(searchTerm, locale = 'en') {
 router.get('/', injectHeroImage('tinylife'), injectCopy('funding.pastGrants.search'), async (req, res, next) => {
     try {
         const locale = req.i18n.getLocale();
-        const facetParams = buildAllowedParams(req.query);
+
+        /**
+         * Pick out an allowed list of query parameters to forward on to the grants API
+         */
+        const facetParams = pick(req.query, [
+            'q',
+            'amount',
+            'postcode',
+            'programme',
+            'year',
+            'orgType',
+            'sort',
+            'country',
+            'awardDate',
+            'localAuthority',
+            'westminsterConstituency',
+            'recipient',
+            'exclude',
+            'limit'
+        ]);
+
         const paginationLabels = req.i18n.__('global.misc.pagination');
         const queryWithPage = { ...facetParams, ...{ page: req.query.page || 1, locale } };
-        const data = await queryGrantsApi(queryWithPage);
+        const data = await grantsService.query(queryWithPage);
 
         let searchSuggestions = false;
         if (data.meta.totalResults === 0 && req.query.q) {
@@ -223,7 +201,7 @@ if (config.get('features.enableRelatedGrants')) {
 
             const apiQuery = clone(req.query);
             apiQuery.locale = res.locals.locale;
-            const data = await queryGrantsApi(apiQuery);
+            const data = await grantsService.query(apiQuery);
 
             /**
              * Repopulate existing app globals so Nunjucks
@@ -257,14 +235,10 @@ router.get('/recipients/:id', injectCopy('funding.pastGrants.search'), async (re
         const query = {
             page: req.query.page || 1,
             recipient: req.params.id,
-            locale: res.locals.locale
+            locale: req.i18n.getLocale()
         };
 
-        const data = await request({
-            url: PAST_GRANTS_API_URI,
-            json: true,
-            qs: query
-        });
+        const data = await grantsService.query(query);
 
         const paginationLabels = req.i18n.__('global.misc.pagination');
 
@@ -292,13 +266,7 @@ router.get('/recipients/:id', injectCopy('funding.pastGrants.search'), async (re
 
 router.get('/:id', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
     try {
-        const data = await request({
-            url: `${PAST_GRANTS_API_URI}/${req.params.id}`,
-            json: true,
-            qs: {
-                locale: res.locals.locale
-            }
-        });
+        const data = await grantsService.getById({ id: req.params.id, locale: req.i18n.getLocale() });
 
         if (data && data.result) {
             let fundingProgramme;
