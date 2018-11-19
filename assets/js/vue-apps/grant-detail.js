@@ -4,7 +4,7 @@ import GrantsRelated from './components/grants-related.vue';
 import GrantsBackToSearch from './components/grants-back-to-search.vue';
 
 function init(STORAGE_KEY) {
-    const mountEl = document.getElementById('js-past-grants-detail');
+    const mountEl = document.querySelector('.js-past-grants-detail');
 
     if (!mountEl) {
         return;
