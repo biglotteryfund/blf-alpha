@@ -1,0 +1,17 @@
+{% macro articleTeaser(props) %}
+    <article class="article-teaser">
+        <header class="article-teaser__header">
+            <h3 class="article-teaser__title t3">
+                <a class="u-link-minimal" href="{{ props.linkUrl }}">{{ props.title }}</a>
+            </h3>
+            {% if props.subtitle %}
+                <p class="article-teaser__subtilte">
+                    {{ props.subtitle }}
+                </p>
+            {% endif %}
+        </header>
+        <div class="article-teaser__content">
+            <p class="article-teaser__summary">{{ props.summary }}</p>
+        </div>
+    </article>
+{% endmacro %}
