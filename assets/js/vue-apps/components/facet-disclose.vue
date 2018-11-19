@@ -1,8 +1,8 @@
 <script>
 export default {
-    props: ['labelOpen', 'labelClosed', 'trackUi', 'filterName'],
+    props: ['labelOpen', 'labelClosed', 'initialOpen', 'trackUi', 'filterName'],
     data() {
-        return { isOpen: false };
+        return { isOpen: this.initialOpen };
     },
     computed: {
         ariaId() {
