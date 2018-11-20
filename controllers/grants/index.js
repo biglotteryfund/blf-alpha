@@ -256,12 +256,11 @@ router.get('/recipients/:id', injectCopy('funding.pastGrants.search'), async (re
     try {
         const query = {
             page: req.query.page || 1,
-            recipient: req.params.id,
             locale: res.locals.locale
         };
 
         const data = await request({
-            url: PAST_GRANTS_API_URI,
+            url: `${PAST_GRANTS_API_URI}/recipient/${req.params.id}`,
             json: true,
             qs: query
         });
