@@ -35,25 +35,19 @@
             <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
-                <p>
-                    <strong>{{ copy.beta | upper }}:</strong>
-                    {{ __('funding.pastGrants.search.intro', grantNavLink) | safe }}
-                </p>
+                <div class="s-prose">
+                    <p><strong>{{ copy.beta | upper }}:</strong> {{ __('funding.pastGrants.search.intro', grantNavLink) | safe }}</p>
 
-
-                <div id="feedback">
-                    {{ inlineFeedback(
-                        description = "past_grants_new",
-                        promptLabel = copy.survey.prompt,
-                        fieldLabel = copy.survey.label
-                    )  }}
+                    {% if grantDataDates %}
+                        <p class="u-no-margin">
+                            {{ __(
+                                "funding.pastGrants.search.dateRange",
+                                formatDate(grantDataDates.start, DATE_FORMATS.short),
+                                formatDate(grantDataDates.end, DATE_FORMATS.short)
+                            ) | safe }}
+                        </p>
+                    {% endif %}
                 </div>
-
-                {% if grantDataDates %}
-                    <p class="u-margin-top">
-                        {{ __("funding.pastGrants.search.dateRange", formatDate(grantDataDates.start, DATE_FORMATS.short), formatDate(grantDataDates.end, DATE_FORMATS.short)) | safe }}
-                    </p>
-                {% endif %}
             </div>
 
             <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>
@@ -167,8 +161,8 @@
                             </div>
                         </div>
 
-                        <div class="grants-search__filters"
-                             v-if="totalResults > 0">
+                        <div class="grants-search__filters" v-if="totalResults > 0">
+
                             {# Javascript component version of filters #}
                             <grants-filters
                                 :facets="facets"
@@ -331,34 +325,5 @@
                 {% endif %}
             </form>
         </div>
-
-        {% if caseStudies and caseStudies.length > 0 %}
-            <section id="section-case-studies" class="u-padded">
-                <div class="u-inner">
-                    <h2 class="t3 t--underline accent--pink a--text">{{ copy.featuredGrants }}</h2>
-                    <ul class="flex-grid flex-grid--3up">
-                        {% for caseStudy in caseStudies %}
-                            <li class="flex-grid__item">
-                                {% set props = {
-                                    "title": caseStudy.title,
-                                    "subtitle": caseStudy.grantAmount,
-                                    "trailText": caseStudy.trailText,
-                                    "image": {
-                                        "url": caseStudy.thumbnailUrl,
-                                        "alt": caseStudy.title
-                                    },
-                                    "link": {
-                                        "label": copy.viewGrantDetails,
-                                        "labelAria": copy.viewGrantDetails,
-                                        "url": localify("/funding/grants/" + caseStudy.grantId)
-                                    }
-                                } %}
-                                {{ promoCard(props, tint = true) }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </section>
-        {% endif %}
     </main>
 {% endblock %}

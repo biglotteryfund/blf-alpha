@@ -373,9 +373,9 @@ toplevel:
     - label: Help with managing your grant
       href: "/funding/funding-guidance/managing-your-funding"
     recentProgrammes:
+    - "rural-programme"
     - "digital-fund"
     - "reaching-communities-england"
-    - "national-lottery-awards-for-all-england"
   local:
     title: In your area
   research:
@@ -615,6 +615,8 @@ funding:
         readMoreAbout: Read more about
         photoCaption: Photo
         moreLikeThis: More like this
+        viewCharityCommission: View on Charity Commission
+        viewCompaniesHouse: View on Companies House
         fields:
           location: Location
           multipleLocations: Multiple locations

@@ -289,8 +289,8 @@ toplevel:
       href: "/welsh/funding/funding-guidance/managing-your-funding"
     recentProgrammes:
     - "national-lottery-awards-for-all-wales"
+    - "rural-programme"
     - "people-and-places-medium-grants"
-    - "people-and-places-large-grants"
   research:
     title: Ymchwil
     intro: Cael gwybod mwy am beth rydym yn ei ddysgu o’r prosiectau a ariannwn.
@@ -503,6 +503,8 @@ funding:
         readMoreAbout: Darllen mwy am
         photoCaption: Llun
         moreLikeThis: Mwy fel hyn
+        viewCharityCommission: Gweld ar y Comisiwn Elusennau
+        viewCompaniesHouse: Gweld ar Dŷ’r Cwmnïau
         fields:
           location: Lleoliad
           multipleLocations: Lleoliadau lluosog

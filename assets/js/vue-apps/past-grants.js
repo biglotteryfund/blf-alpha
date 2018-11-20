@@ -184,15 +184,16 @@ function init(STORAGE_KEY) {
             },
 
             storeSearchPath(filters) {
-                if (Object.keys(filters).length === 0) {
-                    return canStore && window.localStorage.removeItem(STORAGE_KEY);
+                if (filters.length > 0) {
+                    setWithExpiry({
+                        type: 'localStorage',
+                        key: STORAGE_KEY,
+                        data: filters,
+                        expiryInMinutes: 60
+                    });
+                } else {
+                    canStore && window.localStorage.removeItem(STORAGE_KEY);
                 }
-                return setWithExpiry({
-                    type: 'localStorage',
-                    key: STORAGE_KEY,
-                    data: filters,
-                    expiryInMinutes: 60
-                });
             },
 
             filterResults() {

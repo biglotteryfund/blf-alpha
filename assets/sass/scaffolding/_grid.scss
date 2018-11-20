@@ -25,10 +25,13 @@ $flexGridSpacing: $spacingUnit;
         margin-bottom: $flexGridSpacing;
 
         @include mq('medium-minor') {
-            display: flex;
             flex: 0 0 50%;
 
             > * {
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 auto;
+                height: 100%;
                 margin-left: $flexGridSpacing;
             }
         }

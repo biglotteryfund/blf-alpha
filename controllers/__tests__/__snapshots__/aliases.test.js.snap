@@ -3243,6 +3243,46 @@ Array [
     "to": "/welsh/funding/programmes/people-and-places-medium-grants",
   },
   Object {
+    "from": "/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/england/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
     "from": "/global-content/programmes/wales/people-and-places",
     "to": "/funding/programmes?min=10000&location=wales",
   },
