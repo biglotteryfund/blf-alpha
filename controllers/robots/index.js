@@ -31,7 +31,7 @@ router.get('/status', (req, res) => {
 router.get('/robots.txt', noCache, (req, res) => {
     const isProductionDomain = req.get('host') === config.get('siteDomain');
 
-    const disallowList = ['/funding/grants/related', '/welsh/funding/grants/related'];
+    const disallowList = ['/api/', '/funding/grants/', '/welsh/funding/grants/'];
 
     const text = [
         `user-agent: *`,
