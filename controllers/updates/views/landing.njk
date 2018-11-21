@@ -1,5 +1,5 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/news.njk" import articleTeaser with context %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 
 {% set bodyClass = 'has-static-header' %}
@@ -8,7 +8,7 @@
 {% macro newsSection(title, entries, allLink) %}
     <section class="latest-news u-margin-bottom">
         <header class="latest-news__header">
-            <h2 class="t1 t--underline a--text accent--blue">
+            <h2 class="t3 a--text accent--blue">
                 <a class="u-link-minimal" href="{{ allLink }}">
                     {{ title }}
                 </a>
@@ -18,7 +18,20 @@
             <ul class="flex-grid flex-grid--3up">
                 {% for entry in entries | takeItems(3) %}
                     <li class="flex-grid__item">
-                        {{ articleTeaser(entry) }}
+                        {% set subtitle %}
+                            {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
+                            {% if entry.category -%}
+                                {# Only blog posts have categories #}
+                                in <a href="{{ localify('/news/blog/?category=' + entry.category.slug) }}">{{ entry.category.title }}</a>
+                            {%- endif %}
+                        {% endset %}
+                        {{ promoCard({
+                            "kicker": entry.category.title,
+                            "title": entry.trailText or entry.title,
+                            "subtitle": subtitle | safe,
+                            "trailText": entry.summary,
+                            "link": { "url": entry.linkUrl, "label": __('global.misc.readMore') }
+                        }) }}
                     </li>
                 {% endfor %}
             </ul>
@@ -38,7 +51,7 @@
         <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             {{ breadcrumbTrail(breadcrumbs) }}
 
-            <h1>{{ title }}</h1>
+            <h1 class="t--underline">{{ title }}</h1>
 
             {# Updates #}
             {{ newsSection(
