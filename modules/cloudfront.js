@@ -13,9 +13,7 @@ const CLOUDFRONT_PATHS = [
     { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
     { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
     { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
-    { path: '/funding/grants', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
-    { path: '/funding/grants/*', allowAllQueryStrings: true, isBilingual: true },
-    { path: '/funding/grants/recipients/*', allowAllQueryStrings: true, isBilingual: true },
+    { path: '/funding/grants*', isPostable: true, allowAllQueryStrings: true, isBilingual: true, noSession: true },
     { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
     { path: '/news/*', queryStrings: ['page', 'tag', 'author', 'category'], isBilingual: true },
     { path: '/search', allowAllQueryStrings: true, isBilingual: true },
@@ -140,16 +138,10 @@ const makeBehaviourItem = ({
  * construct array of behaviours from a URL list
  */
 function generateBehaviours(origins) {
-    const defaultCookies = [
-        config.get('cookies.contrast'),
-        config.get('cookies.features'),
-        config.get('cookies.session')
-    ];
-
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.newSite,
         isPostable: true,
-        cookiesInUse: defaultCookies
+        cookiesInUse: [config.get('cookies.contrast'), config.get('cookies.features'), config.get('cookies.session')]
     });
 
     // Serve legacy static files
@@ -168,7 +160,18 @@ function generateBehaviours(origins) {
     // direct all custom routes (eg. with non-standard config) to Express
     const primaryBehaviours = flatMap(CLOUDFRONT_PATHS, rule => {
         // Merge default cookies with rule specific cookie
-        const cookiesInUse = uniq(compact(flatten([defaultCookies, get(rule, 'cookies', [])])));
+        const cookiesInUse = uniq(
+            compact(
+                flatten([
+                    [
+                        config.get('cookies.contrast'),
+                        config.get('cookies.features'),
+                        rule.noSession === true ? null : config.get('cookies.session')
+                    ],
+                    get(rule, 'cookies', [])
+                ])
+            )
+        );
 
         const behaviour = makeBehaviourItem({
             originId: origins.newSite,

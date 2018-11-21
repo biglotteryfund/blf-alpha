@@ -10,7 +10,6 @@ const path = require('path');
 const querystring = require('querystring');
 const slug = require('slugify');
 const uuid = require('uuid/v4');
-const moment = require('moment');
 const { groupBy, take } = require('lodash');
 
 let assets = {};
