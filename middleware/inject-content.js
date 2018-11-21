@@ -189,11 +189,12 @@ async function injectFundingProgramme(req, res, next) {
 
 async function injectFundingProgrammes(req, res, next) {
     try {
+        const showAll = req.query.show === 'all';
         res.locals.fundingProgrammes = await contentApi.getFundingProgrammes({
             locale: req.i18n.getLocale(),
-            showAll: req.query.all,
+            showAll: showAll,
             page: req.query.page || 1,
-            pageLimit: req.query.all ? 10 : 100
+            pageLimit: showAll ? 10 : 100
         });
         next();
     } catch (error) {
