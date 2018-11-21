@@ -25,16 +25,18 @@
             {% elseif programmes.length > 0 %}
                 {{ programmeList(programmes, accent = pageAccent) }}
 
-                {{ splitNav(
-                    prevLink = {
-                        "label": "Previous page",
-                        "url": pagination.prevLink
-                    },
-                    nextLink = {
-                        "label": "Next page",
-                        "url": pagination.nextLink
-                    }
-                ) }}
+                {% if pagination %}
+                    {{ splitNav(
+                        prevLink = {
+                            "label": "Previous page",
+                            "url": pagination.prevLink
+                        },
+                        nextLink = {
+                            "label": "Next page",
+                            "url": pagination.nextLink
+                        }
+                    ) }}
+                {% endif %}
 
             {% else %}
                 {# @TODO i18n #}
