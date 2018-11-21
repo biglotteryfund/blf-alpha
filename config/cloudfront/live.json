@@ -542,65 +542,7 @@
           "Items": [],
           "Quantity": 0
         },
-        "PathPattern": "/funding/grants"
-      },
-      {
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
-          "Quantity": 2,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
-            "Quantity": 2
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "whitelist",
-            "WhitelistedNames": {
-              "Items": [
-                "contrastMode",
-                "blf-features"
-              ],
-              "Quantity": 2
-            }
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/funding/grants/*"
+        "PathPattern": "/funding/grants*"
       },
       {
         "TargetOriginId": "ELB_LIVE",
@@ -1269,65 +1211,7 @@
           "Items": [],
           "Quantity": 0
         },
-        "PathPattern": "/welsh/funding/grants"
-      },
-      {
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
-          "Quantity": 2,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
-            "Quantity": 2
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "whitelist",
-            "WhitelistedNames": {
-              "Items": [
-                "contrastMode",
-                "blf-features"
-              ],
-              "Quantity": 2
-            }
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/welsh/funding/grants/*"
+        "PathPattern": "/welsh/funding/grants*"
       },
       {
         "TargetOriginId": "ELB_LIVE",
@@ -1525,6 +1409,6 @@
         "PathPattern": "/welsh/search"
       }
     ],
-    "Quantity": 24
+    "Quantity": 22
   }
 }
