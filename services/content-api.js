@@ -1,5 +1,5 @@
 'use strict';
-const { find, filter, get, getOr, map, sortBy, take } = require('lodash/fp');
+const { find, filter, get, getOr, head, map, sortBy, take } = require('lodash/fp');
 const { isArray } = require('lodash');
 const request = require('request-promise-native');
 const debug = require('debug')('biglotteryfund:content-api');
@@ -140,13 +140,11 @@ function getFundingProgrammes({ locale, page = 1, pageLimit = 10, showAll = fals
     }
     return fetchAllLocales(reqLocale => `/v1/${reqLocale}/funding-programmes?${querystring.stringify(qs)}`).then(
         responses => {
-            const [enResults, cyResults] = responses.map(response => {
-                return {
-                    meta: response.meta,
-                    result: mapAttrs(response)
-                };
-            });
-            return mergeWelshBy('urlPath')(locale, enResults, cyResults);
+            const [enResults, cyResults] = responses.map(mapAttrs);
+            return {
+                meta: head(responses).meta,
+                result: mergeWelshBy('urlPath')(locale, enResults, cyResults)
+            };
         }
     );
 }
