@@ -179,6 +179,7 @@ function init(STORAGE_KEY) {
             },
 
             handleSuggestion(suggestedQuery) {
+                this.trackUi('Spelling suggestion', `${this.activeQuery} => ${suggestedQuery}`);
                 this.activeQuery = suggestedQuery;
                 this.filterResults();
             },
