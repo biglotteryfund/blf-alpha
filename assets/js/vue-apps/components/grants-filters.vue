@@ -3,10 +3,16 @@ import FacetGroup from './facet-group.vue';
 import FacetDisclose from './facet-disclose.vue';
 import FacetChoice from './facet-choice.vue';
 import FacetSelect from './facet-select.vue';
+import has from 'lodash/has';
 
 export default {
     components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
-    props: ['facets', 'filters', 'status', 'copy', 'handleActiveFilter', 'trackUi']
+    props: ['facets', 'filters', 'status', 'copy', 'handleActiveFilter', 'trackUi'],
+    methods: {
+        isActiveFacet(name) {
+            return has(this.filters, name);
+        }
+    }
 };
 </script>
 
@@ -74,9 +80,9 @@ export default {
             />
 
             <FacetDisclose
-                :label-closed="copy.filters.options.country.labelClosed"
                 :label-open="copy.filters.options.country.labelOpen"
-                class="facet-group__item"
+                :label-closed="copy.filters.options.country.labelClosed"
+                :initial-open="isActiveFacet('localAuthority') || isActiveFacet('westminsterConstituency')"
                 :track-ui="trackUi"
                 :filter-name="'country'"
             >

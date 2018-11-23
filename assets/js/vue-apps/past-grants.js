@@ -1,12 +1,13 @@
 import $ from 'jquery';
 import Vue from 'vue';
+import queryString from 'query-string';
 import cloneDeep from 'lodash/cloneDeep';
 import find from 'lodash/find';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import assign from 'lodash/assign';
 import pickBy from 'lodash/pickBy';
-import queryString from 'query-string';
+import trim from 'lodash/trim';
 
 import { trackEvent } from '../helpers/metrics';
 import { storageAvailable, setWithExpiry } from '../helpers/storage';
@@ -54,6 +55,7 @@ function init(STORAGE_KEY) {
             const facets = get(initialData, 'facets', {});
 
             return {
+                currentRequest: null,
                 status: { state: states.NotAsked },
                 resultsWereFiltered: false,
                 resultsHtml: null,
@@ -201,7 +203,7 @@ function init(STORAGE_KEY) {
                 const combinedFilters = cloneDeep(this.filters);
 
                 if (this.activeQuery) {
-                    combinedFilters.q = this.activeQuery;
+                    combinedFilters.q = trim(this.activeQuery);
                     this.handleActiveFilter({ label: this.activeQuery || undefined, name: 'q' });
                 } else {
                     // Clear the filter if necessary
@@ -242,12 +244,15 @@ function init(STORAGE_KEY) {
                     window.history.pushState({ urlPath: urlPath }, '', urlPath);
                 }
 
-                $.ajax({
+                if (this.currentRequest) {
+                    this.currentRequest.abort();
+                }
+
+                this.currentRequest = $.ajax({
                     url: urlPath,
                     dataType: 'json',
-                    timeout: 20000
-                })
-                    .then(response => {
+                    timeout: 20000,
+                    success: response => {
                         this.resultsHtml = response.resultsHtml;
                         this.totalResults = response.meta.totalResults;
                         this.totalAwarded = response.meta.totalAwarded;
@@ -259,13 +264,23 @@ function init(STORAGE_KEY) {
                         if (this.totalResults === 0) {
                             this.trackUi('No results', queryString);
                         }
-                    })
-                    .catch(err => {
-                        // @ts-ignore
-                        const errMsg = err.responseJSON.error;
-                        this.status = { state: states.Failure, error: errMsg };
-                        this.trackUi('Search error', errMsg);
-                    });
+                    },
+                    error: (jqXhr, textStatus, errorThrown) => {
+                        if (textStatus === 'timeout') {
+                            this.status = { state: states.Failure };
+                            this.trackUi('Search error', 'Request timed out');
+                        } else if (textStatus === 'abort') {
+                            // Request cancelled because the query was changed or filters were cleared mid-request
+                            // we can fail silently here and allow the next request to take precedence
+                            this.trackUi('Search error', 'Request cancelled');
+                        } else {
+                            // @ts-ignore
+                            const errMsg = errorThrown.responseJSON.error;
+                            this.status = { state: states.Failure, error: errMsg };
+                            this.trackUi('Search error', errMsg);
+                        }
+                    }
+                });
             }
         }
     });
