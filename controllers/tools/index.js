@@ -50,6 +50,11 @@ router.route('/').get((req, res) => {
     });
 });
 
+router.route('/rebrand/:switch').get((req, res) => {
+    req.session['tnlcf-rebrand-2019'] = req.params.switch === 'on';
+    res.redirect('/tools');
+});
+
 router.use('/feedback-results', require('./feedback'));
 router.use('/survey-results', require('./surveys'));
 router.use('/order-stats', require('./orders'));
