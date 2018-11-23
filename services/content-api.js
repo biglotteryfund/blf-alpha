@@ -3,21 +3,21 @@ const { find, filter, get, getOr, head, map, sortBy, take } = require('lodash/fp
 const { isArray } = require('lodash');
 const request = require('request-promise-native');
 const debug = require('debug')('biglotteryfund:content-api');
-const querystring = require('querystring');
 
 const mapAttrs = response => map('attributes')(response.data);
 
 const { sanitiseUrlPath } = require('../modules/urls');
 let { CONTENT_API_URL } = require('../modules/secrets');
 
-function fetch(urlPath, options) {
+function fetch(urlPath, options = {}) {
     debug(`Fetching ${urlPath}`);
-    const defaults = {
-        url: `${CONTENT_API_URL}${urlPath}`,
-        json: true
-    };
-    const params = Object.assign({}, defaults, options);
-    return request(params);
+    return request({
+        ...{
+            url: `${CONTENT_API_URL}${urlPath}`,
+            json: true
+        },
+        ...options
+    });
 }
 
 /**
@@ -29,9 +29,9 @@ function fetch(urlPath, options) {
  * }).then(responses => ...)
  * ```
  */
-function fetchAllLocales(toUrlPathFn) {
+function fetchAllLocales(toUrlPathFn, options = {}) {
     const urlPaths = ['en', 'cy'].map(toUrlPathFn);
-    const promises = urlPaths.map(urlPath => fetch(urlPath));
+    const promises = urlPaths.map(urlPath => fetch(urlPath, options));
     return Promise.all(promises);
 }
 
@@ -133,24 +133,26 @@ function getUpdates({ locale, urlPath = '', query = {}, previewMode = false }) {
     });
 }
 
-function getFundingProgrammes({ locale, page = 1, pageLimit = 10, showAll = false }) {
-    let qs = { page: page, 'page-limit': pageLimit };
+function getFundingProgrammes({ locale, page = 1, showAll = false }) {
+    const query = { page: page, 'page-limit': 100 };
     if (showAll) {
-        qs.all = true;
+        query['page-limit'] = 10;
+        query.all = true;
     }
-    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/funding-programmes?${querystring.stringify(qs)}`).then(
-        responses => {
-            const [enResults, cyResults] = responses.map(mapAttrs);
-            return {
-                meta: head(responses).meta,
-                result: mergeWelshBy('urlPath')(locale, enResults, cyResults)
-            };
-        }
-    );
+
+    return fetchAllLocales(reqLocale => `/v2/${reqLocale}/funding-programmes`, {
+        qs: query
+    }).then(responses => {
+        const [enResults, cyResults] = responses.map(mapAttrs);
+        return {
+            meta: head(responses).meta,
+            result: mergeWelshBy('urlPath')(locale, enResults, cyResults)
+        };
+    });
 }
 
 function getFundingProgramme({ locale, slug, previewMode = false }) {
-    return fetch(`/v1/${locale}/funding-programme/${slug}`, {
+    return fetch(`/v2/${locale}/funding-programmes/${slug}`, {
         qs: addPreviewParams(previewMode)
     }).then(response => {
         return get('data.attributes')(response);
