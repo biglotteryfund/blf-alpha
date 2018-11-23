@@ -52,7 +52,7 @@ router.route('/').get((req, res) => {
 
 router.route('/rebrand/:switch').get((req, res) => {
     req.session['tnlcf-rebrand-2019'] = req.params.switch === 'on';
-    res.redirect('/tools');
+    res.redirect('/');
 });
 
 router.use('/feedback-results', require('./feedback'));
