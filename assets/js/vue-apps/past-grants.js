@@ -181,6 +181,7 @@ function init(STORAGE_KEY) {
             },
 
             handleSuggestion(suggestedQuery) {
+                this.trackUi('Spelling suggestion', `${this.activeQuery} => ${suggestedQuery}`);
                 this.activeQuery = suggestedQuery;
                 this.filterResults();
             },
@@ -205,6 +206,8 @@ function init(STORAGE_KEY) {
                     combinedFilters.q = trim(this.activeQuery);
                     this.handleActiveFilter({ label: this.activeQuery || undefined, name: 'q' });
                 } else {
+                    // Clear the filter if necessary
+                    this.filters.q = undefined;
                     this.filterSummary = this.filterSummary.filter(i => i.name !== 'q');
                 }
 

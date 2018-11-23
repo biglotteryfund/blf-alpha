@@ -26,6 +26,10 @@
     text-decoration: none;
 }
 
+.u-wrap-words {
+    @include wrap-words();
+}
+
 .u-prefix {
     font-size: 16px;
     font-style: italic;

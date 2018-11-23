@@ -133,6 +133,10 @@
         color: palette('charcoal-note');
         margin-bottom: 0.5em;
     }
+
+    .promo-card__trail-text {
+        @include wrap-words();
+    }
 }
 
 .promo-card--featured {
