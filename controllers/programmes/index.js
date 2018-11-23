@@ -98,27 +98,6 @@ router.get(
 );
 
 /**
- * Programmes list: closed to applicants
- */
-if (appData.isNotProduction) {
-    router.get(
-        '/closed',
-        injectHeroImage('the-young-foundation'),
-        injectCopy('funding.programmesClosed'),
-        injectFundingProgrammes,
-        (req, res) => {
-            const allFundingProgrammes = res.locals.fundingProgrammes || [];
-            const programmes = allFundingProgrammes.filter(p => p.programmeType === 'closedToApplicants');
-
-            res.render(path.resolve(__dirname, './views/programmes-list'), {
-                programmes,
-                breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.title }])
-            });
-        }
-    );
-}
-
-/**
  * Digital Fund
  */
 router.use('/digital-fund', require('../digital-fund'));
