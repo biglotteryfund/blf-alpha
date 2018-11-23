@@ -3,8 +3,6 @@ const path = require('path');
 const { concat, map, groupBy } = require('lodash');
 const express = require('express');
 
-const { buildPagination } = require('../../modules/pagination');
-
 const {
     injectBreadcrumbs,
     injectCopy,
@@ -12,8 +10,8 @@ const {
     injectFundingProgramme,
     injectFundingProgrammes
 } = require('../../middleware/inject-content');
-const appData = require('../../modules/appData');
 
+const { buildPagination } = require('../../modules/pagination');
 const { getValidLocation, programmeFilters } = require('./helpers');
 
 const router = express.Router();
@@ -36,8 +34,11 @@ router.get(
     injectCopy('funding.programmes'),
     injectFundingProgrammes,
     (req, res) => {
-        const allFundingProgrammes = res.locals.fundingProgrammes.result || [];
-        const pagination = buildPagination(res.locals.fundingProgrammes.meta.pagination, req.query);
+        const { breadcrumbs, fundingProgrammes } = res.locals;
+        const allFundingProgrammes = fundingProgrammes.result || [];
+        const meta = fundingProgrammes.meta;
+
+        const pagination = buildPagination(meta.pagination, req.query);
 
         const locationParam = getValidLocation(allFundingProgrammes, req.query.location);
 
@@ -51,18 +52,18 @@ router.get(
 
         const groupedProgrammes =
             locationParam && locationParam !== 'ukWide'
-                ? groupBy(concat(programmes, ukWideProgrammes), 'content.area.label')
+                ? groupBy(concat(programmes, ukWideProgrammes), 'area.label')
                 : null;
 
         if (parseInt(req.query.min, 10) === 10000) {
-            res.locals.breadcrumbs.push({
+            breadcrumbs.push({
                 label: res.locals.copy.over10k,
                 url: '/over10k'
             });
         }
 
         if (parseInt(req.query.max, 10) === 10000) {
-            res.locals.breadcrumbs.push({
+            breadcrumbs.push({
                 label: res.locals.copy.under10k,
                 url: '/under10k'
             });
@@ -70,7 +71,7 @@ router.get(
 
         if (locationParam) {
             const globalCopy = req.i18n.__('global');
-            res.locals.breadcrumbs.push({
+            breadcrumbs.push({
                 label: {
                     england: globalCopy.regions.england,
                     wales: globalCopy.regions.wales,
@@ -82,16 +83,17 @@ router.get(
         }
 
         // If we have more than two breadcrumbs assign a url to the second (the current page)
-        if (res.locals.breadcrumbs.length > 2) {
-            res.locals.breadcrumbs[1].url = req.baseUrl;
+        if (breadcrumbs.length > 2) {
+            breadcrumbs[1].url = req.baseUrl;
         }
 
-        const activeBreadcrumbsSummary = map(res.locals.breadcrumbs, 'label').join(', ');
+        const activeBreadcrumbsSummary = map(breadcrumbs, 'label').join(', ');
 
         res.render(path.resolve(__dirname, './views/programmes-list'), {
             programmes,
             pagination,
             groupedProgrammes,
+            breadcrumbs,
             activeBreadcrumbsSummary
         });
     }
