@@ -1,5 +1,4 @@
 {% from "components/hero.njk" import hero with context %}
-{% from "components/programmes.njk" import programmeOverview with context %}
 {% from "components/content-tabs/macro.njk" import contentTabs %}
 
 {% extends "layouts/main.njk" %}
@@ -26,8 +25,27 @@
    {% set availableFundingContent %}
         <div class="s-prose u-constrained-content-wide">
             <p>{{ copy.sections.availableFunding.introduction | safe }}</p>
-            {% for fundingProgramme in copy.sections.availableFunding.fundingProgrammes %}
-                {{ programmeOverview(fundingProgramme, pageAccent) }}
+            {% for programme in copy.sections.availableFunding.fundingProgrammes %}
+                <article class="programme-overview">
+                    <header class="programme-overview__header">
+                        <h3 class="programme-overview__title t1 accent--{{ accentColour }} a--text">
+                            {{ programme.title }}
+                        </h3>
+                    </header>
+                    <h4 class="programme-overview__subtitle">{{ programme.subTitle }}</h4>
+                    {% if programme.summaryItems.length > 0 %}
+                        <ul class="programme-overview__summary">
+                            {% for item in programme.summaryItems %}
+                                <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <footer class="programme-overview__actions">
+                        <a class="btn accent--pink a--btn" href="{{ programme.linkUrl }}">
+                            {{ __('global.misc.seeProgramme') }}
+                        </a>
+                    </footer>
+                </article>
             {% endfor %}
             {% if copy.sections.availableFunding.outro %}
                 <p>{{ copy.sections.availableFunding.outro | safe }}</p>

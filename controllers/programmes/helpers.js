@@ -3,7 +3,7 @@ const { find, get, uniq } = require('lodash');
 
 function getValidLocation(programmes, requestedLocation) {
     const validLocations = programmes
-        .map(programme => get(programme, 'content.area.value', false))
+        .map(programme => get(programme, 'area.value', false))
         .filter(location => location !== false);
 
     const uniqLocations = uniq(validLocations);
@@ -17,7 +17,7 @@ const programmeFilters = {
                 return programme;
             }
 
-            const area = get(programme.content, 'area');
+            const area = get(programme, 'area');
             return area.value === locationValue;
         };
     },
@@ -27,9 +27,8 @@ const programmeFilters = {
                 return programme;
             }
 
-            const data = programme.content;
             const min = parseInt(minAmount, 10);
-            return !data.fundingSize || !min || data.fundingSize.minimum >= min;
+            return !programme.fundingSize || !min || programme.fundingSize.minimum >= min;
         };
     },
     filterByMaxAmount(maxAmount) {
@@ -39,7 +38,7 @@ const programmeFilters = {
             }
 
             const max = parseInt(maxAmount, 10);
-            const programmeMax = get(programme, 'content.fundingSize.maximum');
+            const programmeMax = get(programme, 'fundingSize.maximum');
             return programmeMax <= max || false;
         };
     }

@@ -19,13 +19,10 @@
 
         <div class="nudge-up">
             {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = entry.heroCredit) %}
-                {% if entry.intro %}
-                    {{ entry.intro | safe }}
+                {% if entry.description %}
+                    {{ entry.description | safe }}
                 {% endif %}
-                {{ programmeStats(
-                    fields = entry.summary,
-                    isCompact = true
-                ) }}
+                {{ programmeStats(entry, isCompact = true) }}
             {% endcall %}
 
             <div class="u-inner-wide-only">
