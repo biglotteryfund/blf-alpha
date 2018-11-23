@@ -7,6 +7,13 @@ global:
     facebook: http://www.facebook.com/biglotteryfundwales
     instagram: https://www.instagram.com/big_lottery_fund
     twitter: LoteriFawrCymru
+  rebrand:
+    title: Cronfa Gymunedol y Loteri Genedlaethol
+    description: Mae'r Cronfa Gymunedol y Loteri Genedlaethol yn dosbarthu dros £600m y flwyddyn, a godir
+      gan chwaraewyr y Loteri Genedlaethol, i gymunedau ledled y Deyrnas Unedig
+    facebook: http://www.facebook.com/TNLCommunityFundWales
+    instagram: https://www.instagram.com/TNLCommunityFund
+    twitter: CronGymYLG
   regions:
     england: Lloegr
     wales: Cymru

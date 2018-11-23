@@ -1,10 +1,12 @@
 {% from "components/accessibility.njk" import accessibilityNav with context %}
 {% from "components/preview.njk" import previewBanner with context %}
+{% set brandTitle = __("global.rebrand.title") if featureUseNewBrand else __("global.brand.title") %}
+
 <!doctype html>
 <html lang="{{ locale }}"
-    class="no-js locale--{{ locale }}{% if isHighContrast %} contrast--high{% endif %}">
+    class="no-js locale--{{ locale }}{% if isHighContrast %} contrast--high{% endif %}{% if featureUseNewBrand %} is-rebrand{% endif %}">
     <head>
-        <title>{% block title %}{{ title }} | {% endblock %}{{ __("global.brand.title") }}</title>
+        <title>{% block title %}{{ title }} | {% endblock %}{{ brandTitle }}</title>
 
         {% include "includes/metadata.njk" %}
         {% include "includes/metaHead.njk" %}
