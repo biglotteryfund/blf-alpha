@@ -26,7 +26,7 @@ router.get('/', sMaxAge('30m'), injectHeroImage('manchester-cares'), injectFundi
     }
 
     res.render(path.resolve(__dirname, './views/funding-landing'), {
-        latestProgrammes: getLatestProgrammes(fundingProgrammes)
+        latestProgrammes: getLatestProgrammes(fundingProgrammes.result)
     });
 });
 
