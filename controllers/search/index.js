@@ -1,13 +1,17 @@
 'use strict';
-const querystring = require('querystring');
+const config = require('config');
 const express = require('express');
+const querystring = require('querystring');
+
 const { noCache } = require('../../middleware/cached');
 const { normaliseQuery } = require('../../modules/urls');
 
 const router = express.Router();
 
+const domains = config.get('domains');
+
 router.get('/', noCache, (req, res) => {
-    const queryBase = 'https://www.google.co.uk/search?q=site%3Abiglotteryfund.org.uk';
+    const queryBase = `https://www.google.co.uk/search?q=site%3A${domains.host}`;
     req.query = normaliseQuery(req.query);
 
     if (req.query.q) {
