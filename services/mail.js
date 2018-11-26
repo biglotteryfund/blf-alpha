@@ -69,7 +69,9 @@ function generateHtmlEmail({ template, templateData }) {
  */
 function getSendAddress(recipients) {
     const addressess = recipients.map(recipient => recipient.address);
-    if (addressess.some(address => /@biglotteryfund.org.uk$/.test(address))) {
+    if (
+        addressess.some(address => /@biglotteryfund.org.uk$/.test(address) || /@tnlcommunityfund.org.uk$/.test(address))
+    ) {
         return 'noreply@blf.digital';
     } else {
         return 'noreply@biglotteryfund.org.uk';

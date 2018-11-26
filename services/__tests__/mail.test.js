@@ -148,35 +148,13 @@ describe('getSendAddress', () => {
     });
 
     it('should return internal send from address for internal send to addresses', () => {
-        expect(
-            getSendAddress([
-                {
-                    address: 'example@biglotteryfund.org.uk'
-                }
-            ])
-        ).toBe(expectedInternal);
+        expect(getSendAddress([{ address: 'example@biglotteryfund.org.uk' }])).toBe(expectedInternal);
+        expect(getSendAddress([{ address: 'example@tnlcommunityfund.org.uk' }])).toBe(expectedInternal);
         // Assert against similar looking but incorrect emails to test for false positives
-        expect(
-            getSendAddress([
-                {
-                    address: 'example@biggerlotteryfund.org.uk'
-                }
-            ])
-        ).toBe(expectedDefault);
-        expect(
-            getSendAddress([
-                {
-                    address: 'example@biggestlotteryfund.org.uk'
-                }
-            ])
-        ).toBe(expectedDefault);
-        expect(
-            getSendAddress([
-                {
-                    address: 'biglotteryfund.org.uk@example.com'
-                }
-            ])
-        ).toBe(expectedDefault);
+        expect(getSendAddress([{ address: 'example@tnlcommmunityfun.org.uk' }])).toBe(expectedDefault);
+        expect(getSendAddress([{ address: 'example@biggerlotteryfund.org.uk' }])).toBe(expectedDefault);
+        expect(getSendAddress([{ address: 'example@biggestlotteryfund.org.uk' }])).toBe(expectedDefault);
+        expect(getSendAddress([{ address: 'biglotteryfund.org.uk@example.com' }])).toBe(expectedDefault);
     });
 });
 
