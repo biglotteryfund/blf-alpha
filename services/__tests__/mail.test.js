@@ -12,6 +12,9 @@ const {
     sendEmail
 } = require('../mail');
 
+const exampleEmail = 'example@biglotteryfund.org.uk';
+const exampleEmailNew = 'example@tnlcommunityfund.org.uk';
+
 async function sendMockEmail(mailConfig) {
     const info = await sendEmail({
         name: 'mock_email',
@@ -148,8 +151,8 @@ describe('getSendAddress', () => {
     });
 
     it('should return internal send from address for internal send to addresses', () => {
-        expect(getSendAddress([{ address: 'example@biglotteryfund.org.uk' }])).toBe(expectedInternal);
-        expect(getSendAddress([{ address: 'example@tnlcommunityfund.org.uk' }])).toBe(expectedInternal);
+        expect(getSendAddress([{ address: exampleEmail }])).toBe(expectedInternal);
+        expect(getSendAddress([{ address: exampleEmailNew }])).toBe(expectedInternal);
         // Assert against similar looking but incorrect emails to test for false positives
         expect(getSendAddress([{ address: 'example@tnlcommmunityfun.org.uk' }])).toBe(expectedDefault);
         expect(getSendAddress([{ address: 'example@biggerlotteryfund.org.uk' }])).toBe(expectedDefault);

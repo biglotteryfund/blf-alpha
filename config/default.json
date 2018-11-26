@@ -21,6 +21,8 @@
   "domains": {
     "host": "biglotteryfund.org.uk",
     "www": "www.biglotteryfund.org.uk",
+    "media": "media.biglotteryfund.org.uk",
+    "imgix": "biglotteryfund-assets.imgix.net",
     "legacy": "wwwlegacy.biglotteryfund.org.uk"
   },
   "dateFormats": {
@@ -44,9 +46,6 @@
     "enableTimingMetrics": false,
     "enableMailSendMetrics": false,
     "enableRelatedGrants": false
-  },
-  "imgix": {
-    "mediaDomain": "biglotteryfund-assets.imgix.net"
   },
   "cookies": {
     "contrast": "contrastMode",

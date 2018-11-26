@@ -11,15 +11,17 @@ const querystring = require('querystring');
 const slug = require('slugify');
 const uuid = require('uuid/v4');
 const { groupBy, take } = require('lodash');
+const domains = config.get('domains');
+const features = config.get('features');
 
 let assets = {};
 try {
     assets = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8'));
 } catch (e) {} // eslint-disable-line no-empty
 
-function getCachebustedPath(urlPath, useRemoteAssets = config.get('features.useRemoteAssets')) {
+function getCachebustedPath(urlPath, useRemoteAssets = features.useRemoteAssets) {
     const version = assets.version || 'latest';
-    const baseUrl = useRemoteAssets ? 'https://media.biglotteryfund.org.uk/assets' : `/assets`;
+    const baseUrl = useRemoteAssets ? `https://${domains.media}/assets` : `/assets`;
     return `${baseUrl}/build/${version}/${urlPath}`;
 }
 

@@ -4,6 +4,8 @@ const helmet = require('helmet');
 const { concat, get } = require('lodash');
 const appData = require('../modules/appData');
 
+const domains = config.get('domains');
+
 function withDefaultDirectives(directives) {
     const { defaultSrc } = directives;
     const directive = prop => get(directives, prop, []);
@@ -62,7 +64,7 @@ function defaultSecurityHeaders() {
         defaultSrc: defaultSecurityDomains,
         childSrc: ['www.google.com'],
         styleSrc: ['fonts.googleapis.com', '*.typekit.net'],
-        imgSrc: ['stats.g.doubleclick.net', 'via.placeholder.com', config.get('imgix.mediaDomain')],
+        imgSrc: ['stats.g.doubleclick.net', 'via.placeholder.com', domains.imgix],
         connectSrc: [],
         scriptSrc: [],
         frameSrc: [],

@@ -15,6 +15,9 @@ const {
     slugify
 } = require('../filters');
 
+const config = require('config');
+const domains = config.get('domains');
+
 describe('appendUuid', () => {
     it('should append a uuid', () => {
         expect(appendUuid('hello-')).toMatch(/hello-.*/);
@@ -29,7 +32,8 @@ describe('getCachebustedPath', () => {
 
     it('should get external url for cachebusted asset', () => {
         const result = getCachebustedPath('stylesheets/style.css', true);
-        expect(result).toMatch(/^https:\/\/media.biglotteryfund.org.uk\/assets\/build\/\w+\/stylesheets\/style.css$/);
+        expect(result).toContain(domains.media);
+        expect(result).toMatch(/^https:\/\/.*\/assets\/build\/\w+\/stylesheets\/style.css$/);
     });
 });
 
