@@ -1,5 +1,7 @@
 'use strict';
 const { cleanLinkNoise } = require('../modules/urls');
+const config = require('config');
+const domains = config.get('domains');
 
 /**
  * Global redirects
@@ -8,9 +10,8 @@ const { cleanLinkNoise } = require('../modules/urls');
  */
 module.exports = function(req, res, next) {
     const host = req.headers.host;
-    const domainProd = 'biglotteryfund.org.uk';
-    if (host === domainProd) {
-        const redirectUrl = `${req.protocol}://www.${domainProd}${req.originalUrl}`;
+    if (host === domains.host) {
+        const redirectUrl = `${req.protocol}://${domains.www}${req.originalUrl}`;
         return res.redirect(301, redirectUrl);
     } else {
         const cleanedUrl = cleanLinkNoise(req.originalUrl);
