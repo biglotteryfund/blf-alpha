@@ -163,10 +163,7 @@ module.exports = {
         }
 
         /* Configure per-feature queries for use in templates */
-        const featureUseNewBrand = appData.isNotProduction && req.session['tnlcf-rebrand-2019'] === true;
-        res.locals.featureUseNewBrand = featureUseNewBrand;
-        res.locals.featureUseNewHeader =
-            featureUseNewBrand || (appData.isNotProduction && queryFeature('use-new-header'));
+        res.locals.featureUseNewHeader = appData.isNotProduction && queryFeature('use-new-header');
 
         next();
     }

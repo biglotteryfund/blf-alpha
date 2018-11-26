@@ -7,13 +7,6 @@ global:
     facebook: http://www.facebook.com/BigLotteryFund
     instagram: https://www.instagram.com/big_lottery_fund
     twitter: BigLotteryFund
-  rebrand:
-    title: The National Lottery Community Fund
-    description: The National Lottery Community Fund gives grants to organisations in the UK to help
-      improve their communities. The money awarded comes from the UK National Lottery.
-    facebook: http://www.facebook.com/TNLCommunityFund
-    instagram: https://www.instagram.com/TNLCommunityFund
-    twitter: TNLComFund
   regions:
     england: England
     wales: Wales
