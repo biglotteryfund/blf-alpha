@@ -136,16 +136,15 @@ global:
 toplevel:
   home:
     title: Home
-    hero:
-      intro: The Big Lottery Fund distributes <a href="/data">over £500m</a> a year
-        to communities across the UK, raised by players of <a href="https://www.national-lottery.co.uk/">The National
-        Lottery</a>
-      under10k:
-        short: Apply for funding under £10,000
-        long: Learn how to apply for funding under £10,000
-      over10k:
-        short: Apply for funding over £10,000
-        long: Learn how to apply for funding over £10,000
+    intro: >
+      Thanks to <a href="%s">National Lottery</a> players raising funding for good causes,
+        we give out more than <a href="%s">£500 million</a> to communities across the UK each year
+    under10k:
+      short: Apply for funding under £10,000
+      long: Learn how to apply for funding under £10,000
+    over10k:
+      short: Apply for funding over £10,000
+      long: Learn how to apply for funding over £10,000
     caseStudies:
     - quoteText: "“I am helping make sure that young people get the opportunities they
         want in terms of education”"
