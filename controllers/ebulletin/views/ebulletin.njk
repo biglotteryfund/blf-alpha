@@ -15,7 +15,7 @@
             {% if status === 'SUCCESS' %}
                 <div class="s-prose">
                     <h3>{{ copy.responses.success.title }}</h3>
-                    <p>{{ copy.responses.success.body | safe }}</p>
+                    <p>{{ __(copy.responses.success.body, "http://bigmail.org.uk/t/3V8D-8ASA-B715KZGHE3/uns.aspx") | safe }}</p>
                 </div>
             {% elseif status === 'ERROR' %}
                 <h3>{{ copy.responses.error.title }}</h3>

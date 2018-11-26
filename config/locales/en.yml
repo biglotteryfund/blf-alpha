@@ -377,12 +377,11 @@ toplevel:
     callToAction: Subscribe
     responses:
       success:
-        title: Thank you for subscribing to receive updates and news from the Big
-            Lottery Fund
-        body: Your personal data is important to us and we will not share it with
+        title: Thank you for subscribing to receive updates and news from the Big Lottery Fund
+        body: >
+          Your personal data is important to us and we will not share it with
             third parties. We are sure you will enjoy hearing from us, but you can
-            <a href="http://bigmail.org.uk/t/3V8D-8ASA-B715KZGHE3/uns.aspx">unsubscribe
-            at any time</a> if you wish.
+            <a href="%s">unsubscribe at any time</a> if you wish.
       error:
         title: There was an error signing you up to the e-bulletin.
         body: It looks like we're experiencing an error with our e-bulletin tool.
