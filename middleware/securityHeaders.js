@@ -54,19 +54,18 @@ function defaultSecurityHeaders() {
         'platform.twitter.com',
         'sentry.io',
         'syndication.twitter.com',
-        'www.google-analytics.com',
-        'use.typekit.net'
+        'www.google-analytics.com'
     ];
 
     const directives = {
         defaultSrc: defaultSecurityDomains,
         childSrc: ['www.google.com'],
-        styleSrc: ['fonts.googleapis.com', '*.typekit.net'],
+        styleSrc: ['fonts.googleapis.com'],
         imgSrc: ['stats.g.doubleclick.net', 'via.placeholder.com', config.get('imgix.mediaDomain')],
         connectSrc: [],
         scriptSrc: [],
         frameSrc: [],
-        fontSrc: ['use.typekit.net'],
+        fontSrc: [],
         reportUri: 'https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c'
     };
 
