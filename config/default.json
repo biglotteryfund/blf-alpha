@@ -52,7 +52,6 @@
   },
   "googleAnalyticsCode": "UA-98908627-1",
   "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
-  "ebulletinApiEndpoint": "https://apiconnector.com/v2",
   "grants": {
     "dateRange": {
       "start": "2004-04-01",
