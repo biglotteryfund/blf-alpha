@@ -135,14 +135,14 @@ global:
 toplevel:
   home:
     title: Hafan
-    intro: Mae'r Gronfa Loteri Fawr yn dosbarthu <a href="/welsh/data">dros £500m</a>
-      y flwyddyn, a godir gan chwaraewyr y <a href="https://www.national-lottery.co.uk/">Loteri
-      Genedlaethol</a>, i gymunedau ledled y Deyrnas Unedig
+    intro: >
+      Diolch i chwaraewyr y <a href="%s">Loteri Genedlaethol</a> yn codi arian ar gyfer achosion da,
+      rydym yn dosbarthu mwy na <a href="%s">£500 miliwn</a> i gymunedau ar draws y Deyrnas Unedig bob blwyddyn
     under10k:
-      short: Cael gwybod sut i ymgeisio am grant o dan £10,000
+      short: Ymgeisio am grant o dan £10,000
       long: Cael gwybod sut i ymgeisio am grant o dan £10,000
     over10k:
-      short: Cael gwybod sut i ymgeisio am grant dros £10,000
+      short: Ymgeisio am grant dros £10,000
       long: Cael gwybod sut i ymgeisio am grant dros £10,000
     caseStudies:
     - quoteText: "“Rwy'n helpu sicrhau bod pobl ifainc yn cael y cyfleoedd y maent eu
