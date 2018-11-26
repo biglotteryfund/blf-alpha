@@ -18,7 +18,11 @@
       }
     }
   },
-  "siteDomain": "www.biglotteryfund.org.uk",
+  "domains": {
+    "host": "biglotteryfund.org.uk",
+    "www": "www.biglotteryfund.org.uk",
+    "legacy": "wwwlegacy.biglotteryfund.org.uk"
+  },
   "dateFormats": {
     "month": "MMMM YYYY",
     "short": "D MMMM, YYYY",
@@ -51,7 +55,6 @@
     "session": "blf-alpha-session"
   },
   "googleAnalyticsCode": "UA-98908627-1",
-  "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
   "grants": {
     "dateRange": {
       "start": "2004-04-01",

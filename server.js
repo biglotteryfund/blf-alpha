@@ -201,7 +201,7 @@ flatMap([
     '/funding/funding-guidance/applying-for-funding/*'
 ], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
     app.get(urlPath, cached.noCache, function(req, res) {
-        const fullUrl = `https://${config.get('siteDomain')}${req.originalUrl}`;
+        const fullUrl = `https://${config.get('domains.www')}${req.originalUrl}`;
         const archiveUrl = `http://webarchive.nationalarchives.gov.uk/${fullUrl}`;
         res.render('static-pages/archived', {
             title: 'Archived',

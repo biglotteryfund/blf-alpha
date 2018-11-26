@@ -9,7 +9,7 @@ const appData = require('./appData');
 const { isWelsh, makeWelsh, removeWelsh, stripTrailingSlashes } = require('../modules/urls');
 
 const { JSDOM } = jsdom;
-const legacyUrl = config.get('legacyDomain');
+const legacyUrl = `https://${config.get('domains.legacy')}`;
 
 function getCanonicalUrl(dom) {
     const metaIdentifier = dom.window.document.querySelector('meta[name="identifier"]');
@@ -141,7 +141,7 @@ function proxyPassthrough(req, res, next) {
             if (redirectDestination.indexOf(brokenSitecorePath) === -1) {
                 // Make the redirect relative to the current environment
                 // (they seem to come back from Sitecore with an absolute path)
-                let liveUrl = `https://${config.get('siteDomain')}`;
+                let liveUrl = `https://${config.get('domains.www')}`;
                 redirectDestination = redirectDestination.replace(liveUrl, '');
                 return res.redirect(301, redirectDestination);
             }

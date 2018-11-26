@@ -29,7 +29,7 @@ router.get('/status', (req, res) => {
 });
 
 router.get('/robots.txt', noCache, (req, res) => {
-    const isProductionDomain = req.get('host') === config.get('siteDomain');
+    const isProductionDomain = req.get('host') === config.get('domains.www');
 
     const disallowList = ['/api/', '/funding/grants/', '/welsh/funding/grants/'];
 

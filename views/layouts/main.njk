@@ -28,7 +28,7 @@
             {% elseif appData.isNotProduction and not appData.isDev %}
                 <div class="status-banner">
                     ✋ This is a test environment.
-                    <a href="https://{{ appData.config.get('siteDomain') }}{{ getCurrentUrl() }}">View this page on the live site</a>
+                    <a href="https://{{ appData.config.get('domains.www') }}{{ getCurrentUrl() }}">View this page on the live site</a>
                 </div>
             {% endif %}
 
