@@ -59,7 +59,7 @@ router.route('/').get((req, res) => {
 router.route('/rebrand/:switch').get((req, res) => {
     if (req.params.switch === 'on') {
         res.cookie(cookies.rebrand, REBRAND_SECRET, {
-            maxAge: moment.duration(1, 'days').asMilliseconds(),
+            maxAge: moment.duration(1, 'weeks').asMilliseconds(),
             httpOnly: true
         });
     } else {
