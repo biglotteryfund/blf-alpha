@@ -61,10 +61,11 @@
 }
 
 /* =========================================================================
-   Messages: Preview Banner
+   Messages: Status Banner
    ========================================================================= */
+/* Used to flag preview mode, environment status etc. */
 
-.preview-banner {
+.status-banner {
     text-align: center;
     font-size: 15px;
     padding: 1em 6px;

@@ -66,7 +66,7 @@ router.route('/rebrand/:switch').get((req, res) => {
         res.clearCookie(cookies.rebrand);
     }
 
-    res.redirect(req.baseUrl);
+    res.redirect('/');
 });
 
 router.use('/feedback-results', require('./feedback'));

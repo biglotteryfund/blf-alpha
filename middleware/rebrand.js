@@ -16,6 +16,7 @@ module.exports = (req, res, next) => {
         req.cookies[cookies.rebrand] === REBRAND_SECRET &&
         req.path.indexOf('/user/staff') === -1
     ) {
+        res.cacheControl = { noStore: true };
         res.locals.featureUseNewBrand = true;
         requireStaffAuth(req, res, next);
     } else {
