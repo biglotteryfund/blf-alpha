@@ -78,6 +78,11 @@ const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.mat
  */
 const DIGITAL_FUND_EMAIL = process.env.DIGITAL_FUND_EMAIL || getSecret('emails.digitalfund.demo');
 
+/**
+ * Rebrand secret
+ */
+const REBRAND_SECRET = getSecret('rebrand.secret');
+
 module.exports = {
     APPLICATIONS_SERVICE_ENDPOINT,
     AZURE_AUTH,
@@ -88,6 +93,7 @@ module.exports = {
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
+    REBRAND_SECRET,
     SENTRY_DSN,
     SESSION_SECRET
 };

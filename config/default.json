@@ -46,6 +46,7 @@
   "cookies": {
     "contrast": "contrastMode",
     "features": "blf-features",
+    "rebrand": "tnlcf-rebrand",
     "session": "blf-alpha-session"
   },
   "googleAnalyticsCode": "UA-98908627-1",

@@ -28,7 +28,7 @@
                 />
             </div>
 
-            {% if featureUseNewHeader %}
+            {% if featureUseNewBrand %}
                 {% include "includes/global-header-next.njk" %}
             {% else %}
                 {% include "includes/header.njk" %}
@@ -39,7 +39,7 @@
             {% include "includes/footer.njk" %}
         </div>
 
-        {% if not featureUseNewHeader %}
+        {% if not featureUseNewBrand %}
             {% include "includes/offscreenNav.njk" %}
         {% endif %}
 

@@ -1,12 +1,18 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const router = express.Router();
+const moment = require('moment');
+const config = require('config');
+
+const cookies = config.get('cookies');
 
 const { buildSecurityMiddleware } = require('../../middleware/securityHeaders');
 const { requireStaffAuth } = require('../../middleware/authed');
 const { noCache } = require('../../middleware/cached');
 const { noindex } = require('../../middleware/robots');
+const { REBRAND_SECRET } = require('../../modules/secrets');
+
+const router = express.Router();
 
 router.use(
     noCache,
@@ -51,10 +57,16 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/rebrand/:switch').get((req, res) => {
-    req.session['tnlcf-rebrand-2019'] = req.params.switch === 'on';
-    req.session.save(() => {
-        res.redirect('/');
-    });
+    if (req.params.switch === 'on') {
+        res.cookie(cookies.rebrand, REBRAND_SECRET, {
+            maxAge: moment.duration(1, 'days').asMilliseconds(),
+            httpOnly: true
+        });
+    } else {
+        res.clearCookie(cookies.rebrand);
+    }
+
+    res.redirect(req.baseUrl);
 });
 
 router.use('/feedback-results', require('./feedback'));
