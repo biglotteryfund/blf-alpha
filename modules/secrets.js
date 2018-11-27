@@ -81,7 +81,7 @@ const DIGITAL_FUND_EMAIL = process.env.DIGITAL_FUND_EMAIL || getSecret('emails.d
 /**
  * Rebrand secret
  */
-const REBRAND_SECRET = getSecret('rebrand.secret');
+const REBRAND_SECRET = process.env.REBRAND_SECRET || getSecret('rebrand.secret', true);
 
 module.exports = {
     APPLICATIONS_SERVICE_ENDPOINT,
