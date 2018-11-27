@@ -4,6 +4,8 @@ const { assign, compact, concat, flatten, flatMap, get, sortBy, uniq } = require
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 
+const cookies = config.get('cookies');
+
 /**
  * Custom cloudfront rules
  * If any cached url paths need custom cloudfront rules like query strings
@@ -141,7 +143,7 @@ function generateBehaviours(origins) {
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.newSite,
         isPostable: true,
-        cookiesInUse: [config.get('cookies.contrast'), config.get('cookies.features'), config.get('cookies.session')]
+        cookiesInUse: [cookies.contrast, cookies.features, cookies.rebrand, cookies.session]
     });
 
     // Serve legacy static files
@@ -164,9 +166,10 @@ function generateBehaviours(origins) {
             compact(
                 flatten([
                     [
-                        config.get('cookies.contrast'),
-                        config.get('cookies.features'),
-                        rule.noSession === true ? null : config.get('cookies.session')
+                        cookies.contrast,
+                        cookies.features,
+                        cookies.rebrand,
+                        rule.noSession === true ? null : cookies.session
                     ],
                     get(rule, 'cookies', [])
                 ])

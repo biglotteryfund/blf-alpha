@@ -42,6 +42,7 @@ const redirectsMiddleware = require('./middleware/redirects');
 const sessionMiddleware = require('./middleware/session');
 const timingsMiddleware = require('./middleware/timings');
 const vanityMiddleware = require('./middleware/vanity');
+const rebrandMiddleware = require('./middleware/rebrand');
 
 /**
  * Configure Sentry client
@@ -172,6 +173,7 @@ app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
 app.use(localsMiddleware.middleware);
 app.use(previewMiddleware);
+app.use(rebrandMiddleware);
 app.use(portalMiddleware);
 
 /**
