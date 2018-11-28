@@ -22,6 +22,12 @@ function translateEntryFor(copy) {
 
 if (appData.isNotProduction) {
     router.get('/:type?/:date?/:slug?', injectBreadcrumbs, injectCopy('toplevel.news'), async (req, res, next) => {
+        // Redirect invalid update types
+        const validUpdateTypes = ['blog', 'press-releases', 'updates'];
+        if (req.params.type && validUpdateTypes.indexOf(req.params.type) === -1) {
+            return res.redirect('/news');
+        }
+
         try {
             const urlParts = compact([req.params.type, req.params.date, req.params.slug]);
 
@@ -86,11 +92,17 @@ if (appData.isNotProduction) {
                     };
 
                     const pageTitle = (titleMap[filterType] || titleMap['default'])();
+                    const templatePath = {
+                        blog: './views/listing/blog',
+                        'press-releases': './views/listing/generic',
+                        updates: './views/listing/generic'
+                    }[req.params.type];
 
                     /**
                      * Render listing page
                      */
-                    res.render(path.resolve(__dirname, `./views/listing`), {
+                    res.render(path.resolve(__dirname, templatePath), {
+                        listingType: req.params.type,
                         title: pageTitle,
                         entries: entries,
                         entriesMeta: entriesMeta,

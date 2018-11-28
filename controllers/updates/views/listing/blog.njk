@@ -1,0 +1,65 @@
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/article-teaser/macro.njk" import articleTeaser %}
+{% from "components/split-nav/macro.njk" import splitNav %}
+
+{% set bodyClass = 'has-static-header' %}
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    {% set pageAccent = 'cyan' %}
+
+    <main role="main" id="content">
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
+            
+            <div class="u-constrained-wide">
+                {% if entriesMeta.pageType === 'author' %}
+                    {% set activeAuthor = entriesMeta.activeAuthor %}
+                    <h1>Viewing all posts by {{ activeAuthor.title }}</h1>
+                {% elseif entriesMeta.pageType === 'tag' %}
+                    {% set activeTag = entriesMeta.activeTag %}
+                    <h1>Viewing all posts tagged {{ activeTag.title }}</h1>
+                {% elseif entriesMeta.pageType === 'category' %}
+                    {% set activeCategory = entriesMeta.activeCategory %}
+                    <h1>Viewing all posts in {{ activeCategory.title }}</h1>
+                {% else %}
+                    <h1>{{ title }}</h1>
+                {% endif %}
+
+                <ol class="article-listing">
+                    {% for entry in entries %}
+                        <li class="article-listing__item">
+                            {% set subtitle %}
+                                <time class="article-teaser__pubdate" datetime="{{ props.postDate.date }}">
+                                    {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
+                                </time>
+                                {% if entry.category -%}
+                                    {# Only blog posts have categories #}
+                                    in <a href="{{ localify('/news/blog/?category=' + entry.category.slug) }}">{{ entry.category.title }}</a>
+                                {%- endif %}
+                            {% endset %}
+                            {{ articleTeaser({
+                                'title': entry.trailText or entry.title,
+                                'subtitle': subtitle | safe,
+                                'summary': entry.summary,
+                                'linkUrl': entry.linkUrl
+                            }) }}
+                        </li>
+                    {% endfor %}
+                </ol>
+
+                {{ splitNav(
+                    prevLink = {
+                        "label": "Previous page",
+                        "url": pagination.prevLink
+                    },
+                    nextLink = {
+                        "label": "Next page",
+                        "url": pagination.nextLink
+                    }
+                ) }}
+            </div>
+
+        </section>
+    </main>
+{% endblock %}
