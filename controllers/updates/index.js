@@ -101,7 +101,7 @@ if (appData.isNotProduction) {
                             blog: './views/listing/blog',
                             'press-releases': './views/listing/generic',
                             updates: './views/listing/generic'
-                        }[req.params.type];
+                        }[req.params.type || 'updates'];
 
                         /**
                          * Render listing page

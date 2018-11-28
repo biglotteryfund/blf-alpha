@@ -2,6 +2,7 @@
 {% from "components/article-teaser/macro.njk" import articleTeaser %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/split-nav/macro.njk" import splitNav %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 
 {% extends "layouts/main.njk" %}
 
@@ -20,61 +21,93 @@
             <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ breadcrumbTrail(breadcrumbs) }}
                 <div class="s-prose">
+                    {# @TODO handle this design #}
+                    {% if entriesMeta.pageType === 'author' %}
+                        {% set activeAuthor = entriesMeta.activeAuthor %}
+                        <h1>Viewing all posts by {{ activeAuthor.title }}</h1>
+                    {% elseif entriesMeta.pageType === 'tag' %}
+                        {% set activeTag = entriesMeta.activeTag %}
+                        <h1>Viewing all posts tagged {{ activeTag.title }}</h1>
+                    {% elseif entriesMeta.pageType === 'category' %}
+                        {% set activeCategory = entriesMeta.activeCategory %}
+                        <h1>Viewing all posts in {{ activeCategory.title }}</h1>
+                    {% else %}
+                        <h1>{{ title }}</h1>
+                    {% endif %}
                     <p>Blog intro text goes here @TODO</p>
                 </div>
             </div>
         </div>
 
-        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-            <div class="u-constrained-wide">
+        <section class="u-inner">
 
-                {# @TODO handle this design #}
-                {% if entriesMeta.pageType === 'author' %}
-                    {% set activeAuthor = entriesMeta.activeAuthor %}
-                    <h1>Viewing all posts by {{ activeAuthor.title }}</h1>
-                {% elseif entriesMeta.pageType === 'tag' %}
-                    {% set activeTag = entriesMeta.activeTag %}
-                    <h1>Viewing all posts tagged {{ activeTag.title }}</h1>
-                {% elseif entriesMeta.pageType === 'category' %}
-                    {% set activeCategory = entriesMeta.activeCategory %}
-                    <h1>Viewing all posts in {{ activeCategory.title }}</h1>
-                {% else %}
-                    <h1>{{ title }}</h1>
-                {% endif %}
+            <ul class="flex-grid flex-grid--3up">
+                {% set lastEntryWasPromoted = false %}
+                {% for entry in entries %}
+                    {% set shouldPromote = entry.promoted and not lastEntryWasPromoted and not loop.last %}
+                    {% if shouldPromote %}
+                        {% set lastEntryWasPromoted = true %}
+                    {% else %}
+                        {% set lastEntryWasPromoted = false %}
+                    {% endif %}
 
-                <ol class="article-listing">
-                    {% for entry in entries %}
-                        <li class="article-listing__item">
-                            {% set subtitle %}
-                                <time class="article-teaser__pubdate" datetime="{{ props.postDate.date }}">
-                                    {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
-                                </time>
-                                {% if entry.category -%}
-                                    {# Only blog posts have categories #}
-                                    in <a href="{{ localify('/news/blog/?category=' + entry.category.slug) }}">{{ entry.category.title }}</a>
-                                {%- endif %}
-                            {% endset %}
-                            {{ articleTeaser({
-                                'title': entry.trailText or entry.title,
-                                'subtitle': subtitle | safe,
-                                'summary': entry.summary,
-                                'linkUrl': entry.linkUrl
-                            }) }}
-                        </li>
-                    {% endfor %}
-                </ol>
+                    <li class="flex-grid__item{% if shouldPromote %} flex-grid__item--major{% endif %}">
+                        {% call promoCard({
+                            "title": entry.trailText or entry.title,
+                            subtitle: formatDate(entry.postDate.date, DATE_FORMATS.short),
+                            "trailText": entry.summary,
+                            "image": {
+                                "url": entry.thumbnail.large,
+                                "alt": entry.title
+                            },
+                            "link": {
+                                "label": entry.title,
+                                "labelAria": entry.title,
+                                "url": entry.linkUrl
+                            }
+                        }, featured = shouldPromote) %}
 
-                {{ splitNav(
-                    prevLink = {
-                        "label": "Previous page",
-                        "url": pagination.prevLink
-                    },
-                    nextLink = {
-                        "label": "Next page",
-                        "url": pagination.nextLink
-                    }
-                ) }}
-            </div>
+                            <div class="article-listing__meta{% if shouldPromote %} article-listing__meta--featured{% endif %}">
+                                <div class="article-listing__meta__author">
+                                    {% set separator = joiner(',') %}
+                                    {% for author in entry.authors -%}
+                                        {{ separator() }} <strong>{{ author.title }}</strong>
+                                    {%- endfor %}
+                                </div>
+
+                                <div class="article-listing__meta__tags">
+                                    <ul class="tags-list">
+                                        <li class="tag">
+                                            <a href="{{ localify('/news/blog/?category=' + entry.category.slug) }}">
+                                                {{ entry.category.title }}
+                                            </a>
+                                        </li>
+                                        {% for tag in entry.tags %}
+                                            <li class="tag tag--secondary">
+                                                <a href="{{ localify('/news?tag=' + tag.slug) }}">
+                                                    {{ tag.title }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+
+                        {% endcall %}
+                    </li>
+                {% endfor %}
+            </ul>
+
+            {{ splitNav(
+                prevLink = {
+                    "label": "Previous page",
+                    "url": pagination.prevLink
+                },
+                nextLink = {
+                    "label": "Next page",
+                    "url": pagination.nextLink
+                }
+            ) }}
 
         </section>
     </main>
