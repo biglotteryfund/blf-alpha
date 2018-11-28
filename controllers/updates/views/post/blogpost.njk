@@ -106,6 +106,26 @@
                             {{ inlineLinks(prefix = __('global.misc.topics') | title, links = links) }}
                         </aside>
                     {% endif %}
+
+                    {% if entry.relatedFundingProgrammes.length > 0 %}
+                        <div class="u-tone-background-tint u-padded u-margin-top-l">
+                            {% for programme in entry.relatedFundingProgrammes %}
+                                <div class="o-media u-margin-bottom">
+                                    {% if programme.photo %}
+                                        <img src="{{ programme.photo.small }}"
+                                             alt="{{ programme.title }}"
+                                             class="o-media-figure"
+                                             width="160" />
+                                    {% endif %}
+                                    <div class="o-media-body">
+                                        <h4 class="a--text accent--{{ pageAccent }}">{{ programme.title }}</h4>
+                                        {{ programme.intro | safe }}
+                                        <p><a href="{{ programme.linkUrl }}">Read more about this programme</a></p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </article>
             </section>
         </div>
