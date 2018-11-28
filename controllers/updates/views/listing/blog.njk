@@ -20,27 +20,45 @@
         <div class="nudge-up">
             <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
                 {{ breadcrumbTrail(breadcrumbs) }}
-                <div class="s-prose">
-                    {# @TODO handle this design #}
-                    {% if entriesMeta.pageType === 'author' %}
-                        {% set activeAuthor = entriesMeta.activeAuthor %}
-                        <h1>Viewing all posts by {{ activeAuthor.title }}</h1>
-                    {% elseif entriesMeta.pageType === 'tag' %}
-                        {% set activeTag = entriesMeta.activeTag %}
-                        <h1>Viewing all posts tagged {{ activeTag.title }}</h1>
-                    {% elseif entriesMeta.pageType === 'category' %}
-                        {% set activeCategory = entriesMeta.activeCategory %}
-                        <h1>Viewing all posts in {{ activeCategory.title }}</h1>
-                    {% else %}
-                        <h1>{{ title }}</h1>
-                    {% endif %}
+
+                {% if entriesMeta.pageType === 'author' %}
+                    {% set author = entriesMeta.activeAuthor %}
+                    <h2 class="t4">About the author</h2>
+                    <aside class="o-media">
+                        {% if author.photo %}
+                            <img src="{{ author.photo }}"
+                                 alt="{{ author.title }}"
+                                 class="o-media-figure"
+                                 width="200" />
+                        {% endif %}
+                        <div class="o-media-body">
+                            <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
+                            {% if author.authorTitle %}
+                                <p>{{ author.authorTitle }}</p>
+                            {% endif %}
+                            {% if author.fullBiography %}
+                                <div class="s-prose">{{ author.fullBiography | safe }}</div>
+                            {% endif %}
+                        </div>
+                    </aside>
+                {% elseif entriesMeta.pageType === 'tag' %}
+                    {% set activeTag = entriesMeta.activeTag %}
+                    <h1>Viewing all posts tagged {{ activeTag.title }}</h1>
+                {% elseif entriesMeta.pageType === 'category' %}
+                    {% set activeCategory = entriesMeta.activeCategory %}
+                    <h1>Viewing all posts in {{ activeCategory.title }}</h1>
+                {% else %}
+                    <h1>{{ title }}</h1>
                     <p>Blog intro text goes here @TODO</p>
-                </div>
+                {% endif %}
             </div>
         </div>
 
         <section class="u-inner">
-
+            {% if entriesMeta.pageType === 'author' %}
+                {% set activeAuthor = entriesMeta.activeAuthor %}
+                <h1>Showing all posts by {{ activeAuthor.title }}</h1>
+            {% endif %}
             <ul class="flex-grid flex-grid--3up">
                 {% set lastEntryWasPromoted = false %}
                 {% for entry in entries %}
@@ -65,34 +83,36 @@
                                 "labelAria": entry.title,
                                 "url": entry.linkUrl
                             }
-                        }, featured = shouldPromote) %}
+                        }) %}
 
                             <div class="article-listing__meta{% if shouldPromote %} article-listing__meta--featured{% endif %}">
-                                <div class="article-listing__meta__author">
-                                    {% if entry.authors.length === 1 %}
-                                        {% set author = entry.authors[0] %}
+                                {% if entriesMeta.pageType !== 'author' %}
+                                    <div class="article-listing__meta__author">
+                                        {% if entry.authors.length === 1 %}
+                                            {% set author = entry.authors[0] %}
 
-                                        <aside class="o-media">
-                                            {% if author.photo %}
-                                                <img src="{{ author.photo }}"
-                                                     alt="{{ author.title }}"
-                                                     class="o-media-figure"
-                                                     width="60"/>
-                                            {% endif %}
-                                            <div class="o-media-body">
-                                                <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
-                                                {% if author.authorTitle %}
-                                                    <p>{{ author.authorTitle }}</p>
+                                            <aside class="o-media">
+                                                {% if author.photo %}
+                                                    <img src="{{ author.photo }}"
+                                                         alt="{{ author.title }}"
+                                                         class="o-media-figure"
+                                                         width="60"/>
                                                 {% endif %}
-                                            </div>
-                                        </aside>
-                                    {% else %}
-                                        {% set separator = joiner(',') %}
-                                        {% for author in entry.authors -%}
-                                            {{ separator() }} <strong>{{ author.title }}</strong>
-                                        {%- endfor %}
-                                    {% endif %}
-                                </div>
+                                                <div class="o-media-body">
+                                                    <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
+                                                    {% if author.authorTitle %}
+                                                        <p>{{ author.authorTitle }}</p>
+                                                    {% endif %}
+                                                </div>
+                                            </aside>
+                                        {% else %}
+                                            {% set separator = joiner(',') %}
+                                            {% for author in entry.authors -%}
+                                                {{ separator() }} <strong>{{ author.title }}</strong>
+                                            {%- endfor %}
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
 
                                 <div class="article-listing__meta__tags">
                                     <ul class="tags-list">
