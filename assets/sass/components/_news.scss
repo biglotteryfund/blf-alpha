@@ -57,6 +57,31 @@
     }
 }
 
+.article-listing__meta {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .article-listing__meta__author {
+        margin-top: $spacingUnit * 2;
+        order: 2;
+    }
+
+    .article-listing__meta__tags {
+        flex-basis: 100%;
+    }
+
+    &.article-listing__meta--featured {
+        .article-listing__meta__author {
+            margin-top: 0;
+            order: 0;
+        }
+        .article-listing__meta__tags {
+            flex-basis: auto;
+        }
+    }
+}
+
 /* =========================================================================
    Article Detail
    ========================================================================= */
