@@ -107,7 +107,6 @@ if (appData.isNotProduction) {
                          * Render listing page
                          */
                         res.render(path.resolve(__dirname, templatePath), {
-                            listingType: req.params.type,
                             title: pageTitle,
                             entries: entries,
                             entriesMeta: entriesMeta,
@@ -134,10 +133,16 @@ if (appData.isNotProduction) {
                             { label: title }
                         );
 
+                        const templatePath = {
+                            blog: './views/post/blogpost',
+                            'press-releases': './views/listing/generic',
+                            updates: './views/listing/generic'
+                        }[req.params.type || 'updates'];
+
                         /**
                          * Render single entry page
                          */
-                        return res.render(path.resolve(__dirname, './views/post'), { title, entry, breadcrumbs });
+                        return res.render(path.resolve(__dirname, templatePath), { title, entry, breadcrumbs });
                     }
                 }
             } catch (e) {

@@ -118,11 +118,10 @@
 }
 .article__meta {
     border-top: 3px solid;
-    padding-top: $spacingUnit / 2;
 
     @include mq('medium') {
         order: 2;
-        flex: 0 0 180px;
+        flex: 0 0 300px;
     }
 }
 
