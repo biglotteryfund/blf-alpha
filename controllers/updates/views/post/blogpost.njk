@@ -2,6 +2,7 @@
 {% from "components/content.njk" import flexibleContent %}
 {% from "components/inline-links/macro.njk" import inlineLinks %}
 {% from "components/hero.njk" import hero with context %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 
 {% extends "layouts/main.njk" %}
@@ -36,15 +37,20 @@
             {% endfor %}
         </div>
 
-
-        <div class="u-tone-background-tint u-padded u-margin-bottom">
-            <h3 class="t5">About this post</h3>
+        {% call promoCard({
+            "title": "About this post",
+            "image": {
+                "url": entry.thumbnail.small,
+                "alt": entry.title
+            }
+        }) %}
             <p class="article-meta__pubdate u-margin-bottom-s">
                 <strong>Date published:</strong>
                 <time datetime="{{ entry.postDate.date }}">
                     {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
                 </time>
             </p>
+
             <div class="article-listing__meta__tags">
                 <ul class="tags-list">
                     <li class="tag">
@@ -61,8 +67,7 @@
                     {% endfor %}
                 </ul>
             </div>
-        </div>
-
+        {% endcall %}
 
     </div>
 {% endmacro %}
@@ -98,6 +103,7 @@
                             {% endif %}
                         </div>
                     </div>
+
                     {% if entry.tags.length > 0 %}
                         <aside class="article__topics" role="aside">
                             {% set links = [] %}
