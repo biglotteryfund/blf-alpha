@@ -1,18 +1,34 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/article-teaser/macro.njk" import articleTeaser %}
+{% from "components/hero.njk" import hero with context %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 
-{% set bodyClass = 'has-static-header' %}
 {% extends "layouts/main.njk" %}
 
 {% block content %}
-    {% set pageAccent = 'cyan' %}
+    {% set pageAccent = 'pink' %}
 
     <main role="main" id="content">
+
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
+                <div class="s-prose">
+                    <p>Blog intro text goes here @TODO</p>
+                </div>
+            </div>
+        </div>
+
         <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-            {{ breadcrumbTrail(breadcrumbs) }}
-            
             <div class="u-constrained-wide">
+
+                {# @TODO handle this design #}
                 {% if entriesMeta.pageType === 'author' %}
                     {% set activeAuthor = entriesMeta.activeAuthor %}
                     <h1>Viewing all posts by {{ activeAuthor.title }}</h1>
