@@ -69,10 +69,29 @@
 
                             <div class="article-listing__meta{% if shouldPromote %} article-listing__meta--featured{% endif %}">
                                 <div class="article-listing__meta__author">
-                                    {% set separator = joiner(',') %}
-                                    {% for author in entry.authors -%}
-                                        {{ separator() }} <strong>{{ author.title }}</strong>
-                                    {%- endfor %}
+                                    {% if entry.authors.length === 1 %}
+                                        {% set author = entry.authors[0] %}
+
+                                        <aside class="o-media">
+                                            {% if author.photo %}
+                                                <img src="{{ author.photo }}"
+                                                     alt="{{ author.title }}"
+                                                     class="o-media-figure"
+                                                     width="60"/>
+                                            {% endif %}
+                                            <div class="o-media-body">
+                                                <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
+                                                {% if author.authorTitle %}
+                                                    <p>{{ author.authorTitle }}</p>
+                                                {% endif %}
+                                            </div>
+                                        </aside>
+                                    {% else %}
+                                        {% set separator = joiner(',') %}
+                                        {% for author in entry.authors -%}
+                                            {{ separator() }} <strong>{{ author.title }}</strong>
+                                        {%- endfor %}
+                                    {% endif %}
                                 </div>
 
                                 <div class="article-listing__meta__tags">
@@ -99,9 +118,11 @@
             </ul>
 
             {% set innerContent %}
-                <span class="split-nav__current">{{ pagination.currentPage }}</span>
-                {{ __('global.misc.of') }}
-                {{ pagination.totalPages }}
+                {% if pagination.totalPages > 1 %}
+                    <span class="split-nav__current">{{ pagination.currentPage }}</span>
+                    {{ __('global.misc.of') }}
+                    {{ pagination.totalPages }}
+                {% endif %}
             {% endset %}
 
             {{ splitNav(
