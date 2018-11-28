@@ -98,6 +98,12 @@
                 {% endfor %}
             </ul>
 
+            {% set innerContent %}
+                <span class="split-nav__current">{{ pagination.currentPage }}</span>
+                {{ __('global.misc.of') }}
+                {{ pagination.totalPages }}
+            {% endset %}
+
             {{ splitNav(
                 prevLink = {
                     "label": "Previous page",
@@ -106,7 +112,8 @@
                 nextLink = {
                     "label": "Next page",
                     "url": pagination.nextLink
-                }
+                },
+                innerContent = innerContent
             ) }}
 
         </section>
