@@ -123,8 +123,13 @@ function getBlogDetail({ locale, urlPath, previewMode = null }) {
  * Get updates
  * @param options
  * @property {string} options.locale
+ * @property {string} [options.type]
+ * @property {string} [options.date]
+ * @property {string} [options.slug]
+ * @property {object} [options.query]
+ * @property {object} [options.previewMode]
  */
-function getUpdates({ locale, type, date, slug, query = {}, previewMode = false }) {
+function getUpdates({ locale, type = null, date = null, slug = null, query = {}, previewMode = null }) {
     if (slug) {
         return fetch(`/v1/${locale}/updates/${type}/${date}/${slug}`, {
             qs: addPreviewParams(previewMode)

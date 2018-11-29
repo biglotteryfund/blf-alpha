@@ -53,14 +53,6 @@
 
             <h1 class="t--underline">{{ title }}</h1>
 
-            {# Updates #}
-            {{ newsSection(
-                title = copy.types.updates.plural,
-                entries = groupedEntries.updates,
-                allLink = localify('/news/updates')
-            )}}
-
-
             {# Blog posts #}
             {{ newsSection(
                 title = copy.types.blog.plural,
@@ -74,18 +66,6 @@
                 entries = groupedEntries.press_releases,
                 allLink = localify('/news/press-releases')
             )}}
-
-            {{ splitNav(
-                prevLink = {
-                    "label": "Previous page",
-                    "url": pagination.prevLink
-                },
-                nextLink = {
-                    "label": "Next page",
-                    "url": pagination.nextLink
-                }
-            ) }}
-
         </section>
     </main>
 {% endblock %}
