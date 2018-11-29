@@ -1,0 +1,10 @@
+{% macro card(title, accent) %}
+    <aside class="card u-accent-border-top-{{ accent }}">
+        {% if title %}
+            <header class="card__header">
+                <h3 class="card__title">{{ title }}</h3>
+            </header>
+        {% endif %} 
+        <div class="card__body">{{ caller() }}</div>
+    </aside>
+{% endmacro %}
