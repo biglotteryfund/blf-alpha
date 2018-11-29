@@ -1,7 +1,6 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const { sortBy } = require('lodash');
 
 const contentApi = require('../../services/content-api');
 
@@ -11,18 +10,12 @@ router.get('/', async (req, res, next) => {
     const locale = req.i18n.getLocale();
 
     try {
-        const [statRegions, statPage] = await Promise.all([
-            contentApi.getStatRegions(locale),
-            contentApi.getDataStats({
-                locale: locale,
-                previewMode: res.locals.PREVIEW_MODE || false
-            })
-        ]);
-
-        res.render(path.resolve(__dirname, './views/data'), {
-            statRegions: sortBy(statRegions, 'title'),
-            statPage: statPage
+        const dataStats = await contentApi.getDataStats({
+            locale: locale,
+            previewMode: res.locals.PREVIEW_MODE || false
         });
+
+        res.render(path.resolve(__dirname, './views/data'), { title: dataStats.title, dataStats });
     } catch (error) {
         next(error);
     }

@@ -79,6 +79,14 @@ function filterBySlugs(list, slugs) {
  * API Methods
  ***********************************************/
 
+function getRoutes() {
+    return fetch('/v1/list-routes').then(mapAttrs);
+}
+
+function getAliases({ locale }) {
+    return fetch(`/v1/${locale}/aliases`).then(mapAttrs);
+}
+
 function getHeroImage({ locale, slug }) {
     return fetch(`/v1/${locale}/hero-image/${slug}`).then(response => response.data.attributes);
 }
@@ -186,9 +194,7 @@ function getFlexibleContent({ locale, path, previewMode }) {
     const sanitisedPath = sanitiseUrlPath(path);
     return fetch(`/v1/${locale}/flexible-content`, {
         qs: addPreviewParams(previewMode, { path: sanitisedPath })
-    }).then(response => {
-        return response.data.attributes;
-    });
+    }).then(response => response.data.attributes);
 }
 
 function getCaseStudies({ locale, slugs = [] }) {
@@ -211,24 +217,12 @@ function getDataStats({ locale, previewMode }) {
     }).then(response => response.data.attributes);
 }
 
-function getStatRegions(locale) {
-    return fetch(`/v1/${locale}/stat-regions`).then(mapAttrs);
-}
-
-function getAliases({ locale }) {
-    return fetch(`/v1/${locale}/aliases`).then(mapAttrs);
-}
-
 function getMerchandise(locale, showAll = false) {
     let params = {};
     if (showAll) {
         params.all = 'true';
     }
     return fetch(`/v1/${locale}/merchandise`, { qs: params }).then(mapAttrs);
-}
-
-function getRoutes() {
-    return fetch('/v1/list-routes').then(mapAttrs);
 }
 
 module.exports = {
@@ -238,20 +232,19 @@ module.exports = {
     getAliases,
     getBlogDetail,
     getBlogPosts,
-    getUpdates,
     getCaseStudies,
+    getDataStats,
     getFlexibleContent,
     getFundingProgramme,
     getFundingProgrammes,
-    getResearch,
-    getStrategicProgrammes,
     getHeroImage,
     getHomepage,
     getListingPage,
     getMerchandise,
     getOurPeople,
     getPromotedNews,
+    getResearch,
     getRoutes,
-    getStatRegions,
-    getDataStats
+    getStrategicProgrammes,
+    getUpdates
 };
