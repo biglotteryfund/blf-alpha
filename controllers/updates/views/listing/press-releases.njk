@@ -4,6 +4,8 @@
 {% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/hero.njk" import hero with context %}
 
+{% from "../view-helpers.njk" import entryRegions with context %}
+
 {% extends "layouts/main.njk" %}
 
 {% block content %}
@@ -33,15 +35,7 @@
                                         </time>
 
                                         {% if entry.regions.length > 0 %}
-                                            in
-                                            {% set comma = joiner() %}
-                                            {% for region in entry.regions -%}
-                                                {{ comma() }} <a href="?region={{ region.slug }}">{{ region.title }}</a>
-                                                {% if region.children.length > 0 %}/{% endif %}
-                                                {% for childRegion in region.children -%}
-                                                    <a href="?region={{ childRegion.slug }}">{{ childRegion.title }}</a>
-                                                {%- endfor %}
-                                            {%- endfor %}
+                                            in {{ entryRegions(entry, currentPath) }}
                                         {% endif %}
                                     {% endset %}
                                     {{ articleTeaser({

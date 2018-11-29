@@ -75,7 +75,7 @@ if (appData.isNotProduction) {
                             breadcrumbs: concat(
                                 res.locals.breadcrumbs,
                                 {
-                                    label: typeCopy.singular,
+                                    label: typeCopy.plural,
                                     url: res.locals.localify(`${req.baseUrl}/press-releases`)
                                 },
                                 { label: entry.title }
