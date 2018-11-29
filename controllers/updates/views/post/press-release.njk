@@ -17,7 +17,7 @@
                 {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
             </time>
         </dd>
-        {% if entry.regions %}
+        {% if entry.regions.length > 0 %}
             <dt>Region</dt>
             <dd>{{ entryRegions(entry, '../') }}</dd>
         {% endif %}
@@ -50,11 +50,6 @@
                             <h3 class="accent--{{ pageAccent }} a--text">Notes to Editors</h3>
                             {{ entry.notesToEditors | safe }}
                         {% endif %}
-
-                        {% if entry.contacts %}
-                            <h3 class="accent--{{ pageAccent }} a--text">Contact</h3>
-                            {{ entry.contacts | safe }}
-                        {% endif %}
                     </aside>
                 </div>
                 <div class="content-sidebar__secondary">
@@ -68,7 +63,7 @@
                     {% endcall %}
 
                     {% if entry.contacts %}
-                        {% call card("Contact") %}
+                        {% call card("Contacts") %}
                             <div class="s-prose u-text-small">
                                 {{ entry.contacts | safe }}
                             </div>
