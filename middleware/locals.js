@@ -69,11 +69,15 @@ module.exports = {
             caption: 'Rathlin Island Development and Community Association'
         };
 
-        /***********************************************
-         * Global view methods
-         ***********************************************/
-
+        /**
+         * Get suitable text for <title>
+         */
         res.locals.getMetaTitle = getMetaTitle;
+
+        /**
+         * Current path without query string
+         */
+        res.locals.currentPath = req.path;
 
         /**
          * Absolute URL helper
