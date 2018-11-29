@@ -45,12 +45,12 @@
                         {{ entryMeta(entry) }}
                     </div>
 
-                    <aside class="u-tone-background-tint u-padded" id="notes">
-                        {% if entry.notesToEditors %}
+                    {% if entry.notesToEditors %}
+                        <aside class="u-tone-background-tint u-padded" id="notes">
                             <h3 class="accent--{{ pageAccent }} a--text">Notes to Editors</h3>
                             {{ entry.notesToEditors | safe }}
-                        {% endif %}
-                    </aside>
+                        </aside>
+                    {% endif %}
                 </div>
 
                 <div class="content-sidebar__secondary">
