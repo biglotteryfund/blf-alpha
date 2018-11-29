@@ -1,0 +1,10 @@
+{% macro entryRegions(entry, baseUrlPath) -%}
+    {% set comma = joiner() %}
+    {% for region in entry.regions -%}
+        {{ comma() }} <a href="{{ baseUrlPath }}?region={{ region.slug }}">{{ region.title }}</a>
+        {% set childComma = joiner() %}
+        {% if region.children.length > 0 %}({% endif %}{%- for childRegion in region.children -%}
+            {% if childComma() %}{{ childComma() }} {% endif %}<a href="{{ baseUrlPath }}?region={{ childRegion.slug }}">{{ childRegion.title }}</a>
+        {%- endfor -%}{% if region.children.length > 0 %}){% endif %}
+    {%- endfor %}
+{% endmacro %}
