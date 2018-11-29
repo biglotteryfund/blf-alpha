@@ -119,26 +119,33 @@ function getBlogDetail({ locale, urlPath, previewMode = null }) {
     });
 }
 
-function getUpdates({ locale, urlPath = '', query = {}, previewMode = false }) {
-    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/updates${urlPath}`, {
-        qs: addPreviewParams(previewMode, { ...query, ...{ 'page-limit': 10 } })
-    }).then(responses => {
-        const [enResponse, cyResponse] = responses;
-
-        if (isArray(enResponse.data)) {
+/**
+ * Get updates
+ * @param options
+ * @property {string} options.locale
+ */
+function getUpdates({ locale, type, date, slug, query = {}, previewMode = false }) {
+    if (slug) {
+        return fetch(`/v1/${locale}/updates/${type}/${date}/${slug}`, {
+            qs: addPreviewParams(previewMode)
+        }).then(response => {
+            return {
+                meta: response.meta,
+                result: response.data.attributes
+            };
+        });
+    } else {
+        return fetchAllLocales(reqLocale => `/v1/${reqLocale}/updates/${type || ''}`, {
+            qs: addPreviewParams(previewMode, { ...query, ...{ 'page-limit': 10 } })
+        }).then(responses => {
+            const [enResponse, cyResponse] = responses;
             const results = mergeWelshBy('slug')(locale, mapAttrs(enResponse), mapAttrs(cyResponse));
             return {
                 meta: enResponse.meta,
                 result: results
             };
-        } else {
-            const response = locale === 'en' ? enResponse : cyResponse;
-            return {
-                meta: response.meta,
-                result: response.data.attributes
-            };
-        }
-    });
+        });
+    }
 }
 
 function getFundingProgrammes({ locale }) {

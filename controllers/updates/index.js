@@ -20,15 +20,6 @@ function translateEntryFor(copy) {
     };
 }
 
-// @TODO: Merge this into  content-api method
-function getUpdates({ locale, type, date, slug, query }) {
-    return contentApi.getUpdates({
-        locale: locale,
-        urlPath: type ? `/${type}/${compact([date, slug]).join('/')}` : '/',
-        query: slug ? {} : query
-    });
-}
-
 if (appData.isNotProduction) {
     router.get(
         '/press-releases/:date?/:slug?',
@@ -40,7 +31,7 @@ if (appData.isNotProduction) {
                 const { breadcrumbs, copy } = res.locals;
                 const typeCopy = copy.types['press-releases'];
 
-                const response = await getUpdates({
+                const response = await contentApi.getUpdates({
                     locale: req.i18n.getLocale(),
                     type: 'press-releases',
                     date: req.params.date,
