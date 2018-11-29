@@ -29,9 +29,26 @@ global:
     blog: Blog
     updates: News
   contact:
-    city: London
+    address: 1 Plough Place, London, EC4A 1DE
     phone: 0345 4 10 20 30
     email: general.enquiries@biglotteryfund.org.uk
+    press:
+      title: How do I get in contact if I have a press query?
+      regions:
+      - title: England/UK
+        phone: >
+          <a href="tel:02072111888">020 7211 1888</a> (out of hours: 07867 500572)
+        email: pressoffice@biglotteryfund.org.uk
+      - title: Northern Ireland
+        phone: >
+          <a href="tel:02890551432">02890 551 432</a> or <a href="tel:02890551450">02890 551 450</a>
+          (out of hours: <a href="tel:07580811135">07580 811 135</a>)
+      - title: Scotland
+        phone: >
+          <a href="tel:01412421458">0141 242 1458</a> (out of hours: <a href="tel:07880737157">07880 737 157</a>)
+      - title: Wales
+        phone: >
+          <a href="tel:02920678236">029 2067 8236</a> (out of hours: <a href="tel:07870566867">07870 566 867</a>)
   footerLinks:
     title: Quick links
     links:
@@ -100,6 +117,8 @@ global:
     to: to
     on: on
     of: of
+    phone: phone
+    email: email
     printThisPage: Print this page
     projectExamples: Examples of projects that have been funded
     readMore: Read more
@@ -446,18 +465,18 @@ toplevel:
       totalAwarded: Total awarded
       totalBeneficiaries: Total beneficiaries
       totalGrants: Total grants
-  news:
-    allNews: All news
-    types:
-      blog:
-        singular: Blog
-        plural: Blog posts
-      press-releases:
-        singular: Press Release
-        plural: Press Releases
-      updates:
-        singular: Updates
-        plural: Updates
+news:
+  allNews: All news
+  types:
+    blog:
+      singular: Blog
+      plural: Blog posts
+    press-releases:
+      singular: Press release
+      plural: Press releases
+    updates:
+      singular: Updates
+      plural: Updates
 ourPeople:
   title: Our People
   introduction: >

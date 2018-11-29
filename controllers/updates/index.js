@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const { compact, concat, get, groupBy, head, isArray, pick } = require('lodash');
+const { compact, concat, get, groupBy, head, includes, isArray, pick } = require('lodash');
 
 const { buildPagination } = require('../../modules/pagination');
 const { injectBreadcrumbs, injectCopy, injectHeroImage } = require('../../middleware/inject-content');
@@ -20,17 +20,80 @@ function translateEntryFor(copy) {
     };
 }
 
+// @TODO: Merge this into  content-api method
+function getUpdates({ locale, type, date, slug, query }) {
+    return contentApi.getUpdates({
+        locale: locale,
+        urlPath: type ? `/${type}/${compact([date, slug]).join('/')}` : '/',
+        query: slug ? {} : query
+    });
+}
+
 if (appData.isNotProduction) {
+    router.get(
+        '/press-releases/:date?/:slug?',
+        injectBreadcrumbs,
+        injectCopy('news'),
+        injectHeroImage('youth-action-1'),
+        async (req, res, next) => {
+            try {
+                const { breadcrumbs, copy } = res.locals;
+                const typeCopy = copy.types['press-releases'];
+
+                const response = await getUpdates({
+                    locale: req.i18n.getLocale(),
+                    type: 'press-releases',
+                    date: req.params.date,
+                    slug: req.params.slug,
+                    query: pick(req.query, ['page', 'region'])
+                });
+
+                if (!response.result) {
+                    next();
+                }
+
+                if (isArray(response.result)) {
+                    res.render(path.resolve(__dirname, './views/listing/press-releases'), {
+                        title: typeCopy.plural,
+                        entries: response.result,
+                        entriesMeta: response.meta,
+                        pagination: buildPagination(response.meta.pagination),
+                        breadcrumbs: concat(breadcrumbs, { label: typeCopy.plural })
+                    });
+                } else {
+                    if (req.baseUrl + req.path !== response.result.linkUrl) {
+                        res.redirect(response.result.linkUrl);
+                    } else {
+                        const entry = response.result;
+                        return res.render(path.resolve(__dirname, './views/post/press-release'), {
+                            title: entry.title,
+                            entry: entry,
+                            breadcrumbs: concat(
+                                res.locals.breadcrumbs,
+                                {
+                                    label: typeCopy.singular,
+                                    url: res.locals.localify(`${req.baseUrl}/press-releases`)
+                                },
+                                { label: entry.title }
+                            )
+                        });
+                    }
+                }
+            } catch (e) {
+                next(e);
+            }
+        }
+    );
+
     router.get(
         '/:type?/:date?/:slug?',
         injectBreadcrumbs,
-        injectCopy('toplevel.news'),
+        injectCopy('news'),
         injectHeroImage('manchester-cares'),
         async (req, res, next) => {
             // Redirect invalid update types
-            const validUpdateTypes = ['blog', 'press-releases', 'updates'];
-            if (req.params.type && validUpdateTypes.indexOf(req.params.type) === -1) {
-                return res.redirect('/news');
+            if (req.params.type && includes(['blog', 'press-releases', 'updates'], req.params.type) === false) {
+                return res.redirect(req.baseUrl);
             }
 
             try {
@@ -40,7 +103,7 @@ if (appData.isNotProduction) {
                     locale: req.i18n.getLocale(),
                     urlPath: `/${urlParts.join('/')}`,
                     // Listings (but not single posts) can be filtered by the following valid query parameters:
-                    query: urlParts.length === 3 ? {} : pick(req.query, ['page', 'tag', 'author', 'category'])
+                    query: urlParts.length === 3 ? {} : pick(req.query, ['page', 'tag', 'author', 'category', 'region'])
                 });
 
                 if (!response.result) {
@@ -76,19 +139,23 @@ if (appData.isNotProduction) {
                         const filterLabel = {
                             author: get(response, 'meta.activeAuthor'),
                             tag: get(response, 'meta.activeTag'),
-                            category: get(response, 'meta.activeCategory')
+                            category: get(response, 'meta.activeCategory'),
+                            region: get(response, 'meta.activeRegion')
                         }[filterType];
 
                         // @TODO i18n
                         const titleMap = {
                             author: function() {
-                                return `Author: ${filterLabel.title}`;
+                                return `Showing posts by ${filterLabel.title}`;
                             },
                             tag: function() {
-                                return `Tag: ${filterLabel.title}`;
+                                return `Showing posts tagged ${filterLabel.title}`;
                             },
                             category: function() {
-                                return `Category: ${filterLabel.title}`;
+                                return `Showing posts in ${filterLabel.title}`;
+                            },
+                            region: function() {
+                                return `Showing posts from ${filterLabel.title}`;
                             },
                             default: function() {
                                 const firstItem = head(entries);
@@ -97,9 +164,10 @@ if (appData.isNotProduction) {
                         };
 
                         const pageTitle = (titleMap[filterType] || titleMap['default'])();
+
                         const templatePath = {
                             blog: './views/listing/blog',
-                            'press-releases': './views/listing/generic',
+                            'press-releases': './views/listing/press-releases',
                             updates: './views/listing/generic'
                         }[req.params.type || 'updates'];
 

@@ -1,0 +1,125 @@
+{% from "components/article-teaser/macro.njk" import articleTeaser %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/card/macro.njk" import card %}
+{% from "components/split-nav/macro.njk" import splitNav %}
+{% from "components/hero.njk" import hero with context %}
+
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    <main role="main" id="content">
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top nudge-up">
+            {{ breadcrumbTrail(breadcrumbs) }}
+        
+            <div class="content-sidebar">
+                <div class="content-sidebar__primary">
+                    {% if entries.length > 0 %}
+                        {% if entriesMeta.activeRegion %}
+                            <p>Viewing all press-releases in <strong>{{ entriesMeta.activeRegion.title }}</strong></p>
+                        {% endif %}
+
+                        <ol class="article-listing">
+                            {% for entry in entries %}
+                                <li class="article-listing__item">
+                                    {% set subtitle %}
+                                        <time class="article-teaser__pubdate" datetime="{{ props.postDate.date }}">
+                                            {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
+                                        </time>
+
+                                        {% if entry.regions.length > 0 %}
+                                            in
+                                            {% set comma = joiner() %}
+                                            {% for region in entry.regions -%}
+                                                {{ comma() }} <a href="?region={{ region.slug }}">{{ region.title }}</a>
+                                                {% if region.children.length > 0 %}/{% endif %}
+                                                {% for childRegion in region.children -%}
+                                                    <a href="?region={{ childRegion.slug }}">{{ childRegion.title }}</a>
+                                                {%- endfor %}
+                                            {%- endfor %}
+                                        {% endif %}
+                                    {% endset %}
+                                    {{ articleTeaser({
+                                        'title': entry.trailText or entry.title,
+                                        'subtitle': subtitle | safe,
+                                        'summary': entry.summary,
+                                        'linkUrl': entry.linkUrl
+                                    }) }}
+                                </li>
+                            {% endfor %}
+                        </ol>
+
+                        {% if pagination %}
+                            {{ splitNav(
+                                prevLink = {
+                                    "label": "Previous page",
+                                    "url": pagination.prevLink
+                                },
+                                nextLink = {
+                                    "label": "Next page",
+                                    "url": pagination.nextLink
+                                }
+                            ) }}
+                        {% endif %}
+                    {% else %}
+                        <p class="message s-prose">
+                            No results for "{{ entriesMeta.activeRegion.title }}", <a href="{{ currentPath }}">view all press-releases</a>
+                        </p>
+                    {% endif %}        
+                </div>
+
+                <div class="content-sidebar__secondary">
+
+                    {% call card(accent = pageAccent) %}
+                        <form action="" method="get">
+                            {% set activeRegion = entriesMeta.activeRegion.slug if entriesMeta.activeRegion %}
+                            <label class="ff-label" for="field-region">Filter press releases by region</label>
+                            <select class="ff-select u-margin-bottom-s" name="region" id="field-region">
+                                <option value=""{% if not activeRegion %} selected{% endif %}>
+                                    All posts
+                                </option>
+                                {% for region in entriesMeta.regions %}
+                                    <optgroup label="{{ region.title }}">
+                                        <option value="{{ region.slug }}"{% if activeRegion === region.slug %} selected{% endif %}>
+                                            All posts in {{ region.title }}
+                                        </option>
+                                        {% for childRegion in region.children %}
+                                            <option value="{{ childRegion.slug }}"{% if activeRegion === childRegion.slug %} selected{% endif %}>
+                                                {{ childRegion.title }}
+                                            </option>
+                                        {% endfor %}
+                                    </optgroup>
+                                {% endfor %}
+                            </select>
+                            <input type="submit" value="Filter" class="btn btn--small" />
+                        </form>
+                    {% endcall %}
+
+                    {% set pressCopy = __('global.contact.press') %}
+                    {% call card(pressCopy.title) %}
+                        <div class="s-prose">
+                            {% for region in pressCopy.regions %}
+                                <p><strong>{{ region.title }}</strong></p>
+                                <dl class="o-definition-list o-definition-list--compact">
+                                    {% if region.phone %}
+                                        <dt>{{ __('global.misc.phone') | capitalize }}</dt>
+                                        <dd>{{ region.phone | safe }}</dd>
+                                    {% endif %}
+                                    {% if region.email %}
+                                        <dt>{{ __('global.misc.email') | capitalize }}</dt>
+                                        <dd>{{ region.email | mailto | safe }}</dd>
+                                    {% endif %}
+                                </dl>
+                            {% endfor %}
+                        </div>
+                    {% endcall %}
+                </div>
+            </div>{#  end content-sidebar #}
+        </section>
+    </main>
+{% endblock %}

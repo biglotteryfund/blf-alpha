@@ -45,12 +45,11 @@
 
 .article-listing {
     .article-listing__item {
-        margin-bottom: $spacingUnit;
-        padding-bottom: $spacingUnit / 2;
+        padding-bottom: 1.5em;
+        margin-bottom: 1.5em;
         border-bottom: 1px solid palette('border');
 
         &:last-child {
-            margin-bottom: 0;
             padding-bottom: 0;
             border-bottom: none;
         }
