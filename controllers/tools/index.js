@@ -18,13 +18,7 @@ router.use(
     noCache,
     noindex,
     buildSecurityMiddleware({
-        defaultSrc: [
-            "'self'",
-            'maxcdn.bootstrapcdn.com',
-            'ajax.googleapis.com',
-            'cdnjs.cloudflare.com',
-            'cdn.jsdelivr.net'
-        ]
+        defaultSrc: ["'self'", 'maxcdn.bootstrapcdn.com', 'ajax.googleapis.com', 'cdnjs.cloudflare.com']
     })
 );
 

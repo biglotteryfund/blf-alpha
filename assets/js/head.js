@@ -1,4 +1,5 @@
 /* global AppConfig */
+// @ts-nocheck
 import 'details-element-polyfill';
 import FontFaceObserver from 'fontfaceobserver/fontfaceobserver.js';
 
@@ -30,14 +31,14 @@ function addBodyClasses(classes) {
     const LOADED_CLASS = 'fonts-loaded';
     const classes = getCommonBodyClasses();
 
-    const fontDisplay = new FontFaceObserver('Poppins');
-    const fontBody = new FontFaceObserver('Roboto');
-
     if (sessionStorage.fontsLoaded) {
         classes.push(LOADED_CLASS);
         addBodyClasses(classes);
     } else {
-        Promise.all([fontDisplay.load(), fontBody.load()]).then(function() {
+        const fontDisplay = window.AppConfig.isRebrand ? 'caecilia' : 'Poppins';
+        const fontBody = window.AppConfig.isRebrand ? 'caecilia-sans-text' : 'Roboto';
+
+        Promise.all([new FontFaceObserver(fontDisplay).load(), new FontFaceObserver(fontBody).load()]).then(function() {
             classes.push(LOADED_CLASS);
             addBodyClasses(classes);
             sessionStorage.fontsLoaded = true;

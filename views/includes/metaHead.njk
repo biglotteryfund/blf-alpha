@@ -15,6 +15,7 @@
     var AppConfig = {
         environment: '{{ appData.environment }}',
         isNotProduction: {{ appData.isNotProduction }},
+        isRebrand: {{ featureUseNewBrand === true }},
         locale: '{{ locale }}',
         localePrefix: '{{ localePrefix }}',
         isModernBrowser:
