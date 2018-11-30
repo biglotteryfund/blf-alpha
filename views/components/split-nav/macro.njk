@@ -4,19 +4,28 @@ Split nav
 prevLink {Object} { url: {String}, label: {String} }
 nextLink {Object} { url: {String}, label: {String} }
 #}
-{% macro splitNav(prevLink, nextLink) %}
+{% macro splitNav(prevLink, nextLink, innerContent = false) %}
     {% if prevLink or nextLink %}
         <nav class="split-nav">
-            {% if prevLink.url %}
-                <a class="split-nav__prev" href="{{ prevLink.url }}" rel="prev">
-                    {{ prevLink.label }}
-                </a>
+            <div class="split-nav__item">
+                {% if prevLink.url %}
+                    <a class="split-nav__prev" href="{{ prevLink.url }}" rel="prev">
+                        {{ prevLink.label }}
+                    </a>
+                {% endif %}
+            </div>
+            {% if innerContent %}
+                <div class="split-nav__item">
+                    {{ innerContent | safe }}
+                </div>
             {% endif %}
-            {% if nextLink.url %}
-                <a class="split-nav__next" href="{{ nextLink.url }}" rel="next">
-                    {{ nextLink.label }}
-                </a>
-            {% endif %}
+            <div class="split-nav__item">
+                {% if nextLink.url %}
+                    <a class="split-nav__next" href="{{ nextLink.url }}" rel="next">
+                        {{ nextLink.label }}
+                    </a>
+                {% endif %}
+            </div>
         </nav>
     {% endif %}
 {% endmacro %}

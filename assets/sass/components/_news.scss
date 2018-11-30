@@ -45,12 +45,11 @@
 
 .article-listing {
     .article-listing__item {
-        margin-bottom: $spacingUnit;
-        padding-bottom: $spacingUnit / 2;
+        padding-bottom: 1.5em;
+        margin-bottom: 1.5em;
         border-bottom: 1px solid palette('border');
 
         &:last-child {
-            margin-bottom: 0;
             padding-bottom: 0;
             border-bottom: none;
         }
@@ -112,6 +111,14 @@
     margin-bottom: 4px;
 }
 
+.entry-meta {
+    font-size: 16px;
+
+    padding: $spacingUnit 0;
+    margin-top: $spacingUnit;
+    border-top: 1px solid palette('border');
+}
+
 /* =========================================================================
    Blog Teaser (@TODO: Replace with more general article-teaser)
    ========================================================================= */
@@ -133,4 +140,33 @@
 .blog-teaser__summary {
     font-size: 18px;
     margin-bottom: 0;
+}
+
+/* =========================================================================
+   Blogpost Attribution
+   ========================================================================= */
+
+.blogpost-attribution {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .blogpost-attribution__author {
+        margin-top: $spacingUnit * 2;
+        order: 2;
+    }
+
+    .blogpost-attribution__tags {
+        flex-basis: 100%;
+    }
+
+    &.blogpost-attribution--featured {
+        .blogpost-attribution__author {
+            margin-top: 0;
+            order: 0;
+        }
+        .blogpost-attribution__tags {
+            flex-basis: auto;
+        }
+    }
 }

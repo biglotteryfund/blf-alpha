@@ -28,9 +28,26 @@ global:
     blog: Blog
     updates: Newyddion
   contact:
-    city: Llundain
+    address: 1 Plough Place, Llundain EC4A 1DE
     phone: 0300 123 0735
     email: ymholiadau.cymru@cronfaloterifawr.org.uk
+    press:
+      title: Sut ydw i'n cysylltu â chi os bydd gennyf gwestiwn am y wasg?
+      regions:
+      - title: Lloegr/Deyrnas Unedig
+        phone: >
+          <a href="tel:02072111888">020 7211 1888</a> (tu allan i oriau: 07867 500572)
+        email: pressoffice@biglotteryfund.org.uk
+      - title: Gogledd Iwerddon
+        phone: >
+          <a href="tel:02890551432">02890 551 432</a> neu <a href="tel:02890551450">02890 551 450</a>
+          (tu allan i oriau: <a href="tel:07580811135">07580 811 135</a>)
+      - title: Yr Alban
+        phone: >
+          <a href="tel:01412421458">0141 242 1458</a> (tu allan i oriau: <a href="tel:07880737157">07880 737 157</a>)
+      - title: Cymru
+        phone: >
+          <a href="tel:02920678236">029 2067 8236</a> (tu allan i oriau: <a href="tel:07870566867">07870 566 867</a>)
   footerLinks:
     title: Dolenni gwib
     links:
@@ -98,6 +115,9 @@ global:
     or: neu
     to: i
     on: ar
+    of: o
+    phone: ffôn
+    email: email
     printThisPage: Argraffu'r dudalen hon
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
     readMore: Darllen mwy
@@ -347,6 +367,18 @@ toplevel:
   data:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau
+news:
+  allNews: All news
+  types:
+    blog:
+      singular: Blog
+      plural: Blog posts
+    press-releases:
+      singular: Press release
+      plural: Press releases
+    updates:
+      singular: Updates
+      plural: Updates
 ourPeople:
   title: Ein pobl
   introduction: >

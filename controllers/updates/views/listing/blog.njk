@@ -1,0 +1,106 @@
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/article-teaser/macro.njk" import articleTeaser %}
+{% from "components/hero.njk" import hero with context %}
+{% from "components/split-nav/macro.njk" import splitNav %}
+{% from "components/promo-card/macro.njk" import promoCard %}
+
+{% from "../view-helpers.njk" import blogTrail with context %}
+
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    {% set pageAccent = 'pink' %}
+
+    <main role="main" id="content">
+
+        {{ hero(
+            titleText = title,
+            image = heroImage,
+            accent = pageAccent
+        ) }}
+
+        <div class="nudge-up">
+            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+                {{ breadcrumbTrail(breadcrumbs) }}
+
+                {% if entriesMeta.pageType === 'author' %}
+                    {% set author = entriesMeta.activeAuthor %}
+                    <h2 class="t4">About the author</h2>
+                    <aside class="o-media">
+                        {% if author.photo %}
+                            <img src="{{ author.photo }}"
+                                 alt="{{ author.title }}"
+                                 class="o-media-figure"
+                                 width="200" />
+                        {% endif %}
+                        <div class="o-media-body">
+                            <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
+                            {% if author.authorTitle %}
+                                <p>{{ author.authorTitle }}</p>
+                            {% endif %}
+                            {% if author.fullBiography %}
+                                <div class="s-prose">{{ author.fullBiography | safe }}</div>
+                            {% endif %}
+                        </div>
+                    </aside>
+                {% elseif entriesMeta.pageType === 'tag' %}
+                    {% set activeTag = entriesMeta.activeTag %}
+                    <h1>Viewing all posts tagged {{ activeTag.title }}</h1>
+                {% elseif entriesMeta.pageType === 'category' %}
+                    {% set activeCategory = entriesMeta.activeCategory %}
+                    <h1>Viewing all posts in {{ activeCategory.title }}</h1>
+                {% else %}
+                    <h1>{{ title }}</h1>
+                    <p>Blog intro text goes here @TODO</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <section class="u-inner">
+            {% if entriesMeta.pageType === 'author' %}
+                {% set activeAuthor = entriesMeta.activeAuthor %}
+                <h1>Showing all posts by {{ activeAuthor.title }}</h1>
+            {% endif %}
+            <ul class="flex-grid flex-grid--3up">
+                {% set lastEntryWasPromoted = false %}
+                {% for entry in entries %}
+                    {% set shouldPromote = entry.promoted and not lastEntryWasPromoted and not loop.last %}
+                    {% if shouldPromote %}
+                        {% set lastEntryWasPromoted = true %}
+                    {% else %}
+                        {% set lastEntryWasPromoted = false %}
+                    {% endif %}
+
+                    <li class="flex-grid__item{% if shouldPromote %} flex-grid__item--major{% endif %}">
+                        {{ blogTrail(
+                            entry = entry,
+                            promoted = shouldPromote,
+                            showAuthor = entriesMeta.pageType !== 'author'
+                        ) }}
+                    </li>
+                {% endfor %}
+            </ul>
+
+            {% set innerContent %}
+                {% if pagination.totalPages > 1 %}
+                    <span class="split-nav__current">{{ pagination.currentPage }}</span>
+                    {{ __('global.misc.of') }}
+                    {{ pagination.totalPages }}
+                {% endif %}
+            {% endset %}
+
+            {{ splitNav(
+                prevLink = {
+                    "label": "Previous page",
+                    "url": pagination.prevLink
+                },
+                nextLink = {
+                    "label": "Next page",
+                    "url": pagination.nextLink
+                },
+                innerContent = innerContent
+            ) }}
+
+        </section>
+    </main>
+{% endblock %}

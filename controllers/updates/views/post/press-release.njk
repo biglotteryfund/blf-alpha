@@ -1,0 +1,77 @@
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/content.njk" import flexibleContent %}
+{% from "components/inline-links/macro.njk" import inlineLinks %}
+{% from "components/overlay-text/macro.njk" import overlayText %}
+{% from "components/card/macro.njk" import card %}
+
+{% from "../view-helpers.njk" import entryRegions with context %}
+
+{% set bodyClass = 'has-static-header' %}
+{% extends "layouts/main.njk" %}
+
+{% macro entryMeta(entry) %}
+    <dl class="o-definition-list o-definition-list--compact">
+        <dt>Date published</dt>
+        <dd>
+            <time datetime="{{ entry.postDate.date }}">
+                {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
+            </time>
+        </dd>
+        {% if entry.regions.length > 0 %}
+            <dt>Region</dt>
+            <dd>{{ entryRegions(entry, '../') }}</dd>
+        {% endif %}
+    </dl>
+{% endmacro %}
+
+{% block content %}
+    <main role="main">
+        <div class="page-title u-inner">
+            <h1>{% call overlayText(pageAccent) %}{{ entry.title }}{% endcall %}</h1>
+        </div>
+    
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
+
+            <div class="content-sidebar">
+                <div class="content-sidebar__primary s-prose">
+                    {% if entry.body %}
+                        {{ entry.body | safe }}
+                    {% else %}
+                        {{ flexibleContent(entry.content, pageAccent) }}
+                    {% endif %}
+
+                    <div class="entry-meta">
+                        {{ entryMeta(entry) }}
+                    </div>
+
+                    {% if entry.notesToEditors %}
+                        <aside class="u-tone-background-tint u-padded" id="notes">
+                            <h3 class="accent--{{ pageAccent }} a--text">Notes to Editors</h3>
+                            {{ entry.notesToEditors | safe }}
+                        </aside>
+                    {% endif %}
+                </div>
+
+                <div class="content-sidebar__secondary">
+                    {% call card("About this press release", pageAccent) %}
+                        <div class="u-text-small">
+                            {{ entryMeta(entry) }}
+                            {% if entry.notesToEditors %}
+                                <p><a href="#notes">Notes to editors</a></p>
+                            {% endif %}
+                        </div>
+                    {% endcall %}
+
+                    {% if entry.contacts %}
+                        {% call card("Contacts") %}
+                            <div class="s-prose u-text-small">
+                                {{ entry.contacts | safe }}
+                            </div>
+                        {% endcall %}
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

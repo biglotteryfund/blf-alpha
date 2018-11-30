@@ -125,15 +125,18 @@
    ========================================================================= */
 
 .split-nav {
-    @include clearfix();
     padding: 0.5em;
     margin-bottom: $spacingUnit;
     border-top: 1px solid palette('border');
+    display: flex;
+    justify-content: space-between;
+}
+.split-nav__item {
+    font-size: 90%;
 }
 .split-nav__prev,
 .split-nav__next {
     display: block;
-    font-size: 90%;
     text-decoration: none;
 
     @include on-interact {
@@ -141,18 +144,18 @@
     }
 }
 .split-nav__prev {
-    float: left;
-
     &::before {
         content: '← ';
     }
 }
 .split-nav__next {
-    float: right;
-
     &::after {
         content: ' →';
     }
+}
+.split-nav__current {
+    border: 1px solid palette('soft-grey');
+    padding: 3px 10px;
 }
 
 /* =========================================================================

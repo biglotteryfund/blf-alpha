@@ -63,4 +63,11 @@ $flexGridSpacing: $spacingUnit;
             flex: 0 0 33.3%;
         }
     }
+
+    // Allow custom twice-as-wide elements
+    > .flex-grid__item--major {
+        @include mq('medium-major') {
+            flex: 0 0 66.6% !important;
+        }
+    }
 }

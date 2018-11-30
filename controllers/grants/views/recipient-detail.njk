@@ -19,7 +19,7 @@
                         <div class="u-constrained-wide accent--pink">
                             <h1>{{ title }}</h1>
 
-                            <dl class="o-definition-list o-definition-list--compact project-details">
+                            <dl class="o-definition-list o-definition-list--compact u-text-small">
                                 <dt>{{ copy.grantDetail.fields.type }}</dt>
                                 <dd>
                                     {{ buildOrgTypeList(organisation) }}
@@ -104,7 +104,7 @@
                                 <div class="card__body">
                                     <p class="project-caption">£{{ grant.amountAwarded | numberWithCommas}}
                                         on {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}</p>
-                                    <dl class="o-definition-list o-definition-list--compact u-margin-top-s project-details">
+                                    <dl class="o-definition-list o-definition-list--compact u-margin-top-s u-text-small">
                                         <dt>{{ copy.grantDetail.fields.programme }}</dt>
                                         {% for programme in grant.grantProgramme %}
                                             <dd>

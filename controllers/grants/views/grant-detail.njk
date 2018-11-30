@@ -41,7 +41,7 @@
                         </p>
                     </aside>
 
-                    <dl class="o-definition-list o-definition-list--compact project-details">
+                    <dl class="o-definition-list o-definition-list--compact u-text-small">
                         {% if grant.plannedDates %}
                             <dt>{{ copy.grantDetail.fields.duration }}</dt>
                             {% for dates in grant.plannedDates %}
@@ -72,7 +72,7 @@
 
                         {% for org in grant.recipientOrganization %}
 
-                            <dl class="o-definition-list o-definition-list--compact project-details">
+                            <dl class="o-definition-list o-definition-list--compact u-text-small">
                                 <dt>{{ copy.grantDetail.fields.orgName }}</dt>
                                 <dd>
                                     <a href="./recipients/{{ org.id }}">{{ org.name }}</a>

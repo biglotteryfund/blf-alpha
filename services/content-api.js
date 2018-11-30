@@ -28,9 +28,9 @@ function fetch(urlPath, options) {
  * }).then(responses => ...)
  * ```
  */
-function fetchAllLocales(toUrlPathFn) {
+function fetchAllLocales(toUrlPathFn, options = {}) {
     const urlPaths = ['en', 'cy'].map(toUrlPathFn);
-    const promises = urlPaths.map(urlPath => fetch(urlPath));
+    const promises = urlPaths.map(urlPath => fetch(urlPath, options));
     return Promise.all(promises);
 }
 
@@ -127,17 +127,38 @@ function getBlogDetail({ locale, urlPath, previewMode = null }) {
     });
 }
 
-// @TODO this should merge locales like below as not all entries will have translations
-function getUpdates({ locale, urlPath = '', query = {}, previewMode = false }) {
-    return fetch(`/v1/${locale}/updates${urlPath}`, {
-        qs: addPreviewParams(previewMode, { ...query, ...{ 'page-limit': 10 } })
-    }).then(response => {
-        const result = isArray(response.data) ? mapAttrs(response) : response.data.attributes;
-        return {
-            meta: response.meta,
-            result: result
-        };
-    });
+/**
+ * Get updates
+ * @param options
+ * @property {string} options.locale
+ * @property {string} [options.type]
+ * @property {string} [options.date]
+ * @property {string} [options.slug]
+ * @property {object} [options.query]
+ * @property {object} [options.previewMode]
+ */
+function getUpdates({ locale, type = null, date = null, slug = null, query = {}, previewMode = null }) {
+    if (slug) {
+        return fetch(`/v1/${locale}/updates/${type}/${date}/${slug}`, {
+            qs: addPreviewParams(previewMode)
+        }).then(response => {
+            return {
+                meta: response.meta,
+                result: response.data.attributes
+            };
+        });
+    } else {
+        return fetchAllLocales(reqLocale => `/v1/${reqLocale}/updates/${type || ''}`, {
+            qs: addPreviewParams(previewMode, { ...query, ...{ 'page-limit': 10 } })
+        }).then(responses => {
+            const [enResponse, cyResponse] = responses;
+            const results = mergeWelshBy('slug')(locale, mapAttrs(enResponse), mapAttrs(cyResponse));
+            return {
+                meta: enResponse.meta,
+                result: results
+            };
+        });
+    }
 }
 
 function getFundingProgrammes({ locale }) {
