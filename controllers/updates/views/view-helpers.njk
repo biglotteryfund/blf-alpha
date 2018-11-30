@@ -1,3 +1,5 @@
+{% from "components/promo-card/macro.njk" import promoCard %}
+
 {% macro entryRegions(entry, baseUrlPath) -%}
     {% set comma = joiner() %}
     {% for region in entry.regions -%}
@@ -7,4 +9,70 @@
             {% if childComma() %}{{ childComma() }} {% endif %}<a href="{{ baseUrlPath }}?region={{ childRegion.slug }}">{{ childRegion.title }}</a>
         {%- endfor -%}{% if region.children.length > 0 %}){% endif %}
     {%- endfor %}
+{% endmacro %}
+
+{% macro blogTrail(entry, shouldPromote = false, showAuthor = true) %}
+    {% call promoCard({
+        "title": entry.trailText or entry.title,
+        subtitle: formatDate(entry.postDate.date, DATE_FORMATS.short),
+        "trailText": entry.summary,
+        "image": {
+            "url": entry.thumbnail.large,
+            "alt": entry.title
+        },
+        "link": {
+            "label": "Read more",
+            "labelAria": "Read more",
+            "url": entry.linkUrl
+        }
+    }, showBorder = false) %}
+
+        <div class="article-listing__meta{% if shouldPromote %} article-listing__meta--featured{% endif %}">
+            {% if showAuthor %}
+                <div class="article-listing__meta__author">
+                    {% if entry.authors.length === 1 %}
+                        {% set author = entry.authors[0] %}
+
+                        <aside class="o-media">
+                            {% if author.photo %}
+                                <img src="{{ author.photo }}"
+                                     alt="{{ author.title }}"
+                                     class="o-media-figure"
+                                     width="60"/>
+                            {% endif %}
+                            <div class="o-media-body">
+                                <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
+                                {% if author.authorTitle %}
+                                    <p>{{ author.authorTitle }}</p>
+                                {% endif %}
+                            </div>
+                        </aside>
+                    {% else %}
+                        {% set separator = joiner(',') %}
+                        {% for author in entry.authors -%}
+                            {{ separator() }} <strong>{{ author.title }}</strong>
+                        {%- endfor %}
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <div class="article-listing__meta__tags">
+                <ul class="tags-list">
+                    <li class="tag">
+                        <a href="{{ localify('/news/blog/?category=' + entry.category.slug) }}">
+                            {{ entry.category.title }}
+                        </a>
+                    </li>
+                    {% for tag in entry.tags %}
+                        <li class="tag tag--secondary">
+                            <a href="{{ localify('/news?tag=' + tag.slug) }}">
+                                {{ tag.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+    {% endcall %}
 {% endmacro %}

@@ -4,6 +4,8 @@
 {% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/promo-card/macro.njk" import promoCard %}
 
+{% from "../view-helpers.njk" import blogTrail with context %}
+
 {% extends "layouts/main.njk" %}
 
 {% block content %}
@@ -70,69 +72,11 @@
                     {% endif %}
 
                     <li class="flex-grid__item{% if shouldPromote %} flex-grid__item--major{% endif %}">
-                        {% call promoCard({
-                            "title": entry.trailText or entry.title,
-                            subtitle: formatDate(entry.postDate.date, DATE_FORMATS.short),
-                            "trailText": entry.summary,
-                            "image": {
-                                "url": entry.thumbnail.large,
-                                "alt": entry.title
-                            },
-                            "link": {
-                                "label": "Read more",
-                                "labelAria": "Read more",
-                                "url": entry.linkUrl
-                            }
-                        }) %}
-
-                            <div class="article-listing__meta{% if shouldPromote %} article-listing__meta--featured{% endif %}">
-                                {% if entriesMeta.pageType !== 'author' %}
-                                    <div class="article-listing__meta__author">
-                                        {% if entry.authors.length === 1 %}
-                                            {% set author = entry.authors[0] %}
-
-                                            <aside class="o-media">
-                                                {% if author.photo %}
-                                                    <img src="{{ author.photo }}"
-                                                         alt="{{ author.title }}"
-                                                         class="o-media-figure"
-                                                         width="60"/>
-                                                {% endif %}
-                                                <div class="o-media-body">
-                                                    <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
-                                                    {% if author.authorTitle %}
-                                                        <p>{{ author.authorTitle }}</p>
-                                                    {% endif %}
-                                                </div>
-                                            </aside>
-                                        {% else %}
-                                            {% set separator = joiner(',') %}
-                                            {% for author in entry.authors -%}
-                                                {{ separator() }} <strong>{{ author.title }}</strong>
-                                            {%- endfor %}
-                                        {% endif %}
-                                    </div>
-                                {% endif %}
-
-                                <div class="article-listing__meta__tags">
-                                    <ul class="tags-list">
-                                        <li class="tag">
-                                            <a href="{{ localify('/news/blog/?category=' + entry.category.slug) }}">
-                                                {{ entry.category.title }}
-                                            </a>
-                                        </li>
-                                        {% for tag in entry.tags %}
-                                            <li class="tag tag--secondary">
-                                                <a href="{{ localify('/news?tag=' + tag.slug) }}">
-                                                    {{ tag.title }}
-                                                </a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-
-                        {% endcall %}
+                        {{ blogTrail(
+                            entry = entry,
+                            shouldPromote = shouldPromote,
+                            showAuthor = entriesMeta.pageType !== 'author'
+                        ) }}
                     </li>
                 {% endfor %}
             </ul>
