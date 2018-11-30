@@ -56,31 +56,6 @@
     }
 }
 
-.article-listing__meta {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-
-    .article-listing__meta__author {
-        margin-top: $spacingUnit * 2;
-        order: 2;
-    }
-
-    .article-listing__meta__tags {
-        flex-basis: 100%;
-    }
-
-    &.article-listing__meta--featured {
-        .article-listing__meta__author {
-            margin-top: 0;
-            order: 0;
-        }
-        .article-listing__meta__tags {
-            flex-basis: auto;
-        }
-    }
-}
-
 /* =========================================================================
    Article Detail
    ========================================================================= */
@@ -165,4 +140,33 @@
 .blog-teaser__summary {
     font-size: 18px;
     margin-bottom: 0;
+}
+
+/* =========================================================================
+   Blogpost Attribution 
+   ========================================================================= */
+
+.blogpost-attribution {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .blogpost-attribution__author {
+        margin-top: $spacingUnit * 2;
+        order: 2;
+    }
+
+    .blogpost-attribution__tags {
+        flex-basis: 100%;
+    }
+
+    &.blogpost-attribution--featured {
+        .blogpost-attribution__author {
+            margin-top: 0;
+            order: 0;
+        }
+        .blogpost-attribution__tags {
+            flex-basis: auto;
+        }
+    }
 }

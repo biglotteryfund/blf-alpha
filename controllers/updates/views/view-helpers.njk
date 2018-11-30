@@ -11,7 +11,7 @@
     {%- endfor %}
 {% endmacro %}
 
-{% macro blogTrail(entry, shouldPromote = false, showAuthor = true) %}
+{% macro blogTrail(entry, promoted = false, showAuthor = true) %}
     {% call promoCard({
         "title": entry.trailText or entry.title,
         subtitle: formatDate(entry.postDate.date, DATE_FORMATS.short),
@@ -27,9 +27,9 @@
         }
     }, showBorder = false) %}
 
-        <div class="article-listing__meta{% if shouldPromote %} article-listing__meta--featured{% endif %}">
+        <div class="blogpost-attribution{% if promoted %} blogpost-attribution--featured{% endif %}">
             {% if showAuthor %}
-                <div class="article-listing__meta__author">
+                <div class="blogpost-attribution__author">
                     {% if entry.authors.length === 1 %}
                         {% set author = entry.authors[0] %}
 
@@ -56,7 +56,7 @@
                 </div>
             {% endif %}
 
-            <div class="article-listing__meta__tags">
+            <div class="blogpost-attribution__tags">
                 <ul class="tags-list">
                     <li class="tag">
                         <a href="{{ localify('/news/blog/?category=' + entry.category.slug) }}">

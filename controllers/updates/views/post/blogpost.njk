@@ -3,6 +3,7 @@
 {% from "components/inline-links/macro.njk" import inlineLinks %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/promo-card/macro.njk" import promoCard %}
+{% from "components/card/macro.njk" import card %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/card/macro.njk" import card %}
 
@@ -10,64 +11,65 @@
 
 {% macro articleMeta(entry) %}
 
-        {% set aboutTitle = "Authors" if entry.authors.length > 1  else "Author" %}
-        {% call card(aboutTitle, pageAccent) %}
-            {% for author in entry.authors -%}
-                <aside class="o-media">
-                    {% if author.photo %}
-                        <img src="{{ author.photo }}"
-                             alt="{{ author.title }}"
-                             class="o-media-figure"
-                             width="60"/>
+    {% set aboutTitle = "Authors" if entry.authors.length > 1  else "Author" %}
+    {% call card(aboutTitle, pageAccent) %}
+        {% for author in entry.authors -%}
+            <aside class="o-media">
+                {% if author.photo %}
+                    <img src="{{ author.photo }}"
+                         alt="{{ author.title }}"
+                         class="o-media-figure"
+                         width="60"/>
+                {% endif %}
+                <div class="o-media-body">
+                    <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
+                    {% if author.authorTitle %}
+                        <p>
+                            {{ author.authorTitle }}
+                            {% if author.shortBiography %}
+                                <br>
+                                {{ author.shortBiography}}
+                            {% endif %}
+                        </p>
                     {% endif %}
-                    <div class="o-media-body">
-                        <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
-                        {% if author.authorTitle %}
-                            <p>
-                                {{ author.authorTitle }}
-                                {% if author.shortBiography %}
-                                    <br>
-                                    {{ author.shortBiography}}
-                                {% endif %}
-                            </p>
-                        {% endif %}
-                    </div>
-                </aside>
-                <p class="u-margin-top-s"><a href="{{ localify('/news/blog?author=' + author.slug) }}">See all posts by this author</a></p>
+                </div>
+            </aside>
+            <p class="u-margin-top-s"><a href="{{ localify('/news/blog?author=' + author.slug) }}">See all posts by this author</a></p>
+        {% endfor %}
+    {% endcall %}
+
+    {% call card("About this blog post", pageAccent) %}
+
+        <p class="article-meta__pubdate u-margin-bottom-s">
+            <strong>Date published:</strong>
+            <time datetime="{{ entry.postDate.date }}">
+                {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
+            </time>
+        </p>
+
+        {% if entry.thumbnail %}
+            <img src="{{ entry.thumbnail.small }}"
+                 alt="{{ entry.title }}"
+                 class="u-margin-bottom" />
+        {% endif %}
+
+        <ul class="tags-list">
+            <li class="tag">
+                <a href="{{ localify('/news/blog/?category=' + entry.category.slug) }}">
+                    {{ entry.category.title }}
+                </a>
+            </li>
+            {% for tag in entry.tags %}
+                <li class="tag tag--secondary">
+                    <a href="{{ localify('/news?tag=' + tag.slug) }}">
+                        {{ tag.title }}
+                    </a>
+                </li>
             {% endfor %}
-        {% endcall %}
+        </ul>
+    {% endcall %}
 
-        {% call promoCard({
-            "title": "About this blog post",
-            "image": {
-                "url": entry.thumbnail.small,
-                "alt": entry.title
-            }
-        }) %}
-            <p class="article-meta__pubdate u-margin-bottom-s">
-                <strong>Date published:</strong>
-                <time datetime="{{ entry.postDate.date }}">
-                    {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
-                </time>
-            </p>
 
-            <div class="article-listing__meta__tags">
-                <ul class="tags-list">
-                    <li class="tag">
-                        <a href="{{ localify('/news/blog/?category=' + entry.category.slug) }}">
-                            {{ entry.category.title }}
-                        </a>
-                    </li>
-                    {% for tag in entry.tags %}
-                        <li class="tag tag--secondary">
-                            <a href="{{ localify('/news?tag=' + tag.slug) }}">
-                                {{ tag.title }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endcall %}
 {% endmacro %}
 
 {% block content %}
