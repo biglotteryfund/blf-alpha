@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const { concat } = require('lodash');
+const config = require('config');
 const { injectCopy, injectHeroImage } = require('../../middleware/inject-content');
 
 const router = express.Router();
@@ -9,6 +10,7 @@ const router = express.Router();
 router.use(injectHeroImage('digital-buddies-2'), injectCopy('funding.digitalFund'));
 
 router.use((req, res, next) => {
+    res.locals.enableDigitalFundApplications = config.get('features.enableDigitalFundApplications');
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, [
         {
             label: res.locals.title,

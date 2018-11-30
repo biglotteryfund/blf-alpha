@@ -23,7 +23,11 @@
                 </div>
 
                 <div class="message">
-                    {{ copy.openingDates }}
+                    {% if enableDigitalFundApplications %}
+                        {{ copy.openingDates }}
+                    {% else %}
+                        {{ copy.openingDatesClosed }}
+                    {% endif %}
                 </div>
 
                 {{ segmentLinks([
@@ -39,22 +43,28 @@
                     <div class="content-sidebar__primary accent-content--{{ pageAccent }}">
                         <h2 class="t2 t--underline">{{ copy.process.title }}</h2>
                         <p>{{ copy.process.introduction }}</p>
-                        {{ stepProgress(copy.process.steps)}}
+                        {% if enableDigitalFundApplications %}
+                            {{ stepProgress(copy.process.steps)}}
+                        {% else %}
+                            {{ stepProgress(copy.process.stepsClosed)}}
+                        {% endif %}
                     </div>
 
-                    <div class="content-sidebar__secondary">
-                        <div class="u-sticky-offset">
-                            {% call actionCard({
-                                title: copy.process.getStarted.title,
-                                link: {
-                                    url: eligibilityLink,
-                                    label: copy.process.getStarted.linkText
-                                }
-                            }, accent = pageAccent) %}
-                                {{ copy.process.getStarted.body | safe }}
-                            {% endcall %}
+                    {% if enableDigitalFundApplications %}
+                        <div class="content-sidebar__secondary">
+                            <div class="u-sticky-offset">
+                                {% call actionCard({
+                                    title: copy.process.getStarted.title,
+                                    link: {
+                                        url: eligibilityLink,
+                                        label: copy.process.getStarted.linkText
+                                    }
+                                }, accent = pageAccent) %}
+                                    {{ copy.process.getStarted.body | safe }}
+                                {% endcall %}
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
                 </div>
             </section>
 
@@ -78,16 +88,18 @@
                 {{ copy.successFactors[currentStrand] | safe }}
             {% endcall %}
 
-            {% call contentBox(pageAccent, id="segment-5") %}
-                <h2>{{ copy.process.getStarted.title }}</h2>
-                <p>{{ copy.process.getStarted.teaser }}</p>
-                <p>
-                    <a href="{{ eligibilityLink }}"
-                        class="btn btn--medium accent--{{ pageAccent }} a--btn">
-                        {{ copy.process.getStarted.linkText }}
-                    </a>
-                </p>
-            {% endcall %}
+            {% if enableDigitalFundApplications %}
+                {% call contentBox(pageAccent, id="segment-5") %}
+                    <h2>{{ copy.process.getStarted.title }}</h2>
+                    <p>{{ copy.process.getStarted.teaser }}</p>
+                    <p>
+                        <a href="{{ eligibilityLink }}"
+                            class="btn btn--medium accent--{{ pageAccent }} a--btn">
+                            {{ copy.process.getStarted.linkText }}
+                        </a>
+                    </p>
+                {% endcall %}
+            {% endif %}
 
             {% call contentBox(pageAccent, id="segment-6") %}
                 <h2>{{ copy.questions.title }}</h2>
@@ -102,17 +114,20 @@
                     {{ copy.wayfinding.assistance }}
                 </a></p>
 
-                {% if currentStrand === 'strand1' %}
-                    <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
-                        class="btn btn--medium accent--cyan a--btn">
-                        {{ copy.wayfinding.strand2 }}
-                    </a></p>
-                {% else %}
-                    <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
-                        class="btn btn--medium accent--blue a--btn">
-                        {{ copy.wayfinding.strand1 }}
-                    </a></p>
+                {% if enableDigitalFundApplications %}
+                    {% if currentStrand === 'strand1' %}
+                        <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
+                            class="btn btn--medium accent--cyan a--btn">
+                            {{ copy.wayfinding.strand2 }}
+                        </a></p>
+                    {% else %}
+                        <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
+                            class="btn btn--medium accent--blue a--btn">
+                            {{ copy.wayfinding.strand1 }}
+                        </a></p>
+                    {% endif %}
                 {% endif %}
+
                 <p>{{ copy.wayfinding.otherProgrammes | safe }}</p>
             {% endcall %}
         </div>
