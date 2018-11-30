@@ -1,7 +1,7 @@
 'use strict';
 const config = require('config');
 const moment = require('moment');
-const { map, omitBy } = require('lodash');
+const { map, omitBy, isString } = require('lodash');
 
 const { getCurrentUrl, getAbsoluteUrl, localify } = require('../modules/urls');
 const routes = require('../controllers/routes');
@@ -84,6 +84,14 @@ module.exports = {
          */
         res.locals.getAbsoluteUrl = function(urlPath) {
             return getAbsoluteUrl(req, urlPath);
+        };
+
+        res.locals.getSocialImageUrl = function(socialImage) {
+            if (isString(socialImage)) {
+                return socialImage.indexOf('://') !== -1 ? socialImage : getAbsoluteUrl(socialImage);
+            } else {
+                return getAbsoluteUrl(socialImage.default);
+            }
         };
 
         /**
