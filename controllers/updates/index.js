@@ -14,22 +14,28 @@ if (appData.isNotProduction) {
     /**
      * News landing page handler
      */
-    router.get('/', injectBreadcrumbs, injectCopy('news'), async (req, res, next) => {
-        try {
-            const { copy, breadcrumbs } = res.locals;
-            const response = await contentApi.getUpdates({
-                locale: req.i18n.getLocale()
-            });
+    router.get(
+        '/',
+        injectBreadcrumbs,
+        injectCopy('news'),
+        injectHeroImage('mental-health-foundation'),
+        async (req, res, next) => {
+            try {
+                const { copy, breadcrumbs } = res.locals;
+                const response = await contentApi.getUpdates({
+                    locale: req.i18n.getLocale()
+                });
 
-            res.render(path.resolve(__dirname, `./views/landing`), {
-                title: copy.allNews,
-                groupedEntries: groupBy(response.result, 'entryType'),
-                breadcrumbs: concat(breadcrumbs, { label: copy.allNews })
-            });
-        } catch (e) {
-            next(e);
+                res.render(path.resolve(__dirname, `./views/landing`), {
+                    title: copy.allNews,
+                    groupedEntries: groupBy(response.result, 'entryType'),
+                    breadcrumbs: concat(breadcrumbs, { label: copy.allNews })
+                });
+            } catch (e) {
+                next(e);
+            }
         }
-    });
+    );
 
     /**
      * Press releases handler
