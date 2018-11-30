@@ -1,5 +1,5 @@
-{% set metaTitle = getMetaTitle(__("global.brand.title"), title) %}
-{% set metaDescription =  description | default(metadata.description, true) %}
+{% set metaTitle = getMetaTitle(globalCopy.brand.title, title) %}
+{% set metaDescription =  description | default(globalCopy.brand.description, true) %}
 <!-- deploy {{ appData.deployId }} | build {{ appData.buildNumber }} | node version {{ appData.nodeVersion }} -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +15,7 @@
 <meta property="og:url" content="{{ getCurrentUrl() }}">
 
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:site" content="@{{ __('global.brand.twitter') }}" />
+<meta name="twitter:site" content="@{{ globalCopy.brand.twitter }}" />
 
 {% if socialImage %}
 <meta property="twitter:image" content="{{ getAbsoluteUrl(socialImage.default) }}">
@@ -30,8 +30,8 @@
 <meta name="google-site-verification" content="o1R2SCKacbqmesd1hrNosk1lfTkqrz2R1OoG7OoFRtw">
 
 {# tiles/themes #}
-<meta name="apple-mobile-web-app-title" content="{{ metadata.title }}">
-<meta name="application-name" content="{{ metadata.title }}">
+<meta name="apple-mobile-web-app-title" content="{{ globalCopy.brand.title }}">
+<meta name="application-name" content="{{ globalCopy.brand.title }}">
 
 {% set metaThemeColour = "#ec008c"  %}
 <meta name="msapplication-TileColor" content="{{ metaThemeColour }}">

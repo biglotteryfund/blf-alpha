@@ -105,7 +105,7 @@
             <div class="social-content__primary u-accent-border-top-blue">
                 {# Twitter Feed #}
                 <div class="u-padded">
-                    {% set twitterAccount = __('global.brand.twitter')  %}
+                    {% set twitterAccount = globalCopy.brand.twitter  %}
                     <a class="twitter-timeline" data-dnt="true" data-chrome="noheader" data-tweet-limit="3"
                         href="https://twitter.com/{{ twitterAccount }}?ref_src=twsrc%5Etfw"
                     >
