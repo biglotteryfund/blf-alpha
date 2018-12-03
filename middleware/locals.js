@@ -90,7 +90,7 @@ module.exports = {
             if (isString(socialImage)) {
                 return socialImage.indexOf('://') !== -1 ? socialImage : getAbsoluteUrl(socialImage);
             } else {
-                return getAbsoluteUrl(socialImage.default);
+                return getAbsoluteUrl(req, socialImage.default);
             }
         };
 
