@@ -9,6 +9,7 @@ const appData = require('../modules/appData');
 const routes = require('../controllers/routes');
 
 const cookies = config.get('cookies');
+const domains = config.get('domains');
 const features = config.get('features');
 
 /**
@@ -36,6 +37,11 @@ module.exports = function(req, res, next) {
      */
     const useNewBrand = appData.isNotProduction && req.cookies[cookies.rebrand] === REBRAND_SECRET;
     res.locals.useNewBrand = useNewBrand;
+
+    /**
+     * New domain flag
+     */
+    res.locals.usingNewDomain = req.get('host') === domains.new;
 
     /**
      * Global copy

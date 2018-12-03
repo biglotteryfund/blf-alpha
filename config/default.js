@@ -37,7 +37,9 @@ module.exports = {
         primary: 'www.biglotteryfund.org.uk',
         // Which domains should be indexable by search engines
         // @TODO: Add new domain when moving primary domain
-        indexable: ['www.biglotteryfund.org.uk']
+        indexable: ['www.biglotteryfund.org.uk'],
+        // Explicit config for new domain
+        new: 'www.tnlcommunityfund.org.uk'
     },
 
     /**
