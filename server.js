@@ -203,7 +203,7 @@ flatMap([
     app.get(urlPath, cached.noCache, function(req, res) {
         res.render('static-pages/archived', {
             title: 'Archived',
-            archiveUrl: `http://webarchive.nationalarchives.gov.uk/www.biglotteryfund.org.uk${req.originalUrl}`
+            archiveUrl: `http://webarchive.nationalarchives.gov.uk/https://www.biglotteryfund.org.uk${req.originalUrl}`
         });
     });
 });
