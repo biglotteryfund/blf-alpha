@@ -1163,6 +1163,446 @@ Array [
     "to": "/welsh/funding/under10k",
   },
   Object {
+    "from": "/blog",
+    "to": "/news/blog",
+  },
+  Object {
+    "from": "/welsh/blog",
+    "to": "/welsh/news/blog",
+  },
+  Object {
+    "from": "/england/blog",
+    "to": "/news/blog",
+  },
+  Object {
+    "from": "/welsh/england/blog",
+    "to": "/welsh/news/blog",
+  },
+  Object {
+    "from": "/scotland/blog",
+    "to": "/news/blog",
+  },
+  Object {
+    "from": "/welsh/scotland/blog",
+    "to": "/welsh/news/blog",
+  },
+  Object {
+    "from": "/northernireland/blog",
+    "to": "/news/blog",
+  },
+  Object {
+    "from": "/welsh/northernireland/blog",
+    "to": "/welsh/news/blog",
+  },
+  Object {
+    "from": "/wales/blog",
+    "to": "/news/blog",
+  },
+  Object {
+    "from": "/welsh/wales/blog",
+    "to": "/welsh/news/blog",
+  },
+  Object {
+    "from": "/blog/digital",
+    "to": "/news/blog?category=digital",
+  },
+  Object {
+    "from": "/welsh/blog/digital",
+    "to": "/welsh/news/blog?category=digital",
+  },
+  Object {
+    "from": "/england/blog/digital",
+    "to": "/news/blog?category=digital",
+  },
+  Object {
+    "from": "/welsh/england/blog/digital",
+    "to": "/welsh/news/blog?category=digital",
+  },
+  Object {
+    "from": "/scotland/blog/digital",
+    "to": "/news/blog?category=digital",
+  },
+  Object {
+    "from": "/welsh/scotland/blog/digital",
+    "to": "/welsh/news/blog?category=digital",
+  },
+  Object {
+    "from": "/northernireland/blog/digital",
+    "to": "/news/blog?category=digital",
+  },
+  Object {
+    "from": "/welsh/northernireland/blog/digital",
+    "to": "/welsh/news/blog?category=digital",
+  },
+  Object {
+    "from": "/wales/blog/digital",
+    "to": "/news/blog?category=digital",
+  },
+  Object {
+    "from": "/welsh/wales/blog/digital",
+    "to": "/welsh/news/blog?category=digital",
+  },
+  Object {
+    "from": "/blog/insight",
+    "to": "/news/blog?category=insight",
+  },
+  Object {
+    "from": "/welsh/blog/insight",
+    "to": "/welsh/news/blog?category=insight",
+  },
+  Object {
+    "from": "/england/blog/insight",
+    "to": "/news/blog?category=insight",
+  },
+  Object {
+    "from": "/welsh/england/blog/insight",
+    "to": "/welsh/news/blog?category=insight",
+  },
+  Object {
+    "from": "/scotland/blog/insight",
+    "to": "/news/blog?category=insight",
+  },
+  Object {
+    "from": "/welsh/scotland/blog/insight",
+    "to": "/welsh/news/blog?category=insight",
+  },
+  Object {
+    "from": "/northernireland/blog/insight",
+    "to": "/news/blog?category=insight",
+  },
+  Object {
+    "from": "/welsh/northernireland/blog/insight",
+    "to": "/welsh/news/blog?category=insight",
+  },
+  Object {
+    "from": "/wales/blog/insight",
+    "to": "/news/blog?category=insight",
+  },
+  Object {
+    "from": "/welsh/wales/blog/insight",
+    "to": "/welsh/news/blog?category=insight",
+  },
+  Object {
+    "from": "/blog/authors/jenny-raw",
+    "to": "/news/blog?author=jenny-raw",
+  },
+  Object {
+    "from": "/welsh/blog/authors/jenny-raw",
+    "to": "/welsh/news/blog?author=jenny-raw",
+  },
+  Object {
+    "from": "/england/blog/authors/jenny-raw",
+    "to": "/news/blog?author=jenny-raw",
+  },
+  Object {
+    "from": "/welsh/england/blog/authors/jenny-raw",
+    "to": "/welsh/news/blog?author=jenny-raw",
+  },
+  Object {
+    "from": "/scotland/blog/authors/jenny-raw",
+    "to": "/news/blog?author=jenny-raw",
+  },
+  Object {
+    "from": "/welsh/scotland/blog/authors/jenny-raw",
+    "to": "/welsh/news/blog?author=jenny-raw",
+  },
+  Object {
+    "from": "/northernireland/blog/authors/jenny-raw",
+    "to": "/news/blog?author=jenny-raw",
+  },
+  Object {
+    "from": "/welsh/northernireland/blog/authors/jenny-raw",
+    "to": "/welsh/news/blog?author=jenny-raw",
+  },
+  Object {
+    "from": "/wales/blog/authors/jenny-raw",
+    "to": "/news/blog?author=jenny-raw",
+  },
+  Object {
+    "from": "/welsh/wales/blog/authors/jenny-raw",
+    "to": "/welsh/news/blog?author=jenny-raw",
+  },
+  Object {
+    "from": "/blog/authors/julia-parnaby",
+    "to": "/news/blog?author=julia-parnaby",
+  },
+  Object {
+    "from": "/welsh/blog/authors/julia-parnaby",
+    "to": "/welsh/news/blog?author=julia-parnaby",
+  },
+  Object {
+    "from": "/england/blog/authors/julia-parnaby",
+    "to": "/news/blog?author=julia-parnaby",
+  },
+  Object {
+    "from": "/welsh/england/blog/authors/julia-parnaby",
+    "to": "/welsh/news/blog?author=julia-parnaby",
+  },
+  Object {
+    "from": "/scotland/blog/authors/julia-parnaby",
+    "to": "/news/blog?author=julia-parnaby",
+  },
+  Object {
+    "from": "/welsh/scotland/blog/authors/julia-parnaby",
+    "to": "/welsh/news/blog?author=julia-parnaby",
+  },
+  Object {
+    "from": "/northernireland/blog/authors/julia-parnaby",
+    "to": "/news/blog?author=julia-parnaby",
+  },
+  Object {
+    "from": "/welsh/northernireland/blog/authors/julia-parnaby",
+    "to": "/welsh/news/blog?author=julia-parnaby",
+  },
+  Object {
+    "from": "/wales/blog/authors/julia-parnaby",
+    "to": "/news/blog?author=julia-parnaby",
+  },
+  Object {
+    "from": "/welsh/wales/blog/authors/julia-parnaby",
+    "to": "/welsh/news/blog?author=julia-parnaby",
+  },
+  Object {
+    "from": "/blog/authors/tom-steinberg",
+    "to": "/news/blog?author=tom-steinberg",
+  },
+  Object {
+    "from": "/welsh/blog/authors/tom-steinberg",
+    "to": "/welsh/news/blog?author=tom-steinberg",
+  },
+  Object {
+    "from": "/england/blog/authors/tom-steinberg",
+    "to": "/news/blog?author=tom-steinberg",
+  },
+  Object {
+    "from": "/welsh/england/blog/authors/tom-steinberg",
+    "to": "/welsh/news/blog?author=tom-steinberg",
+  },
+  Object {
+    "from": "/scotland/blog/authors/tom-steinberg",
+    "to": "/news/blog?author=tom-steinberg",
+  },
+  Object {
+    "from": "/welsh/scotland/blog/authors/tom-steinberg",
+    "to": "/welsh/news/blog?author=tom-steinberg",
+  },
+  Object {
+    "from": "/northernireland/blog/authors/tom-steinberg",
+    "to": "/news/blog?author=tom-steinberg",
+  },
+  Object {
+    "from": "/welsh/northernireland/blog/authors/tom-steinberg",
+    "to": "/welsh/news/blog?author=tom-steinberg",
+  },
+  Object {
+    "from": "/wales/blog/authors/tom-steinberg",
+    "to": "/news/blog?author=tom-steinberg",
+  },
+  Object {
+    "from": "/welsh/wales/blog/authors/tom-steinberg",
+    "to": "/welsh/news/blog?author=tom-steinberg",
+  },
+  Object {
+    "from": "/blog/tags/place-based-funding",
+    "to": "/news/blog?tag=place-based-funding",
+  },
+  Object {
+    "from": "/welsh/blog/tags/place-based-funding",
+    "to": "/welsh/news/blog?tag=place-based-funding",
+  },
+  Object {
+    "from": "/england/blog/tags/place-based-funding",
+    "to": "/news/blog?tag=place-based-funding",
+  },
+  Object {
+    "from": "/welsh/england/blog/tags/place-based-funding",
+    "to": "/welsh/news/blog?tag=place-based-funding",
+  },
+  Object {
+    "from": "/scotland/blog/tags/place-based-funding",
+    "to": "/news/blog?tag=place-based-funding",
+  },
+  Object {
+    "from": "/welsh/scotland/blog/tags/place-based-funding",
+    "to": "/welsh/news/blog?tag=place-based-funding",
+  },
+  Object {
+    "from": "/northernireland/blog/tags/place-based-funding",
+    "to": "/news/blog?tag=place-based-funding",
+  },
+  Object {
+    "from": "/welsh/northernireland/blog/tags/place-based-funding",
+    "to": "/welsh/news/blog?tag=place-based-funding",
+  },
+  Object {
+    "from": "/wales/blog/tags/place-based-funding",
+    "to": "/news/blog?tag=place-based-funding",
+  },
+  Object {
+    "from": "/welsh/wales/blog/tags/place-based-funding",
+    "to": "/welsh/news/blog?tag=place-based-funding",
+  },
+  Object {
+    "from": "/blog/tags/digital-fund",
+    "to": "/news/blog?tag=digital-fund",
+  },
+  Object {
+    "from": "/welsh/blog/tags/digital-fund",
+    "to": "/welsh/news/blog?tag=digital-fund",
+  },
+  Object {
+    "from": "/england/blog/tags/digital-fund",
+    "to": "/news/blog?tag=digital-fund",
+  },
+  Object {
+    "from": "/welsh/england/blog/tags/digital-fund",
+    "to": "/welsh/news/blog?tag=digital-fund",
+  },
+  Object {
+    "from": "/scotland/blog/tags/digital-fund",
+    "to": "/news/blog?tag=digital-fund",
+  },
+  Object {
+    "from": "/welsh/scotland/blog/tags/digital-fund",
+    "to": "/welsh/news/blog?tag=digital-fund",
+  },
+  Object {
+    "from": "/northernireland/blog/tags/digital-fund",
+    "to": "/news/blog?tag=digital-fund",
+  },
+  Object {
+    "from": "/welsh/northernireland/blog/tags/digital-fund",
+    "to": "/welsh/news/blog?tag=digital-fund",
+  },
+  Object {
+    "from": "/wales/blog/tags/digital-fund",
+    "to": "/news/blog?tag=digital-fund",
+  },
+  Object {
+    "from": "/welsh/wales/blog/tags/digital-fund",
+    "to": "/welsh/news/blog?tag=digital-fund",
+  },
+  Object {
+    "from": "/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+    "to": "/news/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+  },
+  Object {
+    "from": "/welsh/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+    "to": "/welsh/news/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+  },
+  Object {
+    "from": "/england/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+    "to": "/news/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+  },
+  Object {
+    "from": "/welsh/england/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+    "to": "/welsh/news/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+  },
+  Object {
+    "from": "/scotland/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+    "to": "/news/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+  },
+  Object {
+    "from": "/welsh/scotland/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+    "to": "/welsh/news/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+  },
+  Object {
+    "from": "/northernireland/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+    "to": "/news/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+  },
+  Object {
+    "from": "/welsh/northernireland/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+    "to": "/welsh/news/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+  },
+  Object {
+    "from": "/wales/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+    "to": "/news/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+  },
+  Object {
+    "from": "/welsh/wales/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+    "to": "/welsh/news/blog/2018-11-16/a-young-persons-perspective-on-social-action",
+  },
+  Object {
+    "from": "/blog/2018-10-26/our-new-digital-fund",
+    "to": "/news/blog/2018-10-26/our-new-digital-fund",
+  },
+  Object {
+    "from": "/welsh/blog/2018-10-26/our-new-digital-fund",
+    "to": "/welsh/news/blog/2018-10-26/our-new-digital-fund",
+  },
+  Object {
+    "from": "/england/blog/2018-10-26/our-new-digital-fund",
+    "to": "/news/blog/2018-10-26/our-new-digital-fund",
+  },
+  Object {
+    "from": "/welsh/england/blog/2018-10-26/our-new-digital-fund",
+    "to": "/welsh/news/blog/2018-10-26/our-new-digital-fund",
+  },
+  Object {
+    "from": "/scotland/blog/2018-10-26/our-new-digital-fund",
+    "to": "/news/blog/2018-10-26/our-new-digital-fund",
+  },
+  Object {
+    "from": "/welsh/scotland/blog/2018-10-26/our-new-digital-fund",
+    "to": "/welsh/news/blog/2018-10-26/our-new-digital-fund",
+  },
+  Object {
+    "from": "/northernireland/blog/2018-10-26/our-new-digital-fund",
+    "to": "/news/blog/2018-10-26/our-new-digital-fund",
+  },
+  Object {
+    "from": "/welsh/northernireland/blog/2018-10-26/our-new-digital-fund",
+    "to": "/welsh/news/blog/2018-10-26/our-new-digital-fund",
+  },
+  Object {
+    "from": "/wales/blog/2018-10-26/our-new-digital-fund",
+    "to": "/news/blog/2018-10-26/our-new-digital-fund",
+  },
+  Object {
+    "from": "/welsh/wales/blog/2018-10-26/our-new-digital-fund",
+    "to": "/welsh/news/blog/2018-10-26/our-new-digital-fund",
+  },
+  Object {
+    "from": "/blog/2018-11-15/place-based-funding",
+    "to": "/news/blog/2018-11-15/place-based-funding",
+  },
+  Object {
+    "from": "/welsh/blog/2018-11-15/place-based-funding",
+    "to": "/welsh/news/blog/2018-11-15/place-based-funding",
+  },
+  Object {
+    "from": "/england/blog/2018-11-15/place-based-funding",
+    "to": "/news/blog/2018-11-15/place-based-funding",
+  },
+  Object {
+    "from": "/welsh/england/blog/2018-11-15/place-based-funding",
+    "to": "/welsh/news/blog/2018-11-15/place-based-funding",
+  },
+  Object {
+    "from": "/scotland/blog/2018-11-15/place-based-funding",
+    "to": "/news/blog/2018-11-15/place-based-funding",
+  },
+  Object {
+    "from": "/welsh/scotland/blog/2018-11-15/place-based-funding",
+    "to": "/welsh/news/blog/2018-11-15/place-based-funding",
+  },
+  Object {
+    "from": "/northernireland/blog/2018-11-15/place-based-funding",
+    "to": "/news/blog/2018-11-15/place-based-funding",
+  },
+  Object {
+    "from": "/welsh/northernireland/blog/2018-11-15/place-based-funding",
+    "to": "/welsh/news/blog/2018-11-15/place-based-funding",
+  },
+  Object {
+    "from": "/wales/blog/2018-11-15/place-based-funding",
+    "to": "/news/blog/2018-11-15/place-based-funding",
+  },
+  Object {
+    "from": "/welsh/wales/blog/2018-11-15/place-based-funding",
+    "to": "/welsh/news/blog/2018-11-15/place-based-funding",
+  },
+  Object {
     "from": "/cymru",
     "to": "/welsh/wales",
   },
