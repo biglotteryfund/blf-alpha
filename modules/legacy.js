@@ -1,15 +1,14 @@
 'use strict';
 const { get } = require('lodash');
+const { JSDOM } = require('jsdom');
 const config = require('config');
-const jsdom = require('jsdom');
 const ms = require('ms');
 const request = require('request-promise-native');
 
 const appData = require('./appData');
 const { isWelsh, makeWelsh, removeWelsh, stripTrailingSlashes } = require('../modules/urls');
 
-const { JSDOM } = jsdom;
-const legacyUrl = `https://${config.get('domains.legacy')}`;
+const LEGACY_PROXY_URL = `https://wwwlegacy.biglotteryfund.org.uk`;
 
 function getCanonicalUrl(dom) {
     const metaIdentifier = dom.window.document.querySelector('meta[name="identifier"]');
@@ -86,7 +85,7 @@ function proxyLegacyPage({ req, res, followRedirect = true }) {
         res.removeHeader('Content-Security-Policy');
     }
 
-    const proxyUrl = legacyUrl + req.originalUrl;
+    const proxyUrl = LEGACY_PROXY_URL + req.originalUrl;
     const originalUrlPath = stripTrailingSlashes(req.baseUrl + req.path);
 
     return request({
@@ -160,7 +159,7 @@ function postToLegacyForm(req, res, next) {
 
     return request
         .post({
-            uri: legacyUrl + pagePath,
+            uri: LEGACY_PROXY_URL + pagePath,
             form: req.body,
             strictSSL: false,
             jar: true,
