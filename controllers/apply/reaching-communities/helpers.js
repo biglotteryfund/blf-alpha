@@ -1,8 +1,15 @@
 'use strict';
 const { get, isArray } = require('lodash');
-const config = require('config');
 
-const HUB_EMAILS = config.get('emails.englandHubs');
+const HUB_EMAILS = {
+    england: 'englandteam@biglotteryfund.org.uk',
+    londonSouthEast: 'londonandsoutheastteam@biglotteryfund.org.uk',
+    midlands: 'midlandsteam@biglotteryfund.org.uk',
+    northEastCumbria: 'neandcumbriateam@biglotteryfund.org.uk',
+    northWest: 'northwestteam@biglotteryfund.org.uk',
+    southWest: 'southwestteam@biglotteryfund.org.uk',
+    yorksHumber: 'yorksandhumberteam@biglotteryfund.org.uk'
+};
 
 const PROJECT_LOCATIONS = [
     {

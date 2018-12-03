@@ -25,17 +25,6 @@
     "imgix": "biglotteryfund-assets.imgix.net",
     "new": "www.tnlcommunityfund.org.uk"
   },
-  "emails": {
-    "englandHubs": {
-        "england": "englandteam@biglotteryfund.org.uk",
-        "londonSouthEast": "londonandsoutheastteam@biglotteryfund.org.uk",
-        "midlands": "midlandsteam@biglotteryfund.org.uk",
-        "northEastCumbria": "neandcumbriateam@biglotteryfund.org.uk",
-        "northWest": "northwestteam@biglotteryfund.org.uk",
-        "southWest": "southwestteam@biglotteryfund.org.uk",
-        "yorksHumber": "yorksandhumberteam@biglotteryfund.org.uk"
-    }
-  },
   "dateFormats": {
     "month": "MMMM YYYY",
     "short": "D MMMM, YYYY",
