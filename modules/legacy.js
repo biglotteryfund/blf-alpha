@@ -1,15 +1,14 @@
 'use strict';
 const { get } = require('lodash');
-const config = require('config');
-const jsdom = require('jsdom');
+const { JSDOM } = require('jsdom');
 const ms = require('ms');
 const request = require('request-promise-native');
 
 const appData = require('./appData');
 const { isWelsh, makeWelsh, removeWelsh, stripTrailingSlashes } = require('../modules/urls');
 
-const { JSDOM } = jsdom;
-const legacyUrl = config.get('legacyDomain');
+const PROXY_LIVE_DOMAIN = 'https://www.biglotteryfund.org.uk';
+const PROXY_ORIGIN_DOMAIN = 'https://wwwlegacy.biglotteryfund.org.uk';
 
 function getCanonicalUrl(dom) {
     const metaIdentifier = dom.window.document.querySelector('meta[name="identifier"]');
@@ -86,7 +85,7 @@ function proxyLegacyPage({ req, res, followRedirect = true }) {
         res.removeHeader('Content-Security-Policy');
     }
 
-    const proxyUrl = legacyUrl + req.originalUrl;
+    const proxyUrl = PROXY_ORIGIN_DOMAIN + req.originalUrl;
     const originalUrlPath = stripTrailingSlashes(req.baseUrl + req.path);
 
     return request({
@@ -141,8 +140,7 @@ function proxyPassthrough(req, res, next) {
             if (redirectDestination.indexOf(brokenSitecorePath) === -1) {
                 // Make the redirect relative to the current environment
                 // (they seem to come back from Sitecore with an absolute path)
-                let liveUrl = `https://${config.get('siteDomain')}`;
-                redirectDestination = redirectDestination.replace(liveUrl, '');
+                redirectDestination = redirectDestination.replace(PROXY_LIVE_DOMAIN, '');
                 return res.redirect(301, redirectDestination);
             }
         }
@@ -155,12 +153,12 @@ function postToLegacyForm(req, res, next) {
     res.cacheControl = { maxAge: 0 };
 
     // work out if we need to serve english/welsh page
-    let localePath = req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
-    let pagePath = localePath + req.baseUrl + req.path;
+    const localePath = req.i18n.getLocale() === 'cy' ? '/welsh' : '';
+    const pagePath = localePath + req.baseUrl + req.path;
 
     return request
         .post({
-            uri: legacyUrl + pagePath,
+            uri: PROXY_ORIGIN_DOMAIN + pagePath,
             form: req.body,
             strictSSL: false,
             jar: true,

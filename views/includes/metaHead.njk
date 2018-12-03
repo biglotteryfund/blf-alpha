@@ -51,8 +51,7 @@
          */
         blockAnalytics:
             {{ appData.environment == 'production' }} &&
-            window.location.hostname !==
-                "{{ appData.config.get('siteDomain') }}"
+            window.location.hostname !== "{{ appData.config.get('domains.primary') }}"
     };
 
     window.AppConfig = AppConfig;

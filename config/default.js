@@ -25,7 +25,21 @@ module.exports = {
             }
         }
     },
-    siteDomain: 'www.biglotteryfund.org.uk',
+
+    /**
+     * Domain config
+     * Define current and legacy domain configs,
+     * different variants needed to support domain move
+     */
+    domains: {
+        // Which domain is the primary/canonical domain
+        // @TODO: Update when moving primary domain
+        primary: 'www.biglotteryfund.org.uk',
+        // Which domains should be indexable by search engines
+        // @TODO: Add new domain when moving primary domain
+        indexable: ['www.biglotteryfund.org.uk']
+    },
+
     /**
      * Common date format strings
      * @see http://momentjs.com/docs/#/displaying/format/
@@ -59,7 +73,6 @@ module.exports = {
         session: 'blf-alpha-session'
     },
     googleAnalyticsCode: 'UA-98908627-1',
-    legacyDomain: 'https://wwwlegacy.biglotteryfund.org.uk',
     ebulletinApiEndpoint: 'https://apiconnector.com/v2',
     grants: {
         dateRange: {
