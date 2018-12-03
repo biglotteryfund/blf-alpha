@@ -17,11 +17,9 @@ try {
     assets = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8'));
 } catch (e) {} // eslint-disable-line no-empty
 
-function getCachebustedPath(urlPath, useRemoteAssets = config.get('features.useRemoteAssets')) {
-    const version = assets.version || 'latest';
-    const baseUrl = useRemoteAssets ? 'https://www.biglotteryfund.org.uk/assets' : `/assets`;
-    return `${baseUrl}/build/${version}/${urlPath}`;
-}
+const version = assets.version || 'latest';
+
+const getCachebustedPath = urlPath => `/assets/build/${version}/${urlPath}`;
 
 function appendUuid(str) {
     return str + uuid();
