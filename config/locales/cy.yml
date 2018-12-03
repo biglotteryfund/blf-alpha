@@ -707,6 +707,7 @@ funding:
     title: Y Gronfa Ddigidol
     intro: Mae'r Gronfa Ddigidol yn rhaglen ariannu £15 miliwn newydd i gefnogi elusennau a mudiadau cymunedol. Mae'n ymwneud â helpu'r sector elusennol a gwirfoddol i ddefnyddio offer a dulliau digidol i gefnogi pobl a chymunedau i ffynnu.
     openingDates: Gallwch gyflwyno ceisiadau amlinellol rhwng 22 Hydref 2018 a 5PM ar 3 Rhagfyr 2018. Bydd cyfleoedd pellach i ymgeisio yn 2019.
+    openingDatesClosed: Daeth rownd gyntaf y Gronfa Ddigidol i ben ar 3 Rhagfyr 2018 am 5pm. Bydd cyfleoedd pellach i ymgeisio yn 2019.
     aboutStrandLabel: Mwy o wybodaeth am yr edefyn hwn
     strand1:
       title: Rydym eisiau defnyddio digidol i newid ein gwaith
@@ -721,8 +722,9 @@ funding:
     getStarted:
       title: Cychwyn arni
       intro: "Mae'r Gronfa Ddigidol yn cynnig dau edefyn ariannu ar hyn o bryd. I ddod o hyd i'r math iawn o gefnogaeth ar gyfer eich mudiad chi, dewiswch un o'r opsiynau a ganlyn:"
+      introClosed: "Ar hyn o bryd mae’r Gronfa Ddigidol yn cefnogi dau edefyn ariannu."
       assistance:
-        title: "Ddim yn siŵr bod hwn yn addas i chi?"
+        title: "Mwy o gyfleoedd ariannu"
         body: >
           <p>Os nad yw'r naill na'r llall o'r edafedd ariannu'n gweithio i'ch prosiect neu syniad, mae hynny'n iawn.
             <a href="/welsh/funding/programmes">Mae rhaglenni ariannu eraill sy'n agored i geisiadau</a>.</p>
@@ -733,7 +735,14 @@ funding:
       introduction: Nid ydym eisiau i chi dreulio llawer o amser yn paratoi i gael sgwrs gychwynnol gyda ni. Hoffem siarad a chi am eich syniad cyn i chi ddechrau datblygu cais manwl am grant.
       steps:
       - title: Cyflwynwch fraslun o’ch syniad trwy’r dudalen hon—sy’n mynd yn fyw ar 22 Hydref
-        description: O 22 Hydref byddwch yn gallu defnyddio’r dudalen we hon i yrru braslun o’ch syniad atom
+        description: Gyrrwch fraslun byr o’ch syniad ar-lein
+      - title: "Siarad â ni"
+        description: Os yw’n ymddangos bod eich syniad yn cyfateb i feini prawf y Gronfa Ddigidol, byddwn yn trefnu galwad gyda chi
+      - title: Cyflwyno cais llawn
+        description: Os ydym yn teimlo y gallai'r Gronfa Ddigidol weithio i chi, byddwn yn gofyn i chi  gyflwyno cais llawn
+      stepsClosed:
+      - title: Cyflwynwch fraslun o’ch syniad—daeth i ben ar 3 Rhagfyr am 5pm 
+        description: Gyrrwch fraslun byr o’ch syniad ar-lein
       - title: "Siarad â ni"
         description: Os yw’n ymddangos bod eich syniad yn cyfateb i feini prawf y Gronfa Ddigidol, byddwn yn trefnu galwad gyda chi
       - title: Cyflwyno cais llawn
@@ -753,7 +762,7 @@ funding:
         <strong>Cyfnewid testun</strong>: 18001 plws 0300 123 0735 (ar gyfer pobl sydd â nam ar y clyw neu'r lleferydd)<br/>
         <strong>E-bost</strong>: <a href="mailto:cymru@cronfaloterifawr.org.uk">cymru@cronfaloterifawr.org.uk</a></p>
     wayfinding:
-      title: Ddim yn siŵr bod hwn yn addas i chi?
+      title: Mwy o gyfleoedd ariannu
       description: Dewiswch un o'r opsiynau a ganlyn yn lle.
       assistance: Rydym eisiau cymorth i gychwyn arni gyda digidol
       strand1: Rydym eisiau defnyddio digidol i newid ein gwaith

@@ -1,6 +1,6 @@
 <link href='https://media.biglotteryfund.org.uk' rel='preconnect'>
 
-{% if featureUseNewBrand %}
+{% if useNewBrand %}
     <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/style-rebrand.css' | getCachebustedPath }}">
     <link rel="stylesheet" href="https://use.typekit.net/yyc1dgh.css">
 {% else %}
@@ -15,7 +15,7 @@
     var AppConfig = {
         environment: '{{ appData.environment }}',
         isNotProduction: {{ appData.isNotProduction }},
-        isRebrand: {{ featureUseNewBrand === true }},
+        isRebrand: {{ useNewBrand === true }},
         locale: '{{ locale }}',
         localePrefix: '{{ localePrefix }}',
         isModernBrowser:

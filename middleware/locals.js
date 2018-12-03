@@ -4,132 +4,133 @@ const moment = require('moment');
 const { map, omitBy, isString } = require('lodash');
 
 const { getCurrentUrl, getAbsoluteUrl, localify } = require('../modules/urls');
+const { REBRAND_SECRET } = require('../modules/secrets');
+const appData = require('../modules/appData');
 const routes = require('../controllers/routes');
 
-/**
- * Get normalised page title for metadata
- */
-function getMetaTitle(base, pageTitle) {
-    return pageTitle ? `${pageTitle} | ${base}` : base;
-}
+const cookies = config.get('cookies');
+const features = config.get('features');
 
 /**
  * Set request locals
  * - Local properties that depend on the request
  * - Local methods for use in views that depend on the request
  */
-module.exports = {
-    // Export for tests
-    getMetaTitle,
-    // Export middleware
-    middleware: function(req, res, next) {
-        const locale = req.i18n.getLocale();
+module.exports = function(req, res, next) {
+    const locale = req.i18n.getLocale();
 
-        /**
-         * Navigation sections for top-level nav
-         */
-        const itemsToShow = omitBy(routes.sections, s => s.showInNavigation === false);
-        res.locals.navigationSections = map(itemsToShow, (section, id) => {
-            return {
-                id: id,
-                path: localify(locale)(section.path),
-                label: req.i18n.__(section.langTitlePath)
-            };
-        });
+    /**
+     * Feature flags
+     */
+    res.locals.enablePrompt = features.enablePrompt;
+    res.locals.enableSurvey = features.enableSurvey;
 
-        /**
-         * High-contrast mode
-         */
-        const contrastPref = req.cookies[config.get('cookies.contrast')];
-        res.locals.isHighContrast = contrastPref && contrastPref === 'high';
+    /**
+     * High-contrast mode
+     */
+    const contrastPref = req.cookies[cookies.contrast];
+    res.locals.isHighContrast = contrastPref && contrastPref === 'high';
 
-        /**
-         * Features
-         */
-        res.locals.enablePrompt = config.get('features.enablePrompt');
-        res.locals.enableSurvey = config.get('features.enableSurvey');
+    /**
+     * Rebrand flag
+     */
+    const useNewBrand = appData.isNotProduction && req.cookies[cookies.rebrand] === REBRAND_SECRET;
+    res.locals.useNewBrand = useNewBrand;
 
-        /**
-         * Metadata (e.g. global title, description)
-         */
-        res.locals.metadata = {
-            title: req.i18n.__('global.brand.title'),
-            description: req.i18n.__('global.brand.description')
+    /**
+     * Global copy
+     */
+    const globalCopy = {
+        brand: useNewBrand ? req.i18n.__('global.rebrand') : req.i18n.__('global.brand')
+    };
+    res.locals.globalCopy = globalCopy;
+
+    /**
+     * Navigation sections for top-level nav
+     */
+    const itemsToShow = omitBy(routes.sections, s => s.showInNavigation === false);
+    res.locals.navigationSections = map(itemsToShow, (section, id) => {
+        return {
+            id: id,
+            path: localify(locale)(section.path),
+            label: req.i18n.__(section.langTitlePath)
         };
+    });
 
-        /**
-         * Fallback hero image
-         * Allows pages to fallback to a hero image where an image is hard requirement for the layout
-         */
-        res.locals.fallbackHeroImage = {
-            small: '/assets/images/hero/hero-fallback-small.jpg',
-            medium: '/assets/images/hero/hero-fallback-medium.jpg',
-            large: '/assets/images/hero/hero-fallback-large.jpg',
-            default: '/assets/images/hero/hero-fallback-medium.jpg',
-            caption: 'Rathlin Island Development and Community Association'
-        };
+    /**
+     * Fallback hero image
+     * Allows pages to fallback to a hero image where an image is hard requirement for the layout
+     */
+    res.locals.fallbackHeroImage = {
+        small: '/assets/images/hero/hero-fallback-small.jpg',
+        medium: '/assets/images/hero/hero-fallback-medium.jpg',
+        large: '/assets/images/hero/hero-fallback-large.jpg',
+        default: '/assets/images/hero/hero-fallback-medium.jpg',
+        caption: 'Rathlin Island Development and Community Association'
+    };
 
-        /**
-         * Get suitable text for <title>
-         */
-        res.locals.getMetaTitle = getMetaTitle;
+    res.locals.getSocialImageUrl = function(socialImage) {
+        if (isString(socialImage)) {
+            return socialImage.indexOf('://') !== -1 ? socialImage : getAbsoluteUrl(socialImage);
+        } else {
+            return getAbsoluteUrl(req, socialImage.default);
+        }
+    };
 
-        /**
-         * Current path without query string
-         */
-        res.locals.currentPath = req.path;
+    /**
+     * Get normalised page title for metadata
+     */
+    res.locals.getMetaTitle = function(base, pageTitle) {
+        return pageTitle ? `${pageTitle} | ${base}` : base;
+    };
 
-        /**
-         * Absolute URL helper
-         */
-        res.locals.getAbsoluteUrl = function(urlPath) {
-            return getAbsoluteUrl(req, urlPath);
-        };
+    /**
+     * Current path without query string
+     */
+    res.locals.currentPath = req.path;
 
-        res.locals.getSocialImageUrl = function(socialImage) {
-            if (isString(socialImage)) {
-                return socialImage.indexOf('://') !== -1 ? socialImage : getAbsoluteUrl(socialImage);
-            } else {
-                return getAbsoluteUrl(req, socialImage.default);
-            }
-        };
+    /**
+     * Absolute URL helper
+     */
+    res.locals.getAbsoluteUrl = function(urlPath) {
+        return getAbsoluteUrl(req, urlPath);
+    };
 
-        /**
-         * Current URL helper
-         */
-        res.locals.getCurrentUrl = function(requestedLocale) {
-            return getCurrentUrl(req, requestedLocale);
-        };
+    /**
+     * Current URL helper
+     */
+    res.locals.getCurrentUrl = function(requestedLocale) {
+        return getCurrentUrl(req, requestedLocale);
+    };
 
-        /**
-         * View helper for outputting a path in the current locale
-         */
-        res.locals.localify = function(urlPath) {
-            return localify(req.i18n.getLocale())(urlPath);
-        };
+    /**
+     * View helper for outputting a path in the current locale
+     */
+    res.locals.localify = function(urlPath) {
+        return localify(req.i18n.getLocale())(urlPath);
+    };
 
-        /**
-         * View helper for formatting date in the current locale
-         * @param {String} dateString
-         * @param {String} format
-         * @see https://momentjs.com/docs/#/displaying/format/
-         */
-        res.locals.formatDate = function(dateString, format) {
-            return moment(dateString)
-                .locale(locale)
-                .format(format);
-        };
+    /**
+     * View helper for formatting date in the current locale
+     * @param {String} dateString
+     * @param {String} format
+     * @see https://momentjs.com/docs/#/displaying/format/
+     */
+    res.locals.formatDate = function(dateString, format) {
+        return moment(dateString)
+            .locale(locale)
+            .format(format);
+    };
 
-        /**
-         * View helper to represent date as relative time
-         * @param {String} dateString
-         */
-        res.locals.timeFromNow = function(dateString) {
-            return moment(dateString)
-                .locale(locale)
-                .fromNow();
-        };
+    /**
+     * View helper to represent date as relative time
+     * @param {String} dateString
+     */
+    res.locals.timeFromNow = function(dateString) {
+        return moment(dateString)
+            .locale(locale)
+            .fromNow();
+    };
 
-        next();
-    }
+    next();
 };

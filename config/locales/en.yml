@@ -809,6 +809,7 @@ funding:
     title: Digital Fund
     intro: The Digital Fund is a new UK wide £15 million funding programme to support charities and community organisations. It is about helping the charity and voluntary sector to use digital tools and approaches to support people and communities to thrive.
     openingDates: You can submit outline proposals from 22nd October 2018 until 5pm 3rd December 2018. There will be further opportunities to apply in 2019.
+    openingDatesClosed: The first round of Digital Funding closed on 3rd December 2018 at 5pm. There will be further opportunities to apply in 2019.
     aboutStrandLabel: Find out more about this strand
     strand1:
       title: We want to use digital to change our work
@@ -823,11 +824,10 @@ funding:
     getStarted:
       title: Get started
       intro: "The Digital Fund is currently offering two strands of funding. To find the right kind of support for your organisation, choose one of the following options:"
+      introClosed: "The Digital Fund is currently supporting two strands of funding."
       assistance:
-        title: Not sure this is for you?
+        title: More funding opportunities
         body: >
-          <p>If either strand of funding doesn’t work for your project or idea, that’s ok.
-            There are <a href="/funding/programmes">other funding programmes</a> open for applications.</p>
           <p>There will be further funding opportunities within the Digital Fund in 2019.
             <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us on social media</a> or keep checking our website for up-to-date information.</p>
     process:
@@ -835,7 +835,14 @@ funding:
       introduction: We don’t want you to spend a huge amount of time preparing to have an initial conversation with us. We would like to talk to you about your outline proposal before you start developing a detailed funding proposal.
       steps:
       - title: Submit an outline of your idea via this page—goes live on 22nd October
-        description: From 22nd October you’ll be able to use this web page to send us a brief outline of your idea
+        description: Send us a brief outline of your idea online
+      - title: Talk to us
+        description: If your idea looks like it fits with the Digital Fund criteria, we’ll arrange a call with you
+      - title: Submit a full proposal
+        description: If we feel the Digital Fund could work for you, we’ll ask you to submit a full proposal
+      stepsClosed:
+      - title: Submit an outline of your idea—closed on 3rd December at 5pm 
+        description: Send us a brief outline of your idea online
       - title: Talk to us
         description: If your idea looks like it fits with the Digital Fund criteria, we’ll arrange a call with you
       - title: Submit a full proposal
@@ -850,12 +857,11 @@ funding:
       title: Have any questions?
       body: >
         <p>If you have any questions about eligibility, get in touch with us.</p>
-        <p>Please note, we can’t give you any feedback on ideas at this stage. The only way of getting feedback will be to return to this page from 22nd October and submit an outline.</p>
         <p><strong>Phone</strong>: <a href="tel:03454102030">0345 4 10 20 30</a><br/>
         <strong>Text relay</strong>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)<br/>
         <strong>Email</strong>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></p>
     wayfinding:
-      title: Not sure this is for you?
+      title: More funding opportunities
       description: Choose one of the following options instead.
       assistance: We want help getting started with digital
       strand1: We want to use digital to change our work

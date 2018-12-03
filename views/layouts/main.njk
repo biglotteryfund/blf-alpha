@@ -1,10 +1,9 @@
 {% from "components/accessibility.njk" import accessibilityNav with context %}
-{% set brandTitle = __("global.rebrand.title") if featureUseNewBrand else __("global.brand.title") %}
 <!doctype html>
 <html lang="{{ locale }}"
-    class="no-js locale--{{ locale }}{% if isHighContrast %} contrast--high{% endif %}{% if featureUseNewBrand %} is-rebrand{% endif %}">
+    class="no-js locale--{{ locale }}{% if isHighContrast %} contrast--high{% endif %}{% if useNewBrand %} is-rebrand{% endif %}">
     <head>
-        <title>{% block title %}{{ title }} | {% endblock %}{{ brandTitle }}</title>
+        <title>{% block title %}{{ title }} | {% endblock %}{{ globalCopy.brand.title }}</title>
 
         {% include "includes/metadata.njk" %}
         {% include "includes/metaHead.njk" %}
@@ -16,7 +15,7 @@
         <div class="global-container">
 
             {# Status banner #}
-            {% if featureUseNewBrand %}
+            {% if useNewBrand %}
                 <div class="status-banner">
                     ✋ You are previewing The National Lottery Community Fund branding. Please do not share this page.
                     <a href="/tools/rebrand/off">Revert to Big Lottery Fund branding</a>
@@ -43,7 +42,7 @@
                 />
             </div>
 
-            {% if featureUseNewBrand %}
+            {% if useNewBrand %}
                 {% include "includes/global-header-next.njk" %}
             {% else %}
                 {% include "includes/header.njk" %}
@@ -54,7 +53,7 @@
             {% include "includes/footer.njk" %}
         </div>
 
-        {% if not featureUseNewBrand %}
+        {% if not useNewBrand %}
             {% include "includes/offscreenNav.njk" %}
         {% endif %}
 
