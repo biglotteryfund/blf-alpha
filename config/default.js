@@ -52,9 +52,6 @@ module.exports = {
         enableMailSendMetrics: false,
         enableRelatedGrants: false
     },
-    imgix: {
-        mediaDomain: 'biglotteryfund-assets.imgix.net'
-    },
     cookies: {
         contrast: 'contrastMode',
         features: 'blf-features',
