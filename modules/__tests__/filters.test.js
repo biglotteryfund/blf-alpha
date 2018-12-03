@@ -29,7 +29,7 @@ describe('getCachebustedPath', () => {
 
     it('should get external url for cachebusted asset', () => {
         const result = getCachebustedPath('stylesheets/style.css', true);
-        expect(result).toMatch(/^https:\/\/media.biglotteryfund.org.uk\/assets\/build\/\w+\/stylesheets\/style.css$/);
+        expect(result).toMatch(/^https:\/\/www.biglotteryfund.org.uk\/assets\/build\/\w+\/stylesheets\/style.css$/);
     });
 });
 

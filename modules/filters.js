@@ -19,7 +19,7 @@ try {
 
 function getCachebustedPath(urlPath, useRemoteAssets = config.get('features.useRemoteAssets')) {
     const version = assets.version || 'latest';
-    const baseUrl = useRemoteAssets ? 'https://media.biglotteryfund.org.uk/assets' : `/assets`;
+    const baseUrl = useRemoteAssets ? 'https://www.biglotteryfund.org.uk/assets' : `/assets`;
     return `${baseUrl}/build/${version}/${urlPath}`;
 }
 
