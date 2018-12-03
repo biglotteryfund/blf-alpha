@@ -14,6 +14,7 @@ const debug = require('debug')('biglotteryfund:server');
 const app = express();
 module.exports = app;
 
+const domains = config.get('domains');
 const appData = require('./modules/appData');
 
 if (appData.isDev) {
@@ -25,6 +26,7 @@ const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
 const aliases = require('./controllers/aliases');
+const archived = require('./controllers/archived');
 const routes = require('./controllers/routes');
 const viewFilters = require('./modules/filters');
 
@@ -190,22 +192,13 @@ aliases.forEach(redirect => {
 });
 
 /**
- * Archived Routes
- * Paths in this array will be redirected to the National Archives.
- * We show an interstitial page a) to let people know the page has been archived
- * and b) to allow us to record the redirect as a pageview using standard analytics behaviour.
+ * National Archives
  */
-// prettier-ignore
-flatMap([
-    '/about-big/10-big-lottery-fund-facts',
-    '/funding/funding-guidance/applying-for-funding/*'
-], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
-    app.get(urlPath, cached.noCache, function(req, res) {
-        const fullUrl = `https://${config.get('domains.www')}${req.originalUrl}`;
-        const archiveUrl = `http://webarchive.nationalarchives.gov.uk/${fullUrl}`;
+archived.forEach(urlPath => {
+    app.get(urlPath, function(req, res) {
         res.render('static-pages/archived', {
             title: 'Archived',
-            archiveUrl: archiveUrl
+            archiveUrl: `http://webarchive.nationalarchives.gov.uk/https://www.biglotteryfund.org.uk${req.originalUrl}`
         });
     });
 });
