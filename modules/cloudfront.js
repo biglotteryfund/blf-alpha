@@ -42,7 +42,9 @@ const LEGACY_PATHS = [
 /**
  * S3 static file route paths
  * Paths in this list will be routed to an S3 bucket
- * either for CMS uploads or app-generated static files
+ * either for CMS uploads or app-generated static files.
+ * NOTE: they should _not_ start with leading slashes
+ * otherwise they fail to match directory names in S3.
  */
 const S3_PATHS = ['assets/*', 'media/*'];
 
