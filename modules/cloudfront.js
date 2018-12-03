@@ -39,6 +39,13 @@ const LEGACY_PATHS = [
     '/funding/search-past-grants/*'
 ];
 
+/**
+ * S3 static file route paths
+ * Paths in this list will be routed to an S3 bucket
+ * either for CMS uploads or app-generated static files
+ */
+const S3_PATHS = ['assets/*', 'media/*'];
+
 const makeBehaviourItem = ({
     originId,
     pathPattern = null,
@@ -112,6 +119,10 @@ const makeBehaviourItem = ({
                 Quantity: cookiesInUse.length
             }
         };
+    } else {
+        behaviour.ForwardedValues.Cookies = {
+            Forward: 'none'
+        };
     }
 
     if (allowAllQueryStrings) {
@@ -159,6 +170,15 @@ function generateBehaviours(origins) {
         })
     );
 
+    const s3Behaviours = S3_PATHS.map(path =>
+        makeBehaviourItem({
+            originId: origins.s3Assets,
+            pathPattern: path,
+            allowAllCookies: false,
+            headersToKeep: []
+        })
+    );
+
     // direct all custom routes (eg. with non-standard config) to Express
     const primaryBehaviours = flatMap(CLOUDFRONT_PATHS, rule => {
         // Merge default cookies with rule specific cookie
@@ -201,7 +221,7 @@ function generateBehaviours(origins) {
         }
     });
 
-    const combinedBehaviours = concat(customBehaviours, primaryBehaviours);
+    const combinedBehaviours = concat(customBehaviours, primaryBehaviours, s3Behaviours);
     const sortedBehaviours = sortBy(combinedBehaviours, 'PathPattern');
 
     return {
