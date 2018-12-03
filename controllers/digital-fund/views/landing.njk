@@ -15,12 +15,20 @@
         <div class="nudge-up">
             {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = entry.heroCredit) %}
                 <p>{{ copy.intro }}</p>
-                <p><strong>{{ copy.openingDates }}</strong></p>
+                {% if enableDigitalFundApplications %}
+                    <p><strong>{{ copy.openingDates }}</strong></p>
+                {% else %}
+                    <p><strong>{{ copy.openingDatesClosed }}</strong></p>
+                {% endif %}
             {% endcall %}
 
             {% call contentBox(pageAccent, id="get-started") %}
                 <h2>{{ copy.getStarted.title }}</h2>
-                <p>{{ copy.getStarted.intro }}</p>
+                {% if enableDigitalFundApplications %}
+                    <p>{{ copy.getStarted.intro }}</p>
+                {% else %}
+                    <p>{{ copy.getStarted.introClosed }}</p>
+                {% endif %}
 
                 <div class="flex-grid">
                     <div class="flex-grid__item">

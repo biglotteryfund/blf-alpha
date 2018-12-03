@@ -347,40 +347,6 @@ describe('e2e', function() {
         cy.get('@feedbackForm').should('contain', 'Thank you for sharing');
     });
 
-    it('should submit a digital fund application form', () => {
-        cy.visit('/apply/digital-fund-strand-1/1/');
-
-        cy.get('#field-name').type('Example Name', { delay: 0 });
-        cy.get('#field-email').type('example@example.com', { delay: 0 });
-        cy.get('#field-organisation-name').type('Test Organisation', { delay: 0 });
-        cy.get('#field-your-idea')
-            .invoke('val', loremLong)
-            .trigger('change');
-
-        cy.get('input[type="submit"]').click();
-        cy.get('h1').should('contain', 'Check this is right');
-        cy.get('input[type="submit"]').click();
-        cy.get('h1').should('contain', 'Thank you for getting in touch');
-
-        cy.visit('/apply/digital-fund-strand-2/1/');
-
-        cy.get('#field-name').type('Example Name', { delay: 0 });
-        cy.get('#field-email').type('example@example.com', { delay: 0 });
-        cy.get('#field-organisation-name').type('Test Organisation', { delay: 0 });
-        cy.get('#field-your-idea-product')
-            .invoke('val', loremLong)
-            .trigger('change');
-
-        cy.get('#field-technology')
-            .invoke('val', loremLong)
-            .trigger('change');
-
-        cy.get('input[type="submit"]').click();
-        cy.get('h1').should('contain', 'Check this is right');
-        cy.get('input[type="submit"]').click();
-        cy.get('h1').should('contain', 'Thank you for getting in touch');
-    });
-
     it('should submit materials order', () => {
         cy.visit('/funding/funding-guidance/managing-your-funding/ordering-free-materials');
         cy.get('a[href="#monolingual"]').click();
