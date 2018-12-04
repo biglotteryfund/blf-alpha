@@ -32,7 +32,7 @@
   },
   "features": {
     "enableDigitalFundApplications": false,
-    "enablePrompt": false,
+    "enablePrompt": true,
     "enableSurvey": true,
     "enableAbTests": true,
     "enableHotjar": false,
