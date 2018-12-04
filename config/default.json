@@ -33,7 +33,7 @@
     }
   },
   "features": {
-    "enableDigitalFundApplications": true,
+    "enableDigitalFundApplications": false,
     "enablePrompt": false,
     "enableSurvey": true,
     "enableAbTests": true,

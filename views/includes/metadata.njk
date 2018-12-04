@@ -1,5 +1,5 @@
 {% set metaTitle = getMetaTitle(globalCopy.brand.title, title) %}
-{% set metaDescription =  description | default(globalCopy.brand.description, true) %}
+{% set metaDescription = description | default(globalCopy.brand.description, true) %}
 <!-- deploy {{ appData.deployId }} | build {{ appData.buildNumber }} | node version {{ appData.nodeVersion }} -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,8 +18,8 @@
 <meta name="twitter:site" content="@{{ globalCopy.brand.twitter }}" />
 
 {% if socialImage %}
-<meta property="twitter:image" content="{{ getAbsoluteUrl(socialImage.default) }}">
-<meta property="og:image" content="{{ getAbsoluteUrl(socialImage.default) }}">
+<meta property="twitter:image" content="{{ getSocialImageUrl(socialImage) | safe }}">
+<meta property="og:image" content="{{ getSocialImageUrl(socialImage) | safe }}">
 {% else %}
 <meta property="twitter:image" content="{{ getAbsoluteUrl("social/twitter.jpg" | getImagePath) }}">
 <meta property="og:image" content="{{ getAbsoluteUrl("social/facebook.jpg" | getImagePath) }}">
