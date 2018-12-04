@@ -15,16 +15,14 @@ function staticPage({ template = null, caseStudies = [], disableLanguageLink = f
     const router = express.Router();
 
     router.get('/', injectBreadcrumbs, injectCaseStudies(caseStudies), function(req, res, next) {
-        const { copy, heroImage } = res.locals;
+        const { copy } = res.locals;
         const shouldRedirectLang = (disableLanguageLink === true || isEmpty(copy)) && isWelsh(req.originalUrl);
         if (shouldRedirectLang) {
             next();
         } else {
             res.render(template, {
-                copy: copy,
                 title: copy.title,
                 description: copy.description || false,
-                heroImage: heroImage || null,
                 isBilingual: disableLanguageLink === false
             });
         }
