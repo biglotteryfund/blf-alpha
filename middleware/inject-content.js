@@ -17,7 +17,7 @@ const contentApi = require('../services/content-api');
 function setCommonLocals({ res, entry, withFallbackHero = false }) {
     const { useNewBrand, fallbackHeroImage } = res.locals;
 
-    res.locals.title = entry.displayTitle || entry.title;
+    res.locals.title = entry.title;
 
     res.locals.isBilingual = entry.availableLanguages.length === 2;
 
