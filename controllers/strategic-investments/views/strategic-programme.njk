@@ -25,12 +25,12 @@
 <main role="main">
     {{ hero(
         titleText = title,
-        image = heroImage,
+        image = pageHero.image,
         accent = pageAccent
     ) }}
 
     <div class="nudge-up">
-        {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = strategicProgramme.heroCredit) %}
+        {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = pageHero.credit) %}
             {{ strategicProgramme.intro | safe }}
         {% endcall %}
 
