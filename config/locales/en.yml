@@ -28,6 +28,8 @@ global:
     about: About
     blog: Blog
     updates: News
+    contact: Talk to us
+    jobs: Jobs
   contact:
     address: 1 Plough Place, London, EC4A 1DE
     phone: 0345 4 10 20 30
@@ -460,6 +462,7 @@ toplevel:
     keyStats: Key statistics
     mapTitle: Our Year in Numbers
 news:
+  title: News
   allNews: All news
   types:
     blog:

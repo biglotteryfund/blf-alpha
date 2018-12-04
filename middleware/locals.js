@@ -47,6 +47,7 @@ module.exports = function(req, res, next) {
 
     /**
      * Navigation sections for top-level nav
+     * @TODO: Delete in favour of globalNavigation post-rebrand
      */
     const itemsToShow = omitBy(routes.sections, s => s.showInNavigation === false);
     res.locals.navigationSections = map(itemsToShow, (section, id) => {
@@ -56,6 +57,44 @@ module.exports = function(req, res, next) {
             label: req.i18n.__(section.langTitlePath)
         };
     });
+
+    /**
+     * Global navigation model
+     */
+    res.locals.globalNavigation = {
+        home: {
+            label: req.i18n.__('global.nav.home'),
+            url: localify(locale)('/')
+        },
+        primaryLinks: [
+            {
+                label: req.i18n.__('global.nav.funding'),
+                url: localify(locale)('/funding')
+            },
+            {
+                label: req.i18n.__('global.nav.updates'),
+                url: localify(locale)('/news')
+            },
+            {
+                label: req.i18n.__('global.nav.research'),
+                url: localify(locale)('/research')
+            },
+            {
+                label: req.i18n.__('global.nav.contact'),
+                url: localify(locale)('/contact')
+            }
+        ],
+        secondaryLinks: [
+            {
+                label: req.i18n.__('global.nav.about'),
+                url: localify(locale)('/about')
+            },
+            {
+                label: req.i18n.__('global.nav.jobs'),
+                url: localify(locale)('/jobs')
+            }
+        ]
+    };
 
     /**
      * Fallback hero image

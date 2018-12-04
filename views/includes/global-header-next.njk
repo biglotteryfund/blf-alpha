@@ -1,70 +1,6 @@
 {% from "components/icons.njk" import iconHamburger, iconSearch, iconArrowDown %}
 {% from "components/language/macros.njk" import languageSwitcher with context %}
 
-{% macro _navigation() %}
-    {% set navigation = [{
-        "label": "Home",
-        "url": "/",
-        "mobileOnly": true
-    }, {
-        "label": "Funding",
-        "url": "/funding/test",
-        "children": [{
-            "label": "Thinking of applying",
-            "url": "/funding/thinking-of-applying"
-        }, {
-            "label": "Funding programmes",
-            "url": "/funding/programmes"
-        }, {
-            "label": "What we’ve funded",
-            "url": "/funding/grants"
-        }, {
-            "label": "Continue your application",
-            "url": "https://apply.biglotteryfund.org.uk/Login.aspx"
-        }]
-    }, {
-        "label": "In your area",
-        "url": "/local",
-        "children": []
-    }, {
-        "label": "News",
-        "url": "/blog",
-        "children": []
-    }, {
-        "label": "Research",
-        "url": "/research",
-        "children": []
-    }, {
-        "label": "Talk to us",
-        "url": "/contact",
-        "children": []
-    }, {
-        "label": "About us",
-        "url": "/about",
-        "mobileOnly": true
-    }] %}
-
-    <ul>
-        {% for item in navigation %}
-            {% set hasChildren = item.children.length > 0 %}
-            <li class="{% if sectionUrl === item.url %}is-current {% endif %}{% if hasChildren %}has-children {% endif %}{% if item.mobileOnly %} u-mobile-only{% endif %}">
-                <a href="{{ item.url }}">
-                    {{ item.label }} {% if hasChildren %}{{ iconArrowDown() }}{% endif %}
-                </a>
-                {% if hasChildren %}
-                    <ul>
-                        {% for child in item.children %}
-                            <li>
-                                <a href="{{ child.url }}">{{ child.label }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-{% endmacro %}
-
 {% macro globalSearch() %}
     <form class="global-search-next js-global-search-form" role="search" action="/search">
         <label class="u-visually-hidden" for="global-search-input">
@@ -114,12 +50,33 @@
         <div class="global-header-next__secondary">
             <div class="global-header-next__navigation" id="global-nav">
                 <nav class="global-header-next__navigation-primary">
-                    {{ _navigation() }}
+                    <ul>
+                        <li class="u-mobile-only"><a href="{{ globalNavigation.home.url }}">{{ globalNavigation.home.label }}</a></li>
+                        {% for item in globalNavigation.primaryLinks %}
+                            {% set hasChildren = item.children.length > 0 %}
+                            <li class="{% if sectionUrl === item.url %}is-current {% endif %}{% if hasChildren %}has-children {% endif %}">
+                                <a href="{{ item.url }}">
+                                    {{ item.label }} {% if hasChildren %}{{ iconArrowDown() }}{% endif %}
+                                </a>
+                                {% if hasChildren %}
+                                    <ul>
+                                        {% for child in item.children %}
+                                            <li><a href="{{ child.url }}">{{ child.label }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                        {% for item in globalNavigation.secondaryLinks %}
+                            <li class="u-mobile-only"><a href="{{ item.url }}">{{ item.label }}</a></li>
+                        {% endfor %}
+                    </ul>
                 </nav>
                 <ul class="global-header-next__navigation-secondary">
-                    <li><a href="{{ localify('/') }}">Home</a></li>
-                    <li><a href="{{ localify('/about') }}">About us</a></li>
-                    <li><a href="{{ localify('/jobs') }}">Jobs</a></li>
+                    <li><a href="{{ globalNavigation.home.url }}">{{ globalNavigation.home.label }}</a></li>
+                    {% for item in globalNavigation.secondaryLinks %}
+                        <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+                    {% endfor %}
                     <li>
                         {% if isBilingual %}
                             {% if locale == 'en' %}
