@@ -26,7 +26,7 @@
                     {% for page in content.children %}
                         <li class="flex-grid__item">
                             {{ miniatureHero(
-                                title = page.trailText | default(page.title, true),
+                                title = page.trailText,
                                 imagePath = page.photo,
                                 imageCaption = page.title,
                                 linkUrl = page.link,
