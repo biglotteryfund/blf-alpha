@@ -1,7 +1,7 @@
 'use strict';
 const config = require('config');
 const moment = require('moment');
-const { map, omitBy } = require('lodash');
+const { map, omitBy, isString } = require('lodash');
 
 const { getCurrentUrl, getAbsoluteUrl, localify } = require('../modules/urls');
 const { REBRAND_SECRET } = require('../modules/secrets');
@@ -67,6 +67,14 @@ module.exports = function(req, res, next) {
         large: '/assets/images/hero/hero-fallback-large.jpg',
         default: '/assets/images/hero/hero-fallback-medium.jpg',
         caption: 'Rathlin Island Development and Community Association'
+    };
+
+    res.locals.getSocialImageUrl = function(socialImage) {
+        if (isString(socialImage)) {
+            return socialImage.indexOf('://') !== -1 ? socialImage : getAbsoluteUrl(socialImage);
+        } else {
+            return getAbsoluteUrl(req, socialImage.default);
+        }
     };
 
     /**

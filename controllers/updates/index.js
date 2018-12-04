@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const { concat, groupBy, isArray, pick } = require('lodash');
+const { concat, groupBy, isArray, pick, get } = require('lodash');
 
 const { buildPagination } = require('../../modules/pagination');
 const { injectBreadcrumbs, injectCopy, injectHeroImage } = require('../../middleware/inject-content');
@@ -79,6 +79,8 @@ if (appData.isNotProduction) {
                     } else if (entry.content.length > 0) {
                         return res.render(path.resolve(__dirname, './views/post/press-release'), {
                             title: entry.title,
+                            description: entry.summary,
+                            socialImage: get(entry, 'thumbnail.large', false),
                             entry: entry,
                             breadcrumbs: concat(
                                 res.locals.breadcrumbs,
@@ -139,6 +141,8 @@ if (appData.isNotProduction) {
                     } else if (entry.content.length > 0) {
                         return res.render(path.resolve(__dirname, './views/post/blogpost'), {
                             title: entry.title,
+                            description: entry.summary,
+                            socialImage: get(entry, 'thumbnail.large', false),
                             entry: entry,
                             breadcrumbs: concat(
                                 res.locals.breadcrumbs,
