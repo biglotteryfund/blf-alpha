@@ -162,18 +162,16 @@ function getUpdates({ locale, type = null, date = null, slug = null, query = {},
 }
 
 function getFundingProgrammes({ locale }) {
-    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/funding-programmes`).then(responses => {
+    return fetchAllLocales(reqLocale => `/v2/${reqLocale}/funding-programmes`).then(responses => {
         const [enResults, cyResults] = responses.map(mapAttrs);
         return mergeWelshBy('urlPath')(locale, enResults, cyResults);
     });
 }
 
 function getFundingProgramme({ locale, slug, previewMode = false }) {
-    return fetch(`/v1/${locale}/funding-programme/${slug}`, {
+    return fetch(`/v2/${locale}/funding-programmes/${slug}`, {
         qs: addPreviewParams(previewMode)
-    }).then(response => {
-        return get('data.attributes')(response);
-    });
+    }).then(response => get('data.attributes')(response));
 }
 
 function getResearch({ locale, slug = null, searchQuery = null, previewMode = null }) {

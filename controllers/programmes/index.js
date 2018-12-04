@@ -48,7 +48,7 @@ router.get(
 
         const groupedProgrammes =
             locationParam && locationParam !== 'ukWide'
-                ? groupBy(concat(programmes, ukWideProgrammes), 'content.area.label')
+                ? groupBy(concat(programmes, ukWideProgrammes), 'area.label')
                 : null;
 
         if (parseInt(req.query.min, 10) === 10000) {
