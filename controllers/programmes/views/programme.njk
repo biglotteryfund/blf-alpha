@@ -5,7 +5,7 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/programmes.njk" import programmeStats with context %}
 
-{% if entry.summary.area.value === 'wales' %}
+{% if entry.area.value === 'wales' %}
     {% set bodyClass = "has-welsh-logo" %}
 {% endif %}
 
