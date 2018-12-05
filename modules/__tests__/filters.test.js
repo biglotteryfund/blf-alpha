@@ -12,7 +12,8 @@ const {
     numberWithCommas,
     pluralise,
     removeQueryParam,
-    slugify
+    slugify,
+    widont
 } = require('../filters');
 
 describe('appendUuid', () => {
@@ -122,5 +123,12 @@ describe('isArray', () => {
         expect(isArray('not an array')).toBeFalsy();
         expect(isArray(['an', 'array'])).toBeTruthy();
         expect(isArray({ prop: 'thing' })).toBeFalsy();
+    });
+});
+
+describe('widont', () => {
+    it('should add a non-breaking-space to the last word of a string to prevent typographic widows', () => {
+        expect(widont('A string')).toBe('A&nbsp;string');
+        expect(widont('A slightly longer string')).toBe('A slightly longer&nbsp;string');
     });
 });
