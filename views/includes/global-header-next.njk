@@ -1,5 +1,5 @@
 {% from "components/icons.njk" import iconHamburger, iconSearch, iconArrowDown %}
-{% from "components/language/macros.njk" import languageSwitcher with context %}
+{% from "components/language/macros.njk" import languageLink, languageSwitcher with context %}
 
 {% macro globalSearch() %}
     <form class="global-search-next js-global-search-form" role="search" action="/search">
@@ -29,15 +29,9 @@
                 {% for item in globalNavigation.secondaryLinks %}
                     <li><a href="{{ item.url }}">{{ item.label }}</a></li>
                 {% endfor %}
-                <li>
-                    {% if isBilingual %}
-                        {% if locale == 'en' %}
-                            <a class="qa-lang-switcher" href="{{ getCurrentUrl('cy') }}">Cymraeg</a>
-                        {% else %}
-                            <a class="qa-lang-switcher" href="{{ getCurrentUrl('en') }}">English</a>
-                        {% endif %}
-                    {% endif %}
-                </li>
+                {% if isBilingual %}
+                    <li>{{ languageLink(currentLocale = locale) }}</li>
+                {% endif %}
             </ul>
         </div>
 
@@ -92,14 +86,16 @@
                             {% endfor %}
                         </ul>
                     </nav>
-                    <div class="global-header-next__language">
-                        <div class="global-header-next__language-prefix">
-                            Mae'r dudalen hon hefyd ar gael yn Cymraeg
+                    {% if isBilingual %}
+                        <div class="global-header-next__language">
+                            <div class="global-header-next__language-prefix">
+                                Mae'r dudalen hon hefyd ar gael yn Cymraeg
+                            </div>
+                            <div class="global-header-next__language-controls">
+                                {{ languageSwitcher(locale) }}
+                            </div>
                         </div>
-                        <div class="global-header-next__language-controls">
-                            {{ languageSwitcher(locale) }}
-                        </div>
-                    </div>
+                    {% endif %}
                 </div>
 
                 <div class="global-header-next__search">
