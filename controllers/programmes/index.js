@@ -138,14 +138,16 @@ router.get('/:slug', injectFundingProgramme, (req, res, next) => {
 
 router.use(
     '/building-better-opportunities/*',
-    basicContent({
-        customAncestors: [
+    (req, res, next) => {
+        res.locals.customAncestors = [
             {
                 title: 'Building Better Opportunities',
                 path: 'funding/programmes/building-better-opportunities'
             }
-        ]
-    })
+        ];
+        next();
+    },
+    basicContent()
 );
 
 module.exports = router;
