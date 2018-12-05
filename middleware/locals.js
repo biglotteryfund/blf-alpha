@@ -61,36 +61,37 @@ module.exports = function(req, res, next) {
     /**
      * Global navigation model
      */
+    const navCopy = req.i18n.__('global.nav');
     res.locals.globalNavigation = {
         home: {
-            label: req.i18n.__('global.nav.home'),
+            label: navCopy.home,
             url: localify(locale)('/')
         },
         primaryLinks: [
             {
-                label: req.i18n.__('global.nav.funding'),
+                label: navCopy.funding,
                 url: localify(locale)('/funding')
             },
             {
-                label: req.i18n.__('global.nav.updates'),
+                label: navCopy.updates,
                 url: localify(locale)('/news')
             },
             {
-                label: req.i18n.__('global.nav.research'),
+                label: navCopy.research,
                 url: localify(locale)('/research')
             },
             {
-                label: req.i18n.__('global.nav.contact'),
+                label: navCopy.contact,
                 url: localify(locale)('/contact')
             }
         ],
         secondaryLinks: [
             {
-                label: req.i18n.__('global.nav.about'),
+                label: navCopy.about,
                 url: localify(locale)('/about')
             },
             {
-                label: req.i18n.__('global.nav.jobs'),
+                label: navCopy.jobs,
                 url: localify(locale)('/jobs')
             }
         ]
