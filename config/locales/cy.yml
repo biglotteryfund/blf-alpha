@@ -27,6 +27,8 @@ global:
     research: Ymchwil
     blog: Blog
     updates: Newyddion
+    contact: "Siarad â ni"
+    jobs: Swyddi
   contact:
     address: 1 Plough Place, Llundain EC4A 1DE
     phone: 0300 123 0735
@@ -368,6 +370,7 @@ toplevel:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau
 news:
+  title: Newyddion
   allNews: All news
   types:
     blog:
