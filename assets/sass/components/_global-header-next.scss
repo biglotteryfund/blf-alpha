@@ -7,7 +7,10 @@ $breakpointLarge: 840px;
 
 .global-header-next {
     background: white;
-    position: relative;
+
+    .global-header-next__inner {
+        position: relative;
+    }
 
     .global-header-next__navigation-primary {
         font-size: 16px;
