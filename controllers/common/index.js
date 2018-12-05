@@ -33,33 +33,44 @@ function staticPage({ template = null, caseStudies = [], disableLanguageLink = f
     return router;
 }
 
-function basicContent({ customTemplate = null } = {}) {
+function basicContent({ customTemplate = null, customAncestors = null } = {}) {
     const router = express.Router();
 
-    router.get('/', injectListingContent, injectBreadcrumbs, (req, res, next) => {
-        const { content } = res.locals;
+    router.get(
+        '/',
+        (req, res, next) => {
+            if (customAncestors) {
+                res.locals.customAncestors = customAncestors;
+            }
+            next();
+        },
+        injectListingContent,
+        injectBreadcrumbs,
+        (req, res, next) => {
+            const { content } = res.locals;
 
-        if (content) {
-            /**
-             * Determine template to render:
-             * 1. If using a custom template defer to that
-             * 2. If the response has child pages then render a listing page
-             * 3. Otherwise, render an information page
-             */
-            if (customTemplate) {
-                res.render(customTemplate);
-            } else if (content.children) {
-                res.render(path.resolve(__dirname, './views/listing-page'));
-            } else if (content.introduction || content.segments.length > 0) {
-                // ↑ information pages must have at least an introduction or some content segments
-                res.render(path.resolve(__dirname, './views/information-page'));
+            if (content) {
+                /**
+                 * Determine template to render:
+                 * 1. If using a custom template defer to that
+                 * 2. If the response has child pages then render a listing page
+                 * 3. Otherwise, render an information page
+                 */
+                if (customTemplate) {
+                    res.render(customTemplate);
+                } else if (content.children) {
+                    res.render(path.resolve(__dirname, './views/listing-page'));
+                } else if (content.introduction || content.segments.length > 0) {
+                    // ↑ information pages must have at least an introduction or some content segments
+                    res.render(path.resolve(__dirname, './views/information-page'));
+                } else {
+                    next();
+                }
             } else {
                 next();
             }
-        } else {
-            next();
         }
-    });
+    );
 
     return router;
 }
