@@ -130,14 +130,6 @@ const funding = {
             router: require('./programmes')
         },
         {
-            path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
-            router: basicContent()
-        },
-        {
-            path: '/programmes/building-better-opportunities/building-better-opportunities-resources',
-            router: basicContent()
-        },
-        {
             path: '/strategic-investments',
             router: require('./strategic-investments')
         },

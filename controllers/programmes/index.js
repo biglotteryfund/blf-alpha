@@ -3,6 +3,8 @@ const path = require('path');
 const { concat, map, groupBy } = require('lodash');
 const express = require('express');
 
+const { basicContent } = require('../common');
+
 const {
     injectBreadcrumbs,
     injectCopy,
@@ -133,5 +135,17 @@ router.get('/:slug', injectFundingProgramme, (req, res, next) => {
         next();
     }
 });
+
+router.use(
+    '/building-better-opportunities/*',
+    basicContent({
+        customAncestors: [
+            {
+                title: 'Building Better Opportunities',
+                path: 'funding/programmes/building-better-opportunities'
+            }
+        ]
+    })
+);
 
 module.exports = router;
