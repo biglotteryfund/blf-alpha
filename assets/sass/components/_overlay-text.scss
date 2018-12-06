@@ -14,11 +14,12 @@
     }
 
     .overlay-text__inner {
-        color: white;
         display: inline;
         padding: 0.2em 0.3em;
         // allows multi-line wrapped text to work
         box-decoration-break: clone;
+        color: white;
+        background-color: get-color('brand', 'primary');
     }
 
     .overlay-text__link,
@@ -36,25 +37,27 @@
     }
 }
 
-@each $name in $themes {
-    $colour: palette($name);
+@if $useNewBrand == false {
+    @each $name in $themes {
+        $colour: palette($name);
 
-    .overlay-text--accent-#{$name} {
-        .overlay-text__inner {
-            background-color: $colour;
-        }
+        .overlay-text--accent-#{$name} {
+            .overlay-text__inner {
+                background-color: $colour;
+            }
 
-        .overlay-text__link {
-            @include on-interact {
-                .overlay-text__inner {
-                    background-color: darken($colour, 10%);
+            .overlay-text__link {
+                @include on-interact {
+                    .overlay-text__inner {
+                        background-color: darken($colour, 10%);
+                    }
                 }
             }
-        }
 
-        &.overlay-text--translucent {
-            .overlay-text__inner {
-                background-color: rgba($colour, 0.8);
+            &.overlay-text--translucent {
+                .overlay-text__inner {
+                    background-color: rgba($colour, 0.8);
+                }
             }
         }
     }
