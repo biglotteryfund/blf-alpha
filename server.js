@@ -185,8 +185,24 @@ app.use('/patterns', require('./controllers/pattern-library'));
 /**
  * Handle Aliases
  */
+
+const removeWildcard = urlPath => urlPath.replace('/*', '');
+
 aliases.forEach(redirect => {
-    app.get(redirect.from, (req, res) => res.redirect(301, redirect.to));
+    // Allow wildcard redirects to avoid specifying a whole directory of links
+    if (redirect.from.indexOf('*') !== -1) {
+        const pathsMinusWildcards = {
+            from: removeWildcard(redirect.from),
+            to: removeWildcard(redirect.to)
+        };
+        app.get(redirect.from, (req, res) => {
+            // Replace the asterisk with the rest of the path requested
+            const wildcardPath = pathsMinusWildcards.to + req.path.replace(pathsMinusWildcards.from, '');
+            res.redirect(301, wildcardPath);
+        });
+    } else {
+        app.get(redirect.from, (req, res) => res.redirect(301, redirect.to));
+    }
 });
 
 /**

@@ -111,6 +111,7 @@ const aliases = {
     '/under10k': '/funding/under10k',
     '/welcome': '/funding/funding-guidance/managing-your-funding',
     '/yourgrant': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
+    '/global-content/programmes/england/building-better-opportunities/*': '/funding/programmes/building-better-opportunities/*',
 };
 
 /**
