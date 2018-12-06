@@ -16,7 +16,7 @@
     padding: $linkPadding;
     margin: 0 - ($linkPadding / 2);
     font-family: font-stack('display');
-    font-weight: bold;
+    font-weight: font-weight('display', 'bold');
     text-decoration: none;
     transition: background-color 140ms ease-in;
     max-width: 23.5em;

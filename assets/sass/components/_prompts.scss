@@ -21,11 +21,11 @@
 }
 .prompt__body {
     color: white;
-    background-color: palette('pink');
+    background-color: get-color('brand', 'primary');
 
     a {
         color: white;
-        font-weight: bold;
+        font-weight: font-weight('body', 'bold');
     }
 
     max-width: 760px;

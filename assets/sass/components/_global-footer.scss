@@ -34,9 +34,9 @@
     }
 
     .global-footer__section-title {
-        font-family: font-stack('display');
         font-size: 14px;
-        font-weight: bold;
+        font-family: font-stack('display');
+        font-weight: font-weight('display', 'bold');
         text-transform: uppercase;
         margin-bottom: 0.75em;
     }

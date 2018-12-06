@@ -170,7 +170,8 @@
             margin-right: $spacingUnit;
 
             font-size: 21px;
-            font-weight: bold;
+            font-family: font-stack('display');
+            font-weight: font-weight('body', 'bold');
             border: 2px solid;
             border-radius: 50%;
             outline: 6px solid white;
