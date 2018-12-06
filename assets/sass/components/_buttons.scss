@@ -39,7 +39,7 @@ $btnConf: (
 .btn {
     font-family: font-stack('display');
     line-height: 1; // so we can calculate padding for the height
-    font-weight: 500;
+    font-weight: font-weight('display', 'semibold');
     background-color: palette('blue');
     color: #ffffff;
     text-decoration: none;
@@ -251,7 +251,7 @@ $btnConf: (
 .language-control {
     font-family: font-stack('display');
     font-size: 14px;
-    font-weight: 500;
+    font-weight: font-weight('display', 'semibold');
     text-align: center;
     text-decoration: none;
     border: none;

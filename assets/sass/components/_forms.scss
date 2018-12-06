@@ -111,7 +111,7 @@
     .form-field-addon__action {
         font-size: 18px;
         font-family: font-stack('display');
-        font-weight: 500;
+        font-weight: font-weight('display', 'semibold');
         color: white;
         border: none;
         -webkit-appearance: none;
