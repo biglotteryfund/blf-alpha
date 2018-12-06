@@ -11,7 +11,7 @@ $logoOffset: $navLinkPadding - 5px;
 
 .global-header {
     width: 100%;
-    color: palette('blue-text');
+    color: get-color('links', 'base');
 
     @include mq('medium') {
         margin-bottom: $spacingUnit;
@@ -286,7 +286,7 @@ $offscreenNavWidth: 65%;
 
 .offscreen-navigation {
     color: white;
-    background-color: palette('blue-nav');
+    background-color: #3c65dd;
     display: block;
     position: fixed;
     z-index: 100;
@@ -315,7 +315,7 @@ $offscreenNavWidth: 65%;
     text-decoration: none;
 
     @include on-interact {
-        background-color: palette('blue-text');
+        background-color: #365cc9;
     }
 }
 
