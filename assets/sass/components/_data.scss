@@ -75,6 +75,7 @@
 /* =========================================================================
    Stat Block
    ========================================================================= */
+
 .stat-block {
     display: flex;
     flex-flow: column nowrap;
@@ -84,9 +85,8 @@
         color: palette('blue');
         display: inline-block;
         margin: 5px 0;
-
         font-family: font-stack('display');
-        font-weight: 600;
+        font-weight: font-weight('display', 'bold');
         line-height: 1;
         font-size: 28px;
 
@@ -103,8 +103,8 @@
         margin-top: 0;
         display: block;
         color: palette('charcoal');
-        font-family: 'Poppins', arial, sans-serif;
-        font-weight: 600;
+        font-family: font-stack('display');
+        font-weight: font-weight('display', 'semibold');
         text-transform: uppercase;
         font-size: 14px;
     }
@@ -129,7 +129,7 @@
 }
 .fact-river__item {
     margin-bottom: 1em;
-    font-weight: bold;
+    font-weight: font-weight('body', 'bold');
 
     strong {
         color: palette('pink');

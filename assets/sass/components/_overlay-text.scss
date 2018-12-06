@@ -5,7 +5,7 @@
 
 .overlay-text {
     font-family: font-stack('display');
-    font-weight: 600;
+    font-weight: font-weight('display', 'bold');
     line-height: 1.5;
     margin: 0;
 
