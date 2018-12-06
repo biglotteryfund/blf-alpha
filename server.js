@@ -190,7 +190,8 @@ const removeWildcard = urlPath => urlPath.replace('/*', '');
 
 aliases.forEach(redirect => {
     // Allow wildcard redirects to avoid specifying a whole directory of links
-    if (redirect.from.indexOf('*') !== -1) {
+    // Currently we only support paths that end with a wildcard (eg. /foo/bar/*)
+    if (redirect.from.match(/\/\*$/)) {
         const pathsMinusWildcards = {
             from: removeWildcard(redirect.from),
             to: removeWildcard(redirect.to)
