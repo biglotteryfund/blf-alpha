@@ -4002,5 +4002,45 @@ Array [
     "from": "/welsh/wales/yourgrant",
     "to": "/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials",
   },
+  Object {
+    "from": "/global-content/programmes/england/building-better-opportunities/*",
+    "to": "/funding/programmes/building-better-opportunities/*",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/building-better-opportunities/*",
+    "to": "/welsh/funding/programmes/building-better-opportunities/*",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/building-better-opportunities/*",
+    "to": "/funding/programmes/building-better-opportunities/*",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/*",
+    "to": "/welsh/funding/programmes/building-better-opportunities/*",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/building-better-opportunities/*",
+    "to": "/funding/programmes/building-better-opportunities/*",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/*",
+    "to": "/welsh/funding/programmes/building-better-opportunities/*",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/*",
+    "to": "/funding/programmes/building-better-opportunities/*",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/*",
+    "to": "/welsh/funding/programmes/building-better-opportunities/*",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/building-better-opportunities/*",
+    "to": "/funding/programmes/building-better-opportunities/*",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/*",
+    "to": "/welsh/funding/programmes/building-better-opportunities/*",
+  },
 ]
 `;
