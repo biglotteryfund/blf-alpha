@@ -12,11 +12,6 @@
     background-color: palette('pale-grey');
     margin-bottom: $spacingUnit;
 
-    &.message--info {
-        background-color: palette('green-bg');
-        border-left-color: palette('green');
-    }
-
     > p {
         margin-bottom: 0.5em;
     }

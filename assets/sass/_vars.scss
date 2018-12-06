@@ -85,18 +85,10 @@ $palette: (
     'blue-bg': #e5f3fe,
     'turquoise': #00adef,
     'pink': #e20087,
-    'pink-alt': #e6007e,
-    'pink-bg': #fef5f9,
-    'pink-mid': #d84d7b,
-    'pink-mid-bg': #f6d2e2,
     'pink-dark': #a84d97,
     'green': #00bd71,
-    'green-bg': #ddf0e2,
     'orange': #ff9315,
-    'orange-bg': #fdebd7,
     'cyan': #009098,
-    'green-dark': #356231,
-    'brown': #8a7967,
     'soft-grey': #cacaca,
     'charcoal': #333333,
     'charcoal-note': #757575,
@@ -112,17 +104,4 @@ $palette: (
 );
 
 // which of the above colours should have accents generated?
-$themes: (
-    'soft-grey',
-    'pink',
-    'pink-mid',
-    'pink-dark',
-    'blue',
-    'turquoise',
-    'green',
-    'orange',
-    'cyan',
-    'green-dark',
-    'brown',
-    'white'
-);
+$themes: ('soft-grey', 'pink', 'pink-dark', 'blue', 'turquoise', 'green', 'orange', 'cyan', 'white');
