@@ -1421,8 +1421,114 @@
           "Quantity": 0
         },
         "PathPattern": "/welsh/search"
+      },
+      {
+        "TargetOriginId": "S3-blf-assets",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "GET"
+          ],
+          "Quantity": 2,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [],
+            "Quantity": 0
+          },
+          "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version",
+              "enable-feature",
+              "disable-feature"
+            ],
+            "Quantity": 4
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "none"
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "assets/*"
+      },
+      {
+        "TargetOriginId": "S3-blf-assets",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "GET"
+          ],
+          "Quantity": 2,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [],
+            "Quantity": 0
+          },
+          "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version",
+              "enable-feature",
+              "disable-feature"
+            ],
+            "Quantity": 4
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "none"
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "media/*"
       }
     ],
-    "Quantity": 22
+    "Quantity": 24
   }
 }
