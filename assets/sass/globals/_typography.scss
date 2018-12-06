@@ -19,7 +19,7 @@ h6,
 .t5,
 .t6 {
     font-family: font-stack('display');
-    font-weight: 600;
+    font-weight: font-weight('display', 'bold');
     line-height: 1.25;
 }
 

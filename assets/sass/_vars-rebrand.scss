@@ -1,42 +1,30 @@
-// =========================================================================
-// Global Variables
-// ========================================================================= //
-
-// =========================================================================
-// Global Variables: Layout
-// ========================================================================= //
-
-$breakpoints: (
-    'xsmall': 360px,
-    'small': 480px,
-    'medium-minor': 620px,
-    'medium': 760px,
-    'medium-major': 860px,
-    'large': 980px,
-    'xlarge': 1200px
-);
-
-// At this resolution, the content area will be limited in width
-$widestScreen: map-get($breakpoints, 'xlarge');
-$maxWidth: 1000px;
-
-// This is used as a utility measure around the site
-$spacingUnit: 20px;
-
-// Max-width values for running content
-$constrained: 700px;
-$constrainedWide: 840px;
+@import '_vars';
 
 /* =========================================================================
-   Global Variables: Font Stacks
+   Global Variables: Typography
    ========================================================================= */
 
-// If updating font-stacks make sure to update in
-// `assets/js/head.js` and `gulpfile.js`
-$font-stacks: (
-    fallback: 'sans-serif',
-    display: 'caecilia, sans-serif',
-    body: 'caecilia-sans-text, Trebuchet MS, sans-serif'
+$typography: (
+    display: (
+        font-stacks: (
+            fallback: 'sans-serif',
+            default: 'caecilia, sans-serif'
+        ),
+        weights: (
+            regular: 400,
+            bold: 800
+        )
+    ),
+    body: (
+        font-stacks: (
+            fallback: 'sans-serif',
+            default: 'caecilia-sans-text, Trebuchet MS, sans-serif'
+        ),
+        weights: (
+            regular: 400,
+            bold: 800
+        )
+    )
 );
 
 // =========================================================================

@@ -28,15 +28,30 @@ $constrained: 700px;
 $constrainedWide: 840px;
 
 /* =========================================================================
-   Global Variables: Font Stacks
+   Global Variables: Typography
    ========================================================================= */
 
-// If updating font-stacks make sure to update in
-// `assets/js/head.js` and `gulpfile.js`
-$font-stacks: (
-    fallback: 'sans-serif',
-    display: "'Poppins', sans-serif",
-    body: "'Roboto', sans-serif"
+$typography: (
+    display: (
+        font-stacks: (
+            fallback: 'sans-serif',
+            default: "'Poppins', sans-serif"
+        ),
+        weights: (
+            regular: 400,
+            bold: 700
+        )
+    ),
+    body: (
+        font-stacks: (
+            fallback: 'sans-serif',
+            default: "'Roboto', sans-serif"
+        ),
+        weights: (
+            regular: 400,
+            bold: 700
+        )
+    )
 );
 
 // =========================================================================

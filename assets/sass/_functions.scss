@@ -18,12 +18,12 @@
 // Functions: Typography
 // ========================================================================= //
 
-@function font-stack($key) {
-    @if type-of(map-get($font-stacks, $key)) == string {
-        @return unquote(map-get($font-stacks, $key));
-    } @else {
-        @error "font-stack #{$key} is not defined";
-    }
+@function font-stack($category, $variant: 'default') {
+    @return unquote(map-deep-get($typography, $category, 'font-stacks', $variant));
+}
+
+@function font-weight($category, $variant) {
+    @return map-deep-get($typography, $category, 'weights', $variant);
 }
 
 // =========================================================================

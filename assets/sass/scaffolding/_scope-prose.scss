@@ -10,7 +10,6 @@
     h4,
     h5,
     h6 {
-        font-weight: 600;
         line-height: 1.2;
     }
 
@@ -82,8 +81,13 @@
         margin: 0 0 ($spacingUnit * 1.5) 0;
     }
 
+    strong,
+    b,
     a {
-        font-weight: bold;
+        font-weight: font-weight('body', 'bold');
+    }
+
+    a {
         @include wrap-words();
     }
 
