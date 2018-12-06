@@ -129,13 +129,13 @@
                         {% set link = localify('/funding/programmes') %}
                     {% endif %}
 
-                    {% set heroImage = {
+                    {% set image = {
                         "url": fallbackHeroImage.large,
                         "alt": mainProgramme.title
                     } %}
 
                     {% if fundingProgramme and fundingProgramme.hero %}
-                        {% set heroImage = {
+                        {% set image = {
                             "url": fundingProgramme.hero.large,
                             "alt": mainProgramme.title
                         } %}
@@ -144,7 +144,7 @@
                     {% call promoCard({
                         "title": copy.grantDetail.fundedBy + ' ' + mainProgramme.title,
                         "trailText": fundingProgramme.description,
-                        "image": heroImage,
+                        "image": image,
                         "link": {
                             "label": copy.grantDetail.readMoreAbout + ' ' + mainProgramme.title,
                             "labelAria": copy.grantDetail.readMoreAbout + ' ' + mainProgramme.title,

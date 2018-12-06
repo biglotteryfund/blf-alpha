@@ -11,11 +11,13 @@ const contentApi = require('../services/content-api');
  * - title based on content
  * - isBilingual based on availableLanguages property
  * - preview status metadata
- * - heroImage (with optional fallback)
+ * - pageHero (with optional fallback)
  * - optional custom theme colour
  */
-function setCommonLocals({ res, entry, withFallbackHeroImage = false }) {
-    res.locals.title = entry.displayTitle || entry.title;
+function setCommonLocals({ res, entry, withFallbackHero = false }) {
+    const { useNewBrand, fallbackHeroImage } = res.locals;
+
+    res.locals.title = entry.title;
 
     res.locals.isBilingual = entry.availableLanguages.length === 2;
 
@@ -24,10 +26,26 @@ function setCommonLocals({ res, entry, withFallbackHeroImage = false }) {
         lastUpdated: moment(entry.dateUpdated.date).format('Do MMM YYYY [at] h:mma')
     };
 
-    if (withFallbackHeroImage) {
-        res.locals.heroImage = entry.hero || res.locals.fallbackHeroImage;
+    const newHeroImage = get('heroNew.image')(entry);
+    const newHeroCredit = get('heroNew.credit')(entry);
+
+    if (useNewBrand && newHeroImage) {
+        res.locals.pageHero = {
+            image: newHeroImage,
+            credit: newHeroCredit
+        };
+    } else if (withFallbackHero) {
+        res.locals.pageHero = {
+            image: entry.hero || fallbackHeroImage,
+            credit: entry.heroCredit
+        };
+    } else if (entry.hero) {
+        res.locals.pageHero = {
+            image: entry.hero,
+            credit: entry.heroCredit
+        };
     } else {
-        res.locals.heroImage = entry.hero;
+        res.locals.pageHero = null;
     }
 
     if (entry.themeColour) {
@@ -35,23 +53,23 @@ function setCommonLocals({ res, entry, withFallbackHeroImage = false }) {
     }
 }
 
-function injectHeroImage(heroSlug) {
+function injectHeroImage(heroSlug, heroSlugNew) {
     return async function(req, res, next) {
         if (heroSlug) {
-            const { fallbackHeroImage } = res.locals;
+            const { fallbackHeroImage, useNewBrand } = res.locals;
 
             // Set defaults
-            res.locals.heroImage = fallbackHeroImage;
+            res.locals.pageHero = { image: fallbackHeroImage };
             res.locals.socialImage = fallbackHeroImage;
 
             try {
-                const heroImage = await contentApi.getHeroImage({
+                const image = await contentApi.getHeroImage({
                     locale: req.i18n.getLocale(),
-                    slug: heroSlug
+                    slug: useNewBrand && heroSlugNew ? heroSlugNew : heroSlug
                 });
 
-                res.locals.heroImage = heroImage;
-                res.locals.socialImage = heroImage;
+                res.locals.pageHero = { image: image };
+                res.locals.socialImage = image;
                 next();
             } catch (error) {
                 Raven.captureException(error);
@@ -176,7 +194,7 @@ async function injectFundingProgramme(req, res, next) {
         });
 
         res.locals.fundingProgramme = entry;
-        setCommonLocals({ res, entry, withFallbackHeroImage: true });
+        setCommonLocals({ res, entry, withFallbackHero: true });
         next();
     } catch (error) {
         if (error.statusCode >= 500) {
@@ -269,7 +287,7 @@ async function injectResearchEntry(req, res, next) {
             });
 
             res.locals.researchEntry = entry;
-            setCommonLocals({ res, entry });
+            setCommonLocals({ res, entry, withFallbackHero: true });
         }
         next();
     } catch (error) {
