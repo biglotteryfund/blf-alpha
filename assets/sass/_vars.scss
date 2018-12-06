@@ -60,6 +60,19 @@ $typography: (
 // Global Variables: Colour Palette
 // ========================================================================= //
 
+$colors: (
+    brand: (
+        primary: #e20087
+    ),
+    text: (
+        base: #333333
+    ),
+    links: (
+        base: #365cc9,
+        hover: darken(#365cc9, 20%)
+    )
+);
+
 $palette: (
     'high-contrast-bg': #1a44a1,
     'blue': #1a44a1,
@@ -70,7 +83,6 @@ $palette: (
     'pink': #e20087,
     'pink-alt': #e6007e,
     'pink-bg': #fef5f9,
-    'pink-text': #e20087,
     'pink-mid': #d84d7b,
     'pink-mid-bg': #f6d2e2,
     'pink-dark': #a84d97,

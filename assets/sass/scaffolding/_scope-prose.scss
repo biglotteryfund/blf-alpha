@@ -91,29 +91,8 @@
         @include wrap-words();
     }
 
-    a[href^='mailto:'],
-    a[href^='tel:'] {
-        color: palette('green');
-        font-weight: bold;
-    }
-
     a[href^='tel:'] {
         text-decoration: none;
-    }
-
-    .contrast--high & {
-        a[href^='mailto:'],
-        a[href^='tel:'] {
-            color: palette('blue') !important;
-        }
-    }
-
-    // fix word-break in IE when used in tables
-    td {
-        a[href^='mailto:'],
-        a[href^='tel:'] {
-            display: table-cell;
-        }
     }
 
     table {
@@ -183,6 +162,12 @@
 
         td {
             vertical-align: top;
+
+            // Fix word-break in IE when used in tables
+            a[href^='mailto:'],
+            a[href^='tel:'] {
+                display: table-cell;
+            }
         }
     }
 

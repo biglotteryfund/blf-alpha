@@ -6,12 +6,21 @@
 // Functions: Colour
 // ========================================================================= //
 
+// Old color function, keys named by colour
+// @TODO: Remove when fully migrated to get-color
 @function palette($color) {
     @if map-has-key($palette, $color) {
         @return map-get($palette, $color);
     } @else {
         @error "palette requires a color";
     }
+}
+
+/**
+ * Get color from palette w/default tone
+ */
+@function get-color($palette, $tone) {
+    @return map-get(map-get($colors, $palette), $tone);
 }
 
 // =========================================================================
