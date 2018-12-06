@@ -35,10 +35,12 @@ $typography: (
 // Global Variables: Colour Palette
 // ========================================================================= //
 
+$brandPink: #e500fd;
+
 $colors: (
     brand: (
         primary: #e500fd,
-        secondary: #002b57// @TODO: Is this conceptually correct?
+        secondary: #002b57
     ),
     text: (
         base: #333333
@@ -49,6 +51,14 @@ $colors: (
     ),
     borders: (
         base: rgba(202, 202, 202, 0.5)
+    ),
+    neutral: (
+        base: #cacaca,
+        light: #f5f6fa
+    ),
+    message: (
+        base: #dfe0e2,
+        warning: #c6183d
     )
 );
 
@@ -77,4 +87,4 @@ $palette: (
 );
 
 // which of the above colours should have accents generated?
-$themes: ('soft-grey', 'pink', 'pink-dark', 'blue', 'turquoise', 'green', 'orange', 'cyan', 'white');
+$themes: ('pink', 'pink-dark', 'blue', 'turquoise', 'green', 'orange', 'cyan', 'white');
