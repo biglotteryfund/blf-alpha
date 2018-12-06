@@ -37,7 +37,8 @@ $typography: (
 
 $colors: (
     brand: (
-        primary: #e500fd
+        primary: #e500fd,
+        secondary: #002b57// @TODO: Is this conceptually correct?
     ),
     text: (
         base: #333333
@@ -52,8 +53,6 @@ $palette: (
     'high-contrast-bg': #1a44a1,
     'blue': #009dd1,
     'blue-bg': #e5f3fe,
-    'blue-text': #365cc9,
-    'blue-nav': #3c65dd,
     'turquoise': #00adef,
     'pink': #e5007d,
     'pink-alt': #e6007e,

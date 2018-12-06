@@ -49,11 +49,7 @@ h6 {
 }
 
 a {
-    color: palette('blue-text');
-}
-
-blockquote {
-    color: palette('blue-text');
+    color: get-color('links', 'base');
 }
 
 .logo {

@@ -219,7 +219,7 @@ $btnConf: (
    ========================================================================= */
 
 .btn-link {
-    color: palette('blue-text');
+    color: get-color('links', 'base');
     background-color: transparent;
     transition: color 0.1s ease-in-out;
     margin: 0;
@@ -239,7 +239,7 @@ $btnConf: (
 
     @include on-interact {
         text-decoration: underline;
-        color: darken(palette('blue-text'), 20%);
+        color: get-color('links', 'hover');
         background-color: transparent;
     }
 }

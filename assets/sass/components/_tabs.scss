@@ -44,7 +44,7 @@
         }
 
         .content-tabset__tab {
-            color: palette('blue-text');
+            color: get-color('links', 'base');
             display: block;
             font-weight: bold;
             padding: 12px 12px 14px;
