@@ -49,7 +49,20 @@ function basicContent({ customTemplate = null } = {}) {
             if (customTemplate) {
                 res.render(customTemplate);
             } else if (content.children) {
-                res.render(path.resolve(__dirname, './views/listing-page'));
+                // What layout mode should we use? (eg. do all of the children have an image?)
+                const childrenMissingPhotos = content.children.some(page => !page.photo);
+                const childrenLayoutMode = childrenMissingPhotos ? 'plain' : 'heroes';
+                if (childrenMissingPhotos) {
+                    content.children = content.children.map(page => {
+                        return {
+                            href: page.linkUrl,
+                            label: page.trailText || page.title
+                        };
+                    });
+                }
+                res.render(path.resolve(__dirname, './views/listing-page'), {
+                    childrenLayoutMode: childrenLayoutMode
+                });
             } else if (content.introduction || content.segments.length > 0) {
                 // ↑ information pages must have at least an introduction or some content segments
                 res.render(path.resolve(__dirname, './views/information-page'));
