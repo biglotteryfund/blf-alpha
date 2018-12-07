@@ -98,9 +98,17 @@
     }
 }
 
-.breadcrumb-trail--tinted {
-    color: #b20062;
-    background-color: #ffd8e8;
+// @TODO: Name these colours as variables?
+@if $useNewBrand == true {
+    .breadcrumb-trail--tinted {
+        color: #5c003a; // Burgundy
+        background-color: #f4d3e6;
+    }
+} @else {
+    .breadcrumb-trail--tinted {
+        color: #b20062;
+        background-color: #ffd8e8;
+    }
 }
 
 /* =========================================================================
