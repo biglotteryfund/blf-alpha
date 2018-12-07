@@ -38,7 +38,7 @@
     }
 
     @include mq('medium') {
-        margin-bottom: $spacingUnit * 2.5;
+        margin-bottom: $nudgeOffset + $spacingUnit;
     }
 }
 .hero__header__inner {
@@ -65,7 +65,7 @@
     }
 
     @include mq('medium') {
-        bottom: $spacingUnit * 2;
+        bottom: $nudgeOffset + $spacingUnit;
     }
 
     @include mq('large') {
