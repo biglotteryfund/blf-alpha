@@ -63,21 +63,24 @@ $brandPink: #e20087;
 $colors: (
     brand: (
         primary: $brandPink,
-        secondary: #1a44a1
+        primary-light-wash: #feebf3
     ),
     text: (
-        base: #333333
+        base: #333333,
+        note: #666666,
+        light: #e9e9e9
     ),
     links: (
         base: #365cc9,
-        hover: darken(#365cc9, 20%)
+        hover: #00598e,
+        visited: #002b57
     ),
     borders: (
         base: rgba(202, 202, 202, 0.5)
     ),
-    neutral: (
-        base: #cacaca,
-        light: #f5f6fa
+    backgrounds: (
+        dark-neutral: #333333,
+        light-neutral: #f5f6fa
     ),
     message: (
         base: #dfe0e2,
@@ -86,28 +89,20 @@ $colors: (
 );
 
 $palette: (
-    'high-contrast-bg': #1a44a1,
-    'blue': #1a44a1,
-    'blue-bg': #e5f3fe,
+    'pink': #e5007d,
+    'blue': #009dd1,
     'turquoise': #00adef,
-    'pink': #e20087,
-    'pink-dark': #a84d97,
-    'green': #00bd71,
-    'orange': #ff9315,
+    'cyan': #009098,
     'cyan': #009098,
     'soft-grey': #cacaca,
     'charcoal': #333333,
     'charcoal-note': #757575,
     'off-white': #e9e9e9,
-    'white': #ffffff,
     'pale': #fdfefe,
-    'pale-green': #f5fafb,
-    'pale-grey': #f5f6fa,
-    'pale-pink': #feebf3,
     'tint': #fafafa,
     'border': rgba(202, 202, 202, 0.5),
     'error': #b00
 );
 
 // which of the above colours should have accents generated?
-$themes: ('pink', 'pink-dark', 'blue', 'turquoise', 'green', 'orange', 'cyan', 'white');
+$themes: ('pink', 'blue', 'cyan', 'turquoise');

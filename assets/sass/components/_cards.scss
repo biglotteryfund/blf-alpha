@@ -8,7 +8,7 @@
 
 .card {
     padding: 12px;
-    background-color: palette('pale-grey');
+    background-color: get-color('backgrounds', 'light-neutral');
     max-width: 30em;
     margin-bottom: $spacingUnit / 2;
 
@@ -84,7 +84,7 @@
    ========================================================================= */
 
 .promo-card {
-    background-color: palette('pale-grey');
+    background-color: get-color('backgrounds', 'light-neutral');
     box-shadow: 0 0 0 1px palette('border');
     max-width: 40em;
 

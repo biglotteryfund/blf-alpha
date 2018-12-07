@@ -31,7 +31,7 @@
    ========================================================================= */
 
 .programme-card {
-    background-color: palette('pale-grey');
+    background-color: get-color('backgrounds', 'light-neutral');
     padding: $spacingUnit / 2;
 
     @include mq(medium-minor) {

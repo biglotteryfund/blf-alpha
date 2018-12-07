@@ -109,10 +109,10 @@
         padding: 0;
 
         tr {
-            background-color: palette('pale-grey');
+            background-color: get-color('backgrounds', 'light-neutral');
 
             &:nth-child(even) {
-                background-color: darken(palette('pale-grey'), 3%);
+                background-color: darken(get-color('backgrounds', 'light-neutral'), 3%);
             }
 
             td {

@@ -151,12 +151,8 @@
     font-weight: normal;
     margin-left: 0.5em;
     font-size: smaller;
-    color: palette('charcoal-note');
+    color: get-color('text', 'note');
     white-space: nowrap;
-
-    &.ff-label-note--required {
-        color: palette('pink');
-    }
 }
 
 /**
@@ -165,25 +161,26 @@
 .ff-help {
     font-size: 18px;
     margin-bottom: 10px;
-    color: #4a4a4a;
+    color: get-color('text', 'note');
 }
 
 .ff-length-hint {
     font-size: 16px;
     display: block;
     font-style: italic;
-    color: palette('charcoal-note');
+    color: get-color('text', 'note');
     margin-bottom: 10px;
 }
 
-@mixin formFieldBox {
+.ff-text,
+.ff-textarea,
+.ff-field-prepend {
     padding: 6px 12px;
-    border: 2px solid palette('charcoal');
+    border: 2px solid get-color('text', 'base');
 }
 
 .ff-text,
 .ff-textarea {
-    @include formFieldBox();
     display: block;
     // prevent elements with size attributes overflowing on mobile
     max-width: 100%;
@@ -201,8 +198,7 @@
 }
 
 .ff-field-prepend {
-    @include formFieldBox();
-    background-color: palette('off-white');
+    background-color: get-color('backgrounds', 'light-neutral');
     float: left;
     border-right: none;
 }
@@ -342,7 +338,7 @@
 }
 .review-step__title {
     clear: both;
-    background-color: palette('pale-grey');
+    background-color: get-color('backgrounds', 'light-neutral');
     font-weight: bold;
     padding: $spacingUnit / 2;
     margin: 0;

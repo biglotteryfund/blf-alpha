@@ -9,7 +9,7 @@
 .message {
     padding: 0.75em $spacingUnit;
     border-left: 5px solid get-color('message', 'base');
-    background-color: get-color('neutral', 'light');
+    background-color: get-color('backgrounds', 'light-neutral');
     margin-bottom: $spacingUnit;
 
     &.message--error {

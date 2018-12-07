@@ -255,13 +255,13 @@
 }
 
 .region--clickable {
-    fill: get-color('brand', 'secondary');
+    fill: #1a44a1;
 
     &.is-active {
-        fill: get-color('brand', 'primary');
+        fill: #e20087;
     }
 
     @include on-interact {
-        fill: get-color('brand', 'primary');
+        fill: #e20087;
     }
 }

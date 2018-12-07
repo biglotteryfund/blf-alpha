@@ -37,10 +37,6 @@
 {% macro analyticParams(logoName, logoSize, logoLocale) %}data-ga-on="click" data-ga-event-category="Download logo" data-ga-event-action="{{ buildLogoTitle(logoName, logoSize, logoLocale) }}"{% endmacro %}
 
 {% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false, accent = false, isReversed = false) %}
-    {% if isReversed %}
-        {% set accent = 'white' %}
-    {% endif %}
-
     <div class="logo-block {% if isReversed %}logo-block--reversed{% endif %}">
         <div class="logo-block__overlay" id="js-download-block--{{ logoId }}">
             <div class="logo-block__close">
@@ -54,11 +50,6 @@
                 {{ successMessage('vector') }}
             </div>
         </div>
-
-        {% set accentClass = '' %}
-        {% if accent %}
-            {% set accentClass = ' accent--' + accent + ' a--btn ' %}
-        {% endif %}
 
         {% if not onlyEps %}
             <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}"
@@ -76,7 +67,7 @@
 
         <div class="o-button-group-block">
             {% if not onlyEps %}
-                <a class="btn btn--small {{ accentClass }} js-logo-trigger"
+                <a class="btn btn--small js-logo-trigger"
                    href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') | trim }}"
                    target="_blank"
                    data-logo-type="digital"
@@ -84,7 +75,7 @@
                    {{ analyticParams(logoName, 'small', logoLocale) }}>
                     {{ makeLogoTitle(logoName, 'small') }}
                 </a>
-                <a class="btn btn--small {{ accentClass }} js-logo-trigger"
+                <a class="btn btn--small js-logo-trigger"
                    href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}"
                    target="_blank"
                    data-logo-type="print"
@@ -93,7 +84,7 @@
                     {{ makeLogoTitle(logoName, 'large') }}
                 </a>
             {% endif %}
-            <a class="btn btn--small {{ accentClass }} js-logo-trigger"
+            <a class="btn btn--small js-logo-trigger"
                href="{{ logoPath(logoLocale, logoFilename, 'eps') | trim }}"
                target="_blank"
                data-logo-type="vector"
@@ -133,10 +124,10 @@
 
         <ul class="flex-grid u-margin-bottom-l">
             <li class="flex-grid__item">
-                {{ logoBlock(1, 'blue', 'blue', 'en', accent = 'turquoise') }}
+                {{ logoBlock(1, 'blue', 'blue', 'en') }}
             </li>
             <li class="flex-grid__item">
-                {{ logoBlock(2, 'pink', 'pink', accent = 'pink') }}
+                {{ logoBlock(2, 'pink', 'pink') }}
             </li>
             <li class="flex-grid__item">
                 {{ logoBlock(3, 'pink-white', 'white', onlyEps = true, isReversed = true) }}
@@ -150,10 +141,10 @@
 
         <ul class="flex-grid u-margin-bottom-l">
             <li class="flex-grid__item">
-                {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual', accent = 'turquoise') }}
+                {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual') }}
             </li>
             <li class="flex-grid__item">
-                {{ logoBlock(6, 'pink', 'pink', logoLocale = 'bilingual', accent = 'pink') }}
+                {{ logoBlock(6, 'pink', 'pink', logoLocale = 'bilingual') }}
             </li>
             <li class="flex-grid__item">
                 {{ logoBlock(7, 'pink-white', 'white', logoLocale = 'bilingual', onlyEps = true, isReversed = true) }}

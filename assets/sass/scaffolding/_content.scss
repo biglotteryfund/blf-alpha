@@ -119,7 +119,7 @@
     }
 
     &.content-box--tinted {
-        background-color: palette('pale-pink');
+        background-color: get-color('brand', 'primary-light-wash');
         border-right: none;
         border-bottom: none;
         border-left: none;
