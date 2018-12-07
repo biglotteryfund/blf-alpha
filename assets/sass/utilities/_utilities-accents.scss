@@ -31,9 +31,13 @@
  * Generate theme classes
  * Each theme listed in palette.scss will generate classes for use below
  * e.g <div class="accent--pink a--border-top"> will give a pink border
+ * @TODO: Remove these post-rebrand, for now we awkwardly overide most colours with the brand colour
  */
 @each $name in $themes {
     $colour: palette($name);
+    @if $useNewBrand == true {
+        $colour: get-color('brand', 'primary');
+    }
 
     .u-accent-border-top-#{$name} {
         border-top: 4px solid $colour !important;
