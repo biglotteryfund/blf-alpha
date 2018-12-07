@@ -52,10 +52,6 @@ const toplevel = {
             })
         },
         {
-            path: '/contact',
-            router: basicContent()
-        },
-        {
             path: '/data',
             lang: 'toplevel.data',
             heroSlug: 'young-shoulders-programme',
@@ -159,6 +155,21 @@ const research = {
 };
 
 /**
+ * Talk to us section
+ * @type {Section}
+ */
+const talk = {
+    path: '/contact',
+    showInNavigation: false,
+    pages: [
+        {
+            path: '/',
+            router: basicContent()
+        }
+    ]
+};
+
+/**
  * About section
  * @type {Section}
  */
@@ -229,6 +240,7 @@ const sections = {
     toplevel: toplevel,
     funding: funding,
     research: research,
+    talk: talk,
     about: about,
     blog: blog,
     updates: updates
