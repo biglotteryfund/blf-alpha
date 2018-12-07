@@ -93,10 +93,6 @@ a {
         text-decoration: underline;
         color: get-color('links', 'hover');
     }
-
-    &:visited {
-        color: get-color('links', 'visited');
-    }
 }
 
 blockquote {

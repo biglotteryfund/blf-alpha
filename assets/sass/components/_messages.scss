@@ -65,18 +65,18 @@
 /* Used to flag preview mode, environment status etc. */
 
 .status-banner {
+    $statusBannerColour: #009098;
     text-align: center;
     font-size: 15px;
     padding: 1em 6px;
-    background-color: palette('cyan');
+    background-color: $statusBannerColour;
     background: repeating-linear-gradient(
         -55deg,
-        palette('cyan'),
-        palette('cyan') 10px,
-        darken(palette('cyan'), 2%) 10px,
-        darken(palette('cyan'), 2%) 20px
+        $statusBannerColour,
+        $statusBannerColour 10px,
+        darken($statusBannerColour, 2%) 10px,
+        darken($statusBannerColour, 2%) 20px
     );
-    border-top: 4px solid darken(palette('cyan'), 10%);
     color: white;
 
     a {
@@ -90,9 +90,8 @@
    ========================================================================= */
 
 .cookie-consent {
-    color: white;
-    background-color: #333333;
-    border-bottom: 1px solid #5f5f5f;
+    color: get-color('text', 'light');
+    background-color: get-color('backgrounds', 'dark-neutral');
     font-size: 14px;
     display: none;
 
@@ -142,9 +141,13 @@
     }
 
     a {
-        color: palette('soft-grey');
+        color: get-color('text', 'light');
+        font-weight: font-weight('body', 'bold');
+        text-decoration: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+
         @include on-interact {
-            color: lighten(palette('soft-grey'), 10%);
+            border-color: get-color('text', 'light');
         }
     }
 }

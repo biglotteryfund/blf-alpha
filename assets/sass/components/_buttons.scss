@@ -199,12 +199,7 @@ $btnConf: (
     cursor: pointer;
 
     @include on-interact() {
-        $highlight: palette('soft-grey');
-        border-color: $highlight;
-
-        svg {
-            fill: $highlight;
-        }
+        opacity: 0.8;
     }
 
     svg {
