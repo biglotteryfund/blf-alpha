@@ -2,30 +2,6 @@
 {% from "components/styleguide.njk" import sgExample %}
 {% import "components/icons.njk" as allIcons %}
 
-{% set colours %}
-    <h2>Colours</h2>
-    {# Keep in sync with vars.scss #}
-    {% set themes = [
-        'pink',
-        'pink-dark',
-        'blue',
-        'turquoise',
-        'green',
-        'orange',
-        'cyan',
-        'white'
-    ] %}
-    <div class="sg-preview-grid">
-        {% for theme in themes %}
-            <div class="sg-preview-grid__item">
-                <div class="o-colour-swatch o-colour-swatch--{{ theme }}">
-                    {{ theme }}
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-{% endset %}
-
 {% set icons %}
     <h2>Icons</h2>
     <div class="sg-preview-grid">
@@ -55,9 +31,6 @@
 {% endset %}
 
 {% set sections = [{
-    "slug": "colours",
-    "content": colours
-}, {
     "slug": "icons",
     "content": icons
 }, {
