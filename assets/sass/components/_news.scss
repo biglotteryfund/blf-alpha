@@ -104,7 +104,7 @@
     font-size: 16px;
 }
 .article-meta__author {
-    font-weight: bold;
+    font-weight: font-weight('body', 'bold');
 }
 .article-meta__author,
 .article-meta__pubdate {

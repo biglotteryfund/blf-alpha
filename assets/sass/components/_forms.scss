@@ -24,7 +24,8 @@
     margin: 0;
 }
 .form-fieldset__legend {
-    font-weight: bold;
+    font-family: font-stack('display');
+    font-weight: font-weight('display', 'bold');
     margin-bottom: $spacingUnit;
 }
 .form-fieldset__intro {
@@ -41,7 +42,7 @@
     .form-errors__title {
         color: white;
         background-color: get-color('message', 'warning');
-        font-weight: bold;
+        font-weight: font-weight('display', 'bold');
         margin: 0;
         padding: $spacingUnit / 3;
     }
@@ -73,7 +74,7 @@
     .form-field__errors li,
     .form-field__errors li a {
         color: get-color('message', 'warning');
-        font-weight: bold;
+        font-weight: font-weight('body', 'bold');
     }
 
     &.has-errors {
@@ -132,7 +133,7 @@
 .ff-label {
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
+    font-weight: font-weight('body', 'bold');
 
     &.ff-label--append:after {
         margin-left: 5px;
@@ -319,7 +320,7 @@
         margin-bottom: $spacingUnit;
     }
     .step-preview__field-label {
-        font-weight: bold;
+        font-weight: font-weight('body', 'bold');
         margin: 0;
     }
     .step-preview__field-guidance {
@@ -339,7 +340,7 @@
 .review-step__title {
     clear: both;
     background-color: get-color('background', 'light-neutral');
-    font-weight: bold;
+    font-weight: font-weight('display', 'bold');
     padding: $spacingUnit / 2;
     margin: 0;
 }
@@ -362,7 +363,7 @@
     }
 }
 .review-step__item-label {
-    font-weight: bold;
+    font-weight: font-weight('body', 'bold');
     width: 40%;
     padding-right: 1em;
     clear: left;
@@ -386,7 +387,7 @@
     padding: 0.5em 0;
 
     button {
-        font-weight: bold;
+        font-weight: font-weight('body', 'bold');
         font-size: 18px;
         display: block;
         width: 100%;

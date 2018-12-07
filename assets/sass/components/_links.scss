@@ -56,7 +56,7 @@
     display: inline-block;
 }
 .inline-links__prefix {
-    font-weight: bold;
+    font-weight: font-weight('body', 'bold');
     margin-right: 3px;
 }
 .inline-links__list {
@@ -97,7 +97,7 @@
     }
 }
 .document-list__link {
-    font-weight: bold;
+    font-weight: font-weight('body', 'bold');
     text-decoration: none;
 
     &:hover,

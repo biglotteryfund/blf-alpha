@@ -23,7 +23,7 @@
         }
 
         .content-tabset__tab {
-            font-weight: bold;
+            font-weight: font-weight('display', 'bold');
         }
     }
 
@@ -46,7 +46,7 @@
         .content-tabset__tab {
             color: get-color('links', 'base');
             display: block;
-            font-weight: bold;
+            font-weight: font-weight('display', 'bold');
             padding: 12px 12px 14px;
             text-decoration: none;
             border: solid get-color('border', 'base');

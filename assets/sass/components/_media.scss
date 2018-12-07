@@ -63,7 +63,7 @@
     }
 }
 .media-aside__text {
-    font-weight: bold;
+    font-weight: font-weight('body', 'semibold');
     margin-bottom: 0;
 
     @include mq('medium-minor', 'max') {
@@ -82,7 +82,7 @@
 }
 .media-aside__link {
     margin: 1em 0 0;
-    font-weight: bold;
+    font-weight: font-weight('body', 'bold');
     font-size: 18px;
 }
 

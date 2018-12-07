@@ -54,7 +54,7 @@
 
         a,
         a:link {
-            font-weight: bold;
+            font-weight: font-weight('body', 'bold');
             text-decoration: none;
         }
         a:hover,

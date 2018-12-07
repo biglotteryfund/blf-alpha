@@ -200,7 +200,7 @@ $filterSpacing: 10px;
 
     .facet-group__legend {
         display: block;
-        font-weight: bold;
+        font-weight: font-weight('display', 'bold');
         text-transform: uppercase;
         letter-spacing: 1px;
         font-size: 14px;

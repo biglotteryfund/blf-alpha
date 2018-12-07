@@ -4,7 +4,7 @@
 
 .o-definition-list {
     dt {
-        font-weight: bold;
+        font-weight: font-weight('body', 'bold');
         margin-bottom: 0;
     }
 
