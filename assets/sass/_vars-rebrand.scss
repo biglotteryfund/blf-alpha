@@ -1,6 +1,29 @@
-@import '_vars';
+// =========================================================================
+// Global Variables: Layout
+// ========================================================================= //
 
 $useNewBrand: true;
+
+$breakpoints: (
+    'xsmall': 360px,
+    'small': 480px,
+    'medium-minor': 620px,
+    'medium': 760px,
+    'medium-major': 860px,
+    'large': 980px,
+    'xlarge': 1200px
+);
+
+// At this resolution, the content area will be limited in width
+$widestScreen: map-get($breakpoints, 'xlarge');
+$maxWidth: 1000px;
+
+// This is used as a utility measure around the site
+$spacingUnit: 20px;
+
+// Max-width values for running content
+$constrained: 700px;
+$constrainedWide: 840px;
 
 /* =========================================================================
    Global Variables: Typography
