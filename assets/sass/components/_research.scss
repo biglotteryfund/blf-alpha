@@ -38,7 +38,7 @@
 
 .document-summary {
     &:not(:last-of-type) {
-        border-bottom: 1px solid get-color('borders', 'base');
+        border-bottom: 1px solid get-color('border', 'base');
         padding-bottom: $spacingUnit;
         margin-bottom: $spacingUnit;
     }

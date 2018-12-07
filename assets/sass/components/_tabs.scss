@@ -28,7 +28,7 @@
     }
 
     @include mq('medium-minor') {
-        background-color: get-color('backgrounds', 'light-neutral');
+        background-color: get-color('background', 'light-neutral');
         display: flex;
         flex-wrap: wrap;
 
@@ -49,7 +49,7 @@
             font-weight: bold;
             padding: 12px 12px 14px;
             text-decoration: none;
-            border: solid palette('border');
+            border: solid get-color('border', 'base');
             border-width: 4px 0 1px 1px;
             border-top-color: transparent;
             white-space: nowrap;
@@ -80,7 +80,7 @@
 
     @include mq('medium-minor', 'max') {
         &:nth-child(even) .content-tab-pane__content {
-            background-color: get-color('backgrounds', 'light-neutral');
+            background-color: get-color('background', 'light-neutral');
         }
     }
 

@@ -31,7 +31,7 @@
    ========================================================================= */
 
 .programme-card {
-    background-color: get-color('backgrounds', 'light-neutral');
+    background-color: get-color('background', 'light-neutral');
     padding: $spacingUnit / 2;
 
     @include mq(medium-minor) {
@@ -148,7 +148,7 @@
         top: 0;
         left: $counterSize / 2;
         height: 100%;
-        background: palette('border');
+        background: get-color('border', 'base');
     }
 
     .step-progress__item {

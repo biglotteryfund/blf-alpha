@@ -16,7 +16,7 @@
     margin-bottom: 3px;
 }
 .article-teaser__subtitle {
-    color: palette('charcoal-note');
+    color: get-color('text', 'note');
     font-size: 18px;
     margin-bottom: 0;
 }
@@ -47,7 +47,7 @@
     .article-listing__item {
         padding-bottom: 1.5em;
         margin-bottom: 1.5em;
-        border-bottom: 1px solid palette('border');
+        border-bottom: 1px solid get-color('border', 'base');
 
         &:last-child {
             padding-bottom: 0;
@@ -116,7 +116,7 @@
 
     padding: $spacingUnit 0;
     margin-top: $spacingUnit;
-    border-top: 1px solid palette('border');
+    border-top: 1px solid get-color('border', 'base');
 }
 
 /* =========================================================================
@@ -135,7 +135,7 @@
 .blog-teaser__meta {
     font-size: 18px;
     margin-bottom: $spacingUnit / 2;
-    color: palette('charcoal-note');
+    color: get-color('text', 'note');
 }
 .blog-teaser__summary {
     font-size: 18px;

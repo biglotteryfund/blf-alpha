@@ -76,7 +76,7 @@
 
     hr {
         border: none;
-        border-bottom: 1px solid palette('border');
+        border-bottom: 1px solid get-color('border', 'base');
         padding-bottom: $spacingUnit;
         margin: 0 0 ($spacingUnit * 1.5) 0;
     }
@@ -109,10 +109,10 @@
         padding: 0;
 
         tr {
-            background-color: get-color('backgrounds', 'light-neutral');
+            background-color: get-color('background', 'light-neutral');
 
             &:nth-child(even) {
-                background-color: darken(get-color('backgrounds', 'light-neutral'), 3%);
+                background-color: darken(get-color('background', 'light-neutral'), 3%);
             }
 
             td {

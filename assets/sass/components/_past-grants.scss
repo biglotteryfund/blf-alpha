@@ -11,7 +11,7 @@
 
     @include mq('medium') {
         padding: $spacingUnit;
-        background-color: get-color('backgrounds', 'light-neutral');
+        background-color: get-color('background', 'light-neutral');
     }
 }
 
@@ -85,7 +85,7 @@
 $filterSpacing: 10px;
 
 .search-filters {
-    background-color: get-color('backgrounds', 'light-neutral');
+    background-color: get-color('background', 'light-neutral');
     padding: $filterSpacing;
     transition: all 0.15s ease-in-out;
     margin-bottom: 0.5em;
@@ -214,7 +214,7 @@ $filterSpacing: 10px;
     &.is-open {
         .facet-group__legend {
             padding-bottom: $filterSpacing / 2;
-            border-bottom: 1px solid palette('border');
+            border-bottom: 1px solid get-color('border', 'base');
             width: 100%;
         }
 
@@ -226,7 +226,7 @@ $filterSpacing: 10px;
             display: block;
 
             .facet-group__item {
-                border-bottom: 1px solid palette('border');
+                border-bottom: 1px solid get-color('border', 'base');
                 margin-bottom: $filterSpacing;
                 padding-bottom: $filterSpacing;
 
@@ -270,7 +270,7 @@ $filterSpacing: 10px;
 
 .project-caption {
     font-size: 13px;
-    color: palette('charcoal-note');
+    color: get-color('text', 'note');
     margin-bottom: 0;
 }
 
@@ -296,12 +296,12 @@ $filterSpacing: 10px;
     font-size: 13px;
 
     color: get-color('text', 'base');
-    background-color: get-color('backgrounds', 'light-neutral');
+    background-color: get-color('background', 'light-neutral');
     padding: 3px 5px 3px 10px;
 
     @include on-interact {
         cursor: pointer;
-        background-color: darken(get-color('backgrounds', 'light-neutral'), 5%);
+        background-color: darken(get-color('background', 'light-neutral'), 5%);
     }
 
     .icon {

@@ -102,7 +102,7 @@
     .stat-block__caption {
         margin-top: 0;
         display: block;
-        color: palette('charcoal');
+        color: get-color('text', 'base');
         font-family: font-stack('display');
         font-weight: font-weight('display', 'semibold');
         text-transform: uppercase;

@@ -160,7 +160,7 @@
 }
 
 .js-on.is-repeat-visitor .super-hero--has-candidates {
-    background-color: palette('charcoal');
+    background-color: get-color('background', 'dark-neutral');
 
     .super-hero__image,
     .super-hero__caption {

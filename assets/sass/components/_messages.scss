@@ -9,7 +9,7 @@
 .message {
     padding: 0.75em $spacingUnit;
     border-left: 5px solid get-color('message', 'base');
-    background-color: get-color('backgrounds', 'light-neutral');
+    background-color: get-color('background', 'light-neutral');
     margin-bottom: $spacingUnit;
 
     &.message--error {
@@ -91,7 +91,7 @@
 
 .cookie-consent {
     color: get-color('text', 'light');
-    background-color: get-color('backgrounds', 'dark-neutral');
+    background-color: get-color('background', 'dark-neutral');
     font-size: 14px;
     display: none;
 

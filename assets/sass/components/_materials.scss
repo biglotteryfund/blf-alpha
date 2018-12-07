@@ -8,7 +8,7 @@
     flex-direction: column;
     @include bordered();
     border-top-width: 6px;
-    background-color: get-color('backgrounds', 'light-neutral');
+    background-color: get-color('background', 'light-neutral');
     height: 100%;
 }
 .material-card__header {
@@ -19,11 +19,11 @@
     padding: 0 ($spacingUnit * 2) $spacingUnit;
 
     img {
-        border: 2px solid darken(get-color('backgrounds', 'light-neutral'), 5%);
+        border: 2px solid darken(get-color('background', 'light-neutral'), 5%);
     }
 }
 .material-card__products-item {
-    border-bottom: 1px solid palette('border');
+    border-bottom: 1px solid get-color('border', 'base');
 
     &:last-child {
         border-bottom: none;

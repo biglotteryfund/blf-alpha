@@ -15,7 +15,7 @@
     .form-header__prefix {
         font-size: 16px;
         font-weight: normal;
-        color: palette('charcoal-note');
+        color: get-color('text', 'note');
         margin-bottom: 10px;
     }
 }
@@ -176,7 +176,7 @@
 .ff-textarea,
 .ff-field-prepend {
     padding: 6px 12px;
-    border: 2px solid get-color('borders', 'dark');
+    border: 2px solid get-color('border', 'dark');
 }
 
 .ff-text,
@@ -198,7 +198,7 @@
 }
 
 .ff-field-prepend {
-    background-color: get-color('backgrounds', 'light-neutral');
+    background-color: get-color('background', 'light-neutral');
     float: left;
     border-right: none;
 }
@@ -249,7 +249,7 @@
 }
 .ff-choice__caption {
     font-size: 14px;
-    color: palette('charcoal-note');
+    color: get-color('text', 'note');
     display: block;
 
     @include mq('medium-minor') {
@@ -264,7 +264,7 @@
 
 .form-actions {
     max-width: $constrainedWide;
-    border-top: 1px solid palette('border');
+    border-top: 1px solid get-color('border', 'base');
     padding: 1em 0;
 
     > .btn {
@@ -304,7 +304,7 @@
    ========================================================================= */
 
 .step-preview {
-    border-bottom: 1px solid palette('border');
+    border-bottom: 1px solid get-color('border', 'base');
     padding: 12px 0;
 
     .step-preview__title {
@@ -338,7 +338,7 @@
 }
 .review-step__title {
     clear: both;
-    background-color: get-color('backgrounds', 'light-neutral');
+    background-color: get-color('background', 'light-neutral');
     font-weight: bold;
     padding: $spacingUnit / 2;
     margin: 0;
@@ -353,7 +353,7 @@
 .review-step__item-label,
 .review-step__item-value {
     float: left;
-    border-top: 1px solid palette('soft-grey');
+    border-top: 1px solid get-color('border', 'base');
     padding: $spacingUnit / 2;
     margin-bottom: 0.5em;
 
@@ -446,7 +446,7 @@
         padding: 10px;
         border: none;
         font-size: 16px;
-        border-bottom: 2px solid get-color('borders', 'dark');
+        border-bottom: 2px solid get-color('border', 'dark');
         color: get-color('text', 'base');
 
         &.is-error {

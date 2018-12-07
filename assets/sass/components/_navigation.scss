@@ -116,7 +116,7 @@
    ========================================================================= */
 
 .segment-links {
-    border-top: 1px solid get-color('borders', 'base');
+    border-top: 1px solid get-color('border', 'base');
     padding-top: $spacingUnit;
     margin-bottom: $spacingUnit;
 
@@ -142,7 +142,7 @@
 .split-nav {
     padding: 0.5em;
     margin-bottom: $spacingUnit;
-    border-top: 1px solid get-color('borders', 'base');
+    border-top: 1px solid get-color('border', 'base');
     display: flex;
     justify-content: space-between;
 

@@ -129,7 +129,7 @@ $logoOffset: $navLinkPadding - 5px;
         content: '';
         display: inline-block;
         height: 15px;
-        border: solid palette('soft-grey');
+        border: solid rgba(255, 255, 255, 0.8);
         border-width: 0 1px;
         border-radius: 30px;
         vertical-align: middle;
@@ -259,13 +259,13 @@ html:not(.contrast--high) body:not(.has-static-header) .global-nav {
     .icon {
         width: 21px;
         height: 21px;
-        fill: palette('soft-grey');
+        fill: get-color('text', 'note');
         vertical-align: middle;
     }
 
     @include on-interact {
         .icon {
-            fill: palette('charcoal');
+            fill: get-color('text', 'base');
         }
     }
 }

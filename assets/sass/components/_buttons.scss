@@ -149,11 +149,11 @@ $btnConf: (
  * Buttons: Reversed Variant
  */
 .btn--reversed {
-    color: palette('charcoal');
+    color: get-color('text', 'base');
     background-color: white;
 
     @include on-interact {
-        color: darken(palette('charcoal'), 10%);
+        color: darken(get-color('text', 'base'), 10%);
         background-color: darken(white, 5%);
     }
 }
@@ -281,7 +281,7 @@ $btnConf: (
     &:not(.is-current) {
         @include on-interact {
             text-decoration: none;
-            color: palette('charcoal');
+            color: get-color('text', 'base');
             background-color: white;
             border-color: white;
         }

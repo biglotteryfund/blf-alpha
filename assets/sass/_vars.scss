@@ -70,7 +70,7 @@ $colors: (
     ),
     text: (
         base: #333333,
-        note: #666666,
+        note: #7a7a7a,
         light: #e9e9e9
     ),
     links: (
@@ -78,11 +78,11 @@ $colors: (
         hover: #00598e,
         visited: #002b57
     ),
-    borders: (
+    border: (
         dark: #4a4a4a,
         base: rgba(202, 202, 202, 0.5)
     ),
-    backgrounds: (
+    background: (
         dark-neutral: #333333,
         light-neutral: #f5f6fa
     ),
@@ -92,17 +92,16 @@ $colors: (
     )
 );
 
+// =========================================================================
+// Global Variables: Themes
+// ========================================================================= //
+// @TODO: Replace post-rebrand
+
 $palette: (
     'pink': $brandPink,
     'blue': #009dd1,
     'turquoise': #00adef,
-    'cyan': #009098,
-    'soft-grey': #cacaca,
-    'charcoal': #333333,
-    'charcoal-note': #757575,
-    'pale': #fdfefe,
-    'tint': #fafafa,
-    'border': rgba(202, 202, 202, 0.5)
+    'cyan': #009098
 );
 
 // which of the above colours should have accents generated?

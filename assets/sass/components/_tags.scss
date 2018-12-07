@@ -1,6 +1,6 @@
 .tags-list {
     $primaryColour: palette('pink');
-    $secondaryColour: palette('charcoal-note');
+    $secondaryColour: get-color('text', 'note');
     .tag {
         display: inline-block;
 
