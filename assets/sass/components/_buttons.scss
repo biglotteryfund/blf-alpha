@@ -37,11 +37,16 @@ $btnConf: (
  * Buttons: Default style
  */
 .btn {
+    $buttonColor: palette('blue');
+    @if $useNewBrand == true {
+        $buttonColor: get-color('brand', 'primary');
+    }
+
     font-family: font-stack('display');
     line-height: 1; // so we can calculate padding for the height
     font-weight: font-weight('display', 'semibold');
-    background-color: palette('blue');
-    color: #ffffff;
+    color: white;
+    background-color: $buttonColor;
     text-decoration: none;
     border: none;
     border-radius: 50px;
@@ -63,22 +68,22 @@ $btnConf: (
     }
 
     @include on-interact {
-        background-color: darken(palette('blue'), 15%);
+        color: white;
+        background-color: darken($buttonColor, 15%);
         outline: none;
-        color: #ffffff;
     }
 
     // add back the outline to high-contrast mode
     .contrast--high & {
         @include on-interact {
-            outline: 3px solid palette('pink');
+            outline: 3px solid get-color('brand', 'primary');
         }
     }
 
     // sass magic: becomes `a.btn`
     // (to override other link CSS)
     @at-root a#{&} {
-        color: #ffffff;
+        color: white;
         text-decoration: none;
         transition: none;
     }
@@ -108,7 +113,7 @@ $btnConf: (
 .btn--medium {
     @include getBtnVertPadding(map-get($btnConf, 'mini'));
     font-size: map-deep-get($btnConf, 'mini', 'fontSize');
-    background-color: palette('pink');
+    background-color: get-color('brand', 'primary');
 
     @media only screen and (min-width: 360px) {
         @include getBtnVertPadding(map-get($btnConf, 'small'));
@@ -121,7 +126,7 @@ $btnConf: (
     }
 
     @include on-interact {
-        background-color: darken(palette('pink'), 15%);
+        background-color: darken(get-color('brand', 'primary'), 15%);
         outline: none;
     }
 }
@@ -132,7 +137,7 @@ $btnConf: (
 .btn--small {
     @include getBtnVertPadding(map-get($btnConf, 'mini'));
     font-size: map-deep-get($btnConf, 'mini', 'fontSize');
-    background-color: palette('pink');
+    background-color: get-color('brand', 'primary');
 
     @media only screen and (min-width: 360px) {
         @include getBtnVertPadding(map-get($btnConf, 'small'));
@@ -140,7 +145,7 @@ $btnConf: (
     }
 
     @include on-interact {
-        background-color: darken(palette('pink'), 15%);
+        background-color: darken(get-color('brand', 'primary'), 15%);
         outline: none;
     }
 }
@@ -162,12 +167,17 @@ $btnConf: (
  * Button: Outline variant
  */
 .btn--outline {
-    background-color: #ffffff !important;
+    $buttonColor: palette('blue');
+    @if $useNewBrand == true {
+        $buttonColor: get-color('brand', 'primary');
+    }
+
+    background-color: white !important;
     color: palette('blue') !important;
     border: 3px solid palette('blue');
 
     @include on-interact {
-        background-color: #ffffff;
+        background-color: white;
         border-color: darken(palette('blue'), 20%);
         color: darken(palette('blue'), 20%) !important;
     }
