@@ -13,7 +13,7 @@
     margin-bottom: $spacingUnit;
 
     &.message--error {
-        border-left: 5px solid get-color('message', 'error');
+        border-left: 5px solid get-color('message', 'warning');
     }
 
     > p {
