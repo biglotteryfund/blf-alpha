@@ -199,7 +199,8 @@ aliases.forEach(redirect => {
 // prettier-ignore
 flatMap([
     '/about-big/10-big-lottery-fund-facts',
-    '/funding/funding-guidance/applying-for-funding/*'
+    '/funding/funding-guidance/applying-for-funding/*',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*'
 ], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
     app.get(urlPath, cached.noCache, function(req, res) {
         const fullUrl = `https://${config.get('siteDomain')}${req.originalUrl}`;
