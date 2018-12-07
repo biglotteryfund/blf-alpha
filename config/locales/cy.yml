@@ -371,17 +371,54 @@ toplevel:
     mapTitle: Ein blwyddyn mewn Rhifau
 news:
   title: Newyddion
+  # @TODO
   allNews: All news
+  author:
+    singular: Awdur
+    plural: Awduron
+    seeAllPosts: Gweld yr holl byst gan yr awdur hwn
+    aboutAuthor: Ynglŷn â’r awdur
+    # @TODO all of this
   types:
     blog:
       singular: Blog
       plural: Blog posts
     press-releases:
-      singular: Press release
-      plural: Press releases
+      singular: Press Release
+      plural: Datganiadau i’r wasg
     updates:
       singular: Updates
       plural: Updates
+  datePublished: Dyddiad cyhoeddi
+  readMoreAboutProgramme: Darllen mwy am y rhaglen hon
+  blogpost:
+    aboutThisBlogPost: Ynglŷn â’r blog postio hwn
+  pressRelease:
+    region: Rhanbarth
+    notesToEditors: Nodiadau i Olygyddion
+    aboutThisPressRelease: About this press release
+    contacts: Cysylltiadau
+    viewingPressReleasesIn: Gweld yr holl ddatganiadau i’r wasg yn
+    viewAllPressReleases: gweld yr holl ddatganiadau i’r wasg
+    filterByRegion: Filter press releases by region
+    allPosts: Yr holl byst
+    allPostsIn: Yr holl byst yn
+    filter: Hidlwr
+    in: yn
+    noResultsFor: Dim canlyniadau ar gyfer
+  viewAll: Gweld y cyfan
+  viewLatest: Gweld y diweddaraf
+  introductions:
+    newsLanding: >
+      Os ydych eisiau dod i wybod beth sy’n digwydd yn y Gronfa Loteri Fawr, rydych wedi dod i’r lle iawn.  Gallwch ddarllen y newyddion diweddaraf ar: y grwpiau cymunedol ac elusennau yr ydym yn eu hariannu, sut yr ydym yn gweithio gyda’r Llywodraeth ac ariannwyr eraill i ddosbarthu arian y Loteri Genedlaethol a sut yr ydym yn cefnogi cymunedau lleol ar draws y DU i ddod yn fwy gweithgar, bywiog ac yn gryfach gyda’i gilydd.
+    pressReleases: >
+      Bydd ein datganiadau i’r wasg yn rhoi’r prif ffeithiau i chi am gyhoeddiadau ariannu, grantiau neu ymchwil newydd, digwyddiadau arbennig, digwyddiadau lansio, pa elusennau y gwobrwywyd arian iddynt, prosiectau dyfeisgar, arfer gorau yn y sector a mwy.
+    blog: >
+      Chwilio am liw, cyd-destun a phersbectif ar waith y Gronfa Loteri Fawr, ei effaith ar gymunedau a’r pynciau sydd yn y newyddion ar hyn o bryd? Mae’r cyfan yma. Bydd y blog hwn yn esbonio, ymchwilio, arddangos ac archwilio ffyrdd y mae cymdeithas sifil, ac o ganlyniad i hynny, y sector, yn newid. Darllenwch am yr hyn yr oedd pobl mewn cymunedau led led y DU a’r sector yn ei feddwl yr oedd gan arweinyddion i’w ddweud a ffurfio eich barn eich hunan.
+  filters:
+    viewPostsTagged: Gweld yr holl byst sydd wedi’u tagio gyda
+    viewPostsIn: Gweld yr holl byst o fewn
+    showingPostsBy: Dangos yr holl byst gan
 ourPeople:
   title: Ein pobl
   introduction: >

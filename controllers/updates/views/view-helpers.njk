@@ -21,8 +21,8 @@
             "alt": entry.title
         },
         "link": {
-            "label": "Read more",
-            "labelAria": "Read more",
+            "label": __('global.misc.readMore'),
+            "labelAria": __('global.misc.readMore'),
             "url": entry.linkUrl
         }
     }, showBorder = false) %}
@@ -59,13 +59,13 @@
             <div class="blogpost-attribution__tags">
                 <ul class="tags-list">
                     <li class="tag">
-                        <a href="{{ localify('/news/blog/?category=' + entry.category.slug) }}">
+                        <a href="{{ localify('/news/blog?category=' + entry.category.slug) }}">
                             {{ entry.category.title }}
                         </a>
                     </li>
                     {% for tag in entry.tags %}
                         <li class="tag tag--secondary">
-                            <a href="{{ localify('/news?tag=' + tag.slug) }}">
+                            <a href="{{ localify('/news/blog?tag=' + tag.slug) }}">
                                 {{ tag.title }}
                             </a>
                         </li>

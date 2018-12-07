@@ -464,6 +464,11 @@ toplevel:
 news:
   title: News
   allNews: All news
+  author:
+    singular: Author
+    plural: Authors
+    seeAllPosts: See all posts by this author
+    aboutAuthor: About the author
   types:
     blog:
       singular: Blog
@@ -474,6 +479,36 @@ news:
     updates:
       singular: Updates
       plural: Updates
+  datePublished: Date published
+  readMoreAboutProgramme: Read more about this programme
+  blogpost:
+    aboutThisBlogPost: About this blog post
+  pressRelease:
+    region: Region
+    notesToEditors: Notes to Editors
+    aboutThisPressRelease: About this press release
+    contacts: Contacts
+    viewingPressReleasesIn: Viewing all press releases in
+    viewAllPressReleases: view all press releases
+    filterByRegion: Filter press releases by region
+    allPosts: All posts
+    allPostsIn: All posts in
+    filter: Filter
+    in: in
+    noResultsFor: No results for
+  viewAll: View all
+  viewLatest: View latest
+  introductions:
+    newsLanding: >
+      If you want to find out about what’s happening at the Big Lottery Fund, you’ve come to the right place. You can read the latest news on: the community groups and charities we fund, how we work with the Government and other funders to distribute National Lottery money and how we support local communities across the UK to become more active, vibrant and stronger together.
+    pressReleases: >
+      Our press releases will give you the key facts about funding announcements, new grants or research, special events, launches, which charities have been awarded funding, innovative projects, best practice in the sector and more.
+    blog: >
+      Looking for colour, context and perspective about the work of the Big Lottery Fund, its impact on communities and topics currently in the news? It’s all here. This blog will explain, explore, showcase and examine the ways in which civil society, and as a result the sector, is changing. Read about what people in communities across the UK and sector thought leaders have to say and form your own opinion.
+  filters:
+    viewPostsTagged: Viewing all posts tagged
+    viewPostsIn: Viewing all posts in
+    showingPostsBy: Showing all posts by
 ourPeople:
   title: Our People
   introduction: >
