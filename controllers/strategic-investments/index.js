@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const { concat } = require('lodash');
+const { concat, startsWith } = require('lodash');
 
 const {
     injectBreadcrumbs,
@@ -17,16 +17,11 @@ router.get('/', injectListingContent, injectBreadcrumbs, injectStrategicProgramm
 });
 
 router.get('/:slug', injectBreadcrumbs, injectStrategicProgramme, function(req, res, next) {
-    const { strategicProgramme } = res.locals;
-
-    /**
-     * Only render strategic investment pages if *not* using an external path
-     * @TODO: Remove this when all strategic programmes pages are published on the new website.
-     */
-    if (strategicProgramme && /^\/funding\/strategic-investments/.test(strategicProgramme.path)) {
-        const breadcrumbs = concat(res.locals.breadcrumbs, strategicProgramme.sectionBreadcrumbs);
+    const { currentPath, strategicProgramme } = res.locals;
+    /* Only render if not using an external path */
+    if (strategicProgramme && startsWith(currentPath, strategicProgramme.linkUrl)) {
         res.render(path.resolve(__dirname, './views/strategic-programme'), {
-            breadcrumbs
+            breadcrumbs: concat(res.locals.breadcrumbs, strategicProgramme.sectionBreadcrumbs)
         });
     } else {
         next();

@@ -9,7 +9,7 @@
 {% block content %}
     {{ hero(
         titleText = title,
-        image = heroImage,
+        image = pageHero.image,
         accent = pageAccent
     ) }}
 
@@ -34,7 +34,7 @@
                                 title = page.trailText | default(page.title, true),
                                 imagePath = page.photo,
                                 imageCaption = page.title,
-                                linkUrl = page.link,
+                                linkUrl = page.linkUrl,
                                 accent = page.themeColour,
                                 isLarge = true
                             )}}

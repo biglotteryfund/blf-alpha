@@ -84,13 +84,13 @@
 
     a {
         font-weight: bold;
+        @include wrap-words();
     }
 
     a[href^='mailto:'],
     a[href^='tel:'] {
         color: palette('green');
         font-weight: bold;
-        word-break: break-all;
     }
 
     a[href^='tel:'] {

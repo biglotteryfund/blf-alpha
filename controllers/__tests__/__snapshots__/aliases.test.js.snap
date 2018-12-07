@@ -2003,6 +2003,86 @@ Array [
     "to": "/welsh/funding/funding-guidance/managing-your-funding/evaluation",
   },
   Object {
+    "from": "/funding/past-grants",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/funding/past-grants",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/england/funding/past-grants",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/england/funding/past-grants",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/scotland/funding/past-grants",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/past-grants",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/northernireland/funding/past-grants",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/past-grants",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/wales/funding/past-grants",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/wales/funding/past-grants",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/funding/past-grants/search",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/england/funding/past-grants/search",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/england/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/scotland/funding/past-grants/search",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/northernireland/funding/past-grants/search",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/wales/funding/past-grants/search",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/wales/funding/past-grants/search",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
     "from": "/funding/programmes/digital-funding",
     "to": "/funding/programmes/digital-fund",
   },
@@ -2120,86 +2200,6 @@ Array [
   },
   Object {
     "from": "/welsh/wales/funding/search-past-grants-alpha",
-    "to": "/welsh/funding/grants",
-  },
-  Object {
-    "from": "/funding/past-grants",
-    "to": "/funding/grants",
-  },
-  Object {
-    "from": "/welsh/funding/past-grants",
-    "to": "/welsh/funding/grants",
-  },
-  Object {
-    "from": "/england/funding/past-grants",
-    "to": "/funding/grants",
-  },
-  Object {
-    "from": "/welsh/england/funding/past-grants",
-    "to": "/welsh/funding/grants",
-  },
-  Object {
-    "from": "/scotland/funding/past-grants",
-    "to": "/funding/grants",
-  },
-  Object {
-    "from": "/welsh/scotland/funding/past-grants",
-    "to": "/welsh/funding/grants",
-  },
-  Object {
-    "from": "/northernireland/funding/past-grants",
-    "to": "/funding/grants",
-  },
-  Object {
-    "from": "/welsh/northernireland/funding/past-grants",
-    "to": "/welsh/funding/grants",
-  },
-  Object {
-    "from": "/wales/funding/past-grants",
-    "to": "/funding/grants",
-  },
-  Object {
-    "from": "/welsh/wales/funding/past-grants",
-    "to": "/welsh/funding/grants",
-  },
-  Object {
-    "from": "/funding/past-grants/search",
-    "to": "/funding/grants",
-  },
-  Object {
-    "from": "/welsh/funding/past-grants/search",
-    "to": "/welsh/funding/grants",
-  },
-  Object {
-    "from": "/england/funding/past-grants/search",
-    "to": "/funding/grants",
-  },
-  Object {
-    "from": "/welsh/england/funding/past-grants/search",
-    "to": "/welsh/funding/grants",
-  },
-  Object {
-    "from": "/scotland/funding/past-grants/search",
-    "to": "/funding/grants",
-  },
-  Object {
-    "from": "/welsh/scotland/funding/past-grants/search",
-    "to": "/welsh/funding/grants",
-  },
-  Object {
-    "from": "/northernireland/funding/past-grants/search",
-    "to": "/funding/grants",
-  },
-  Object {
-    "from": "/welsh/northernireland/funding/past-grants/search",
-    "to": "/welsh/funding/grants",
-  },
-  Object {
-    "from": "/wales/funding/past-grants/search",
-    "to": "/funding/grants",
-  },
-  Object {
-    "from": "/welsh/wales/funding/past-grants/search",
     "to": "/welsh/funding/grants",
   },
   Object {
@@ -2401,6 +2401,46 @@ Array [
   Object {
     "from": "/welsh/wales/global-content/programmes/england/fulfilling-lives-headstart",
     "to": "/welsh/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/welsh/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/welsh/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/welsh/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/welsh/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/welsh/funding/strategic-investments/multiple-needs",
   },
   Object {
     "from": "/global-content/programmes/england/place-based-social-action",
@@ -3243,46 +3283,6 @@ Array [
     "to": "/welsh/funding/programmes/people-and-places-medium-grants",
   },
   Object {
-    "from": "/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/welsh/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/england/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/welsh/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/welsh/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/welsh/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/welsh/funding/programmes/rural-programme",
-  },
-  Object {
     "from": "/global-content/programmes/wales/people-and-places",
     "to": "/funding/programmes?min=10000&location=wales",
   },
@@ -3321,6 +3321,46 @@ Array [
   Object {
     "from": "/welsh/wales/global-content/programmes/wales/people-and-places",
     "to": "/welsh/funding/programmes?min=10000&location=wales",
+  },
+  Object {
+    "from": "/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/england/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
   },
   Object {
     "from": "/guidancetrackingprogress",

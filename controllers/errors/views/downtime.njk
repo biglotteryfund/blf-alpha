@@ -1,13 +1,10 @@
-{% from "components/hero.njk" import hero with context %}
-
 {% extends "layouts/main.njk" %}
-{% set heroImage = fallbackHeroImage %}
-{% set socialImage = heroImage %}
+{% from "components/hero.njk" import hero with context %}
 
 {% block content %}
     {{ hero(
         titleText = title,
-        image = heroImage,
+        image = fallbackHeroImage,
         accent = pageAccent
     ) }}
 

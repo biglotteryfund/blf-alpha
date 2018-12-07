@@ -239,9 +239,11 @@ forEach(routes.sections, function(section, sectionId) {
      * Apply page level middleware and mount router if we have one
      */
     section.pages.forEach(function(page) {
-        router.route(page.path).all(injectCopy(page.lang), injectHeroImage(page.heroSlug), (req, res, next) => {
-            next();
-        });
+        router
+            .route(page.path)
+            .all(injectCopy(page.lang), injectHeroImage(page.heroSlug, page.heroSlugNew), (req, res, next) => {
+                next();
+            });
 
         const shouldServe = appData.isNotProduction ? true : !page.isDraft;
         if (shouldServe && page.router) {

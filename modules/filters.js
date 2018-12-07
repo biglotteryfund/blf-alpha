@@ -94,7 +94,7 @@ function removeQueryParam(queryParams, paramToRemove) {
 
 /**
  * addQueryParam
- * @param {string} queryParams - The existing querystring object
+ * @param {object} queryParams - The existing querystring object
  * @param {array} newParams - An array of arrays of key/value pairs
  * (eg. [['foo', 'bar'], ['baz', 'quux']]
  */
@@ -105,6 +105,10 @@ function addQueryParam(queryParams, newParams) {
         clone[key] = value;
     });
     return querystring.stringify(clone);
+}
+
+function widont(str) {
+    return str.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1');
 }
 
 module.exports = {
@@ -122,5 +126,6 @@ module.exports = {
     removeQueryParam,
     slugify,
     groupItemsBy: groupBy,
-    takeItems: take
+    takeItems: take,
+    widont
 };

@@ -8,12 +8,12 @@
     <main role="main">
         {{ hero(
             titleText = title,
-            image = heroImage,
+            image = pageHero.image,
             accent = pageAccent
         ) }}
 
         <div class="nudge-up">
-            {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = entry.heroCredit) %}
+            {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = pageHero.credit) %}
                 <p>{{ copy.intro }}</p>
                 {% if enableDigitalFundApplications %}
                     <p><strong>{{ copy.openingDates }}</strong></p>
