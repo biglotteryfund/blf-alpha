@@ -186,24 +186,8 @@ app.use('/patterns', require('./controllers/pattern-library'));
  * Handle Aliases
  */
 
-const removeWildcard = urlPath => urlPath.replace('/*', '');
-
 aliases.forEach(redirect => {
-    // Allow wildcard redirects to avoid specifying a whole directory of links
-    // Currently we only support paths that end with a wildcard (eg. /foo/bar/*)
-    if (redirect.from.match(/\/\*$/)) {
-        const pathsMinusWildcards = {
-            from: removeWildcard(redirect.from),
-            to: removeWildcard(redirect.to)
-        };
-        app.get(redirect.from, (req, res) => {
-            // Replace the asterisk with the rest of the path requested
-            const wildcardPath = pathsMinusWildcards.to + req.path.replace(pathsMinusWildcards.from, '');
-            res.redirect(301, wildcardPath);
-        });
-    } else {
-        app.get(redirect.from, (req, res) => res.redirect(301, redirect.to));
-    }
+    app.get(redirect.from, (req, res) => res.redirect(301, redirect.to));
 });
 
 /**
