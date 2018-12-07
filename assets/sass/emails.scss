@@ -77,7 +77,7 @@ a {
 small {
     display: block;
     font-size: 11px;
-    color: #666666;
+    color: get-color('text', 'note');
     margin-bottom: 10px;
 }
 

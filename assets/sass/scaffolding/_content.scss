@@ -99,7 +99,7 @@
 
 .content-box {
     @include bordered();
-    background-color: palette('pale');
+    background-color: white;
     margin-bottom: $spacingUnit;
     padding: $spacingUnit ($spacingUnit / 2);
 

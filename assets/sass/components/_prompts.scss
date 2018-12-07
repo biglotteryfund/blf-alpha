@@ -53,7 +53,7 @@
    ========================================================================= */
 
 .survey {
-    background-color: palette('off-white');
+    background-color: get-color('backgrounds', 'light-neutral');
     padding: $spacingUnit 0;
     font-size: 18px;
 }

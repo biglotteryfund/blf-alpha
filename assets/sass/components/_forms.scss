@@ -176,7 +176,7 @@
 .ff-textarea,
 .ff-field-prepend {
     padding: 6px 12px;
-    border: 2px solid get-color('text', 'base');
+    border: 2px solid get-color('borders', 'dark');
 }
 
 .ff-text,
@@ -323,7 +323,7 @@
         margin: 0;
     }
     .step-preview__field-guidance {
-        color: #556;
+        color: get-color('text', 'note');
         margin-top: 3px;
     }
 }
@@ -445,12 +445,12 @@
         width: 100%;
         padding: 10px;
         border: none;
-        border-bottom: 2px solid #666666;
         font-size: 16px;
-        color: #333333;
+        border-bottom: 2px solid get-color('borders', 'dark');
+        color: get-color('text', 'base');
 
         &.is-error {
-            border-bottom-color: #c6183d;
+            border-bottom-color: get-color('message', 'warning');
         }
     }
 
