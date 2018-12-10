@@ -11,14 +11,14 @@
 
 {% macro entryMeta(entry) %}
     <dl class="o-definition-list o-definition-list--compact">
-        <dt>Date published</dt>
+        <dt>{{ copy.datePublished }}</dt>
         <dd>
             <time datetime="{{ entry.postDate.date }}">
                 {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
             </time>
         </dd>
         {% if entry.regions.length > 0 %}
-            <dt>Region</dt>
+            <dt>{{ copy.pressRelease.region }}</dt>
             <dd>{{ entryRegions(entry, '../') }}</dd>
         {% endif %}
     </dl>
@@ -45,24 +45,24 @@
 
                     {% if entry.notesToEditors %}
                         <aside class="u-tone-background-tint u-padded" id="notes">
-                            <h3 class="accent--{{ pageAccent }} a--text">Notes to Editors</h3>
+                            <h3 class="accent--{{ pageAccent }} a--text">{{ copy.pressRelease.notesToEditors }}</h3>
                             {{ entry.notesToEditors | safe }}
                         </aside>
                     {% endif %}
                 </div>
 
                 <div class="content-sidebar__secondary">
-                    {% call card("About this press release", pageAccent) %}
+                    {% call card(copy.pressRelease.aboutThisPressRelease, pageAccent) %}
                         <div class="u-text-small">
                             {{ entryMeta(entry) }}
                             {% if entry.notesToEditors %}
-                                <p><a href="#notes">Notes to editors</a></p>
+                                <p><a href="#notes">{{ copy.pressRelease.notesToEditors }}</a></p>
                             {% endif %}
                         </div>
                     {% endcall %}
 
                     {% if entry.contacts %}
-                        {% call card("Contacts") %}
+                        {% call card(copy.pressRelease.contacts) %}
                             <div class="s-prose u-text-small">
                                 {{ entry.contacts | safe }}
                             </div>
