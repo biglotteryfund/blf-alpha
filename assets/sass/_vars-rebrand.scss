@@ -61,11 +61,11 @@ $typography: (
 // Global Variables: Colour Palette
 // ========================================================================= //
 
-$brandPink: #e500fd;
+$brandPink: #e5007d;
 
 $colors: (
     brand: (
-        primary: #e500fd,
+        primary: $brandPink,
         primary-light-wash: #f9e9f2
     ),
     text: (
