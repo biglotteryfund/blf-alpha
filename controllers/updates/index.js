@@ -77,6 +77,7 @@ if (appData.isNotProduction) {
                     } else if (entry.articleLink) {
                         res.redirect(entry.articleLink);
                     } else if (entry.content.length > 0) {
+                        res.locals.isBilingual = entry.availableLanguages.length === 2;
                         return res.render(path.resolve(__dirname, './views/post/press-release'), {
                             title: entry.title,
                             description: entry.summary,
@@ -139,6 +140,7 @@ if (appData.isNotProduction) {
                     if (req.baseUrl + req.path !== entry.linkUrl) {
                         res.redirect(entry.linkUrl);
                     } else if (entry.content.length > 0) {
+                        res.locals.isBilingual = entry.availableLanguages.length === 2;
                         return res.render(path.resolve(__dirname, './views/post/blogpost'), {
                             title: entry.title,
                             description: entry.summary,
