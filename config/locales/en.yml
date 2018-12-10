@@ -476,6 +476,7 @@ news:
     press-releases:
       singular: Press Release
       plural: Press Releases
+    # @TODO decide on the name for this and get it translated
     updates:
       singular: Updates
       plural: Updates

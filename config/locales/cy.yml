@@ -371,21 +371,20 @@ toplevel:
     mapTitle: Ein blwyddyn mewn Rhifau
 news:
   title: Newyddion
-  # @TODO
-  allNews: All news
+  allNews: Holl newyddion
   author:
     singular: Awdur
     plural: Awduron
     seeAllPosts: Gweld yr holl byst gan yr awdur hwn
     aboutAuthor: Ynglŷn â’r awdur
-    # @TODO all of this
   types:
     blog:
       singular: Blog
-      plural: Blog posts
+      plural: Postiadau blog
     press-releases:
-      singular: Press Release
+      singular: Datganiad i’r wasg
       plural: Datganiadau i’r wasg
+    # @TODO decide on the name for this and get it translated
     updates:
       singular: Updates
       plural: Updates
@@ -396,11 +395,11 @@ news:
   pressRelease:
     region: Rhanbarth
     notesToEditors: Nodiadau i Olygyddion
-    aboutThisPressRelease: About this press release
+    aboutThisPressRelease: Ynghylch y datganiad i’r wasg hwn
     contacts: Cysylltiadau
     viewingPressReleasesIn: Gweld yr holl ddatganiadau i’r wasg yn
     viewAllPressReleases: gweld yr holl ddatganiadau i’r wasg
-    filterByRegion: Filter press releases by region
+    filterByRegion: Hidlo datganiadau i’r wasg fesul rhanbarth
     allPosts: Yr holl byst
     allPostsIn: Yr holl byst yn
     filter: Hidlwr
