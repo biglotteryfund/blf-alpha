@@ -12,6 +12,12 @@ async function injectHomepageContent(req, res, next) {
         const response = await contentApi.getHomepage({ locale: req.i18n.getLocale() });
         res.locals.heroImages = response.heroImages;
         res.locals.newsArticles = response.newsArticles;
+        res.locals.promotedUpdates = await contentApi.getUpdates({
+            locale: req.i18n.getLocale(),
+            query: {
+                promoted: true
+            }
+        });
         next();
     } catch (error) {
         Raven.captureException(error);
