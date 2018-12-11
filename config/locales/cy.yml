@@ -411,6 +411,8 @@ news:
     filter: Hidlwr
     in: yn
     noResultsFor: Dim canlyniadau ar gyfer
+    pressReleaseArchive: Archif datganiadau i’r wasg
+    viewOldPressReleases: Gweld hen ddatganiadau i’r wasg
   viewAll: Gweld y cyfan
   viewLatest: Gweld y diweddaraf
   introductions:

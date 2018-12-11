@@ -503,6 +503,8 @@ news:
     filter: Filter
     in: in
     noResultsFor: No results for
+    pressReleaseArchive: Press release archive
+    viewOldPressReleases: View older press releases
   viewAll: View all
   viewLatest: View latest
   introductions:

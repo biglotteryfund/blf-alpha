@@ -95,6 +95,14 @@
                         </form>
                     {% endcall %}
 
+                    {% call card(copy.pressRelease.pressReleaseArchive) %}
+                        <p>
+                            <a href="{{ localify('/news-and-events') }}">
+                                {{ copy.pressRelease.viewOldPressReleases }}
+                            </a>
+                        </p>
+                    {% endcall %}
+
                     {% set pressCopy = __('global.contact.press') %}
                     {% call card(pressCopy.title) %}
                         <div class="s-prose">
