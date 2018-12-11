@@ -39,18 +39,21 @@ global:
       regions:
       - title: England/UK
         phone: >
-          <a href="tel:02072111888">020 7211 1888</a> (out of hours: 07867 500572)
+          <a href="tel:02072111888">020 7211 1888</a><br />
+          (out of hours: 07867 500572)
         email: pressoffice@biglotteryfund.org.uk
       - title: Northern Ireland
         phone: >
-          <a href="tel:02890551432">02890 551 432</a> or <a href="tel:02890551450">02890 551 450</a>
+          <a href="tel:02890551432">02890 551 432</a> or <a href="tel:02890551450">02890 551 450</a><br />
           (out of hours: <a href="tel:07580811135">07580 811 135</a>)
       - title: Scotland
         phone: >
-          <a href="tel:01412421458">0141 242 1458</a> (out of hours: <a href="tel:07880737157">07880 737 157</a>)
+          <a href="tel:01412421458">0141 242 1458</a><br />
+          (out of hours: <a href="tel:07880737157">07880 737 157</a>)
       - title: Wales
         phone: >
-          <a href="tel:02920678236">029 2067 8236</a> (out of hours: <a href="tel:07870566867">07870 566 867</a>)
+          <a href="tel:02920678236">029 2067 8236</a><br />
+          (out of hours: <a href="tel:07870566867">07870 566 867</a>)
   footerLinks:
     title: Quick links
     links:
