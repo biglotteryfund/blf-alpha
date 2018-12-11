@@ -7,8 +7,7 @@
 {% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/card/macro.njk" import card %}
 {% from "components/icons.njk" import iconFacebook, iconTwitter %}
-
-{% from "../view-helpers.njk" import relatedProgrammes with context %}
+{% from "components/programmes.njk" import relatedProgrammes with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -135,7 +134,7 @@
                     </a>
                 </div>
 
-                {{ relatedProgrammes(entry) }}
+                {{ relatedProgrammes(entry.relatedFundingProgrammes) }}
 
                 {% if entry.siblings.next or entry.siblings.prev %}
                     {% set prevLink = {

@@ -70,3 +70,25 @@
         {% endfor %}
     </ol>
 {% endmacro %}
+
+{% macro relatedProgrammes(programmes) %}
+    {% if programmes.length > 0 %}
+        <div class="u-tone-background-tint u-padded u-margin-top-l">
+            {% for programme in programmes %}
+                <div class="o-media u-margin-bottom">
+                    {% if programme.photo %}
+                        <img src="{{ programme.thumbnail }}"
+                             alt="{{ programme.title }}"
+                             class="o-media-figure"
+                             width="100" />
+                    {% endif %}
+                    <div class="o-media-body">
+                        <h4 class="a--text accent--{{ pageAccent }}">{{ programme.title }}</h4>
+                        {{ programme.intro | safe }}
+                        <p class="u-no-margin"><a href="{{ programme.linkUrl }}">{{ __('news.readMoreAboutProgramme') }}</a></p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endmacro %}
