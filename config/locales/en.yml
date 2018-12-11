@@ -139,6 +139,9 @@ global:
     pagination:
       prev: Previous page
       next: Next page
+    share:
+      facebook: Share on Facebook
+      twitter: Share on Twitter
   programmes:
     programmeLabels:
       area: Area

@@ -138,6 +138,9 @@ global:
     pagination:
       prev: Tudalen flaenorol
       next: Tudalen nesaf
+    share:
+      facebook: Rhannu ar Facebook
+      twitter: Rhannu ar Twitter
   programmes:
     programmeLabels:
       area: Ardal
