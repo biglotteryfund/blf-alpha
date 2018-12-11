@@ -3,7 +3,6 @@ const { find, filter, get, getOr, map, sortBy, take } = require('lodash/fp');
 const { isArray } = require('lodash');
 const request = require('request-promise-native');
 const debug = require('debug')('biglotteryfund:content-api');
-const querystring = require('querystring');
 
 const mapAttrs = response => map('attributes')(response.data);
 
@@ -149,14 +148,12 @@ function getUpdates({ locale, type = null, date = null, slug = null, query = {},
             };
         });
     } else {
-        return fetchAllLocales(reqLocale => `/v1/${reqLocale}/updates/${type || ''}`, {
+        return fetch(`/v1/${locale}/updates/${type || ''}`, {
             qs: addPreviewParams(previewMode, { ...query, ...{ 'page-limit': 10 } })
-        }).then(responses => {
-            const [enResponse, cyResponse] = responses;
-            const results = mergeWelshBy('slug')(locale, mapAttrs(enResponse), mapAttrs(cyResponse));
+        }).then(response => {
             return {
-                meta: enResponse.meta,
-                result: results
+                meta: response.meta,
+                result: mapAttrs(response)
             };
         });
     }
