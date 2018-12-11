@@ -22,13 +22,22 @@ if (appData.isNotProduction) {
         async (req, res, next) => {
             try {
                 const { copy, breadcrumbs } = res.locals;
-                const response = await contentApi.getUpdates({
-                    locale: req.i18n.getLocale()
+
+                const pressReleases = await contentApi.getUpdates({
+                    locale: req.i18n.getLocale(),
+                    type: 'press-releases'
                 });
+
+                const blogposts = await contentApi.getUpdates({
+                    locale: req.i18n.getLocale(),
+                    type: 'blog'
+                });
+
+                const allEntries = concat(pressReleases.result, blogposts.result);
 
                 res.render(path.resolve(__dirname, `./views/landing`), {
                     title: copy.title,
-                    groupedEntries: groupBy(response.result, 'entryType'),
+                    groupedEntries: groupBy(allEntries, 'entryType'),
                     breadcrumbs: concat(breadcrumbs, { label: copy.title })
                 });
             } catch (e) {
