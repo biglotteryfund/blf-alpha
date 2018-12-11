@@ -4,7 +4,7 @@
 {% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/card/macro.njk" import card %}
 
-{% from "../view-helpers.njk" import entryRegions with context %}
+{% from "../view-helpers.njk" import entryRegions, relatedProgrammes with context %}
 
 {% set bodyClass = 'has-static-header' %}
 {% extends "layouts/main.njk" %}
@@ -49,6 +49,8 @@
                             {{ entry.notesToEditors | safe }}
                         </aside>
                     {% endif %}
+
+                    {{ relatedProgrammes(entry) }}
                 </div>
 
                 <div class="content-sidebar__secondary">

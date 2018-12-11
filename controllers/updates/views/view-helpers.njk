@@ -76,3 +76,26 @@
 
     {% endcall %}
 {% endmacro %}
+
+
+{% macro relatedProgrammes(entry) %}
+    {% if entry.relatedFundingProgrammes.length > 0 %}
+        <div class="u-tone-background-tint u-padded u-margin-top-l">
+            {% for programme in entry.relatedFundingProgrammes %}
+                <div class="o-media u-margin-bottom">
+                    {% if programme.photo %}
+                        <img src="{{ programme.thumbnail }}"
+                             alt="{{ programme.title }}"
+                             class="o-media-figure"
+                             width="100" />
+                    {% endif %}
+                    <div class="o-media-body">
+                        <h4 class="a--text accent--{{ pageAccent }}">{{ programme.title }}</h4>
+                        {{ programme.intro | safe }}
+                        <p class="u-no-margin"><a href="{{ programme.linkUrl }}">{{ copy.readMoreAboutProgramme }}</a></p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endmacro %}
