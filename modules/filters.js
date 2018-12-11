@@ -4,7 +4,6 @@
  * custom Nunjucks filters
  * @see https://mozilla.github.io/nunjucks/api.html#addfilter
  */
-const config = require('config');
 const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
