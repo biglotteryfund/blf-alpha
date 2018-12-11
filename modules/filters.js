@@ -4,13 +4,12 @@
  * custom Nunjucks filters
  * @see https://mozilla.github.io/nunjucks/api.html#addfilter
  */
-const config = require('config');
 const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
 const slug = require('slugify');
 const uuid = require('uuid/v4');
-const { groupBy, take } = require('lodash');
+const { take } = require('lodash');
 
 let assets = {};
 try {
@@ -125,7 +124,6 @@ module.exports = {
     pluralise,
     removeQueryParam,
     slugify,
-    groupItemsBy: groupBy,
-    takeItems: take,
+    take,
     widont
 };
