@@ -38,18 +38,21 @@ global:
       regions:
       - title: Lloegr/Deyrnas Unedig
         phone: >
-          <a href="tel:02072111888">020 7211 1888</a> (tu allan i oriau: 07867 500572)
+          <a href="tel:02072111888">020 7211 1888</a><br />
+          (tu allan i oriau: 07867 500572)
         email: pressoffice@biglotteryfund.org.uk
       - title: Gogledd Iwerddon
         phone: >
-          <a href="tel:02890551432">02890 551 432</a> neu <a href="tel:02890551450">02890 551 450</a>
+          <a href="tel:02890551432">02890 551 432</a> neu <a href="tel:02890551450">02890 551 450</a><br />
           (tu allan i oriau: <a href="tel:07580811135">07580 811 135</a>)
       - title: Yr Alban
         phone: >
-          <a href="tel:01412421458">0141 242 1458</a> (tu allan i oriau: <a href="tel:07880737157">07880 737 157</a>)
+          <a href="tel:01412421458">0141 242 1458</a><br />
+          (tu allan i oriau: <a href="tel:07880737157">07880 737 157</a>)
       - title: Cymru
         phone: >
-          <a href="tel:02920678236">029 2067 8236</a> (tu allan i oriau: <a href="tel:07870566867">07870 566 867</a>)
+          <a href="tel:02920678236">029 2067 8236</a><br />
+          (tu allan i oriau: <a href="tel:07870566867">07870 566 867</a>)
   footerLinks:
     title: Dolenni gwib
     links:
@@ -135,6 +138,9 @@ global:
     pagination:
       prev: Tudalen flaenorol
       next: Tudalen nesaf
+    share:
+      facebook: Rhannu ar Facebook
+      twitter: Rhannu ar Twitter
   programmes:
     programmeLabels:
       area: Ardal
@@ -405,6 +411,8 @@ news:
     filter: Hidlwr
     in: yn
     noResultsFor: Dim canlyniadau ar gyfer
+    pressReleaseArchive: Archif datganiadau i’r wasg
+    viewOldPressReleases: Gweld hen ddatganiadau i’r wasg
   viewAll: Gweld y cyfan
   viewLatest: Gweld y diweddaraf
   introductions:
@@ -418,6 +426,9 @@ news:
     viewPostsTagged: Gweld yr holl byst sydd wedi’u tagio gyda
     viewPostsIn: Gweld yr holl byst o fewn
     showingPostsBy: Dangos yr holl byst gan
+    tag: Tag
+    author: Awdur
+    category: Categori
 ourPeople:
   title: Ein pobl
   introduction: >

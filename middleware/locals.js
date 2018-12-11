@@ -139,9 +139,18 @@ module.exports = function(req, res, next) {
 
     /**
      * Current URL helper
+     * (Returns just the path)
      */
     res.locals.getCurrentUrl = function(requestedLocale) {
         return getCurrentUrl(req, requestedLocale);
+    };
+
+    /**
+     * Current absolute URL helper
+     * (Returns the absolute URL including protocol/base)
+     */
+    res.locals.getCurrentAbsoluteUrl = function(requestedLocale) {
+        return getAbsoluteUrl(req, getCurrentUrl(req, requestedLocale));
     };
 
     /**

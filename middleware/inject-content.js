@@ -48,6 +48,10 @@ function setCommonLocals({ res, entry, withFallbackHero = false }) {
         res.locals.pageHero = null;
     }
 
+    if (res.locals.pageHero) {
+        res.locals.socialImage = res.locals.pageHero.image;
+    }
+
     if (entry.themeColour) {
         res.locals.pageAccent = entry.themeColour;
     }

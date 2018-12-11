@@ -25,7 +25,7 @@
 
                 {% if entriesMeta.pageType === 'author' %}
                     {% set author = entriesMeta.activeAuthor %}
-                    <h2 class="t4">{{ copy.author.aboutAuthor }}</h2>
+                    <h2 class="t3">{{ copy.author.aboutAuthor }}</h2>
                     <aside class="o-media">
                         {% if author.photo %}
                             <img src="{{ author.photo }}"
@@ -50,7 +50,6 @@
                     {% set activeCategory = entriesMeta.activeCategory %}
                     <h1>{{ copy.filters.viewPostsIn }} {{ activeCategory.title }}</h1>
                 {% else %}
-                    <h1>{{ title }}</h1>
                     <p>{{ copy.introductions.blog }}</p>
                 {% endif %}
             </div>
@@ -59,7 +58,7 @@
         <section class="u-inner">
             {% if entriesMeta.pageType === 'author' %}
                 {% set activeAuthor = entriesMeta.activeAuthor %}
-                <h1>{{ copy.filters.showingPostsBy }} {{ activeAuthor.title }}</h1>
+                <h4>{{ copy.filters.showingPostsBy }} {{ activeAuthor.title }}</h4>
             {% endif %}
             <ul class="flex-grid flex-grid--3up">
                 {% set lastEntryWasPromoted = false %}

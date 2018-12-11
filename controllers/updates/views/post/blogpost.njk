@@ -6,6 +6,7 @@
 {% from "components/card/macro.njk" import card %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/card/macro.njk" import card %}
+{% from "components/icons.njk" import iconFacebook, iconTwitter %}
 
 {% extends "layouts/main.njk" %}
 
@@ -113,20 +114,39 @@
                     </aside>
                 {% endif %}
 
+                <div class="o-button-group-flex u-gutter-half u-margin-top">
+                    <a class="btn btn--small btn--outline accent--{{ pageAccent }}"
+                       href="https://www.facebook.com/sharer.php?u={{ getCurrentAbsoluteUrl() }}"
+                       data-ga-on="click"
+                       data-ga-event-category="Facebook"
+                       data-ga-event-action="Share blogpost">
+                        <span class="btn__icon">{{ iconFacebook() }}</span>
+                        {{ __('global.misc.share.facebook') }}
+                    </a>
+                    <a class="btn btn--small btn--outline accent--{{ pageAccent }}"
+                       href="https://twitter.com/intent/tweet?url={{ getCurrentAbsoluteUrl() }}&text={{ entry.title }}&via={{ globalCopy.brand.twitter }}"
+                       data-ga-on="click"
+                       data-ga-event-category="Twitter"
+                       data-ga-event-action="Share blogpost">
+                        <span class="btn__icon">{{ iconTwitter() }}</span>
+                        {{ __('global.misc.share.twitter')  }}
+                    </a>
+                </div>
+
                 {% if entry.relatedFundingProgrammes.length > 0 %}
                     <div class="u-tone-background-tint u-padded u-margin-top-l">
                         {% for programme in entry.relatedFundingProgrammes %}
                             <div class="o-media u-margin-bottom">
                                 {% if programme.photo %}
-                                    <img src="{{ programme.photo.small }}"
+                                    <img src="{{ programme.thumbnail }}"
                                          alt="{{ programme.title }}"
                                          class="o-media-figure"
-                                         width="160" />
+                                         width="100" />
                                 {% endif %}
                                 <div class="o-media-body">
                                     <h4 class="a--text accent--{{ pageAccent }}">{{ programme.title }}</h4>
                                     {{ programme.intro | safe }}
-                                    <p><a href="{{ programme.linkUrl }}">{{ copy.readMoreAboutProgramme }}</a></p>
+                                    <p class="u-no-margin"><a href="{{ programme.linkUrl }}">{{ copy.readMoreAboutProgramme }}</a></p>
                                 </div>
                             </div>
                         {% endfor %}
