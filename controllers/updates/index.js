@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const { concat, groupBy, isArray, pick, get } = require('lodash');
+const { concat, isArray, pick, get } = require('lodash');
 
 const { buildPagination } = require('../../modules/pagination');
 const { injectBreadcrumbs, injectCopy, injectHeroImage } = require('../../middleware/inject-content');
@@ -22,13 +22,15 @@ if (appData.isNotProduction) {
         async (req, res, next) => {
             try {
                 const { copy, breadcrumbs } = res.locals;
-                const response = await contentApi.getUpdates({
-                    locale: req.i18n.getLocale()
+
+                const blogposts = await contentApi.getUpdates({
+                    locale: req.i18n.getLocale(),
+                    type: 'blog'
                 });
 
                 res.render(path.resolve(__dirname, `./views/landing`), {
                     title: copy.title,
-                    groupedEntries: groupBy(response.result, 'entryType'),
+                    blogposts: blogposts.result,
                     breadcrumbs: concat(breadcrumbs, { label: copy.title })
                 });
             } catch (e) {

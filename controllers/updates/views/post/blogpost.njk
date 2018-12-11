@@ -7,6 +7,7 @@
 {% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/card/macro.njk" import card %}
 {% from "components/icons.njk" import iconFacebook, iconTwitter %}
+{% from "components/programmes.njk" import relatedProgrammes with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -133,25 +134,7 @@
                     </a>
                 </div>
 
-                {% if entry.relatedFundingProgrammes.length > 0 %}
-                    <div class="u-tone-background-tint u-padded u-margin-top-l">
-                        {% for programme in entry.relatedFundingProgrammes %}
-                            <div class="o-media u-margin-bottom">
-                                {% if programme.photo %}
-                                    <img src="{{ programme.thumbnail }}"
-                                         alt="{{ programme.title }}"
-                                         class="o-media-figure"
-                                         width="100" />
-                                {% endif %}
-                                <div class="o-media-body">
-                                    <h4 class="a--text accent--{{ pageAccent }}">{{ programme.title }}</h4>
-                                    {{ programme.intro | safe }}
-                                    <p class="u-no-margin"><a href="{{ programme.linkUrl }}">{{ copy.readMoreAboutProgramme }}</a></p>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+                {{ relatedProgrammes(entry.relatedFundingProgrammes) }}
 
                 {% if entry.siblings.next or entry.siblings.prev %}
                     {% set prevLink = {
