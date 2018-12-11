@@ -34,28 +34,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
       "pre-push": "npm test"
     }
-  },
-  "lint-staged": {
-    "*.scss": [
-      "prettier --write",
-      "git add"
-    ],
-    "*.js": [
-      "prettier --write",
-      "git add",
-      "eslint"
-    ],
-    "*.vue": [
-      "prettier --write",
-      "git add",
-      "eslint"
-    ],
-    "{controllers/routes.js,controllers/aliases.js,config/default.json}": [
-      "./bin/generate-cloudfront-config"
-    ]
   },
   "jest": {
     "testEnvironment": "node",
@@ -170,7 +150,6 @@
     "eslint-plugin-vue": "next",
     "husky": "1.1.3",
     "jest": "23.6.0",
-    "lint-staged": "8.0.4",
     "livereload": "^0.7.0",
     "node-mocks-http": "1.7.3",
     "node-sass": "4.9.3",
