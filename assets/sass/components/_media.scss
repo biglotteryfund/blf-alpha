@@ -69,8 +69,7 @@
     @include mq('medium-minor', 'max') {
         @include fullwidth();
         padding: ($spacingUnit * 2) $spacingUnit;
-        color: white;
-        background-color: palette('turquoise');
+        background-color: get-color('background', 'light-neutral');
         margin-top: 1em;
         margin-bottom: 1em;
     }

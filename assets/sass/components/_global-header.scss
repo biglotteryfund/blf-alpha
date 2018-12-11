@@ -159,7 +159,7 @@ $logoOffset: $navLinkPadding - 5px;
         a:focus,
         a:active,
         &.is-selected a {
-            color: palette('pink');
+            color: get-color('brand', 'primary');
             border-color: currentColor;
         }
     }

@@ -30,37 +30,36 @@
  * e.g <div class="accent--pink a--border-top"> will give a pink border
  * @TODO: Remove these post-rebrand, for now we awkwardly overide most colours with the brand colour
  */
-@each $name in $themes {
-    $colour: palette($name);
+@each $name, $color in $themeColors {
     @if $useNewBrand == true {
-        $colour: get-color('brand', 'primary');
+        $color: get-color('brand', 'primary');
     }
 
     .u-accent-border-top-#{$name} {
-        border-top: 4px solid $colour !important;
+        border-top: 4px solid $color !important;
     }
 
     .accent--#{$name} {
         // text color
         &.a--text {
-            color: $colour;
+            color: $color;
 
             // sass magic: get a.accent--$foo.a--text
             @at-root a#{&} {
-                color: $colour;
+                color: $color;
                 @include on-interact {
-                    color: darken($colour, 10%);
+                    color: darken($color, 10%);
                 }
             }
         }
 
         &.a--border-color {
-            border-color: $colour;
+            border-color: $color;
         }
 
         // border on top of elements
         &.a--border-top {
-            border-top-color: $colour;
+            border-top-color: $color;
         }
 
         /**
@@ -69,30 +68,30 @@
          */
         .t--underline:after,
         &.t--underline:after {
-            border-bottom-color: $colour;
+            border-bottom-color: $color;
         }
 
         // call-to-action buttons
         &.a--btn {
             color: #ffffff;
-            background-color: $colour;
+            background-color: $color;
             @include on-interact {
-                background-color: darken($colour, 15%);
+                background-color: darken($color, 15%);
             }
 
             // Handle white buttons with otherwise unreadable text
-            @if $colour == #ffffff {
+            @if $color == #ffffff {
                 color: #000000;
             }
         }
 
         &.btn--outline {
-            $activeState: darken($colour, 20%);
-            border-color: $colour;
-            color: $colour !important;
+            $activeState: darken($color, 20%);
+            border-color: $color;
+            color: $color !important;
 
             .btn__icon {
-                fill: $colour !important;
+                fill: $color !important;
             }
 
             @include on-interact {
@@ -141,7 +140,7 @@
         h5,
         h6 {
             &::after {
-                border-color: $colour;
+                border-color: $color;
             }
         }
     }

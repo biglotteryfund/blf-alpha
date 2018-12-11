@@ -101,10 +101,10 @@
         flex: 1 1 0%;
 
         padding: 6px 12px;
-        border: 2px solid palette('pink');
+        border: 2px solid get-color('brand', 'primary');
 
         &:focus {
-            outline: 3px solid lighten(palette('turquoise'), 25%);
+            outline: 3px solid get-color('border', 'outline');
             outline-offset: 0;
         }
     }
@@ -116,7 +116,7 @@
         color: white;
         border: none;
         -webkit-appearance: none;
-        background-color: palette('pink');
+        background-color: get-color('brand', 'primary');
         padding-left: $spacingUnit / 2;
         padding-right: $spacingUnit;
         border-radius: 0 50px 50px 0;
@@ -140,7 +140,7 @@
         content: attr(data-append);
         text-transform: uppercase;
         font-size: 12px;
-        color: palette('pink');
+        color: get-color('brand', 'primary');
         vertical-align: top;
     }
 }
@@ -187,7 +187,7 @@
     max-width: 100%;
 
     &:focus {
-        outline: 3px solid lighten(palette('turquoise'), 25%);
+        outline: 3px solid get-color('border', 'outline');
         outline-offset: 0;
     }
 

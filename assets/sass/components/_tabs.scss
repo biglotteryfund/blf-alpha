@@ -56,10 +56,10 @@
             text-align: center;
 
             &.is-active {
-                border-top-color: palette('pink');
+                border-top-color: get-color('brand', 'primary');
                 border-bottom-color: transparent;
                 background-color: white;
-                color: palette('pink');
+                color: get-color('brand', 'primary');
             }
         }
     }

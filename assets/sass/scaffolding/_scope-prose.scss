@@ -134,14 +134,14 @@
 
         thead {
             color: white;
-            background-color: palette('pink');
+            background-color: get-color('brand', 'primary');
 
             tr {
                 background-color: transparent;
             }
 
             tr th {
-                border-left: $table-spacing solid lighten(palette('pink'), 5%);
+                border-left: $table-spacing solid lighten(get-color('brand', 'primary'), 5%);
 
                 &:first-of-type {
                     border-left: 0;

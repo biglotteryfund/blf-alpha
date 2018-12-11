@@ -1,5 +1,5 @@
 .tags-list {
-    $primaryColour: palette('pink');
+    $primaryColour: get-color('brand', 'primary');
     $secondaryColour: get-color('text', 'note');
     .tag {
         display: inline-block;

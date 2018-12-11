@@ -7,7 +7,6 @@
    ========================================================================= */
 
 .stats-grid {
-    $borderColour: #94aee5;
     @include reset-list();
 
     @include mq('medium-minor') {
@@ -20,7 +19,7 @@
         padding: $spacingUnit 0;
 
         @include mq('medium-minor', 'max') {
-            border-bottom: 4px solid $borderColour;
+            border-bottom: 4px solid get-color('border', 'base');
 
             &:last-child {
                 border-bottom: none;
@@ -30,8 +29,8 @@
         @include mq('medium-minor') {
             display: flex;
             flex: 0 0 33.3%;
-            border-top: 1px solid $borderColour;
-            border-right: 1px solid $borderColour;
+            border-top: 1px solid get-color('border', 'base');
+            border-right: 1px solid get-color('border', 'base');
             padding: $spacingUnit * 2 $spacingUnit;
 
             &:nth-child(-n + 3) {
@@ -53,19 +52,7 @@
                     top: $spacingUnit;
                     border-left-style: solid;
                     border-left-width: 4px;
-                }
-            }
-
-            // Alternate border colours
-            &:nth-child(odd) {
-                &:after {
-                    border-left-color: palette('blue');
-                }
-            }
-
-            &:nth-child(even) {
-                &:after {
-                    border-left-color: palette('pink');
+                    border-color: get-color('brand', 'primary');
                 }
             }
         }
@@ -82,7 +69,7 @@
     flex: 1 1 0%;
 
     .stat-block__number {
-        color: palette('blue');
+        color: get-color('brand', 'primary');
         display: inline-block;
         margin: 5px 0;
         font-family: font-stack('display');
@@ -110,12 +97,6 @@
     }
 }
 
-.stat-block--alternate {
-    .stat-block__number {
-        color: palette('pink');
-    }
-}
-
 /* =========================================================================
    Fact River
    ========================================================================= */
@@ -132,7 +113,7 @@
     font-weight: font-weight('body', 'bold');
 
     strong {
-        color: palette('pink');
+        color: get-color('brand', 'primary');
     }
 
     @include mq('medium') {

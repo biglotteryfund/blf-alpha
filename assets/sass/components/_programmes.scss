@@ -112,7 +112,7 @@
     align-items: center;
     text-decoration: none;
     font-weight: font-weight('body', 'bold');
-    color: palette('pink');
+    color: get-color('brand', 'primary');
     margin-bottom: $spacingUnit / 2;
 
     &:last-of-type {

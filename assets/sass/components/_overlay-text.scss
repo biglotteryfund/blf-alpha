@@ -38,25 +38,23 @@
 }
 
 @if $useNewBrand == false {
-    @each $name in $themes {
-        $colour: palette($name);
-
+    @each $name, $color in $themeColors {
         .overlay-text--accent-#{$name} {
             .overlay-text__inner {
-                background-color: $colour;
+                background-color: $color;
             }
 
             .overlay-text__link {
                 @include on-interact {
                     .overlay-text__inner {
-                        background-color: darken($colour, 10%);
+                        background-color: darken($color, 10%);
                     }
                 }
             }
 
             &.overlay-text--translucent {
                 .overlay-text__inner {
-                    background-color: rgba($colour, 0.8);
+                    background-color: rgba($color, 0.8);
                 }
             }
         }

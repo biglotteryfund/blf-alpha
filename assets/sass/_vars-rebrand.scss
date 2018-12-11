@@ -80,7 +80,8 @@ $colors: (
     ),
     border: (
         dark: #4a4a4a,
-        base: rgba(202, 202, 202, 0.5)
+        base: rgba(202, 202, 202, 0.5),
+        outline: #70d7ff
     ),
     background: (
         dark-neutral: #333333,
@@ -97,12 +98,9 @@ $colors: (
 // ========================================================================= //
 // @TODO: Replace post-rebrand
 
-$palette: (
+$themeColors: (
     'pink': $brandPink,
-    'blue': #009dd1,
+    'blue': #1a44a1,
     'turquoise': #00adef,
     'cyan': #009098
 );
-
-// which of the above colours should have accents generated?
-$themes: ('pink', 'blue', 'cyan', 'turquoise');
