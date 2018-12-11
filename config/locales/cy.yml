@@ -421,6 +421,9 @@ news:
     viewPostsTagged: Gweld yr holl byst sydd wedi’u tagio gyda
     viewPostsIn: Gweld yr holl byst o fewn
     showingPostsBy: Dangos yr holl byst gan
+    tag: Tag
+    author: Awdur
+    category: Categori
 ourPeople:
   title: Ein pobl
   introduction: >

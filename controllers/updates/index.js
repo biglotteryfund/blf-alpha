@@ -27,9 +27,9 @@ if (appData.isNotProduction) {
                 });
 
                 res.render(path.resolve(__dirname, `./views/landing`), {
-                    title: copy.allNews,
+                    title: copy.title,
                     groupedEntries: groupBy(response.result, 'entryType'),
-                    breadcrumbs: concat(breadcrumbs, { label: copy.allNews })
+                    breadcrumbs: concat(breadcrumbs, { label: copy.title })
                 });
             } catch (e) {
                 next(e);
@@ -128,12 +128,37 @@ if (appData.isNotProduction) {
                 }
 
                 if (isArray(response.result)) {
+                    const getCrumbName = entriesMeta => {
+                        let title;
+                        switch (entriesMeta.pageType) {
+                            case 'tag':
+                                title = `${copy.filters.tag}: ${entriesMeta.activeTag.title}`;
+                                break;
+                            case 'category':
+                                title = `${copy.filters.category}: ${entriesMeta.activeCategory.title}`;
+                                break;
+                            case 'author':
+                                title = `${copy.filters.author}: ${entriesMeta.activeAuthor.title}`;
+                                break;
+                        }
+                        return title;
+                    };
+
+                    let crumbs = concat(res.locals.breadcrumbs, {
+                        label: typeCopy.plural,
+                        url: res.locals.localify(`${req.baseUrl}/blog`)
+                    });
+                    const crumbName = getCrumbName(response.meta);
+                    if (crumbName) {
+                        crumbs = concat(crumbs, { label: crumbName });
+                    }
+
                     res.render(path.resolve(__dirname, './views/listing/blog'), {
                         title: typeCopy.plural,
                         entries: response.result,
                         entriesMeta: response.meta,
                         pagination: buildPagination(response.meta.pagination),
-                        breadcrumbs: concat(breadcrumbs, { label: typeCopy.plural })
+                        breadcrumbs: crumbs
                     });
                 } else {
                     const entry = response.result;

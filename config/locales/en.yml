@@ -513,6 +513,9 @@ news:
     viewPostsTagged: Viewing all posts tagged
     viewPostsIn: Viewing all posts in
     showingPostsBy: Showing all posts by
+    tag: Tag
+    author: Author
+    category: Category
 ourPeople:
   title: Our People
   introduction: >
