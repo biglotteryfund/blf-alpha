@@ -29,7 +29,7 @@
 // Loading spinner
 // via https://loading.io/css/
 $spinnerSize: 25px;
-$spinnerColour: palette('pink');
+$spinnerColour: get-color('brand', 'primary');
 .icon--loading-spinner {
     display: inline-block;
     vertical-align: middle;

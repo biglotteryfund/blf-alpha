@@ -63,14 +63,13 @@
     }
 }
 .media-aside__text {
-    font-weight: bold;
+    font-weight: font-weight('body', 'semibold');
     margin-bottom: 0;
 
     @include mq('medium-minor', 'max') {
         @include fullwidth();
         padding: ($spacingUnit * 2) $spacingUnit;
-        color: white;
-        background-color: palette('turquoise');
+        background-color: get-color('background', 'light-neutral');
         margin-top: 1em;
         margin-bottom: 1em;
     }
@@ -82,7 +81,7 @@
 }
 .media-aside__link {
     margin: 1em 0 0;
-    font-weight: bold;
+    font-weight: font-weight('body', 'bold');
     font-size: 18px;
 }
 

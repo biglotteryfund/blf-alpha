@@ -11,7 +11,7 @@
 
     @include mq('medium') {
         padding: $spacingUnit;
-        background-color: palette('pale-grey');
+        background-color: get-color('background', 'light-neutral');
     }
 }
 
@@ -85,7 +85,7 @@
 $filterSpacing: 10px;
 
 .search-filters {
-    background-color: palette('pale-grey');
+    background-color: get-color('background', 'light-neutral');
     padding: $filterSpacing;
     transition: all 0.15s ease-in-out;
     margin-bottom: 0.5em;
@@ -200,7 +200,7 @@ $filterSpacing: 10px;
 
     .facet-group__legend {
         display: block;
-        font-weight: bold;
+        font-weight: font-weight('display', 'bold');
         text-transform: uppercase;
         letter-spacing: 1px;
         font-size: 14px;
@@ -214,7 +214,7 @@ $filterSpacing: 10px;
     &.is-open {
         .facet-group__legend {
             padding-bottom: $filterSpacing / 2;
-            border-bottom: 1px solid palette('border');
+            border-bottom: 1px solid get-color('border', 'base');
             width: 100%;
         }
 
@@ -226,7 +226,7 @@ $filterSpacing: 10px;
             display: block;
 
             .facet-group__item {
-                border-bottom: 1px solid palette('border');
+                border-bottom: 1px solid get-color('border', 'base');
                 margin-bottom: $filterSpacing;
                 padding-bottom: $filterSpacing;
 
@@ -246,8 +246,8 @@ $filterSpacing: 10px;
 
 .active-badge {
     $iconHeight: 15px;
-    background-color: palette('pink');
-    color: #ffffff;
+    color: white;
+    background-color: get-color('brand', 'primary');
     display: inline-block;
     padding: 5px 7px;
     font-family: font-stack('display');
@@ -270,7 +270,7 @@ $filterSpacing: 10px;
 
 .project-caption {
     font-size: 13px;
-    color: palette('charcoal-note');
+    color: get-color('text', 'note');
     margin-bottom: 0;
 }
 
@@ -295,21 +295,20 @@ $filterSpacing: 10px;
     text-decoration: none;
     font-size: 13px;
 
-    color: palette('charcoal-note');
-    background-color: palette('pale-grey');
+    color: get-color('text', 'base');
+    background-color: get-color('background', 'light-neutral');
     padding: 3px 5px 3px 10px;
 
     @include on-interact {
         cursor: pointer;
-        background-color: palette('off-white');
-        color: palette('charcoal');
+        background-color: darken(get-color('background', 'light-neutral'), 5%);
     }
 
     .icon {
         height: 20px;
         width: 20px;
         vertical-align: middle;
-        fill: black;
+        fill: get-color('text', 'base');
     }
 }
 

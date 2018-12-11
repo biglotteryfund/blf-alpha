@@ -11,7 +11,7 @@ $logoOffset: $navLinkPadding - 5px;
 
 .global-header {
     width: 100%;
-    color: palette('blue-text');
+    color: get-color('links', 'base');
 
     @include mq('medium') {
         margin-bottom: $spacingUnit;
@@ -129,7 +129,7 @@ $logoOffset: $navLinkPadding - 5px;
         content: '';
         display: inline-block;
         height: 15px;
-        border: solid palette('soft-grey');
+        border: solid #cacaca;
         border-width: 0 1px;
         border-radius: 30px;
         vertical-align: middle;
@@ -146,7 +146,7 @@ $logoOffset: $navLinkPadding - 5px;
     .global-nav__link,
     .global-nav__lang {
         font-family: font-stack('display');
-        font-weight: 600;
+        font-weight: font-weight('display', 'bold');
         font-size: 16px;
 
         a {
@@ -159,7 +159,7 @@ $logoOffset: $navLinkPadding - 5px;
         a:focus,
         a:active,
         &.is-selected a {
-            color: palette('pink');
+            color: get-color('brand', 'primary');
             border-color: currentColor;
         }
     }
@@ -259,13 +259,13 @@ html:not(.contrast--high) body:not(.has-static-header) .global-nav {
     .icon {
         width: 21px;
         height: 21px;
-        fill: palette('soft-grey');
+        fill: get-color('text', 'note');
         vertical-align: middle;
     }
 
     @include on-interact {
         .icon {
-            fill: palette('charcoal');
+            fill: get-color('text', 'base');
         }
     }
 }
@@ -286,7 +286,7 @@ $offscreenNavWidth: 65%;
 
 .offscreen-navigation {
     color: white;
-    background-color: palette('blue-nav');
+    background-color: #3c65dd;
     display: block;
     position: fixed;
     z-index: 100;
@@ -315,7 +315,7 @@ $offscreenNavWidth: 65%;
     text-decoration: none;
 
     @include on-interact {
-        background-color: palette('blue-text');
+        background-color: #365cc9;
     }
 }
 

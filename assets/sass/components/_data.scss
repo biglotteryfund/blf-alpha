@@ -7,7 +7,6 @@
    ========================================================================= */
 
 .stats-grid {
-    $borderColour: #94aee5;
     @include reset-list();
 
     @include mq('medium-minor') {
@@ -20,7 +19,7 @@
         padding: $spacingUnit 0;
 
         @include mq('medium-minor', 'max') {
-            border-bottom: 4px solid $borderColour;
+            border-bottom: 4px solid get-color('border', 'base');
 
             &:last-child {
                 border-bottom: none;
@@ -30,8 +29,8 @@
         @include mq('medium-minor') {
             display: flex;
             flex: 0 0 33.3%;
-            border-top: 1px solid $borderColour;
-            border-right: 1px solid $borderColour;
+            border-top: 1px solid get-color('border', 'base');
+            border-right: 1px solid get-color('border', 'base');
             padding: $spacingUnit * 2 $spacingUnit;
 
             &:nth-child(-n + 3) {
@@ -53,19 +52,7 @@
                     top: $spacingUnit;
                     border-left-style: solid;
                     border-left-width: 4px;
-                }
-            }
-
-            // Alternate border colours
-            &:nth-child(odd) {
-                &:after {
-                    border-left-color: palette('blue');
-                }
-            }
-
-            &:nth-child(even) {
-                &:after {
-                    border-left-color: palette('pink');
+                    border-color: get-color('brand', 'primary');
                 }
             }
         }
@@ -75,18 +62,18 @@
 /* =========================================================================
    Stat Block
    ========================================================================= */
+
 .stat-block {
     display: flex;
     flex-flow: column nowrap;
     flex: 1 1 0%;
 
     .stat-block__number {
-        color: palette('blue');
+        color: get-color('brand', 'primary');
         display: inline-block;
         margin: 5px 0;
-
         font-family: font-stack('display');
-        font-weight: 600;
+        font-weight: font-weight('display', 'bold');
         line-height: 1;
         font-size: 28px;
 
@@ -102,17 +89,11 @@
     .stat-block__caption {
         margin-top: 0;
         display: block;
-        color: palette('charcoal');
-        font-family: 'Poppins', arial, sans-serif;
-        font-weight: 600;
+        color: get-color('text', 'base');
+        font-family: font-stack('display');
+        font-weight: font-weight('display', 'semibold');
         text-transform: uppercase;
         font-size: 14px;
-    }
-}
-
-.stat-block--alternate {
-    .stat-block__number {
-        color: palette('pink');
     }
 }
 
@@ -129,10 +110,10 @@
 }
 .fact-river__item {
     margin-bottom: 1em;
-    font-weight: bold;
+    font-weight: font-weight('body', 'bold');
 
     strong {
-        color: palette('pink');
+        color: get-color('brand', 'primary');
     }
 
     @include mq('medium') {
@@ -170,21 +151,6 @@
     .fact-item__image {
         margin: 0 $spacingUnit 0 0;
         order: unset;
-    }
-}
-
-/* =========================================================================
-   Grant List
-   ========================================================================= */
-
-.grant-list {
-    margin: $spacingUnit 0;
-
-    li {
-        margin: 0 0 $spacingUnit 0;
-        text-align: left;
-        border-bottom: 1px dotted #ccc;
-        padding-bottom: $spacingUnit;
     }
 }
 
@@ -269,39 +235,14 @@
     fill: #c2d0ef;
 }
 
-$activeRegionColour: palette('pink');
-
 .region--clickable {
-    fill: palette('blue');
+    fill: #1a44a1;
 
     &.is-active {
-        fill: $activeRegionColour;
+        fill: #e20087;
     }
 
     @include on-interact {
-        fill: $activeRegionColour;
-    }
-}
-
-// this mirrors the accents concept, but we keep it separate
-// as adding it there would produce a bunch of superfluous classes
-$mapRegions: (
-    'east-midlands': #86bd3f,
-    'east-of-england': #c84548,
-    'london': #6f9cca,
-    'north-east': #faca36,
-    'north-west': #518a34,
-    'northern-ireland': #80e1b0,
-    'scotland': #73579e,
-    'south-east': #da559a,
-    'south-west': #3585b5,
-    'wales': #4eace1,
-    'west-midlands': #f7b534,
-    'yorkshire-and-the-humber': #ef7a70
-);
-
-@each $region, $colour in $mapRegions {
-    .region--#{$region} {
-        fill: $colour;
+        fill: #e20087;
     }
 }

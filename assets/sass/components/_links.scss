@@ -16,7 +16,7 @@
     padding: $linkPadding;
     margin: 0 - ($linkPadding / 2);
     font-family: font-stack('display');
-    font-weight: bold;
+    font-weight: font-weight('display', 'bold');
     text-decoration: none;
     transition: background-color 140ms ease-in;
     max-width: 23.5em;
@@ -32,7 +32,7 @@
     &:hover,
     &:active {
         text-decoration: none;
-        background-color: palette('blue-bg');
+        background-color: #e5f3fe;
         background-image: svg-url(
             '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path fill="none" stroke="#173c6e" stroke-miterlimit="10" stroke-width="2" d="M8 6l4 4-4 4"></path></svg>'
         );
@@ -48,7 +48,7 @@
  */
 
 .inline-links {
-    border-top: 1px solid palette('border');
+    border-top: 1px solid get-color('border', 'base');
     padding-top: $spacingUnit / 2;
 }
 .inline-links__prefix,
@@ -56,7 +56,7 @@
     display: inline-block;
 }
 .inline-links__prefix {
-    font-weight: bold;
+    font-weight: font-weight('body', 'bold');
     margin-right: 3px;
 }
 .inline-links__list {
@@ -97,7 +97,7 @@
     }
 }
 .document-list__link {
-    font-weight: bold;
+    font-weight: font-weight('body', 'bold');
     text-decoration: none;
 
     &:hover,

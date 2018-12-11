@@ -5,7 +5,7 @@
     margin-bottom: 40px;
 
     @include mq('medium', 'max') {
-        background-color: palette('pale');
+        background-color: white;
     }
 
     @include mq('medium') {
@@ -54,6 +54,6 @@
 
     @include mq('medium') {
         @include bordered();
-        background-color: palette('pale');
+        background-color: white;
     }
 }

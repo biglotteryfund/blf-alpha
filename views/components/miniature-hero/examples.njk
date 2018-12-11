@@ -3,15 +3,13 @@
 
 {% call sgExample('Default variant') %}
     <ul class="flex-grid flex-grid--3up">
-        {% set themes = cycler('blue', 'pink-dark', 'orange', 'green', 'turquoise', 'pink', 'cyan') %}
         {% for i in range(0, 6) -%}
             <li class="flex-grid__item">
                 {{ miniatureHero(
                     title = "Miniature Hero " + loop.index,
                     imagePath = "https://biglotteryfund-assets.imgix.net/media/heroes/arkwright-meadows-small.jpg?auto=compress%2Cformat&crop=faces&fit=crop&h=333&w=500&s=7e87987873b15c0216f342d35af3138e",
                     imageCaption = "Image caption",
-                    linkUrl = "#",
-                    accent = themes.next()
+                    linkUrl = "#"
                 ) }}
             </li>
         {%- endfor %}
@@ -20,7 +18,6 @@
 
 {% call sgExample('Large variant') %}
     <ul class="flex-grid">
-        {% set themes = cycler('blue', 'pink-dark', 'orange', 'green', 'turquoise', 'pink', 'cyan') %}
         {% for i in range(0, 4) -%}
             <li class="flex-grid__item">
                 {{ miniatureHero(
@@ -28,7 +25,6 @@
                     imagePath = "https://biglotteryfund-assets.imgix.net/media/heroes/arkwright-meadows-small.jpg?auto=compress%2Cformat&crop=faces&fit=crop&h=333&w=500&s=7e87987873b15c0216f342d35af3138e",
                     imageCaption = "Image caption",
                     linkUrl = "#",
-                    accent = themes.next(),
                     isLarge = true
                 ) }}
             </li>

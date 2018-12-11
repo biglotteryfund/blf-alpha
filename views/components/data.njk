@@ -1,5 +1,5 @@
-{% macro statBlock(number, caption, numberPrefix = false, numberSuffix = false, numberFirst = false, isAlternate = false) %}
-    <div class="stat-block{% if isAlternate %} stat-block--alternate{% endif %}">
+{% macro statBlock(number, caption, numberPrefix = false, numberSuffix = false, numberFirst = false) %}
+    <div class="stat-block">
         <div class="stat-block__detail">
             {% if numberPrefix %}
                 <span class="stat-block__caption">
@@ -36,8 +36,7 @@
                     caption = stat.title,
                     numberPrefix = stat.prefix,
                     numberSuffix = stat.suffix,
-                    numberFirst = stat.showNumberBeforeTitle,
-                    isAlternate = loop.index % 2 == 0
+                    numberFirst = stat.showNumberBeforeTitle
                 ) }}
             </li>
         {% endfor %}

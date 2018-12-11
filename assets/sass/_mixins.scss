@@ -68,7 +68,7 @@
 }
 
 @mixin text-caption() {
-    color: palette('charcoal-note');
+    color: get-color('text', 'note');
     font-size: 14px;
     margin: 0.5em 0;
 }

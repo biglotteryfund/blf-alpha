@@ -9,7 +9,7 @@
 .callout {
     font-family: font-stack('display');
     font-style: normal;
-    color: palette('pink');
+    color: get-color('brand', 'primary');
     display: block;
     margin-bottom: $spacingUnit;
     max-width: 30em;
@@ -33,7 +33,7 @@
 
     .callout__text {
         font-size: 18px;
-        font-weight: bold;
+        font-weight: font-weight('display', 'bold');
     }
 
     .callout__citation {
@@ -48,7 +48,6 @@
 
         &::before,
         &::after {
-            color: palette('blue');
             display: inline-block;
             vertical-align: top;
             height: 20px;
