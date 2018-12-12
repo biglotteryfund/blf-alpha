@@ -69,7 +69,7 @@ router.get(
                 });
             } else {
                 const entry = response.result;
-                if (req.baseUrl + req.path !== entry.linkUrl) {
+                if (req.baseUrl + req.path !== entry.linkUrl && !res.locals.PREVIEW_MODE) {
                     res.redirect(entry.linkUrl);
                 } else if (entry.articleLink) {
                     res.redirect(entry.articleLink);
@@ -160,7 +160,7 @@ router.get(
                 });
             } else {
                 const entry = response.result;
-                if (req.baseUrl + req.path !== entry.linkUrl) {
+                if (req.baseUrl + req.path !== entry.linkUrl && !res.locals.PREVIEW_MODE) {
                     res.redirect(entry.linkUrl);
                 } else if (entry.content.length > 0) {
                     res.locals.isBilingual = entry.availableLanguages.length === 2;
