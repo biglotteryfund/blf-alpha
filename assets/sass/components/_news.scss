@@ -154,6 +154,7 @@
     .blogpost-attribution__author {
         margin-top: $spacingUnit * 2;
         order: 2;
+        flex-basis: 100%;
     }
 
     .blogpost-attribution__tags {
@@ -164,6 +165,7 @@
         .blogpost-attribution__author {
             margin-top: 0;
             order: 0;
+            flex-basis: auto;
         }
         .blogpost-attribution__tags {
             flex-basis: auto;
