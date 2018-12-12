@@ -5,6 +5,7 @@
     "enableHotjar": true,
     "enableMailSendMetrics": true,
     "enableNameChangeMessage": false,
+    "enableNewInsightsSection": false,
     "enableTimingMetrics": true
   }
 }

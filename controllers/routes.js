@@ -139,12 +139,29 @@ const funding = {
 };
 
 /**
- * Research section
+ * Insights section
  * @type {Section}
+ */
+const insights = {
+    path: '/insights',
+    showInNavigation: true,
+    langTitlePath: 'global.nav.insights',
+    pages: [
+        {
+            path: '/',
+            router: require('./insights')
+        }
+    ]
+};
+
+/**
+ * Research section (legacy)
+ * @type {Section}
+ * @TODO: Remove this when archiving this section completely
  */
 const research = {
     path: '/research',
-    showInNavigation: true,
+    showInNavigation: false,
     langTitlePath: 'global.nav.research',
     pages: [
         {
@@ -223,6 +240,7 @@ const updates = {
 const sections = {
     toplevel: toplevel,
     funding: funding,
+    insights: insights,
     research: research,
     talk: talk,
     about: about,

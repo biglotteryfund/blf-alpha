@@ -25,6 +25,7 @@ global:
     funding: Ariannu
     about: Amdanom ni
     research: Ymchwil
+    insights: Insights
     blog: Blog
     updates: Newyddion
     contact: "Siarad â ni"
@@ -375,6 +376,11 @@ toplevel:
   data:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau
+insights:
+  title: Insights from our funding
+  intro: >
+    <p>Every day the people, projects and communities we support generate valuable evidence, learning and data. Here you’ll find our latest insights into their achievements, successes and challenges.</p>
+  moreLinkText: View archived research and insights
 news:
   title: Newyddion
   allNews: Holl newyddion

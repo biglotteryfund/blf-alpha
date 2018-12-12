@@ -26,6 +26,7 @@ global:
     funding: Funding
     local: In your area
     research: Research
+    insights: Insights
     about: About
     blog: Blog
     updates: News
@@ -460,14 +461,14 @@ toplevel:
       - label: Answering big questions
         caption: Impacts and lessons learned from our evaluation and research (PDF 1.8MB)
         href: https://media.biglotteryfund.org.uk/media/documents/research/er_res_answering_big_questions.pdf
-  researchNew:
-    title: Insights
-    intro: >
-      <p>Every day the people, projects and communities we support generate valuable evidence, learning and data. Here you’ll find our latest insights into their achievements, successes and challenges.</p>
-    moreLinkText: View archived research and insights
   data:
     keyStats: Key statistics
     mapTitle: Our Year in Numbers
+insights:
+  title: Insights from our funding
+  intro: >
+    <p>Every day the people, projects and communities we support generate valuable evidence, learning and data. Here you’ll find our latest insights into their achievements, successes and challenges.</p>
+  moreLinkText: View archived research and insights
 news:
   title: News
   allNews: All news
