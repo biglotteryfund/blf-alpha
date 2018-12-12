@@ -201,22 +201,6 @@ const about = {
 };
 
 /**
- * Blog section
- * @type {Section}
- */
-const blog = {
-    path: '/blog',
-    showInNavigation: false,
-    langTitlePath: 'global.nav.blog',
-    pages: [
-        {
-            path: '/',
-            router: require('./blog')
-        }
-    ]
-};
-
-/**
  * Updates section
  * @type {Section}
  */
@@ -242,7 +226,6 @@ const sections = {
     research: research,
     talk: talk,
     about: about,
-    blog: blog,
     updates: updates
 };
 
