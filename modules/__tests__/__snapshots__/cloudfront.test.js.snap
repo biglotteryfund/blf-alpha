@@ -876,8 +876,9 @@ Object {
               "tag",
               "author",
               "category",
+              "region",
             ],
-            "Quantity": 8,
+            "Quantity": 9,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -1276,8 +1277,9 @@ Object {
               "tag",
               "author",
               "category",
+              "region",
             ],
-            "Quantity": 8,
+            "Quantity": 9,
           },
         },
         "LambdaFunctionAssociations": Object {
