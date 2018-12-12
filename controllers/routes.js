@@ -166,7 +166,11 @@ const research = {
     pages: [
         {
             path: '/',
-            router: require('./research')
+            lang: 'toplevel.research',
+            heroSlug: 'hapani',
+            router: staticPage({
+                template: 'static-pages/research'
+            })
         }
     ]
 };
