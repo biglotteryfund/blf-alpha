@@ -490,6 +490,7 @@ news:
   readMoreAboutProgramme: Read more about this programme
   blogpost:
     aboutThisBlogPost: About this blog post
+    viewAllBlogPosts: View all blog posts
   pressRelease:
     region: Region
     notesToEditors: Notes to Editors
@@ -506,8 +507,6 @@ news:
     pressReleaseArchive: Press release archive
     viewOldPressReleases: View older press releases
     viewLatestPressReleases: View latest press releases
-  viewAll: View all
-  viewLatest: View latest
   introductions:
     newsLanding: >
       If you want to find out about what’s happening at the Big Lottery Fund, you’ve come to the right place. You can read the latest news on: the community groups and charities we fund, how we work with the Government and other funders to distribute National Lottery money and how we support local communities across the UK to become more active, vibrant and stronger together.
