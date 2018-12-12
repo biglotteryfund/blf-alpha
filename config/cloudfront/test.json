@@ -933,9 +933,10 @@
               "page",
               "tag",
               "author",
-              "category"
+              "category",
+              "region"
             ],
-            "Quantity": 8
+            "Quantity": 9
           },
           "QueryString": true,
           "Cookies": {
@@ -1333,9 +1334,10 @@
               "page",
               "tag",
               "author",
-              "category"
+              "category",
+              "region"
             ],
-            "Quantity": 8
+            "Quantity": 9
           },
           "QueryString": true,
           "Cookies": {
