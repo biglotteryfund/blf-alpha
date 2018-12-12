@@ -4,24 +4,21 @@
  * custom Nunjucks filters
  * @see https://mozilla.github.io/nunjucks/api.html#addfilter
  */
-const config = require('config');
 const fs = require('fs');
 const path = require('path');
 const querystring = require('querystring');
 const slug = require('slugify');
 const uuid = require('uuid/v4');
-const { groupBy, take } = require('lodash');
+const { take } = require('lodash');
 
 let assets = {};
 try {
     assets = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8'));
 } catch (e) {} // eslint-disable-line no-empty
 
-function getCachebustedPath(urlPath, useRemoteAssets = config.get('features.useRemoteAssets')) {
-    const version = assets.version || 'latest';
-    const baseUrl = useRemoteAssets ? 'https://media.biglotteryfund.org.uk/assets' : `/assets`;
-    return `${baseUrl}/build/${version}/${urlPath}`;
-}
+const version = assets.version || 'latest';
+
+const getCachebustedPath = urlPath => `/assets/build/${version}/${urlPath}`;
 
 function appendUuid(str) {
     return str + uuid();
@@ -96,7 +93,7 @@ function removeQueryParam(queryParams, paramToRemove) {
 
 /**
  * addQueryParam
- * @param {string} queryParams - The existing querystring object
+ * @param {object} queryParams - The existing querystring object
  * @param {array} newParams - An array of arrays of key/value pairs
  * (eg. [['foo', 'bar'], ['baz', 'quux']]
  */
@@ -107,6 +104,10 @@ function addQueryParam(queryParams, newParams) {
         clone[key] = value;
     });
     return querystring.stringify(clone);
+}
+
+function widont(str) {
+    return str.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1');
 }
 
 module.exports = {
@@ -123,6 +124,6 @@ module.exports = {
     pluralise,
     removeQueryParam,
     slugify,
-    groupItemsBy: groupBy,
-    takeItems: take
+    take,
+    widont
 };

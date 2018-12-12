@@ -7,6 +7,7 @@ const { basicContent, flexibleContent, staticPage } = require('./common');
  * @property {string} path
  * @property {string} [lang]
  * @property {string} [heroSlug]
+ * @property {string} [heroSlugNew]
  * @property {function} [router]
  * @property {boolean} [isDraft]
  */
@@ -51,10 +52,6 @@ const toplevel = {
             })
         },
         {
-            path: '/contact',
-            router: basicContent()
-        },
-        {
             path: '/data',
             lang: 'toplevel.data',
             heroSlug: 'young-shoulders-programme',
@@ -90,24 +87,6 @@ const funding = {
             router: require('./funding')
         },
         {
-            path: '/test',
-            lang: 'toplevel.funding',
-            heroSlug: 'ragroof-players',
-            isDraft: true,
-            router: staticPage({
-                template: 'static-pages/funding-test'
-            })
-        },
-        {
-            path: '/thinking-of-applying',
-            lang: 'funding.thinkingOfApplying',
-            heroSlug: 'building-bridges',
-            isDraft: true,
-            router: staticPage({
-                template: 'static-pages/thinking-of-applying'
-            })
-        },
-        {
             path: '/under10k',
             lang: 'funding.under10k',
             heroSlug: 'friends-of-greenwich',
@@ -128,14 +107,6 @@ const funding = {
         {
             path: '/programmes',
             router: require('./programmes')
-        },
-        {
-            path: '/programmes/building-better-opportunities/guide-to-delivering-european-funding',
-            router: basicContent()
-        },
-        {
-            path: '/programmes/building-better-opportunities/building-better-opportunities-resources',
-            router: basicContent()
         },
         {
             path: '/strategic-investments',
@@ -168,28 +139,6 @@ const funding = {
 };
 
 /**
- * Local section
- * @type {Section}
- */
-const local = {
-    path: '/local',
-    langTitlePath: 'global.nav.local',
-    showInNavigation: false,
-    pages: [
-        {
-            path: '/',
-            lang: 'toplevel.local',
-            heroSlug: 'arkwright-meadows',
-            isDraft: true,
-            router: staticPage({
-                disableLanguageLink: true,
-                template: 'static-pages/local'
-            })
-        }
-    ]
-};
-
-/**
  * Research section
  * @type {Section}
  */
@@ -201,6 +150,21 @@ const research = {
         {
             path: '/',
             router: require('./research')
+        }
+    ]
+};
+
+/**
+ * Talk to us section
+ * @type {Section}
+ */
+const talk = {
+    path: '/contact',
+    showInNavigation: false,
+    pages: [
+        {
+            path: '/',
+            router: basicContent()
         }
     ]
 };
@@ -275,8 +239,8 @@ const updates = {
 const sections = {
     toplevel: toplevel,
     funding: funding,
-    local: local,
     research: research,
+    talk: talk,
     about: about,
     blog: blog,
     updates: updates

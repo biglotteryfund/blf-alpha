@@ -27,6 +27,8 @@ global:
     research: Ymchwil
     blog: Blog
     updates: Newyddion
+    contact: "Siarad â ni"
+    jobs: Swyddi
   contact:
     address: 1 Plough Place, Llundain EC4A 1DE
     phone: 0300 123 0735
@@ -36,18 +38,21 @@ global:
       regions:
       - title: Lloegr/Deyrnas Unedig
         phone: >
-          <a href="tel:02072111888">020 7211 1888</a> (tu allan i oriau: 07867 500572)
+          <a href="tel:02072111888">020 7211 1888</a><br />
+          (tu allan i oriau: 07867 500572)
         email: pressoffice@biglotteryfund.org.uk
       - title: Gogledd Iwerddon
         phone: >
-          <a href="tel:02890551432">02890 551 432</a> neu <a href="tel:02890551450">02890 551 450</a>
+          <a href="tel:02890551432">02890 551 432</a> neu <a href="tel:02890551450">02890 551 450</a><br />
           (tu allan i oriau: <a href="tel:07580811135">07580 811 135</a>)
       - title: Yr Alban
         phone: >
-          <a href="tel:01412421458">0141 242 1458</a> (tu allan i oriau: <a href="tel:07880737157">07880 737 157</a>)
+          <a href="tel:01412421458">0141 242 1458</a><br />
+          (tu allan i oriau: <a href="tel:07880737157">07880 737 157</a>)
       - title: Cymru
         phone: >
-          <a href="tel:02920678236">029 2067 8236</a> (tu allan i oriau: <a href="tel:07870566867">07870 566 867</a>)
+          <a href="tel:02920678236">029 2067 8236</a><br />
+          (tu allan i oriau: <a href="tel:07870566867">07870 566 867</a>)
   footerLinks:
     title: Dolenni gwib
     links:
@@ -133,6 +138,9 @@ global:
     pagination:
       prev: Tudalen flaenorol
       next: Tudalen nesaf
+    share:
+      facebook: Rhannu ar Facebook
+      twitter: Rhannu ar Twitter
   programmes:
     programmeLabels:
       area: Ardal
@@ -360,25 +368,67 @@ toplevel:
       links:
       - label: Buddsoddi yn ein rhaglenni
         caption: Mwyafu effaith gwneud grantiau (PDF 425KB)
-        href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_investing_report_final.pdf
+        href: https://media.biglotteryfund.org.uk/media/documents/research/er_res_investing_report_final.pdf
       - label: Ateb cwestiynau mawr
         caption: Effeithiau a gwersi a ddysgwyd o’n gwerthuso ac ymchwil (PDF 1.8MB)
-        href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_answering_big_questions.pdf
+        href: https://media.biglotteryfund.org.uk/media/documents/research/er_res_answering_big_questions.pdf
   data:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau
 news:
-  allNews: All news
+  title: Newyddion
+  allNews: Holl newyddion
+  author:
+    singular: Awdur
+    plural: Awduron
+    seeAllPosts: Gweld yr holl byst gan yr awdur hwn
+    aboutAuthor: Ynglŷn â’r awdur
   types:
     blog:
       singular: Blog
-      plural: Blog posts
+      plural: Postiadau blog
     press-releases:
-      singular: Press release
-      plural: Press releases
+      singular: Datganiad i’r wasg
+      plural: Datganiadau i’r wasg
+    # @TODO decide on the name for this and get it translated
     updates:
       singular: Updates
       plural: Updates
+  datePublished: Dyddiad cyhoeddi
+  readMoreAboutProgramme: Darllen mwy am y rhaglen hon
+  blogpost:
+    aboutThisBlogPost: Ynglŷn â’r blog postio hwn
+    viewAllBlogPosts: Gweld yr holl bostiadau blog
+  pressRelease:
+    region: Rhanbarth
+    notesToEditors: Nodiadau i Olygyddion
+    aboutThisPressRelease: Ynghylch y datganiad i’r wasg hwn
+    contacts: Cysylltiadau
+    viewingPressReleasesIn: Gweld yr holl ddatganiadau i’r wasg yn
+    viewAllPressReleases: gweld yr holl ddatganiadau i’r wasg
+    filterByRegion: Hidlo datganiadau i’r wasg fesul rhanbarth
+    allPosts: Yr holl byst
+    allPostsIn: Yr holl byst yn
+    filter: Hidlwr
+    in: yn
+    noResultsFor: Dim canlyniadau ar gyfer
+    pressReleaseArchive: Archif datganiadau i’r wasg
+    viewOldPressReleases: Gweld hen ddatganiadau i’r wasg
+    viewLatestPressReleases: Gweld y datganiadau i’r wasg diweddaraf
+  introductions:
+    newsLanding: >
+      Os ydych eisiau dod i wybod beth sy’n digwydd yn y Gronfa Loteri Fawr, rydych wedi dod i’r lle iawn.  Gallwch ddarllen y newyddion diweddaraf ar: y grwpiau cymunedol ac elusennau yr ydym yn eu hariannu, sut yr ydym yn gweithio gyda’r Llywodraeth ac ariannwyr eraill i ddosbarthu arian y Loteri Genedlaethol a sut yr ydym yn cefnogi cymunedau lleol ar draws y DU i ddod yn fwy gweithgar, bywiog ac yn gryfach gyda’i gilydd.
+    pressReleases: >
+      Bydd ein datganiadau i’r wasg yn rhoi’r prif ffeithiau i chi am gyhoeddiadau ariannu, grantiau neu ymchwil newydd, digwyddiadau arbennig, digwyddiadau lansio, pa elusennau y gwobrwywyd arian iddynt, prosiectau dyfeisgar, arfer gorau yn y sector a mwy.
+    blog: >
+      Chwilio am liw, cyd-destun a phersbectif ar waith y Gronfa Loteri Fawr, ei effaith ar gymunedau a’r pynciau sydd yn y newyddion ar hyn o bryd? Mae’r cyfan yma. Bydd y blog hwn yn esbonio, ymchwilio, arddangos ac archwilio ffyrdd y mae cymdeithas sifil, ac o ganlyniad i hynny, y sector, yn newid. Darllenwch am yr hyn yr oedd pobl mewn cymunedau led led y DU a’r sector yn ei feddwl yr oedd gan arweinyddion i’w ddweud a ffurfio eich barn eich hunan.
+  filters:
+    viewPostsTagged: Gweld yr holl byst sydd wedi’u tagio gyda
+    viewPostsIn: Gweld yr holl byst o fewn
+    showingPostsBy: Dangos yr holl byst gan
+    tag: Tag
+    author: Awdur
+    category: Categori
 ourPeople:
   title: Ein pobl
   introduction: >

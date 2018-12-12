@@ -54,10 +54,7 @@ if (appData.isNotProduction) {
 router.get('/:slug', injectResearchEntry, injectBreadcrumbs, (req, res, next) => {
     const { researchEntry } = res.locals;
     if (researchEntry) {
-        res.render(path.resolve(__dirname, './views/research-detail'), {
-            entry: researchEntry,
-            heroImage: researchEntry.hero || res.locals.fallbackHeroImage
-        });
+        res.render(path.resolve(__dirname, './views/research-detail'), { entry: researchEntry });
     } else {
         next();
     }

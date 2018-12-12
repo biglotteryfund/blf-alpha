@@ -6,13 +6,11 @@
 
 {% block content %}
     <main role="main">
-        {{
-            hero(
-                titleText = title,
-                image = heroImage,
-                accent = pageAccent
-            )
-        }}
+        {{ hero(
+            titleText = title,
+            image = pageHero.image,
+            accent = pageAccent
+        ) }}
 
         <div class="nudge-up">
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
@@ -29,7 +27,7 @@
                             {{ programmeCard(
                                 isMinimal = true,
                                 accent = 'pink',
-                                programme = programme.content
+                                programme = programme
                             ) }}
                         </li>
                     {% endfor %}

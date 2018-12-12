@@ -31,7 +31,7 @@
    ========================================================================= */
 
 .programme-card {
-    background-color: palette('pale-grey');
+    background-color: get-color('background', 'light-neutral');
     padding: $spacingUnit / 2;
 
     @include mq(medium-minor) {
@@ -111,8 +111,8 @@
     display: flex;
     align-items: center;
     text-decoration: none;
-    font-weight: bold;
-    color: palette('pink');
+    font-weight: font-weight('body', 'bold');
+    color: get-color('brand', 'primary');
     margin-bottom: $spacingUnit / 2;
 
     &:last-of-type {
@@ -148,7 +148,7 @@
         top: 0;
         left: $counterSize / 2;
         height: 100%;
-        background: palette('border');
+        background: get-color('border', 'base');
     }
 
     .step-progress__item {
@@ -170,7 +170,8 @@
             margin-right: $spacingUnit;
 
             font-size: 21px;
-            font-weight: bold;
+            font-family: font-stack('display');
+            font-weight: font-weight('body', 'bold');
             border: 2px solid;
             border-radius: 50%;
             outline: 6px solid white;

@@ -4,7 +4,7 @@
 
 .o-definition-list {
     dt {
-        font-weight: bold;
+        font-weight: font-weight('body', 'bold');
         margin-bottom: 0;
     }
 
@@ -31,6 +31,17 @@
     dd {
         margin-bottom: 4px;
         @include wrap-words();
+    }
+}
+
+.o-definition-list--wrapped {
+    display: flex;
+    flex-wrap: wrap;
+    dt {
+        flex-basis: 33.33%;
+    }
+    dd {
+        flex-basis: 66.66%;
     }
 }
 

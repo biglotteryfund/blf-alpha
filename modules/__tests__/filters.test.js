@@ -12,7 +12,8 @@ const {
     numberWithCommas,
     pluralise,
     removeQueryParam,
-    slugify
+    slugify,
+    widont
 } = require('../filters');
 
 describe('appendUuid', () => {
@@ -29,7 +30,7 @@ describe('getCachebustedPath', () => {
 
     it('should get external url for cachebusted asset', () => {
         const result = getCachebustedPath('stylesheets/style.css', true);
-        expect(result).toMatch(/^https:\/\/media.biglotteryfund.org.uk\/assets\/build\/\w+\/stylesheets\/style.css$/);
+        expect(result).toMatch(/^\/assets\/build\/\w+\/stylesheets\/style.css$/);
     });
 });
 
@@ -122,5 +123,12 @@ describe('isArray', () => {
         expect(isArray('not an array')).toBeFalsy();
         expect(isArray(['an', 'array'])).toBeTruthy();
         expect(isArray({ prop: 'thing' })).toBeFalsy();
+    });
+});
+
+describe('widont', () => {
+    it('should add a non-breaking-space to the last word of a string to prevent typographic widows', () => {
+        expect(widont('A string')).toBe('A&nbsp;string');
+        expect(widont('A slightly longer string')).toBe('A slightly longer&nbsp;string');
     });
 });

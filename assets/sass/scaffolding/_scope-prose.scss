@@ -10,7 +10,6 @@
     h4,
     h5,
     h6 {
-        font-weight: 600;
         line-height: 1.2;
     }
 
@@ -77,39 +76,23 @@
 
     hr {
         border: none;
-        border-bottom: 1px solid palette('border');
+        border-bottom: 1px solid get-color('border', 'base');
         padding-bottom: $spacingUnit;
         margin: 0 0 ($spacingUnit * 1.5) 0;
     }
 
-    a {
-        font-weight: bold;
+    b,
+    strong,
+    a:not(.btn) {
+        font-weight: font-weight('body', 'bold');
     }
 
-    a[href^='mailto:'],
-    a[href^='tel:'] {
-        color: palette('green');
-        font-weight: bold;
-        word-break: break-all;
+    a {
+        @include wrap-words();
     }
 
     a[href^='tel:'] {
         text-decoration: none;
-    }
-
-    .contrast--high & {
-        a[href^='mailto:'],
-        a[href^='tel:'] {
-            color: palette('blue') !important;
-        }
-    }
-
-    // fix word-break in IE when used in tables
-    td {
-        a[href^='mailto:'],
-        a[href^='tel:'] {
-            display: table-cell;
-        }
     }
 
     table {
@@ -126,10 +109,10 @@
         padding: 0;
 
         tr {
-            background-color: palette('pale-grey');
+            background-color: get-color('background', 'light-neutral');
 
             &:nth-child(even) {
-                background-color: darken(palette('pale-grey'), 3%);
+                background-color: darken(get-color('background', 'light-neutral'), 3%);
             }
 
             td {
@@ -151,14 +134,14 @@
 
         thead {
             color: white;
-            background-color: palette('pink');
+            background-color: get-color('brand', 'primary');
 
             tr {
                 background-color: transparent;
             }
 
             tr th {
-                border-left: $table-spacing solid lighten(palette('pink'), 5%);
+                border-left: $table-spacing solid lighten(get-color('brand', 'primary'), 5%);
 
                 &:first-of-type {
                     border-left: 0;
@@ -179,6 +162,12 @@
 
         td {
             vertical-align: top;
+
+            // Fix word-break in IE when used in tables
+            a[href^='mailto:'],
+            a[href^='tel:'] {
+                display: table-cell;
+            }
         }
     }
 

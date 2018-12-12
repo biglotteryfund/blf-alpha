@@ -47,8 +47,8 @@
 
 .nudge-up {
     @include mq('medium') {
-        top: -25px;
-        margin-bottom: -25px;
+        top: -$nudgeOffset;
+        margin-bottom: -$nudgeOffset;
         position: relative;
         z-index: 10;
     }

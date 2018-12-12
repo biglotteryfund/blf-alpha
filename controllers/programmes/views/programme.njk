@@ -5,7 +5,7 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/programmes.njk" import programmeStats with context %}
 
-{% if entry.summary.area.value === 'wales' %}
+{% if entry.area.value === 'wales' %}
     {% set bodyClass = "has-welsh-logo" %}
 {% endif %}
 
@@ -13,19 +13,16 @@
     <main role="main">
         {{ hero(
             titleText = title,
-            image = heroImage,
+            image = pageHero.image,
             accent = pageAccent
         ) }}
 
         <div class="nudge-up">
-            {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = entry.heroCredit) %}
-                {% if entry.intro %}
-                    {{ entry.intro | safe }}
+            {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = pageHero.credit) %}
+                {% if entry.description %}
+                    {{ entry.description | safe }}
                 {% endif %}
-                {{ programmeStats(
-                    fields = entry.summary,
-                    isCompact = true
-                ) }}
+                {{ programmeStats(entry, isCompact = true) }}
             {% endcall %}
 
             <div class="u-inner-wide-only">

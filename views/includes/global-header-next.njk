@@ -1,69 +1,5 @@
 {% from "components/icons.njk" import iconHamburger, iconSearch, iconArrowDown %}
-{% from "components/language/macros.njk" import languageSwitcher with context %}
-
-{% macro _navigation() %}
-    {% set navigation = [{
-        "label": "Home",
-        "url": "/",
-        "mobileOnly": true
-    }, {
-        "label": "Funding",
-        "url": "/funding/test",
-        "children": [{
-            "label": "Thinking of applying",
-            "url": "/funding/thinking-of-applying"
-        }, {
-            "label": "Funding programmes",
-            "url": "/funding/programmes"
-        }, {
-            "label": "What we’ve funded",
-            "url": "/funding/grants"
-        }, {
-            "label": "Continue your application",
-            "url": "https://apply.biglotteryfund.org.uk/Login.aspx"
-        }]
-    }, {
-        "label": "In your area",
-        "url": "/local",
-        "children": []
-    }, {
-        "label": "News",
-        "url": "/blog",
-        "children": []
-    }, {
-        "label": "Research",
-        "url": "/research",
-        "children": []
-    }, {
-        "label": "Talk to us",
-        "url": "/contact",
-        "children": []
-    }, {
-        "label": "About us",
-        "url": "/about",
-        "mobileOnly": true
-    }] %}
-
-    <ul>
-        {% for item in navigation %}
-            {% set hasChildren = item.children.length > 0 %}
-            <li class="{% if sectionUrl === item.url %}is-current {% endif %}{% if hasChildren %}has-children {% endif %}{% if item.mobileOnly %} u-mobile-only{% endif %}">
-                <a href="{{ item.url }}">
-                    {{ item.label }} {% if hasChildren %}{{ iconArrowDown() }}{% endif %}
-                </a>
-                {% if hasChildren %}
-                    <ul>
-                        {% for child in item.children %}
-                            <li>
-                                <a href="{{ child.url }}">{{ child.label }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
-{% endmacro %}
+{% from "components/language/macros.njk" import languageLink, languageSwitcher with context %}
 
 {% macro globalSearch() %}
     <form class="global-search-next js-global-search-form" role="search" action="/search">
@@ -86,64 +22,89 @@
 
 <header class="global-header-next js-global-header" role="banner">
     <div class="global-header-next__inner">
-        <div class="global-header-next__primary">
-            <a href="/" class="global-header-next__logo brand-logo">
-                <span class="u-visually-hidden">
-                    {{ __("global.brand.title") }}
-                </span>
-            </a>
-            <div class="global-header-next__actions">
-                <a href="#global-nav"
-                    class="global-header-next__toggle global-header-next__toggle-search js-toggle-search">
-                    {{ iconSearch() }}
-                    <span class="global-header-next__toggle-label">
-                        Search
-                    </span>
-                </a>
-
-                <a href="#global-search"
-                    class="global-header-next__toggle global-header-next__toggle-nav js-toggle-nav">
-                    {{ iconHamburger() }}
-                    <span class="global-header-next__toggle-label">
-                        Menu
-                    </span>
-                </a>
-            </div>
+        <div class="global-header-next__extra">
+            <ul class="global-header-next__navigation-secondary">
+                <li><a href="{{ globalNavigation.home.url }}">{{ globalNavigation.home.label }}</a></li>
+                {% for item in globalNavigation.secondaryLinks %}
+                    <li><a href="{{ item.url }}">{{ item.label }}</a></li>
+                {% endfor %}
+                {% if isBilingual %}
+                    <li>{{ languageLink(currentLocale = locale) }}</li>
+                {% endif %}
+            </ul>
         </div>
 
-        <div class="global-header-next__secondary">
-            <div class="global-header-next__navigation" id="global-nav">
-                <nav class="global-header-next__navigation-primary">
-                    {{ _navigation() }}
-                </nav>
-                <ul class="global-header-next__navigation-secondary">
-                    <li><a href="{{ localify('/') }}">Home</a></li>
-                    <li><a href="{{ localify('/about') }}">About us</a></li>
-                    <li><a href="{{ localify('/jobs') }}">Jobs</a></li>
-                    <li>
-                        {% if isBilingual %}
-                            {% if locale == 'en' %}
-                                <a class="qa-lang-switcher" href="{{ getCurrentUrl('cy') }}">Cymraeg</a>
-                            {% else %}
-                                <a class="qa-lang-switcher" href="{{ getCurrentUrl('en') }}">English</a>
-                            {% endif %}
-                        {% endif %}
-                    </li>
-                </ul>
-                <div class="global-header-next__language">
-                    <div class="global-header-next__language-prefix">
-                        Mae'r dudalen hon hefyd ar gael yn Cymraeg
-                    </div>
-                    <div class="global-header-next__language-controls">
-                        {{ languageSwitcher(locale) }}
-                    </div>
+        <div class="global-header-next__content">
+            <div class="global-header-next__content-primary">
+                <a href="/" class="global-header-next__logo brand-logo">
+                    <span class="u-visually-hidden">
+                        {{ __("global.brand.title") }}
+                    </span>
+                </a>
+                <div class="global-header-next__actions">
+                    <a href="#global-nav"
+                        class="global-header-next__toggle global-header-next__toggle-search js-toggle-search">
+                        {{ iconSearch() }}
+                        <span class="global-header-next__toggle-label">
+                            Search
+                        </span>
+                    </a>
+
+                    <a href="#global-search"
+                        class="global-header-next__toggle global-header-next__toggle-nav js-toggle-nav">
+                        {{ iconHamburger() }}
+                        <span class="global-header-next__toggle-label">
+                            Menu
+                        </span>
+                    </a>
                 </div>
             </div>
 
-            <div class="global-header-next__search">
-                {{ globalSearch() }}
+            <div class="global-header-next__content-secondary">
+                <div class="global-header-next__navigation" id="global-nav">
+                    <nav class="global-header-next__navigation-primary">
+                        <ul>
+                            <li class="u-mobile-only"><a href="{{ globalNavigation.home.url }}">{{ globalNavigation.home.label }}</a></li>
+                            {% for item in globalNavigation.primaryLinks %}
+                                {% set hasChildren = item.children.length > 0 %}
+                                <li class="{% if sectionUrl === item.url %}is-current {% endif %}{% if hasChildren %}has-children {% endif %}">
+                                    <a href="{{ item.url }}">
+                                        {{ item.label }} {% if hasChildren %}{{ iconArrowDown() }}{% endif %}
+                                    </a>
+                                    {% if hasChildren %}
+                                        <ul>
+                                            {% for child in item.children %}
+                                                <li><a href="{{ child.url }}">{{ child.label }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                            {% for item in globalNavigation.secondaryLinks %}
+                                <li class="u-mobile-only"><a href="{{ item.url }}">{{ item.label }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </nav>
+                    {% if isBilingual %}
+                        <div class="global-header-next__language">
+                            <div class="global-header-next__language-prefix">
+                                Mae'r dudalen hon hefyd ar gael yn Cymraeg
+                            </div>
+                            <div class="global-header-next__language-controls">
+                                {{ languageSwitcher(locale) }}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="global-header-next__search">
+                    {{ globalSearch() }}
+                </div>
             </div>
         </div>
+
+
+        
     </div>
 </header>
 

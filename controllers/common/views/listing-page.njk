@@ -2,13 +2,14 @@
 {% from "components/miniature-hero/macro.njk" import miniatureHero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/section-links/macro.njk" import sectionLinks %}
 
 {% extends "layouts/main.njk" %}
 
 {% block content %}
     {{ hero(
         titleText = title,
-        image = heroImage,
+        image = pageHero.image,
         accent = pageAccent
     ) }}
 
@@ -18,9 +19,13 @@
             <div class="s-prose">
                 {{ content.introduction | safe }}
             </div>
+
+            {% if childrenLayoutMode === 'plain' and content.children.length > 0 %}
+                {{ sectionLinks(content.children) }}
+            {% endif %}
         </section>
 
-        {% if content.children.length > 0 %}
+        {% if content.children.length > 0 and childrenLayoutMode === 'heroes' %}
             <section class="u-inner">
                 <ul class="flex-grid">
                     {% for page in content.children %}
@@ -29,7 +34,7 @@
                                 title = page.trailText | default(page.title, true),
                                 imagePath = page.photo,
                                 imageCaption = page.title,
-                                linkUrl = page.link,
+                                linkUrl = page.linkUrl,
                                 accent = page.themeColour,
                                 isLarge = true
                             )}}

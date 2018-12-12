@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const { concat, groupBy, isArray, pick } = require('lodash');
+const { concat, isArray, pick, get } = require('lodash');
 
 const { buildPagination } = require('../../modules/pagination');
 const { injectBreadcrumbs, injectCopy, injectHeroImage } = require('../../middleware/inject-content');
@@ -22,14 +22,16 @@ if (appData.isNotProduction) {
         async (req, res, next) => {
             try {
                 const { copy, breadcrumbs } = res.locals;
-                const response = await contentApi.getUpdates({
-                    locale: req.i18n.getLocale()
+
+                const blogposts = await contentApi.getUpdates({
+                    locale: req.i18n.getLocale(),
+                    type: 'blog'
                 });
 
                 res.render(path.resolve(__dirname, `./views/landing`), {
-                    title: copy.allNews,
-                    groupedEntries: groupBy(response.result, 'entryType'),
-                    breadcrumbs: concat(breadcrumbs, { label: copy.allNews })
+                    title: copy.title,
+                    blogposts: blogposts.result,
+                    breadcrumbs: concat(breadcrumbs, { label: copy.title })
                 });
             } catch (e) {
                 next(e);
@@ -71,12 +73,17 @@ if (appData.isNotProduction) {
                         breadcrumbs: concat(breadcrumbs, { label: typeCopy.plural })
                     });
                 } else {
-                    if (req.baseUrl + req.path !== response.result.linkUrl) {
-                        res.redirect(response.result.linkUrl);
-                    } else {
-                        const entry = response.result;
+                    const entry = response.result;
+                    if (req.baseUrl + req.path !== entry.linkUrl) {
+                        res.redirect(entry.linkUrl);
+                    } else if (entry.articleLink) {
+                        res.redirect(entry.articleLink);
+                    } else if (entry.content.length > 0) {
+                        res.locals.isBilingual = entry.availableLanguages.length === 2;
                         return res.render(path.resolve(__dirname, './views/post/press-release'), {
                             title: entry.title,
+                            description: entry.summary,
+                            socialImage: get(entry, 'thumbnail.large', false),
                             entry: entry,
                             breadcrumbs: concat(
                                 res.locals.breadcrumbs,
@@ -87,6 +94,8 @@ if (appData.isNotProduction) {
                                 { label: entry.title }
                             )
                         });
+                    } else {
+                        next();
                     }
                 }
             } catch (e) {
@@ -121,20 +130,48 @@ if (appData.isNotProduction) {
                 }
 
                 if (isArray(response.result)) {
+                    const getCrumbName = entriesMeta => {
+                        let title;
+                        switch (entriesMeta.pageType) {
+                            case 'tag':
+                                title = `${copy.filters.tag}: ${entriesMeta.activeTag.title}`;
+                                break;
+                            case 'category':
+                                title = `${copy.filters.category}: ${entriesMeta.activeCategory.title}`;
+                                break;
+                            case 'author':
+                                title = `${copy.filters.author}: ${entriesMeta.activeAuthor.title}`;
+                                break;
+                        }
+                        return title;
+                    };
+
+                    let crumbs = concat(res.locals.breadcrumbs, {
+                        label: typeCopy.plural,
+                        url: res.locals.localify(`${req.baseUrl}/blog`)
+                    });
+                    const crumbName = getCrumbName(response.meta);
+                    if (crumbName) {
+                        crumbs = concat(crumbs, { label: crumbName });
+                    }
+
                     res.render(path.resolve(__dirname, './views/listing/blog'), {
                         title: typeCopy.plural,
                         entries: response.result,
                         entriesMeta: response.meta,
                         pagination: buildPagination(response.meta.pagination),
-                        breadcrumbs: concat(breadcrumbs, { label: typeCopy.plural })
+                        breadcrumbs: crumbs
                     });
                 } else {
-                    if (req.baseUrl + req.path !== response.result.linkUrl) {
-                        res.redirect(response.result.linkUrl);
-                    } else {
-                        const entry = response.result;
+                    const entry = response.result;
+                    if (req.baseUrl + req.path !== entry.linkUrl) {
+                        res.redirect(entry.linkUrl);
+                    } else if (entry.content.length > 0) {
+                        res.locals.isBilingual = entry.availableLanguages.length === 2;
                         return res.render(path.resolve(__dirname, './views/post/blogpost'), {
                             title: entry.title,
+                            description: entry.summary,
+                            socialImage: get(entry, 'thumbnail.large', false),
                             entry: entry,
                             breadcrumbs: concat(
                                 res.locals.breadcrumbs,
@@ -145,6 +182,8 @@ if (appData.isNotProduction) {
                                 { label: entry.title }
                             )
                         });
+                    } else {
+                        next();
                     }
                 }
             } catch (e) {

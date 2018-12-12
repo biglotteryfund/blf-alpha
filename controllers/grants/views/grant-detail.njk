@@ -122,20 +122,20 @@
                 </div>
                 <div class="flex-grid__item">
                     {% if fundingProgramme %}
-                        {% set link = localify(fundingProgramme.summary.linkUrl) %}
+                        {% set link = localify(fundingProgramme.linkUrl) %}
                     {% elseif mainProgramme.url %}
                         {% set link = localify(mainProgramme.url) %}
                     {% else %}
                         {% set link = localify('/funding/programmes') %}
                     {% endif %}
 
-                    {% set heroImage = {
+                    {% set image = {
                         "url": fallbackHeroImage.large,
                         "alt": mainProgramme.title
                     } %}
 
                     {% if fundingProgramme and fundingProgramme.hero %}
-                        {% set heroImage = {
+                        {% set image = {
                             "url": fundingProgramme.hero.large,
                             "alt": mainProgramme.title
                         } %}
@@ -143,8 +143,8 @@
 
                     {% call promoCard({
                         "title": copy.grantDetail.fundedBy + ' ' + mainProgramme.title,
-                        "trailText": fundingProgramme.intro,
-                        "image": heroImage,
+                        "trailText": fundingProgramme.description,
+                        "image": image,
                         "link": {
                             "label": copy.grantDetail.readMoreAbout + ' ' + mainProgramme.title,
                             "labelAria": copy.grantDetail.readMoreAbout + ' ' + mainProgramme.title,

@@ -10,7 +10,7 @@ const { sanitiseUrlPath } = require('../modules/urls');
 let { CONTENT_API_URL } = require('../modules/secrets');
 
 function fetch(urlPath, options) {
-    debug(`Fetching ${urlPath}`);
+    debug(`Fetching ${urlPath} ${options ? JSON.stringify(options) : ''}`);
     const defaults = {
         url: `${CONTENT_API_URL}${urlPath}`,
         json: true
@@ -148,32 +148,28 @@ function getUpdates({ locale, type = null, date = null, slug = null, query = {},
             };
         });
     } else {
-        return fetchAllLocales(reqLocale => `/v1/${reqLocale}/updates/${type || ''}`, {
+        return fetch(`/v1/${locale}/updates/${type || ''}`, {
             qs: addPreviewParams(previewMode, { ...query, ...{ 'page-limit': 10 } })
-        }).then(responses => {
-            const [enResponse, cyResponse] = responses;
-            const results = mergeWelshBy('slug')(locale, mapAttrs(enResponse), mapAttrs(cyResponse));
+        }).then(response => {
             return {
-                meta: enResponse.meta,
-                result: results
+                meta: response.meta,
+                result: mapAttrs(response)
             };
         });
     }
 }
 
 function getFundingProgrammes({ locale }) {
-    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/funding-programmes`).then(responses => {
+    return fetchAllLocales(reqLocale => `/v2/${reqLocale}/funding-programmes`).then(responses => {
         const [enResults, cyResults] = responses.map(mapAttrs);
         return mergeWelshBy('urlPath')(locale, enResults, cyResults);
     });
 }
 
 function getFundingProgramme({ locale, slug, previewMode = false }) {
-    return fetch(`/v1/${locale}/funding-programme/${slug}`, {
+    return fetch(`/v2/${locale}/funding-programmes/${slug}`, {
         qs: addPreviewParams(previewMode)
-    }).then(response => {
-        return get('data.attributes')(response);
-    });
+    }).then(response => get('data.attributes')(response));
 }
 
 function getResearch({ locale, slug = null, searchQuery = null, previewMode = null }) {

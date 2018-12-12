@@ -17,9 +17,8 @@ router.get('/', sMaxAge('30m'), injectHeroImage('manchester-cares'), injectFundi
      */
     function getLatestProgrammes(programmes) {
         if (programmes) {
-            const findBySlug = slug => find(programmes, p => p.urlPath === `funding/programmes/${slug}`);
             const programmeSlugs = get(copy, 'recentProgrammes', []);
-            return programmeSlugs.map(findBySlug);
+            return programmeSlugs.map(slug => find(programmes, programme => programme.linkUrl.indexOf(slug) !== -1));
         } else {
             return [];
         }

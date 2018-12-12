@@ -6,13 +6,13 @@
 {% from "components/segment/macro.njk" import segment %}
 
 {% extends "layouts/main.njk" %}
-{% if not heroImage %}{% set bodyClass = 'has-static-header' %}{% endif %}
+{% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% block content %}
-    {% if heroImage %}
+    {% if pageHero.image %}
         {{ hero(
             titleText = title,
-            image = heroImage,
+            image = pageHero.image,
             accent = pageAccent
         ) }}
     {% endif %}
@@ -21,7 +21,7 @@
         {{ breadcrumbTrail(breadcrumbs) }}
 
         <div class="s-prose accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
-            {% if not heroImage %}
+            {% if not pageHero.image %}
             <h1>{{ content.title }}</h1>
             {% endif %}
             {{ content.introduction | safe }}
@@ -30,7 +30,7 @@
         {{ segmentLinks(customSegmentLinks | default(content.segments)) }}
     {% endmacro %}
 
-    <main{% if heroImage %} class="nudge-up"{% endif %}>
+    <main{% if pageHero.image %} class="nudge-up"{% endif %}>
         {% block contentPrimary %}
             {% if content.relatedContent %}
                 <section class="page-section u-inner-wide-only accent--{{ pageAccent }} a--border-top">
@@ -56,13 +56,12 @@
             {# Content segments #}
             {% if content.segments.length > 0 %}
                 <div class="u-inner-wide-only u-constrained-content-wide">
-                    {% set themes = cycler('blue', 'pink-dark', 'orange', 'green', 'turquoise', 'pink', 'cyan') %}
                     {% for contentSegment in content.segments %}
                         {% call segment(
                             id = 'segment-' + loop.index,
                             title = contentSegment.title,
                             imagePath = contentSegment.photo,
-                            accent = themes.next()
+                            accent = pageAccent
                         ) %}
                             {{ contentSegment.content | safe }}
                         {% endcall %}

@@ -68,36 +68,49 @@
         </section>
 
         {# Latest News #}
-        {% if news.length %}
-        <div class="accent--{{ pageAccent }} a--border-top u-inner u-padded">
-            <section class="latest-news">
-                <header class="latest-news__header">
-                    <h2 class="t1 t--underline a--text accent--blue">
-                        <a class="u-link-minimal" href="{{ localify("/uk-wide/news-and-events") }}">
-                            {{ __('global.misc.latestNews') }}
+        {% if news.length or (enableUpdatesSection and promotedUpdates.result.length) %}
+            {% set newsLink = "/uk-wide/news-and-events" if not enableUpdatesSection else "/news" %}
+            <div class="accent--{{ pageAccent }} a--border-top u-inner u-padded">
+                <section class="latest-news">
+                    <header class="latest-news__header">
+                        <h2 class="t1 t--underline a--text accent--blue">
+                            <a class="u-link-minimal" href="{{ localify(newsLink) }}">
+                                {{ __('global.misc.latestNews') }}
+                            </a>
+                        </h2>
+                    </header>
+                    <div class="latest-news__content">
+                        <ul class="flex-grid flex-grid--3up">
+                            {% if enableUpdatesSection %}
+                                {% for article in promotedUpdates.result %}
+                                    <li class="flex-grid__item">
+                                        {{ articleTeaser({
+                                            'title': article.trailText or article.title,
+                                            'linkUrl': article.linkUrl,
+                                            'summary': article.summary
+                                        }) }}
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                {% for article in news %}
+                                    <li class="flex-grid__item">
+                                        {{ articleTeaser({
+                                            'title': article.title,
+                                            'linkUrl': article.link,
+                                            'summary': article.summary
+                                        }) }}
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <footer class="latest-news__footer">
+                        <a class="latest-news__more" href="{{ localify(newsLink) }}">
+                            {{ __('global.misc.viewAllNews') }}
                         </a>
-                    </h2>
-                </header>
-                <div class="latest-news__content">
-                    <ul class="flex-grid flex-grid--3up">
-                        {% for article in news %}
-                            <li class="flex-grid__item">
-                                {{ articleTeaser({
-                                    'title': article.title,
-                                    'linkUrl': article.link,
-                                    'summary': article.summary
-                                }) }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <footer class="latest-news__footer">
-                    <a class="latest-news__more" href="{{ localify("/uk-wide/news-and-events") }}">
-                        {{ __('global.misc.viewAllNews') }}
-                    </a>
-                </footer>
-            </section>
-        </div>
+                    </footer>
+                </section>
+            </div>
         {% endif %}
 
         {# Social Content #}

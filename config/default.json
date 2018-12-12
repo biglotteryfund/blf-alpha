@@ -6,14 +6,16 @@
         "distributionId": "E3D5QJTWAG3GDP",
         "origins": {
           "legacy": "LEGACY",
-          "newSite": "ELB-TEST"
+          "newSite": "ELB-TEST",
+          "s3Assets": "S3-blf-assets"
         }
       },
       "live": {
         "distributionId": "E2WYWBLMWIN5U1",
         "origins": {
           "legacy": "LEGACY",
-          "newSite": "ELB_LIVE"
+          "newSite": "ELB_LIVE",
+          "s3Assets": "S3-blf-assets"
         }
       }
     }
@@ -31,15 +33,15 @@
     }
   },
   "features": {
-    "enableDigitalFundApplications": true,
-    "enablePrompt": false,
+    "enableDigitalFundApplications": false,
+    "enablePrompt": true,
     "enableSurvey": true,
     "enableAbTests": true,
     "enableHotjar": false,
-    "useRemoteAssets": true,
     "enableTimingMetrics": false,
     "enableMailSendMetrics": false,
-    "enableRelatedGrants": false
+    "enableRelatedGrants": false,
+    "enableUpdatesSection": true
   },
   "imgix": {
     "mediaDomain": "biglotteryfund-assets.imgix.net"

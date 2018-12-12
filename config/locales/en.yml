@@ -28,6 +28,8 @@ global:
     about: About
     blog: Blog
     updates: News
+    contact: Talk to us
+    jobs: Jobs
   contact:
     address: 1 Plough Place, London, EC4A 1DE
     phone: 0345 4 10 20 30
@@ -37,18 +39,21 @@ global:
       regions:
       - title: England/UK
         phone: >
-          <a href="tel:02072111888">020 7211 1888</a> (out of hours: 07867 500572)
+          <a href="tel:02072111888">020 7211 1888</a><br />
+          (out of hours: 07867 500572)
         email: pressoffice@biglotteryfund.org.uk
       - title: Northern Ireland
         phone: >
-          <a href="tel:02890551432">02890 551 432</a> or <a href="tel:02890551450">02890 551 450</a>
+          <a href="tel:02890551432">02890 551 432</a> or <a href="tel:02890551450">02890 551 450</a><br />
           (out of hours: <a href="tel:07580811135">07580 811 135</a>)
       - title: Scotland
         phone: >
-          <a href="tel:01412421458">0141 242 1458</a> (out of hours: <a href="tel:07880737157">07880 737 157</a>)
+          <a href="tel:01412421458">0141 242 1458</a><br />
+          (out of hours: <a href="tel:07880737157">07880 737 157</a>)
       - title: Wales
         phone: >
-          <a href="tel:02920678236">029 2067 8236</a> (out of hours: <a href="tel:07870566867">07870 566 867</a>)
+          <a href="tel:02920678236">029 2067 8236</a><br />
+          (out of hours: <a href="tel:07870566867">07870 566 867</a>)
   footerLinks:
     title: Quick links
     links:
@@ -134,6 +139,9 @@ global:
     pagination:
       prev: Previous page
       next: Next page
+    share:
+      facebook: Share on Facebook
+      twitter: Share on Twitter
   programmes:
     programmeLabels:
       area: Area
@@ -447,10 +455,10 @@ toplevel:
       links:
       - label: Investing in our programmes
         caption: Maximising the impact of grant-making (PDF 425KB)
-        href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_investing_report_final.pdf
+        href: https://media.biglotteryfund.org.uk/media/documents/research/er_res_investing_report_final.pdf
       - label: Answering big questions
         caption: Impacts and lessons learned from our evaluation and research (PDF 1.8MB)
-        href: https://www.biglotteryfund.org.uk/-/media/Files/Research%20Documents/er_res_answering_big_questions.pdf
+        href: https://media.biglotteryfund.org.uk/media/documents/research/er_res_answering_big_questions.pdf
   researchNew:
     title: Research
     intro: >
@@ -460,7 +468,13 @@ toplevel:
     keyStats: Key statistics
     mapTitle: Our Year in Numbers
 news:
+  title: News
   allNews: All news
+  author:
+    singular: Author
+    plural: Authors
+    seeAllPosts: See all posts by this author
+    aboutAuthor: About the author
   types:
     blog:
       singular: Blog
@@ -468,9 +482,45 @@ news:
     press-releases:
       singular: Press Release
       plural: Press Releases
+    # @TODO decide on the name for this and get it translated
     updates:
       singular: Updates
       plural: Updates
+  datePublished: Date published
+  readMoreAboutProgramme: Read more about this programme
+  blogpost:
+    aboutThisBlogPost: About this blog post
+    viewAllBlogPosts: View all blog posts
+  pressRelease:
+    region: Region
+    notesToEditors: Notes to Editors
+    aboutThisPressRelease: About this press release
+    contacts: Contacts
+    viewingPressReleasesIn: Viewing all press releases in
+    viewAllPressReleases: view all press releases
+    filterByRegion: Filter press releases by region
+    allPosts: All posts
+    allPostsIn: All posts in
+    filter: Filter
+    in: in
+    noResultsFor: No results for
+    pressReleaseArchive: Press release archive
+    viewOldPressReleases: View older press releases
+    viewLatestPressReleases: View latest press releases
+  introductions:
+    newsLanding: >
+      If you want to find out about what’s happening at the Big Lottery Fund, you’ve come to the right place. You can read the latest news on: the community groups and charities we fund, how we work with the Government and other funders to distribute National Lottery money and how we support local communities across the UK to become more active, vibrant and stronger together.
+    pressReleases: >
+      Our press releases will give you the key facts about funding announcements, new grants or research, special events, launches, which charities have been awarded funding, innovative projects, best practice in the sector and more.
+    blog: >
+      Looking for colour, context and perspective about the work of the Big Lottery Fund, its impact on communities and topics currently in the news? It’s all here. This blog will explain, explore, showcase and examine the ways in which civil society, and as a result the sector, is changing. Read about what people in communities across the UK and sector thought leaders have to say and form your own opinion.
+  filters:
+    viewPostsTagged: Viewing all posts tagged
+    viewPostsIn: Viewing all posts in
+    showingPostsBy: Showing all posts by
+    tag: Tag
+    author: Author
+    category: Category
 ourPeople:
   title: Our People
   introduction: >
@@ -1127,6 +1177,10 @@ apply:
               <li>What is the background to your organisation?</li>
               <li>How much money do you need from us and for how long?</li>
               <li>How does your idea fit in with other local activities?</li>
+            </ol>
+            <p>And for Partnership applications only:</p>
+            <ol start="7">
+              <li>What is the structure of your partnership (including whether there will be a lead organisation) and the background to it?</li>
             </ol>
             <p>
               This information will go to one of our funding officers who will get in touch within fifteen working

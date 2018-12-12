@@ -15,7 +15,7 @@
     .form-header__prefix {
         font-size: 16px;
         font-weight: normal;
-        color: palette('charcoal-note');
+        color: get-color('text', 'note');
         margin-bottom: 10px;
     }
 }
@@ -24,7 +24,8 @@
     margin: 0;
 }
 .form-fieldset__legend {
-    font-weight: bold;
+    font-family: font-stack('display');
+    font-weight: font-weight('display', 'bold');
     margin-bottom: $spacingUnit;
 }
 .form-fieldset__intro {
@@ -35,13 +36,13 @@
 }
 
 .form-errors {
-    border: 3px solid palette('error');
+    border: 3px solid get-color('message', 'warning');
     margin-bottom: $spacingUnit;
 
     .form-errors__title {
         color: white;
-        background-color: palette('error');
-        font-weight: bold;
+        background-color: get-color('message', 'warning');
+        font-weight: font-weight('display', 'bold');
         margin: 0;
         padding: $spacingUnit / 3;
     }
@@ -51,8 +52,8 @@
 
     .form-errors__list li,
     .form-errors__list li a {
-        color: palette('error');
-        font-weight: bold;
+        color: get-color('message', 'warning');
+        font-weight: font-weight('body', 'bold');
     }
 }
 
@@ -72,13 +73,13 @@
     }
     .form-field__errors li,
     .form-field__errors li a {
-        color: palette('error');
-        font-weight: bold;
+        color: get-color('message', 'warning');
+        font-weight: font-weight('body', 'bold');
     }
 
     &.has-errors {
         .form-field__main {
-            border-left: 3px solid palette('error');
+            border-left: 3px solid get-color('message', 'warning');
             padding-left: $spacingUnit / 2;
         }
     }
@@ -100,10 +101,10 @@
         flex: 1 1 0%;
 
         padding: 6px 12px;
-        border: 2px solid palette('pink');
+        border: 2px solid get-color('brand', 'primary');
 
         &:focus {
-            outline: 3px solid lighten(palette('turquoise'), 25%);
+            outline: 3px solid get-color('border', 'outline');
             outline-offset: 0;
         }
     }
@@ -111,11 +112,11 @@
     .form-field-addon__action {
         font-size: 18px;
         font-family: font-stack('display');
-        font-weight: 500;
+        font-weight: font-weight('display', 'semibold');
         color: white;
         border: none;
         -webkit-appearance: none;
-        background-color: palette('pink');
+        background-color: get-color('brand', 'primary');
         padding-left: $spacingUnit / 2;
         padding-right: $spacingUnit;
         border-radius: 0 50px 50px 0;
@@ -132,14 +133,14 @@
 .ff-label {
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
+    font-weight: font-weight('body', 'bold');
 
     &.ff-label--append:after {
         margin-left: 5px;
         content: attr(data-append);
         text-transform: uppercase;
         font-size: 12px;
-        color: palette('pink');
+        color: get-color('brand', 'primary');
         vertical-align: top;
     }
 }
@@ -151,12 +152,8 @@
     font-weight: normal;
     margin-left: 0.5em;
     font-size: smaller;
-    color: palette('charcoal-note');
+    color: get-color('text', 'note');
     white-space: nowrap;
-
-    &.ff-label-note--required {
-        color: palette('pink');
-    }
 }
 
 /**
@@ -165,31 +162,32 @@
 .ff-help {
     font-size: 18px;
     margin-bottom: 10px;
-    color: #4a4a4a;
+    color: get-color('text', 'note');
 }
 
 .ff-length-hint {
     font-size: 16px;
     display: block;
     font-style: italic;
-    color: palette('charcoal-note');
+    color: get-color('text', 'note');
     margin-bottom: 10px;
 }
 
-@mixin formFieldBox {
+.ff-text,
+.ff-textarea,
+.ff-field-prepend {
     padding: 6px 12px;
-    border: 2px solid palette('charcoal');
+    border: 2px solid get-color('border', 'dark');
 }
 
 .ff-text,
 .ff-textarea {
-    @include formFieldBox();
     display: block;
     // prevent elements with size attributes overflowing on mobile
     max-width: 100%;
 
     &:focus {
-        outline: 3px solid lighten(palette('turquoise'), 25%);
+        outline: 3px solid get-color('border', 'outline');
         outline-offset: 0;
     }
 
@@ -201,8 +199,7 @@
 }
 
 .ff-field-prepend {
-    @include formFieldBox();
-    background-color: palette('off-white');
+    background-color: get-color('background', 'light-neutral');
     float: left;
     border-right: none;
 }
@@ -253,7 +250,7 @@
 }
 .ff-choice__caption {
     font-size: 14px;
-    color: palette('charcoal-note');
+    color: get-color('text', 'note');
     display: block;
 
     @include mq('medium-minor') {
@@ -268,7 +265,7 @@
 
 .form-actions {
     max-width: $constrainedWide;
-    border-top: 1px solid palette('border');
+    border-top: 1px solid get-color('border', 'base');
     padding: 1em 0;
 
     > .btn {
@@ -308,7 +305,7 @@
    ========================================================================= */
 
 .step-preview {
-    border-bottom: 1px solid palette('border');
+    border-bottom: 1px solid get-color('border', 'base');
     padding: 12px 0;
 
     .step-preview__title {
@@ -323,11 +320,11 @@
         margin-bottom: $spacingUnit;
     }
     .step-preview__field-label {
-        font-weight: bold;
+        font-weight: font-weight('body', 'bold');
         margin: 0;
     }
     .step-preview__field-guidance {
-        color: #556;
+        color: get-color('text', 'note');
         margin-top: 3px;
     }
 }
@@ -342,8 +339,8 @@
 }
 .review-step__title {
     clear: both;
-    background-color: palette('pale-grey');
-    font-weight: bold;
+    background-color: get-color('background', 'light-neutral');
+    font-weight: font-weight('display', 'bold');
     padding: $spacingUnit / 2;
     margin: 0;
 }
@@ -357,7 +354,7 @@
 .review-step__item-label,
 .review-step__item-value {
     float: left;
-    border-top: 1px solid palette('soft-grey');
+    border-top: 1px solid get-color('border', 'base');
     padding: $spacingUnit / 2;
     margin-bottom: 0.5em;
 
@@ -366,7 +363,7 @@
     }
 }
 .review-step__item-label {
-    font-weight: bold;
+    font-weight: font-weight('body', 'bold');
     width: 40%;
     padding-right: 1em;
     clear: left;
@@ -390,7 +387,7 @@
     padding: 0.5em 0;
 
     button {
-        font-weight: bold;
+        font-weight: font-weight('body', 'bold');
         font-size: 18px;
         display: block;
         width: 100%;
@@ -449,12 +446,12 @@
         width: 100%;
         padding: 10px;
         border: none;
-        border-bottom: 2px solid #666666;
         font-size: 16px;
-        color: #333333;
+        border-bottom: 2px solid get-color('border', 'dark');
+        color: get-color('text', 'base');
 
         &.is-error {
-            border-bottom-color: #c6183d;
+            border-bottom-color: get-color('message', 'warning');
         }
     }
 

@@ -10,16 +10,8 @@
     text-transform: uppercase !important;
 }
 
-.u-weight-light {
-    font-weight: 100 !important;
-}
-
 .u-weight-normal {
-    font-weight: 400 !important;
-}
-
-.u-weight-heavy {
-    font-weight: bold !important;
+    font-weight: normal !important;
 }
 
 .u-link-minimal {
@@ -39,7 +31,7 @@
 .u-prefix {
     font-size: 16px;
     font-style: italic;
-    color: palette('charcoal-note');
+    color: get-color('text', 'note');
     margin-bottom: 0;
 }
 

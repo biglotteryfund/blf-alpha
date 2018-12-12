@@ -12,7 +12,7 @@
     <main role="main" id="content">
         {{ hero(
             titleText = title,
-            image = heroImage,
+            image = pageHero.image,
             accent = pageAccent
         ) }}
 
@@ -23,7 +23,7 @@
                 <div class="content-sidebar__primary">
                     {% if entries.length > 0 %}
                         {% if entriesMeta.activeRegion %}
-                            <p>Viewing all press releases in <strong>{{ entriesMeta.activeRegion.title }}</strong></p>
+                            <p>{{ copy.pressRelease.viewingPressReleasesIn }} <strong>{{ entriesMeta.activeRegion.title }}</strong></p>
                         {% endif %}
 
                         <ol class="article-listing">
@@ -35,7 +35,7 @@
                                         </time>
 
                                         {% if entry.regions.length > 0 %}
-                                            in {{ entryRegions(entry, currentPath) }}
+                                            {{ copy.pressRelease.in }} {{ entryRegions(entry, currentPath) }}
                                         {% endif %}
                                     {% endset %}
                                     {{ articleTeaser({
@@ -51,18 +51,19 @@
                         {% if pagination %}
                             {{ splitNav(
                                 prevLink = {
-                                    "label": "Previous page",
+                                    "label": __('global.misc.pagination.prev'),
                                     "url": pagination.prevLink
                                 },
                                 nextLink = {
-                                    "label": "Next page",
+                                    "label": __('global.misc.pagination.next'),
                                     "url": pagination.nextLink
                                 }
                             ) }}
                         {% endif %}
                     {% else %}
                         <p class="message s-prose">
-                            No results for "{{ entriesMeta.activeRegion.title }}", <a href="{{ currentPath }}">view all press releases</a>
+                            {{ copy.pressRelease.noResultsFor }} "{{ entriesMeta.activeRegion.title }}",
+                            <a href="{{ currentPath }}">{{ copy.pressRelease.viewAllPressReleases }}</a>
                         </p>
                     {% endif %}        
                 </div>
@@ -72,15 +73,15 @@
                     {% call card(accent = pageAccent) %}
                         <form action="" method="get">
                             {% set activeRegion = entriesMeta.activeRegion.slug if entriesMeta.activeRegion %}
-                            <label class="ff-label" for="field-region">Filter press releases by region</label>
+                            <label class="ff-label" for="field-region">{{ copy.pressRelease.filterByRegion }}</label>
                             <select class="ff-select u-margin-bottom-s" name="region" id="field-region">
                                 <option value=""{% if not activeRegion %} selected{% endif %}>
-                                    All posts
+                                    {{ copy.pressRelease.allPosts }}
                                 </option>
                                 {% for region in entriesMeta.regions %}
                                     <optgroup label="{{ region.title }}">
                                         <option value="{{ region.slug }}"{% if activeRegion === region.slug %} selected{% endif %}>
-                                            All posts in {{ region.title }}
+                                            {{ copy.pressRelease.allPostsIn }} {{ region.title }}
                                         </option>
                                         {% for childRegion in region.children %}
                                             <option value="{{ childRegion.slug }}"{% if activeRegion === childRegion.slug %} selected{% endif %}>
@@ -90,8 +91,16 @@
                                     </optgroup>
                                 {% endfor %}
                             </select>
-                            <input type="submit" value="Filter" class="btn btn--small" />
+                            <input type="submit" value="{{ copy.pressRelease.filter }}" class="btn btn--small" />
                         </form>
+                    {% endcall %}
+
+                    {% call card(copy.pressRelease.pressReleaseArchive) %}
+                        <p>
+                            <a href="{{ localify('/news-and-events') }}">
+                                {{ copy.pressRelease.viewOldPressReleases }}
+                            </a>
+                        </p>
                     {% endcall %}
 
                     {% set pressCopy = __('global.contact.press') %}
@@ -99,13 +108,13 @@
                         <div class="s-prose">
                             {% for region in pressCopy.regions %}
                                 <p><strong>{{ region.title }}</strong></p>
-                                <dl class="o-definition-list o-definition-list--compact">
+                                <dl class="o-definition-list o-definition-list--wrapped u-margin-bottom">
                                     {% if region.phone %}
-                                        <dt>{{ __('global.misc.phone') | capitalize }}</dt>
+                                        <dt class="u-weight-normal">{{ __('global.misc.phone') | capitalize }}:</dt>
                                         <dd>{{ region.phone | safe }}</dd>
                                     {% endif %}
                                     {% if region.email %}
-                                        <dt>{{ __('global.misc.email') | capitalize }}</dt>
+                                        <dt class="u-weight-normal">{{ __('global.misc.email') | capitalize }}:</dt>
                                         <dd>{{ region.email | mailto | safe }}</dd>
                                     {% endif %}
                                 </dl>

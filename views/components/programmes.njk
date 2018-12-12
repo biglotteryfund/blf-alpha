@@ -1,35 +1,31 @@
-{% macro fundingRange(minimum, maximum) %}
-    £{{ minimum | numberWithCommas}}{% if maximum %} to £{{ maximum | numberWithCommas }}{% endif %}
-{% endmacro %}
-
-{% macro programmeStats(fields, isCompact) %}
+{% macro programmeStats(programme, isCompact) %}
+    {% set labels = __('global.programmes.programmeLabels') %}
     <dl class="o-definition-list{% if isCompact %} o-definition-list--compact{% endif %}">
-        {% if fields.area %}
-            <dt>{{ __('global.programmes.programmeLabels.area') }}</dt>
-            <dd>{{ fields.area.label }}</dd>
+        {% if programme.area %}
+            <dt>{{ labels.area }}</dt>
+            <dd>{{ programme.area.label }}</dd>
         {% endif %}
-        {% if fields.organisationTypes %}
-            <dt>{{ __('global.programmes.programmeLabels.organisationTypes') }}</dt>
-            <dd>{{ fields.organisationTypes | join(', ') }}</dd>
+        {% if programme.organisationType %}
+            <dt>{{ labels.organisationTypes }}</dt>
+            <dd>{{ programme.organisationType }}</dd>
         {% endif %}
-        {% if fields.fundingSize %}
-            <dt>{{ __('global.programmes.programmeLabels.fundingSize') }}</dt>
-            {% if fields.fundingSizeDescription %}
-                <dd>{{ fields.fundingSizeDescription }}</dd>
-            {% else %}
-                <dd>{{ fundingRange(
-                    minimum = fields.fundingSize.minimum,
-                    maximum = fields.fundingSize.maximum
-                ) }}</dd>
-            {% endif %}
+
+        {% if programme.fundingSize.description %}
+            <dt>{{ labels.fundingSize }}</dt>
+            <dd>{{ programme.fundingSize.description }}</dd>
+        {% elseif programme.fundingSize.minimum and programme.fundingSize.maximum %}
+            <dt>{{ labels.fundingSize }}</dt>
+            <dd>£{{ programme.fundingSize.minimum | numberWithCommas}}{% if programme.fundingSize.maximum %} {{ __('global.misc.to') }} £{{ programme.fundingSize.maximum | numberWithCommas }}{% endif %}</dd>
         {% endif %}
-        {% if fields.totalAvailable %}
-            <dt>{{ __('global.programmes.programmeLabels.totalAvailable') }}</dt>
-            <dd>{{ fields.totalAvailable }}</dd>
+
+        {% if programme.fundingSize.totalAvailable %}
+            <dt>{{ labels.totalAvailable }}</dt>
+            <dd>{{ programme.fundingSize.totalAvailable }}</dd>
         {% endif %}
-        {% if fields.applicationDeadline %}
-            <dt>{{ __('global.programmes.programmeLabels.applicationDeadline') }}</dt>
-            <dd>{{ fields.applicationDeadline | safe }}</dd>
+
+        {% if programme.applicationDeadline %}
+            <dt>{{ labels.applicationDeadline }}</dt>
+            <dd>{{ programme.applicationDeadline | safe }}</dd>
         {% endif %}
     </dl>
 {% endmacro %}
@@ -43,9 +39,9 @@
                     {{ programme.title }}
                 </a>
             </h3>
-            {% if programme.photo %}
+            {% if programme.thumbnail %}
                 <div class="programme-card__media">
-                    <img src="{{ programme.photo }}" alt=""/>
+                    <img src="{{ programme.thumbnail }}" alt=""/>
                 </div>
             {% endif %}
         </header>
@@ -56,18 +52,18 @@
                 </div>
             {% endif %}
             <div class="programme-card__details">
-                {{ programmeStats(fields = programme) }}
+                {{ programmeStats(programme) }}
             </div>
         </div>
     </article>
 {% endmacro %}
 
-{% macro programmeList(programmes, accent, labels) %}
+{% macro programmeList(programmes, accent) %}
     <ol class="programmes-list">
         {% for programme in programmes %}
             <li class="programmes-list__item">
                 {{ programmeCard(
-                    programme = programme.content,
+                    programme = programme,
                     accent = accent
                 ) }}
             </li>
@@ -75,25 +71,24 @@
     </ol>
 {% endmacro %}
 
-{% macro programmeOverview(programme, accentColour) %}
-    <article class="programme-overview">
-        <header class="programme-overview__header">
-            <h3 class="programme-overview__title t1 accent--{{ accentColour }} a--text">
-                {{ programme.title }}
-            </h3>
-        </header>
-        <h4 class="programme-overview__subtitle">{{ programme.subTitle }}</h4>
-        {% if programme.summaryItems.length > 0 %}
-            <ul class="programme-overview__summary">
-                {% for item in programme.summaryItems %}
-                    <li>{{ item }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        <footer class="programme-overview__actions">
-            <a class="btn accent--pink a--btn" href="{{ programme.linkUrl }}">
-                {{ __('global.misc.seeProgramme') }}
-            </a>
-        </footer>
-    </article>
+{% macro relatedProgrammes(programmes) %}
+    {% if programmes.length > 0 %}
+        <div class="u-tone-background-tint u-padded u-margin-top-l">
+            {% for programme in programmes %}
+                <div class="o-media u-margin-bottom">
+                    {% if programme.photo %}
+                        <img src="{{ programme.thumbnail }}"
+                             alt="{{ programme.title }}"
+                             class="o-media-figure"
+                             width="100" />
+                    {% endif %}
+                    <div class="o-media-body">
+                        <h4 class="a--text accent--{{ pageAccent }}">{{ programme.title }}</h4>
+                        {{ programme.intro | safe }}
+                        <p class="u-no-margin"><a href="{{ programme.linkUrl }}">{{ __('news.readMoreAboutProgramme') }}</a></p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endmacro %}

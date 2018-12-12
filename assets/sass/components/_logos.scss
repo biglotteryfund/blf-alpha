@@ -3,7 +3,7 @@
    ========================================================================= */
 
 .logo-block {
-    border: 1px solid palette('border');
+    border: 1px solid get-color('border', 'base');
     padding: $spacingUnit;
     position: relative;
 
@@ -32,6 +32,6 @@
 
     &.logo-block--reversed {
         color: white;
-        background-color: palette('charcoal');
+        background-color: get-color('background', 'dark-neutral');
     }
 }

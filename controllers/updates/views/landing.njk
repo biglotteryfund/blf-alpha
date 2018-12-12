@@ -15,14 +15,14 @@
 
         {{ hero(
             titleText = title,
-            image = heroImage,
+            image = pageHero.image,
             accent = pageAccent
         ) }}
 
         <div class="nudge-up">
 
             <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                @TODO intro text goes here
+                <p>{{ copy.introductions.newsLanding }}</p>
             </div>
 
             <div class="u-inner-wide-only u-padded-top u-padded-bottom">
@@ -42,7 +42,7 @@
                 </header>
                 <div class="latest-news__content">
                     <ul class="flex-grid flex-grid--3up">
-                        {% for entry in groupedEntries.blog | takeItems(3) %}
+                        {% for entry in blogposts | take(3) %}
                             <li class="flex-grid__item">
                                 {{ blogTrail(entry) }}
                             </li>
@@ -51,7 +51,7 @@
                 </div>
                 <footer class="latest-news__footer">
                     <a class="latest-news__more" href="{{ localify('/news/blog') }}">
-                        View all {{ copy.types.blog.plural | lower }} &rarr;
+                        {{ copy.blogpost.viewAllBlogPosts }} &rarr;
                     </a>
                 </footer>
             </section>
@@ -61,11 +61,11 @@
                 <h2 class="t3 t--underline accent--{{ pageAccent }}">
                     {{ copy.types['press-releases'].plural }}
                 </h2>
-                <p>@TODO press releases intro</p>
+                <p>{{ copy.introductions.pressReleases }}</p>
                 <p>
                     <a href="{{ localify('/news/press-releases') }}"
                        class="btn accent--{{ pageAccent }} a--btn btn--medium">
-                        View latest {{ copy.types['press-releases'].plural | lower }}
+                        {{ copy.pressRelease.viewLatestPressReleases }}
                     </a>
                 </p>
             </div>

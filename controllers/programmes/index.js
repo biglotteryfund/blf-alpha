@@ -3,6 +3,8 @@ const path = require('path');
 const { concat, map, groupBy } = require('lodash');
 const express = require('express');
 
+const { basicContent } = require('../common');
+
 const {
     injectBreadcrumbs,
     injectCopy,
@@ -48,7 +50,7 @@ router.get(
 
         const groupedProgrammes =
             locationParam && locationParam !== 'ukWide'
-                ? groupBy(concat(programmes, ukWideProgrammes), 'content.area.label')
+                ? groupBy(concat(programmes, ukWideProgrammes), 'area.label')
                 : null;
 
         if (parseInt(req.query.min, 10) === 10000) {
@@ -133,5 +135,19 @@ router.get('/:slug', injectFundingProgramme, (req, res, next) => {
         next();
     }
 });
+
+router.use(
+    '/building-better-opportunities/*',
+    (req, res, next) => {
+        res.locals.customAncestors = [
+            {
+                title: 'Building Better Opportunities',
+                path: 'funding/programmes/building-better-opportunities'
+            }
+        ];
+        next();
+    },
+    basicContent()
+);
 
 module.exports = router;
