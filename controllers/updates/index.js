@@ -51,7 +51,8 @@ router.get(
                 type: 'press-releases',
                 date: req.params.date,
                 slug: req.params.slug,
-                query: pick(req.query, ['page', 'region'])
+                query: pick(req.query, ['page', 'region']),
+                previewMode: res.locals.PREVIEW_MODE || false
             });
 
             if (!response.result) {
@@ -116,7 +117,8 @@ router.get(
                 type: 'blog',
                 date: req.params.date,
                 slug: req.params.slug,
-                query: pick(req.query, ['page', 'tag', 'author', 'category', 'region'])
+                query: pick(req.query, ['page', 'tag', 'author', 'category', 'region']),
+                previewMode: res.locals.PREVIEW_MODE || false
             });
 
             if (!response.result) {
