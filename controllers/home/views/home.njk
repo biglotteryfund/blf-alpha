@@ -82,7 +82,7 @@
                     <div class="latest-news__content">
                         <ul class="flex-grid flex-grid--3up">
                             {% if enableUpdatesSection %}
-                                {% for article in promotedUpdates.result %}
+                                {% for article in promotedUpdates.result | take(3) %}
                                     <li class="flex-grid__item">
                                         {{ articleTeaser({
                                             'title': article.trailText or article.title,
