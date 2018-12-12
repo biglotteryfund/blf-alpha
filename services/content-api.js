@@ -1,6 +1,5 @@
 'use strict';
 const { find, filter, get, getOr, map, sortBy, take } = require('lodash/fp');
-const { isArray } = require('lodash');
 const request = require('request-promise-native');
 const debug = require('debug')('biglotteryfund:content-api');
 
@@ -100,30 +99,6 @@ function getPromotedNews({ locale, limit }) {
         const data = getOr({}, 'data')(response);
         const entries = data.map(entry => entry.attributes);
         return limit ? take(limit)(entries) : entries;
-    });
-}
-
-function getBlogPosts({ locale, page = 1, pageLimit = 10, previewMode = null }) {
-    return fetch(`/v1/${locale}/blog`, {
-        qs: addPreviewParams(previewMode, { page: page, 'page-limit': pageLimit })
-    }).then(response => {
-        return {
-            entries: mapAttrs(response),
-            meta: response.meta
-        };
-    });
-}
-
-function getBlogDetail({ locale, urlPath, previewMode = null }) {
-    return fetch(`/v1/${locale}/blog${urlPath}`, {
-        qs: addPreviewParams(previewMode)
-    }).then(response => {
-        const result = isArray(response.data) ? mapAttrs(response) : response.data.attributes;
-
-        return {
-            meta: response.meta,
-            result: result
-        };
     });
 }
 
@@ -247,8 +222,6 @@ module.exports = {
     mergeWelshBy,
     // API methods
     getAliases,
-    getBlogDetail,
-    getBlogPosts,
     getCaseStudies,
     getDataStats,
     getFlexibleContent,

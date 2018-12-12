@@ -5,7 +5,6 @@ const { concat, isArray, pick, get } = require('lodash');
 
 const { buildPagination } = require('../../modules/pagination');
 const { injectBreadcrumbs, injectCopy, injectHeroImage } = require('../../middleware/inject-content');
-const appData = require('../../modules/appData');
 const contentApi = require('../../services/content-api');
 
 const router = express.Router();
@@ -109,7 +108,7 @@ router.get(
     injectHeroImage(heroSlug),
     async (req, res, next) => {
         try {
-            const { breadcrumbs, copy } = res.locals;
+            const { copy } = res.locals;
             const typeCopy = copy.types.blog;
 
             const response = await contentApi.getUpdates({
