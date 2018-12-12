@@ -308,6 +308,11 @@ $breakpointLarge: 840px;
     }
 }
 
+/**
+ * Static/overlaid header
+ * @TODO: Determine if we need to use this
+ */
+/*
 @media only screen and (min-width: $breakpointSmall) {
     body:not(.has-static-header) .global-header-next {
         background-color: rgba(255, 255, 255, 0.9);
@@ -320,6 +325,7 @@ $breakpointLarge: 840px;
         }
     }
 }
+*/
 
 /* =========================================================================
    Global Search Form
