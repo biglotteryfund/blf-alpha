@@ -4,21 +4,8 @@
 /* https://csswizardry.com/2015/03/more-transparent-ui-code-with-namespaces/#scope-namespaces-s- */
 
 .s-prose {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        line-height: 1.2;
-    }
-
-    h2 {
-        font-size: 21px;
-
-        &::after {
-            @include underlined();
-        }
+    h2::after {
+        @include underlined();
     }
 
     p + h2,
@@ -27,14 +14,9 @@
         margin-top: 1.5em;
     }
 
-    h3 {
-        margin: 0 0 0.4em;
-        font-size: 21px;
-    }
-
+    h3,
     h4 {
         margin: 0 0 0.4em;
-        font-size: 20px;
     }
 
     p + h3,
@@ -202,40 +184,5 @@
         figcaption {
             @include text-caption();
         }
-    }
-}
-
-/* =========================================================================
-   Constrained Text
-   ========================================================================= */
-
-.u-constrained-content {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    p,
-    ul,
-    ol {
-        max-width: $constrained;
-    }
-}
-
-.u-constrained-content-wide {
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        max-width: 30em;
-    }
-
-    p,
-    ul,
-    ol {
-        max-width: $constrainedWide;
     }
 }
