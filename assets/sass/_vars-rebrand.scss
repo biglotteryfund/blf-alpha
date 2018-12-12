@@ -38,6 +38,14 @@ $typography: (
             fallback: 'sans-serif',
             default: 'caecilia, sans-serif'
         ),
+        font-scale: (
+            t6: 14px,
+            t5: 16px,
+            t4: 18px,
+            t3: 20px,
+            t2: 21px,
+            t1: 23px
+        ),
         weights: (
             normal: 400,
             semibold: 700,
