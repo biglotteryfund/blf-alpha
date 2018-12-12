@@ -68,8 +68,8 @@
         </section>
 
         {# Latest News #}
-        {% if news.length or (enableUpdatesSection and promotedUpdates.result.length) %}
-            {% set newsLink = "/uk-wide/news-and-events" if not enableUpdatesSection else "/news" %}
+        {% if promotedUpdates.result.length %}
+            {% set newsLink = "/news" %}
             <div class="accent--{{ pageAccent }} a--border-top u-inner u-padded">
                 <section class="latest-news">
                     <header class="latest-news__header">
@@ -81,27 +81,15 @@
                     </header>
                     <div class="latest-news__content">
                         <ul class="flex-grid flex-grid--3up">
-                            {% if enableUpdatesSection %}
-                                {% for article in promotedUpdates.result %}
-                                    <li class="flex-grid__item">
-                                        {{ articleTeaser({
-                                            'title': article.trailText or article.title,
-                                            'linkUrl': article.linkUrl,
-                                            'summary': article.summary
-                                        }) }}
-                                    </li>
-                                {% endfor %}
-                            {% else %}
-                                {% for article in news %}
-                                    <li class="flex-grid__item">
-                                        {{ articleTeaser({
-                                            'title': article.title,
-                                            'linkUrl': article.link,
-                                            'summary': article.summary
-                                        }) }}
-                                    </li>
-                                {% endfor %}
-                            {% endif %}
+                            {% for article in promotedUpdates.result %}
+                                <li class="flex-grid__item">
+                                    {{ articleTeaser({
+                                        'title': article.trailText or article.title,
+                                        'linkUrl': article.linkUrl,
+                                        'summary': article.summary
+                                    }) }}
+                                </li>
+                            {% endfor %}
                         </ul>
                     </div>
                     <footer class="latest-news__footer">
