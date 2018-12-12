@@ -21,14 +21,14 @@
 }
 .prompt__body {
     color: white;
-    background-color: palette('pink');
+    background-color: get-color('brand', 'primary');
 
     a {
         color: white;
-        font-weight: bold;
+        font-weight: font-weight('body', 'bold');
     }
 
-    max-width: 720px;
+    max-width: 760px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     padding: 12px 12px 15px;
     position: relative;
@@ -53,7 +53,7 @@
    ========================================================================= */
 
 .survey {
-    background-color: palette('off-white');
+    background-color: get-color('background', 'light-neutral');
     padding: $spacingUnit 0;
     font-size: 18px;
 }

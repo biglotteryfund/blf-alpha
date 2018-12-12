@@ -52,10 +52,6 @@ const toplevel = {
             })
         },
         {
-            path: '/contact',
-            router: basicContent()
-        },
-        {
             path: '/data',
             lang: 'toplevel.data',
             heroSlug: 'young-shoulders-programme',
@@ -89,24 +85,6 @@ const funding = {
             path: '/',
             lang: 'toplevel.funding',
             router: require('./funding')
-        },
-        {
-            path: '/test',
-            lang: 'toplevel.funding',
-            heroSlug: 'ragroof-players',
-            isDraft: true,
-            router: staticPage({
-                template: 'static-pages/funding-test'
-            })
-        },
-        {
-            path: '/thinking-of-applying',
-            lang: 'funding.thinkingOfApplying',
-            heroSlug: 'building-bridges',
-            isDraft: true,
-            router: staticPage({
-                template: 'static-pages/thinking-of-applying'
-            })
         },
         {
             path: '/under10k',
@@ -161,28 +139,6 @@ const funding = {
 };
 
 /**
- * Local section
- * @type {Section}
- */
-const local = {
-    path: '/local',
-    langTitlePath: 'global.nav.local',
-    showInNavigation: false,
-    pages: [
-        {
-            path: '/',
-            lang: 'toplevel.local',
-            heroSlug: 'arkwright-meadows',
-            isDraft: true,
-            router: staticPage({
-                disableLanguageLink: true,
-                template: 'static-pages/local'
-            })
-        }
-    ]
-};
-
-/**
  * Research section
  * @type {Section}
  */
@@ -194,6 +150,21 @@ const research = {
         {
             path: '/',
             router: require('./research')
+        }
+    ]
+};
+
+/**
+ * Talk to us section
+ * @type {Section}
+ */
+const talk = {
+    path: '/contact',
+    showInNavigation: false,
+    pages: [
+        {
+            path: '/',
+            router: basicContent()
         }
     ]
 };
@@ -268,8 +239,8 @@ const updates = {
 const sections = {
     toplevel: toplevel,
     funding: funding,
-    local: local,
     research: research,
+    talk: talk,
     about: about,
     blog: blog,
     updates: updates

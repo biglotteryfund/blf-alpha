@@ -3,6 +3,7 @@
 {% from "components/inline-links/macro.njk" import inlineLinks %}
 {% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/card/macro.njk" import card %}
+{% from "components/programmes.njk" import relatedProgrammes with context %}
 
 {% from "../view-helpers.njk" import entryRegions with context %}
 
@@ -49,6 +50,8 @@
                             {{ entry.notesToEditors | safe }}
                         </aside>
                     {% endif %}
+
+                    {{ relatedProgrammes(entry.relatedFundingProgrammes) }}
                 </div>
 
                 <div class="content-sidebar__secondary">

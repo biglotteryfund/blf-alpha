@@ -23,12 +23,12 @@
         }
 
         .content-tabset__tab {
-            font-weight: bold;
+            font-weight: font-weight('display', 'bold');
         }
     }
 
     @include mq('medium-minor') {
-        background-color: palette('pale-grey');
+        background-color: get-color('background', 'light-neutral');
         display: flex;
         flex-wrap: wrap;
 
@@ -44,22 +44,22 @@
         }
 
         .content-tabset__tab {
-            color: palette('blue-text');
+            color: get-color('links', 'base');
             display: block;
-            font-weight: bold;
+            font-weight: font-weight('display', 'bold');
             padding: 12px 12px 14px;
             text-decoration: none;
-            border: solid palette('border');
+            border: solid get-color('border', 'base');
             border-width: 4px 0 1px 1px;
             border-top-color: transparent;
             white-space: nowrap;
             text-align: center;
 
             &.is-active {
-                border-top-color: palette('pink');
+                border-top-color: get-color('brand', 'primary');
                 border-bottom-color: transparent;
                 background-color: white;
-                color: palette('pink');
+                color: get-color('brand', 'primary');
             }
         }
     }
@@ -80,7 +80,7 @@
 
     @include mq('medium-minor', 'max') {
         &:nth-child(even) .content-tab-pane__content {
-            background-color: palette('tint');
+            background-color: get-color('background', 'light-neutral');
         }
     }
 

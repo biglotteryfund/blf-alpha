@@ -8,7 +8,7 @@
 
 .card {
     padding: 12px;
-    background-color: palette('pale-grey');
+    background-color: get-color('background', 'light-neutral');
     max-width: 30em;
     margin-bottom: $spacingUnit / 2;
 
@@ -31,7 +31,7 @@
 
     &.card--plain {
         background-color: white;
-        border: 1px solid palette('border');
+        border: 1px solid get-color('border', 'base');
     }
 }
 
@@ -45,7 +45,7 @@
  */
 .media-card {
     padding: 12px 12px 16px;
-    box-shadow: 0 0 1px 1px palette('border');
+    box-shadow: 0 0 1px 1px get-color('border', 'base');
 
     display: flex;
     align-items: flex-start;
@@ -57,7 +57,7 @@
     }
 
     .media-card__media img {
-        border: 1px solid palette('border');
+        border: 1px solid get-color('border', 'base');
     }
 
     .media-card__body {
@@ -74,7 +74,7 @@
     }
 
     .media-card__subtitle {
-        color: palette('charcoal-note');
+        color: get-color('text', 'note');
         margin-bottom: 0.5em;
     }
 }
@@ -84,8 +84,8 @@
    ========================================================================= */
 
 .promo-card {
-    background-color: palette('pale-grey');
-    box-shadow: 0 0 0 1px palette('border');
+    background-color: get-color('background', 'light-neutral');
+    box-shadow: 0 0 0 1px get-color('border', 'base');
     max-width: 40em;
 
     display: flex;
@@ -130,7 +130,7 @@
     }
 
     .promo-card__subtitle {
-        color: palette('charcoal-note');
+        color: get-color('text', 'note');
         margin-bottom: 0.5em;
     }
 
@@ -141,5 +141,5 @@
 
 .promo-card--featured {
     background-color: white;
-    box-shadow: 0 0 1px 1px palette('border');
+    box-shadow: 0 0 1px 1px get-color('border', 'base');
 }

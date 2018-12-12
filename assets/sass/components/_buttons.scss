@@ -21,6 +21,11 @@ $btnConf: (
     )
 );
 
+$buttonColor: #1a44a1;
+@if $useNewBrand == true {
+    $buttonColor: get-color('brand', 'primary');
+}
+
 @mixin getBtnVertPadding($conf) {
     $height: map-get($conf, 'desiredHeight');
     $fontSize: map-get($conf, 'fontSize');
@@ -39,9 +44,9 @@ $btnConf: (
 .btn {
     font-family: font-stack('display');
     line-height: 1; // so we can calculate padding for the height
-    font-weight: 500;
-    background-color: palette('blue');
-    color: #ffffff;
+    font-weight: font-weight('display', 'semibold');
+    color: white;
+    background-color: $buttonColor;
     text-decoration: none;
     border: none;
     border-radius: 50px;
@@ -63,22 +68,22 @@ $btnConf: (
     }
 
     @include on-interact {
-        background-color: darken(palette('blue'), 15%);
+        color: white;
+        background-color: darken($buttonColor, 15%);
         outline: none;
-        color: #ffffff;
     }
 
     // add back the outline to high-contrast mode
     .contrast--high & {
         @include on-interact {
-            outline: 3px solid palette('pink');
+            outline: 3px solid get-color('brand', 'primary');
         }
     }
 
     // sass magic: becomes `a.btn`
     // (to override other link CSS)
     @at-root a#{&} {
-        color: #ffffff;
+        color: white;
         text-decoration: none;
         transition: none;
     }
@@ -108,7 +113,7 @@ $btnConf: (
 .btn--medium {
     @include getBtnVertPadding(map-get($btnConf, 'mini'));
     font-size: map-deep-get($btnConf, 'mini', 'fontSize');
-    background-color: palette('pink');
+    background-color: get-color('brand', 'primary');
 
     @media only screen and (min-width: 360px) {
         @include getBtnVertPadding(map-get($btnConf, 'small'));
@@ -121,7 +126,7 @@ $btnConf: (
     }
 
     @include on-interact {
-        background-color: darken(palette('pink'), 15%);
+        background-color: darken(get-color('brand', 'primary'), 15%);
         outline: none;
     }
 }
@@ -132,7 +137,7 @@ $btnConf: (
 .btn--small {
     @include getBtnVertPadding(map-get($btnConf, 'mini'));
     font-size: map-deep-get($btnConf, 'mini', 'fontSize');
-    background-color: palette('pink');
+    background-color: get-color('brand', 'primary');
 
     @media only screen and (min-width: 360px) {
         @include getBtnVertPadding(map-get($btnConf, 'small'));
@@ -140,7 +145,7 @@ $btnConf: (
     }
 
     @include on-interact {
-        background-color: darken(palette('pink'), 15%);
+        background-color: darken(get-color('brand', 'primary'), 15%);
         outline: none;
     }
 }
@@ -149,11 +154,11 @@ $btnConf: (
  * Buttons: Reversed Variant
  */
 .btn--reversed {
-    color: palette('charcoal');
+    color: get-color('text', 'base');
     background-color: white;
 
     @include on-interact {
-        color: darken(palette('charcoal'), 10%);
+        color: darken(get-color('text', 'base'), 10%);
         background-color: darken(white, 5%);
     }
 }
@@ -162,28 +167,35 @@ $btnConf: (
  * Button: Outline variant
  */
 .btn--outline {
-    background-color: #ffffff !important;
-    color: palette('blue') !important;
-    border: 3px solid palette('blue');
+    background-color: white !important;
+    color: $buttonColor !important;
+    border: 3px solid $buttonColor;
 
     @include on-interact {
-        background-color: #ffffff;
-        border-color: darken(palette('blue'), 20%);
-        color: darken(palette('blue'), 20%) !important;
+        background-color: white;
+        border-color: darken($buttonColor, 20%);
+        color: darken($buttonColor, 20%) !important;
     }
 }
 
+@function arrow-btn($color) {
+    @return svg-url(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="313" height="116"><path fill-rule="evenodd" fill="#{$color}" d="M310.864 66.378c-2.431 2.29-48.785 44.819-52.957 48.701-.339.316-.825.527-1.407.648V116h-199C25.744 116 0 90.256 0 58.5S25.744 1 57.5 1h192.481c1.936-.314 4.011-.317 5.595 0h.924v.244c.533.178.973.403 1.27.68 2.891 2.705 51.163 47.189 53.158 49.056 2.587 2.42 2.971 12.543-.064 15.398z"></path></svg>'
+    );
+}
+
 .btn--next {
-    background-image: arrow-btn();
+    background-image: arrow-btn($buttonColor);
     background-size: 100% auto; // allow longer text
     background-repeat: no-repeat;
     background-position: center left;
     min-width: 158px;
     padding-right: 40px;
     background-color: transparent;
+
     @include on-interact {
         background-color: transparent;
-        background-image: arrow-btn(darken(palette('blue'), 15%));
+        background-image: arrow-btn(darken($buttonColor, 15%));
     }
 }
 
@@ -199,12 +211,7 @@ $btnConf: (
     cursor: pointer;
 
     @include on-interact() {
-        $highlight: palette('soft-grey');
-        border-color: $highlight;
-
-        svg {
-            fill: $highlight;
-        }
+        opacity: 0.8;
     }
 
     svg {
@@ -219,7 +226,7 @@ $btnConf: (
    ========================================================================= */
 
 .btn-link {
-    color: palette('blue-text');
+    color: get-color('links', 'base');
     background-color: transparent;
     transition: color 0.1s ease-in-out;
     margin: 0;
@@ -239,7 +246,7 @@ $btnConf: (
 
     @include on-interact {
         text-decoration: underline;
-        color: darken(palette('blue-text'), 20%);
+        color: get-color('links', 'hover');
         background-color: transparent;
     }
 }
@@ -251,7 +258,7 @@ $btnConf: (
 .language-control {
     font-family: font-stack('display');
     font-size: 14px;
-    font-weight: 500;
+    font-weight: font-weight('display', 'semibold');
     text-align: center;
     text-decoration: none;
     border: none;
@@ -286,7 +293,7 @@ $btnConf: (
     &:not(.is-current) {
         @include on-interact {
             text-decoration: none;
-            color: palette('charcoal');
+            color: get-color('text', 'base');
             background-color: white;
             border-color: white;
         }

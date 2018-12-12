@@ -42,7 +42,7 @@
                 </header>
                 <div class="latest-news__content">
                     <ul class="flex-grid flex-grid--3up">
-                        {% for entry in groupedEntries.blog | take(3) %}
+                        {% for entry in blogposts | take(3) %}
                             <li class="flex-grid__item">
                                 {{ blogTrail(entry) }}
                             </li>

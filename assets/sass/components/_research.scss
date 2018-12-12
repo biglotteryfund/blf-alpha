@@ -38,14 +38,14 @@
 
 .document-summary {
     &:not(:last-of-type) {
-        border-bottom: 1px solid palette('border');
+        border-bottom: 1px solid get-color('border', 'base');
         padding-bottom: $spacingUnit;
         margin-bottom: $spacingUnit;
     }
 
     .document-summary__link {
         font-size: 18px;
-        font-weight: bold;
+        font-weight: font-weight('body', 'bold');
         display: inline-block;
         margin-bottom: 0.3em;
     }
