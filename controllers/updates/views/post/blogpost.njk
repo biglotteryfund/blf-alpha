@@ -139,11 +139,11 @@
                 {% if entry.siblings.next or entry.siblings.prev %}
                     {% set prevLink = {
                         "label": entry.siblings.prev.title,
-                        "url": localify(entry.siblings.prev.linkUrl)
+                        "url": entry.siblings.prev.linkUrl
                     } if entry.siblings.prev else false %}
                     {% set nextLink = {
                         "label": entry.siblings.next.title,
-                        "url": localify(entry.siblings.next.linkUrl)
+                        "url": entry.siblings.next.linkUrl
                     } if entry.siblings.next else false %}
 
                     <div class="u-margin-top-l">
