@@ -55,22 +55,22 @@ h6 {
 }
 
 h1 {
-    font-size: 23px;
+    font-size: font-scale('display', 't1');
 }
 h2 {
-    font-size: 21px;
+    font-size: font-scale('display', 't2');
 }
 h3 {
-    font-size: 20px;
+    font-size: font-scale('display', 't3');
 }
 h4 {
-    font-size: 18px;
+    font-size: font-scale('display', 't4');
 }
 h5 {
-    font-size: 16px;
+    font-size: font-scale('display', 't5');
 }
 h6 {
-    font-size: 14px;
+    font-size: font-scale('display', 't6');
 }
 
 /**
@@ -85,35 +85,31 @@ h6 {
 .t6 {
     font-family: font-stack('display') !important;
     font-weight: font-weight('display', 'bold') !important;
-    line-height: 1.25;
+    line-height: 1.2;
 }
 
 .t1 {
-    font-size: 23px !important;
+    font-size: font-scale('display', 't1') !important;
 }
 .t2 {
-    font-size: 21px !important;
+    font-size: font-scale('display', 't2') !important;
 }
 .t3 {
-    font-size: 20px !important;
+    font-size: font-scale('display', 't3') !important;
 }
 .t4 {
-    font-size: 18px !important;
+    font-size: font-scale('display', 't4') !important;
 }
 .t5 {
-    font-size: 16px !important;
+    font-size: font-scale('display', 't5') !important;
 }
 .t6 {
-    font-size: 14px !important;
+    font-size: font-scale('display', 't6') !important;
 }
 
-/* =========================================================================
-       Modifiers
-       ========================================================================= */
-
 /**
-     * Modifier class which adds a border below the text
-     */
+ * Modifier class which adds a border below the text
+ */
 .t--underline:after {
     @include underlined();
 }
