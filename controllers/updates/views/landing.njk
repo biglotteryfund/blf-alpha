@@ -1,8 +1,9 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/promo-card/macro.njk" import promoCard %}
-{% from "components/split-nav/macro.njk" import splitNav %}
+{% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/hero.njk" import hero with context %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/social.njk" import socialLinks with context %}
+{% from "components/split-nav/macro.njk" import splitNav %}
 
 {% from "./view-helpers.njk" import blogTrail with context %}
 
@@ -20,21 +21,21 @@
         ) }}
 
         <div class="nudge-up">
-
-            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {% call contentBox(pageAccent) %}
                 <p>{{ copy.introductions.newsLanding }}</p>
-            </div>
+            {% endcall %}
 
-            <div class="u-inner-wide-only u-padded-top u-padded-bottom">
+            {# Social links #}
+            <section class="u-inner-wide-only">
                 {{ socialLinks(
                     labels = __('toplevel.home.social'),
                     pageAccent = pageAccent,
                     showAsBlock = false
                 ) }}
-            </div>
+            </section>
 
             {# Blog posts #}
-            <section class="u-inner-wide-only latest-news u-margin-bottom">
+            <section class="latest-news u-inner u-margin-bottom">
                 <header class="latest-news__header">
                     <h2 class="t3 t--underline accent--{{ pageAccent }}">
                         {{ copy.types.blog.plural }}
@@ -57,10 +58,8 @@
             </section>
 
             {# Press releases #}
-            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                <h2 class="t3 t--underline accent--{{ pageAccent }}">
-                    {{ copy.types['press-releases'].plural }}
-                </h2>
+            {% call contentBox(pageAccent) %}
+                <h2>{{ copy.types['press-releases'].plural }}</h2>
                 <p>{{ copy.introductions.pressReleases }}</p>
                 <p>
                     <a href="{{ localify('/news/press-releases') }}"
@@ -68,8 +67,7 @@
                         {{ copy.pressRelease.viewLatestPressReleases }}
                     </a>
                 </p>
-            </div>
-
+            {% endcall %}
         </div>
     </main>
 {% endblock %}
