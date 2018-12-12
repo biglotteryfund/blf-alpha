@@ -6,11 +6,6 @@
     display: none;
 }
 
-/* =========================================================================
-   Sectioning content
-   https://w3c.github.io/html/sections
-   ========================================================================= */
-
 html {
     box-sizing: border-box;
 }
@@ -25,6 +20,13 @@ html {
     height: 100%;
     margin: 0;
     padding: 0;
+}
+
+/* =========================================================================
+   Typography
+   ========================================================================= */
+
+body {
     font-family: font-stack('body', 'fallback');
 }
 
@@ -48,7 +50,72 @@ h5,
 h6 {
     font-family: font-stack('display');
     font-weight: font-weight('display', 'bold');
+    line-height: 1.2;
     margin: 0 0 20px 0;
+}
+
+h1 {
+    font-size: 23px;
+}
+h2 {
+    font-size: 21px;
+}
+h3 {
+    font-size: 20px;
+}
+h4 {
+    font-size: 18px;
+}
+h5 {
+    font-size: 16px;
+}
+h6 {
+    font-size: 14px;
+}
+
+/**
+ * Typography utility classes
+ * Force specific typographic styles
+ */
+.t1,
+.t2,
+.t3,
+.t4,
+.t5,
+.t6 {
+    font-family: font-stack('display') !important;
+    font-weight: font-weight('display', 'bold') !important;
+    line-height: 1.25;
+}
+
+.t1 {
+    font-size: 23px !important;
+}
+.t2 {
+    font-size: 21px !important;
+}
+.t3 {
+    font-size: 20px !important;
+}
+.t4 {
+    font-size: 18px !important;
+}
+.t5 {
+    font-size: 16px !important;
+}
+.t6 {
+    font-size: 14px !important;
+}
+
+/* =========================================================================
+       Modifiers
+       ========================================================================= */
+
+/**
+     * Modifier class which adds a border below the text
+     */
+.t--underline:after {
+    @include underlined();
 }
 
 /* =========================================================================
