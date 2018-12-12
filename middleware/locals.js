@@ -170,14 +170,20 @@ module.exports = function(req, res, next) {
 
     /**
      * View helper for formatting date in the current locale
+     * @see https://momentjs.com/docs/#/displaying/format/
+     *
      * @param {String} dateString
      * @param {String} format
-     * @see https://momentjs.com/docs/#/displaying/format/
+     * @return {String}
      */
     res.locals.formatDate = function(dateString, format) {
-        return moment(dateString)
-            .locale(locale)
-            .format(format);
+        if (dateString) {
+            return moment(dateString)
+                .locale(locale)
+                .format(format);
+        } else {
+            return '';
+        }
     };
 
     /**
