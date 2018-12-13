@@ -3,6 +3,7 @@ const { find, filter, get, getOr, map, sortBy, take } = require('lodash/fp');
 const { isArray } = require('lodash');
 const request = require('request-promise-native');
 const debug = require('debug')('biglotteryfund:content-api');
+const querystring = require('querystring');
 
 const mapAttrs = response => map('attributes')(response.data);
 
@@ -10,7 +11,7 @@ const { sanitiseUrlPath } = require('../modules/urls');
 let { CONTENT_API_URL } = require('../modules/secrets');
 
 function fetch(urlPath, options) {
-    debug(`Fetching ${urlPath} ${options ? JSON.stringify(options) : ''}`);
+    debug(`Fetching ${urlPath}${options && options.qs ? '?' + querystring.stringify(options.qs) : ''}`);
     const defaults = {
         url: `${CONTENT_API_URL}${urlPath}`,
         json: true
