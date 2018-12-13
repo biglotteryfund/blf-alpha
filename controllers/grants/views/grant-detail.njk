@@ -3,16 +3,28 @@
 {% from "components/feedback.njk" import inlineFeedback with context %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/promo-card/macro.njk" import promoCard %}
+{% from "components/content.njk" import flexibleContent %}
+
 {% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList with context %}
 
-{% set bodyClass = 'has-static-header' %}
+{% if not pageHero %}
+    {% set bodyClass = 'has-static-header' %}
+{% endif %}
 
 {% block content %}
     {% set mainProgramme = grant.grantProgramme[0] %}
 
     <main role="main" id="content" class="js-past-grants-detail">
 
-        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+        {% if pageHero %}
+            {{ hero(
+                titleText = title,
+                image = pageHero.image,
+                accent = pageAccent
+            ) }}
+        {% endif %}
+
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if pageHero %} nudge-up{% endif %}">
             {{ breadcrumbTrail(breadcrumbs) }}
 
             <div class="content-sidebar">
@@ -20,9 +32,15 @@
                     <div class="u-constrained-wide accent--pink">
                         <h1>{{ title }}</h1>
 
-                        {% if grant.description !== grant.title %}
-                            <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
-                            <p class="u-wrap-words">{{ grant.description }}</p>
+                        {% if caseStudy %}
+                            <div class="s-prose">
+                                {{ flexibleContent(caseStudy.content, pageAccent) }}
+                            </div>
+                        {% else %}
+                            {% if grant.description !== grant.title %}
+                                <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
+                                <p class="u-wrap-words">{{ grant.description }}</p>
+                            {% endif %}
                         {% endif %}
 
                         <grants-back-to-search
@@ -32,7 +50,7 @@
                     </div>
                 </div>
 
-                <div class="content-sidebar__secondary u-tone-background-tint u-padded">
+                <div class="content-sidebar__secondary{% if caseStudy %} content-sidebar__secondary--minimal{% endif %} u-tone-background-tint u-padded u-accent-border-top-{{ pageAccent }}">
                     <aside class="u-align-center accent--pink a--text">
                         <p class="t1 u-no-margin">£{{ grant.amountAwarded | numberWithCommas }}</p>
                         <p class="t5">

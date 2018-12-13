@@ -90,6 +90,11 @@
         @include mq('medium-major') {
             flex: 0 0 320px;
         }
+
+        // Prevent sidebar from stretching to match primary content height
+        &.content-sidebar__secondary--minimal {
+           align-self: flex-start;
+        }
     }
 }
 
