@@ -3,16 +3,29 @@
 {% from "components/feedback.njk" import inlineFeedback with context %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/promo-card/macro.njk" import promoCard %}
+{% from "components/card/macro.njk" import card %}
+{% from "components/content.njk" import flexibleContent %}
+
 {% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList with context %}
 
-{% set bodyClass = 'has-static-header' %}
+{% if not pageHero %}
+    {% set bodyClass = 'has-static-header' %}
+{% endif %}
 
 {% block content %}
     {% set mainProgramme = grant.grantProgramme[0] %}
 
     <main role="main" id="content" class="js-past-grants-detail">
 
-        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+        {% if pageHero %}
+            {{ hero(
+                titleText = title,
+                image = pageHero.image,
+                accent = pageAccent
+            ) }}
+        {% endif %}
+
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if pageHero %} nudge-up{% endif %}">
             {{ breadcrumbTrail(breadcrumbs) }}
 
             <div class="content-sidebar">
@@ -20,9 +33,15 @@
                     <div class="u-constrained-wide accent--pink">
                         <h1>{{ title }}</h1>
 
-                        {% if grant.description !== grant.title %}
-                            <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
-                            <p class="u-wrap-words">{{ grant.description }}</p>
+                        {% if caseStudy %}
+                            <div class="s-prose">
+                                {{ flexibleContent(caseStudy.content, pageAccent) }}
+                            </div>
+                        {% else %}
+                            {% if grant.description !== grant.title %}
+                                <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
+                                <p class="u-wrap-words">{{ grant.description }}</p>
+                            {% endif %}
                         {% endif %}
 
                         <grants-back-to-search
@@ -32,33 +51,36 @@
                     </div>
                 </div>
 
-                <div class="content-sidebar__secondary u-tone-background-tint u-padded">
-                    <aside class="u-align-center accent--pink a--text">
-                        <p class="t1 u-no-margin">£{{ grant.amountAwarded | numberWithCommas }}</p>
-                        <p class="t5">
-                            {{ title }}<br/>
-                            {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
-                        </p>
-                    </aside>
+                <div class="content-sidebar__secondary{% if caseStudy %} content-sidebar__secondary--minimal{% endif %}">
+                    {% call card(aboutTitle, pageAccent) %}
+                        <aside class="u-align-center accent--pink a--text">
+                            <p class="t1 u-no-margin">£{{ grant.amountAwarded | numberWithCommas }}</p>
+                            <p class="t5">
+                                {{ title }}<br/>
+                                {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
+                            </p>
+                        </aside>
 
-                    <dl class="o-definition-list o-definition-list--compact u-text-small">
-                        {% if grant.plannedDates %}
-                            <dt>{{ copy.grantDetail.fields.duration }}</dt>
-                            {% for dates in grant.plannedDates %}
-                                <dd>
-                                    {{ fields.area.label }}
-                                    {{ formatDate(dates.startDate, DATE_FORMATS.short) }}
-                                    {% if dates.endDate %}
-                                        – {{ formatDate(dates.endDate, DATE_FORMATS.short) }}
-                                    {% endif %}
-                                </dd>
-                            {% endfor %}
+                        <dl class="o-definition-list o-definition-list--compact u-text-small">
+                            {% if grant.plannedDates %}
+                                <dt>{{ copy.grantDetail.fields.duration }}</dt>
+                                {% for dates in grant.plannedDates %}
+                                    <dd>
+                                        {{ fields.area.label }}
+                                        {{ formatDate(dates.startDate, DATE_FORMATS.short) }}
+                                        {% if dates.endDate %}
+                                            – {{ formatDate(dates.endDate, DATE_FORMATS.short) }}
+                                        {% endif %}
+                                    </dd>
+                                {% endfor %}
+                            {% endif %}
+                        </dl>
+
+                        {% if grant.isActive %}
+                            <p class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</p>
                         {% endif %}
-                    </dl>
+                    {% endcall %}
 
-                    {% if grant.isActive %}
-                        <p class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</p>
-                    {% endif %}
                 </div>
 
             </div>
@@ -158,6 +180,16 @@
                 </div>
             </div>
         </div>
+
+        {# Related projects widget #}
+        {% if appData.config.get('features.enableRelatedGrants') %}
+            <grants-related
+                limit="3"
+                exclude-id="{{ grant.id }}"
+                programme="{{ mainProgramme.title }}"
+                beneficiary-location="{{ grant.beneficiaryLocation | dump }}"
+            />
+        {% endif %}
 
         <div class="u-inner">
             <div id="feedback">

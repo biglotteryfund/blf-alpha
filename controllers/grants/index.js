@@ -11,7 +11,7 @@ const nspell = require('nspell');
 const cyGB = require('dictionary-cy-gb');
 const enGB = require('dictionary-en-gb');
 
-const { injectBreadcrumbs, injectCopy, injectHeroImage } = require('../../middleware/inject-content');
+const { injectBreadcrumbs, injectCopy, injectHeroImage, setHeroLocals } = require('../../middleware/inject-content');
 const { sMaxAge } = require('../../middleware/cached');
 const contentApi = require('../../services/content-api');
 const grantsService = require('../../services/grants');
@@ -265,6 +265,15 @@ router.get('/:id', injectCopy('funding.pastGrants.search'), async (req, res, nex
     try {
         const data = await grantsService.getById({ id: req.params.id, locale: req.i18n.getLocale() });
 
+        let caseStudy;
+        try {
+            caseStudy = await contentApi.getCaseStudyByGrantId({
+                locale: req.i18n.getLocale(),
+                grantId: req.params.id
+            });
+            setHeroLocals({ res, entry: caseStudy });
+        } catch (e) {} // eslint-disable-line no-empty
+
         if (data && data.result) {
             let fundingProgramme;
             const grant = data.result;
@@ -281,6 +290,7 @@ router.get('/:id', injectCopy('funding.pastGrants.search'), async (req, res, nex
             res.render(path.resolve(__dirname, './views/grant-detail'), {
                 title: data.result.title,
                 grant: grant,
+                caseStudy: caseStudy,
                 fundingProgramme: fundingProgramme,
                 breadcrumbs: concat(res.locals.breadcrumbs, { label: data.result.title })
             });
