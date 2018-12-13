@@ -27,7 +27,11 @@
 <meta property="og:image:height" content="630">
 {% endif %}
 
-<meta name="google-site-verification" content="o1R2SCKacbqmesd1hrNosk1lfTkqrz2R1OoG7OoFRtw">
+{% if usingNewDomain %}
+    <meta name="google-site-verification" content="YJm5YK8XXPjyF0oyks3mvJ2P2qc1mwm9GyF7OlyNl9A" />
+{% else %}
+    <meta name="google-site-verification" content="o1R2SCKacbqmesd1hrNosk1lfTkqrz2R1OoG7OoFRtw">
+{% endif %}
 
 {# tiles/themes #}
 <meta name="apple-mobile-web-app-title" content="{{ globalCopy.brand.title }}">
