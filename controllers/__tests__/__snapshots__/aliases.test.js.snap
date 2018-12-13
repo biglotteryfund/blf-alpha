@@ -1123,6 +1123,46 @@ Array [
     "to": "/welsh/about/customer-service/supplier-zone",
   },
   Object {
+    "from": "/about/uks-largest-community-funder-to-change-name",
+    "to": "/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name",
+  },
+  Object {
+    "from": "/welsh/about/uks-largest-community-funder-to-change-name",
+    "to": "/welsh/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name",
+  },
+  Object {
+    "from": "/england/about/uks-largest-community-funder-to-change-name",
+    "to": "/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name",
+  },
+  Object {
+    "from": "/welsh/england/about/uks-largest-community-funder-to-change-name",
+    "to": "/welsh/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name",
+  },
+  Object {
+    "from": "/scotland/about/uks-largest-community-funder-to-change-name",
+    "to": "/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name",
+  },
+  Object {
+    "from": "/welsh/scotland/about/uks-largest-community-funder-to-change-name",
+    "to": "/welsh/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name",
+  },
+  Object {
+    "from": "/northernireland/about/uks-largest-community-funder-to-change-name",
+    "to": "/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name",
+  },
+  Object {
+    "from": "/welsh/northernireland/about/uks-largest-community-funder-to-change-name",
+    "to": "/welsh/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name",
+  },
+  Object {
+    "from": "/wales/about/uks-largest-community-funder-to-change-name",
+    "to": "/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name",
+  },
+  Object {
+    "from": "/welsh/wales/about/uks-largest-community-funder-to-change-name",
+    "to": "/welsh/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name",
+  },
+  Object {
     "from": "/awardsforall",
     "to": "/funding/under10k",
   },
