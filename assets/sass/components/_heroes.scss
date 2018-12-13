@@ -47,13 +47,6 @@
         padding-right: $spacingUnit;
     }
 }
-.hero__title {
-    width: 100%;
-
-    @include mq('medium') {
-        max-width: 20em;
-    }
-}
 .hero__caption {
     position: absolute;
     height: auto;

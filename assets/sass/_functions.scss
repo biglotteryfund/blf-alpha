@@ -18,11 +18,30 @@
 // ========================================================================= //
 
 @function font-stack($category, $variant: 'default') {
-    @return unquote(map-deep-get($typography, $category, 'font-stacks', $variant));
+    $value: unquote(map-deep-get($typography, $category, 'font-stacks', $variant));
+    @if type-of($value) == string {
+        @return $value;
+    } @else {
+        @error "No value found for #{$category}/#{$variant}";
+    }
 }
 
 @function font-weight($category, $variant) {
-    @return map-deep-get($typography, $category, 'weights', $variant);
+    $value: map-deep-get($typography, $category, 'weights', $variant);
+    @if type-of($value) == number {
+        @return $value;
+    } @else {
+        @error "No value found for #{$category}/#{$variant}";
+    }
+}
+
+@function font-scale($category, $variant) {
+    $value: map-deep-get($typography, $category, 'font-scale', $variant);
+    @if type-of($value) == number {
+        @return $value;
+    } @else {
+        @error "No value found for #{$category}/#{$variant}";
+    }
 }
 
 // =========================================================================

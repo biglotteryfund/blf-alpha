@@ -105,10 +105,10 @@
 
                     {% set pressCopy = __('global.contact.press') %}
                     {% call card(pressCopy.title) %}
-                        <div class="s-prose">
+                        <div class="s-prose u-text-small">
                             {% for region in pressCopy.regions %}
-                                <p><strong>{{ region.title }}</strong></p>
-                                <dl class="o-definition-list o-definition-list--wrapped u-margin-bottom">
+                                <h4 class="t5">{{ region.title }}</h4>
+                                <dl class="o-definition-list o-definition-list--wrapped u-margin-bottom-s">
                                     {% if region.phone %}
                                         <dt class="u-weight-normal">{{ __('global.misc.phone') | capitalize }}:</dt>
                                         <dd>{{ region.phone | safe }}</dd>
