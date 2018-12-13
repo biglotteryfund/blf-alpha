@@ -6002,5 +6002,405 @@ Array [
     "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/york-north-yorkshire-and-east-riding",
     "to": "/welsh/funding/programmes/building-better-opportunities/york-north-yorkshire-and-east-riding",
   },
+  Object {
+    "from": "/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies",
+    "to": "/funding/programmes/building-better-opportunities/case-studies",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies",
+    "to": "/funding/programmes/building-better-opportunities/case-studies",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies",
+    "to": "/funding/programmes/building-better-opportunities/case-studies",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies",
+    "to": "/funding/programmes/building-better-opportunities/case-studies",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies",
+    "to": "/funding/programmes/building-better-opportunities/case-studies",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies",
+  },
+  Object {
+    "from": "/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem",
+  },
+  Object {
+    "from": "/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/june-durham",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/june-durham",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/june-durham",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/june-durham",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/june-durham",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/june-durham",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/june-durham",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/june-durham",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/june-durham",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/june-durham",
+  },
+  Object {
+    "from": "/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/lets-get-working",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/lets-get-working",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/lets-get-working",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/lets-get-working",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/lets-get-working",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/lets-get-working",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/lets-get-working",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/lets-get-working",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/lets-get-working",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/lets-get-working",
+  },
+  Object {
+    "from": "/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges",
+  },
+  Object {
+    "from": "/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz",
+  },
+  Object {
+    "from": "/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur",
+  },
+  Object {
+    "from": "/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/steve-thorpe",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/steve-thorpe",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/steve-thorpe",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/steve-thorpe",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/steve-thorpe",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/steve-thorpe",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/steve-thorpe",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/steve-thorpe",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/steve-thorpe",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/steve-thorpe",
+  },
+  Object {
+    "from": "/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/colin-maycock",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/colin-maycock",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/colin-maycock",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/colin-maycock",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/colin-maycock",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/colin-maycock",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/colin-maycock",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/colin-maycock",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/colin-maycock",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/colin-maycock",
+  },
+  Object {
+    "from": "/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep",
+    "to": "/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep",
+    "to": "/welsh/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama",
+  },
 ]
 `;
