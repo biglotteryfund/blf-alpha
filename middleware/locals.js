@@ -38,6 +38,11 @@ module.exports = function(req, res, next) {
     res.locals.useNewBrand = useNewBrand;
 
     /**
+     * New domain flag
+     */
+    res.locals.usingNewDomain = req.get('host') === 'www.tnlcommunityfund.org.uk';
+
+    /**
      * Global copy
      */
     const globalCopy = {
