@@ -39,7 +39,10 @@ jobs:
   include:
     # Stage: Tests
     - stage: test
-      script: npm run test-ci
+      script:
+        - npm run test-ci
+        - npm prune --production > /dev/null 2>&1
+        - curl --fail --silent http://localhost:8090
 
     # Stage: Build & deploy (only on master)
     - stage: build
