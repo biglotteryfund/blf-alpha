@@ -3,6 +3,7 @@
 {% from "components/feedback.njk" import inlineFeedback with context %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/promo-card/macro.njk" import promoCard %}
+{% from "components/card/macro.njk" import card %}
 {% from "components/content.njk" import flexibleContent %}
 
 {% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList with context %}
@@ -50,33 +51,36 @@
                     </div>
                 </div>
 
-                <div class="content-sidebar__secondary{% if caseStudy %} content-sidebar__secondary--minimal{% endif %} u-tone-background-tint u-padded u-accent-border-top-{{ pageAccent }}">
-                    <aside class="u-align-center accent--pink a--text">
-                        <p class="t1 u-no-margin">£{{ grant.amountAwarded | numberWithCommas }}</p>
-                        <p class="t5">
-                            {{ title }}<br/>
-                            {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
-                        </p>
-                    </aside>
+                <div class="content-sidebar__secondary{% if caseStudy %} content-sidebar__secondary--minimal{% endif %}">
+                    {% call card(aboutTitle, pageAccent) %}
+                        <aside class="u-align-center accent--pink a--text">
+                            <p class="t1 u-no-margin">£{{ grant.amountAwarded | numberWithCommas }}</p>
+                            <p class="t5">
+                                {{ title }}<br/>
+                                {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
+                            </p>
+                        </aside>
 
-                    <dl class="o-definition-list o-definition-list--compact u-text-small">
-                        {% if grant.plannedDates %}
-                            <dt>{{ copy.grantDetail.fields.duration }}</dt>
-                            {% for dates in grant.plannedDates %}
-                                <dd>
-                                    {{ fields.area.label }}
-                                    {{ formatDate(dates.startDate, DATE_FORMATS.short) }}
-                                    {% if dates.endDate %}
-                                        – {{ formatDate(dates.endDate, DATE_FORMATS.short) }}
-                                    {% endif %}
-                                </dd>
-                            {% endfor %}
+                        <dl class="o-definition-list o-definition-list--compact u-text-small">
+                            {% if grant.plannedDates %}
+                                <dt>{{ copy.grantDetail.fields.duration }}</dt>
+                                {% for dates in grant.plannedDates %}
+                                    <dd>
+                                        {{ fields.area.label }}
+                                        {{ formatDate(dates.startDate, DATE_FORMATS.short) }}
+                                        {% if dates.endDate %}
+                                            – {{ formatDate(dates.endDate, DATE_FORMATS.short) }}
+                                        {% endif %}
+                                    </dd>
+                                {% endfor %}
+                            {% endif %}
+                        </dl>
+
+                        {% if grant.isActive %}
+                            <p class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</p>
                         {% endif %}
-                    </dl>
+                    {% endcall %}
 
-                    {% if grant.isActive %}
-                        <p class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</p>
-                    {% endif %}
                 </div>
 
             </div>
