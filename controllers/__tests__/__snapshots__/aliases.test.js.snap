@@ -2883,6 +2883,46 @@ Array [
     "to": "/welsh/funding/strategic-investments/headstart",
   },
   Object {
+    "from": "/global-content/programmes/england/help-through-crisis",
+    "to": "/funding/programmes/help-through-crisis",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/help-through-crisis",
+    "to": "/welsh/funding/programmes/help-through-crisis",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/help-through-crisis",
+    "to": "/funding/programmes/help-through-crisis",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/help-through-crisis",
+    "to": "/welsh/funding/programmes/help-through-crisis",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/help-through-crisis",
+    "to": "/funding/programmes/help-through-crisis",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/help-through-crisis",
+    "to": "/welsh/funding/programmes/help-through-crisis",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/help-through-crisis",
+    "to": "/funding/programmes/help-through-crisis",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/help-through-crisis",
+    "to": "/welsh/funding/programmes/help-through-crisis",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/help-through-crisis",
+    "to": "/funding/programmes/help-through-crisis",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/help-through-crisis",
+    "to": "/welsh/funding/programmes/help-through-crisis",
+  },
+  Object {
     "from": "/global-content/programmes/england/multiple-and-complex-needs",
     "to": "/funding/strategic-investments/multiple-needs",
   },

@@ -83,6 +83,7 @@ const aliases = {
     '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources': '/funding/programmes/building-better-opportunities/building-better-opportunities-resources',
     '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding': '/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding',
     '/global-content/programmes/england/fulfilling-lives-headstart': '/funding/strategic-investments/headstart',
+    '/global-content/programmes/england/help-through-crisis': '/funding/programmes/help-through-crisis',
     '/global-content/programmes/england/multiple-and-complex-needs': '/funding/strategic-investments/multiple-needs',
     '/global-content/programmes/england/place-based-social-action': '/funding/programmes/place-based-social-action',
     '/global-content/programmes/england/reaching-communities-england': '/funding/programmes/reaching-communities-england',
