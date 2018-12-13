@@ -16,7 +16,6 @@
     {% set mainProgramme = grant.grantProgramme[0] %}
 
     <main role="main" id="content" class="js-past-grants-detail">
-
         {% if pageHero %}
             {{ hero(
                 titleText = title,
@@ -53,12 +52,10 @@
 
                 <div class="content-sidebar__secondary">
                     {% call card(aboutTitle, pageAccent) %}
-                        <aside class="u-align-center accent--pink a--text">
-                            <p class="t1 u-no-margin">£{{ grant.amountAwarded | numberWithCommas }}</p>
-                            <p class="t5">
-                                {{ title }}<br/>
-                                {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
-                            </p>
+                        <aside class="grant-summary">
+                            <p class="grant-summary__amount">£{{ grant.amountAwarded | numberWithCommas }}</p>
+                            <p class="grant-summary__title">{{ grant.title }}</p>
+                            <p class="grant-summary__date">{{ formatDate(grant.awardDate, DATE_FORMATS.short) }}</p>
                         </aside>
 
                         <dl class="o-definition-list o-definition-list--compact u-text-small">
@@ -67,10 +64,9 @@
                                 {% for dates in grant.plannedDates %}
                                     <dd>
                                         {{ fields.area.label }}
-                                        {{ formatDate(dates.startDate, DATE_FORMATS.short) }}
-                                        {% if dates.endDate %}
-                                            – {{ formatDate(dates.endDate, DATE_FORMATS.short) }}
-                                        {% endif %}
+                                        {{ formatDate(dates.startDate, DATE_FORMATS.short) }}{% if dates.endDate -%}
+                                            &ndash;{{ formatDate(dates.endDate, DATE_FORMATS.short) }}
+                                        {%- endif %}
                                     </dd>
                                 {% endfor %}
                             {% endif %}

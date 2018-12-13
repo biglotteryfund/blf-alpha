@@ -244,6 +244,30 @@ $filterSpacing: 10px;
    Grant details
    ========================================================================= */
 
+.grant-summary {
+    text-align: center;
+    color: get-color('brand', 'primary');
+    font-family: font-stack('display');
+    margin-bottom: $spacingUnit;
+
+    .grant-summary__amount,
+    .grant-summary__title,
+    .grant-summary__date {
+        margin-bottom: 0;
+    }
+
+    .grant-summary__amount {
+        font-size: font-scale('display', 't1');
+        font-weight: font-weight('display', 'bold');
+    }
+
+    .grant-summary__title,
+    .grant-summary__date {
+        font-size: font-scale('display', 't5');
+        font-weight: font-weight('display', 'semibold');
+    }
+}
+
 .active-badge {
     $iconHeight: 15px;
     color: white;
