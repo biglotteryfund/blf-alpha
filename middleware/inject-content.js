@@ -6,15 +6,10 @@ const Raven = require('raven');
 const { localify } = require('../modules/urls');
 const contentApi = require('../services/content-api');
 
-/**
- * Sets locals that are common to many entries.
- * - title based on content
- * - isBilingual based on availableLanguages property
- * - preview status metadata
- * - pageHero (with optional fallback)
- * - optional custom theme colour
- */
-function setCommonLocals({ res, entry, withFallbackHero = false }) {
+/*
+ * Populate hero image (with social image URLs too)
+ * */
+function setHeroLocals({ res, entry, withFallbackHero = false }) {
     const { useNewBrand, fallbackHeroImage } = res.locals;
     const newHeroImage = get('heroNew.image')(entry);
     const newHeroCredit = get('heroNew.credit')(entry);

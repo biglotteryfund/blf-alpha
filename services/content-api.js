@@ -223,6 +223,9 @@ function getCaseStudies({ locale, slugs = [] }) {
     });
 }
 
+const getCaseStudyByGrantId = ({ locale, grantId }) =>
+    fetch(`/v1/${locale}/case-studies/${grantId}`).then(r => r.data.attributes);
+
 function getOurPeople({ locale, previewMode = null }) {
     return fetch(`/v1/${locale}/our-people`, {
         qs: addPreviewParams(previewMode)
@@ -251,6 +254,7 @@ module.exports = {
     getBlogDetail,
     getBlogPosts,
     getCaseStudies,
+    getCaseStudyByGrantId,
     getDataStats,
     getFlexibleContent,
     getFundingProgramme,
