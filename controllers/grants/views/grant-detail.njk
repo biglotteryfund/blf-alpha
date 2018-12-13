@@ -159,6 +159,16 @@
             </div>
         </div>
 
+        {# Related projects widget #}
+        {% if appData.config.get('features.enableRelatedGrants') %}
+            <grants-related
+                limit="3"
+                exclude-id="{{ grant.id }}"
+                programme="{{ mainProgramme.title }}"
+                beneficiary-location="{{ grant.beneficiaryLocation | dump }}"
+            />
+        {% endif %}
+
         <div class="u-inner">
             <div id="feedback">
                 {{ inlineFeedback(

@@ -40,7 +40,7 @@
     "enableHotjar": false,
     "enableTimingMetrics": false,
     "enableMailSendMetrics": false,
-    "enableRelatedGrants": false
+    "enableRelatedGrants": true
   },
   "imgix": {
     "mediaDomain": "biglotteryfund-assets.imgix.net"
