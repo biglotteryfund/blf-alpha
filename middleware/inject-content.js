@@ -16,16 +16,6 @@ const contentApi = require('../services/content-api');
  */
 function setCommonLocals({ res, entry, withFallbackHero = false }) {
     const { useNewBrand, fallbackHeroImage } = res.locals;
-
-    res.locals.title = entry.title;
-
-    res.locals.isBilingual = entry.availableLanguages.length === 2;
-
-    res.locals.previewStatus = {
-        isDraftOrVersion: entry.status === 'draft' || entry.status === 'version',
-        lastUpdated: moment(entry.dateUpdated.date).format('Do MMM YYYY [at] h:mma')
-    };
-
     const newHeroImage = get('heroNew.image')(entry);
     const newHeroCredit = get('heroNew.credit')(entry);
 
@@ -51,6 +41,27 @@ function setCommonLocals({ res, entry, withFallbackHero = false }) {
     if (res.locals.pageHero) {
         res.locals.socialImage = res.locals.pageHero.image;
     }
+}
+
+/**
+ * Sets locals that are common to many entries.
+ * - title based on content
+ * - isBilingual based on availableLanguages property
+ * - preview status metadata
+ * - pageHero (with optional fallback)
+ * - optional custom theme colour
+ */
+function setCommonLocals({ res, entry, withFallbackHero = false }) {
+    res.locals.title = entry.title;
+
+    res.locals.isBilingual = entry.availableLanguages.length === 2;
+
+    res.locals.previewStatus = {
+        isDraftOrVersion: entry.status === 'draft' || entry.status === 'version',
+        lastUpdated: moment(entry.dateUpdated.date).format('Do MMM YYYY [at] h:mma')
+    };
+
+    setHeroLocals({ res, entry, withFallbackHero });
 
     if (entry.themeColour) {
         res.locals.pageAccent = entry.themeColour;
@@ -392,5 +403,6 @@ module.exports = {
     injectResearchEntry,
     injectStrategicProgramme,
     injectStrategicProgrammes,
-    setCommonLocals
+    setCommonLocals,
+    setHeroLocals
 };
