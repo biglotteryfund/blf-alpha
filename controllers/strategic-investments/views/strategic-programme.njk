@@ -41,10 +41,6 @@
                 </div>
             {%- endset %}
 
-            {% set tabContentImpact -%}
-                {{ renderContentBlocks(strategicProgramme.impact) }}
-            {%- endset %}
-
             {% set tabContentPartnerships -%}
                 {% if strategicProgramme.programmePartners.partners.length > 0 %}
                     <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
@@ -73,27 +69,29 @@
                 {% endif %}
             {%- endset %}
 
-            {% set tabContentResources -%}
-                {{ renderContentBlocks(strategicProgramme.resources) }}
-            {%- endset %}
-
-            {{ contentTabs([{
+            {% set tabItems = [{
                 "id": "section-1",
                 "title": "Aims & approach",
                 "content": tabContentAims
             }, {
                 "id": "section-2",
                 "title": "Learning",
-                "content": tabContentImpact
+                "content": renderContentBlocks(strategicProgramme.impact)
             }, {
                 "id": "section-3",
                 "title": "Partnerships",
                 "content": tabContentPartnerships
-            }, {
-                "id": "section-4",
-                "title": "Resources",
-                "content": tabContentResources
-            }]) }}
+            }] %}
+
+            {% if strategicProgramme.resources.length > 0 %}
+                {% set tabItems = (tabItems.push({
+                    "id": "section-4",
+                    "title": "Resources",
+                    "content": renderContentBlocks(strategicProgramme.resources)
+                }), tabItems) %}
+            {% endif %}
+
+            {{ contentTabs(tabItems) }}
         </section>
 
         {% if relatedResearch and relatedResearch.length > 2 %}
