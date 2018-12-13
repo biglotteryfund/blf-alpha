@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 const http = require('http');
-const browserSync = require('browser-sync');
 const debug = require('debug')('biglotteryfund:www');
 
 const app = require('../server');
@@ -94,11 +93,14 @@ function onListening() {
     debug(`App now running on ${bind}`);
 
     if (!!process.env.ENABLE_BROWSER_SYNC === true) {
-        browserSync({
-            open: false,
-            proxy: 'http://localhost:' + port,
-            files: ['public/**/*.{js,css}']
-        });
+        try {
+            const browserSync = require('browser-sync');
+            browserSync({
+                open: false,
+                proxy: 'http://localhost:' + port,
+                files: ['public/**/*.{js,css}']
+            });
+        } catch (error) {} // eslint-disable-line no-empty
     }
 }
 
