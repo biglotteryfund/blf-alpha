@@ -39,6 +39,7 @@ const aliases = {
     '/about-big/strategic-framework': '/about/strategic-framework',
     '/about-big/strategic-framework/our-vision': '/about/strategic-framework',
     '/about-big/tender-opportunities': '/about/customer-service/supplier-zone',
+    '/about/uks-largest-community-funder-to-change-name': '/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name',
     '/awardsforall': '/funding/under10k',
     '/blog': '/news/blog',
     '/blog/digital': '/news/blog?category=digital',
