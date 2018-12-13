@@ -5,6 +5,7 @@
             <dt>{{ labels.area }}</dt>
             <dd>{{ programme.area.label }}</dd>
         {% endif %}
+        
         {% if programme.organisationType %}
             <dt>{{ labels.organisationTypes }}</dt>
             <dd>{{ programme.organisationType }}</dd>
@@ -30,22 +31,21 @@
     </dl>
 {% endmacro %}
 
-{% macro programmeCard(programme, accent, isMinimal) %}
-    <article
-        class="programme-card{% if isMinimal %} programme-card--minimal{% else %} accent--{{ accent }} a--border-top a--border-color{% endif %} qa-programme-card">
-        <header class="programme-card__header">
-            <h3 class="programme-card__title t1">
-                <a class="u-link-minimal{% if not isMinimal %} accent--{{ accent }} a--text{% endif %}" href="{{ programme.linkUrl }}">
-                    {{ programme.title }}
-                </a>
-            </h3>
-            {% if programme.thumbnail %}
-                <div class="programme-card__media">
-                    <img src="{{ programme.thumbnail }}" alt=""/>
-                </div>
-            {% endif %}
-        </header>
+{% macro programmeCard(programme) %}
+    <article class="programme-card qa-programme-card">
+        {% if programme.trailImage %}
+            <div class="programme-card__media">
+                <img src="{{ programme.trailImageNew if useNewBrand and programme.trailImageNew else programme.trailImage }}" alt="{{ programme.hero.caption }}"/>
+            </div>
+        {% endif %}
         <div class="programme-card__body">
+            <header class="programme-card__header">
+                <h3 class="programme-card__title">
+                    <a class="u-link-minimal" href="{{ programme.linkUrl }}">
+                        {{ programme.title }}
+                    </a>
+                </h3>
+            </header>
             {% if programme.description %}
                 <div class="programme-card__description">
                     {{ programme.description | safe }}
@@ -58,18 +58,6 @@
     </article>
 {% endmacro %}
 
-{% macro programmeList(programmes, accent) %}
-    <ol class="programmes-list">
-        {% for programme in programmes %}
-            <li class="programmes-list__item">
-                {{ programmeCard(
-                    programme = programme,
-                    accent = accent
-                ) }}
-            </li>
-        {% endfor %}
-    </ol>
-{% endmacro %}
 
 {% macro relatedProgrammes(programmes) %}
     {% if programmes.length > 0 %}

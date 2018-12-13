@@ -18,21 +18,16 @@
             </section>
 
             {% if latestProgrammes.length > 0 %}
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                <h2 class="t1">{{ copy.latestProgrammes }}</h2>
-
-                <ul class="flex-grid flex-grid--3up">
-                    {% for programme in latestProgrammes %}
-                        <li class="flex-grid__item">
-                            {{ programmeCard(
-                                isMinimal = true,
-                                accent = 'pink',
-                                programme = programme
-                            ) }}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </section>
+                <section class="u-inner accent-content--{{ pageAccent }}">
+                    <h2 class="t--underline">{{ copy.latestProgrammes }}</h2>
+                    <ul class="flex-grid flex-grid--3up">
+                        {% for programme in latestProgrammes %}
+                            <li class="flex-grid__item">
+                                {{ programmeCard(programme) }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
             {% endif %}
         </div>
     </main>
