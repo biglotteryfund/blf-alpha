@@ -145,6 +145,11 @@
     }
 }
 
+.ff-error {
+    font-weight: font-weight('body', 'bold');
+    color: get-color('message', 'warning');
+}
+
 /**
  * Field label notes
  */
