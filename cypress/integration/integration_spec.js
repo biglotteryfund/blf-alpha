@@ -384,19 +384,30 @@ describe('e2e', function() {
         cy.get('h2').should('contain', 'Thank you for your order');
     });
 
-    it('should be able to browse grants search results', () => {
+    it.only('should be able to browse grants search results', () => {
         cy.visit('/funding/grants');
         cy.get('.qa-grant-result').should('have.length', 50);
 
-        // Search query and test pagination
+        // Search query
         const testQuery = 'cake';
         const textQueryCount = 78;
+
         cy.get('#js-past-grants')
             .find('#search-query')
             .type(testQuery)
             .type('{enter}');
         cy.get('.active-filter').should('contain', testQuery);
         cy.get('.qa-grant-result').should('have.length', 50);
+
+        // Use filters
+        cy.get('#field-dynamic-amount-1').click();
+        cy.get('.qa-grant-result').should('have.length', 6);
+
+        // Clear filters
+        cy.get('.search-filters__clear-all').click();
+        cy.get('.qa-grant-result').should('have.length', 50);
+
+        // Test pagination
         cy.get('.split-nav__next').click();
         cy.get('.qa-grant-result').should('have.length', textQueryCount - 50);
     });
