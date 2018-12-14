@@ -34,7 +34,7 @@
   },
   "features": {
     "enableDigitalFundApplications": false,
-    "enablePrompt": true,
+    "enablePrompt": false,
     "enableSurvey": true,
     "enableAbTests": true,
     "enableHotjar": false,
