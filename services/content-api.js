@@ -1,5 +1,5 @@
 'use strict';
-const { find, filter, get, getOr, map, sortBy, take } = require('lodash/fp');
+const { find, filter, get, map, sortBy } = require('lodash/fp');
 const request = require('request-promise-native');
 const debug = require('debug')('biglotteryfund:content-api');
 const querystring = require('querystring');
@@ -93,14 +93,6 @@ function getHeroImage({ locale, slug }) {
 
 function getHomepage({ locale }) {
     return fetch(`/v1/${locale}/homepage`).then(response => response.data.attributes);
-}
-
-function getPromotedNews({ locale, limit }) {
-    return fetch(`/v1/${locale}/promoted-news`).then(response => {
-        const data = getOr({}, 'data')(response);
-        const entries = data.map(entry => entry.attributes);
-        return limit ? take(limit)(entries) : entries;
-    });
 }
 
 /**
@@ -237,7 +229,6 @@ module.exports = {
     getListingPage,
     getMerchandise,
     getOurPeople,
-    getPromotedNews,
     getResearch,
     getRoutes,
     getStrategicProgrammes,
