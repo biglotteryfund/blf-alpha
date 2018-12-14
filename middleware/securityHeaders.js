@@ -92,9 +92,20 @@ function defaultSecurityHeaders() {
         directives.fontSrc = directives.fontSrc.concat(['http://*.hotjar.com', 'https://*.hotjar.com']);
     }
 
+    /**
+     * Allow localhost URLs in non production environments as image sources
+     * This allows us to test out local images without publishing them
+     */
+    if (appData.isNotProduction) {
+        directives.imgSrc = directives.imgSrc.concat(['http://localhost', 'http://127.0.0.1:*']);
+    }
+
+    /**
+     * Allow localhost port connections for http and websockets in development
+     * Used primarily for browser-sync to be able to poll and reload assets
+     */
     if (appData.isDev) {
         directives.defaultSrc = directives.defaultSrc.concat(['http://localhost:*', 'ws://localhost:*']);
-        directives.imgSrc = directives.imgSrc.concat(['http://localhost', 'http://127.0.0.1:*']);
     }
 
     return buildSecurityMiddleware(directives);
