@@ -14,7 +14,7 @@
 
         <div class="global-container">
 
-            {# Status banner #}
+            {# Status and announcement banners #}
             {% if useNewBrand %}
                 <div class="status-banner">
                     ✋ You are previewing The National Lottery Community Fund branding. Please do not share this page.
@@ -29,6 +29,13 @@
                 <div class="status-banner">
                     ✋ This is a test environment.
                     <a href="https://{{ appData.config.get('siteDomain') }}{{ getCurrentUrl() }}">View this page on the live site</a>
+                </div>
+            {% elseif enableNameChangeMessage %}
+                <div class="announcement-banner">
+                    {{ __('global.rebrand.nameChange') | safe }}
+                    <a href="{{ localify('/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name') }}">
+                        {{ __('global.misc.readMore') }}
+                    </a>
                 </div>
             {% endif %}
 
