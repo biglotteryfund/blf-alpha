@@ -24,6 +24,7 @@ module.exports = function(req, res, next) {
      */
     res.locals.enablePrompt = features.enablePrompt;
     res.locals.enableSurvey = features.enableSurvey;
+    res.locals.enableNameChangeMessage = features.enableNameChangeMessage;
 
     /**
      * High-contrast mode
