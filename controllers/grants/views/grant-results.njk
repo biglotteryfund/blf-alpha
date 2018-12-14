@@ -40,7 +40,7 @@
 {% macro grantResultList(grants) %}
     {% if grants.length > 0 %}
         {% for grant in grants %}
-            <div class="u-margin-bottom-s" data-score="{{ grant._textScore }}">
+            <div class="u-margin-bottom-s qa-grant-result" data-score="{{ grant._textScore }}">
                 {{ grantResultItem(grant) }}
             </div>
         {% endfor %}

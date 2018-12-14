@@ -383,4 +383,21 @@ describe('e2e', function() {
         // Confirm submission
         cy.get('h2').should('contain', 'Thank you for your order');
     });
+
+    it('should be able to browse grants search results', () => {
+        cy.visit('/funding/grants');
+        cy.get('.qa-grant-result').should('have.length', 50);
+
+        // Search query and test pagination
+        const testQuery = 'cake';
+        const textQueryCount = 78;
+        cy.get('#js-past-grants')
+            .find('#search-query')
+            .type(testQuery)
+            .type('{enter}');
+        cy.get('.active-filter').should('contain', testQuery);
+        cy.get('.qa-grant-result').should('have.length', 50);
+        cy.get('.split-nav__next').click();
+        cy.get('.qa-grant-result').should('have.length', textQueryCount - 50);
+    });
 });
