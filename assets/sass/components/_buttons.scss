@@ -153,7 +153,7 @@ $buttonColor: #1a44a1;
 /**
  * Buttons: Reversed Variant
  */
-.btn--reversed {
+.btn.btn--reversed {
     color: get-color('text', 'base');
     background-color: white;
 
