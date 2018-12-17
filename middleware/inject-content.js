@@ -57,10 +57,6 @@ function setCommonLocals({ res, entry, withFallbackHero = false }) {
     };
 
     setHeroLocals({ res, entry, withFallbackHero });
-
-    if (entry.themeColour) {
-        res.locals.pageAccent = entry.themeColour;
-    }
 }
 
 function injectHeroImage(heroSlug, heroSlugNew) {
