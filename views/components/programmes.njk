@@ -60,10 +60,10 @@
                     {% if programme.photo %}
                         <img src="{{ programme.thumbnail }}"
                              alt="{{ programme.title }}"
-                             class="o-media-figure"
+                             class="o-media__figure"
                              width="100" />
                     {% endif %}
-                    <div class="o-media-body">
+                    <div class="o-media__body">
                         <h4 class="a--text accent--{{ pageAccent }}">{{ programme.title }}</h4>
                         {{ programme.intro | safe }}
                         <p class="u-no-margin"><a href="{{ programme.linkUrl }}">{{ __('news.readMoreAboutProgramme') }}</a></p>
