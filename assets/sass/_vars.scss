@@ -104,9 +104,10 @@ $colors: (
 // =========================================================================
 // Global Variables: Themes
 // ========================================================================= //
-// @TODO: Remove post-rebrand
+// @TODO: Remove all non brand-* theme colours post-rebrand
 
 $themeColors: (
+    'brand-primary': $brandPink,
     'pink': $brandPink,
     'blue': #1a44a1,
     'turquoise': #00adef,

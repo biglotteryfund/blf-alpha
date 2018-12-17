@@ -1,7 +1,7 @@
-{% macro contentBox(accent = 'pink', id = false, isConstrained = true) %}
-    <section class="content-box{% if isConstrained %} u-inner-wide-only{% endif %}{% if accent %} accent--{{ accent }} a--border-top{% endif %}"
+{% macro contentBox(accent = false, id = false, isConstrained = true) %}
+    <section class="content-box{% if isConstrained %} u-inner-wide-only{% endif %}{% if accent %} u-accent-border-top-{{ accent }}{% endif %}"
         {% if id %}id="{{ id }}"{% endif %}>
-        <div class="s-prose u-constrained-content-wide accent-content--{{ accent }}">
+        <div class="s-prose u-constrained-content-wide{% if accent %} accent-content--{{ accent }}{% endif %}">
             {{ caller() }}
         </div>
     </section>

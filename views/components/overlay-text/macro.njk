@@ -1,5 +1,5 @@
-{% macro overlayText(accent = 'pink', linkUrl = false, isTranslucent = false) %}
-    <span class="overlay-text overlay-text--accent-{{ accent }}{% if isTranslucent %} overlay-text--translucent{% endif %}">
+{% macro overlayText(accent = 'brand-primary', linkUrl = false, isTranslucent = false) %}
+    <span class="overlay-text{% if accent %} overlay-text--accent-{{ accent }}{% endif %}{% if isTranslucent %} overlay-text--translucent{% endif %}">
         {% if linkUrl %}<a class="overlay-text__link" href="{{ linkUrl }}">{% endif %}
         <span class="overlay-text__inner">{{ caller() }}</span>
         {% if linkUrl %}</a>{% endif %}

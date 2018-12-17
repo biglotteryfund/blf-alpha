@@ -1,5 +1,5 @@
 {% from "components/overlay-text/macro.njk" import overlayText %}
 
-{% macro pageTitle(title, accent = 'pink') %}
+{% macro pageTitle(title, accent = false) %}
     <h1 class="page-title">{% call overlayText(accent) %}{{ title | widont | safe }}{% endcall %}</h1>
 {% endmacro %}

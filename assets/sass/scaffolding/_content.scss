@@ -95,6 +95,7 @@
 .content-box {
     background-color: white;
     border: 1px solid get-color('border', 'base');
+    border-top: 4px solid get-color('brand', 'primary');
     margin-bottom: $spacingUnit;
     padding: $spacingUnit ($spacingUnit / 2);
 
@@ -128,6 +129,7 @@
 
 .segment {
     margin-bottom: 40px;
+    border-top: 4px solid get-color('brand', 'primary');
 
     @include mq('medium', 'max') {
         background-color: white;
