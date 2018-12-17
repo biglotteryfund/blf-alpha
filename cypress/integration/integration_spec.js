@@ -358,14 +358,23 @@ describe('e2e', function() {
         cy.get('@materialA')
             .find('button[value="increase"]')
             .click();
+
         cy.get('@materialA')
             .find('.step-control__quantity')
             .should('contain', 1);
 
         cy.get('@materialB')
             .find('button[value="increase"]')
-            .click()
             .click();
+
+        cy.get('@materialB')
+            .find('.step-control__quantity')
+            .should('contain', 1);
+
+        cy.get('@materialB')
+            .find('button[value="increase"]')
+            .click();
+
         cy.get('@materialB')
             .find('.step-control__quantity')
             .should('contain', 2);
