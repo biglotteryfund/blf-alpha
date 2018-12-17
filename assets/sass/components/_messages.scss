@@ -151,3 +151,20 @@
         }
     }
 }
+
+/* =========================================================================
+   Announcement
+   ========================================================================= */
+
+.announcement-banner {
+    text-align: center;
+    font-size: 15px;
+    padding: 1em 6px;
+    color: white;
+    background-color: get-color('brand', 'primary');
+
+    a {
+        color: white;
+        font-weight: font-weight('body', 'bold');
+    }
+}

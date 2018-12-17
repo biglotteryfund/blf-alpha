@@ -33,15 +33,16 @@
     }
   },
   "features": {
-    "enableDigitalFundApplications": false,
-    "enablePrompt": true,
-    "enableSurvey": true,
     "enableAbTests": true,
+    "enableDigitalFundApplications": false,
     "enableHotjar": false,
-    "enableTimingMetrics": false,
+    "enableLegacyFileArchiving": false,
     "enableMailSendMetrics": false,
+    "enableNameChangeMessage": true,
+    "enablePrompt": false,
     "enableRelatedGrants": true,
-    "enableLegacyFileArchiving": false
+    "enableSurvey": true,
+    "enableTimingMetrics": false
   },
   "imgix": {
     "mediaDomain": "biglotteryfund-assets.imgix.net"

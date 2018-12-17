@@ -21,6 +21,7 @@ module.exports = {
         'vue/html-indent': 'off',
         'vue/html-self-closing': 'off',
         'vue/max-attributes-per-line': 'off',
-        'vue/require-prop-types': 'off'
+        'vue/require-prop-types': 'off',
+        'vue/singleline-html-element-content-newline': 'off'
     }
 };

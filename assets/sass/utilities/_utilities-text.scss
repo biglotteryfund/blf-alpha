@@ -2,6 +2,37 @@
    Utilities: Text
    ========================================================================= */
 
+.u-constrained-content {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    ul,
+    ol {
+        max-width: $constrained;
+    }
+}
+
+.u-constrained-content-wide {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        max-width: 30em;
+    }
+
+    p,
+    ul,
+    ol {
+        max-width: $constrainedWide;
+    }
+}
+
 .u-align-center {
     text-align: center !important;
 }
@@ -18,11 +49,8 @@
     text-decoration: none;
 }
 
-.u-text-xsmall {
-    font-size: 13px;
-}
 .u-text-small {
-    font-size: 15px;
+    font-size: 16px;
 }
 .u-text-medium {
     font-size: 18px;

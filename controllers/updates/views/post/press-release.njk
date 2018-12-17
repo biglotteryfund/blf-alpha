@@ -27,7 +27,9 @@
 
 {% block content %}
     <main role="main">
-        {{ pageTitle(entry.title, pageAccent) }}
+        <div class="u-inner">
+            {{ pageTitle(entry.title, pageAccent) }}
+        </div>
     
         <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
             {{ breadcrumbTrail(breadcrumbs) }}
