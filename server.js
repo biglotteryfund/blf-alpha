@@ -116,7 +116,7 @@ function initAppLocals() {
     /**
      * Default pageAccent colour
      */
-    app.locals.pageAccent = 'pink';
+    app.locals.pageAccent = 'brand-primary';
 }
 
 initAppLocals();
