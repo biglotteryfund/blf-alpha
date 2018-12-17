@@ -2,7 +2,7 @@
 import $ from 'jquery';
 
 export default {
-    props: ['description', 'fieldLabel', 'helpText', 'submitLabel'],
+    props: ['description', 'fieldLabel', 'helpText', 'submitLabel', 'metadata'],
     data: function() {
         return {
             statusMessage: null,
@@ -11,12 +11,17 @@ export default {
     },
     methods: {
         handleSubmit() {
+            let message = this.feedback;
+            // Append any metadata below the user's message
+            if (this.metadata) {
+                message += `\n\n--\n${this.metadata}`;
+            }
             $.ajax({
                 url: '/api/feedback',
                 type: 'POST',
                 data: {
                     description: this.description,
-                    message: this.feedback
+                    message: message
                 },
                 dataType: 'json',
                 success: response => {
