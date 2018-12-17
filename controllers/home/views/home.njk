@@ -99,7 +99,7 @@
 
         {# Social Content #}
         <section class="social-content u-inner-wide-only u-margin-bottom">
-            <div class="social-content__primary u-accent-border-top-blue">
+            <div class="social-content__primary u-accent-border-top-{{ pageAccent }}">
                 {# Twitter Feed #}
                 <div class="u-padded">
                     {% set twitterAccount = globalCopy.brand.twitter  %}
@@ -111,7 +111,7 @@
                     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </div>
             </div>
-            <div class="social-content__secondary u-accent-border-top-pink">
+            <div class="social-content__secondary">
                 {# Ebulletin #}
                 <div class="content-box content-box--tinted">
                     {{ ebulletinForm() }}
