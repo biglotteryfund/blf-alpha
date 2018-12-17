@@ -9,19 +9,24 @@ export default {
             feedback: null
         };
     },
-    methods: {
-        handleSubmit() {
+    computed: {
+        message() {
             let message = this.feedback;
             // Append any metadata below the user's message
             if (this.metadata) {
                 message += `\n\n--\n${this.metadata}`;
             }
+            return message;
+        }
+    },
+    methods: {
+        handleSubmit() {
             $.ajax({
                 url: '/api/feedback',
                 type: 'POST',
                 data: {
                     description: this.description,
-                    message: message
+                    message: this.message
                 },
                 dataType: 'json',
                 success: response => {

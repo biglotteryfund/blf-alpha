@@ -22,15 +22,6 @@ let CLOUDFRONT_PATHS = [
     { path: '/user/*', isPostable: true, queryStrings: ['redirectUrl', 's', 'token'] }
 ];
 
-if (config.get('features.enableLegacyFileArchiving')) {
-    // Add the legacy files path so it gets routed to our archive page
-    CLOUDFRONT_PATHS.unshift({
-        path: '/-/media/files/*',
-        isPostable: false,
-        allowAllQueryStrings: true
-    });
-}
-
 /**
  * Legacy route paths
  * Paths in this list will be routed
@@ -162,7 +153,7 @@ const makeBehaviourItem = ({
  * Generate Cloudfront behaviours
  * construct array of behaviours from a URL list
  */
-function generateBehaviours(origins) {
+function generateBehaviours(origins, originName) {
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.newSite,
         isPostable: true,
@@ -190,6 +181,17 @@ function generateBehaviours(origins) {
             headersToKeep: []
         })
     );
+
+    // @TODO – when enabling enableLegacyFileArchiving, remove this switch
+    // so that the live Cloudfront distribution also routes these files
+    if (originName === 'test') {
+        // Add the legacy files path so it gets routed to our archive page
+        CLOUDFRONT_PATHS.unshift({
+            path: '/-/media/files/*',
+            isPostable: false,
+            allowAllQueryStrings: true
+        });
+    }
 
     // direct all custom routes (eg. with non-standard config) to Express
     const primaryBehaviours = flatMap(CLOUDFRONT_PATHS, rule => {

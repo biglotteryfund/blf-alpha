@@ -16,7 +16,7 @@ const cloudfrontDistributions = config.get('aws.cloudfrontDistributions');
  * For each CloudFront distribution generate a config and store it
  */
 forEach(cloudfrontDistributions, async (distribution, distributionName) => {
-    const behaviours = generateBehaviours(distribution.origins);
+    const behaviours = generateBehaviours(distribution.origins, distributionName);
 
     try {
         const filePath = path.join(__dirname, `../config/cloudfront/${distributionName}.json`);

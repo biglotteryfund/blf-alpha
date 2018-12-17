@@ -22,7 +22,7 @@ flatMap([
     '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*'
 ], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
     router.get(urlPath, cached.noCache, function(req, res) {
-        const fullUrl = `https://${config.get('siteDomain')}${req.originalUrl}`;
+        const fullUrl = `https://www.biglotteryfund.org.uk${req.originalUrl}`;
         const lastGoodCrawlDate = '20171011152352';
         const archiveUrl = `http://webarchive.nationalarchives.gov.uk/${lastGoodCrawlDate}/${fullUrl}`;
         res.render('static-pages/archived', {
