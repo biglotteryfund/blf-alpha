@@ -38,8 +38,6 @@ flatMap([
  * along with a feedback form to explain what they were looking for.
  * We also log all requests for these files to ensure we can update anything missing.
  */
-/*
- */
 if (config.get('features.enableLegacyFileArchiving')) {
     router.get('/-/media/files/*', (req, res) => {
         const filePath = req.originalUrl;
