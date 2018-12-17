@@ -14,7 +14,7 @@ accent: {String} - Accent colour to use
 featured: {Boolean} - Use featured style for promo card
 showBorder: {Boolean} - Show a border above this card
 #}
-{% macro promoCard(props, accent = 'pink', featured = false, showBorder = true) %}
+{% macro promoCard(props, accent = 'pink', featured = false, showBorder = false) %}
     <div class="promo-card{% if featured %} promo-card--featured{% endif %}{% if showBorder %} u-accent-border-top-{{ accent }}{% endif %}">
         {% if props.image.url %}
             <div class="promo-card__media">
@@ -23,7 +23,7 @@ showBorder: {Boolean} - Show a border above this card
                 {% if props.link.url %}</a>{% endif %}
                 {% if props.kicker %}
                     <span class="promo-card__kicker">
-                        {% call overlayText(accent = accent) %}
+                        {% call overlayText(accent) %}
                             {{ props.kicker }}
                         {% endcall %}
                     </span>
@@ -33,22 +33,24 @@ showBorder: {Boolean} - Show a border above this card
         <div class="promo-card__body">
             {% if props.kicker and not props.image.url %}
                 <p class="promo-card__kicker">
-                    {% call overlayText(accent = accent) %}
+                    {% call overlayText(accent) %}
                         {{ props.kicker }}
                     {% endcall %}
                 </p>
             {% endif %}
-            <h3 class="promo-card__title t5">
+            <h3 class="promo-card__title t4">
                 {% if props.link.url %}<a class="u-link-minimal" href="{{ props.link.url }}">{% endif %}
                 {{ props.title }}
                 {% if props.link.url %}</a>{% endif %}
             </h3>
-            <p class="promo-card__subtitle">{{ props.subtitle }}</p>
+            {% if props.subtitle %}
+                <p class="promo-card__subtitle">{{ props.subtitle }}</p>
+            {% endif %}
             <div class="promo-card__trail-text s-prose">
                 {% if props.trailText %}
                     {{ props.trailText | safe }}
                 {% endif %}
-                {% if props.link.url %}
+                {% if props.link.url and props.link.label %}
                     <a href="{{ props.link.url }}"{% if props.link.labelAria %} aria-label="{{ props.link.labelAria }}"{% endif %}>
                         {{ props.link.label }}
                     </a>

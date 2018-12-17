@@ -264,7 +264,7 @@ describe('e2e', function() {
         // Step: Navigate to funding programme
         // ================================================ //
 
-        cy.get('.qa-programme-card')
+        cy.get('.promo-card')
             .contains('Reaching Communities')
             .click();
         cy.checkActiveSection('funding');

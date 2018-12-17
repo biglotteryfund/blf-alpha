@@ -1,3 +1,5 @@
+{% from "components/promo-card/macro.njk" import promoCard with context %}
+
 {% macro programmeStats(programme, isCompact) %}
     {% set labels = __('global.programmes.programmeLabels') %}
     <dl class="o-definition-list{% if isCompact %} o-definition-list--compact{% endif %}">
@@ -5,6 +7,7 @@
             <dt>{{ labels.area }}</dt>
             <dd>{{ programme.area.label }}</dd>
         {% endif %}
+        
         {% if programme.organisationType %}
             <dt>{{ labels.organisationTypes }}</dt>
             <dd>{{ programme.organisationType }}</dd>
@@ -30,46 +33,24 @@
     </dl>
 {% endmacro %}
 
-{% macro programmeCard(programme, accent, isMinimal) %}
-    <article
-        class="programme-card{% if isMinimal %} programme-card--minimal{% else %} accent--{{ accent }} a--border-top a--border-color{% endif %} qa-programme-card">
-        <header class="programme-card__header">
-            <h3 class="programme-card__title t1">
-                <a class="u-link-minimal{% if not isMinimal %} accent--{{ accent }} a--text{% endif %}" href="{{ programme.linkUrl }}">
-                    {{ programme.title }}
-                </a>
-            </h3>
-            {% if programme.thumbnail %}
-                <div class="programme-card__media">
-                    <img src="{{ programme.thumbnail }}" alt=""/>
-                </div>
-            {% endif %}
-        </header>
-        <div class="programme-card__body">
-            {% if programme.description %}
-                <div class="programme-card__description">
-                    {{ programme.description | safe }}
-                </div>
-            {% endif %}
-            <div class="programme-card__details">
-                {{ programmeStats(programme) }}
-            </div>
-        </div>
-    </article>
+{% macro programmeCard(programme) %}
+    {% set description %}
+        {{ programme.description | safe }}
+        {{ programmeStats(programme) }}
+    {% endset %}
+    {{ promoCard({
+        "title": programme.title,
+        "trailText": description | safe,
+        "image": {
+            "url": programme.trailImageNew if useNewBrand and programme.trailImageNew else programme.trailImage,
+            "alt": programme.hero.caption
+        },
+        "link": {
+            "url": programme.linkUrl
+        }
+    }) }}
 {% endmacro %}
 
-{% macro programmeList(programmes, accent) %}
-    <ol class="programmes-list">
-        {% for programme in programmes %}
-            <li class="programmes-list__item">
-                {{ programmeCard(
-                    programme = programme,
-                    accent = accent
-                ) }}
-            </li>
-        {% endfor %}
-    </ol>
-{% endmacro %}
 
 {% macro relatedProgrammes(programmes) %}
     {% if programmes.length > 0 %}

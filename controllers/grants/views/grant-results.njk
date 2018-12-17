@@ -18,7 +18,7 @@
             "url": localify("/funding/grants/" + grant.id),
             "label": copy.viewGrantDetails
         }
-    }) %}
+    }, showBorder = true) %}
         <dl class="o-definition-list o-definition-list--compact">
             {% if grant.beneficiaryLocation %}
                 <dt>{{ copy.grantDetail.fields.location }}</dt>
