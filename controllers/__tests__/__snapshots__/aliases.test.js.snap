@@ -3043,6 +3043,46 @@ Array [
     "to": "/welsh/funding/programmes/reaching-communities-england",
   },
   Object {
+    "from": "/global-content/programmes/england/talent-match",
+    "to": "/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/talent-match",
+    "to": "/welsh/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/talent-match",
+    "to": "/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/talent-match",
+    "to": "/welsh/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/talent-match",
+    "to": "/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/talent-match",
+    "to": "/welsh/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/talent-match",
+    "to": "/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/talent-match",
+    "to": "/welsh/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/talent-match",
+    "to": "/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/talent-match",
+    "to": "/welsh/funding/strategic-investments/talent-match",
+  },
+  Object {
     "from": "/global-content/programmes/northern-ireland/awards-for-all-northern-ireland",
     "to": "/funding/programmes/awards-for-all-northern-ireland",
   },
