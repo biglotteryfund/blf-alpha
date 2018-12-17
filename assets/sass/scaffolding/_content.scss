@@ -215,8 +215,8 @@
    ========================================================================= */
 
 .content-meta {
-    font-size: 14px;
-    padding-top: $spacingUnit;
+    font-size: 16px;
+    padding: $spacingUnit 0;
     border-top: 1px solid get-color('border', 'base');
 }
 
