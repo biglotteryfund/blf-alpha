@@ -11,7 +11,7 @@ const cookies = config.get('cookies');
  * If any cached url paths need custom cloudfront rules like query strings
  * or custom cookies to be whitelisted you must define those rules here.
  */
-const CLOUDFRONT_PATHS = [
+let CLOUDFRONT_PATHS = [
     { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
     { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
     { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
@@ -22,11 +22,21 @@ const CLOUDFRONT_PATHS = [
     { path: '/user/*', isPostable: true, queryStrings: ['redirectUrl', 's', 'token'] }
 ];
 
+if (config.get('features.enableLegacyFileArchiving')) {
+    // Add the legacy files path so it gets routed to our archive page
+    CLOUDFRONT_PATHS.unshift({
+        path: '/-/media/files/*',
+        isPostable: false,
+        allowAllQueryStrings: true
+    });
+}
+
 /**
  * Legacy route paths
  * Paths in this list will be routed
  * directly to the legacy site origin
  */
+
 const LEGACY_PATHS = [
     '/-/*',
     '/js/*',
