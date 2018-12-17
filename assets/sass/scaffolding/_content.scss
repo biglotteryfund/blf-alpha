@@ -122,6 +122,68 @@
 }
 
 /* =========================================================================
+   Segment
+   ========================================================================= */
+/* Content box region with an optional segment image (e.g. /contact) */
+
+.segment {
+    margin-bottom: 40px;
+
+    @include mq('medium', 'max') {
+        background-color: white;
+    }
+
+    @include mq('medium') {
+        display: flex;
+    }
+
+    .segment__media {
+        position: relative;
+        height: 100%;
+
+        @media print {
+            position: static;
+            height: auto;
+            img {
+                display: none;
+            }
+        }
+
+        @include mq('medium', 'max') {
+            padding: $spacingUnit;
+            padding-bottom: 0;
+
+            img {
+                display: none;
+            }
+        }
+
+        @include mq('medium') {
+            width: 310px;
+            flex-shrink: 0;
+        }
+    }
+    .segment__title {
+        @include mq('medium') {
+            width: 60%;
+            position: absolute;
+            top: 1em;
+            left: 1em;
+        }
+    }
+    .segment__aside {
+        flex-grow: 1;
+        padding: $spacingUnit;
+        margin-top: 0;
+
+        @include mq('medium') {
+            @include bordered();
+            background-color: white;
+        }
+    }
+}
+
+/* =========================================================================
    Content Slice
    ========================================================================= */
 /* An individual slice of content typically within a content area */
