@@ -87,6 +87,7 @@ const aliases = {
     '/global-content/programmes/england/multiple-and-complex-needs': '/funding/strategic-investments/multiple-needs',
     '/global-content/programmes/england/place-based-social-action': '/funding/programmes/place-based-social-action',
     '/global-content/programmes/england/reaching-communities-england': '/funding/programmes/reaching-communities-england',
+    '/global-content/programmes/england/talent-match' : '/funding/strategic-investments/talent-match',
     '/global-content/programmes/northern-ireland/awards-for-all-northern-ireland': '/funding/programmes/awards-for-all-northern-ireland',
     '/global-content/programmes/northern-ireland/empowering-young-people': '/funding/programmes/empowering-young-people',
     '/global-content/programmes/northern-ireland/people-and-communities': '/funding/programmes/people-and-communities',
