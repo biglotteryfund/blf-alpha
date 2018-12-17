@@ -1,3 +1,5 @@
+{% from "components/promo-card/macro.njk" import promoCard with context %}
+
 {% macro programmeStats(programme, isCompact) %}
     {% set labels = __('global.programmes.programmeLabels') %}
     <dl class="o-definition-list{% if isCompact %} o-definition-list--compact{% endif %}">
@@ -32,30 +34,21 @@
 {% endmacro %}
 
 {% macro programmeCard(programme) %}
-    <article class="programme-card qa-programme-card">
-        {% if programme.trailImage %}
-            <div class="programme-card__media">
-                <img src="{{ programme.trailImageNew if useNewBrand and programme.trailImageNew else programme.trailImage }}" alt="{{ programme.hero.caption }}"/>
-            </div>
-        {% endif %}
-        <div class="programme-card__body">
-            <header class="programme-card__header">
-                <h3 class="programme-card__title">
-                    <a class="u-link-minimal" href="{{ programme.linkUrl }}">
-                        {{ programme.title }}
-                    </a>
-                </h3>
-            </header>
-            {% if programme.description %}
-                <div class="programme-card__description">
-                    {{ programme.description | safe }}
-                </div>
-            {% endif %}
-            <div class="programme-card__details">
-                {{ programmeStats(programme) }}
-            </div>
-        </div>
-    </article>
+    {% set description %}
+        {{ programme.description | safe }}
+        {{ programmeStats(programme) }}
+    {% endset %}
+    {{ promoCard({
+        "title": programme.title,
+        "trailText": description | safe,
+        "image": {
+            "url": programme.trailImageNew if useNewBrand and programme.trailImageNew else programme.trailImage,
+            "alt": programme.hero.caption
+        },
+        "link": {
+            "url": programme.linkUrl
+        }
+    }) }}
 {% endmacro %}
 
 

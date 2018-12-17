@@ -3,35 +3,6 @@
    ========================================================================= */
 
 /* =========================================================================
-   Programme Card
-   ========================================================================= */
-
-.programme-card {
-    background-color: get-color('background', 'light-neutral');
-
-    @include mq(medium-minor) {
-        display: flex;
-        flex-direction: column;
-        flex: 1 1 auto;
-        height: 100%;
-    }
-
-    .programme-card__body {
-        padding: 12px;
-        font-size: 17px;
-    }
-
-    .programme-card__title {
-        font-size: font-scale('display', 't4');
-        margin-bottom: 0.5em;
-
-        a {
-            color: get-color('brand', 'primary');
-        }
-    }
-}
-
-/* =========================================================================
    Programme Summary
    ========================================================================= */
 /* Used on region pages (e.g. /wales) */

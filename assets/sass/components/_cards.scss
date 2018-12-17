@@ -85,7 +85,6 @@
 
 .promo-card {
     background-color: get-color('background', 'light-neutral');
-    box-shadow: 0 0 0 1px get-color('border', 'base');
     max-width: 40em;
 
     display: flex;
@@ -122,11 +121,15 @@
     .promo-card__subtitle,
     .promo-card__trail-text,
     .promo-card__meta {
-        font-size: 15px;
+        font-size: 16px;
     }
 
     .promo-card__title {
-        margin-bottom: 3px;
+        margin-bottom: 0.5em;
+
+        a {
+            color: get-color('brand', 'primary');
+        }
     }
 
     .promo-card__subtitle {
