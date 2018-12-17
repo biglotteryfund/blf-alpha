@@ -37,11 +37,14 @@
 .o-definition-list--wrapped {
     display: flex;
     flex-wrap: wrap;
+
     dt {
         flex-basis: 33.33%;
     }
+
     dd {
         flex-basis: 66.66%;
+        @include wrap-words();
     }
 }
 
