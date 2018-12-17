@@ -1,19 +1,19 @@
 {% from "components/icons.njk" import iconFacebook, iconInstagram, iconTwitter %}
 
-{% macro socialLinks(labels, pageAccent = 'blue', showAsBlock = true) %}
+{% macro socialLinks(labels, showAsBlock = true) %}
     {% set groupClass = "o-button-group-block" if showAsBlock else "o-button-group-flex" %}
     <div class="{{ groupClass }} u-gutter-half">
-        <a class="btn btn--small btn--outline accent--{{ pageAccent }}"
+        <a class="btn btn--small btn--outline"
             href="{{ globalCopy.brand.instagram }}">
             <span class="btn__icon">{{ iconInstagram() }}</span>
             {{ labels.followUsOn }} {{ labels.instagram }}
         </a>
-        <a class="btn btn--small btn--outline accent--{{ pageAccent }}"
+        <a class="btn btn--small btn--outline"
             href="{{ globalCopy.brand.facebook }}">
             <span class="btn__icon">{{ iconFacebook() }}</span>
             {{ labels.followUsOn }} {{ labels.facebook }}
         </a>
-        <a class="btn btn--small btn--outline accent--{{ pageAccent }}"
+        <a class="btn btn--small btn--outline"
             href="https://www.twitter.com/{{ globalCopy.brand.twitter }}" >
             <span class="btn__icon">{{ iconTwitter() }}</span>
             {{ labels.followUsOn }} {{ labels.twitter }}
