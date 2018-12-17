@@ -1,11 +1,12 @@
 {% from "components/icons.njk" import iconArrowDown, iconClose %}
 
-{% macro inlineFeedback(description, promptLabel, fieldLabel, helpText, isToggleable = true) %}
+{% macro inlineFeedback(description, promptLabel, fieldLabel, helpText, isToggleable = true, metadata = null) %}
     {% set form %}
         <feedback-form
             description="{{ description }}"
             field-label="{{ fieldLabel }}"
             help-text="{{ helpText }}"
+            metadata="{{ metadata }}"
             submit-label=" {{ __('global.forms.submit') }}"
         />
     {% endset %}

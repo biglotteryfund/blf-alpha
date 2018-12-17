@@ -1,5 +1,5 @@
 'use strict';
-const { forEach, flatMap } = require('lodash');
+const { forEach } = require('lodash');
 const config = require('config');
 const express = require('express');
 const favicon = require('serve-favicon');
@@ -191,26 +191,11 @@ aliases.forEach(redirect => {
 });
 
 /**
- * Archived Routes
- * Paths in this array will be redirected to the National Archives.
- * We show an interstitial page a) to let people know the page has been archived
- * and b) to allow us to record the redirect as a pageview using standard analytics behaviour.
+ * Archived paths
+ * Handles archived pages (eg. redirect to National Archives)
+ * and legacy files (eg. show a message about removed documents)
  */
-// prettier-ignore
-flatMap([
-    '/about-big/10-big-lottery-fund-facts',
-    '/funding/funding-guidance/applying-for-funding/*',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*'
-], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
-    app.get(urlPath, cached.noCache, function(req, res) {
-        const fullUrl = `https://${config.get('siteDomain')}${req.originalUrl}`;
-        const archiveUrl = `http://webarchive.nationalarchives.gov.uk/${fullUrl}`;
-        res.render('static-pages/archived', {
-            title: 'Archived',
-            archiveUrl: archiveUrl
-        });
-    });
-});
+app.use('/', require('./controllers/archived'));
 
 /**
  * Initialise section routes

@@ -2,12 +2,22 @@
 import $ from 'jquery';
 
 export default {
-    props: ['description', 'fieldLabel', 'helpText', 'submitLabel'],
+    props: ['description', 'fieldLabel', 'helpText', 'submitLabel', 'metadata'],
     data: function() {
         return {
             statusMessage: null,
             feedback: null
         };
+    },
+    computed: {
+        message() {
+            let message = this.feedback;
+            // Append any metadata below the user's message
+            if (this.metadata) {
+                message += `\n\n--\n${this.metadata}`;
+            }
+            return message;
+        }
     },
     methods: {
         handleSubmit() {
@@ -16,7 +26,7 @@ export default {
                 type: 'POST',
                 data: {
                     description: this.description,
-                    message: this.feedback
+                    message: this.message
                 },
                 dataType: 'json',
                 success: response => {

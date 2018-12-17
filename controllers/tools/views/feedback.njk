@@ -21,7 +21,7 @@
                                 <small title="{{ response.createdAt }}">{{ timeFromNow(response.createdAt) }}</small>
                             </a>
                         </div>
-                        <p class="mb-0">{{ response.message }}</p>
+                        <p class="mb-0">{{ response.message | nl2br | safe }}</p>
                     </div>
                 {% endfor %}
             </div>

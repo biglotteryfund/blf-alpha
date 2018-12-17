@@ -1,2 +1,5 @@
 {
+  "features": {
+    "enableLegacyFileArchiving": true
+  }
 }

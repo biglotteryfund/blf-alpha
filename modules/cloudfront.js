@@ -11,7 +11,7 @@ const cookies = config.get('cookies');
  * If any cached url paths need custom cloudfront rules like query strings
  * or custom cookies to be whitelisted you must define those rules here.
  */
-const CLOUDFRONT_PATHS = [
+let CLOUDFRONT_PATHS = [
     { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
     { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
     { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
@@ -27,6 +27,7 @@ const CLOUDFRONT_PATHS = [
  * Paths in this list will be routed
  * directly to the legacy site origin
  */
+
 const LEGACY_PATHS = [
     '/-/*',
     '/js/*',
@@ -152,7 +153,7 @@ const makeBehaviourItem = ({
  * Generate Cloudfront behaviours
  * construct array of behaviours from a URL list
  */
-function generateBehaviours(origins) {
+function generateBehaviours(origins, originName) {
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.newSite,
         isPostable: true,
@@ -180,6 +181,17 @@ function generateBehaviours(origins) {
             headersToKeep: []
         })
     );
+
+    // @TODO – when enabling enableLegacyFileArchiving, remove this switch
+    // so that the live Cloudfront distribution also routes these files
+    if (originName === 'test') {
+        // Add the legacy files path so it gets routed to our archive page
+        CLOUDFRONT_PATHS.unshift({
+            path: '/-/media/files/*',
+            isPostable: false,
+            allowAllQueryStrings: true
+        });
+    }
 
     // direct all custom routes (eg. with non-standard config) to Express
     const primaryBehaviours = flatMap(CLOUDFRONT_PATHS, rule => {
