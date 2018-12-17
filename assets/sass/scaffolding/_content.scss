@@ -93,8 +93,8 @@
    ========================================================================= */
 
 .content-box {
-    @include bordered();
     background-color: white;
+    border: 1px solid get-color('border', 'base');
     margin-bottom: $spacingUnit;
     padding: $spacingUnit ($spacingUnit / 2);
 
@@ -177,7 +177,7 @@
         margin-top: 0;
 
         @include mq('medium') {
-            @include bordered();
+            border: 1px solid get-color('border', 'base');
             background-color: white;
         }
     }
