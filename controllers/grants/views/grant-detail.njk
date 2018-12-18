@@ -33,9 +33,15 @@
                     <div class="u-constrained-wide accent--pink">
                         <h1>{{ title }}</h1>
 
-                        {% if caseStudy %}
+                        {% if projectStory %}
                             <div class="s-prose">
-                                {{ flexibleContent(caseStudy.content, pageAccent) }}
+                                {{ flexibleContent(projectStory.content, pageAccent) }}
+
+                                {% if projectStory.outro %}
+                                    <aside class="u-tone-background-tint u-padded u-text-small">
+                                        {{ projectStory.outro | safe }}
+                                    </aside>
+                                {% endif %}
                             </div>
                         {% elseif grant.description !== grant.title %}
                             <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>

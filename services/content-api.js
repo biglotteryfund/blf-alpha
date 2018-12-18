@@ -196,8 +196,13 @@ function getCaseStudies({ locale, slugs = [] }) {
     });
 }
 
-const getCaseStudyByGrantId = ({ locale, grantId }) =>
-    fetch(`/v1/${locale}/case-studies/${grantId}`).then(r => r.data.attributes);
+function getCaseStudyByGrantId({ locale, grantId }) {
+    return fetch(`/v1/${locale}/case-studies/${grantId}`).then(getAttrs);
+}
+
+function getProjectStory({ locale, grantId }) {
+    return fetch(`/v1/${locale}/project-stories/${grantId}`).then(getAttrs);
+}
 
 function getOurPeople({ locale, previewMode = null }) {
     return fetch(`/v1/${locale}/our-people`, {
@@ -226,6 +231,7 @@ module.exports = {
     getAliases,
     getCaseStudies,
     getCaseStudyByGrantId,
+    getProjectStory,
     getDataStats,
     getFlexibleContent,
     getFundingProgramme,
