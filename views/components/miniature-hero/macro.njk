@@ -11,7 +11,7 @@
             {% if linkUrl %}</a>{% endif %}
             <h3 class="miniature-hero__title">
                 {% call overlayText(linkUrl = linkUrl, accent = accent, isTranslucent = true) %}
-                    {{ title }} {{ iconArrowRight() }}
+                    {{ title | widont | safe }}
                 {% endcall %}
             </h3>
         </div>

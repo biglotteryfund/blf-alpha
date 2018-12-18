@@ -144,6 +144,10 @@ global:
     share:
       facebook: Rhannu ar Facebook
       twitter: Rhannu ar Twitter
+    followUsOn: Dilynwch ni ar
+    instagram: Instagram
+    facebook: Facebook
+    twitter: Twitter
   programmes:
     programmeLabels:
       area: Ardal
@@ -197,11 +201,6 @@ toplevel:
       projectName: Y Sefydliad Iechyd Meddwl
       imageUrl: home/case-study-mental-health-foundation.jpg
       link: funding/big-stories/mental-health-foundation
-    social:
-      followUsOn: Dilynwch ni ar
-      instagram: Instagram
-      facebook: Facebook
-      twitter: Twitter
   wales:
     title: Cymru
     introduction: Y Gronfa Loteri Fawr yw ariannwr cymunedol mwyaf y Deyrnas Unedig.

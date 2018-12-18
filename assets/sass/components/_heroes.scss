@@ -179,6 +179,88 @@
 }
 
 /* =========================================================================
+   Super Hero Next (Rebrand)
+   ========================================================================= */
+/* Larger hero image (see: Homepage) */
+
+.super-hero-next {
+    color: white;
+    margin-bottom: $spacingUnit;
+    position: relative;
+
+    @include mq('xlarge') {
+        margin-bottom: $spacingUnit * 2;
+    }
+
+    .super-hero-next__content {
+        background-color: get-color('brand', 'primary');
+
+        @include mq('medium') {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: get-color('brand', 'primary-tint');
+        }
+    }
+
+    .super-hero-next__image {
+        margin: 0;
+        position: relative;
+    }
+
+    .super-hero-next__caption {
+        position: absolute;
+        bottom: $spacingUnit / 2;
+        right: $spacingUnit / 2;
+
+        @include mq('medium') {
+            top: $spacingUnit;
+            right: $spacingUnit;
+            bottom: auto;
+        }
+    }
+
+    .super-hero-next__header {
+        text-align: center;
+        padding: 24px 0 12px;
+    }
+
+    .super-hero-next__intro {
+        font-size: 14px;
+        line-height: 1.2;
+        font-weight: normal;
+        margin-bottom: 1em;
+        font-family: font-stack('display');
+
+        @media only screen and (min-width: 360px) {
+            font-size: 18px;
+        }
+
+        @include mq('medium') {
+            font-size: 21px;
+            max-width: 38em;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @include mq('large') {
+            font-size: 23px;
+        }
+
+        p {
+            margin-bottom: 3px;
+        }
+
+        a,
+        a:link {
+            color: inherit;
+            font-weight: font-weight('display', 'semibold');
+            text-decoration: underline;
+        }
+    }
+}
+
+/* =========================================================================
    Miniature Heroes
    ========================================================================= */
 /* e.g /funding/funding-guidance/managing-your-funding */
