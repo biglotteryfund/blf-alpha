@@ -67,6 +67,7 @@ const aliases = {
     '/funding/funding-guidance/applying-for-funding': '/funding',
     '/funding/funding-guidance/applying-for-funding/help-using-our-electronic-application-forms': '/funding-guidance/help-using-our-application-forms',
     '/funding/funding-guidance/applying-for-funding/information-checks': '/funding/funding-guidance/information-checks',
+    '/funding/funding-guidance/applying-for-funding/full-cost-recovery': '/funding/funding-guidance/full-cost-recovery',
     '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
     '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/LogoDownloads': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
     '/funding/funding-guidance/managing-your-funding/help-with-publicity': '/funding/funding-guidance/managing-your-funding',
