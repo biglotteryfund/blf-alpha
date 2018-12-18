@@ -2243,6 +2243,46 @@ Array [
     "to": "/welsh/funding/funding-guidance/information-checks",
   },
   Object {
+    "from": "/funding/funding-guidance/applying-for-funding/full-cost-recovery",
+    "to": "/funding/funding-guidance/full-cost-recovery",
+  },
+  Object {
+    "from": "/welsh/funding/funding-guidance/applying-for-funding/full-cost-recovery",
+    "to": "/welsh/funding/funding-guidance/full-cost-recovery",
+  },
+  Object {
+    "from": "/england/funding/funding-guidance/applying-for-funding/full-cost-recovery",
+    "to": "/funding/funding-guidance/full-cost-recovery",
+  },
+  Object {
+    "from": "/welsh/england/funding/funding-guidance/applying-for-funding/full-cost-recovery",
+    "to": "/welsh/funding/funding-guidance/full-cost-recovery",
+  },
+  Object {
+    "from": "/scotland/funding/funding-guidance/applying-for-funding/full-cost-recovery",
+    "to": "/funding/funding-guidance/full-cost-recovery",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/funding-guidance/applying-for-funding/full-cost-recovery",
+    "to": "/welsh/funding/funding-guidance/full-cost-recovery",
+  },
+  Object {
+    "from": "/northernireland/funding/funding-guidance/applying-for-funding/full-cost-recovery",
+    "to": "/funding/funding-guidance/full-cost-recovery",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/funding-guidance/applying-for-funding/full-cost-recovery",
+    "to": "/welsh/funding/funding-guidance/full-cost-recovery",
+  },
+  Object {
+    "from": "/wales/funding/funding-guidance/applying-for-funding/full-cost-recovery",
+    "to": "/funding/funding-guidance/full-cost-recovery",
+  },
+  Object {
+    "from": "/welsh/wales/funding/funding-guidance/applying-for-funding/full-cost-recovery",
+    "to": "/welsh/funding/funding-guidance/full-cost-recovery",
+  },
+  Object {
     "from": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads",
     "to": "/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos",
   },
