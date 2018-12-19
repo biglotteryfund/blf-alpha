@@ -4,12 +4,12 @@
 
 .o-badge {
     color: white;
-    background-color: get-color('text', 'note');
-    font-weight: font-weight('body', 'normal');
+    background-color: get-color('background', 'dark-neutral');
+    font-weight: font-weight('body', 'semibold');
     display: inline-block;
     vertical-align: middle;
-    padding: 6px 9px 4px;
-    font-size: 14px;
+    padding: 6px 10px;
+    font-size: 13px;
     line-height: 1;
 
     .icon {
@@ -20,7 +20,7 @@
         display: inline-block;
         vertical-align: middle;
         position: relative;
-        top: -2px; // Optically align
+        top: -1px; // Optically align
     }
 
     &.o-badge--primary {

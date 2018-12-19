@@ -7,7 +7,7 @@
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/flexible-content/macro.njk" import flexibleContent %}
 
-{% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList with context %}
+{% from './helpers.njk' import badgeActiveProject, badgeProjectStory, buildLocationList, buildOrgTypeList, pgLink with context %}
 
 {% if not pageHero %}
     {% set bodyClass = 'has-static-header' %}
@@ -78,7 +78,11 @@
                         </dl>
 
                         {% if grant.isActive %}
-                            <p class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</p>
+                            {{ badgeActiveProject()}}
+                        {% endif %}
+
+                        {% if projectStory %}
+                            {{ badgeProjectStory()}}
                         {% endif %}
                     {% endcall %}
 

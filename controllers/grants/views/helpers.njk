@@ -1,4 +1,18 @@
-{% from "components/icons.njk" import iconArrowLeft %}
+{% from "components/icons.njk" import iconArrowLeft, iconActiveProject, iconProjecStory %}
+
+{% macro badgeActiveProject() %}
+    <span class="o-badge o-badge--primary">
+        {{ iconActiveProject() }}
+        {{ __('global.misc.activeProject') }}
+    </span>
+{% endmacro %}
+
+{% macro badgeProjectStory() %}
+    <span class="o-badge o-badge--secondary">
+        {{ iconProjecStory() }}
+        {{ __('global.misc.projectStory') }}
+    </span>
+{% endmacro %}
 
 {% macro pgLink(key, value) -%}
     {% set value = value | urlencode %}

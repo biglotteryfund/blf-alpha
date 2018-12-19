@@ -112,6 +112,7 @@ global:
     otherEnterBelow: Other (please enter below)
   misc:
     archived: Archived
+    activeProject: Active Project
     back: back
     backToTop: Back to the top
     caseStudies: Case studies
@@ -132,6 +133,7 @@ global:
     email: email
     printThisPage: Print this page
     projectExamples: Examples of projects that have been funded
+    projectStory: Project story
     readMore: Read more
     readMoreAbout: "Read more about %s"
     required: Required
