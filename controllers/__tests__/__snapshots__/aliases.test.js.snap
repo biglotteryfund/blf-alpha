@@ -2923,6 +2923,46 @@ Array [
     "to": "/welsh/funding/strategic-investments/headstart",
   },
   Object {
+    "from": "/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/welsh/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/welsh/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/welsh/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/welsh/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/welsh/funding/strategic-investments/ageing-better",
+  },
+  Object {
     "from": "/global-content/programmes/england/help-through-crisis",
     "to": "/funding/programmes/help-through-crisis",
   },
