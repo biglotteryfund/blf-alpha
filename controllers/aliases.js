@@ -11,36 +11,6 @@ const { makeWelsh } = require('../modules/urls');
  */
 // prettier-ignore
 const aliases = {
-
-    // VANITY - move to CMS
-    '/A4A': '/funding/under10k',
-    '/a4a': '/funding/under10k',
-    '/about-big': '/about',
-    '/awardsforall': '/funding/under10k',
-    '/blog': '/news/blog',
-    '/cymru': '/welsh/wales',
-    '/data-protection': '/about/customer-service/data-protection',
-    '/ebulletin': '/about/ebulletin',
-    '/en-gb': '/',
-    '/england': '/',
-    '/englandwebinars': '/funding/programmes/national-lottery-awards-for-all-england',
-    '/freedom-of-information': '/about/customer-service/freedom-of-information',
-    '/funded-projects': '/funding/grants',
-    '/funding-uk': '/funding',
-    '/help-and-support': '/about',
-    '/home': '/',
-    '/index.html': '/',
-    '/logos': '/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-    '/northernireland': '/northern-ireland',
-    '/over10k': '/funding/over10k',
-    '/prog_people_places': '/funding/programmes?min=10000&location=wales',
-    '/publicity': '/funding/funding-guidance/managing-your-funding',
-    '/scotland': '/',
-    '/uk-wide': '/',
-    '/under10k': '/funding/under10k',
-    '/welcome': '/funding/funding-guidance/managing-your-funding',
-    '/yourgrant': '/funding/funding-guidance/managing-your-funding/ordering-free-materials',
-
     // CLEANUP
     '/about-big/contact-us': '/about',
     '/about-big/customer-service/bogus-lottery-emails': '/about/customer-service/bogus-lottery-emails',
