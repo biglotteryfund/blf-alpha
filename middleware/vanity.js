@@ -14,13 +14,13 @@ module.exports = async function vanityLookup(req, res, next) {
         const enAliases = await contentApi.getAliases({ locale: 'en' });
         const enMatch = findAlias(enAliases);
         if (enMatch) {
-            res.redirect(301, enMatch.to);
+            res.redirect(301, enMatch.to || '/');
         } else {
             try {
                 const cyAliases = await contentApi.getAliases({ locale: 'cy' });
                 const cyMatch = find(alias => alias.from === req.path)(cyAliases);
                 if (cyMatch) {
-                    res.redirect(301, cyMatch.to);
+                    res.redirect(301, cyMatch.to || '/');
                 } else {
                     next();
                 }
