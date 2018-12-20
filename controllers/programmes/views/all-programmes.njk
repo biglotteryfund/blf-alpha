@@ -1,0 +1,48 @@
+{% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero with context %}
+{% from "components/programmes.njk" import programmeStats with context %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+
+{% block content %}
+    <main role="main">
+        {{ hero(
+            titleText = title,
+            image = pageHero.image,
+            accent = pageAccent
+        ) }}
+
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top nudge-up">
+            {{ breadcrumbTrail(breadcrumbs) }}
+
+            <nav class="alpha-links">
+                <ol class="alpha-links__list">
+                    {% for letter in "#ABCDEFGHIJKLMNOPQRSTUVWXYZ" | list %}
+                        {% set programmesForLetter = groupedProgrammes[letter] %}
+                        {% if programmesForLetter %}
+                            <li class="alpha-links__item">
+                                <a class="alpha-links__letter alpha-links__link" href="#group-{{ letter }}">{{ letter }}</a>
+                            </li>
+                        {% else %}
+                            <li class="alpha-links__item">
+                                <span class="alpha-links__letter">{{ letter }}</span>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ol>
+            </nav>
+
+            {% for groupName, programmes in groupedProgrammes %}
+                <section class="archive-listing">
+                    <h3 id="group-{{ groupName }}" class="archive-listing__header">{{ groupName }}</h3>
+
+                    {% for programme in programmes %}
+                        <article class="archive-listing__item s-prose u-constrained-content">
+                            <h3><a href="{{ programme.linkUrl }}">{{ programme.title | widont | safe }}</a></h3>
+                            {{ programme.description | safe }}
+                        </article>
+                    {% endfor %}
+                </section>
+            {% endfor %}
+        </section>
+    </main>
+{% endblock %}
