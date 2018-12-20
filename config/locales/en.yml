@@ -856,7 +856,7 @@ funding:
     over10k: Awards over £10,000
   allProgrammes:
     title: All programmes
-    filterLabel: Filter by area
+    filterLabel: Filter by region
   digitalFund:
     title: Digital Fund
     intro: The Digital Fund is a new UK wide £15 million funding programme to support charities and community organisations. It is about helping the charity and voluntary sector to use digital tools and approaches to support people and communities to thrive.

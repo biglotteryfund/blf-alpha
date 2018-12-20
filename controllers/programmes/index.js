@@ -2,6 +2,7 @@
 const { concat, groupBy, head, map } = require('lodash');
 const express = require('express');
 const path = require('path');
+const features = require('config').get('features');
 
 const {
     injectBreadcrumbs,
@@ -100,57 +101,70 @@ router.get('/', commonHero, injectCopy('funding.programmes'), async (req, res, n
 /**
  * All programmes
  */
-router.get('/all', sMaxAge('3h'), commonHero, injectCopy('funding.allProgrammes'), async (req, res, next) => {
-    try {
-        const response = await contentApi.getFundingProgrammes({
-            locale: req.i18n.getLocale(),
-            showAll: true,
-            page: req.query.page || 1,
-            pageLimit: 250
-        });
-
-        const allFundingProgrammes = response.result || [];
-
-        const locationParam = getValidLocation(allFundingProgrammes, req.query.location);
-
-        const programmes = allFundingProgrammes.filter(programmeFilters.filterByLocation(locationParam));
-
-        /**
-         * Group programmes alpha-numerically
-         */
-        const groupedProgrammes = groupBy(programmes, function(programme) {
-            const firstLetter = head(programme.title.split('')).toUpperCase();
-            return /\d/.test(firstLetter) ? '#' : firstLetter;
-        });
-
-        const breadcrumbs = concat(res.locals.breadcrumbs, [{ label: res.locals.title }]);
-
-        if (locationParam) {
-            const globalCopy = req.i18n.__('global');
-            breadcrumbs.push({
-                label: {
-                    england: globalCopy.regions.england,
-                    wales: globalCopy.regions.wales,
-                    scotland: globalCopy.regions.scotland,
-                    northernIreland: globalCopy.regions.northernIreland,
-                    ukWide: globalCopy.regions.ukWide
-                }[locationParam]
+if (features.enableProgrammeArchive) {
+    router.get('/all', sMaxAge('3h'), commonHero, injectCopy('funding.allProgrammes'), async (req, res, next) => {
+        try {
+            const response = await contentApi.getFundingProgrammes({
+                locale: req.i18n.getLocale(),
+                showAll: true,
+                page: req.query.page || 1,
+                pageLimit: 250
             });
-        }
 
-        // If we have more than three breadcrumbs assign a url to the third (the current page)
-        if (breadcrumbs.length > 3) {
-            breadcrumbs[2].url = req.baseUrl;
-        }
+            const allFundingProgrammes = response.result || [];
 
-        res.render(path.resolve(__dirname, './views/all-programmes'), {
-            groupedProgrammes: groupedProgrammes,
-            breadcrumbs: breadcrumbs
-        });
-    } catch (error) {
-        next(error);
-    }
-});
+            const locationParam = getValidLocation(allFundingProgrammes, req.query.location);
+
+            const programmes = allFundingProgrammes.filter(programmeFilters.filterByLocation(locationParam));
+
+            /**
+             * Group programmes alpha-numerically
+             */
+            const groupedProgrammes = groupBy(programmes, function(programme) {
+                const firstLetter = head(programme.title.split('')).toUpperCase();
+                return /\d/.test(firstLetter) ? '#' : firstLetter;
+            });
+
+            const breadcrumbs = concat(res.locals.breadcrumbs, [{ label: res.locals.title }]);
+
+            const regionsCopy = req.i18n.__('global.regions');
+            const locations = {
+                england: regionsCopy.england,
+                wales: regionsCopy.wales,
+                scotland: regionsCopy.scotland,
+                northernIreland: regionsCopy.northernIreland,
+                ukWide: regionsCopy.ukWide
+            };
+
+            const locationLinks = map(locations, function(value, key) {
+                return {
+                    url: `${req.baseUrl}${req.path}?location=${key}`,
+                    label: value
+                };
+            });
+
+            if (locationParam) {
+                breadcrumbs.push({
+                    label: locations[locationParam]
+                });
+            }
+
+            // If we have more than three breadcrumbs assign a url to the third (the current page)
+            if (breadcrumbs.length > 3) {
+                breadcrumbs[2].url = req.baseUrl + req.path;
+            }
+
+            res.render(path.resolve(__dirname, './views/all-programmes'), {
+                locationLinks: locationLinks,
+                locationParam: locationParam,
+                groupedProgrammes: groupedProgrammes,
+                breadcrumbs: breadcrumbs
+            });
+        } catch (error) {
+            next(error);
+        }
+    });
+}
 
 /**
  * Digital Fund
