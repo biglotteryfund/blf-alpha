@@ -112,3 +112,30 @@
         margin: 5px 0;
     }
 }
+
+/* =========================================================================
+   All Programmes / Archive Listing
+   ========================================================================= */
+
+.archive-listing {
+    margin-bottom: $spacingUnit * 2;
+
+    .archive-listing__header {
+        background-color: get-color('background', 'light-neutral');
+        box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.05);
+        padding: 6px 12px;
+        margin-bottom: 12px;
+        position: sticky;
+        top: 0;
+    }
+
+    .archive-listing__item {
+        padding: 12px 0 6px;
+        border-bottom: 1px dotted get-color('border', 'base');
+
+        &:last-of-type {
+            border-bottom: 0;
+            padding-bottom: 0;
+        }
+    }
+}
