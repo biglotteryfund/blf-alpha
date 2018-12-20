@@ -39,6 +39,7 @@
     "enableLegacyFileArchiving": false,
     "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
+    "enableProgrammeArchive": true,
     "enablePrompt": false,
     "enableRelatedGrants": true,
     "enableSurvey": true,
