@@ -136,9 +136,33 @@
     .promo-card__summary {
         @include wrap-words();
     }
-}
 
-.promo-card--featured {
-    background-color: white;
-    box-shadow: 0 0 1px 1px get-color('border', 'base');
+    /**
+     * Featured variant
+     */
+    &.promo-card--featured {
+        background-color: white;
+        box-shadow: 0 0 1px 1px get-color('border', 'base');
+    }
+
+    /**
+     * Inline variant
+     */
+    &.promo-card--inline {
+        @include mq('medium-minor') {
+            flex-direction: row;
+            max-width: 100%;
+            min-height: auto;
+
+            .promo-card__media {
+                flex: 0 0 35%;
+            }
+        }
+
+        @include mq('medium') {
+            .promo-card__body {
+                padding: $spacingUnit;
+            }
+        }
+    }
 }

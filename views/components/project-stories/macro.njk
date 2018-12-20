@@ -1,32 +1,37 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
 
+{% macro projectStory(story, isInline = false) %}
+    {{ promoCard({
+        "title": story.title,
+        "summary": story.trailSummary,
+        "image": {
+            "url": story.trailPhoto,
+            "alt": story.title
+        },
+        "link": {
+            "label": __('global.misc.readMore'),
+            "labelAria": __('global.misc.readMoreAbout', story.title),
+            "url": story.linkUrl
+        }
+    }, isInline = isInline) }}
+{% endmacro %}
+
 {% macro projectStories(stories, title = false) %}
     {% if stories.length > 0 %}
-        <section class="u-padded">
-            <div class="u-inner">
-                <h2 class="t--underline">{{ title }}</h2>
-            </div>
-            <div class="u-inner-wide-only">
-                <ul class="flex-grid flex-grid--3up">
+        <section class="u-inner u-margin-bottom">
+            <h2 class="t--underline">{{ title }}</h2>
+            {% if stories.length === 1 %}
+                {% set story = stories | first %}
+                {{ projectStory(story, isInline = true) }}
+            {% else %}
+                <ul class="flex-grid {% if stories.length % 2 === 0 %}flex-grid--2up{% else %}flex-grid--3up{% endif %}">
                     {% for story in stories  %}
                         <li class="flex-grid__item">
-                            {{ promoCard({
-                                "title": story.title,
-                                "summary": story.trailSummary,
-                                "image": {
-                                    "url": story.trailPhoto,
-                                    "alt": story.title
-                                },
-                                "link": {
-                                    "label": __('global.misc.readMore'),
-                                    "labelAria": __('global.misc.readMoreAbout', story.title),
-                                    "url": story.linkUrl
-                                }
-                            }) }}
+                            {{ projectStory(story) }}
                         </li>
                     {% endfor %}
                 </ul>
-            </div>
+            {% endif %}
         </section>
     {% endif %}
 {% endmacro %}
