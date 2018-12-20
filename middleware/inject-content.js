@@ -215,21 +215,6 @@ async function injectFundingProgramme(req, res, next) {
     }
 }
 
-async function injectFundingProgrammes(req, res, next) {
-    try {
-        res.locals.fundingProgrammes = await contentApi.getFundingProgrammes({
-            locale: req.i18n.getLocale()
-        });
-        next();
-    } catch (error) {
-        if (error.statusCode >= 500) {
-            next(error);
-        } else {
-            next();
-        }
-    }
-}
-
 async function injectStrategicProgramme(req, res, next) {
     try {
         // Assumes a parameter of :slug in the request
@@ -389,7 +374,6 @@ module.exports = {
     injectCopy,
     injectFlexibleContent,
     injectFundingProgramme,
-    injectFundingProgrammes,
     injectHeroImage,
     injectListingContent,
     injectMerchandise,

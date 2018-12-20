@@ -1,20 +1,18 @@
 'use strict';
-const path = require('path');
-const { concat, map, groupBy } = require('lodash');
+const { concat, groupBy, head, map } = require('lodash');
 const express = require('express');
-
-const { basicContent } = require('../common');
+const path = require('path');
 
 const {
     injectBreadcrumbs,
     injectCopy,
     injectHeroImage,
-    injectFundingProgramme,
-    injectFundingProgrammes
+    injectFundingProgramme
 } = require('../../middleware/inject-content');
-const appData = require('../../modules/appData');
-
+const { basicContent } = require('../common');
 const { getValidLocation, programmeFilters } = require('./helpers');
+const contentApi = require('../../services/content-api');
+const { sMaxAge } = require('../../middleware/cached');
 
 const router = express.Router();
 
@@ -27,16 +25,18 @@ router.use(injectBreadcrumbs, (req, res, next) => {
     next();
 });
 
+const commonHero = injectHeroImage('the-young-foundation');
+
 /**
  * Programmes list
  */
-router.get(
-    '/',
-    injectHeroImage('the-young-foundation'),
-    injectCopy('funding.programmes'),
-    injectFundingProgrammes,
-    (req, res) => {
-        const allFundingProgrammes = res.locals.fundingProgrammes || [];
+router.get('/', commonHero, injectCopy('funding.programmes'), async (req, res, next) => {
+    try {
+        const response = await contentApi.getFundingProgrammes({
+            locale: req.i18n.getLocale()
+        });
+
+        const allFundingProgrammes = response.result || [];
 
         const locationParam = getValidLocation(allFundingProgrammes, req.query.location);
 
@@ -92,29 +92,65 @@ router.get(
             groupedProgrammes,
             activeBreadcrumbsSummary
         });
+    } catch (error) {
+        next(error);
     }
-);
+});
 
 /**
- * Programmes list: closed to applicants
+ * All programmes
  */
-if (appData.isNotProduction) {
-    router.get(
-        '/closed',
-        injectHeroImage('the-young-foundation'),
-        injectCopy('funding.programmesClosed'),
-        injectFundingProgrammes,
-        (req, res) => {
-            const allFundingProgrammes = res.locals.fundingProgrammes || [];
-            const programmes = allFundingProgrammes.filter(p => p.programmeType === 'closedToApplicants');
+router.get('/all', sMaxAge('3h'), commonHero, injectCopy('funding.allProgrammes'), async (req, res, next) => {
+    try {
+        const response = await contentApi.getFundingProgrammes({
+            locale: req.i18n.getLocale(),
+            showAll: true,
+            page: req.query.page || 1,
+            pageLimit: 250
+        });
 
-            res.render(path.resolve(__dirname, './views/programmes-list'), {
-                programmes,
-                breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.title }])
+        const allFundingProgrammes = response.result || [];
+
+        const locationParam = getValidLocation(allFundingProgrammes, req.query.location);
+
+        const programmes = allFundingProgrammes.filter(programmeFilters.filterByLocation(locationParam));
+
+        /**
+         * Group programmes alpha-numerically
+         */
+        const groupedProgrammes = groupBy(programmes, function(programme) {
+            const firstLetter = head(programme.title.split('')).toUpperCase();
+            return /\d/.test(firstLetter) ? '#' : firstLetter;
+        });
+
+        const breadcrumbs = concat(res.locals.breadcrumbs, [{ label: res.locals.title }]);
+
+        if (locationParam) {
+            const globalCopy = req.i18n.__('global');
+            breadcrumbs.push({
+                label: {
+                    england: globalCopy.regions.england,
+                    wales: globalCopy.regions.wales,
+                    scotland: globalCopy.regions.scotland,
+                    northernIreland: globalCopy.regions.northernIreland,
+                    ukWide: globalCopy.regions.ukWide
+                }[locationParam]
             });
         }
-    );
-}
+
+        // If we have more than three breadcrumbs assign a url to the third (the current page)
+        if (breadcrumbs.length > 3) {
+            breadcrumbs[2].url = req.baseUrl;
+        }
+
+        res.render(path.resolve(__dirname, './views/all-programmes'), {
+            groupedProgrammes: groupedProgrammes,
+            breadcrumbs: breadcrumbs
+        });
+    } catch (error) {
+        next(error);
+    }
+});
 
 /**
  * Digital Fund
