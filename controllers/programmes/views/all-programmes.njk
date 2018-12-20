@@ -2,6 +2,7 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/programmes.njk" import programmeStats with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/inline-links/macro.njk" import inlineLinks %}
 
 {% block content %}
     <main role="main">
@@ -30,6 +31,12 @@
                     {% endfor %}
                 </ol>
             </nav>
+
+            {% if not locationParam %}
+                <div class="u-margin-bottom">
+                    {{ inlineLinks(copy.filterLabel, locationLinks)}}
+                </div>
+            {% endif %}
 
             {% for groupName, programmes in groupedProgrammes %}
                 <section class="archive-listing">
