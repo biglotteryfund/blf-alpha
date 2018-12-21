@@ -1,17 +1,16 @@
 {% extends "layouts/main.njk" %}
-{% from "components/hero.njk" import hero with context %}
-{% from "components/programmes.njk" import programmeCard with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
+{% from "components/programmes.njk" import programmeCard with context %}
 
 {% block content %}
-    <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+    {{ heroImage(pageHero.image) }}
 
-        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top nudge-up">
+    <main class="u-nudge-up" id="content">
+        {{ pageTitle(title) }}
+
+        <section class="content-box u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
             {{ breadcrumbTrail(breadcrumbs) }}
             <h2 class="u-visually-hidden">{{ activeBreadcrumbsSummary }}</h2>
 

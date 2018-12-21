@@ -78,6 +78,28 @@
 }
 
 /* =========================================================================
+   Hero Image
+   ========================================================================= */
+
+.hero-image {
+    color: white;
+    position: relative;
+
+    .hero-image__image img {
+        display: block;
+    }
+
+    .hero-image__caption {
+        position: absolute;
+        top: $spacingUnit;
+        right: $spacingUnit;
+
+        @include mq('medium', 'max') {
+            display: none;
+        }
+    }
+}
+/* =========================================================================
    Super Hero
    ========================================================================= */
 /* Larger hero image (see: Homepage) */

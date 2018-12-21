@@ -1,0 +1,23 @@
+
+{% macro heroImage(image) %}
+    <aside class="hero-image">
+        <figure class="hero-image__figure">
+            <picture class="hero-image__picture">
+                <source srcset="{{ image.large }}" media="(min-width: 980px)">
+                <source srcset="{{ image.medium }}" media="(min-width: 600px)">
+                <source srcset="{{ image.small }}">
+                <img src="{{ image.default }}" alt="{{ image.caption }}" />
+            </picture>
+            {% if image.caption %}
+                <figcaption class="hero-image__caption u-caption">
+                    {# @TODO: Generalise this as image.linkUrl #}
+                    {% if image.grantId %}
+                        <a href="{{ localify("/funding/grants/" + image.grantId) }}" class="u-link-unstyled">
+                    {% endif %}
+                    {{ image.caption }}
+                    {% if image.grantId %}</a>{% endif %}
+                </figcaption>
+            {% endif %}
+        </figure>
+    </aside>
+{% endmacro %}
