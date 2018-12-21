@@ -2363,43 +2363,43 @@ Array [
     "to": "/welsh/funding/strategic-investments/headstart",
   },
   Object {
-    "from": "global-content/programmes/england/fulfilling-lives-a-better-start",
+    "from": "/global-content/programmes/england/fulfilling-lives-a-better-start",
     "to": "/funding/strategic-investments/a-better-start",
   },
   Object {
-    "from": "/welshglobal-content/programmes/england/fulfilling-lives-a-better-start",
+    "from": "/welsh/global-content/programmes/england/fulfilling-lives-a-better-start",
     "to": "/welsh/funding/strategic-investments/a-better-start",
   },
   Object {
-    "from": "/englandglobal-content/programmes/england/fulfilling-lives-a-better-start",
+    "from": "/england/global-content/programmes/england/fulfilling-lives-a-better-start",
     "to": "/funding/strategic-investments/a-better-start",
   },
   Object {
-    "from": "/welsh/englandglobal-content/programmes/england/fulfilling-lives-a-better-start",
+    "from": "/welsh/england/global-content/programmes/england/fulfilling-lives-a-better-start",
     "to": "/welsh/funding/strategic-investments/a-better-start",
   },
   Object {
-    "from": "/scotlandglobal-content/programmes/england/fulfilling-lives-a-better-start",
+    "from": "/scotland/global-content/programmes/england/fulfilling-lives-a-better-start",
     "to": "/funding/strategic-investments/a-better-start",
   },
   Object {
-    "from": "/welsh/scotlandglobal-content/programmes/england/fulfilling-lives-a-better-start",
+    "from": "/welsh/scotland/global-content/programmes/england/fulfilling-lives-a-better-start",
     "to": "/welsh/funding/strategic-investments/a-better-start",
   },
   Object {
-    "from": "/northernirelandglobal-content/programmes/england/fulfilling-lives-a-better-start",
+    "from": "/northernireland/global-content/programmes/england/fulfilling-lives-a-better-start",
     "to": "/funding/strategic-investments/a-better-start",
   },
   Object {
-    "from": "/welsh/northernirelandglobal-content/programmes/england/fulfilling-lives-a-better-start",
+    "from": "/welsh/northernireland/global-content/programmes/england/fulfilling-lives-a-better-start",
     "to": "/welsh/funding/strategic-investments/a-better-start",
   },
   Object {
-    "from": "/walesglobal-content/programmes/england/fulfilling-lives-a-better-start",
+    "from": "/wales/global-content/programmes/england/fulfilling-lives-a-better-start",
     "to": "/funding/strategic-investments/a-better-start",
   },
   Object {
-    "from": "/welsh/walesglobal-content/programmes/england/fulfilling-lives-a-better-start",
+    "from": "/welsh/wales/global-content/programmes/england/fulfilling-lives-a-better-start",
     "to": "/welsh/funding/strategic-investments/a-better-start",
   },
   Object {
