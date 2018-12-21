@@ -1,4 +1,4 @@
-{% from "components/icons.njk" import iconArrowLeft, iconActiveProject, iconProjecStory %}
+{% from "components/icons.njk" import iconArrowLeft, iconActiveProject, iconProjectStory %}
 
 {% macro badgeActiveProject() %}
     <span class="o-badge o-badge--primary">
@@ -9,7 +9,7 @@
 
 {% macro badgeProjectStory() %}
     <span class="o-badge o-badge--secondary">
-        {{ iconProjecStory() }}
+        {{ iconProjectStory() }}
         {{ __('global.misc.projectStory') }}
     </span>
 {% endmacro %}
