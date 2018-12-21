@@ -11,9 +11,16 @@
     border-left: 5px solid get-color('message', 'base');
     background-color: get-color('background', 'light-neutral');
     margin-bottom: $spacingUnit;
+    max-width: 35em;
 
     &.message--error {
-        border-left: 5px solid get-color('message', 'warning');
+        border-color: get-color('message', 'warning');
+    }
+
+    &.message--archived {
+        font-weight: font-weight('body', 'semibold');
+        border-color: get-color('brand', 'primary');
+        background-color: darken(get-color('brand', 'primary-light-wash'), 5%);
     }
 
     > p {

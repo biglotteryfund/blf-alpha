@@ -11,9 +11,10 @@ const {
     injectFundingProgramme
 } = require('../../middleware/inject-content');
 const { basicContent } = require('../common');
+const { buildArchiveUrl } = require('../../modules/archived');
 const { getValidLocation, programmeFilters } = require('./helpers');
-const contentApi = require('../../services/content-api');
 const { sMaxAge } = require('../../middleware/cached');
+const contentApi = require('../../services/content-api');
 
 const router = express.Router();
 
@@ -176,9 +177,28 @@ router.use('/digital-fund', require('../digital-fund'));
  */
 router.get('/:slug', injectFundingProgramme, (req, res, next) => {
     const { fundingProgramme } = res.locals;
+
     if (fundingProgramme && fundingProgramme.contentSections.length > 0) {
+        /**
+         * Programme Detail page
+         */
         res.render(path.resolve(__dirname, './views/programme'), {
             entry: fundingProgramme,
+            breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.title }])
+        });
+    } else if (
+        features.enableProgrammeArchive &&
+        fundingProgramme &&
+        fundingProgramme.status === 'expired' &&
+        fundingProgramme.legacyPath
+    ) {
+        /**
+         * Archived programme
+         * @TODO Should the logic for this be in the API? e.g. fundingProgramme.isArchvied?
+         */
+        res.render(path.resolve(__dirname, './views/archived-programme'), {
+            entry: fundingProgramme,
+            archiveUrl: buildArchiveUrl(fundingProgramme.legacyPath),
             breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.title }])
         });
     } else {

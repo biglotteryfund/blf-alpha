@@ -98,11 +98,10 @@
     }
 }
 
-// @TODO: Name these colours as variables?
 @if $useNewBrand == true {
     .breadcrumb-trail--tinted {
-        color: #5c003a; // Burgundy
-        background-color: #f4d3e6;
+        color: #5c003a; // @TODO: Name this colour as variables?
+        background-color: darken(get-color('brand', 'primary-light-wash'), 5%);
     }
 } @else {
     .breadcrumb-trail--tinted {
