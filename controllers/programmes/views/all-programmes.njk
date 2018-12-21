@@ -3,6 +3,7 @@
 {% from "components/programmes.njk" import programmeStats with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/inline-links/macro.njk" import inlineLinks %}
+{% from "components/badges/macros.njk" import badgeArchived with context %}
 
 {% block content %}
     <main role="main">
@@ -43,9 +44,16 @@
                     <h3 id="group-{{ groupName }}" class="archive-listing__header">{{ groupName }}</h3>
 
                     {% for programme in programmes %}
-                        <article class="archive-listing__item s-prose u-constrained-content">
-                            <h3><a href="{{ programme.linkUrl }}">{{ programme.title | widont | safe }}</a></h3>
-                            {{ programme.description | safe }}
+                        <article class="archive-listing__item s-prose">
+                            <h3>
+                                <a href="{{ programme.linkUrl }}">{{ programme.title | widont | safe }}</a>
+                                {% if programme.isArchived %}
+                                    {{ badgeArchived("u-margin-left-s") }}
+                                {% endif %}
+                            </h3>
+                            <div class="u-constrained-content">
+                                {{ programme.description | safe }}
+                            </div>
                         </article>
                     {% endfor %}
                 </section>

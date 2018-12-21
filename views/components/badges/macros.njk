@@ -1,0 +1,8 @@
+{% from "components/icons.njk" import iconArchived %}
+
+{% macro badgeArchived(extraClasses = null) %}
+    <span class="o-badge{% if extraClasses %} {{ extraClasses }}{% endif %}">
+        {{ iconArchived() }}
+        {{ __('global.misc.archived') }}
+    </span>
+{% endmacro %}
