@@ -854,6 +854,12 @@ funding:
     title: Funding programmes
     under10k: Awards under £10,000
     over10k: Awards over £10,000
+  archivedProgramme:
+    archivedMessage: This programme is no longer available and has been archived
+    archivedDetail: >
+      <p>You can view the original page with full details about the programme at <a href="%s">The National Archives</a>.</p>
+    openProgrammes: >
+      <p>Please visit our <a href="%s">open programmes</a> to learn about new funding opportunities.</p>
   allProgrammes:
     title: All programmes
     filterLabel: Filter by region
