@@ -9,6 +9,7 @@
 .page-title {
     width: 100%;
     font-size: font-scale('display', 't4');
+    margin: $spacingUnit;
 
     @include mq('medium') {
         max-width: 26em;

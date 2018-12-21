@@ -1,5 +1,8 @@
 {% from "components/overlay-text/macro.njk" import overlayText %}
 
-{% macro pageTitle(title, accent = 'pink') %}
+{# @TODO: Remove isConstrained flag once fully migrated #}
+{% macro pageTitle(title, accent = 'pink', isConstrained = true) %}
+    {% if isConstrained %}<div class="u-inner">{% endif %}
     <h1 class="page-title">{% call overlayText(accent) %}{{ title | widont | safe }}{% endcall %}</h1>
+    {% if isConstrained %}</div>{% endif %}
 {% endmacro %}

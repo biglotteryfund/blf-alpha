@@ -45,11 +45,19 @@
     margin-right: $spacingUnit / 2;
 }
 
+// @TODO: Deprecated in favour of u-nudge-up
 .nudge-up {
     @include mq('medium') {
-        top: -$nudgeOffset;
-        margin-bottom: -$nudgeOffset;
+        top: -25px;
+        margin-bottom: -25px;
         position: relative;
         z-index: 10;
     }
+}
+
+.u-nudge-up {
+    top: -$nudgeOffset;
+    margin-bottom: -$nudgeOffset;
+    position: relative;
+    z-index: 10;
 }
