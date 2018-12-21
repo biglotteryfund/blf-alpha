@@ -9,8 +9,8 @@ const contentApi = require('../services/content-api');
 /*
  * Populate hero image (with social image URLs too)
  * */
-function setHeroLocals({ res, entry, withFallbackHero = false }) {
-    const { useNewBrand, fallbackHeroImage } = res.locals;
+function setHeroLocals({ res, entry }) {
+    const { useNewBrand } = res.locals;
     const newHeroImage = get('heroNew.image')(entry);
     const newHeroCredit = get('heroNew.credit')(entry);
 
@@ -18,11 +18,6 @@ function setHeroLocals({ res, entry, withFallbackHero = false }) {
         res.locals.pageHero = {
             image: newHeroImage,
             credit: newHeroCredit
-        };
-    } else if (withFallbackHero) {
-        res.locals.pageHero = {
-            image: entry.hero || fallbackHeroImage,
-            credit: entry.heroCredit
         };
     } else if (entry.hero) {
         res.locals.pageHero = {
@@ -46,7 +41,7 @@ function setHeroLocals({ res, entry, withFallbackHero = false }) {
  * - pageHero (with optional fallback)
  * - optional custom theme colour
  */
-function setCommonLocals({ res, entry, withFallbackHero = false }) {
+function setCommonLocals({ res, entry }) {
     res.locals.title = entry.title;
 
     res.locals.isBilingual = entry.availableLanguages.length === 2;
@@ -56,7 +51,7 @@ function setCommonLocals({ res, entry, withFallbackHero = false }) {
         lastUpdated: moment(entry.dateUpdated.date).format('Do MMM YYYY [at] h:mma')
     };
 
-    setHeroLocals({ res, entry, withFallbackHero });
+    setHeroLocals({ res, entry });
 
     if (entry.themeColour) {
         res.locals.pageAccent = entry.themeColour;
@@ -204,7 +199,7 @@ async function injectFundingProgramme(req, res, next) {
         });
 
         res.locals.fundingProgramme = entry;
-        setCommonLocals({ res, entry, withFallbackHero: true });
+        setCommonLocals({ res, entry });
         next();
     } catch (error) {
         if (error.statusCode >= 500) {
@@ -282,7 +277,7 @@ async function injectResearchEntry(req, res, next) {
             });
 
             res.locals.researchEntry = entry;
-            setCommonLocals({ res, entry, withFallbackHero: true });
+            setCommonLocals({ res, entry });
         }
         next();
     } catch (error) {

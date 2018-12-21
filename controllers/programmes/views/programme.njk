@@ -3,72 +3,82 @@
 {% from "components/content-box-intro/macro.njk" import contentBoxIntro with context %}
 {% from "components/content-tabs/macro.njk" import contentTabs %}
 {% from "components/hero.njk" import hero with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/programmes.njk" import programmeStats with context %}
 
-{% if entry.area.value === 'wales' %}
-    {% set bodyClass = "has-welsh-logo" %}
-{% endif %}
+{% if entry.area.value === 'wales' %}{% set bodyClass = "has-welsh-logo" %}{% endif %}
+{% if not pageHero %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% block content %}
     <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
+        {% if pageHero %}
+            {{ hero(
+                titleText = title,
+                image = pageHero.image,
+                accent = pageAccent
+            ) }}
+        {% endif %}
+
+        {% if pageHero %}<div class="nudge-up">{% endif %}
+        
+        {% if not pageHero %}
+            <div class="u-inner">
+                {{ pageTitle(title) }}
+            </div>
+        {% endif %}
+        
+        {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = pageHero.credit) %}
+            {% if entry.description %}
+                {{ entry.description | safe }}
+            {% endif %}
+            {{ programmeStats(entry, isCompact = true) }}
+        {% endcall %}
+
+        <div class="u-inner-wide-only">
+            {% if entry.contentSections.length > 1 %}
+                {% set tabItems = [] %}
+                {% for section in entry.contentSections -%}
+                    {% set tabContent -%}
+                        <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                            {{ section.body | safe }}
+                        </div>
+                    {%- endset %}
+
+                    {% set tabItems = (tabItems.push({
+                        "id": "section-" + loop.index,
+                        "title": section.title,
+                        "content": tabContent,
+                        "active": loop.index === 1
+                    }), tabItems) %}
+                {%- endfor %}
+
+                {{ contentTabs(tabItems) }}
+            {% else %}
+                {% set section = entry.contentSections[0] %}
+                <div class="content-box content-box--borderless">
+                    <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                        <h2 class="t2 t--underline accent--{{ pageAccent }} a--text">{{ section.title }}</h2>
+                        {{ section.body | safe }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if entry.footer %}
+                <div class="content-box content-box--frameless">
+                    <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                        {{ entry.footer | safe }}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        {# Case Studies #}
+        {{ caseStudyCollection(
+            caseStudies = entry.caseStudies,
+            customSectionTitle = __('global.misc.projectExamples'),
             accent = pageAccent
         ) }}
 
-        <div class="nudge-up">
-            {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = pageHero.credit) %}
-                {% if entry.description %}
-                    {{ entry.description | safe }}
-                {% endif %}
-                {{ programmeStats(entry, isCompact = true) }}
-            {% endcall %}
-
-            <div class="u-inner-wide-only">
-                {% if entry.contentSections.length > 1 %}
-                    {% set tabItems = [] %}
-                    {% for section in entry.contentSections -%}
-                        {% set tabContent -%}
-                            <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
-                                {{ section.body | safe }}
-                            </div>
-                        {%- endset %}
-
-                        {% set tabItems = (tabItems.push({
-                            "id": "section-" + loop.index,
-                            "title": section.title,
-                            "content": tabContent,
-                            "active": loop.index === 1
-                        }), tabItems) %}
-                    {%- endfor %}
-
-                    {{ contentTabs(tabItems) }}
-                {% else %}
-                    {% set section = entry.contentSections[0] %}
-                    <div class="content-box content-box--borderless">
-                        <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
-                            <h2 class="t2 t--underline accent--{{ pageAccent }} a--text">{{ section.title }}</h2>
-                            {{ section.body | safe }}
-                        </div>
-                    </div>
-                {% endif %}
-
-                {% if entry.footer %}
-                    <div class="content-box content-box--frameless">
-                        <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
-                            {{ entry.footer | safe }}
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-
-            {# Case Studies #}
-            {{ caseStudyCollection(
-                caseStudies = entry.caseStudies,
-                customSectionTitle = __('global.misc.projectExamples'),
-                accent = pageAccent
-            ) }}
-        </div>
+        {% if pageHero %}</div>{% endif %}
     </main>
 {% endblock %}
