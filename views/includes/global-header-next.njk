@@ -3,16 +3,16 @@
 
 {% macro globalSearch() %}
     <form class="global-search-next js-global-search-form" role="search" action="/search">
-        <label class="u-visually-hidden" for="global-search-input">
-            {{ __("global.misc.search") }}
+        <label>
+            <span class="u-visually-hidden">{{ __("global.misc.search") }}</span>
+            <input
+                class="global-search-next__input ff-text"
+                id="global-search-input"
+                name="q"
+                type="search"
+                placeholder="{{ __("global.misc.search") }}"
+            >
         </label>
-        <input
-            class="global-search-next__input ff-text"
-            id="global-search-input"
-            name="q"
-            type="search"
-            placeholder="{{ __("global.misc.search") }}"
-        >
         <button class="global-search-next__submit" type="submit">
             <span class="global-search-next__icon">{{ iconSearch() }}</span>
             <span class="global-search-next__label">{{ __("global.misc.search") }}</span>
@@ -20,7 +20,7 @@
     </form>
 {% endmacro %}
 
-<header class="global-header-next js-global-header" role="banner">
+<header class="global-header-next js-global-header">
     <div class="global-header-next__inner">
         <div class="global-header-next__extra">
             <ul class="global-header-next__navigation-secondary">
