@@ -8,6 +8,8 @@
 {#  Add archived prefix to help with analytics reporting #}
 {% block title %}Archived | {{ title }} | {% endblock %}
 
+{% set bodyClass = 'has-static-header' %}
+
 {% set archivedCopy = __('funding.archivedProgramme') %}
 
 {% block content %}
