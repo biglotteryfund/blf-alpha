@@ -107,6 +107,7 @@ global:
     other: Other
     otherEnterBelow: Other (please enter below)
   misc:
+    archived: Archived
     back: back
     backToTop: Back to the top
     caseStudies: Case studies

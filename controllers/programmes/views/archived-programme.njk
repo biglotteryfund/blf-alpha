@@ -3,6 +3,7 @@
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/programmes.njk" import programmeStats with context %}
+{% from "components/badges/macros.njk" import badgeArchived with context %}
 
 {#  Add archived prefix to help with analytics reporting #}
 {% block title %}Archived | {{ title }} | {% endblock %}
@@ -16,20 +17,20 @@
         </div>
 
         {% call contentBoxIntro(breadcrumbs, pageAccent) %}
-            <div class="message message--archived">
-                {{ archivedCopy.archivedMessage }}
-            </div>
             {% if entry.description %}
                 {{ entry.description | safe }}
             {% endif %}
             {{ programmeStats(entry, isCompact = true) }}
+            <p>{{ badgeArchived() }}</p>
         {% endcall %}
 
-        <section class="u-inner u-padded s-prose u-constrained-content-wide">
-            <h2>{{ archivedCopy.archivedMessage }}</h2>
-            {{ __(archivedCopy.archivedDetail, archiveUrl) | safe }}
-            <p><a href="{{ archiveUrl }}">{{ archiveUrl }}</a></p>
-            {{ __(archivedCopy.openProgrammes, localify('/funding/programmes')) | safe }}
+        <section class="content-box content-box--borderless u-inner">
+            <div class="s-prose u-constrained-content-wide">
+                <p class="message">{{ archivedCopy.archivedMessage }}</p>
+                {{ __(archivedCopy.archivedDetail, archiveUrl) | safe }}
+                <p><a href="{{ archiveUrl }}">{{ archiveUrl }}</a></p>
+                {{ __(archivedCopy.openProgrammes, localify('/funding/programmes')) | safe }}
+            </div>
         </section>
 
     </main>

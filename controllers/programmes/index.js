@@ -1,5 +1,5 @@
 'use strict';
-const { concat, groupBy, head, map } = require('lodash');
+const { concat, get, groupBy, head, map } = require('lodash');
 const express = require('express');
 const path = require('path');
 const features = require('config').get('features');
@@ -178,7 +178,7 @@ router.use('/digital-fund', require('../digital-fund'));
 router.get('/:slug', injectFundingProgramme, (req, res, next) => {
     const { fundingProgramme } = res.locals;
 
-    if (fundingProgramme && fundingProgramme.contentSections.length > 0) {
+    if (get(fundingProgramme, 'contentSections', []).length > 0) {
         /**
          * Programme Detail page
          */
@@ -186,15 +186,9 @@ router.get('/:slug', injectFundingProgramme, (req, res, next) => {
             entry: fundingProgramme,
             breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.title }])
         });
-    } else if (
-        features.enableProgrammeArchive &&
-        fundingProgramme &&
-        fundingProgramme.status === 'expired' &&
-        fundingProgramme.legacyPath
-    ) {
+    } else if (features.enableProgrammeArchive && get(fundingProgramme, 'isArchived') === true) {
         /**
          * Archived programme
-         * @TODO Should the logic for this be in the API? e.g. fundingProgramme.isArchvied?
          */
         res.render(path.resolve(__dirname, './views/archived-programme'), {
             entry: fundingProgramme,

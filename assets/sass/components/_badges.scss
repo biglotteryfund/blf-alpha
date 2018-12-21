@@ -1,0 +1,33 @@
+/* =========================================================================
+   Badges
+   ========================================================================= */
+
+.o-badge {
+    color: white;
+    background-color: get-color('text', 'note');
+    font-weight: font-weight('body', 'normal');
+    display: inline-block;
+    vertical-align: middle;
+    padding: 6px 9px 4px;
+    font-size: 14px;
+    line-height: 1;
+
+    .icon {
+        height: 15px;
+        width: 15px;
+        margin-right: 2px;
+        margin-left: -2px;
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        top: -2px; // Optically align
+    }
+
+    &.o-badge--primary {
+        background-color: get-color('brand', 'primary');
+    }
+
+    &.o-badge--secondary {
+        background-color: get-color('brand', 'secondary');
+    }
+}

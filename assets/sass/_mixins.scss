@@ -82,7 +82,7 @@
     display: block;
     width: 80px;
     padding-top: 10px;
-    border-bottom: 3px solid;
+    border-bottom: 3px solid get-color('brand', 'primary');
 }
 
 @mixin fullwidth() {
