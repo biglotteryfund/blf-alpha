@@ -5,9 +5,10 @@ const { flatMap } = require('lodash');
 
 const router = express.Router();
 
-const metrics = require('../modules/metrics');
+const { buildArchiveUrl } = require('../modules/archived');
 const { makeWelsh } = require('../modules/urls');
-const cached = require('../middleware/cached');
+const { noCache } = require('../middleware/cached');
+const metrics = require('../modules/metrics');
 
 /**
  * Archived Routes
@@ -21,13 +22,10 @@ flatMap([
     '/funding/funding-guidance/applying-for-funding/*',
     '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*'
 ], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
-    router.get(urlPath, cached.noCache, function(req, res) {
-        const fullUrl = `https://www.biglotteryfund.org.uk${req.originalUrl}`;
-        const lastGoodCrawlDate = '20171011152352';
-        const archiveUrl = `http://webarchive.nationalarchives.gov.uk/${lastGoodCrawlDate}/${fullUrl}`;
+    router.get(urlPath, noCache, function(req, res) {
         res.render('static-pages/archived', {
             title: 'Archived',
-            archiveUrl: archiveUrl
+            archiveUrl: buildArchiveUrl(req.originalUrl)
         });
     });
 });
