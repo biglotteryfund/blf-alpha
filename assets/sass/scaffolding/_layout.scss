@@ -48,8 +48,8 @@
 // @TODO: Deprecated in favour of u-nudge-up
 .nudge-up {
     @include mq('medium') {
-        top: -25px;
-        margin-bottom: -25px;
+        top: -$nudgeOffsetOld;
+        margin-bottom: -$nudgeOffsetOld;
         position: relative;
         z-index: 10;
     }

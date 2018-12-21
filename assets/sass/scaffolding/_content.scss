@@ -9,10 +9,22 @@
 .page-title {
     width: 100%;
     font-size: font-scale('display', 't4');
-    margin: $spacingUnit;
+    margin-bottom: 0;
 
-    @include mq('medium') {
-        max-width: 26em;
+    .overlay-text {
+        @include mq('medium') {
+            max-width: 26em;
+        }
+    }
+
+    &.page-title--constrained {
+        margin: 0 auto;
+        max-width: $maxWidth;
+        padding: $spacingUnit / 2;
+
+        @include mq('medium') {
+            padding: $spacingUnit;
+        }
     }
 }
 
