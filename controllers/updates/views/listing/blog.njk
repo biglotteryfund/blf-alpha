@@ -1,56 +1,52 @@
-{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/article-teaser/macro.njk" import articleTeaser %}
-{% from "components/hero.njk" import hero with context %}
-{% from "components/split-nav/macro.njk" import splitNav %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/promo-card/macro.njk" import promoCard %}
+{% from "components/split-nav/macro.njk" import splitNav %}
 
 {% from "../view-helpers.njk" import blogTrail with context %}
 
 {% extends "layouts/main.njk" %}
 
 {% block content %}
-    <main role="main" id="content">
+    {{ heroImage(pageHero.image) }}
 
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+    <main role="main" id="content" class="u-nudge-up">
+        {{ pageTitle(title) }}
 
-        <div class="nudge-up">
-            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                {{ breadcrumbTrail(breadcrumbs) }}
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
 
-                {% if entriesMeta.pageType === 'author' %}
-                    {% set author = entriesMeta.activeAuthor %}
-                    <h2 class="t3">{{ copy.author.aboutAuthor }}</h2>
-                    <aside class="o-media">
-                        {% if author.photo %}
-                            <img src="{{ author.photo }}"
-                                 alt="{{ author.title }}"
-                                 class="o-media__figure"
-                                 width="200" />
+            {% if entriesMeta.pageType === 'author' %}
+                {% set author = entriesMeta.activeAuthor %}
+                <h2 class="t3">{{ copy.author.aboutAuthor }}</h2>
+                <aside class="o-media">
+                    {% if author.photo %}
+                        <img src="{{ author.photo }}"
+                                alt="{{ author.title }}"
+                                class="o-media__figure"
+                                width="200" />
+                    {% endif %}
+                    <div class="o-media__body">
+                        <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
+                        {% if author.authorTitle %}
+                            <p>{{ author.authorTitle }}</p>
                         {% endif %}
-                        <div class="o-media__body">
-                            <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
-                            {% if author.authorTitle %}
-                                <p>{{ author.authorTitle }}</p>
-                            {% endif %}
-                            {% if author.fullBiography %}
-                                <div class="s-prose">{{ author.fullBiography | safe }}</div>
-                            {% endif %}
-                        </div>
-                    </aside>
-                {% elseif entriesMeta.pageType === 'tag' %}
-                    {% set activeTag = entriesMeta.activeTag %}
-                    <h1>{{ copy.filters.viewPostsTagged }} "{{ activeTag.title }}"</h1>
-                {% elseif entriesMeta.pageType === 'category' %}
-                    {% set activeCategory = entriesMeta.activeCategory %}
-                    <h1>{{ copy.filters.viewPostsIn }} {{ activeCategory.title }}</h1>
-                {% else %}
-                    <p>{{ copy.introductions.blog }}</p>
-                {% endif %}
-            </div>
+                        {% if author.fullBiography %}
+                            <div class="s-prose">{{ author.fullBiography | safe }}</div>
+                        {% endif %}
+                    </div>
+                </aside>
+            {% elseif entriesMeta.pageType === 'tag' %}
+                {% set activeTag = entriesMeta.activeTag %}
+                <h1>{{ copy.filters.viewPostsTagged }} "{{ activeTag.title }}"</h1>
+            {% elseif entriesMeta.pageType === 'category' %}
+                {% set activeCategory = entriesMeta.activeCategory %}
+                <h1>{{ copy.filters.viewPostsIn }} {{ activeCategory.title }}</h1>
+            {% else %}
+                <p>{{ copy.introductions.blog }}</p>
+            {% endif %}
         </div>
 
         <section class="u-inner">

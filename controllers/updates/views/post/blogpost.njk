@@ -1,13 +1,14 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/card/macro.njk" import card %}
+{% from "components/card/macro.njk" import card %}
 {% from "components/content.njk" import flexibleContent %}
-{% from "components/inline-links/macro.njk" import inlineLinks %}
-{% from "components/hero.njk" import hero with context %}
-{% from "components/promo-card/macro.njk" import promoCard %}
-{% from "components/card/macro.njk" import card %}
-{% from "components/split-nav/macro.njk" import splitNav %}
-{% from "components/card/macro.njk" import card %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
 {% from "components/icons.njk" import iconFacebook, iconTwitter %}
+{% from "components/inline-links/macro.njk" import inlineLinks %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/programmes.njk" import relatedProgrammes with context %}
+{% from "components/promo-card/macro.njk" import promoCard %}
+{% from "components/split-nav/macro.njk" import splitNav %}
 
 {% extends "layouts/main.njk" %}
 
@@ -75,83 +76,79 @@
 {% endmacro %}
 
 {% block content %}
-    <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+    {{ heroImage(pageHero.image) }}
 
-        <div class="nudge-up">
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                {{ breadcrumbTrail(breadcrumbs) }}
+    <main id="content" class="u-nudge-up">
+        {{ pageTitle(title) }}
 
-                <div class="content-sidebar">
-                    <div class="content-sidebar__primary s-prose">
-                        {% if entry.body %}
-                            <div class="s-prose">
-                                {{ entry.body | safe }}
-                            </div>
-                        {% else %}
-                            {{ flexibleContent(entry.content, pageAccent) }}
-                        {% endif %}
-                    </div>
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
 
-                    <div class="content-sidebar__secondary">
-                        {{ articleMeta(entry) }}
-                    </div>
+            <div class="content-sidebar">
+                <div class="content-sidebar__primary s-prose">
+                    {% if entry.body %}
+                        <div class="s-prose">
+                            {{ entry.body | safe }}
+                        </div>
+                    {% else %}
+                        {{ flexibleContent(entry.content, pageAccent) }}
+                    {% endif %}
                 </div>
 
-                {% if entry.tags.length > 0 %}
-                    <aside class="article__topics" role="aside">
-                        {% set links = [] %}
-                        {% for tag in entry.tags %}
-                            {% set links = (links.push({ "label": tag.title, "url": localify('/news/blog?tag=' + tag.slug) }), links) %}
-                        {% endfor %}
-                        {{ inlineLinks(prefix = __('global.misc.topics') | title, links = links) }}
-                    </aside>
-                {% endif %}
-
-                <div class="o-button-group-flex u-gutter-half u-margin-top">
-                    <a class="btn btn--small btn--outline accent--{{ pageAccent }}"
-                       href="https://www.facebook.com/sharer.php?u={{ getCurrentAbsoluteUrl() }}"
-                       data-ga-on="click"
-                       data-ga-event-category="Facebook"
-                       data-ga-event-action="Share blogpost">
-                        <span class="btn__icon">{{ iconFacebook() }}</span>
-                        {{ __('global.misc.share.facebook') }}
-                    </a>
-                    <a class="btn btn--small btn--outline accent--{{ pageAccent }}"
-                       href="https://twitter.com/intent/tweet?url={{ getCurrentAbsoluteUrl() }}&text={{ entry.title }}&via={{ globalCopy.brand.twitter }}"
-                       data-ga-on="click"
-                       data-ga-event-category="Twitter"
-                       data-ga-event-action="Share blogpost">
-                        <span class="btn__icon">{{ iconTwitter() }}</span>
-                        {{ __('global.misc.share.twitter')  }}
-                    </a>
+                <div class="content-sidebar__secondary">
+                    {{ articleMeta(entry) }}
                 </div>
+            </div>
 
-                {{ relatedProgrammes(entry.relatedFundingProgrammes) }}
+            {% if entry.tags.length > 0 %}
+                <aside class="article__topics" role="aside">
+                    {% set links = [] %}
+                    {% for tag in entry.tags %}
+                        {% set links = (links.push({ "label": tag.title, "url": localify('/news/blog?tag=' + tag.slug) }), links) %}
+                    {% endfor %}
+                    {{ inlineLinks(prefix = __('global.misc.topics') | title, links = links) }}
+                </aside>
+            {% endif %}
 
-                {% if entry.siblings.next or entry.siblings.prev %}
-                    {% set prevLink = {
-                        "label": entry.siblings.prev.title,
-                        "url": entry.siblings.prev.linkUrl
-                    } if entry.siblings.prev else false %}
-                    {% set nextLink = {
-                        "label": entry.siblings.next.title,
-                        "url": entry.siblings.next.linkUrl
-                    } if entry.siblings.next else false %}
+            <div class="o-button-group-flex u-gutter-half u-margin-top">
+                <a class="btn btn--small btn--outline accent--{{ pageAccent }}"
+                    href="https://www.facebook.com/sharer.php?u={{ getCurrentAbsoluteUrl() }}"
+                    data-ga-on="click"
+                    data-ga-event-category="Facebook"
+                    data-ga-event-action="Share blogpost">
+                    <span class="btn__icon">{{ iconFacebook() }}</span>
+                    {{ __('global.misc.share.facebook') }}
+                </a>
+                <a class="btn btn--small btn--outline accent--{{ pageAccent }}"
+                    href="https://twitter.com/intent/tweet?url={{ getCurrentAbsoluteUrl() }}&text={{ entry.title }}&via={{ globalCopy.brand.twitter }}"
+                    data-ga-on="click"
+                    data-ga-event-category="Twitter"
+                    data-ga-event-action="Share blogpost">
+                    <span class="btn__icon">{{ iconTwitter() }}</span>
+                    {{ __('global.misc.share.twitter')  }}
+                </a>
+            </div>
 
-                    <div class="u-margin-top-l">
-                        {{ splitNav(
-                            prevLink = prevLink,
-                            nextLink = nextLink
-                        ) }}
-                    </div>
-                {% endif %}
+            {{ relatedProgrammes(entry.relatedFundingProgrammes) }}
 
-            </section>
-        </div>
+            {% if entry.siblings.next or entry.siblings.prev %}
+                {% set prevLink = {
+                    "label": entry.siblings.prev.title,
+                    "url": entry.siblings.prev.linkUrl
+                } if entry.siblings.prev else false %}
+                {% set nextLink = {
+                    "label": entry.siblings.next.title,
+                    "url": entry.siblings.next.linkUrl
+                } if entry.siblings.next else false %}
+
+                <div class="u-margin-top-l">
+                    {{ splitNav(
+                        prevLink = prevLink,
+                        nextLink = nextLink
+                    ) }}
+                </div>
+            {% endif %}
+
+        </section>
     </main>
 {% endblock %}

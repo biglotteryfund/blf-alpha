@@ -1,22 +1,21 @@
 {% from "components/article-teaser/macro.njk" import articleTeaser %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/card/macro.njk" import card %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/split-nav/macro.njk" import splitNav %}
-{% from "components/hero.njk" import hero with context %}
 
 {% from "../view-helpers.njk" import entryRegions with context %}
 
 {% extends "layouts/main.njk" %}
 
 {% block content %}
-    <main role="main" id="content">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+    {{ heroImage(pageHero.image) }}
 
-        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top nudge-up">
+    <main id="content" class="u-nudge-up">
+        {{ pageTitle(title) }}
+
+        <section class="content-box u-inner-wide-only">
             {{ breadcrumbTrail(breadcrumbs) }}
         
             <div class="content-sidebar">

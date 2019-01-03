@@ -1,6 +1,7 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
-{% from "components/hero.njk" import hero with context %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/social.njk" import socialLinks with context %}
 {% from "components/split-nav/macro.njk" import splitNav %}
@@ -10,61 +11,57 @@
 {% extends "layouts/main.njk" %}
 
 {% block content %}
-    <main role="main" id="content">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+    {{ heroImage(pageHero.image) }}
 
-        <div class="nudge-up">
-            {% call contentBox(pageAccent) %}
-                <p>{{ copy.introductions.newsLanding }}</p>
-            {% endcall %}
+    <main role="main" id="content" class="u-nudge-up">
+        {{ pageTitle(title) }}
 
-            {# Social links #}
-            <section class="u-inner-wide-only">
-                {{ socialLinks(
-                    labels = __('toplevel.home.social'),
-                    pageAccent = pageAccent,
-                    showAsBlock = false
-                ) }}
-            </section>
+        {% call contentBox(pageAccent) %}
+            <p>{{ copy.introductions.newsLanding }}</p>
+        {% endcall %}
 
-            {# Blog posts #}
-            <section class="latest-news u-inner u-margin-bottom">
-                <header class="latest-news__header">
-                    <h2 class="t3 t--underline accent--{{ pageAccent }}">
-                        {{ copy.types.blog.plural }}
-                    </h2>
-                </header>
-                <div class="latest-news__content">
-                    <ul class="flex-grid flex-grid--3up">
-                        {% for entry in blogposts | take(3) %}
-                            <li class="flex-grid__item">
-                                {{ blogTrail(entry) }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <footer class="latest-news__footer">
-                    <a class="latest-news__more" href="{{ localify('/news/blog') }}">
-                        {{ copy.blogpost.viewAllBlogPosts }} &rarr;
-                    </a>
-                </footer>
-            </section>
+        {# Social links #}
+        <section class="u-inner-wide-only">
+            {{ socialLinks(
+                labels = __('toplevel.home.social'),
+                pageAccent = pageAccent,
+                showAsBlock = false
+            ) }}
+        </section>
 
-            {# Press releases #}
-            {% call contentBox(pageAccent) %}
-                <h2>{{ copy.types['press-releases'].plural }}</h2>
-                <p>{{ copy.introductions.pressReleases }}</p>
-                <p>
-                    <a href="{{ localify('/news/press-releases') }}"
-                       class="btn accent--{{ pageAccent }} a--btn btn--medium">
-                        {{ copy.pressRelease.viewLatestPressReleases }}
-                    </a>
-                </p>
-            {% endcall %}
-        </div>
+        {# Blog posts #}
+        <section class="latest-news u-inner u-margin-bottom">
+            <header class="latest-news__header">
+                <h2 class="t3 t--underline accent--{{ pageAccent }}">
+                    {{ copy.types.blog.plural }}
+                </h2>
+            </header>
+            <div class="latest-news__content">
+                <ul class="flex-grid flex-grid--3up">
+                    {% for entry in blogposts | take(3) %}
+                        <li class="flex-grid__item">
+                            {{ blogTrail(entry) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <footer class="latest-news__footer">
+                <a class="latest-news__more" href="{{ localify('/news/blog') }}">
+                    {{ copy.blogpost.viewAllBlogPosts }} &rarr;
+                </a>
+            </footer>
+        </section>
+
+        {# Press releases #}
+        {% call contentBox(pageAccent) %}
+            <h2>{{ copy.types['press-releases'].plural }}</h2>
+            <p>{{ copy.introductions.pressReleases }}</p>
+            <p>
+                <a href="{{ localify('/news/press-releases') }}"
+                    class="btn accent--{{ pageAccent }} a--btn btn--medium">
+                    {{ copy.pressRelease.viewLatestPressReleases }}
+                </a>
+            </p>
+        {% endcall %}
     </main>
 {% endblock %}
