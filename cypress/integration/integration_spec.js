@@ -53,7 +53,7 @@ describe('common', function() {
         const urlPath = '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
         cy.request(urlPath).then(response => {
             expect(response.body).to.include(
-                `http://webarchive.nationalarchives.gov.uk/https://www.biglotteryfund.org.uk${urlPath}`
+                `http://webarchive.nationalarchives.gov.uk/20171011152352/https://www.biglotteryfund.org.uk${urlPath}`
             );
         });
     });
