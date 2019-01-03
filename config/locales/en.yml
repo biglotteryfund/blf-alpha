@@ -424,9 +424,9 @@ toplevel:
     latestProgrammes: Latest Programmes
     sectionLinks:
     - label: Learn how to apply for funding under £10,000
-      href: "/under10k"
+      href: "/funding/under10k"
     - label: Learn how to apply for funding above £10,000
-      href: "/over10k"
+      href: "/funding/over10k"
     - label: View all open funding programmes
       href: "/funding/programmes"
     - label: View all closed funding programmes

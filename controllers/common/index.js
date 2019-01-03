@@ -2,24 +2,50 @@
 const express = require('express');
 const { isEmpty } = require('lodash');
 const path = require('path');
+const Raven = require('raven');
 
-const {
-    injectBreadcrumbs,
-    injectCaseStudies,
-    injectFlexibleContent,
-    injectListingContent
-} = require('../../middleware/inject-content');
+const { injectBreadcrumbs, injectFlexibleContent, injectListingContent } = require('../../middleware/inject-content');
 const { isWelsh } = require('../../modules/urls');
+const contentApi = require('../../services/content-api');
 
-function staticPage({ template = null, caseStudies = [], disableLanguageLink = false } = {}) {
+function staticPage({
+    template = null,
+    caseStudySlugs = [],
+    projectStorySlugs = [],
+    disableLanguageLink = false
+} = {}) {
     const router = express.Router();
 
-    router.get('/', injectBreadcrumbs, injectCaseStudies(caseStudies), function(req, res, next) {
+    router.get('/', injectBreadcrumbs, async function(req, res, next) {
         const { copy } = res.locals;
         const shouldRedirectLang = (disableLanguageLink === true || isEmpty(copy)) && isWelsh(req.originalUrl);
         if (shouldRedirectLang) {
             next();
         } else {
+            /**
+             * Inject project stories if we've been provided any slugs to fetch
+             * @TODO: Remove getCaseStudies when launching project stories
+             */
+            if (res.locals.enableProjectStories && projectStorySlugs.length > 0) {
+                try {
+                    res.locals.stories = await contentApi.getProjectStories({
+                        locale: req.i18n.getLocale(),
+                        slugs: projectStorySlugs
+                    });
+                } catch (error) {
+                    Raven.captureException(error);
+                }
+            } else if (caseStudySlugs.length > 0) {
+                try {
+                    res.locals.caseStudies = await contentApi.getCaseStudies({
+                        locale: req.i18n.getLocale(),
+                        slugs: caseStudySlugs
+                    });
+                } catch (error) {
+                    Raven.captureException(error);
+                }
+            }
+
             res.render(template, {
                 title: copy.title,
                 description: copy.description || false,

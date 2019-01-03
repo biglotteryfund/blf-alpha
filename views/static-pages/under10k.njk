@@ -1,6 +1,7 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context  %}
+{% from "components/project-stories/macro.njk" import projectStories with context  %}
 
 {% extends "layouts/main.njk" %}
 
@@ -60,12 +61,17 @@
                 </div>
             </div>
 
-            {# Case Studies #}
-            {{ caseStudyCollection(
-                caseStudies = caseStudies,
-                customSectionTitle = copy.projectExamples,
-                accent = pageAccent
-            ) }}
+            {% if enableProjectStories and stories.length > 0 %}
+                {{ projectStories(
+                    stories = stories,
+                    title = __('global.misc.projectExamples')
+                ) }}
+            {% else %}
+                {{ caseStudyCollection(
+                    caseStudies = caseStudies,
+                    customSectionTitle = copy.projectExamples
+                ) }}
+            {% endif %}
 
             <div class="u-inner u-align-center u-margin-bottom-l">
                 <a href="{{ localify('/funding/grants') }}" class="btn btn--outline btn--medium accent--{{ pageAccent }} a--btn">

@@ -167,21 +167,6 @@ async function injectFlexibleContent(req, res, next) {
     }
 }
 
-function injectCaseStudies(caseStudySlugs = []) {
-    return async function(req, res, next) {
-        if (caseStudySlugs.length > 0) {
-            res.locals.caseStudies = await contentApi.getCaseStudies({
-                locale: req.i18n.getLocale(),
-                slugs: caseStudySlugs
-            });
-
-            next();
-        } else {
-            next();
-        }
-    };
-}
-
 /**
  * Inject funding programme detail
  * Assumes a parameter of :slug in the request
@@ -361,7 +346,6 @@ module.exports = {
     injectBlogDetail,
     injectBlogPosts,
     injectBreadcrumbs,
-    injectCaseStudies,
     injectCopy,
     injectFlexibleContent,
     injectFundingProgramme,

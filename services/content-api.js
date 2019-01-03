@@ -204,6 +204,14 @@ function getProjectStory({ locale, grantId }) {
     return fetch(`/v1/${locale}/project-stories/${grantId}`).then(getAttrs);
 }
 
+function getProjectStories({ locale, slugs = [] }) {
+    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/project-stories`).then(responses => {
+        const [enResults, cyResults] = responses.map(mapAttrs);
+        const results = mergeWelshBy('slug')(locale, enResults, cyResults);
+        return slugs.length > 0 ? filterBySlugs(results, slugs) : results;
+    });
+}
+
 function getOurPeople({ locale, previewMode = null }) {
     return fetch(`/v1/${locale}/our-people`, {
         qs: addPreviewParams(previewMode)
@@ -232,6 +240,7 @@ module.exports = {
     getCaseStudies,
     getCaseStudyByGrantId,
     getProjectStory,
+    getProjectStories,
     getDataStats,
     getFlexibleContent,
     getFundingProgramme,

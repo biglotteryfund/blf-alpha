@@ -39,6 +39,7 @@
     "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
     "enablePrompt": false,
+    "enableProjectStories": true,
     "enableRelatedGrants": true,
     "enableSurvey": true,
     "enableTimingMetrics": false
