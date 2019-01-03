@@ -142,9 +142,9 @@
             vertical-align: top;
 
             // Fix word-break in IE when used in tables
-            a[href^='mailto:'],
-            a[href^='tel:'] {
+            a {
                 display: table-cell;
+                @include wrap-words();
             }
         }
     }
