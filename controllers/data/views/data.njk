@@ -1,7 +1,7 @@
-{% from "components/data.njk" import statsGrid %}
-{% from "components/hero.njk" import hero with context %}
-
 {% extends "layouts/main.njk" %}
+{% from "components/data.njk" import statsGrid %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 
 {% macro mapPane(id, title, stats, isActive = false) %}
     <section id="region-{{ id }}" class="js-tab-pane tab__pane{% if isActive %} is-active{% endif %}">
@@ -20,56 +20,50 @@
 {% block content %}
     {% set pageAccent = 'blue' %}
 
-    <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+    {{ heroImage(pageHero.image) }}
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
 
-
-        <div class="nudge-up">
-            <div class="content-box content-box--borderless u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.keyStats }}</h2>
-                {{ statsGrid(dataStats.stats) }}
-            </div>
-
-            <aside class="map-holder u-accent-border-top-{{ pageAccent }}">
-                <div class="map-holder__inner u-inner-wide-only u-padded">
-                    <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.mapTitle }}</h2>
-
-                    <div class="map-wrapper" role="tablist">
-                        {% include "includes/uk-countries.njk" %}
-                    </div>
-
-
-                    <div id="js-map-panes" class="map-panes js-paneset">
-                        {% set regionTitles = __('global.regions') %}
-                        {{ mapPane(
-                            id = 'england',
-                            title = regionTitles.england,
-                            stats = dataStats.regions.england,
-                            isActive = true
-                        ) }}
-                        {{ mapPane(
-                            id = 'northern-ireland',
-                            title = regionTitles.northernIreland,
-                            stats = dataStats.regions.northernIreland
-                        ) }}
-                        {{ mapPane(
-                            id = 'scotland',
-                            title = regionTitles.scotland,
-                            stats = dataStats.regions.scotland
-                        ) }}
-                        {{ mapPane(
-                            id = 'wales',
-                            title = regionTitles.wales,
-                            stats = dataStats.regions.wales
-                        ) }}
-                    </div>
-
-                </div>
-            </aside>
+        <div class="content-box content-box--borderless u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <h2 class="t2 t--underline">{{ copy.keyStats }}</h2>
+            {{ statsGrid(dataStats.stats) }}
         </div>
+
+        <aside class="map-holder u-accent-border-top-{{ pageAccent }}">
+            <div class="map-holder__inner u-inner-wide-only u-padded">
+                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.mapTitle }}</h2>
+
+                <div class="map-wrapper" role="tablist">
+                    {% include "includes/uk-countries.njk" %}
+                </div>
+
+
+                <div id="js-map-panes" class="map-panes js-paneset">
+                    {% set regionTitles = __('global.regions') %}
+                    {{ mapPane(
+                        id = 'england',
+                        title = regionTitles.england,
+                        stats = dataStats.regions.england,
+                        isActive = true
+                    ) }}
+                    {{ mapPane(
+                        id = 'northern-ireland',
+                        title = regionTitles.northernIreland,
+                        stats = dataStats.regions.northernIreland
+                    ) }}
+                    {{ mapPane(
+                        id = 'scotland',
+                        title = regionTitles.scotland,
+                        stats = dataStats.regions.scotland
+                    ) }}
+                    {{ mapPane(
+                        id = 'wales',
+                        title = regionTitles.wales,
+                        stats = dataStats.regions.wales
+                    ) }}
+                </div>
+
+            </div>
+        </aside>
     </main>
 {% endblock %}
