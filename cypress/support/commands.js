@@ -1,3 +1,4 @@
+// @ts-nocheck
 // https://on.cypress.io/custom-commands
 
 Cypress.Commands.add('getCsrf', () => {
@@ -58,8 +59,9 @@ Cypress.Commands.add('checkMetaTitles', expected => {
     cy.get('meta[property="og:title"]').should('have.attr', 'content', expected);
 });
 
-Cypress.Commands.add('checkActiveSection', activeSection => {
-    cy.get(`.qa-nav-link--${activeSection}`).should('have.class', 'is-selected');
+Cypress.Commands.add('checkActiveSection', label => {
+    cy.get(`#global-nav .is-current a`).should('have.length', 1);
+    cy.get(`#global-nav .is-current a`).should('contain', label);
 });
 
 Cypress.Commands.add('checkRedirect', ({ from, to, isRelative = true, status = 301 }) => {

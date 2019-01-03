@@ -179,8 +179,7 @@ describe('e2e', function() {
         // ================================================ //
 
         cy.visit('/');
-        cy.checkMetaTitles('Home | Big Lottery Fund');
-        cy.checkActiveSection('toplevel');
+        cy.checkMetaTitles('Home | The National Lottery Community Fund');
 
         // ================================================
         // Step: Cookie consent
@@ -193,14 +192,16 @@ describe('e2e', function() {
         // ================================================ //
 
         cy.viewport(375, 667);
-        cy.get('#js-mobile-nav-toggle').as('navToggle');
-        cy.get('#qa-offscreen-navigation').as('nav');
 
+        cy.get('.js-toggle-nav').as('navToggle');
+        cy.get('#global-nav').as('nav');
+
+        cy.get('@nav').should('not.be.visible');
         cy.get('@navToggle').click();
         cy.get('@nav').should('be.visible');
-
         cy.get('@navToggle').click();
         cy.get('@nav').should('not.be.visible');
+
         cy.viewport(1024, 768);
 
         // ================================================
@@ -216,15 +217,15 @@ describe('e2e', function() {
             .should('contain', 'Thank you');
 
         // ================================================
-        // Step: Test language switcher
+        // Step: Switch language (English to Welsh)
         // ================================================ //
 
-        cy.get('.qa-global-nav .qa-lang-switcher').as('langSwitcher');
+        cy.get('.qa-global-header .qa-lang-switcher').as('langSwitcher');
         cy.get('@langSwitcher').click();
-        cy.checkMetaTitles('Hafan | Cronfa Loteri Fawr');
-        cy.get('.qa-global-nav .qa-nav-link a')
+        cy.checkMetaTitles('Hafan | Cronfa Gymunedol y Loteri Genedlaethol');
+        cy.get('.qa-nav-link')
             .first()
-            .should('contain', 'Hafan');
+            .should('contain', 'Ariannu');
 
         // ================================================
         // Step: Micro-surveys (Welsh)
@@ -239,19 +240,24 @@ describe('e2e', function() {
             .should('contain', 'Diolch am');
 
         // ================================================
-        // Step:  Navigate to over 10k page
+        // Step: Switch language (Welsh to English)
         // ================================================ //
 
         cy.get('@langSwitcher').click();
+
+        // ================================================
+        // Step:  Navigate to over 10k page
+        // ================================================ //
+
         cy.get('#qa-button-over10k').click();
-        cy.checkActiveSection('funding');
+        cy.checkActiveSection('Funding');
 
         // ================================================
         // Step: Navigate to funding programmes list
         // ================================================ //
 
         cy.get('#qa-button-england').click();
-        cy.checkActiveSection('funding');
+        cy.checkActiveSection('Funding');
 
         // ================================================
         // Step: Navigate to funding programme
@@ -260,7 +266,7 @@ describe('e2e', function() {
         cy.get('.promo-card')
             .contains('Reaching Communities')
             .click();
-        cy.checkActiveSection('funding');
+        cy.checkActiveSection('Funding');
 
         // ================================================
         // Step: Interact with tabs

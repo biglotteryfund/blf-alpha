@@ -20,7 +20,7 @@
     </form>
 {% endmacro %}
 
-<header class="global-header-next js-global-header">
+<header class="global-header-next js-global-header qa-global-header">
     <div class="global-header-next__inner">
         <div class="global-header-next__extra">
             <ul class="global-header-next__navigation-secondary">
@@ -61,14 +61,15 @@
             </div>
 
             <div class="global-header-next__content-secondary">
-                <div class="global-header-next__navigation" id="global-nav">
-                    <nav class="global-header-next__navigation-primary">
+                <div class="global-header-next__navigation">
+                    <nav class="global-header-next__navigation-primary" id="global-nav">
                         <ul>
                             <li class="u-mobile-only"><a href="{{ globalNavigation.home.url }}">{{ globalNavigation.home.label }}</a></li>
                             {% for item in globalNavigation.primaryLinks %}
                                 {% set hasChildren = item.children.length > 0 %}
-                                <li class="{% if sectionUrl === item.url %}is-current {% endif %}{% if hasChildren %}has-children {% endif %}">
-                                    <a href="{{ item.url }}">
+                                {% set isCurrent = sectionUrl === item.url %}
+                                <li class="{% if isCurrent %}is-current {% endif %}{% if hasChildren %}has-children {% endif %}">
+                                    <a href="{{ item.url }}" class="qa-nav-link">
                                         {{ item.label }} {% if hasChildren %}{{ iconArrowDown() }}{% endif %}
                                     </a>
                                     {% if hasChildren %}
