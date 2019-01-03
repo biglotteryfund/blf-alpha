@@ -72,7 +72,7 @@
         </div>
 
         {# Project Stories #}
-        {% if enableProjectStories && entry.projectStories.length > 0 %}
+        {% if enableProjectStories and entry.projectStories.length > 0 %}
             {{ projectStories(
                 stories = entry.projectStories,
                 title = __('global.misc.projectExamples')
