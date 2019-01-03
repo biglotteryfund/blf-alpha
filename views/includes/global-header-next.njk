@@ -2,7 +2,7 @@
 {% from "components/language/macros.njk" import languageLink, languageSwitcher with context %}
 
 {% macro globalSearch() %}
-    <form class="global-search-next js-global-search-form" role="search" action="/search">
+    <form class="global-search-next js-global-search-form" role="search" action="/search" id="global-search">
         <label>
             <span class="u-visually-hidden">{{ __("global.misc.search") }}</span>
             <input
@@ -42,7 +42,7 @@
                     </span>
                 </a>
                 <div class="global-header-next__actions">
-                    <a href="#global-nav"
+                    <a href="#global-search"
                         class="global-header-next__toggle global-header-next__toggle-search js-toggle-search">
                         {{ iconSearch() }}
                         <span class="global-header-next__toggle-label">
@@ -50,7 +50,7 @@
                         </span>
                     </a>
 
-                    <a href="#global-search"
+                    <a href="#global-nav"
                         class="global-header-next__toggle global-header-next__toggle-nav js-toggle-nav">
                         {{ iconHamburger() }}
                         <span class="global-header-next__toggle-label">
