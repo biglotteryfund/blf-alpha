@@ -53,7 +53,7 @@ describe('common', function() {
         const urlPath = '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
         cy.request(urlPath).then(response => {
             expect(response.body).to.include(
-                `http://webarchive.nationalarchives.gov.uk/https://www.biglotteryfund.org.uk${urlPath}`
+                `http://webarchive.nationalarchives.gov.uk/20171011152352/https://www.biglotteryfund.org.uk${urlPath}`
             );
         });
     });
@@ -102,13 +102,6 @@ describe('common', function() {
             expect(response.headers['content-security-policy']).to.not.exist;
             expect(response.body).to.include('This is a list of our funding programmes');
             expect(response.body).to.include('Show closed programmes');
-        });
-    });
-
-    it('should follow redirects on the legacy site', () => {
-        cy.checkRedirect({
-            from: '/welshlanguage',
-            to: '/about-big/customer-service/welsh-language-scheme'
         });
     });
 
@@ -393,7 +386,7 @@ describe('e2e', function() {
         cy.get('h2').should('contain', 'Thank you for your order');
     });
 
-    it.only('should be able to browse grants search results', () => {
+    it('should be able to browse grants search results', () => {
         cy.visit('/funding/grants');
         cy.get('.qa-grant-result').should('have.length', 50);
 
