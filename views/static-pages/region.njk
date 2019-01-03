@@ -1,5 +1,6 @@
-{% from "components/hero.njk" import hero with context %}
 {% from "components/content-tabs/macro.njk" import contentTabs %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 
 {% extends "layouts/main.njk" %}
 
@@ -76,29 +77,25 @@
         </div>
     {% endset %}
 
-    <main role="main">
-        {{
-            hero(
-                accent = pageAccent,
-                titleText = title,
-                image = pageHero.image
-            )
-        }}
+    {{ heroImage(pageHero.image) }}
 
-        <div class="nudge-up">
-            <section class="content-box content-box--tinted
-                u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                <div class="s-prose u-constrained-content-wide">
-                    <p>{{ copy.introduction }}</p>
-                </div>
-            </section>
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
 
-            {% macro tabContent(title, content) %}
-                <h2 class="u-visually-hidden">{{ title }}</h2>
-                {{ content | safe }}
-            {% endmacro %}
+        <section class="content-box content-box--tinted
+            u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="s-prose u-constrained-content-wide">
+                <p>{{ copy.introduction }}</p>
+            </div>
+        </section>
 
-            {% set tabItems = [{
+        {% macro tabContent(title, content) %}
+            <h2 class="u-visually-hidden">{{ title }}</h2>
+            {{ content | safe }}
+        {% endmacro %}
+
+        <div class="u-inner-wide-only">
+            {{ contentTabs([{
                 "id": "section-1",
                 "title": copy.sections.availableFunding.title,
                 "content": tabContent(
@@ -120,11 +117,7 @@
                     title = copy.sections.aboutIdeas.title,
                     content = aboutIdeasContent
                 )
-            }] %}
-
-            <div class="u-inner-wide-only">
-                {{ contentTabs(tabItems) }}
-            </div>
+            }]) }}
         </div>
     </main>
 {% endblock %}
