@@ -28,9 +28,9 @@
     "build": "npm run clean && npm run build-css && npm run build-js",
     "build-production": "export NODE_ENV=production && npm run build && ./bin/hash-rev",
     "build-autotrack": "npx autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker",
-    "watch-css": "watch 'npm run build-css' assets/sass --interval=0.1",
     "watch-js": "webpack --watch",
-    "watch": "npm run build && concurrently --kill-others npm:watch-js npm:watch-css"
+    "watch-css": "watch 'npm run build-css' assets/sass --interval=0.1",
+    "watch": "concurrently --kill-others npm:watch-js npm:watch-css"
   },
   "husky": {
     "hooks": {
