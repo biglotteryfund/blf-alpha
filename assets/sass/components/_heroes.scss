@@ -1,7 +1,12 @@
 /* =========================================================================
+   Heroes
+   ========================================================================= */
+
+/* =========================================================================
    Hero
    ========================================================================= */
 /* Full bleed hero image used on most pages */
+/* @TODO: Remove in favour of hero-image */
 
 .hero {
     color: white;
@@ -38,7 +43,7 @@
     }
 
     @include mq('medium') {
-        margin-bottom: $nudgeOffset + $spacingUnit;
+        margin-bottom: $nudgeOffsetOld + $spacingUnit;
     }
 }
 .hero__header__inner {
@@ -58,7 +63,7 @@
     }
 
     @include mq('medium') {
-        bottom: $nudgeOffset + $spacingUnit;
+        bottom: $nudgeOffsetOld + $spacingUnit;
     }
 
     @include mq('large') {
@@ -74,6 +79,30 @@
     .hero__image,
     .hero__caption {
         display: none;
+    }
+}
+
+/* =========================================================================
+   Hero Image
+   ========================================================================= */
+/* Full bleed hero image used on most pages */
+
+.hero-image {
+    color: white;
+    position: relative;
+
+    .hero-image__image img {
+        display: block;
+    }
+
+    .hero-image__caption {
+        position: absolute;
+        top: $spacingUnit;
+        right: $spacingUnit;
+
+        @include mq('medium', 'max') {
+            display: none;
+        }
     }
 }
 

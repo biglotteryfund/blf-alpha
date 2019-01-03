@@ -4,6 +4,7 @@
 // Blocked-out colourised background
 
 .overlay-text {
+    display: inline-block;
     font-family: font-stack('display');
     font-weight: font-weight('display', 'bold');
     line-height: 1.5;
