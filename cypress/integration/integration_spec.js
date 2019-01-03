@@ -105,13 +105,6 @@ describe('common', function() {
         });
     });
 
-    it('should follow redirects on the legacy site', () => {
-        cy.checkRedirect({
-            from: '/welshlanguage',
-            to: '/about-big/customer-service/welsh-language-scheme'
-        });
-    });
-
     it('should serve welsh versions of legacy pages', () => {
         cy.request('/welsh/research/communities-and-places').then(response => {
             expect(response.body).to.include('Cymunedau a lleoedd');
