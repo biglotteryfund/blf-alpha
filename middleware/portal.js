@@ -2,6 +2,7 @@
 const moment = require('moment');
 const config = require('config');
 const DATE_FORMATS = config.get('dateFormats');
+
 /**
  * Serves a holding/downtime page for the AFA portal if redirected here
  */
@@ -22,8 +23,7 @@ module.exports = (req, res, next) => {
     const re = /^apply\./;
     if (re.test(req.get('host'))) {
         res.cacheControl = { noStore: true };
-        res.status(403);
-        return res.render('downtime', {
+        res.status(403).render('controllers/errors/views/downtime', {
             title: 'Down for maintenance / Wrthi’n cynnal a chadw\n',
             endDates: endDates
         });
