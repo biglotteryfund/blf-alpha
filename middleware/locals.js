@@ -86,8 +86,8 @@ module.exports = function(req, res, next) {
                 url: localify(locale)('/news')
             },
             {
-                label: navCopy.research,
-                url: localify(locale)('/research')
+                label: navCopy.insights,
+                url: localify(locale)('/insights')
             },
             {
                 label: navCopy.contact,
