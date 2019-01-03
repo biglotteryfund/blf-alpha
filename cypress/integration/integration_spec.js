@@ -393,7 +393,7 @@ describe('e2e', function() {
         cy.get('h2').should('contain', 'Thank you for your order');
     });
 
-    it.only('should be able to browse grants search results', () => {
+    it('should be able to browse grants search results', () => {
         cy.visit('/funding/grants');
         cy.get('.qa-grant-result').should('have.length', 50);
 
