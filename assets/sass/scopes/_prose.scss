@@ -69,10 +69,6 @@
         font-weight: font-weight('body', 'bold');
     }
 
-    a {
-        @include wrap-words();
-    }
-
     a[href^='tel:'] {
         text-decoration: none;
     }

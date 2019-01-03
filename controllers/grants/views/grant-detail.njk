@@ -4,6 +4,7 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/card/macro.njk" import card %}
+{% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/content.njk" import flexibleContent %}
 
 {% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList with context %}
@@ -16,7 +17,6 @@
     {% set mainProgramme = grant.grantProgramme[0] %}
 
     <main role="main" id="content" class="js-past-grants-detail">
-
         {% if pageHero %}
             {{ hero(
                 titleText = title,
@@ -37,11 +37,9 @@
                             <div class="s-prose">
                                 {{ flexibleContent(caseStudy.content, pageAccent) }}
                             </div>
-                        {% else %}
-                            {% if grant.description !== grant.title %}
-                                <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
-                                <p class="u-wrap-words">{{ grant.description }}</p>
-                            {% endif %}
+                        {% elseif grant.description !== grant.title %}
+                            <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
+                            <p class="u-wrap-words">{{ grant.description }}</p>
                         {% endif %}
 
                         <grants-back-to-search
@@ -52,13 +50,11 @@
                 </div>
 
                 <div class="content-sidebar__secondary">
-                    {% call card(aboutTitle, pageAccent) %}
-                        <aside class="u-align-center accent--pink a--text">
-                            <p class="t1 u-no-margin">£{{ grant.amountAwarded | numberWithCommas }}</p>
-                            <p class="t5">
-                                {{ title }}<br/>
-                                {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
-                            </p>
+                    {% call card(aboutTitle) %}
+                        <aside class="grant-summary">
+                            <p class="grant-summary__amount">£{{ grant.amountAwarded | numberWithCommas }}</p>
+                            <p class="grant-summary__title">{{ grant.title }}</p>
+                            <p class="grant-summary__date">{{ formatDate(grant.awardDate, DATE_FORMATS.short) }}</p>
                         </aside>
 
                         <dl class="o-definition-list o-definition-list--compact u-text-small">
@@ -67,10 +63,9 @@
                                 {% for dates in grant.plannedDates %}
                                     <dd>
                                         {{ fields.area.label }}
-                                        {{ formatDate(dates.startDate, DATE_FORMATS.short) }}
-                                        {% if dates.endDate %}
-                                            – {{ formatDate(dates.endDate, DATE_FORMATS.short) }}
-                                        {% endif %}
+                                        {{ formatDate(dates.startDate, DATE_FORMATS.short) }}{% if dates.endDate -%}
+                                            &ndash;{{ formatDate(dates.endDate, DATE_FORMATS.short) }}
+                                        {%- endif %}
                                     </dd>
                                 {% endfor %}
                             {% endif %}
@@ -89,21 +84,14 @@
         <div class="u-inner-wide-only">
             <div class="flex-grid">
                 <div class="flex-grid__item">
-                    <div class="card card--plain u-no-margin u-accent-border-top-pink">
-                        <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.fields.recipientOrg }}</h2>
-
+                    {% call contentBox(pageAccent, isConstrained = false) %}
+                        <h2>{{ copy.grantDetail.fields.recipientOrg }}</h2>
                         {% for org in grant.recipientOrganization %}
-
                             <dl class="o-definition-list o-definition-list--compact u-text-small">
                                 <dt>{{ copy.grantDetail.fields.orgName }}</dt>
-                                <dd>
-                                    <a href="./recipients/{{ org.id }}">{{ org.name }}</a>
-                                </dd>
-
+                                <dd><a href="./recipients/{{ org.id }}">{{ org.name }}</a></dd>
                                 <dt>{{ copy.grantDetail.fields.type }}</dt>
-                                <dd>
-                                    {{ buildOrgTypeList(org) }}
-                                </dd>
+                                <dd>{{ buildOrgTypeList(org) }}</dd>
 
                                 {% if org.charityNumber %}
                                     <dt>{{ copy.grantDetail.fields.charityNumber }}</dt>
@@ -127,9 +115,7 @@
 
                                 {% if grant.beneficiaryLocation %}
                                     <dt>{{ copy.grantDetail.fields.location }}</dt>
-                                    <dd>
-                                        {{ buildLocationList(grant.beneficiaryLocation) }}
-                                    </dd>
+                                    <dd>{{ buildLocationList(grant.beneficiaryLocation) }}</dd>
                                 {% endif %}
                             </dl>
 
@@ -140,7 +126,7 @@
                                 </a>
                             </p>
                         {% endfor %}
-                    </div>
+                    {% endcall %}
                 </div>
                 <div class="flex-grid__item">
                     {% if fundingProgramme %}
@@ -172,7 +158,7 @@
                             "labelAria": copy.grantDetail.readMoreAbout + ' ' + mainProgramme.title,
                             "url": link
                         }
-                    }, featured = true, showBorder = true) %}
+                    }) %}
                         {% if fundingProgramme.hero.caption %}
                             <p class="project-caption">{{ copy.grantDetail.photoCaption }}: {{ fundingProgramme.hero.caption }}</p>
                         {% endif %}

@@ -21,12 +21,9 @@
 
                 <div class="content-sidebar">
                     <div class="content-sidebar__primary">
-                        <div class="s-prose">
+                        <div class="s-prose u-text-medium">
                             {{ entry.introduction | safe }}
-                        </div>
-
-                        <div class="u-margin-bottom">
-                            {{ printButton(label = __('global.misc.printThisPage')) }}
+                            <p>{{ printButton(label = __('global.misc.printThisPage')) }}</p>
                         </div>
 
                         {{ segmentLinks(

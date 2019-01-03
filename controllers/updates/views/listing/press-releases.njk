@@ -70,11 +70,11 @@
 
                 <div class="content-sidebar__secondary">
 
-                    {% call card(accent = pageAccent) %}
+                    {% call card() %}
                         <form action="" method="get">
                             {% set activeRegion = entriesMeta.activeRegion.slug if entriesMeta.activeRegion %}
                             <label class="ff-label" for="field-region">{{ copy.pressRelease.filterByRegion }}</label>
-                            <select class="ff-select u-margin-bottom-s" name="region" id="field-region">
+                            <select class="ff-select u-block-full u-margin-bottom-s" name="region" id="field-region">
                                 <option value=""{% if not activeRegion %} selected{% endif %}>
                                     {{ copy.pressRelease.allPosts }}
                                 </option>
@@ -96,11 +96,11 @@
                     {% endcall %}
 
                     {% call card(copy.pressRelease.pressReleaseArchive) %}
-                        <p>
+                        <div class="s-prose">
                             <a href="{{ localify('/news-and-events') }}">
                                 {{ copy.pressRelease.viewOldPressReleases }}
                             </a>
-                        </p>
+                        </div>
                     {% endcall %}
 
                     {% set pressCopy = __('global.contact.press') %}

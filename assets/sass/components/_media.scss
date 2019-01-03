@@ -9,10 +9,10 @@
 
 .media-figure {
     margin: 0;
-    border-top: 4px solid;
-}
-.media-figure__caption {
-    @include text-caption();
+
+    .media-figure__caption {
+        @include text-caption();
+    }
 }
 
 /* =========================================================================

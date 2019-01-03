@@ -6,8 +6,6 @@
 .material-card {
     display: flex;
     flex-direction: column;
-    @include bordered();
-    border-top-width: 6px;
     background-color: get-color('background', 'light-neutral');
     height: 100%;
 }

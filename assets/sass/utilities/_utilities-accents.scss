@@ -7,6 +7,7 @@
    Tones
    ========================================================================= */
 
+/* Background tones */
 .u-tone-background-tint {
     background-color: get-color('background', 'light-neutral');
 }
@@ -27,7 +28,6 @@
 /**
  * Generate theme classes
  * Each theme listed in palette.scss will generate classes for use below
- * e.g <div class="accent--pink a--border-top"> will give a pink border
  * @TODO: Remove these post-rebrand, for now we awkwardly overide most colours with the brand colour
  */
 @each $name, $color in $themeColors {

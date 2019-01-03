@@ -5,7 +5,6 @@
 {% from "components/social.njk" import socialLinks with context %}
 
 {% extends "layouts/main.njk" %}
-{% set pageAccent = "blue" %}
 
 {% block content %}
     <main role="main">
@@ -18,18 +17,14 @@
                 <a class="btn btn--reversed btn--medium"
                     href="{{ localify('/funding/under10k') }}"
                     id="qa-button-under10k">
-                    <span class="accent--pink a--text">
-                        <span class="u-wide-only">{{ copy.under10k.long }}</span>
-                        <span class="u-not-wide">{{ copy.under10k.short }}</span>
-                    </span>
+                    <span class="u-wide-only">{{ copy.under10k.long }}</span>
+                    <span class="u-not-wide">{{ copy.under10k.short }}</span>
                 </a>
                 <a class="btn btn--reversed btn--medium"
                     href="{{ localify('/funding/over10k') }}"
                     id="qa-button-over10k">
-                    <span class="accent--blue a--text">
-                        <span class="u-wide-only">{{ copy.over10k.long }}</span>
-                        <span class="u-not-wide">{{ copy.over10k.short }}</span>
-                    </span>
+                    <span class="u-wide-only">{{ copy.over10k.long }}</span>
+                    <span class="u-not-wide">{{ copy.over10k.short }}</span>
                 </a>
             </div>
         {% endcall %}
@@ -103,7 +98,7 @@
 
         {# Social Content #}
         <section class="social-content u-inner-wide-only u-margin-bottom">
-            <div class="social-content__primary u-accent-border-top-blue">
+            <div class="social-content__primary u-accent-border-top-{{ pageAccent }}">
                 {# Twitter Feed #}
                 <div class="u-padded">
                     {% set twitterAccount = globalCopy.brand.twitter  %}
@@ -115,7 +110,7 @@
                     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
                 </div>
             </div>
-            <div class="social-content__secondary u-accent-border-top-pink">
+            <div class="social-content__secondary">
                 {# Ebulletin #}
                 <div class="content-box content-box--tinted">
                     {{ ebulletinForm() }}

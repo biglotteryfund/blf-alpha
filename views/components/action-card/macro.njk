@@ -1,5 +1,5 @@
-{% macro actionCard(props, accent) %}
-    <div class="card{% if accent %} u-accent-border-top-{{ accent }}{% endif %}">
+{% macro actionCard(props, accent=  false) %}
+    <div class="card">
         <header class="card__header">
             <h3 class="card__title">{{ props.title }}</h3>
         </header>

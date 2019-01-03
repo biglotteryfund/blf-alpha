@@ -9,8 +9,6 @@
 {% extends "layouts/main.njk" %}
 
 {% block content %}
-    {% set pageAccent = 'pink' %}
-
     <main role="main" id="content">
 
         {{ hero(
@@ -30,10 +28,10 @@
                         {% if author.photo %}
                             <img src="{{ author.photo }}"
                                  alt="{{ author.title }}"
-                                 class="o-media-figure"
+                                 class="o-media__figure"
                                  width="200" />
                         {% endif %}
-                        <div class="o-media-body">
+                        <div class="o-media__body">
                             <p class="u-no-margin"><strong>{{ author.title }}</strong></p>
                             {% if author.authorTitle %}
                                 <p>{{ author.authorTitle }}</p>

@@ -3,20 +3,17 @@
 {% from "components/caseStudies.njk" import caseStudyCollection with context  %}
 
 {% extends "layouts/main.njk" %}
-{% set pageAccent = 'turquoise' %}
 
 {% block content %}
     <main role="main">
-        {{
-            hero(
-                titleText = copy.title,
-                image = pageHero.image,
-                accent = pageAccent
-            )
-        }}
+        {{ hero(
+            titleText = copy.title,
+            image = pageHero.image,
+            accent = pageAccent
+        ) }}
 
         <div class="nudge-up">
-            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="content-box u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose">

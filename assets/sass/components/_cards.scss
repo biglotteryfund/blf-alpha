@@ -28,11 +28,6 @@
     .card__footer {
         margin-top: auto;
     }
-
-    &.card--plain {
-        background-color: white;
-        border: 1px solid get-color('border', 'base');
-    }
 }
 
 /* =========================================================================
@@ -46,6 +41,7 @@
 .media-card {
     padding: 12px 12px 16px;
     box-shadow: 0 0 1px 1px get-color('border', 'base');
+    border-top: 4px solid get-color('brand', 'primary');
 
     display: flex;
     align-items: flex-start;
