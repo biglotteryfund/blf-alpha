@@ -3,10 +3,12 @@
    ========================================================================= */
 
 .blockquote {
+    $offset: 32px;
+
     font-style: normal;
     color: get-color('brand', 'primary');
     margin-bottom: 1.5em;
-    padding-left: 32px;
+    padding-left: $offset;
     quotes: '\201C' '\201D' '\2018' '\2019';
     max-width: 30em;
 
@@ -29,9 +31,9 @@
 
         &:before {
             content: open-quote;
-            margin-left: -28px; // Optically align with offset
             position: relative;
-            top: -3px; // Optically align
+            margin-left: -$offset; // Optically align with offset
+            top: -3px; // Optically align with text baseline
         }
 
         &:after {
