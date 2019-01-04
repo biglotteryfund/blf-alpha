@@ -1,20 +1,18 @@
-{% from "components/hero.njk" import hero with context %}
-{% from "components/miniature-hero/macro.njk" import miniatureHero %}
+{% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/miniature-hero/macro.njk" import miniatureHero %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/section-links/macro.njk" import sectionLinks %}
 
-{% extends "layouts/main.njk" %}
-
 {% block content %}
-    {{ hero(
-        titleText = title,
-        image = pageHero.image,
-        accent = pageAccent
-    ) }}
+    {{ heroImage(pageHero.image) }}
 
-    <main role="main" class="nudge-up">
-        <section class="content-box u-inner-wide-only accent--blue a--border-top">
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
+
+        <section class="content-box u-inner-wide-only">
             {{ breadcrumbTrail(breadcrumbs) }}
             <div class="s-prose">
                 {{ content.introduction | safe }}
@@ -49,5 +47,4 @@
             {% endcall %}
         {% endif %}
     </main>
-
 {% endblock %}

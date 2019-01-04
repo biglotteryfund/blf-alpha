@@ -1,20 +1,16 @@
-{% from "components/hero.njk" import hero with context %}
-{% from "components/content.njk" import flexibleContent %}
-
 {% extends "layouts/main.njk" %}
+{% from "components/content.njk" import flexibleContent %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 
 {% block content %}
-    <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+    {{ heroImage(pageHero.image) }}
 
-        <div class="nudge-up">
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                {{ flexibleContent(content.flexibleContent, pageAccent) }}
-            </section>
-        </div>
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
+
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ flexibleContent(content.flexibleContent, pageAccent) }}
+        </section>
     </main>
 {% endblock %}
