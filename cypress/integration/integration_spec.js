@@ -55,12 +55,39 @@ describe('common', function() {
         );
     });
 
-    it('should proxy old funding finder if requesting closed programmes', () => {
-        cy.request('/funding/funding-finder?area=England&amp;amount=500001 - 1000000&amp;sc=1').then(response => {
-            expect(response.headers['x-blf-legacy']).to.eq('true');
-            expect(response.headers['content-security-policy']).to.not.exist;
-            expect(response.body).to.include('This is a list of our funding programmes');
-            expect(response.body).to.include('Show closed programmes');
+    it('should redirect old funding finder', () => {
+        [
+            {
+                originalPath: '/funding/funding-finder',
+                redirectedPath: '/funding/programmes'
+            },
+            {
+                originalPath: '/Home/Funding/Funding Finder',
+                redirectedPath: '/funding/programmes'
+            },
+            {
+                originalPath: '/funding/funding-finder?area=northern+ireland',
+                redirectedPath: '/funding/programmes?location=northernIreland'
+            },
+            {
+                originalPath: '/funding/funding-finder?area=England&amount=up to 10000',
+                redirectedPath: '/funding/programmes?location=england&max=10000'
+            },
+            {
+                originalPath: '/funding/funding-finder?sc=1',
+                redirectedPath: '/funding/programmes/all'
+            }
+        ].forEach(page => {
+            cy.checkRedirect({
+                from: page.originalPath,
+                to: page.redirectedPath
+            });
+        });
+    });
+
+    it('should serve welsh versions of legacy pages', () => {
+        cy.request('/welsh/research/communities-and-places').then(response => {
+            expect(response.body).to.include('Cymunedau a lleoedd');
         });
     });
 
