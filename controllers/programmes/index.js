@@ -2,7 +2,6 @@
 const { concat, get, groupBy, head, map } = require('lodash');
 const express = require('express');
 const path = require('path');
-const features = require('config').get('features');
 
 const {
     injectBreadcrumbs,
@@ -102,70 +101,68 @@ router.get('/', commonHero, injectCopy('funding.programmes'), async (req, res, n
 /**
  * All programmes
  */
-if (features.enableProgrammeArchive) {
-    router.get('/all', sMaxAge('3h'), commonHero, injectCopy('funding.allProgrammes'), async (req, res, next) => {
-        try {
-            const response = await contentApi.getFundingProgrammes({
-                locale: req.i18n.getLocale(),
-                showAll: true,
-                page: req.query.page || 1,
-                pageLimit: 250
-            });
+router.get('/all', sMaxAge('1d'), commonHero, injectCopy('funding.allProgrammes'), async (req, res, next) => {
+    try {
+        const response = await contentApi.getFundingProgrammes({
+            locale: req.i18n.getLocale(),
+            showAll: true,
+            page: req.query.page || 1,
+            pageLimit: 250
+        });
 
-            const allFundingProgrammes = response.result || [];
+        const allFundingProgrammes = response.result || [];
 
-            const locationParam = getValidLocation(allFundingProgrammes, req.query.location);
+        const locationParam = getValidLocation(allFundingProgrammes, req.query.location);
 
-            const programmes = allFundingProgrammes.filter(programmeFilters.filterByLocation(locationParam));
+        const programmes = allFundingProgrammes.filter(programmeFilters.filterByLocation(locationParam));
 
-            /**
-             * Group programmes alpha-numerically
-             */
-            const groupedProgrammes = groupBy(programmes, function(programme) {
-                const firstLetter = head(programme.title.split('')).toUpperCase();
-                return /\d/.test(firstLetter) ? '#' : firstLetter;
-            });
+        /**
+         * Group programmes alpha-numerically
+         */
+        const groupedProgrammes = groupBy(programmes, function(programme) {
+            const firstLetter = head(programme.title.split('')).toUpperCase();
+            return /\d/.test(firstLetter) ? '#' : firstLetter;
+        });
 
-            const breadcrumbs = concat(res.locals.breadcrumbs, [{ label: res.locals.title }]);
+        const breadcrumbs = concat(res.locals.breadcrumbs, [{ label: res.locals.title }]);
 
-            const regionsCopy = req.i18n.__('global.regions');
-            const locations = {
-                england: regionsCopy.england,
-                wales: regionsCopy.wales,
-                scotland: regionsCopy.scotland,
-                northernIreland: regionsCopy.northernIreland,
-                ukWide: regionsCopy.ukWide
+        const regionsCopy = req.i18n.__('global.regions');
+        const locations = {
+            england: regionsCopy.england,
+            wales: regionsCopy.wales,
+            scotland: regionsCopy.scotland,
+            northernIreland: regionsCopy.northernIreland,
+            ukWide: regionsCopy.ukWide
+        };
+
+        const locationLinks = map(locations, function(value, key) {
+            return {
+                url: `${req.baseUrl}${req.path}?location=${key}`,
+                label: value
             };
+        });
 
-            const locationLinks = map(locations, function(value, key) {
-                return {
-                    url: `${req.baseUrl}${req.path}?location=${key}`,
-                    label: value
-                };
+        if (locationParam) {
+            breadcrumbs.push({
+                label: locations[locationParam]
             });
-
-            if (locationParam) {
-                breadcrumbs.push({
-                    label: locations[locationParam]
-                });
-            }
-
-            // If we have more than three breadcrumbs assign a url to the third (the current page)
-            if (breadcrumbs.length > 3) {
-                breadcrumbs[2].url = req.baseUrl + req.path;
-            }
-
-            res.render(path.resolve(__dirname, './views/all-programmes'), {
-                locationLinks: locationLinks,
-                locationParam: locationParam,
-                groupedProgrammes: groupedProgrammes,
-                breadcrumbs: breadcrumbs
-            });
-        } catch (error) {
-            next(error);
         }
-    });
-}
+
+        // If we have more than three breadcrumbs assign a url to the third (the current page)
+        if (breadcrumbs.length > 3) {
+            breadcrumbs[2].url = req.baseUrl + req.path;
+        }
+
+        res.render(path.resolve(__dirname, './views/all-programmes'), {
+            locationLinks: locationLinks,
+            locationParam: locationParam,
+            groupedProgrammes: groupedProgrammes,
+            breadcrumbs: breadcrumbs
+        });
+    } catch (error) {
+        next(error);
+    }
+});
 
 /**
  * Digital Fund
@@ -186,7 +183,7 @@ router.get('/:slug', injectFundingProgramme, (req, res, next) => {
             entry: fundingProgramme,
             breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.title }])
         });
-    } else if (features.enableProgrammeArchive && get(fundingProgramme, 'isArchived') === true) {
+    } else if (get(fundingProgramme, 'isArchived') === true) {
         /**
          * Archived programme
          */
