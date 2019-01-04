@@ -1,57 +1,54 @@
 {% extends "layouts/main.njk" %}
-{% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 
 {% block content %}
-    <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+    {{ heroImage(pageHero.image) }}
 
-        <div class="nudge-up">
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                {{ breadcrumbTrail(breadcrumbs) }}
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
 
-                <div class="s-prose u-constrained-wide">
-                    <p>{{ copy.eligibilityChecker.introduction }}</p>
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
 
-                    <p><strong>{{ strandCopy.question }}</strong></p>
-                    <div class="o-button-group u-margin-bottom">
-                        <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
-                           href="{{ yesUrl }}">
-                            {{ __('global.misc.yes') }}
-                        </a>
-                        <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
-                           href="{{ noUrl }}">
-                            {{ __('global.misc.no') }}
-                        </a>
-                    </div>
+            <div class="s-prose u-constrained-wide">
+                <p>{{ copy.eligibilityChecker.introduction }}</p>
 
-                    <details class="u-margin-bottom-l">
-                        <summary>{{ copy.eligibilityChecker.unsureTitle }}</summary>
-                        <div class="u-tone-background-tint u-padded">
-                            <div class="s-prose">
-                                <p>{{ strandCopy.eligibilitySummary.introduction }}</p>
-                                <ul>
-                                    {% for item in strandCopy.eligibilitySummary.criteria %}
-                                        <li>{{ item }}</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </div>
-                    </details>
-
-                    <hr>
-
-                     {% for faq in copy.eligibilityChecker.faqs %}
-                        <p><strong>{{ faq.question }}</strong></p>
-                        <p>{{ faq.answer }}</p>
-                    {% endfor %}
+                <p><strong>{{ strandCopy.question }}</strong></p>
+                <div class="o-button-group u-margin-bottom">
+                    <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
+                        href="{{ yesUrl }}">
+                        {{ __('global.misc.yes') }}
+                    </a>
+                    <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
+                        href="{{ noUrl }}">
+                        {{ __('global.misc.no') }}
+                    </a>
                 </div>
-            </section>
-        </div>
+
+                <details class="u-margin-bottom-l">
+                    <summary>{{ copy.eligibilityChecker.unsureTitle }}</summary>
+                    <div class="u-tone-background-tint u-padded">
+                        <div class="s-prose">
+                            <p>{{ strandCopy.eligibilitySummary.introduction }}</p>
+                            <ul>
+                                {% for item in strandCopy.eligibilitySummary.criteria %}
+                                    <li>{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </details>
+
+                <hr>
+
+                    {% for faq in copy.eligibilityChecker.faqs %}
+                    <p><strong>{{ faq.question }}</strong></p>
+                    <p>{{ faq.answer }}</p>
+                {% endfor %}
+            </div>
+        </section>
     </main>
 {% endblock %}

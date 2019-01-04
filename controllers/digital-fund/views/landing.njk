@@ -2,70 +2,67 @@
 {% from "components/action-card/macro.njk" import actionCard %}
 {% from "components/content-box-intro/macro.njk" import contentBoxIntro with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
-{% from "components/hero.njk" import hero with context %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 
 {% block content %}
-    <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+    {{ heroImage(pageHero.image) }}
 
-        <div class="nudge-up">
-            {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = pageHero.credit) %}
-                <p>{{ copy.intro }}</p>
-                {% if enableDigitalFundApplications %}
-                    <p><strong>{{ copy.openingDates }}</strong></p>
-                {% else %}
-                    <p><strong>{{ copy.openingDatesClosed }}</strong></p>
-                {% endif %}
-            {% endcall %}
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
 
-            {% call contentBox(pageAccent, id="get-started") %}
-                <h2>{{ copy.getStarted.title }}</h2>
-                {% if enableDigitalFundApplications %}
-                    <p>{{ copy.getStarted.intro }}</p>
-                {% else %}
-                    <p>{{ copy.getStarted.introClosed }}</p>
-                {% endif %}
+        {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = pageHero.credit) %}
+            <p>{{ copy.intro }}</p>
+            {% if enableDigitalFundApplications %}
+                <p><strong>{{ copy.openingDates }}</strong></p>
+            {% else %}
+                <p><strong>{{ copy.openingDatesClosed }}</strong></p>
+            {% endif %}
+        {% endcall %}
 
-                <div class="flex-grid">
-                    <div class="flex-grid__item">
-                        {% call actionCard({
-                            title: copy.strand1.title,
-                            link: {
-                                url: localify('/funding/programmes/digital-fund/strand-1'),
-                                label: copy.aboutStrandLabel
-                            }
-                        }, accent = 'blue') %}
-                            <p>{{ copy.strand1.introduction | safe }}</p>
-                        {% endcall %}
-                    </div>
-                    <div class="flex-grid__item">
-                        {% call actionCard({
-                            title: copy.strand2.title,
-                            link: {
-                                url: localify('/funding/programmes/digital-fund/strand-2'),
-                                label: copy.aboutStrandLabel
-                            }
-                        }, accent = 'cyan') %}
-                            <p>{{ copy.strand2.introduction | safe }}</p>
-                        {% endcall %}
-                    </div>
+        {% call contentBox(pageAccent, id="get-started") %}
+            <h2>{{ copy.getStarted.title }}</h2>
+            {% if enableDigitalFundApplications %}
+                <p>{{ copy.getStarted.intro }}</p>
+            {% else %}
+                <p>{{ copy.getStarted.introClosed }}</p>
+            {% endif %}
+
+            <div class="flex-grid">
+                <div class="flex-grid__item">
+                    {% call actionCard({
+                        title: copy.strand1.title,
+                        link: {
+                            url: localify('/funding/programmes/digital-fund/strand-1'),
+                            label: copy.aboutStrandLabel
+                        }
+                    }, accent = 'blue') %}
+                        <p>{{ copy.strand1.introduction | safe }}</p>
+                    {% endcall %}
                 </div>
+                <div class="flex-grid__item">
+                    {% call actionCard({
+                        title: copy.strand2.title,
+                        link: {
+                            url: localify('/funding/programmes/digital-fund/strand-2'),
+                            label: copy.aboutStrandLabel
+                        }
+                    }, accent = 'cyan') %}
+                        <p>{{ copy.strand2.introduction | safe }}</p>
+                    {% endcall %}
+                </div>
+            </div>
 
-                <p>
-                    {{ copy.fullEligiblity.teaser.prefix }}
-                    <a href="{{ localify('/funding/programmes/digital-fund/eligibility') }}">
-                        {{ copy.fullEligiblity.teaser.linkText }}
-                    </a>
-                </p>
+            <p>
+                {{ copy.fullEligiblity.teaser.prefix }}
+                <a href="{{ localify('/funding/programmes/digital-fund/eligibility') }}">
+                    {{ copy.fullEligiblity.teaser.linkText }}
+                </a>
+            </p>
 
-                <h2>{{ copy.getStarted.assistance.title }}</h2>
-                {{ copy.getStarted.assistance.body | safe }}
-                {{ copy.assistance.actionText | safe }}
-            {% endcall %}
-        </div>
+            <h2>{{ copy.getStarted.assistance.title }}</h2>
+            {{ copy.getStarted.assistance.body | safe }}
+            {{ copy.assistance.actionText | safe }}
+        {% endcall %}
     </main>
 {% endblock %}

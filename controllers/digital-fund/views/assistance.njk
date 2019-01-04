@@ -1,103 +1,97 @@
 {% extends "layouts/main.njk" %}
-{% from "components/hero.njk" import hero with context %}
-{% from "components/icons.njk" import iconTick %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/form-fields/macros.njk" import formErrors with context %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/icons.njk" import iconTick %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 
 {% block content %}
-    <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+    {{ heroImage(pageHero.image) }}
 
-        <div class="nudge-up">
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                {{ breadcrumbTrail(breadcrumbs) }}
-                <div class="u-constrained-wide">
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
 
-                    <div class="s-prose">
-                        <p><strong>{{ copy.assistance.intro }}</strong></p>
-                        {{ copy.assistance.body | safe }}
-                    </div>
+        <section class="content-box u-inner-wide-only">
+            {{ breadcrumbTrail(breadcrumbs) }}
+            <div class="u-constrained-wide">
 
-                    {% if status === 'SUBMISSION_SUCCESS' %}
-                        <div class="submission-message u-tone-background-tint u-padded">
-                            <div class="submission-message__icon">
-                                {{ iconTick() }}
-                            </div>
-                            <div class="submission-message__text">
-                                <p><strong>{{ copy.assistance.submission.success.title }}</strong></p>
-                                <p>{{ copy.assistance.submission.success.message }}</p>
-                            </div>
+                <div class="s-prose">
+                    <p><strong>{{ copy.assistance.intro }}</strong></p>
+                    {{ copy.assistance.body | safe }}
+                </div>
+
+                {% if status === 'SUBMISSION_SUCCESS' %}
+                    <div class="submission-message u-tone-background-tint u-padded">
+                        <div class="submission-message__icon">
+                            {{ iconTick() }}
                         </div>
-                    {% else %}
-                        {% if status === 'SUBMISSION_ERROR' %}
-                            <div class="message" role="alert">
-                                {{ copy.assistance.submission.error.message }}
-                            </div>
-                        {% endif %}
-
-                        <form method="post" action="">
-                            {{ formErrors(errors) }}
-
-                            <div class="u-tone-background-tint u-padded">
-                                <label for="form-field-email" class="ff-label">
-                                    {{ copy.assistance.submission.emailAddress }}
-                                </label>
-
-                                <p class="ff-help">
-                                    {{ copy.assistance.submission.explanation }}
-                                </p>
-
-                                <div class="form-field-addon u-constrained">
-                                    <input class="form-field-addon__input"
-                                        id="form-field-email"
-                                        type="email"
-                                        name="email"
-                                        placeholder="your.email@example.com"
-                                    />
-                                    <input class="form-field-addon__action"
-                                        type="submit"
-                                        value="{{ copy.assistance.submission.proceedLabel }}"
-                                    />
-                                </div>
-                            </div>
-                        </form>
+                        <div class="submission-message__text">
+                            <p><strong>{{ copy.assistance.submission.success.title }}</strong></p>
+                            <p>{{ copy.assistance.submission.success.message }}</p>
+                        </div>
+                    </div>
+                {% else %}
+                    {% if status === 'SUBMISSION_ERROR' %}
+                        <div class="message" role="alert">
+                            {{ copy.assistance.submission.error.message }}
+                        </div>
                     {% endif %}
 
-                </div>
-            </section>
+                    <form method="post" action="">
+                        {{ formErrors(errors) }}
 
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                <div class="s-prose u-constrained-content-wide">
-                    <h2>{{ copy.assistance.helpAndSupport.title }}</h2>
-                    <p>{{ copy.assistance.helpAndSupport.intro }}</p>
-                    <ul>
-                        {% for link in copy.assistance.helpAndSupport.links %}
-                            <li><a href="{{ link.url }}">
-                                {{ link.title }}
-                            </a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </section>
+                        <div class="u-tone-background-tint u-padded">
+                            <label for="form-field-email" class="ff-label">
+                                {{ copy.assistance.submission.emailAddress }}
+                            </label>
 
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                <div class="s-prose u-constrained-content-wide">
-                    <h2>{{ copy.wayfinding.title }}</h2>
-                    <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
-                        class="btn btn--medium accent--blue a--btn">
-                        {{ copy.wayfinding.strand1 }}
-                    </a></p>
-                    <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
-                        class="btn btn--medium accent--cyan a--btn">
-                        {{ copy.wayfinding.strand2 }}
-                    </a></p>
-                    <p>{{ copy.wayfinding.otherProgrammes | safe }}</p>
-                </div>
-            </section>
-        </div>
+                            <p class="ff-help">
+                                {{ copy.assistance.submission.explanation }}
+                            </p>
+
+                            <div class="form-field-addon u-constrained">
+                                <input class="form-field-addon__input"
+                                    id="form-field-email"
+                                    type="email"
+                                    name="email"
+                                    placeholder="your.email@example.com"
+                                />
+                                <input class="form-field-addon__action"
+                                    type="submit"
+                                    value="{{ copy.assistance.submission.proceedLabel }}"
+                                />
+                            </div>
+                        </div>
+                    </form>
+                {% endif %}
+
+            </div>
+        </section>
+
+        {% call contentBox() %}  
+            <h2>{{ copy.assistance.helpAndSupport.title }}</h2>
+            <p>{{ copy.assistance.helpAndSupport.intro }}</p>
+            <ul>
+                {% for link in copy.assistance.helpAndSupport.links %}
+                    <li><a href="{{ link.url }}">
+                        {{ link.title }}
+                    </a></li>
+                {% endfor %}
+            </ul>
+        {% endcall %}
+
+        {% call contentBox() %}
+            <h2>{{ copy.wayfinding.title }}</h2>
+            <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
+                class="btn btn--medium accent--blue a--btn">
+                {{ copy.wayfinding.strand1 }}
+            </a></p>
+            <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
+                class="btn btn--medium accent--cyan a--btn">
+                {{ copy.wayfinding.strand2 }}
+            </a></p>
+            <p>{{ copy.wayfinding.otherProgrammes | safe }}</p>
+        {% endcall %}
     </main>
 {% endblock %}

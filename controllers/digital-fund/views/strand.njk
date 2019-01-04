@@ -1,135 +1,133 @@
 {% extends "layouts/main.njk" %}
-{% from "components/hero.njk" import hero with context %}
+{% from "components/action-card/macro.njk" import actionCard %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/step-progress/macro.njk" import stepProgress %}
-{% from "components/action-card/macro.njk" import actionCard %}
 
 {% block content %}
-    <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+    {{ heroImage(pageHero.image) }}
 
-        <div class="nudge-up">
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                {{ breadcrumbTrail(breadcrumbs) }}
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
+    
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
 
-                <div class="s-prose u-constrained-content-wide">
-                    <p>{{ copy[currentStrand].introduction | safe }}</p>
-                </div>
+            <div class="s-prose u-constrained-content-wide">
+                <p>{{ copy[currentStrand].introduction | safe }}</p>
+            </div>
 
-                <div class="message">
+            <div class="message">
+                {% if enableDigitalFundApplications %}
+                    {{ copy.openingDates }}
+                {% else %}
+                    {{ copy.openingDatesClosed }}
+                {% endif %}
+            </div>
+
+            {{ segmentLinks([
+                { "title": copy.process.title },
+                { "title": copy.eligibility.title },
+                { "title": copy.spending.title },
+                { "title": copy.successFactors.title }
+            ] )}}
+        </section>
+
+        <section id="segment-1" class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="content-sidebar">
+                <div class="content-sidebar__primary accent-content--{{ pageAccent }}">
+                    <h2 class="t2 t--underline">{{ copy.process.title }}</h2>
+                    <p>{{ copy.process.introduction }}</p>
                     {% if enableDigitalFundApplications %}
-                        {{ copy.openingDates }}
+                        {{ stepProgress(copy.process.steps)}}
                     {% else %}
-                        {{ copy.openingDatesClosed }}
+                        {{ stepProgress(copy.process.stepsClosed)}}
                     {% endif %}
                 </div>
-
-                {{ segmentLinks([
-                    { "title": copy.process.title },
-                    { "title": copy.eligibility.title },
-                    { "title": copy.spending.title },
-                    { "title": copy.successFactors.title }
-                ] )}}
-            </section>
-
-            <section id="segment-1" class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                <div class="content-sidebar">
-                    <div class="content-sidebar__primary accent-content--{{ pageAccent }}">
-                        <h2 class="t2 t--underline">{{ copy.process.title }}</h2>
-                        <p>{{ copy.process.introduction }}</p>
-                        {% if enableDigitalFundApplications %}
-                            {{ stepProgress(copy.process.steps)}}
-                        {% else %}
-                            {{ stepProgress(copy.process.stepsClosed)}}
-                        {% endif %}
-                    </div>
-
-                    {% if enableDigitalFundApplications %}
-                        <div class="content-sidebar__secondary">
-                            <div class="u-sticky-offset">
-                                {% call actionCard({
-                                    title: copy.process.getStarted.title,
-                                    link: {
-                                        url: eligibilityLink,
-                                        label: copy.process.getStarted.linkText
-                                    }
-                                }, accent = pageAccent) %}
-                                    {{ copy.process.getStarted.body | safe }}
-                                {% endcall %}
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </section>
-
-            {% call contentBox(pageAccent, id='segment-2') %}
-                <h2>{{ copy.eligibility.title }}</h2>
-                <ul>
-                    {% for criteria in copy.eligibility[currentStrand].criteria %}
-                        <li>{{ criteria }}</li>
-                    {% endfor %}
-                </ul>
-                {{ copy.eligibility.commonCriteria.body | safe }}
-            {% endcall %}
-
-            {% call contentBox(pageAccent, id="segment-3") %}
-                <h2>{{ copy.spending.title }}</h2>
-                {{ copy.spending.body | safe }}
-            {% endcall %}
-
-            {% call contentBox(pageAccent, id="segment-4") %}
-                <h2>{{ copy.successFactors.title }}</h2>
-                {{ copy.successFactors[currentStrand] | safe }}
-            {% endcall %}
-
-            {% if enableDigitalFundApplications %}
-                {% call contentBox(pageAccent, id="segment-5") %}
-                    <h2>{{ copy.process.getStarted.title }}</h2>
-                    <p>{{ copy.process.getStarted.teaser }}</p>
-                    <p>
-                        <a href="{{ eligibilityLink }}"
-                            class="btn btn--medium accent--{{ pageAccent }} a--btn">
-                            {{ copy.process.getStarted.linkText }}
-                        </a>
-                    </p>
-                {% endcall %}
-            {% endif %}
-
-            {% call contentBox(pageAccent, id="segment-6") %}
-                <h2>{{ copy.questions.title }}</h2>
-                {{ copy.questions.body | safe }}
-            {% endcall %}
-
-            {% call contentBox(pageAccent) %}
-                <h2>{{ copy.wayfinding.title }}</h2>
-
-                <p><a href="{{ localify('/funding/programmes/digital-fund/assistance') }}"
-                    class="btn btn--medium accent--pink a--btn">
-                    {{ copy.wayfinding.assistance }}
-                </a></p>
 
                 {% if enableDigitalFundApplications %}
-                    {% if currentStrand === 'strand1' %}
-                        <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
-                            class="btn btn--medium accent--cyan a--btn">
-                            {{ copy.wayfinding.strand2 }}
-                        </a></p>
-                    {% else %}
-                        <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
-                            class="btn btn--medium accent--blue a--btn">
-                            {{ copy.wayfinding.strand1 }}
-                        </a></p>
-                    {% endif %}
+                    <div class="content-sidebar__secondary">
+                        <div class="u-sticky-offset">
+                            {% call actionCard({
+                                title: copy.process.getStarted.title,
+                                link: {
+                                    url: eligibilityLink,
+                                    label: copy.process.getStarted.linkText
+                                }
+                            }, accent = pageAccent) %}
+                                {{ copy.process.getStarted.body | safe }}
+                            {% endcall %}
+                        </div>
+                    </div>
                 {% endif %}
+            </div>
+        </section>
 
-                <p>{{ copy.wayfinding.otherProgrammes | safe }}</p>
+        {% call contentBox(pageAccent, id='segment-2') %}
+            <h2>{{ copy.eligibility.title }}</h2>
+            <ul>
+                {% for criteria in copy.eligibility[currentStrand].criteria %}
+                    <li>{{ criteria }}</li>
+                {% endfor %}
+            </ul>
+            {{ copy.eligibility.commonCriteria.body | safe }}
+        {% endcall %}
+
+        {% call contentBox(pageAccent, id="segment-3") %}
+            <h2>{{ copy.spending.title }}</h2>
+            {{ copy.spending.body | safe }}
+        {% endcall %}
+
+        {% call contentBox(pageAccent, id="segment-4") %}
+            <h2>{{ copy.successFactors.title }}</h2>
+            {{ copy.successFactors[currentStrand] | safe }}
+        {% endcall %}
+
+        {% if enableDigitalFundApplications %}
+            {% call contentBox(pageAccent, id="segment-5") %}
+                <h2>{{ copy.process.getStarted.title }}</h2>
+                <p>{{ copy.process.getStarted.teaser }}</p>
+                <p>
+                    <a href="{{ eligibilityLink }}"
+                        class="btn btn--medium accent--{{ pageAccent }} a--btn">
+                        {{ copy.process.getStarted.linkText }}
+                    </a>
+                </p>
             {% endcall %}
-        </div>
+        {% endif %}
+
+        {% call contentBox(pageAccent, id="segment-6") %}
+            <h2>{{ copy.questions.title }}</h2>
+            {{ copy.questions.body | safe }}
+        {% endcall %}
+
+        {% call contentBox(pageAccent) %}
+            <h2>{{ copy.wayfinding.title }}</h2>
+
+            <p><a href="{{ localify('/funding/programmes/digital-fund/assistance') }}"
+                class="btn btn--medium accent--pink a--btn">
+                {{ copy.wayfinding.assistance }}
+            </a></p>
+
+            {% if enableDigitalFundApplications %}
+                {% if currentStrand === 'strand1' %}
+                    <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
+                        class="btn btn--medium accent--cyan a--btn">
+                        {{ copy.wayfinding.strand2 }}
+                    </a></p>
+                {% else %}
+                    <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
+                        class="btn btn--medium accent--blue a--btn">
+                        {{ copy.wayfinding.strand1 }}
+                    </a></p>
+                {% endif %}
+            {% endif %}
+
+            <p>{{ copy.wayfinding.otherProgrammes | safe }}</p>
+        {% endcall %}
+
     </main>
 {% endblock %}

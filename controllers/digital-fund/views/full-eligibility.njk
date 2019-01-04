@@ -1,90 +1,87 @@
-{% from "components/hero.njk" import hero with context %}
-{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/content-box/macro.njk" import contentBox %}
-{% from "components/segment-links/macro.njk" import segmentLinks %}
-{% from "components/print-button/macro.njk" import printButton %}
-
 {% extends "layouts/main.njk" %}
 
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
+{% from "components/print-button/macro.njk" import printButton %}
+{% from "components/segment-links/macro.njk" import segmentLinks %}
+
 {% block content %}
-    <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+    {{ heroImage(pageHero.image) }}
 
-        <div class="nudge-up">
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                {{ breadcrumbTrail(breadcrumbs) }}
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
 
-                <div class="s-prose u-constrained-content-wide">
-                    {{ copy.fullEligiblity.introduction | safe }}
-                    <p>{{ printButton(label = __('global.misc.printThisPage')) }}</p>
-                </div>
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
 
-                {{ segmentLinks([{
-                    "title": copy.successFactors.title
-                }, {
-                    "title": copy.eligibility.title
-                }, {
-                    "title": copy.spending.title
-                }] )}}
-            </section>
+            <div class="s-prose u-constrained-content-wide">
+                {{ copy.fullEligiblity.introduction | safe }}
+                <p>{{ printButton(label = __('global.misc.printThisPage')) }}</p>
+            </div>
 
-            {% call contentBox(pageAccent, id="segment-1") %}
-                <h2>{{ copy.successFactors.title }}</h2>
+            {{ segmentLinks([{
+                "title": copy.successFactors.title
+            }, {
+                "title": copy.eligibility.title
+            }, {
+                "title": copy.spending.title
+            }] )}}
+        </section>
 
-                <p>{{ copy.strand1.introduction | safe }}</p>
-                {{ copy.successFactors.strand1 | safe  }}
+        {% call contentBox(pageAccent, id="segment-1") %}
+            <h2>{{ copy.successFactors.title }}</h2>
 
-                <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
-                    class="btn btn--medium accent--{{ pageAccent }} a--btn u-margin-bottom">
-                    {{ copy.strand1.startApplying }}
-                </a></p>
+            <p>{{ copy.strand1.introduction | safe }}</p>
+            {{ copy.successFactors.strand1 | safe  }}
 
-                <p>{{ copy.strand2.introduction | safe }}</p>
-                {{ copy.successFactors.strand2 | safe  }}
+            <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
+                class="btn btn--medium accent--{{ pageAccent }} a--btn u-margin-bottom">
+                {{ copy.strand1.startApplying }}
+            </a></p>
 
-                <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
-                    class="btn btn--medium accent--{{ pageAccent }} a--btn u-margin-bottom">
-                    {{ copy.strand2.startApplying }}
-                </a></p>
+            <p>{{ copy.strand2.introduction | safe }}</p>
+            {{ copy.successFactors.strand2 | safe  }}
 
-                {{ copy.successFactors.equalities | safe }}
-            {% endcall %}
+            <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
+                class="btn btn--medium accent--{{ pageAccent }} a--btn u-margin-bottom">
+                {{ copy.strand2.startApplying }}
+            </a></p>
 
-            {% call contentBox(pageAccent, id = "segment-2") %}
-                <h2>{{ copy.eligibility.title }}</h2>
+            {{ copy.successFactors.equalities | safe }}
+        {% endcall %}
 
-                <p><strong>{{ copy.eligibility.commonCriteria.summary }}</strong></p>
-                {{ copy.eligibility.commonCriteria.body | safe }}
+        {% call contentBox(pageAccent, id = "segment-2") %}
+            <h2>{{ copy.eligibility.title }}</h2>
 
-                <h2>{{ copy.eligibility.strand1.title }}</h2>
-                <ul>
-                    {% for criteria in copy.eligibility.strand1.criteria %}
-                        <li>{{ criteria }}</li>
-                    {% endfor %}
-                </ul>
+            <p><strong>{{ copy.eligibility.commonCriteria.summary }}</strong></p>
+            {{ copy.eligibility.commonCriteria.body | safe }}
 
-                <h2>{{ copy.eligibility.strand2.title }}</h2>
-                <ul>
-                    {% for criteria in copy.eligibility.strand2.criteria %}
-                        <li>{{ criteria }}</li>
-                    {% endfor %}
-                </ul>
-            {% endcall %}
+            <h2>{{ copy.eligibility.strand1.title }}</h2>
+            <ul>
+                {% for criteria in copy.eligibility.strand1.criteria %}
+                    <li>{{ criteria }}</li>
+                {% endfor %}
+            </ul>
 
-            {% call contentBox(pageAccent, id="segment-3") %}
-                <h2>{{ copy.spending.title }}</h2>
-                {{ copy.spending.body | safe }}
-            {% endcall %}
+            <h2>{{ copy.eligibility.strand2.title }}</h2>
+            <ul>
+                {% for criteria in copy.eligibility.strand2.criteria %}
+                    <li>{{ criteria }}</li>
+                {% endfor %}
+            </ul>
+        {% endcall %}
 
-            {% call contentBox(pageAccent) %}
-                <h2>{{ copy.getStarted.assistance.title }}</h2>
-                {{ copy.getStarted.assistance.body | safe }}
-                {{ copy.assistance.actionText | safe }}
-            {% endcall %}
-        </div>
+        {% call contentBox(pageAccent, id="segment-3") %}
+            <h2>{{ copy.spending.title }}</h2>
+            {{ copy.spending.body | safe }}
+        {% endcall %}
+
+        {% call contentBox(pageAccent) %}
+            <h2>{{ copy.getStarted.assistance.title }}</h2>
+            {{ copy.getStarted.assistance.body | safe }}
+            {{ copy.assistance.actionText | safe }}
+        {% endcall %}
     </main>
 {% endblock %}

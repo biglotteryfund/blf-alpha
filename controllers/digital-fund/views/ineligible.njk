@@ -1,31 +1,28 @@
 {% extends "layouts/main.njk" %}
-{% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/step-progress/macro.njk" import stepProgress %}
 
 {% block content %}
-    <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+    {{ heroImage(pageHero.image) }}
 
-        <div class="nudge-up">
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                {{ breadcrumbTrail(breadcrumbs) }}
-                <div class="s-prose u-constrained">
-                    <p>{{ strandCopy.ineligible.introduction }}</p>
-                    <p>{{ strandCopy.eligibilitySummary.introduction }}</p>
-                    <ul>
-                        {% for item in strandCopy.eligibilitySummary.criteria %}
-                            <li>{{ item }}</li>
-                        {% endfor %}
-                    </ul>
-                    {{ strandCopy.ineligible.body | safe }}
-                </div>
-            </section>
-        </div>
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
+    
+        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
+            <div class="s-prose u-constrained">
+                <p>{{ strandCopy.ineligible.introduction }}</p>
+                <p>{{ strandCopy.eligibilitySummary.introduction }}</p>
+                <ul>
+                    {% for item in strandCopy.eligibilitySummary.criteria %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+                {{ strandCopy.ineligible.body | safe }}
+            </div>
+        </section>
     </main>
 {% endblock %}
