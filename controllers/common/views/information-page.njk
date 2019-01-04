@@ -1,20 +1,17 @@
-{% from "components/hero.njk" import hero with context %}
+{% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/segment/macro.njk" import segment %}
 
-{% extends "layouts/main.njk" %}
 {% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% block content %}
     {% if pageHero.image %}
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+        {{ heroImage(pageHero.image) }}
     {% endif %}
 
     {% macro primaryContent() %}
@@ -30,7 +27,9 @@
         {{ segmentLinks(customSegmentLinks | default(content.segments)) }}
     {% endmacro %}
 
-    <main{% if pageHero.image %} class="nudge-up"{% endif %}>
+    <main{% if pageHero.image %} class="u-nudge-up"{% endif %}>
+        {{ pageTitle(title) }}
+
         {% block contentPrimary %}
             {% if content.relatedContent %}
                 <section class="page-section u-inner-wide-only accent--{{ pageAccent }} a--border-top">
