@@ -1,9 +1,10 @@
 {% extends "layouts/main.njk" %}
 {% from "components/content-box-intro/macro.njk" import contentBoxIntro with context %}
 {% from "components/content-tabs/macro.njk" import contentTabs %}
-{% from "components/hero.njk" import hero with context %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
 {% from "components/inline-links/macro.njk" import inlineLinks %}
 {% from "components/media-object/macro.njk" import mediaObject %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/promo-card/macro.njk" import promoCard %}
 
 {% macro renderContentBlocks(contentBlocks) %}
@@ -22,14 +23,11 @@
 {% endmacro %}
 
 {% block content %}
-<main role="main">
-    {{ hero(
-        titleText = title,
-        image = pageHero.image,
-        accent = pageAccent
-    ) }}
+    {{ heroImage(pageHero.image) }}
 
-    <div class="nudge-up">
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
+
         {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = pageHero.credit) %}
             {{ strategicProgramme.intro | safe }}
         {% endcall %}
@@ -127,6 +125,5 @@
                 </div>
             </section>
         {% endif %}
-    </div>
-</main>
+    </main>
 {% endblock %}
