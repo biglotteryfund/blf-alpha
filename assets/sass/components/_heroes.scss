@@ -91,17 +91,29 @@
     color: white;
     position: relative;
 
+    .hero-image__figure {
+        margin: 0;
+    }
+
     .hero-image__image img {
         display: block;
     }
 
     .hero-image__caption {
         position: absolute;
-        top: $spacingUnit;
-        right: $spacingUnit;
 
-        @include mq('medium', 'max') {
-            display: none;
+        top: $spacingUnit / 2;
+        right: $spacingUnit / 2;
+
+        @include mq('medium') {
+            top: $spacingUnit;
+            right: $spacingUnit;
+        }
+
+        @if $useNewBrand == false {
+            @include mq('medium', 'max') {
+                display: none;
+            }
         }
     }
 }

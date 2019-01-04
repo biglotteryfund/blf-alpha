@@ -48,8 +48,6 @@
 // @TODO: Deprecated in favour of u-nudge-up
 .nudge-up {
     @include mq('medium') {
-        top: -$nudgeOffset;
-        margin-bottom: -$nudgeOffset;
         top: -$nudgeOffsetOld;
         margin-bottom: -$nudgeOffsetOld;
         position: relative;
@@ -58,8 +56,19 @@
 }
 
 .u-nudge-up {
-    top: -$nudgeOffset;
-    margin-bottom: -$nudgeOffset;
     position: relative;
     z-index: 10;
+
+    top: -110px;
+    margin-bottom: -110px;
+
+    @include mq('medium') {
+        @if $useNewBrand == true {
+            top: -125px;
+            margin-bottom: -125px;
+        } @else {
+            top: -100px;
+            margin-bottom: -100px;
+        }
+    }
 }
