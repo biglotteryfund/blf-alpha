@@ -408,7 +408,7 @@ toplevel:
     - label: View all open funding programmes
       href: "/funding/programmes"
     - label: View all closed funding programmes
-      href: "/funding/funding-finder?sc=1"
+      href: "/funding/programmes/all"
     - label: Strategic investments in England
       href: "/funding/strategic-investments"
     - label: Search all grants
@@ -855,6 +855,7 @@ funding:
     title: Funding programmes
     under10k: Awards under £10,000
     over10k: Awards over £10,000
+    allProgrammes: View all funding programmes
   archivedProgramme:
     archivedMessage: This programme is no longer available and has been archived
     archivedDetail: >
