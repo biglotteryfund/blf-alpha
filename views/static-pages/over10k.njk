@@ -1,71 +1,67 @@
-{% from "components/hero.njk" import hero with context %}
+{% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context  %}
-
-{% extends "layouts/main.njk" %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 
 {% block content %}
-    <main role="main">
-        {{ hero(
-            titleText = copy.title,
-            image = pageHero.image,
+    {{ heroImage(pageHero.image) }}
+
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
+
+        <div class="content-box u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
+            {{ breadcrumbTrail(breadcrumbs) }}
+
+            <div class="s-prose">
+                <p>{{ copy.intro }}</p>
+                <h2>{{ copy.callToAction }}</h2>
+            </div>
+
+            {% set links = [{
+                "id": "england",
+                "label": copy.locations.england,
+                "url": localify('/funding/programmes?min=10000&location=england')
+            }, {
+                "id": "scotland",
+                "label": copy.locations.scotland,
+                "url": localify('/funding/programmes?min=10000&location=scotland')
+            }, {
+                "id": "wales",
+                "label": copy.locations.wales,
+                "url": localify('/funding/programmes?min=10000&location=wales')
+            }, {
+                "id": "northernIreland",
+                "label": copy.locations.northernIreland,
+                "url": localify('/funding/programmes?min=10000&location=northernIreland')
+            }, {
+                "id": "ukWide",
+                "label": copy.locations.ukWide,
+                "url": localify('/funding/programmes?min=10000&&location=ukWide')
+            }] %}
+
+            <div class="o-button-group-flex">
+                {% for link in links %}
+                    <a href="{{ link.url }}"
+                        class="btn accent--{{ pageAccent }} a--btn btn--small"
+                        id="qa-button-{{ link.id }}">
+                        {{ link.label }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        {# Case Studies #}
+        {{ caseStudyCollection(
+            caseStudies = caseStudies,
+            customSectionTitle = copy.projectExamples,
             accent = pageAccent
         ) }}
 
-        <div class="nudge-up">
-            <div class="content-box u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
-                {{ breadcrumbTrail(breadcrumbs) }}
-
-                <div class="s-prose">
-                    <p>{{ copy.intro }}</p>
-                    <h2>{{ copy.callToAction }}</h2>
-                </div>
-
-                {% set links = [{
-                    "id": "england",
-                    "label": copy.locations.england,
-                    "url": localify('/funding/programmes?min=10000&location=england')
-                }, {
-                    "id": "scotland",
-                    "label": copy.locations.scotland,
-                    "url": localify('/funding/programmes?min=10000&location=scotland')
-                }, {
-                    "id": "wales",
-                    "label": copy.locations.wales,
-                    "url": localify('/funding/programmes?min=10000&location=wales')
-                }, {
-                    "id": "northernIreland",
-                    "label": copy.locations.northernIreland,
-                    "url": localify('/funding/programmes?min=10000&location=northernIreland')
-                }, {
-                    "id": "ukWide",
-                    "label": copy.locations.ukWide,
-                    "url": localify('/funding/programmes?min=10000&&location=ukWide')
-                }] %}
-
-                <div class="o-button-group-flex">
-                    {% for link in links %}
-                        <a href="{{ link.url }}"
-                            class="btn accent--{{ pageAccent }} a--btn btn--small"
-                            id="qa-button-{{ link.id }}">
-                            {{ link.label }}
-                        </a>
-                    {% endfor %}
-                </div>
-            </div>
-
-            {# Case Studies #}
-            {{ caseStudyCollection(
-                caseStudies = caseStudies,
-                customSectionTitle = copy.projectExamples,
-                accent = pageAccent
-            ) }}
-
-            <div class="u-inner u-align-center u-margin-bottom-l">
-                <a href="{{ localify('/funding/grants') }}" class="btn btn--outline btn--medium accent--{{ pageAccent }} a--btn">
-                    {{ __('global.misc.searchGrants') }}
-                </a>
-            </div>
+        <div class="u-inner u-align-center u-margin-bottom-l">
+            <a href="{{ localify('/funding/grants') }}" class="btn btn--outline btn--medium accent--{{ pageAccent }} a--btn">
+                {{ __('global.misc.searchGrants') }}
+            </a>
         </div>
     </main>
 {% endblock %}

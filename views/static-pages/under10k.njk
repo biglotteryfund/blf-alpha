@@ -1,77 +1,73 @@
-{% from "components/hero.njk" import hero with context %}
+{% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/caseStudies.njk" import caseStudyCollection with context  %}
-
-{% extends "layouts/main.njk" %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 
 {% block content %}
-    <main role="main">
-        {{ hero(
-            titleText = copy.title,
-            image = pageHero.image,
+    {{ heroImage(pageHero.image) }}
+
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
+
+        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            {{ breadcrumbTrail(breadcrumbs) }}
+
+            <div class="s-prose accent-content--{{ pageAccent }}">
+                <p>{{ copy.intro }}</p>
+
+                <ul>
+                    {% for item in copy.ideas %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+
+                <h2>{{ copy.callToAction }}</h2>
+            </div>
+
+            {% set links = [{
+                "id": "england",
+                "label": copy.locations.england,
+                "url": localify('/funding/programmes/national-lottery-awards-for-all-england')
+            }, {
+                "id": "scotland",
+                "label": copy.locations.scotland,
+                "url": localify('/funding/programmes/national-lottery-awards-for-all-scotland')
+            }, {
+                "id": "wales",
+                "label": copy.locations.wales,
+                "url": localify('/funding/programmes/national-lottery-awards-for-all-wales')
+            }, {
+                "id": "northernIreland",
+                "label": copy.locations.northernIreland,
+                "url": localify('/funding/programmes/awards-for-all-northern-ireland')
+            }] %}
+
+            <div class="o-button-group-flex">
+                {% for link in links %}
+                    <a href="{{ link.url }}"
+                        class="btn accent--{{ pageAccent }} a--btn btn--small"
+                        id="qa-button-{{ link.id }}">
+                        {{ link.label }}
+                    </a>
+                {% endfor %}
+            </div>
+            <div class="s-prose">
+                <p>{{ copy.ukWideInfo | safe }}</p>
+            </div>
+        </div>
+
+        {# Case Studies #}
+        {{ caseStudyCollection(
+            caseStudies = caseStudies,
+            customSectionTitle = copy.projectExamples,
             accent = pageAccent
         ) }}
 
-        <div class="nudge-up">
-            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                {{ breadcrumbTrail(breadcrumbs) }}
-
-                <div class="s-prose accent-content--{{ pageAccent }}">
-                    <p>{{ copy.intro }}</p>
-
-                    <ul>
-                        {% for item in copy.ideas %}
-                            <li>{{ item }}</li>
-                        {% endfor %}
-                    </ul>
-
-                    <h2>{{ copy.callToAction }}</h2>
-                </div>
-
-                {% set links = [{
-                    "id": "england",
-                    "label": copy.locations.england,
-                    "url": localify('/funding/programmes/national-lottery-awards-for-all-england')
-                }, {
-                    "id": "scotland",
-                    "label": copy.locations.scotland,
-                    "url": localify('/funding/programmes/national-lottery-awards-for-all-scotland')
-                }, {
-                    "id": "wales",
-                    "label": copy.locations.wales,
-                    "url": localify('/funding/programmes/national-lottery-awards-for-all-wales')
-                }, {
-                    "id": "northernIreland",
-                    "label": copy.locations.northernIreland,
-                    "url": localify('/funding/programmes/awards-for-all-northern-ireland')
-                }] %}
-
-                <div class="o-button-group-flex">
-                    {% for link in links %}
-                        <a href="{{ link.url }}"
-                            class="btn accent--{{ pageAccent }} a--btn btn--small"
-                            id="qa-button-{{ link.id }}">
-                            {{ link.label }}
-                        </a>
-                    {% endfor %}
-                </div>
-                <div class="s-prose">
-                    <p>{{ copy.ukWideInfo | safe }}</p>
-                </div>
-            </div>
-
-            {# Case Studies #}
-            {{ caseStudyCollection(
-                caseStudies = caseStudies,
-                customSectionTitle = copy.projectExamples,
-                accent = pageAccent
-            ) }}
-
-            <div class="u-inner u-align-center u-margin-bottom-l">
-                <a href="{{ localify('/funding/grants') }}" class="btn btn--outline btn--medium accent--{{ pageAccent }} a--btn">
-                    {{ __('global.misc.searchGrants') }}
-                </a>
-            </div>
+        <div class="u-inner u-align-center u-margin-bottom-l">
+            <a href="{{ localify('/funding/grants') }}" class="btn btn--outline btn--medium accent--{{ pageAccent }} a--btn">
+                {{ __('global.misc.searchGrants') }}
+            </a>
         </div>
     </main>
 {% endblock %}
