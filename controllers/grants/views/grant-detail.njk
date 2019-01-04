@@ -1,38 +1,33 @@
 {% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/feedback.njk" import inlineFeedback with context %}
-{% from "components/hero.njk" import hero with context %}
-{% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/card/macro.njk" import card %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/content.njk" import flexibleContent %}
+{% from "components/feedback.njk" import inlineFeedback with context %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 
 {% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList with context %}
 
-{% if not pageHero %}
-    {% set bodyClass = 'has-static-header' %}
-{% endif %}
+{% if not pageHero %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% block content %}
     {% set mainProgramme = grant.grantProgramme[0] %}
 
-    <main role="main" id="content" class="js-past-grants-detail">
-        {% if pageHero %}
-            {{ hero(
-                titleText = title,
-                image = pageHero.image,
-                accent = pageAccent
-            ) }}
-        {% endif %}
+    {% if pageHero %}
+        {{ heroImage(pageHero.image) }}
+    {% endif %}
 
-        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if pageHero %} nudge-up{% endif %}">
+    <main role="main" id="content" class="js-past-grants-detail{% if pageHero %} nudge-up{% endif %}">
+        {{ pageTitle(title) }}
+
+        <div class="content-box u-inner-wide-only">
             {{ breadcrumbTrail(breadcrumbs) }}
 
             <div class="content-sidebar">
                 <div class="content-sidebar__primary">
                     <div class="u-constrained-wide accent--pink">
-                        <h1>{{ title }}</h1>
-
                         {% if caseStudy %}
                             <div class="s-prose">
                                 {{ flexibleContent(caseStudy.content, pageAccent) }}
