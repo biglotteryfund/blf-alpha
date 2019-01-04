@@ -11,10 +11,20 @@
     font-size: font-scale('display', 't4');
     margin-bottom: 0;
 
-    .overlay-text {
-        @include mq('medium') {
-            max-width: 36em;
-        }
+    .page-title__text {
+        display: inline-block;
+        line-height: 1.5;
+        margin: 0;
+        max-width: 36em;
+    }
+
+    .page-title__text-inner {
+        display: inline;
+        padding: 0.2em 0.3em;
+        // allows multi-line wrapped text to work
+        box-decoration-break: clone;
+        color: white;
+        background-color: get-color('brand', 'primary');
     }
 
     &.page-title--constrained {
