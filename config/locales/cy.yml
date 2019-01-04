@@ -761,8 +761,8 @@ funding:
     openProgrammes: >
       <p>Ewch i’n <a href="%s">rhaglenni agored</a> i ddysgu am gyfleoedd ariannu newydd.</p>
   allProgrammes:
-    title: All programmes
-    filterLabel: Filter by region
+    title: Pob rhaglen
+    filterLabel: Hidlo fesul rhanbarth
   digitalFund:
     title: Y Gronfa Ddigidol
     intro: Mae'r Gronfa Ddigidol yn rhaglen ariannu £15 miliwn newydd i gefnogi elusennau a mudiadau cymunedol. Mae'n ymwneud â helpu'r sector elusennol a gwirfoddol i ddefnyddio offer a dulliau digidol i gefnogi pobl a chymunedau i ffynnu.
