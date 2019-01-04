@@ -8,7 +8,7 @@
 {% block content %}
     {{ heroImage(pageHero.image) }}
 
-    <main class="u-nudge-up">
+    <main id="content" class="u-nudge-up">
         {{ pageTitle(title) }}
 
         {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = pageHero.credit) %}

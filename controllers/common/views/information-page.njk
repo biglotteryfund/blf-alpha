@@ -27,7 +27,7 @@
         {{ segmentLinks(customSegmentLinks | default(content.segments)) }}
     {% endmacro %}
 
-    <main{% if pageHero.image %} class="u-nudge-up"{% endif %}>
+    <main id="content"{% if pageHero.image %} class="u-nudge-up"{% endif %}>
         {{ pageTitle(title) }}
 
         {% block contentPrimary %}
