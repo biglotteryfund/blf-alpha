@@ -130,7 +130,7 @@ function getUpdates({ locale, type = null, date = null, slug = null, query = {},
 function getFundingProgrammes({ locale }) {
     return fetchAllLocales(reqLocale => `/v2/${reqLocale}/funding-programmes`).then(responses => {
         const [enResults, cyResults] = responses.map(mapAttrs);
-        return mergeWelshBy('urlPath')(locale, enResults, cyResults);
+        return mergeWelshBy('slug')(locale, enResults, cyResults);
     });
 }
 
