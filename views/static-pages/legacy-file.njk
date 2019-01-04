@@ -1,32 +1,28 @@
-{% from "components/hero.njk" import hero with context %}
+{% extends "layouts/main.njk" %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
-
-{% extends "layouts/main.njk" %}
+{% from "components/hero-image/macro.njk" import heroImage with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 
 {% block content %}
-    <main role="main">
-        {{ hero(
-            titleText = title,
-            image = fallbackHeroImage,
-            accent = pageAccent
-        ) }}
+    {{ heroImage(fallbackHeroImage) }}
 
-        <div class="nudge-up">
-            {% call contentBox(pageAccent) %}
-                <h2>This document has been archived</h2>
-                <p>The file or document you were looking for has been archived and is no longer available.</p>
-                <p>If you think this is a mistake or if you still need access to this document, please let us know below and we'll double check if it's something that should still be available on our website.</p>
+    <main class="u-nudge-up">
+        {{ pageTitle(title) }}
 
-                {{ inlineFeedback(
-                    description = "legacy_file_request",
-                    promptLabel = "What were you looking for?",
-                    fieldLabel = "Please tell us why you needed this document and what you were hoping to find on this page:",
-                    isToggleable = false,
-                    metadata = "File path requested: " + filePath
-                )  }}
+        {% call contentBox(pageAccent) %}
+            <h2>This document has been archived</h2>
+            <p>The file or document you were looking for has been archived and is no longer available.</p>
+            <p>If you think this is a mistake or if you still need access to this document, please let us know below and we'll double check if it's something that should still be available on our website.</p>
 
-            {% endcall %}
-        </div>
+            {{ inlineFeedback(
+                description = "legacy_file_request",
+                promptLabel = "What were you looking for?",
+                fieldLabel = "Please tell us why you needed this document and what you were hoping to find on this page:",
+                isToggleable = false,
+                metadata = "File path requested: " + filePath
+            )  }}
+
+        {% endcall %}
     </main>
 {% endblock %}
