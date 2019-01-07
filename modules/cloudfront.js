@@ -1,53 +1,8 @@
 'use strict';
-const config = require('config');
+const cookies = require('config').get('cookies');
 const { assign, compact, concat, flatten, flatMap, get, sortBy, uniq } = require('lodash');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
-
-const cookies = config.get('cookies');
-
-/**
- * Custom cloudfront rules
- * If any cached url paths need custom cloudfront rules like query strings
- * or custom cookies to be whitelisted you must define those rules here.
- */
-let CLOUDFRONT_PATHS = [
-    { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
-    { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
-    { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
-    { path: '/funding/grants*', isPostable: true, allowAllQueryStrings: true, isBilingual: true, noSession: true },
-    { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
-    { path: '/news/*', queryStrings: ['page', 'tag', 'author', 'category', 'region'], isBilingual: true },
-    { path: '/search', allowAllQueryStrings: true, isBilingual: true },
-    { path: '/user/*', isPostable: true, queryStrings: ['redirectUrl', 's', 'token'] }
-];
-
-/**
- * Legacy route paths
- * Paths in this list will be routed
- * directly to the legacy site origin
- */
-
-const LEGACY_PATHS = [
-    '/-/*',
-    '/js/*',
-    '/css/*',
-    '/images/*',
-    '/default.css',
-    '/PastGrants.ashx',
-    '/news-and-events',
-    '/funding/search-past-grants',
-    '/funding/search-past-grants/*'
-];
-
-/**
- * S3 static file route paths
- * Paths in this list will be routed to an S3 bucket
- * either for CMS uploads or app-generated static files.
- * NOTE: they should _not_ start with leading slashes
- * otherwise they fail to match directory names in S3.
- */
-const S3_PATHS = ['assets/*', 'media/*'];
 
 const makeBehaviourItem = ({
     originId,
@@ -160,8 +115,22 @@ function generateBehaviours(origins, originName) {
         cookiesInUse: [cookies.contrast, cookies.features, cookies.rebrand, cookies.session]
     });
 
-    // Serve legacy static files
-    const customBehaviours = LEGACY_PATHS.map(path =>
+    /**
+     * Legacy route paths
+     * Paths in this list will be routed
+     * directly to the legacy site origin
+     */
+    const customBehaviours = [
+        '/-/*',
+        '/js/*',
+        '/css/*',
+        '/images/*',
+        '/default.css',
+        '/PastGrants.ashx',
+        '/news-and-events',
+        '/funding/search-past-grants',
+        '/funding/search-past-grants/*'
+    ].map(path =>
         makeBehaviourItem({
             originId: origins.legacy,
             pathPattern: path,
@@ -173,7 +142,14 @@ function generateBehaviours(origins, originName) {
         })
     );
 
-    const s3Behaviours = S3_PATHS.map(path =>
+    /**
+     * S3 static file route paths
+     * Paths in this list will be routed to an S3 bucket
+     * either for CMS uploads or app-generated static files.
+     * NOTE: they should _not_ start with leading slashes
+     * otherwise they fail to match directory names in S3.
+     */
+    const s3Behaviours = ['assets/*', 'media/*'].map(path =>
         makeBehaviourItem({
             originId: origins.s3Assets,
             pathPattern: path,
@@ -182,19 +158,35 @@ function generateBehaviours(origins, originName) {
         })
     );
 
+    /**
+     * Custom cloudfront rules
+     * If any cached url paths need custom cloudfront rules like query strings
+     * or custom cookies to be whitelisted you must define those rules here.
+     */
+    let customPaths = [
+        { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
+        { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
+        { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
+        { path: '/funding/grants*', isPostable: true, allowAllQueryStrings: true, isBilingual: true, noSession: true },
+        { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
+        { path: '/funding/programmes/all', queryStrings: ['location'], isBilingual: true },
+        { path: '/news/*', queryStrings: ['page', 'tag', 'author', 'category', 'region'], isBilingual: true },
+        { path: '/search', allowAllQueryStrings: true, isBilingual: true },
+        { path: '/user/*', isPostable: true, queryStrings: ['redirectUrl', 's', 'token'] }
+    ];
+
     // @TODO – when enabling enableLegacyFileArchiving, remove this switch
     // so that the live Cloudfront distribution also routes these files
     if (originName === 'test') {
         // Add the legacy files path so it gets routed to our archive page
-        CLOUDFRONT_PATHS.unshift({
+        customPaths.unshift({
             path: '/-/media/files/*',
             isPostable: false,
             allowAllQueryStrings: true
         });
     }
 
-    // direct all custom routes (eg. with non-standard config) to Express
-    const primaryBehaviours = flatMap(CLOUDFRONT_PATHS, rule => {
+    const primaryBehaviours = flatMap(customPaths, rule => {
         // Merge default cookies with rule specific cookie
         const cookiesInUse = uniq(
             compact(
