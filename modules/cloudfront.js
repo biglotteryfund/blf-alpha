@@ -169,6 +169,7 @@ function generateBehaviours(origins, originName) {
         { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
         { path: '/funding/grants*', isPostable: true, allowAllQueryStrings: true, isBilingual: true, noSession: true },
         { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
+        { path: '/funding/programmes/all', queryStrings: ['location'], isBilingual: true },
         { path: '/news/*', queryStrings: ['page', 'tag', 'author', 'category', 'region'], isBilingual: true },
         { path: '/search', allowAllQueryStrings: true, isBilingual: true },
         { path: '/user/*', isPostable: true, queryStrings: ['redirectUrl', 's', 'token'] }
