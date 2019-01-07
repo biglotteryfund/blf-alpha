@@ -191,6 +191,66 @@
         "PathPattern": "/-/*"
       },
       {
+        "TargetOriginId": "ELB-TEST",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "GET"
+          ],
+          "Quantity": 2,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
+            "Items": [],
+            "Quantity": 0
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
+                "contrastMode",
+                "blf-features",
+                "tnlcf-rebrand",
+                "blf-alpha-session"
+              ],
+              "Quantity": 4
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/-/media/files/*"
+      },
+      {
         "TargetOriginId": "LEGACY",
         "ViewerProtocolPolicy": "allow-all",
         "MinTTL": 0,
@@ -1531,6 +1591,6 @@
         "PathPattern": "media/*"
       }
     ],
-    "Quantity": 24
+    "Quantity": 25
   }
 }
