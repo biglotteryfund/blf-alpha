@@ -1,0 +1,39 @@
+{% extends "layouts/main.njk" %}
+{% from "components/content-box-intro/macro.njk" import contentBoxIntro with context %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/page-title/macro.njk" import pageTitle %}
+{% from "components/programmes.njk" import programmeStats with context %}
+{% from "components/badges/macros.njk" import badgeArchived with context %}
+
+{#  Add archived prefix to help with analytics reporting #}
+{% block title %}{{ __('global.misc.archived') }} | {{ title }} | {% endblock %}
+
+{% set bodyClass = 'has-static-header' %}
+
+{% set archivedCopy = __('funding.archivedProgramme') %}
+
+{% block content %}
+    <main role="main">
+        <div class="u-inner">
+            {{ pageTitle(title) }}
+        </div>
+
+        {% call contentBoxIntro(breadcrumbs, pageAccent) %}
+            {% if entry.description %}
+                {{ entry.description | safe }}
+            {% endif %}
+            {{ programmeStats(entry, isCompact = true) }}
+            <p>{{ badgeArchived() }}</p>
+        {% endcall %}
+
+        <section class="content-box content-box--borderless u-inner">
+            <div class="s-prose u-constrained-content-wide">
+                <p class="message">{{ archivedCopy.archivedMessage }}</p>
+                {{ __(archivedCopy.archivedDetail, archiveUrl) | safe }}
+                <p><a href="{{ archiveUrl }}">{{ archiveUrl }}</a></p>
+                {{ __(archivedCopy.openProgrammes, localify('/funding/programmes')) | safe }}
+            </div>
+        </section>
+
+    </main>
+{% endblock %}

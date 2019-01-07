@@ -107,6 +107,7 @@ global:
     other: Other
     otherEnterBelow: Other (please enter below)
   misc:
+    archived: Archived
     back: back
     backToTop: Back to the top
     caseStudies: Case studies
@@ -407,7 +408,7 @@ toplevel:
     - label: View all open funding programmes
       href: "/funding/programmes"
     - label: View all closed funding programmes
-      href: "/funding/funding-finder?sc=1"
+      href: "/funding/programmes/all"
     - label: Strategic investments in England
       href: "/funding/strategic-investments"
     - label: Search all grants
@@ -854,8 +855,16 @@ funding:
     title: Funding programmes
     under10k: Awards under £10,000
     over10k: Awards over £10,000
-  programmesClosed:
-    title: Funding programmes closed to applicants
+    allProgrammes: View all funding programmes
+  archivedProgramme:
+    archivedMessage: This programme is no longer available and has been archived
+    archivedDetail: >
+      <p>You can view the original page with full details about the programme at <a href="%s">The National Archives</a>.</p>
+    openProgrammes: >
+      <p>Please visit our <a href="%s">open programmes</a> to learn about new funding opportunities.</p>
+  allProgrammes:
+    title: All programmes
+    filterLabel: Filter by region
   digitalFund:
     title: Digital Fund
     intro: The Digital Fund is a new UK wide £15 million funding programme to support charities and community organisations. It is about helping the charity and voluntary sector to use digital tools and approaches to support people and communities to thrive.

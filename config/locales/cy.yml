@@ -105,6 +105,7 @@ global:
     other: Arall
     otherEnterBelow: Arall (nodwch isod)
   misc:
+    archived: Wedi’i archifo
     back: yn ôl
     backToTop: "Yn ôl i'r frig"
     caseStudies: Astudiaethau achos
@@ -323,7 +324,7 @@ toplevel:
     - label: Gweld pob rhaglen grantiau agored
       href: "/welsh/funding/programmes"
     - label: Gweld pob rhaglen grantiau sydd ar gau
-      href: "/welsh/funding/funding-finder?sc=1"
+      href: "/welsh/funding/programmes/all"
     - label: Chwilio grantiau a ddyfarnwyd
       href: "/welsh/funding/grants"
     - label: Cymorth rheoli’ch grant
@@ -753,6 +754,16 @@ funding:
     title: Rhaglenni ariannu
     under10k: Grantiau dan £10,000
     over10k: Grantiau dros £10,000
+    allProgrammes: Gweld pob rhaglen grantiau
+  archivedProgramme:
+    archivedMessage: Nid yw’r rhaglen hon ar gael bellach, mae wedi cael ei archifo
+    archivedDetail: >
+      <p>Gallwch weld y dudalen wreiddiol gyda manylion llawn y rhaglen yn <a href="%s">yr Archifau Cenedlaethol</a>.</p>
+    openProgrammes: >
+      <p>Ewch i’n <a href="%s">rhaglenni agored</a> i ddysgu am gyfleoedd ariannu newydd.</p>
+  allProgrammes:
+    title: Pob rhaglen
+    filterLabel: Hidlo fesul rhanbarth
   digitalFund:
     title: Y Gronfa Ddigidol
     intro: Mae'r Gronfa Ddigidol yn rhaglen ariannu £15 miliwn newydd i gefnogi elusennau a mudiadau cymunedol. Mae'n ymwneud â helpu'r sector elusennol a gwirfoddol i ddefnyddio offer a dulliau digidol i gefnogi pobl a chymunedau i ffynnu.
