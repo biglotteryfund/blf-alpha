@@ -24,9 +24,9 @@ router.get('/', sMaxAge('30m'), injectHeroImage('manchester-cares'), async (req,
             locale: req.i18n.getLocale()
         });
 
-        if (fundingProgrammes) {
+        if (fundingProgrammes.result) {
             latestProgrammes = programmeSlugs.map(slug =>
-                find(fundingProgrammes, programme => programme.linkUrl.indexOf(slug) !== -1)
+                find(fundingProgrammes.result, programme => programme.linkUrl.indexOf(slug) !== -1)
             );
         }
     } catch (error) {} // eslint-disable-line no-empty
