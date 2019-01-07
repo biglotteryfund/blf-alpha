@@ -3683,6 +3683,46 @@ Array [
     "to": "/welsh/insights/place-based-working",
   },
   Object {
+    "from": "/research/youth-employment",
+    "to": "/insights/youth-employment",
+  },
+  Object {
+    "from": "/welsh/research/youth-employment",
+    "to": "/welsh/insights/youth-employment",
+  },
+  Object {
+    "from": "/england/research/youth-employment",
+    "to": "/insights/youth-employment",
+  },
+  Object {
+    "from": "/welsh/england/research/youth-employment",
+    "to": "/welsh/insights/youth-employment",
+  },
+  Object {
+    "from": "/scotland/research/youth-employment",
+    "to": "/insights/youth-employment",
+  },
+  Object {
+    "from": "/welsh/scotland/research/youth-employment",
+    "to": "/welsh/insights/youth-employment",
+  },
+  Object {
+    "from": "/northernireland/research/youth-employment",
+    "to": "/insights/youth-employment",
+  },
+  Object {
+    "from": "/welsh/northernireland/research/youth-employment",
+    "to": "/welsh/insights/youth-employment",
+  },
+  Object {
+    "from": "/wales/research/youth-employment",
+    "to": "/insights/youth-employment",
+  },
+  Object {
+    "from": "/welsh/wales/research/youth-employment",
+    "to": "/welsh/insights/youth-employment",
+  },
+  Object {
     "from": "/research/youth-serious-violence",
     "to": "/insights/youth-serious-violence",
   },
