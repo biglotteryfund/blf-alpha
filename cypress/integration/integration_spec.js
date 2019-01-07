@@ -10,19 +10,6 @@ describe('common', function() {
         });
     });
 
-    it('should handle aliases', () => {
-        cy.request('/tools/seed/aliases-sample')
-            .its('body')
-            .then(aliases => {
-                aliases.forEach(alias => {
-                    cy.checkRedirect({
-                        from: alias.from,
-                        to: alias.to
-                    });
-                });
-            });
-    });
-
     it('should 404 unknown routes', () => {
         cy.request({
             url: '/not-a-page',
@@ -68,34 +55,6 @@ describe('common', function() {
         );
     });
 
-    it('should redirect old funding finder', () => {
-        const pages = [
-            {
-                originalPath: '/funding/funding-finder',
-                redirectedPath: '/funding/programmes'
-            },
-            {
-                originalPath: '/Home/Funding/Funding Finder',
-                redirectedPath: '/funding/programmes'
-            },
-            {
-                originalPath: '/funding/funding-finder?area=northern+ireland',
-                redirectedPath: '/funding/programmes?location=northernIreland'
-            },
-            {
-                originalPath: '/funding/funding-finder?area=England&amount=up to 10000',
-                redirectedPath: '/funding/programmes?location=england&max=10000'
-            }
-        ];
-
-        pages.forEach(page => {
-            cy.checkRedirect({
-                from: page.originalPath,
-                to: page.redirectedPath
-            });
-        });
-    });
-
     it('should proxy old funding finder if requesting closed programmes', () => {
         cy.request('/funding/funding-finder?area=England&amp;amount=500001 - 1000000&amp;sc=1').then(response => {
             expect(response.headers['x-blf-legacy']).to.eq('true');
@@ -105,16 +64,16 @@ describe('common', function() {
         });
     });
 
-    it('should serve welsh versions of legacy pages', () => {
-        cy.request('/welsh/research/communities-and-places').then(response => {
-            expect(response.body).to.include('Cymunedau a lleoedd');
-        });
-    });
-
-    it('should project preview links with staff auth', () => {
+    it('should protect access to staff-only tools', () => {
         cy.checkRedirect({
             from: '/funding/programmes/national-lottery-awards-for-all-england?draft=42',
             to: '/user/staff/login?redirectUrl=/funding/programmes/national-lottery-awards-for-all-england?draft=42',
+            status: 302
+        });
+
+        cy.checkRedirect({
+            from: '/tools/survey-results',
+            to: '/user/staff/login?redirectUrl=/tools/survey-results',
             status: 302
         });
     });
@@ -154,14 +113,6 @@ describe('user', () => {
             expect(res.body.email.subject).to.equal('Activate your Big Lottery Fund website account');
         });
     });
-
-    it('should block access to staff-only tools', () => {
-        cy.checkRedirect({
-            from: '/tools/survey-results',
-            to: '/user/staff/login?redirectUrl=/tools/survey-results',
-            status: 302
-        });
-    });
 });
 
 const loremLong = `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium quidem nihil, similique voluptatibus tempore quasi, cumque laborum officia voluptatem laboriosam tempora.
@@ -173,99 +124,66 @@ const loremLong = `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pra
 Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.`;
 
 describe('e2e', function() {
-    it('should navigate from homepage to funding page', () => {
-        // ================================================
-        // Step: Homepage
-        // ================================================ //
-
+    it('should perform common interactions', () => {
         cy.visit('/');
-        cy.checkMetaTitles('Home | Big Lottery Fund');
-        cy.checkActiveSection('toplevel');
-
-        // ================================================
-        // Step: Cookie consent
-        // ================================================ //
-
+        cy.viewport(375, 667);
         cy.get('.cookie-consent button').click();
 
-        // ================================================
-        // Step: Mobile navigation
-        // ================================================ //
+        // Submit micro survey
+        cy.get('.survey button:first-child').click();
+        cy.get('.survey').should('contain', 'Thank you');
 
-        cy.viewport(375, 667);
-        cy.get('#js-mobile-nav-toggle').as('navToggle');
-        cy.get('#qa-offscreen-navigation').as('nav');
+        cy.get('.js-toggle-nav').as('navToggle');
+        cy.get('#global-nav').as('nav');
+        cy.get('.js-toggle-search').as('searchToggle');
+        cy.get('#global-search').as('search');
 
+        cy.get('@nav').should('not.be.visible');
+        cy.get('@search').should('not.be.visible');
+
+        // Toggle search
+        cy.get('@searchToggle').click();
+        cy.get('@nav').should('not.be.visible');
+        cy.get('@search').should('be.visible');
+        // Check search input for focus
+        cy.focused().should('have.attr', 'name', 'q');
+
+        // Toggle mobile navigation
         cy.get('@navToggle').click();
         cy.get('@nav').should('be.visible');
+        cy.get('@search').should('not.be.visible');
 
+        // Switch language
+        cy.get('.language-control')
+            .contains('Cymraeg')
+            .click();
+
+        // Welsh language smoke tests
+        cy.checkMetaTitles('Hafan | Cronfa Gymunedol y Loteri Genedlaethol');
+        cy.get('@navToggle').click();
+        cy.get('@nav').should('be.visible');
+        cy.get('.qa-nav-link').should('contain', 'Ariannu');
         cy.get('@navToggle').click();
         cy.get('@nav').should('not.be.visible');
-        cy.viewport(1024, 768);
 
-        // ================================================
-        // Step: Micro-surveys
-        // ================================================ //
+        // Submit micro survey (welsh)
+        cy.get('.survey button:first-child').click();
+        cy.get('.survey').should('contain', 'Diolch am');
+    });
 
-        cy.get('.survey').as('survey');
-        cy.get('@survey')
-            .find('button:first-child')
-            .click();
-        cy.get('@survey')
-            .find('p')
-            .should('contain', 'Thank you');
+    it('should navigate through a funding application from the homepage', () => {
+        cy.visit('/');
 
-        // ================================================
-        // Step: Test language switcher
-        // ================================================ //
-
-        cy.get('.qa-global-nav .qa-lang-switcher').as('langSwitcher');
-        cy.get('@langSwitcher').click();
-        cy.checkMetaTitles('Hafan | Cronfa Loteri Fawr');
-        cy.get('.qa-global-nav .qa-nav-link a')
-            .first()
-            .should('contain', 'Hafan');
-
-        // ================================================
-        // Step: Micro-surveys (Welsh)
-        // ================================================ //
-
-        cy.get('.survey').as('survey');
-        cy.get('@survey')
-            .find('button:first-child')
-            .click();
-        cy.get('@survey')
-            .find('p')
-            .should('contain', 'Diolch am');
-
-        // ================================================
-        // Step:  Navigate to over 10k page
-        // ================================================ //
-
-        cy.get('@langSwitcher').click();
+        // Navigate to over 10k page
         cy.get('#qa-button-over10k').click();
-        cy.checkActiveSection('funding');
+        cy.checkActiveSection('Funding');
 
-        // ================================================
-        // Step: Navigate to funding programmes list
-        // ================================================ //
-
+        // Navigate to reaching communities page
         cy.get('#qa-button-england').click();
-        cy.checkActiveSection('funding');
+        cy.get('#qa-promo-card-link-reaching-communities-england').click();
+        cy.checkActiveSection('Funding');
 
-        // ================================================
-        // Step: Navigate to funding programme
-        // ================================================ //
-
-        cy.get('.promo-card')
-            .contains('Reaching Communities')
-            .click();
-        cy.checkActiveSection('funding');
-
-        // ================================================
-        // Step: Interact with tabs
-        // ================================================ //
-
+        // Interact with tabs
         cy.get('.js-tabset .js-tab').each($el => {
             cy.wrap($el)
                 .click()
@@ -277,11 +195,10 @@ describe('e2e', function() {
             // Check tab content is visible
             cy.get($el.attr('href')).should('be.visible');
         });
-    });
 
-    it('should submit a reaching communities application form', () => {
+        cy.get('#section-4 .btn').click();
+
         const submitSelector = '.js-application-form input[type="submit"]';
-        cy.visit('/apply/your-idea');
 
         // Start page
         cy.get('.start-button .btn').click();
@@ -311,33 +228,22 @@ describe('e2e', function() {
         cy.get(submitSelector).click();
 
         // Review, toggle answer
-        cy.get('.js-toggle-answer').as('toggleAnswer');
-        cy.get('@toggleAnswer')
-            .find('button')
-            .click();
+        cy.get('.js-toggle-answer button').click();
 
-        cy.get('@toggleAnswer').should('have.class', 'is-active');
-        cy.get('@toggleAnswer')
-            .find('button')
-            .should('contain', 'Show less')
-            .click();
+        cy.get('.js-toggle-answer').should('have.class', 'is-active');
+        cy.get('.js-toggle-answer button').should('contain', 'Show less');
+        cy.get('.js-toggle-answer button').click();
+
+        // Submit form
         cy.get(submitSelector).click();
 
         // Success
         cy.get('h1').should('contain', 'Thank you for submitting your idea');
 
-        // ================================================
-        // Step: Inline feedback
-        // ================================================ //
-
-        cy.get('#js-feedback').as('feedbackForm');
-        cy.get('@feedbackForm')
-            .find('textarea')
-            .type('Test feedback');
-        cy.get('@feedbackForm')
-            .find('form')
-            .submit();
-        cy.get('@feedbackForm').should('contain', 'Thank you for sharing');
+        // Inline feedback
+        cy.get('#js-feedback textarea').type('Test feedback');
+        cy.get('#js-feedback form').submit();
+        cy.get('#js-feedback').should('contain', 'Thank you for sharing');
     });
 
     it('should submit materials order', () => {

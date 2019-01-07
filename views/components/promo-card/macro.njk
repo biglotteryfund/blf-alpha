@@ -36,7 +36,13 @@ featured: {Boolean} - Use featured style for promo card
                 </p>
             {% endif %}
             <h3 class="promo-card__title t4">
-                {% if props.link.url %}<a class="u-link-minimal" href="{{ props.link.url }}">{% endif %}
+                {% if props.link.url %}
+                    <a
+                        class="u-link-minimal"
+                        id="qa-promo-card-link-{{ props.title | slugify }}"
+                        href="{{ props.link.url }}"
+                    >
+                {% endif %}
                 {{ props.title }}
                 {% if props.link.url %}</a>{% endif %}
             </h3>

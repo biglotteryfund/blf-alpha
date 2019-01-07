@@ -35,7 +35,10 @@ module.exports = function(req, res, next) {
     /**
      * Rebrand flag
      */
-    const useNewBrand = appData.isNotProduction && req.cookies[cookies.rebrand] === REBRAND_SECRET;
+    const useNewBrand =
+        appData.isNotProduction &&
+        (!!process.env.USE_NEW_BRAND === true || req.cookies[cookies.rebrand] === REBRAND_SECRET);
+
     res.locals.useNewBrand = useNewBrand;
 
     /**

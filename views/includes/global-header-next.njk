@@ -2,7 +2,7 @@
 {% from "components/language/macros.njk" import languageLink, languageSwitcher with context %}
 
 {% macro globalSearch() %}
-    <form class="global-search-next js-global-search-form" role="search" action="/search">
+    <form class="global-search-next js-global-search-form" role="search" action="/search" id="global-search">
         <label>
             <span class="u-visually-hidden">{{ __("global.misc.search") }}</span>
             <input
@@ -20,7 +20,7 @@
     </form>
 {% endmacro %}
 
-<header class="global-header-next js-global-header">
+<header class="global-header-next js-global-header qa-global-header">
     <div class="global-header-next__inner">
         <div class="global-header-next__extra">
             <ul class="global-header-next__navigation-secondary">
@@ -42,7 +42,7 @@
                     </span>
                 </a>
                 <div class="global-header-next__actions">
-                    <a href="#global-nav"
+                    <a href="#global-search"
                         class="global-header-next__toggle global-header-next__toggle-search js-toggle-search">
                         {{ iconSearch() }}
                         <span class="global-header-next__toggle-label">
@@ -50,7 +50,7 @@
                         </span>
                     </a>
 
-                    <a href="#global-search"
+                    <a href="#global-nav"
                         class="global-header-next__toggle global-header-next__toggle-nav js-toggle-nav">
                         {{ iconHamburger() }}
                         <span class="global-header-next__toggle-label">
@@ -61,14 +61,15 @@
             </div>
 
             <div class="global-header-next__content-secondary">
-                <div class="global-header-next__navigation" id="global-nav">
-                    <nav class="global-header-next__navigation-primary">
+                <div class="global-header-next__navigation">
+                    <nav class="global-header-next__navigation-primary" id="global-nav">
                         <ul>
                             <li class="u-mobile-only"><a href="{{ globalNavigation.home.url }}">{{ globalNavigation.home.label }}</a></li>
                             {% for item in globalNavigation.primaryLinks %}
                                 {% set hasChildren = item.children.length > 0 %}
-                                <li class="{% if sectionUrl === item.url %}is-current {% endif %}{% if hasChildren %}has-children {% endif %}">
-                                    <a href="{{ item.url }}">
+                                {% set isCurrent = sectionUrl === item.url %}
+                                <li class="{% if isCurrent %}is-current {% endif %}{% if hasChildren %}has-children {% endif %}">
+                                    <a href="{{ item.url }}" class="qa-nav-link">
                                         {{ item.label }} {% if hasChildren %}{{ iconArrowDown() }}{% endif %}
                                     </a>
                                     {% if hasChildren %}
