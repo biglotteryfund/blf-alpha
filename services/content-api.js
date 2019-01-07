@@ -4,6 +4,7 @@ const request = require('request-promise-native');
 const debug = require('debug')('biglotteryfund:content-api');
 const querystring = require('querystring');
 
+const getAttrs = response => get('data.attributes')(response);
 const mapAttrs = response => map('attributes')(response.data);
 
 const { sanitiseUrlPath } = require('../modules/urls');
@@ -145,15 +146,15 @@ function getFundingProgramme({ locale, slug, previewMode = false }) {
     }).then(response => get('data.attributes')(response));
 }
 
-function getResearch({ locale, slug = null, searchQuery = null, previewMode = null }) {
+function getResearch({ locale, slug = null, previewMode = null }) {
     if (slug) {
         return fetch(`/v1/${locale}/research/${slug}`, {
             qs: addPreviewParams(previewMode)
-        }).then(response => get('data.attributes')(response));
+        }).then(getAttrs);
     } else {
-        const baseUrl = `/v1/${locale}/research`;
-        const url = searchQuery ? `${baseUrl}?q=${searchQuery}` : baseUrl;
-        return fetch(url).then(mapAttrs);
+        return fetch(`/v1/${locale}/research`, {
+            qs: addPreviewParams(previewMode)
+        }).then(mapAttrs);
     }
 }
 

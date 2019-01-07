@@ -25,6 +25,7 @@ global:
     funding: Ariannu
     about: Amdanom ni
     research: Ymchwil
+    insights: Mewnwelediad
     blog: Blog
     updates: Newyddion
     contact: "Siarad â ni"
@@ -376,6 +377,11 @@ toplevel:
   data:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau
+insights:
+  title: Mewnwelediad o’n hariannu
+  intro: >
+    <p>Bob dydd mae’r bobl, prosiectau a chymunedau a gefnogwn yn cynhyrchu tystiolaeth, dysgu a data gwerthfawr. Yma fe ddewch o hyd i’n mewnwelediad diweddaraf i’w cyflawniadau, llwyddiannau a heriau.</p>
+  moreLinkText: Gweld ymchwil a mewnwelediad wedi’i archifo
 news:
   title: Newyddion
   allNews: Holl newyddion

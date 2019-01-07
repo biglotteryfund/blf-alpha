@@ -249,7 +249,7 @@ async function injectResearch(req, res, next) {
     try {
         res.locals.researchEntries = await contentApi.getResearch({
             locale: req.i18n.getLocale(),
-            searchQuery: req.query.q
+            previewMode: res.locals.PREVIEW_MODE || false
         });
         next();
     } catch (error) {
