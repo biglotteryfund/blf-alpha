@@ -1,5 +1,6 @@
-{% from "components/overlay-text/macro.njk" import overlayText %}
-
-{% macro pageTitle(title, accent = false) %}
-    <h1 class="page-title">{% call overlayText(accent) %}{{ title | widont | safe }}{% endcall %}</h1>
+{# https://css-tricks.com/multi-line-padded-text/#article-header-id-3 #}
+{% macro pageTitle(title, isConstrained = true) %}
+    <h1 class="page-title{% if isConstrained %} page-title--constrained{% endif %}">
+        <span class="page-title__text"><span class="page-title__text-inner">{{ title | widont | safe }}</span></span>
+    </h1>
 {% endmacro %}
