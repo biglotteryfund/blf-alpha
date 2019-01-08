@@ -29,7 +29,7 @@ describe('createResponse', () => {
         expect(responses.totals.totalResponses).toBe(3);
         expect(responses.totals.percentageYes).toBe(67);
         expect(responses.totals.percentageNo).toBe(33);
-        expect(Object.keys(responses.groupedPaths).length).toBe(3);
+        expect(responses.pageCounts.length).toBe(3);
     });
 
     it('should get responses for a given path', async () => {
@@ -43,6 +43,6 @@ describe('createResponse', () => {
         expect(responses.totals.totalResponses).toBe(2);
         expect(responses.totals.percentageYes).toBe(100);
         expect(responses.totals.percentageNo).toBe(0);
-        expect(Object.keys(responses.groupedPaths).length).toBe(1);
+        expect(responses.pageCounts.length).toBe(1);
     });
 });

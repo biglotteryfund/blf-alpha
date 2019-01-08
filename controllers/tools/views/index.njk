@@ -6,9 +6,12 @@
     <h1 class="border-bottom pb-2 mb-4">What would you like to do?</h1>
     <p class="navbar-text">Logged in as <strong>{{ user.userData.fullName }}</strong>
 
-    <ul>
+    <div class="list-group">
         {% for link in links %}
-            <li><a href="{{ link.href }}">{{ link.label }}</a></li>
+            <a href="{{ link.href }}" class="list-group-item list-group-item-action">
+                <strong>{{ link.label }}</strong><br/>
+                {{ link.description }}
+            </a>
         {% endfor %}
-    </ul>
+    </div>
 {% endblock %}
