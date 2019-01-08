@@ -1,6 +1,6 @@
 'use strict';
 const { Op } = require('sequelize');
-const { minBy, maxBy, partition, countBy, sortBy } = require('lodash');
+const { countBy, map, minBy, maxBy, partition, orderBy } = require('lodash');
 const moment = require('moment');
 
 const { SurveyAnswer } = require('../models');
@@ -68,13 +68,20 @@ async function getAllResponses({ path = null } = {}) {
             percentageNo: toPercentage(noResponses.length)
         };
 
-        const groupedPaths = countBy(sortBy(responses, 'path'), 'path');
+        const pageCounts = orderBy(
+            map(countBy(responses, 'path'), (val, key) => ({
+                path: key,
+                count: val
+            })),
+            'count',
+            'desc'
+        );
 
         return {
             totals,
             yes,
             no,
-            groupedPaths
+            pageCounts
         };
     } catch (error) {
         return error;

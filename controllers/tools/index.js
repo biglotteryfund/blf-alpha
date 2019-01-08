@@ -67,10 +67,26 @@ router.use(requireStaffAuth);
 
 router.route('/').get((req, res) => {
     const links = [
-        { label: 'View a list of all published pages', href: '/tools/pages' },
-        { label: 'View micro-survey results', href: '/tools/survey-results' },
-        { label: 'View feedback results', href: '/tools/feedback-results' },
-        { label: 'View recent materials order stats', href: '/tools/order-stats' }
+        {
+            href: '/tools/pages',
+            label: 'Page list',
+            description: 'View a list of all published pages'
+        },
+        {
+            href: '/tools/survey-results',
+            label: 'Global survey results',
+            description: 'Responses to the “Did you find what you were looking for?” survey on all pages'
+        },
+        {
+            href: '/tools/feedback-results',
+            label: 'Inline feedback results',
+            description: 'Responses to any inline feedback surveys (e.g. post-application feedback)'
+        },
+        {
+            href: '/tools/order-stats',
+            label: 'Material orders',
+            description: 'Statistics on recent material orders'
+        }
     ];
 
     res.render(path.resolve(__dirname, './views/index'), {

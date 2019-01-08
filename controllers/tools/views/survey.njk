@@ -12,6 +12,10 @@
         {% if pathQuery %}<p class="text-muted">Showing results for path: <code>{{ pathQuery }}</code></p>{% endif %}
     </header>
 
+    <div class="alert alert-primary" role="alert">
+        <strong>Note:</strong> We only keep the last <strong>3 months</strong> worth of responses.
+    </div>
+
     <section>
         <h2>
             {{ survey.totals.totalResponses }} total responses
@@ -59,11 +63,11 @@
             <h2>Pages with feedback</h2>
             <div class="mb-5" style="max-height: 350px; overflow: auto">
                 <div class="list-group">
-                    {% for path, count in survey.groupedPaths | dictsort %}
+                    {% for item in survey.pageCounts %}
                     <div class="list-group-item list-group-item-action flex-column align-items-start">
                         <div class="d-flex w-100 justify-content-between">
-                            <a href="?path={{ path }}">{{ path }}</a>
-                            <span class="badge badge-light">{{ count }}</span>
+                            <a href="?path={{ item.path }}">{{ item.path }}</a>
+                            <span class="badge badge-light">{{ item.count }}</span>
                         </div>
                     </div>
                     {% endfor %}
