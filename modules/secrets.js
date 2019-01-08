@@ -74,7 +74,7 @@ const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.mat
 
 /**
  * Digital fund email
- * Email address used to send expressions of interest from digital fund applicaiton forms
+ * Email address used to send expressions of interest from digital fund application forms
  */
 const DIGITAL_FUND_EMAIL = process.env.DIGITAL_FUND_EMAIL || getSecret('emails.digitalfund.demo');
 
@@ -82,7 +82,7 @@ const DIGITAL_FUND_EMAIL = process.env.DIGITAL_FUND_EMAIL || getSecret('emails.d
  * Rebrand secret
  */
 const REBRAND_SECRET = process.env.REBRAND_SECRET || getSecret('rebrand.secret', true);
-const REBRAND_TEST_PASSWORD = process.env.REBRAND_TEST_PASSWORD || getSecret('rebrand.test.password', true);
+const REBRAND_TEST_PASSWORD = process.env.REBRAND_TEST_PASSWORD || getSecret('rebrand.test.password', false);
 
 module.exports = {
     APPLICATIONS_SERVICE_ENDPOINT,
