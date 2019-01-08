@@ -15,6 +15,14 @@
     background-color: get-color('background', 'dark-neutral');
 }
 
+/* Border tones */
+.u-border-top {
+    border-top: 4px solid get-color('border', 'base');
+}
+.u-border-top-brand-primary {
+    border-top: 4px solid get-color('brand', 'primary');
+}
+
 /* =========================================================================
    Accents
    ========================================================================= */

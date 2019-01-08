@@ -144,6 +144,10 @@ global:
     share:
       facebook: Rhannu ar Facebook
       twitter: Rhannu ar Twitter
+    followUsOn: Dilynwch ni ar
+    instagram: Instagram
+    facebook: Facebook
+    twitter: Twitter
   programmes:
     programmeLabels:
       area: Ardal
@@ -168,13 +172,30 @@ toplevel:
     title: Hafan
     intro: >
       Diolch i chwaraewyr y <a href="%s">Loteri Genedlaethol</a> yn codi arian ar gyfer achosion da,
-      rydym yn dosbarthu mwy na <a href="%s">£500 miliwn</a> i gymunedau ar draws y Deyrnas Unedig bob blwyddyn
+      rydym yn dosbarthu mwy na <a href="%s">£500 miliwn</a> i gymunedau ar draws y Deyrnas Unedig bob blwyddy
+    introNew:
+      title: We support people and communities to thrive
+      description: <p>Thanks to <a href="%s">National Lottery</a> players raising funding for good causes,
+        we give out more than <a href="%s">£500 million</a> to communities across the UK each&nbsp;year</p>
     under10k:
       short: Ymgeisio am grant o dan £10,000
       long: Cael gwybod sut i ymgeisio am grant o dan £10,000
     over10k:
       short: Ymgeisio am grant dros £10,000
       long: Cael gwybod sut i ymgeisio am grant dros £10,000
+    featuredLinks:
+    - label: Who we are and what we do
+      href: /about
+    - label: "What we've funded: our past grants"
+      href: /funding/grants
+    - label: Our funding programmes
+      href: /funding/programmes
+    - label: Managing your grant
+      href: /funding/funding-guidance/managing-your-funding
+    - label: "What we've learned from our funding"
+      href: /research
+    - label: Talk to us
+      href: /contact
     caseStudies:
     - quoteText: "“Rwy'n helpu sicrhau bod pobl ifainc yn cael y cyfleoedd y maent eu
         heisiau o ran addysg”"
@@ -197,11 +218,6 @@ toplevel:
       projectName: Y Sefydliad Iechyd Meddwl
       imageUrl: home/case-study-mental-health-foundation.jpg
       link: funding/big-stories/mental-health-foundation
-    social:
-      followUsOn: Dilynwch ni ar
-      instagram: Instagram
-      facebook: Facebook
-      twitter: Twitter
   wales:
     title: Cymru
     introduction: Y Gronfa Loteri Fawr yw ariannwr cymunedol mwyaf y Deyrnas Unedig.

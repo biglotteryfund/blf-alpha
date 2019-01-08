@@ -33,6 +33,7 @@
 
         .overlay-text__inner {
             padding: 2px 6px;
+            background-color: get-color('brand', 'primary-tint');
         }
     }
 }

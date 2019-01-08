@@ -24,11 +24,7 @@
 
             {# Social links #}
             <section class="u-inner-wide-only">
-                {{ socialLinks(
-                    labels = __('toplevel.home.social'),
-                    pageAccent = pageAccent,
-                    showAsBlock = false
-                ) }}
+                {{ socialLinks(isStacked = false) }}
             </section>
 
             {# Blog posts #}

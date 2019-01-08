@@ -8,6 +8,12 @@ $breakpointLarge: 840px;
 .global-header-next {
     background: white;
 
+    body:not(.has-static-header) & {
+        box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 1;
+    }
+
     .global-header-next__inner {
         position: relative;
     }
@@ -307,25 +313,6 @@ $breakpointLarge: 840px;
         }
     }
 }
-
-/**
- * Static/overlaid header
- * @TODO: Determine if we need to use this
- */
-/*
-@media only screen and (min-width: $breakpointSmall) {
-    body:not(.has-static-header) .global-header-next {
-        background-color: rgba(255, 255, 255, 0.9);
-        position: absolute;
-        z-index: 1;
-        width: 100%;
-
-        @media print {
-            position: static;
-        }
-    }
-}
-*/
 
 /* =========================================================================
    Global Search Form
