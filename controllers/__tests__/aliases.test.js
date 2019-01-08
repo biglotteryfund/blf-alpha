@@ -2,7 +2,7 @@
 'use strict';
 const aliases = require('../aliases');
 
-describe('alises', () => {
+describe('aliases', () => {
     it('should export mappedAliases', () => {
         expect(aliases).toMatchSnapshot();
     });

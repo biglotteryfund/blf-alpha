@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`alises should export mappedAliases 1`] = `
+exports[`aliases should export mappedAliases 1`] = `
 Array [
   Object {
     "from": "/about-big/contact-us",
