@@ -191,6 +191,15 @@ aliases.forEach(redirect => {
 });
 
 /**
+ * Handle legacy programme pages as wildcards
+ * (eg. redirect them to /funding/programmes/<slug>)
+ */
+app.get('/:region?/global-content/programmes/:country/:slug', (req, res) => {
+    const locale = req.params.region === 'welsh' ? '/welsh' : '';
+    res.redirect(301, `${locale}/funding/programmes/${req.params.slug}`);
+});
+
+/**
  * Archived paths
  * Handles archived pages (eg. redirect to National Archives)
  * and legacy files (eg. show a message about removed documents)

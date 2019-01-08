@@ -85,6 +85,32 @@ describe('common', function() {
         });
     });
 
+    it('should redirect legacy funding programmes', () => {
+        [
+            {
+                originalPath: '/global-content/programmes/england/acitve-england',
+                redirectedPath: '/funding/programmes/acitve-england'
+            },
+            {
+                originalPath: '/global-content/programmes/uk-wide/green-spaces-and-sustainable-communities',
+                redirectedPath: '/funding/programmes/green-spaces-and-sustainable-communities'
+            },
+            {
+                originalPath: '/global-content/programmes/northern-ireland/young-peoples-fund-change-ur-future',
+                redirectedPath: '/funding/programmes/young-peoples-fund-change-ur-future'
+            },
+            {
+                originalPath: '/welsh/global-content/programmes/wales/young-peoples-fund-bridging-the-gap',
+                redirectedPath: '/welsh/funding/programmes/young-peoples-fund-bridging-the-gap'
+            }
+        ].forEach(page => {
+            cy.checkRedirect({
+                from: page.originalPath,
+                to: page.redirectedPath
+            });
+        });
+    });
+
     it('should serve welsh versions of legacy pages', () => {
         cy.request('/welsh/research/communities-and-places').then(response => {
             expect(response.body).to.include('Cymunedau a lleoedd');
