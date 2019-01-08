@@ -13,6 +13,7 @@ const { makeWelsh } = require('../modules/urls');
 const aliases = {
     // CLEANUP
     '/about-big/contact-us': '/about',
+    '/about-big/countries/about-england/strategic-investments-in-england': '/funding/strategic-investments',
     '/about-big/customer-service/bogus-lottery-emails': '/about/customer-service/bogus-lottery-emails',
     '/about-big/customer-service/cookies': '/about/customer-service/cookies',
     '/about-big/customer-service/customer-feedback': '/about/customer-service/customer-feedback',
