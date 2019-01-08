@@ -402,6 +402,12 @@ $breakpointLarge: 840px;
     height: 42px;
     width: 130px;
 
+    // TEMPORARY - hides new logo from user testing.
+    &.brand-logo--hidden {
+        background-color: #eeeeee !important;
+        background-image: none !important;
+    }
+
     @media only screen and (min-width: $breakpointLarge) {
         height: 50px;
         width: 155px;

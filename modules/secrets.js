@@ -82,6 +82,7 @@ const DIGITAL_FUND_EMAIL = process.env.DIGITAL_FUND_EMAIL || getSecret('emails.d
  * Rebrand secret
  */
 const REBRAND_SECRET = process.env.REBRAND_SECRET || getSecret('rebrand.secret', true);
+const REBRAND_TEST_PASSWORD = process.env.REBRAND_TEST_PASSWORD || getSecret('rebrand.test.password', true);
 
 module.exports = {
     APPLICATIONS_SERVICE_ENDPOINT,
@@ -94,6 +95,7 @@ module.exports = {
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
     REBRAND_SECRET,
+    REBRAND_TEST_PASSWORD,
     SENTRY_DSN,
     SESSION_SECRET
 };

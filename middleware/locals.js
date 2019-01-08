@@ -1,7 +1,7 @@
 'use strict';
 const config = require('config');
 const moment = require('moment');
-const { map, omitBy, isString } = require('lodash');
+const { map, omitBy, isString, get } = require('lodash');
 
 const { getCurrentUrl, getAbsoluteUrl, localify } = require('../modules/urls');
 const { REBRAND_SECRET } = require('../modules/secrets');
@@ -37,9 +37,10 @@ module.exports = function(req, res, next) {
      */
     const useNewBrand =
         appData.isNotProduction &&
-        (!!process.env.USE_NEW_BRAND === true || req.cookies[cookies.rebrand] === REBRAND_SECRET);
+        (!!process.env.USE_NEW_BRAND === true || get(req.cookies, [cookies.rebrand, 'secret']) === REBRAND_SECRET);
 
     res.locals.useNewBrand = useNewBrand;
+    res.locals.useNewLogo = useNewBrand && get(req.cookies, [cookies.rebrand, 'mode']) === 'staff';
 
     /**
      * New domain flag
