@@ -30,13 +30,11 @@
                 <ul class="flex-grid">
                     {% for page in content.children %}
                         <li class="flex-grid__item">
-                            {{ miniatureHero(
-                                title = page.trailText | default(page.title, true),
-                                imagePath = page.photo,
-                                imageCaption = page.title,
-                                linkUrl = page.linkUrl,
-                                isLarge = true
-                            )}}
+                            {{ miniatureHero({
+                                "title": page.trailText | default(page.title, true),
+                                "linkUrl": page.linkUrl,
+                                "image": { "url": page.photo }
+                            }, isLarge = true) }}
                         </li>
                     {% endfor %}
                 </ul>

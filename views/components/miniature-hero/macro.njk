@@ -1,19 +1,25 @@
 {% from "components/overlay-text/macro.njk" import overlayText %}
-{% from "components/icons.njk" import iconArrowRight %}
 
-{% macro miniatureHero(title, imagePath, imageCaption = false, linkUrl = false, accent = false, isLarge = false) %}
-    <div class="miniature-hero{% if isLarge %} miniature-hero--large{% endif %}">
+{#
+Miniature Hero
+
+props: {Object}
+- title {String} - Title
+- linkUrl {String} - Link URL
+- image {Object} { url: {String}, alt: {String} }
+isLarge: {Boolean} - Use featured style for promo card
+#}
+{% macro miniatureHero(props, isLarge = false) %}
+    <a href="{{ props.linkUrl }}" class="miniature-hero{% if isLarge %} miniature-hero--large{% endif %}">
         <div class="miniature-hero__inner">
-            {% if linkUrl %}<a class="miniature-hero__link u-dont-print-link" href="{{ linkUrl }}">{% endif %}
             <div class="miniature-hero__image">
-                <img src="{{ imagePath }}"alt="{% if imageCaption %}{{ imageCaption }}{% else %}{{ title }}{% endif %}" />
+                <img src="{{ props.image.url }}"alt="{{ props.image.alt }}" />
             </div>
-            {% if linkUrl %}</a>{% endif %}
             <h3 class="miniature-hero__title">
-                {% call overlayText(linkUrl = linkUrl, accent = accent, isTranslucent = true) %}
-                    {{ title | widont | safe }}
+                {% call overlayText(props.linkUrl, isTranslucent = true) %}
+                    {{ props.title | widont | safe }}
                 {% endcall %}
             </h3>
         </div>
-    </div>
+    </a>
 {% endmacro %}
