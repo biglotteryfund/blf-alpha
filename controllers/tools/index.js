@@ -47,7 +47,6 @@ router.use(
 router.use('/seed', require('./seed'));
 router.use('/pages', require('./pagelist'));
 
-console.log(REBRAND_TEST_PASSWORD);
 // Temporary public rebrand test mode (can be removed post-testing)
 router.route('/testing/rebrand/:switch').get(
     basicAuth({
