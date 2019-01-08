@@ -225,12 +225,23 @@
         padding: 24px 0 12px;
     }
 
+    .super-hero-next__title {
+        font-size: 18px;
+        line-height: 1.2;
+        font-family: font-stack('display');
+        font-weight: font-weight('display', 'bold');
+        margin-bottom: 3px;
+
+        @include mq('medium') {
+            font-size: 23px;
+        }
+    }
+
     .super-hero-next__intro {
         font-size: 14px;
         line-height: 1.2;
         font-weight: normal;
         margin-bottom: 1em;
-        font-family: font-stack('display');
 
         @media only screen and (min-width: 360px) {
             font-size: 18px;
@@ -243,10 +254,6 @@
             margin-right: auto;
         }
 
-        @include mq('large') {
-            font-size: 23px;
-        }
-
         p {
             margin-bottom: 3px;
         }
@@ -254,7 +261,7 @@
         a,
         a:link {
             color: inherit;
-            font-weight: font-weight('display', 'semibold');
+            font-weight: font-weight('body', 'semibold');
             text-decoration: underline;
         }
     }
