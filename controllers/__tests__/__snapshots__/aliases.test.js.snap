@@ -43,6 +43,46 @@ Array [
     "to": "/welsh/about",
   },
   Object {
+    "from": "/about-big/countries/about-england/strategic-investments-in-england",
+    "to": "/funding/strategic-investments",
+  },
+  Object {
+    "from": "/welsh/about-big/countries/about-england/strategic-investments-in-england",
+    "to": "/welsh/funding/strategic-investments",
+  },
+  Object {
+    "from": "/england/about-big/countries/about-england/strategic-investments-in-england",
+    "to": "/funding/strategic-investments",
+  },
+  Object {
+    "from": "/welsh/england/about-big/countries/about-england/strategic-investments-in-england",
+    "to": "/welsh/funding/strategic-investments",
+  },
+  Object {
+    "from": "/scotland/about-big/countries/about-england/strategic-investments-in-england",
+    "to": "/funding/strategic-investments",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/countries/about-england/strategic-investments-in-england",
+    "to": "/welsh/funding/strategic-investments",
+  },
+  Object {
+    "from": "/northernireland/about-big/countries/about-england/strategic-investments-in-england",
+    "to": "/funding/strategic-investments",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/countries/about-england/strategic-investments-in-england",
+    "to": "/welsh/funding/strategic-investments",
+  },
+  Object {
+    "from": "/wales/about-big/countries/about-england/strategic-investments-in-england",
+    "to": "/funding/strategic-investments",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/countries/about-england/strategic-investments-in-england",
+    "to": "/welsh/funding/strategic-investments",
+  },
+  Object {
     "from": "/about-big/customer-service/bogus-lottery-emails",
     "to": "/about/customer-service/bogus-lottery-emails",
   },

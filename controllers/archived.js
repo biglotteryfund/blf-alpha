@@ -19,6 +19,12 @@ const metrics = require('../modules/metrics');
 // prettier-ignore
 flatMap([
     '/about-big/10-big-lottery-fund-facts',
+    '/about-big/countries*',
+    '/about-big/living-wage',
+    '/about-big/mayors-community-weekend',
+    '/about-big/our-approach/vision-and-principles',
+    '/about-big/publications*',
+    '/about-big/your-voice',
     '/funding/funding-guidance/applying-for-funding/*',
     '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*'
 ], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
