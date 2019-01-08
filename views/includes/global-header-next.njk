@@ -36,7 +36,7 @@
 
         <div class="global-header-next__content">
             <div class="global-header-next__content-primary">
-                <a href="/" class="global-header-next__logo brand-logo">
+                <a href="/" class="global-header-next__logo brand-logo{% if not useNewLogo %} brand-logo--hidden{% endif %}">
                     <span class="u-visually-hidden">
                         {{ __("global.brand.title") }}
                     </span>

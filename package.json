@@ -85,6 +85,7 @@
     "dompurify": "^1.0.3",
     "express": "^4.16.3",
     "express-ab": "^0.7.1",
+    "express-basic-auth": "1.1.6",
     "express-cache-controller": "^1.0.1",
     "express-session": "^1.15.5",
     "express-validator": "^5.0.0",
