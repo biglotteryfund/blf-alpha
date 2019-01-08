@@ -6,63 +6,53 @@
 .hero {
     color: white;
     position: relative;
-}
-.hero__content {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-.hero__image {
-    height: 0;
-    position: relative;
 
-    @include responsive-ratio(644, 425);
-
-    @media only screen and (min-width: 600px) {
-        @include responsive-ratio(1280, 720);
+    .hero__content {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
     }
+    .hero__image {
+        position: relative;
 
-    @include mq('large') {
-        @include responsive-ratio(1362, 403);
+        img {
+            display: block;
+        }
     }
+    .hero__header {
+        margin-bottom: $spacingUnit / 1.5;
 
-    img {
-        display: block;
-    }
-}
-.hero__header {
-    margin-bottom: $spacingUnit / 1.5;
+        @media screen and (min-width: 380px) {
+            margin-bottom: $spacingUnit;
+        }
 
-    @media screen and (min-width: 380px) {
-        margin-bottom: $spacingUnit;
+        @include mq('medium') {
+            margin-bottom: $nudgeOffset + $spacingUnit;
+        }
     }
+    .hero__header__inner {
+        @include mq('medium') {
+            padding-left: $spacingUnit;
+            padding-right: $spacingUnit;
+        }
+    }
+    .hero__caption {
+        position: absolute;
+        height: auto;
+        right: $spacingUnit / 2;
+        bottom: $spacingUnit / 2;
 
-    @include mq('medium') {
-        margin-bottom: $nudgeOffset + $spacingUnit;
-    }
-}
-.hero__header__inner {
-    @include mq('medium') {
-        padding-left: $spacingUnit;
-        padding-right: $spacingUnit;
-    }
-}
-.hero__caption {
-    position: absolute;
-    height: auto;
-    right: $spacingUnit / 2;
-    bottom: $spacingUnit / 2;
+        @media screen and (min-width: 380px) {
+            bottom: $spacingUnit;
+        }
 
-    @media screen and (min-width: 380px) {
-        bottom: $spacingUnit;
-    }
+        @include mq('medium') {
+            bottom: $nudgeOffset + $spacingUnit;
+        }
 
-    @include mq('medium') {
-        bottom: $nudgeOffset + $spacingUnit;
-    }
-
-    @include mq('large') {
-        right: $spacingUnit;
+        @include mq('large') {
+            right: $spacingUnit;
+        }
     }
 }
 
