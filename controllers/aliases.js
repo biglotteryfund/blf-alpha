@@ -11,7 +11,6 @@ const { makeWelsh } = require('../modules/urls');
  */
 // prettier-ignore
 const aliases = {
-    // CLEANUP
     '/about-big/contact-us': '/about',
     '/about-big/countries/about-england/strategic-investments-in-england': '/funding/strategic-investments',
     '/about-big/customer-service/bogus-lottery-emails': '/about/customer-service/bogus-lottery-emails',
@@ -31,6 +30,7 @@ const aliases = {
     '/about-big/jobs/benefits': '/jobs/benefits',
     '/about-big/jobs/current-vacancies': '/jobs',
     '/about-big/jobs/how-to-apply': '/jobs',
+    '/about-big/our-approach/about-big-lottery-fund': '/about',
     '/about-big/our-approach/accessibility': '/about/customer-service/accessibility',
     '/about-big/our-people/northern-ireland-committee-members': '/about/our-people/northern-ireland-committee',
     '/about-big/our-people/senior-management-team': '/about/our-people/senior-management-team',
