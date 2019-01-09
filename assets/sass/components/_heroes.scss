@@ -311,7 +311,7 @@
 
             @include mq('large') {
                 display: inline-block;
-                // width: 66%;
+                width: 66%;
             }
         }
     } @else {
