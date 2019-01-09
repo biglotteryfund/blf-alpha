@@ -2,8 +2,8 @@
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/promo-card/macro.njk" import promoCard %}
-{% from "components/social.njk" import socialLinks with context %}
 {% from "components/split-nav/macro.njk" import splitNav %}
+{% from "components/icons.njk" import iconFacebook, iconInstagram, iconTwitter %}
 
 {% from "./view-helpers.njk" import blogTrail with context %}
 
@@ -23,18 +23,32 @@
             {% endcall %}
 
             {# Social links #}
-            <section class="u-inner-wide-only">
-                {{ socialLinks(isStacked = false) }}
+            <section class="u-inner-wide-only u-margin-bottom-l">
+                <div class="o-button-group-flex">
+                    <a class="btn btn--small btn--outline"
+                        href="{{ globalCopy.brand.instagram }}">
+                        <span class="btn__icon">{{ iconInstagram() }}</span>
+                        {{ __('global.misc.followUsOn') }} {{ __('global.misc.instagram') }}
+                    </a>
+                    <a class="btn btn--small btn--outline"
+                        href="{{ globalCopy.brand.facebook }}">
+                        <span class="btn__icon">{{ iconFacebook() }}</span>
+                        {{ __('global.misc.followUsOn') }} {{ __('global.misc.facebook') }}
+                    </a>
+                    <a class="btn btn--small btn--outline"
+                        href="https://www.twitter.com/{{ globalCopy.brand.twitter }}" >
+                        <span class="btn__icon">{{ iconTwitter() }}</span>
+                        {{ __('global.misc.followUsOn') }} {{ __('global.misc.twitter') }}
+                    </a>
+                </div>
             </section>
 
             {# Blog posts #}
-            <section class="latest-news u-inner u-margin-bottom">
-                <header class="latest-news__header">
-                    <h2 class="t3 t--underline accent--{{ pageAccent }}">
-                        {{ copy.types.blog.plural }}
-                    </h2>
+            <section class="latest-updates u-inner u-margin-bottom">
+                <header class="latest-updates__header">
+                    <h2 class="t--underline">{{ copy.types.blog.plural }}</h2>
                 </header>
-                <div class="latest-news__content">
+                <div class="latest-updates__content">
                     <ul class="flex-grid flex-grid--3up">
                         {% for entry in blogposts | take(3) %}
                             <li class="flex-grid__item">
@@ -43,8 +57,8 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <footer class="latest-news__footer">
-                    <a class="latest-news__more" href="{{ localify('/news/blog') }}">
+                <footer class="latest-updates__footer">
+                    <a class="latest-updates__more" href="{{ localify('/news/blog') }}">
                         {{ copy.blogpost.viewAllBlogPosts }} &rarr;
                     </a>
                 </footer>

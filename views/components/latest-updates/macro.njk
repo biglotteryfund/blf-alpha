@@ -3,11 +3,7 @@
 {% macro latestUpdates(articles, title, allLink) %}
     <section class="latest-updates">
         <header class="latest-updates__header">
-            <h2 class="t1 t--underline a--text accent--blue">
-                {% if allLink.url %}<a class="u-link-minimal" href="{{ allLink.url }}">{% endif %}
-                    {{ title }}
-                {% if allLink.url %}</a>{% endif %}
-            </h2>
+            <h2 class="latest-updates__title t--underline">{{ title }}</h2>
         </header>
         <div class="latest-updates__content">
             <ul class="flex-grid flex-grid--3up">

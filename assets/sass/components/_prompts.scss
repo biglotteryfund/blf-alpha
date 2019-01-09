@@ -59,10 +59,11 @@
 }
 .survey__choices-question {
     margin-bottom: 3px;
+    font-weight: font-weight('body', 'bold');
 
     @include mq('medium') {
         margin-bottom: 0;
-        margin-right: $spacingUnit / 2;
+        margin-right: $spacingUnit;
     }
 }
 .survey__choices {
