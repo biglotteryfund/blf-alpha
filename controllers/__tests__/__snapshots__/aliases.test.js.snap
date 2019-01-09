@@ -763,6 +763,46 @@ Array [
     "to": "/welsh/jobs",
   },
   Object {
+    "from": "/about-big/our-approach/about-big-lottery-fund",
+    "to": "/about",
+  },
+  Object {
+    "from": "/welsh/about-big/our-approach/about-big-lottery-fund",
+    "to": "/welsh/about",
+  },
+  Object {
+    "from": "/england/about-big/our-approach/about-big-lottery-fund",
+    "to": "/about",
+  },
+  Object {
+    "from": "/welsh/england/about-big/our-approach/about-big-lottery-fund",
+    "to": "/welsh/about",
+  },
+  Object {
+    "from": "/scotland/about-big/our-approach/about-big-lottery-fund",
+    "to": "/about",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/our-approach/about-big-lottery-fund",
+    "to": "/welsh/about",
+  },
+  Object {
+    "from": "/northernireland/about-big/our-approach/about-big-lottery-fund",
+    "to": "/about",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/our-approach/about-big-lottery-fund",
+    "to": "/welsh/about",
+  },
+  Object {
+    "from": "/wales/about-big/our-approach/about-big-lottery-fund",
+    "to": "/about",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/our-approach/about-big-lottery-fund",
+    "to": "/welsh/about",
+  },
+  Object {
     "from": "/about-big/our-approach/accessibility",
     "to": "/about/customer-service/accessibility",
   },
