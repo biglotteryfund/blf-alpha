@@ -2203,1326 +2203,6 @@ Array [
     "to": "/welsh/funding/grants",
   },
   Object {
-    "from": "/global-content/programmes/england/awards-for-all-england",
-    "to": "/funding/programmes/national-lottery-awards-for-all-england",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/england/awards-for-all-england",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
-  },
-  Object {
-    "from": "/england/global-content/programmes/england/awards-for-all-england",
-    "to": "/funding/programmes/national-lottery-awards-for-all-england",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/england/awards-for-all-england",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/england/awards-for-all-england",
-    "to": "/funding/programmes/national-lottery-awards-for-all-england",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/england/awards-for-all-england",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/england/awards-for-all-england",
-    "to": "/funding/programmes/national-lottery-awards-for-all-england",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/england/awards-for-all-england",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/england/awards-for-all-england",
-    "to": "/funding/programmes/national-lottery-awards-for-all-england",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/england/awards-for-all-england",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
-  },
-  Object {
-    "from": "/global-content/programmes/england/building-better-opportunities",
-    "to": "/funding/programmes/building-better-opportunities",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/england/building-better-opportunities",
-    "to": "/welsh/funding/programmes/building-better-opportunities",
-  },
-  Object {
-    "from": "/england/global-content/programmes/england/building-better-opportunities",
-    "to": "/funding/programmes/building-better-opportunities",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities",
-    "to": "/welsh/funding/programmes/building-better-opportunities",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/england/building-better-opportunities",
-    "to": "/funding/programmes/building-better-opportunities",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities",
-    "to": "/welsh/funding/programmes/building-better-opportunities",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/england/building-better-opportunities",
-    "to": "/funding/programmes/building-better-opportunities",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities",
-    "to": "/welsh/funding/programmes/building-better-opportunities",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/england/building-better-opportunities",
-    "to": "/funding/programmes/building-better-opportunities",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities",
-    "to": "/welsh/funding/programmes/building-better-opportunities",
-  },
-  Object {
-    "from": "/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
-    "to": "/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
-    "to": "/welsh/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
-  },
-  Object {
-    "from": "/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
-    "to": "/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
-    "to": "/welsh/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
-    "to": "/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
-    "to": "/welsh/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
-    "to": "/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
-    "to": "/welsh/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
-    "to": "/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
-    "to": "/welsh/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
-  },
-  Object {
-    "from": "/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
-    "to": "/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
-    "to": "/welsh/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
-  },
-  Object {
-    "from": "/england/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
-    "to": "/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
-    "to": "/welsh/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
-    "to": "/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
-    "to": "/welsh/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
-    "to": "/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
-    "to": "/welsh/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
-    "to": "/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
-    "to": "/welsh/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
-  },
-  Object {
-    "from": "/global-content/programmes/england/fulfilling-lives-a-better-start",
-    "to": "/funding/strategic-investments/a-better-start",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/england/fulfilling-lives-a-better-start",
-    "to": "/welsh/funding/strategic-investments/a-better-start",
-  },
-  Object {
-    "from": "/england/global-content/programmes/england/fulfilling-lives-a-better-start",
-    "to": "/funding/strategic-investments/a-better-start",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/england/fulfilling-lives-a-better-start",
-    "to": "/welsh/funding/strategic-investments/a-better-start",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/england/fulfilling-lives-a-better-start",
-    "to": "/funding/strategic-investments/a-better-start",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/england/fulfilling-lives-a-better-start",
-    "to": "/welsh/funding/strategic-investments/a-better-start",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/england/fulfilling-lives-a-better-start",
-    "to": "/funding/strategic-investments/a-better-start",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/england/fulfilling-lives-a-better-start",
-    "to": "/welsh/funding/strategic-investments/a-better-start",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/england/fulfilling-lives-a-better-start",
-    "to": "/funding/strategic-investments/a-better-start",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/england/fulfilling-lives-a-better-start",
-    "to": "/welsh/funding/strategic-investments/a-better-start",
-  },
-  Object {
-    "from": "/global-content/programmes/england/fulfilling-lives-ageing-better",
-    "to": "/funding/strategic-investments/ageing-better",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/england/fulfilling-lives-ageing-better",
-    "to": "/welsh/funding/strategic-investments/ageing-better",
-  },
-  Object {
-    "from": "/england/global-content/programmes/england/fulfilling-lives-ageing-better",
-    "to": "/funding/strategic-investments/ageing-better",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/england/fulfilling-lives-ageing-better",
-    "to": "/welsh/funding/strategic-investments/ageing-better",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/england/fulfilling-lives-ageing-better",
-    "to": "/funding/strategic-investments/ageing-better",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/england/fulfilling-lives-ageing-better",
-    "to": "/welsh/funding/strategic-investments/ageing-better",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/england/fulfilling-lives-ageing-better",
-    "to": "/funding/strategic-investments/ageing-better",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/england/fulfilling-lives-ageing-better",
-    "to": "/welsh/funding/strategic-investments/ageing-better",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/england/fulfilling-lives-ageing-better",
-    "to": "/funding/strategic-investments/ageing-better",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/england/fulfilling-lives-ageing-better",
-    "to": "/welsh/funding/strategic-investments/ageing-better",
-  },
-  Object {
-    "from": "/global-content/programmes/england/fulfilling-lives-headstart",
-    "to": "/funding/strategic-investments/headstart",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/england/fulfilling-lives-headstart",
-    "to": "/welsh/funding/strategic-investments/headstart",
-  },
-  Object {
-    "from": "/england/global-content/programmes/england/fulfilling-lives-headstart",
-    "to": "/funding/strategic-investments/headstart",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/england/fulfilling-lives-headstart",
-    "to": "/welsh/funding/strategic-investments/headstart",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/england/fulfilling-lives-headstart",
-    "to": "/funding/strategic-investments/headstart",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/england/fulfilling-lives-headstart",
-    "to": "/welsh/funding/strategic-investments/headstart",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/england/fulfilling-lives-headstart",
-    "to": "/funding/strategic-investments/headstart",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/england/fulfilling-lives-headstart",
-    "to": "/welsh/funding/strategic-investments/headstart",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/england/fulfilling-lives-headstart",
-    "to": "/funding/strategic-investments/headstart",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/england/fulfilling-lives-headstart",
-    "to": "/welsh/funding/strategic-investments/headstart",
-  },
-  Object {
-    "from": "/global-content/programmes/england/help-through-crisis",
-    "to": "/funding/programmes/help-through-crisis",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/england/help-through-crisis",
-    "to": "/welsh/funding/programmes/help-through-crisis",
-  },
-  Object {
-    "from": "/england/global-content/programmes/england/help-through-crisis",
-    "to": "/funding/programmes/help-through-crisis",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/england/help-through-crisis",
-    "to": "/welsh/funding/programmes/help-through-crisis",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/england/help-through-crisis",
-    "to": "/funding/programmes/help-through-crisis",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/england/help-through-crisis",
-    "to": "/welsh/funding/programmes/help-through-crisis",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/england/help-through-crisis",
-    "to": "/funding/programmes/help-through-crisis",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/england/help-through-crisis",
-    "to": "/welsh/funding/programmes/help-through-crisis",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/england/help-through-crisis",
-    "to": "/funding/programmes/help-through-crisis",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/england/help-through-crisis",
-    "to": "/welsh/funding/programmes/help-through-crisis",
-  },
-  Object {
-    "from": "/global-content/programmes/england/multiple-and-complex-needs",
-    "to": "/funding/strategic-investments/multiple-needs",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/england/multiple-and-complex-needs",
-    "to": "/welsh/funding/strategic-investments/multiple-needs",
-  },
-  Object {
-    "from": "/england/global-content/programmes/england/multiple-and-complex-needs",
-    "to": "/funding/strategic-investments/multiple-needs",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/england/multiple-and-complex-needs",
-    "to": "/welsh/funding/strategic-investments/multiple-needs",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/england/multiple-and-complex-needs",
-    "to": "/funding/strategic-investments/multiple-needs",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/england/multiple-and-complex-needs",
-    "to": "/welsh/funding/strategic-investments/multiple-needs",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/england/multiple-and-complex-needs",
-    "to": "/funding/strategic-investments/multiple-needs",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/england/multiple-and-complex-needs",
-    "to": "/welsh/funding/strategic-investments/multiple-needs",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/england/multiple-and-complex-needs",
-    "to": "/funding/strategic-investments/multiple-needs",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/england/multiple-and-complex-needs",
-    "to": "/welsh/funding/strategic-investments/multiple-needs",
-  },
-  Object {
-    "from": "/global-content/programmes/england/place-based-social-action",
-    "to": "/funding/programmes/place-based-social-action",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/england/place-based-social-action",
-    "to": "/welsh/funding/programmes/place-based-social-action",
-  },
-  Object {
-    "from": "/england/global-content/programmes/england/place-based-social-action",
-    "to": "/funding/programmes/place-based-social-action",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/england/place-based-social-action",
-    "to": "/welsh/funding/programmes/place-based-social-action",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/england/place-based-social-action",
-    "to": "/funding/programmes/place-based-social-action",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/england/place-based-social-action",
-    "to": "/welsh/funding/programmes/place-based-social-action",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/england/place-based-social-action",
-    "to": "/funding/programmes/place-based-social-action",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/england/place-based-social-action",
-    "to": "/welsh/funding/programmes/place-based-social-action",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/england/place-based-social-action",
-    "to": "/funding/programmes/place-based-social-action",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/england/place-based-social-action",
-    "to": "/welsh/funding/programmes/place-based-social-action",
-  },
-  Object {
-    "from": "/global-content/programmes/england/reaching-communities-england",
-    "to": "/funding/programmes/reaching-communities-england",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/england/reaching-communities-england",
-    "to": "/welsh/funding/programmes/reaching-communities-england",
-  },
-  Object {
-    "from": "/england/global-content/programmes/england/reaching-communities-england",
-    "to": "/funding/programmes/reaching-communities-england",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/england/reaching-communities-england",
-    "to": "/welsh/funding/programmes/reaching-communities-england",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/england/reaching-communities-england",
-    "to": "/funding/programmes/reaching-communities-england",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/england/reaching-communities-england",
-    "to": "/welsh/funding/programmes/reaching-communities-england",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/england/reaching-communities-england",
-    "to": "/funding/programmes/reaching-communities-england",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/england/reaching-communities-england",
-    "to": "/welsh/funding/programmes/reaching-communities-england",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/england/reaching-communities-england",
-    "to": "/funding/programmes/reaching-communities-england",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/england/reaching-communities-england",
-    "to": "/welsh/funding/programmes/reaching-communities-england",
-  },
-  Object {
-    "from": "/global-content/programmes/england/talent-match",
-    "to": "/funding/strategic-investments/talent-match",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/england/talent-match",
-    "to": "/welsh/funding/strategic-investments/talent-match",
-  },
-  Object {
-    "from": "/england/global-content/programmes/england/talent-match",
-    "to": "/funding/strategic-investments/talent-match",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/england/talent-match",
-    "to": "/welsh/funding/strategic-investments/talent-match",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/england/talent-match",
-    "to": "/funding/strategic-investments/talent-match",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/england/talent-match",
-    "to": "/welsh/funding/strategic-investments/talent-match",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/england/talent-match",
-    "to": "/funding/strategic-investments/talent-match",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/england/talent-match",
-    "to": "/welsh/funding/strategic-investments/talent-match",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/england/talent-match",
-    "to": "/funding/strategic-investments/talent-match",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/england/talent-match",
-    "to": "/welsh/funding/strategic-investments/talent-match",
-  },
-  Object {
-    "from": "/global-content/programmes/northern-ireland/awards-for-all-northern-ireland",
-    "to": "/funding/programmes/awards-for-all-northern-ireland",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/northern-ireland/awards-for-all-northern-ireland",
-    "to": "/welsh/funding/programmes/awards-for-all-northern-ireland",
-  },
-  Object {
-    "from": "/england/global-content/programmes/northern-ireland/awards-for-all-northern-ireland",
-    "to": "/funding/programmes/awards-for-all-northern-ireland",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/northern-ireland/awards-for-all-northern-ireland",
-    "to": "/welsh/funding/programmes/awards-for-all-northern-ireland",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/northern-ireland/awards-for-all-northern-ireland",
-    "to": "/funding/programmes/awards-for-all-northern-ireland",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/northern-ireland/awards-for-all-northern-ireland",
-    "to": "/welsh/funding/programmes/awards-for-all-northern-ireland",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/northern-ireland/awards-for-all-northern-ireland",
-    "to": "/funding/programmes/awards-for-all-northern-ireland",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/northern-ireland/awards-for-all-northern-ireland",
-    "to": "/welsh/funding/programmes/awards-for-all-northern-ireland",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/northern-ireland/awards-for-all-northern-ireland",
-    "to": "/funding/programmes/awards-for-all-northern-ireland",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/northern-ireland/awards-for-all-northern-ireland",
-    "to": "/welsh/funding/programmes/awards-for-all-northern-ireland",
-  },
-  Object {
-    "from": "/global-content/programmes/northern-ireland/empowering-young-people",
-    "to": "/funding/programmes/empowering-young-people",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/northern-ireland/empowering-young-people",
-    "to": "/welsh/funding/programmes/empowering-young-people",
-  },
-  Object {
-    "from": "/england/global-content/programmes/northern-ireland/empowering-young-people",
-    "to": "/funding/programmes/empowering-young-people",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/northern-ireland/empowering-young-people",
-    "to": "/welsh/funding/programmes/empowering-young-people",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/northern-ireland/empowering-young-people",
-    "to": "/funding/programmes/empowering-young-people",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/northern-ireland/empowering-young-people",
-    "to": "/welsh/funding/programmes/empowering-young-people",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/northern-ireland/empowering-young-people",
-    "to": "/funding/programmes/empowering-young-people",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/northern-ireland/empowering-young-people",
-    "to": "/welsh/funding/programmes/empowering-young-people",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/northern-ireland/empowering-young-people",
-    "to": "/funding/programmes/empowering-young-people",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/northern-ireland/empowering-young-people",
-    "to": "/welsh/funding/programmes/empowering-young-people",
-  },
-  Object {
-    "from": "/global-content/programmes/northern-ireland/people-and-communities",
-    "to": "/funding/programmes/people-and-communities",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/northern-ireland/people-and-communities",
-    "to": "/welsh/funding/programmes/people-and-communities",
-  },
-  Object {
-    "from": "/england/global-content/programmes/northern-ireland/people-and-communities",
-    "to": "/funding/programmes/people-and-communities",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/northern-ireland/people-and-communities",
-    "to": "/welsh/funding/programmes/people-and-communities",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/northern-ireland/people-and-communities",
-    "to": "/funding/programmes/people-and-communities",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/northern-ireland/people-and-communities",
-    "to": "/welsh/funding/programmes/people-and-communities",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/northern-ireland/people-and-communities",
-    "to": "/funding/programmes/people-and-communities",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/northern-ireland/people-and-communities",
-    "to": "/welsh/funding/programmes/people-and-communities",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/northern-ireland/people-and-communities",
-    "to": "/funding/programmes/people-and-communities",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/northern-ireland/people-and-communities",
-    "to": "/welsh/funding/programmes/people-and-communities",
-  },
-  Object {
-    "from": "/global-content/programmes/scotland/awards-for-all-scotland",
-    "to": "/funding/programmes/national-lottery-awards-for-all-scotland",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/scotland/awards-for-all-scotland",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-scotland",
-  },
-  Object {
-    "from": "/england/global-content/programmes/scotland/awards-for-all-scotland",
-    "to": "/funding/programmes/national-lottery-awards-for-all-scotland",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/scotland/awards-for-all-scotland",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-scotland",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/scotland/awards-for-all-scotland",
-    "to": "/funding/programmes/national-lottery-awards-for-all-scotland",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/scotland/awards-for-all-scotland",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-scotland",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/scotland/awards-for-all-scotland",
-    "to": "/funding/programmes/national-lottery-awards-for-all-scotland",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/scotland/awards-for-all-scotland",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-scotland",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/scotland/awards-for-all-scotland",
-    "to": "/funding/programmes/national-lottery-awards-for-all-scotland",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/scotland/awards-for-all-scotland",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-scotland",
-  },
-  Object {
-    "from": "/global-content/programmes/scotland/community-assets",
-    "to": "/funding/programmes/community-assets",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/scotland/community-assets",
-    "to": "/welsh/funding/programmes/community-assets",
-  },
-  Object {
-    "from": "/england/global-content/programmes/scotland/community-assets",
-    "to": "/funding/programmes/community-assets",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/scotland/community-assets",
-    "to": "/welsh/funding/programmes/community-assets",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/scotland/community-assets",
-    "to": "/funding/programmes/community-assets",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/scotland/community-assets",
-    "to": "/welsh/funding/programmes/community-assets",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/scotland/community-assets",
-    "to": "/funding/programmes/community-assets",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/scotland/community-assets",
-    "to": "/welsh/funding/programmes/community-assets",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/scotland/community-assets",
-    "to": "/funding/programmes/community-assets",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/scotland/community-assets",
-    "to": "/welsh/funding/programmes/community-assets",
-  },
-  Object {
-    "from": "/global-content/programmes/scotland/grants-for-community-led-activity",
-    "to": "/funding/programmes/grants-for-community-led-activity",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/scotland/grants-for-community-led-activity",
-    "to": "/welsh/funding/programmes/grants-for-community-led-activity",
-  },
-  Object {
-    "from": "/england/global-content/programmes/scotland/grants-for-community-led-activity",
-    "to": "/funding/programmes/grants-for-community-led-activity",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/scotland/grants-for-community-led-activity",
-    "to": "/welsh/funding/programmes/grants-for-community-led-activity",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/scotland/grants-for-community-led-activity",
-    "to": "/funding/programmes/grants-for-community-led-activity",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/scotland/grants-for-community-led-activity",
-    "to": "/welsh/funding/programmes/grants-for-community-led-activity",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/scotland/grants-for-community-led-activity",
-    "to": "/funding/programmes/grants-for-community-led-activity",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/scotland/grants-for-community-led-activity",
-    "to": "/welsh/funding/programmes/grants-for-community-led-activity",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/scotland/grants-for-community-led-activity",
-    "to": "/funding/programmes/grants-for-community-led-activity",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/scotland/grants-for-community-led-activity",
-    "to": "/welsh/funding/programmes/grants-for-community-led-activity",
-  },
-  Object {
-    "from": "/global-content/programmes/scotland/grants-for-improving-lives",
-    "to": "/funding/programmes/grants-for-improving-lives",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/scotland/grants-for-improving-lives",
-    "to": "/welsh/funding/programmes/grants-for-improving-lives",
-  },
-  Object {
-    "from": "/england/global-content/programmes/scotland/grants-for-improving-lives",
-    "to": "/funding/programmes/grants-for-improving-lives",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/scotland/grants-for-improving-lives",
-    "to": "/welsh/funding/programmes/grants-for-improving-lives",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/scotland/grants-for-improving-lives",
-    "to": "/funding/programmes/grants-for-improving-lives",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/scotland/grants-for-improving-lives",
-    "to": "/welsh/funding/programmes/grants-for-improving-lives",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/scotland/grants-for-improving-lives",
-    "to": "/funding/programmes/grants-for-improving-lives",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/scotland/grants-for-improving-lives",
-    "to": "/welsh/funding/programmes/grants-for-improving-lives",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/scotland/grants-for-improving-lives",
-    "to": "/funding/programmes/grants-for-improving-lives",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/scotland/grants-for-improving-lives",
-    "to": "/welsh/funding/programmes/grants-for-improving-lives",
-  },
-  Object {
-    "from": "/global-content/programmes/scotland/our-place",
-    "to": "/funding/programmes/our-place",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/scotland/our-place",
-    "to": "/welsh/funding/programmes/our-place",
-  },
-  Object {
-    "from": "/england/global-content/programmes/scotland/our-place",
-    "to": "/funding/programmes/our-place",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/scotland/our-place",
-    "to": "/welsh/funding/programmes/our-place",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/scotland/our-place",
-    "to": "/funding/programmes/our-place",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/scotland/our-place",
-    "to": "/welsh/funding/programmes/our-place",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/scotland/our-place",
-    "to": "/funding/programmes/our-place",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/scotland/our-place",
-    "to": "/welsh/funding/programmes/our-place",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/scotland/our-place",
-    "to": "/funding/programmes/our-place",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/scotland/our-place",
-    "to": "/welsh/funding/programmes/our-place",
-  },
-  Object {
-    "from": "/global-content/programmes/scotland/scottish-land-fund",
-    "to": "/funding/programmes/scottish-land-fund",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/scotland/scottish-land-fund",
-    "to": "/welsh/funding/programmes/scottish-land-fund",
-  },
-  Object {
-    "from": "/england/global-content/programmes/scotland/scottish-land-fund",
-    "to": "/funding/programmes/scottish-land-fund",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/scotland/scottish-land-fund",
-    "to": "/welsh/funding/programmes/scottish-land-fund",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/scotland/scottish-land-fund",
-    "to": "/funding/programmes/scottish-land-fund",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/scotland/scottish-land-fund",
-    "to": "/welsh/funding/programmes/scottish-land-fund",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/scotland/scottish-land-fund",
-    "to": "/funding/programmes/scottish-land-fund",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/scotland/scottish-land-fund",
-    "to": "/welsh/funding/programmes/scottish-land-fund",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/scotland/scottish-land-fund",
-    "to": "/funding/programmes/scottish-land-fund",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/scotland/scottish-land-fund",
-    "to": "/welsh/funding/programmes/scottish-land-fund",
-  },
-  Object {
-    "from": "/global-content/programmes/scotland/young-start",
-    "to": "/funding/programmes/young-start",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/scotland/young-start",
-    "to": "/welsh/funding/programmes/young-start",
-  },
-  Object {
-    "from": "/england/global-content/programmes/scotland/young-start",
-    "to": "/funding/programmes/young-start",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/scotland/young-start",
-    "to": "/welsh/funding/programmes/young-start",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/scotland/young-start",
-    "to": "/funding/programmes/young-start",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/scotland/young-start",
-    "to": "/welsh/funding/programmes/young-start",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/scotland/young-start",
-    "to": "/funding/programmes/young-start",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/scotland/young-start",
-    "to": "/welsh/funding/programmes/young-start",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/scotland/young-start",
-    "to": "/funding/programmes/young-start",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/scotland/young-start",
-    "to": "/welsh/funding/programmes/young-start",
-  },
-  Object {
-    "from": "/global-content/programmes/uk-wide/coastal-communities",
-    "to": "/funding/programmes/coastal-communities-fund",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/uk-wide/coastal-communities",
-    "to": "/welsh/funding/programmes/coastal-communities-fund",
-  },
-  Object {
-    "from": "/england/global-content/programmes/uk-wide/coastal-communities",
-    "to": "/funding/programmes/coastal-communities-fund",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/uk-wide/coastal-communities",
-    "to": "/welsh/funding/programmes/coastal-communities-fund",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/uk-wide/coastal-communities",
-    "to": "/funding/programmes/coastal-communities-fund",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/uk-wide/coastal-communities",
-    "to": "/welsh/funding/programmes/coastal-communities-fund",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/uk-wide/coastal-communities",
-    "to": "/funding/programmes/coastal-communities-fund",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/uk-wide/coastal-communities",
-    "to": "/welsh/funding/programmes/coastal-communities-fund",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/uk-wide/coastal-communities",
-    "to": "/funding/programmes/coastal-communities-fund",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/uk-wide/coastal-communities",
-    "to": "/welsh/funding/programmes/coastal-communities-fund",
-  },
-  Object {
-    "from": "/global-content/programmes/uk-wide/forces-in-mind",
-    "to": "/funding/programmes/forces-in-mind",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/uk-wide/forces-in-mind",
-    "to": "/welsh/funding/programmes/forces-in-mind",
-  },
-  Object {
-    "from": "/england/global-content/programmes/uk-wide/forces-in-mind",
-    "to": "/funding/programmes/forces-in-mind",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/uk-wide/forces-in-mind",
-    "to": "/welsh/funding/programmes/forces-in-mind",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/uk-wide/forces-in-mind",
-    "to": "/funding/programmes/forces-in-mind",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/uk-wide/forces-in-mind",
-    "to": "/welsh/funding/programmes/forces-in-mind",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/uk-wide/forces-in-mind",
-    "to": "/funding/programmes/forces-in-mind",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/uk-wide/forces-in-mind",
-    "to": "/welsh/funding/programmes/forces-in-mind",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/uk-wide/forces-in-mind",
-    "to": "/funding/programmes/forces-in-mind",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/uk-wide/forces-in-mind",
-    "to": "/welsh/funding/programmes/forces-in-mind",
-  },
-  Object {
-    "from": "/global-content/programmes/uk-wide/lottery-funding",
-    "to": "/funding/programmes/other-lottery-funders",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/uk-wide/lottery-funding",
-    "to": "/welsh/funding/programmes/other-lottery-funders",
-  },
-  Object {
-    "from": "/england/global-content/programmes/uk-wide/lottery-funding",
-    "to": "/funding/programmes/other-lottery-funders",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/uk-wide/lottery-funding",
-    "to": "/welsh/funding/programmes/other-lottery-funders",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/uk-wide/lottery-funding",
-    "to": "/funding/programmes/other-lottery-funders",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/uk-wide/lottery-funding",
-    "to": "/welsh/funding/programmes/other-lottery-funders",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/uk-wide/lottery-funding",
-    "to": "/funding/programmes/other-lottery-funders",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/uk-wide/lottery-funding",
-    "to": "/welsh/funding/programmes/other-lottery-funders",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/uk-wide/lottery-funding",
-    "to": "/funding/programmes/other-lottery-funders",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/uk-wide/lottery-funding",
-    "to": "/welsh/funding/programmes/other-lottery-funders",
-  },
-  Object {
-    "from": "/global-content/programmes/uk-wide/the-peoples-projects",
-    "to": "/funding/programmes/the-peoples-projects",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/uk-wide/the-peoples-projects",
-    "to": "/welsh/funding/programmes/the-peoples-projects",
-  },
-  Object {
-    "from": "/england/global-content/programmes/uk-wide/the-peoples-projects",
-    "to": "/funding/programmes/the-peoples-projects",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/uk-wide/the-peoples-projects",
-    "to": "/welsh/funding/programmes/the-peoples-projects",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/uk-wide/the-peoples-projects",
-    "to": "/funding/programmes/the-peoples-projects",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/uk-wide/the-peoples-projects",
-    "to": "/welsh/funding/programmes/the-peoples-projects",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/uk-wide/the-peoples-projects",
-    "to": "/funding/programmes/the-peoples-projects",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/uk-wide/the-peoples-projects",
-    "to": "/welsh/funding/programmes/the-peoples-projects",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/uk-wide/the-peoples-projects",
-    "to": "/funding/programmes/the-peoples-projects",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/uk-wide/the-peoples-projects",
-    "to": "/welsh/funding/programmes/the-peoples-projects",
-  },
-  Object {
-    "from": "/global-content/programmes/uk-wide/uk-portfolio",
-    "to": "/funding/programmes/awards-from-the-uk-portfolio",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/uk-wide/uk-portfolio",
-    "to": "/welsh/funding/programmes/awards-from-the-uk-portfolio",
-  },
-  Object {
-    "from": "/england/global-content/programmes/uk-wide/uk-portfolio",
-    "to": "/funding/programmes/awards-from-the-uk-portfolio",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/uk-wide/uk-portfolio",
-    "to": "/welsh/funding/programmes/awards-from-the-uk-portfolio",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/uk-wide/uk-portfolio",
-    "to": "/funding/programmes/awards-from-the-uk-portfolio",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/uk-wide/uk-portfolio",
-    "to": "/welsh/funding/programmes/awards-from-the-uk-portfolio",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/uk-wide/uk-portfolio",
-    "to": "/funding/programmes/awards-from-the-uk-portfolio",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/uk-wide/uk-portfolio",
-    "to": "/welsh/funding/programmes/awards-from-the-uk-portfolio",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/uk-wide/uk-portfolio",
-    "to": "/funding/programmes/awards-from-the-uk-portfolio",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/uk-wide/uk-portfolio",
-    "to": "/welsh/funding/programmes/awards-from-the-uk-portfolio",
-  },
-  Object {
-    "from": "/global-content/programmes/wales/awards-for-all-wales",
-    "to": "/funding/programmes/national-lottery-awards-for-all-wales",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/wales/awards-for-all-wales",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-wales",
-  },
-  Object {
-    "from": "/england/global-content/programmes/wales/awards-for-all-wales",
-    "to": "/funding/programmes/national-lottery-awards-for-all-wales",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/wales/awards-for-all-wales",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-wales",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/wales/awards-for-all-wales",
-    "to": "/funding/programmes/national-lottery-awards-for-all-wales",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/wales/awards-for-all-wales",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-wales",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/wales/awards-for-all-wales",
-    "to": "/funding/programmes/national-lottery-awards-for-all-wales",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/wales/awards-for-all-wales",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-wales",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/wales/awards-for-all-wales",
-    "to": "/funding/programmes/national-lottery-awards-for-all-wales",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/wales/awards-for-all-wales",
-    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-wales",
-  },
-  Object {
-    "from": "/global-content/programmes/wales/helping-working-families",
-    "to": "/funding/programmes/helping-working-families",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/wales/helping-working-families",
-    "to": "/welsh/funding/programmes/helping-working-families",
-  },
-  Object {
-    "from": "/england/global-content/programmes/wales/helping-working-families",
-    "to": "/funding/programmes/helping-working-families",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/wales/helping-working-families",
-    "to": "/welsh/funding/programmes/helping-working-families",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/wales/helping-working-families",
-    "to": "/funding/programmes/helping-working-families",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/wales/helping-working-families",
-    "to": "/welsh/funding/programmes/helping-working-families",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/wales/helping-working-families",
-    "to": "/funding/programmes/helping-working-families",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/wales/helping-working-families",
-    "to": "/welsh/funding/programmes/helping-working-families",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/wales/helping-working-families",
-    "to": "/funding/programmes/helping-working-families",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/wales/helping-working-families",
-    "to": "/welsh/funding/programmes/helping-working-families",
-  },
-  Object {
-    "from": "/global-content/programmes/wales/people-and-places-large-grants",
-    "to": "/funding/programmes/people-and-places-large-grants",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/wales/people-and-places-large-grants",
-    "to": "/welsh/funding/programmes/people-and-places-large-grants",
-  },
-  Object {
-    "from": "/england/global-content/programmes/wales/people-and-places-large-grants",
-    "to": "/funding/programmes/people-and-places-large-grants",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/wales/people-and-places-large-grants",
-    "to": "/welsh/funding/programmes/people-and-places-large-grants",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/wales/people-and-places-large-grants",
-    "to": "/funding/programmes/people-and-places-large-grants",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/wales/people-and-places-large-grants",
-    "to": "/welsh/funding/programmes/people-and-places-large-grants",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/wales/people-and-places-large-grants",
-    "to": "/funding/programmes/people-and-places-large-grants",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/wales/people-and-places-large-grants",
-    "to": "/welsh/funding/programmes/people-and-places-large-grants",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/wales/people-and-places-large-grants",
-    "to": "/funding/programmes/people-and-places-large-grants",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/wales/people-and-places-large-grants",
-    "to": "/welsh/funding/programmes/people-and-places-large-grants",
-  },
-  Object {
-    "from": "/global-content/programmes/wales/people-and-places-medium-grants",
-    "to": "/funding/programmes/people-and-places-medium-grants",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/wales/people-and-places-medium-grants",
-    "to": "/welsh/funding/programmes/people-and-places-medium-grants",
-  },
-  Object {
-    "from": "/england/global-content/programmes/wales/people-and-places-medium-grants",
-    "to": "/funding/programmes/people-and-places-medium-grants",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/wales/people-and-places-medium-grants",
-    "to": "/welsh/funding/programmes/people-and-places-medium-grants",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/wales/people-and-places-medium-grants",
-    "to": "/funding/programmes/people-and-places-medium-grants",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/wales/people-and-places-medium-grants",
-    "to": "/welsh/funding/programmes/people-and-places-medium-grants",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/wales/people-and-places-medium-grants",
-    "to": "/funding/programmes/people-and-places-medium-grants",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/wales/people-and-places-medium-grants",
-    "to": "/welsh/funding/programmes/people-and-places-medium-grants",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/wales/people-and-places-medium-grants",
-    "to": "/funding/programmes/people-and-places-medium-grants",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/wales/people-and-places-medium-grants",
-    "to": "/welsh/funding/programmes/people-and-places-medium-grants",
-  },
-  Object {
-    "from": "/global-content/programmes/wales/people-and-places",
-    "to": "/funding/programmes?min=10000&location=wales",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/wales/people-and-places",
-    "to": "/welsh/funding/programmes?min=10000&location=wales",
-  },
-  Object {
-    "from": "/england/global-content/programmes/wales/people-and-places",
-    "to": "/funding/programmes?min=10000&location=wales",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/wales/people-and-places",
-    "to": "/welsh/funding/programmes?min=10000&location=wales",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/wales/people-and-places",
-    "to": "/funding/programmes?min=10000&location=wales",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/wales/people-and-places",
-    "to": "/welsh/funding/programmes?min=10000&location=wales",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/wales/people-and-places",
-    "to": "/funding/programmes?min=10000&location=wales",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/wales/people-and-places",
-    "to": "/welsh/funding/programmes?min=10000&location=wales",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/wales/people-and-places",
-    "to": "/funding/programmes?min=10000&location=wales",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/wales/people-and-places",
-    "to": "/welsh/funding/programmes?min=10000&location=wales",
-  },
-  Object {
-    "from": "/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/welsh/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/welsh/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/england/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/welsh/england/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/welsh/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/scotland/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/welsh/scotland/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/welsh/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/northernireland/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/welsh/northernireland/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/welsh/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/wales/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/funding/programmes/rural-programme",
-  },
-  Object {
-    "from": "/welsh/wales/global-content/programmes/wales/rural-programme-community-grants",
-    "to": "/welsh/funding/programmes/rural-programme",
-  },
-  Object {
     "from": "/guidancetrackingprogress",
     "to": "/funding/funding-guidance/applying-for-funding/tracking-project-progress/guidance-on-tracking-progress",
   },
@@ -3801,6 +2481,606 @@ Array [
   Object {
     "from": "/welsh/wales/research/youth-serious-violence",
     "to": "/welsh/insights/youth-serious-violence",
+  },
+  Object {
+    "from": "/global-content/programmes/england/awards-for-all-england",
+    "to": "/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/awards-for-all-england",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/awards-for-all-england",
+    "to": "/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/awards-for-all-england",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/awards-for-all-england",
+    "to": "/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/awards-for-all-england",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/awards-for-all-england",
+    "to": "/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/awards-for-all-england",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/awards-for-all-england",
+    "to": "/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/awards-for-all-england",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/global-content/programmes/england/fulfilling-lives-a-better-start",
+    "to": "/funding/strategic-investments/a-better-start",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/fulfilling-lives-a-better-start",
+    "to": "/welsh/funding/strategic-investments/a-better-start",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/fulfilling-lives-a-better-start",
+    "to": "/funding/strategic-investments/a-better-start",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/fulfilling-lives-a-better-start",
+    "to": "/welsh/funding/strategic-investments/a-better-start",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/fulfilling-lives-a-better-start",
+    "to": "/funding/strategic-investments/a-better-start",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/fulfilling-lives-a-better-start",
+    "to": "/welsh/funding/strategic-investments/a-better-start",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/fulfilling-lives-a-better-start",
+    "to": "/funding/strategic-investments/a-better-start",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/fulfilling-lives-a-better-start",
+    "to": "/welsh/funding/strategic-investments/a-better-start",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/fulfilling-lives-a-better-start",
+    "to": "/funding/strategic-investments/a-better-start",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/fulfilling-lives-a-better-start",
+    "to": "/welsh/funding/strategic-investments/a-better-start",
+  },
+  Object {
+    "from": "/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/welsh/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/welsh/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/welsh/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/welsh/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/fulfilling-lives-ageing-better",
+    "to": "/welsh/funding/strategic-investments/ageing-better",
+  },
+  Object {
+    "from": "/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/welsh/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/welsh/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/welsh/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/welsh/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/fulfilling-lives-headstart",
+    "to": "/welsh/funding/strategic-investments/headstart",
+  },
+  Object {
+    "from": "/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/welsh/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/welsh/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/welsh/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/welsh/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/multiple-and-complex-needs",
+    "to": "/welsh/funding/strategic-investments/multiple-needs",
+  },
+  Object {
+    "from": "/global-content/programmes/england/talent-match",
+    "to": "/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/talent-match",
+    "to": "/welsh/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/talent-match",
+    "to": "/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/talent-match",
+    "to": "/welsh/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/talent-match",
+    "to": "/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/talent-match",
+    "to": "/welsh/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/talent-match",
+    "to": "/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/talent-match",
+    "to": "/welsh/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/talent-match",
+    "to": "/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/talent-match",
+    "to": "/welsh/funding/strategic-investments/talent-match",
+  },
+  Object {
+    "from": "/global-content/programmes/scotland/awards-for-all-scotland",
+    "to": "/funding/programmes/national-lottery-awards-for-all-scotland",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/scotland/awards-for-all-scotland",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-scotland",
+  },
+  Object {
+    "from": "/england/global-content/programmes/scotland/awards-for-all-scotland",
+    "to": "/funding/programmes/national-lottery-awards-for-all-scotland",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/scotland/awards-for-all-scotland",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-scotland",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/scotland/awards-for-all-scotland",
+    "to": "/funding/programmes/national-lottery-awards-for-all-scotland",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/scotland/awards-for-all-scotland",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-scotland",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/scotland/awards-for-all-scotland",
+    "to": "/funding/programmes/national-lottery-awards-for-all-scotland",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/scotland/awards-for-all-scotland",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-scotland",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/scotland/awards-for-all-scotland",
+    "to": "/funding/programmes/national-lottery-awards-for-all-scotland",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/scotland/awards-for-all-scotland",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-scotland",
+  },
+  Object {
+    "from": "/global-content/programmes/uk-wide/coastal-communities",
+    "to": "/funding/programmes/coastal-communities-fund",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/uk-wide/coastal-communities",
+    "to": "/welsh/funding/programmes/coastal-communities-fund",
+  },
+  Object {
+    "from": "/england/global-content/programmes/uk-wide/coastal-communities",
+    "to": "/funding/programmes/coastal-communities-fund",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/uk-wide/coastal-communities",
+    "to": "/welsh/funding/programmes/coastal-communities-fund",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/uk-wide/coastal-communities",
+    "to": "/funding/programmes/coastal-communities-fund",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/uk-wide/coastal-communities",
+    "to": "/welsh/funding/programmes/coastal-communities-fund",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/uk-wide/coastal-communities",
+    "to": "/funding/programmes/coastal-communities-fund",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/uk-wide/coastal-communities",
+    "to": "/welsh/funding/programmes/coastal-communities-fund",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/uk-wide/coastal-communities",
+    "to": "/funding/programmes/coastal-communities-fund",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/uk-wide/coastal-communities",
+    "to": "/welsh/funding/programmes/coastal-communities-fund",
+  },
+  Object {
+    "from": "/global-content/programmes/uk-wide/lottery-funding",
+    "to": "/funding/programmes/other-lottery-funders",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/uk-wide/lottery-funding",
+    "to": "/welsh/funding/programmes/other-lottery-funders",
+  },
+  Object {
+    "from": "/england/global-content/programmes/uk-wide/lottery-funding",
+    "to": "/funding/programmes/other-lottery-funders",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/uk-wide/lottery-funding",
+    "to": "/welsh/funding/programmes/other-lottery-funders",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/uk-wide/lottery-funding",
+    "to": "/funding/programmes/other-lottery-funders",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/uk-wide/lottery-funding",
+    "to": "/welsh/funding/programmes/other-lottery-funders",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/uk-wide/lottery-funding",
+    "to": "/funding/programmes/other-lottery-funders",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/uk-wide/lottery-funding",
+    "to": "/welsh/funding/programmes/other-lottery-funders",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/uk-wide/lottery-funding",
+    "to": "/funding/programmes/other-lottery-funders",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/uk-wide/lottery-funding",
+    "to": "/welsh/funding/programmes/other-lottery-funders",
+  },
+  Object {
+    "from": "/global-content/programmes/uk-wide/uk-portfolio",
+    "to": "/funding/programmes/awards-from-the-uk-portfolio",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/uk-wide/uk-portfolio",
+    "to": "/welsh/funding/programmes/awards-from-the-uk-portfolio",
+  },
+  Object {
+    "from": "/england/global-content/programmes/uk-wide/uk-portfolio",
+    "to": "/funding/programmes/awards-from-the-uk-portfolio",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/uk-wide/uk-portfolio",
+    "to": "/welsh/funding/programmes/awards-from-the-uk-portfolio",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/uk-wide/uk-portfolio",
+    "to": "/funding/programmes/awards-from-the-uk-portfolio",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/uk-wide/uk-portfolio",
+    "to": "/welsh/funding/programmes/awards-from-the-uk-portfolio",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/uk-wide/uk-portfolio",
+    "to": "/funding/programmes/awards-from-the-uk-portfolio",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/uk-wide/uk-portfolio",
+    "to": "/welsh/funding/programmes/awards-from-the-uk-portfolio",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/uk-wide/uk-portfolio",
+    "to": "/funding/programmes/awards-from-the-uk-portfolio",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/uk-wide/uk-portfolio",
+    "to": "/welsh/funding/programmes/awards-from-the-uk-portfolio",
+  },
+  Object {
+    "from": "/global-content/programmes/wales/awards-for-all-wales",
+    "to": "/funding/programmes/national-lottery-awards-for-all-wales",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/wales/awards-for-all-wales",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-wales",
+  },
+  Object {
+    "from": "/england/global-content/programmes/wales/awards-for-all-wales",
+    "to": "/funding/programmes/national-lottery-awards-for-all-wales",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/wales/awards-for-all-wales",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-wales",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/wales/awards-for-all-wales",
+    "to": "/funding/programmes/national-lottery-awards-for-all-wales",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/wales/awards-for-all-wales",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-wales",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/wales/awards-for-all-wales",
+    "to": "/funding/programmes/national-lottery-awards-for-all-wales",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/wales/awards-for-all-wales",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-wales",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/wales/awards-for-all-wales",
+    "to": "/funding/programmes/national-lottery-awards-for-all-wales",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/wales/awards-for-all-wales",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-wales",
+  },
+  Object {
+    "from": "/global-content/programmes/wales/people-and-places",
+    "to": "/funding/programmes?min=10000&location=wales",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/wales/people-and-places",
+    "to": "/welsh/funding/programmes?min=10000&location=wales",
+  },
+  Object {
+    "from": "/england/global-content/programmes/wales/people-and-places",
+    "to": "/funding/programmes?min=10000&location=wales",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/wales/people-and-places",
+    "to": "/welsh/funding/programmes?min=10000&location=wales",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/wales/people-and-places",
+    "to": "/funding/programmes?min=10000&location=wales",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/wales/people-and-places",
+    "to": "/welsh/funding/programmes?min=10000&location=wales",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/wales/people-and-places",
+    "to": "/funding/programmes?min=10000&location=wales",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/wales/people-and-places",
+    "to": "/welsh/funding/programmes?min=10000&location=wales",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/wales/people-and-places",
+    "to": "/funding/programmes?min=10000&location=wales",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/wales/people-and-places",
+    "to": "/welsh/funding/programmes?min=10000&location=wales",
+  },
+  Object {
+    "from": "/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/england/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/wales/rural-programme-community-grants",
+    "to": "/welsh/funding/programmes/rural-programme",
+  },
+  Object {
+    "from": "/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
+    "to": "/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
+    "to": "/welsh/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
+    "to": "/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
+    "to": "/welsh/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
+    "to": "/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
+    "to": "/welsh/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
+    "to": "/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
+    "to": "/welsh/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
+    "to": "/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources",
+    "to": "/welsh/funding/programmes/building-better-opportunities/building-better-opportunities-resources",
+  },
+  Object {
+    "from": "/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
+    "to": "/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
+    "to": "/welsh/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
+    "to": "/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
+    "to": "/welsh/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
+    "to": "/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
+    "to": "/welsh/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
+    "to": "/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
+    "to": "/welsh/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
+    "to": "/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding",
+    "to": "/welsh/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding",
   },
   Object {
     "from": "/global-content/programmes/england/building-better-opportunities/black-country",
