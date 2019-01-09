@@ -155,27 +155,6 @@ const insights = {
 };
 
 /**
- * Research section (legacy)
- * @type {Section}
- * @TODO: Remove this when archiving this section completely
- */
-const research = {
-    path: '/research',
-    showInNavigation: false,
-    langTitlePath: 'global.nav.research',
-    pages: [
-        {
-            path: '/',
-            lang: 'toplevel.research',
-            heroSlug: 'hapani',
-            router: staticPage({
-                template: 'static-pages/research'
-            })
-        }
-    ]
-};
-
-/**
  * Talk to us section
  * @type {Section}
  */
@@ -245,7 +224,6 @@ const sections = {
     toplevel: toplevel,
     funding: funding,
     insights: insights,
-    research: research,
     talk: talk,
     about: about,
     updates: updates

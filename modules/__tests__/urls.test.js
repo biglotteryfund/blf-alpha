@@ -18,19 +18,9 @@ const httpMocks = require('node-mocks-http');
 describe('URL Helpers', () => {
     describe('#cleanLinkNoise', () => {
         it('should clean link noise from the URL', () => {
-            expect(cleanLinkNoise('/funding/programmes/reaching-communities-england')).toBe(
-                '/funding/programmes/reaching-communities-england'
-            );
-
+            expect(cleanLinkNoise('/funding/programmes')).toBe('/funding/programmes');
             expect(cleanLinkNoise('/~/link.aspx')).toBe('/');
-
-            expect(cleanLinkNoise('/research/health-and-well-being/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/link.aspx')).toBe(
-                '/research/health-and-well-being/'
-            );
-
-            expect(cleanLinkNoise('/welsh/england/funding/funding-guidance/applying-for-funding/~/link.aspx')).toBe(
-                '/welsh/england/funding/funding-guidance/applying-for-funding/'
-            );
+            expect(cleanLinkNoise('/some/page/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/link.aspx')).toBe('/some/page/');
         });
     });
 

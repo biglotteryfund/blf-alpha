@@ -25,7 +25,6 @@ global:
     home: Hafan
     funding: Ariannu
     about: Amdanom ni
-    research: Ymchwil
     insights: Mewnwelediad
     blog: Blog
     updates: Newyddion
@@ -193,7 +192,7 @@ toplevel:
     - label: Managing your grant
       href: /funding/funding-guidance/managing-your-funding
     - label: "What we've learned from our funding"
-      href: /research
+      href: /insights
     - label: Talk to us
       href: /contact
     caseStudies:
@@ -351,46 +350,6 @@ toplevel:
     - "national-lottery-awards-for-all-wales"
     - "rural-programme"
     - "people-and-places-medium-grants"
-  research:
-    title: Ymchwil
-    intro: Cael gwybod mwy am beth rydym yn ei ddysgu o’r prosiectau a ariannwn.
-    newReport: Adroddiad newydd
-    sectionLinks:
-    - label: Cymunedau a lleoedd
-      href: "/welsh/research/communities-and-places"
-    - label: Pobl hŷn
-      href: "/welsh/research/older-people"
-    - label: Addysg, dysgu a sgiliau
-      href: "/welsh/research/education-learning-skills-and-employment"
-    - label: Manteisio i’r eithaf ar ariannu
-      href: "/welsh/research/making-the-most-of-funding"
-    - label: Yr amgylchedd
-      href: "/welsh/research/environment"
-    - label: Plant, pobl ifainc a theuluoedd
-      href: "/welsh/research/children-young-people-and-families"
-    - label: Anghenion cymdeithasol sy’n dod i’r amlwg
-      href: "/welsh/research/emerging-social-need"
-    - label: Anghenion lluosog a chymhleth
-      href: "/welsh/research/multiple-and-complex-needs"
-    - label: Iechyd a lles
-      href: "/welsh/research/health-and-well-being"
-    - label: Rhyngwladol
-      href: "/welsh/research/international"
-    - label: Data agored
-      href: "/welsh/research/open-data"
-    - label: Buddsoddi cymdeithasol
-      href: "/welsh/research/social-investment"
-    - label: Cychwyn gwell
-      href: "/welsh/research/a-better-start"
-    downloads:
-      title: Dogfennau
-      links:
-      - label: Buddsoddi yn ein rhaglenni
-        caption: Mwyafu effaith gwneud grantiau (PDF 425KB)
-        href: https://media.biglotteryfund.org.uk/media/documents/research/er_res_investing_report_final.pdf
-      - label: Ateb cwestiynau mawr
-        caption: Effeithiau a gwersi a ddysgwyd o’n gwerthuso ac ymchwil (PDF 1.8MB)
-        href: https://media.biglotteryfund.org.uk/media/documents/research/er_res_answering_big_questions.pdf
   data:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau
@@ -399,6 +358,12 @@ insights:
   intro: >
     <p>Bob dydd mae’r bobl, prosiectau a chymunedau a gefnogwn yn cynhyrchu tystiolaeth, dysgu a data gwerthfawr. Yma fe ddewch o hyd i’n mewnwelediad diweddaraf i’w cyflawniadau, llwyddiannau a heriau.</p>
   moreLinkText: Gweld ymchwil a mewnwelediad wedi’i archifo
+  detail:
+    documents: Dogfennau
+    relatedProgrammes: Rhaglenni cysylltiedig
+    datePublished: Dyddiad cyhoeddi
+    partners: Partneriaid ymchwil
+    contact: Manylion cyswllt
 news:
   title: Newyddion
   allNews: Holl newyddion
@@ -1030,13 +995,6 @@ funding:
           url: 'https://knowhownonprofit.org/tools-resources/building-a-digital-workforce'
         - title: Matrics aeddfedrwydd digidol y sector gwirfoddol (digitalmaturity.co.uk)
           url: 'https://digitalmaturity.co.uk/'
-research:
-  detail:
-    documents: Dogfennau
-    relatedProgrammes: Rhaglenni cysylltiedig
-    datePublished: Dyddiad cyhoeddi
-    researchPartners: Partneriaid ymchwil
-    contact: Manylion cyswllt
 apply:
   error:
     title: Cafwyd problem gyda'ch cyflwyniad

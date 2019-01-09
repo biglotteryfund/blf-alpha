@@ -12,7 +12,7 @@ urls=(
     "/funding/programmes/national-lottery-awards-for-all-england"
     "/funding/programmes/reaching-communities-england"
     "/funding/under10k"
-    "/research"
+    "/insights"
 )
 
 domain=${1:-http://localhost:8090}

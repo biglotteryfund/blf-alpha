@@ -25,7 +25,6 @@ global:
     home: Home
     funding: Funding
     local: In your area
-    research: Research
     insights: Insights
     about: About
     blog: Blog
@@ -194,7 +193,7 @@ toplevel:
     - label: Managing your grant
       href: /funding/funding-guidance/managing-your-funding
     - label: "What we've learned from our funding"
-      href: /research
+      href: /insights
     - label: Talk to us
       href: /contact
     caseStudies:
@@ -438,46 +437,6 @@ toplevel:
     - "reaching-communities-england"
   local:
     title: In your area
-  research:
-    title: Research
-    intro: Find out more about what we’re learning from the projects we fund.
-    newReport: New report
-    sectionLinks:
-    - label: Communities and places
-      href: "/research/communities-and-places"
-    - label: Older people
-      href: "/research/older-people"
-    - label: Education, learning and skills
-      href: "/research/education-learning-skills-and-employment"
-    - label: Making the most of funding
-      href: "/research/making-the-most-of-funding"
-    - label: Environment
-      href: "/research/environment"
-    - label: Children, young people and families
-      href: "/research/children-young-people-and-families"
-    - label: Emerging social need
-      href: "/research/emerging-social-need"
-    - label: Multiple and complex needs
-      href: "/research/multiple-and-complex-needs"
-    - label: Health and wellbeing
-      href: "/research/health-and-well-being"
-    - label: International
-      href: "/research/international"
-    - label: Open data
-      href: "/research/open-data"
-    - label: Social investment
-      href: "/research/social-investment"
-    - label: A better start
-      href: "/research/a-better-start"
-    downloads:
-      title: Downloads
-      links:
-      - label: Investing in our programmes
-        caption: Maximising the impact of grant-making (PDF 425KB)
-        href: https://media.biglotteryfund.org.uk/media/documents/research/er_res_investing_report_final.pdf
-      - label: Answering big questions
-        caption: Impacts and lessons learned from our evaluation and research (PDF 1.8MB)
-        href: https://media.biglotteryfund.org.uk/media/documents/research/er_res_answering_big_questions.pdf
   data:
     keyStats: Key statistics
     mapTitle: Our Year in Numbers
@@ -486,6 +445,12 @@ insights:
   intro: >
     <p>Every day the people, projects and communities we support generate valuable evidence, learning and data. Here you’ll find our latest insights into their achievements, successes and challenges.</p>
   moreLinkText: View archived research and insights
+  detail:
+    documents: Documents
+    relatedProgrammes: Related programmes
+    datePublished: Date published
+    partners: Research partners
+    contact: Contact
 news:
   title: News
   allNews: All news
@@ -1121,13 +1086,6 @@ funding:
           url: 'https://knowhownonprofit.org/tools-resources/building-a-digital-workforce'
         - title: Voluntary sector digital maturity matrix (digitalmaturity.co.uk)
           url: 'https://digitalmaturity.co.uk/'
-research:
-  detail:
-    documents: Documents
-    relatedProgrammes: Related programmes
-    datePublished: Date published
-    researchPartners: Research partners
-    contact: Contact
 apply:
   error:
     title: There was a problem with your submission

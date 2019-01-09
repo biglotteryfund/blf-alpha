@@ -19,7 +19,10 @@ router.get('/', injectHeroImage('hapani'), injectCopy('insights'), injectResearc
 router.get('/:slug', injectResearchEntry, injectBreadcrumbs, (req, res, next) => {
     const { researchEntry } = res.locals;
     if (researchEntry) {
-        res.render(path.resolve(__dirname, './views/insights-detail'), { entry: researchEntry });
+        res.render(path.resolve(__dirname, './views/insights-detail'), {
+            extraCopy: req.i18n.__('insights.detail'),
+            entry: researchEntry
+        });
     } else {
         next();
     }
