@@ -9,11 +9,15 @@ const {
     injectResearch,
     injectResearchEntry
 } = require('../../middleware/inject-content');
+const { buildArchiveUrl } = require('../../modules/archived');
+const { localify } = require('../../modules/urls');
 
 const router = express.Router();
 
 router.get('/', injectHeroImage('hapani'), injectCopy('insights'), injectResearch, (req, res) => {
-    res.render(path.resolve(__dirname, './views/insights-landing'));
+    res.render(path.resolve(__dirname, './views/insights-landing'), {
+        researchArchiveUrl: buildArchiveUrl(localify(req.i18n.getLocale())('/research'))
+    });
 });
 
 router.get('/:slug', injectResearchEntry, injectBreadcrumbs, (req, res, next) => {
