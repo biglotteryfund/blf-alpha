@@ -184,6 +184,7 @@
 /* Larger hero image (see: Homepage) */
 
 .super-hero-next {
+    font-family: font-stack('display');
     color: white;
     margin-bottom: $spacingUnit;
     position: relative;
@@ -228,8 +229,7 @@
     .super-hero-next__title {
         font-size: 18px;
         line-height: 1.2;
-        font-family: font-stack('display');
-        font-weight: font-weight('display', 'bold');
+        font-weight: font-weight('display', 'semibold');
         margin-bottom: 3px;
 
         @include mq('medium') {
