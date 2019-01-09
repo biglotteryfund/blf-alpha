@@ -110,13 +110,6 @@ describe('common', function() {
             });
         });
     });
-
-    it('should serve welsh versions of legacy pages', () => {
-        cy.request('/welsh/research/communities-and-places').then(response => {
-            expect(response.body).to.include('Cymunedau a lleoedd');
-        });
-    });
-
     it('should protect access to staff-only tools', () => {
         cy.checkRedirect({
             from: '/funding/programmes/national-lottery-awards-for-all-england?draft=42',

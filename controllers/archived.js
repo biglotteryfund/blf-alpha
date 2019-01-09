@@ -27,7 +27,8 @@ flatMap([
     '/about-big/our-approach/vision-and-principles',
     '/about-big/your-voice',
     '/funding/funding-guidance/applying-for-funding/*',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*'
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*',
+    '/research*'
 ], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
     router.get(urlPath, noCache, function(req, res) {
         res.render('static-pages/archived', {

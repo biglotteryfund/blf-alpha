@@ -2403,6 +2403,46 @@ Array [
     "to": "/welsh/contact#segment-4",
   },
   Object {
+    "from": "/research",
+    "to": "/insights",
+  },
+  Object {
+    "from": "/welsh/research",
+    "to": "/welsh/insights",
+  },
+  Object {
+    "from": "/england/research",
+    "to": "/insights",
+  },
+  Object {
+    "from": "/welsh/england/research",
+    "to": "/welsh/insights",
+  },
+  Object {
+    "from": "/scotland/research",
+    "to": "/insights",
+  },
+  Object {
+    "from": "/welsh/scotland/research",
+    "to": "/welsh/insights",
+  },
+  Object {
+    "from": "/northernireland/research",
+    "to": "/insights",
+  },
+  Object {
+    "from": "/welsh/northernireland/research",
+    "to": "/welsh/insights",
+  },
+  Object {
+    "from": "/wales/research",
+    "to": "/insights",
+  },
+  Object {
+    "from": "/welsh/wales/research",
+    "to": "/welsh/insights",
+  },
+  Object {
     "from": "/research/place-based-working",
     "to": "/insights/place-based-working",
   },

@@ -33,14 +33,14 @@
 
                         <div class="content-meta">
                             <dl class="o-definition-list o-definition-list--compact">
-                                <dt>{{ __('research.detail.datePublished') }}</dt>
+                                <dt>{{ extraCopy.datePublished }}</dt>
                                 <dd>{{ formatDate(entry.postDate.date, DATE_FORMATS.month) }}</dd>
                                 {% if entry.researchPartners %}
-                                    <dt>{{ __('research.detail.researchPartners') }}</dt>
+                                    <dt>{{ extraCopy.partners }}</dt>
                                     <dd>{{ entry.researchPartners }}</dd>
                                 {% endif %}
                                 {% if entry.contactEmail %}
-                                    <dt>{{ __('research.detail.contact') }}</dt>
+                                    <dt>{{ extraCopy.contact }}</dt>
                                     <dd>{{ entry.contactEmail | mailto | safe }}</dd>
                                 {% endif %}
                             </dl>
@@ -49,7 +49,7 @@
                     <div class="content-sidebar__secondary">
                         {% if entry.documents %}
                             {{ documentsCard(
-                                title = __('research.detail.documents'),
+                                title = extraCopy.documents,
                                 documents = entry.documents,
                                 accent = pageAccent
                             ) }}
@@ -58,7 +58,7 @@
                         {% if entry.relatedFundingProgrammes.length > 0 %}
                             <aside class="card">
                                 <header class="card__header">
-                                    <h3 class="card__title">{{ __('research.detail.relatedProgrammes') }}</h3>
+                                    <h3 class="card__title">{{ extraCopy.relatedProgrammes }}</h3>
                                     <div class="card__body">
                                         {% for programme in entry.relatedFundingProgrammes %}
                                             <a href="{{ programme.linkUrl }}" class="related-programme">
