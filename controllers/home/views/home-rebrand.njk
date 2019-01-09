@@ -1,7 +1,7 @@
 {% extends "layouts/main.njk" %}
 {% from "components/latest-updates/macro.njk" import latestUpdates %}
 {% from "components/miniature-hero/macro.njk" import miniatureHero %}
-{% from "components/social.njk" import socialLinks with context %}
+{% from "components/social-bar/macro.njk" import socialBar with context %}
 
 {% block content %}
     <main role="main">
@@ -71,15 +71,12 @@
                     title = __('global.misc.latestNews'),
                     allLink = {
                         "url": localify('/news'),
-                        "label": __('global.misc.viewAllNews') 
+                        "label": __('global.misc.viewAllNews')
                     }
                 ) }}   
             </section>
         {% endif %}
 
-        {# Social links #}
-        <section class="u-inner u-margin-bottom-l">
-            {{ socialLinks(isStacked = false) }}
-        </section>
+        {{ socialBar() }}
     </main>
 {% endblock %}
