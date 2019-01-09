@@ -519,19 +519,6 @@ funding:
       ukWide: Bydd fy mhrosiect yn helpu pobl ar draws y Deyrnas Unedig
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
   pastGrants:
-    title: Chwilio Pob Prosiect a Ariannwyd
-    intro: Rydym yn deall bod chwilio trwy grantiau blaenorol y Gronfa Loteri Fawr yn bwysig i lawer o bobl. Rydym wrthi’n gwella’r gwasanaeth a gynigiwn ar hyn o bryd.
-    optionsIntro: Yn y cyfamser, mae dau ddull i chi chwilio trwy ein grantiau blaenorol.
-    grantnav:
-      title: 1. Defnyddio’r wefan GrantNav
-      subtitle: Nid yw’n cael ei rhedeg gan y Gronfa Loteri Fawr ond mae’n gyflym, wedi’i ddylunio’n dda ac yn llawn dop gyda’n data ni. Noder nad yw’r wefan ar gael yn Gymraeg.
-      linkText: Chwilio GrantNav
-    legacy:
-      title: 2. Defnyddio ein cronfa ddata grantiau bresennol
-      linkText: Chwilio grantiau blaenorol
-    survey:
-      prompt: Helpwch ni i wneud chwilio am grantiau blaenorol yn well trwy ateb un cwestiwn
-      label: Dywedwch pam y daethoch i'r dudalen hon heddiw
     search:
       title: Chwilio grantiau a ddyfarnwyd
       survey:
@@ -539,7 +526,7 @@ funding:
         label: Sut brofiad cawsoch chi o chwilio ein grantiau blaenorol heddiw?
       beta: Beta
       intro: >
-        Diolch am ddewis defnyddio ein gwasanaeth "chwilio grantiau a ddyfarnwyd" newydd. Rydym yn gweithio i wella'r gwasanaeth a gynigiwn i chi, bydd eich adborth yn ein helpu gwneud hynny. Gallwch roi cynnig ar ein gwasanaeth newydd mewn Beta nawr, <a href="%s">pori ein data gyda GrantNav</a> neu ddefnyddio ein hen <a href="/welsh/funding/search-past-grants">cronfa ddata grantiau blaenorol</a>.
+        Diolch am ddewis defnyddio ein gwasanaeth "chwilio grantiau a ddyfarnwyd" newydd. Rydym yn gweithio i wella'r gwasanaeth a gynigiwn i chi, bydd eich adborth yn ein helpu gwneud hynny. Gallwch roi cynnig ar ein gwasanaeth newydd mewn Beta nawr neu <a href="%s">pori ein data gyda GrantNav</a>.
       helpText: e.e. allweddair fel "unigrwydd", lleoliad, mudiad neu faes gwaith
       dateRange: >
         Ar hyn o bryd mae ein data grantiau'n cwmpasu <strong>%s - %s</strong>. Rydym yn diweddaru'r data hwn bob mis.
