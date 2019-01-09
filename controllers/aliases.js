@@ -71,6 +71,7 @@ const aliases = {
     '/home/funding': '/funding',
     '/Home/Funding/Funding*Finder': '/funding/programmes',
     '/news-and-events/contact-press-team': '/contact#segment-4',
+    '/research': '/insights',
     '/research/place-based-working': '/insights/place-based-working',
     '/research/youth-employment': '/insights/youth-employment',
     '/research/youth-serious-violence': '/insights/youth-serious-violence',
