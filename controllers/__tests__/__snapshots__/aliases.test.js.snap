@@ -843,6 +843,126 @@ Array [
     "to": "/welsh/about/customer-service/accessibility",
   },
   Object {
+    "from": "/about-big/our-approach/equalities",
+    "to": "/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/welsh/about-big/our-approach/equalities",
+    "to": "/welsh/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/england/about-big/our-approach/equalities",
+    "to": "/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/welsh/england/about-big/our-approach/equalities",
+    "to": "/welsh/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/scotland/about-big/our-approach/equalities",
+    "to": "/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/our-approach/equalities",
+    "to": "/welsh/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/northernireland/about-big/our-approach/equalities",
+    "to": "/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/our-approach/equalities",
+    "to": "/welsh/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/wales/about-big/our-approach/equalities",
+    "to": "/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/our-approach/equalities",
+    "to": "/welsh/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/about-big/our-approach/equalities/learn-about-equality",
+    "to": "/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/welsh/about-big/our-approach/equalities/learn-about-equality",
+    "to": "/welsh/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/england/about-big/our-approach/equalities/learn-about-equality",
+    "to": "/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/welsh/england/about-big/our-approach/equalities/learn-about-equality",
+    "to": "/welsh/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/scotland/about-big/our-approach/equalities/learn-about-equality",
+    "to": "/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/our-approach/equalities/learn-about-equality",
+    "to": "/welsh/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/northernireland/about-big/our-approach/equalities/learn-about-equality",
+    "to": "/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/our-approach/equalities/learn-about-equality",
+    "to": "/welsh/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/wales/about-big/our-approach/equalities/learn-about-equality",
+    "to": "/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/our-approach/equalities/learn-about-equality",
+    "to": "/welsh/about/customer-service/equalities",
+  },
+  Object {
+    "from": "/about-big/our-approach/equalities/northern-ireland-equality",
+    "to": "/about/customer-service/northern-ireland-equality",
+  },
+  Object {
+    "from": "/welsh/about-big/our-approach/equalities/northern-ireland-equality",
+    "to": "/welsh/about/customer-service/northern-ireland-equality",
+  },
+  Object {
+    "from": "/england/about-big/our-approach/equalities/northern-ireland-equality",
+    "to": "/about/customer-service/northern-ireland-equality",
+  },
+  Object {
+    "from": "/welsh/england/about-big/our-approach/equalities/northern-ireland-equality",
+    "to": "/welsh/about/customer-service/northern-ireland-equality",
+  },
+  Object {
+    "from": "/scotland/about-big/our-approach/equalities/northern-ireland-equality",
+    "to": "/about/customer-service/northern-ireland-equality",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/our-approach/equalities/northern-ireland-equality",
+    "to": "/welsh/about/customer-service/northern-ireland-equality",
+  },
+  Object {
+    "from": "/northernireland/about-big/our-approach/equalities/northern-ireland-equality",
+    "to": "/about/customer-service/northern-ireland-equality",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/our-approach/equalities/northern-ireland-equality",
+    "to": "/welsh/about/customer-service/northern-ireland-equality",
+  },
+  Object {
+    "from": "/wales/about-big/our-approach/equalities/northern-ireland-equality",
+    "to": "/about/customer-service/northern-ireland-equality",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/our-approach/equalities/northern-ireland-equality",
+    "to": "/welsh/about/customer-service/northern-ireland-equality",
+  },
+  Object {
     "from": "/about-big/our-people/northern-ireland-committee-members",
     "to": "/about/our-people/northern-ireland-committee",
   },
