@@ -56,7 +56,12 @@
                         {{ miniatureHero({
                             "title": item.label,
                             "linkUrl": item.href,
-                            "image": { "url": "https://biglotteryfund-assets.imgix.net/media/heroes/arkwright-meadows-small.jpg?auto=compress%2Cformat&crop=faces&fit=crop&h=333&w=500&s=7e87987873b15c0216f342d35af3138e" }
+                            "image": {
+                                "small": "/assets/images/hero/sample-miniature-hero-small.jpg",
+                                "medium": "/assets/images/hero/sample-miniature-hero-large.jpg",
+                                "large": "/assets/images/hero/sample-miniature-hero-large.jpg",
+                                "default": "/assets/images/hero/sample-miniature-hero-large.jpg"
+                            }
                         }) }}
                     </li>
                 {% endfor %}

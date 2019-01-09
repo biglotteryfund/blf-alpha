@@ -13,12 +13,19 @@ isLarge: {Boolean} - Use featured style for promo card
     <a href="{{ props.linkUrl }}" class="miniature-hero{% if isLarge %} miniature-hero--large{% endif %}">
         <div class="miniature-hero__inner">
             <div class="miniature-hero__image">
-                <img src="{{ props.image.url }}"alt="{{ props.image.alt }}" />
+                {% if props.image.url %}
+                    <img src="{{ props.image.url }}" alt="{{ props.image.alt }}" />
+                {% else %}
+                    <picture>
+                        <source srcset="{{ props.image.large }}" media="(min-width: 980px)">
+                        <source srcset="{{ props.image.medium }}" media="(min-width: 600px)">
+                        <source srcset="{{ props.image.small }}">
+                        <img src="{{ props.image.default }}" alt="{{ props.image.alt }}" />
+                    </picture>
+                {% endif %}
             </div>
             <h3 class="miniature-hero__title">
-                {% call overlayText(props.linkUrl, isTranslucent = true) %}
-                    {{ props.title | widont | safe }}
-                {% endcall %}
+                <span class="miniature-hero__title-text">{{ props.title }}</span>
             </h3>
         </div>
     </a>

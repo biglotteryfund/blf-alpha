@@ -273,34 +273,81 @@
 /* e.g /funding/funding-guidance/managing-your-funding */
 
 .miniature-hero {
-    position: relative;
     display: block;
-    text-decoration: underline;
+    position: relative;
+    text-decoration: none;
 
-    .miniature-hero__title {
-        font-size: 16px;
-        margin-bottom: 0;
-        width: 80%;
+    @if $useNewBrand == true {
+        .miniature-hero__title {
+            display: block;
+            margin-bottom: 0;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            padding: 14px 16px;
 
-        position: absolute;
-        bottom: $spacingUnit / 2;
-        left: $spacingUnit / 2;
+            font-size: 17px;
+            font-family: font-stack('display');
+            font-weight: font-weight('display', 'semibold');
+            color: white;
+            background-color: get-color('brand', 'primary-tint');
 
-        @media print {
-            position: static;
-            padding: 0;
-            margin-bottom: 10px;
+            @include mq('medium-minor') {
+                height: 35%;
+            }
+
+            @include mq('large') {
+                height: 30%;
+                bottom: $spacingUnit / 2;
+            }
+        }
+
+        .miniature-hero__title-text {
+            &:after {
+                display: inline;
+                content: ' ▸';
+                font-size: 14px;
+            }
+
+            @include mq('large') {
+                display: inline-block;
+                // width: 66%;
+            }
+        }
+    } @else {
+        .miniature-hero__title {
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 0;
+            width: 80%;
+
+            position: absolute;
+            bottom: $spacingUnit / 2;
+            left: $spacingUnit / 2;
+
+            @media print {
+                position: static;
+                padding: 0;
+                margin-bottom: 10px;
+            }
+        }
+
+        .miniature-hero__title-text {
+            display: inline;
+            padding: 2px 6px;
+            // allows multi-line wrapped text to work
+            box-decoration-break: clone;
+            color: white;
+            background-color: get-color('brand', 'primary-tint');
         }
     }
 }
 
 .miniature-hero--large {
     .miniature-hero__title {
-        font-size: 18px;
-
-        @include mq('medium') {
-            bottom: $spacingUnit;
-            left: $spacingUnit;
+        @include mq('large') {
+            font-size: 20px;
+            width: 100%;
         }
     }
 }
