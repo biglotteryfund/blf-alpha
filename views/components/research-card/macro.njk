@@ -2,6 +2,7 @@
 
 {% macro researchCard(research) %}
     {% call promoCard({
+        "headingLevel": 2,
         "title": research.title,
         "subtitle": formatDate(research.postDate.date, DATE_FORMATS.month),
         "trailText": research.trailText,

@@ -35,7 +35,8 @@ featured: {Boolean} - Use featured style for promo card
                     {% endcall %}
                 </p>
             {% endif %}
-            <h3 class="promo-card__title t4">
+            {% set level = props.headingLevel | default(3, true) %}
+            <h{{ level }} class="promo-card__title t4">
                 {% if props.link.url %}
                     <a
                         class="u-link-minimal"
@@ -45,7 +46,7 @@ featured: {Boolean} - Use featured style for promo card
                 {% endif %}
                 {{ props.title }}
                 {% if props.link.url %}</a>{% endif %}
-            </h3>
+            </h{{ level }}>
             {% if props.subtitle %}
                 <p class="promo-card__subtitle">{{ props.subtitle }}</p>
             {% endif %}
