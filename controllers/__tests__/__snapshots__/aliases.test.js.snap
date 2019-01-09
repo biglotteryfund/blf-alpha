@@ -2004,43 +2004,123 @@ Array [
   },
   Object {
     "from": "/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/funding/funding-guidance/evaluation",
   },
   Object {
     "from": "/welsh/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/welsh/funding/funding-guidance/evaluation",
   },
   Object {
     "from": "/england/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/funding/funding-guidance/evaluation",
   },
   Object {
     "from": "/welsh/england/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/welsh/funding/funding-guidance/evaluation",
   },
   Object {
     "from": "/scotland/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/funding/funding-guidance/evaluation",
   },
   Object {
     "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/welsh/funding/funding-guidance/evaluation",
   },
   Object {
     "from": "/northernireland/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/funding/funding-guidance/evaluation",
   },
   Object {
     "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/welsh/funding/funding-guidance/evaluation",
   },
   Object {
     "from": "/wales/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/funding/funding-guidance/evaluation",
   },
   Object {
     "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/self-evaluation",
-    "to": "/welsh/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/welsh/funding/funding-guidance/evaluation",
+  },
+  Object {
+    "from": "/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/funding/funding-guidance/evaluation",
+  },
+  Object {
+    "from": "/welsh/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/welsh/funding/funding-guidance/evaluation",
+  },
+  Object {
+    "from": "/england/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/funding/funding-guidance/evaluation",
+  },
+  Object {
+    "from": "/welsh/england/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/welsh/funding/funding-guidance/evaluation",
+  },
+  Object {
+    "from": "/scotland/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/funding/funding-guidance/evaluation",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/welsh/funding/funding-guidance/evaluation",
+  },
+  Object {
+    "from": "/northernireland/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/funding/funding-guidance/evaluation",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/welsh/funding/funding-guidance/evaluation",
+  },
+  Object {
+    "from": "/wales/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/funding/funding-guidance/evaluation",
+  },
+  Object {
+    "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/evaluation",
+    "to": "/welsh/funding/funding-guidance/evaluation",
+  },
+  Object {
+    "from": "/funding/funding-guidance/managing-your-funding/monitoring-forms",
+    "to": "/funding/funding-guidance/monitoring-forms",
+  },
+  Object {
+    "from": "/welsh/funding/funding-guidance/managing-your-funding/monitoring-forms",
+    "to": "/welsh/funding/funding-guidance/monitoring-forms",
+  },
+  Object {
+    "from": "/england/funding/funding-guidance/managing-your-funding/monitoring-forms",
+    "to": "/funding/funding-guidance/monitoring-forms",
+  },
+  Object {
+    "from": "/welsh/england/funding/funding-guidance/managing-your-funding/monitoring-forms",
+    "to": "/welsh/funding/funding-guidance/monitoring-forms",
+  },
+  Object {
+    "from": "/scotland/funding/funding-guidance/managing-your-funding/monitoring-forms",
+    "to": "/funding/funding-guidance/monitoring-forms",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/funding-guidance/managing-your-funding/monitoring-forms",
+    "to": "/welsh/funding/funding-guidance/monitoring-forms",
+  },
+  Object {
+    "from": "/northernireland/funding/funding-guidance/managing-your-funding/monitoring-forms",
+    "to": "/funding/funding-guidance/monitoring-forms",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/funding-guidance/managing-your-funding/monitoring-forms",
+    "to": "/welsh/funding/funding-guidance/monitoring-forms",
+  },
+  Object {
+    "from": "/wales/funding/funding-guidance/managing-your-funding/monitoring-forms",
+    "to": "/funding/funding-guidance/monitoring-forms",
+  },
+  Object {
+    "from": "/welsh/wales/funding/funding-guidance/managing-your-funding/monitoring-forms",
+    "to": "/welsh/funding/funding-guidance/monitoring-forms",
   },
   Object {
     "from": "/funding/past-grants",
