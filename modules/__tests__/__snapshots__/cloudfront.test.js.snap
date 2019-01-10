@@ -135,66 +135,6 @@ Object {
           },
           "Items": Array [
             "HEAD",
-            "GET",
-          ],
-          "Quantity": 2,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
-            "Forward": "whitelist",
-            "WhitelistedNames": Object {
-              "Items": Array [
-                "contrastMode",
-                "blf-features",
-                "tnlcf-rebrand",
-                "blf-alpha-session",
-              ],
-              "Quantity": 4,
-            },
-          },
-          "Headers": Object {
-            "Items": Array [
-              "Accept",
-              "Host",
-            ],
-            "Quantity": 2,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "/-/media/files/*",
-        "SmoothStreaming": false,
-        "TargetOriginId": "ELB_LIVE",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "redirect-to-https",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
             "DELETE",
             "POST",
             "GET",
@@ -677,116 +617,6 @@ Object {
           "Quantity": 0,
         },
         "ViewerProtocolPolicy": "redirect-to-https",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH",
-          ],
-          "Quantity": 7,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
-            "Forward": "all",
-          },
-          "Headers": Object {
-            "Items": Array [
-              "*",
-            ],
-            "Quantity": 1,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "/funding/search-past-grants",
-        "SmoothStreaming": false,
-        "TargetOriginId": "LEGACY",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "allow-all",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH",
-          ],
-          "Quantity": 7,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
-            "Forward": "all",
-          },
-          "Headers": Object {
-            "Items": Array [
-              "*",
-            ],
-            "Quantity": 1,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "/funding/search-past-grants/*",
-        "SmoothStreaming": false,
-        "TargetOriginId": "LEGACY",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "allow-all",
       },
       Object {
         "AllowedMethods": Object {
@@ -1657,7 +1487,7 @@ Object {
         "ViewerProtocolPolicy": "redirect-to-https",
       },
     ],
-    "Quantity": 27,
+    "Quantity": 24,
   },
   "DefaultCacheBehavior": Object {
     "AllowedMethods": Object {

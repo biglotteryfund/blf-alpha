@@ -48,6 +48,15 @@
                         </p>
                     {% endif %}
                 </div>
+
+                <div id="feedback" class="u-margin-top">
+                    {{ inlineFeedback(
+                        description = "past_grants_new",
+                        promptLabel = copy.survey.prompt,
+                        fieldLabel = copy.survey.label,
+                        isToggleable = true
+                    )  }}
+                </div>
             </div>
 
             <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>
@@ -285,6 +294,8 @@
                                     </div>
                                 </noscript>
                             </fieldset>
+
+
                         </div>
                     </div>
                 </div>{# End grants-search #}
