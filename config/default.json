@@ -36,7 +36,6 @@
     "enableAbTests": true,
     "enableDigitalFundApplications": false,
     "enableHotjar": false,
-    "enableLegacyFileArchiving": false,
     "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
     "enablePrompt": false,

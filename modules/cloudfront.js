@@ -164,6 +164,7 @@ function generateBehaviours(origins, originName) {
      * or custom cookies to be whitelisted you must define those rules here.
      */
     let customPaths = [
+        { path: '/-/media/files/*', isPostable: false, allowAllQueryStrings: true },
         { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
         { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
         { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
@@ -174,17 +175,6 @@ function generateBehaviours(origins, originName) {
         { path: '/search', allowAllQueryStrings: true, isBilingual: true },
         { path: '/user/*', isPostable: true, queryStrings: ['redirectUrl', 's', 'token'] }
     ];
-
-    // @TODO – when enabling enableLegacyFileArchiving, remove this switch
-    // so that the live Cloudfront distribution also routes these files
-    if (originName === 'test') {
-        // Add the legacy files path so it gets routed to our archive page
-        customPaths.unshift({
-            path: '/-/media/files/*',
-            isPostable: false,
-            allowAllQueryStrings: true
-        });
-    }
 
     const primaryBehaviours = flatMap(customPaths, rule => {
         // Merge default cookies with rule specific cookie

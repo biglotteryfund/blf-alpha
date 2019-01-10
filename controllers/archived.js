@@ -44,20 +44,18 @@ flatMap([
  * along with a feedback form to explain what they were looking for.
  * We also log all requests for these files to ensure we can update anything missing.
  */
-if (config.get('features.enableLegacyFileArchiving')) {
-    router.get('/-/media/files/*', (req, res) => {
-        const filePath = req.originalUrl;
-        metrics.count({
-            name: filePath,
-            namespace: 'SITE/LEGACY_FILE',
-            dimension: 'DOWNLOADED',
-            value: 'REQUEST_COUNT'
-        });
-        res.render('static-pages/legacy-file', {
-            title: 'Document archived',
-            filePath: filePath
-        });
+router.get('/-/media/files/*', (req, res) => {
+    const filePath = req.originalUrl;
+    metrics.count({
+        name: filePath,
+        namespace: 'SITE/LEGACY_FILE',
+        dimension: 'DOWNLOADED',
+        value: 'REQUEST_COUNT'
     });
-}
+    res.render('static-pages/legacy-file', {
+        title: 'Document archived',
+        filePath: filePath
+    });
+});
 
 module.exports = router;
