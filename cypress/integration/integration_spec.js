@@ -45,16 +45,6 @@ describe('common', function() {
         });
     });
 
-    it('should pass unknown routes to the legacy site', () => {
-        cy.request('/funding/funding-guidance/managing-your-funding/about-equalities/evidence-collection-tools').then(
-            response => {
-                expect(response.headers['x-blf-legacy']).to.eq('true');
-                expect(response.headers['content-security-policy']).to.not.exist;
-                expect(response.body).to.include('Evidence collection tools: Funding - Big Lottery Fund');
-            }
-        );
-    });
-
     it('should redirect old funding finder', () => {
         [
             {
