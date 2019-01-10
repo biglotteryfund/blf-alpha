@@ -63,7 +63,7 @@ global:
     - label: Freedom of Information
       href: "/about/customer-service/freedom-of-information"
     - label: Corporate documents
-      href: "/about-big/publications/corporate-documents"
+      href: "/about/customer-service/corporate-documents"
     - label: Privacy Policy
       href: "/about/customer-service/privacy-policy"
     - label: Data Protection
@@ -960,7 +960,7 @@ funding:
       equalities: >
         <p>It is also important to us that you are committed to equalities and the environment. We’ll want to know about your equalities and environmental policies if we are interested in your idea.</p>
         <ul>
-          <li><a href="/about-big/our-approach/equalities">Our equality principles</a></li>
+          <li><a href="/about/customer-service/equalities">Our equality principles</a></li>
           <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Visit gov.uk for more information on environmental responsibility</a></li>
         </ul>
     fullEligiblity:

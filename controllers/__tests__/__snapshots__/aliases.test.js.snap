@@ -1203,6 +1203,46 @@ Array [
     "to": "/welsh/about/our-people/wales-committee",
   },
   Object {
+    "from": "/about-big/publications/corporate-documents",
+    "to": "/about/customer-service/corporate-documents",
+  },
+  Object {
+    "from": "/welsh/about-big/publications/corporate-documents",
+    "to": "/welsh/about/customer-service/corporate-documents",
+  },
+  Object {
+    "from": "/england/about-big/publications/corporate-documents",
+    "to": "/about/customer-service/corporate-documents",
+  },
+  Object {
+    "from": "/welsh/england/about-big/publications/corporate-documents",
+    "to": "/welsh/about/customer-service/corporate-documents",
+  },
+  Object {
+    "from": "/scotland/about-big/publications/corporate-documents",
+    "to": "/about/customer-service/corporate-documents",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/publications/corporate-documents",
+    "to": "/welsh/about/customer-service/corporate-documents",
+  },
+  Object {
+    "from": "/northernireland/about-big/publications/corporate-documents",
+    "to": "/about/customer-service/corporate-documents",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/publications/corporate-documents",
+    "to": "/welsh/about/customer-service/corporate-documents",
+  },
+  Object {
+    "from": "/wales/about-big/publications/corporate-documents",
+    "to": "/about/customer-service/corporate-documents",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/publications/corporate-documents",
+    "to": "/welsh/about/customer-service/corporate-documents",
+  },
+  Object {
     "from": "/about-big/strategic-framework",
     "to": "/about/strategic-framework",
   },

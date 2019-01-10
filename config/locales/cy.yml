@@ -62,7 +62,7 @@ global:
     - label: Rhyddid Gwybodaeth
       href: "/welsh/about/customer-service/freedom-of-information"
     - label: Dogfennau corfforaethol
-      href: "/welsh/about-big/publications/corporate-documents"
+      href: "/welsh/about/customer-service/corporate-documents"
     - label: Polisi Preifatrwydd
       href: "/welsh/about/customer-service/privacy-policy"
     - label: Diogelu Data
@@ -868,7 +868,7 @@ funding:
       equalities: >
         <p>Mae'n bwysig i ni hefyd eich bod yn ymroddedig i gydraddoldeb a'r amgylchedd. Byddwn eisiau gwybod am eich polisïau cydraddoldeb ac amgylcheddol os bydd gennym ddiddordeb yn eich syniad.</p>
         <ul>
-          <li><a href="/welsh/about-big/our-approach/equalities">Ein hegwyddorion cydraddoldeb</a></li>
+          <li><a href="/welsh/about/customer-service/equalities">Ein hegwyddorion cydraddoldeb</a></li>
           <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Ewch i gov.uk i gael mwy o wybodaeth am gyfrifoldeb amgylcheddol</a></li>
         </ul>
     fullEligiblity:
