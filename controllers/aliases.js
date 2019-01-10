@@ -69,6 +69,7 @@ const aliases = {
     '/funding/funding-guidance/managing-your-funding/monitoring-forms': '/funding/funding-guidance/monitoring-forms',
     '/funding/past-grants': '/funding/grants',
     '/funding/past-grants/search': '/funding/grants',
+    '/funding/search-past-grants*': '/funding/grants',
     '/funding/programmes/digital-funding': '/funding/programmes/digital-fund',
     '/funding/scotland-portfolio': '/funding/programmes?location=scotland',
     '/funding/search-past-grants-alpha': '/funding/grants',

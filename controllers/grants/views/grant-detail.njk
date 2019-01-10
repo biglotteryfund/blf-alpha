@@ -169,12 +169,15 @@
 
         {# Related projects widget #}
         {% if appData.config.get('features.enableRelatedGrants') %}
-            <grants-related
-                limit="3"
-                exclude-id="{{ grant.id }}"
-                programme="{{ mainProgramme.title }}"
-                beneficiary-location="{{ grant.beneficiaryLocation | dump }}"
-            />
+            {# This wrapper div must exist or the related component swallows the following component #}
+            <div>
+                <grants-related
+                    limit="3"
+                    exclude-id="{{ grant.id }}"
+                    programme="{{ mainProgramme.title }}"
+                    beneficiary-location="{{ grant.beneficiaryLocation | dump }}"
+                />
+            </div>
         {% endif %}
 
         <div class="u-inner">

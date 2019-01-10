@@ -2323,6 +2323,46 @@ Array [
     "to": "/welsh/funding/grants",
   },
   Object {
+    "from": "/funding/search-past-grants*",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/funding/search-past-grants*",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/england/funding/search-past-grants*",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/england/funding/search-past-grants*",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/scotland/funding/search-past-grants*",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/search-past-grants*",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/northernireland/funding/search-past-grants*",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/search-past-grants*",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
+    "from": "/wales/funding/search-past-grants*",
+    "to": "/funding/grants",
+  },
+  Object {
+    "from": "/welsh/wales/funding/search-past-grants*",
+    "to": "/welsh/funding/grants",
+  },
+  Object {
     "from": "/funding/programmes/digital-funding",
     "to": "/funding/programmes/digital-fund",
   },

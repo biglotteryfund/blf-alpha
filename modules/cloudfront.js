@@ -127,9 +127,7 @@ function generateBehaviours(origins, originName) {
         '/images/*',
         '/default.css',
         '/PastGrants.ashx',
-        '/news-and-events',
-        '/funding/search-past-grants',
-        '/funding/search-past-grants/*'
+        '/news-and-events'
     ].map(path =>
         makeBehaviourItem({
             originId: origins.legacy,
