@@ -1,6 +1,6 @@
 'use strict';
 const cookies = require('config').get('cookies');
-const { assign, compact, concat, flatten, flatMap, get, sortBy, uniq } = require('lodash');
+const { assign, compact, concat, flatten, flatMap, get, sortBy, uniq, findIndex } = require('lodash');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 
@@ -140,6 +140,20 @@ function generateBehaviours(origins, originName) {
         })
     );
 
+    // Add the legacy file path to the start of the list
+    // so it isn't overridden by the more general one
+    customBehaviours.unshift(
+        makeBehaviourItem({
+            originId: origins.newSite,
+            pathPattern: '/-/media/files/*',
+            isPostable: false,
+            allowAllQueryStrings: true,
+            allowAllCookies: true,
+            protocol: 'allow-all',
+            headersToKeep: ['*']
+        })
+    );
+
     /**
      * S3 static file route paths
      * Paths in this list will be routed to an S3 bucket
@@ -162,7 +176,6 @@ function generateBehaviours(origins, originName) {
      * or custom cookies to be whitelisted you must define those rules here.
      */
     let customPaths = [
-        { path: '/-/media/files/*', isPostable: false, allowAllQueryStrings: true },
         { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
         { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
         { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
@@ -216,7 +229,15 @@ function generateBehaviours(origins, originName) {
     });
 
     const combinedBehaviours = concat(customBehaviours, primaryBehaviours, s3Behaviours);
-    const sortedBehaviours = sortBy(combinedBehaviours, 'PathPattern');
+    let sortedBehaviours = sortBy(combinedBehaviours, 'PathPattern');
+
+    // Temporary workaround: manually reorder legacy rules to avoid precedence error
+    // @TODO remove this post-rebrand once we stop sending traffic to legacy origins
+    const legacyFilePathIndex = findIndex(sortedBehaviours, b => b.PathPattern === '/-/media/files/*');
+    const legacyFilePathWildcardIndex = findIndex(sortedBehaviours, b => b.PathPattern === '/-/*');
+    const tempBehaviourItem = sortedBehaviours[legacyFilePathIndex];
+    sortedBehaviours[legacyFilePathIndex] = sortedBehaviours[legacyFilePathWildcardIndex];
+    sortedBehaviours[legacyFilePathWildcardIndex] = tempBehaviourItem;
 
     return {
         DefaultCacheBehavior: defaultBehaviour,
