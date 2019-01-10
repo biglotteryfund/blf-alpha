@@ -41,6 +41,7 @@ const aliases = {
     '/about-big/our-people/northern-ireland-committee-members': '/about/our-people/northern-ireland-committee',
     '/about-big/our-people/senior-management-team': '/about/our-people/senior-management-team',
     '/about-big/our-people/wales-committee-members': '/about/our-people/wales-committee',
+    '/about-big/publications/corporate-documents': '/about/customer-service/corporate-documents',
     '/about-big/strategic-framework': '/about/strategic-framework',
     '/about-big/strategic-framework/our-vision': '/about/strategic-framework',
     '/about-big/tender-opportunities': '/about/customer-service/supplier-zone',
