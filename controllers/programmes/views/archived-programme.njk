@@ -14,9 +14,7 @@
 
 {% block content %}
     <main role="main">
-        <div class="u-inner">
-            {{ pageTitle(title) }}
-        </div>
+        {{ pageTitle(title) }}
 
         {% call contentBoxIntro(breadcrumbs, pageAccent) %}
             {% if entry.description %}

@@ -2,6 +2,50 @@
    Quotes
    ========================================================================= */
 
+.blockquote {
+    $offset: 32px;
+
+    font-style: normal;
+    color: get-color('brand', 'primary');
+    margin-bottom: 1.5em;
+    padding-left: $offset;
+    quotes: '\201C' '\201D' '\2018' '\2019';
+    max-width: 30em;
+
+    .blockquote__text {
+        font-size: font-scale('display', 't2');
+        font-weight: font-weight('display', 'bold');
+        display: inline-block;
+        margin-bottom: 0.25em;
+
+        &:before,
+        &:after {
+            font-size: 46px;
+            font-family: font-stack('display');
+            font-weight: font-weight('display', 'semibold');
+            color: get-color('text', 'base');
+            vertical-align: text-bottom;
+            display: inline-block;
+            line-height: 0;
+        }
+
+        &:before {
+            content: open-quote;
+            position: relative;
+            margin-left: -$offset; // Optically align with offset
+            top: -3px; // Optically align with text baseline
+        }
+
+        &:after {
+            content: close-quote;
+        }
+    }
+
+    cite {
+        display: block;
+    }
+}
+
 /* =========================================================================
    Callout
    ========================================================================= */

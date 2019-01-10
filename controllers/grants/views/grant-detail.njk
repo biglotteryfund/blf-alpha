@@ -5,9 +5,9 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/card/macro.njk" import card %}
 {% from "components/content-box/macro.njk" import contentBox %}
-{% from "components/content.njk" import flexibleContent %}
+{% from "components/flexible-content/macro.njk" import flexibleContent %}
 
-{% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList with context %}
+{% from './helpers.njk' import badgeActiveProject, badgeProjectStory, buildLocationList, buildOrgTypeList, pgLink with context %}
 
 {% if not pageHero %}
     {% set bodyClass = 'has-static-header' %}
@@ -33,9 +33,15 @@
                     <div class="u-constrained-wide accent--pink">
                         <h1>{{ title }}</h1>
 
-                        {% if caseStudy %}
+                        {% if projectStory %}
                             <div class="s-prose">
-                                {{ flexibleContent(caseStudy.content, pageAccent) }}
+                                {{ flexibleContent(projectStory.content, pageAccent) }}
+
+                                {% if projectStory.outro %}
+                                    <aside class="u-tone-background-tint u-padded u-text-small">
+                                        {{ projectStory.outro | safe }}
+                                    </aside>
+                                {% endif %}
                             </div>
                         {% elseif grant.description !== grant.title %}
                             <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
@@ -72,7 +78,11 @@
                         </dl>
 
                         {% if grant.isActive %}
-                            <p class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</p>
+                            {{ badgeActiveProject()}}
+                        {% endif %}
+
+                        {% if projectStory %}
+                            {{ badgeProjectStory()}}
                         {% endif %}
                     {% endcall %}
 

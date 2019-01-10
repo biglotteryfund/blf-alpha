@@ -112,6 +112,7 @@ global:
     otherEnterBelow: Other (please enter below)
   misc:
     archived: Archived
+    activeProject: Active Project
     back: back
     backToTop: Back to the top
     caseStudies: Case studies
@@ -132,6 +133,7 @@ global:
     email: email
     printThisPage: Print this page
     projectExamples: Examples of projects that have been funded
+    projectStory: Project story
     readMore: Read more
     readMoreAbout: "Read more about %s"
     required: Required
@@ -422,9 +424,9 @@ toplevel:
     latestProgrammes: Latest Programmes
     sectionLinks:
     - label: Learn how to apply for funding under £10,000
-      href: "/under10k"
+      href: "/funding/under10k"
     - label: Learn how to apply for funding above £10,000
-      href: "/over10k"
+      href: "/funding/over10k"
     - label: View all open funding programmes
       href: "/funding/programmes"
     - label: View all closed funding programmes

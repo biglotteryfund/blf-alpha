@@ -92,7 +92,9 @@ const funding = {
             heroSlug: 'friends-of-greenwich',
             router: staticPage({
                 template: 'static-pages/under10k',
-                caseStudies: ['papyrus', 'ragroof-players', 'welsh-refugee-council']
+                caseStudySlugs: ['papyrus', 'ragroof-players', 'welsh-refugee-council'],
+                // @TODO: Add correct project stories
+                projectStorySlugs: ['mental-health-foundation']
             })
         },
         {
@@ -101,7 +103,9 @@ const funding = {
             heroSlug: 'passion-4-fusion-3',
             router: staticPage({
                 template: 'static-pages/over10k',
-                caseStudies: ['croxteth-gems', 'dads-in-mind', 'cruse-bereavement-care']
+                caseStudySlugs: ['croxteth-gems', 'dads-in-mind', 'cruse-bereavement-care'],
+                // @TODO: Add correct project stories
+                projectStorySlugs: ['mental-health-foundation']
             })
         },
         {
