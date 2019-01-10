@@ -269,7 +269,8 @@ router.get('/:id', injectCopy('funding.pastGrants.search'), async (req, res, nex
         try {
             projectStory = await contentApi.getProjectStory({
                 locale: req.i18n.getLocale(),
-                grantId: req.params.id
+                grantId: req.params.id,
+                previewMode: res.locals.PREVIEW_MODE || false
             });
             setHeroLocals({ res, entry: projectStory });
         } catch (e) {} // eslint-disable-line no-empty

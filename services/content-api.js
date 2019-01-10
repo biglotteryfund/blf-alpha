@@ -200,8 +200,10 @@ function getCaseStudyByGrantId({ locale, grantId }) {
     return fetch(`/v1/${locale}/case-studies/${grantId}`).then(getAttrs);
 }
 
-function getProjectStory({ locale, grantId }) {
-    return fetch(`/v1/${locale}/project-stories/${grantId}`).then(getAttrs);
+function getProjectStory({ locale, grantId, previewMode }) {
+    return fetch(`/v1/${locale}/project-stories/${grantId}`, {
+        qs: addPreviewParams(previewMode)
+    }).then(getAttrs);
 }
 
 function getProjectStories({ locale, slugs = [] }) {
