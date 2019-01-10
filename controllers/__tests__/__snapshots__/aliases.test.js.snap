@@ -763,6 +763,46 @@ Array [
     "to": "/welsh/jobs",
   },
   Object {
+    "from": "/about-big/our-approach",
+    "to": "/about",
+  },
+  Object {
+    "from": "/welsh/about-big/our-approach",
+    "to": "/welsh/about",
+  },
+  Object {
+    "from": "/england/about-big/our-approach",
+    "to": "/about",
+  },
+  Object {
+    "from": "/welsh/england/about-big/our-approach",
+    "to": "/welsh/about",
+  },
+  Object {
+    "from": "/scotland/about-big/our-approach",
+    "to": "/about",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/our-approach",
+    "to": "/welsh/about",
+  },
+  Object {
+    "from": "/northernireland/about-big/our-approach",
+    "to": "/about",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/our-approach",
+    "to": "/welsh/about",
+  },
+  Object {
+    "from": "/wales/about-big/our-approach",
+    "to": "/about",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/our-approach",
+    "to": "/welsh/about",
+  },
+  Object {
     "from": "/about-big/our-approach/about-big-lottery-fund",
     "to": "/about",
   },
@@ -961,6 +1001,86 @@ Array [
   Object {
     "from": "/welsh/wales/about-big/our-approach/equalities/northern-ireland-equality",
     "to": "/welsh/about/customer-service/northern-ireland-equality",
+  },
+  Object {
+    "from": "/about-big/our-approach/international-funding",
+    "to": "/funding/funding-guidance/international-funding",
+  },
+  Object {
+    "from": "/welsh/about-big/our-approach/international-funding",
+    "to": "/welsh/funding/funding-guidance/international-funding",
+  },
+  Object {
+    "from": "/england/about-big/our-approach/international-funding",
+    "to": "/funding/funding-guidance/international-funding",
+  },
+  Object {
+    "from": "/welsh/england/about-big/our-approach/international-funding",
+    "to": "/welsh/funding/funding-guidance/international-funding",
+  },
+  Object {
+    "from": "/scotland/about-big/our-approach/international-funding",
+    "to": "/funding/funding-guidance/international-funding",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/our-approach/international-funding",
+    "to": "/welsh/funding/funding-guidance/international-funding",
+  },
+  Object {
+    "from": "/northernireland/about-big/our-approach/international-funding",
+    "to": "/funding/funding-guidance/international-funding",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/our-approach/international-funding",
+    "to": "/welsh/funding/funding-guidance/international-funding",
+  },
+  Object {
+    "from": "/wales/about-big/our-approach/international-funding",
+    "to": "/funding/funding-guidance/international-funding",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/our-approach/international-funding",
+    "to": "/welsh/funding/funding-guidance/international-funding",
+  },
+  Object {
+    "from": "/about-big/our-approach/non-lotttery-funding",
+    "to": "/funding/funding-guidance/non-lottery-funding",
+  },
+  Object {
+    "from": "/welsh/about-big/our-approach/non-lotttery-funding",
+    "to": "/welsh/funding/funding-guidance/non-lottery-funding",
+  },
+  Object {
+    "from": "/england/about-big/our-approach/non-lotttery-funding",
+    "to": "/funding/funding-guidance/non-lottery-funding",
+  },
+  Object {
+    "from": "/welsh/england/about-big/our-approach/non-lotttery-funding",
+    "to": "/welsh/funding/funding-guidance/non-lottery-funding",
+  },
+  Object {
+    "from": "/scotland/about-big/our-approach/non-lotttery-funding",
+    "to": "/funding/funding-guidance/non-lottery-funding",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/our-approach/non-lotttery-funding",
+    "to": "/welsh/funding/funding-guidance/non-lottery-funding",
+  },
+  Object {
+    "from": "/northernireland/about-big/our-approach/non-lotttery-funding",
+    "to": "/funding/funding-guidance/non-lottery-funding",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/our-approach/non-lotttery-funding",
+    "to": "/welsh/funding/funding-guidance/non-lottery-funding",
+  },
+  Object {
+    "from": "/wales/about-big/our-approach/non-lotttery-funding",
+    "to": "/funding/funding-guidance/non-lottery-funding",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/our-approach/non-lotttery-funding",
+    "to": "/welsh/funding/funding-guidance/non-lottery-funding",
   },
   Object {
     "from": "/about-big/our-people/northern-ireland-committee-members",
