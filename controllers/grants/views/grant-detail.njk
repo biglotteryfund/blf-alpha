@@ -36,13 +36,16 @@
                         {% if projectStory %}
                             <div class="s-prose">
                                 {{ flexibleContent(projectStory.content, pageAccent) }}
-
-                                {% if projectStory.outro %}
-                                    <aside class="u-tone-background-tint u-padded u-text-small">
-                                        {{ projectStory.outro | safe }}
-                                    </aside>
-                                {% endif %}
                             </div>
+
+                            {% if projectStory.outro %}
+                                <aside class="u-tone-background-tint u-padded u-text-medium">
+                                    <h2 class="t3 u-tone-background-brand-primary">{{ __('global.misc.moreInformation') }}</h2>
+                                    <div class="s-prose">
+                                        {{ projectStory.outro | safe }}
+                                    </div>
+                                </aside>
+                            {% endif %}
                         {% elseif grant.description !== grant.title %}
                             <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
                             <p class="u-wrap-words">{{ grant.description }}</p>
