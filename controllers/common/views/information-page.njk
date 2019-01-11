@@ -1,6 +1,5 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/caseStudies.njk" import caseStudyCollection with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/segment/macro.njk" import segment %}
@@ -72,9 +71,6 @@
 
         {# Custom content #}
         {% block customContent %}{% endblock %}
-
-        {# Case Studies #}
-        {{ caseStudyCollection(content.caseStudies, accent = pageAccent) }}
 
         {% if content.outro %}
             {% call contentBox(pageAccent) %}

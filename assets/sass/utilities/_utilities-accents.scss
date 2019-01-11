@@ -7,6 +7,11 @@
    Tones
    ========================================================================= */
 
+/* Foreground tones */
+.u-tone-background-brand-primary {
+    color: get-color('brand', 'primary');
+}
+
 /* Background tones */
 .u-tone-background-tint {
     background-color: get-color('background', 'light-neutral');

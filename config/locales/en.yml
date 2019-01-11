@@ -115,13 +115,13 @@ global:
     activeProject: Active Project
     back: back
     backToTop: Back to the top
-    caseStudies: Case studies
     documents: documents
     download: download
     edit: Edit
     errorTitle: There was a problem with your submission
     imageCredit: Image credit
     latestNews: Latest news
+    moreInformation: More information
     next: next
     no: No
     optional: Optional

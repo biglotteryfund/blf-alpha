@@ -4,7 +4,6 @@
   "features": {
     "enableHotjar": true,
     "enableMailSendMetrics": true,
-    "enableProjectStories": false,
     "enableTimingMetrics": true
   }
 }
