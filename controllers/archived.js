@@ -24,6 +24,7 @@ flatMap([
     '/about-big/living-wage',
     '/about-big/mayors-community-weekend',
     '/about-big/our-approach/vision-and-principles',
+    '/funding/scotland-portfolio*',
     '/about-big/your-voice',
     '/funding/funding-guidance/applying-for-funding/*',
     '/funding/funding-guidance/managing-your-funding/about-equalities*',
