@@ -8,12 +8,7 @@ const { injectBreadcrumbs, injectFlexibleContent, injectListingContent } = requi
 const { isWelsh } = require('../../modules/urls');
 const contentApi = require('../../services/content-api');
 
-function staticPage({
-    template = null,
-    caseStudySlugs = [],
-    projectStorySlugs = [],
-    disableLanguageLink = false
-} = {}) {
+function staticPage({ template = null, projectStorySlugs = [], disableLanguageLink = false } = {}) {
     const router = express.Router();
 
     router.get('/', injectBreadcrumbs, async function(req, res, next) {
@@ -24,22 +19,12 @@ function staticPage({
         } else {
             /**
              * Inject project stories if we've been provided any slugs to fetch
-             * @TODO: Remove getCaseStudies when launching project stories
              */
-            if (res.locals.enableProjectStories && projectStorySlugs.length > 0) {
+            if (projectStorySlugs.length > 0) {
                 try {
                     res.locals.stories = await contentApi.getProjectStories({
                         locale: req.i18n.getLocale(),
                         slugs: projectStorySlugs
-                    });
-                } catch (error) {
-                    Raven.captureException(error);
-                }
-            } else if (caseStudySlugs.length > 0) {
-                try {
-                    res.locals.caseStudies = await contentApi.getCaseStudies({
-                        locale: req.i18n.getLocale(),
-                        slugs: caseStudySlugs
                     });
                 } catch (error) {
                     Raven.captureException(error);

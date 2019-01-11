@@ -1,9 +1,7 @@
+{% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/caseStudies.njk" import caseStudyCollection with context  %}
 {% from "components/project-stories/macro.njk" import projectStories with context  %}
-
-{% extends "layouts/main.njk" %}
 
 {% block content %}
     <main role="main">
@@ -61,15 +59,10 @@
                 </div>
             </div>
 
-            {% if enableProjectStories and stories.length > 0 %}
+            {% if stories.length > 0 %}
                 {{ projectStories(
                     stories = stories,
                     title = __('global.misc.projectExamples')
-                ) }}
-            {% else %}
-                {{ caseStudyCollection(
-                    caseStudies = caseStudies,
-                    customSectionTitle = copy.projectExamples
                 ) }}
             {% endif %}
 

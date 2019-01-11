@@ -188,18 +188,6 @@ function getFlexibleContent({ locale, path, previewMode }) {
     }).then(response => response.data.attributes);
 }
 
-function getCaseStudies({ locale, slugs = [] }) {
-    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/case-studies`).then(responses => {
-        const [enResults, cyResults] = responses.map(mapAttrs);
-        const results = mergeWelshBy('slug')(locale, enResults, cyResults);
-        return slugs.length > 0 ? filterBySlugs(results, slugs) : results;
-    });
-}
-
-function getCaseStudyByGrantId({ locale, grantId }) {
-    return fetch(`/v1/${locale}/case-studies/${grantId}`).then(getAttrs);
-}
-
 function getProjectStory({ locale, grantId, previewMode }) {
     return fetch(`/v1/${locale}/project-stories/${grantId}`, {
         qs: addPreviewParams(previewMode)
@@ -239,8 +227,6 @@ module.exports = {
     mergeWelshBy,
     // API methods
     getAliases,
-    getCaseStudies,
-    getCaseStudyByGrantId,
     getProjectStory,
     getProjectStories,
     getDataStats,
