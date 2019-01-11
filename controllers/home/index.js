@@ -44,10 +44,10 @@ router.get('/', injectPromotedUpdates, injectHeroImages, async (req, res) => {
     if (res.locals.useNewBrand) {
         res.render(path.resolve(__dirname, './views/home-rebrand'), {
             heroImage: {
-                small: '/assets/images/hero/superhero-small.jpg',
-                medium: '/assets/images/hero/superhero-medium.jpg',
-                large: '/assets/images/hero/superhero-large.jpg',
-                default: '/assets/images/hero/superhero-medium.jpg',
+                small: '/assets/images/home/superhero-small.jpg',
+                medium: '/assets/images/home/superhero-medium.jpg',
+                large: '/assets/images/home/superhero-large.jpg',
+                default: '/assets/images/home/superhero-medium.jpg',
                 caption: 'Connect Community Trust'
             }
         });
