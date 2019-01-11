@@ -24,10 +24,11 @@ flatMap([
     '/about-big/living-wage',
     '/about-big/mayors-community-weekend',
     '/about-big/our-approach/vision-and-principles',
-    '/funding/scotland-portfolio*',
     '/about-big/your-voice',
+    '/funding/big-stories*',
     '/funding/funding-guidance/applying-for-funding/*',
     '/funding/funding-guidance/managing-your-funding/about-equalities*',
+    '/funding/scotland-portfolio*',
     '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*',
     '/research*',
 ], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
