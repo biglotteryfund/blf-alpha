@@ -108,7 +108,7 @@ const makeBehaviourItem = ({
  * Generate Cloudfront behaviours
  * construct array of behaviours from a URL list
  */
-function generateBehaviours(origins, originName) {
+function generateBehaviours(origins) {
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.newSite,
         isPostable: true,

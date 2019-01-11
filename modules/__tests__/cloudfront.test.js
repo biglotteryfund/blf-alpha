@@ -33,6 +33,6 @@ describe('#makeBehaviourItem', () => {
 });
 
 describe('generateBehaviours', () => {
-    const behaviours = generateBehaviours(cloudfrontDistributions.live.origins, 'live');
+    const behaviours = generateBehaviours(cloudfrontDistributions.live.origins);
     expect(behaviours).toMatchSnapshot();
 });

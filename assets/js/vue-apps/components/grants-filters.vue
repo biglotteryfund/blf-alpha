@@ -135,6 +135,6 @@ export default {
         <p class="u-margin-top-s u-margin-bottom-s">
             <strong>{{ copy.feedback.title }}</strong>
         </p>
-        <p v-html="copy.feedback.body" v-on:click="triggerFeedbackPanel($event)"></p>
+        <p v-html="copy.feedback.body" @click="triggerFeedbackPanel($event)"></p>
     </fieldset>
 </template>
