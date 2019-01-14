@@ -1363,6 +1363,46 @@ Array [
     "to": "/welsh/about/customer-service/supplier-zone",
   },
   Object {
+    "from": "/about-big/thankstoyou-toolkit",
+    "to": "/funding/funding-guidance/thankstoyou-toolkit",
+  },
+  Object {
+    "from": "/welsh/about-big/thankstoyou-toolkit",
+    "to": "/welsh/funding/funding-guidance/thankstoyou-toolkit",
+  },
+  Object {
+    "from": "/england/about-big/thankstoyou-toolkit",
+    "to": "/funding/funding-guidance/thankstoyou-toolkit",
+  },
+  Object {
+    "from": "/welsh/england/about-big/thankstoyou-toolkit",
+    "to": "/welsh/funding/funding-guidance/thankstoyou-toolkit",
+  },
+  Object {
+    "from": "/scotland/about-big/thankstoyou-toolkit",
+    "to": "/funding/funding-guidance/thankstoyou-toolkit",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/thankstoyou-toolkit",
+    "to": "/welsh/funding/funding-guidance/thankstoyou-toolkit",
+  },
+  Object {
+    "from": "/northernireland/about-big/thankstoyou-toolkit",
+    "to": "/funding/funding-guidance/thankstoyou-toolkit",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/thankstoyou-toolkit",
+    "to": "/welsh/funding/funding-guidance/thankstoyou-toolkit",
+  },
+  Object {
+    "from": "/wales/about-big/thankstoyou-toolkit",
+    "to": "/funding/funding-guidance/thankstoyou-toolkit",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/thankstoyou-toolkit",
+    "to": "/welsh/funding/funding-guidance/thankstoyou-toolkit",
+  },
+  Object {
     "from": "/about/uks-largest-community-funder-to-change-name",
     "to": "/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name",
   },

@@ -24,6 +24,7 @@ flatMap([
     '/about-big/living-wage',
     '/about-big/mayors-community-weekend',
     '/about-big/our-approach/vision-and-principles',
+    '/about-big/publications*',
     '/about-big/your-voice',
     '/funding/big-stories*',
     '/funding/funding-guidance/applying-for-funding/*',
