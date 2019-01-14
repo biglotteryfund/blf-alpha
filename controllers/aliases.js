@@ -45,6 +45,7 @@ const aliases = {
     '/about-big/strategic-framework': '/about/strategic-framework',
     '/about-big/strategic-framework/our-vision': '/about/strategic-framework',
     '/about-big/tender-opportunities': '/about/customer-service/supplier-zone',
+    '/about-big/thankstoyou-toolkit': '/funding/funding-guidance/thankstoyou-toolkit',
     '/about/uks-largest-community-funder-to-change-name': '/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name',
     '/blog/2018-10-26/our-new-digital-fund': '/news/blog/2018-10-26/our-new-digital-fund',
     '/blog/2018-11-15/place-based-funding': '/news/blog/2018-11-15/place-based-funding',
@@ -85,6 +86,7 @@ const aliases = {
     '/research/youth-employment': '/insights/youth-employment',
     '/research/youth-serious-violence': '/insights/youth-serious-violence',
     '/scotland': '/funding/programmes?location=scotland',
+
 
     // Renamed funding programmes
     // (eg. the path slug has changed from legacy => new)
