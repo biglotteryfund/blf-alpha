@@ -558,7 +558,7 @@ ourPeople:
     href: /about/our-people/senior-management-team
   - label: England committee members
     match: england
-    href: /about-big/our-people/england-committee-members
+    href: /about/our-people/england-committee
   - label: Northern Ireland committee
     match: northern-ireland
     href: /about-big/our-people/northern-ireland-committee-members

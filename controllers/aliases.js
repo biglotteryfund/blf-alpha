@@ -38,6 +38,7 @@ const aliases = {
     '/about-big/our-approach/equalities/northern-ireland-equality': '/about/customer-service/northern-ireland-equality',
     '/about-big/our-approach/international-funding': '/funding/funding-guidance/international-funding',
     '/about-big/our-approach/non-lotttery-funding': '/funding/funding-guidance/non-lottery-funding',
+    '/about-big/our-people/england-committee-members': '/about/our-people/england-committee',
     '/about-big/our-people/northern-ireland-committee-members': '/about/our-people/northern-ireland-committee',
     '/about-big/our-people/senior-management-team': '/about/our-people/senior-management-team',
     '/about-big/our-people/wales-committee-members': '/about/our-people/wales-committee',
