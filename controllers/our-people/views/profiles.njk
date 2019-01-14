@@ -5,15 +5,15 @@
 {% from "components/nav.njk" import quickLinks %}
 
 {% block content %}
-    {{ hero(
-        titleText = title,
-        image = pageHero.image,
-        accent = pageAccent
-    ) }}
+    <main id="content">
+        {{ hero(
+            titleText = title,
+            image = pageHero.image,
+            accent = pageAccent
+        ) }}
 
-    <main class="nudge-up">
-        <div class="page-section u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
-            <div class="page-section__content u-accent-border-top-{{ pageAccent }}">
+        <div class="page-section u-inner-wide-only nudge-up">
+            <div class="page-section__content">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 {% for person in entry.people %}
@@ -43,16 +43,18 @@
                 {% endfor %}
 
                 {% if entry.documentGroups.length > 0 %}
-                    <section class="content-box accent--{{ pageAccent }} a--border-top">
+                    <section class="content-box">
                         {% for group in entry.documentGroups  %}
-                            <h3 class="t1 accent--{{ pageAccent }} a--text">{{ group.title }}</h3>
+                            <h3 class="t2 t--underline">{{ group.title }}</h3>
                             {{ documentList(group.files) }}
-                            {{ group.extraContent | safe }}
+                            <div class="s-prose">
+                                {{ group.extraContent | safe }}
+                            </div>
                         {% endfor %}
                     </section>
                 {% endif %}
             </div>
-            <div class="page-section__supplementary u-accent-border-top-{{ pageAccent }}">
+            <div class="page-section__supplementary">
                 <aside class="content-box">
                     {# @TODO: Should we share this component? #}
                     <nav class="nested-menu">
