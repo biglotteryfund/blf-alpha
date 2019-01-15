@@ -472,7 +472,7 @@ ourPeople:
     href: /about-big/our-people/northern-ireland-committee-members
   - label: Scotland committee members
     match: scotland
-    href: /about-big/our-people/scotland-committee-members
+    href: /about/our-people/scotland-committee
   - label: Aelodau pwyllgor Cymru
     match: wales
     href: /welsh/about-big/our-people/wales-committee-members

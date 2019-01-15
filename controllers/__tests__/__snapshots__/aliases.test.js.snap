@@ -1163,6 +1163,46 @@ Array [
     "to": "/welsh/about/our-people/northern-ireland-committee",
   },
   Object {
+    "from": "/about-big/our-people/scotland-committee-members",
+    "to": "/about/our-people/scotland-committee",
+  },
+  Object {
+    "from": "/welsh/about-big/our-people/scotland-committee-members",
+    "to": "/welsh/about/our-people/scotland-committee",
+  },
+  Object {
+    "from": "/england/about-big/our-people/scotland-committee-members",
+    "to": "/about/our-people/scotland-committee",
+  },
+  Object {
+    "from": "/welsh/england/about-big/our-people/scotland-committee-members",
+    "to": "/welsh/about/our-people/scotland-committee",
+  },
+  Object {
+    "from": "/scotland/about-big/our-people/scotland-committee-members",
+    "to": "/about/our-people/scotland-committee",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/our-people/scotland-committee-members",
+    "to": "/welsh/about/our-people/scotland-committee",
+  },
+  Object {
+    "from": "/northernireland/about-big/our-people/scotland-committee-members",
+    "to": "/about/our-people/scotland-committee",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/our-people/scotland-committee-members",
+    "to": "/welsh/about/our-people/scotland-committee",
+  },
+  Object {
+    "from": "/wales/about-big/our-people/scotland-committee-members",
+    "to": "/about/our-people/scotland-committee",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/our-people/scotland-committee-members",
+    "to": "/welsh/about/our-people/scotland-committee",
+  },
+  Object {
     "from": "/about-big/our-people/senior-management-team",
     "to": "/about/our-people/senior-management-team",
   },
