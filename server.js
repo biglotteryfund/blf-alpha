@@ -38,7 +38,6 @@ const loggerMiddleware = require('./middleware/logger');
 const passportMiddleware = require('./middleware/passport');
 const portalMiddleware = require('./middleware/portal');
 const previewMiddleware = require('./middleware/preview');
-const redirectsMiddleware = require('./middleware/redirects');
 const sessionMiddleware = require('./middleware/session');
 const timingsMiddleware = require('./middleware/timings');
 const vanityMiddleware = require('./middleware/vanity');
@@ -160,7 +159,6 @@ initViewEngine();
  * Register global middlewares
  */
 app.use(slashes(false));
-app.use(redirectsMiddleware);
 app.use(timingsMiddleware);
 app.use(i18nMiddleware);
 app.use(cached.defaultVary);
