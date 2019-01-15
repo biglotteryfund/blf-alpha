@@ -466,13 +466,13 @@ ourPeople:
     href: /about/our-people/senior-management-team
   - label: England committee members
     match: england
-    href: /welsh/about-big/our-people/england-committee-members
+    href: /about/our-people/england-committee
   - label: NI committee members
     match: northern-ireland
-    href: /welsh/about-big/our-people/northern-ireland-committee-members
+    href: /about-big/our-people/northern-ireland-committee-members
   - label: Scotland committee members
     match: scotland
-    href: /welsh/about-big/our-people/scotland-committee-members
+    href: /about/our-people/scotland-committee
   - label: Aelodau pwyllgor Cymru
     match: wales
     href: /welsh/about-big/our-people/wales-committee-members

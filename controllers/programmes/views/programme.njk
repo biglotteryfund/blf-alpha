@@ -10,7 +10,7 @@
 {% if not pageHero %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% block content %}
-    <main role="main">
+    <main role="main" id="content">
         {% if pageHero %}
             {{ hero(
                 titleText = title,

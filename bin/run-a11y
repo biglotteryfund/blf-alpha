@@ -4,15 +4,16 @@ set -e
 urls=(
     "/"
     "/about"
-    "/apply/digital-fund-strand-1/1"
     "/apply/your-idea/1"
+    "/contact"
     "/funding"
     "/funding/programmes"
     "/funding/programmes/digital-fund"
     "/funding/programmes/national-lottery-awards-for-all-england"
     "/funding/programmes/reaching-communities-england"
     "/funding/under10k"
-    "/insights"
+    "/insights",
+    "/news",
 )
 
 domain=${1:-http://localhost:8090}

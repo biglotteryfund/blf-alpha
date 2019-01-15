@@ -67,19 +67,11 @@
 /* Used to flag preview mode, environment status etc. */
 
 .status-banner {
-    $statusBannerColour: #009098;
     text-align: center;
     font-size: 15px;
     padding: 1em 6px;
-    background-color: $statusBannerColour;
-    background: repeating-linear-gradient(
-        -55deg,
-        $statusBannerColour,
-        $statusBannerColour 10px,
-        darken($statusBannerColour, 2%) 10px,
-        darken($statusBannerColour, 2%) 20px
-    );
     color: white;
+    background-color: #006f75;
 
     a {
         color: white;

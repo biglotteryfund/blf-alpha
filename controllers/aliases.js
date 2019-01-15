@@ -11,8 +11,15 @@ const { makeWelsh } = require('../modules/urls');
  */
 // prettier-ignore
 const aliases = {
+    //===== Global & regions =====//
+    '/home/funding': '/funding',
+    '/Home/Funding/Funding*Finder': '/funding/programmes',
+    '/scotland': '/funding/programmes?location=scotland',
+
+    //===== About =====//
     '/about-big/contact-us': '/about',
     '/about-big/countries/about-england/strategic-investments-in-england': '/funding/strategic-investments',
+    '/about-big/customer-service': '/about',
     '/about-big/customer-service/bogus-lottery-emails': '/about/customer-service/bogus-lottery-emails',
     '/about-big/customer-service/cookies': '/about/customer-service/cookies',
     '/about-big/customer-service/customer-feedback': '/about/customer-service/customer-feedback',
@@ -38,7 +45,9 @@ const aliases = {
     '/about-big/our-approach/equalities/northern-ireland-equality': '/about/customer-service/northern-ireland-equality',
     '/about-big/our-approach/international-funding': '/funding/funding-guidance/international-funding',
     '/about-big/our-approach/non-lotttery-funding': '/funding/funding-guidance/non-lottery-funding',
+    '/about-big/our-people/england-committee-members': '/about/our-people/england-committee',
     '/about-big/our-people/northern-ireland-committee-members': '/about/our-people/northern-ireland-committee',
+    '/about-big/our-people/scotland-committee-members': '/about/our-people/scotland-committee',
     '/about-big/our-people/senior-management-team': '/about/our-people/senior-management-team',
     '/about-big/our-people/wales-committee-members': '/about/our-people/wales-committee',
     '/about-big/publications/corporate-documents': '/about/customer-service/corporate-documents',
@@ -47,6 +56,9 @@ const aliases = {
     '/about-big/tender-opportunities': '/about/customer-service/supplier-zone',
     '/about-big/thankstoyou-toolkit': '/funding/funding-guidance/thankstoyou-toolkit',
     '/about/uks-largest-community-funder-to-change-name': '/news/press-releases/2018-09-28/uks-largest-community-funder-to-change-name',
+
+    //===== Blog and news =====//
+    '/news-and-events/contact-press-team': '/contact#segment-4',
     '/blog/2018-10-26/our-new-digital-fund': '/news/blog/2018-10-26/our-new-digital-fund',
     '/blog/2018-11-15/place-based-funding': '/news/blog/2018-11-15/place-based-funding',
     '/blog/2018-11-16/a-young-persons-perspective-on-social-action': '/news/blog/2018-11-16/a-young-persons-perspective-on-social-action',
@@ -57,6 +69,14 @@ const aliases = {
     '/blog/insight': '/news/blog?category=insight',
     '/blog/tags/digital-fund': '/news/blog?tag=digital-fund',
     '/blog/tags/place-based-funding': '/news/blog?tag=place-based-funding',
+
+    //===== Research =====//
+    '/research': '/insights',
+    '/research/place-based-working': '/insights/place-based-working',
+    '/research/youth-employment': '/insights/youth-employment',
+    '/research/youth-serious-violence': '/insights/youth-serious-violence',
+
+    //===== Funding =====//
     '/funding/awards-for-all': '/funding/under10k',
     '/funding/Awards-For-All': '/funding/under10k',
     '/funding/funding-guidance': '/funding',
@@ -78,38 +98,22 @@ const aliases = {
     '/funding/scotland-portfolio/three-approaches': '/funding/funding-guidance/three-approaches-scotland',
     '/funding/search-past-grants-alpha': '/funding/grants',
     '/funding/search-past-grants*': '/funding/grants',
-    '/home/funding': '/funding',
-    '/Home/Funding/Funding*Finder': '/funding/programmes',
-    '/news-and-events/contact-press-team': '/contact#segment-4',
-    '/research': '/insights',
-    '/research/place-based-working': '/insights/place-based-working',
-    '/research/youth-employment': '/insights/youth-employment',
-    '/research/youth-serious-violence': '/insights/youth-serious-violence',
-    '/scotland': '/funding/programmes?location=scotland',
 
-
-    // Renamed funding programmes
-    // (eg. the path slug has changed from legacy => new)
+    //===== Funding programmes =====//
     '/global-content/programmes/england/awards-for-all-england': '/funding/programmes/national-lottery-awards-for-all-england',
-    '/global-content/programmes/england/fulfilling-lives-a-better-start': '/funding/strategic-investments/a-better-start',
-    '/global-content/programmes/england/fulfilling-lives-ageing-better': '/funding/strategic-investments/ageing-better',
-    '/global-content/programmes/england/fulfilling-lives-headstart': '/funding/strategic-investments/headstart',
-    '/global-content/programmes/england/multiple-and-complex-needs': '/funding/strategic-investments/multiple-needs',
-    '/global-content/programmes/england/talent-match' : '/funding/strategic-investments/talent-match',
-    '/global-content/programmes/scotland/awards-for-all-scotland': '/funding/programmes/national-lottery-awards-for-all-scotland',
-    '/global-content/programmes/uk-wide/coastal-communities': '/funding/programmes/coastal-communities-fund',
-    '/global-content/programmes/uk-wide/lottery-funding': '/funding/programmes/other-lottery-funders',
-    '/global-content/programmes/uk-wide/uk-portfolio': '/funding/programmes/awards-from-the-uk-portfolio',
-    '/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
-    '/global-content/programmes/wales/people-and-places': '/funding/programmes?min=10000&location=wales',
-    '/global-content/programmes/wales/rural-programme-community-grants': '/funding/programmes/rural-programme',
-
-    // BBO region redirects
-    // these are difficult to make wildcards/patterns due to other BBO pages in the same path
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources': '/funding/programmes/building-better-opportunities/building-better-opportunities-resources',
-    '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding': '/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding',
     '/global-content/programmes/england/building-better-opportunities/black-country': '/funding/programmes/building-better-opportunities/black-country',
     '/global-content/programmes/england/building-better-opportunities/buckinghamshire': '/funding/programmes/building-better-opportunities/buckinghamshire',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies': '/funding/programmes/building-better-opportunities/case-studies',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working': '/funding/programmes/building-better-opportunities/case-studies/lets-get-working',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate': '/funding/programmes/building-better-opportunities/case-studies/colin-maycock',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges': '/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem': '/funding/programmes/building-better-opportunities/case-studies/june-durham',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges': '/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep': '/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem': '/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges': '/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges': '/funding/programmes/building-better-opportunities/case-studies/steve-thorpe',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-resources': '/funding/programmes/building-better-opportunities/building-better-opportunities-resources',
     '/global-content/programmes/england/building-better-opportunities/cheshire-and-warrington': '/funding/programmes/building-better-opportunities/cheshire-and-warrington',
     '/global-content/programmes/england/building-better-opportunities/coast-to-capital': '/funding/programmes/building-better-opportunities/coast-to-capital',
     '/global-content/programmes/england/building-better-opportunities/cornwall-and-isles-of-scilly': '/funding/programmes/building-better-opportunities/cornwall-and-isles-of-scilly',
@@ -122,6 +126,7 @@ const aliases = {
     '/global-content/programmes/england/building-better-opportunities/greater-cambridge-greater-peterborough': '/funding/programmes/building-better-opportunities/greater-cambridge-greater-peterborough',
     '/global-content/programmes/england/building-better-opportunities/greater-lincolnshire': '/funding/programmes/building-better-opportunities/greater-lincolnshire',
     '/global-content/programmes/england/building-better-opportunities/greater-manchester': '/funding/programmes/building-better-opportunities/greater-manchester',
+    '/global-content/programmes/england/building-better-opportunities/guide-to-delivering-european-funding': '/funding/programmes/building-better-opportunities/guide-to-delivering-european-funding',
     '/global-content/programmes/england/building-better-opportunities/heart-of-the-south-west': '/funding/programmes/building-better-opportunities/heart-of-the-south-west',
     '/global-content/programmes/england/building-better-opportunities/hertfordshire': '/funding/programmes/building-better-opportunities/hertfordshire',
     '/global-content/programmes/england/building-better-opportunities/humber': '/funding/programmes/building-better-opportunities/humber',
@@ -136,8 +141,8 @@ const aliases = {
     '/global-content/programmes/england/building-better-opportunities/oxfordshire': '/funding/programmes/building-better-opportunities/oxfordshire',
     '/global-content/programmes/england/building-better-opportunities/sheffield-city-region': '/funding/programmes/building-better-opportunities/sheffield-city-region',
     '/global-content/programmes/england/building-better-opportunities/solent': '/funding/programmes/building-better-opportunities/solent',
-    '/global-content/programmes/england/building-better-opportunities/south-east': '/funding/programmes/building-better-opportunities/south-east',
     '/global-content/programmes/england/building-better-opportunities/south-east-midlands': '/funding/programmes/building-better-opportunities/south-east-midlands',
+    '/global-content/programmes/england/building-better-opportunities/south-east': '/funding/programmes/building-better-opportunities/south-east',
     '/global-content/programmes/england/building-better-opportunities/stoke-on-trent-staffordshire': '/funding/programmes/building-better-opportunities/stoke-on-trent-staffordshire',
     '/global-content/programmes/england/building-better-opportunities/swindon-and-wiltshire': '/funding/programmes/building-better-opportunities/swindon-and-wiltshire',
     '/global-content/programmes/england/building-better-opportunities/tees-valley': '/funding/programmes/building-better-opportunities/tees-valley',
@@ -146,17 +151,18 @@ const aliases = {
     '/global-content/programmes/england/building-better-opportunities/west-of-england': '/funding/programmes/building-better-opportunities/west-of-england',
     '/global-content/programmes/england/building-better-opportunities/worcestershire': '/funding/programmes/building-better-opportunities/worcestershire',
     '/global-content/programmes/england/building-better-opportunities/york-north-yorkshire-and-east-riding': '/funding/programmes/building-better-opportunities/york-north-yorkshire-and-east-riding',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies': '/funding/programmes/building-better-opportunities/case-studies',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/samara_latit_gem': '/funding/programmes/building-better-opportunities/case-studies/samara-latit-gem',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/june_durham_gem': '/funding/programmes/building-better-opportunities/case-studies/june-durham',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/belinda_lets_get_working': '/funding/programmes/building-better-opportunities/case-studies/lets-get-working',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/gurmeet_bridges': '/funding/programmes/building-better-opportunities/case-studies/gurmeet-bridges',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/simon_boguszewicz_bridges': '/funding/programmes/building-better-opportunities/case-studies/simon-boguszewicz',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/manjeet_kaur_bridges': '/funding/programmes/building-better-opportunities/case-studies/manjeet-kaur',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/steve_thorpe_bridges': '/funding/programmes/building-better-opportunities/case-studies/steve-thorpe',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/colin_maycock_accelerate': '/funding/programmes/building-better-opportunities/case-studies/colin-maycock',
-    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies/nitesh_vadgama_chep': '/funding/programmes/building-better-opportunities/case-studies/nitesh-vadgama',
-
+    '/global-content/programmes/england/fulfilling-lives-a-better-start': '/funding/strategic-investments/a-better-start',
+    '/global-content/programmes/england/fulfilling-lives-ageing-better': '/funding/strategic-investments/ageing-better',
+    '/global-content/programmes/england/fulfilling-lives-headstart': '/funding/strategic-investments/headstart',
+    '/global-content/programmes/england/multiple-and-complex-needs': '/funding/strategic-investments/multiple-needs',
+    '/global-content/programmes/england/talent-match' : '/funding/strategic-investments/talent-match',
+    '/global-content/programmes/scotland/awards-for-all-scotland': '/funding/programmes/national-lottery-awards-for-all-scotland',
+    '/global-content/programmes/uk-wide/coastal-communities': '/funding/programmes/coastal-communities-fund',
+    '/global-content/programmes/uk-wide/lottery-funding': '/funding/programmes/other-lottery-funders',
+    '/global-content/programmes/uk-wide/uk-portfolio': '/funding/programmes/awards-from-the-uk-portfolio',
+    '/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
+    '/global-content/programmes/wales/people-and-places': '/funding/programmes?min=10000&location=wales',
+    '/global-content/programmes/wales/rural-programme-community-grants': '/funding/programmes/rural-programme',
 };
 
 /**
