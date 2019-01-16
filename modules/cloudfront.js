@@ -168,7 +168,6 @@ function generateBehaviours(origins) {
      * or custom cookies to be whitelisted you must define those rules here.
      */
     let customPaths = [
-        { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
         { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
         { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
         { path: '/funding/grants*', isPostable: true, allowAllQueryStrings: true, isBilingual: true, noSession: true },
