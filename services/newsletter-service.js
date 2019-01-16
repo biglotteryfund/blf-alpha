@@ -16,7 +16,7 @@ const { DOTMAILER_API } = require('../modules/secrets');
  * @see https://developer.dotmailer.com/docs/error-response-types
  */
 function subscribe({ addressBookId, subscriptionData }) {
-    const ENDPOINT = `${config.get('ebulletinApiEndpoint')}/address-books/${addressBookId}/contacts`;
+    const ENDPOINT = `https://apiconnector.com/v2/address-books/${addressBookId}/contacts`;
 
     return new Promise((resolve, reject) => {
         request({
