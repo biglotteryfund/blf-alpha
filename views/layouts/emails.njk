@@ -14,14 +14,9 @@
     </head>
     <body>
         {% if useNewBrand %}
-            <div class="logo">
-                <img src="https://www.tnlcommunityfund.org.uk/assets/images/site-logo.svg" alt="" width="200" />
-            </div>
+            <div class="logo"><img src="/images/site-logo.svg" alt="" /></div>
         {% else %}
-            <div class="logo">
-                <img src="https://www.biglotteryfund.org.uk/assets/images/logos/logo.png"
-                    alt="Big Lottery Fund logo" />
-            </div>
+            <div class="logo"><img src="https://www.biglotteryfund.org.uk/assets/images/logos/logo.png" alt="" /></div>
         {% endif %}
 
         {% block content %}{% endblock %}
