@@ -62,7 +62,7 @@ function defaultSecurityHeaders() {
         defaultSrc: defaultSecurityDomains,
         childSrc: ['www.google.com'],
         styleSrc: ['fonts.googleapis.com', '*.typekit.net'],
-        imgSrc: ['stats.g.doubleclick.net', 'via.placeholder.com', config.get('imgix.mediaDomain')],
+        imgSrc: ['stats.g.doubleclick.net', 'via.placeholder.com', 'biglotteryfund-assets.imgix.net'],
         connectSrc: [],
         scriptSrc: [],
         frameSrc: [],

@@ -43,9 +43,6 @@
     "enableSurvey": true,
     "enableTimingMetrics": false
   },
-  "imgix": {
-    "mediaDomain": "biglotteryfund-assets.imgix.net"
-  },
   "cookies": {
     "contrast": "contrastMode",
     "features": "blf-features",
