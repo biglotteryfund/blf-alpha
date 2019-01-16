@@ -16,8 +16,6 @@ const { sMaxAge } = require('../../middleware/cached');
 const contentApi = require('../../services/content-api');
 const grantsService = require('../../services/grants');
 
-const grantsConfig = config.get('grants');
-
 const router = express.Router();
 
 router.use(sMaxAge('7d'), injectBreadcrumbs, (req, res, next) => {
@@ -143,8 +141,11 @@ router.get('/', injectHeroImage('tinylife'), injectCopy('funding.pastGrants.sear
                     grants: data.results,
                     facets: data.facets,
                     meta: data.meta,
-                    grantDataDates: grantsConfig.dateRange,
-                    grantNavLink: grantsConfig.grantNavLink,
+                    // @TODO: Move to API response
+                    grantDataDates: {
+                        start: '2004-04-01',
+                        end: '2018-10-31'
+                    },
                     searchSuggestions: searchSuggestions,
                     pagination: buildPagination(req, data.meta.pagination, queryWithPage)
                 });
