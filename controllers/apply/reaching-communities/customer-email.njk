@@ -1,30 +1,14 @@
+{% extends "views/layouts/emails.njk" %}
 {% from "../views/view-helpers.njk" import emailSummary %}
-<!doctype html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" type="text/css" href="/build/latest/stylesheets/emails.css">
-        <link href="https://fonts.googleapis.com/css?family=Poppins:300,500" rel="stylesheet">
-    </head>
-    <body>
-        <div class="logo">
-            <img src="https://www.biglotteryfund.org.uk/assets/images/logos/logo.png" alt="Big Lottery Fund logo" />
-        </div>
 
-        <p>Thank you for getting in touch with us.</p>
+{% block content %}
+    <p>Thank you for getting in touch with us.</p>
 
-        <p>You will see a copy of the information you submitted below. This will be forwarded to one of our funding officers who will get in touch within fifteen working days to let you know if we can help.</p>
-        <p>In the meantime, you can find out more about our funding and how we can support your community on our website: <a href="https://www.biglotteryfund.org.uk/england">www.biglotteryfund.org.uk/england</a></p>
-        <p>Thanks,</p>
-        <p><strong>The Big Lottery Fund</strong></p>
+    <p>You will see a copy of the information you submitted below. This will be forwarded to one of our funding officers who will get in touch within fifteen working days to let you know if we can help.</p>
+    <p>In the meantime, you can find out more about our funding and how we can support your community on our website: <a href="https://www.biglotteryfund.org.uk/england">www.biglotteryfund.org.uk/england</a></p>
+    <p>Thanks,</p>
+    <p><strong>The Big Lottery Fund</strong></p>
 
-        <h2 class="space-above">Your information</h2>
-
-        {{ emailSummary(stepsCopy, fieldsCopy, summary) }}
-
-        <h5 class="space-above">Data protection</h5>
-        <small>The Big Lottery Fund is a public body with a duty to distribute National Lottery and other money in grants for good causes. We use the personal data you provide, such as contact details for individuals at your organisation, to help you apply for a grant and to assess your application.</small>
-        <small>We may share your personal data with organisations which help us with our grant making activities or others which have a legitimate interest in our work or have funded your grant. We will only share personal data which they need to carry out their work and subject to appropriate safety measures.</small>
-        <small>Our Data Protection and Privacy Notice gives more information about how we store and use personal data and the lawful basis for this. Please read the full Notice which is published on our website at www.biglotteryfund.org.uk/data-protection or contact us to request a hard copy. The Notice may be updated from time to time.</small>
-    </body>
-</html>
+    <h2>Your information</h2>
+    {{ emailSummary(stepsCopy, fieldsCopy, summary) }}
+{% endblock %}

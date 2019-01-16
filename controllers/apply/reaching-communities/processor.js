@@ -12,9 +12,10 @@ const { determineInternalSendTo } = require('./helpers');
  * @param {object} options.data
  * @param {object} options.stepsWithValues
  * @param {object} options.copy
+ * @param {boolean} options.useNewBrand
  * @param {any} mailTransport
  */
-module.exports = async function processor({ data, stepsWithValues, copy }, mailTransport = null) {
+module.exports = async function processor({ data, stepsWithValues, copy, useNewBrand }, mailTransport = null) {
     const customerSendTo = {
         name: `${data['first-name']} ${data['last-name']}`,
         address: data['email']
@@ -32,7 +33,9 @@ module.exports = async function processor({ data, stepsWithValues, copy }, mailT
             stepsCopy: copy.steps,
             fieldsCopy: copy.fields,
             summary: stepsWithValues,
-            isArray: xs => Array.isArray(xs)
+            isArray: xs => Array.isArray(xs),
+            useNewBrand: useNewBrand,
+            showDataProtectionStatement: true
         }
     });
 
@@ -57,7 +60,8 @@ module.exports = async function processor({ data, stepsWithValues, copy }, mailT
             fieldsCopy: copy.fields,
             stepsCopy: stepsCopyInternalOrder,
             summary: stepsWithValuesInternalOrder,
-            isArray: xs => Array.isArray(xs)
+            isArray: xs => Array.isArray(xs),
+            useNewBrand: useNewBrand
         }
     });
 

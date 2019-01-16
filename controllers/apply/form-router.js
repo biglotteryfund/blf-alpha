@@ -221,7 +221,8 @@ function initFormRouter(form) {
                         locale: req.i18n.getLocale(),
                         data: flattenFormData(formData),
                         stepsWithValues: stepsWithValues(form.steps, formData),
-                        copy: res.locals.copy
+                        copy: res.locals.copy,
+                        useNewBrand: res.locals.useNewBrand
                     });
                     res.redirect(`${req.baseUrl}/success`);
                 } catch (error) {

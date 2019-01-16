@@ -1,0 +1,86 @@
+@import '_vars-rebrand';
+@import '_functions';
+@import '_mixins';
+
+body {
+    padding: 10px;
+    margin: auto;
+}
+
+body,
+p {
+    color: get-color('text', 'base');
+    font-family: font-stack('body');
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.35;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: font-stack('display');
+    font-weight: font-weight('display', 'semibold');
+    line-height: 1.2;
+    margin: 0 0 20px 0;
+    color: get-color('brand', 'primary');
+}
+
+h1 {
+    font-size: 26px;
+}
+h2 {
+    font-size: 22px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 12px;
+}
+
+a {
+    color: get-color('links', 'base');
+    font-weight: font-weight('display', 'bold');
+}
+
+.logo {
+    margin-bottom: 20px;
+    display: block;
+
+    img {
+        width: 200px;
+    }
+}
+
+.summary {
+    h4 {
+        border-bottom: 1px solid get-color('brand', 'primary');
+        padding-bottom: 3px;
+        font-weight: font-weight('display', 'bold');
+    }
+
+    h5 {
+        font-weight: font-weight('display', 'bold');
+    }
+}
+
+small {
+    display: block;
+    font-size: 11px;
+    color: get-color('text', 'note');
+    margin-bottom: 10px;
+}
+
+.space-above {
+    margin-top: 50px;
+}
