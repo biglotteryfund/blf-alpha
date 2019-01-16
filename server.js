@@ -21,7 +21,7 @@ if (appData.isDev) {
 }
 
 const { isWelsh, makeWelsh, removeWelsh, localify } = require('./modules/urls');
-const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
+const { proxyPassthrough } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
 const aliases = require('./controllers/aliases');
@@ -271,15 +271,23 @@ app.get('/error-unauthorised', renderUnauthorised);
  * - Othewise, if the URL is welsh strip that from the URL and try again
  * - If all else fails, pass through to the 404 handler.
  */
-app.route('*')
-    .get(vanityMiddleware, proxyPassthrough, function(req, res, next) {
+app.route('*').get(
+    vanityMiddleware,
+    function(req, res, next) {
+        if (res.locals.usingNewDomain === false) {
+            proxyPassthrough(req, res, next);
+        } else {
+            next();
+        }
+    },
+    function(req, res, next) {
         if (isWelsh(req.originalUrl)) {
             res.redirect(removeWelsh(req.originalUrl));
         } else {
             next();
         }
-    })
-    .post(postToLegacyForm);
+    }
+);
 
 /**
  * 404 Handler
