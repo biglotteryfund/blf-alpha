@@ -151,36 +151,7 @@ function proxyPassthrough(req, res, next) {
     });
 }
 
-function postToLegacyForm(req, res, next) {
-    res.cacheControl = { maxAge: 0 };
-
-    // work out if we need to serve english/welsh page
-    let localePath = req.i18n.getLocale() === 'cy' ? config.get('i18n.urlPrefix.cy') : '';
-    let pagePath = localePath + req.baseUrl + req.path;
-
-    return request
-        .post({
-            uri: legacyUrl + pagePath,
-            form: req.body,
-            strictSSL: false,
-            jar: true,
-            simple: true,
-            followRedirect: false,
-            resolveWithFullResponse: true,
-            followOriginalHttpMethod: true
-        })
-        .catch(err => {
-            const proxyResponse = err.response;
-            if (proxyResponse && proxyResponse.statusCode === 302) {
-                res.redirect(302, proxyResponse.headers.location);
-            } else {
-                next();
-            }
-        });
-}
-
 module.exports = {
     proxyLegacyPage,
-    proxyPassthrough,
-    postToLegacyForm
+    proxyPassthrough
 };

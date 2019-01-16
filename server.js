@@ -21,7 +21,7 @@ if (appData.isDev) {
 }
 
 const { isWelsh, makeWelsh, removeWelsh, localify } = require('./modules/urls');
-const { proxyPassthrough, postToLegacyForm } = require('./modules/legacy');
+const { proxyPassthrough } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
 const aliases = require('./controllers/aliases');
