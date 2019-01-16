@@ -30,7 +30,7 @@ describe('URL Helpers', () => {
                 method: 'GET',
                 url: '/some/example/url/',
                 headers: {
-                    Host: 'biglotteryfund.org.uk',
+                    Host: 'example.com',
                     'X-Forwarded-Proto': 'https'
                 }
             });
@@ -43,7 +43,7 @@ describe('URL Helpers', () => {
                 method: 'GET',
                 url: '/welsh/some/example/url/',
                 headers: {
-                    Host: 'biglotteryfund.org.uk',
+                    Host: 'example.com',
                     'X-Forwarded-Proto': 'https'
                 }
             });
@@ -58,7 +58,7 @@ describe('URL Helpers', () => {
                     method: 'GET',
                     url: `/some/example/url?${query}`,
                     headers: {
-                        Host: 'biglotteryfund.org.uk',
+                        Host: 'example.com',
                         'X-Forwarded-Proto': 'https'
                     }
                 });
