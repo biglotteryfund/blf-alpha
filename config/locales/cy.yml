@@ -102,6 +102,12 @@ global:
       <p>Cadarnhewch eich cydsyniad i ni ddefnyddio nhw trwy glicio parhau.
         Ar ôl rhoi cydsyniad ni fyddwch yn gweld y neges hon eto.</p>
     action: Derbyn cwcis
+  stateAid: >
+    <p>Public funding for organisations carrying out commercial activities, including those with charitable status, is governed by the European Commission’s State Aid rules. State aid is defined by the treaty establishing the European Commission as “any aid granted by a Member State which distorts or threatens to distort competition by favouring certain undertakings or the production of certain goods”.</p>
+
+    <p>The National Lottery is regarded as a supplier of state resources alongside national, regional and local government bodies. Failure to comply with the rules means that the aid is unlawful, and may be subject to repayment with interest by the aid recipient.</p>
+
+    <p>It is your responsibility to check whether State Aid clearance is required. When developing your application, it is important that you consider and, if necessary, take advice on State Aid regulations. You should seek legal advice if you are unsure whether your project will require clearance.</p>
   forms:
     missingFieldError: Darparwch y maes '%s'
     invalidEmailError: Rhowch gyfeiriad e-bost dilys
