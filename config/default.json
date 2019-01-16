@@ -20,6 +20,9 @@
       }
     }
   },
+  "domains": {
+    "searchDomain": "www.biglotteryfund.org.uk"
+  },
   "siteDomain": "www.biglotteryfund.org.uk",
   "dateFormats": {
     "month": "MMMM YYYY",
