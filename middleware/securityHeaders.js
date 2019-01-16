@@ -45,6 +45,7 @@ function defaultSecurityHeaders() {
     const defaultSecurityDomains = [
         "'self'",
         '*.biglotteryfund.org.uk',
+        '*.tnlcommunityfund.org.uk',
         '*.google.com',
         '*.gstatic.com',
         '*.twimg.com',
