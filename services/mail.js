@@ -45,14 +45,18 @@ function generateHtmlEmail({ template, templateData }) {
                 reject(renderErr);
             } else {
                 const publicRoot = path.resolve(__dirname, '../public');
-                juice.juiceResources(html, { webResources: { relativeTo: publicRoot } }, function(juceErr, newHtml) {
-                    /* istanbul ignore if  */
-                    if (juceErr) {
-                        reject(juceErr);
-                    } else {
-                        resolve(newHtml);
+                juice.juiceResources(
+                    html,
+                    { removeStyleTags: false, webResources: { relativeTo: publicRoot } },
+                    function(juceErr, newHtml) {
+                        /* istanbul ignore if  */
+                        if (juceErr) {
+                            reject(juceErr);
+                        } else {
+                            resolve(newHtml);
+                        }
                     }
-                });
+                );
             }
         });
     });
