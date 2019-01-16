@@ -120,15 +120,7 @@ function generateBehaviours(origins) {
      * Paths in this list will be routed
      * directly to the legacy site origin
      */
-    const customBehaviours = [
-        '/-/*',
-        '/js/*',
-        '/css/*',
-        '/images/*',
-        '/default.css',
-        '/PastGrants.ashx',
-        '/news-and-events'
-    ].map(path =>
+    const customBehaviours = ['/-/*', '/js/*', '/css/*', '/images/*', '/default.css'].map(path =>
         makeBehaviourItem({
             originId: origins.legacy,
             pathPattern: path,
