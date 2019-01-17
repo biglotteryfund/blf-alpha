@@ -465,28 +465,6 @@ ourPeople:
   title: Ein pobl
   introduction: >
     <p>Cwrdd â'n bwrdd, UDRh a phwyllgorau cenedlaethol</p>
-  legacyNavigation:
-  - label: Y Bwrdd
-    match: board
-    href: /welsh/about-big/our-people/board
-  - label: Uwch dîm rheoli
-    match: senior-management-team
-    href: /about/our-people/senior-management-team
-  - label: England committee members
-    match: england
-    href: /about/our-people/england-committee
-  - label: NI committee members
-    match: northern-ireland
-    href: /about/our-people/northern-ireland-committee
-  - label: Scotland committee members
-    match: scotland
-    href: /about/our-people/scotland-committee
-  - label: Aelodau pwyllgor Cymru
-    match: wales
-    href: /welsh/about/our-people/wales-committee
-  - label: Pwyllgor Ariannu’r Deyrnas Unedig’
-    match: uk-funding-committee
-    href: /welsh/about/our-people/uk-funding-committee
 funding:
   under10k:
     title: Arian i Bawb y Loteri Genedlaethol - Sut i gael grant o hyd at £10,000
