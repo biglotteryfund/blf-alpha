@@ -42,7 +42,7 @@
                     "url": localify('/funding/programmes?min=10000&&location=ukWide')
                 }] %}
 
-                <div class="o-button-group-flex">
+                <div class="o-button-group-flex u-margin-bottom-l">
                     {% for link in links %}
                         <a href="{{ link.url }}"
                             class="btn accent--{{ pageAccent }} a--btn btn--small"
@@ -52,8 +52,9 @@
                     {% endfor %}
                 </div>
 
+                <h2 class="t4 u-margin-bottom-s">{{ __('global.stateAid.title') }}</h2>
                 <div class="s-prose u-text-small">
-                    {{ __('global.stateAid') | safe }}
+                    {{ __('global.stateAid.body') | safe }}
                 </div>
             </div>
 
