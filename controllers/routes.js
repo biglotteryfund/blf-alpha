@@ -57,6 +57,7 @@ const toplevel = {
             path: '/data',
             lang: 'toplevel.data',
             heroSlug: 'young-shoulders-programme',
+            heroSlugNew: 'fsn-new',
             router: require('./data')
         },
         {
