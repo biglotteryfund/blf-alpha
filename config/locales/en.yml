@@ -557,28 +557,6 @@ ourPeople:
   title: Our People
   introduction: >
     <p>Meet our board, Senior management team, and national committees.</p>
-  legacyNavigation:
-  - label: Board
-    match: board
-    href: /about-big/our-people/board
-  - label: Senior management team
-    match: senior-management-team
-    href: /about/our-people/senior-management-team
-  - label: England committee members
-    match: england
-    href: /about/our-people/england-committee
-  - label: Northern Ireland committee
-    match: northern-ireland
-    href: /about/our-people/northern-ireland-committee
-  - label: Scotland committee members
-    match: scotland
-    href: /about/our-people/scotland-committee
-  - label: Wales committee members
-    match: wales
-    href: /about/our-people/wales-committee
-  - label: UK funding committee
-    match: uk-funding
-    href: /about/our-people/uk-funding-committee
 funding:
   thinkingOfApplying:
     title: "Thinking of applying"

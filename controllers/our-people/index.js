@@ -8,22 +8,16 @@ const { injectCopy, injectHeroImage, injectOurPeople, setCommonLocals } = requir
 const router = express.Router();
 
 router.use(injectCopy('ourPeople'), injectOurPeople, function(req, res, next) {
-    const { title, legacyNavigation } = res.locals.copy;
+    const { title } = res.locals.copy;
 
     res.locals.sectionTitle = title;
 
-    const links = res.locals.ourPeople.map(item => {
+    res.locals.ourPeopleLinks = res.locals.ourPeople.map(item => {
         return {
             label: item.title,
             slug: item.slug,
             href: item.linkUrl
         };
-    });
-
-    // Merge items with legacy navigation to allow gradual migration
-    res.locals.ourPeopleLinks = legacyNavigation.map(legacy => {
-        const match = find(links, link => link.slug.indexOf(legacy.match) !== -1);
-        return match ? match : legacy;
     });
 
     next();
