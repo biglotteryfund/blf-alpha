@@ -187,7 +187,7 @@ router
 
                         const customerHtml = await generateHtmlEmail({
                             template: path.resolve(__dirname, './views/order-email.njk'),
-                            templateData: { locale: req.i18n.getLocale() }
+                            templateData: { locale: req.i18n.getLocale(), useNewBrand: res.locals.useNewBrand }
                         });
 
                         const customerEmail = sendEmail({
