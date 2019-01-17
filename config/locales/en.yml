@@ -569,16 +569,16 @@ ourPeople:
     href: /about/our-people/england-committee
   - label: Northern Ireland committee
     match: northern-ireland
-    href: /about-big/our-people/northern-ireland-committee-members
+    href: /about/our-people/northern-ireland-committee
   - label: Scotland committee members
     match: scotland
     href: /about/our-people/scotland-committee
   - label: Wales committee members
     match: wales
-    href: /about-big/our-people/wales-committee-members
+    href: /about/our-people/wales-committee
   - label: UK funding committee
     match: uk-funding
-    href: /about-big/our-people/uk-funding-committee
+    href: /about/our-people/uk-funding-committee
 funding:
   thinkingOfApplying:
     title: "Thinking of applying"

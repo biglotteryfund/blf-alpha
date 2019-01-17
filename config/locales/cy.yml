@@ -477,16 +477,16 @@ ourPeople:
     href: /about/our-people/england-committee
   - label: NI committee members
     match: northern-ireland
-    href: /about-big/our-people/northern-ireland-committee-members
+    href: /about/our-people/northern-ireland-committee
   - label: Scotland committee members
     match: scotland
     href: /about/our-people/scotland-committee
   - label: Aelodau pwyllgor Cymru
     match: wales
-    href: /welsh/about-big/our-people/wales-committee-members
+    href: /welsh/about/our-people/wales-committee
   - label: Pwyllgor Ariannu’r Deyrnas Unedig’
     match: uk-funding-committee
-    href: /welsh/about-big/our-people/uk-funding-committee
+    href: /welsh/about/our-people/uk-funding-committee
 funding:
   under10k:
     title: Arian i Bawb y Loteri Genedlaethol - Sut i gael grant o hyd at £10,000
