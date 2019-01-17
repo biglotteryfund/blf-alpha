@@ -38,6 +38,7 @@ const toplevel = {
             path: '/northern-ireland',
             lang: 'toplevel.northernIreland',
             heroSlug: 'cruse-bereavement-care',
+            heroSlugNew: 'cruse-bereavement-care-new',
             router: staticPage({
                 disableLanguageLink: true,
                 template: 'static-pages/region'
@@ -47,6 +48,7 @@ const toplevel = {
             path: '/wales',
             lang: 'toplevel.wales',
             heroSlug: 'the-outdoor-partnership-wales',
+            heroSlugNew: 'the-outdoor-partnership-new',
             router: staticPage({
                 template: 'static-pages/region'
             })
