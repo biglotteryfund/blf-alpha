@@ -102,6 +102,7 @@ const funding = {
             path: '/over10k',
             lang: 'funding.over10k',
             heroSlug: 'passion-4-fusion-3',
+            heroSlugNew: 'headway-new',
             router: staticPage({
                 template: 'static-pages/over10k',
                 projectStorySlugs: ['kvin', 'shettleston', 'rosies-trust']
