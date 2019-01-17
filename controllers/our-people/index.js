@@ -27,7 +27,7 @@ router.get('/', injectHeroImage('mental-health-foundation'), (req, res) => {
     res.render(path.resolve(__dirname, './views/our-people'));
 });
 
-router.get('/:slug', injectOurPeople, (req, res, next) => {
+router.get('/:slug', (req, res, next) => {
     const entry = find(res.locals.ourPeople, item => item.slug === req.params.slug);
     if (entry) {
         setCommonLocals({ res, entry });
