@@ -182,12 +182,19 @@ router
                     orderDetails: details
                 })
                     .then(async () => {
+                        const { useNewBrand } = res.locals;
                         const customerSendTo = details.yourEmail;
                         const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
 
                         const customerHtml = await generateHtmlEmail({
                             template: path.resolve(__dirname, './views/order-email.njk'),
-                            templateData: { locale: req.i18n.getLocale(), useNewBrand: res.locals.useNewBrand }
+                            templateData: {
+                                locale: req.i18n.getLocale(),
+                                copy: useNewBrand
+                                    ? req.i18n.__('materials.orderEmail')
+                                    : req.i18n.__('materials.orderEmailNew'),
+                                useNewBrand: useNewBrand
+                            }
                         });
 
                         const customerEmail = sendEmail({
