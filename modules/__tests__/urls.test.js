@@ -2,7 +2,6 @@
 'use strict';
 
 const {
-    cleanLinkNoise,
     getBaseUrl,
     getCurrentUrl,
     hasTrailingSlash,
@@ -16,21 +15,13 @@ const {
 const httpMocks = require('node-mocks-http');
 
 describe('URL Helpers', () => {
-    describe('#cleanLinkNoise', () => {
-        it('should clean link noise from the URL', () => {
-            expect(cleanLinkNoise('/funding/programmes')).toBe('/funding/programmes');
-            expect(cleanLinkNoise('/~/link.aspx')).toBe('/');
-            expect(cleanLinkNoise('/some/page/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/~/link.aspx')).toBe('/some/page/');
-        });
-    });
-
     describe('#getCurrentUrl', () => {
         it('should return expected url for en locale', () => {
             const req = httpMocks.createRequest({
                 method: 'GET',
                 url: '/some/example/url/',
                 headers: {
-                    Host: 'biglotteryfund.org.uk',
+                    Host: 'example.com',
                     'X-Forwarded-Proto': 'https'
                 }
             });
@@ -43,7 +34,7 @@ describe('URL Helpers', () => {
                 method: 'GET',
                 url: '/welsh/some/example/url/',
                 headers: {
-                    Host: 'biglotteryfund.org.uk',
+                    Host: 'example.com',
                     'X-Forwarded-Proto': 'https'
                 }
             });
@@ -58,7 +49,7 @@ describe('URL Helpers', () => {
                     method: 'GET',
                     url: `/some/example/url?${query}`,
                     headers: {
-                        Host: 'biglotteryfund.org.uk',
+                        Host: 'example.com',
                         'X-Forwarded-Proto': 'https'
                     }
                 });

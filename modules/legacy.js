@@ -1,6 +1,5 @@
 'use strict';
 const { get } = require('lodash');
-const config = require('config');
 const jsdom = require('jsdom');
 const ms = require('ms');
 const request = require('request-promise-native');
@@ -9,7 +8,6 @@ const appData = require('./appData');
 const { isWelsh, makeWelsh, removeWelsh, stripTrailingSlashes } = require('../modules/urls');
 
 const { JSDOM } = jsdom;
-const legacyUrl = config.get('legacyDomain');
 
 function getCanonicalUrl(dom) {
     const metaIdentifier = dom.window.document.querySelector('meta[name="identifier"]');
@@ -86,7 +84,7 @@ function proxyLegacyPage({ req, res, followRedirect = true }) {
         res.removeHeader('Content-Security-Policy');
     }
 
-    const proxyUrl = legacyUrl + req.originalUrl;
+    const proxyUrl = `https://wwwlegacy.biglotteryfund.org.uk${req.originalUrl}`;
     const originalUrlPath = stripTrailingSlashes(req.baseUrl + req.path);
 
     return request({
@@ -141,8 +139,7 @@ function proxyPassthrough(req, res, next) {
             if (redirectDestination.indexOf(brokenSitecorePath) === -1) {
                 // Make the redirect relative to the current environment
                 // (they seem to come back from Sitecore with an absolute path)
-                let liveUrl = `https://${config.get('siteDomain')}`;
-                redirectDestination = redirectDestination.replace(liveUrl, '');
+                redirectDestination = redirectDestination.replace('https://www.biglotteryfund.org.uk', '');
                 return res.redirect(301, redirectDestination);
             }
         }

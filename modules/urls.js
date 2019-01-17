@@ -98,19 +98,6 @@ function sanitiseUrlPath(urlPath) {
 }
 
 /**
- * Clean link noise
- * Strips trailing /~/~/~/link.apsx noise from old Sitecore generated URLs
- */
-function cleanLinkNoise(originalUrl) {
-    const re = /(~\/)*link.aspx$/;
-    if (re.test(originalUrl)) {
-        return originalUrl.replace(re, '');
-    } else {
-        return originalUrl;
-    }
-}
-
-/**
  * Normalize query
  * Old format URLs often get passed through as: ?area=Scotland&amp;amount=10001 - 50000
  * urlencoded &amp; needs to be normalised when fetching individual query param
@@ -171,7 +158,6 @@ function getCurrentUrl(req, requestedLocale) {
 }
 
 module.exports = {
-    cleanLinkNoise,
     getAbsoluteUrl,
     getBaseUrl,
     getCurrentUrl,

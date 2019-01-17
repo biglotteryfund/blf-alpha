@@ -21,6 +21,7 @@
     }
   },
   "domains": {
+    "indexable": ["www.biglotteryfund.org.uk"],
     "searchDomain": "www.biglotteryfund.org.uk"
   },
   "siteDomain": "www.biglotteryfund.org.uk",
@@ -46,9 +47,6 @@
     "enableSurvey": true,
     "enableTimingMetrics": false
   },
-  "imgix": {
-    "mediaDomain": "biglotteryfund-assets.imgix.net"
-  },
   "cookies": {
     "contrast": "contrastMode",
     "features": "blf-features",
@@ -56,7 +54,6 @@
     "session": "blf-alpha-session"
   },
   "googleAnalyticsCode": "UA-98908627-1",
-  "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
   "ebulletinApiEndpoint": "https://apiconnector.com/v2",
   "grants": {
     "dateRange": {
