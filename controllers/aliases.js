@@ -33,6 +33,7 @@ const aliases = {
     '/about-big/ebulletin-subscription': '/about/ebulletin',
     '/about-big/ebulletin': '/about/ebulletin',
     '/about-big/helping-millions-change-their-lives': '/about/strategic-framework',
+    '/about-big/iwill': '/funding/programmes/iwill-fund',
     '/about-big/jobs': '/jobs',
     '/about-big/jobs/benefits': '/jobs/benefits',
     '/about-big/jobs/current-vacancies': '/jobs',
