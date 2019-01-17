@@ -46,6 +46,7 @@ const aliases = {
     '/about-big/our-approach/international-funding': '/funding/funding-guidance/international-funding',
     '/about-big/our-approach/non-lotttery-funding': '/funding/funding-guidance/non-lottery-funding',
     '/about-big/our-people/': '/about/our-people/',
+    '/about-big/our-people/board': '/about/our-people/board',
     '/about-big/our-people/england-committee-members': '/about/our-people/england-committee',
     '/about-big/our-people/northern-ireland-committee-members': '/about/our-people/northern-ireland-committee',
     '/about-big/our-people/scotland-committee-members': '/about/our-people/scotland-committee',
