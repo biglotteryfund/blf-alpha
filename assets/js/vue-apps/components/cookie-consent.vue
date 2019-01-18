@@ -24,10 +24,7 @@ export default {
 <template>
     <aside class="cookie-consent" :class="{ 'is-shown': isShown }">
         <div class="cookie-consent__inner">
-            <div class="cookie-consent__content">
-                <h4 class="cookie-consent__title">{{ title }}</h4>
-                <div class="cookie-consent__message" v-html="message"></div>
-            </div>
+            <div class="cookie-consent__content" v-html="message"></div>
             <div class="cookie-consent__actions">
                 <button class="btn btn--small" @click="handleAccept">{{ action }}</button>
             </div>

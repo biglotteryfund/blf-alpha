@@ -96,12 +96,9 @@ global:
     previousItem: Previous item
     nextItem: Next item
   cookieConsent:
-    title: Cookies on this website
     message: >
-      <p>This site uses cookies, an explanation of their purpose and how to manage them can be found within our
-      <a href="/about/customer-service/cookies">Cookies Policy</a>.</p>
-      <p>Please confirm your consent to their use by clicking continue.
-        After consenting you will not see this message again.</p>
+      This site uses cookies. For an explanation of their purpose and how to manage them see our
+      <a href="/about/customer-service/cookies">cookies policy</a>.
     action: Accept cookies
   stateAid:
     title: State Aid

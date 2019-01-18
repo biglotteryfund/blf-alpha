@@ -95,12 +95,9 @@ global:
     previousItem: Eitem flaenorol
     nextItem: Eitem nesaf
   cookieConsent:
-    title: Cwcis ar y wefan hon
     message: >
-      <p>Mae'r wefan hon yn defnyddio cwcis, mae esboniad o'u diben a sut i'w rheoli ar gael yn ein
-      <a href="/welsh/about/customer-service/cookies">Polisi Cwcis</a>.</p>
-      <p>Cadarnhewch eich cydsyniad i ni ddefnyddio nhw trwy glicio parhau.
-        Ar ôl rhoi cydsyniad ni fyddwch yn gweld y neges hon eto.</p>
+      Mae'r wefan hon yn defnyddio cwcis, mae esboniad o'u diben a sut i'w rheoli ar gael yn ein
+      <a href="/welsh/about/customer-service/cookies">Polisi Cwcis</a>.
     action: Derbyn cwcis
   stateAid:
     title: Cymorth Gwladwriaethol
