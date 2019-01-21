@@ -54,7 +54,6 @@
     "session": "blf-alpha-session"
   },
   "googleAnalyticsCode": "UA-98908627-1",
-  "ebulletinApiEndpoint": "https://apiconnector.com/v2",
   "grants": {
     "dateRange": {
       "start": "2004-04-01",
