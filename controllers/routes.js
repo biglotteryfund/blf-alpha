@@ -188,12 +188,6 @@ const about = {
             router: require('./our-people')
         },
         {
-            path: '/ebulletin',
-            lang: 'toplevel.ebulletin',
-            heroSlug: 'the-outdoor-partnership',
-            router: require('./ebulletin')
-        },
-        {
             path: '/*',
             router: basicContent()
         }
