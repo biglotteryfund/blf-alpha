@@ -222,8 +222,10 @@
     }
 
     .super-hero-next__header {
+        max-width: $maxWidth;
+        margin: 0 auto;
+        padding: 20px 12px 12px;
         text-align: center;
-        padding: 24px 0 12px;
     }
 
     .super-hero-next__title {
@@ -233,6 +235,10 @@
         margin-bottom: 3px;
 
         @include mq('medium') {
+            font-size: 21px;
+        }
+
+        @include mq('medium-major') {
             font-size: 23px;
         }
     }
@@ -241,17 +247,21 @@
         font-size: 14px;
         line-height: 1.2;
         font-weight: normal;
-        margin-bottom: 1em;
+        margin-bottom: 0.75em;
 
         @media only screen and (min-width: 360px) {
             font-size: 18px;
         }
 
         @include mq('medium') {
-            font-size: 21px;
+            font-size: 20px;
             max-width: 38em;
             margin-left: auto;
             margin-right: auto;
+        }
+
+        @include mq('medium-major') {
+            font-size: 21px;
         }
 
         p {
@@ -284,21 +294,26 @@
             width: 100%;
             position: absolute;
             bottom: 0;
-            padding: 14px 16px;
+            padding: 10px;
 
-            font-size: 17px;
+            font-size: 16px;
             font-family: font-stack('display');
             font-weight: font-weight('display', 'semibold');
             color: white;
             background-color: get-color('brand', 'primary-tint');
 
-            @include mq('medium-minor') {
+            @include mq('medium') {
                 height: 35%;
+            }
+
+            @include mq('medium-major') {
+                font-size: 17px;
             }
 
             @include mq('large') {
                 height: 30%;
                 bottom: $spacingUnit / 2;
+                padding: 14px 16px;
             }
         }
 

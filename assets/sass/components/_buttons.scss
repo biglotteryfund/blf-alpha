@@ -154,20 +154,18 @@ $buttonColor: #1a44a1;
  * Buttons: Reversed Variant
  */
 .btn.btn--reversed {
-    color: $buttonColor;
-    font-weight: font-weight('display', 'bold');
-    background-color: white;
-
     @if $useNewBrand == true {
-        color: get-color('brand', 'secondary-blue');
+        color: white;
+        background-color: get-color('brand', 'secondary-blue');
+        font-weight: font-weight('display', 'semibold');
+    } @else {
+        color: $buttonColor;
+        font-weight: font-weight('display', 'bold');
+        background-color: white;
 
-        &.btn--reversed-alt {
-            color: get-color('brand', 'secondary-burgundy');
+        @include on-interact {
+            background-color: darken(white, 5%);
         }
-    }
-
-    @include on-interact {
-        background-color: darken(white, 5%);
     }
 }
 

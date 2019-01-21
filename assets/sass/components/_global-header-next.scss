@@ -262,6 +262,10 @@ $breakpointLarge: 840px;
                     }
                 }
 
+                > li.is-conditional-link {
+                    display: none;
+                }
+
                 > li:hover > a,
                 > li.is-current > a {
                     color: get-color('brand', 'primary');

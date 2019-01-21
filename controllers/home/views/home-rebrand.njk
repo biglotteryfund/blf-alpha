@@ -23,10 +23,10 @@
                 {% endif %}
             </figure>
             <div class="super-hero-next__content">
-                <div class="super-hero-next__header u-inner" id="content">
+                <div class="super-hero-next__header" id="content">
                     <h2 class="super-hero-next__title">{{ copy.introNew.title | widont | safe }}</h2>
                     <div class="super-hero-next__intro">
-                        {{ __(copy.introNew.description, 'https://www.national-lottery.co.uk/', localify('/data')) | safe }}
+                        {{ __(copy.introNew.description, localify('/data'), 'https://www.national-lottery.co.uk/') | safe }}
                     </div>
 
                     <div class="o-button-group">
@@ -36,7 +36,7 @@
                             <span class="u-wide-only">{{ copy.under10k.long }}</span>
                             <span class="u-not-wide">{{ copy.under10k.short }}</span>
                         </a>
-                        <a class="btn btn--medium btn--reversed btn--reversed-alt"
+                        <a class="btn btn--medium btn--reversed"
                             href="{{ localify('/funding/over10k') }}"
                             id="qa-button-over10k">
                             <span class="u-wide-only">{{ copy.over10k.long }}</span>
