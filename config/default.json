@@ -41,6 +41,7 @@
     "enableHotjar": false,
     "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
+    "enableOldDomainRedirect": false,
     "enablePrompt": false,
     "enableRelatedGrants": true,
     "enableSurvey": true,
