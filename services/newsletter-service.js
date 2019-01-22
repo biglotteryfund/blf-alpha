@@ -1,5 +1,4 @@
 'use strict';
-const config = require('config');
 const request = require('request-promise-native');
 const debug = require('debug')('biglotteryfund:newsletter-service');
 const raven = require('raven');
