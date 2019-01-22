@@ -30,6 +30,8 @@ const aliases = {
     '/about-big/customer-service/privacy-policy': '/about/customer-service/privacy-policy',
     '/about-big/customer-service/terms-of-use': '/about/customer-service/terms-of-use',
     '/about-big/customer-service/welsh-language-scheme': '/about/customer-service/welsh-language-scheme',
+    '/about-big/dormant-account-statement-of-intent': '/funding/funding-guidance/dormant-account-statement-of-intent',
+    '/about-big/dormant-accounts-financial-inclusion-statement-of-intent': '/funding/funding-guidance/dormant-accounts-financial-inclusion-statement-of-intent',
     '/about-big/ebulletin-subscription': '/about/ebulletin',
     '/about-big/ebulletin': '/about/ebulletin',
     '/about-big/helping-millions-change-their-lives': '/about/strategic-framework',

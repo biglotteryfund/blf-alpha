@@ -643,6 +643,86 @@ Array [
     "to": "/welsh/about/customer-service/welsh-language-scheme",
   },
   Object {
+    "from": "/about-big/dormant-account-statement-of-intent",
+    "to": "/funding/funding-guidance/dormant-account-statement-of-intent",
+  },
+  Object {
+    "from": "/welsh/about-big/dormant-account-statement-of-intent",
+    "to": "/welsh/funding/funding-guidance/dormant-account-statement-of-intent",
+  },
+  Object {
+    "from": "/england/about-big/dormant-account-statement-of-intent",
+    "to": "/funding/funding-guidance/dormant-account-statement-of-intent",
+  },
+  Object {
+    "from": "/welsh/england/about-big/dormant-account-statement-of-intent",
+    "to": "/welsh/funding/funding-guidance/dormant-account-statement-of-intent",
+  },
+  Object {
+    "from": "/scotland/about-big/dormant-account-statement-of-intent",
+    "to": "/funding/funding-guidance/dormant-account-statement-of-intent",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/dormant-account-statement-of-intent",
+    "to": "/welsh/funding/funding-guidance/dormant-account-statement-of-intent",
+  },
+  Object {
+    "from": "/northernireland/about-big/dormant-account-statement-of-intent",
+    "to": "/funding/funding-guidance/dormant-account-statement-of-intent",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/dormant-account-statement-of-intent",
+    "to": "/welsh/funding/funding-guidance/dormant-account-statement-of-intent",
+  },
+  Object {
+    "from": "/wales/about-big/dormant-account-statement-of-intent",
+    "to": "/funding/funding-guidance/dormant-account-statement-of-intent",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/dormant-account-statement-of-intent",
+    "to": "/welsh/funding/funding-guidance/dormant-account-statement-of-intent",
+  },
+  Object {
+    "from": "/about-big/dormant-accounts-financial-inclusion-statement-of-intent",
+    "to": "/funding/funding-guidance/dormant-accounts-financial-inclusion-statement-of-intent",
+  },
+  Object {
+    "from": "/welsh/about-big/dormant-accounts-financial-inclusion-statement-of-intent",
+    "to": "/welsh/funding/funding-guidance/dormant-accounts-financial-inclusion-statement-of-intent",
+  },
+  Object {
+    "from": "/england/about-big/dormant-accounts-financial-inclusion-statement-of-intent",
+    "to": "/funding/funding-guidance/dormant-accounts-financial-inclusion-statement-of-intent",
+  },
+  Object {
+    "from": "/welsh/england/about-big/dormant-accounts-financial-inclusion-statement-of-intent",
+    "to": "/welsh/funding/funding-guidance/dormant-accounts-financial-inclusion-statement-of-intent",
+  },
+  Object {
+    "from": "/scotland/about-big/dormant-accounts-financial-inclusion-statement-of-intent",
+    "to": "/funding/funding-guidance/dormant-accounts-financial-inclusion-statement-of-intent",
+  },
+  Object {
+    "from": "/welsh/scotland/about-big/dormant-accounts-financial-inclusion-statement-of-intent",
+    "to": "/welsh/funding/funding-guidance/dormant-accounts-financial-inclusion-statement-of-intent",
+  },
+  Object {
+    "from": "/northernireland/about-big/dormant-accounts-financial-inclusion-statement-of-intent",
+    "to": "/funding/funding-guidance/dormant-accounts-financial-inclusion-statement-of-intent",
+  },
+  Object {
+    "from": "/welsh/northernireland/about-big/dormant-accounts-financial-inclusion-statement-of-intent",
+    "to": "/welsh/funding/funding-guidance/dormant-accounts-financial-inclusion-statement-of-intent",
+  },
+  Object {
+    "from": "/wales/about-big/dormant-accounts-financial-inclusion-statement-of-intent",
+    "to": "/funding/funding-guidance/dormant-accounts-financial-inclusion-statement-of-intent",
+  },
+  Object {
+    "from": "/welsh/wales/about-big/dormant-accounts-financial-inclusion-statement-of-intent",
+    "to": "/welsh/funding/funding-guidance/dormant-accounts-financial-inclusion-statement-of-intent",
+  },
+  Object {
     "from": "/about-big/ebulletin-subscription",
     "to": "/about/ebulletin",
   },

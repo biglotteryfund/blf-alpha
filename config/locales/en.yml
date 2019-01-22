@@ -473,10 +473,6 @@ toplevel:
       href: "/funding/grants"
     - label: Help with managing your grant
       href: "/funding/funding-guidance/managing-your-funding"
-    - label: International funding
-      href: "/funding/funding-guidance/international-funding"
-    - label: "Non-Lottery funding"
-      href: "/funding/funding-guidance/non-lottery-funding"
     recentProgrammes:
     - "rural-programme"
     - "digital-fund"
