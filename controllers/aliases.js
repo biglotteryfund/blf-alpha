@@ -167,6 +167,10 @@ const aliases = {
     '/global-content/programmes/wales/awards-for-all-wales': '/funding/programmes/national-lottery-awards-for-all-wales',
     '/global-content/programmes/wales/people-and-places': '/funding/programmes?min=10000&location=wales',
     '/global-content/programmes/wales/rural-programme-community-grants': '/funding/programmes/rural-programme',
+
+    //===== Misc/other =====//
+    '/contact-us': '/contact',
+
 };
 
 /**
