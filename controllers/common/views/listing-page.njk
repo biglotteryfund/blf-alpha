@@ -33,7 +33,7 @@
                             {{ miniatureHero({
                                 "title": page.trailText | default(page.title, true),
                                 "linkUrl": page.linkUrl,
-                                "image": { "url": page.photo }
+                                "image": { "url": page.trailImage if (useNewBrand and page.trailImage) else page.photo }
                             }, isLarge = true) }}
                         </li>
                     {% endfor %}
