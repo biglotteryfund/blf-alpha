@@ -21,7 +21,8 @@
     }
   },
   "domains": {
-    "indexable": ["www.biglotteryfund.org.uk"]
+    "indexable": ["www.biglotteryfund.org.uk"],
+    "searchDomain": "www.biglotteryfund.org.uk"
   },
   "dateFormats": {
     "month": "MMMM YYYY",
