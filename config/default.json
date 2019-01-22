@@ -20,6 +20,10 @@
       }
     }
   },
+  "domains": {
+    "indexable": ["www.biglotteryfund.org.uk"],
+    "searchDomain": "www.biglotteryfund.org.uk"
+  },
   "siteDomain": "www.biglotteryfund.org.uk",
   "dateFormats": {
     "month": "MMMM YYYY",
@@ -36,16 +40,12 @@
     "enableAbTests": true,
     "enableDigitalFundApplications": false,
     "enableHotjar": false,
-    "enableLegacyFileArchiving": false,
     "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
     "enablePrompt": false,
     "enableRelatedGrants": true,
     "enableSurvey": true,
     "enableTimingMetrics": false
-  },
-  "imgix": {
-    "mediaDomain": "biglotteryfund-assets.imgix.net"
   },
   "cookies": {
     "contrast": "contrastMode",
@@ -54,8 +54,6 @@
     "session": "blf-alpha-session"
   },
   "googleAnalyticsCode": "UA-98908627-1",
-  "legacyDomain": "https://wwwlegacy.biglotteryfund.org.uk",
-  "ebulletinApiEndpoint": "https://apiconnector.com/v2",
   "grants": {
     "dateRange": {
       "start": "2004-04-01",

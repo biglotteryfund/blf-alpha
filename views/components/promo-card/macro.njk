@@ -10,11 +10,9 @@ props: {Object}
 - trailText {Html} - Trail text HTML
 - image {Object} { url: {String}, alt: {String} }
 - link {Object} { url: {String}, label: {String} }
-accent: {String} - Accent colour to use
-featured: {Boolean} - Use featured style for promo card
 #}
-{% macro promoCard(props, featured = false) %}
-    <div class="promo-card{% if featured %} promo-card--featured{% endif %}">
+{% macro promoCard(props, accent = 'pink', featured = false, showBorder = false, isInline = false) %}
+    <div class="promo-card{% if featured %} promo-card--featured{% endif %}{% if isInline %} promo-card--inline{% if showBorder %} u-accent-border-top-{{ accent }}{% endif %}{% endif %}">
         {% if props.image.url %}
             <div class="promo-card__media">
                 {% if props.link.url %}<a href="{{ props.link.url }}">{% endif %}
@@ -54,8 +52,11 @@ featured: {Boolean} - Use featured style for promo card
             {% if props.subtitle %}
                 <p class="promo-card__subtitle">{{ props.subtitle }}</p>
             {% endif %}
-            <div class="promo-card__trail-text s-prose">
-                {% if props.trailText %}
+            <div class="promo-card__summary s-prose">
+                {# @TODO: Use summary prop instead of trailText #}
+                {% if props.summary %}
+                    {{ props.summary | safe }}
+                {% elseif props.trailText %}
                     {{ props.trailText | safe }}
                 {% endif %}
                 {% if props.link.url and props.link.label %}

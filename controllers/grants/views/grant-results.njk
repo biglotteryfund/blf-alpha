@@ -1,6 +1,6 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav with context %}
-{% from './helpers.njk' import pgLink, buildLocationList with context %}
+{% from './helpers.njk' import badgeActiveProject, buildLocationList, pgLink with context %}
 
 {% macro grantResultItem(grant) %}
     {% set subtitle %}
@@ -32,7 +32,7 @@
             {% endfor %}
         </dl>
         {% if grant.isActive %}
-            <span class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</span>
+            {{ badgeActiveProject() }}
         {% endif %}
     {% endcall %}
 {% endmacro %}

@@ -92,7 +92,7 @@ const funding = {
             heroSlug: 'friends-of-greenwich',
             router: staticPage({
                 template: 'static-pages/under10k',
-                caseStudies: ['papyrus', 'ragroof-players', 'welsh-refugee-council']
+                projectStorySlugs: ['hapani', 'niid', 'new-routes']
             })
         },
         {
@@ -101,7 +101,7 @@ const funding = {
             heroSlug: 'passion-4-fusion-3',
             router: staticPage({
                 template: 'static-pages/over10k',
-                caseStudies: ['croxteth-gems', 'dads-in-mind', 'cruse-bereavement-care']
+                projectStorySlugs: ['kvin', 'shettleston', 'rosies-trust']
             })
         },
         {
@@ -186,12 +186,6 @@ const about = {
             path: '/our-people',
             lang: 'about.ourPeople',
             router: require('./our-people')
-        },
-        {
-            path: '/ebulletin',
-            lang: 'toplevel.ebulletin',
-            heroSlug: 'the-outdoor-partnership',
-            router: require('./ebulletin')
         },
         {
             path: '/*',

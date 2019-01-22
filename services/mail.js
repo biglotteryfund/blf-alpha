@@ -45,14 +45,18 @@ function generateHtmlEmail({ template, templateData }) {
                 reject(renderErr);
             } else {
                 const publicRoot = path.resolve(__dirname, '../public');
-                juice.juiceResources(html, { webResources: { relativeTo: publicRoot } }, function(juceErr, newHtml) {
-                    /* istanbul ignore if  */
-                    if (juceErr) {
-                        reject(juceErr);
-                    } else {
-                        resolve(newHtml);
+                juice.juiceResources(
+                    html,
+                    { removeStyleTags: false, webResources: { relativeTo: publicRoot } },
+                    function(juceErr, newHtml) {
+                        /* istanbul ignore if  */
+                        if (juceErr) {
+                            reject(juceErr);
+                        } else {
+                            resolve(newHtml);
+                        }
                     }
-                });
+                );
             }
         });
     });
@@ -68,8 +72,10 @@ function generateHtmlEmail({ template, templateData }) {
  * @return {string}
  */
 function getSendAddress(recipients) {
-    const addressess = recipients.map(recipient => recipient.address);
-    if (addressess.some(address => /@biglotteryfund.org.uk$/.test(address))) {
+    const addresses = recipients.map(recipient => recipient.address);
+    if (
+        addresses.some(address => /@biglotteryfund.org.uk$/.test(address) || /@tnlcommunityfund.org.uk$/.test(address))
+    ) {
         return 'noreply@blf.digital';
     } else {
         return 'noreply@biglotteryfund.org.uk';

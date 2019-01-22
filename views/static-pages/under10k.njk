@@ -1,11 +1,10 @@
+{% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/caseStudies.njk" import caseStudyCollection with context  %}
-
-{% extends "layouts/main.njk" %}
+{% from "components/project-stories/macro.njk" import projectStories with context  %}
 
 {% block content %}
-    <main role="main">
+    <main role="main" id="content">
         {{ hero(
             titleText = copy.title,
             image = pageHero.image,
@@ -55,17 +54,23 @@
                         </a>
                     {% endfor %}
                 </div>
-                <div class="s-prose">
+
+                <div class="s-prose u-margin-bottom-l">
                     <p>{{ copy.ukWideInfo | safe }}</p>
+                </div>
+
+                <h2 class="t4 u-margin-bottom-s">{{ __('global.stateAid.title') }}</h2>
+                <div class="s-prose u-text-small">
+                    {{ __('global.stateAid.body') | safe }}
                 </div>
             </div>
 
-            {# Case Studies #}
-            {{ caseStudyCollection(
-                caseStudies = caseStudies,
-                customSectionTitle = copy.projectExamples,
-                accent = pageAccent
-            ) }}
+            {% if stories.length > 0 %}
+                {{ projectStories(
+                    stories = stories,
+                    title = __('global.misc.projectExamples')
+                ) }}
+            {% endif %}
 
             <div class="u-inner u-align-center u-margin-bottom-l">
                 <a href="{{ localify('/funding/grants') }}" class="btn btn--outline btn--medium accent--{{ pageAccent }} a--btn">

@@ -1,7 +1,7 @@
 'use strict';
 const config = require('config');
 const moment = require('moment');
-const { map, omitBy, isString, get } = require('lodash');
+const { get, map, omitBy, isString } = require('lodash');
 
 const { getCurrentUrl, getAbsoluteUrl, localify } = require('../modules/urls');
 const { REBRAND_SECRET } = require('../modules/secrets');
@@ -20,19 +20,6 @@ module.exports = function(req, res, next) {
     const locale = req.i18n.getLocale();
 
     /**
-     * Feature flags
-     */
-    res.locals.enablePrompt = features.enablePrompt;
-    res.locals.enableSurvey = features.enableSurvey;
-    res.locals.enableNameChangeMessage = features.enableNameChangeMessage;
-
-    /**
-     * High-contrast mode
-     */
-    const contrastPref = req.cookies[cookies.contrast];
-    res.locals.isHighContrast = contrastPref && contrastPref === 'high';
-
-    /**
      * Rebrand flag
      */
     const useNewBrand =
@@ -46,6 +33,19 @@ module.exports = function(req, res, next) {
      * New domain flag
      */
     res.locals.usingNewDomain = req.get('host') === 'www.tnlcommunityfund.org.uk';
+
+    /**
+     * Feature flags
+     */
+    res.locals.enablePrompt = features.enablePrompt;
+    res.locals.enableSurvey = features.enableSurvey;
+    res.locals.enableNameChangeMessage = features.enableNameChangeMessage;
+
+    /**
+     * High-contrast mode
+     * @TODO: Remove post-rebrand
+     */
+    res.locals.isHighContrast = useNewBrand === false && get(req.cookies, cookies.contrast) === 'high';
 
     /**
      * Global copy

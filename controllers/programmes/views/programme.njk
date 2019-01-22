@@ -1,5 +1,5 @@
 {% extends "layouts/main.njk" %}
-{% from "components/caseStudies.njk" import caseStudyCollection with context %}
+{% from "components/project-stories/macro.njk" import projectStories with context %}
 {% from "components/content-box-intro/macro.njk" import contentBoxIntro with context %}
 {% from "components/content-tabs/macro.njk" import contentTabs %}
 {% from "components/hero.njk" import hero with context %}
@@ -10,7 +10,7 @@
 {% if not pageHero %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% block content %}
-    <main role="main">
+    <main role="main" id="content">
         {% if pageHero %}
             {{ hero(
                 titleText = title,
@@ -22,11 +22,9 @@
         {% if pageHero %}<div class="nudge-up">{% endif %}
         
         {% if not pageHero %}
-            <div class="u-inner">
-                {{ pageTitle(title) }}
-            </div>
+            {{ pageTitle(title) }}
         {% endif %}
-        
+
         {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = pageHero.credit) %}
             {% if entry.description %}
                 {{ entry.description | safe }}
@@ -72,12 +70,13 @@
             {% endif %}
         </div>
 
-        {# Case Studies #}
-        {{ caseStudyCollection(
-            caseStudies = entry.caseStudies,
-            customSectionTitle = __('global.misc.projectExamples'),
-            accent = pageAccent
-        ) }}
+        {# Project Stories #}
+        {% if entry.projectStories.length > 0 %}
+            {{ projectStories(
+                stories = entry.projectStories,
+                title = __('global.misc.projectExamples')
+            ) }}
+        {% endif %}
 
         {% if pageHero %}</div>{% endif %}
     </main>

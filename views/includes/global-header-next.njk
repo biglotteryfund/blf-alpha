@@ -64,7 +64,7 @@
                 <div class="global-header-next__navigation">
                     <nav class="global-header-next__navigation-primary" id="global-nav">
                         <ul>
-                            <li class="u-mobile-only"><a href="{{ globalNavigation.home.url }}">{{ globalNavigation.home.label }}</a></li>
+                            <li class="is-conditional-link"><a href="{{ globalNavigation.home.url }}">{{ globalNavigation.home.label }}</a></li>
                             {% for item in globalNavigation.primaryLinks %}
                                 {% set hasChildren = item.children.length > 0 %}
                                 {% set isCurrent = sectionUrl === item.url %}
@@ -82,7 +82,7 @@
                                 </li>
                             {% endfor %}
                             {% for item in globalNavigation.secondaryLinks %}
-                                <li class="u-mobile-only"><a href="{{ item.url }}">{{ item.label }}</a></li>
+                                <li class="is-conditional-link"><a href="{{ item.url }}">{{ item.label }}</a></li>
                             {% endfor %}
                         </ul>
                     </nav>

@@ -1,5 +1,4 @@
 'use strict';
-const config = require('config');
 const express = require('express');
 const { flatMap } = require('lodash');
 
@@ -20,15 +19,24 @@ const metrics = require('../modules/metrics');
 flatMap([
     '/about-big/10-big-lottery-fund-facts',
     '/about-big/big-lottery-fund-in-your-constituency',
+    '/about-big/community-closed',
     '/about-big/countries*',
     '/about-big/future-of-doing-good',
     '/about-big/living-wage',
     '/about-big/mayors-community-weekend',
     '/about-big/our-approach/vision-and-principles',
+    '/about-big/publications*',
     '/about-big/your-voice',
+    '/funding/big-stories*',
+    '/funding/celebrateuk*',
     '/funding/funding-guidance/applying-for-funding/*',
+    '/funding/funding-guidance/managing-your-funding/about-equalities*',
+    '/funding/funding-guidance/managing-your-funding/reaching-communities-grant-offer',
+    '/funding/joint-funding',
+    '/funding/peoples-projects-resources',
+    '/funding/scotland-portfolio*',
     '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*',
-    '/research*'
+    '/research*',
 ], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
     router.get(urlPath, noCache, function(req, res) {
         res.render('static-pages/archived', {
@@ -44,20 +52,18 @@ flatMap([
  * along with a feedback form to explain what they were looking for.
  * We also log all requests for these files to ensure we can update anything missing.
  */
-if (config.get('features.enableLegacyFileArchiving')) {
-    router.get('/-/media/files/*', (req, res) => {
-        const filePath = req.originalUrl;
-        metrics.count({
-            name: filePath,
-            namespace: 'SITE/LEGACY_FILE',
-            dimension: 'DOWNLOADED',
-            value: 'REQUEST_COUNT'
-        });
-        res.render('static-pages/legacy-file', {
-            title: 'Document archived',
-            filePath: filePath
-        });
+router.get('/-/media/files/*', (req, res) => {
+    const filePath = req.originalUrl;
+    metrics.count({
+        name: filePath,
+        namespace: 'SITE/LEGACY_FILE',
+        dimension: 'DOWNLOADED',
+        value: 'REQUEST_COUNT'
     });
-}
+    res.render('static-pages/legacy-file', {
+        title: 'Document archived',
+        filePath: filePath
+    });
+});
 
 module.exports = router;

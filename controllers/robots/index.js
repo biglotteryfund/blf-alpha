@@ -1,8 +1,9 @@
 'use strict';
-const config = require('config');
 const express = require('express');
 const moment = require('moment');
 const sitemap = require('sitemap');
+const domains = require('config').get('domains');
+const { includes } = require('lodash');
 
 const { getBaseUrl, getAbsoluteUrl } = require('../../modules/urls');
 const { getCanonicalRoutes } = require('../../modules/route-helpers');
@@ -29,16 +30,13 @@ router.get('/status', (req, res) => {
 });
 
 router.get('/robots.txt', noCache, (req, res) => {
-    const isProductionDomain = req.get('host') === config.get('siteDomain');
-
+    const isIndexable = includes(domains.indexable, req.get('host')) === true;
     const disallowList = ['/api/', '/funding/grants/', '/welsh/funding/grants/'];
-
     const text = [
         `user-agent: *`,
         `sitemap: ${getAbsoluteUrl(req, '/sitemap.xml')}`,
-        `${isProductionDomain === true ? disallowList.map(line => `disallow: ${line}`).join('\n') : 'disallow: /'}`
+        `${isIndexable ? disallowList.map(line => `disallow: ${line}`).join('\n') : 'disallow: /'}`
     ].join('\n');
-
     res.setHeader('Content-Type', 'text/plain');
     res.send(text);
 });

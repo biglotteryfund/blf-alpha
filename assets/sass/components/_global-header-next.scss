@@ -206,14 +206,14 @@ $breakpointLarge: 840px;
         .global-header-next__extra {
             display: flex;
             justify-content: flex-end;
-            margin-top: 12px;
+            padding-top: 12px;
         }
 
         .global-header-next__content {
             display: flex;
             align-items: center;
-            height: 100px;
-            margin-top: -20px; // Optically align with extra nav
+            height: 80px;
+            padding-bottom: 20px;
         }
 
         .global-header-next__content-primary {
@@ -260,6 +260,10 @@ $breakpointLarge: 840px;
                         margin-right: -3px;
                         margin-left: 3px;
                     }
+                }
+
+                > li.is-conditional-link {
+                    display: none;
                 }
 
                 > li:hover > a,

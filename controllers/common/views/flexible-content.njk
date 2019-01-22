@@ -1,10 +1,10 @@
 {% from "components/hero.njk" import hero with context %}
-{% from "components/content.njk" import flexibleContent %}
+{% from "components/flexible-content/macro.njk" import flexibleContent %}
 
 {% extends "layouts/main.njk" %}
 
 {% block content %}
-    <main role="main">
+    <main role="main" id="content">
         {{ hero(
             titleText = title,
             image = pageHero.image,

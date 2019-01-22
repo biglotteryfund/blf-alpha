@@ -265,13 +265,14 @@ router.get('/:id', injectCopy('funding.pastGrants.search'), async (req, res, nex
     try {
         const data = await grantsService.getById({ id: req.params.id, locale: req.i18n.getLocale() });
 
-        let caseStudy;
+        let projectStory;
         try {
-            caseStudy = await contentApi.getCaseStudyByGrantId({
+            projectStory = await contentApi.getProjectStory({
                 locale: req.i18n.getLocale(),
-                grantId: req.params.id
+                grantId: req.params.id,
+                previewMode: res.locals.PREVIEW_MODE || false
             });
-            setHeroLocals({ res, entry: caseStudy });
+            setHeroLocals({ res, entry: projectStory });
         } catch (e) {} // eslint-disable-line no-empty
 
         if (data && data.result) {
@@ -290,7 +291,7 @@ router.get('/:id', injectCopy('funding.pastGrants.search'), async (req, res, nex
             res.render(path.resolve(__dirname, './views/grant-detail'), {
                 title: data.result.title,
                 grant: grant,
-                caseStudy: caseStudy,
+                projectStory: projectStory,
                 fundingProgramme: fundingProgramme,
                 breadcrumbs: concat(res.locals.breadcrumbs, { label: data.result.title })
             });

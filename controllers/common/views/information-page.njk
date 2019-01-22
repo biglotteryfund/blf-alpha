@@ -1,6 +1,5 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/caseStudies.njk" import caseStudyCollection with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/segment/macro.njk" import segment %}
@@ -9,28 +8,26 @@
 {% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% block content %}
-    {% if pageHero.image %}
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
-    {% endif %}
-
     {% macro primaryContent() %}
         {{ breadcrumbTrail(breadcrumbs) }}
-
         <div class="s-prose accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
-            {% if not pageHero.image %}
-            <h1>{{ content.title }}</h1>
-            {% endif %}
+            {% if not pageHero.image %}<h1>{{ content.title }}</h1>{% endif %}
             {{ content.introduction | safe }}
         </div>
-
         {{ segmentLinks(customSegmentLinks | default(content.segments)) }}
     {% endmacro %}
 
-    <main{% if pageHero.image %} class="nudge-up"{% endif %}>
+    <main id="content">
+        {% if pageHero.image %}
+            {{ hero(
+                titleText = title,
+                image = pageHero.image,
+                accent = pageAccent
+            ) }}
+        {% endif %}
+
+        {% if pageHero.image %}<div class="nudge-up">{% endif %}
+
         {% block contentPrimary %}
             {% if content.relatedContent %}
                 <section class="page-section u-inner-wide-only accent--{{ pageAccent }} a--border-top">
@@ -73,14 +70,13 @@
         {# Custom content #}
         {% block customContent %}{% endblock %}
 
-        {# Case Studies #}
-        {{ caseStudyCollection(content.caseStudies, accent = pageAccent) }}
-
         {% if content.outro %}
             {% call contentBox(pageAccent) %}
                 {{ content.outro | safe }}
             {% endcall %}
         {% endif %}
+
+        {% if pageHero.image %}</div>{% endif %}
     </main>
 
 {% endblock %}

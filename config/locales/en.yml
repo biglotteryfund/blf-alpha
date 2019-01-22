@@ -63,7 +63,7 @@ global:
     - label: Freedom of Information
       href: "/about/customer-service/freedom-of-information"
     - label: Corporate documents
-      href: "/about-big/publications/corporate-documents"
+      href: "/about/customer-service/corporate-documents"
     - label: Privacy Policy
       href: "/about/customer-service/privacy-policy"
     - label: Data Protection
@@ -96,13 +96,18 @@ global:
     previousItem: Previous item
     nextItem: Next item
   cookieConsent:
-    title: Cookies on this website
     message: >
-      <p>This site uses cookies, an explanation of their purpose and how to manage them can be found within our
-      <a href="/about/customer-service/cookies">Cookies Policy</a>.</p>
-      <p>Please confirm your consent to their use by clicking continue.
-        After consenting you will not see this message again.</p>
+      This site uses cookies. For an explanation of their purpose and how to manage them see our
+      <a href="/about/customer-service/cookies">cookies policy</a>.
     action: Accept cookies
+  stateAid:
+    title: State Aid
+    body: >
+      <p>Public funding for organisations carrying out commercial activities, including those with charitable status, is governed by the European Commission’s State Aid rules. State aid is defined by the treaty establishing the European Commission as “any aid granted by a Member State which distorts or threatens to distort competition by favouring certain undertakings or the production of certain goods”.</p>
+
+      <p>The National Lottery is regarded as a supplier of state resources alongside national, regional and local government bodies. Failure to comply with the rules means that the aid is unlawful, and may be subject to repayment with interest by the aid recipient.</p>
+
+      <p>It is your responsibility to check whether State Aid clearance is required. When developing your application, it is important that you consider and, if necessary, take advice on State Aid regulations. You should seek legal advice if you are unsure whether your project will require clearance.</p>
   forms:
     missingFieldError: Please provide the '%s' field
     invalidEmailError: Please provide a valid email address
@@ -112,15 +117,16 @@ global:
     otherEnterBelow: Other (please enter below)
   misc:
     archived: Archived
+    activeProject: Active Project
     back: back
     backToTop: Back to the top
-    caseStudies: Case studies
     documents: documents
     download: download
     edit: Edit
     errorTitle: There was a problem with your submission
     imageCredit: Image credit
     latestNews: Latest news
+    moreInformation: More information
     next: next
     no: No
     optional: Optional
@@ -132,6 +138,7 @@ global:
     email: email
     printThisPage: Print this page
     projectExamples: Examples of projects that have been funded
+    projectStory: Project story
     readMore: Read more
     readMoreAbout: "Read more about %s"
     required: Required
@@ -178,9 +185,10 @@ toplevel:
       Thanks to <a href="%s">National Lottery</a> players raising funding for good causes,
         we give out more than <a href="%s">£500 million</a> to communities across the UK each year
     introNew:
-      title: We support people and communities to thrive
-      description: <p>Thanks to <a href="%s">National Lottery</a> players raising funding for good causes,
-        we give out more than <a href="%s">£500 million</a> to communities across the UK each&nbsp;year</p>
+      title: When people are in the lead, communities thrive
+      description: >
+        The National Lottery Community Fund distributes <a href="%s">over £600m</a> a year to communities across the UK,
+        raised by players of <a href="%s">The National Lottery</a>
     under10k:
       short: Apply for funding under £10,000
       long: Learn how to apply for funding under £10,000
@@ -190,16 +198,46 @@ toplevel:
     featuredLinks:
     - label: Who we are and what we do
       href: /about
+      image:
+        small: /assets/images/home/mini-hero-1-small.jpg
+        medium: /assets/images/home/mini-hero-1-medium.jpg
+        large: /assets/images/home/mini-hero-1-large.jpg
+        default: /assets/images/home/mini-hero-1-medium.jpg
     - label: "What we've funded: our past grants"
       href: /funding/grants
+      image:
+        small: /assets/images/home/mini-hero-2-small.jpg
+        medium: /assets/images/home/mini-hero-2-medium.jpg
+        large: /assets/images/home/mini-hero-2-large.jpg
+        default: /assets/images/home/mini-hero-2-medium.jpg
     - label: Our funding programmes
       href: /funding/programmes
+      image:
+        small: /assets/images/home/mini-hero-3-small.jpg
+        medium: /assets/images/home/mini-hero-3-medium.jpg
+        large: /assets/images/home/mini-hero-3-large.jpg
+        default: /assets/images/home/mini-hero-3-medium.jpg
     - label: Managing your grant
       href: /funding/funding-guidance/managing-your-funding
+      image:
+        small: /assets/images/home/mini-hero-4-small.jpg
+        medium: /assets/images/home/mini-hero-4-medium.jpg
+        large: /assets/images/home/mini-hero-4-large.jpg
+        default: /assets/images/home/mini-hero-4-medium.jpg
     - label: "What we've learned from our funding"
       href: /insights
+      image:
+        small: /assets/images/home/mini-hero-5-small.jpg
+        medium: /assets/images/home/mini-hero-5-medium.jpg
+        large: /assets/images/home/mini-hero-5-large.jpg
+        default: /assets/images/home/mini-hero-5-medium.jpg
     - label: Talk to us
       href: /contact
+      image:
+        small: /assets/images/home/mini-hero-6-small.jpg
+        medium: /assets/images/home/mini-hero-6-medium.jpg
+        large: /assets/images/home/mini-hero-6-large.jpg
+        default: /assets/images/home/mini-hero-6-medium.jpg
     caseStudies:
     - quoteText: "“I am helping make sure that young people get the opportunities they
         want in terms of education”"
@@ -422,9 +460,9 @@ toplevel:
     latestProgrammes: Latest Programmes
     sectionLinks:
     - label: Learn how to apply for funding under £10,000
-      href: "/under10k"
+      href: "/funding/under10k"
     - label: Learn how to apply for funding above £10,000
-      href: "/over10k"
+      href: "/funding/over10k"
     - label: View all open funding programmes
       href: "/funding/programmes"
     - label: View all closed funding programmes
@@ -435,6 +473,10 @@ toplevel:
       href: "/funding/grants"
     - label: Help with managing your grant
       href: "/funding/funding-guidance/managing-your-funding"
+    - label: International funding
+      href: "/funding/funding-guidance/international-funding"
+    - label: "Non-Lottery funding"
+      href: "/funding/funding-guidance/non-lottery-funding"
     recentProgrammes:
     - "rural-programme"
     - "digital-fund"
@@ -513,31 +555,6 @@ ourPeople:
   title: Our People
   introduction: >
     <p>Meet our board, Senior management team, and national committees.</p>
-  legacyNavigation:
-  - label: Board
-    match: board
-    href: /about-big/our-people/board
-  - label: Senior management team
-    match: senior-management-team
-    href: /about/our-people/senior-management-team
-  - label: England committee members
-    match: england
-    href: /about-big/our-people/england-committee-members
-  - label: Northern Ireland committee
-    match: northern-ireland
-    href: /about-big/our-people/northern-ireland-committee-members
-  - label: Scotland committee members
-    match: scotland
-    href: /about-big/our-people/scotland-committee-members
-  - label: Wales committee members
-    match: wales
-    href: /about-big/our-people/wales-committee-members
-  - label: UK funding committee
-    match: uk-funding
-    href: /about-big/our-people/uk-funding-committee
-  - label: Management expenses
-    match: directors-expenses
-    href: /about-big/our-people/directors-expenses
 funding:
   thinkingOfApplying:
     title: "Thinking of applying"
@@ -956,7 +973,7 @@ funding:
       equalities: >
         <p>It is also important to us that you are committed to equalities and the environment. We’ll want to know about your equalities and environmental policies if we are interested in your idea.</p>
         <ul>
-          <li><a href="/about-big/our-approach/equalities">Our equality principles</a></li>
+          <li><a href="/about/customer-service/equalities">Our equality principles</a></li>
           <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Visit gov.uk for more information on environmental responsibility</a></li>
         </ul>
     fullEligiblity:
@@ -1073,6 +1090,64 @@ funding:
           url: 'https://knowhownonprofit.org/tools-resources/building-a-digital-workforce'
         - title: Voluntary sector digital maturity matrix (digitalmaturity.co.uk)
           url: 'https://digitalmaturity.co.uk/'
+materials:
+  orderEmail: >
+    <h1>Congratulations on getting National Lottery funding</h1>
+
+    <p>Thank you for your order. Your delivery will be with you within six working days. We know you’re excited to share the news, so here are some tips to make a big impact.</p>
+
+    <h2>Events/Photo opportunities</h2>
+    <p>We’d love to see photos of your project. You don’t need an expensive camera – a smart phone is perfect for capturing the moment.</p>
+
+    <p>You can share your pictures with us on:</p>
+    <ul>
+        <li>Facebook (<a href="https://www.facebook.com/BigLotteryFund/">@BigLotteryFund</a>)</li>
+        <li>Twitter (<a href="https://twitter.com/BigLotteryFund">@BigLotteryFund</a>)</li>
+        <li>Instagram (<a href="https://www.instagram.com/big_lottery_fund">@big_lottery_fund</a>)</li>
+    </ul>
+
+    <p>If you’ve ordered a cheque, try to use a thick, dark pen and write using large handwriting, so everyone can read your organisation name and the amount you’ve been funded.</p>
+
+    <p>This is really important if you’re going to use your cheque in photos.</p>
+
+    <h2>Social Media</h2>
+    <p>Without support from National Lottery players your grant wouldn’t be possible. Please say thank you to them by using #NationalLottery in your social media posts.</p>
+
+    <p>If you’re unsure what to post, copy this example and fill in the gaps for your project.</p>
+
+    <blockquote>Thanks to #NationalLottery players for making our project possible! We’re making a huge difference to the lives of (XXXX) people thanks to #NationalLottery funding.</blockquote>
+
+    <p>There are lots of other ways to celebrate your funding. You can find more resources and top tips on how to promote your grant on our website: <a href="https://www.biglotteryfund.org.uk/welcome">www.biglotteryfund.org.uk/welcome</a>.</p>
+
+    <p>If you have any questions about your order, get in touch at <a href="mailto:branding@biglotteryfund.org.uk">branding@biglotteryfund.org.uk</a>.</p>
+  orderEmailNew: >
+    <h1>Congratulations on getting National Lottery funding</h1>
+
+    <p>Thanks for your order. Your delivery will be with you within six working days. We know you’re excited to share the news, so here are some tips to make a big impact.</p>
+
+    <h2>Events/Photo opportunities</h2>
+    <p>We’d love to see photos of your project. You don’t need an expensive camera – a smart phone is perfect for capturing the moment.</p>
+
+    <p>You can share your pictures with us on:</p>
+    <ul>
+        <li>Facebook (<a href="https://www.facebook.com/TNLCommunityFund/">@TNLCommunityFund</a>)</li>
+        <li>Twitter (<a href="https://twitter.com/TNLComFund">@TNLComFund</a>)</li>
+        <li>Instagram (<a href="https://www.instagram.com/TNLCommunityFund">@TNLCommunityFund</a>)</li>
+    </ul>
+
+    <p>If you’ve ordered a cheque, try to use a thick, dark pen and write using large handwriting, so everyone can read your organisation name and the amount you’ve been funded. This is really important if you’re going to use your cheque in photos.</p>
+
+    <h2>Social Media</h2>
+
+    <p>Without National Lottery players’ support your grant wouldn’t be possible. Please say thank you to them by using #NationalLottery in your social media posts.</p>
+
+    <p>If you’re unsure what to post, copy this example and fill in the gaps for your project.</p>
+
+    <blockquote>Thanks to #NationalLottery players for making our project possible. We’re making a huge difference to the lives of (XXXX) people thanks to #NationalLottery funding.</blockquote>
+
+    <p>There are lots of other ways to celebrate your funding. You can find more resources and top tips on how to promote your grant on our website: <a href="https://www.tnlcommunityfund.org.uk/welcome">www.tnlcommunityfund.org.uk/welcome</a>.</p>
+
+    <p>If you have any questions about your order, get in touch at <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.</p>
 apply:
   error:
     title: There was a problem with your submission

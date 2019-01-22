@@ -4,7 +4,7 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav with context %}
 {% from "./grant-results.njk" import grantResultItem with context %}
-{% from './helpers.njk' import pgLink, buildLocationList, buildOrgTypeList with context %}
+{% from './helpers.njk' import badgeActiveProject, buildLocationList, buildOrgTypeList, pgLink with context %}
 
 {% set bodyClass = 'has-static-header' %}
 
@@ -114,7 +114,7 @@
                                     </dl>
 
                                     {% if grant.isActive %}
-                                        <span class="active-badge">{{ copy.grantDetail.statuses.activeProject }}</span>
+                                        {{ badgeActiveProject() }}
                                     {% endif %}
                                 </div>
 

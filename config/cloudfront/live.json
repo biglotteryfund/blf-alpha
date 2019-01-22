@@ -136,6 +136,56 @@
         "PathPattern": "*~/link.aspx"
       },
       {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "allow-all",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "GET"
+          ],
+          "Quantity": 2,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "*"
+            ],
+            "Quantity": 1
+          },
+          "QueryStringCacheKeys": {
+            "Items": [],
+            "Quantity": 0
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "all"
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/-/media/files/*"
+      },
+      {
         "TargetOriginId": "LEGACY",
         "ViewerProtocolPolicy": "allow-all",
         "MinTTL": 0,
@@ -683,116 +733,6 @@
           "Quantity": 0
         },
         "PathPattern": "/funding/programmes/all"
-      },
-      {
-        "TargetOriginId": "LEGACY",
-        "ViewerProtocolPolicy": "allow-all",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "*"
-            ],
-            "Quantity": 1
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "all"
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/funding/search-past-grants"
-      },
-      {
-        "TargetOriginId": "LEGACY",
-        "ViewerProtocolPolicy": "allow-all",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "*"
-            ],
-            "Quantity": 1
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "all"
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/funding/search-past-grants/*"
       },
       {
         "TargetOriginId": "LEGACY",
@@ -1663,6 +1603,6 @@
         "PathPattern": "media/*"
       }
     ],
-    "Quantity": 26
+    "Quantity": 25
   }
 }

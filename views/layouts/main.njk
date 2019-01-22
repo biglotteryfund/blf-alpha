@@ -16,19 +16,18 @@
 
             {# Status and announcement banners #}
             {% if useNewBrand %}
-                <aside class="status-banner">
+                <aside class="announcement-banner announcement-banner--info">
                     ✋ You are previewing The National Lottery Community Fund branding. Please do not share this page.
                     <a href="/tools/rebrand/off">Revert to Big Lottery Fund branding</a>
                 </aside>
             {% elseif previewStatus.isDraftOrVersion %}
-                <aside class="status-banner">
+                <aside class="announcement-banner announcement-banner--info">
                     ✋ You are viewing a draft (last updated {{ previewStatus.lastUpdated }}).
                     Please do not share this page. <a href="{{ getCurrentUrl() }}">View original</a>
                 </aside>
             {% elseif appData.isNotProduction and not appData.isDev %}
-                <aside class="status-banner">
-                    ✋ This is a test environment.
-                    <a href="https://{{ appData.config.get('siteDomain') }}{{ getCurrentUrl() }}">View this page on the live site</a>
+                <aside class="announcement-banner announcement-banner--info">
+                    ✋ This is a test environment. Please do not share this page.
                 </aside>
             {% elseif enableNameChangeMessage %}
                 <aside class="announcement-banner">

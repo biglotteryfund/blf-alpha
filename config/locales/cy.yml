@@ -62,7 +62,7 @@ global:
     - label: Rhyddid Gwybodaeth
       href: "/welsh/about/customer-service/freedom-of-information"
     - label: Dogfennau corfforaethol
-      href: "/welsh/about-big/publications/corporate-documents"
+      href: "/welsh/about/customer-service/corporate-documents"
     - label: Polisi Preifatrwydd
       href: "/welsh/about/customer-service/privacy-policy"
     - label: Diogelu Data
@@ -95,13 +95,18 @@ global:
     previousItem: Eitem flaenorol
     nextItem: Eitem nesaf
   cookieConsent:
-    title: Cwcis ar y wefan hon
     message: >
-      <p>Mae'r wefan hon yn defnyddio cwcis, mae esboniad o'u diben a sut i'w rheoli ar gael yn ein
-      <a href="/welsh/about/customer-service/cookies">Polisi Cwcis</a>.</p>
-      <p>Cadarnhewch eich cydsyniad i ni ddefnyddio nhw trwy glicio parhau.
-        Ar ôl rhoi cydsyniad ni fyddwch yn gweld y neges hon eto.</p>
+      Mae'r wefan hon yn defnyddio cwcis, mae esboniad o'u diben a sut i'w rheoli ar gael yn ein
+      <a href="/welsh/about/customer-service/cookies">Polisi Cwcis</a>.
     action: Derbyn cwcis
+  stateAid:
+    title: Cymorth Gwladwriaethol
+    body: >
+      <p>Mae cyllid cyhoeddus ar gyfer mudiadau sy’n cyflawni gweithgareddau masnachol, gan gynnwys y rhai sydd â statws elusennol, wedi’i reoli gan reolau Cymorth Gwladwriaethol y Comisiwn Ewropeaidd. Diffinnir cymorth gwladwriaethol gan gyfamod sefydlu'r Comisiwn Ewropeaidd fel "unrhyw gymorth a roddir gan Aelod-wladwriaeth sy'n aflunio neu'n bygwth aflunio cystadleuaeth trwy ffafrio ymgymeraethau penodol neu gynhyrchu nwyddau penodol”.</p>
+
+      <p>Ystyrir bod y Loteri Genedlaethol yn ddarparwr adnoddau'r wladwriaeth ochr yn ochr â chyrff llywodraeth cenedlaethol, rhanbarthol a lleol. Mae methu â chydymffurfio â'r rheolau'n golygu bod y cymorth yn anghyfreithlon, ac y gallai fod angen i dderbynnydd y cymorth ei ad-dalu gyda llog.</p>
+
+      <p>Chi sy'n gyfrifol am wirio p'un a oes angen cymeradwyaeth Cymorth Gwladwriaethol ai beidio. Wrth ddatblygu eich cais, mae’n bwysig eich bod yn ystyried ac, os bydd angen, ceisio cyngor ynghylch rheoliadau Cymorth Gwladwriaethol. Dylech geisio cyngor cyfreithiol os ydych yn ansicr p'un a fydd angen cymeradwyaeth ar gyfer eich prosiect ai beidio.</p>
   forms:
     missingFieldError: Darparwch y maes '%s'
     invalidEmailError: Rhowch gyfeiriad e-bost dilys
@@ -111,15 +116,16 @@ global:
     otherEnterBelow: Arall (nodwch isod)
   misc:
     archived: Wedi’i archifo
+    activeProject: Prosiect Gweithredol
     back: yn ôl
     backToTop: "Yn ôl i'r frig"
-    caseStudies: Astudiaethau achos
     documents: dogfennau
     download: lawrlwytho'r
     edit: Golygu
     errorTitle: Cafwyd problem gyda'ch cyflwyniad
     imageCredit: Cydnabyddiaeth i’r llun
     latestNews: Newyddion diweddaraf
+    moreInformation: Mwy o wybodaeth
     next: nesaf
     no: Nac ydw
     optional: Dewisol
@@ -189,16 +195,46 @@ toplevel:
     featuredLinks:
     - label: Who we are and what we do
       href: /about
+      image:
+        small: /assets/images/home/mini-hero-1-small.jpg
+        medium: /assets/images/home/mini-hero-1-medium.jpg
+        large: /assets/images/home/mini-hero-1-large.jpg
+        default: /assets/images/home/mini-hero-1-medium.jpg
     - label: "What we've funded: our past grants"
       href: /funding/grants
+      image:
+        small: /assets/images/home/mini-hero-2-small.jpg
+        medium: /assets/images/home/mini-hero-2-medium.jpg
+        large: /assets/images/home/mini-hero-2-large.jpg
+        default: /assets/images/home/mini-hero-2-medium.jpg
     - label: Our funding programmes
       href: /funding/programmes
+      image:
+        small: /assets/images/home/mini-hero-3-small.jpg
+        medium: /assets/images/home/mini-hero-3-medium.jpg
+        large: /assets/images/home/mini-hero-3-large.jpg
+        default: /assets/images/home/mini-hero-3-medium.jpg
     - label: Managing your grant
       href: /funding/funding-guidance/managing-your-funding
+      image:
+        small: /assets/images/home/mini-hero-4-small.jpg
+        medium: /assets/images/home/mini-hero-4-medium.jpg
+        large: /assets/images/home/mini-hero-4-large.jpg
+        default: /assets/images/home/mini-hero-4-medium.jpg
     - label: "What we've learned from our funding"
       href: /insights
+      image:
+        small: /assets/images/home/mini-hero-5-small.jpg
+        medium: /assets/images/home/mini-hero-5-medium.jpg
+        large: /assets/images/home/mini-hero-5-large.jpg
+        default: /assets/images/home/mini-hero-5-medium.jpg
     - label: Talk to us
       href: /contact
+      image:
+        small: /assets/images/home/mini-hero-6-small.jpg
+        medium: /assets/images/home/mini-hero-6-medium.jpg
+        large: /assets/images/home/mini-hero-6-large.jpg
+        default: /assets/images/home/mini-hero-6-medium.jpg
     caseStudies:
     - quoteText: "“Rwy'n helpu sicrhau bod pobl ifainc yn cael y cyfleoedd y maent eu
         heisiau o ran addysg”"
@@ -426,28 +462,6 @@ ourPeople:
   title: Ein pobl
   introduction: >
     <p>Cwrdd â'n bwrdd, UDRh a phwyllgorau cenedlaethol</p>
-  legacyNavigation:
-  - label: Y Bwrdd
-    match: board
-    href: /welsh/about-big/our-people/board
-  - label: Uwch dîm rheoli
-    match: senior-management-team
-    href: /about/our-people/senior-management-team
-  - label: England committee members
-    match: england
-    href: /welsh/about-big/our-people/england-committee-members
-  - label: NI committee members
-    match: northern-ireland
-    href: /welsh/about-big/our-people/northern-ireland-committee-members
-  - label: Scotland committee members
-    match: scotland
-    href: /welsh/about-big/our-people/scotland-committee-members
-  - label: Aelodau pwyllgor Cymru
-    match: wales
-    href: /welsh/about-big/our-people/wales-committee-members
-  - label: Pwyllgor Ariannu’r Deyrnas Unedig’
-    match: uk-funding-committee
-    href: /welsh/about-big/our-people/uk-funding-committee
 funding:
   under10k:
     title: Arian i Bawb y Loteri Genedlaethol - Sut i gael grant o hyd at £10,000
@@ -868,7 +882,7 @@ funding:
       equalities: >
         <p>Mae'n bwysig i ni hefyd eich bod yn ymroddedig i gydraddoldeb a'r amgylchedd. Byddwn eisiau gwybod am eich polisïau cydraddoldeb ac amgylcheddol os bydd gennym ddiddordeb yn eich syniad.</p>
         <ul>
-          <li><a href="/welsh/about-big/our-approach/equalities">Ein hegwyddorion cydraddoldeb</a></li>
+          <li><a href="/welsh/about/customer-service/equalities">Ein hegwyddorion cydraddoldeb</a></li>
           <li><a href="https://www.gov.uk/government/publications/environmental-responsibility-for-charities">Ewch i gov.uk i gael mwy o wybodaeth am gyfrifoldeb amgylcheddol</a></li>
         </ul>
     fullEligiblity:
@@ -986,6 +1000,66 @@ funding:
           url: 'https://knowhownonprofit.org/tools-resources/building-a-digital-workforce'
         - title: Matrics aeddfedrwydd digidol y sector gwirfoddol (digitalmaturity.co.uk)
           url: 'https://digitalmaturity.co.uk/'
+materials:
+  orderEmail: >
+    <h1>Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol</h1>
+    <p>Diolch am eich archeb. Bydd y nwyddau gyda chi o fewn chwe niwrnod gwaith. Rydym yn gwybod eich  bod yn gyffrous i rannu'r newyddion, felly dyma rai awgrymiadau i gael effaith fawr.</p>
+
+    <h2>Digwyddiadau/Cyfle tynnu lluniau</h2>
+
+    <p>Mawr hoffem weld lluniau o'ch prosiect. Nid oes angen camera drud arnoch - mae ffôn clyfar yn berffaith i gofnodi'r achlysur.</p>
+
+    <p>Gallwch rannu'ch lluniau gyda ni ar:</p>
+    <ul>
+        <li>Facebook (<a href="https://www.facebook.com/biglotteryfundwales/">@BigLotteryFundWales</a>)</li>
+        <li>Twitter (<a href="https://www.twitter.com/loterifawrcymru">@LoteriFawrCymru</a>)</li>
+        <li>Instagram (<a href="https://www.instagram.com/big_lottery_fund">@big_lottery_fund</a>)</li>
+    </ul>
+
+    <p>Os ydych wedi archebu siec, ceisiwch ddefnyddio ysgrifbin du trwchus a defnyddiwch lawysgrifen fawr, fel bod pawb yn gallu darllen enw eich mudiad a'r swm rydych wedi'i dderbyn.</p>
+
+    <p>Mae hyn yn bwysig iawn os byddwch yn defnyddio'ch siec mewn lluniau.</p>
+
+    <h2>Cyfryngau Cymdeithasol</h2>
+
+    <p>Heb gefnogaeth gan chwaraewyr y Loteri Genedlaethol, ni fyddai'ch grant yn bosib. Dywedwch diolch wrthynt gan ddefnyddio #LoteriGen yn eich postiadau cyfryngau cymdeithasol.</p>
+
+    <p>Os ydych yn ansicr beth i'w bostio, copïwch yr enghraifft hon a llenwch y bylchau ar gyfer eich prosiect.</p>
+
+    <blockquote>Diolch i chwaraewyr y #LoteriGen am wneud ein prosiect yn bosib! Rydym yn gwneud gwahaniaeth enfawr i fywydau (XXXX) o bobl diolch i grant gan y #LoteriGen.</blockquote>
+
+
+    <p>Mae llawer o ffyrdd eraill o ddathlu'ch grant. Gallwch ddod o hyd i fwy o adnoddau ac awgrymiadau gwych ar sut i hyrwyddo'ch grant ar ein gwefan: <a href="https://www.biglotteryfund.org.uk/croeso">www.biglotteryfund.org.uk/croeso</a></p>
+
+    <p>Os oes gennych unrhyw gwestiynau ynglŷn â'ch archeb, cysylltwch â ni yn <a href="mailto:branding@biglotteryfund.org.uk">branding@biglotteryfund.org.uk</a>.</p>
+  orderEmailNew: >
+    <h1>Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol</h1>
+
+    <p>Diolch am eich archeb. Bydd y nwyddau gyda chi o fewn chwe niwrnod gwaith. Rydym yn gwybod eich bod yn gyffrous i rannu'r newyddion, felly dyma rai awgrymiadau i gael effaith fawr.</p>
+
+    <h2>Digwyddiadau/Cyfle tynnu lluniau</h2>
+    <p>Mawr hoffem weld lluniau o'ch prosiect. Nid oes angen camera drud arnoch - mae ffôn clyfar yn berffaith i gofnodi'r achlysur.</p>
+
+    <p>Gallwch rannu'ch lluniau gyda ni ar:</p>
+    <ul>
+        <li>Facebook (<a href="https://www.facebook.com/TNLCommunityFundWales/">@TNLCommunityFund</a>)</li>
+        <li>Twitter (<a href="https://twitter.com/CronGymYLG">@CronGymYLG</a>)</li>
+        <li>Instagram (<a href="https://www.instagram.com/TNLCommunityFund">@TNLCommunityFund</a>)</li>
+    </ul>
+
+    <p>Os ydych wedi archebu siec, ceisiwch ddefnyddio ysgrifbin du trwchus a defnyddiwch lawysgrifen fawr, fel bod pawb yn gallu darllen enw eich mudiad a'r swm rydych wedi'i dderbyn. Mae hyn yn bwysig iawn os byddwch yn defnyddio'ch siec mewn lluniau.</p>
+
+    <h2>Cyfryngau cymdeithasol</h2>
+
+    <p>Heb gefnogaeth gan chwaraewyr y Loteri Genedlaethol, ni fyddai'ch grant yn bosib. Dywedwch diolch wrthynt gan ddefnyddio #LoteriGenedlaethol yn eich postiadau cyfryngau cymdeithasol.</p>
+
+    <p>Os ydych yn ansicr beth i'w bostio, copïwch yr enghraifft hon a llenwch y bylchau ar gyfer eich prosiect.</p>
+
+    <blockquote>Diolch i chwaraewyr y #LoteriGenedlaethol am wneud ein prosiect yn bosib. Rydym yn gwneud gwahaniaeth enfawr i fywydau (XXXX) o bobl diolch i grant gan y #LoteriGenedlaethol.</blockquote>
+
+    <p>Mae llawer o ffyrdd eraill o ddathlu'ch grant. Gallwch ddod o hyd i fwy o adnoddau ac awgrymiadau gwych ar sut i hyrwyddo'ch grant ar ein gwefan <a href="http://www.cronfagymunedolylg.org.uk/croeso">www.cronfagymunedolylg.org.uk/croeso</a>.</p>
+
+    <p>Os oes gennych unrhyw gwestiynau ynglŷn â'ch archeb, cysylltwch â ni yn <a href="mailto:brandio@cronfagymunedolylg.org.uk">brandio@cronfagymunedolylg.org.uk</a>.</p>
 apply:
   error:
     title: Cafwyd problem gyda'ch cyflwyniad

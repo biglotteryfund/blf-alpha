@@ -1,5 +1,4 @@
 {% extends "layouts/main.njk" %}
-{% from "components/ebulletin.njk" import ebulletinForm with context %}
 {% from "components/icons.njk" import iconFacebook, iconInstagram, iconTwitter %}
 {% from "components/latest-updates/macro.njk" import latestUpdates %}
 {% from "components/promo-card/macro.njk" import promoCard %}
@@ -93,8 +92,8 @@
         {% endif %}
 
         {# Social Content #}
-        <section class="social-content u-inner-wide-only u-margin-bottom">
-            <div class="social-content__primary u-accent-border-top-{{ pageAccent }}">
+        <section class="social-content u-inner-wide-only u-margin-bottom u-accent-border-top-{{ pageAccent }}">
+            <div class="social-content__primary">
                 {# Twitter Feed #}
                 <div class="u-padded">
                     {% set twitterAccount = globalCopy.brand.twitter  %}
@@ -107,13 +106,8 @@
                 </div>
             </div>
             <div class="social-content__secondary">
-                {# Ebulletin #}
-                <div class="content-box content-box--tinted">
-                    {{ ebulletinForm() }}
-                </div>
-
                 {# Social links #}
-                <div class="o-button-group-flex">
+                <div class="o-button-group-block u-padded">
                     <a class="btn btn--small btn--outline"
                         href="{{ globalCopy.brand.instagram }}">
                         <span class="btn__icon">{{ iconInstagram() }}</span>
