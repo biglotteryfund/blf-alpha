@@ -1643,6 +1643,46 @@ Array [
     "to": "/welsh/news/blog?tag=place-based-funding",
   },
   Object {
+    "from": "/contact-us",
+    "to": "/contact",
+  },
+  Object {
+    "from": "/welsh/contact-us",
+    "to": "/welsh/contact",
+  },
+  Object {
+    "from": "/england/contact-us",
+    "to": "/contact",
+  },
+  Object {
+    "from": "/welsh/england/contact-us",
+    "to": "/welsh/contact",
+  },
+  Object {
+    "from": "/scotland/contact-us",
+    "to": "/contact",
+  },
+  Object {
+    "from": "/welsh/scotland/contact-us",
+    "to": "/welsh/contact",
+  },
+  Object {
+    "from": "/northernireland/contact-us",
+    "to": "/contact",
+  },
+  Object {
+    "from": "/welsh/northernireland/contact-us",
+    "to": "/welsh/contact",
+  },
+  Object {
+    "from": "/wales/contact-us",
+    "to": "/contact",
+  },
+  Object {
+    "from": "/welsh/wales/contact-us",
+    "to": "/welsh/contact",
+  },
+  Object {
     "from": "/funding/awards-for-all",
     "to": "/funding/under10k",
   },

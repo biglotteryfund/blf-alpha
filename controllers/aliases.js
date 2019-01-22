@@ -52,6 +52,7 @@ const aliases = {
     '/blog/insight': '/news/blog?category=insight',
     '/blog/tags/digital-fund': '/news/blog?tag=digital-fund',
     '/blog/tags/place-based-funding': '/news/blog?tag=place-based-funding',
+    '/contact-us': '/contact',
     '/funding/awards-for-all': '/funding/under10k',
     '/funding/Awards-For-All': '/funding/under10k',
     '/funding/funding-guidance': '/funding',
