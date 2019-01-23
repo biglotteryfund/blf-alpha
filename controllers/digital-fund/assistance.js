@@ -1,12 +1,15 @@
 'use strict';
-const path = require('path');
-const express = require('express');
-const { concat } = require('lodash');
 const { body, validationResult } = require('express-validator/check');
+const { concat } = require('lodash');
 const { matchedData } = require('express-validator/filter');
+const express = require('express');
+const moment = require('moment');
+const path = require('path');
 
-const newsletterService = require('../../services/newsletter-service');
+const { DIGITAL_FUND_EMAIL } = require('../../modules/secrets');
 const { errorTranslator } = require('../../modules/validators');
+const { sendEmail } = require('../../services/mail');
+const appData = require('../../modules/appData');
 
 const translateError = errorTranslator('toplevel.ebulletin.errors');
 
@@ -38,11 +41,15 @@ router
 
         if (formErrors.isEmpty()) {
             try {
-                await newsletterService.subscribe({
-                    addressBookId: '10926987',
-                    subscriptionData: {
-                        email: formData.email,
-                        emailType: 'Html'
+                await sendEmail({
+                    name: 'digital_fund_assistance',
+                    mailConfig: {
+                        sendTo: appData.isNotProduction ? formData.email : DIGITAL_FUND_EMAIL,
+                        subject: `New subscription: Help getting started with digital (${moment().format(
+                            'Do MMMM YYYY, h:mm a'
+                        )})`,
+                        type: 'text',
+                        content: `${formData.email} has requested more information about free digital assistance`
                     }
                 });
 
