@@ -38,6 +38,7 @@ const toplevel = {
             path: '/northern-ireland',
             lang: 'toplevel.northernIreland',
             heroSlug: 'cruse-bereavement-care',
+            heroSlugNew: 'cruse-bereavement-care-new',
             router: staticPage({
                 disableLanguageLink: true,
                 template: 'static-pages/region'
@@ -47,6 +48,7 @@ const toplevel = {
             path: '/wales',
             lang: 'toplevel.wales',
             heroSlug: 'the-outdoor-partnership-wales',
+            heroSlugNew: 'the-outdoor-partnership-new',
             router: staticPage({
                 template: 'static-pages/region'
             })
@@ -55,6 +57,7 @@ const toplevel = {
             path: '/data',
             lang: 'toplevel.data',
             heroSlug: 'young-shoulders-programme',
+            heroSlugNew: 'fsn-new',
             router: require('./data')
         },
         {
@@ -99,6 +102,7 @@ const funding = {
             path: '/over10k',
             lang: 'funding.over10k',
             heroSlug: 'passion-4-fusion-3',
+            heroSlugNew: 'headway-new',
             router: staticPage({
                 template: 'static-pages/over10k',
                 projectStorySlugs: ['kvin', 'shettleston', 'rosies-trust']
