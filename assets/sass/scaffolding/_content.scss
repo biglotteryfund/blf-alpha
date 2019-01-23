@@ -26,16 +26,6 @@
         color: white;
         background-color: get-color('brand', 'primary');
     }
-
-    &.page-title--constrained {
-        margin: 0 auto;
-        max-width: $maxWidth;
-        padding: $spacingUnit / 2;
-
-        @include mq('medium') {
-            padding: $spacingUnit;
-        }
-    }
 }
 
 /* =========================================================================
