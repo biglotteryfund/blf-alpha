@@ -4,6 +4,8 @@ const express = require('express');
 const { concat, isArray, pick, get } = require('lodash');
 
 const { buildPagination } = require('../../modules/pagination');
+const { buildArchiveUrl } = require('../../modules/archived');
+const { localify } = require('../../modules/urls');
 const { injectBreadcrumbs, injectCopy, injectHeroImage } = require('../../middleware/inject-content');
 const contentApi = require('../../services/content-api');
 
@@ -60,11 +62,16 @@ router.get(
             }
 
             if (isArray(response.result)) {
+                const finalPressReleaseArchiveDate = '20181001120823';
                 res.render(path.resolve(__dirname, './views/listing/press-releases'), {
                     title: typeCopy.plural,
                     entries: response.result,
                     entriesMeta: response.meta,
                     pagination: buildPagination(response.meta.pagination),
+                    pressReleaseArchiveUrl: buildArchiveUrl(
+                        localify(req.i18n.getLocale())('/news-and-events'),
+                        finalPressReleaseArchiveDate
+                    ),
                     breadcrumbs: concat(breadcrumbs, { label: typeCopy.plural })
                 });
             } else {

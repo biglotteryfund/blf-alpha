@@ -172,6 +172,7 @@ const aliases = {
 
     //===== Misc/other =====//
     '/contact-us': '/contact',
+    '/news-and-events': '/news',
 
 };
 
