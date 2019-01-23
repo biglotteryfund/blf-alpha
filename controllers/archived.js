@@ -36,6 +36,7 @@ flatMap([
     '/funding/peoples-projects-resources',
     '/funding/scotland-portfolio*',
     '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*',
+    '/global-content/press-releases/*',
     '/research*',
 ], urlPath => [urlPath, makeWelsh(urlPath)]).forEach(urlPath => {
     router.get(urlPath, noCache, function(req, res) {
