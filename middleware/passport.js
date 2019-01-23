@@ -80,6 +80,9 @@ module.exports = function() {
     }
 
     const makeUserObject = user => {
+        if (!user) {
+            return null;
+        }
         return {
             userType: user.constructor.name,
             userData: user
