@@ -32,6 +32,7 @@ const { defaultSecurityHeaders } = require('./middleware/securityHeaders');
 const { injectCopy, injectHeroImage } = require('./middleware/inject-content');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cached = require('./middleware/cached');
+const domainRedirectMiddleware = require('./middleware/domain-redirect');
 const i18nMiddleware = require('./middleware/i18n');
 const localsMiddleware = require('./middleware/locals');
 const loggerMiddleware = require('./middleware/logger');
@@ -116,6 +117,11 @@ function initAppLocals() {
      * Default pageAccent colour
      */
     app.locals.pageAccent = 'brand-primary';
+
+    /**
+     * Hotjar ID
+     */
+    app.locals.hotjarId = config.get('features.enableHotjar') && config.get('hotjarId');
 }
 
 initAppLocals();
@@ -154,6 +160,14 @@ function initViewEngine() {
 }
 
 initViewEngine();
+
+/**
+ * Old domain redirect
+ * @TODO: Enable this flag when making www.tnlcommunityfund.org.uk the primary domain
+ */
+if (config.get('features.enableOldDomainRedirect')) {
+    app.use(domainRedirectMiddleware);
+}
 
 /**
  * Register global middlewares

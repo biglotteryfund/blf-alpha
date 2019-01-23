@@ -8,9 +8,9 @@
 <script async src="https://www.google-analytics.com/analytics.js"></script>
 <script async src="/assets/autotrack/autotrack.js"></script>
 
-{% if appData.config.get('features.enableHotjar') %}
+{% if hotjarId %}
     <script id="script-hotjar">
-        var hotjarId = "{{ appData.config.get('hotjarId') }}";
+        var hotjarId = "{{ hotjarId }}";
         var isDoNotTrack = window.doNotTrack === '1' || window.navigator.doNotTrack === '1' || window.navigator.msDoNotTrack === '1';
 
         if (hotjarId && isDoNotTrack === false) {

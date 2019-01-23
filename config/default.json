@@ -24,7 +24,6 @@
     "indexable": ["www.biglotteryfund.org.uk"],
     "searchDomain": "www.biglotteryfund.org.uk"
   },
-  "siteDomain": "www.biglotteryfund.org.uk",
   "dateFormats": {
     "month": "MMMM YYYY",
     "short": "D MMMM, YYYY",
@@ -42,6 +41,7 @@
     "enableHotjar": false,
     "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
+    "enableOldDomainRedirect": false,
     "enablePrompt": false,
     "enableRelatedGrants": true,
     "enableSurvey": true,
@@ -54,6 +54,7 @@
     "rebrand": "tnlcf-rebrand",
     "session": "blf-alpha-session"
   },
+  "hotjarId": 1036292,
   "googleAnalyticsCode": "UA-98908627-1",
   "grants": {
     "dateRange": {
