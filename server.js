@@ -77,6 +77,14 @@ i18n.expressBind(app, {
 });
 
 /**
+ * Old domain redirect
+ * @TODO: Enable this flag when making www.tnlcommunityfund.org.uk the primary domain
+ */
+if (config.get('features.enableOldDomainRedirect')) {
+    app.use(domainRedirectMiddleware);
+}
+
+/**
  * Robots
  * status endpoint, sitemap, robots.txt
  * Mount early to avoid being processed by any middleware
@@ -160,14 +168,6 @@ function initViewEngine() {
 }
 
 initViewEngine();
-
-/**
- * Old domain redirect
- * @TODO: Enable this flag when making www.tnlcommunityfund.org.uk the primary domain
- */
-if (config.get('features.enableOldDomainRedirect')) {
-    app.use(domainRedirectMiddleware);
-}
 
 /**
  * Register global middlewares
