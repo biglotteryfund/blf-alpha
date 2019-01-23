@@ -48,10 +48,10 @@ function generateHtmlEmail({ template, templateData }) {
                 juice.juiceResources(
                     html,
                     { removeStyleTags: false, webResources: { relativeTo: publicRoot } },
-                    function(juceErr, newHtml) {
-                        /* istanbul ignore if  */
-                        if (juceErr) {
-                            reject(juceErr);
+                    function(juiceErr, newHtml) {
+                        /* istanbul ignore if */
+                        if (juiceErr) {
+                            reject(juiceErr);
                         } else {
                             resolve(newHtml);
                         }
@@ -78,7 +78,12 @@ function getSendAddress(recipients) {
     ) {
         return 'noreply@blf.digital';
     } else {
-        return 'noreply@biglotteryfund.org.uk';
+        // @TODO remove this switch post-rebrand in favour of the new domain
+        if (config.get('features.enableOldDomainRedirect')) {
+            return 'noreply@tnlcommunityfund.org.uk';
+        } else {
+            return 'noreply@biglotteryfund.org.uk';
+        }
     }
 }
 
