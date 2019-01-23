@@ -43,10 +43,11 @@ function activate(token, user) {
 
 router.route('/').get(requireUserAuth, async (req, res) => {
     const token = req.query.token;
+    const user = req.user.userData;
 
     if (token) {
         try {
-            await activate(token, req.user);
+            await activate(token, user);
             res.redirect('/user');
         } catch (error) {
             Raven.captureException(error);
@@ -54,8 +55,8 @@ router.route('/').get(requireUserAuth, async (req, res) => {
         }
     } else {
         // no token, so send them an activation email
-        if (!req.user.is_active) {
-            await sendActivationEmail(req, req.user);
+        if (!user.is_active) {
+            await sendActivationEmail(req, user);
         }
 
         req.session.save(() => {

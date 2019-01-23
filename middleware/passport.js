@@ -80,6 +80,13 @@ module.exports = function() {
     }
 
     const makeUserObject = user => {
+        if (!user) {
+            // We need to do this because the user object comes from
+            // userService.findById(), which returns null if the user doesn't exist.
+            // eg. this doesn't trigger any of our catch() blocks below
+            // and instead throws a 500 error for all pages for this user.
+            return null;
+        }
         return {
             userType: user.constructor.name,
             userData: user
