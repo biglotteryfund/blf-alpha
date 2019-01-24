@@ -26,7 +26,9 @@ router.use(injectBreadcrumbs, (req, res, next) => {
     next();
 });
 
-const commonHero = injectHeroImage('the-young-foundation');
+const commonHeroSlug = 'the-young-foundation';
+const commonHero = injectHeroImage(commonHeroSlug, 'open-programmes-letterbox-new');
+const commonHeroClosed = injectHeroImage(commonHeroSlug, 'closed-all-programmes-letterbox-new');
 
 /**
  * Programmes list
@@ -101,7 +103,7 @@ router.get('/', commonHero, injectCopy('funding.programmes'), async (req, res, n
 /**
  * All programmes
  */
-router.get('/all', sMaxAge('1d'), commonHero, injectCopy('funding.allProgrammes'), async (req, res, next) => {
+router.get('/all', sMaxAge('1d'), commonHeroClosed, injectCopy('funding.allProgrammes'), async (req, res, next) => {
     try {
         const response = await contentApi.getFundingProgrammes({
             locale: req.i18n.getLocale(),
