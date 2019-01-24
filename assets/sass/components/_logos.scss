@@ -2,36 +2,15 @@
    Logos
    ========================================================================= */
 
-.logo-block {
-    border: 1px solid get-color('border', 'base');
-    padding: $spacingUnit;
-    position: relative;
+.logo-card {
 
-    .logo-block__overlay {
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.8);
-        color: #ffffff;
-        width: 100%;
-        height: 100%;
-        z-index: 10;
-        padding: $spacingUnit * 2;
+    .logo-card__body {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
     }
 
-    .logo-block__message {
-        font-size: 16px;
-    }
-
-    .logo-block__close {
-        position: absolute;
-        right: 20px;
-        top: 20px;
-    }
-
-    &.logo-block--reversed {
-        color: white;
-        background-color: get-color('background', 'dark-neutral');
+    .logo-card__links {
+        margin-top: auto;
     }
 }

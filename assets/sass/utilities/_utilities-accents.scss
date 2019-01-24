@@ -28,6 +28,10 @@
     border-top: 4px solid get-color('brand', 'primary');
 }
 
+.u-border-minor {
+    border-top: 1px solid get-color('border', 'base');
+}
+
 /* =========================================================================
    Accents
    ========================================================================= */

@@ -683,66 +683,56 @@ funding:
           ddeddfwriaeth berthnasol arall a ddaw i rym, megis y Rheoliad Diogelu Data
           Cyffredinol (UE) 2016/679.</p>"
     logos:
-      locationPrompt: 'I sicrhau eich bod yn cael y logo cywir, dywedwch wrthym ble
-        mae''ch prosiect wedi''i leoli:'
+      intro: >
+        <p>Rydym yn falch o gefnogi'r gwaith da a wnewch, gan ddefnyddio arian a godwyd gan chwaraewyr y Loteri Genedlaethol ar gyfer achosion da. Diolch iddyn nhw, rydym yn rhoi mwy na £500 miliwn bob blwyddyn i elusennau a grwpiau cymunedol a gwirfoddol.</p>
+        <p>Mae'n bwysig iawn bod pobl sy'n ymwneud â'ch prosiect yn deall ei fod wedi ei gefnogi gan chwaraewyr Y Loteri Genedlaethol - mae rhoi ein logo mewn lle amlwg yn helpu gwneud hyn. Gallwch roi'r logo ar wal, atodi fe i'ch gwefan neu ddarn o gyfarpar - unrhyw le y gall pobl ei weld. Gallwch lawrlwytho ein logos isod. <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance_welsh.pdf">Lawrlwythwch ein Harweiniad Brand (PDF, 1.4MB)</a>.</p>
+      locationPrompt: 'I sicrhau eich bod yn cael y logo cywir, dywedwch wrthym ble mae''ch prosiect wedi''i leoli:'
       downloadsTitle: Logos uniaith
+      downloads:
+        digital: Lawrlwytho'r logo digidol
+        print: Lawrlwytho'r logo argraffu
+        vector: Lawrlwytho'r logo fector
+      logoTypes:
+        colour:
+          title: Logo lliw llawn
+          description: "Defnyddiwch ein logo lliw llawn  pryd bynnag y bo'n bosib"
+        black:
+          title: Logo du
+          description: "Defnyddiwch hwn pryd bynnag nad yw lliw llawn yn bosib. Defnyddiwch ef mewn dim byth unrhyw liw arall"
+        white:
+          title: Logo gwyn
+          description: "Defnyddiwch hwn ar gefndiroedd â lliw tywyll yn unig. Cofiwch sicrhau digon o gyferbyniad rhwng y cefndir a'r logo"
       locations:
         monolingual: Lloegr, Yr Alban neu Ogledd Iwerddon
         bilingual: Cymru
-      labels:
-        english: Saesneg
-        bilingual: Cymraeg/Saesneg dwyieithog
-      downloads:
-        sizes:
-          small: Digidol
-          large: Print
-          eps: Vector
-        colours:
-          blue: glas
-          pink: pinc
-          white: gwyn
-        download: Lawrlwytho'r
+      sizeRequirements: "Peidiwch ag anghofio bodloni ein gofynion isafswm maint ni waeth p'un a ydych yn defnyddio'r logo ar-lein neu mewn fformat printiedig. Argraffu: 44mm lled x 14mm uchder, Sgrîn: 125px lled x 40px uchder"
+      howToChoose:
+        title: Sut ydw i'n dewis y math cywir o logo i'w lawrlwytho?
+        body: >
+          <p>
+            <strong>Fersiwn digidol (PNG)</strong> - gorau ar gyfer gwefannau, dogfennau Word, PowerPoint a chyfryngau cymdeithasol<br />
+            <strong>Fersiwn argraffu (JPG/PNG)</strong> - gorau i'w ddefnyddio wrth argraffu posteri neu daflenni<br />
+            <strong>Fersiwn fector (EPS)</strong> - gorau i'w ddefnyddio wrth weithio gyda dylunydd proffesiynol
+          </p>
+          <p>Mae'n well gennym bod ein logo lliw llawn yn cael ei ddefnyddio. Os nad yw hyn yn bosib oherwydd cyferbyniad y cefndir, gellir defnyddio ein logos du a gwyn ar gyfer cefndiroedd golau a thywyll yn ôl ei drefn.</p>
+          <p>Os hoffech ragor o gymorth, bwrw golwg <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance_welsh.pdf">ar sut i ddefnyddio ein logo</a> neu cysylltwch â'n Tîm Brand yn <a href="mailto:brandio@cronfagymunedolylg.org.uk">brandio@cronfagymunedolylg.org.uk</a>.</p>
       howToUseLogo:
         title: Sut i ddefnyddio ein logo
         sections:
+          brandGuidance:
+            title: Arweiniad brand &ndash; gwneud y peth iawn
+            body: >
+              <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance_welsh.pdf">Lawrlwythwch ein Harweiniad Brand (PDF, 1.4MB)</a> i gael cymorth gyda defnyddio ein logo'n gywir. Os ydych yn ansicr o hyd, cysylltwch â'r Tîm Brandio yn <a href="mailto:brandio@cronfagymunedolylg.org.uk">brandio@cronfagymunedolylg.org.uk</a>.
+          dontForget:
+            title: "Peidiwch ag anghofio"
+            body: >
+              <ul>
+                  <li>Cofiwch fodloni ein hisafswm gofynion maint.</li>
+                  <li>Defnyddiwch y logo a ddarperir trwy sianelau swyddogol a pheidiwch â'i addasu neu ei ail-greu.</li>
+              </ul>
           freeKit:
             title: Offer wedi'i frandio am ddim
-            body: Hefyd, gallwn anfon eitemau am ddim fel placiau, balwnau a sieciau
-              mawr atoch - <a href="/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials">gallwch weld yr amrediad llawn ac archebu yma</a>.
-          brandGuidance:
-            title: Arweiniad brand - gwneud y peth iawn
-            body: <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance_welsh.pdf">Lawrlwythwch ein Harweiniad
-              Brand (PDF 2.7MB)</a> i gael cymorth gyda defnyddio ein logo'n gywir. Os ydych yn
-              ansicr o hyd, cysylltwch â'r Tîm Brandio yn <a href="mailto:branding@biglotteryfund.org.uk">branding@biglotteryfund.org.uk</a>
-          format:
-            title: Dewis y fformat logo cywir i'w lawrlwytho
-            body: "<strong>Digidol</strong> &ndash; dyma'r un gorau ar gyfer gwefannau,
-              dogfennau word, PowerPoint a chyfryngau cymdeithasol<br /><strong>Print</strong>
-              &ndash; i'w ddefnyddio wrth argraffu posteri neu daflenni<br /><strong>Vector</strong>
-              &ndash; i'w ddefnyddio wrth weithio gyda dylunydd proffesiynol<br />"
-          options:
-            title: Opsiynau logo
-            body: 'Mae''r logo ar gael mewn dau liw: 100% magenta neu 100% gwyrddlas.
-              Rydym yn lleoli''r logo yn y gornel dde ar frig ein holl ddogfennau
-              fel mater o drefn. Defnyddiwch y logo a ddarperir trwy sianelau swyddogol
-              a pheidiwch â''i addasu neu ei ail-greu.'
-      successMessages:
-        success: Llwyddiant!
-        digital:
-          title: Mae'r logo rydych wedi'i lawrlwytho'n ddelfrydol i'w ddefnyddio ar
-            wefannau.
-          body: Os oes angen logo mwy arnoch, caewch y blwch hwn a dewiswch y fersiynau
-            Argraffu neu Vector.
-        print:
-          title: Mae'r logo rydych wedi'i lawrlwytho'n ddelfrydol i'w argraffu.
-          body: Os oes angen logo llai arnoch i'w ddefnyddio ar-lein, caewch y blwch
-            hwn a dewiswch y fersiwn Digidol neu, os oes angen fersiwn hyd yn oed
-            yn fwy arnoch i'w roi i ddylunydd proffesiynol, dewiswch y fersiwn Vector.
-        vector:
-          title: Mae'r logo rydych wedi'i lawrlwytho'n ddelfrydol os ydych yn gweithio
-            gyda dylunydd proffesiynol neu'n gweithio gyda phrint fformat mwy.
-          body: Os oes angen logo llai arnoch, caewch y blwch hwn a dewiswch y fersiynau
-            Argraffu neu Ddigidol.
+            body: Hefyd, gallwn anfon eitemau am ddim fel placiau, balwnau a sieciau mawr atoch - <a href="/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials">gallwch weld yr amrediad llawn ac archebu yma</a>.
   programmes:
     title: Rhaglenni ariannu
     under10k: Grantiau dan £10,000
