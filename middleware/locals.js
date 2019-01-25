@@ -1,14 +1,11 @@
 'use strict';
 const config = require('config');
 const moment = require('moment');
-const { get, map, omitBy, isString } = require('lodash');
+const { map, omitBy, isString } = require('lodash');
 
 const { getCurrentUrl, getAbsoluteUrl, localify } = require('../modules/urls');
-const { REBRAND_SECRET } = require('../modules/secrets');
-const appData = require('../modules/appData');
 const routes = require('../controllers/routes');
 
-const cookies = config.get('cookies');
 const features = config.get('features');
 
 /**
@@ -21,13 +18,9 @@ module.exports = function(req, res, next) {
 
     /**
      * Rebrand flag
+     * @TODO: Remove this flag
      */
-    const useNewBrand =
-        appData.isNotProduction &&
-        (!!process.env.USE_NEW_BRAND === true || get(req.cookies, [cookies.rebrand, 'secret']) === REBRAND_SECRET);
-
-    res.locals.useNewBrand = useNewBrand;
-    res.locals.useNewLogo = useNewBrand && get(req.cookies, [cookies.rebrand, 'mode']) === 'staff';
+    res.locals.useNewBrand = true;
 
     /**
      * New domain flag
@@ -45,15 +38,14 @@ module.exports = function(req, res, next) {
      * High-contrast mode
      * @TODO: Remove post-rebrand
      */
-    res.locals.isHighContrast = useNewBrand === false && get(req.cookies, cookies.contrast) === 'high';
+    res.locals.isHighContrast = false;
 
     /**
      * Global copy
      */
-    const globalCopy = {
-        brand: useNewBrand ? req.i18n.__('global.rebrand') : req.i18n.__('global.brand')
+    res.locals.globalCopy = {
+        brand: req.i18n.__('global.rebrand')
     };
-    res.locals.globalCopy = globalCopy;
 
     /**
      * Navigation sections for top-level nav
@@ -111,21 +103,13 @@ module.exports = function(req, res, next) {
      * Fallback hero image
      * Used where there is no image but a hard requirement for the layout and the main image fails to load
      */
-    res.locals.fallbackHeroImage = useNewBrand
-        ? {
-              small: '/assets/images/hero/hero-fallback-2019-small.jpg',
-              medium: '/assets/images/hero/hero-fallback-2019-medium.jpg',
-              large: '/assets/images/hero/hero-fallback-2019-large.jpg',
-              default: '/assets/images/hero/hero-fallback-2019-medium.jpg',
-              caption: 'The Outdoor Partnership'
-          }
-        : {
-              small: '/assets/images/hero/hero-fallback-small.jpg',
-              medium: '/assets/images/hero/hero-fallback-medium.jpg',
-              large: '/assets/images/hero/hero-fallback-large.jpg',
-              default: '/assets/images/hero/hero-fallback-medium.jpg',
-              caption: 'Rathlin Island Development and Community Association'
-          };
+    res.locals.fallbackHeroImage = {
+        small: '/assets/images/hero/hero-fallback-2019-small.jpg',
+        medium: '/assets/images/hero/hero-fallback-2019-medium.jpg',
+        large: '/assets/images/hero/hero-fallback-2019-large.jpg',
+        default: '/assets/images/hero/hero-fallback-2019-medium.jpg',
+        caption: 'The Outdoor Partnership'
+    };
 
     res.locals.getSocialImageUrl = function(socialImage) {
         if (isString(socialImage)) {
