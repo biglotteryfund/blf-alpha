@@ -116,7 +116,7 @@ function buildMailOptions({ subject, type = 'text', content, sendTo, sendMode = 
     const sendFrom = getSendAddress(normalisedSendTo);
 
     const mailOptions = {
-        from: `Big Lottery Fund <${sendFrom}>`,
+        from: `The National Lottery Community Fund <${sendFrom}>`,
         subject: subject
     };
 

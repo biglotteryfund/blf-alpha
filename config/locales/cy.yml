@@ -41,7 +41,7 @@ global:
         phone: >
           <a href="tel:02072111888">020 7211 1888</a><br />
           (tu allan i oriau: 07867 500572)
-        email: pressoffice@biglotteryfund.org.uk
+        email: pressoffice@tnlcommunityfund.org.uk
       - title: Gogledd Iwerddon
         phone: >
           <a href="tel:02890551432">02890 551 432</a> neu <a href="tel:02890551450">02890 551 450</a><br />
@@ -258,7 +258,7 @@ toplevel:
       link: funding/big-stories/mental-health-foundation
   wales:
     title: Cymru
-    introduction: Y Gronfa Loteri Fawr yw ariannwr cymunedol mwyaf y Deyrnas Unedig.
+    introduction: Cronfa Gymunedol y Loteri Genedlaethol yw ariannwr cymunedol mwyaf y Deyrnas Unedig.
       Bob blwyddyn rydym yn dosbarthu miliynau o bunnoedd o arian achosion da'r Loteri
       Genedlaethol i grwpiau cymunedol a phrosiectau elusennol ledled y wlad.
     sections:
@@ -445,11 +445,11 @@ news:
     viewLatestPressReleases: Gweld y datganiadau i’r wasg diweddaraf
   introductions:
     newsLanding: >
-      Os ydych eisiau dod i wybod beth sy’n digwydd yn y Gronfa Loteri Fawr, rydych wedi dod i’r lle iawn.  Gallwch ddarllen y newyddion diweddaraf ar: y grwpiau cymunedol ac elusennau yr ydym yn eu hariannu, sut yr ydym yn gweithio gyda’r Llywodraeth ac ariannwyr eraill i ddosbarthu arian y Loteri Genedlaethol a sut yr ydym yn cefnogi cymunedau lleol ar draws y DU i ddod yn fwy gweithgar, bywiog ac yn gryfach gyda’i gilydd.
+      Os ydych eisiau dod i wybod beth sy’n digwydd yng Nghronfa Gymunedol y Loteri Genedlaethol, rydych wedi dod i’r lle iawn.  Gallwch ddarllen y newyddion diweddaraf ar: y grwpiau cymunedol ac elusennau yr ydym yn eu hariannu, sut yr ydym yn gweithio gyda’r Llywodraeth ac ariannwyr eraill i ddosbarthu arian y Loteri Genedlaethol a sut yr ydym yn cefnogi cymunedau lleol ar draws y DU i ddod yn fwy gweithgar, bywiog ac yn gryfach gyda’i gilydd.
     pressReleases: >
       Bydd ein datganiadau i’r wasg yn rhoi’r prif ffeithiau i chi am gyhoeddiadau ariannu, grantiau neu ymchwil newydd, digwyddiadau arbennig, digwyddiadau lansio, pa elusennau y gwobrwywyd arian iddynt, prosiectau dyfeisgar, arfer gorau yn y sector a mwy.
     blog: >
-      Chwilio am liw, cyd-destun a phersbectif ar waith y Gronfa Loteri Fawr, ei effaith ar gymunedau a’r pynciau sydd yn y newyddion ar hyn o bryd? Mae’r cyfan yma. Bydd y blog hwn yn esbonio, ymchwilio, arddangos ac archwilio ffyrdd y mae cymdeithas sifil, ac o ganlyniad i hynny, y sector, yn newid. Darllenwch am yr hyn yr oedd pobl mewn cymunedau led led y DU a’r sector yn ei feddwl yr oedd gan arweinyddion i’w ddweud a ffurfio eich barn eich hunan.
+      Chwilio am liw, cyd-destun a phersbectif ar waith Cronfa Gymunedol y Loteri Genedlaethol, ei effaith ar gymunedau a’r pynciau sydd yn y newyddion ar hyn o bryd? Mae’r cyfan yma. Bydd y blog hwn yn esbonio, ymchwilio, arddangos ac archwilio ffyrdd y mae cymdeithas sifil, ac o ganlyniad i hynny, y sector, yn newid. Darllenwch am yr hyn yr oedd pobl mewn cymunedau led led y DU a’r sector yn ei feddwl yr oedd gan arweinyddion i’w ddweud a ffurfio eich barn eich hunan.
   filters:
     viewPostsTagged: Gweld yr holl byst sydd wedi’u tagio gyda
     viewPostsIn: Gweld yr holl byst o fewn
@@ -481,7 +481,7 @@ funding:
       wales: Cymru
       northernIreland: Gogledd Iwerddon
     ukWideInfo: 'O bryd i''w gilydd mae''r Gronfa''n gwneud grantiau o dan £10,000
-      i brosiectau sydd o fudd i bobl ym mhob cwr o''r Deyrnas Unedig. <a href="https://www.biglotteryfund.org.uk/global-content/programmes/uk-wide/uk-portfolio">Mwy
+      i brosiectau sydd o fudd i bobl ym mhob cwr o''r Deyrnas Unedig. <a href="/welsh/funding/programmes/awards-from-the-uk-portfolio">Mwy
       o wybodaeth am ein grantiau Deyrnas Unedig gyfan</a>. Rydym yn gwneud grantiau
       <a href="/welsh/over10k">dros £10,000</a> ar gyfer prosiectau tymor hirach hefyd. '
     projectExamples: Enghreifftiau o brosiectau sydd wedi eu hariannu
@@ -606,8 +606,8 @@ funding:
         awardingProgrammes: Rhaglenni dyfarnu
         searchGoogle: Chwilio am %s gyda Google
         numFundedTotal:
-          one: "ariannwyd %s prosiect gan y Gronfa Loteri Fawr (cyfanswm o £%%s wedi'i ddyfarnu)"
-          other: "ariannwyd %s o brosiectau gan y Gronfa Loteri Fawr (cyfanswm o £%%s wedi'i ddyfarnu)"
+          one: "ariannwyd %s prosiect gan Gronfa Gymunedol y Loteri Genedlaethol (cyfanswm o £%%s wedi'i ddyfarnu)"
+          other: "ariannwyd %s o brosiectau gan Gronfa Gymunedol y Loteri Genedlaethol (cyfanswm o £%%s wedi'i ddyfarnu)"
   guidance:
     order-free-materials:
       title: Sut i gael deunyddiau â'n brand arnynt am ddim
@@ -619,7 +619,7 @@ funding:
         eitemau sydd ar gael i'w harchebu. <a href="/welsh/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads">Gallwch
         lawrlwytho'r logo yma hefyd</a>.</p><p>Bydd eich archeb yn cymryd hyd at 6
         niwrnod gwaith, os bydd ei angen arnoch cyn hynny neu mae gennych unrhyw ymholiadau
-        pellach, cysylltwch â <a href="mailto:branding@biglotteryfund.org.uk">branding@biglotteryfund.org.uk</a>
+        pellach, cysylltwch â <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>
         neu <a href="tel:020 7211 1728">020 7211 1728</a>.</p>
       languageOptions:
         monolingual: yn Saesneg
@@ -631,7 +631,7 @@ funding:
         success:
           title: Diolch am eich archeb.
           subtitle: Bydd eich nwyddau gyda chi o fewn 6 niwrnod gwaith.
-          body: <a href="mailto:branding@biglotteryfund.org.uk">Cysylltwch â'n tîm
+          body: <a href="mailto:branding@tnlcommunityfund.org.uk">Cysylltwch â'n tîm
             brandio</a> os oes gennych unrhyw gwestiynau neu ymholiadau am eich archeb.
         failure:
           title: Ymddiheuriadau, nid oeddem yn gallu prosesu'ch archeb.
@@ -672,9 +672,9 @@ funding:
         title: Diogelu Data
         text: "<p>Caiff y data a gyflwynoch yn y ffurflen hon ei gasglu gan PSL Print
           Management LTD er mwyn prosesu a danfon eich archeb.</p><p>Bydd PSL Print
-          Management LTD yn rhannu'ch data gyda'r Gronfa Loteri Fawr at ddibenion
-          dadansoddi data. Bydd y Gronfa Loteri Fawr yn defnyddio'ch data i ddadansoddi
-          patrymau archebu i hysbysu'r Gronfa Loteri Fawr am anghenion yn y dyfodol.
+          Management LTD yn rhannu'ch data gyda Chronfa Gymunedol y Loteri Genedlaethol at ddibenion
+          dadansoddi data. Bydd Cronfa Gymunedol y Loteri Genedlaethol yn defnyddio'ch data i ddadansoddi
+          patrymau archebu i hysbysu Cronfa Gymunedol y Loteri Genedlaethol am anghenion yn y dyfodol.
           Ni chaiff eich data personol ei rannu gydag unrhyw bartïon eraill. Caiff
           eich data personol ei storio'n ddiogel am 6 mis ar ôl cyflawni'ch archeb
           rhag ofn y bydd unrhyw ymholiadau ynglŷn ag ef, wedi hynny fe gaiff ei ddinistrio.
@@ -710,9 +710,9 @@ funding:
               mawr atoch - <a href="/welsh/funding/funding-guidance/managing-your-funding/ordering-free-materials">gallwch weld yr amrediad llawn ac archebu yma</a>.
           brandGuidance:
             title: Arweiniad brand - gwneud y peth iawn
-            body: <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance_welsh.pdf">Lawrlwythwch ein Harweiniad
+            body: <a href="https://www.tnlcommunityfund.org.uk/media/documents/logo-guidance_welsh.pdf">Lawrlwythwch ein Harweiniad
               Brand (PDF 2.7MB)</a> i gael cymorth gyda defnyddio ein logo'n gywir. Os ydych yn
-              ansicr o hyd, cysylltwch â'r Tîm Brandio yn <a href="mailto:branding@biglotteryfund.org.uk">branding@biglotteryfund.org.uk</a>
+              ansicr o hyd, cysylltwch â'r Tîm Brandio yn <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>
           format:
             title: Dewis y fformat logo cywir i'w lawrlwytho
             body: "<strong>Digidol</strong> &ndash; dyma'r un gorau ar gyfer gwefannau,
@@ -782,7 +782,7 @@ funding:
           <p>Os nad yw'r naill na'r llall o'r edafedd ariannu'n gweithio i'ch prosiect neu syniad, mae hynny'n iawn.
             <a href="/welsh/funding/programmes">Mae rhaglenni ariannu eraill sy'n agored i geisiadau</a>.</p>
           <p>Bydd cyfleoedd ariannu pellach o fewn y Gronfa Ddigidol yn 2019.
-            <a href="https://en-gb.facebook.com/biglotteryfundwales/">Dilynwch ni ar gyfryngau cymdeithasol</a> neu gwiriwch ein gwefan am wybodaeth ddiweddar.</p>
+            <a href="https://en-gb.facebook.com/TNLCommunityFundwales/">Dilynwch ni ar gyfryngau cymdeithasol</a> neu gwiriwch ein gwefan am wybodaeth ddiweddar.</p>
     process:
       title: Sut mae'r broses yn gweithio
       introduction: Nid ydym eisiau i chi dreulio llawer o amser yn paratoi i gael sgwrs gychwynnol gyda ni. Hoffem siarad a chi am eich syniad cyn i chi ddechrau datblygu cais manwl am grant.
@@ -870,7 +870,7 @@ funding:
           <li>Cysylltiedig â chynnyrch neu wasanaeth sy'n ddigon pell trwy ei broses ddatblygu y mae pobl yn elwa ohoni ar hyn o bryd.</li>
           <li>Darparu tystiolaeth o effaith ar y bobl hynny.</li>
           <li>Dangos theori newid neu ddogfen debyg sy'n dangos sut fydd y cynnyrch neu wasanaeth yn cyflawni nodau y gall grŵp penodol o bobl elwa ohonynt.</li>
-          <li>Dangos dealltwriaeth o her cynnal effaith ar ôl i gefnogaeth gan y Gronfa Loteri Fawr ddod i ben.</li>
+          <li>Dangos dealltwriaeth o her cynnal effaith ar ôl i gefnogaeth gan Gronfa Gymunedol y Loteri Genedlaethol ddod i ben.</li>
         </ul>
         <p>Nid ydym yn chwilio am:</p>
         <ul>
@@ -947,7 +947,7 @@ funding:
           body: >
             <p>Peidiwch â phoeni, mae <a href="/funding/programmes">rhaglenni ariannu eraill sy'n derbyn ceisiadau</a></p>
             <p>Bydd cyfleoedd ariannu pellach o fewn y Gronfa Ddigidol yn 2019
-              <a href="https://en-gb.facebook.com/biglotteryfundwales/">Dilynwch ni ar gyfryngau cymdeithasol</a> neu gwiriwch ein gwefan am wybodaeth ddiweddar.</p>
+              <a href="https://en-gb.facebook.com/TNLCommunityFundwales/">Dilynwch ni ar gyfryngau cymdeithasol</a> neu gwiriwch ein gwefan am wybodaeth ddiweddar.</p>
             <p>Os ydych yn elusen fach neu grŵp cymunedol bach, mae'n bosib y byddwn yn gallu cynnig
               <a href="/welsh/funding/programmes/digital-fund/assistance">cefnogaeth ddigidol am ddim</a> i chi o 2019.</p>
       strand2:
@@ -1010,9 +1010,9 @@ materials:
 
     <p>Gallwch rannu'ch lluniau gyda ni ar:</p>
     <ul>
-        <li>Facebook (<a href="https://www.facebook.com/biglotteryfundwales/">@BigLotteryFundWales</a>)</li>
-        <li>Twitter (<a href="https://www.twitter.com/loterifawrcymru">@LoteriFawrCymru</a>)</li>
-        <li>Instagram (<a href="https://www.instagram.com/big_lottery_fund">@big_lottery_fund</a>)</li>
+        <li>Facebook (<a href="https://www.facebook.com/TNLCommunityFundwales/">@TNLCommunityFundwales</a>)</li>
+        <li>Twitter (<a href="https://www.twitter.com/CronGymYLG">@CronGymYLG</a>)</li>
+        <li>Instagram (<a href="https://www.instagram.com/TNLCommunityFund">@TNLCommunityFund</a>)</li>
     </ul>
 
     <p>Os ydych wedi archebu siec, ceisiwch ddefnyddio ysgrifbin du trwchus a defnyddiwch lawysgrifen fawr, fel bod pawb yn gallu darllen enw eich mudiad a'r swm rydych wedi'i dderbyn.</p>
@@ -1028,9 +1028,9 @@ materials:
     <blockquote>Diolch i chwaraewyr y #LoteriGen am wneud ein prosiect yn bosib! Rydym yn gwneud gwahaniaeth enfawr i fywydau (XXXX) o bobl diolch i grant gan y #LoteriGen.</blockquote>
 
 
-    <p>Mae llawer o ffyrdd eraill o ddathlu'ch grant. Gallwch ddod o hyd i fwy o adnoddau ac awgrymiadau gwych ar sut i hyrwyddo'ch grant ar ein gwefan: <a href="https://www.biglotteryfund.org.uk/croeso">www.biglotteryfund.org.uk/croeso</a></p>
+    <p>Mae llawer o ffyrdd eraill o ddathlu'ch grant. Gallwch ddod o hyd i fwy o adnoddau ac awgrymiadau gwych ar sut i hyrwyddo'ch grant ar ein gwefan: <a href="https://www.tnlcommunityfund.org.uk/croeso">www.tnlcommunityfund.org.uk/croeso</a></p>
 
-    <p>Os oes gennych unrhyw gwestiynau ynglŷn â'ch archeb, cysylltwch â ni yn <a href="mailto:branding@biglotteryfund.org.uk">branding@biglotteryfund.org.uk</a>.</p>
+    <p>Os oes gennych unrhyw gwestiynau ynglŷn â'ch archeb, cysylltwch â ni yn <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.</p>
   orderEmailNew: >
     <h1>Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol</h1>
 
