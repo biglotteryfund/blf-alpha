@@ -36,22 +36,37 @@
             padding-right: $spacingUnit;
         }
     }
-    .hero__caption {
-        position: absolute;
-        height: auto;
-        right: $spacingUnit / 2;
-        bottom: $spacingUnit / 2;
 
-        @media screen and (min-width: 380px) {
-            bottom: $spacingUnit;
+    @if $useNewBrand == true {
+        .hero__caption {
+            position: absolute;
+            bottom: $spacingUnit / 2;
+            right: $spacingUnit / 2;
+
+            @include mq('medium') {
+                top: $spacingUnit;
+                right: $spacingUnit;
+                bottom: auto;
+            }
         }
+    } @else {
+        .hero__caption {
+            position: absolute;
+            height: auto;
+            right: $spacingUnit / 2;
+            bottom: $spacingUnit / 2;
 
-        @include mq('medium') {
-            bottom: $nudgeOffset + $spacingUnit;
-        }
+            @media screen and (min-width: 380px) {
+                bottom: $spacingUnit;
+            }
 
-        @include mq('large') {
-            right: $spacingUnit;
+            @include mq('medium') {
+                bottom: $nudgeOffset + $spacingUnit;
+            }
+
+            @include mq('large') {
+                right: $spacingUnit;
+            }
         }
     }
 }
