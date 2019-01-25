@@ -16,7 +16,7 @@
                     {{ pageTitle(titleText, isConstrained = false) }}
                 </div>
             </div>
-            {% if image.caption %}
+            {% if image.caption and not useNewBrand %}
                 <span class="hero__caption u-desktop-only">
                     {% if image.grantId %}
                         <a href="{{ localify("/funding/grants/" + image.grantId) }}" class="u-link-unstyled">
@@ -26,5 +26,15 @@
                 </span>
             {% endif %}
         </div>
+
+        {% if image.caption and  useNewBrand %}
+            <span class="hero__caption u-desktop-only">
+                {% if image.grantId %}
+                    <a href="{{ localify("/funding/grants/" + image.grantId) }}" class="u-link-unstyled">
+                {% endif %}
+                <span class="u-caption">{{ image.caption }}</span>
+                {% if image.grantId %}</a>{% endif %}
+            </span>
+        {% endif %}
     </section>
 {% endmacro %}
