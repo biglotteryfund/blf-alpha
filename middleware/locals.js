@@ -110,15 +110,14 @@ module.exports = function(req, res, next) {
     /**
      * Fallback hero image
      * Used where there is no image but a hard requirement for the layout and the main image fails to load
-     * @TODO: New fallback image for rebrand
      */
     res.locals.fallbackHeroImage = useNewBrand
         ? {
-              small: '/assets/images/hero/hero-fallback-small.jpg',
-              medium: '/assets/images/hero/hero-fallback-medium.jpg',
-              large: '/assets/images/hero/hero-fallback-large.jpg',
-              default: '/assets/images/hero/hero-fallback-medium.jpg',
-              caption: 'Rathlin Island Development and Community Association'
+              small: '/assets/images/hero/hero-fallback-2019-small.jpg',
+              medium: '/assets/images/hero/hero-fallback-2019-medium.jpg',
+              large: '/assets/images/hero/hero-fallback-2019-large.jpg',
+              default: '/assets/images/hero/hero-fallback-2019-medium.jpg',
+              caption: 'The Outdoor Partnership'
           }
         : {
               small: '/assets/images/hero/hero-fallback-small.jpg',

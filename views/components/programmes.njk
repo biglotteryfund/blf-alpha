@@ -43,7 +43,7 @@
         "trailText": description | safe,
         "image": {
             "url": programme.trailImageNew if useNewBrand and programme.trailImageNew else programme.trailImage,
-            "alt": programme.hero.caption
+            "alt": programme.hero.caption or programme.title
         },
         "link": {
             "url": programme.linkUrl
