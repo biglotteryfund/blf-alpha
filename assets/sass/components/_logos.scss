@@ -1,8 +1,39 @@
 /* =========================================================================
-   Logos
+   Logo
    ========================================================================= */
 
+// Duplicates .card a little
+// @TODO see if it makes sense to merge this as a .card variant in future
 .logo-card {
+    padding: 0;
+    background-color: get-color('background', 'light-neutral');
+    max-width: 30em;
+
+    display: flex;
+    flex-flow: column nowrap;
+    flex: 1 1 0%;
+
+    .logo-card__title,
+    .logo-card__body {
+        font-size: 18px;
+    }
+
+    .logo-card__header {
+        background-color: darken(get-color('background', 'light-neutral'), 10%);
+    }
+
+    .logo-card__header,
+    .logo-card__body {
+        padding: 12px;
+        @include mq('medium') {
+            padding: 1em;
+        }
+    }
+
+    .logo-card__title {
+        text-align: center;
+        margin-bottom: 0;
+    }
 
     .logo-card__body {
         flex-grow: 1;

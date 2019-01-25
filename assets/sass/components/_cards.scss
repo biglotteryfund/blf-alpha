@@ -5,11 +5,8 @@
 /* =========================================================================
    Basic Card
    ========================================================================= */
-$cardPaddingDefault: 12px;
-$cardPaddingWider: 1em;
-
 .card {
-    padding: $cardPaddingDefault;
+    padding: 12px;
     background-color: get-color('background', 'light-neutral');
     max-width: 30em;
     margin-bottom: $spacingUnit / 2;
@@ -19,7 +16,7 @@ $cardPaddingWider: 1em;
     flex: 1 1 0%;
 
     @include mq('medium') {
-        padding: $cardPaddingWider;
+        padding: 1em;
     }
 
     .card__title,
@@ -31,32 +28,6 @@ $cardPaddingWider: 1em;
         margin-top: auto;
     }
 }
-
-/* =========================================================================
-   Headed Card
-   ========================================================================= */
-.card--headed {
-    padding: 0;
-
-    .card__header {
-        background-color: darken(get-color('background', 'light-neutral'), 10%);
-    }
-
-    .card__header,
-    .card__body {
-        padding: $cardPaddingDefault;
-        @include mq('medium') {
-            padding: $cardPaddingWider;
-        }
-    }
-
-    .card__title {
-        text-align: center;
-        margin-bottom: 0;
-    }
-
-}
-
 
 /* =========================================================================
    Media Object Card

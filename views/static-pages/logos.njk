@@ -73,11 +73,11 @@
 } %}
 
 {% macro card(title) %}
-    <aside class="logo-card card card--headed">
-        <header class="card__header logo-card__title">
-            <h3 class="card__title">{{ title }}</h3>
+    <aside class="logo-card">
+        <header class="logo-card__header logo-card__title">
+            <h3 class="logo-card__title">{{ title }}</h3>
         </header>
-        <div class="card__body logo-card__body">{{ caller() }}</div>
+        <div class="logo-card__body">{{ caller() }}</div>
     </aside>
 {% endmacro %}
 
