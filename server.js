@@ -96,6 +96,7 @@ app.use('/', require('./controllers/robots'));
  * Mount early to avoid being processed by any middleware
  * @see https://expressjs.com/en/4x/api.html#express.static
  */
+// @TODO replace this with the new one post-rebrand
 app.use(favicon(path.join('public', '/favicon.ico')));
 app.use('/assets', express.static(path.join(__dirname, './public')));
 
