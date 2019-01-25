@@ -412,11 +412,6 @@ $breakpointLarge: 840px;
         background-image: none !important;
     }
 
-    @media only screen and (min-width: $breakpointLarge) {
-        height: 50px;
-        width: 155px;
-    }
-
     /**
      * Is this a welsh language page or
      * are we explicitly showing the welsh logo?
@@ -426,11 +421,6 @@ $breakpointLarge: 840px;
         background-image: url(../../../images/site-logo-bilingual.svg);
         height: 69px;
         width: 130px;
-
-        @media only screen and (min-width: $breakpointLarge) {
-            height: 80px;
-            width: 155px;
-        }
     }
 
     @media print {
