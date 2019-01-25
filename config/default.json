@@ -44,7 +44,7 @@
     "enableRelatedGrants": true,
     "enableSurvey": true,
     "enableTimingMetrics": false,
-    "enableNewDomainStaffAuth": false
+    "enableNewDomainStaffAuth": true
   },
   "cookies": {
     "contrast": "contrastMode",
