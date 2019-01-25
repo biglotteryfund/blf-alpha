@@ -2,9 +2,10 @@
 
 exports[`Digital fund should create success emails 1`] = `
 "Content-Type: multipart/alternative;
-From: Big Lottery Fund <noreply@biglotteryfund.org.uk>
+From: The National Lottery Community Fund <noreply@biglotteryfund.org.uk>
 To: Example Person <example@example.com>
-Subject: Thank you for getting in touch with the Big Lottery Fund!
+Subject: Thank you for getting in touch with The National Lottery Community
+ Fund!
 MIME-Version: 1.0
 
 Content-Type: text/plain
@@ -26,24 +27,23 @@ ORGANISATION NAME
 Test Organisation
 
 DATA PROTECTION
-The Big Lottery Fund is a public body =
-with a duty to distribute National Lottery and other money in grants for =
-good causes. We use
-the personal data you provide, such as contact details =
-for individuals at your organisation, to help you apply for a grant and to
-assess your application. We may share your personal data with organisations=
- which help us with our grant making activities or
-others which have a =
-legitimate interest in our work or have funded your grant. We will only =
-share personal data which they need to
-carry out their work and subject to =
-appropriate safety measures. Our Data Protection and Privacy Notice gives =
-more information
-about how we store and use personal data and the lawful =
-basis for this. Please read the full Notice which is published on our
-website at www.biglotteryfund.org.uk/data-protection [https://www.=
-biglotteryfund.org.uk/data-protection] or contact us to request
-a hard copy. The Notice may be updated from time to time.
+The National Lottery Community Fund is a=
+ public body with a duty to distribute National Lottery and other money in =
+grants for good
+causes. We use the personal data you provide, such as =
+contact details for individuals at your organisation, to help you apply for
+a grant and to assess your application. We may share your personal data =
+with organisations which help us with our grant making
+activities or others which have a legitimate interest in our work or have =
+funded your grant. We will only share personal data
+which they need to carry out their work and subject to appropriate safety =
+measures. Our Data Protection and Privacy Notice gives
+more information about how we store and use personal data and the lawful =
+basis for this. Please read the full Notice which is
+published on our website at www.tnlcommunityfund.org.uk/data-protection =
+[https://www.tnlcommunityfund.org.uk/data-protection] or
+contact us to request a hard copy. The Notice may be updated from time to =
+time.
 Content-Type: text/html
 Content-Transfer-Encoding: quoted-printable
 
@@ -253,26 +253,25 @@ Trebuchet MS,sans-serif;\\">Test Organisation</p>
 line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: 14px; =
 margin-top: 50px; font-family: caecilia,sans-serif;\\">Data protection</h5>
             <small style=3D\\"display: block; font-size: 11px; color: #666; =
-margin-bottom: 10px;\\">The Big Lottery Fund is a public body with a duty to =
-distribute National Lottery and other money in grants for good causes. We =
-use the personal data you provide, such as contact details for individuals =
-at your organisation, to help you apply for a grant and to assess your =
-application.</small>
-            <small style=3D\\"display: block; font-size:=
- 11px; color: #666; margin-bottom: 10px;\\">We may share your personal data =
-with organisations which help us with our grant making activities or others=
- which have a legitimate interest in our work or have funded your grant. We=
- will only share personal data which they need to carry out their work and =
-subject to appropriate safety measures.</small>
-            <small =
-style=3D\\"display: block; font-size: 11px; color: #666; margin-bottom: =
-10px;\\">Our Data Protection and Privacy Notice gives more information about =
-how we store and use personal data and the lawful basis for this. Please =
-read the full Notice which is published on our website at <a =
-href=3D\\"https://www.biglotteryfund.org.uk/data-protection\\" style=3D\\"color: =
-#0075b0; font-weight: 800;\\">www.biglotteryfund.org.uk/data-protection</a> =
-or contact us to request a hard copy. The Notice may be updated from time =
-to time.</small>
+margin-bottom: 10px;\\">The National Lottery Community Fund is a public body =
+with a duty to distribute National Lottery and other money in grants for =
+good causes. We use the personal data you provide, such as contact details =
+for individuals at your organisation, to help you apply for a grant and to =
+assess your application.</small>
+            <small style=3D\\"display: =
+block; font-size: 11px; color: #666; margin-bottom: 10px;\\">We may share =
+your personal data with organisations which help us with our grant making =
+activities or others which have a legitimate interest in our work or have =
+funded your grant. We will only share personal data which they need to =
+carry out their work and subject to appropriate safety measures.</small>
+            <small style=3D\\"display: block; font-size: 11px; color: #666; =
+margin-bottom: 10px;\\">Our Data Protection and Privacy Notice gives more =
+information about how we store and use personal data and the lawful basis =
+for this. Please read the full Notice which is published on our website at =
+<a href=3D\\"https://www.tnlcommunityfund.org.uk/data-protection\\" =
+style=3D\\"color: #0075b0; font-weight: 800;\\">www.tnlcommunityfund.org.=
+uk/data-protection</a> or contact us to request a hard copy. The Notice may=
+ be updated from time to time.</small>
        =20
     </body>
 </html>
@@ -282,7 +281,7 @@ to time.</small>
 
 exports[`Digital fund should create success emails 2`] = `
 "Content-Type: multipart/alternative;
-From: Big Lottery Fund <noreply@biglotteryfund.org.uk>
+From: The National Lottery Community Fund <noreply@biglotteryfund.org.uk>
 To: Example Person <example@example.com>
 Subject: New submission for Digital Fund Strand 1 from Test Organisation
 MIME-Version: 1.0
@@ -302,24 +301,23 @@ ORGANISATION NAME
 Test Organisation
 
 DATA PROTECTION
-The Big Lottery Fund is a public body =
-with a duty to distribute National Lottery and other money in grants for =
-good causes. We use
-the personal data you provide, such as contact details =
-for individuals at your organisation, to help you apply for a grant and to
-assess your application. We may share your personal data with organisations=
- which help us with our grant making activities or
-others which have a =
-legitimate interest in our work or have funded your grant. We will only =
-share personal data which they need to
-carry out their work and subject to =
-appropriate safety measures. Our Data Protection and Privacy Notice gives =
-more information
-about how we store and use personal data and the lawful =
-basis for this. Please read the full Notice which is published on our
-website at www.biglotteryfund.org.uk/data-protection [https://www.=
-biglotteryfund.org.uk/data-protection] or contact us to request
-a hard copy. The Notice may be updated from time to time.
+The National Lottery Community Fund is a=
+ public body with a duty to distribute National Lottery and other money in =
+grants for good
+causes. We use the personal data you provide, such as =
+contact details for individuals at your organisation, to help you apply for
+a grant and to assess your application. We may share your personal data =
+with organisations which help us with our grant making
+activities or others which have a legitimate interest in our work or have =
+funded your grant. We will only share personal data
+which they need to carry out their work and subject to appropriate safety =
+measures. Our Data Protection and Privacy Notice gives
+more information about how we store and use personal data and the lawful =
+basis for this. Please read the full Notice which is
+published on our website at www.tnlcommunityfund.org.uk/data-protection =
+[https://www.tnlcommunityfund.org.uk/data-protection] or
+contact us to request a hard copy. The Notice may be updated from time to =
+time.
 Content-Type: text/html
 Content-Transfer-Encoding: quoted-printable
 
@@ -523,26 +521,25 @@ Trebuchet MS,sans-serif;\\">Test Organisation</p>
 line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: 14px; =
 margin-top: 50px; font-family: caecilia,sans-serif;\\">Data protection</h5>
             <small style=3D\\"display: block; font-size: 11px; color: #666; =
-margin-bottom: 10px;\\">The Big Lottery Fund is a public body with a duty to =
-distribute National Lottery and other money in grants for good causes. We =
-use the personal data you provide, such as contact details for individuals =
-at your organisation, to help you apply for a grant and to assess your =
-application.</small>
-            <small style=3D\\"display: block; font-size:=
- 11px; color: #666; margin-bottom: 10px;\\">We may share your personal data =
-with organisations which help us with our grant making activities or others=
- which have a legitimate interest in our work or have funded your grant. We=
- will only share personal data which they need to carry out their work and =
-subject to appropriate safety measures.</small>
-            <small =
-style=3D\\"display: block; font-size: 11px; color: #666; margin-bottom: =
-10px;\\">Our Data Protection and Privacy Notice gives more information about =
-how we store and use personal data and the lawful basis for this. Please =
-read the full Notice which is published on our website at <a =
-href=3D\\"https://www.biglotteryfund.org.uk/data-protection\\" style=3D\\"color: =
-#0075b0; font-weight: 800;\\">www.biglotteryfund.org.uk/data-protection</a> =
-or contact us to request a hard copy. The Notice may be updated from time =
-to time.</small>
+margin-bottom: 10px;\\">The National Lottery Community Fund is a public body =
+with a duty to distribute National Lottery and other money in grants for =
+good causes. We use the personal data you provide, such as contact details =
+for individuals at your organisation, to help you apply for a grant and to =
+assess your application.</small>
+            <small style=3D\\"display: =
+block; font-size: 11px; color: #666; margin-bottom: 10px;\\">We may share =
+your personal data with organisations which help us with our grant making =
+activities or others which have a legitimate interest in our work or have =
+funded your grant. We will only share personal data which they need to =
+carry out their work and subject to appropriate safety measures.</small>
+            <small style=3D\\"display: block; font-size: 11px; color: #666; =
+margin-bottom: 10px;\\">Our Data Protection and Privacy Notice gives more =
+information about how we store and use personal data and the lawful basis =
+for this. Please read the full Notice which is published on our website at =
+<a href=3D\\"https://www.tnlcommunityfund.org.uk/data-protection\\" =
+style=3D\\"color: #0075b0; font-weight: 800;\\">www.tnlcommunityfund.org.=
+uk/data-protection</a> or contact us to request a hard copy. The Notice may=
+ be updated from time to time.</small>
        =20
     </body>
 </html>
@@ -552,9 +549,10 @@ to time.</small>
 
 exports[`Reaching communities should create success emails 1`] = `
 "Content-Type: multipart/alternative;
-From: Big Lottery Fund <noreply@biglotteryfund.org.uk>
+From: The National Lottery Community Fund <noreply@biglotteryfund.org.uk>
 To: Example Person <example@example.com>
-Subject: Thank you for getting in touch with the Big Lottery Fund!
+Subject: Thank you for getting in touch with The National Lottery Community
+ Fund!
 MIME-Version: 1.0
 
 Content-Type: text/plain; charset=utf-8
@@ -570,12 +568,12 @@ you know if we can help.
 
 In the meantime, you can find out more about our =
 funding and how we can support your community on our website:=20
-www.biglotteryfund.org.uk/england [https://www.biglotteryfund.org.=
+www.tnlcommunityfund.org.uk/england [https://www.tnlcommunityfund.org.=
 uk/england]
 
 Thanks,
 
-The Big Lottery Fund
+The National Lottery Community Fund
 
 YOUR INFORMATION
 YOUR IDEA
@@ -607,23 +605,22 @@ PHONE NUMBER
 03454102030
 
 DATA PROTECTION
-The Big Lottery Fund is a public body with a duty to distribute National =
-Lottery and other money in grants for good causes. We use
-the personal data you provide, such as contact details for individuals at =
-your organisation, to help you apply for a grant and to
-assess your application. We may share your personal data with organisations=
- which help us with our grant making activities or
-others which have a =
-legitimate interest in our work or have funded your grant. We will only =
-share personal data which they need to
-carry out their work and subject to =
-appropriate safety measures. Our Data Protection and Privacy Notice gives =
-more information
-about how we store and use personal data and the lawful =
-basis for this. Please read the full Notice which is published on our
-website at www.biglotteryfund.org.uk/data-protection [https://www.=
-biglotteryfund.org.uk/data-protection] or contact us to request
-a hard copy. The Notice may be updated from time to time.
+The National Lottery Community Fund is a public body with a duty to =
+distribute National Lottery and other money in grants for good
+causes. We use the personal data you provide, such as contact details for =
+individuals at your organisation, to help you apply for
+a grant and to assess your application. We may share your personal data =
+with organisations which help us with our grant making
+activities or others which have a legitimate interest in our work or have =
+funded your grant. We will only share personal data
+which they need to carry out their work and subject to appropriate safety =
+measures. Our Data Protection and Privacy Notice gives
+more information about how we store and use personal data and the lawful =
+basis for this. Please read the full Notice which is
+published on our website at www.tnlcommunityfund.org.uk/data-protection =
+[https://www.tnlcommunityfund.org.uk/data-protection] or
+contact us to request a hard copy. The Notice may be updated from time to =
+time.
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -780,14 +777,14 @@ This will be forwarded to one of our funding officers who will get in touch=
 line-height: 1.35; font-family: caecilia-sans-text,Trebuchet MS,=
 sans-serif;\\">In the meantime, you can find out more about our funding and =
 how we can support your community on our website: <a href=3D\\"https://www.=
-biglotteryfund.org.uk/england\\" style=3D\\"color: #0075b0; font-weight: =
-800;\\">www.biglotteryfund.org.uk/england</a></p>
+tnlcommunityfund.org.uk/england\\" style=3D\\"color: #0075b0; font-weight: =
+800;\\">www.tnlcommunityfund.org.uk/england</a></p>
     <p style=3D\\"color: =
 #333; font-weight: 400; font-size: 20px; line-height: 1.35; font-family: =
 caecilia-sans-text,Trebuchet MS,sans-serif;\\">Thanks,</p>
     <p style=3D\\"color: #333; font-weight: 400; font-size: 20px; =
 line-height: 1.35; font-family: caecilia-sans-text,Trebuchet MS,=
-sans-serif;\\"><strong>The Big Lottery Fund</strong></p>
+sans-serif;\\"><strong>The National Lottery Community Fund</strong></p>
 
     <h2 style=3D\\"font-weight: 700; line-height: 1.2; margin: 0 0 20px; =
 color: #e5007d; font-size: 22px; font-family: caecilia,sans-serif;\\">Your =
@@ -921,26 +918,25 @@ Trebuchet MS,sans-serif;\\">03454102030</p>
 line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: 14px; =
 margin-top: 50px; font-family: caecilia,sans-serif;\\">Data protection</h5>
             <small style=3D\\"display: block; font-size: 11px; color: #666; =
-margin-bottom: 10px;\\">The Big Lottery Fund is a public body with a duty to =
-distribute National Lottery and other money in grants for good causes. We =
-use the personal data you provide, such as contact details for individuals =
-at your organisation, to help you apply for a grant and to assess your =
-application.</small>
-            <small style=3D\\"display: block; font-size:=
- 11px; color: #666; margin-bottom: 10px;\\">We may share your personal data =
-with organisations which help us with our grant making activities or others=
- which have a legitimate interest in our work or have funded your grant. We=
- will only share personal data which they need to carry out their work and =
-subject to appropriate safety measures.</small>
-            <small =
-style=3D\\"display: block; font-size: 11px; color: #666; margin-bottom: =
-10px;\\">Our Data Protection and Privacy Notice gives more information about =
-how we store and use personal data and the lawful basis for this. Please =
-read the full Notice which is published on our website at <a =
-href=3D\\"https://www.biglotteryfund.org.uk/data-protection\\" style=3D\\"color: =
-#0075b0; font-weight: 800;\\">www.biglotteryfund.org.uk/data-protection</a> =
-or contact us to request a hard copy. The Notice may be updated from time =
-to time.</small>
+margin-bottom: 10px;\\">The National Lottery Community Fund is a public body =
+with a duty to distribute National Lottery and other money in grants for =
+good causes. We use the personal data you provide, such as contact details =
+for individuals at your organisation, to help you apply for a grant and to =
+assess your application.</small>
+            <small style=3D\\"display: =
+block; font-size: 11px; color: #666; margin-bottom: 10px;\\">We may share =
+your personal data with organisations which help us with our grant making =
+activities or others which have a legitimate interest in our work or have =
+funded your grant. We will only share personal data which they need to =
+carry out their work and subject to appropriate safety measures.</small>
+            <small style=3D\\"display: block; font-size: 11px; color: #666; =
+margin-bottom: 10px;\\">Our Data Protection and Privacy Notice gives more =
+information about how we store and use personal data and the lawful basis =
+for this. Please read the full Notice which is published on our website at =
+<a href=3D\\"https://www.tnlcommunityfund.org.uk/data-protection\\" =
+style=3D\\"color: #0075b0; font-weight: 800;\\">www.tnlcommunityfund.org.=
+uk/data-protection</a> or contact us to request a hard copy. The Notice may=
+ be updated from time to time.</small>
        =20
     </body>
 </html>
@@ -950,7 +946,7 @@ to time.</small>
 
 exports[`Reaching communities should create success emails 2`] = `
 "Content-Type: multipart/alternative;
-From: Big Lottery Fund <noreply@biglotteryfund.org.uk>
+From: The National Lottery Community Fund <noreply@biglotteryfund.org.uk>
 To: Example Person <example@example.com>
 Subject: New idea submission from website: Test Organisation
 MIME-Version: 1.0
