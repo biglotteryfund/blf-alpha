@@ -183,9 +183,8 @@ toplevel:
       Diolch i chwaraewyr y <a href="%s">Loteri Genedlaethol</a> yn codi arian ar gyfer achosion da,
       rydym yn dosbarthu mwy na <a href="%s">£500 miliwn</a> i gymunedau ar draws y Deyrnas Unedig bob blwyddy
     introNew:
-      title: We support people and communities to thrive
-      description: <p>Thanks to <a href="%s">National Lottery</a> players raising funding for good causes,
-        we give out more than <a href="%s">£500 million</a> to communities across the UK each&nbsp;year</p>
+      title: Rydym yn cefnogi pobl a chymunedau i ffynnu
+      description: <p>Diolch i chwaraewyr y <a href="%s">Loteri Genedlaethol</a> sy’n codi arian ar gyfer achosion da, rydym yn dosbarthu mwy na <a href="%s">£500 miliwn</a> i gymunedau ledled y Deyrnas Unedig bob blwyddyn</p>
     under10k:
       short: Ymgeisio am grant o dan £10,000
       long: Cael gwybod sut i ymgeisio am grant o dan £10,000
@@ -193,42 +192,42 @@ toplevel:
       short: Ymgeisio am grant dros £10,000
       long: Cael gwybod sut i ymgeisio am grant dros £10,000
     featuredLinks:
-    - label: Who we are and what we do
+    - label: Pwy ydym a beth rydym yn ei wneud
       href: /about
       image:
         small: /assets/images/home/mini-hero-1-small.jpg
         medium: /assets/images/home/mini-hero-1-medium.jpg
         large: /assets/images/home/mini-hero-1-large.jpg
         default: /assets/images/home/mini-hero-1-medium.jpg
-    - label: "What we've funded: our past grants"
+    - label: "Beth rydym wedi’i ariannu: ein grantiau blaenorol"
       href: /funding/grants
       image:
         small: /assets/images/home/mini-hero-2-small.jpg
         medium: /assets/images/home/mini-hero-2-medium.jpg
         large: /assets/images/home/mini-hero-2-large.jpg
         default: /assets/images/home/mini-hero-2-medium.jpg
-    - label: Our funding programmes
+    - label: Ein rhaglenni ariannu
       href: /funding/programmes
       image:
         small: /assets/images/home/mini-hero-3-small.jpg
         medium: /assets/images/home/mini-hero-3-medium.jpg
         large: /assets/images/home/mini-hero-3-large.jpg
         default: /assets/images/home/mini-hero-3-medium.jpg
-    - label: Managing your grant
+    - label: Rheoli eich grant
       href: /funding/funding-guidance/managing-your-funding
       image:
         small: /assets/images/home/mini-hero-4-small.jpg
         medium: /assets/images/home/mini-hero-4-medium.jpg
         large: /assets/images/home/mini-hero-4-large.jpg
         default: /assets/images/home/mini-hero-4-medium.jpg
-    - label: "What we've learned from our funding"
+    - label: "Beth rydym wedi’i ddysgu o’n grantiau"
       href: /insights
       image:
         small: /assets/images/home/mini-hero-5-small.jpg
         medium: /assets/images/home/mini-hero-5-medium.jpg
         large: /assets/images/home/mini-hero-5-large.jpg
         default: /assets/images/home/mini-hero-5-medium.jpg
-    - label: Talk to us
+    - label: Siarad â ni
       href: /contact
       image:
         small: /assets/images/home/mini-hero-6-small.jpg

@@ -77,6 +77,14 @@ i18n.expressBind(app, {
 });
 
 /**
+ * Old domain redirect
+ * @TODO: Enable this flag when making www.tnlcommunityfund.org.uk the primary domain
+ */
+if (config.get('features.enableOldDomainRedirect')) {
+    app.use(domainRedirectMiddleware);
+}
+
+/**
  * Robots
  * status endpoint, sitemap, robots.txt
  * Mount early to avoid being processed by any middleware
@@ -88,6 +96,7 @@ app.use('/', require('./controllers/robots'));
  * Mount early to avoid being processed by any middleware
  * @see https://expressjs.com/en/4x/api.html#express.static
  */
+// @TODO replace this with the new one post-rebrand
 app.use(favicon(path.join('public', '/favicon.ico')));
 app.use('/assets', express.static(path.join(__dirname, './public')));
 
@@ -160,14 +169,6 @@ function initViewEngine() {
 }
 
 initViewEngine();
-
-/**
- * Old domain redirect
- * @TODO: Enable this flag when making www.tnlcommunityfund.org.uk the primary domain
- */
-if (config.get('features.enableOldDomainRedirect')) {
-    app.use(domainRedirectMiddleware);
-}
 
 /**
  * Register global middlewares

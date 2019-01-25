@@ -7,7 +7,7 @@ const { injectCopy, injectHeroImage } = require('../../middleware/inject-content
 
 const router = express.Router();
 
-router.use(injectHeroImage('digital-buddies-2'), injectCopy('funding.digitalFund'));
+router.use(injectHeroImage('digital-buddies-2', 'digital-buddies-letterbox-new'), injectCopy('funding.digitalFund'));
 
 router.use((req, res, next) => {
     res.locals.enableDigitalFundApplications = config.get('features.enableDigitalFundApplications');

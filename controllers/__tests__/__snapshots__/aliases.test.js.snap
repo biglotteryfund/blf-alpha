@@ -5922,5 +5922,45 @@ Array [
     "from": "/welsh/wales/contact-us",
     "to": "/welsh/contact",
   },
+  Object {
+    "from": "/news-and-events",
+    "to": "/news",
+  },
+  Object {
+    "from": "/welsh/news-and-events",
+    "to": "/welsh/news",
+  },
+  Object {
+    "from": "/england/news-and-events",
+    "to": "/news",
+  },
+  Object {
+    "from": "/welsh/england/news-and-events",
+    "to": "/welsh/news",
+  },
+  Object {
+    "from": "/scotland/news-and-events",
+    "to": "/news",
+  },
+  Object {
+    "from": "/welsh/scotland/news-and-events",
+    "to": "/welsh/news",
+  },
+  Object {
+    "from": "/northernireland/news-and-events",
+    "to": "/news",
+  },
+  Object {
+    "from": "/welsh/northernireland/news-and-events",
+    "to": "/welsh/news",
+  },
+  Object {
+    "from": "/wales/news-and-events",
+    "to": "/news",
+  },
+  Object {
+    "from": "/welsh/wales/news-and-events",
+    "to": "/welsh/news",
+  },
 ]
 `;

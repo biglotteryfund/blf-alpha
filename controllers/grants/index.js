@@ -102,96 +102,101 @@ async function checkSpelling(searchTerm, locale = 'en') {
     });
 }
 
-router.get('/', injectHeroImage('tinylife'), injectCopy('funding.pastGrants.search'), async (req, res, next) => {
-    try {
-        const locale = req.i18n.getLocale();
+router.get(
+    '/',
+    injectHeroImage('tinylife', 'search-all-grants-letterbox-new'),
+    injectCopy('funding.pastGrants.search'),
+    async (req, res, next) => {
+        try {
+            const locale = req.i18n.getLocale();
 
-        /**
-         * Pick out an allowed list of query parameters to forward on to the grants API
-         */
-        const facetParams = pick(req.query, [
-            'q',
-            'amount',
-            'postcode',
-            'programme',
-            'year',
-            'orgType',
-            'sort',
-            'country',
-            'awardDate',
-            'localAuthority',
-            'westminsterConstituency',
-            'recipient',
-            'exclude',
-            'limit'
-        ]);
+            /**
+             * Pick out an allowed list of query parameters to forward on to the grants API
+             */
+            const facetParams = pick(req.query, [
+                'q',
+                'amount',
+                'postcode',
+                'programme',
+                'year',
+                'orgType',
+                'sort',
+                'country',
+                'awardDate',
+                'localAuthority',
+                'westminsterConstituency',
+                'recipient',
+                'exclude',
+                'limit'
+            ]);
 
-        const queryWithPage = { ...facetParams, ...{ page: req.query.page || 1, locale } };
-        const data = await grantsService.query(queryWithPage);
+            const queryWithPage = { ...facetParams, ...{ page: req.query.page || 1, locale } };
+            const data = await grantsService.query(queryWithPage);
 
-        let searchSuggestions = false;
-        if (data.meta.totalResults === 0 && req.query.q) {
-            searchSuggestions = await checkSpelling(req.query.q, locale);
+            let searchSuggestions = false;
+            if (data.meta.totalResults === 0 && req.query.q) {
+                searchSuggestions = await checkSpelling(req.query.q, locale);
+            }
+
+            res.format({
+                // Initial / server-only search
+                html: async () => {
+                    res.render(path.resolve(__dirname, './views/search'), {
+                        title: res.locals.copy.title,
+                        queryParams: isEmpty(facetParams) ? false : facetParams,
+                        grants: data.results,
+                        facets: data.facets,
+                        meta: data.meta,
+                        grantDataDates: grantsConfig.dateRange,
+                        grantNavLink: grantsConfig.grantNavLink,
+                        searchSuggestions: searchSuggestions,
+                        pagination: buildPagination(req, data.meta.pagination, queryWithPage)
+                    });
+                },
+
+                // AJAX search for client-side app
+                'application/json': () => {
+                    /**
+                     * Repopulate existing app globals so Nunjucks
+                     * can read them outside of Express's view engine context
+                     */
+                    const extraContext = {
+                        grants: data.results,
+                        pagination: buildPagination(req, data.meta.pagination, queryWithPage)
+                    };
+
+                    const context = { ...res.locals, ...req.app.locals, ...extraContext };
+
+                    nunjucks.render(path.resolve(__dirname, './views/ajax-results.njk'), context, (renderErr, html) => {
+                        if (renderErr) {
+                            Raven.captureException(renderErr);
+                            res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
+                        } else {
+                            res.json({
+                                meta: data.meta,
+                                facets: data.facets,
+                                searchSuggestions: searchSuggestions,
+                                resultsHtml: html
+                            });
+                        }
+                    });
+                }
+            });
+        } catch (errorResponse) {
+            return res.format({
+                html: () => {
+                    next(errorResponse.error);
+                },
+                'application/json': () => {
+                    Raven.captureMessage(errorResponse);
+                    res.status(errorResponse.error.error.status || 400).json({
+                        error: errorResponse.error.error
+                    });
+                }
+            });
         }
-
-        res.format({
-            // Initial / server-only search
-            html: async () => {
-                res.render(path.resolve(__dirname, './views/search'), {
-                    title: res.locals.copy.title,
-                    queryParams: isEmpty(facetParams) ? false : facetParams,
-                    grants: data.results,
-                    facets: data.facets,
-                    meta: data.meta,
-                    grantDataDates: grantsConfig.dateRange,
-                    grantNavLink: grantsConfig.grantNavLink,
-                    searchSuggestions: searchSuggestions,
-                    pagination: buildPagination(req, data.meta.pagination, queryWithPage)
-                });
-            },
-
-            // AJAX search for client-side app
-            'application/json': () => {
-                /**
-                 * Repopulate existing app globals so Nunjucks
-                 * can read them outside of Express's view engine context
-                 */
-                const extraContext = {
-                    grants: data.results,
-                    pagination: buildPagination(req, data.meta.pagination, queryWithPage)
-                };
-
-                const context = { ...res.locals, ...req.app.locals, ...extraContext };
-
-                nunjucks.render(path.resolve(__dirname, './views/ajax-results.njk'), context, (renderErr, html) => {
-                    if (renderErr) {
-                        Raven.captureException(renderErr);
-                        res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
-                    } else {
-                        res.json({
-                            meta: data.meta,
-                            facets: data.facets,
-                            searchSuggestions: searchSuggestions,
-                            resultsHtml: html
-                        });
-                    }
-                });
-            }
-        });
-    } catch (errorResponse) {
-        return res.format({
-            html: () => {
-                next(errorResponse.error);
-            },
-            'application/json': () => {
-                Raven.captureMessage(errorResponse);
-                res.status(errorResponse.error.error.status || 400).json({
-                    error: errorResponse.error.error
-                });
-            }
-        });
     }
-});
+);
 
 if (config.get('features.enableRelatedGrants')) {
     router.get('/related', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
