@@ -93,6 +93,7 @@ const funding = {
             path: '/under10k',
             lang: 'funding.under10k',
             heroSlug: 'friends-of-greenwich',
+            heroSlugNew: 'funding-under-10k-new',
             router: staticPage({
                 template: 'static-pages/under10k',
                 projectStorySlugs: ['hapani', 'niid', 'new-routes']
