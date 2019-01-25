@@ -27,8 +27,8 @@ router.use(injectBreadcrumbs, (req, res, next) => {
 });
 
 const commonHeroSlug = 'the-young-foundation';
-const commonHero = injectHeroImage(commonHeroSlug, 'open-programmes-letterbox-new');
-const commonHeroClosed = injectHeroImage(commonHeroSlug, 'closed-all-programmes-letterbox-new');
+const commonHero = injectHeroImage(commonHeroSlug, 'rosemount-1-letterbox-new');
+const commonHeroClosed = injectHeroImage(commonHeroSlug, 'cbsa-2-letterbox-new');
 
 /**
  * Programmes list

@@ -12,7 +12,7 @@ const contentApi = require('../../services/content-api');
 const router = express.Router();
 
 const heroSlug = 'glasgow-gladiators-1';
-const heroSlugNew = 'new-letterbox-new';
+const heroSlugNew = 'pawzitive-letterbox-new';
 
 /**
  * News landing page handler
