@@ -78,12 +78,7 @@ function getSendAddress(recipients) {
     ) {
         return 'noreply@blf.digital';
     } else {
-        // @TODO remove this switch post-rebrand in favour of the new domain
-        if (config.get('features.enableOldDomainRedirect')) {
-            return 'noreply@tnlcommunityfund.org.uk';
-        } else {
-            return 'noreply@biglotteryfund.org.uk';
-        }
+        return 'noreply@tnlcommunityfund.org.uk';
     }
 }
 
