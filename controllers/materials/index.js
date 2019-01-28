@@ -184,7 +184,7 @@ router
                     .then(async () => {
                         const { useNewBrand } = res.locals;
                         const customerSendTo = details.yourEmail;
-                        const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
+                        const supplierSendTo = MATERIAL_SUPPLIER;
 
                         const customerHtml = await generateHtmlEmail({
                             template: path.resolve(__dirname, './views/order-email.njk'),

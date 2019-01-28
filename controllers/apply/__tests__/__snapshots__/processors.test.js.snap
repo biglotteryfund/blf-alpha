@@ -946,8 +946,8 @@ uk/data-protection</a> or contact us to request a hard copy. The Notice may=
 
 exports[`Reaching communities should create success emails 2`] = `
 "Content-Type: multipart/alternative;
-From: The National Lottery Community Fund <noreply@tnlcommunityfund.org.uk>
-To: Example Person <example@example.com>
+From: The National Lottery Community Fund <noreply@blf.digital>
+To: southwestteam@tnlcommunityfund.org.uk
 Subject: New idea submission from website: Test Organisation
 MIME-Version: 1.0
 
