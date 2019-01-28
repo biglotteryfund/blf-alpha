@@ -1,10 +1,10 @@
-# Big Lottery Fund
+# The National Lottery Community Fund
 
 [![Build Status](https://travis-ci.org/biglotteryfund/blf-alpha.svg?branch=master)](https://travis-ci.org/biglotteryfund/blf-alpha)
 
 ## Overview
 
-This projects contains source-code for the redesigned website for the Big Lottery Fund.
+This projects contains source-code for the redesigned website for The National Lottery Community Fund.
 
 **Technologies used:**
 

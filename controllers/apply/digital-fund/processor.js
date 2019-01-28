@@ -52,7 +52,7 @@ module.exports = async function processor(
             name: locale === 'en' ? 'digital_fund_customer' : 'digital_fund_customer_welsh',
             mailConfig: {
                 sendTo: customerSendTo,
-                subject: 'Thank you for getting in touch with the Big Lottery Fund!',
+                subject: 'Thank you for getting in touch with The National Lottery Community Fund!',
                 type: 'html',
                 content: customerHtml
             },

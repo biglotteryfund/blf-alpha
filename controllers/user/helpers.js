@@ -37,7 +37,7 @@ async function sendActivationEmail(req, user) {
 
     const mailConfig = {
         name: 'user_activate_account',
-        subject: 'Activate your Big Lottery Fund website account',
+        subject: 'Activate your The National Lottery Community Fund website account',
         type: 'text',
         content: `Please click the following link to activate your account: ${activateUrl}`,
         sendTo: user.username

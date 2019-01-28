@@ -33,7 +33,7 @@ async function processResetRequest(req, res, user) {
         name: 'user_password_reset',
         mailConfig: {
             sendTo: user.username,
-            subject: 'Reset the password for your Big Lottery Fund website account',
+            subject: 'Reset the password for your The National Lottery Community Fund website account',
             content: `Please click the following link to reset your password: ${resetUrl}`,
             type: 'text'
         }

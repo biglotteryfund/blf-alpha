@@ -26,7 +26,7 @@ module.exports = async function processor({ data, stepsWithValues, copy, useNewB
         name: 'building_connections_tmp_customer',
         mailConfig: {
             sendTo: customerSendTo,
-            subject: 'Thank you for getting in touch with the Big Lottery Fund!',
+            subject: 'Thank you for getting in touch with The National Lottery Community Fund!',
             type: 'html',
             content: customerHtml
         },

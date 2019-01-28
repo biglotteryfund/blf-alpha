@@ -80,7 +80,7 @@ function init() {
                     success: response => {
                         if (response.itemBlocked) {
                             alert(
-                                "Sorry - you can't order this combination of items. If you need more than one of these items, please contact branding@biglotteryfund.org.uk or 020 7211 1728."
+                                "Sorry - you can't order this combination of items. If you need more than one of these items, please contact branding@tnlcommunityfund.org.uk or 020 7211 1728."
                             );
                         }
                         this.orderData = response.orders;

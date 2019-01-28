@@ -235,7 +235,7 @@ function makeOrderText(items, details) {
     const customerDetails = normaliseUserInput(details).map(d => `\t${d.label}: ${d.value}`);
 
     const text = `
-A new order has been received from the Big Lottery Fund website. The order details are below:
+A new order has been received from The National Lottery Community Fund website. The order details are below:
 
 ${orderSummary.join('\n')}
 
@@ -243,8 +243,8 @@ The customer's personal details are below:
 
 ${customerDetails.join('\n')}
 
-This email has been automatically generated from the Big Lottery Fund website.
-If you have feedback, please contact digital.monitoring@biglotteryfund.org.uk.`;
+This email has been automatically generated from The National Lottery Community Fund website.
+If you have feedback, please contact digital.monitoring@tnlcommunityfund.org.uk.`;
 
     return text.trim();
 }
