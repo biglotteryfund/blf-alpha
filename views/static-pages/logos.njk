@@ -5,114 +5,143 @@
 
 {% extends "controllers/common/views/information-page.njk" %}
 
-{% macro makeLogoTitle(logoName, logoSize) %}
-    {{ copy.downloads.download }}
-    {% if locale == 'cy' %}logo{% endif %}
-    {{ copy.downloads.colours[logoName] }}
-    {% if locale == 'en' %}logo{% endif %}
-    ({{ copy.downloads.sizes[logoSize] }})
-{% endmacro %}
-
-{% macro successMessage(type) %}
-    {% if copy.successMessages[type] %}
-        <div class="u-hidden js-success js-success--{{ type }}">
-            <h3>{{ copy.successMessages.success }}</h3>
-            <p><strong>{{ copy.successMessages[type].title }}</strong></p>
-            <p>{{ copy.successMessages[type].body }}</p>
-        </div>
-    {% endif %}
-{% endmacro %}
-
-{% macro logoPath(locale, filename, extension, suffix = false) %}
-    {% set l = 'logos/' + locale + '/' + filename %}
-    {% if suffix %}
-        {% set l = l + suffix %}
-    {% endif %}
-    {% set l = l + '.' + extension %}
-    {{ l | getImagePath }}
-{% endmacro %}
-
-{% macro buildLogoTitle(logoName, logoSize, logoLocale) %}{{ copy.downloads.colours[logoName] | capitalize }} logo ({{ copy.downloads.sizes[logoSize] }}) - {% if logoLocale === 'bilingual' %}Bilingual{% else %}Monolingual{% endif %}{% endmacro %}
-
-{% macro analyticParams(logoName, logoSize, logoLocale) %}data-ga-on="click" data-ga-event-category="Download logo" data-ga-event-action="{{ buildLogoTitle(logoName, logoSize, logoLocale) }}"{% endmacro %}
-
-{% macro logoBlock(logoId, logoFilename, logoName, logoLocale = 'en', onlyEps = false, accent = false, isReversed = false) %}
-    <div class="logo-block {% if isReversed %}logo-block--reversed{% endif %}">
-        <div class="logo-block__overlay" id="js-download-block--{{ logoId }}">
-            <div class="logo-block__close">
-                <button type="button" class="icon-btn js-success--close" data-logo-id="{{ logoId }}">
-                    {{ iconClose() }}
-                </button>
-            </div>
-            <div class="logo-block__message">
-                {{ successMessage('digital') }}
-                {{ successMessage('print') }}
-                {{ successMessage('vector') }}
-            </div>
-        </div>
-
-        {% set accentClass = '' %}
-        {% if accent %}
-            {% set accentClass = ' accent--' + accent + ' a--btn ' %}
-        {% endif %}
-
-        {% if not onlyEps %}
-            <a href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}"
-               target="_blank"
-               class="{{ accentClass }} js-logo-trigger"
-               data-logo-type="print"
-               data-logo-id="{{ logoId }}"
-               {{ analyticParams(logoName, 'large', logoLocale) }}>
-        {% endif %}
-            <img src="{{ logoPath(logoLocale, logoFilename, 'png') | trim }}"
-                 alt="The Big Lottery Fund logo, in {% if logoLocale == 'en' %}English{% else %}Welsh and English{% endif %}, coloured {{ logoName }}">
-        {% if not onlyEps %}
-            </a>
-        {% endif %}
-
-        <div class="o-button-group-block">
-            {% if not onlyEps %}
-                <a class="btn {{ accentClass }} btn--small js-logo-trigger"
-                   href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-small') | trim }}"
-                   target="_blank"
-                   data-logo-type="digital"
-                   data-logo-id="{{ logoId }}"
-                   {{ analyticParams(logoName, 'small', logoLocale) }}>
-                    {{ makeLogoTitle(logoName, 'small') }}
-                </a>
-                <a class="btn {{ accentClass }} btn--small js-logo-trigger"
-                   href="{{ logoPath(logoLocale, logoFilename, 'jpg', '-large') | trim }}"
-                   target="_blank"
-                   data-logo-type="print"
-                   data-logo-id="{{ logoId }}"
-                   {{ analyticParams(logoName, 'large', logoLocale) }}>
-                    {{ makeLogoTitle(logoName, 'large') }}
-                </a>
-            {% endif %}
-            <a class="btn {{ accentClass }} btn--small js-logo-trigger"
-               href="{{ logoPath(logoLocale, logoFilename, 'eps') | trim }}"
-               target="_blank"
-               data-logo-type="vector"
-               data-logo-id="{{ logoId }}"
-               {{ analyticParams(logoName, 'eps', logoLocale) }}>
-                {{ makeLogoTitle(logoName, 'eps') }}
-            </a>
-        </div>
-    </div>
-{% endmacro %}
-
 {% set customSegmentLinks = [{
     "title": copy.downloadsTitle
 }, {
     "title": copy.howToUseLogo.title
 }] %}
 
+{% set logoTypes = {
+    monolingual: [{
+        "title": copy.logoTypes.colour.title,
+        "description": copy.logoTypes.colour.description,
+        "thumbnail": "logos/tnlcf/monolingual/colour.png" | getImagePath,
+        "downloads": {
+            "digital": "logos/tnlcf/monolingual/colour/digital.png" | getImagePath,
+            "print": "logos/tnlcf/monolingual/colour/print.jpg" | getImagePath,
+            "vector": "logos/tnlcf/monolingual/colour/vector.eps" | getImagePath
+        }
+    }, {
+        "title": copy.logoTypes.black.title,
+        "description": copy.logoTypes.black.description,
+        "thumbnail": "logos/tnlcf/monolingual/black.png" | getImagePath,
+        "downloads": {
+            "digital": "logos/tnlcf/monolingual/black/digital.png" | getImagePath,
+            "print": "logos/tnlcf/monolingual/black/print.jpg" | getImagePath,
+            "vector": "logos/tnlcf/monolingual/black/vector.eps" | getImagePath
+        }
+    }, {
+        "title": copy.logoTypes.white.title,
+        "reverseOut": true,
+        "description": copy.logoTypes.white.description,
+        "thumbnail": "logos/tnlcf/monolingual/white.png" | getImagePath,
+        "downloads": {
+            "digital": "logos/tnlcf/monolingual/white/digital.png" | getImagePath,
+            "print": "logos/tnlcf/monolingual/white/print.png" | getImagePath,
+            "vector": "logos/tnlcf/monolingual/white/vector.eps" | getImagePath
+        }
+    }],
+    bilingual: [{
+        "title": copy.logoTypes.colour.title,
+        "description": copy.logoTypes.colour.description,
+        "thumbnail": "logos/tnlcf/bilingual/colour.png" | getImagePath,
+        "downloads": {
+            "digital": "logos/tnlcf/bilingual/colour/digital.png" | getImagePath,
+            "print": "logos/tnlcf/bilingual/colour/print.jpg" | getImagePath,
+            "vector": "logos/tnlcf/bilingual/colour/vector.eps" | getImagePath
+        }
+    }, {
+        "title": copy.logoTypes.black.title,
+        "description": copy.logoTypes.black.description,
+        "thumbnail": "logos/tnlcf/bilingual/black.png" | getImagePath,
+        "downloads": {
+            "digital": "logos/tnlcf/bilingual/black/digital.png" | getImagePath,
+            "print": "logos/tnlcf/bilingual/black/print.jpg" | getImagePath,
+            "vector": "logos/tnlcf/bilingual/black/vector.eps" | getImagePath
+        }
+    }, {
+        "title": copy.logoTypes.white.title,
+        "reverseOut": true,
+        "description": copy.logoTypes.white.description,
+        "thumbnail": "logos/tnlcf/bilingual/white.png" | getImagePath,
+        "downloads": {
+            "digital": "logos/tnlcf/bilingual/white/digital.png" | getImagePath,
+            "print": "logos/tnlcf/bilingual/white/print.png" | getImagePath,
+            "vector": "logos/tnlcf/bilingual/white/vector.eps" | getImagePath
+        }
+    }]
+} %}
+
+{% macro card(title) %}
+    <aside class="logo-card">
+        <header class="logo-card__header logo-card__title">
+            <h3 class="logo-card__title">{{ title }}</h3>
+        </header>
+        <div class="logo-card__body">{{ caller() }}</div>
+    </aside>
+{% endmacro %}
+
+{% macro logoCard(logo, language) %}
+    {% call card(logo.title, isHeaded = true) %}
+        <a href="{{ logo.downloads.digital }}">
+            <img src="{{ logo.thumbnail }}"
+                 alt="{{ logo.title }}"
+                 class="u-margin-bottom-s{% if logo.reverseOut %} u-tone-background-dark{% endif %}" />
+        </a>
+        <p>{{ logo.description }}</p>
+        <ul class="logo-card__links">
+            <li class="u-margin-bottom-s">
+                <a class="btn btn--small u-block"
+                   href="{{ logo.downloads.digital }}"
+                   data-ga-on="click"
+                   data-ga-event-category="Download logo"
+                   data-ga-event-action="Digital - {{ language }}">
+                    {{ copy.downloads.digital }}
+                </a>
+            </li>
+            <li class="u-margin-bottom-s">
+                <a class="btn btn--small u-block"
+                   href="{{ logo.downloads.print }}"
+                   data-ga-on="click"
+                   data-ga-event-category="Download logo"
+                   data-ga-event-action="Print - {{ language }}">
+                    {{ copy.downloads.print }}
+                </a>
+            </li>
+            <li>
+                <a class="btn btn--small u-block"
+                   href="{{ logo.downloads.vector }}"
+                   data-ga-on="click"
+                   data-ga-event-category="Download logo"
+                   data-ga-event-action="Vector - {{ language }}">
+                    {{ copy.downloads.vector }}
+                </a>
+            </li>
+        </ul>
+    {% endcall %}
+{% endmacro %}
+
+{% macro howToChooseLogo() %}
+    <details class="u-margin-bottom-l">
+        <summary>{{ copy.howToChoose.title }}</summary>
+        <div class="u-tone-background-tint u-padded">
+            {{ copy.howToChoose.body | safe }}
+        </div>
+    </details>
+{% endmacro %}
+
 {% block contentPrimary %}
-    {{ super() }}
+    {#{{ super() }}#}
+
+    {# @TODO put this text into the CMS and uncomment super() above #}
+    <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+        {{ copy.intro | safe }}
+    </section>
 
     <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top" id="segment-1">
         <p><strong>{{ copy.locationPrompt }}</strong></p>
-        <div class="o-button-group-flex">
+
+        <div class="o-button-group-flex u-margin-bottom-l">
             <a href="#region1" class="btn btn--small">
                 {{ copy.locations.monolingual }}
             </a>
@@ -120,64 +149,45 @@
                 {{ copy.locations.bilingual }}
             </a>
         </div>
-    </div>
 
-    <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top" id="segment-1">
-        <h2 class="t--underline">{{ copy.downloadsTitle }} </h2>
+        <p class="u-margin-bottom-l u-border-minor u-padded-top"><strong>{{ copy.sizeRequirements }}</strong></p>
 
         <h3 id="region1">{{ copy.locations.monolingual }}</h3>
 
-        <ul class="flex-grid u-margin-bottom-l">
-            <li class="flex-grid__item">
-                {{ logoBlock(1, 'blue', 'blue', 'en', accent = 'turquoise') }}
-            </li>
-            <li class="flex-grid__item">
-                {{ logoBlock(2, 'pink', 'pink') }}
-            </li>
-            <li class="flex-grid__item">
-                {{ logoBlock(3, 'pink-white', 'white', onlyEps = true, isReversed = true) }}
-            </li>
-            <li class="flex-grid__item">
-                {{ logoBlock(4, 'blue-white', 'white', onlyEps = true, isReversed = true) }}
-            </li>
+        {{ howToChooseLogo() }}
+
+        <ul class="flex-grid flex-grid--3up u-margin-bottom-l">
+            {% for logo in logoTypes.monolingual %}
+                <li class="flex-grid__item">
+                    {{ logoCard(logo, "Monolingual") }}
+                </li>
+            {% endfor %}
         </ul>
 
         <h3 id="region2">{{ copy.locations.bilingual }}</h3>
 
-        <ul class="flex-grid u-margin-bottom-l">
-            <li class="flex-grid__item">
-                {{ logoBlock(5, 'blue', 'blue', logoLocale = 'bilingual', accent = 'turquoise') }}
-            </li>
-            <li class="flex-grid__item">
-                {{ logoBlock(6, 'pink', 'pink', logoLocale = 'bilingual') }}
-            </li>
-            <li class="flex-grid__item">
-                {{ logoBlock(7, 'pink-white', 'white', logoLocale = 'bilingual', onlyEps = true, isReversed = true) }}
-            </li>
-            <li class="flex-grid__item">
-                {{ logoBlock(8, 'blue-white', 'white', logoLocale = 'bilingual', onlyEps = true, isReversed = true) }}
-            </li>
+        {{ howToChooseLogo() }}
+
+        <ul class="flex-grid flex-grid--3up">
+            {% for logo in logoTypes.bilingual %}
+                <li class="flex-grid__item">
+                    {{ logoCard(logo, "Bilingual") }}
+                </li>
+            {% endfor %}
         </ul>
+
     </div>
 
     {% call contentBox(pageAccent, id = "segment-2") %}
         <h2>{{ copy.howToUseLogo.title }}</h2>
 
-        <h3>{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
-        <p>{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
-
         <h3>{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>
         <p>{{ copy.howToUseLogo.sections.brandGuidance.body | safe }}</p>
 
-        <h3>{{ copy.howToUseLogo.sections.format.title | safe }}</h3>
-        <p>{{ copy.howToUseLogo.sections.format.body | safe }}</p>
+        <h3>{{ copy.howToUseLogo.sections.dontForget.title | safe }}</h3>
+        {{ copy.howToUseLogo.sections.dontForget.body | safe }}
 
-        <h3>{{ copy.howToUseLogo.sections.options.title | safe }}</h3>
-        <p>{{ copy.howToUseLogo.sections.options.body | safe }}</p>
-
-        <figure>
-            <img src="{{ "logos/examples.png" | getImagePath }}" alt="Examples of our logo" style="display: inline-block" />
-            <img src="{{ "logos/examples-cy.png" | getImagePath }}" alt="Examples of our logo" style="display: inline-block" />
-        </figure>
+        <h3>{{ copy.howToUseLogo.sections.freeKit.title | safe }}</h3>
+        <p>{{ copy.howToUseLogo.sections.freeKit.body | safe}}</p>
     {% endcall %}
 {% endblock %}

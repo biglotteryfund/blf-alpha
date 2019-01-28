@@ -773,66 +773,58 @@ funding:
           any other relevant legislation that comes into force, such as the General
           Data Protection Regulation (EU) 2016/679.</p>"
     logos:
-      locationPrompt: 'To make sure you get the correct logo please tell us where
-          your project is based:'
+      intro: >
+        <p>We are proud to support the good work you do, using funding raised by National Lottery players for good causes. It's thanks to them that we give out more than £500 million to charities, community and voluntary groups each year.</p>
+        <p>It's really important that people involved with your project understand that it's been supported by players of The National Lottery – putting our logo somewhere easily visible helps to do this. You can put the logo on a wall, add it to your website or a piece of equipment – anywhere where people can see it. You can download our logos below. For full guidance, see <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance.pdf">our Brand Guidance (PDF, 1.4MB)</a>.</p>
+      locationPrompt: 'To make sure you get the correct logo please tell us where your project is based:'
       downloadsTitle: Logo downloads
+      downloads:
+        digital: Download digital logo
+        print: Download print logo
+        vector: Download vector logo
+      logoTypes:
+        colour:
+          title: Full colour logo
+          description: "Use our full colour logo wherever possible"
+        black:
+          title: Black logo
+          description: "Use this whenever full colour isn’t possible. Always use it in black, never any other colour"
+        white:
+          title: White logo
+          description: "Use this on dark coloured backgrounds only. Make sure there’s enough contrast between the background and logo"
       locations:
         monolingual: England, Scotland or Northern Ireland
         bilingual: Wales
-      labels:
-        english: English
-        bilingual: Bilingual English/Welsh
-      downloads:
-        sizes:
-          small: Digital
-          large: Print
-          eps: Vector
-        colours:
-          blue: blue
-          pink: pink
-          white: white
-        download: Download
+      sizeRequirements: "Don't forget to meet our minimum size requirements whether you're using the logo online or in a printed format. Print: 44mm wide x 14mm high. Screen: 125px wide x 40px high."
+      howToChoose:
+        title: How do I choose the correct type of logo to download?
+        body: >
+          <p>
+              <strong>Digital version (PNG)</strong> - best for websites, Word documents, PowerPoint and social media<br />
+              <strong>Print version (JPG/PNG)</strong> - best for use when printing posters or leaflets<br />
+              <strong>Vector version (EPS)</strong> - best to use when working with a professional designer
+          </p>
+          <p>We always prefer our full colour logo to be used. If this isn't possible due to issues with background contrast, our black and white logos can be used for light and dark backgrounds respectively.</p>
+          <p>If you'd like further help, please check out <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance.pdf">how to use our logo</a> or contact our Brand Team at <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.</p>
       howToUseLogo:
         title: How to use our logo
         sections:
-          freeKit:
-            title: Free branded kit
-            body: We'll also send you free items such as plaques, balloons and large
-              cheques &ndash; <a href="/funding/funding-guidance/managing-your-funding/ordering-free-materials">see
-              the full range and order here</a>.
           brandGuidance:
             title: Brand guidance &ndash; getting it right
-            body: <a href="https://www.tnlcommunityfund.org.uk/media/documents/logo-guidance.pdf">Download our Brand Guidance (PDF 1.4MB)</a> for
-              help with using our logo correctly. If you're still not sure, get in
-              touch with the Branding Team at <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>
-          format:
-            title: Choosing the right logo format to download
-            body: "<strong>Digital</strong> &ndash; best for websites, word documents,
-              PowerPoint and social media<br /><strong>Print</strong> &ndash; best
-              for use when printing posters or leaflets<br /><strong>Vector</strong>
-              &ndash; best to use when working with a professional designer<br />"
-          options:
-            title: Logo options
-            body: 'The logo is available in two colours: 100% magenta or 100% cyan.
-              We position the logo in the top right corner of all our communications
-              by default. Always use the logo supplied through official channels and
-              never adapt or recreate it.'
-      successMessages:
-        success: Success!
-        digital:
-          title: The logo you downloaded is ideal for use on websites.
-          body: If you need a bigger logo just close this box and select the Print
-            or Vector versions.
-        print:
-          title: The logo you downloaded is ideal for print.
-          body: If you need a smaller logo for use online just close this box and
-            select the Digital version, or, if you need an even bigger logo to give
-            to a professional designer, select the Vector version.
-        vector:
-          title: The logo you downloaded is ideal if you are working with a professional
-            designer or working with large format print.
-          body: If you need a smaller logo just close this box and select the Print
-            or Digital versions.
+            body: >
+              <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance.pdf">Download our Brand Guidance (PDF, 1.4MB)</a> for help with using our logo correctly. If you're still not sure, get in touch with the Brand Team at <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.
+          dontForget:
+            title: "Don't forget"
+            body: >
+              <ul>
+                  <li>Make sure you meet our minimum size requirements.</li>
+                  <li>Always use the logo supplied through official channels and never adapt or recreate it.</li>
+              </ul>
+          freeKit:
+            title: Free branded kit
+            body: We'll also send you free items such as plaques, bunting and large
+              cheques &ndash; <a href="/funding/funding-guidance/managing-your-funding/ordering-free-materials">see
+              the full range and order here</a>.
   programmes:
     title: Funding programmes
     under10k: Awards under £10,000
