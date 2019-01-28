@@ -11,7 +11,7 @@ $breakpointLarge: 840px;
     body:not(.has-static-header) & {
         box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.1);
         position: relative;
-        z-index: 1;
+        z-index: 20;
     }
 
     .global-header-next__inner {
