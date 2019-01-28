@@ -1,19 +1,27 @@
-{% from "components/hero.njk" import hero with context %}
-{% from "components/miniature-hero/macro.njk" import miniatureHero %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/hero.njk" import hero with context %}
+{% from "components/miniature-hero/macro.njk" import miniatureHero %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/section-links/macro.njk" import sectionLinks %}
 
 {% extends "layouts/main.njk" %}
+{% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% block content %}
-    {{ hero(
-        titleText = title,
-        image = pageHero.image,
-        accent = pageAccent
-    ) }}
+    {% if pageHero.image %}
+        {{ hero(
+            titleText = title,
+            image = pageHero.image,
+            accent = pageAccent
+        ) }}
+    {% endif %}
 
-    <main role="main" class="nudge-up">
+    <main role="main" id="content" {% if pageHero.image %}class="nudge-up"{% endif %} >
+        {% if not pageHero %}
+            {{ pageTitle(title) }}
+        {% endif %}
+
         <section class="content-box u-inner-wide-only accent--blue a--border-top">
             {{ breadcrumbTrail(breadcrumbs) }}
             <div class="s-prose">
