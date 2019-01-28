@@ -2,7 +2,7 @@
 const path = require('path');
 const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
 
-module.exports = async function processor({ data, stepsWithValues, copy, useNewBrand }, mailTransport = null) {
+module.exports = async function processor({ data, stepsWithValues, copy }, mailTransport = null) {
     const customerSendTo = {
         name: `${data['name']}`,
         address: data['email']
@@ -17,7 +17,6 @@ module.exports = async function processor({ data, stepsWithValues, copy, useNewB
             fieldsCopy: copy.fields,
             summary: stepsWithValues,
             isArray: xs => Array.isArray(xs),
-            useNewBrand: useNewBrand,
             showDataProtectionStatement: true
         }
     });

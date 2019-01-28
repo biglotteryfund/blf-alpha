@@ -10,11 +10,10 @@ const contentApi = require('../services/content-api');
  * Populate hero image (with social image URLs too)
  * */
 function setHeroLocals({ res, entry }) {
-    const { useNewBrand } = res.locals;
     const newHeroImage = get('heroNew.image')(entry);
     const newHeroCredit = get('heroNew.credit')(entry);
 
-    if (useNewBrand && newHeroImage) {
+    if (newHeroImage) {
         res.locals.pageHero = {
             image: newHeroImage,
             credit: newHeroCredit
@@ -57,7 +56,7 @@ function setCommonLocals({ res, entry }) {
 function injectHeroImage(heroSlug, heroSlugNew) {
     return async function(req, res, next) {
         if (heroSlug) {
-            const { fallbackHeroImage, useNewBrand } = res.locals;
+            const { fallbackHeroImage } = res.locals;
 
             // Set defaults
             res.locals.pageHero = { image: fallbackHeroImage };
@@ -66,7 +65,7 @@ function injectHeroImage(heroSlug, heroSlugNew) {
             try {
                 const image = await contentApi.getHeroImage({
                     locale: req.i18n.getLocale(),
-                    slug: useNewBrand && heroSlugNew ? heroSlugNew : heroSlug
+                    slug: heroSlugNew ? heroSlugNew : heroSlug
                 });
 
                 res.locals.pageHero = { image: image };

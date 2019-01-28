@@ -17,12 +17,6 @@ module.exports = function(req, res, next) {
     const locale = req.i18n.getLocale();
 
     /**
-     * Rebrand flag
-     * @TODO: Remove this flag
-     */
-    res.locals.useNewBrand = true;
-
-    /**
      * Feature flags
      */
     res.locals.enablePrompt = features.enablePrompt;

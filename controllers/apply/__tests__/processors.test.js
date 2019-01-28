@@ -56,8 +56,7 @@ describe('Reaching communities', () => {
             {
                 data: flattenFormData(mockFormData),
                 copy: formCopy,
-                stepsWithValues: stepsWithValues(form.steps, mockFormData),
-                useNewBrand: true
+                stepsWithValues: stepsWithValues(form.steps, mockFormData)
             },
             mockTransport
         );
@@ -90,8 +89,7 @@ describe('Digital fund', () => {
                 locale: 'en',
                 data: flattenFormData(mockFormData),
                 stepsWithValues: stepsWithValues(form.steps, mockFormData),
-                copy: formCopy,
-                useNewBrand: true
+                copy: formCopy
             },
             mockTransport
         );

@@ -182,7 +182,6 @@ router
                     orderDetails: details
                 })
                     .then(async () => {
-                        const { useNewBrand } = res.locals;
                         const customerSendTo = details.yourEmail;
                         const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
 
@@ -190,10 +189,7 @@ router
                             template: path.resolve(__dirname, './views/order-email.njk'),
                             templateData: {
                                 locale: req.i18n.getLocale(),
-                                copy: useNewBrand
-                                    ? req.i18n.__('materials.orderEmail')
-                                    : req.i18n.__('materials.orderEmailNew'),
-                                useNewBrand: useNewBrand
+                                copy: req.i18n.__('materials.orderEmail')
                             }
                         });
 
