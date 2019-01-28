@@ -2,7 +2,7 @@
 
 exports[`buildMailOptions should build mail options for a html email 1`] = `
 Object {
-  "from": "The National Lottery Community Fund <noreply@biglotteryfund.org.uk>",
+  "from": "The National Lottery Community Fund <noreply@tnlcommunityfund.org.uk>",
   "html": "<p>This is a test</p>",
   "subject": "Test",
   "text": "This is a test",
@@ -16,7 +16,7 @@ Object {
 
 exports[`buildMailOptions should build mail options for a text email 1`] = `
 Object {
-  "from": "The National Lottery Community Fund <noreply@biglotteryfund.org.uk>",
+  "from": "The National Lottery Community Fund <noreply@tnlcommunityfund.org.uk>",
   "subject": "Test",
   "text": "This is a test",
   "to": Array [
@@ -29,7 +29,7 @@ Object {
 
 exports[`buildMailOptions should build mail options for a text email with a name 1`] = `
 Object {
-  "from": "The National Lottery Community Fund <noreply@biglotteryfund.org.uk>",
+  "from": "The National Lottery Community Fund <noreply@tnlcommunityfund.org.uk>",
   "subject": "Test",
   "text": "This is a test",
   "to": Array [
@@ -79,7 +79,7 @@ exports[`generateHtmlEmail should generate html email content 1`] = `
 
 exports[`sendEmail should create a html email response to be sent 1`] = `
 Object {
-  "from": "noreply@biglotteryfund.org.uk",
+  "from": "noreply@tnlcommunityfund.org.uk",
   "to": Array [
     "example@example.com",
   ],
@@ -88,7 +88,7 @@ Object {
 
 exports[`sendEmail should create a html email response to be sent 2`] = `
 "Content-Type: multipart/alternative;
-From: The National Lottery Community Fund <noreply@biglotteryfund.org.uk>
+From: The National Lottery Community Fund <noreply@tnlcommunityfund.org.uk>
 To: example@example.com
 Subject: Mock email
 MIME-Version: 1.0
@@ -109,7 +109,7 @@ Content-Transfer-Encoding: 7bit
 
 exports[`sendEmail should create a text email response to be sent 1`] = `
 Object {
-  "from": "noreply@biglotteryfund.org.uk",
+  "from": "noreply@tnlcommunityfund.org.uk",
   "to": Array [
     "example@example.com",
   ],
@@ -118,7 +118,7 @@ Object {
 
 exports[`sendEmail should create a text email response to be sent 2`] = `
 "Content-Type: text/plain
-From: The National Lottery Community Fund <noreply@biglotteryfund.org.uk>
+From: The National Lottery Community Fund <noreply@tnlcommunityfund.org.uk>
 To: example@example.com
 Subject: Mock email
 Content-Transfer-Encoding: 7bit

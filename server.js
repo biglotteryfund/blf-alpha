@@ -78,11 +78,9 @@ i18n.expressBind(app, {
 
 /**
  * Old domain redirect
- * @TODO: Enable this flag when making www.tnlcommunityfund.org.uk the primary domain
+ * Redirect requests from www.biglotteryfund.org.uk
  */
-if (config.get('features.enableOldDomainRedirect')) {
-    app.use(domainRedirectMiddleware);
-}
+app.use(domainRedirectMiddleware);
 
 /**
  * Robots

@@ -2,7 +2,7 @@
 
 exports[`Digital fund should create success emails 1`] = `
 "Content-Type: multipart/alternative;
-From: The National Lottery Community Fund <noreply@biglotteryfund.org.uk>
+From: The National Lottery Community Fund <noreply@tnlcommunityfund.org.uk>
 To: Example Person <example@example.com>
 Subject: Thank you for getting in touch with The National Lottery Community
  Fund!
@@ -281,7 +281,7 @@ uk/data-protection</a> or contact us to request a hard copy. The Notice may=
 
 exports[`Digital fund should create success emails 2`] = `
 "Content-Type: multipart/alternative;
-From: The National Lottery Community Fund <noreply@biglotteryfund.org.uk>
+From: The National Lottery Community Fund <noreply@tnlcommunityfund.org.uk>
 To: Example Person <example@example.com>
 Subject: New submission for Digital Fund Strand 1 from Test Organisation
 MIME-Version: 1.0
@@ -549,7 +549,7 @@ uk/data-protection</a> or contact us to request a hard copy. The Notice may=
 
 exports[`Reaching communities should create success emails 1`] = `
 "Content-Type: multipart/alternative;
-From: The National Lottery Community Fund <noreply@biglotteryfund.org.uk>
+From: The National Lottery Community Fund <noreply@tnlcommunityfund.org.uk>
 To: Example Person <example@example.com>
 Subject: Thank you for getting in touch with The National Lottery Community
  Fund!
