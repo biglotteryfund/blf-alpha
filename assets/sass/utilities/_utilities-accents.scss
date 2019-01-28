@@ -119,34 +119,6 @@
                 }
             }
         }
-
-        // high contrast mode styles
-        .contrast--high & {
-            $highContrastBg: #1a44a1;
-            // overlay (block) text
-            .overlay-text {
-                span {
-                    background-color: $highContrastBg !important;
-                }
-            }
-
-            // call-to-action buttons
-            &.a--btn {
-                background-color: $highContrastBg !important;
-
-                .a--text {
-                    color: white !important;
-                }
-
-                @include on-interact {
-                    background-color: darken($highContrastBg, 10%) !important;
-
-                    .a--text {
-                        color: white !important;
-                    }
-                }
-            }
-        }
     }
 
     .accent-content--#{$name} {

@@ -85,9 +85,6 @@ global:
       href: "/welsh/about/customer-service/accessibility"
   accessibility:
     skipToContent: Ewch i'r cynnwys
-    contrast:
-      high: Galluogi'r modd cyferbynnedd uchel
-      standard: Galluogi'r modd cyferbynnedd safonol
     policy:
       label: Hygyrchedd
       link: "/welsh/about/customer-service/accessibility"

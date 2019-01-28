@@ -86,9 +86,6 @@ global:
       href: "/about/customer-service/accessibility"
   accessibility:
     skipToContent: Skip to content
-    contrast:
-      high: Enable high contrast mode
-      standard: Enable standard contrast mode
     policy:
       label: Accessibility
       link: "/about/customer-service/accessibility"

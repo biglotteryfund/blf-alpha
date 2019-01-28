@@ -1,10 +1,8 @@
 {% from "components/accessibility.njk" import accessibilityNav with context %}
 <!doctype html>
-<html lang="{{ locale }}"
-    class="no-js locale--{{ locale }}{% if isHighContrast %} contrast--high{% endif %}">
+<html lang="{{ locale }}" class="no-js locale--{{ locale }}">
     <head>
         <title>{% block title %}{{ title }} | {% endblock %}{{ globalCopy.brand.title }}</title>
-
         {% include "includes/metadata.njk" %}
         {% include "includes/metaHead.njk" %}
         {% block extraHead %}{% endblock %}

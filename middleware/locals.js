@@ -24,12 +24,6 @@ module.exports = function(req, res, next) {
     res.locals.enableNameChangeMessage = features.enableNameChangeMessage;
 
     /**
-     * High-contrast mode
-     * @TODO: Remove post-rebrand
-     */
-    res.locals.isHighContrast = false;
-
-    /**
      * Global copy
      */
     res.locals.globalCopy = {

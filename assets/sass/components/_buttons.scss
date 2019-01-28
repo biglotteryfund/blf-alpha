@@ -73,13 +73,6 @@ $buttonColor: #1a44a1;
         outline: none;
     }
 
-    // add back the outline to high-contrast mode
-    .contrast--high & {
-        @include on-interact {
-            outline: 3px solid get-color('brand', 'primary');
-        }
-    }
-
     // sass magic: becomes `a.btn`
     // (to override other link CSS)
     @at-root a#{&} {

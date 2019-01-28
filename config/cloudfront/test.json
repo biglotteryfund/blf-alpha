@@ -49,11 +49,10 @@
         "Forward": "whitelist",
         "WhitelistedNames": {
           "Items": [
-            "contrastMode",
             "blf-features",
             "blf-alpha-session"
           ],
-          "Quantity": 3
+          "Quantity": 2
         }
       }
     },
@@ -114,11 +113,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -178,11 +176,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -242,10 +239,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -309,11 +305,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -374,11 +369,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -443,11 +437,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -502,11 +495,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -574,11 +566,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -638,11 +629,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -702,10 +692,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -769,11 +758,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -834,11 +822,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -903,11 +890,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -962,11 +948,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },

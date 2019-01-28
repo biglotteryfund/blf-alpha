@@ -14,20 +14,6 @@
                     {{ __("global.accessibility.policy.label") }}
                 </a>
             </li>
-            <li>
-                {# High-contrast mode switch #}
-                {% set modeToSwitchTo = 'high' %}
-                {% if isHighContrast %}
-                    {% set modeToSwitchTo = 'standard'  %}
-                {% endif %}
-                <a href="/api/contrast/{{ modeToSwitchTo }}?url={{ getCurrentUrl() | urlencode}}"
-                    data-on="click"
-                    data-event-category="Change contrast"
-                    data-event-action="Click"
-                    data-event-label="{{ modeToSwitchTo }}">
-                    {{ __("global.accessibility.contrast." + modeToSwitchTo ) | safe }}
-                </a>
-            </li>
         </ul>
     </nav>
 {% endmacro %}

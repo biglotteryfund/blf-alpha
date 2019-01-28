@@ -44,7 +44,6 @@
     "enableTimingMetrics": false
   },
   "cookies": {
-    "contrast": "contrastMode",
     "features": "blf-features",
     "rebrand": "tnlcf-rebrand",
     "session": "blf-alpha-session"
