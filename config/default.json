@@ -5,16 +5,14 @@
       "test": {
         "distributionId": "E3D5QJTWAG3GDP",
         "origins": {
-          "legacy": "LEGACY",
-          "newSite": "ELB-TEST",
+          "site": "ELB-TEST",
           "s3Assets": "S3-blf-assets"
         }
       },
       "live": {
         "distributionId": "E2WYWBLMWIN5U1",
         "origins": {
-          "legacy": "LEGACY",
-          "newSite": "ELB_LIVE",
+          "site": "ELB_LIVE",
           "s3Assets": "S3-blf-assets"
         }
       }
