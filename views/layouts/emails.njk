@@ -2,22 +2,13 @@
 <html class="fonts-loaded"> 
     <head>
         <meta charset="UTF-8">
-        {% if useNewBrand %}
-            <style>
-                @import url('https://use.typekit.net/yyc1dgh.css');
-            </style>
-            <link rel="stylesheet" type="text/css" href="/build/latest/stylesheets/emails-rebrand.css">
-        {% else %}
-            <link rel="stylesheet" type="text/css" href="/build/latest/stylesheets/emails.css">
-            <link href="https://fonts.googleapis.com/css?family=Poppins:300,500" rel="stylesheet">
-        {% endif %}
+        <style>
+            @import url('https://use.typekit.net/yyc1dgh.css');
+        </style>
+        <link rel="stylesheet" type="text/css" href="/build/latest/stylesheets/emails-rebrand.css">
     </head>
     <body>
-        {% if useNewBrand %}
-            <div class="logo"><img src="/images/site-logo.svg" alt="" /></div>
-        {% else %}
-            <div class="logo"><img src="https://www.biglotteryfund.org.uk/assets/images/logos/logo.png" alt="" /></div>
-        {% endif %}
+        <div class="logo"><img src="/images/site-logo.svg" alt="" /></div>
 
         {% block content %}{% endblock %}
 
