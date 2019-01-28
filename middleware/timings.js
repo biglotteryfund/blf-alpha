@@ -16,11 +16,8 @@ module.exports = responseTime(function(req, res, time) {
         const method = req.method.toUpperCase();
 
         if (method === 'GET' || method === 'POST') {
-            const isLegacy = res.getHeader('X-BLF-Legacy') === 'true';
-            const metricPrefix = isLegacy ? 'RESPONSE_TIME_LEGACY' : 'RESPONSE_TIME';
-
             const metric = {
-                MetricName: `${metricPrefix}_${method}`,
+                MetricName: `RESPONSE_TIME_${method}`,
                 Dimensions: [
                     {
                         Name: 'RESPONSE_TIME',
