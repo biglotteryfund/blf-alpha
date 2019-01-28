@@ -34,7 +34,7 @@ global:
   contact:
     address: 1 Plough Place, London, EC4A 1DE
     phone: 0345 4 10 20 30
-    email: general.enquiries@biglotteryfund.org.uk
+    email: general.enquiries@tnlcommunityfund.org.uk
     press:
       title: How do I get in contact if I have a press query?
       regions:
@@ -42,7 +42,7 @@ global:
         phone: >
           <a href="tel:02072111888">020 7211 1888</a><br />
           (out of hours: 07867 500572)
-        email: pressoffice@biglotteryfund.org.uk
+        email: pressoffice@tnlcommunityfund.org.uk
       - title: Northern Ireland
         phone: >
           <a href="tel:02890551432">02890 551 432</a> or <a href="tel:02890551450">02890 551 450</a><br />
@@ -262,7 +262,7 @@ toplevel:
       link: funding/big-stories/mental-health-foundation
   northernIreland:
     title: Northern Ireland
-    introduction: Big Lottery Fund is the largest community funder in the UK.
+    introduction: The National Lottery Community Fund is the largest community funder in the UK.
       Each year we distribute millions of pounds of The National Lottery’s
       good causes money to community groups and charitable projects around the country.
     sections:
@@ -348,7 +348,7 @@ toplevel:
 
   wales:
     title: Wales
-    introduction: Big Lottery Fund is the largest community funder in the UK.
+    introduction: The National Lottery Community Fund is the largest community funder in the UK.
       Each year we distribute millions of pounds of The National Lottery’s good
       causes money to community groups and charitable projects around the country.
     sections:
@@ -535,11 +535,11 @@ news:
     viewLatestPressReleases: View latest press releases
   introductions:
     newsLanding: >
-      If you want to find out about what’s happening at the Big Lottery Fund, you’ve come to the right place. You can read the latest news on: the community groups and charities we fund, how we work with the Government and other funders to distribute National Lottery money and how we support local communities across the UK to become more active, vibrant and stronger together.
+      If you want to find out about what’s happening at The National Lottery Community Fund, you’ve come to the right place. You can read the latest news on: the community groups and charities we fund, how we work with the Government and other funders to distribute National Lottery money and how we support local communities across the UK to become more active, vibrant and stronger together.
     pressReleases: >
       Our press releases will give you the key facts about funding announcements, new grants or research, special events, launches, which charities have been awarded funding, innovative projects, best practice in the sector and more.
     blog: >
-      Looking for colour, context and perspective about the work of the Big Lottery Fund, its impact on communities and topics currently in the news? It’s all here. This blog will explain, explore, showcase and examine the ways in which civil society, and as a result the sector, is changing. Read about what people in communities across the UK and sector thought leaders have to say and form your own opinion.
+      Looking for colour, context and perspective about the work of The National Lottery Community Fund, its impact on communities and topics currently in the news? It’s all here. This blog will explain, explore, showcase and examine the ways in which civil society, and as a result the sector, is changing. Read about what people in communities across the UK and sector thought leaders have to say and form your own opinion.
   filters:
     viewPostsTagged: Viewing all posts tagged
     viewPostsIn: Viewing all posts in
@@ -573,7 +573,7 @@ funding:
       wales: Wales
       northernIreland: Northern Ireland
     ukWideInfo: Occasionally the Fund makes grants of under £10,000 to projects that
-      benefit people right across the UK. <a href="https://www.biglotteryfund.org.uk/global-content/programmes/uk-wide/uk-portfolio">Find
+      benefit people right across the UK. <a href="/funding/programmes/awards-from-the-uk-portfolio">Find
       out more about our UK-wide funding</a>. We also make grants of <a href="/over10k">more
       than £10,000</a> for longer term projects.
     projectExamples: Examples of projects that have been funded
@@ -697,8 +697,8 @@ funding:
         awardingProgrammes: Awarding programmes
         searchGoogle: Search for %s with Google
         numFundedTotal:
-          one: '%s project funded by Big Lottery Fund (£%%s awarded in total)'
-          other: '%s projects funded by Big Lottery Fund (£%%s awarded in total)'
+          one: '%s project funded by The National Lottery Community Fund (£%%s awarded in total)'
+          other: '%s projects funded by The National Lottery Community Fund (£%%s awarded in total)'
   guidance:
     order-free-materials:
       title: How to get free branded materials
@@ -708,7 +708,7 @@ funding:
         seen by your visitors.</p><h2>How to get branded materials</h2><p>This page
         shows all items available to order. You can also <a href="/funding/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos/logodownloads">download
         the logo here</a>.</p><p>Your order will take up to 6 working days, if you
-        need it before then or have any further queries please contact <a href="mailto:branding@biglotteryfund.org.uk">branding@biglotteryfund.org.uk</a>
+        need it before then or have any further queries please contact <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>
         or <a href="tel:020 7211 1728">020 7211 1728</a>.</p><p>If you have received
         a Building Better Opportunities grant then visit the resources page for information
         on how to promote your funding.</p>
@@ -722,7 +722,7 @@ funding:
         success:
           title: Thank you for your order.
           subtitle: Your delivery will be with you within 6 working days.
-          body: If you have any questions or queries about your order, please <a href="mailto:branding@biglotteryfund.org.uk">get
+          body: If you have any questions or queries about your order, please <a href="mailto:branding@tnlcommunityfund.org.uk">get
             in touch with our branding team</a>.
         failure:
           title: Sorry, we were unable to process your order.
@@ -763,9 +763,9 @@ funding:
         title: Data Protection
         text: "<p>The data you submitted within this form will be collected by PSL
           Print Management LTD in order to process and ship your order.</p><p>PSL
-          Print Management LTD shall share your data with the Big Lottery Fund for
-          data analysis purposes. The Big Lottery Fund will use your data to analyse
-          ordering patterns to inform the Big Lottery Fund of future needs. Your personal
+          Print Management LTD shall share your data with The National Lottery Community Fund for
+          data analysis purposes. The National Lottery Community Fund will use your data to analyse
+          ordering patterns to inform The National Lottery Community Fund of future needs. Your personal
           data will not be shared with any other parties. Your personal data shall
           be stored securely for 6 months after fulfilment of your order in case of
           there being any queries with it, following this it will be destroyed. All
@@ -863,7 +863,7 @@ funding:
         title: More funding opportunities
         body: >
           <p>There will be further funding opportunities within the Digital Fund in 2019.
-            <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us on social media</a> or keep checking our website for up-to-date information.</p>
+            <a href="https://en-gb.facebook.com/TNLCommunityFund/">Follow us on social media</a> or keep checking our website for up-to-date information.</p>
     process:
       title: How the process works
       introduction: We don’t want you to spend a huge amount of time preparing to have an initial conversation with us. We would like to talk to you about your outline proposal before you start developing a detailed funding proposal.
@@ -893,7 +893,7 @@ funding:
         <p>If you have any questions about eligibility, get in touch with us.</p>
         <p><strong>Phone</strong>: <a href="tel:03454102030">0345 4 10 20 30</a><br/>
         <strong>Text relay</strong>: 18001 plus 0345 4 10 20 30 (for those with a hearing or speech impairment)<br/>
-        <strong>Email</strong>: <a href="mailto:general.enquiries@biglotteryfund.org.uk">general.enquiries@biglotteryfund.org.uk</a></p>
+        <strong>Email</strong>: <a href="mailto:general.enquiries@tnlcommunityfund.org.uk">general.enquiries@tnlcommunityfund.org.uk</a></p>
     wayfinding:
       title: More funding opportunities
       description: Choose one of the following options instead.
@@ -950,7 +950,7 @@ funding:
           <li>Relate to a product or service that is far enough through its development process that people are currently benefiting from it.</li>
           <li>Provide evidence of impact upon those people.</li>
           <li>Have a theory of change or similar document showing how the product or service will achieve aims that benefit a specific group of people.</li>
-          <li>Show an understanding of the challenge of sustaining impact after the ending of Big Lottery Fund support.</li>
+          <li>Show an understanding of the challenge of sustaining impact after the ending of The National Lottery Community Fund support.</li>
         </ul>
         <p>We are not looking for:</p>
         <ul>
@@ -1027,7 +1027,7 @@ funding:
           body: >
             <p>Don’t worry, there are <a href="/funding/programmes">other funding programmes</a> open for applications.</p>
             <p>There will be further funding opportunities within the Digital Fund in 2019.
-              <a href="https://en-gb.facebook.com/BigLotteryFund/">Follow us on social media</a> or keep checking our website for up-to-date information.</p>
+              <a href="https://en-gb.facebook.com/TNLCommunityFund/">Follow us on social media</a> or keep checking our website for up-to-date information.</p>
             <p>If you’re a small charity or small community group, we may be able to offer you
               <a href="/funding/programmes/digital-fund/assistance">free digital support</a> from 2019.</p>
       strand2:
@@ -1089,9 +1089,9 @@ materials:
 
     <p>You can share your pictures with us on:</p>
     <ul>
-        <li>Facebook (<a href="https://www.facebook.com/BigLotteryFund/">@BigLotteryFund</a>)</li>
-        <li>Twitter (<a href="https://twitter.com/BigLotteryFund">@BigLotteryFund</a>)</li>
-        <li>Instagram (<a href="https://www.instagram.com/big_lottery_fund">@big_lottery_fund</a>)</li>
+        <li>Facebook (<a href="https://www.facebook.com/TNLCommunityFund/">@TNLCommunityFund</a>)</li>
+        <li>Twitter (<a href="https://twitter.com/TNLComFund">@TNLComFund</a>)</li>
+        <li>Instagram (<a href="https://www.instagram.com/TNLCommunityFund">@TNLCommunityFund</a>)</li>
     </ul>
 
     <p>If you’ve ordered a cheque, try to use a thick, dark pen and write using large handwriting, so everyone can read your organisation name and the amount you’ve been funded.</p>
@@ -1105,9 +1105,9 @@ materials:
 
     <blockquote>Thanks to #NationalLottery players for making our project possible! We’re making a huge difference to the lives of (XXXX) people thanks to #NationalLottery funding.</blockquote>
 
-    <p>There are lots of other ways to celebrate your funding. You can find more resources and top tips on how to promote your grant on our website: <a href="https://www.biglotteryfund.org.uk/welcome">www.biglotteryfund.org.uk/welcome</a>.</p>
+    <p>There are lots of other ways to celebrate your funding. You can find more resources and top tips on how to promote your grant on our website: <a href="https://www.tnlcommunityfund.org.uk/welcome">www.tnlcommunityfund.org.uk/welcome</a>.</p>
 
-    <p>If you have any questions about your order, get in touch at <a href="mailto:branding@biglotteryfund.org.uk">branding@biglotteryfund.org.uk</a>.</p>
+    <p>If you have any questions about your order, get in touch at <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.</p>
   orderEmailNew: >
     <h1>Congratulations on getting National Lottery funding</h1>
 

@@ -201,7 +201,7 @@ router
                             name: 'material_customer',
                             mailConfig: {
                                 sendTo: customerSendTo,
-                                subject: 'Thank you for your Big Lottery Fund order',
+                                subject: 'Thank you for your The National Lottery Community Fund order',
                                 type: 'html',
                                 content: customerHtml
                             }
@@ -212,7 +212,7 @@ router
                             mailConfig: {
                                 sendTo: supplierSendTo,
                                 sendMode: 'bcc',
-                                subject: `Order from Big Lottery Fund website - ${moment().format(
+                                subject: `Order from The National Lottery Community Fund website - ${moment().format(
                                     'dddd, MMMM Do YYYY, h:mm:ss a'
                                 )}`,
                                 type: 'text',

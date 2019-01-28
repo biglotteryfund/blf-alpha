@@ -156,8 +156,9 @@
                     } %}
 
                     {% if fundingProgramme and fundingProgramme.hero %}
+                        {% set imageField = fundingProgramme.heroNew.image if useNewBrand else fundingProgramme.hero %}
                         {% set image = {
-                            "url": fundingProgramme.hero.large,
+                            "url": imageField.large,
                             "alt": mainProgramme.title
                         } %}
                     {% endif %}

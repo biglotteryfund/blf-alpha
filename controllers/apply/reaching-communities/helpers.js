@@ -2,13 +2,13 @@
 const { get, isArray } = require('lodash');
 
 const HUB_EMAILS = {
-    england: 'englandteam@biglotteryfund.org.uk',
-    londonSouthEast: 'londonandsoutheastteam@biglotteryfund.org.uk',
-    midlands: 'midlandsteam@biglotteryfund.org.uk',
-    northEastCumbria: 'neandcumbriateam@biglotteryfund.org.uk',
-    northWest: 'northwestteam@biglotteryfund.org.uk',
-    southWest: 'southwestteam@biglotteryfund.org.uk',
-    yorksHumber: 'yorksandhumberteam@biglotteryfund.org.uk'
+    england: 'englandteam@tnlcommunityfund.org.uk',
+    londonSouthEast: 'londonandsoutheastteam@tnlcommunityfund.org.uk',
+    midlands: 'midlandsteam@tnlcommunityfund.org.uk',
+    northEastCumbria: 'neandcumbriateam@tnlcommunityfund.org.uk',
+    northWest: 'northwestteam@tnlcommunityfund.org.uk',
+    southWest: 'southwestteam@tnlcommunityfund.org.uk',
+    yorksHumber: 'yorksandhumberteam@tnlcommunityfund.org.uk'
 };
 
 const PROJECT_LOCATIONS = [

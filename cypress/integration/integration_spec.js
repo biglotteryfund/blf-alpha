@@ -21,16 +21,16 @@ describe('common', function() {
     });
 
     it('should redirect search queries to a google site search', () => {
+        const searchDomain = 'https://www.google.co.uk/search';
         cy.checkRedirect({
             from: '/search?q=This is my search query',
-            to: 'https://www.google.co.uk/search?q=site%3Awww.biglotteryfund.org.uk+This%20is%20my%20search%20query',
+            to: `${searchDomain}?q=This%20is%20my%20search%20query+site%3Awww.biglotteryfund.org.uk+OR+site%3Awww.tnlcommunityfund.org.uk`,
             isRelative: false,
             status: 302
         });
-
         cy.checkRedirect({
             from: '/search?lang=en-GB&amp;q=something&amp;type=All&amp;order=r',
-            to: 'https://www.google.co.uk/search?q=site%3Awww.biglotteryfund.org.uk+something',
+            to: `${searchDomain}?q=something+site%3Awww.biglotteryfund.org.uk+OR+site%3Awww.tnlcommunityfund.org.uk`,
             isRelative: false,
             status: 302
         });
@@ -146,7 +146,7 @@ describe('user', () => {
             // via https://github.com/auth0/node-jsonwebtoken/issues/162
             expect(res.body.token).to.match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/);
             expect(res.body.email.sendTo).to.equal(username);
-            expect(res.body.email.subject).to.equal('Activate your Big Lottery Fund website account');
+            expect(res.body.email.subject).to.equal('Activate your The National Lottery Community Fund website account');
         });
     });
 });

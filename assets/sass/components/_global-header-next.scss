@@ -406,12 +406,6 @@ $breakpointLarge: 840px;
     height: 42px;
     width: 130px;
 
-    // TEMPORARY - hides new logo from user testing.
-    &.brand-logo--hidden {
-        background-color: #eeeeee !important;
-        background-image: none !important;
-    }
-
     /**
      * Is this a welsh language page or
      * are we explicitly showing the welsh logo?
