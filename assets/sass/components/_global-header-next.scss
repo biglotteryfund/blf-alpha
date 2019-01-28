@@ -191,13 +191,9 @@ $breakpointLarge: 840px;
             margin-left: $spacingUnit; // Optically align
             width: 50%;
         }
-
-        .global-header-next__toggle-search {
-            display: none;
-        }
     }
 
-    @media only screen and (min-width: $breakpointLarge) {
+    @media only screen and (min-width: $breakpointLarge + 1px) {
         .global-header-next__inner {
             max-width: $maxWidth;
             margin: 0 $spacingUnit;
@@ -310,7 +306,7 @@ $breakpointLarge: 840px;
         }
     }
 
-    @media only screen and (min-width: $maxWidth + 10px) {
+    @media only screen and (min-width: $maxWidth + 20px) {
         .global-header-next__inner {
             margin-left: auto;
             margin-right: auto;
