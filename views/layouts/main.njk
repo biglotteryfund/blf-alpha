@@ -15,12 +15,7 @@
         <div class="global-container">
 
             {# Status and announcement banners #}
-            {% if useNewBrand %}
-                <aside class="announcement-banner announcement-banner--info">
-                    ✋ You are previewing The National Lottery Community Fund branding. Please do not share this page.
-                    <a href="/tools/rebrand/off">Revert to Big Lottery Fund branding</a>
-                </aside>
-            {% elseif previewStatus.isDraftOrVersion %}
+            {% if previewStatus.isDraftOrVersion %}
                 <aside class="announcement-banner announcement-banner--info">
                     ✋ You are viewing a draft (last updated {{ previewStatus.lastUpdated }}).
                     Please do not share this page. <a href="{{ getCurrentUrl() }}">View original</a>
