@@ -14,7 +14,7 @@ global:
     facebook: http://www.facebook.com/TNLCommunityFund
     instagram: https://www.instagram.com/TNLCommunityFund
     twitter: TNLComFund
-    nameChange: From <strong>29th January 2019</strong> we are changing our name to <strong>The National Lottery Community Fund</strong>.
+    nameChange: We have changed our name from the Big Lottery Fund to <strong>The National Lottery Community Fund</strong>.
   regions:
     england: England
     wales: Wales
@@ -735,7 +735,7 @@ funding:
         monolingual: England, Scotland or Northern Ireland
         bilingual: Wales
       outOfStock: Out of stock
-      enterDeliveryAddress: Enter your delivery address
+      enterDeliveryAddress: Enter your delivery details
       chooseItems: Choose any of the following items
       formFields:
         yourName: Name
@@ -785,13 +785,13 @@ funding:
       logoTypes:
         colour:
           title: Full colour logo
-          description: "Use our full colour logo wherever possible"
+          description: "Use our full colour logo wherever possible."
         black:
           title: Black logo
-          description: "Use this whenever full colour isn’t possible. Always use it in black, never any other colour"
+          description: "Use this whenever full colour isn’t possible. Always use it in black, never any other colour."
         white:
           title: White logo
-          description: "Use this on dark coloured backgrounds only. Make sure there’s enough contrast between the background and logo"
+          description: "Use this on dark coloured backgrounds only. Make sure there’s enough contrast between the background and logo."
       locations:
         monolingual: England, Scotland or Northern Ireland
         bilingual: Wales
@@ -805,14 +805,14 @@ funding:
               <strong>Vector version (EPS)</strong> - best to use when working with a professional designer
           </p>
           <p>We always prefer our full colour logo to be used. If this isn't possible due to issues with background contrast, our black and white logos can be used for light and dark backgrounds respectively.</p>
-          <p>If you'd like further help, please check out <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance.pdf">how to use our logo</a> or contact our Brand Team at <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.</p>
+          <p>If you'd like further help, please check out <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance.pdf">how to use our logo</a> or contact our Brand team at <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.</p>
       howToUseLogo:
         title: How to use our logo
         sections:
           brandGuidance:
             title: Brand guidance &ndash; getting it right
             body: >
-              <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance.pdf">Download our Brand Guidance (PDF, 1.4MB)</a> for help with using our logo correctly. If you're still not sure, get in touch with the Brand Team at <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.
+              <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance.pdf">Download our Brand Guidance (PDF, 1.4MB)</a> for help with using our logo correctly. If you're still not sure, get in touch with the Brand team at <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.
           dontForget:
             title: "Don't forget"
             body: >

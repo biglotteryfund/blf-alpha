@@ -14,7 +14,7 @@ global:
     facebook: http://www.facebook.com/TNLCommunityFundWales
     instagram: https://www.instagram.com/TNLCommunityFund
     twitter: CronGymYLG
-    nameChange: O <strong>29 Ionawr 2019</strong> ein henw newydd fydd <strong>Cronfa Gymunedol y Loteri Genedlaethol</strong>.
+    nameChange: Rydym wedi newid ein henw o’r Gronfa Loteri Fawr i <strong>Gronfa Gymunedol y Loteri Genedlaethol</strong>.
   regions:
     england: Lloegr
     wales: Cymru
@@ -33,7 +33,7 @@ global:
   contact:
     address: 1 Plough Place, Llundain EC4A 1DE
     phone: 0300 123 0735
-    email: ymholiadau.cymru@cronfaloterifawr.org.uk
+    email: ymholiadau.cymru@cronfagymunedolylg.org.uk
     press:
       title: Sut ydw i'n cysylltu â chi os bydd gennyf gwestiwn am y wasg?
       regions:
@@ -644,7 +644,7 @@ funding:
         monolingual: Lloegr, Yr Alban neu Ogledd Iwerddon
         bilingual: Cymru
       outOfStock: Allan o stoc
-      enterDeliveryAddress: Rhowch y cyfeiriad derbyn
+      enterDeliveryAddress: Nodwch eich manylion cludo
       chooseItems: Dewiswch unrhyw un o'r eitemau a ganlyn
       formFields:
         yourName: Eich enw
@@ -694,13 +694,13 @@ funding:
       logoTypes:
         colour:
           title: Logo lliw llawn
-          description: "Defnyddiwch ein logo lliw llawn  pryd bynnag y bo'n bosib"
+          description: "Defnyddiwch ein logo lliw llawn  pryd bynnag y bo'n bosib."
         black:
           title: Logo du
-          description: "Defnyddiwch hwn pryd bynnag nad yw lliw llawn yn bosib. Defnyddiwch ef mewn dim byth unrhyw liw arall"
+          description: "Defnyddiwch hwn pryd bynnag nad yw lliw llawn yn bosib. Defnyddiwch ef mewn dim byth unrhyw liw arall."
         white:
           title: Logo gwyn
-          description: "Defnyddiwch hwn ar gefndiroedd â lliw tywyll yn unig. Cofiwch sicrhau digon o gyferbyniad rhwng y cefndir a'r logo"
+          description: "Defnyddiwch hwn ar gefndiroedd â lliw tywyll yn unig. Cofiwch sicrhau digon o gyferbyniad rhwng y cefndir a'r logo."
       locations:
         monolingual: Lloegr, Yr Alban neu Ogledd Iwerddon
         bilingual: Cymru
@@ -714,14 +714,14 @@ funding:
             <strong>Fersiwn fector (EPS)</strong> - gorau i'w ddefnyddio wrth weithio gyda dylunydd proffesiynol
           </p>
           <p>Mae'n well gennym bod ein logo lliw llawn yn cael ei ddefnyddio. Os nad yw hyn yn bosib oherwydd cyferbyniad y cefndir, gellir defnyddio ein logos du a gwyn ar gyfer cefndiroedd golau a thywyll yn ôl ei drefn.</p>
-          <p>Os hoffech ragor o gymorth, bwrw golwg <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance_welsh.pdf">ar sut i ddefnyddio ein logo</a> neu cysylltwch â'n Tîm Brand yn <a href="mailto:brandio@cronfagymunedolylg.org.uk">brandio@cronfagymunedolylg.org.uk</a>.</p>
+          <p>Os hoffech ragor o gymorth, bwrw golwg <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance_welsh.pdf">ar sut i ddefnyddio ein logo</a> neu cysylltwch â'n tîm Brand yn <a href="mailto:brandio@cronfagymunedolylg.org.uk">brandio@cronfagymunedolylg.org.uk</a>.</p>
       howToUseLogo:
         title: Sut i ddefnyddio ein logo
         sections:
           brandGuidance:
             title: Arweiniad brand &ndash; gwneud y peth iawn
             body: >
-              <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance_welsh.pdf">Lawrlwythwch ein Harweiniad Brand (PDF, 1.4MB)</a> i gael cymorth gyda defnyddio ein logo'n gywir. Os ydych yn ansicr o hyd, cysylltwch â'r Tîm Brandio yn <a href="mailto:brandio@cronfagymunedolylg.org.uk">brandio@cronfagymunedolylg.org.uk</a>.
+              <a href="https://media.biglotteryfund.org.uk/media/documents/logo-guidance_welsh.pdf">Lawrlwythwch ein Harweiniad Brand (PDF, 1.4MB)</a> i gael cymorth gyda defnyddio ein logo'n gywir. Os ydych yn ansicr o hyd, cysylltwch â'r tîm Brandio yn <a href="mailto:brandio@cronfagymunedolylg.org.uk">brandio@cronfagymunedolylg.org.uk</a>.
           dontForget:
             title: "Peidiwch ag anghofio"
             body: >
@@ -803,7 +803,7 @@ funding:
         <p>Noder, na allwn roi unrhyw adborth i chi ar syniadau yn y cam hwn. Yr unig ffordd o dderbyn adborth fydd dychwelyd at y dudalen hon o 22 Hydref i gyflwyno braslun.</p>
         <p><strong>Ffôn</strong>: <a href="tel:03001230735">0300 123 0735</a><br/>
         <strong>Cyfnewid testun</strong>: 18001 plws 0300 123 0735 (ar gyfer pobl sydd â nam ar y clyw neu'r lleferydd)<br/>
-        <strong>E-bost</strong>: <a href="mailto:cymru@cronfaloterifawr.org.uk">cymru@cronfaloterifawr.org.uk</a></p>
+        <strong>E-bost</strong>: <a href="mailto:cymru@cronfagymunedolylg.org.uk">cymru@cronfagymunedolylg.org.uk</a></p>
     wayfinding:
       title: Mwy o gyfleoedd ariannu
       description: Dewiswch un o'r opsiynau a ganlyn yn lle.
