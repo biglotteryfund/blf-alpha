@@ -21,7 +21,7 @@
     }
   },
   "domains": {
-    "indexable": ["www.biglotteryfund.org.uk"]
+    "indexable": ["www.biglotteryfund.org.uk", "www.tnlcommunityfund.org.uk"]
   },
   "dateFormats": {
     "month": "MMMM YYYY",
@@ -40,12 +40,11 @@
     "enableHotjar": false,
     "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
-    "enableOldDomainRedirect": false,
     "enablePrompt": false,
     "enableRelatedGrants": true,
     "enableSurvey": true,
     "enableTimingMetrics": false,
-    "enableNewDomainStaffAuth": false
+    "enableNewDomainStaffAuth": true
   },
   "cookies": {
     "contrast": "contrastMode",

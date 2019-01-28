@@ -130,7 +130,7 @@ describe('generateHtmlEmail', () => {
 });
 
 describe('getSendAddress', () => {
-    const expectedDefault = `noreply@biglotteryfund.org.uk`;
+    const expectedDefault = `noreply@tnlcommunityfund.org.uk`;
     const expectedInternal = `noreply@blf.digital`;
 
     it('should return default send from address for external send to addresses', () => {
