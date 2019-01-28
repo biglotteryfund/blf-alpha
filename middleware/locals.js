@@ -1,10 +1,9 @@
 'use strict';
 const config = require('config');
 const moment = require('moment');
-const { map, omitBy, isString } = require('lodash');
+const { isString } = require('lodash');
 
 const { getCurrentUrl, getAbsoluteUrl, localify } = require('../modules/urls');
-const routes = require('../controllers/routes');
 
 const features = config.get('features');
 
@@ -29,19 +28,6 @@ module.exports = function(req, res, next) {
     res.locals.globalCopy = {
         brand: req.i18n.__('global.rebrand')
     };
-
-    /**
-     * Navigation sections for top-level nav
-     * @TODO: Delete in favour of globalNavigation post-rebrand
-     */
-    const itemsToShow = omitBy(routes.sections, s => s.showInNavigation === false);
-    res.locals.navigationSections = map(itemsToShow, (section, id) => {
-        return {
-            id: id,
-            path: localify(locale)(section.path),
-            label: req.i18n.__(section.langTitlePath)
-        };
-    });
 
     /**
      * Global navigation model
