@@ -1,6 +1,6 @@
 'use strict';
 const cookies = require('config').get('cookies');
-const { assign, compact, concat, flatten, flatMap, get, sortBy, uniq, findIndex } = require('lodash');
+const { assign, compact, concat, flatten, flatMap, get, sortBy, uniq } = require('lodash');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 
@@ -110,49 +110,10 @@ const makeBehaviourItem = ({
  */
 function generateBehaviours(origins) {
     const defaultBehaviour = makeBehaviourItem({
-        originId: origins.newSite,
+        originId: origins.site,
         isPostable: true,
-        cookiesInUse: [cookies.contrast, cookies.features, cookies.rebrand, cookies.session]
+        cookiesInUse: [cookies.contrast, cookies.features, cookies.session]
     });
-
-    /**
-     * Legacy route paths
-     * Paths in this list will be routed
-     * directly to the legacy site origin
-     */
-    const customBehaviours = [
-        '/-/*',
-        '/js/*',
-        '/css/*',
-        '/images/*',
-        '/default.css',
-        '/PastGrants.ashx',
-        '/news-and-events'
-    ].map(path =>
-        makeBehaviourItem({
-            originId: origins.legacy,
-            pathPattern: path,
-            isPostable: true,
-            allowAllQueryStrings: true,
-            allowAllCookies: true,
-            protocol: 'allow-all',
-            headersToKeep: ['*']
-        })
-    );
-
-    // Add the legacy file path to the start of the list
-    // so it isn't overridden by the more general one
-    customBehaviours.unshift(
-        makeBehaviourItem({
-            originId: origins.newSite,
-            pathPattern: '/-/media/files/*',
-            isPostable: false,
-            allowAllQueryStrings: true,
-            allowAllCookies: true,
-            protocol: 'allow-all',
-            headersToKeep: ['*']
-        })
-    );
 
     /**
      * S3 static file route paths
@@ -175,8 +136,7 @@ function generateBehaviours(origins) {
      * If any cached url paths need custom cloudfront rules like query strings
      * or custom cookies to be whitelisted you must define those rules here.
      */
-    let customPaths = [
-        { path: '*~/link.aspx', isPostable: true, allowAllQueryStrings: true },
+    const customPaths = [
         { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
         { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
         { path: '/funding/grants*', isPostable: true, allowAllQueryStrings: true, isBilingual: true, noSession: true },
@@ -192,19 +152,14 @@ function generateBehaviours(origins) {
         const cookiesInUse = uniq(
             compact(
                 flatten([
-                    [
-                        cookies.contrast,
-                        cookies.features,
-                        cookies.rebrand,
-                        rule.noSession === true ? null : cookies.session
-                    ],
+                    [cookies.contrast, cookies.features, rule.noSession === true ? null : cookies.session],
                     get(rule, 'cookies', [])
                 ])
             )
         );
 
         const behaviour = makeBehaviourItem({
-            originId: origins.newSite,
+            originId: origins.site,
             pathPattern: rule.path,
             isPostable: rule.isPostable,
             queryStringWhitelist: rule.queryStrings,
@@ -214,7 +169,7 @@ function generateBehaviours(origins) {
 
         if (rule.isBilingual) {
             const welshBehaviour = makeBehaviourItem({
-                originId: origins.newSite,
+                originId: origins.site,
                 pathPattern: makeWelsh(rule.path),
                 isPostable: rule.isPostable,
                 queryStringWhitelist: rule.queryStrings,
@@ -228,16 +183,8 @@ function generateBehaviours(origins) {
         }
     });
 
-    const combinedBehaviours = concat(customBehaviours, primaryBehaviours, s3Behaviours);
-    let sortedBehaviours = sortBy(combinedBehaviours, 'PathPattern');
-
-    // Temporary workaround: manually reorder legacy rules to avoid precedence error
-    // @TODO remove this post-rebrand once we stop sending traffic to legacy origins
-    const legacyFilePathIndex = findIndex(sortedBehaviours, b => b.PathPattern === '/-/media/files/*');
-    const legacyFilePathWildcardIndex = findIndex(sortedBehaviours, b => b.PathPattern === '/-/*');
-    const tempBehaviourItem = sortedBehaviours[legacyFilePathIndex];
-    sortedBehaviours[legacyFilePathIndex] = sortedBehaviours[legacyFilePathWildcardIndex];
-    sortedBehaviours[legacyFilePathWildcardIndex] = tempBehaviourItem;
+    const combinedBehaviours = concat(primaryBehaviours, s3Behaviours);
+    const sortedBehaviours = sortBy(combinedBehaviours, 'PathPattern');
 
     return {
         DefaultCacheBehavior: defaultBehaviour,

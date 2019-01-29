@@ -19,8 +19,8 @@ describe('#makeBehaviourItem', () => {
 
     it('should allow all cookies and querystrings', () => {
         const behaviour = makeBehaviourItem({
-            originId: 'BLF_LEGACY_EXAMPLE',
-            pathPattern: '/~/*',
+            originId: 'BLF_EXAMPLE',
+            pathPattern: '/example',
             isPostable: true,
             allowAllQueryStrings: true,
             allowAllCookies: true,

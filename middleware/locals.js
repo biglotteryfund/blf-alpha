@@ -23,11 +23,6 @@ module.exports = function(req, res, next) {
     res.locals.useNewBrand = true;
 
     /**
-     * New domain flag
-     */
-    res.locals.usingNewDomain = req.get('host') === 'www.tnlcommunityfund.org.uk';
-
-    /**
      * Feature flags
      */
     res.locals.enablePrompt = features.enablePrompt;

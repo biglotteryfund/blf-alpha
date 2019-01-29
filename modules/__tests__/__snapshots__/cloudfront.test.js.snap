@@ -34,235 +34,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
-            },
-          },
-          "Headers": Object {
-            "Items": Array [
-              "Accept",
-              "Host",
-            ],
-            "Quantity": 2,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "*~/link.aspx",
-        "SmoothStreaming": false,
-        "TargetOriginId": "ELB_LIVE",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "redirect-to-https",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
-            "GET",
-          ],
-          "Quantity": 2,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
-            "Forward": "all",
-          },
-          "Headers": Object {
-            "Items": Array [
-              "*",
-            ],
-            "Quantity": 1,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "/-/media/files/*",
-        "SmoothStreaming": false,
-        "TargetOriginId": "ELB_LIVE",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "allow-all",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH",
-          ],
-          "Quantity": 7,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
-            "Forward": "all",
-          },
-          "Headers": Object {
-            "Items": Array [
-              "*",
-            ],
-            "Quantity": 1,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "/-/*",
-        "SmoothStreaming": false,
-        "TargetOriginId": "LEGACY",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "allow-all",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH",
-          ],
-          "Quantity": 7,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
-            "Forward": "all",
-          },
-          "Headers": Object {
-            "Items": Array [
-              "*",
-            ],
-            "Quantity": 1,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "/PastGrants.ashx",
-        "SmoothStreaming": false,
-        "TargetOriginId": "LEGACY",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "allow-all",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH",
-          ],
-          "Quantity": 7,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
-            "Forward": "whitelist",
-            "WhitelistedNames": Object {
-              "Items": Array [
-                "contrastMode",
-                "blf-features",
-                "tnlcf-rebrand",
-                "blf-alpha-session",
-              ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -319,125 +93,14 @@ Object {
         "FieldLevelEncryptionId": "",
         "ForwardedValues": Object {
           "Cookies": Object {
-            "Forward": "all",
-          },
-          "Headers": Object {
-            "Items": Array [
-              "*",
-            ],
-            "Quantity": 1,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "/css/*",
-        "SmoothStreaming": false,
-        "TargetOriginId": "LEGACY",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "allow-all",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH",
-          ],
-          "Quantity": 7,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
-            "Forward": "all",
-          },
-          "Headers": Object {
-            "Items": Array [
-              "*",
-            ],
-            "Quantity": 1,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "/default.css",
-        "SmoothStreaming": false,
-        "TargetOriginId": "LEGACY",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "allow-all",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH",
-          ],
-          "Quantity": 7,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -499,9 +162,8 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -558,10 +220,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -627,10 +288,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -679,171 +339,6 @@ Object {
           },
           "Items": Array [
             "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH",
-          ],
-          "Quantity": 7,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
-            "Forward": "all",
-          },
-          "Headers": Object {
-            "Items": Array [
-              "*",
-            ],
-            "Quantity": 1,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "/images/*",
-        "SmoothStreaming": false,
-        "TargetOriginId": "LEGACY",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "allow-all",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH",
-          ],
-          "Quantity": 7,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
-            "Forward": "all",
-          },
-          "Headers": Object {
-            "Items": Array [
-              "*",
-            ],
-            "Quantity": 1,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "/js/*",
-        "SmoothStreaming": false,
-        "TargetOriginId": "LEGACY",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "allow-all",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH",
-          ],
-          "Quantity": 7,
-        },
-        "Compress": true,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "ForwardedValues": Object {
-          "Cookies": Object {
-            "Forward": "all",
-          },
-          "Headers": Object {
-            "Items": Array [
-              "*",
-            ],
-            "Quantity": 1,
-          },
-          "QueryString": true,
-          "QueryStringCacheKeys": Object {
-            "Items": Array [],
-            "Quantity": 0,
-          },
-        },
-        "LambdaFunctionAssociations": Object {
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "MaxTTL": 31536000,
-        "MinTTL": 0,
-        "PathPattern": "/news-and-events",
-        "SmoothStreaming": false,
-        "TargetOriginId": "LEGACY",
-        "TrustedSigners": Object {
-          "Enabled": false,
-          "Items": Array [],
-          "Quantity": 0,
-        },
-        "ViewerProtocolPolicy": "allow-all",
-      },
-      Object {
-        "AllowedMethods": Object {
-          "CachedMethods": Object {
-            "Items": Array [
-              "HEAD",
-              "GET",
-            ],
-            "Quantity": 2,
-          },
-          "Items": Array [
-            "HEAD",
             "GET",
           ],
           "Quantity": 2,
@@ -858,10 +353,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -928,10 +422,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -993,10 +486,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -1066,10 +558,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -1131,9 +622,8 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -1190,10 +680,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -1259,10 +748,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -1325,10 +813,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -1395,10 +882,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -1537,7 +1023,7 @@ Object {
         "ViewerProtocolPolicy": "redirect-to-https",
       },
     ],
-    "Quantity": 25,
+    "Quantity": 16,
   },
   "DefaultCacheBehavior": Object {
     "AllowedMethods": Object {
@@ -1569,10 +1055,9 @@ Object {
           "Items": Array [
             "contrastMode",
             "blf-features",
-            "tnlcf-rebrand",
             "blf-alpha-session",
           ],
-          "Quantity": 4,
+          "Quantity": 3,
         },
       },
       "Headers": Object {
@@ -1657,9 +1142,9 @@ Object {
   },
   "MaxTTL": 31536000,
   "MinTTL": 0,
-  "PathPattern": "/~/*",
+  "PathPattern": "/example",
   "SmoothStreaming": false,
-  "TargetOriginId": "BLF_LEGACY_EXAMPLE",
+  "TargetOriginId": "BLF_EXAMPLE",
   "TrustedSigners": Object {
     "Enabled": false,
     "Items": Array [],
