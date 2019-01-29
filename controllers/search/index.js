@@ -12,7 +12,6 @@ router.get('/', noCache, (req, res) => {
 
     if (req.query.q) {
         const term = querystring.escape(req.query.q);
-        // @TODO: Remove www.biglotteryfund.org.uk from search domains once new domain has been indexed.
         res.redirect(
             `https://www.google.co.uk/search?q=${term}+site%3Awww.biglotteryfund.org.uk+OR+site%3Awww.tnlcommunityfund.org.uk`
         );
