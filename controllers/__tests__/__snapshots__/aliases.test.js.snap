@@ -5962,5 +5962,45 @@ Array [
     "from": "/welsh/wales/news-and-events",
     "to": "/welsh/news",
   },
+  Object {
+    "from": "/research/open-data",
+    "to": "/data#open-data",
+  },
+  Object {
+    "from": "/welsh/research/open-data",
+    "to": "/welsh/data#open-data",
+  },
+  Object {
+    "from": "/england/research/open-data",
+    "to": "/data#open-data",
+  },
+  Object {
+    "from": "/welsh/england/research/open-data",
+    "to": "/welsh/data#open-data",
+  },
+  Object {
+    "from": "/scotland/research/open-data",
+    "to": "/data#open-data",
+  },
+  Object {
+    "from": "/welsh/scotland/research/open-data",
+    "to": "/welsh/data#open-data",
+  },
+  Object {
+    "from": "/northernireland/research/open-data",
+    "to": "/data#open-data",
+  },
+  Object {
+    "from": "/welsh/northernireland/research/open-data",
+    "to": "/welsh/data#open-data",
+  },
+  Object {
+    "from": "/wales/research/open-data",
+    "to": "/data#open-data",
+  },
+  Object {
+    "from": "/welsh/wales/research/open-data",
+    "to": "/welsh/data#open-data",
+  },
 ]
 `;
