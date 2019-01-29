@@ -112,7 +112,7 @@ function generateBehaviours(origins) {
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.site,
         isPostable: true,
-        cookiesInUse: [cookies.contrast, cookies.features, cookies.rebrand, cookies.session]
+        cookiesInUse: [cookies.contrast, cookies.features, cookies.session]
     });
 
     /**
@@ -152,12 +152,7 @@ function generateBehaviours(origins) {
         const cookiesInUse = uniq(
             compact(
                 flatten([
-                    [
-                        cookies.contrast,
-                        cookies.features,
-                        cookies.rebrand,
-                        rule.noSession === true ? null : cookies.session
-                    ],
+                    [cookies.contrast, cookies.features, rule.noSession === true ? null : cookies.session],
                     get(rule, 'cookies', [])
                 ])
             )

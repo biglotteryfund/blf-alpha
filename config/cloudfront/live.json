@@ -51,10 +51,9 @@
           "Items": [
             "contrastMode",
             "blf-features",
-            "tnlcf-rebrand",
             "blf-alpha-session"
           ],
-          "Quantity": 4
+          "Quantity": 3
         }
       }
     },
@@ -117,10 +116,9 @@
               "Items": [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 3
             }
           }
         },
@@ -182,10 +180,9 @@
               "Items": [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 3
             }
           }
         },
@@ -246,10 +243,9 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-features",
-                "tnlcf-rebrand"
+                "blf-features"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -315,10 +311,9 @@
               "Items": [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 3
             }
           }
         },
@@ -381,10 +376,9 @@
               "Items": [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 3
             }
           }
         },
@@ -451,10 +445,9 @@
               "Items": [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 3
             }
           }
         },
@@ -511,10 +504,9 @@
               "Items": [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 3
             }
           }
         },
@@ -584,10 +576,9 @@
               "Items": [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 3
             }
           }
         },
@@ -649,10 +640,9 @@
               "Items": [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 3
             }
           }
         },
@@ -713,10 +703,9 @@
             "WhitelistedNames": {
               "Items": [
                 "contrastMode",
-                "blf-features",
-                "tnlcf-rebrand"
+                "blf-features"
               ],
-              "Quantity": 3
+              "Quantity": 2
             }
           }
         },
@@ -782,10 +771,9 @@
               "Items": [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 3
             }
           }
         },
@@ -848,10 +836,9 @@
               "Items": [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 3
             }
           }
         },
@@ -918,10 +905,9 @@
               "Items": [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 3
             }
           }
         },
@@ -978,10 +964,9 @@
               "Items": [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 3
             }
           }
         },

@@ -34,10 +34,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -99,10 +98,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -164,9 +162,8 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -223,10 +220,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -292,10 +288,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -358,10 +353,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -428,10 +422,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -493,10 +486,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -566,10 +558,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -631,9 +622,8 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -690,10 +680,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -759,10 +748,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -825,10 +813,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -895,10 +882,9 @@ Object {
               "Items": Array [
                 "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session",
               ],
-              "Quantity": 4,
+              "Quantity": 3,
             },
           },
           "Headers": Object {
@@ -1069,10 +1055,9 @@ Object {
           "Items": Array [
             "contrastMode",
             "blf-features",
-            "tnlcf-rebrand",
             "blf-alpha-session",
           ],
-          "Quantity": 4,
+          "Quantity": 3,
         },
       },
       "Headers": Object {
