@@ -56,11 +56,9 @@ const SENTRY_DSN = getSecret('sentry.dsn');
 /**
  * Azure authentication secrets (optional, used for tools sign-in)
  */
-// @TODO remove this switch post-rebrand in favour of new domain by default
-const useNewDomainAuth = config.get('features.enableNewDomainStaffAuth');
 const AZURE_AUTH = {
-    MS_CLIENT_ID: useNewDomainAuth ? getSecret('ms.auth.tnlcf.clientId') : getSecret('ms.auth.clientId'),
-    MS_CLIENT_SECRET: useNewDomainAuth ? getSecret('ms.auth.tnlcf.clientSecret') : getSecret('ms.auth.clientSecret'),
+    MS_CLIENT_ID: getSecret('ms.auth.tnlcf.clientId'),
+    MS_CLIENT_SECRET: getSecret('ms.auth.tnlcf.clientSecret'),
     MS_REDIRECT_URL: process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl')
 };
 
