@@ -54,7 +54,7 @@
                     <li class="flex-grid__item">
                         {% call promoCard({
                             "title": caseStudy.quoteText,
-                            "image": { "url": caseStudy.imageUrl | getImagePath, "alt": caseStudy.quoteName }
+                            "image": { "url": caseStudy.imageUrl, "alt": caseStudy.quoteName }
                         }) %}
                             <p class="u-no-margin"><strong>{{ caseStudy.quoteName }}</strong></p>
                             {% if caseStudy.quoteNameCaption %}

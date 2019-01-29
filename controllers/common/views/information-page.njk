@@ -57,8 +57,7 @@
                         {% call segment(
                             id = 'segment-' + loop.index,
                             title = contentSegment.title,
-                            imagePath = contentSegment.photo,
-                            accent = pageAccent
+                            imagePath = contentSegment.photo
                         ) %}
                             {{ contentSegment.content | safe }}
                         {% endcall %}
