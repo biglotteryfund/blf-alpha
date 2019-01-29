@@ -45,12 +45,10 @@
 /**
  * Generate theme classes
  * Each theme listed in palette.scss will generate classes for use below
- * @TODO: Remove these post-rebrand, for now we awkwardly overide most colours with the brand colour
+ * @TODO: Refactor this out, for now we awkwardly overide most colours with the brand colour
  */
 @each $name, $color in $themeColors {
-    @if $useNewBrand == true {
-        $color: get-color('brand', 'primary');
-    }
+    $color: get-color('brand', 'primary'); // Override with brand colour until these classes have been removed
 
     .u-accent-border-top-#{$name} {
         border-top: 4px solid $color !important;
@@ -116,34 +114,6 @@
                 color: $activeState !important;
                 .btn__icon {
                     fill: $activeState !important;
-                }
-            }
-        }
-
-        // high contrast mode styles
-        .contrast--high & {
-            $highContrastBg: #1a44a1;
-            // overlay (block) text
-            .overlay-text {
-                span {
-                    background-color: $highContrastBg !important;
-                }
-            }
-
-            // call-to-action buttons
-            &.a--btn {
-                background-color: $highContrastBg !important;
-
-                .a--text {
-                    color: white !important;
-                }
-
-                @include on-interact {
-                    background-color: darken($highContrastBg, 10%) !important;
-
-                    .a--text {
-                        color: white !important;
-                    }
                 }
             }
         }

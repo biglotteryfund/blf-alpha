@@ -32,11 +32,10 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -96,11 +95,10 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -160,10 +158,9 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -218,11 +215,10 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -286,11 +282,10 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -351,11 +346,10 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -420,11 +414,10 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -484,11 +477,10 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -556,11 +548,10 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -620,10 +611,9 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -678,11 +668,10 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -746,11 +735,10 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -811,11 +799,10 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -880,11 +867,10 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "contrastMode",
                 "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 3,
+              "Quantity": 2,
             },
           },
           "Headers": Object {
@@ -1053,11 +1039,10 @@ Object {
         "Forward": "whitelist",
         "WhitelistedNames": Object {
           "Items": Array [
-            "contrastMode",
             "blf-features",
             "blf-alpha-session",
           ],
-          "Quantity": 3,
+          "Quantity": 2,
         },
       },
       "Headers": Object {

@@ -14,7 +14,7 @@
                             "title": programme.title,
                             "trailText": programme.trailText,
                             "image": {
-                                "url": programme.trailImage if (useNewBrand and programme.trailImage) else programme.thumbnail,
+                                "url": programme.trailImage if programme.trailImage else programme.thumbnail,
                                 "alt": programme.title
                             },
                             "link": { "url": programme.linkUrl, "label": "Learn more" }

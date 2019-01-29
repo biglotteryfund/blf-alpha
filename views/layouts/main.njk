@@ -1,10 +1,8 @@
 {% from "components/accessibility.njk" import accessibilityNav with context %}
 <!doctype html>
-<html lang="{{ locale }}"
-    class="no-js locale--{{ locale }}{% if isHighContrast %} contrast--high{% endif %}{% if useNewBrand %} is-rebrand{% endif %}">
+<html lang="{{ locale }}" class="no-js locale--{{ locale }}">
     <head>
         <title>{% block title %}{{ title }} | {% endblock %}{{ globalCopy.brand.title }}</title>
-
         {% include "includes/metadata.njk" %}
         {% include "includes/metaHead.njk" %}
         {% block extraHead %}{% endblock %}
@@ -43,20 +41,12 @@
                 />
             </div>
 
-            {% if useNewBrand %}
-                {% include "includes/global-header-next.njk" %}
-            {% else %}
-                {% include "includes/header.njk" %}
-            {% endif %}
+            {% include "includes/global-header.njk" %}
 
             {% block content %}{% endblock %}
 
             {% include "includes/footer.njk" %}
         </div>
-
-        {% if not useNewBrand %}
-            {% include "includes/offscreenNav.njk" %}
-        {% endif %}
 
         {%- if enablePrompt -%}
             <div id="js-active-prompt">

@@ -1,6 +1,82 @@
 // =========================================================================
-// Big Lottery Fund Styles
+// The National Lottery Community Fund Styles
+// ========================================================================= //
+
+// =========================================================================
+// Shared Imports
 // ========================================================================= //
 
 @import '_vars';
-@import '_style-common';
+@import '_functions';
+@import '_mixins';
+
+// =========================================================================
+// Base
+// ========================================================================= //
+// Global, element-level styles
+
+@import 'base/base';
+
+// =========================================================================
+// Scaffolding
+// ========================================================================= //
+// Low-level, generic scaffolding styles
+
+@import 'scaffolding/layout';
+@import 'scaffolding/grid';
+@import 'scaffolding/content';
+@import 'scaffolding/lists';
+@import 'scaffolding/media';
+
+// =========================================================================
+// Scoped Contexts
+// ========================================================================= //
+// https://csswizardry.com/2015/03/more-transparent-ui-code-with-namespaces/#scope-namespaces-s-
+
+@import 'scopes/prose';
+
+// =========================================================================
+// Components
+// ========================================================================= //
+// Individual components & patterns, the majority of our styles are in here
+
+@import 'components/buttons';
+@import 'components/icons';
+@import 'components/badges';
+@import 'components/links';
+@import 'components/forms';
+@import 'components/navigation';
+@import 'components/messages';
+@import 'components/quotes';
+@import 'components/tabs';
+@import 'components/cards';
+@import 'components/data';
+@import 'components/media';
+@import 'components/programmes';
+@import 'components/past-grants';
+@import 'components/research';
+@import 'components/materials';
+@import 'components/overlay-text';
+@import 'components/heroes';
+@import 'components/prompts';
+@import 'components/news';
+@import 'components/logos';
+@import 'components/social';
+@import 'components/global-header';
+@import 'components/global-footer';
+
+// =========================================================================
+// Utilities
+// ========================================================================= //
+// Single use classes, prefixed with u-
+
+@import 'utilities/utilities-accents';
+@import 'utilities/utilities-display';
+@import 'utilities/utilities-text';
+
+// =========================================================================
+// Print
+// ========================================================================= //
+// Global print styles. Component specific styles inlined in component files
+
+@import 'print';

@@ -2,8 +2,6 @@
 // Global Variables: Layout
 // ========================================================================= //
 
-$useNewBrand: false;
-
 $breakpoints: (
     'xsmall': 360px,
     'small': 480px,
@@ -26,7 +24,7 @@ $constrained: 700px;
 $constrainedWide: 840px;
 
 // Nudge offset, used to nudge content areas above hero images
-$nudgeOffset: 25px;
+$nudgeOffset: 60px;
 
 /* =========================================================================
    Global Variables: Typography
@@ -36,7 +34,7 @@ $typography: (
     display: (
         font-stacks: (
             fallback: 'sans-serif',
-            default: "'Poppins', sans-serif"
+            default: 'caecilia, sans-serif'
         ),
         font-scale: (
             t6: 14px,
@@ -48,19 +46,19 @@ $typography: (
         ),
         weights: (
             normal: 400,
-            semibold: 500,
-            bold: 700
+            semibold: 700,
+            bold: 800
         )
     ),
     body: (
         font-stacks: (
             fallback: 'sans-serif',
-            default: "'Roboto', sans-serif"
+            default: 'caecilia-sans-text, Trebuchet MS, sans-serif'
         ),
         weights: (
             normal: 400,
-            semibold: 500,
-            bold: 700
+            semibold: 700,
+            bold: 800
         )
     )
 );
@@ -69,23 +67,23 @@ $typography: (
 // Global Variables: Colour Palette
 // ========================================================================= //
 
-$brandPink: #e20087;
+$brandPink: #e5007d;
 
 $colors: (
     brand: (
         primary: $brandPink,
         primary-tint: rgba(229, 0, 125, 0.9),
-        primary-light-wash: #feebf3,
+        primary-light-wash: #f9e9f2,
         secondary-blue: #002b57,
         secondary-burgundy: #5c003a
     ),
     text: (
         base: #333333,
-        note: #7a7a7a,
+        note: #666666,
         light: #e9e9e9
     ),
     links: (
-        base: #365cc9,
+        base: #0075b0,
         hover: #00598e,
         visited: #002b57
     ),
@@ -96,21 +94,20 @@ $colors: (
     ),
     background: (
         dark-neutral: #333333,
-        light-neutral: #f5f6fa
+        light-neutral: #f6f7f9
     ),
     message: (
         base: #dfe0e2,
-        warning: #b00
+        warning: #c6183d
     )
 );
 
 // =========================================================================
 // Global Variables: Themes
 // ========================================================================= //
-// @TODO: Remove all non brand-* theme colours post-rebrand
+// @TODO: Replace post-rebrand
 
 $themeColors: (
-    'brand-primary': $brandPink,
     'pink': $brandPink,
     'blue': #1a44a1,
     'turquoise': #00adef,

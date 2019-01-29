@@ -86,9 +86,6 @@ global:
       href: "/about/customer-service/accessibility"
   accessibility:
     skipToContent: Skip to content
-    contrast:
-      high: Enable high contrast mode
-      standard: Enable standard contrast mode
     policy:
       label: Accessibility
       link: "/about/customer-service/accessibility"
@@ -1097,35 +1094,6 @@ funding:
           url: 'https://digitalmaturity.co.uk/'
 materials:
   orderEmail: >
-    <h1>Congratulations on getting National Lottery funding</h1>
-
-    <p>Thank you for your order. Your delivery will be with you within six working days. We know you’re excited to share the news, so here are some tips to make a big impact.</p>
-
-    <h2>Events/Photo opportunities</h2>
-    <p>We’d love to see photos of your project. You don’t need an expensive camera – a smart phone is perfect for capturing the moment.</p>
-
-    <p>You can share your pictures with us on:</p>
-    <ul>
-        <li>Facebook (<a href="https://www.facebook.com/TNLCommunityFund/">@TNLCommunityFund</a>)</li>
-        <li>Twitter (<a href="https://twitter.com/TNLComFund">@TNLComFund</a>)</li>
-        <li>Instagram (<a href="https://www.instagram.com/TNLCommunityFund">@TNLCommunityFund</a>)</li>
-    </ul>
-
-    <p>If you’ve ordered a cheque, try to use a thick, dark pen and write using large handwriting, so everyone can read your organisation name and the amount you’ve been funded.</p>
-
-    <p>This is really important if you’re going to use your cheque in photos.</p>
-
-    <h2>Social Media</h2>
-    <p>Without support from National Lottery players your grant wouldn’t be possible. Please say thank you to them by using #NationalLottery in your social media posts.</p>
-
-    <p>If you’re unsure what to post, copy this example and fill in the gaps for your project.</p>
-
-    <blockquote>Thanks to #NationalLottery players for making our project possible! We’re making a huge difference to the lives of (XXXX) people thanks to #NationalLottery funding.</blockquote>
-
-    <p>There are lots of other ways to celebrate your funding. You can find more resources and top tips on how to promote your grant on our website: <a href="https://www.tnlcommunityfund.org.uk/welcome">www.tnlcommunityfund.org.uk/welcome</a>.</p>
-
-    <p>If you have any questions about your order, get in touch at <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.</p>
-  orderEmailNew: >
     <h1>Congratulations on getting National Lottery funding</h1>
 
     <p>Thanks for your order. Your delivery will be with you within six working days. We know you’re excited to share the news, so here are some tips to make a big impact.</p>

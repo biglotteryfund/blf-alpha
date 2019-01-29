@@ -1,226 +1,315 @@
 /* =========================================================================
-   Global Header: Common
-   ========================================================================= */
-
-$navLinkPadding: 25px;
-$logoOffset: $navLinkPadding - 5px;
-
-/* =========================================================================
    Global Header
    ========================================================================= */
 
-.global-header {
-    width: 100%;
-    color: get-color('links', 'base');
+$breakpointSmall: 580px;
+$breakpointLarge: 840px;
 
-    @include mq('medium') {
-        margin-bottom: $spacingUnit;
-    }
+.global-header-next {
+    background: white;
 
-    .global-header__inner {
+    body:not(.has-static-header) & {
+        box-shadow: 0 6px 12px 0 rgba(0, 0, 0, 0.1);
         position: relative;
-        padding: 10px 0;
+        z-index: 20;
+    }
 
-        @media only screen and (min-width: 420px) {
-            padding: 15px 0;
+    .global-header-next__inner {
+        position: relative;
+    }
+
+    .global-header-next__navigation-primary {
+        font-size: 16px;
+        font-family: font-stack('display');
+
+        > ul > li > a {
+            font-weight: 800;
+            text-decoration: none;
+            color: get-color('brand', 'secondary-blue');
         }
 
-        @include mq('medium') {
-            padding: 0;
+        > ul > li > ul {
+            display: none;
         }
     }
 
-    .global-header__content {
-        @include mq('medium') {
-            display: flex;
-            align-items: flex-start;
-        }
-    }
-
-    .global-header__logo {
-        display: inline-block;
-        background-repeat: no-repeat;
-        background-position: left center;
-        background-image: url(../../../images/logos/logo.png);
-        background-size: auto 100%;
-        margin: 0;
-
-        height: 80px;
-        width: 100px;
-
-        @include mq('medium') {
-            height: 105px;
-            width: 130px;
-            margin-top: $logoOffset;
-        }
-
-        @media only screen and (min-width: $widestScreen) {
-            margin-left: -$spacingUnit;
-        }
-
-        /**
-         * Is this a welsh language page or
-         * are we explicitly showing the welsh logo?
-         */
-        .locale--cy &,
-        .has-welsh-logo & {
-            background-image: url(../../../images/logos/logo-welsh.png);
-            width: 110px;
-            height: 105px;
-
-            @include mq('medium') {
-                width: 140px;
-                height: 133px;
-            }
-        }
-
-        @media print {
-            width: 100%;
-            height: auto;
-            background: none;
-        }
-    }
-
-    .global-header__nav {
-        @include mq('medium') {
-            flex-grow: 1;
-            flex-shrink: 0;
-            flex-basis: 0;
-            margin-top: 0;
-        }
-    }
-
-    .global-header__hamburger {
-        cursor: pointer;
-        margin-top: 0;
-        width: 31px;
-        position: absolute;
-        right: 0;
-        top: 25px;
-
-        @media only screen and (min-width: 420px) {
-            top: 40px;
-        }
-
-        a {
-            color: inherit;
-        }
-
-        svg,
-        path {
-            fill: currentColor;
-        }
-    }
-}
-
-/* =========================================================================
-   Global Navigation
-   ========================================================================= */
-
-.global-nav {
-    position: relative;
-    color: currentColor;
-    display: flex;
-    align-items: flex-start;
-    margin: 0;
-    margin-left: $spacingUnit;
-
-    .global-nav__link:after {
-        content: '';
-        display: inline-block;
-        height: 15px;
-        border: solid #cacaca;
-        border-width: 0 1px;
-        border-radius: 30px;
-        vertical-align: middle;
-        margin: 0 ($spacingUnit / 3);
-
-        @include mq('large') {
-            margin: 0 26px;
-        }
-    }
-    .global-nav__link--last:after {
+    .global-header-next__extra {
         display: none;
     }
 
-    .global-nav__link,
-    .global-nav__lang {
-        font-family: font-stack('display');
-        font-weight: font-weight('display', 'bold');
-        font-size: 16px;
+    .global-header-next__navigation-secondary {
+        display: flex;
+        flex-direction: row;
+        color: get-color('brand', 'secondary-blue');
+        text-transform: uppercase;
+        font-size: 13px;
 
-        a {
-            color: currentColor;
-            display: inline-block;
+        > li {
+            margin-left: $spacingUnit * 2;
+        }
+
+        > li > a {
+            color: inherit;
             text-decoration: none;
-        }
 
-        a:hover,
-        a:focus,
-        a:active,
-        &.is-selected a {
-            color: get-color('brand', 'primary');
-            border-color: currentColor;
-        }
-    }
-
-    .global-nav__link a {
-        padding: $navLinkPadding ($spacingUnit / 2) 0;
-        border-top: 4px solid transparent;
-    }
-
-    .global-nav__lang {
-        position: absolute;
-        top: 100%;
-        right: 0;
-        margin-top: $spacingUnit;
-
-        a {
-            padding: 0;
-            border: none;
-
-            @include on-interact {
+            &:hover {
                 text-decoration: underline;
             }
         }
     }
 
-    .global-nav__search {
-        margin-left: auto;
-        padding-top: $navLinkPadding;
+    .global-header-next__language {
+        text-align: center;
+        padding: 12px 0;
+        background-color: #eaeaea;
     }
-}
-
-/* =========================================================================
-   Global Header / Navigation - Overlaid header
-   ========================================================================= */
-
-html:not(.contrast--high) body:not(.has-static-header) .global-header {
-    color: white;
-    position: absolute;
-    z-index: 1;
-
-    @media print {
-        position: static;
+    .global-header-next__language-prefix {
+        font-size: 13px;
+        margin-bottom: 6px;
     }
-}
 
-html:not(.contrast--high) body:not(.has-static-header) .global-nav {
-    .global-nav__link a,
-    .global-nav__lang a {
-        @include on-interact {
-            color: white;
+    @media only screen and (max-width: $breakpointLarge) {
+        .global-header-next__content-primary {
+            height: 100px;
+            padding: 12px;
+            display: flex;
+            flex: 1 1 auto;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .global-header-next__navigation {
+            position: absolute;
+            top: 100%;
+            width: 100%;
+            background-color: #f4f4f4;
+            box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.15);
+            z-index: 100;
+        }
+
+        .global-header-next__navigation {
+            display: none;
+
+            html.has-toggled-navigation & {
+                display: block;
+            }
+        }
+
+        .global-header-next__toggle {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: get-color('brand', 'secondary-blue');
+
+            .global-header-next__toggle-label {
+                display: block;
+                font-size: 11px;
+                text-transform: uppercase;
+                font-weight: font-weight('body', 'bold');
+                margin-top: 6px;
+            }
+        }
+
+        .global-header-next__toggle-nav {
+            html.has-toggled-navigation & {
+                color: get-color('brand', 'primary');
+            }
+        }
+
+        .global-header-next__navigation-primary {
+            > ul > li {
+                border-bottom: 1px solid #e6e6e6;
+                &:last-child {
+                    border-bottom: none;
+                }
+
+                .icon {
+                    display: none;
+                }
+            }
+
+            > ul > li > a {
+                text-align: center;
+                display: block;
+                padding: 10px;
+            }
+
+            > ul > li > ul {
+                display: none;
+            }
+        }
+
+        .global-header-next__actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            > .global-header-next__toggle {
+                margin-left: $spacingUnit;
+
+                .icon {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
         }
     }
 
-    .global-nav__link,
-    .global-nav__lang {
-        a:hover,
-        a:focus,
-        a:active,
-        &.is-selected a {
-            color: white;
-            border-color: currentColor;
+    @media only screen and (max-width: $breakpointSmall) {
+        .global-header-next__search {
+            position: absolute;
+            top: 100%;
+            width: 100%;
+            background-color: #f4f4f4;
+            box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.15);
+            z-index: 100;
+        }
+
+        .global-header-next__search {
+            padding: $spacingUnit;
+            display: none;
+
+            html.has-toggled-search & {
+                display: block;
+            }
+        }
+
+        .global-header-next__toggle-search {
+            html.has-toggled-search & {
+                color: get-color('brand', 'primary');
+            }
+        }
+    }
+
+    @media only screen and (min-width: $breakpointSmall + 1px) and (max-width: $breakpointLarge) {
+        .global-header-next__search {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            margin-left: $spacingUnit; // Optically align
+            width: 50%;
+        }
+    }
+
+    @media only screen and (min-width: $breakpointLarge + 1px) {
+        .global-header-next__inner {
+            max-width: $maxWidth;
+            margin: 0 $spacingUnit;
+        }
+
+        .global-header-next__extra {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 12px;
+        }
+
+        .global-header-next__content {
+            display: flex;
+            align-items: center;
+            height: 80px;
+            padding-bottom: 20px;
+        }
+
+        .global-header-next__content-primary {
+            flex: 0 0 auto;
+            margin-right: $spacingUnit;
+        }
+
+        .global-header-next__content-secondary {
+            flex: 1 1 0%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .global-header-next__navigation {
+            flex: 1 1 auto;
+        }
+        .global-header-next__search {
+            flex: 0 0 25%;
+        }
+
+        .global-header-next__navigation-primary {
+            margin: 0;
+            max-width: 480px;
+
+            > ul {
+                display: flex;
+                justify-content: space-between;
+
+                > li {
+                    flex: 1 1 auto;
+                    position: relative;
+                }
+
+                > li > a {
+                    display: inline-block;
+                    width: 100%;
+                    height: 100%;
+                    padding: 6px 10px;
+
+                    .icon {
+                        display: inline-block;
+                        vertical-align: middle;
+                        margin-right: -3px;
+                        margin-left: 3px;
+                    }
+                }
+
+                > li.is-conditional-link {
+                    display: none;
+                }
+
+                > li:hover > a,
+                > li.is-current > a {
+                    color: get-color('brand', 'primary');
+                }
+
+                > li.has-children:hover {
+                    > a {
+                        color: white;
+                        background-color: rgba(226, 0, 135, 0.95);
+                    }
+
+                    ul {
+                        display: block;
+                        position: absolute;
+                        z-index: 100;
+                        left: 0;
+                        top: 100%;
+                        color: white;
+                        background-color: rgba(226, 0, 135, 0.95);
+                        box-shadow: 3px 3px 6px 0 rgba(0, 0, 0, 0.1);
+
+                        a {
+                            display: block;
+                            color: inherit;
+                            text-decoration: none;
+                            white-space: nowrap;
+                            font-size: 14px;
+                            padding: 10px 12px;
+
+                            &:hover {
+                                text-decoration: underline;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .global-header-next__language,
+        .global-header-next__actions {
+            display: none;
+        }
+    }
+
+    @media only screen and (min-width: $maxWidth + 20px) {
+        .global-header-next__inner {
+            margin-left: auto;
+            margin-right: auto;
         }
     }
 }
@@ -229,118 +318,104 @@ html:not(.contrast--high) body:not(.has-static-header) .global-nav {
    Global Search Form
    ========================================================================= */
 
-.global-search {
+.global-search-next {
     margin: 0;
     position: relative;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.2);
 
-    @include mq('medium') {
-        max-width: 180px;
-    }
-}
-.global-search__input {
-    font-family: font-stack('display');
-    font-size: 16px;
-    font-weight: normal;
-    border: none;
-    width: 100%;
-    margin-top: 0;
-    padding: 6px 32px 6px 12px;
-}
-.global-search__submit {
-    border: 0;
-    outline: none;
-    position: absolute;
-    top: 0;
-    right: 0;
-    cursor: pointer;
-    background-color: transparent;
-
-    .icon {
-        width: 21px;
-        height: 21px;
-        fill: get-color('text', 'note');
-        vertical-align: middle;
+    .global-search-next__input {
+        font-family: font-stack('display');
+        font-size: 16px;
+        font-weight: normal;
+        border: none;
+        width: 100%;
+        margin: 0;
+        margin-bottom: $spacingUnit / 2;
     }
 
-    @include on-interact {
-        .icon {
-            fill: get-color('text', 'base');
+    @media only screen and (max-width: $breakpointSmall) {
+        .global-search-next__input {
+            padding: 0.75em 1em;
+        }
+
+        .global-search-next__submit {
+            font-family: font-stack('display');
+            color: white;
+            background-color: get-color('brand', 'primary');
+            display: block;
+            width: 100%;
+            border: none;
+            border-radius: 50px;
+            padding: 5px 12px;
+        }
+        .global-search-next__icon {
+            display: none;
         }
     }
-}
 
-/**
- * Global search: Offset modifier (i.e. in global header)
- * Gives search form contrast against light hero images and pages with no image.
- */
-.global-search--offset {
-    box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.2);
+    @media only screen and (min-width: $breakpointSmall) {
+        outline: 2px solid get-color('border', 'base');
+
+        .global-search-next__input {
+            margin: 0;
+            padding: 6px 32px 6px 12px;
+        }
+
+        .global-search-next__submit {
+            border: 0;
+            outline: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            cursor: pointer;
+            height: 100%;
+            background-color: get-color('background', 'light-neutral');
+
+            .icon {
+                width: 21px;
+                height: 21px;
+                fill: get-color('text', 'base');
+                vertical-align: middle;
+                position: relative;
+                top: -2px;
+            }
+
+            .global-search-next__label {
+                @include visually-hidden();
+            }
+        }
+    }
 }
 
 /* =========================================================================
-   Offscreen Navigation
+   Brand Logo
    ========================================================================= */
 
-$offscreenNavWidth: 65%;
+.brand-logo {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: left center;
+    background-image: url(../../../images/site-logo.svg);
+    background-size: auto 100%;
+    margin: 0;
+    margin-right: $spacingUnit / 2;
 
-.offscreen-navigation {
-    color: white;
-    background-color: #3c65dd;
-    display: block;
-    position: fixed;
-    z-index: 100;
-    right: -100%;
-    transition: all 0.3s ease-in-out;
-    top: 0;
-    height: 100%;
-    margin-top: 0;
-    width: $offscreenNavWidth;
-    box-shadow: -3px 0px 10px -2px #173077;
-}
-.offscreen-navigation__list li {
-    margin-top: 0;
-    border-bottom: 2px solid rgba(46, 78, 170, 0.4);
-    font-size: 17px;
-}
-.offscreen-navigation__link a,
-.offscreen-navigation__lang a,
-.offscreen-navigation__search {
-    padding: $spacingUnit $spacingUnit * 1.5;
-}
-.offscreen-navigation__link a,
-.offscreen-navigation__lang a {
-    display: block;
-    color: inherit;
-    text-decoration: none;
+    height: 42px;
+    width: 130px;
 
-    @include on-interact {
-        background-color: #365cc9;
-    }
-}
-
-// Handle animation of offscreen nav for mobile
-@include mq('medium', 'max') {
-    .global-container {
-        transition: all 0.3s ease-in-out;
+    /**
+     * Is this a welsh language page or
+     * are we explicitly showing the welsh logo?
+     */
+    .locale--cy &,
+    .has-welsh-logo & {
+        background-image: url(../../../images/site-logo-bilingual.svg);
+        height: 69px;
+        width: 130px;
     }
 
-    html.show-off-canvas {
-        overflow: hidden;
-
-        .offscreen-navigation {
-            right: 0;
-        }
-
-        .global-container {
-            transform: translateX(-$offscreenNavWidth);
-        }
+    @media print {
+        width: 100%;
+        height: auto;
+        background: none;
     }
-}
-
-.no-js .offscreen-navigation {
-    position: static;
-    width: 100%;
-    height: auto;
-    box-shadow: none;
 }
