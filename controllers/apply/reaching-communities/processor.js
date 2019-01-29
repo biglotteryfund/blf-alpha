@@ -79,7 +79,7 @@ module.exports = async function processor({ data, stepsWithValues, copy, useNewB
         sendEmail({
             name: 'reaching_communities_internal',
             mailConfig: {
-                sendTo: determineInternalSendTo(data.location),
+                sendTo: appData.isNotProduction ? customerSendTo : determineInternalSendTo(data.location),
                 subject: `New idea submission from website: ${organisationName}`,
                 type: 'html',
                 content: internalHtml
