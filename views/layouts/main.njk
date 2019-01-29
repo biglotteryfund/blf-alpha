@@ -1,4 +1,3 @@
-{% from "components/accessibility.njk" import accessibilityNav with context %}
 <!doctype html>
 <html lang="{{ locale }}" class="no-js locale--{{ locale }}">
     <head>
@@ -8,7 +7,13 @@
         {% block extraHead %}{% endblock %}
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
-        {{ accessibilityNav() }}
+        <nav class="accessibility-nav">
+            {% set a11yCopy = __('global.accessibility') %}
+            <ul>
+                <li><a href="#content" tabindex="0">{{ a11yCopy.skipToContent | safe }}</a></li>
+                <li><a href="{{ a11yCopy.policy.link }}" title="{{ a11yCopy.policy.description }}">{{ a11yCopy.policy.label }}</a></li>
+            </ul>
+        </nav>
 
         <div class="global-container">
 
