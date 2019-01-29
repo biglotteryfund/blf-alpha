@@ -6,7 +6,6 @@
  */
 const fs = require('fs');
 const path = require('path');
-const querystring = require('querystring');
 const slug = require('slugify');
 const uuid = require('uuid/v4');
 const { take } = require('lodash');
@@ -56,25 +55,12 @@ function pluralise(number, singular, plural) {
     return number === 1 ? singular : plural;
 }
 
-function getImagePath(urlPath) {
-    if (/^http(s?):\/\//.test(urlPath)) {
-        return urlPath;
-    } else {
-        return `/assets/images/${urlPath}`;
-    }
-}
-
 function slugify(str) {
     return slug(str, { lower: true });
 }
 
 function isArray(xs) {
     return Array.isArray(xs);
-}
-
-function makePhoneLink(str) {
-    let callable = str.replace(/ /g, '');
-    return `<a href="tel:${callable}" class="is-phone-link">${str}</a>`;
 }
 
 function mailto(str) {
@@ -85,44 +71,19 @@ function numberWithCommas(str = '') {
     return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-function removeQueryParam(queryParams, paramToRemove) {
-    let newParams = Object.assign({}, queryParams);
-    delete newParams[paramToRemove];
-    return querystring.stringify(newParams);
-}
-
-/**
- * addQueryParam
- * @param {object} queryParams - The existing querystring object
- * @param {array} newParams - An array of arrays of key/value pairs
- * (eg. [['foo', 'bar'], ['baz', 'quux']]
- */
-function addQueryParam(queryParams, newParams) {
-    let clone = Object.assign({}, queryParams);
-    newParams.forEach(pair => {
-        let [key, value] = pair;
-        clone[key] = value;
-    });
-    return querystring.stringify(clone);
-}
-
 function widont(str) {
     return str.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1');
 }
 
 module.exports = {
-    addQueryParam,
     appendUuid,
     filter,
     find,
     getCachebustedPath,
-    getImagePath,
     isArray,
     mailto,
-    makePhoneLink,
     numberWithCommas,
     pluralise,
-    removeQueryParam,
     slugify,
     take,
     widont

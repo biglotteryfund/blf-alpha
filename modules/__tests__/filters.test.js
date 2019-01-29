@@ -2,16 +2,12 @@
 'use strict';
 
 const {
-    addQueryParam,
     appendUuid,
     getCachebustedPath,
-    getImagePath,
     isArray,
     mailto,
-    makePhoneLink,
     numberWithCommas,
     pluralise,
-    removeQueryParam,
     slugify,
     widont
 } = require('../filters');
@@ -34,26 +30,6 @@ describe('getCachebustedPath', () => {
     });
 });
 
-describe('getImagePath', () => {
-    it('should get path for a given image', () => {
-        const result = getImagePath('path/to/image.png');
-        expect(result).toBe('/assets/images/path/to/image.png');
-    });
-
-    it('should return original url if external url', () => {
-        const result = getImagePath('https://example.com/image.png');
-        expect(result).toBe('https://example.com/image.png');
-    });
-});
-
-describe('makePhoneLink', () => {
-    it('should create a tel link', () => {
-        expect(makePhoneLink('0121 555 5555')).toBe(
-            '<a href="tel:01215555555" class="is-phone-link">0121 555 5555</a>'
-        );
-    });
-});
-
 describe('mailto', () => {
     it('should create a mailto link', () => {
         expect(mailto('example@example.com')).toBe('<a href="mailto:example@example.com">example@example.com</a>');
@@ -71,44 +47,6 @@ describe('pluralise', () => {
         expect(pluralise(0, 'octopus', 'octopi')).toBe('octopi');
         expect(pluralise(1, 'octopus', 'octopi')).toBe('octopus');
         expect(pluralise(3, 'octopus', 'octopi')).toBe('octopi');
-    });
-});
-
-describe('addQueryParam', () => {
-    it('should add a query parameter', () => {
-        expect(
-            addQueryParam(
-                {
-                    something: 'example'
-                },
-                [['programme_id', 12]]
-            )
-        ).toBe('something=example&programme_id=12');
-    });
-
-    it('should add multiple query parameters', () => {
-        expect(
-            addQueryParam(
-                {
-                    something: 'example'
-                },
-                [['programme_id', 12], ['sort', 'date']]
-            )
-        ).toBe('something=example&programme_id=12&sort=date');
-    });
-});
-
-describe('removeQueryParam', () => {
-    it('should remove a query parameter', () => {
-        expect(
-            removeQueryParam(
-                {
-                    something: 'example',
-                    programme_id: '12'
-                },
-                'programme_id'
-            )
-        ).toBe('something=example');
     });
 });
 
