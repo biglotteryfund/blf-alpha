@@ -10,8 +10,7 @@
                 <div class="fact-item{% if (loop.index % 2 === 0) %} fact-item--reversed{% endif %}">
                     {% if fact.image %}
                         <div class="fact-item__image">
-                            {% set imageUrl = "illustrations/" + fact.image  %}
-                            <img src="{{ imageUrl | getImagePath }} " alt="">
+                            <img src="{{ "/assets/images/illustrations/" + fact.image }} " alt="">
                         </div>
                     {% endif %}
                     <div class="fact-item__text">{{ fact.text | safe }}</div>
