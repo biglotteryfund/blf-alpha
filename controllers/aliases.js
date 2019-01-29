@@ -173,7 +173,7 @@ const aliases = {
     //===== Misc/other =====//
     '/contact-us': '/contact',
     '/news-and-events': '/news',
-
+    '/research/open-data': '/data#open-data',
 };
 
 /**
