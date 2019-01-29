@@ -42,7 +42,6 @@
                         {% include "includes/uk-countries.njk" %}
                     </div>
 
-
                     <div id="js-map-panes" class="map-panes js-paneset">
                         {% set regionTitles = __('global.regions') %}
                         {{ mapPane(
@@ -70,6 +69,20 @@
 
                 </div>
             </aside>
+
+            <div class="content-box content-box--borderless u-inner-wide-only accent--{{ pageAccent }} a--border-top u-margin-top" id="open-data">
+                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.openData.title}}</h2>
+                <div class="s-prose">
+                    <p>{{ copy.openData.content.intro | safe }}</p>
+                    <ul>
+                        {% for link in copy.openData.content.links %}
+                            <li><a href="{{ link.href }}">{{ copy.openData.linkPrefix }} {{ link.label }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    <p>{{ copy.openData.content.outro | safe }}</p>
+                </div>
+            </div>
+
         </div>
     </main>
 {% endblock %}

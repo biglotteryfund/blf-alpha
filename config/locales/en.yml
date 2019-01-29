@@ -482,6 +482,23 @@ toplevel:
   data:
     keyStats: Key statistics
     mapTitle: Our Year in Numbers
+    openData:
+      title: Grant Data
+      linkPrefix: Grants data
+      content:
+        intro: >
+          Across our grant making the Fund is committed to transparency so that people in the lead have the information they need. We work with the 360Giving initiative to publish our grant data. We have used the 360Giving standard to produce a file of all the grants we have made 2004 onwards.
+        links:
+          - label: "2004 - 2015 (CSV, 100MB+)"
+            href: "https://www.tnlcommunityfund.org.uk/media/open-data/TNLCF_Grant_Data_2004-2015-v41.csv"
+          - label: "2015 - 2017"
+            href: "https://www.tnlcommunityfund.org.uk/media/open-data/TNLCF_Grant_Data_2015-2017.xlsx"
+          - label: "2017 - 2018"
+            href: "https://www.tnlcommunityfund.org.uk/media/open-data/TNLCF_Grant_Data_2017-2018.xlsx"
+          - label: "2018 - 2019"
+            href: "https://www.tnlcommunityfund.org.uk/media/open-data/TNLCF_Grant_Data_2018-2019.xlsx"
+        outro: >
+          This work is licensed under the <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">open government licence for public sector information</a>, which allows you to use and re-use the Information that is available under this licence freely and flexibly, with only a few conditions. If you can’t find what you’re looking for, please <a href="/contact">contact us</a>.
 insights:
   title: Insights from our funding
   intro: >
