@@ -21,10 +21,7 @@ $btnConf: (
     )
 );
 
-$buttonColor: #1a44a1;
-@if $useNewBrand == true {
-    $buttonColor: get-color('brand', 'primary');
-}
+$buttonColor: get-color('brand', 'primary');
 
 @mixin getBtnVertPadding($conf) {
     $height: map-get($conf, 'desiredHeight');
@@ -147,19 +144,9 @@ $buttonColor: #1a44a1;
  * Buttons: Reversed Variant
  */
 .btn.btn--reversed {
-    @if $useNewBrand == true {
-        color: white;
-        background-color: get-color('brand', 'secondary-blue');
-        font-weight: font-weight('display', 'semibold');
-    } @else {
-        color: $buttonColor;
-        font-weight: font-weight('display', 'bold');
-        background-color: white;
-
-        @include on-interact {
-            background-color: darken(white, 5%);
-        }
-    }
+    color: white;
+    background-color: get-color('brand', 'secondary-blue');
+    font-weight: font-weight('display', 'semibold');
 }
 
 /**

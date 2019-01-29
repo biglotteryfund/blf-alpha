@@ -45,12 +45,10 @@
 /**
  * Generate theme classes
  * Each theme listed in palette.scss will generate classes for use below
- * @TODO: Remove these post-rebrand, for now we awkwardly overide most colours with the brand colour
+ * @TODO: Refactor this out, for now we awkwardly overide most colours with the brand colour
  */
 @each $name, $color in $themeColors {
-    @if $useNewBrand == true {
-        $color: get-color('brand', 'primary');
-    }
+    $color: get-color('brand', 'primary'); // Override with brand colour until these classes have been removed
 
     .u-accent-border-top-#{$name} {
         border-top: 4px solid $color !important;
