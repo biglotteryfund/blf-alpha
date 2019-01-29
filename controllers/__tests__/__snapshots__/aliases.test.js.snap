@@ -2603,6 +2603,46 @@ Array [
     "to": "/welsh/funding/under10k",
   },
   Object {
+    "from": "/funding/funding-finder?sc=1",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/funding/funding-finder?sc=1",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
+    "from": "/england/funding/funding-finder?sc=1",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/england/funding/funding-finder?sc=1",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
+    "from": "/scotland/funding/funding-finder?sc=1",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/funding-finder?sc=1",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
+    "from": "/northernireland/funding/funding-finder?sc=1",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/funding-finder?sc=1",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
+    "from": "/wales/funding/funding-finder?sc=1",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/wales/funding/funding-finder?sc=1",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
     "from": "/funding/funding-guidance",
     "to": "/funding",
   },

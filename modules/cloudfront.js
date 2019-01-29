@@ -138,7 +138,6 @@ function generateBehaviours(origins) {
      */
     const customPaths = [
         { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
-        { path: '/funding/funding-finder', isPostable: true, allowAllQueryStrings: true, isBilingual: true },
         { path: '/funding/grants*', isPostable: true, allowAllQueryStrings: true, isBilingual: true, noSession: true },
         { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
         { path: '/funding/programmes/all', queryStrings: ['location'], isBilingual: true },
