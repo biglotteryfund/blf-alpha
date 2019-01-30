@@ -2,7 +2,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
-const config = require('config');
 
 const userService = require('../services/user');
 const { AZURE_AUTH } = require('../modules/secrets');

@@ -1,6 +1,5 @@
 'use strict';
 const appData = require('./appData');
-const config = require('config');
 
 const { getSecret } = require('./parameter-store');
 
