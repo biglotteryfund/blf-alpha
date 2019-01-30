@@ -20,7 +20,7 @@
             {% else %}
                 <form class="form-ebulletin form-theme-slim" method="post" action="/about/ebulletin">
                     {% set formCopy = __('toplevel.ebulletin') %}
-                    <h2 class="t1 t--underline accent--pink a--text">{{ formCopy.introHeading }}</h2>
+                    <h2 class="t1 t--underline">{{ formCopy.introHeading }}</h2>
 
                     <p>{{ formCopy.intro }}</p>
 
@@ -93,8 +93,7 @@
                         </div>
                     </fieldset>
 
-                    <input type="submit" value="{{ formCopy.callToAction }}"
-                        class="btn btn--small accent--pink a--btn u-block-full"/>
+                    <input type="submit" value="{{ formCopy.callToAction }}" class="btn btn--small u-block-full"/>
                 </form>
             {% endif %}
         </div>
