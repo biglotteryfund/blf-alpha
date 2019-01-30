@@ -35,13 +35,12 @@ function addBodyClasses(classes) {
         classes.push(LOADED_CLASS);
         addBodyClasses(classes);
     } else {
-        const fontDisplay = window.AppConfig.isRebrand ? 'caecilia' : 'Poppins';
-        const fontBody = window.AppConfig.isRebrand ? 'caecilia-sans-text' : 'Roboto';
-
-        Promise.all([new FontFaceObserver(fontDisplay).load(), new FontFaceObserver(fontBody).load()]).then(function() {
-            classes.push(LOADED_CLASS);
-            addBodyClasses(classes);
-            sessionStorage.fontsLoaded = true;
-        });
+        Promise.all([new FontFaceObserver('caecilia').load(), new FontFaceObserver('caecilia-sans-text').load()]).then(
+            function() {
+                classes.push(LOADED_CLASS);
+                addBodyClasses(classes);
+                sessionStorage.fontsLoaded = true;
+            }
+        );
     }
 })();

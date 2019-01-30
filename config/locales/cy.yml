@@ -79,15 +79,10 @@ global:
       href: "/welsh/contact"
     - label: Swyddi
       href: "/welsh/jobs"
-    - label: Map o'r wefan
-      href: "/welsh/sitemap"
     - label: Hygyrchedd
       href: "/welsh/about/customer-service/accessibility"
   accessibility:
     skipToContent: Ewch i'r cynnwys
-    contrast:
-      high: Galluogi'r modd cyferbynnedd uchel
-      standard: Galluogi'r modd cyferbynnedd safonol
     policy:
       label: Hygyrchedd
       link: "/welsh/about/customer-service/accessibility"
@@ -392,6 +387,23 @@ toplevel:
   data:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau
+    openData:
+      title: Data am Grantiau
+      linkPrefix: Data grantiau
+      content:
+        intro: >
+          Ar draws y grantiau a wnawn mae'r Gronfa'n ymroddedig i dryloywder fel bod pobl sydd yn arwain yn derbyn yr wybodaeth sydd ei hangen arnynt. Rydym yn cydweithio â'r fenter 360Giving i gyhoeddi ein data grantiau. Rydym wedi defnyddio'r safon 360Giving i gynhyrchu ffeil o'r holl grantiau rydym wedi eu gwneud o 2004 ymlaen.
+        links:
+          - label: "2004 - 2015 (CSV, 100MB+)"
+            href: "https://www.tnlcommunityfund.org.uk/media/open-data/TNLCF_Grant_Data_2004-2015-v41.csv"
+          - label: "2015 - 2017"
+            href: "https://www.tnlcommunityfund.org.uk/media/open-data/TNLCF_Grant_Data_2015-2017.xlsx"
+          - label: "2017 - 2018"
+            href: "https://www.tnlcommunityfund.org.uk/media/open-data/TNLCF_Grant_Data_2017-2018.xlsx"
+          - label: "2018 - 2019"
+            href: "https://www.tnlcommunityfund.org.uk/media/open-data/TNLCF_Grant_Data_2018-2019.xlsx"
+        outro: >
+          Trwyddedir y gwaith hwn o dan y <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">drwydded llywodraeth agored ar gyfer gwybodaeth sector cyhoeddus</a>, gan alluogi chi i ddefnyddio ac ailddefnyddio'r Wybodaeth sydd ar gael o dan y drwydded hon yn rhydd ac yn hyblyg, gyda dim ond ychydig o amodau. Os na allwch ddod o hyd i'r hyn rydych yn chwilio amdano, <a href="/contact">cysylltwch â ni</a>.
 insights:
   title: Mewnwelediad o’n hariannu
   intro: >
@@ -991,37 +1003,6 @@ funding:
           url: 'https://digitalmaturity.co.uk/'
 materials:
   orderEmail: >
-    <h1>Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol</h1>
-    <p>Diolch am eich archeb. Bydd y nwyddau gyda chi o fewn chwe niwrnod gwaith. Rydym yn gwybod eich  bod yn gyffrous i rannu'r newyddion, felly dyma rai awgrymiadau i gael effaith fawr.</p>
-
-    <h2>Digwyddiadau/Cyfle tynnu lluniau</h2>
-
-    <p>Mawr hoffem weld lluniau o'ch prosiect. Nid oes angen camera drud arnoch - mae ffôn clyfar yn berffaith i gofnodi'r achlysur.</p>
-
-    <p>Gallwch rannu'ch lluniau gyda ni ar:</p>
-    <ul>
-        <li>Facebook (<a href="https://www.facebook.com/TNLCommunityFundwales/">@TNLCommunityFundwales</a>)</li>
-        <li>Twitter (<a href="https://www.twitter.com/CronGymYLG">@CronGymYLG</a>)</li>
-        <li>Instagram (<a href="https://www.instagram.com/TNLCommunityFund">@TNLCommunityFund</a>)</li>
-    </ul>
-
-    <p>Os ydych wedi archebu siec, ceisiwch ddefnyddio ysgrifbin du trwchus a defnyddiwch lawysgrifen fawr, fel bod pawb yn gallu darllen enw eich mudiad a'r swm rydych wedi'i dderbyn.</p>
-
-    <p>Mae hyn yn bwysig iawn os byddwch yn defnyddio'ch siec mewn lluniau.</p>
-
-    <h2>Cyfryngau Cymdeithasol</h2>
-
-    <p>Heb gefnogaeth gan chwaraewyr y Loteri Genedlaethol, ni fyddai'ch grant yn bosib. Dywedwch diolch wrthynt gan ddefnyddio #LoteriGen yn eich postiadau cyfryngau cymdeithasol.</p>
-
-    <p>Os ydych yn ansicr beth i'w bostio, copïwch yr enghraifft hon a llenwch y bylchau ar gyfer eich prosiect.</p>
-
-    <blockquote>Diolch i chwaraewyr y #LoteriGen am wneud ein prosiect yn bosib! Rydym yn gwneud gwahaniaeth enfawr i fywydau (XXXX) o bobl diolch i grant gan y #LoteriGen.</blockquote>
-
-
-    <p>Mae llawer o ffyrdd eraill o ddathlu'ch grant. Gallwch ddod o hyd i fwy o adnoddau ac awgrymiadau gwych ar sut i hyrwyddo'ch grant ar ein gwefan: <a href="https://www.tnlcommunityfund.org.uk/croeso">www.tnlcommunityfund.org.uk/croeso</a></p>
-
-    <p>Os oes gennych unrhyw gwestiynau ynglŷn â'ch archeb, cysylltwch â ni yn <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.</p>
-  orderEmailNew: >
     <h1>Llongyfarchiadau ar dderbyn grant gan y Loteri Genedlaethol</h1>
 
     <p>Diolch am eich archeb. Bydd y nwyddau gyda chi o fewn chwe niwrnod gwaith. Rydym yn gwybod eich bod yn gyffrous i rannu'r newyddion, felly dyma rai awgrymiadau i gael effaith fawr.</p>

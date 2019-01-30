@@ -1,10 +1,5 @@
-{% if useNewBrand %}
-    <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/style-rebrand.css' | getCachebustedPath }}">
-    <link rel="stylesheet" href="https://use.typekit.net/yyc1dgh.css">
-{% else %}
-    <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/style.css' | getCachebustedPath }}">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,500,600|Roboto:400,700" rel="stylesheet">
-{% endif %}
+<link rel="stylesheet" type="text/css" href="{{ 'stylesheets/style.css' | getCachebustedPath }}">
+<link rel="stylesheet" href="https://use.typekit.net/yyc1dgh.css">
 
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=HTMLPictureElement,Promise,Array.prototype.find,Element.prototype.closest"></script>
 <script id="script-config">
@@ -13,7 +8,6 @@
     var AppConfig = {
         environment: '{{ appData.environment }}',
         isNotProduction: {{ appData.isNotProduction }},
-        isRebrand: {{ useNewBrand === true }},
         locale: '{{ locale }}',
         localePrefix: '{{ localePrefix }}',
         isModernBrowser:

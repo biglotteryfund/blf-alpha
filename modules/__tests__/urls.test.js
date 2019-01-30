@@ -69,7 +69,6 @@ describe('URL Helpers', () => {
             expect(isWelsh('/welsh')).toBe(true);
             expect(isWelsh('/welsh/about')).toBe(true);
             expect(isWelsh('/about')).toBe(false);
-            expect(isWelsh('/welsh/funding/funding-finder')).toBe(true);
             expect(isWelsh('/welsh/funding/programmes')).toBe(true);
             expect(isWelsh('/funding/programmes')).toBe(false);
         });
@@ -82,13 +81,10 @@ describe('URL Helpers', () => {
 
     describe('#localify', () => {
         it('should return correct url for a given locale', () => {
-            expect(localify('en')('/funding/funding-finder')).toBe('/funding/funding-finder');
-
-            expect(localify('cy')('/funding/funding-finder')).toBe('/welsh/funding/funding-finder');
-
-            expect(localify('en')('/welsh/funding/funding-finder')).toBe('/funding/funding-finder');
-
-            expect(localify('cy')('/welsh/funding/funding-finder')).toBe('/welsh/funding/funding-finder');
+            expect(localify('en')('/funding/programmes')).toBe('/funding/programmes');
+            expect(localify('cy')('/funding/programmes')).toBe('/welsh/funding/programmes');
+            expect(localify('en')('/welsh/funding/programmes')).toBe('/funding/programmes');
+            expect(localify('cy')('/welsh/funding/programmes')).toBe('/welsh/funding/programmes');
         });
     });
 

@@ -21,7 +21,6 @@ if (appData.isDev) {
 }
 
 const { isWelsh, makeWelsh, removeWelsh, localify } = require('./modules/urls');
-const { proxyPassthrough } = require('./modules/legacy');
 const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
 const aliases = require('./controllers/aliases');
@@ -94,7 +93,6 @@ app.use('/', require('./controllers/robots'));
  * Mount early to avoid being processed by any middleware
  * @see https://expressjs.com/en/4x/api.html#express.static
  */
-// @TODO replace this with the new one post-rebrand
 app.use(favicon(path.join('public', '/favicon.ico')));
 app.use('/assets', express.static(path.join(__dirname, './public')));
 
@@ -282,23 +280,13 @@ app.get('/error-unauthorised', renderUnauthorised);
  * - Othewise, if the URL is welsh strip that from the URL and try again
  * - If all else fails, pass through to the 404 handler.
  */
-app.route('*').get(
-    vanityMiddleware,
-    function(req, res, next) {
-        if (res.locals.usingNewDomain === false) {
-            proxyPassthrough(req, res, next);
-        } else {
-            next();
-        }
-    },
-    function(req, res, next) {
-        if (isWelsh(req.originalUrl)) {
-            res.redirect(removeWelsh(req.originalUrl));
-        } else {
-            next();
-        }
+app.route('*').get(vanityMiddleware, function(req, res, next) {
+    if (isWelsh(req.originalUrl)) {
+        res.redirect(removeWelsh(req.originalUrl));
+    } else {
+        next();
     }
-);
+});
 
 /**
  * 404 Handler

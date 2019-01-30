@@ -56,11 +56,9 @@ const SENTRY_DSN = getSecret('sentry.dsn');
 /**
  * Azure authentication secrets (optional, used for tools sign-in)
  */
-// @TODO remove this switch post-rebrand in favour of new domain by default
-const useNewDomainAuth = config.get('features.enableNewDomainStaffAuth');
 const AZURE_AUTH = {
-    MS_CLIENT_ID: useNewDomainAuth ? getSecret('ms.auth.tnlcf.clientId') : getSecret('ms.auth.clientId'),
-    MS_CLIENT_SECRET: useNewDomainAuth ? getSecret('ms.auth.tnlcf.clientSecret') : getSecret('ms.auth.clientSecret'),
+    MS_CLIENT_ID: getSecret('ms.auth.tnlcf.clientId'),
+    MS_CLIENT_SECRET: getSecret('ms.auth.tnlcf.clientSecret'),
     MS_REDIRECT_URL: process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl')
 };
 
@@ -82,12 +80,6 @@ const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.mat
  */
 const DIGITAL_FUND_EMAIL = process.env.DIGITAL_FUND_EMAIL || getSecret('emails.digitalfund.demo');
 
-/**
- * Rebrand secret
- */
-const REBRAND_SECRET = process.env.REBRAND_SECRET || getSecret('rebrand.secret', true);
-const REBRAND_TEST_PASSWORD = process.env.REBRAND_TEST_PASSWORD || getSecret('rebrand.test.password', false);
-
 module.exports = {
     APPLICATIONS_SERVICE_ENDPOINT,
     AZURE_AUTH,
@@ -98,8 +90,6 @@ module.exports = {
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
-    REBRAND_SECRET,
-    REBRAND_TEST_PASSWORD,
     SENTRY_DSN,
     SESSION_SECRET
 };

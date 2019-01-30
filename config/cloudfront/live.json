@@ -49,12 +49,10 @@
         "Forward": "whitelist",
         "WhitelistedNames": {
           "Items": [
-            "contrastMode",
             "blf-features",
-            "tnlcf-rebrand",
             "blf-alpha-session"
           ],
-          "Quantity": 4
+          "Quantity": 2
         }
       }
     },
@@ -115,237 +113,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
-            }
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "*~/link.aspx"
-      },
-      {
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "allow-all",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "GET"
-          ],
-          "Quantity": 2,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "*"
-            ],
-            "Quantity": 1
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "all"
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/-/media/files/*"
-      },
-      {
-        "TargetOriginId": "LEGACY",
-        "ViewerProtocolPolicy": "allow-all",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "*"
-            ],
-            "Quantity": 1
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "all"
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/-/*"
-      },
-      {
-        "TargetOriginId": "LEGACY",
-        "ViewerProtocolPolicy": "allow-all",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "*"
-            ],
-            "Quantity": 1
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "all"
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/PastGrants.ashx"
-      },
-      {
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
-            "Quantity": 2
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "whitelist",
-            "WhitelistedNames": {
-              "Items": [
-                "contrastMode",
-                "blf-features",
-                "tnlcf-rebrand",
-                "blf-alpha-session"
-              ],
-              "Quantity": 4
+              "Quantity": 2
             }
           }
         },
@@ -361,116 +132,6 @@
         "PathPattern": "/api/*"
       },
       {
-        "TargetOriginId": "LEGACY",
-        "ViewerProtocolPolicy": "allow-all",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "*"
-            ],
-            "Quantity": 1
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "all"
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/css/*"
-      },
-      {
-        "TargetOriginId": "LEGACY",
-        "ViewerProtocolPolicy": "allow-all",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "*"
-            ],
-            "Quantity": 1
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "all"
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/default.css"
-      },
-      {
         "TargetOriginId": "ELB_LIVE",
         "ViewerProtocolPolicy": "redirect-to-https",
         "MinTTL": 0,
@@ -515,76 +176,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-features",
-                "tnlcf-rebrand",
-                "blf-alpha-session"
+                "blf-features"
               ],
-              "Quantity": 4
-            }
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/funding/funding-finder"
-      },
-      {
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
-            "Quantity": 2
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "whitelist",
-            "WhitelistedNames": {
-              "Items": [
-                "contrastMode",
-                "blf-features",
-                "tnlcf-rebrand"
-              ],
-              "Quantity": 3
+              "Quantity": 1
             }
           }
         },
@@ -648,12 +242,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 2
             }
           }
         },
@@ -714,12 +306,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 2
             }
           }
         },
@@ -733,171 +323,6 @@
           "Quantity": 0
         },
         "PathPattern": "/funding/programmes/all"
-      },
-      {
-        "TargetOriginId": "LEGACY",
-        "ViewerProtocolPolicy": "allow-all",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "*"
-            ],
-            "Quantity": 1
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "all"
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/images/*"
-      },
-      {
-        "TargetOriginId": "LEGACY",
-        "ViewerProtocolPolicy": "allow-all",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "*"
-            ],
-            "Quantity": 1
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "all"
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/js/*"
-      },
-      {
-        "TargetOriginId": "LEGACY",
-        "ViewerProtocolPolicy": "allow-all",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "*"
-            ],
-            "Quantity": 1
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "all"
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/news-and-events"
       },
       {
         "TargetOriginId": "ELB_LIVE",
@@ -949,12 +374,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 2
             }
           }
         },
@@ -1009,12 +432,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 2
             }
           }
         },
@@ -1082,12 +503,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 2
             }
           }
         },
@@ -1147,76 +566,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
-                "blf-features",
-                "tnlcf-rebrand",
-                "blf-alpha-session"
+                "blf-features"
               ],
-              "Quantity": 4
-            }
-          }
-        },
-        "TrustedSigners": {
-          "Enabled": false,
-          "Items": [],
-          "Quantity": 0
-        },
-        "LambdaFunctionAssociations": {
-          "Items": [],
-          "Quantity": 0
-        },
-        "PathPattern": "/welsh/funding/funding-finder"
-      },
-      {
-        "TargetOriginId": "ELB_LIVE",
-        "ViewerProtocolPolicy": "redirect-to-https",
-        "MinTTL": 0,
-        "MaxTTL": 31536000,
-        "DefaultTTL": 86400,
-        "FieldLevelEncryptionId": "",
-        "Compress": true,
-        "SmoothStreaming": false,
-        "AllowedMethods": {
-          "Items": [
-            "HEAD",
-            "DELETE",
-            "POST",
-            "GET",
-            "OPTIONS",
-            "PUT",
-            "PATCH"
-          ],
-          "Quantity": 7,
-          "CachedMethods": {
-            "Items": [
-              "HEAD",
-              "GET"
-            ],
-            "Quantity": 2
-          }
-        },
-        "ForwardedValues": {
-          "Headers": {
-            "Items": [
-              "Accept",
-              "Host"
-            ],
-            "Quantity": 2
-          },
-          "QueryStringCacheKeys": {
-            "Items": [],
-            "Quantity": 0
-          },
-          "QueryString": true,
-          "Cookies": {
-            "Forward": "whitelist",
-            "WhitelistedNames": {
-              "Items": [
-                "contrastMode",
-                "blf-features",
-                "tnlcf-rebrand"
-              ],
-              "Quantity": 3
+              "Quantity": 1
             }
           }
         },
@@ -1280,12 +632,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 2
             }
           }
         },
@@ -1346,12 +696,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 2
             }
           }
         },
@@ -1416,12 +764,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 2
             }
           }
         },
@@ -1476,12 +822,10 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "contrastMode",
                 "blf-features",
-                "tnlcf-rebrand",
                 "blf-alpha-session"
               ],
-              "Quantity": 4
+              "Quantity": 2
             }
           }
         },
@@ -1603,6 +947,6 @@
         "PathPattern": "media/*"
       }
     ],
-    "Quantity": 25
+    "Quantity": 14
   }
 }

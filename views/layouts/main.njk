@@ -1,16 +1,19 @@
-{% from "components/accessibility.njk" import accessibilityNav with context %}
 <!doctype html>
-<html lang="{{ locale }}"
-    class="no-js locale--{{ locale }}{% if isHighContrast %} contrast--high{% endif %}{% if useNewBrand %} is-rebrand{% endif %}">
+<html lang="{{ locale }}" class="no-js locale--{{ locale }}">
     <head>
         <title>{% block title %}{{ title }} | {% endblock %}{{ globalCopy.brand.title }}</title>
-
         {% include "includes/metadata.njk" %}
         {% include "includes/metaHead.njk" %}
         {% block extraHead %}{% endblock %}
     </head>
     <body{% if bodyClass %} class="{{ bodyClass }}"{% endif %}>
-        {{ accessibilityNav() }}
+        <nav class="accessibility-nav">
+            {% set a11yCopy = __('global.accessibility') %}
+            <ul>
+                <li><a href="#content" tabindex="0">{{ a11yCopy.skipToContent | safe }}</a></li>
+                <li><a href="{{ a11yCopy.policy.link }}" title="{{ a11yCopy.policy.description }}">{{ a11yCopy.policy.label }}</a></li>
+            </ul>
+        </nav>
 
         <div class="global-container">
 
@@ -43,20 +46,12 @@
                 />
             </div>
 
-            {% if useNewBrand %}
-                {% include "includes/global-header-next.njk" %}
-            {% else %}
-                {% include "includes/header.njk" %}
-            {% endif %}
+            {% include "includes/global-header.njk" %}
 
             {% block content %}{% endblock %}
 
             {% include "includes/footer.njk" %}
         </div>
-
-        {% if not useNewBrand %}
-            {% include "includes/offscreenNav.njk" %}
-        {% endif %}
 
         {%- if enablePrompt -%}
             <div id="js-active-prompt">

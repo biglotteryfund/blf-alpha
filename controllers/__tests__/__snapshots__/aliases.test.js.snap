@@ -2603,6 +2603,46 @@ Array [
     "to": "/welsh/funding/under10k",
   },
   Object {
+    "from": "/funding/funding-finder?sc=1",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/funding/funding-finder?sc=1",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
+    "from": "/england/funding/funding-finder?sc=1",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/england/funding/funding-finder?sc=1",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
+    "from": "/scotland/funding/funding-finder?sc=1",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/scotland/funding/funding-finder?sc=1",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
+    "from": "/northernireland/funding/funding-finder?sc=1",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/northernireland/funding/funding-finder?sc=1",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
+    "from": "/wales/funding/funding-finder?sc=1",
+    "to": "/funding/programmes/all",
+  },
+  Object {
+    "from": "/welsh/wales/funding/funding-finder?sc=1",
+    "to": "/welsh/funding/programmes/all",
+  },
+  Object {
     "from": "/funding/funding-guidance",
     "to": "/funding",
   },
@@ -5961,6 +6001,46 @@ Array [
   Object {
     "from": "/welsh/wales/news-and-events",
     "to": "/welsh/news",
+  },
+  Object {
+    "from": "/research/open-data",
+    "to": "/data#open-data",
+  },
+  Object {
+    "from": "/welsh/research/open-data",
+    "to": "/welsh/data#open-data",
+  },
+  Object {
+    "from": "/england/research/open-data",
+    "to": "/data#open-data",
+  },
+  Object {
+    "from": "/welsh/england/research/open-data",
+    "to": "/welsh/data#open-data",
+  },
+  Object {
+    "from": "/scotland/research/open-data",
+    "to": "/data#open-data",
+  },
+  Object {
+    "from": "/welsh/scotland/research/open-data",
+    "to": "/welsh/data#open-data",
+  },
+  Object {
+    "from": "/northernireland/research/open-data",
+    "to": "/data#open-data",
+  },
+  Object {
+    "from": "/welsh/northernireland/research/open-data",
+    "to": "/welsh/data#open-data",
+  },
+  Object {
+    "from": "/wales/research/open-data",
+    "to": "/data#open-data",
+  },
+  Object {
+    "from": "/welsh/wales/research/open-data",
+    "to": "/welsh/data#open-data",
   },
 ]
 `;

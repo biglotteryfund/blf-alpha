@@ -13,13 +13,9 @@ const { DIGITAL_FUND_EMAIL } = require('../../../modules/secrets');
  * @param {object} options.data
  * @param {object} options.stepsWithValues
  * @param {object} options.copy
- * @param {boolean} options.useNewBrand
  * @param {any} mailTransport
  */
-module.exports = async function processor(
-    { form, locale, data, stepsWithValues, copy, useNewBrand },
-    mailTransport = null
-) {
+module.exports = async function processor({ form, locale, data, stepsWithValues, copy }, mailTransport = null) {
     const customerSendTo = {
         name: `${data['name']}`,
         address: data['email']
@@ -33,7 +29,6 @@ module.exports = async function processor(
         summary: stepsWithValues,
         locale: locale,
         isArray: xs => Array.isArray(xs),
-        useNewBrand: useNewBrand,
         showDataProtectionStatement: true
     };
 

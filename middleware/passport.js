@@ -36,14 +36,11 @@ module.exports = function() {
      * Only initialise this auth strategy if secrets exist (eg. not on CI)
      */
     if (AZURE_AUTH.MS_CLIENT_ID) {
-        // @TODO remove this switch post-rebrand in favour of new domain by default
-        const identityEndpoint = config.get('features.enableNewDomainStaffAuth')
-            ? 'https://login.microsoftonline.com/tnlcommunityfund.onmicrosoft.com/.well-known/openid-configuration'
-            : 'https://login.microsoftonline.com/biglotteryfund.onmicrosoft.com/.well-known/openid-configuration';
         passport.use(
             new OIDCStrategy(
                 {
-                    identityMetadata: identityEndpoint,
+                    identityMetadata:
+                        'https://login.microsoftonline.com/tnlcommunityfund.onmicrosoft.com/.well-known/openid-configuration',
                     clientID: AZURE_AUTH.MS_CLIENT_ID,
                     allowHttpForRedirectUrl: appData.isDev,
                     redirectUrl: AZURE_AUTH.MS_REDIRECT_URL,

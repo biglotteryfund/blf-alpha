@@ -1,7 +1,5 @@
 'use strict';
 const express = require('express');
-const config = require('config');
-const moment = require('moment');
 
 const router = express.Router();
 
@@ -9,29 +7,9 @@ const { pick } = require('lodash');
 const { body, validationResult } = require('express-validator/check');
 const { matchedData } = require('express-validator/filter');
 
-const { noCache } = require('../../middleware/cached');
 const { purifyUserInput } = require('../../modules/validators');
 const surveyService = require('../../services/surveys');
 const feedbackService = require('../../services/feedback');
-
-/**
- * API: Contrast switcher
- */
-router.get('/contrast/:mode', noCache, (req, res) => {
-    const cookieName = config.get('cookies.contrast');
-    const duration = moment.duration(6, 'months').asMilliseconds();
-
-    if (req.params.mode === 'high') {
-        res.cookie(cookieName, req.params.mode, {
-            maxAge: duration,
-            httpOnly: false
-        });
-    } else {
-        res.clearCookie(cookieName);
-    }
-
-    res.redirect(req.query.url || '/');
-});
 
 /**
  * API: Feedback endpoint

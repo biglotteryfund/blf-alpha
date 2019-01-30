@@ -28,7 +28,7 @@ props: {Object}
         <div class="promo-card__body">
             {% if props.kicker and not props.image.url %}
                 <p class="promo-card__kicker">
-                    {% call overlayText(accent) %}
+                    {% call overlayText() %}
                         {{ props.kicker }}
                     {% endcall %}
                 </p>

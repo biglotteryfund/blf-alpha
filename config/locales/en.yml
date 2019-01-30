@@ -80,15 +80,10 @@ global:
       href: "/contact"
     - label: Jobs
       href: "/jobs"
-    - label: Site map
-      href: "/sitemap"
     - label: Accessibility
       href: "/about/customer-service/accessibility"
   accessibility:
     skipToContent: Skip to content
-    contrast:
-      high: Enable high contrast mode
-      standard: Enable standard contrast mode
     policy:
       label: Accessibility
       link: "/about/customer-service/accessibility"
@@ -482,6 +477,23 @@ toplevel:
   data:
     keyStats: Key statistics
     mapTitle: Our Year in Numbers
+    openData:
+      title: Grant Data
+      linkPrefix: Grants data
+      content:
+        intro: >
+          Across our grant making the Fund is committed to transparency so that people in the lead have the information they need. We work with the 360Giving initiative to publish our grant data. We have used the 360Giving standard to produce a file of all the grants we have made 2004 onwards.
+        links:
+          - label: "2004 - 2015 (CSV, 100MB+)"
+            href: "https://www.tnlcommunityfund.org.uk/media/open-data/TNLCF_Grant_Data_2004-2015-v41.csv"
+          - label: "2015 - 2017"
+            href: "https://www.tnlcommunityfund.org.uk/media/open-data/TNLCF_Grant_Data_2015-2017.xlsx"
+          - label: "2017 - 2018"
+            href: "https://www.tnlcommunityfund.org.uk/media/open-data/TNLCF_Grant_Data_2017-2018.xlsx"
+          - label: "2018 - 2019"
+            href: "https://www.tnlcommunityfund.org.uk/media/open-data/TNLCF_Grant_Data_2018-2019.xlsx"
+        outro: >
+          This work is licensed under the <a href="http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/">open government licence for public sector information</a>, which allows you to use and re-use the Information that is available under this licence freely and flexibly, with only a few conditions. If you can’t find what you’re looking for, please <a href="/contact">contact us</a>.
 insights:
   title: Insights from our funding
   intro: >
@@ -1080,35 +1092,6 @@ funding:
           url: 'https://digitalmaturity.co.uk/'
 materials:
   orderEmail: >
-    <h1>Congratulations on getting National Lottery funding</h1>
-
-    <p>Thank you for your order. Your delivery will be with you within six working days. We know you’re excited to share the news, so here are some tips to make a big impact.</p>
-
-    <h2>Events/Photo opportunities</h2>
-    <p>We’d love to see photos of your project. You don’t need an expensive camera – a smart phone is perfect for capturing the moment.</p>
-
-    <p>You can share your pictures with us on:</p>
-    <ul>
-        <li>Facebook (<a href="https://www.facebook.com/TNLCommunityFund/">@TNLCommunityFund</a>)</li>
-        <li>Twitter (<a href="https://twitter.com/TNLComFund">@TNLComFund</a>)</li>
-        <li>Instagram (<a href="https://www.instagram.com/TNLCommunityFund">@TNLCommunityFund</a>)</li>
-    </ul>
-
-    <p>If you’ve ordered a cheque, try to use a thick, dark pen and write using large handwriting, so everyone can read your organisation name and the amount you’ve been funded.</p>
-
-    <p>This is really important if you’re going to use your cheque in photos.</p>
-
-    <h2>Social Media</h2>
-    <p>Without support from National Lottery players your grant wouldn’t be possible. Please say thank you to them by using #NationalLottery in your social media posts.</p>
-
-    <p>If you’re unsure what to post, copy this example and fill in the gaps for your project.</p>
-
-    <blockquote>Thanks to #NationalLottery players for making our project possible! We’re making a huge difference to the lives of (XXXX) people thanks to #NationalLottery funding.</blockquote>
-
-    <p>There are lots of other ways to celebrate your funding. You can find more resources and top tips on how to promote your grant on our website: <a href="https://www.tnlcommunityfund.org.uk/welcome">www.tnlcommunityfund.org.uk/welcome</a>.</p>
-
-    <p>If you have any questions about your order, get in touch at <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.</p>
-  orderEmailNew: >
     <h1>Congratulations on getting National Lottery funding</h1>
 
     <p>Thanks for your order. Your delivery will be with you within six working days. We know you’re excited to share the news, so here are some tips to make a big impact.</p>

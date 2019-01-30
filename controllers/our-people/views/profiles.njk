@@ -2,7 +2,6 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/document-list/macro.njk" import documentList %}
 {% from "components/hero.njk" import hero with context %}
-{% from "components/nav.njk" import quickLinks %}
 
 {% block content %}
     <main id="content">
@@ -76,16 +75,25 @@
                     </nav>
                 </aside>
 
-                {% set quickLinksList = [] %}
-                {% for person in entry.people %}
-                    {% set quickLink = {
-                        href: '#profile-' + person.name | slugify,
-                        label: person.name,
-                        caption: person.role
-                    } %}
-                    {% set quickLinksList = (quickLinksList.push(quickLink), quickLinksList) %}
-                {% endfor %}
-                {{ quickLinks(quickLinksList, isSticky = true) }}
+                {# @TODO: Should we share this component? #}
+                <nav class="quicklinks quicklinks--sticky">
+                    <ul class="quicklinks__list">
+                        {% for person in entry.people %}
+                            <li class="quicklinks__item">
+                                <a class="quicklinks__link" href="#profile-{{ person.name | slugify }}">
+                                    <span class="quicklinks__link-label">
+                                        {{ person.name }}
+                                    </span>
+                                    {% if person.role %}
+                                        <span class="quicklinks__link-caption">
+                                            {{ person.role }}
+                                        </span>
+                                    {% endif %}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </nav>
             </div>
         </div>
     </main>

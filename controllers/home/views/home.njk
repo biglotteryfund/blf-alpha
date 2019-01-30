@@ -1,31 +1,42 @@
 {% extends "layouts/main.njk" %}
-{% from "components/icons.njk" import iconFacebook, iconInstagram, iconTwitter %}
 {% from "components/latest-updates/macro.njk" import latestUpdates %}
-{% from "components/promo-card/macro.njk" import promoCard %}
+{% from "components/miniature-hero/macro.njk" import miniatureHero %}
+{% from "components/social-bar/macro.njk" import socialBar with context %}
 
 {% block content %}
     <main role="main">
-        <section class="super-hero{% if heroImages.candidates.length > 0 %} super-hero--has-candidates{% endif %} js-random-hero" data-image-candidates='{{ heroImages.candidates | dump | safe }}'>
-            <div class="super-hero__image js-random-hero__image">
-                <picture>
-                    <source srcset="{{ heroImages.default.large }}" media="(min-width: 980px)">
-                    <source srcset="{{ heroImages.default.medium }}" media="(min-width: 600px)">
-                    <source srcset="{{ heroImages.default.small }}">
-                    <img src="{{ heroImages.default.default }}" alt="{{ heroImages.default.caption }}" />
-                </picture>
-            </div>
+        <h1 class="u-visually-hidden">{{ globalCopy.brand.title }}</h1>
 
-            <div class="super-hero__content">
-                <div class="super-hero__header u-inner" id="content">
-                    <h1 class="super-hero__title">{{ __(copy.intro, 'https://www.national-lottery.co.uk/', localify('/data')) | safe }}</h1>
+        {# Hero introduction #}
+        <section class="super-hero-next">
+            <figure class="super-hero-next__image">
+                <picture>
+                    <source srcset="{{ heroImage.large }}" media="(min-width: 1040px)">
+                    <source srcset="{{ heroImage.medium }}" media="(min-width: 600px)">
+                    <source srcset="{{ heroImage.small }}">
+                    <img src="{{ heroImage.default }}" alt="{{ heroImage.caption }}" />
+                </picture>
+                {% if heroImage.caption %}
+                    <figcaption class="super-hero-next__caption u-caption">
+                        {{ heroImage.caption }}
+                    </figcaption>
+                {% endif %}
+            </figure>
+            <div class="super-hero-next__content">
+                <div class="super-hero-next__header" id="content">
+                    <h2 class="super-hero-next__title">{{ copy.introNew.title | widont | safe }}</h2>
+                    <div class="super-hero-next__intro">
+                        {{ __(copy.introNew.description, localify('/data'), 'https://www.national-lottery.co.uk/') | safe }}
+                    </div>
+
                     <div class="o-button-group">
-                        <a class="btn btn--reversed btn--medium"
+                        <a class="btn btn--medium btn--reversed"
                             href="{{ localify('/funding/under10k') }}"
                             id="qa-button-under10k">
                             <span class="u-wide-only">{{ copy.under10k.long }}</span>
                             <span class="u-not-wide">{{ copy.under10k.short }}</span>
                         </a>
-                        <a class="btn btn--reversed btn--medium"
+                        <a class="btn btn--medium btn--reversed"
                             href="{{ localify('/funding/over10k') }}"
                             id="qa-button-over10k">
                             <span class="u-wide-only">{{ copy.over10k.long }}</span>
@@ -33,98 +44,38 @@
                         </a>
                     </div>
                 </div>
-                {% if heroImages.default.caption %}
-                    <div class="super-hero__caption u-desktop-only">
-                        <span class="u-caption js-random-hero__caption">
-                            {{ heroImages.default.caption }}
-                        </span>
-                    </div>
-                {% endif %}
             </div>
         </section>
- 
-
-        {# Case studies #}
-        <section class="u-inner">
-            <h2 class="t2 t--underline">
-                {{ __('global.misc.projectExamples') }}
-            </h2>
-            <ul class="flex-grid flex-grid--3up u-margin-bottom-s">
-                {% for caseStudy in copy.caseStudies %}
+        
+        {# Featured sections #}
+        <section class="u-inner u-margin-bottom">
+            <ul class="flex-grid flex-grid--3up">
+                {% for item in copy.featuredLinks %}
                     <li class="flex-grid__item">
-                        {% call promoCard({
-                            "title": caseStudy.quoteText,
-                            "image": { "url": caseStudy.imageUrl | getImagePath, "alt": caseStudy.quoteName }
-                        }) %}
-                            <p class="u-no-margin"><strong>{{ caseStudy.quoteName }}</strong></p>
-                            {% if caseStudy.quoteNameCaption %}
-                                <p class="u-no-margin">{{ caseStudy.quoteNameCaption }}</p>
-                            {% endif %}
-                            {% if caseStudy.link %}<a href="{{ localify(caseStudy.link) }}"
-                                aria-label="{{ __('global.misc.readMoreAbout', caseStudy.projectName) }}">{% endif %}
-                                {{ caseStudy.projectName }}
-                            {% if caseStudy.link %}</a>{% endif %}
-                        {% endcall %}
+                        {{ miniatureHero({
+                            "title": item.label,
+                            "linkUrl": item.href,
+                            "image": item.image
+                        }) }}
                     </li>
                 {% endfor %}
             </ul>
-
-            <div class="u-margin-bottom-l u-align-center">
-                <a href="{{ localify('/funding/grants') }}"
-                    class="btn btn--outline btn--medium  accent--{{ pageAccent }} a--btn">
-                    {{ __('global.misc.searchGrants') }}
-                </a>
-            </div>
         </section>
 
         {# Latest News #}
-        {% if promotedUpdates.result.length %}
-            <div class="u-border-top u-inner u-padded">
+        {% if promotedUpdates.result.length > 1 %}
+            <section class="u-border-top u-inner u-padded u-margin-bottom">
                 {{ latestUpdates(
                     articles = promotedUpdates.result,
                     title = __('global.misc.latestNews'),
                     allLink = {
                         "url": localify('/news'),
-                        "label": __('global.misc.viewAllNews') 
+                        "label": __('global.misc.viewAllNews')
                     }
                 ) }}   
-            </div>
+            </section>
         {% endif %}
 
-        {# Social Content #}
-        <section class="social-content u-inner-wide-only u-margin-bottom u-accent-border-top-{{ pageAccent }}">
-            <div class="social-content__primary">
-                {# Twitter Feed #}
-                <div class="u-padded">
-                    {% set twitterAccount = globalCopy.brand.twitter  %}
-                    <a class="twitter-timeline" data-dnt="true" data-chrome="noheader" data-tweet-limit="3"
-                        href="https://twitter.com/{{ twitterAccount }}?ref_src=twsrc%5Etfw"
-                    >
-                        Tweets by {{ twitterAccount }}
-                    </a>
-                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                </div>
-            </div>
-            <div class="social-content__secondary">
-                {# Social links #}
-                <div class="o-button-group-block u-padded">
-                    <a class="btn btn--small btn--outline"
-                        href="{{ globalCopy.brand.instagram }}">
-                        <span class="btn__icon">{{ iconInstagram() }}</span>
-                        {{ __('global.misc.followUsOn') }} {{ __('global.misc.instagram') }}
-                    </a>
-                    <a class="btn btn--small btn--outline"
-                        href="{{ globalCopy.brand.facebook }}">
-                        <span class="btn__icon">{{ iconFacebook() }}</span>
-                        {{ __('global.misc.followUsOn') }} {{ __('global.misc.facebook') }}
-                    </a>
-                    <a class="btn btn--small btn--outline"
-                        href="https://www.twitter.com/{{ globalCopy.brand.twitter }}" >
-                        <span class="btn__icon">{{ iconTwitter() }}</span>
-                        {{ __('global.misc.followUsOn') }} {{ __('global.misc.twitter') }}
-                    </a>
-                </div>
-            </div>
-        </section>
+        {{ socialBar() }}
     </main>
 {% endblock %}

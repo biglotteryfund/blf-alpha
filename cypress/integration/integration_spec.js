@@ -45,36 +45,6 @@ describe('common', function() {
         });
     });
 
-    it('should redirect old funding finder', () => {
-        [
-            {
-                originalPath: '/funding/funding-finder',
-                redirectedPath: '/funding/programmes'
-            },
-            {
-                originalPath: '/Home/Funding/Funding Finder',
-                redirectedPath: '/funding/programmes'
-            },
-            {
-                originalPath: '/funding/funding-finder?area=northern+ireland',
-                redirectedPath: '/funding/programmes?location=northernIreland'
-            },
-            {
-                originalPath: '/funding/funding-finder?area=England&amount=up to 10000',
-                redirectedPath: '/funding/programmes?location=england&max=10000'
-            },
-            {
-                originalPath: '/funding/funding-finder?sc=1',
-                redirectedPath: '/funding/programmes/all'
-            }
-        ].forEach(page => {
-            cy.checkRedirect({
-                from: page.originalPath,
-                to: page.redirectedPath
-            });
-        });
-    });
-
     it('should redirect legacy funding programmes', () => {
         [
             {
@@ -146,7 +116,9 @@ describe('user', () => {
             // via https://github.com/auth0/node-jsonwebtoken/issues/162
             expect(res.body.token).to.match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/);
             expect(res.body.email.sendTo).to.equal(username);
-            expect(res.body.email.subject).to.equal('Activate your The National Lottery Community Fund website account');
+            expect(res.body.email.subject).to.equal(
+                'Activate your The National Lottery Community Fund website account'
+            );
         });
     });
 });
@@ -298,6 +270,14 @@ describe('e2e', function() {
             .find('.step-control__quantity')
             .should('contain', 1);
 
+        cy.get('@materialA')
+            .find('button[value="increase"]')
+            .click();
+
+        cy.get('@materialA')
+            .find('.step-control__quantity')
+            .should('contain', 2);
+
         cy.get('@materialB')
             .find('button[value="increase"]')
             .click();
@@ -305,14 +285,6 @@ describe('e2e', function() {
         cy.get('@materialB')
             .find('.step-control__quantity')
             .should('contain', 1);
-
-        cy.get('@materialB')
-            .find('button[value="increase"]')
-            .click();
-
-        cy.get('@materialB')
-            .find('.step-control__quantity')
-            .should('contain', 2);
 
         // Fill in form
         cy.get('#ff-yourName').type('Example', { delay: 0 });
