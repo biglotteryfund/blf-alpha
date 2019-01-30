@@ -16,7 +16,6 @@
         </nav>
 
         <div class="global-container">
-
             {# Status and announcement banners #}
             {% if previewStatus.isDraftOrVersion %}
                 <aside class="announcement-banner announcement-banner--info">
@@ -50,20 +49,8 @@
 
             {% block content %}{% endblock %}
 
-            {% include "includes/footer.njk" %}
+            {% include "includes/global-footer.njk" %}
         </div>
-
-        {%- if enablePrompt -%}
-            <div id="js-active-prompt">
-                <prompt
-                    id='chalkmark-rebrand'
-                    weight='0.6'
-                    message='We are working on improving the website.'
-                    link-url='https://54kuc315.optimalworkshop.com/chalkmark/1aw13cfq'
-                    link-text='Can you spare a few minutes to take a survey?'
-                />
-            </div>
-        {%- endif -%}
 
         {% include "includes/metaFooterJS.njk" %}
     </body>

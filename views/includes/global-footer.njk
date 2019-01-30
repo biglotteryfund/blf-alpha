@@ -27,11 +27,18 @@
             </ul>
         </div>
         <div class="global-footer__meta">
-            <div class="global-footer__address">
-                <p class="global-footer__section-title">{{ globalCopy.brand.title | safe }}</p>
-                <address>{{ __("global.contact.address") | safe }}</address>
-                <p><a href="mailto:{{ __("global.contact.email") | safe }}">{{ __("global.contact.email") | safe }}</a></p>
-                <p>{{ __("global.contact.phone") | safe }}</p>
+            <p class="global-footer__section-title">{{ globalCopy.brand.title | safe }}</p>
+            <div class="global-footer__contact">
+                {% for region in __('global.contact.regions') %}
+                    <p>
+                        <span class="global-footer__contact-phone">
+                            {{ region.label }}: {{ region.phone }}
+                        </span>
+                        <a class="global-footer__contact-email" href="mailto:{{ region.email }}">
+                            {{ __('global.misc.email') | capitalize }}
+                        </a>
+                    </p>
+                {% endfor %}
             </div>
 
             <div class="global-footer__language">

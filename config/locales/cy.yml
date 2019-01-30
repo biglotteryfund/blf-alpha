@@ -32,8 +32,20 @@ global:
     jobs: Swyddi
   contact:
     address: 1 Plough Place, Llundain EC4A 1DE
-    phone: 0300 123 0735
     email: ymholiadau.cymru@cronfagymunedolylg.org.uk
+    regions:
+    - label: Lloegr ac DU gyfan
+      phone: 0345 4 10 20 30
+      email: general.enquiries@tnlcommunityfund.org.uk
+    - label: Gogledd Iwerddon
+      phone: 028 9055 1455
+      email: enquiries.ni@tnlcommunityfund.org.uk
+    - label: Yr Alban
+      phone: 0300 123 7110
+      email: advicescotland@tnlcommunityfund.org.uk
+    - label: Cymru
+      phone: 0300 123 0735
+      email: cymru@cronfagymunedolylg.org.uk
     press:
       title: Sut ydw i'n cysylltu â chi os bydd gennyf gwestiwn am y wasg?
       regions:
@@ -57,30 +69,30 @@ global:
   footerLinks:
     title: Dolenni gwib
     links:
-    - label: Cyfleoedd tendro
-      href: "/welsh/about/customer-service/supplier-zone"
+    - label: "Siarad â ni"
+      href: "/welsh/contact"
+    - label: Swyddi
+      href: "/welsh/jobs"
+    - label: Safonau'r Gymraeg
+      href: "/welsh/about/customer-service/welsh-language-scheme"
+    - label: Cydraddoldeb
+      href: "/welsh/about/customer-service/equalities"
+    - label: Hygyrchedd
+      href: "/welsh/about/customer-service/accessibility"
+    - label: Diogelu Data
+      href: "/welsh/about/customer-service/data-protection"
     - label: Rhyddid Gwybodaeth
       href: "/welsh/about/customer-service/freedom-of-information"
     - label: Dogfennau corfforaethol
       href: "/welsh/about/customer-service/corporate-documents"
+    - label: Cyfleoedd tendro
+      href: "/welsh/about/customer-service/supplier-zone"
     - label: Polisi Preifatrwydd
       href: "/welsh/about/customer-service/privacy-policy"
-    - label: Diogelu Data
-      href: "/welsh/about/customer-service/data-protection"
-    - label: Cydraddoldeb
-      href: "/welsh/about/customer-service/equalities"
-    - label: Safonau'r Gymraeg
-      href: "/welsh/about/customer-service/welsh-language-scheme"
     - label: Cwcis
       href: "/welsh/about/customer-service/cookies"
     - label: Telerau
       href: "/welsh/about/customer-service/terms-of-use"
-    - label: Cyswllt
-      href: "/welsh/contact"
-    - label: Swyddi
-      href: "/welsh/jobs"
-    - label: Hygyrchedd
-      href: "/welsh/about/customer-service/accessibility"
   accessibility:
     skipToContent: Ewch i'r cynnwys
     policy:
