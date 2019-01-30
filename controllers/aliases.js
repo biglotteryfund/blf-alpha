@@ -85,6 +85,7 @@ const aliases = {
     //===== Funding =====//
     '/funding/awards-for-all': '/funding/under10k',
     '/funding/Awards-For-All': '/funding/under10k',
+    '/funding/funding-finder?sc=1': '/funding/programmes/all',
     '/funding/funding-guidance': '/funding',
     '/funding/funding-guidance/applying-for-funding': '/funding',
     '/funding/funding-guidance/applying-for-funding/full-cost-recovery': '/funding/funding-guidance/full-cost-recovery',

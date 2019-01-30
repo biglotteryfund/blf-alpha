@@ -118,10 +118,6 @@ const funding = {
             router: require('./strategic-investments')
         },
         {
-            path: '/funding-finder',
-            router: require('./funding-finder')
-        },
-        {
             path: '/grants',
             router: require('./grants')
         },
