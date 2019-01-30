@@ -1,14 +1,9 @@
 /* =========================================================================
    Utilities: Tones & Accents
    ========================================================================= */
-// Utility classes to help with colour accent theming
-
-/* =========================================================================
-   Tones
-   ========================================================================= */
 
 /* Foreground tones */
-.u-tone-background-brand-primary {
+.u-tone-brand-primary {
     color: get-color('brand', 'primary');
 }
 
@@ -26,109 +21,4 @@
 }
 .u-border-top-brand-primary {
     border-top: 4px solid get-color('brand', 'primary');
-}
-
-.u-border-minor {
-    border-top: 1px solid get-color('border', 'base');
-}
-
-/* =========================================================================
-   Accents
-   ========================================================================= */
-
-// @TODO Replace with .u-accent-border-top-$name class
-.a--border-top {
-    border-top-width: 4px !important;
-    border-top-style: solid;
-}
-
-/**
- * Generate theme classes
- * Each theme listed in palette.scss will generate classes for use below
- * @TODO: Refactor this out, for now we awkwardly overide most colours with the brand colour
- */
-@each $name, $color in $themeColors {
-    $color: get-color('brand', 'primary'); // Override with brand colour until these classes have been removed
-
-    .u-accent-border-top-#{$name} {
-        border-top: 4px solid $color !important;
-    }
-
-    .accent--#{$name} {
-        // text color
-        &.a--text {
-            color: $color;
-
-            // sass magic: get a.accent--$foo.a--text
-            @at-root a#{&} {
-                color: $color;
-                @include on-interact {
-                    color: darken($color, 10%);
-                }
-            }
-        }
-
-        &.a--border-color {
-            border-color: $color;
-        }
-
-        // border on top of elements
-        &.a--border-top {
-            border-top-color: $color;
-        }
-
-        /**
-         * Modifier class which adds a border below the text
-         * (see typography.scss)
-         */
-        .t--underline:after,
-        &.t--underline:after {
-            border-bottom-color: $color;
-        }
-
-        // call-to-action buttons
-        &.a--btn {
-            color: #ffffff;
-            background-color: $color;
-            @include on-interact {
-                background-color: darken($color, 15%);
-            }
-
-            // Handle white buttons with otherwise unreadable text
-            @if $color == #ffffff {
-                color: #000000;
-            }
-        }
-
-        &.btn--outline {
-            $activeState: darken($color, 20%);
-            border-color: $color;
-            color: $color !important;
-
-            .btn__icon {
-                fill: $color !important;
-            }
-
-            @include on-interact {
-                border-color: $activeState !important;
-                color: $activeState !important;
-                .btn__icon {
-                    fill: $activeState !important;
-                }
-            }
-        }
-    }
-
-    .accent-content--#{$name} {
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            &::after {
-                border-color: $color;
-            }
-        }
-    }
 }
