@@ -132,10 +132,6 @@
         margin-bottom: 0.5em;
     }
 
-    .promo-card__summary {
-        @include wrap-words();
-    }
-
     /**
      * Featured variant
      */

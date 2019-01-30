@@ -33,17 +33,31 @@
         }
     }
 
-    .global-footer__section-title {
-        font-size: 14px;
-        font-family: font-stack('display');
-        font-weight: font-weight('display', 'bold');
-        text-transform: uppercase;
-        margin-bottom: 0.75em;
-    }
-
-    .global-footer__address,
+    .global-footer__contact,
     .global-footer__language {
         margin-bottom: $spacingUnit;
+    }
+
+    .global-footer__contact p {
+        margin-bottom: 0.2em;
+    }
+
+    .global-footer__contact-phone {
+        display: inline-block;
+        padding-right: $spacingUnit / 2;
+        margin-right: $spacingUnit / 2;
+        border-right: 1px solid get-color('border', 'base');
+    }
+
+    .global-footer__contact-email {
+        text-decoration: underline;
+    }
+
+    .global-footer__section-title {
+        font-size: 15px;
+        font-family: font-stack('display');
+        font-weight: font-weight('display', 'semibold');
+        margin-bottom: 0.75em;
     }
 
     .global-footer__meta,

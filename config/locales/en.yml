@@ -33,8 +33,20 @@ global:
     jobs: Jobs
   contact:
     address: 1 Plough Place, London, EC4A 1DE
-    phone: 0345 4 10 20 30
     email: general.enquiries@tnlcommunityfund.org.uk
+    regions:
+    - label: England and UK-wide
+      phone: 0345 4 10 20 30
+      email: general.enquiries@tnlcommunityfund.org.uk
+    - label: Northern Ireland
+      phone: 028 9055 1455
+      email: enquiries.ni@tnlcommunityfund.org.uk
+    - label: Scotland
+      phone: 0300 123 7110
+      email: advicescotland@tnlcommunityfund.org.uk
+    - label: Wales
+      phone: 0300 123 0735
+      email: wales@tnlcommunityfund.org.uk
     press:
       title: How do I get in contact if I have a press query?
       regions:
@@ -58,30 +70,30 @@ global:
   footerLinks:
     title: Quick links
     links:
-    - label: Tender and Contract Opportunities
-      href: "/about/customer-service/supplier-zone"
+    - label: Talk to us
+      href: "/contact"
+    - label: Jobs
+      href: "/jobs"
+    - label: Welsh Language Standards
+      href: "/about/customer-service/welsh-language-scheme"
+    - label: Equalities
+      href: "/about/customer-service/equalities"
+    - label: Accessibility
+      href: "/about/customer-service/accessibility"
+    - label: Data Protection
+      href: "/about/customer-service/data-protection"
     - label: Freedom of Information
       href: "/about/customer-service/freedom-of-information"
     - label: Corporate documents
       href: "/about/customer-service/corporate-documents"
+    - label: Tender and Contract Opportunities
+      href: "/about/customer-service/supplier-zone"
     - label: Privacy Policy
       href: "/about/customer-service/privacy-policy"
-    - label: Data Protection
-      href: "/about/customer-service/data-protection"
-    - label: Equalities
-      href: "/about/customer-service/equalities"
-    - label: Welsh Language Standards
-      href: "/about/customer-service/welsh-language-scheme"
     - label: Cookies
       href: "/about/customer-service/cookies"
     - label: Terms
       href: "/about/customer-service/terms-of-use"
-    - label: Contact
-      href: "/contact"
-    - label: Jobs
-      href: "/jobs"
-    - label: Accessibility
-      href: "/about/customer-service/accessibility"
   accessibility:
     skipToContent: Skip to content
     policy:
