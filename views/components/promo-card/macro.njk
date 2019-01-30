@@ -11,8 +11,8 @@ props: {Object}
 - image {Object} { url: {String}, alt: {String} }
 - link {Object} { url: {String}, label: {String} }
 #}
-{% macro promoCard(props, accent = 'pink', featured = false, showBorder = false, isInline = false) %}
-    <div class="promo-card{% if featured %} promo-card--featured{% endif %}{% if isInline %} promo-card--inline{% if showBorder %} u-accent-border-top-{{ accent }}{% endif %}{% endif %}">
+{% macro promoCard(props, featured = false, isInline = false) %}
+    <div class="promo-card{% if featured %} promo-card--featured{% endif %}{% if isInline %} promo-card--inline{% endif %}">
         {% if props.image.url %}
             <div class="promo-card__media">
                 {% if props.link.url %}<a href="{{ props.link.url }}">{% endif %}
