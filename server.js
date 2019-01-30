@@ -119,11 +119,6 @@ function initAppLocals() {
     app.locals.isBilingual = true;
 
     /**
-     * Default pageAccent colour
-     */
-    app.locals.pageAccent = 'brand-primary';
-
-    /**
      * Hotjar ID
      */
     app.locals.hotjarId = config.get('features.enableHotjar') && config.get('hotjarId');

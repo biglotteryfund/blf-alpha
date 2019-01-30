@@ -55,7 +55,6 @@ function initFormRouter(form) {
         res.locals.copy = copy;
         res.locals.formTitle = copy.title;
         res.locals.isBilingual = form.isBilingual;
-        res.locals.pageAccent = form.pageAccent || res.locals.pageAccent;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
         next();
