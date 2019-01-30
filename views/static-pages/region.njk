@@ -75,14 +75,8 @@
         </div>
     {% endset %}
 
-    <main role="main">
-        {{
-            hero(
-                accent = pageAccent,
-                titleText = title,
-                image = pageHero.image
-            )
-        }}
+    <main role="main" id="content">
+        {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
             <section class="content-box content-box--tinted

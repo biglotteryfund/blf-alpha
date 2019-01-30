@@ -5,11 +5,7 @@
 
 {% block content %}
     <main role="main" id="content">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+        {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
             {% call contentBox(pageAccent) %}

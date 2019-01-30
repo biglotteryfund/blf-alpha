@@ -8,11 +8,7 @@
 
 {% block content %}
     <main role="main" id="content">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+        {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
             <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">

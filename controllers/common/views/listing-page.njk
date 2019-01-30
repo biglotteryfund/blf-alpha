@@ -10,14 +10,10 @@
 
 {% block content %}
     {% if pageHero.image %}
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+        {{ hero(title, pageHero.image) }}
     {% endif %}
 
-    <main role="main" id="content" {% if pageHero.image %}class="nudge-up"{% endif %} >
+    <main role="main" id="content" {% if pageHero.image %}class="nudge-up"{% endif %}>
         {% if not pageHero %}
             {{ pageTitle(title) }}
         {% endif %}

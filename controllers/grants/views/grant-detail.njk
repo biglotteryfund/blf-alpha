@@ -18,11 +18,7 @@
 
     <main role="main" id="content" class="js-past-grants-detail">
         {% if pageHero %}
-            {{ hero(
-                titleText = title,
-                image = pageHero.image,
-                accent = pageAccent
-            ) }}
+            {{ hero(title, pageHero.image) }}
         {% endif %}
 
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if pageHero %} nudge-up{% endif %}">

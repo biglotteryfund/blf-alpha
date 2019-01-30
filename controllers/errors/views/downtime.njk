@@ -2,11 +2,7 @@
 {% from "components/hero.njk" import hero with context %}
 
 {% block content %}
-    {{ hero(
-        titleText = title,
-        image = fallbackHeroImage,
-        accent = pageAccent
-    ) }}
+    {{ hero(title, pageHero.image) }}
 
     <main class="nudge-up">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">

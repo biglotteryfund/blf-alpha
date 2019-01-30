@@ -18,15 +18,8 @@
 {% endmacro %}
 
 {% block content %}
-    {% set pageAccent = 'blue' %}
-
-    <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
-
+    <main role="main" id="content">
+        {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
             <div class="content-box content-box--borderless u-inner-wide-only accent--{{ pageAccent }} a--border-top">

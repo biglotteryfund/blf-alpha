@@ -12,11 +12,7 @@
 {% block content %}
     <main role="main" id="content">
         {% if pageHero %}
-            {{ hero(
-                titleText = title,
-                image = pageHero.image,
-                accent = pageAccent
-            ) }}
+            {{ hero(title, pageHero.image) }}
         {% endif %}
 
         {% if pageHero %}<div class="nudge-up">{% endif %}

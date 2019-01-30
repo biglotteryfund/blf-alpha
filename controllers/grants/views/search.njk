@@ -25,11 +25,7 @@
 
 {% block content %}
     <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+        {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
             <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">

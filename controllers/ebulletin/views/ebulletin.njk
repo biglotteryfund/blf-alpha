@@ -5,11 +5,7 @@
 {% extends "layouts/main.njk" %}
 
 {% block content %}
-    {{ hero(
-        titleText = title,
-        image = pageHero.image,
-        accent = pageAccent
-    ) }}
+    {{ hero(title, pageHero.image) }}
 
     <main role="main" class="nudge-up">
         <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">

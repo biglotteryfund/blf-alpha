@@ -6,11 +6,7 @@
 
 {% block content %}
     <main role="main">
-        {{ hero(
-            titleText = title,
-            image = fallbackHeroImage,
-            accent = pageAccent
-        ) }}
+        {{ hero(title, fallbackHeroImage) }}
 
         <div class="nudge-up">
             {% call contentBox(pageAccent) %}
