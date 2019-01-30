@@ -18,6 +18,11 @@
         font-size: 18px;
     }
 
+    // Fixes an IE bug where columns were hugely stretched
+    .logo-card__img {
+        min-height: 1px;
+    }
+
     .logo-card__header {
         background-color: darken(get-color('background', 'light-neutral'), 10%);
     }
@@ -36,6 +41,7 @@
     }
 
     .logo-card__body {
+        min-height: 1px;
         flex-grow: 1;
         display: flex;
         flex-direction: column;
