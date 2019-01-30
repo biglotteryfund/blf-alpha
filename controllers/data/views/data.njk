@@ -5,11 +5,11 @@
 
 {% macro mapPane(id, title, stats, isActive = false) %}
     <section id="region-{{ id }}" class="js-tab-pane tab__pane{% if isActive %} is-active{% endif %}">
-        <article class="map-info accent--pink a--border-top u-padded">
+        <article class="map-info u-border-top-brand-primary u-padded">
             <h3 class="t2 t--underline">{{ title }}</h3>
             {% for stat in stats %}
                 <p class="map-info__stat">
-                    <span class="map-info__stat-data t2 accent--pink a--text">{{ stat.value }}</span>
+                    <span class="map-info__stat-data u-tone-brand-primary">{{ stat.value }}</span>
                     <span class="map-info__stat-caption"><strong>{{ stat.label }}</strong></span>
                 </p>
             {% endfor %}
@@ -18,25 +18,18 @@
 {% endmacro %}
 
 {% block content %}
-    {% set pageAccent = 'blue' %}
-
-    <main role="main">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
-
+    <main role="main" id="content">
+        {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
-            <div class="content-box content-box--borderless u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.keyStats }}</h2>
+            <div class="content-box content-box--borderless u-inner-wide-only">
+                <h2 class="t2 t--underline">{{ copy.keyStats }}</h2>
                 {{ statsGrid(dataStats.stats) }}
             </div>
 
-            <aside class="map-holder u-accent-border-top-{{ pageAccent }}">
+            <aside class="map-holder u-border-top-brand-primary u-margin-bottom">
                 <div class="map-holder__inner u-inner-wide-only u-padded">
-                    <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.mapTitle }}</h2>
+                    <h2 class="t2 t--underline">{{ copy.mapTitle }}</h2>
 
                     <div class="map-wrapper" role="tablist">
                         {% include "includes/uk-countries.njk" %}
@@ -70,19 +63,16 @@
                 </div>
             </aside>
 
-            <div class="content-box content-box--borderless u-inner-wide-only accent--{{ pageAccent }} a--border-top u-margin-top" id="open-data">
-                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ copy.openData.title}}</h2>
-                <div class="s-prose">
-                    <p>{{ copy.openData.content.intro | safe }}</p>
-                    <ul>
-                        {% for link in copy.openData.content.links %}
-                            <li><a href="{{ link.href }}">{{ copy.openData.linkPrefix }} {{ link.label }}</a></li>
-                        {% endfor %}
-                    </ul>
-                    <p>{{ copy.openData.content.outro | safe }}</p>
-                </div>
-            </div>
-
+            <section class="s-prose u-padded u-inner" id="open-data">
+                <h2>{{ copy.openData.title}}</h2>
+                <p>{{ copy.openData.content.intro | safe }}</p>
+                <ul>
+                    {% for link in copy.openData.content.links %}
+                        <li><a href="{{ link.href }}">{{ copy.openData.linkPrefix }} {{ link.label }}</a></li>
+                    {% endfor %}
+                </ul>
+                <p>{{ copy.openData.content.outro | safe }}</p>
+            </section>
         </div>
     </main>
 {% endblock %}

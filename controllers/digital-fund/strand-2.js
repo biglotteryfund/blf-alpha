@@ -10,11 +10,6 @@ const features = config.get('features');
 
 const router = express.Router();
 
-router.use((req, res, next) => {
-    res.locals.pageAccent = 'cyan';
-    next();
-});
-
 router.get('/', (req, res) => {
     res.render(path.resolve(__dirname, './views/strand'), {
         title: res.locals.copy.strand2.title,

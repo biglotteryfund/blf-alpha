@@ -6,14 +6,10 @@
 
 {% block content %}
     <main role="main">
-        {{ hero(
-            titleText = title,
-            image = fallbackHeroImage,
-            accent = pageAccent
-        ) }}
+        {{ hero(title, fallbackHeroImage) }}
 
         <div class="nudge-up">
-            {% call contentBox(pageAccent) %}
+            {% call contentBox() %}
                 <h2>This document has been archived</h2>
                 <p>The file or document you were looking for has been archived and is no longer available.</p>
                 <p>If you think this is a mistake or if you still need access to this document, please let us know below and we'll double check if it's something that should still be available on our website.</p>

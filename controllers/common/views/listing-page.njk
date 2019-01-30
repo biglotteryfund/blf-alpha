@@ -10,20 +10,17 @@
 
 {% block content %}
     {% if pageHero.image %}
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+        {{ hero(title, pageHero.image) }}
     {% endif %}
 
-    <main role="main" id="content" {% if pageHero.image %}class="nudge-up"{% endif %} >
+    <main role="main" id="content" {% if pageHero.image %}class="nudge-up"{% endif %}>
         {% if not pageHero %}
             {{ pageTitle(title) }}
         {% endif %}
 
-        <section class="content-box u-inner-wide-only accent--blue a--border-top">
+        <section class="content-box u-inner-wide-only">
             {{ breadcrumbTrail(breadcrumbs) }}
+
             <div class="s-prose">
                 {{ content.introduction | safe }}
             </div>
@@ -50,7 +47,7 @@
         {% endif %}
 
         {% if content.outro %}
-            {% call contentBox(pageAccent) %}
+            {% call contentBox() %}
                 {{ content.outro | safe }}
             {% endcall %}
         {% endif %}

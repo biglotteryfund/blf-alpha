@@ -10,7 +10,7 @@
     {% for part in contentBlocks  %}
         <div class="content-slice">
             <div class="content-slice__primary">
-                <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                <div class="s-prose u-constrained-content-wide">
                     {% if part.title %}
                         <h2>{{ part.title }}</h2>
                     {% endif %}
@@ -23,27 +23,23 @@
 
 {% block content %}
 <main role="main">
-    {{ hero(
-        titleText = title,
-        image = pageHero.image,
-        accent = pageAccent
-    ) }}
+    {{ hero(title, pageHero.image) }}
 
     <div class="nudge-up">
-        {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = pageHero.credit) %}
+        {% call contentBoxIntro(breadcrumbs, heroCredit = pageHero.credit) %}
             {{ strategicProgramme.intro | safe }}
         {% endcall %}
 
         <section class="u-inner-wide-only">
             {% set tabContentAims -%}
-                <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                <div class="s-prose u-constrained-content-wide">
                     {{ strategicProgramme.aims | safe }}
                 </div>
             {%- endset %}
 
             {% set tabContentPartnerships -%}
                 {% if strategicProgramme.programmePartners.partners.length > 0 %}
-                    <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                    <div class="s-prose u-constrained-content-wide">
                         {{ strategicProgramme.programmePartners.intro | safe }}
                     </div>
                     <div class="u-margin-bottom">
@@ -63,7 +59,7 @@
                     </div>
                 {% endif %}
                 {% if strategicProgramme.researchPartners.intro %}
-                    <div class="s-prose u-constrained-content-wide accent-content--{{ pageAccent }}">
+                    <div class="s-prose u-constrained-content-wide">
                         {{ strategicProgramme.researchPartners.intro | safe }}
                     </div>
                 {% endif %}
@@ -97,7 +93,7 @@
         {% if relatedResearch and relatedResearch.length > 2 %}
             <section class="u-tone-background-tint u-padded-vertical-l">
                 <div class="u-inner">
-                    <h2 class="t2 t--underline accent--{{ pageAccent }}">
+                    <h2 class="t2 t--underline">
                         Research and insights from {{ entry.title }}
                     </h2>
                 </div>

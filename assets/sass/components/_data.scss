@@ -218,6 +218,10 @@
         display: block;
     }
 
+    .map-info__stat-data {
+        font-weight: font-weight('body', 'bold');
+    }
+
     .map-info__stat-caption {
         font-size: 13px;
     }

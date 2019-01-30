@@ -15,8 +15,7 @@
 {% endmacro %}
 
 {% macro stepControl(material, product, quantity) %}
-    <form class="step-control" method="post"
-          action="{{ formActionBase }}/update-basket">
+    <form class="step-control" method="post" action="{{ formActionBase }}/update-basket">
         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
 
         <input type="hidden" name="materialId" value="{{ material.itemId }}">
@@ -115,23 +114,23 @@
 
 {% block contentPrimary %}
     {% if orderStatus == FORM_STATES.SUBMISSION_SUCCESS %}
-        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-            <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.success.title }}</h2>
-            <h3 class="t2 accent--{{ pageAccent }} a--text">{{ copy.orderSubmitted.success.subtitle }}</h3>
+        <div class="content-box u-inner-wide-only">
+            <h2 class="t2 u-tone-brand-primary">{{ copy.orderSubmitted.success.title }}</h2>
+            <h3 class="t2 u-tone-brand-primary">{{ copy.orderSubmitted.success.subtitle }}</h3>
             <p>{{ copy.orderSubmitted.success.body | safe }}</p>
         </div>
     {% elseif orderStatus == FORM_STATES.SUBMISSION_ERROR %}
-        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-            <h2 class="t2 accent--pink a--text">{{ copy.orderSubmitted.failure.title }}</h2>
-            <h3 class="t2 accent--{{ pageAccent }} a--text">{{ copy.orderSubmitted.failure.subtitle }}</h3>
+        <div class="content-box u-inner-wide-only">
+            <h2 class="t2 u-tone-brand-primary">{{ copy.orderSubmitted.failure.title }}</h2>
+            <h3 class="t2 u-tone-brand-primary">{{ copy.orderSubmitted.failure.subtitle }}</h3>
         </div>
     {% else %}
 
         {# Warn about validation errors and link to anchor #}
         {% if orderStatus == FORM_STATES.VALIDATION_ERROR %}
-            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                <h2 class="t2 accent--pink a--text">{{ copy.validationError.title }}</h2>
-                <h3 class="t2 accent--{{ pageAccent }} a--text">
+            <div class="content-box u-inner-wide-only">
+                <h2 class="t2 u-tone-brand-primary">{{ copy.validationError.title }}</h2>
+                <h3 class="t2 u-tone-brand-primary">
                     <a href="#{{ formAnchorName }}">{{ copy.validationError.link }}</a>
                 </h3>
             </div>
@@ -141,17 +140,17 @@
         {{ super() }}
 
         <div id="js-vue" class="no-vue" data-orders="{{ orders | dump }}">
-            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="content-box u-inner-wide-only">
                 <h2>{{ copy.locationPrompt }}</h2>
 
                 <div class="o-button-group-flex">
                     <a href="#monolingual"
-                        class="btn btn--small accent--{{ pageAccent }} a--btn"
+                        class="btn btn--small"
                         v-on:click.prevent="toggleItemLanguage('monolingual')">
                         {{ copy.locations.monolingual }}
                     </a>
                     <a href="#bilingual"
-                        class="btn btn--small accent--{{ pageAccent }} a--btn"
+                        class="btn btn--small"
                         v-on:click.prevent="toggleItemLanguage('bilingual')">
                         {{ copy.locations.bilingual }}
                     </a>
@@ -174,7 +173,7 @@
 
                 </div>
 
-                <div class="u-inner accent--{{ pageAccent }} a--border-top p" id="{{ formAnchorName }}">
+                <div class="u-inner" id="{{ formAnchorName }}">
                     <div class="u-padded">
                         <h3 class="t2">{{ copy.enterDeliveryAddress }}</h3>
 

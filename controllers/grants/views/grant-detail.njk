@@ -18,36 +18,32 @@
 
     <main role="main" id="content" class="js-past-grants-detail">
         {% if pageHero %}
-            {{ hero(
-                titleText = title,
-                image = pageHero.image,
-                accent = pageAccent
-            ) }}
+            {{ hero(title, pageHero.image) }}
         {% endif %}
 
-        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top{% if pageHero %} nudge-up{% endif %}">
+        <div class="content-box u-inner-wide-only{% if pageHero %} nudge-up{% endif %}">
             {{ breadcrumbTrail(breadcrumbs) }}
 
             <div class="content-sidebar">
                 <div class="content-sidebar__primary">
-                    <div class="u-constrained-wide accent--pink">
+                    <div class="u-constrained-wide">
                         <h1>{{ title }}</h1>
 
                         {% if projectStory %}
                             <div class="s-prose">
-                                {{ flexibleContent(projectStory.content, pageAccent) }}
+                                {{ flexibleContent(projectStory.content) }}
                             </div>
 
                             {% if projectStory.outro %}
                                 <aside class="u-tone-background-tint u-padded u-text-medium">
-                                    <h2 class="t3 u-tone-background-brand-primary">{{ __('global.misc.moreInformation') }}</h2>
+                                    <h2 class="t3 u-tone-brand-primary">{{ __('global.misc.moreInformation') }}</h2>
                                     <div class="s-prose">
                                         {{ projectStory.outro | safe }}
                                     </div>
                                 </aside>
                             {% endif %}
                         {% elseif grant.description !== grant.title %}
-                            <h2 class="t3 t--underline accent--pink">{{ copy.grantDetail.projectOverview }}</h2>
+                            <h2 class="t3 t--underline">{{ copy.grantDetail.projectOverview }}</h2>
                             <p class="u-wrap-words">{{ grant.description }}</p>
                         {% endif %}
 
@@ -97,7 +93,7 @@
         <div class="u-inner-wide-only">
             <div class="flex-grid">
                 <div class="flex-grid__item">
-                    {% call contentBox(pageAccent, isConstrained = false) %}
+                    {% call contentBox(isConstrained = false) %}
                         <h2>{{ copy.grantDetail.fields.recipientOrg }}</h2>
                         {% for org in grant.recipientOrganization %}
                             <dl class="o-definition-list o-definition-list--compact u-text-small">
@@ -133,8 +129,7 @@
                             </dl>
 
                             <p>
-                                <a class="btn btn--small btn--outline accent--pink"
-                                    href="./recipients/{{ org.id }}">
+                                <a class="btn btn--small btn--outline" href="./recipients/{{ org.id }}">
                                     {{ copy.grantDetail.viewAllForRecipient }}
                                 </a>
                             </p>

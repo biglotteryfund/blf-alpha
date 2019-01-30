@@ -22,7 +22,7 @@
 
 {% macro questionsPreview(steps, copy) %}
     {% for step in steps %}
-        <div class="step-preview accent-content--{{ pageAccent }}">
+        <div class="step-preview">
             {% set stepCopy = copy.steps[loop.index0] %}
             <h3 class="step-preview__title">{{ loop.index }}. {{ stepCopy.name }}</h3>
             {% for fieldset in step.fieldsets %}

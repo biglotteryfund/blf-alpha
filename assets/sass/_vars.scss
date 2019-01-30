@@ -67,11 +67,9 @@ $typography: (
 // Global Variables: Colour Palette
 // ========================================================================= //
 
-$brandPink: #e5007d;
-
 $colors: (
     brand: (
-        primary: $brandPink,
+        primary: #e5007d,
         primary-tint: rgba(229, 0, 125, 0.9),
         primary-light-wash: #f9e9f2,
         secondary-blue: #002b57,
@@ -100,16 +98,4 @@ $colors: (
         base: #dfe0e2,
         warning: #c6183d
     )
-);
-
-// =========================================================================
-// Global Variables: Themes
-// ========================================================================= //
-// @TODO: Replace post-rebrand
-
-$themeColors: (
-    'pink': $brandPink,
-    'blue': #1a44a1,
-    'turquoise': #00adef,
-    'cyan': #009098
 );

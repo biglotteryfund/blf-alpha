@@ -8,14 +8,10 @@
 
 {% block content %}
     <main role="main" id="content">
-        {{ hero(
-            titleText = title,
-            image = pageHero.image,
-            accent = pageAccent
-        ) }}
+        {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box u-inner-wide-only">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained-content-wide">
@@ -38,9 +34,9 @@
                 ] )}}
             </section>
 
-            <section id="segment-1" class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <section id="segment-1" class="content-box u-inner-wide-only">
                 <div class="content-sidebar">
-                    <div class="content-sidebar__primary accent-content--{{ pageAccent }}">
+                    <div class="content-sidebar__primary">
                         <h2 class="t2 t--underline">{{ copy.process.title }}</h2>
                         <p>{{ copy.process.introduction }}</p>
                         {% if enableDigitalFundApplications %}
@@ -59,7 +55,7 @@
                                         url: eligibilityLink,
                                         label: copy.process.getStarted.linkText
                                     }
-                                }, accent = pageAccent) %}
+                                }) %}
                                     {{ copy.process.getStarted.body | safe }}
                                 {% endcall %}
                             </div>
@@ -68,7 +64,7 @@
                 </div>
             </section>
 
-            {% call contentBox(pageAccent, id='segment-2') %}
+            {% call contentBox(id='segment-2') %}
                 <h2>{{ copy.eligibility.title }}</h2>
                 <ul>
                     {% for criteria in copy.eligibility[currentStrand].criteria %}
@@ -78,51 +74,47 @@
                 {{ copy.eligibility.commonCriteria.body | safe }}
             {% endcall %}
 
-            {% call contentBox(pageAccent, id="segment-3") %}
+            {% call contentBox(id="segment-3") %}
                 <h2>{{ copy.spending.title }}</h2>
                 {{ copy.spending.body | safe }}
             {% endcall %}
 
-            {% call contentBox(pageAccent, id="segment-4") %}
+            {% call contentBox(id="segment-4") %}
                 <h2>{{ copy.successFactors.title }}</h2>
                 {{ copy.successFactors[currentStrand] | safe }}
             {% endcall %}
 
             {% if enableDigitalFundApplications %}
-                {% call contentBox(pageAccent, id="segment-5") %}
+                {% call contentBox(id="segment-5") %}
                     <h2>{{ copy.process.getStarted.title }}</h2>
                     <p>{{ copy.process.getStarted.teaser }}</p>
                     <p>
-                        <a href="{{ eligibilityLink }}"
-                            class="btn btn--medium accent--{{ pageAccent }} a--btn">
+                        <a href="{{ eligibilityLink }}" class="btn btn--medium">
                             {{ copy.process.getStarted.linkText }}
                         </a>
                     </p>
                 {% endcall %}
             {% endif %}
 
-            {% call contentBox(pageAccent, id="segment-6") %}
+            {% call contentBox(id="segment-6") %}
                 <h2>{{ copy.questions.title }}</h2>
                 {{ copy.questions.body | safe }}
             {% endcall %}
 
-            {% call contentBox(pageAccent) %}
+            {% call contentBox() %}
                 <h2>{{ copy.wayfinding.title }}</h2>
 
-                <p><a href="{{ localify('/funding/programmes/digital-fund/assistance') }}"
-                    class="btn btn--medium accent--pink a--btn">
+                <p><a href="{{ localify('/funding/programmes/digital-fund/assistance') }}" class="btn btn--medium">
                     {{ copy.wayfinding.assistance }}
                 </a></p>
 
                 {% if enableDigitalFundApplications %}
                     {% if currentStrand === 'strand1' %}
-                        <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
-                            class="btn btn--medium accent--cyan a--btn">
+                        <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}" class="btn btn--medium">
                             {{ copy.wayfinding.strand2 }}
                         </a></p>
                     {% else %}
-                        <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
-                            class="btn btn--medium accent--blue a--btn">
+                        <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}" class="btn btn--medium">
                             {{ copy.wayfinding.strand1 }}
                         </a></p>
                     {% endif %}

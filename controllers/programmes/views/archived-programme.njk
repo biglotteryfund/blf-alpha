@@ -16,7 +16,7 @@
     <main role="main">
         {{ pageTitle(title) }}
 
-        {% call contentBoxIntro(breadcrumbs, pageAccent) %}
+        {% call contentBoxIntro(breadcrumbs) %}
             {% if entry.description %}
                 {{ entry.description | safe }}
             {% endif %}

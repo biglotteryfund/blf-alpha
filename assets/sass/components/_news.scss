@@ -117,29 +117,6 @@
 }
 
 /* =========================================================================
-   Blog Teaser (@TODO: Replace with more general article-teaser)
-   ========================================================================= */
-
-.blog-teaser {
-    margin-bottom: 0;
-}
-.blog-teaser__header {
-    margin-bottom: $spacingUnit / 2;
-}
-.blog-teaser__title {
-    margin-bottom: 0;
-}
-.blog-teaser__meta {
-    font-size: 18px;
-    margin-bottom: $spacingUnit / 2;
-    color: get-color('text', 'note');
-}
-.blog-teaser__summary {
-    font-size: 18px;
-    margin-bottom: 0;
-}
-
-/* =========================================================================
    Blogpost Attribution
    ========================================================================= */
 

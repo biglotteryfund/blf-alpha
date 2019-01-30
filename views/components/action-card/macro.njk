@@ -1,4 +1,4 @@
-{% macro actionCard(props, accent=  false) %}
+{% macro actionCard(props) %}
     <div class="card">
         <header class="card__header">
             <h3 class="card__title">{{ props.title }}</h3>
@@ -8,8 +8,7 @@
         </div>
         {% if props.link.url %}
             <div class="card__footer">
-                <a href="{{ props.link.url }}"
-                    class="btn btn--medium{% if accent %} accent--{{ accent }} a--btn{% endif %}">
+                <a href="{{ props.link.url }}" class="btn btn--medium">
                     {{ props.link.label }}
                 </a>
             </div>
