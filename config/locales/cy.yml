@@ -79,8 +79,6 @@ global:
       href: "/welsh/contact"
     - label: Swyddi
       href: "/welsh/jobs"
-    - label: Map o'r wefan
-      href: "/welsh/sitemap"
     - label: Hygyrchedd
       href: "/welsh/about/customer-service/accessibility"
   accessibility:

@@ -80,8 +80,6 @@ global:
       href: "/contact"
     - label: Jobs
       href: "/jobs"
-    - label: Site map
-      href: "/sitemap"
     - label: Accessibility
       href: "/about/customer-service/accessibility"
   accessibility:
