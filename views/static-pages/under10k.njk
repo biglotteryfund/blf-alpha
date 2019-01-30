@@ -8,10 +8,10 @@
         {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
-            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="content-box u-inner-wide-only">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
-                <div class="s-prose accent-content--{{ pageAccent }}">
+                <div class="s-prose">
                     <p>{{ copy.intro }}</p>
 
                     <ul>
@@ -43,9 +43,7 @@
 
                 <div class="o-button-group-flex">
                     {% for link in links %}
-                        <a href="{{ link.url }}"
-                            class="btn accent--{{ pageAccent }} a--btn btn--small"
-                            id="qa-button-{{ link.id }}">
+                        <a href="{{ link.url }}" class="btn btn--small" id="qa-button-{{ link.id }}">
                             {{ link.label }}
                         </a>
                     {% endfor %}
@@ -69,7 +67,7 @@
             {% endif %}
 
             <div class="u-inner u-align-center u-margin-bottom-l">
-                <a href="{{ localify('/funding/grants') }}" class="btn btn--outline btn--medium accent--{{ pageAccent }} a--btn">
+                <a href="{{ localify('/funding/grants') }}" class="btn btn--outline btn--medium">
                     {{ __('global.misc.searchGrants') }}
                 </a>
             </div>

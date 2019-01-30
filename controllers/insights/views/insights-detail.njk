@@ -12,7 +12,7 @@
 
         <div class="nudge-up">
             {# Intro #}
-            <section class="content-box u-inner-wide-only u-accent-border-top-{{ pageAccent }}">
+            <section class="content-box u-inner-wide-only">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="content-sidebar">
@@ -46,8 +46,7 @@
                         {% if entry.documents %}
                             {{ documentsCard(
                                 title = extraCopy.documents,
-                                documents = entry.documents,
-                                accent = pageAccent
+                                documents = entry.documents
                             ) }}
                         {% endif %}
 
@@ -77,7 +76,7 @@
 
             {# Content #}
             {% for section in entry.sections %}
-                <section class="content-box u-inner-wide-only u-accent-border-top-{{ pageAccent }}" id="segment-{{ loop.index }}">
+                <section class="content-box u-inner-wide-only" id="segment-{{ loop.index }}">
                     {% if section.prefix %}<p class="u-prefix">{{ section.prefix }}</p>{% endif %}
                     <h2 class="t--underline">{{ section.title }}</h2>
 

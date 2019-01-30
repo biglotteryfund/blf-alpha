@@ -11,7 +11,7 @@
         {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box u-inner-wide-only">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained-content-wide">
@@ -28,14 +28,14 @@
                 }] )}}
             </section>
 
-            {% call contentBox(pageAccent, id="segment-1") %}
+            {% call contentBox(id="segment-1") %}
                 <h2>{{ copy.successFactors.title }}</h2>
 
                 <p>{{ copy.strand1.introduction | safe }}</p>
                 {{ copy.successFactors.strand1 | safe  }}
 
                 <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
-                    class="btn btn--medium accent--{{ pageAccent }} a--btn u-margin-bottom">
+                    class="btn btn--medium u-margin-bottom">
                     {{ copy.strand1.startApplying }}
                 </a></p>
 
@@ -43,14 +43,14 @@
                 {{ copy.successFactors.strand2 | safe  }}
 
                 <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
-                    class="btn btn--medium accent--{{ pageAccent }} a--btn u-margin-bottom">
+                    class="btn btn--medium u-margin-bottom">
                     {{ copy.strand2.startApplying }}
                 </a></p>
 
                 {{ copy.successFactors.equalities | safe }}
             {% endcall %}
 
-            {% call contentBox(pageAccent, id = "segment-2") %}
+            {% call contentBox(id = "segment-2") %}
                 <h2>{{ copy.eligibility.title }}</h2>
 
                 <p><strong>{{ copy.eligibility.commonCriteria.summary }}</strong></p>
@@ -71,12 +71,12 @@
                 </ul>
             {% endcall %}
 
-            {% call contentBox(pageAccent, id="segment-3") %}
+            {% call contentBox(id="segment-3") %}
                 <h2>{{ copy.spending.title }}</h2>
                 {{ copy.spending.body | safe }}
             {% endcall %}
 
-            {% call contentBox(pageAccent) %}
+            {% call contentBox() %}
                 <h2>{{ copy.getStarted.assistance.title }}</h2>
                 {{ copy.getStarted.assistance.body | safe }}
                 {{ copy.assistance.actionText | safe }}

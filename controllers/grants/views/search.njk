@@ -28,7 +28,7 @@
         {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
-            <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <div class="content-box u-inner-wide-only">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose">
@@ -115,7 +115,7 @@
 
                     {# Search totals #}
                     <div class="grants-search__meta">
-                        <h2 class="grants-search__total accent--{{ pageAccent }} t--underline">
+                        <h2 class="grants-search__total t--underline">
                             <grants-total-summary
                                 :total-results="totalResults"
                                 :total-awarded="totalAwarded"

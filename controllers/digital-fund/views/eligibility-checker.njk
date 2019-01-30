@@ -8,7 +8,7 @@
         {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box u-inner-wide-only">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="s-prose u-constrained-wide">
@@ -16,12 +16,10 @@
 
                     <p><strong>{{ strandCopy.question }}</strong></p>
                     <div class="o-button-group u-margin-bottom">
-                        <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
-                           href="{{ yesUrl }}">
+                        <a class="btn btn--medium" href="{{ yesUrl }}">
                             {{ __('global.misc.yes') }}
                         </a>
-                        <a class="btn btn--medium accent--{{ pageAccent }} a--btn"
-                           href="{{ noUrl }}">
+                        <a class="btn btn--medium" href="{{ noUrl }}">
                             {{ __('global.misc.no') }}
                         </a>
                     </div>

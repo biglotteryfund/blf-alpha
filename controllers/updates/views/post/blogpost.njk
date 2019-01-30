@@ -79,7 +79,7 @@
     <main role="main">
         {{ pageTitle(title) }}
 
-        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+        <section class="content-box u-inner-wide-only">
             {{ breadcrumbTrail(breadcrumbs) }}
 
             <div class="content-sidebar">
@@ -89,7 +89,7 @@
                             {{ entry.body | safe }}
                         </div>
                     {% else %}
-                        {{ flexibleContent(entry.content, pageAccent) }}
+                        {{ flexibleContent(entry.content) }}
                     {% endif %}
                 </div>
 
@@ -109,7 +109,7 @@
             {% endif %}
 
             <div class="o-button-group-flex u-gutter-half u-margin-top">
-                <a class="btn btn--small btn--outline accent--{{ pageAccent }}"
+                <a class="btn btn--small btn--outline"
                     href="https://www.facebook.com/sharer.php?u={{ getCurrentAbsoluteUrl() }}"
                     data-ga-on="click"
                     data-ga-event-category="Facebook"
@@ -117,7 +117,7 @@
                     <span class="btn__icon">{{ iconFacebook() }}</span>
                     {{ __('global.misc.share.facebook') }}
                 </a>
-                <a class="btn btn--small btn--outline accent--{{ pageAccent }}"
+                <a class="btn btn--small btn--outline"
                     href="https://twitter.com/intent/tweet?url={{ getCurrentAbsoluteUrl() }}&text={{ entry.title }}&via={{ globalCopy.brand.twitter }}"
                     data-ga-on="click"
                     data-ga-event-category="Twitter"

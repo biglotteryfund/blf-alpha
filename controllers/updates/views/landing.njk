@@ -14,7 +14,7 @@
         {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
-            {% call contentBox(pageAccent) %}
+            {% call contentBox() %}
                 <p>{{ copy.introductions.newsLanding }}</p>
             {% endcall %}
 
@@ -61,12 +61,11 @@
             </section>
 
             {# Press releases #}
-            {% call contentBox(pageAccent) %}
+            {% call contentBox() %}
                 <h2>{{ copy.types['press-releases'].plural }}</h2>
                 <p>{{ copy.introductions.pressReleases }}</p>
                 <p>
-                    <a href="{{ localify('/news/press-releases') }}"
-                       class="btn accent--{{ pageAccent }} a--btn btn--medium">
+                    <a href="{{ localify('/news/press-releases') }}" class="btn btn--medium">
                         {{ copy.pressRelease.viewLatestPressReleases }}
                     </a>
                 </p>

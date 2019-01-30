@@ -6,7 +6,7 @@
 
 {% block content %}
     <main role="main" id="content">
-        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+        <div class="content-box u-inner-wide-only">
             <div class="s-prose u-constrained-wide">
                 <h1>{{ title }}</h1>
 
@@ -14,7 +14,7 @@
                     {{ stepCopy.confirmation }}
                 </div>
 
-                <h2 class="t2 t--underline accent--{{ pageAccent }}">{{ stepCopy.nextStepsTitle }}</h2>
+                <h2 class="t2 t--underline">{{ stepCopy.nextStepsTitle }}</h2>
                 <p>{{ stepCopy.message }}</p>
 
                 {{ inlineFeedback(

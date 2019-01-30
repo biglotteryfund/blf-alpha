@@ -134,14 +134,14 @@
     {#{{ super() }}#}
 
     {# @TODO put this text into the CMS and uncomment super() above #}
-    <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+    <section class="content-box u-inner-wide-only">
         {{ copy.intro | safe }}
     </section>
 
-    <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top" id="segment-1">
+    <div class="content-box u-inner-wide-only" id="segment-1">
         <p><strong>{{ copy.locationPrompt }}</strong></p>
 
-        <div class="o-button-group-flex u-margin-bottom-l">
+        <div class="o-button-group-flex">
             <a href="#region1" class="btn btn--small">
                 {{ copy.locations.monolingual }}
             </a>
@@ -150,10 +150,13 @@
             </a>
         </div>
 
-        <p class="u-margin-bottom-l u-border-minor u-padded-top"><strong>{{ copy.sizeRequirements }}</strong></p>
+        <div class="s-prose">
+            <hr />
+            <p><strong>{{ copy.sizeRequirements }}</strong></p>
+        </div>
 
         <h3 id="region1">{{ copy.locations.monolingual }}</h3>
-
+        
         {{ howToChooseLogo() }}
 
         <ul class="flex-grid flex-grid--3up u-margin-bottom-l">
@@ -178,7 +181,7 @@
 
     </div>
 
-    {% call contentBox(pageAccent, id = "segment-2") %}
+    {% call contentBox(id = "segment-2") %}
         <h2>{{ copy.howToUseLogo.title }}</h2>
 
         <h3>{{ copy.howToUseLogo.sections.brandGuidance.title | safe }}</h3>

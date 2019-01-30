@@ -29,7 +29,7 @@
     <main role="main">
         {{ pageTitle(title) }}
     
-        <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+        <section class="content-box u-inner-wide-only">
             {{ breadcrumbTrail(breadcrumbs) }}
 
             <div class="content-sidebar">
@@ -37,7 +37,7 @@
                     {% if entry.body %}
                         {{ entry.body | safe }}
                     {% else %}
-                        {{ flexibleContent(entry.content, pageAccent) }}
+                        {{ flexibleContent(entry.content) }}
                     {% endif %}
 
                     <div class="content-meta">
@@ -45,8 +45,8 @@
                     </div>
 
                     {% if entry.notesToEditors %}
-                        <aside class="u-tone-background-tint u-padded" id="notes">
-                            <h3 class="accent--{{ pageAccent }} a--text">{{ copy.pressRelease.notesToEditors }}</h3>
+                        <aside class="u-tone-background-tint u-padded u-text-medium" id="notes">
+                            <h3 class="u-tone-brand-primary">{{ copy.pressRelease.notesToEditors }}</h3>
                             {{ entry.notesToEditors | safe }}
                         </aside>
                     {% endif %}

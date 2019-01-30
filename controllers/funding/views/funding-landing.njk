@@ -9,12 +9,12 @@
         {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box u-inner-wide-only">
                 {{ sectionLinks(copy.sectionLinks) }}
             </section>
 
             {% if latestProgrammes.length > 0 %}
-                <section class="u-inner accent-content--{{ pageAccent }}">
+                <section class="u-inner">
                     <h2 class="t--underline">{{ copy.latestProgrammes }}</h2>
                     <ul class="flex-grid flex-grid--3up">
                         {% for programme in latestProgrammes %}

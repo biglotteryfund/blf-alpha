@@ -27,7 +27,7 @@
             {% for programme in copy.sections.availableFunding.fundingProgrammes %}
                 <article class="programme-overview">
                     <header class="programme-overview__header">
-                        <h3 class="programme-overview__title t1 accent--{{ accentColour }} a--text">
+                        <h3 class="programme-overview__title t1 u-tone-brand-primary">
                             {{ programme.title }}
                         </h3>
                     </header>
@@ -40,7 +40,7 @@
                         </ul>
                     {% endif %}
                     <footer class="programme-overview__actions">
-                        <a class="btn accent--pink a--btn" href="{{ programme.linkUrl }}">
+                        <a class="btn btn--small" href="{{ programme.linkUrl }}">
                             {{ __('global.misc.seeProgramme') }}
                         </a>
                     </footer>
@@ -55,7 +55,7 @@
     {% set fundingInRegionContent %}
         {% for group in copy.sections.fundingInRegion.groups %}
             {% if (copy.sections.fundingInRegion.groups.length > 1) %}
-                <h2 class="t2 t--underline accent--{{ pageAccent }} a--text">{{ group.description }}</h2>
+                <h2 class="t2 t--underline">{{ group.description }}</h2>
             {% endif %}
             {{ factRiver(group.facts) }}
         {% endfor %}
@@ -79,8 +79,7 @@
         {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
-            <section class="content-box content-box--tinted
-                u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box content-box--tinted u-inner-wide-only">
                 <div class="s-prose u-constrained-content-wide">
                     <p>{{ copy.introduction }}</p>
                 </div>

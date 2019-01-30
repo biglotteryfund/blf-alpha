@@ -9,7 +9,7 @@
         {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
-            {% call contentBoxIntro(breadcrumbs, pageAccent, heroCredit = pageHero.credit) %}
+            {% call contentBoxIntro(breadcrumbs, heroCredit = pageHero.credit) %}
                 <p>{{ copy.intro }}</p>
                 {% if enableDigitalFundApplications %}
                     <p><strong>{{ copy.openingDates }}</strong></p>
@@ -18,7 +18,7 @@
                 {% endif %}
             {% endcall %}
 
-            {% call contentBox(pageAccent, id="get-started") %}
+            {% call contentBox(id="get-started") %}
                 <h2>{{ copy.getStarted.title }}</h2>
                 {% if enableDigitalFundApplications %}
                     <p>{{ copy.getStarted.intro }}</p>
@@ -34,7 +34,7 @@
                                 url: localify('/funding/programmes/digital-fund/strand-1'),
                                 label: copy.aboutStrandLabel
                             }
-                        }, accent = 'blue') %}
+                        }) %}
                             <p>{{ copy.strand1.introduction | safe }}</p>
                         {% endcall %}
                     </div>
@@ -45,7 +45,7 @@
                                 url: localify('/funding/programmes/digital-fund/strand-2'),
                                 label: copy.aboutStrandLabel
                             }
-                        }, accent = 'cyan') %}
+                        }) %}
                             <p>{{ copy.strand2.introduction | safe }}</p>
                         {% endcall %}
                     </div>

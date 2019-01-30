@@ -9,7 +9,7 @@
         {{ hero(title, pageHero.image) }}
 
         <div class="nudge-up">
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box u-inner-wide-only">
                 {{ breadcrumbTrail(breadcrumbs) }}
                 <div class="u-constrained-wide">
 
@@ -66,7 +66,7 @@
                 </div>
             </section>
 
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box u-inner-wide-only">
                 <div class="s-prose u-constrained-content-wide">
                     <h2>{{ copy.assistance.helpAndSupport.title }}</h2>
                     <p>{{ copy.assistance.helpAndSupport.intro }}</p>
@@ -80,15 +80,15 @@
                 </div>
             </section>
 
-            <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+            <section class="content-box u-inner-wide-only">
                 <div class="s-prose u-constrained-content-wide">
                     <h2>{{ copy.wayfinding.title }}</h2>
                     <p><a href="{{ localify('/funding/programmes/digital-fund/strand-1') }}"
-                        class="btn btn--medium accent--blue a--btn">
+                        class="btn btn--medium">
                         {{ copy.wayfinding.strand1 }}
                     </a></p>
                     <p><a href="{{ localify('/funding/programmes/digital-fund/strand-2') }}"
-                        class="btn btn--medium accent--cyan a--btn">
+                        class="btn btn--medium">
                         {{ copy.wayfinding.strand2 }}
                     </a></p>
                     <p>{{ copy.wayfinding.otherProgrammes | safe }}</p>

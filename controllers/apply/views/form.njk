@@ -10,7 +10,7 @@
 
 {% block content %}
     <main role="main" id="content">
-        <div class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
+        <div class="content-box u-inner-wide-only">
             <form action="" method="POST" class="js-application-form">
                 {{ formHeader(
                     title = formTitle,
@@ -26,7 +26,7 @@
                 {% for fieldset in step.fieldsets %}
                     {% set fieldsetCopy = stepCopy.fieldsets[loop.index0] %}
                     <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
-                        <legend class="form-fieldset__legend t2 t--underline accent--{{ pageAccent }}">
+                        <legend class="form-fieldset__legend t2 t--underline">
                             {{ fieldsetCopy.legend or fieldset.legend }}
                         </legend>
 

@@ -12,8 +12,7 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 {% for person in entry.people %}
-                    <article id="profile-{{ person.name | slugify }}"
-                        class="content-box {% if loop.index > 1 %} u-accent-border-top-{{ pageAccent }}{% endif %}">
+                    <article id="profile-{{ person.name | slugify }}" class="content-box">
 
                         {% if person.image and person.image.type === 'large' %}
                             <figure>
@@ -21,7 +20,7 @@
                             </figure>
                         {% endif %}
 
-                        <div class="s-prose accent-content--{{ pageAccent }}">
+                        <div class="s-prose">
                             <h2>
                                 {{ person.name }}{% if person.role %}&thinsp;&mdash;&thinsp;{{ person.role }}{% endif %}
                             </h2>
