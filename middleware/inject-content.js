@@ -46,7 +46,7 @@ function setCommonLocals({ res, entry }) {
     setHeroLocals({ res, entry });
 }
 
-function injectHeroImage(heroSlug, heroSlugNew) {
+function injectHeroImage(heroSlug) {
     return async function(req, res, next) {
         if (heroSlug) {
             const { fallbackHeroImage } = res.locals;
@@ -58,7 +58,7 @@ function injectHeroImage(heroSlug, heroSlugNew) {
             try {
                 const image = await contentApi.getHeroImage({
                     locale: req.i18n.getLocale(),
-                    slug: heroSlugNew ? heroSlugNew : heroSlug
+                    slug: heroSlug
                 });
 
                 res.locals.pageHero = { image: image };

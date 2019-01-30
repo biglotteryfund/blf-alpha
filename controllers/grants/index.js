@@ -102,7 +102,7 @@ async function checkSpelling(searchTerm, locale = 'en') {
 
 router.get(
     '/',
-    injectHeroImage('tinylife', 'search-all-grants-letterbox-new'),
+    injectHeroImage('search-all-grants-letterbox-new'),
     injectCopy('funding.pastGrants.search'),
     async (req, res, next) => {
         try {

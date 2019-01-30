@@ -11,36 +11,29 @@ const contentApi = require('../../services/content-api');
 
 const router = express.Router();
 
-const heroSlug = 'glasgow-gladiators-1';
-const heroSlugNew = 'pawzitive-letterbox-new';
+const heroSlug = 'pawzitive-letterbox-new';
 
 /**
  * News landing page handler
  */
-router.get(
-    '/',
-    injectBreadcrumbs,
-    injectCopy('news'),
-    injectHeroImage(heroSlug, heroSlugNew),
-    async (req, res, next) => {
-        try {
-            const { copy, breadcrumbs } = res.locals;
+router.get('/', injectBreadcrumbs, injectCopy('news'), injectHeroImage(heroSlug), async (req, res, next) => {
+    try {
+        const { copy, breadcrumbs } = res.locals;
 
-            const blogposts = await contentApi.getUpdates({
-                locale: req.i18n.getLocale(),
-                type: 'blog'
-            });
+        const blogposts = await contentApi.getUpdates({
+            locale: req.i18n.getLocale(),
+            type: 'blog'
+        });
 
-            res.render(path.resolve(__dirname, `./views/landing`), {
-                title: copy.title,
-                blogposts: blogposts.result,
-                breadcrumbs: concat(breadcrumbs, { label: copy.title })
-            });
-        } catch (e) {
-            next(e);
-        }
+        res.render(path.resolve(__dirname, `./views/landing`), {
+            title: copy.title,
+            blogposts: blogposts.result,
+            breadcrumbs: concat(breadcrumbs, { label: copy.title })
+        });
+    } catch (e) {
+        next(e);
     }
-);
+});
 
 /**
  * Press releases handler
@@ -49,7 +42,7 @@ router.get(
     '/press-releases/:date?/:slug?',
     injectBreadcrumbs,
     injectCopy('news'),
-    injectHeroImage(heroSlug, heroSlugNew),
+    injectHeroImage(heroSlug),
     async (req, res, next) => {
         try {
             const { breadcrumbs, copy } = res.locals;
@@ -120,7 +113,7 @@ router.get(
     '/blog/:date?/:slug?',
     injectBreadcrumbs,
     injectCopy('news'),
-    injectHeroImage(heroSlug, heroSlugNew),
+    injectHeroImage(heroSlug),
     async (req, res, next) => {
         try {
             const { copy } = res.locals;
