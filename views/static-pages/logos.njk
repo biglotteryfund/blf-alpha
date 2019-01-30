@@ -83,7 +83,7 @@
 
 {% macro logoCard(logo, language) %}
     {% call card(logo.title, isHeaded = true) %}
-        <a href="{{ logo.downloads.digital }}">
+        <a href="{{ logo.downloads.digital }}" class="logo-card__img">
             <img src="{{ logo.thumbnail }}"
                  alt="{{ logo.title }}"
                  class="u-margin-bottom-s{% if logo.reverseOut %} u-tone-background-dark{% endif %}" />

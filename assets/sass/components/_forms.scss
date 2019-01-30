@@ -493,6 +493,8 @@
 
             .form-materials__field-group-item {
                 flex: 0 0 50%;
+                // Fixes an IE bug where padding is added to flex-basis and breaks the grid
+                max-width: 50%;
 
                 &:nth-of-type(odd) {
                     padding-right: $spacingUnit / 2;
