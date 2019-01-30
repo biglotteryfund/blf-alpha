@@ -2,28 +2,28 @@
 {% from "components/language/macros.njk" import languageLink, languageSwitcher with context %}
 
 {% macro globalSearch() %}
-    <form class="global-search-next js-global-search-form" role="search" action="/search" id="global-search">
+    <form class="global-search js-global-search-form" role="search" action="/search" id="global-search">
         <label>
             <span class="u-visually-hidden">{{ __("global.misc.search") }}</span>
             <input
-                class="global-search-next__input ff-text"
+                class="global-search__input ff-text"
                 id="global-search-input"
                 name="q"
                 type="search"
                 placeholder="{{ __("global.misc.search") }}"
             >
         </label>
-        <button class="global-search-next__submit" type="submit">
-            <span class="global-search-next__icon">{{ iconSearch() }}</span>
-            <span class="global-search-next__label">{{ __("global.misc.search") }}</span>
+        <button class="global-search__submit" type="submit">
+            <span class="global-search__icon">{{ iconSearch() }}</span>
+            <span class="global-search__label">{{ __("global.misc.search") }}</span>
         </button>
     </form>
 {% endmacro %}
 
-<header class="global-header-next js-global-header qa-global-header">
-    <div class="global-header-next__inner">
-        <div class="global-header-next__extra">
-            <ul class="global-header-next__navigation-secondary">
+<header class="global-header js-global-header qa-global-header">
+    <div class="global-header__inner">
+        <div class="global-header__extra">
+            <ul class="global-header__navigation-secondary">
                 <li><a href="{{ globalNavigation.home.url }}">{{ globalNavigation.home.label }}</a></li>
                 {% for item in globalNavigation.secondaryLinks %}
                     <li><a href="{{ item.url }}">{{ item.label }}</a></li>
@@ -34,35 +34,35 @@
             </ul>
         </div>
 
-        <div class="global-header-next__content">
-            <div class="global-header-next__content-primary">
-                <a href="/" class="global-header-next__logo brand-logo">
+        <div class="global-header__content">
+            <div class="global-header__content-primary">
+                <a href="/" class="global-header__logo brand-logo">
                     <span class="u-visually-hidden">
                         {{ __("global.brand.title") }}
                     </span>
                 </a>
-                <div class="global-header-next__actions">
+                <div class="global-header__actions">
                     <a href="#global-search"
-                        class="global-header-next__toggle global-header-next__toggle-search js-toggle-search">
+                        class="global-header__toggle global-header__toggle-search js-toggle-search">
                         {{ iconSearch() }}
-                        <span class="global-header-next__toggle-label">
+                        <span class="global-header__toggle-label">
                             Search
                         </span>
                     </a>
 
                     <a href="#global-nav"
-                        class="global-header-next__toggle global-header-next__toggle-nav js-toggle-nav">
+                        class="global-header__toggle global-header__toggle-nav js-toggle-nav">
                         {{ iconHamburger() }}
-                        <span class="global-header-next__toggle-label">
+                        <span class="global-header__toggle-label">
                             Menu
                         </span>
                     </a>
                 </div>
             </div>
 
-            <div class="global-header-next__content-secondary">
-                <div class="global-header-next__navigation">
-                    <nav class="global-header-next__navigation-primary" id="global-nav">
+            <div class="global-header__content-secondary">
+                <div class="global-header__navigation">
+                    <nav class="global-header__navigation-primary" id="global-nav">
                         <ul>
                             <li class="is-conditional-link"><a href="{{ globalNavigation.home.url }}">{{ globalNavigation.home.label }}</a></li>
                             {% for item in globalNavigation.primaryLinks %}
@@ -87,18 +87,18 @@
                         </ul>
                     </nav>
                     {% if isBilingual %}
-                        <div class="global-header-next__language">
-                            <div class="global-header-next__language-prefix">
+                        <div class="global-header__language">
+                            <div class="global-header__language-prefix">
                                 Mae'r dudalen hon hefyd ar gael yn Cymraeg
                             </div>
-                            <div class="global-header-next__language-controls">
+                            <div class="global-header__language-controls">
                                 {{ languageSwitcher(locale) }}
                             </div>
                         </div>
                     {% endif %}
                 </div>
 
-                <div class="global-header-next__search">
+                <div class="global-header__search">
                     {{ globalSearch() }}
                 </div>
             </div>
