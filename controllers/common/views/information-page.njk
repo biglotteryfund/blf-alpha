@@ -8,46 +8,23 @@
 {% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
 
 {% block content %}
-    {% macro primaryContent() %}
-        {{ breadcrumbTrail(breadcrumbs) }}
-        <div class="s-prose accent-content--{{ pageAccent }} u-constrained-content-wide js-annotate-links">
-            {% if not pageHero.image %}<h1>{{ content.title }}</h1>{% endif %}
-            {{ content.introduction | safe }}
-        </div>
-        {{ segmentLinks(customSegmentLinks | default(content.segments)) }}
-    {% endmacro %}
-
     <main id="content">
         {% if pageHero.image %}
-            {{ hero(
-                titleText = title,
-                image = pageHero.image,
-                accent = pageAccent
-            ) }}
+            {{ hero(title, pageHero.image) }}
         {% endif %}
 
         {% if pageHero.image %}<div class="nudge-up">{% endif %}
 
         {% block contentPrimary %}
-            {% if content.relatedContent %}
-                <section class="page-section u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                    <div class="page-section__content accent--{{ pageAccent }} a--border-top">
-                        <article class="content-box">
-                            {{ primaryContent() }}
-                        </article>
+            {% if content.introduction %}
+                <section class="content-box u-inner-wide-only">
+                    {{ breadcrumbTrail(breadcrumbs) }}
+                    <div class="s-prose u-constrained-content-wide">
+                        {% if not pageHero.image %}<h1>{{ content.title }}</h1>{% endif %}
+                        {{ content.introduction | safe }}
                     </div>
-                    <div class="page-section__supplementary accent--{{ pageAccent }} a--border-top">
-                        <aside class="content-box s-prose js-annotate-links">
-                            {{ content.relatedContent | safe }}
-                        </aside>
-                    </div>
+                    {{ segmentLinks(customSegmentLinks | default(content.segments)) }}
                 </section>
-            {% else %}
-                {% if content.introduction %}
-                    <section class="content-box u-inner-wide-only accent--{{ pageAccent }} a--border-top">
-                        {{ primaryContent() }}
-                    </section>
-                {% endif %}
             {% endif %}
 
             {# Content segments #}
@@ -70,12 +47,11 @@
         {% block customContent %}{% endblock %}
 
         {% if content.outro %}
-            {% call contentBox(pageAccent) %}
+            {% call contentBox() %}
                 {{ content.outro | safe }}
             {% endcall %}
         {% endif %}
 
         {% if pageHero.image %}</div>{% endif %}
     </main>
-
 {% endblock %}
