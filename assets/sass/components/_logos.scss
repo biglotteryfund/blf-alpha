@@ -41,6 +41,7 @@
     }
 
     .logo-card__body {
+        // Fixes an IE bug where columns were hugely stretched
         min-height: 1px;
         flex-grow: 1;
         display: flex;
