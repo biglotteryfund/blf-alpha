@@ -16,8 +16,6 @@ const { sMaxAge } = require('../../middleware/cached');
 const contentApi = require('../../services/content-api');
 const grantsService = require('../../services/grants');
 
-const grantsConfig = config.get('grants');
-
 const router = express.Router();
 
 router.use(sMaxAge('7d'), injectBreadcrumbs, (req, res, next) => {
@@ -147,8 +145,7 @@ router.get(
                         grants: data.results,
                         facets: data.facets,
                         meta: data.meta,
-                        grantDataDates: grantsConfig.dateRange,
-                        grantNavLink: grantsConfig.grantNavLink,
+                        grantDataDates: data.meta.grantDates,
                         searchSuggestions: searchSuggestions,
                         pagination: buildPagination(req, data.meta.pagination, queryWithPage)
                     });
