@@ -183,6 +183,10 @@ $breakpointLarge: 840px;
     }
 
     @media only screen and (min-width: $breakpointSmall + 1px) and (max-width: $breakpointLarge) {
+        .global-header__toggle-search {
+            display: none;
+        }
+
         .global-header__search {
             position: absolute;
             top: 50%;
