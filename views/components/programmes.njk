@@ -42,8 +42,8 @@
         "title": programme.title,
         "summary": description | safe,
         "image": {
-            "url": programme.trailImageNew if programme.trailImageNew else programme.trailImage,
-            "alt": programme.hero.caption or programme.title
+            "url": programme.trailImage,
+            "alt": programme.hero.image.caption or programme.title
         },
         "link": {
             "url": programme.linkUrl
@@ -57,11 +57,8 @@
         <div class="u-tone-background-tint u-padded u-margin-top-l">
             {% for programme in programmes %}
                 <div class="o-media u-margin-bottom">
-                    {% if programme.thumbnail or programme.thumbnailNew %}
-                        <img src="{{ programme.thumbnailNew if programme.thumbnailNew else programme.thumbnail }}"
-                             alt="{{ programme.title }}"
-                             class="o-media__figure"
-                             width="100" />
+                    {% if programme.thumbnail %}
+                        <img src="{{ programme.thumbnail }}" alt="{{ programme.title }}" class="o-media__figure" width="100" />
                     {% endif %}
                     <div class="o-media__body">
                         <h4 class="u-tone-brand-primary">{{ programme.title }}</h4>

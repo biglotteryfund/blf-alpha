@@ -6,7 +6,7 @@
         "title": research.title,
         "subtitle": formatDate(research.postDate.date, DATE_FORMATS.month),
         "summary": research.trailText,
-        "image": { "url": research.trailImage if research.trailImage else research.thumbnail, "alt": research.title },
+        "image": { "url": research.trailImage, "alt": research.title },
         "link": { "url": research.linkUrl, "label": __('global.misc.readMore') }
     }) %}
         {% if research.documents %}

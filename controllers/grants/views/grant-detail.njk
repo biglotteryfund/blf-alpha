@@ -153,9 +153,9 @@
                         "alt": mainProgramme.title
                     } %}
 
-                    {% if fundingProgramme and fundingProgramme.heroNew %}
+                    {% if fundingProgramme and fundingProgramme.hero %}
                         {% set image = {
-                            "url": fundingProgramme.heroNew.image.large,
+                            "url": fundingProgramme.hero.image.large,
                             "alt": mainProgramme.title
                         } %}
                     {% endif %}
@@ -170,8 +170,8 @@
                             "url": link
                         }
                     }) %}
-                        {% if fundingProgramme.hero.caption %}
-                            <p class="project-caption">{{ copy.grantDetail.photoCaption }}: {{ fundingProgramme.hero.caption }}</p>
+                        {% if fundingProgramme.hero.image.caption %}
+                            <p class="project-caption">{{ copy.grantDetail.photoCaption }}: {{ fundingProgramme.hero.image.caption }}</p>
                         {% endif %}
                     {% endcall %}
                 </div>

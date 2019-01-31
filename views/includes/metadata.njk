@@ -18,8 +18,8 @@
 <meta name="twitter:site" content="@{{ globalCopy.brand.twitter }}" />
 
 {% if socialImage %}
-<meta property="twitter:image" content="{{ getSocialImageUrl(socialImage) | safe }}">
-<meta property="og:image" content="{{ getSocialImageUrl(socialImage) | safe }}">
+    <meta property="twitter:image" content="{{ socialImage | safe }}">
+    <meta property="og:image" content="{{ socialImage | safe }}">
 {% endif %}
 
 <meta name="google-site-verification" content="YJm5YK8XXPjyF0oyks3mvJ2P2qc1mwm9GyF7OlyNl9A" />

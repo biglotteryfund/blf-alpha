@@ -80,14 +80,6 @@ module.exports = function(req, res, next) {
         caption: 'The Outdoor Partnership'
     };
 
-    res.locals.getSocialImageUrl = function(socialImage) {
-        if (isString(socialImage)) {
-            return socialImage.indexOf('://') !== -1 ? socialImage : getAbsoluteUrl(socialImage);
-        } else {
-            return getAbsoluteUrl(req, socialImage.default);
-        }
-    };
-
     /**
      * Get normalised page title for metadata
      */
