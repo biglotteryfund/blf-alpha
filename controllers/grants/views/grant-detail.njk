@@ -99,8 +99,11 @@
                             <dl class="o-definition-list o-definition-list--compact u-text-small">
                                 <dt>{{ copy.grantDetail.fields.orgName }}</dt>
                                 <dd><a href="./recipients/{{ org.id }}">{{ org.name }}</a></dd>
-                                <dt>{{ copy.grantDetail.fields.type }}</dt>
-                                <dd>{{ buildOrgTypeList(org) }}</dd>
+
+                                {% if org.organisationType %}
+                                    <dt>{{ copy.grantDetail.fields.type }}</dt>
+                                    <dd>{{ buildOrgTypeList(org) }}</dd>
+                                {% endif %}
 
                                 {% if org.charityNumber %}
                                     <dt>{{ copy.grantDetail.fields.charityNumber }}</dt>

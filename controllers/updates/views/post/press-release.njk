@@ -12,12 +12,14 @@
 
 {% macro entryMeta(entry) %}
     <dl class="o-definition-list o-definition-list--compact">
-        <dt>{{ copy.datePublished }}</dt>
-        <dd>
-            <time datetime="{{ entry.postDate.date }}">
-                {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
-            </time>
-        </dd>
+        {% if entry.postDate %}
+            <dt>{{ copy.datePublished }}</dt>
+            <dd>
+                <time datetime="{{ entry.postDate.date }}">
+                    {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
+                </time>
+            </dd>
+        {% endif %}
         {% if entry.regions.length > 0 %}
             <dt>{{ copy.pressRelease.region }}</dt>
             <dd>{{ entryRegions(entry, '../') }}</dd>
