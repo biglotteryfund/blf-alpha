@@ -224,7 +224,6 @@ forEach(routes.sections, function(section, sectionId) {
      */
     router.use(function(req, res, next) {
         const locale = req.i18n.getLocale();
-        res.locals.sectionId = sectionId;
         res.locals.sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
         res.locals.sectionUrl = localify(locale)(req.baseUrl);
         next();

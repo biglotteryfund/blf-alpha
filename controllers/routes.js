@@ -15,7 +15,6 @@ const { basicContent, flexibleContent, staticPage } = require('./common');
  * @typedef {object} Section
  * @property {string} path
  * @property {boolean} showInNavigation
- * @property {string} [langTitlePath]
  * @property {Array<Route>} pages
  */
 
@@ -26,7 +25,6 @@ const { basicContent, flexibleContent, staticPage } = require('./common');
 const toplevel = {
     path: '',
     showInNavigation: true,
-    langTitlePath: 'global.nav.home',
     pages: [
         {
             path: '/',
@@ -78,7 +76,6 @@ const toplevel = {
 const funding = {
     path: '/funding',
     showInNavigation: true,
-    langTitlePath: 'global.nav.funding',
     pages: [
         {
             path: '/',
@@ -140,7 +137,6 @@ const funding = {
 const insights = {
     path: '/insights',
     showInNavigation: true,
-    langTitlePath: 'global.nav.insights',
     pages: [
         {
             path: '/',
@@ -171,7 +167,6 @@ const talk = {
 const about = {
     path: '/about',
     showInNavigation: true,
-    langTitlePath: 'global.nav.about',
     pages: [
         {
             path: '/',
@@ -196,7 +191,6 @@ const about = {
 const updates = {
     path: '/news',
     showInNavigation: false,
-    langTitlePath: 'global.nav.updates',
     pages: [
         {
             path: '/',
@@ -205,19 +199,13 @@ const updates = {
     ]
 };
 
-/**
- * Sections
- * The order here defines the order of the navigation
- */
-const sections = {
-    toplevel: toplevel,
-    funding: funding,
-    insights: insights,
-    talk: talk,
-    about: about,
-    updates: updates
-};
-
 module.exports = {
-    sections
+    sections: {
+        toplevel,
+        funding,
+        insights,
+        talk,
+        about,
+        updates
+    }
 };
