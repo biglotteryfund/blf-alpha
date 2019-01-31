@@ -438,6 +438,7 @@ news:
     allPostsIn: All posts in
     filter: Filter
     in: in
+    noResults: No results
     noResultsFor: No results for
     pressReleaseArchive: Press release archive
     viewOldPressReleases: View older press releases

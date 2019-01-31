@@ -349,6 +349,7 @@ news:
     allPostsIn: Yr holl byst yn
     filter: Hidlwr
     in: yn
+    noResults: Dim canlyniadau
     noResultsFor: Dim canlyniadau ar gyfer
     pressReleaseArchive: Archif datganiadau i’r wasg
     viewOldPressReleases: Gweld hen ddatganiadau i’r wasg

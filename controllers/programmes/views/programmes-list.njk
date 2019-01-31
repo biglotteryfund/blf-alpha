@@ -36,8 +36,7 @@
                     <a href="{{ localify('/funding/programmes/all') }}" class="btn btn--medium btn--outline">{{ copy.allProgrammes }}</a>
                 </div>
             {% else %}
-                {# @TODO i18n #}
-                <p>No results</p>
+                <p>{{ __('global.misc.noResults') }}</p>
             {% endif %}
         </section>
     </main>
