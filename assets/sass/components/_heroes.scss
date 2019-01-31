@@ -66,117 +66,6 @@
 /* Larger hero image (see: Homepage) */
 
 .super-hero {
-    color: white;
-    margin-bottom: $spacingUnit;
-
-    height: 0;
-    position: relative;
-
-    @include responsive-ratio(644, 573);
-
-    @media only screen and (min-width: 600px) {
-        @include responsive-ratio(1280, 720);
-    }
-
-    @include mq('large') {
-        @include responsive-ratio(1373, 505);
-    }
-}
-.super-hero__content {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-.super-hero__image img {
-    display: block;
-}
-.super-hero__header {
-    text-align: center;
-
-    margin-bottom: $spacingUnit / 2;
-
-    @include mq('medium') {
-        margin-bottom: $spacingUnit * 2;
-    }
-}
-.super-hero__title {
-    font-size: 14px;
-    line-height: 1.2;
-    font-weight: normal;
-    margin: 0 0 ($spacingUnit / 2) 0;
-
-    @media only screen and (min-width: 360px) {
-        font-size: 18px;
-    }
-
-    @media only screen and (min-width: 480px) {
-        font-size: 21px;
-    }
-
-    @include mq('large') {
-        font-size: 24px;
-        line-height: 1.3;
-    }
-
-    a,
-    a:link {
-        color: inherit;
-        text-decoration: underline;
-    }
-}
-.super-hero__caption {
-    position: absolute;
-    height: auto;
-    right: $spacingUnit / 2;
-    bottom: $spacingUnit / 2;
-
-    @include mq('large') {
-        right: $spacingUnit;
-    }
-}
-
-.js-on.is-repeat-visitor .super-hero--has-candidates {
-    background-color: get-color('background', 'dark-neutral');
-
-    .super-hero__image,
-    .super-hero__caption {
-        transition: opacity 600ms ease-in;
-        transition-delay: 150ms;
-        opacity: 0;
-    }
-
-    &.has-image .super-hero__image,
-    &.has-image .super-hero__caption {
-        opacity: 1;
-    }
-}
-
-@media print {
-    .super-hero {
-        color: black !important;
-        background: none !important;
-        position: static;
-        padding-bottom: 0;
-        height: auto;
-    }
-    .super-hero__image {
-        display: none;
-    }
-    .super-hero__header {
-        text-align: left;
-    }
-    .super-hero__content,
-    .super-hero__caption {
-        position: static;
-    }
-}
-
-/* =========================================================================
-   Super Hero Next (Rebrand)
-   ========================================================================= */
-/* Larger hero image (see: Homepage) */
-
-.super-hero-next {
     font-family: font-stack('display');
     color: white;
     margin-bottom: $spacingUnit;
@@ -186,7 +75,7 @@
         margin-bottom: $spacingUnit * 2;
     }
 
-    .super-hero-next__content {
+    .super-hero__content {
         background-color: get-color('brand', 'primary');
 
         @include mq('medium') {
@@ -197,12 +86,12 @@
         }
     }
 
-    .super-hero-next__image {
+    .super-hero__image {
         margin: 0;
         position: relative;
     }
 
-    .super-hero-next__caption {
+    .super-hero__caption {
         position: absolute;
         bottom: $spacingUnit / 2;
         right: $spacingUnit / 2;
@@ -214,14 +103,14 @@
         }
     }
 
-    .super-hero-next__header {
+    .super-hero__header {
         max-width: $maxWidth;
         margin: 0 auto;
         padding: 20px 12px 12px;
         text-align: center;
     }
 
-    .super-hero-next__title {
+    .super-hero__title {
         font-size: 18px;
         line-height: 1.2;
         font-weight: font-weight('display', 'semibold');
@@ -236,7 +125,7 @@
         }
     }
 
-    .super-hero-next__intro {
+    .super-hero__intro {
         font-size: 14px;
         line-height: 1.2;
         font-weight: normal;

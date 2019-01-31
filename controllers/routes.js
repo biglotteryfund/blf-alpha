@@ -7,7 +7,6 @@ const { basicContent, flexibleContent, staticPage } = require('./common');
  * @property {string} path
  * @property {string} [lang]
  * @property {string} [heroSlug]
- * @property {string} [heroSlugNew]
  * @property {function} [router]
  * @property {boolean} [isDraft]
  */
@@ -37,8 +36,7 @@ const toplevel = {
         {
             path: '/northern-ireland',
             lang: 'toplevel.northernIreland',
-            heroSlug: 'cruse-bereavement-care',
-            heroSlugNew: 'cruse-bereavement-care-new',
+            heroSlug: 'cruse-bereavement-care-new',
             router: staticPage({
                 disableLanguageLink: true,
                 template: 'static-pages/region'
@@ -47,8 +45,7 @@ const toplevel = {
         {
             path: '/wales',
             lang: 'toplevel.wales',
-            heroSlug: 'the-outdoor-partnership-wales',
-            heroSlugNew: 'the-outdoor-partnership-new',
+            heroSlug: 'the-outdoor-partnership-new',
             router: staticPage({
                 template: 'static-pages/region'
             })
@@ -56,8 +53,7 @@ const toplevel = {
         {
             path: '/data',
             lang: 'toplevel.data',
-            heroSlug: 'young-shoulders-programme',
-            heroSlugNew: 'fsn-new',
+            heroSlug: 'fsn-new',
             router: require('./data')
         },
         {
@@ -92,8 +88,7 @@ const funding = {
         {
             path: '/under10k',
             lang: 'funding.under10k',
-            heroSlug: 'friends-of-greenwich',
-            heroSlugNew: 'funding-under-10k-new',
+            heroSlug: 'funding-under-10k-new',
             router: staticPage({
                 template: 'static-pages/under10k',
                 projectStorySlugs: ['hapani', 'niid', 'new-routes']
@@ -102,8 +97,7 @@ const funding = {
         {
             path: '/over10k',
             lang: 'funding.over10k',
-            heroSlug: 'passion-4-fusion-3',
-            heroSlugNew: 'headway-new',
+            heroSlug: 'headway-new',
             router: staticPage({
                 template: 'static-pages/over10k',
                 projectStorySlugs: ['kvin', 'shettleston', 'rosies-trust']

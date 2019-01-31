@@ -23,7 +23,7 @@ router.use(injectCopy('ourPeople'), injectOurPeople, function(req, res, next) {
     next();
 });
 
-router.get('/', injectHeroImage('mental-health-foundation', 'mental-health-foundation-new'), (req, res) => {
+router.get('/', injectHeroImage('mental-health-foundation-new'), (req, res) => {
     res.render(path.resolve(__dirname, './views/our-people'));
 });
 

@@ -9,7 +9,7 @@ const contentApi = require('../../services/content-api');
 
 const router = express.Router();
 
-router.get('/', sMaxAge('30m'), injectHeroImage('manchester-cares', 'funding-letterbox-new'), async (req, res) => {
+router.get('/', sMaxAge('30m'), injectHeroImage('funding-letterbox-new'), async (req, res) => {
     let latestProgrammes = [];
 
     /**
