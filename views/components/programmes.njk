@@ -40,7 +40,7 @@
     {% endset %}
     {{ promoCard({
         "title": programme.title,
-        "trailText": description | safe,
+        "summary": description | safe,
         "image": {
             "url": programme.trailImageNew if programme.trailImageNew else programme.trailImage,
             "alt": programme.hero.caption or programme.title

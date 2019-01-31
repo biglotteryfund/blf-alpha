@@ -9,11 +9,11 @@
         <strong><a href="{{ localify("/funding/grants/recipients/" + mainRecipient.id) }}">{{ mainRecipient.name | striptags }}</a></strong>
         {{ __('global.misc.on') }} {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
     {% endset %}
-    {% set description = false if grant.description === grant.title else grant.description %}
+
     {% call promoCard({
         "title": grant.title,
         "subtitle": subtitle | safe,
-        "trailText": description,
+        "summary": false if grant.description === grant.title else grant.description,
         "link": {
             "url": localify("/funding/grants/" + grant.id),
             "label": copy.viewGrantDetails
