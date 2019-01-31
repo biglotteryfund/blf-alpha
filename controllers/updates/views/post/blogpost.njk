@@ -42,13 +42,14 @@
     {% endcall %}
 
     {% call card(copy.blogpost.aboutThisBlogPost) %}
-
-        <p class="u-margin-bottom-s">
-            <strong>{{ copy.datePublished }}:</strong>
-            <time datetime="{{ entry.postDate.date }}">
-                {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
-            </time>
-        </p>
+        {% if entry.postDate %}
+            <p class="u-margin-bottom-s">
+                <strong>{{ copy.datePublished }}:</strong>
+                <time datetime="{{ entry.postDate.date }}">
+                    {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
+                </time>
+            </p>
+        {% endif %}
 
         {% if entry.thumbnail %}
             <img src="{{ entry.thumbnail.small }}"
