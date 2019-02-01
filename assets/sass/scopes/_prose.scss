@@ -73,6 +73,12 @@
         text-decoration: none;
     }
 
+    @include mq('large', 'max') {
+        a {
+            @include wrap-words();
+        }
+    }
+
     table {
         $table-spacing: 4px;
 
