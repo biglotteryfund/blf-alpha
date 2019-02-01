@@ -92,28 +92,31 @@
         <ul class="logo-card__links">
             <li class="u-margin-bottom-s">
                 <a class="btn btn--small u-block"
+                   target="_blank"
                    href="{{ logo.downloads.digital }}"
                    data-ga-on="click"
                    data-ga-event-category="Download logo"
-                   data-ga-event-action="Digital - {{ language }}">
+                   data-ga-event-action="{{ logo.title }} - {{ language }} - Digital">
                     {{ copy.downloads.digital }}
                 </a>
             </li>
             <li class="u-margin-bottom-s">
                 <a class="btn btn--small u-block"
+                   target="_blank"
                    href="{{ logo.downloads.print }}"
                    data-ga-on="click"
                    data-ga-event-category="Download logo"
-                   data-ga-event-action="Print - {{ language }}">
+                   data-ga-event-action="{{ logo.title }} - {{ language }} - Print">
                     {{ copy.downloads.print }}
                 </a>
             </li>
             <li>
                 <a class="btn btn--small u-block"
+                   target="_blank"
                    href="{{ logo.downloads.vector }}"
                    data-ga-on="click"
                    data-ga-event-category="Download logo"
-                   data-ga-event-action="Vector - {{ language }}">
+                   data-ga-event-action="{{ logo.title }} - {{ language }} - Vector">
                     {{ copy.downloads.vector }}
                 </a>
             </li>
