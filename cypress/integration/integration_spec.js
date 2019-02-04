@@ -330,16 +330,9 @@ describe('e2e', function() {
     });
 });
 
-describe.only('percy', function() {
-    it('funding programme', function() {
-        cy.visit('/funding/programmes/national-lottery-awards-for-all-england');
-        cy.percySnapshot();
-    });
-
-    it('apply form', function() {
-        cy.visit('/apply/your-idea');
-        cy.percySnapshot();
-        cy.visit('/apply/your-idea/1');
-        cy.percySnapshot();
+describe('percy', function() {
+    it('patterns', function() {
+        cy.visit('/patterns/components');
+        cy.percySnapshot('patterns');
     });
 });
