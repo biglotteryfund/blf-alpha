@@ -1,8 +1,8 @@
 {% macro breadcrumbTrail(trail, isFlush = true, isTinted = false) %}
     {% if trail.length > 1 %}
-        <ol class="breadcrumb-trail
+        <ol class="u-dont-print breadcrumb-trail
             {%- if isFlush %} breadcrumb-trail--flush{% endif -%}
-            {%- if isTinted %} breadcrumb-trail--tinted{% endif -%} u-dont-print">
+            {%- if isTinted %} breadcrumb-trail--tinted{% endif -%}">
             {% for crumb in trail %}
                 {% set isLinked = crumb.url and not loop.last %}
                 <li class="breadcrumb-trail__item">
