@@ -14,10 +14,6 @@ function getCommonBodyClasses() {
         classes.push('is-ie');
     }
 
-    if (AppConfig.hasSeenPageBefore) {
-        classes.push('is-repeat-visitor');
-    }
-
     return classes;
 }
 
