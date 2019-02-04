@@ -99,14 +99,6 @@ global:
       Mae'r wefan hon yn defnyddio cwcis, mae esboniad o'u diben a sut i'w rheoli ar gael yn ein
       <a href="/welsh/about/customer-service/cookies">Polisi Cwcis</a>.
     action: Derbyn cwcis
-  stateAid:
-    title: Cymorth Gwladwriaethol
-    body: >
-      <p>Mae cyllid cyhoeddus ar gyfer mudiadau sy’n cyflawni gweithgareddau masnachol, gan gynnwys y rhai sydd â statws elusennol, wedi’i reoli gan reolau Cymorth Gwladwriaethol y Comisiwn Ewropeaidd. Diffinnir cymorth gwladwriaethol gan gyfamod sefydlu'r Comisiwn Ewropeaidd fel "unrhyw gymorth a roddir gan Aelod-wladwriaeth sy'n aflunio neu'n bygwth aflunio cystadleuaeth trwy ffafrio ymgymeraethau penodol neu gynhyrchu nwyddau penodol”.</p>
-
-      <p>Ystyrir bod y Loteri Genedlaethol yn ddarparwr adnoddau'r wladwriaeth ochr yn ochr â chyrff llywodraeth cenedlaethol, rhanbarthol a lleol. Mae methu â chydymffurfio â'r rheolau'n golygu bod y cymorth yn anghyfreithlon, ac y gallai fod angen i dderbynnydd y cymorth ei ad-dalu gyda llog.</p>
-
-      <p>Chi sy'n gyfrifol am wirio p'un a oes angen cymeradwyaeth Cymorth Gwladwriaethol ai beidio. Wrth ddatblygu eich cais, mae’n bwysig eich bod yn ystyried ac, os bydd angen, ceisio cyngor ynghylch rheoliadau Cymorth Gwladwriaethol. Dylech geisio cyngor cyfreithiol os ydych yn ansicr p'un a fydd angen cymeradwyaeth ar gyfer eich prosiect ai beidio.</p>
   forms:
     missingFieldError: Darparwch y maes '%s'
     invalidEmailError: Rhowch gyfeiriad e-bost dilys
