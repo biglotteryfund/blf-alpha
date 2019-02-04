@@ -1,6 +1,8 @@
 // @ts-nocheck
 // https://on.cypress.io/custom-commands
 
+import '@percy/cypress';
+
 Cypress.Commands.add('getCsrf', () => {
     return cy
         .request('/user/login')
