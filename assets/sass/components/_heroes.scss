@@ -47,16 +47,17 @@
             bottom: auto;
         }
     }
-}
 
-@media print {
-    .hero,
-    .hero__content {
+    @media print {
         position: static;
-    }
-    .hero__image,
-    .hero__caption {
-        display: none;
+
+        .hero__content {
+            position: static;
+        }
+        .hero__image,
+        .hero__caption {
+            display: none;
+        }
     }
 }
 

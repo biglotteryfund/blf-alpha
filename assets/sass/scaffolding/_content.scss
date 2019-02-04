@@ -133,6 +133,12 @@
         border-bottom: none;
         border-left: none;
     }
+
+    @media print {
+        border: none;
+        padding: 0;
+        margin: ($spacingUnit * 2) 0;
+    }
 }
 
 /* =========================================================================

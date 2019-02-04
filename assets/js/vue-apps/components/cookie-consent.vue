@@ -22,7 +22,7 @@ export default {
 </script>
 
 <template>
-    <aside class="cookie-consent" :class="{ 'is-shown': isShown }">
+    <aside class="cookie-consent u-dont-print" :class="{ 'is-shown': isShown }">
         <div class="cookie-consent__inner">
             <div class="cookie-consent__content" v-html="message"></div>
             <div class="cookie-consent__actions">
