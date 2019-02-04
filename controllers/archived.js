@@ -1,9 +1,8 @@
 'use strict';
 const express = require('express');
-const config = require('config');
 const router = express.Router();
 
-const { buildArchiveUrl, legacyPagePaths } = require('../modules/archived');
+const { buildArchiveUrl, legacyPagePaths, legacyFilesPath } = require('../modules/archived');
 const { noCache } = require('../middleware/cached');
 const metrics = require('../modules/metrics');
 
@@ -28,8 +27,7 @@ legacyPagePaths.forEach(urlPath => {
  * along with a feedback form to explain what they were looking for.
  * We also log all requests for these files to ensure we can update anything missing.
  */
-const filePathPattern = config.get('archivedPaths.legacyFilesPath');
-router.get(filePathPattern, (req, res) => {
+router.get(legacyFilesPath, (req, res) => {
     const filePath = req.originalUrl;
     metrics.count({
         name: filePath,

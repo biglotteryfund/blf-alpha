@@ -3,12 +3,11 @@ const express = require('express');
 const moment = require('moment');
 const sitemap = require('sitemap');
 const domains = require('config').get('domains');
-const legacyFilesPath = require('config').get('archivedPaths.legacyFilesPath');
 const { includes, concat } = require('lodash');
 
 const { getBaseUrl, getAbsoluteUrl } = require('../../modules/urls');
 const { getCanonicalRoutes } = require('../../modules/route-helpers');
-const { legacyPagePaths } = require('../../modules/archived');
+const { legacyPagePaths, legacyFilesPath } = require('../../modules/archived');
 const { noCache, sMaxAge } = require('../../middleware/cached');
 const appData = require('../../modules/appData');
 

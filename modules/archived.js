@@ -1,5 +1,4 @@
 'use strict';
-const config = require('config');
 const { flatMap } = require('lodash');
 
 const { makeWelsh } = require('./urls');
@@ -11,11 +10,33 @@ function buildArchiveUrl(urlPath, crawlDate = '20171011152352') {
     return `http://webarchive.nationalarchives.gov.uk/${crawlDate}/${fullUrl}`;
 }
 
-// Construct a list of legacy page paths (prefixed with welsh equivalents)
-// in order to archive them and block them from search engines.
-const legacyPagePaths = flatMap(config.get('archivedPaths.legacyPagePaths'), urlPath => [urlPath, makeWelsh(urlPath)]);
+// A list of legacy page paths which we archive and block from search engines.
+const legacyPagePaths = [
+    '/about-big/10-big-lottery-fund-facts',
+    '/about-big/big-lottery-fund-in-your-constituency',
+    '/about-big/community-closed',
+    '/about-big/countries*',
+    '/about-big/future-of-doing-good',
+    '/about-big/living-wage',
+    '/about-big/mayors-community-weekend',
+    '/about-big/our-approach/vision-and-principles',
+    '/about-big/publications*',
+    '/about-big/your-voice',
+    '/funding/big-stories*',
+    '/funding/celebrateuk*',
+    '/funding/funding-guidance/applying-for-funding/*',
+    '/funding/funding-guidance/managing-your-funding/about-equalities*',
+    '/funding/funding-guidance/managing-your-funding/reaching-communities-grant-offer',
+    '/funding/joint-funding',
+    '/funding/peoples-projects-resources',
+    '/funding/scotland-portfolio*',
+    '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-qa*',
+    '/global-content/press-releases/*',
+    '/research*'
+];
 
 module.exports = {
     buildArchiveUrl,
-    legacyPagePaths
+    legacyPagePaths: flatMap(legacyPagePaths, urlPath => [urlPath, makeWelsh(urlPath)]),
+    legacyFilesPath: '/-/media/files/*'
 };
