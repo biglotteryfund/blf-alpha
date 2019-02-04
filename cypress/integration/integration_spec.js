@@ -132,53 +132,52 @@ const loremLong = `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pra
 Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.`;
 
 describe('e2e', function() {
-    it.only('should perform common interactions', () => {
-        cy.visit('/funding');
-        cy.percySnapshot();
+    it('should perform common interactions', () => {
+        cy.visit('/');
 
-        // cy.viewport(375, 667);
-        // cy.get('.cookie-consent button').click();
+        cy.viewport(375, 667);
+        cy.get('.cookie-consent button').click();
 
-        // // Submit micro survey
-        // cy.get('.survey button:first-child').click();
-        // cy.get('.survey').should('contain', 'Thank you');
+        // Submit micro survey
+        cy.get('.survey button:first-child').click();
+        cy.get('.survey').should('contain', 'Thank you');
 
-        // cy.get('.js-toggle-nav').as('navToggle');
-        // cy.get('#global-nav').as('nav');
-        // cy.get('.js-toggle-search').as('searchToggle');
-        // cy.get('#global-search').as('search');
+        cy.get('.js-toggle-nav').as('navToggle');
+        cy.get('#global-nav').as('nav');
+        cy.get('.js-toggle-search').as('searchToggle');
+        cy.get('#global-search').as('search');
 
-        // cy.get('@nav').should('not.be.visible');
-        // cy.get('@search').should('not.be.visible');
+        cy.get('@nav').should('not.be.visible');
+        cy.get('@search').should('not.be.visible');
 
-        // // Toggle search
-        // cy.get('@searchToggle').click();
-        // cy.get('@nav').should('not.be.visible');
-        // cy.get('@search').should('be.visible');
-        // // Check search input for focus
-        // cy.focused().should('have.attr', 'name', 'q');
+        // Toggle search
+        cy.get('@searchToggle').click();
+        cy.get('@nav').should('not.be.visible');
+        cy.get('@search').should('be.visible');
+        // Check search input for focus
+        cy.focused().should('have.attr', 'name', 'q');
 
-        // // Toggle mobile navigation
-        // cy.get('@navToggle').click();
-        // cy.get('@nav').should('be.visible');
-        // cy.get('@search').should('not.be.visible');
+        // Toggle mobile navigation
+        cy.get('@navToggle').click();
+        cy.get('@nav').should('be.visible');
+        cy.get('@search').should('not.be.visible');
 
-        // // Switch language
-        // cy.get('.language-control')
-        //     .contains('Cymraeg')
-        //     .click();
+        // Switch language
+        cy.get('.language-control')
+            .contains('Cymraeg')
+            .click();
 
-        // // Welsh language smoke tests
-        // cy.checkMetaTitles('Hafan | Cronfa Gymunedol y Loteri Genedlaethol');
-        // cy.get('@navToggle').click();
-        // cy.get('@nav').should('be.visible');
-        // cy.get('.qa-nav-link').should('contain', 'Ariannu');
-        // cy.get('@navToggle').click();
-        // cy.get('@nav').should('not.be.visible');
+        // Welsh language smoke tests
+        cy.checkMetaTitles('Hafan | Cronfa Gymunedol y Loteri Genedlaethol');
+        cy.get('@navToggle').click();
+        cy.get('@nav').should('be.visible');
+        cy.get('.qa-nav-link').should('contain', 'Ariannu');
+        cy.get('@navToggle').click();
+        cy.get('@nav').should('not.be.visible');
 
-        // // Submit micro survey (welsh)
-        // cy.get('.survey button:first-child').click();
-        // cy.get('.survey').should('contain', 'Diolch am');
+        // Submit micro survey (welsh)
+        cy.get('.survey button:first-child').click();
+        cy.get('.survey').should('contain', 'Diolch am');
     });
 
     it('should navigate through a funding application from the homepage', () => {
@@ -328,5 +327,19 @@ describe('e2e', function() {
         // Test pagination
         cy.get('.split-nav__next').click();
         cy.get('.qa-grant-result').should('have.length', textQueryCount - 50);
+    });
+});
+
+describe.only('percy', function() {
+    it('funding programme', function() {
+        cy.visit('/funding/programmes/national-lottery-awards-for-all-england');
+        cy.percySnapshot();
+    });
+
+    it('apply form', function() {
+        cy.visit('/apply/your-idea');
+        cy.percySnapshot();
+        cy.visit('/apply/your-idea/1');
+        cy.percySnapshot();
     });
 });
