@@ -43,7 +43,7 @@
                 </a>
                 <div class="global-header__actions u-dont-print">
                     <a href="#global-search"
-                        class="global-header__toggle global-header__toggle-search js-toggle-search">
+                       class="global-header__toggle global-header__toggle-search js-toggle-search">
                         {{ iconSearch() }}
                         <span class="global-header__toggle-label">
                             Search
@@ -51,7 +51,7 @@
                     </a>
 
                     <a href="#global-nav"
-                        class="global-header__toggle global-header__toggle-nav js-toggle-nav">
+                       class="global-header__toggle global-header__toggle-nav js-toggle-nav">
                         {{ iconHamburger() }}
                         <span class="global-header__toggle-label">
                             Menu
@@ -105,64 +105,82 @@
         </div>
 
 
-        
     </div>
 </header>
 
 <script>
-/**
- * Initialise event listeners on header navigation early
- * (e.g. search and menu toggle)
- *
- * We do this early so that users can interact
- * with the navigation before the main script bundle has loaded
- * increasing time-to-interactive
- */
-(function() {
-    const elSelector = '.js-global-header';
-    var el = document.querySelector(elSelector);
+    /**
+     * Initialise event listeners on header navigation early
+     * (e.g. search and menu toggle)
+     *
+     * We do this early so that users can interact
+     * with the navigation before the main script bundle has loaded
+     * increasing time-to-interactive
+     */
+    (function() {
+        var elSelector = '.js-global-header';
+        var el = document.querySelector(elSelector);
 
-    if (!el) {
-        return;
-    }
-
-    var stateClassNames = {
-        nav: 'has-toggled-navigation',
-        search: 'has-toggled-search'
-    };
-
-    var body = document.querySelector('body');
-    var html = document.querySelector('html');
-    var searchInput = el.querySelector('input[type=search]');
-
-    var toggleNav = el.querySelector('.js-toggle-nav');
-    var toggleSearch = el.querySelector('.js-toggle-search');
-
-    toggleNav.addEventListener('click', function(e) {
-        e.preventDefault();
-        html.classList.remove(stateClassNames.search);
-        html.classList.toggle(stateClassNames.nav);
-    });
-
-    toggleSearch.addEventListener('click', function(e) {
-        e.preventDefault();
-        html.classList.remove(stateClassNames.nav);
-        html.classList.toggle(stateClassNames.search);
-
-        if (searchInput) {
-            searchInput.focus();
+        if (!el) {
+            return;
         }
-    });
 
-    body.addEventListener('click', function(e) {
-        var isOutsideClick = e.target.closest(elSelector) === null;
-        if (
-            isOutsideClick &&
-            (html.classList.contains(stateClassNames.search) || html.classList.contains(stateClassNames.nav))
-        ) {
+        var stateClassNames = {
+            nav: 'has-toggled-navigation',
+            search: 'has-toggled-search'
+        };
+
+        var body = document.querySelector('body');
+        var html = document.querySelector('html');
+        var searchInput = el.querySelector('input[type=search]');
+
+        var toggleNav = el.querySelector('.js-toggle-nav');
+        var toggleSearch = el.querySelector('.js-toggle-search');
+
+        toggleNav.addEventListener('click', function(e) {
+            e.preventDefault();
             html.classList.remove(stateClassNames.search);
+            html.classList.toggle(stateClassNames.nav);
+        });
+
+        toggleSearch.addEventListener('click', function(e) {
+            e.preventDefault();
             html.classList.remove(stateClassNames.nav);
+            html.classList.toggle(stateClassNames.search);
+
+            if (searchInput) {
+                searchInput.focus();
+            }
+        });
+
+        // Polyfill for .closest() via https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
+        // which is unsupported in IE11 (https://sentry.io/big-lottery-fund/biglotteryfund/issues/862390590)
+        if (!Element.prototype.matches) {
+            Element.prototype.matches = Element.prototype.msMatchesSelector ||
+                Element.prototype.webkitMatchesSelector;
         }
-    });
-}());
+
+        if (!Element.prototype.closest) {
+            Element.prototype.closest = function(s) {
+                var el = this;
+
+                do {
+                    if (el.matches(s)) return el;
+                    el = el.parentElement || el.parentNode;
+                } while (el !== null && el.nodeType === 1);
+                return null;
+            };
+        }
+
+        body.addEventListener('click', function(e) {
+            var isOutsideClick = e.target.closest(elSelector) === null;
+            if (
+                isOutsideClick &&
+                (html.classList.contains(stateClassNames.search) || html.classList.contains(stateClassNames.nav))
+            ) {
+                html.classList.remove(stateClassNames.search);
+                html.classList.remove(stateClassNames.nav);
+            }
+        });
+    }());
 </script>
