@@ -13,7 +13,7 @@ module.exports = {
     },
     rules: {
         'no-console': 'warn',
-        'no-only-tests/no-only-tests': 'error',
+        'no-only-tests/no-only-tests': 'warn',
         'no-shadow': 'warn',
         'no-unused-vars': 'warn',
         eqeqeq: 'error',

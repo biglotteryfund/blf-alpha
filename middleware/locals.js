@@ -26,7 +26,7 @@ module.exports = function(req, res, next) {
      * Global copy
      */
     res.locals.globalCopy = {
-        brand: req.i18n.__('global.rebrand')
+        brand: req.i18n.__('global.brand')
     };
 
     /**

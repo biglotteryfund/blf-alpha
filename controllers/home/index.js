@@ -6,7 +6,14 @@ const contentApi = require('../../services/content-api');
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+const injectHomepage = async (req, res, next) => {
+    res.locals.homepageContent = await contentApi.getHomepage({
+        locale: req.i18n.getLocale()
+    });
+    next();
+};
+
+router.get('/', injectHomepage, async (req, res) => {
     let promotedUpdates;
     try {
         promotedUpdates = await contentApi.getUpdates({

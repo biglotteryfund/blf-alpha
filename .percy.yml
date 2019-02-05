@@ -1,0 +1,8 @@
+version: 1
+snapshot:
+  # There is an issue with asset discovery when using multiple
+  # image sizes, as with <picture>, where this is done at a fixed
+  # width rather than at the viewport size for the snaphot.
+  # There is a fix forthcoming but in the meantime the workaround is
+  # to explicitly set our snapshot widths to ~930px.
+  widths: [930]
