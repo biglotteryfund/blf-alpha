@@ -17,7 +17,7 @@
         "description": copy.logoTypes.colour.description,
         "thumbnail": "/assets/images/logos/tnlcf/monolingual/colour.png",
         "downloads": {
-            "digital": "/assets/images/logos/tnlcf/monolingual/colour/digital.png",
+            "digital": "/assets/images/logos/tnlcf/monolingual/colour/digital-white-background.png",
             "print": "/assets/images/logos/tnlcf/monolingual/colour/print.jpg",
             "vector": "/assets/images/logos/tnlcf/monolingual/colour/vector.eps"
         }
@@ -26,7 +26,7 @@
         "description": copy.logoTypes.black.description,
         "thumbnail": "/assets/images/logos/tnlcf/monolingual/black.png",
         "downloads": {
-            "digital": "/assets/images/logos/tnlcf/monolingual/black/digital.png",
+            "digital": "/assets/images/logos/tnlcf/monolingual/black/digital-white-background.png",
             "print": "/assets/images/logos/tnlcf/monolingual/black/print.jpg",
             "vector": "/assets/images/logos/tnlcf/monolingual/black/vector.eps"
         }
@@ -36,7 +36,7 @@
         "description": copy.logoTypes.white.description,
         "thumbnail": "/assets/images/logos/tnlcf/monolingual/white.png",
         "downloads": {
-            "digital": "/assets/images/logos/tnlcf/monolingual/white/digital.png",
+            "digital": "/assets/images/logos/tnlcf/monolingual/white/digital-black-background.png",
             "print": "/assets/images/logos/tnlcf/monolingual/white/print.png",
             "vector": "/assets/images/logos/tnlcf/monolingual/white/vector.eps"
         }
@@ -46,7 +46,7 @@
         "description": copy.logoTypes.colour.description,
         "thumbnail": "/assets/images/logos/tnlcf/bilingual/colour.png",
         "downloads": {
-            "digital": "/assets/images/logos/tnlcf/bilingual/colour/digital.png",
+            "digital": "/assets/images/logos/tnlcf/bilingual/colour/digital-white-background.png",
             "print": "/assets/images/logos/tnlcf/bilingual/colour/print.jpg",
             "vector": "/assets/images/logos/tnlcf/bilingual/colour/vector.eps"
         }
@@ -55,7 +55,7 @@
         "description": copy.logoTypes.black.description,
         "thumbnail": "/assets/images/logos/tnlcf/bilingual/black.png",
         "downloads": {
-            "digital": "/assets/images/logos/tnlcf/bilingual/black/digital.png",
+            "digital": "/assets/images/logos/tnlcf/bilingual/black/digital-white-background.png",
             "print": "/assets/images/logos/tnlcf/bilingual/black/print.jpg",
             "vector": "/assets/images/logos/tnlcf/bilingual/black/vector.eps"
         }
@@ -65,7 +65,7 @@
         "description": copy.logoTypes.white.description,
         "thumbnail": "/assets/images/logos/tnlcf/bilingual/white.png",
         "downloads": {
-            "digital": "/assets/images/logos/tnlcf/bilingual/white/digital.png",
+            "digital": "/assets/images/logos/tnlcf/bilingual/white/digital-black-background.png",
             "print": "/assets/images/logos/tnlcf/bilingual/white/print.png",
             "vector": "/assets/images/logos/tnlcf/bilingual/white/vector.eps"
         }
@@ -83,7 +83,7 @@
 
 {% macro logoCard(logo, language) %}
     {% call card(logo.title, isHeaded = true) %}
-        <a href="{{ logo.downloads.digital }}" class="logo-card__img">
+        <a href="{{ logo.downloads.digital }}" class="logo-card__img" download>
             <img src="{{ logo.thumbnail }}"
                  alt="{{ logo.title }}"
                  class="u-margin-bottom-s{% if logo.reverseOut %} u-tone-background-dark{% endif %}" />
@@ -96,7 +96,8 @@
                    href="{{ logo.downloads.digital }}"
                    data-ga-on="click"
                    data-ga-event-category="Download logo"
-                   data-ga-event-action="{{ logo.title }} - {{ language }} - Digital">
+                   data-ga-event-action="{{ logo.title }} - {{ language }} - Digital"
+                   download>
                     {{ copy.downloads.digital }}
                 </a>
             </li>
@@ -106,7 +107,8 @@
                    href="{{ logo.downloads.print }}"
                    data-ga-on="click"
                    data-ga-event-category="Download logo"
-                   data-ga-event-action="{{ logo.title }} - {{ language }} - Print">
+                   data-ga-event-action="{{ logo.title }} - {{ language }} - Print"
+                   download>
                     {{ copy.downloads.print }}
                 </a>
             </li>
@@ -116,7 +118,8 @@
                    href="{{ logo.downloads.vector }}"
                    data-ga-on="click"
                    data-ga-event-category="Download logo"
-                   data-ga-event-action="{{ logo.title }} - {{ language }} - Vector">
+                   data-ga-event-action="{{ logo.title }} - {{ language }} - Vector"
+                   download>
                     {{ copy.downloads.vector }}
                 </a>
             </li>
