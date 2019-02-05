@@ -21,16 +21,9 @@ describe('common', function() {
     });
 
     it('should redirect search queries to a google site search', () => {
-        const searchDomain = 'https://www.google.co.uk/search';
         cy.checkRedirect({
             from: '/search?q=This is my search query',
-            to: `${searchDomain}?q=This%20is%20my%20search%20query+site%3Awww.biglotteryfund.org.uk+OR+site%3Awww.tnlcommunityfund.org.uk`,
-            isRelative: false,
-            status: 302
-        });
-        cy.checkRedirect({
-            from: '/search?lang=en-GB&amp;q=something&amp;type=All&amp;order=r',
-            to: `${searchDomain}?q=something+site%3Awww.biglotteryfund.org.uk+OR+site%3Awww.tnlcommunityfund.org.uk`,
+            to: 'https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query',
             isRelative: false,
             status: 302
         });
@@ -134,8 +127,9 @@ Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exer
 describe('e2e', function() {
     it('should perform common interactions', () => {
         cy.visit('/');
+
         cy.viewport(375, 667);
-        cy.get('.cookie-consent button').click();
+        cy.closeCookieMessage();
 
         // Submit micro survey
         cy.get('.survey button:first-child').click();
@@ -181,6 +175,9 @@ describe('e2e', function() {
 
     it('should navigate through a funding application from the homepage', () => {
         cy.visit('/');
+        cy.closeCookieMessage();
+
+        cy.percySnapshot('homepage');
 
         // Navigate to over 10k page
         cy.get('#qa-button-over10k').click();
@@ -190,6 +187,8 @@ describe('e2e', function() {
         cy.get('#qa-button-england').click();
         cy.get('#qa-promo-card-link-reaching-communities-england').click();
         cy.checkActiveSection('Funding');
+
+        cy.percySnapshot('reaching-communities');
 
         // Interact with tabs
         cy.get('.js-tabset .js-tab').each($el => {
@@ -302,7 +301,9 @@ describe('e2e', function() {
 
     it('should be able to browse grants search results', () => {
         cy.visit('/funding/grants');
+        cy.closeCookieMessage();
         cy.get('.qa-grant-result').should('have.length', 50);
+        cy.percySnapshot('grants-search');
 
         // Search query
         const testQuery = 'cake';
@@ -326,5 +327,10 @@ describe('e2e', function() {
         // Test pagination
         cy.get('.split-nav__next').click();
         cy.get('.qa-grant-result').should('have.length', textQueryCount - 50);
+    });
+
+    it('patterns', function() {
+        cy.visit('/patterns/components');
+        cy.percySnapshot('patterns');
     });
 });

@@ -7,7 +7,6 @@ const {
     hasTrailingSlash,
     isWelsh,
     localify,
-    normaliseQuery,
     sanitiseUrlPath,
     stripTrailingSlashes
 } = require('../urls');
@@ -145,24 +144,6 @@ describe('URL Helpers', () => {
         it('should sanitise url path', () => {
             expect(sanitiseUrlPath('/about/')).toBe('about');
             expect(sanitiseUrlPath('/welsh/path/to/something/')).toBe('path/to/something');
-        });
-    });
-
-    describe('#normaliseQuery', () => {
-        it('should normalise &amp; encoding in query strings', () => {
-            expect(
-                normaliseQuery({
-                    area: 'England',
-                    'amp;amount': '10001 - 50000',
-                    'amp;org': 'Voluntary or community organisation',
-                    'amp;sc': '1'
-                })
-            ).toEqual({
-                area: 'England',
-                amount: '10001 - 50000',
-                org: 'Voluntary or community organisation',
-                sc: '1'
-            });
         });
     });
 });

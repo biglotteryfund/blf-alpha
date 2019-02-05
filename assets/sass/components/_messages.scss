@@ -139,4 +139,8 @@
     &.announcement-banner--info {
         background-color: #006f75;
     }
+
+    @media print {
+        display: none;
+    }
 }

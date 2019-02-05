@@ -3,7 +3,6 @@
 
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=HTMLPictureElement,Promise,Array.prototype.find,Element.prototype.closest"></script>
 <script id="script-config">
-
 (function() {
     var AppConfig = {
         environment: '{{ appData.environment }}',
@@ -18,29 +17,7 @@
         isOldIE:
             navigator.userAgent.indexOf('MSIE') !== -1 ||
             navigator.appVersion.indexOf('Trident/') > 0,
-        hasSeenPageBefore: (function() {
-            var hasSeenPageBefore = false;
-            try {
-                hasSeenPageBefore = !!window.sessionStorage.getItem(
-                    'app.hasSeenPageBefore'
-                );
-            } catch (e) {} // eslint-disable-line no-empty
-
-            if (!hasSeenPageBefore) {
-                try {
-                    window.sessionStorage.setItem(
-                        'app.hasSeenPageBefore',
-                        true
-                    );
-                } catch (e) {} // eslint-disable-line no-empty
-            }
-
-            return hasSeenPageBefore;
-        })(),
-        /**
-         * Allows us to disable google analytics on live env when loaded via EC2/ELB
-         * and not the real domain e.g. to avoid polluting data with extra domains
-         */
+        /* Disable analytics outside of the real domain to avoid polluting data. */
         blockAnalytics:
             {{ appData.environment == 'production' }} &&
             ['www.biglotteryfund.org.uk', 'www.tnlcommunityfund.org.uk'].indexOf(window.location.hostname) === -1

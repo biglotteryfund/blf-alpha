@@ -28,7 +28,7 @@
                 </aside>
             {% elseif enableNameChangeMessage %}
                 <aside class="announcement-banner">
-                    {{ __('global.rebrand.nameChange') | safe }}
+                    {{ globalCopy.brand.nameChange | safe }}
                     <a href="{{ localify('/news/press-releases/2019-01-29/national-lottery-good-cause-funders-unveil-new-brand') }}">
                         {{ __('global.misc.readMore') }}
                     </a>

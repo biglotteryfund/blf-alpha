@@ -50,11 +50,11 @@
         {# Featured sections #}
         <section class="u-inner u-margin-bottom">
             <ul class="flex-grid flex-grid--3up">
-                {% for item in copy.featuredLinks %}
+                {% for item in homepageContent.featuredLinks %}
                     <li class="flex-grid__item">
                         {{ miniatureHero({
                             "title": item.label,
-                            "linkUrl": item.href,
+                            "linkUrl": localify(item.href),
                             "image": item.image
                         }) }}
                     </li>

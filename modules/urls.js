@@ -98,26 +98,6 @@ function sanitiseUrlPath(urlPath) {
 }
 
 /**
- * Normalize query
- * Old format URLs often get passed through as: ?area=Scotland&amp;amount=10001 - 50000
- * urlencoded &amp; needs to be normalised when fetching individual query param
- */
-function normaliseQuery(originalQuery) {
-    function reducer(newQuery, value, key) {
-        const prefix = 'amp;';
-        if (includes(key, prefix)) {
-            newQuery[key.replace(prefix, '')] = value;
-        } else {
-            newQuery[key] = value;
-        }
-
-        return newQuery;
-    }
-
-    return reduce(originalQuery, reducer, {});
-}
-
-/**
  * getCurrentUrl
  * - Look up the current URL and rewrite to another locale
  * - Normalises and prunes query strings
@@ -166,7 +146,6 @@ module.exports = {
     isWelsh,
     localify,
     makeWelsh,
-    normaliseQuery,
     removeWelsh,
     sanitiseUrlPath,
     stripTrailingSlashes,
