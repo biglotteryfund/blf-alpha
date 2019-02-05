@@ -3,10 +3,11 @@ const express = require('express');
 const moment = require('moment');
 const sitemap = require('sitemap');
 const domains = require('config').get('domains');
-const { includes } = require('lodash');
+const { includes, concat } = require('lodash');
 
 const { getBaseUrl, getAbsoluteUrl } = require('../../modules/urls');
 const { getCanonicalRoutes } = require('../../modules/route-helpers');
+const { legacyPagePaths, legacyFilesPath } = require('../../modules/archived');
 const { noCache, sMaxAge } = require('../../middleware/cached');
 const appData = require('../../modules/appData');
 
@@ -31,7 +32,14 @@ router.get('/status', (req, res) => {
 
 router.get('/robots.txt', noCache, (req, res) => {
     const isIndexable = includes(domains.indexable, req.get('host')) === true;
-    const disallowList = ['/api/', '/funding/grants/', '/welsh/funding/grants/'];
+
+    // Merge archived paths with internal / deliberately excluded URLs
+    const disallowList = concat(
+        ['/api/', '/funding/grants/', '/welsh/funding/grants/'],
+        legacyFilesPath,
+        legacyPagePaths
+    );
+
     const text = [
         `user-agent: *`,
         `sitemap: ${getAbsoluteUrl(req, '/sitemap.xml')}`,
