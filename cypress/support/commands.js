@@ -82,3 +82,7 @@ Cypress.Commands.add('uiRegisterUser', (username, password) => {
     cy.get('#field-password').type(password, { delay: 0 });
     cy.get('input[type="submit"]').click();
 });
+
+Cypress.Commands.add('closeCookieMessage', () => {
+    cy.get('.cookie-consent button').click();
+});

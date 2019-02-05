@@ -136,7 +136,7 @@ describe('e2e', function() {
         cy.visit('/');
 
         cy.viewport(375, 667);
-        cy.get('.cookie-consent button').click();
+        cy.closeCookieMessage();
 
         // Submit micro survey
         cy.get('.survey button:first-child').click();
@@ -182,6 +182,9 @@ describe('e2e', function() {
 
     it('should navigate through a funding application from the homepage', () => {
         cy.visit('/');
+        cy.closeCookieMessage();
+
+        cy.percySnapshot('homepage');
 
         // Navigate to over 10k page
         cy.get('#qa-button-over10k').click();
@@ -191,6 +194,8 @@ describe('e2e', function() {
         cy.get('#qa-button-england').click();
         cy.get('#qa-promo-card-link-reaching-communities-england').click();
         cy.checkActiveSection('Funding');
+
+        cy.percySnapshot('reaching-communities');
 
         // Interact with tabs
         cy.get('.js-tabset .js-tab').each($el => {
@@ -303,7 +308,9 @@ describe('e2e', function() {
 
     it('should be able to browse grants search results', () => {
         cy.visit('/funding/grants');
+        cy.closeCookieMessage();
         cy.get('.qa-grant-result').should('have.length', 50);
+        cy.percySnapshot('grants-search');
 
         // Search query
         const testQuery = 'cake';
@@ -328,9 +335,7 @@ describe('e2e', function() {
         cy.get('.split-nav__next').click();
         cy.get('.qa-grant-result').should('have.length', textQueryCount - 50);
     });
-});
 
-describe('percy', function() {
     it('patterns', function() {
         cy.visit('/patterns/components');
         cy.percySnapshot('patterns');
