@@ -1,6 +1,8 @@
 // @ts-nocheck
 // https://on.cypress.io/custom-commands
 
+import '@percy/cypress';
+
 Cypress.Commands.add('getCsrf', () => {
     return cy
         .request('/user/login')
@@ -79,4 +81,8 @@ Cypress.Commands.add('uiRegisterUser', (username, password) => {
     cy.get('#field-username').type(username, { delay: 0 });
     cy.get('#field-password').type(password, { delay: 0 });
     cy.get('input[type="submit"]').click();
+});
+
+Cypress.Commands.add('closeCookieMessage', () => {
+    cy.get('.cookie-consent button').click();
 });
