@@ -17,7 +17,7 @@ $widestScreen: map-get($breakpoints, 'xlarge');
 $maxWidth: 1000px;
 
 // This is used as a utility measure around the site
-$spacingUnit: 20px;
+$spacingUnit: 25px;
 
 // Max-width values for running content
 $constrained: 700px;
@@ -69,7 +69,7 @@ $typography: (
 
 $colors: (
     brand: (
-        primary: #e5007d,
+        primary: hotpink,
         primary-tint: rgba(229, 0, 125, 0.9),
         primary-light-wash: #f9e9f2,
         secondary-blue: #002b57,

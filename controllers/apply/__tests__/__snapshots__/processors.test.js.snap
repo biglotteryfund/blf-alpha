@@ -60,12 +60,12 @@ body{padding:10px;margin:auto}body,=
 p{color:#333;font-weight:400;font-size:20px;line-height:1.35}.fonts-loaded =
 body,.fonts-loaded p{font-family:caecilia-sans-text,Trebuchet MS,=
 sans-serif}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;margin:0 0 =
-20px;color:#e5007d}.fonts-loaded h1,.fonts-loaded h2,.fonts-loaded h3,.=
+20px;color:#ff69b4}.fonts-loaded h1,.fonts-loaded h2,.fonts-loaded h3,.=
 fonts-loaded h4,.fonts-loaded h5,.fonts-loaded h6{font-family:caecilia,=
 sans-serif}h1{font-size:26px}h2{font-size:22px}h3{font-size:18px}h4{font-si=
 ze:16px}h5{font-size:14px}h6{font-size:12px}a{color:#0075b0;font-weight:800=
 }.logo{margin-bottom:20px;display:block}.logo img{width:200px}.summary =
-h4{border-bottom:1px solid #e5007d;padding-bottom:3px}.summary h4,.summary =
+h4{border-bottom:1px solid #ff69b4;padding-bottom:3px}.summary h4,.summary =
 h5{font-weight:800}small{display:block;font-size:11px;color:#666;margin-bot=
 tom:10px}.space-above{margin-top:50px}
 /*# sourceMappingURL=3Demails.css.=
@@ -198,14 +198,14 @@ in touch as soon as we can.</p>
     <div class=3D\\"summary\\">
        =20
             <h4 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 16px; font-family: caecilia,sans-serif; =
-border-bottom: 1px solid #e5007d; padding-bottom: 3px; font-weight: =
+color: #ff69b4; font-size: 16px; font-family: caecilia,sans-serif; =
+border-bottom: 1px solid #ff69b4; padding-bottom: 3px; font-weight: =
 800;\\">Your details</h4>
            =20
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.=
-2; margin: 0 0 20px; color: #e5007d; font-size: 14px; font-family: caecilia=
+2; margin: 0 0 20px; color: #ff69b4; font-size: 14px; font-family: caecilia=
 ,sans-serif; font-weight: 800;\\">Your name</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -216,7 +216,7 @@ Trebuchet MS,sans-serif;\\">Example Person</p>
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+color: #ff69b4; font-size: 14px; font-family: caecilia,sans-serif; =
 font-weight: 800;\\">Email address</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -228,7 +228,7 @@ Trebuchet MS,sans-serif;\\">example@example.com</p>
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+color: #ff69b4; font-size: 14px; font-family: caecilia,sans-serif; =
 font-weight: 800;\\">Organisation name</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -247,7 +247,7 @@ Trebuchet MS,sans-serif;\\">Test Organisation</p>
            =20
 
             <h5 class=3D\\"space-above\\" style=3D\\"font-weight: 700; =
-line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: 14px; =
+line-height: 1.2; margin: 0 0 20px; color: #ff69b4; font-size: 14px; =
 margin-top: 50px; font-family: caecilia,sans-serif;\\">Data protection</h5>
             <small style=3D\\"display: block; font-size: 11px; color: #666; =
 margin-bottom: 10px;\\">The National Lottery Community Fund is a public body =
@@ -331,12 +331,12 @@ body{padding:10px;margin:auto}body,=
 p{color:#333;font-weight:400;font-size:20px;line-height:1.35}.fonts-loaded =
 body,.fonts-loaded p{font-family:caecilia-sans-text,Trebuchet MS,=
 sans-serif}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;margin:0 0 =
-20px;color:#e5007d}.fonts-loaded h1,.fonts-loaded h2,.fonts-loaded h3,.=
+20px;color:#ff69b4}.fonts-loaded h1,.fonts-loaded h2,.fonts-loaded h3,.=
 fonts-loaded h4,.fonts-loaded h5,.fonts-loaded h6{font-family:caecilia,=
 sans-serif}h1{font-size:26px}h2{font-size:22px}h3{font-size:18px}h4{font-si=
 ze:16px}h5{font-size:14px}h6{font-size:12px}a{color:#0075b0;font-weight:800=
 }.logo{margin-bottom:20px;display:block}.logo img{width:200px}.summary =
-h4{border-bottom:1px solid #e5007d;padding-bottom:3px}.summary h4,.summary =
+h4{border-bottom:1px solid #ff69b4;padding-bottom:3px}.summary h4,.summary =
 h5{font-weight:800}small{display:block;font-size:11px;color:#666;margin-bot=
 tom:10px}.space-above{margin-top:50px}
 /*# sourceMappingURL=3Demails.css.=
@@ -455,21 +455,21 @@ AwIDAtLjc3LS4yaC0xdjEuNzF6IiBmaWxsPSIjMWQxZDFiIi8+PC9zdmc+\\" style=3D\\"width:=
 
        =20
     <h1 style=3D\\"font-weight: =
-700; line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: 26px; =
+700; line-height: 1.2; margin: 0 0 20px; color: #ff69b4; font-size: 26px; =
 font-family: caecilia,sans-serif;\\">New submission for Digital Fund Strand =
 1</h1>
    =20
     <div class=3D\\"summary\\">
        =20
             <h4 style=3D\\"line-height: 1.2; margin: 0 0 20px; color: =
-#e5007d; font-size: 16px; font-family: caecilia,sans-serif; border-bottom: =
-1px solid #e5007d; padding-bottom: 3px; font-weight: 800;\\">Your =
+#ff69b4; font-size: 16px; font-family: caecilia,sans-serif; border-bottom: =
+1px solid #ff69b4; padding-bottom: 3px; font-weight: 800;\\">Your =
 details</h4>
            =20
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+color: #ff69b4; font-size: 14px; font-family: caecilia,sans-serif; =
 font-weight: 800;\\">Your name</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -480,7 +480,7 @@ Trebuchet MS,sans-serif;\\">Example Person</p>
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+color: #ff69b4; font-size: 14px; font-family: caecilia,sans-serif; =
 font-weight: 800;\\">Email address</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -492,7 +492,7 @@ Trebuchet MS,sans-serif;\\">example@example.com</p>
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+color: #ff69b4; font-size: 14px; font-family: caecilia,sans-serif; =
 font-weight: 800;\\">Organisation name</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -511,7 +511,7 @@ Trebuchet MS,sans-serif;\\">Test Organisation</p>
            =20
 
             <h5 class=3D\\"space-above\\" style=3D\\"font-weight: 700; =
-line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: 14px; =
+line-height: 1.2; margin: 0 0 20px; color: #ff69b4; font-size: 14px; =
 margin-top: 50px; font-family: caecilia,sans-serif;\\">Data protection</h5>
             <small style=3D\\"display: block; font-size: 11px; color: #666; =
 margin-bottom: 10px;\\">The National Lottery Community Fund is a public body =
@@ -630,12 +630,12 @@ body{padding:10px;margin:auto}body,=
 p{color:#333;font-weight:400;font-size:20px;line-height:1.35}.fonts-loaded =
 body,.fonts-loaded p{font-family:caecilia-sans-text,Trebuchet MS,=
 sans-serif}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;margin:0 0 =
-20px;color:#e5007d}.fonts-loaded h1,.fonts-loaded h2,.fonts-loaded h3,.=
+20px;color:#ff69b4}.fonts-loaded h1,.fonts-loaded h2,.fonts-loaded h3,.=
 fonts-loaded h4,.fonts-loaded h5,.fonts-loaded h6{font-family:caecilia,=
 sans-serif}h1{font-size:26px}h2{font-size:22px}h3{font-size:18px}h4{font-si=
 ze:16px}h5{font-size:14px}h6{font-size:12px}a{color:#0075b0;font-weight:800=
 }.logo{margin-bottom:20px;display:block}.logo img{width:200px}.summary =
-h4{border-bottom:1px solid #e5007d;padding-bottom:3px}.summary h4,.summary =
+h4{border-bottom:1px solid #ff69b4;padding-bottom:3px}.summary h4,.summary =
 h5{font-weight:800}small{display:block;font-size:11px;color:#666;margin-bot=
 tom:10px}.space-above{margin-top:50px}
 /*# sourceMappingURL=3Demails.css.=
@@ -777,19 +777,19 @@ line-height: 1.35; font-family: caecilia-sans-text,Trebuchet MS,=
 sans-serif;\\"><strong>The National Lottery Community Fund</strong></p>
 
     <h2 style=3D\\"font-weight: 700; line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 22px; font-family: caecilia,sans-serif;\\">Your =
+color: #ff69b4; font-size: 22px; font-family: caecilia,sans-serif;\\">Your =
 information</h2>
    =20
     <div class=3D\\"summary\\">
        =20
             <h4 style=3D\\"line-height: 1.2; margin: 0 0 20px; color: =
-#e5007d; font-size: 16px; font-family: caecilia,sans-serif; border-bottom: =
-1px solid #e5007d; padding-bottom: 3px; font-weight: 800;\\">Your idea</h4>
+#ff69b4; font-size: 16px; font-family: caecilia,sans-serif; border-bottom: =
+1px solid #ff69b4; padding-bottom: 3px; font-weight: 800;\\">Your idea</h4>
            =20
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+color: #ff69b4; font-size: 14px; font-family: caecilia,sans-serif; =
 font-weight: 800;\\">Briefly explain your idea and why it=E2=80=99ll make a =
 difference</h5>
                        =20
@@ -800,14 +800,14 @@ style=3D\\"color: #333; font-weight: 400; font-size: 20px; line-height: 1.35;=
                    =20
        =20
             <h4 style=3D\\"line-height: 1.2; margin: 0 0 20px; color: =
-#e5007d; font-size: 16px; font-family: caecilia,sans-serif; border-bottom: =
-1px solid #e5007d; padding-bottom: 3px; font-weight: 800;\\">Project =
+#ff69b4; font-size: 16px; font-family: caecilia,sans-serif; border-bottom: =
+1px solid #ff69b4; padding-bottom: 3px; font-weight: 800;\\">Project =
 location</h4>
            =20
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+color: #ff69b4; font-size: 14px; font-family: caecilia,sans-serif; =
 font-weight: 800;\\">Select all regions that apply</h5>
                        =20
                             <p style=3D\\"color: =
@@ -818,7 +818,7 @@ caecilia-sans-text,Trebuchet MS,sans-serif;\\">South West</p>
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.=
-2; margin: 0 0 20px; color: #e5007d; font-size: 14px; font-family: caecilia=
+2; margin: 0 0 20px; color: #ff69b4; font-size: 14px; font-family: caecilia=
 ,sans-serif; font-weight: 800;\\">Project location</h5>
                        =20
                             <p style=3D\\"color: =
@@ -828,14 +828,14 @@ caecilia-sans-text,Trebuchet MS,sans-serif;\\">London</p>
                    =20
        =20
             <h4 style=3D\\"line-height: 1.2; margin: 0 0 20px; color: =
-#e5007d; font-size: 16px; font-family: caecilia,sans-serif; border-bottom: =
-1px solid #e5007d; padding-bottom: 3px; font-weight: 800;\\">Your =
+#ff69b4; font-size: 16px; font-family: caecilia,sans-serif; border-bottom: =
+1px solid #ff69b4; padding-bottom: 3px; font-weight: 800;\\">Your =
 organisation</h4>
            =20
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.=
-2; margin: 0 0 20px; color: #e5007d; font-size: 14px; font-family: caecilia=
+2; margin: 0 0 20px; color: #ff69b4; font-size: 14px; font-family: caecilia=
 ,sans-serif; font-weight: 800;\\">Legal name</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -847,14 +847,14 @@ Trebuchet MS,sans-serif;\\">Test Organisation</p>
                    =20
        =20
             <h4 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 16px; font-family: caecilia,sans-serif; =
-border-bottom: 1px solid #e5007d; padding-bottom: 3px; font-weight: =
+color: #ff69b4; font-size: 16px; font-family: caecilia,sans-serif; =
+border-bottom: 1px solid #ff69b4; padding-bottom: 3px; font-weight: =
 800;\\">Your details</h4>
            =20
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.=
-2; margin: 0 0 20px; color: #e5007d; font-size: 14px; font-family: caecilia=
+2; margin: 0 0 20px; color: #ff69b4; font-size: 14px; font-family: caecilia=
 ,sans-serif; font-weight: 800;\\">First name</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -865,7 +865,7 @@ Trebuchet MS,sans-serif;\\">Example</p>
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+color: #ff69b4; font-size: 14px; font-family: caecilia,sans-serif; =
 font-weight: 800;\\">Last name</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -876,7 +876,7 @@ Trebuchet MS,sans-serif;\\">Person</p>
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+color: #ff69b4; font-size: 14px; font-family: caecilia,sans-serif; =
 font-weight: 800;\\">Email address</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -888,7 +888,7 @@ Trebuchet MS,sans-serif;\\">example@example.com</p>
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+color: #ff69b4; font-size: 14px; font-family: caecilia,sans-serif; =
 font-weight: 800;\\">Phone number</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -905,7 +905,7 @@ Trebuchet MS,sans-serif;\\">03454102030</p>
            =20
 
             <h5 class=3D\\"space-above\\" style=3D\\"font-weight: 700; =
-line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: 14px; =
+line-height: 1.2; margin: 0 0 20px; color: #ff69b4; font-size: 14px; =
 margin-top: 50px; font-family: caecilia,sans-serif;\\">Data protection</h5>
             <small style=3D\\"display: block; font-size: 11px; color: #666; =
 margin-bottom: 10px;\\">The National Lottery Community Fund is a public body =
@@ -992,12 +992,12 @@ body{padding:10px;margin:auto}body,=
 p{color:#333;font-weight:400;font-size:20px;line-height:1.35}.fonts-loaded =
 body,.fonts-loaded p{font-family:caecilia-sans-text,Trebuchet MS,=
 sans-serif}h1,h2,h3,h4,h5,h6{font-weight:700;line-height:1.2;margin:0 0 =
-20px;color:#e5007d}.fonts-loaded h1,.fonts-loaded h2,.fonts-loaded h3,.=
+20px;color:#ff69b4}.fonts-loaded h1,.fonts-loaded h2,.fonts-loaded h3,.=
 fonts-loaded h4,.fonts-loaded h5,.fonts-loaded h6{font-family:caecilia,=
 sans-serif}h1{font-size:26px}h2{font-size:22px}h3{font-size:18px}h4{font-si=
 ze:16px}h5{font-size:14px}h6{font-size:12px}a{color:#0075b0;font-weight:800=
 }.logo{margin-bottom:20px;display:block}.logo img{width:200px}.summary =
-h4{border-bottom:1px solid #e5007d;padding-bottom:3px}.summary h4,.summary =
+h4{border-bottom:1px solid #ff69b4;padding-bottom:3px}.summary h4,.summary =
 h5{font-weight:800}small{display:block;font-size:11px;color:#666;margin-bot=
 tom:10px}.space-above{margin-top:50px}
 /*# sourceMappingURL=3Demails.css.=
@@ -1116,27 +1116,27 @@ AwIDAtLjc3LS4yaC0xdjEuNzF6IiBmaWxsPSIjMWQxZDFiIi8+PC9zdmc+\\" style=3D\\"width:=
 
        =20
     <h1 style=3D\\"font-weight: =
-700; line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: 26px; =
+700; line-height: 1.2; margin: 0 0 20px; color: #ff69b4; font-size: 26px; =
 font-family: caecilia,sans-serif;\\">A customer has submitted an idea from =
 the Reaching Communities &amp; Partnerships web form.</h1>
     <p style=3D\\"color: #333; font-weight: 400; font-size: 20px; =
 line-height: 1.35; font-family: caecilia-sans-text,Trebuchet MS,=
 sans-serif;\\">The details they provided are included below:</p>
     <h2 class=3D\\"space-above\\" style=3D\\"font-weight: 700; line-height: 1.2; =
-margin: 0 0 20px; color: #e5007d; font-size: 22px; margin-top: 50px; =
+margin: 0 0 20px; color: #ff69b4; font-size: 22px; margin-top: 50px; =
 font-family: caecilia,sans-serif;\\">Customer information</h2>
    =20
     <div class=3D\\"summary\\">
        =20
             <h4 =
-style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: =
-16px; font-family: caecilia,sans-serif; border-bottom: 1px solid #e5007d; =
+style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #ff69b4; font-size: =
+16px; font-family: caecilia,sans-serif; border-bottom: 1px solid #ff69b4; =
 padding-bottom: 3px; font-weight: 800;\\">Your details</h4>
            =20
                    =20
                    =20
                         <h5 =
-style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: =
+style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #ff69b4; font-size: =
 14px; font-family: caecilia,sans-serif; font-weight: 800;\\">First name</h5>
                        =20
                             <p style=3D\\"color: =
@@ -1147,7 +1147,7 @@ caecilia-sans-text,Trebuchet MS,sans-serif;\\">Example</p>
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.=
-2; margin: 0 0 20px; color: #e5007d; font-size: 14px; font-family: caecilia=
+2; margin: 0 0 20px; color: #ff69b4; font-size: 14px; font-family: caecilia=
 ,sans-serif; font-weight: 800;\\">Last name</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -1158,7 +1158,7 @@ Trebuchet MS,sans-serif;\\">Person</p>
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+color: #ff69b4; font-size: 14px; font-family: caecilia,sans-serif; =
 font-weight: 800;\\">Email address</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -1170,7 +1170,7 @@ Trebuchet MS,sans-serif;\\">example@example.com</p>
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+color: #ff69b4; font-size: 14px; font-family: caecilia,sans-serif; =
 font-weight: 800;\\">Phone number</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -1180,14 +1180,14 @@ Trebuchet MS,sans-serif;\\">03454102030</p>
                    =20
        =20
             <h4 style=3D\\"line-height: 1.=
-2; margin: 0 0 20px; color: #e5007d; font-size: 16px; font-family: caecilia=
-,sans-serif; border-bottom: 1px solid #e5007d; padding-bottom: 3px; =
+2; margin: 0 0 20px; color: #ff69b4; font-size: 16px; font-family: caecilia=
+,sans-serif; border-bottom: 1px solid #ff69b4; padding-bottom: 3px; =
 font-weight: 800;\\">Your organisation</h4>
            =20
                    =20
                    =20
                         <h5 =
-style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: =
+style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #ff69b4; font-size: =
 14px; font-family: caecilia,sans-serif; font-weight: 800;\\">Legal name</h5>
                        =20
                             <p style=3D\\"color: =
@@ -1199,14 +1199,14 @@ caecilia-sans-text,Trebuchet MS,sans-serif;\\">Test Organisation</p>
                    =20
        =20
             <h4 style=3D\\"line-height: 1.=
-2; margin: 0 0 20px; color: #e5007d; font-size: 16px; font-family: caecilia=
-,sans-serif; border-bottom: 1px solid #e5007d; padding-bottom: 3px; =
+2; margin: 0 0 20px; color: #ff69b4; font-size: 16px; font-family: caecilia=
+,sans-serif; border-bottom: 1px solid #ff69b4; padding-bottom: 3px; =
 font-weight: 800;\\">Project location</h4>
            =20
                    =20
                    =20
                         <h5 =
-style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: =
+style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #ff69b4; font-size: =
 14px; font-family: caecilia,sans-serif; font-weight: 800;\\">Select all =
 regions that apply</h5>
                        =20
@@ -1219,7 +1219,7 @@ sans-serif;\\">South West</p>
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+color: #ff69b4; font-size: 14px; font-family: caecilia,sans-serif; =
 font-weight: 800;\\">Project location</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
@@ -1229,14 +1229,14 @@ Trebuchet MS,sans-serif;\\">London</p>
                    =20
        =20
             <h4 style=3D\\"line-height: 1.=
-2; margin: 0 0 20px; color: #e5007d; font-size: 16px; font-family: caecilia=
-,sans-serif; border-bottom: 1px solid #e5007d; padding-bottom: 3px; =
+2; margin: 0 0 20px; color: #ff69b4; font-size: 16px; font-family: caecilia=
+,sans-serif; border-bottom: 1px solid #ff69b4; padding-bottom: 3px; =
 font-weight: 800;\\">Your idea</h4>
            =20
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.=
-2; margin: 0 0 20px; color: #e5007d; font-size: 14px; font-family: caecilia=
+2; margin: 0 0 20px; color: #ff69b4; font-size: 14px; font-family: caecilia=
 ,sans-serif; font-weight: 800;\\">Briefly explain your idea and why =
 it=E2=80=99ll make a difference</h5>
                        =20
