@@ -33,7 +33,7 @@ router.get('/', injectHomepage, async (req, res) => {
             medium: '/assets/images/home/superhero-medium.jpg',
             large: '/assets/images/home/superhero-large.jpg',
             default: '/assets/images/home/superhero-medium.jpg',
-            caption: 'Connect Community Trust'
+            caption: 'Superstars Club'
         }
     });
 });
