@@ -11,21 +11,15 @@ const { errorTranslator } = require('../../modules/validators');
 const { sendEmail } = require('../../services/mail');
 const appData = require('../../modules/appData');
 
-const translateError = errorTranslator('toplevel.ebulletin.errors');
-
 const router = express.Router();
 
 const validators = [
     body('email')
-        .exists()
-        .not()
-        .isEmpty()
-        .withMessage(translateError('emailMissing'))
         .isEmail()
-        .withMessage(translateError('emailInvalid'))
+        .withMessage(errorTranslator('global.forms')('invalidEmailError'))
 ];
 
-function renderAlternativeFunding(req, res) {
+function render(req, res) {
     res.render(path.resolve(__dirname, './views/assistance'), {
         title: res.locals.copy.assistance.title,
         breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.copy.assistance.title }])
@@ -34,7 +28,7 @@ function renderAlternativeFunding(req, res) {
 
 router
     .route('/')
-    .get(renderAlternativeFunding)
+    .get(render)
     .post(validators, async (req, res) => {
         const formData = matchedData(req);
         const formErrors = validationResult(req);
@@ -54,15 +48,15 @@ router
                 });
 
                 res.locals.status = 'SUBMISSION_SUCCESS';
-                renderAlternativeFunding(req, res);
+                render(req, res);
             } catch (error) {
                 res.locals.status = 'SUBMISSION_ERROR';
-                renderAlternativeFunding(req, res);
+                render(req, res);
             }
         } else {
             res.locals.formData = formData;
             res.locals.errors = formErrors.array();
-            renderAlternativeFunding(req, res);
+            render(req, res);
         }
     });
 
