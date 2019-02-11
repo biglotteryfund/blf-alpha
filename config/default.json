@@ -40,8 +40,7 @@
     "enableNameChangeMessage": true,
     "enablePrompt": false,
     "enableRelatedGrants": true,
-    "enableSurvey": true,
-    "enableTimingMetrics": false
+    "enableSurvey": true
   },
   "cookies": {
     "features": "blf-features",
