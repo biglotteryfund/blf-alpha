@@ -346,41 +346,6 @@ toplevel:
           - "Funding grassroots community action across Wales."
           - "Offering long-term, flexible funding and support to charities and community groups"
           - "Helping organisations to work together with others to improve communities and solve problems"
-  ebulletin:
-    title: e-bulletin
-    introHeading: Find out about our funding
-    intro: Sign up for our latest news relating to your country
-    location: Location
-    locations:
-      england: England
-      wales: Wales
-      scotland: Scotland
-      northernIreland: Northern Ireland
-    yourDetails: Your Details
-    fields:
-      firstName: First name
-      lastName: Surname
-      organisation: Organisation
-      emailAddress: Email Address
-    errors:
-      firstName: Please provide your first name
-      lastName: Please provide your last name
-      emailMissing: Please provide your email address
-      emailInvalid: Please provide a valid email address
-      location: Please choose a country
-    callToAction: Subscribe
-    responses:
-      success:
-        title: Thank you for subscribing to receive updates and news from the Big
-            Lottery Fund
-        body: Your personal data is important to us and we will not share it with
-            third parties. We are sure you will enjoy hearing from us, but you can
-            <a href="http://bigmail.org.uk/t/3V8D-8ASA-B715KZGHE3/uns.aspx">unsubscribe
-            at any time</a> if you wish.
-      error:
-        title: There was an error signing you up to the e-bulletin.
-        body: It looks like we're experiencing an error with our e-bulletin tool.
-            Please try again later.
   funding:
     title: Funding
     latestProgrammes: Latest Programmes
@@ -818,7 +783,7 @@ funding:
       - title: Submit a full proposal
         description: If we feel the Digital Fund could work for you, we’ll ask you to submit a full proposal
       stepsClosed:
-      - title: Submit an outline of your idea—closed on 3rd December at 5pm 
+      - title: Submit an outline of your idea—closed on 3rd December at 5pm
         description: Send us a brief outline of your idea online
       - title: Talk to us
         description: If your idea looks like it fits with the Digital Fund criteria, we’ll arrange a call with you
