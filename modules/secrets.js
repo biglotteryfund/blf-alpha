@@ -62,12 +62,6 @@ const AZURE_AUTH = {
 };
 
 /**
- * Dotmailer API credentials
- * Used to sign up to email lists
- */
-const DOTMAILER_API = { user: getSecret('dotmailer.api.user'), password: getSecret('dotmailer.api.password') };
-
-/**
  * Material supplier email
  * Used for sending order emails when placing and order for free materials
  */
@@ -85,7 +79,6 @@ module.exports = {
     CONTENT_API_URL,
     DB_CONNECTION_URI,
     DIGITAL_FUND_EMAIL,
-    DOTMAILER_API,
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
