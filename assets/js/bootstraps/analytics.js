@@ -6,7 +6,7 @@ import { trackEvent } from '../helpers/metrics';
 function trackDocumentDownloads() {
     const links = document.querySelectorAll('.content-box a[href]');
     forEach(links, function(link) {
-        if (/\.(pdf|doc|docx|xls|xlsx)$/i.test(link.href)) {
+        if (/\.(pdf|doc|docx|xls|xlsx)/i.test(link.href)) {
             link.addEventListener('click', () => {
                 trackEvent('Documents', 'Downloaded a document', link.href);
             });
