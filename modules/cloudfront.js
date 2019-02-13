@@ -1,6 +1,6 @@
 'use strict';
 const cookies = require('config').get('cookies');
-const { assign, compact, concat, flatten, flatMap, get, sortBy, uniq } = require('lodash');
+const { assign, concat, flatMap, sortBy } = require('lodash');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 
@@ -112,7 +112,7 @@ function generateBehaviours(origins) {
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.site,
         isPostable: true,
-        cookiesInUse: [cookies.features, cookies.session]
+        cookiesInUse: [cookies.session]
     });
 
     /**
@@ -147,15 +147,7 @@ function generateBehaviours(origins) {
     ];
 
     const primaryBehaviours = flatMap(customPaths, rule => {
-        // Merge default cookies with rule specific cookie
-        const cookiesInUse = uniq(
-            compact(
-                flatten([
-                    [cookies.features, rule.noSession === true ? null : cookies.session],
-                    get(rule, 'cookies', [])
-                ])
-            )
-        );
+        const cookiesInUse = rule.noSession ? [] : [cookies.session];
 
         const behaviour = makeBehaviourItem({
             originId: origins.site,
