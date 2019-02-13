@@ -17,14 +17,13 @@ describe('#makeBehaviourItem', () => {
         expect(behaviour).toMatchSnapshot();
     });
 
-    it('should allow all cookies and querystrings', () => {
+    it('should allow all querystrings', () => {
         const behaviour = makeBehaviourItem({
             originId: 'BLF_EXAMPLE',
             pathPattern: '/example',
             isPostable: true,
             allowAllQueryStrings: true,
-            allowAllCookies: true,
-            protocol: 'allow-all',
+            cookiesInUse: ['example'],
             headersToKeep: ['*']
         });
 

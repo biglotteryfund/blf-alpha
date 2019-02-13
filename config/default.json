@@ -33,7 +33,6 @@
     }
   },
   "features": {
-    "enableAbTests": true,
     "enableDigitalFundApplications": false,
     "enableHotjar": false,
     "enableMailSendMetrics": false,
@@ -43,8 +42,6 @@
     "enableSurvey": true
   },
   "cookies": {
-    "features": "blf-features",
-    "rebrand": "tnlcf-rebrand",
     "session": "blf-alpha-session"
   },
   "hotjarId": 1036292,

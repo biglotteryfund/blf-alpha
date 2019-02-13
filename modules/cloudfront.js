@@ -1,30 +1,40 @@
 'use strict';
 const cookies = require('config').get('cookies');
-const { assign, compact, concat, flatten, flatMap, get, sortBy, uniq } = require('lodash');
+const { assign, concat, flatMap, sortBy } = require('lodash');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 
-const makeBehaviourItem = ({
+/**
+ * Make CloudFront behaviour item
+ *
+ * @param {object} options
+ * @param {string} options.originId
+ * @param {string} [options.pathPattern]
+ * @param {boolean} [options.isPostable]
+ * @param {Array<string>} [options.cookiesInUse]
+ * @param {Array<string>} [options.queryStringWhitelist]
+ * @param {boolean} [options.allowAllQueryStrings]
+ * @param {Array<string>} [options.headersToKeep]
+ */
+function makeBehaviourItem({
     originId,
     pathPattern = null,
     isPostable = false,
     cookiesInUse = [],
-    allowAllCookies = false,
     queryStringWhitelist = [],
     allowAllQueryStrings = false,
-    protocol = 'redirect-to-https',
     headersToKeep = ['Accept', 'Host']
-}) => {
+}) {
     const allowedHttpMethods = isPostable
         ? ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
         : ['HEAD', 'GET'];
 
-    const globalQuerystrings = ['draft', 'version', 'enable-feature', 'disable-feature'];
+    const globalQuerystrings = ['draft', 'version'];
     const queryStrings = globalQuerystrings.concat(queryStringWhitelist);
 
     const behaviour = {
         TargetOriginId: originId,
-        ViewerProtocolPolicy: protocol,
+        ViewerProtocolPolicy: 'redirect-to-https',
         MinTTL: 0,
         MaxTTL: 31536000,
         DefaultTTL: 86400,
@@ -65,11 +75,7 @@ const makeBehaviourItem = ({
         behaviour.PathPattern = stripTrailingSlashes(pathPattern);
     }
 
-    if (allowAllCookies) {
-        behaviour.ForwardedValues.Cookies = {
-            Forward: 'all'
-        };
-    } else if (cookiesInUse.length > 0) {
+    if (cookiesInUse.length > 0) {
         behaviour.ForwardedValues.Cookies = {
             Forward: 'whitelist',
             WhitelistedNames: {
@@ -102,7 +108,7 @@ const makeBehaviourItem = ({
     }
 
     return behaviour;
-};
+}
 
 /**
  * Generate Cloudfront behaviours
@@ -112,7 +118,7 @@ function generateBehaviours(origins) {
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.site,
         isPostable: true,
-        cookiesInUse: [cookies.features, cookies.session]
+        cookiesInUse: [cookies.session]
     });
 
     /**
@@ -126,7 +132,6 @@ function generateBehaviours(origins) {
         makeBehaviourItem({
             originId: origins.s3Assets,
             pathPattern: path,
-            allowAllCookies: false,
             headersToKeep: []
         })
     );
@@ -147,15 +152,7 @@ function generateBehaviours(origins) {
     ];
 
     const primaryBehaviours = flatMap(customPaths, rule => {
-        // Merge default cookies with rule specific cookie
-        const cookiesInUse = uniq(
-            compact(
-                flatten([
-                    [cookies.features, rule.noSession === true ? null : cookies.session],
-                    get(rule, 'cookies', [])
-                ])
-            )
-        );
+        const cookiesForRule = rule.noSession ? [] : [cookies.session];
 
         const behaviour = makeBehaviourItem({
             originId: origins.site,
@@ -163,7 +160,7 @@ function generateBehaviours(origins) {
             isPostable: rule.isPostable,
             queryStringWhitelist: rule.queryStrings,
             allowAllQueryStrings: rule.allowAllQueryStrings,
-            cookiesInUse: cookiesInUse
+            cookiesInUse: cookiesForRule
         });
 
         if (rule.isBilingual) {
@@ -173,7 +170,7 @@ function generateBehaviours(origins) {
                 isPostable: rule.isPostable,
                 queryStringWhitelist: rule.queryStrings,
                 allowAllQueryStrings: rule.allowAllQueryStrings,
-                cookiesInUse: cookiesInUse
+                cookiesInUse: cookiesForRule
             });
 
             return [behaviour, welshBehaviour];

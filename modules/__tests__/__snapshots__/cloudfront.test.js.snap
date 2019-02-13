@@ -32,10 +32,9 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -92,13 +91,7 @@ Object {
         "FieldLevelEncryptionId": "",
         "ForwardedValues": Object {
           "Cookies": Object {
-            "Forward": "whitelist",
-            "WhitelistedNames": Object {
-              "Items": Array [
-                "blf-features",
-              ],
-              "Quantity": 1,
-            },
+            "Forward": "none",
           },
           "Headers": Object {
             "Items": Array [
@@ -152,10 +145,9 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -170,14 +162,12 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "location",
               "amount",
               "min",
               "max",
             ],
-            "Quantity": 8,
+            "Quantity": 6,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -219,10 +209,9 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -237,11 +226,9 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "location",
             ],
-            "Quantity": 5,
+            "Quantity": 3,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -283,10 +270,9 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -301,15 +287,13 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "page",
               "tag",
               "author",
               "category",
               "region",
             ],
-            "Quantity": 9,
+            "Quantity": 7,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -351,10 +335,9 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -414,10 +397,9 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -432,13 +414,11 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "redirectUrl",
               "s",
               "token",
             ],
-            "Quantity": 7,
+            "Quantity": 5,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -482,13 +462,7 @@ Object {
         "FieldLevelEncryptionId": "",
         "ForwardedValues": Object {
           "Cookies": Object {
-            "Forward": "whitelist",
-            "WhitelistedNames": Object {
-              "Items": Array [
-                "blf-features",
-              ],
-              "Quantity": 1,
-            },
+            "Forward": "none",
           },
           "Headers": Object {
             "Items": Array [
@@ -542,10 +516,9 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -560,14 +533,12 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "location",
               "amount",
               "min",
               "max",
             ],
-            "Quantity": 8,
+            "Quantity": 6,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -609,10 +580,9 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -627,11 +597,9 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "location",
             ],
-            "Quantity": 5,
+            "Quantity": 3,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -673,10 +641,9 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -691,15 +658,13 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "page",
               "tag",
               "author",
               "category",
               "region",
             ],
-            "Quantity": 9,
+            "Quantity": 7,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -741,10 +706,9 @@ Object {
             "Forward": "whitelist",
             "WhitelistedNames": Object {
               "Items": Array [
-                "blf-features",
                 "blf-alpha-session",
               ],
-              "Quantity": 2,
+              "Quantity": 1,
             },
           },
           "Headers": Object {
@@ -807,10 +771,8 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
             ],
-            "Quantity": 4,
+            "Quantity": 2,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -860,10 +822,8 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
             ],
-            "Quantity": 4,
+            "Quantity": 2,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -913,10 +873,9 @@ Object {
         "Forward": "whitelist",
         "WhitelistedNames": Object {
           "Items": Array [
-            "blf-features",
             "blf-alpha-session",
           ],
-          "Quantity": 2,
+          "Quantity": 1,
         },
       },
       "Headers": Object {
@@ -931,10 +890,8 @@ Object {
         "Items": Array [
           "draft",
           "version",
-          "enable-feature",
-          "disable-feature",
         ],
-        "Quantity": 4,
+        "Quantity": 2,
       },
     },
     "LambdaFunctionAssociations": Object {
@@ -955,7 +912,7 @@ Object {
 }
 `;
 
-exports[`#makeBehaviourItem should allow all cookies and querystrings 1`] = `
+exports[`#makeBehaviourItem should allow all querystrings 1`] = `
 Object {
   "AllowedMethods": Object {
     "CachedMethods": Object {
@@ -981,7 +938,13 @@ Object {
   "FieldLevelEncryptionId": "",
   "ForwardedValues": Object {
     "Cookies": Object {
-      "Forward": "all",
+      "Forward": "whitelist",
+      "WhitelistedNames": Object {
+        "Items": Array [
+          "example",
+        ],
+        "Quantity": 1,
+      },
     },
     "Headers": Object {
       "Items": Array [
@@ -1009,7 +972,7 @@ Object {
     "Items": Array [],
     "Quantity": 0,
   },
-  "ViewerProtocolPolicy": "allow-all",
+  "ViewerProtocolPolicy": "redirect-to-https",
 }
 `;
 
@@ -1059,11 +1022,9 @@ Object {
       "Items": Array [
         "draft",
         "version",
-        "enable-feature",
-        "disable-feature",
         "q",
       ],
-      "Quantity": 5,
+      "Quantity": 3,
     },
   },
   "LambdaFunctionAssociations": Object {
