@@ -9,7 +9,6 @@ const makeBehaviourItem = ({
     pathPattern = null,
     isPostable = false,
     cookiesInUse = [],
-    allowAllCookies = false,
     queryStringWhitelist = [],
     allowAllQueryStrings = false,
     protocol = 'redirect-to-https',
@@ -65,11 +64,7 @@ const makeBehaviourItem = ({
         behaviour.PathPattern = stripTrailingSlashes(pathPattern);
     }
 
-    if (allowAllCookies) {
-        behaviour.ForwardedValues.Cookies = {
-            Forward: 'all'
-        };
-    } else if (cookiesInUse.length > 0) {
+    if (cookiesInUse.length > 0) {
         behaviour.ForwardedValues.Cookies = {
             Forward: 'whitelist',
             WhitelistedNames: {
@@ -126,7 +121,6 @@ function generateBehaviours(origins) {
         makeBehaviourItem({
             originId: origins.s3Assets,
             pathPattern: path,
-            allowAllCookies: false,
             headersToKeep: []
         })
     );

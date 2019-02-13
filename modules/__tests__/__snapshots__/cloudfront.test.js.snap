@@ -912,7 +912,7 @@ Object {
 }
 `;
 
-exports[`#makeBehaviourItem should allow all cookies and querystrings 1`] = `
+exports[`#makeBehaviourItem should allow all querystrings 1`] = `
 Object {
   "AllowedMethods": Object {
     "CachedMethods": Object {
@@ -938,7 +938,13 @@ Object {
   "FieldLevelEncryptionId": "",
   "ForwardedValues": Object {
     "Cookies": Object {
-      "Forward": "all",
+      "Forward": "whitelist",
+      "WhitelistedNames": Object {
+        "Items": Array [
+          "example",
+        ],
+        "Quantity": 1,
+      },
     },
     "Headers": Object {
       "Items": Array [
