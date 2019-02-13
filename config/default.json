@@ -33,7 +33,6 @@
     }
   },
   "features": {
-    "enableAbTests": true,
     "enableDigitalFundApplications": false,
     "enableHotjar": false,
     "enableMailSendMetrics": false,
