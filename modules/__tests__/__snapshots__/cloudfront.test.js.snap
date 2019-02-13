@@ -170,14 +170,12 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "location",
               "amount",
               "min",
               "max",
             ],
-            "Quantity": 8,
+            "Quantity": 6,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -237,11 +235,9 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "location",
             ],
-            "Quantity": 5,
+            "Quantity": 3,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -301,15 +297,13 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "page",
               "tag",
               "author",
               "category",
               "region",
             ],
-            "Quantity": 9,
+            "Quantity": 7,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -432,13 +426,11 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "redirectUrl",
               "s",
               "token",
             ],
-            "Quantity": 7,
+            "Quantity": 5,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -560,14 +552,12 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "location",
               "amount",
               "min",
               "max",
             ],
-            "Quantity": 8,
+            "Quantity": 6,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -627,11 +617,9 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "location",
             ],
-            "Quantity": 5,
+            "Quantity": 3,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -691,15 +679,13 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "page",
               "tag",
               "author",
               "category",
               "region",
             ],
-            "Quantity": 9,
+            "Quantity": 7,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -807,10 +793,8 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
             ],
-            "Quantity": 4,
+            "Quantity": 2,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -860,10 +844,8 @@ Object {
             "Items": Array [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
             ],
-            "Quantity": 4,
+            "Quantity": 2,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -931,10 +913,8 @@ Object {
         "Items": Array [
           "draft",
           "version",
-          "enable-feature",
-          "disable-feature",
         ],
-        "Quantity": 4,
+        "Quantity": 2,
       },
     },
     "LambdaFunctionAssociations": Object {
@@ -1059,11 +1039,9 @@ Object {
       "Items": Array [
         "draft",
         "version",
-        "enable-feature",
-        "disable-feature",
         "q",
       ],
-      "Quantity": 5,
+      "Quantity": 3,
     },
   },
   "LambdaFunctionAssociations": Object {

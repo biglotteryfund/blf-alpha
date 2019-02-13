@@ -38,11 +38,9 @@
       "QueryStringCacheKeys": {
         "Items": [
           "draft",
-          "version",
-          "enable-feature",
-          "disable-feature"
+          "version"
         ],
-        "Quantity": 4
+        "Quantity": 2
       },
       "QueryString": true,
       "Cookies": {
@@ -228,14 +226,12 @@
             "Items": [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "location",
               "amount",
               "min",
               "max"
             ],
-            "Quantity": 8
+            "Quantity": 6
           },
           "QueryString": true,
           "Cookies": {
@@ -295,11 +291,9 @@
             "Items": [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "location"
             ],
-            "Quantity": 5
+            "Quantity": 3
           },
           "QueryString": true,
           "Cookies": {
@@ -359,15 +353,13 @@
             "Items": [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "page",
               "tag",
               "author",
               "category",
               "region"
             ],
-            "Quantity": 9
+            "Quantity": 7
           },
           "QueryString": true,
           "Cookies": {
@@ -490,13 +482,11 @@
             "Items": [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "redirectUrl",
               "s",
               "token"
             ],
-            "Quantity": 7
+            "Quantity": 5
           },
           "QueryString": true,
           "Cookies": {
@@ -618,14 +608,12 @@
             "Items": [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "location",
               "amount",
               "min",
               "max"
             ],
-            "Quantity": 8
+            "Quantity": 6
           },
           "QueryString": true,
           "Cookies": {
@@ -685,11 +673,9 @@
             "Items": [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "location"
             ],
-            "Quantity": 5
+            "Quantity": 3
           },
           "QueryString": true,
           "Cookies": {
@@ -749,15 +735,13 @@
             "Items": [
               "draft",
               "version",
-              "enable-feature",
-              "disable-feature",
               "page",
               "tag",
               "author",
               "category",
               "region"
             ],
-            "Quantity": 9
+            "Quantity": 7
           },
           "QueryString": true,
           "Cookies": {
@@ -871,11 +855,9 @@
           "QueryStringCacheKeys": {
             "Items": [
               "draft",
-              "version",
-              "enable-feature",
-              "disable-feature"
+              "version"
             ],
-            "Quantity": 4
+            "Quantity": 2
           },
           "QueryString": true,
           "Cookies": {
@@ -924,11 +906,9 @@
           "QueryStringCacheKeys": {
             "Items": [
               "draft",
-              "version",
-              "enable-feature",
-              "disable-feature"
+              "version"
             ],
-            "Quantity": 4
+            "Quantity": 2
           },
           "QueryString": true,
           "Cookies": {

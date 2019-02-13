@@ -19,7 +19,7 @@ const makeBehaviourItem = ({
         ? ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
         : ['HEAD', 'GET'];
 
-    const globalQuerystrings = ['draft', 'version', 'enable-feature', 'disable-feature'];
+    const globalQuerystrings = ['draft', 'version'];
     const queryStrings = globalQuerystrings.concat(queryStringWhitelist);
 
     const behaviour = {
