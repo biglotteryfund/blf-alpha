@@ -1,5 +1,4 @@
 'use strict';
-const { includes, reduce } = require('lodash');
 const { URL } = require('url');
 const config = require('config');
 const querystring = require('querystring');
