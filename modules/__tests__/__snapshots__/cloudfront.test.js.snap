@@ -972,7 +972,7 @@ Object {
     "Items": Array [],
     "Quantity": 0,
   },
-  "ViewerProtocolPolicy": "allow-all",
+  "ViewerProtocolPolicy": "redirect-to-https",
 }
 `;
 

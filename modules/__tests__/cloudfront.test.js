@@ -24,7 +24,6 @@ describe('#makeBehaviourItem', () => {
             isPostable: true,
             allowAllQueryStrings: true,
             cookiesInUse: ['example'],
-            protocol: 'allow-all',
             headersToKeep: ['*']
         });
 

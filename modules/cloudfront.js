@@ -4,16 +4,27 @@ const { assign, concat, flatMap, sortBy } = require('lodash');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
 
-const makeBehaviourItem = ({
+/**
+ * Make CloudFront behaviour item
+ *
+ * @param {object} options
+ * @param {string} options.originId
+ * @param {string} [options.pathPattern]
+ * @param {boolean} [options.isPostable]
+ * @param {Array<string>} [options.cookiesInUse]
+ * @param {Array<string>} [options.queryStringWhitelist]
+ * @param {boolean} [options.allowAllQueryStrings]
+ * @param {Array<string>} [options.headersToKeep]
+ */
+function makeBehaviourItem({
     originId,
     pathPattern = null,
     isPostable = false,
     cookiesInUse = [],
     queryStringWhitelist = [],
     allowAllQueryStrings = false,
-    protocol = 'redirect-to-https',
     headersToKeep = ['Accept', 'Host']
-}) => {
+}) {
     const allowedHttpMethods = isPostable
         ? ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
         : ['HEAD', 'GET'];
@@ -23,7 +34,7 @@ const makeBehaviourItem = ({
 
     const behaviour = {
         TargetOriginId: originId,
-        ViewerProtocolPolicy: protocol,
+        ViewerProtocolPolicy: 'redirect-to-https',
         MinTTL: 0,
         MaxTTL: 31536000,
         DefaultTTL: 86400,
@@ -97,7 +108,7 @@ const makeBehaviourItem = ({
     }
 
     return behaviour;
-};
+}
 
 /**
  * Generate Cloudfront behaviours
@@ -141,7 +152,7 @@ function generateBehaviours(origins) {
     ];
 
     const primaryBehaviours = flatMap(customPaths, rule => {
-        const cookiesInUse = rule.noSession ? [] : [cookies.session];
+        const cookiesForRule = rule.noSession ? [] : [cookies.session];
 
         const behaviour = makeBehaviourItem({
             originId: origins.site,
@@ -149,7 +160,7 @@ function generateBehaviours(origins) {
             isPostable: rule.isPostable,
             queryStringWhitelist: rule.queryStrings,
             allowAllQueryStrings: rule.allowAllQueryStrings,
-            cookiesInUse: cookiesInUse
+            cookiesInUse: cookiesForRule
         });
 
         if (rule.isBilingual) {
@@ -159,7 +170,7 @@ function generateBehaviours(origins) {
                 isPostable: rule.isPostable,
                 queryStringWhitelist: rule.queryStrings,
                 allowAllQueryStrings: rule.allowAllQueryStrings,
-                cookiesInUse: cookiesInUse
+                cookiesInUse: cookiesForRule
             });
 
             return [behaviour, welshBehaviour];
