@@ -59,9 +59,9 @@ function basicContent({ customTemplate = null } = {}) {
                 res.render(customTemplate);
             } else if (content.children) {
                 // What layout mode should we use? (eg. do all of the children have an image?)
-                const childrenMissingPhotos = content.children.some(page => !page.photo);
-                const childrenLayoutMode = childrenMissingPhotos ? 'plain' : 'heroes';
-                if (childrenMissingPhotos) {
+                const missingTrailImages = content.children.some(page => !page.trailImage);
+                const childrenLayoutMode = missingTrailImages ? 'plain' : 'heroes';
+                if (missingTrailImages) {
                     content.children = content.children.map(page => {
                         return {
                             href: page.linkUrl,
