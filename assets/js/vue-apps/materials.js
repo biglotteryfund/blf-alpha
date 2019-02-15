@@ -3,6 +3,26 @@ import Vue from 'vue';
 import queryString from 'query-string';
 
 function init() {
+    // Handle making "other" inputs required for radio sets
+    // We bind to the body element like this because these
+    // fields are rendered by Vue and not always in the DOM
+    $('body').on('click', `.js-has-radios input[type="radio"]`, function() {
+        const $clickedRadio = $(this);
+        // find the corresponding <input> field for this radio set
+        const $other = $('#' + $clickedRadio.parents(`.js-has-radios`).data('other-id'));
+        if ($other.length === 0) {
+            return;
+        }
+
+        // is the clicked element an "other" trigger?
+        if ($clickedRadio.hasClass('js-other-trigger')) {
+            $other.attr('required', true);
+        } else {
+            // they clicked on one of the regular radio options
+            $other.attr('required', false);
+        }
+    });
+
     const mountEl = document.getElementById('js-vue');
     if (!mountEl) {
         return;
