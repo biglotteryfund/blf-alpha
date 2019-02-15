@@ -20,7 +20,7 @@ then
 fi
 
 # Store deployment ID in a JSON file
-deploy_file=/var/www/biglotteryfund/config/deploy.json
+deploy_file=/var/www/tnlcommunityfund/config/deploy.json
 touch $deploy_file
 if [ -f "$deploy_file" ]
 then
@@ -29,11 +29,11 @@ then
 fi
 
 # Run environment var script to add them to the current shell
-/var/www/biglotteryfund/bin/get-secrets --environment=$APP_ENV
+/var/www/tnlcommunityfund/bin/get-secrets --environment=$APP_ENV
 
 # Update NODE_ENV based on deploy group ID
 APP_ENV_PLACEHOLDER="APP_ENV"
-nginx_config=/var/www/biglotteryfund/deploy/server.conf
+nginx_config=/var/www/tnlcommunityfund/deploy/server.conf
 sed -i "s|$APP_ENV_PLACEHOLDER|$APP_ENV|g" $nginx_config
 
 # Configure nginx

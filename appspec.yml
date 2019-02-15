@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /var/www/biglotteryfund
+    destination: /var/www/tnlcommunityfund
 hooks:
   BeforeInstall:
     - location: deploy/pre-install.sh
