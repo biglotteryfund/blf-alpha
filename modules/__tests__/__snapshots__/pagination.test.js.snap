@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`buildPagination should transform API pagination meta into object for views 1`] = `
+Object {
+  "count": 10,
+  "currentPage": 1,
+  "nextLink": "?page=2",
+  "perPage": 10,
+  "prevLink": null,
+  "total": 28,
+  "totalPages": 3,
+}
+`;
+
+exports[`buildPagination should transform API pagination meta into object for views 2`] = `
+Object {
+  "count": 10,
+  "currentPage": 2,
+  "nextLink": "?page=3",
+  "perPage": 10,
+  "prevLink": "?page=1",
+  "total": 28,
+  "totalPages": 3,
+}
+`;
+
+exports[`buildPagination should transform API pagination meta into object for views 3`] = `
+Object {
+  "count": 10,
+  "currentPage": 3,
+  "nextLink": null,
+  "perPage": 10,
+  "prevLink": "?page=2",
+  "total": 28,
+  "totalPages": 3,
+}
+`;
+
+exports[`buildPagination should transform API pagination meta into object for views 4`] = `
+Object {
+  "count": 10,
+  "currentPage": 2,
+  "nextLink": "?region=scotland&page=3",
+  "perPage": 10,
+  "prevLink": "?region=scotland&page=1",
+  "total": 28,
+  "totalPages": 3,
+}
+`;

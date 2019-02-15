@@ -71,7 +71,7 @@
 
                 <div class="content-sidebar__secondary">
                     {% call card(copy.pressRelease.aboutThisPressRelease) %}
-                        <div class="u-text-small">
+                        <div class="s-prose u-text-small u-wrap-links">
                             {{ entryMeta(entry) }}
                             {% if entry.notesToEditors %}
                                 <p><a href="#notes">{{ copy.pressRelease.notesToEditors }}</a></p>
@@ -81,7 +81,7 @@
 
                     {% if entry.contacts %}
                         {% call card(copy.pressRelease.contacts) %}
-                            <div class="s-prose u-text-small">
+                            <div class="s-prose u-text-small u-wrap-links">
                                 {{ entry.contacts | safe }}
                             </div>
                         {% endcall %}

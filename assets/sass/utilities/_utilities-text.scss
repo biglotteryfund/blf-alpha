@@ -81,6 +81,10 @@
     @include wrap-words();
 }
 
+.u-wrap-links a {
+    @include wrap-words();
+}
+
 .unstyled,
 .unstyled li,
 .u-list-unstyled,
