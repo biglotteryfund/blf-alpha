@@ -12,7 +12,7 @@ APP_ENV="development"
 if [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_FLEET ]] ||
    [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_IN_PLACE ]];
 then
-    APP_ENV="test"
+    APP_ENV="staging"
 elif [[ $DEPLOYMENT_GROUP_NAME =~ $LIVE_FLEET ]] ||
      [[ $DEPLOYMENT_GROUP_NAME =~ $LIVE_IN_PLACE ]];
 then
