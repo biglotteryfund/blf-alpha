@@ -81,6 +81,7 @@ const aliases = {
     '/research/place-based-working': '/insights/place-based-working',
     '/research/youth-employment': '/insights/youth-employment',
     '/research/youth-serious-violence': '/insights/youth-serious-violence',
+    '/research/social-investment/publications': '/insights/social-investment-publications',
 
     //===== Funding =====//
     '/funding/awards-for-all': '/funding/under10k',
