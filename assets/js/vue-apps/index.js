@@ -8,6 +8,7 @@ import Survey from './components/survey.vue';
 
 import GrantDetail from './grant-detail';
 import materials from './materials';
+import forms from './forms';
 import pastGrants from './past-grants';
 
 function initCookieConsent() {
@@ -63,6 +64,7 @@ export const init = () => {
     initInlineFeedback();
 
     materials.init();
+    forms.init();
 
     GrantDetail.init(PAST_GRANTS_SESSION_KEY);
     pastGrants.init(PAST_GRANTS_SESSION_KEY);
