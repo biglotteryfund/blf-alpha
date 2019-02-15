@@ -1,7 +1,6 @@
 'use strict';
 const config = require('config');
 const moment = require('moment');
-const { isString } = require('lodash');
 
 const { getCurrentUrl, getAbsoluteUrl, localify } = require('../modules/urls');
 
