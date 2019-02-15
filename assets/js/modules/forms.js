@@ -1,5 +1,4 @@
 import $ from 'jquery';
-import { featureIsEnabled } from '../helpers/features';
 import { trackEvent } from '../helpers/metrics';
 
 function handleAbandonmentMessage(formEl) {
