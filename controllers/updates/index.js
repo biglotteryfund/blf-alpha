@@ -67,7 +67,7 @@ router.get(
                     title: typeCopy.plural,
                     entries: response.result,
                     entriesMeta: response.meta,
-                    pagination: buildPagination(response.meta.pagination),
+                    pagination: buildPagination(response.meta.pagination, req.query),
                     pressReleaseArchiveUrl: buildArchiveUrl(
                         localify(req.i18n.getLocale())('/news-and-events'),
                         finalPressReleaseArchiveDate
@@ -162,7 +162,7 @@ router.get(
                     title: typeCopy.plural,
                     entries: response.result,
                     entriesMeta: response.meta,
-                    pagination: buildPagination(response.meta.pagination),
+                    pagination: buildPagination(response.meta.pagination, req.query),
                     breadcrumbs: crumbs
                 });
             } else {
