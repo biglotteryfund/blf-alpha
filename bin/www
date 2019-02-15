@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 const http = require('http');
-const debug = require('debug')('biglotteryfund:www');
+const debug = require('debug')('tnlcommunityfund:www');
 
 const app = require('../server');
 const models = require('../models');

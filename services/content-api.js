@@ -1,7 +1,7 @@
 'use strict';
 const { find, filter, get, head, map, sortBy } = require('lodash/fp');
 const request = require('request-promise-native');
-const debug = require('debug')('biglotteryfund:content-api');
+const debug = require('debug')('tnlcommunityfund:content-api');
 const querystring = require('querystring');
 
 const getAttrs = response => get('data.attributes')(response);

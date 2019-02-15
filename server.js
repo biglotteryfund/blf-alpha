@@ -9,7 +9,7 @@ const path = require('path');
 const Raven = require('raven');
 const slashes = require('connect-slashes');
 const yaml = require('js-yaml');
-const debug = require('debug')('biglotteryfund:server');
+const debug = require('debug')('tnlcommunityfund:server');
 
 const app = express();
 module.exports = app;
