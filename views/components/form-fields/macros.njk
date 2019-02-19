@@ -22,6 +22,7 @@
     {% if lengthHint %}
         <small class="ff-length-hint">{{ lengthHint }}</small>
     {% endif %}
+    {# @TODO: Merge helpText and explanation #}
     {% set explanation = fieldCopy.explanation or field.explanation %}
     {% if explanation %}
         <div class="ff-help s-prose">{{ explanation | safe }}</div>

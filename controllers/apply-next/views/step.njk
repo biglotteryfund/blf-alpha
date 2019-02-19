@@ -1,0 +1,51 @@
+{% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero with context %}
+{% from "components/icons.njk" import iconTick %}
+{% from "components/form-header/macro.njk" import formHeader with context %}
+{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
+{% from "components/language/macros.njk" import languageServiceMessage with context %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only">
+            <form action="" method="POST">
+                {{ formHeader(
+                    title = formTitle
+                ) }}
+
+                {{ languageServiceMessage(currentLocale = locale) }}
+
+                {{ formErrors(errors = errors) }}
+
+                {% for fieldset in step.fieldsets %}
+                    <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
+                        <legend class="form-fieldset__legend t2 t--underline">
+                            {{ fieldset.legend }}
+                        </legend>
+
+                        {% set introduction = fieldsetCopy.introduction or fieldset.introduction %}
+                        {% if introduction %}
+                            <div class="form-fieldset__intro s-prose">{{ introduction | safe }}</div>
+                        {% endif %}
+
+                        <div class="form-fieldset__fields">
+                            {% for field in fieldset.fields %}
+                                {% set fieldCopy = copy.fields[field.name] %}
+                                {{ formField(field, fieldCopy, errors) }}
+                            {% endfor %}
+                        </div>
+                    </fieldset>
+                {% endfor %}
+
+
+                {% if csrfToken %}
+                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                {% endif %}
+
+                <div class="form-actions">
+                    <input class="btn btn--next" type="submit" value="{{ __('global.misc.next') | capitalize }}" />
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}

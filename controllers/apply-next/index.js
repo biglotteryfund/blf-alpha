@@ -1,0 +1,16 @@
+'use strict';
+const express = require('express');
+
+const { initFormRouter } = require('./form-router');
+const appData = require('../../modules/appData');
+
+const simple = require('./simple/form-model');
+
+const router = express.Router();
+
+if (appData.isNotProduction) {
+    router.get('/', (req, res) => res.redirect('/'));
+    router.use('/simple', initFormRouter(simple));
+}
+
+module.exports = router;

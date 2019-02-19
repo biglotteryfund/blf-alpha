@@ -1,0 +1,23 @@
+{% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero with context %}
+
+{% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only">
+            <div class="s-prose">
+                <h1>{{ title }}</h1>
+                <div class="message" role="alert">{{ errorCopy.message | safe }}</div>
+                <p><a class="btn" href="{{ returnUrl }}">{{ __('global.misc.back') | capitalize }}</a></p>
+
+                {% if error and appData.isNotProduction %}
+                    <h4>Stack trace:</h4>
+                    <pre>{{ error.stack }}</pre>
+                    <h4>Raw error:</h4>
+                    <pre>{{ error | dump(2) }}</pre>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+{% endblock %}

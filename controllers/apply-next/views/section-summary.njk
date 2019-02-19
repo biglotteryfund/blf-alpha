@@ -1,0 +1,20 @@
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/form-header/macro.njk" import formHeader with context %}
+
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    <main role="main" id="content">
+        {% call contentBox() %}
+            {{ formHeader(
+                title = formTitle
+            ) }}
+
+            {{ section.summary | safe }}
+
+            <p>
+                <a class="btn" href="{{ nextUrl }}">Continue</a>
+            </p>
+        {% endcall %}
+    </main>
+{% endblock %}

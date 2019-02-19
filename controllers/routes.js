@@ -67,6 +67,10 @@ const toplevel = {
         {
             path: '/apply',
             router: require('./apply')
+        },
+        {
+            path: '/apply-next',
+            router: require('./apply-next')
         }
     ]
 };
