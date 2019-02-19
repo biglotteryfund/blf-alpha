@@ -13,25 +13,37 @@
                     title = "Summary"
                 ) }}
 
+                <pre>{{ form | dump(2) }}</pre>
+                
                 {% for section in form.sections %}
 
-                    <details>
-                        <summary>{{ section.title }}</summary>
-                        <div>
-                            {% for step in section.steps %}
-                                <h2>{{ step.title }}</h2>
+                    <section class="s-prose">
+                        <h2>Section title: {{ section.title }}</h2>
+                        {% for step in section.steps %}
+                            <h3>Step title: {{ step.title }}</h3>
+                            {% for fieldset in step.fieldsets %}
+                                <h4>Fieldset legend: {{ fieldset.legend }}</h4>
+                                
+                                <dl class="o-definition-list">
+                                {% for field in fieldset.fields %}
+                                    <dt>Field label: {{ field.label }}</dt>
+                                    <dd>
 
-                                {% for fieldset in step.fieldsets %}
-                                    <h3>{{ fieldset.legend }}</h3>
-
-                                    {% for field in fieldset.fields %}
-                                        <h4>{{ field.label }}</h4>
-                                    {% endfor %}
+                                    {% if field.type === 'textarea' %}
+                                        {% set cleanValue = field.value | striptags(true) | escape | nl2br %}
+                                        {{ cleanValue }}
+                                    {% elseif (field.value | isArray) %}
+                                        {{ field.value | join(', ') }}
+                                    {% else %}
+                                        {{ field.value }}
+                                    {% endif %}
+                                    </dd>
                                 {% endfor %}
-                                <hr />
+                                </dl>
                             {% endfor %}
-                        </div>
-                    </details>
+                            <hr />
+                        {% endfor %}
+                    </section>
                 {% endfor %}
 
                 {% if csrfToken %}
@@ -39,9 +51,7 @@
                 {% endif %}
 
 
-                <div class="form-actions">
-                    <input class="btn" type="submit" value="Submit" />
-                </div>
+                <input class="btn" type="submit" value="Submit" />
             </form>
         </div>
     </main>
