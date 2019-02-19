@@ -10,7 +10,7 @@ const cached = require('../../middleware/cached');
 function initFormRouter(form) {
     const router = express.Router();
 
-    router.use((req, res, next) => {
+    router.use(cached.csrfProtection, (req, res, next) => {
         res.locals.formTitle = form.title;
         res.locals.isBilingual = form.isBilingual;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
@@ -81,7 +81,7 @@ function initFormRouter(form) {
                          * @TODO: Review this logic
                          * 1. Is there a next step go there.
                          * 2. If there is a next section go there.
-                         * 3. Otherwise go to review
+                         * 3. Otherwise go to summary screen
                          */
                         const nextStep = section.steps[stepIndex + 1];
                         const nextSection = form.sections[sectionIndex + 1];
@@ -91,7 +91,7 @@ function initFormRouter(form) {
                         } else if (nextSection) {
                             res.redirect(`${req.baseUrl}/${nextSection.slug}`);
                         } else {
-                            res.redirect(`${req.baseUrl}/review`);
+                            res.redirect(`${req.baseUrl}/summary`);
                         }
                     } else {
                         renderStep(req, res, errors.array());
@@ -101,9 +101,18 @@ function initFormRouter(form) {
 
             router
                 .route(`/${section.slug}/${currentStepNumber}`)
-                .all(cached.csrfProtection)
                 .get(renderStepIfAllowed)
                 .post(getValidators(step), handleSubmitStep());
+        });
+    });
+
+    /**
+     * Summary
+     */
+    router.route('/summary').get(function(req, res) {
+        res.render(path.resolve(__dirname, './views/summary'), {
+            form: form,
+            csrfToken: req.csrfToken()
         });
     });
 
