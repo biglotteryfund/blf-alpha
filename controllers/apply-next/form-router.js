@@ -1,5 +1,5 @@
 'use strict';
-const { flatMap } = require('lodash');
+const { cloneDeep, find, flatMap, get, set } = require('lodash');
 const { matchedData } = require('express-validator/filter');
 const { check, validationResult } = require('express-validator/check');
 const express = require('express');
@@ -7,8 +7,60 @@ const path = require('path');
 
 const cached = require('../../middleware/cached');
 
+function getSessionPropFor(formId) {
+    return function(section, stepNumber) {
+        const baseProp = `apply.${formId}`;
+        if (section && stepNumber) {
+            return `${baseProp}.${section}.step-${stepNumber}`;
+        } else if (section) {
+            return `${baseProp}.${section}`;
+        } else {
+            return baseProp;
+        }
+    };
+}
+
+/**
+ * Collect all validators associated with each field for express-validator
+ */
+function getValidators(step) {
+    const fields = flatMap(step.fieldsets, 'fields');
+    return fields.map(field => {
+        if (field.validator) {
+            return field.validator(field);
+        } else if (field.isRequired === true) {
+            return check(field.name)
+                .trim()
+                .not()
+                .isEmpty()
+                .withMessage('Field must be provided');
+        } else {
+            return check(field.name)
+                .trim()
+                .optional();
+        }
+    });
+}
+
+function stepWithValues(step, values) {
+    const clonedStep = cloneDeep(step);
+    clonedStep.fieldsets = clonedStep.fieldsets.map(fieldset => {
+        fieldset.fields = fieldset.fields.map(field => {
+            const match = find(values, (value, name) => name === field.name);
+            if (match) {
+                field.value = match;
+            }
+            return field;
+        });
+        return fieldset;
+    });
+    return clonedStep;
+}
+
 function initFormRouter(form) {
     const router = express.Router();
+
+    const getSessionProp = getSessionPropFor(form.id);
 
     router.use(cached.csrfProtection, (req, res, next) => {
         res.locals.formTitle = form.title;
@@ -17,29 +69,6 @@ function initFormRouter(form) {
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
         next();
     });
-
-    /**
-     * Collect all validators associated with each field for express-validator
-     */
-    function getValidators(step) {
-        const fields = flatMap(step.fieldsets, 'fields');
-        return fields.map(field => {
-            if (field.validator) {
-                // @TODO: Pass form data into this function
-                return field.validator(field);
-            } else if (field.isRequired === true) {
-                return check(field.name)
-                    .trim()
-                    .not()
-                    .isEmpty()
-                    .withMessage('Field must be provided');
-            } else {
-                return check(field.name)
-                    .trim()
-                    .optional();
-            }
-        });
-    }
 
     form.sections.forEach((section, sectionIndex) => {
         router.get(`/${section.slug}`, (req, res) => {
@@ -59,23 +88,23 @@ function initFormRouter(form) {
             const currentStepNumber = stepIndex + 1;
 
             function renderStep(req, res, errors = []) {
+                const stepData = get(req.session, getSessionProp(section.id, stepIndex));
+
                 res.render(path.resolve(__dirname, './views/step'), {
                     csrfToken: req.csrfToken(),
-                    step: step,
+                    step: stepWithValues(step, stepData),
                     errors: errors
                 });
             }
 
-            function renderStepIfAllowed(req, res) {
-                // @TODO: Logic for when to render step
-                renderStep(req, res);
-            }
+            function handleSubmitStep(req, res) {
+                const sessionProp = getSessionProp(section.id, stepIndex);
+                const stepData = get(req.session, sessionProp, {});
+                const bodyData = matchedData(req, { locations: ['body'] });
+                set(req.session, sessionProp, Object.assign(stepData, bodyData));
 
-            function handleSubmitStep() {
-                return function(req, res) {
-                    // const bodyData = matchedData(req, { locations: ['body'] });
+                req.session.save(() => {
                     const errors = validationResult(req);
-
                     if (errors.isEmpty()) {
                         /**
                          * @TODO: Review this logic
@@ -96,13 +125,13 @@ function initFormRouter(form) {
                     } else {
                         renderStep(req, res, errors.array());
                     }
-                };
+                });
             }
 
             router
                 .route(`/${section.slug}/${currentStepNumber}`)
-                .get(renderStepIfAllowed)
-                .post(getValidators(step), handleSubmitStep());
+                .get((req, res) => renderStep(req, res))
+                .post(getValidators(step), handleSubmitStep);
         });
     });
 

@@ -111,6 +111,7 @@ const sectionBeneficiaries = {
 };
 
 module.exports = {
+    id: 'awards-for-all',
     title: 'National Lottery Awards for All',
     isBilingual: false,
     sections: [sectionProject, sectionBeneficiaries],
