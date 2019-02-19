@@ -114,7 +114,12 @@ const sectionProject = {
                                 // Now + 12 weeks at a minimum?
                                 return check(field.name)
                                     .isAfter()
-                                    .withMessage('Date must be in the future');
+                                    .withMessage((value, { req }) => {
+                                        return {
+                                            en: 'Date must be in the future',
+                                            cy: 'WELSH ERROR'
+                                        }[req.i18n.getLocale()];
+                                    });
                             }
                         },
                         {
@@ -134,7 +139,12 @@ const sectionProject = {
                             validator: function(field) {
                                 return check(field.name)
                                     .isPostalCode('GB')
-                                    .withMessage('Must be a valid postcode');
+                                    .withMessage((value, { req }) => {
+                                        return {
+                                            en: 'Must be a valid postcode',
+                                            cy: 'WELSH ERROR'
+                                        }[req.i18n.getLocale()];
+                                    });
                             }
                         }
                     ]
