@@ -1,5 +1,5 @@
 'use strict';
-const { cloneDeep, find, flatMap, get, set } = require('lodash');
+const { cloneDeep, find, flatMap, get, isEmpty, set } = require('lodash');
 const { matchedData } = require('express-validator/filter');
 const { check, validationResult } = require('express-validator/check');
 const express = require('express');
@@ -53,19 +53,6 @@ const translateStep = (step, locale, values) => {
     return clonedStep;
 };
 
-function getSessionPropFor(formId) {
-    return function(section, stepNumber) {
-        const baseProp = `apply.${formId}`;
-        if (section && stepNumber) {
-            return `${baseProp}.${section}.step-${stepNumber}`;
-        } else if (section) {
-            return `${baseProp}.${section}`;
-        } else {
-            return baseProp;
-        }
-    };
-}
-
 function getFieldValidator(field) {
     if (field.validator) {
         return field.validator(field);
@@ -82,10 +69,24 @@ function getFieldValidator(field) {
     }
 }
 
+function formWithValues(formModel, locale, formData) {
+    const clonedForm = cloneDeep(formModel);
+    clonedForm.sections = clonedForm.sections.map(section => {
+        section.steps = section.steps.map(step => translateStep(step, locale, formData));
+        return section;
+    });
+    return clonedForm;
+}
+
 function initFormRouter(form) {
     const router = express.Router();
 
-    const getSessionProp = getSessionPropFor(form.id);
+    const getSessionData = session => get(session, `apply.${form.id}`, {});
+
+    const setSessionData = (session, newData) => {
+        const formData = getSessionData(session);
+        set(session, `apply.${form.id}`, Object.assign(formData, newData));
+    };
 
     router.use(cached.csrfProtection, (req, res, next) => {
         res.locals.formTitle = translateField(form.title, req.i18n.getLocale());
@@ -138,8 +139,8 @@ function initFormRouter(form) {
             const currentStepNumber = stepIndex + 1;
 
             function renderStep(req, res, errors = []) {
-                const stepData = get(req.session, getSessionProp(sectionModel.id, stepIndex));
-                const stepLocalisedWithValues = translateStep(stepModel, req.i18n.getLocale(), stepData);
+                const formData = getSessionData(req.session);
+                const stepLocalisedWithValues = translateStep(stepModel, req.i18n.getLocale(), formData);
                 res.render(path.resolve(__dirname, './views/step'), {
                     title: `${stepLocalisedWithValues.title} | ${res.locals.formTitle}`,
                     csrfToken: req.csrfToken(),
@@ -149,11 +150,7 @@ function initFormRouter(form) {
             }
 
             function handleSubmitStep(req, res) {
-                const sessionProp = getSessionProp(sectionModel.id, stepIndex);
-                const stepData = get(req.session, sessionProp, {});
-                const bodyData = matchedData(req, { locations: ['body'] });
-                set(req.session, sessionProp, Object.assign(stepData, bodyData));
-
+                setSessionData(req.session, matchedData(req, { locations: ['body'] }));
                 req.session.save(() => {
                     const errors = validationResult(req);
                     if (errors.isEmpty()) {
@@ -193,10 +190,15 @@ function initFormRouter(form) {
      * Summary
      */
     router.route('/summary').get(function(req, res) {
-        res.render(path.resolve(__dirname, './views/summary'), {
-            form: form,
-            csrfToken: req.csrfToken()
-        });
+        const formData = getSessionData(req.session);
+        if (isEmpty(formData)) {
+            res.redirect(req.baseUrl);
+        } else {
+            res.render(path.resolve(__dirname, './views/summary'), {
+                form: formWithValues(form, req.i18n.getLocale(), formData),
+                csrfToken: req.csrfToken()
+            });
+        }
     });
 
     return router;
