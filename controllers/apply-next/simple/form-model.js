@@ -202,6 +202,7 @@ const sectionBeneficiaries = {
 };
 
 module.exports = {
+    id: 'awards-for-all',
     title: {
         en: 'National Lottery Awards for All',
         cy: '(WELSH) National Lottery Awards for All'

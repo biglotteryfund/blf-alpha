@@ -17,6 +17,7 @@
 
                 {{ formErrors(errors = errors) }}
 
+                <pre>{{ stepData | dump(2) }}</pre>
                 {% for fieldset in step.fieldsets %}
                     <fieldset class="form-fieldset u-constrained-wide u-constrained-content">
                         <legend class="form-fieldset__legend t2 t--underline">
@@ -31,7 +32,7 @@
                         <div class="form-fieldset__fields">
                             {% for field in fieldset.fields %}
                                 {% set fieldCopy = copy.fields[field.name] %}
-                                {{ formField(field, fieldCopy, errors) }}
+                                {{ formField(field, errors = errors) }}
                             {% endfor %}
                         </div>
                     </fieldset>

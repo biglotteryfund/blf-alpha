@@ -1,5 +1,5 @@
 'use strict';
-const { flatMap, cloneDeep, get } = require('lodash');
+const { cloneDeep, find, flatMap, get, set } = require('lodash');
 const { matchedData } = require('express-validator/filter');
 const { check, validationResult } = require('express-validator/check');
 const express = require('express');
@@ -47,8 +47,54 @@ const translateStep = (step, locale) => {
     return step;
 };
 
+function getSessionPropFor(formId) {
+    return function(section, stepNumber) {
+        const baseProp = `apply.${formId}`;
+        if (section && stepNumber) {
+            return `${baseProp}.${section}.step-${stepNumber}`;
+        } else if (section) {
+            return `${baseProp}.${section}`;
+        } else {
+            return baseProp;
+        }
+    };
+}
+
+function getFieldValidator(field) {
+    if (field.validator) {
+        return field.validator(field);
+    } else if (field.isRequired === true) {
+        return check(field.name)
+            .trim()
+            .not()
+            .isEmpty()
+            .withMessage('Field must be provided');
+    } else {
+        return check(field.name)
+            .trim()
+            .optional();
+    }
+}
+
+function stepWithValues(step, values) {
+    const clonedStep = cloneDeep(step);
+    clonedStep.fieldsets = clonedStep.fieldsets.map(fieldset => {
+        fieldset.fields = fieldset.fields.map(field => {
+            const match = find(values, (value, name) => name === field.name);
+            if (match) {
+                field.value = match;
+            }
+            return field;
+        });
+        return fieldset;
+    });
+    return clonedStep;
+}
+
 function initFormRouter(form) {
     const router = express.Router();
+
+    const getSessionProp = getSessionPropFor(form.id);
 
     router.use(cached.csrfProtection, (req, res, next) => {
         res.locals.formTitle = translateField(form.title, req.i18n.getLocale());
@@ -102,24 +148,23 @@ function initFormRouter(form) {
 
             function renderStep(req, res, errors = []) {
                 const stepLocalised = translateStep(cloneDeep(stepModel), req.i18n.getLocale());
+                const stepData = get(req.session, getSessionProp(sectionModel.id, stepIndex));
                 res.render(path.resolve(__dirname, './views/step'), {
                     title: `${stepLocalised.title} | ${res.locals.formTitle}`,
                     csrfToken: req.csrfToken(),
-                    step: stepLocalised,
+                    step: stepWithValues(stepLocalised, stepData),
                     errors: errors
                 });
             }
 
-            function renderStepIfAllowed(req, res) {
-                // @TODO: Logic for when to render step
-                renderStep(req, res);
-            }
+            function handleSubmitStep(req, res) {
+                const sessionProp = getSessionProp(sectionModel.id, stepIndex);
+                const stepData = get(req.session, sessionProp, {});
+                const bodyData = matchedData(req, { locations: ['body'] });
+                set(req.session, sessionProp, Object.assign(stepData, bodyData));
 
-            function handleSubmitStep() {
-                return function(req, res) {
-                    // const bodyData = matchedData(req, { locations: ['body'] });
+                req.session.save(() => {
                     const errors = validationResult(req);
-
                     if (errors.isEmpty()) {
                         /**
                          * @TODO: Review this logic
@@ -140,14 +185,17 @@ function initFormRouter(form) {
                     } else {
                         renderStep(req, res, errors.array());
                     }
-                };
+                });
             }
+
+            const fieldsForStep = flatMap(stepModel.fieldsets, 'fields');
+            const validators = fieldsForStep.map(getFieldValidator);
 
             router
                 .route(`/${sectionModel.slug}/${currentStepNumber}`)
-                .get(renderStepIfAllowed)
+                .get((req, res) => renderStep(req, res))
                 // @TODO translate validators
-                .post(getValidators(sectionModel), handleSubmitStep());
+                .post(validators, handleSubmitStep);
         });
     });
 
