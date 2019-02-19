@@ -32,7 +32,7 @@
                         <div class="form-fieldset__fields">
                             {% for field in fieldset.fields %}
                                 {% set fieldCopy = copy.fields[field.name] %}
-                                {{ formField(field, fieldCopy, errors) }}
+                                {{ formField(field, errors = errors) }}
                             {% endfor %}
                         </div>
                     </fieldset>

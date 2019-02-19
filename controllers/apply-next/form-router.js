@@ -20,26 +20,20 @@ function getSessionPropFor(formId) {
     };
 }
 
-/**
- * Collect all validators associated with each field for express-validator
- */
-function getValidators(step) {
-    const fields = flatMap(step.fieldsets, 'fields');
-    return fields.map(field => {
-        if (field.validator) {
-            return field.validator(field);
-        } else if (field.isRequired === true) {
-            return check(field.name)
-                .trim()
-                .not()
-                .isEmpty()
-                .withMessage('Field must be provided');
-        } else {
-            return check(field.name)
-                .trim()
-                .optional();
-        }
-    });
+function getFieldValidator(field) {
+    if (field.validator) {
+        return field.validator(field);
+    } else if (field.isRequired === true) {
+        return check(field.name)
+            .trim()
+            .not()
+            .isEmpty()
+            .withMessage('Field must be provided');
+    } else {
+        return check(field.name)
+            .trim()
+            .optional();
+    }
 }
 
 function stepWithValues(step, values) {
@@ -128,10 +122,13 @@ function initFormRouter(form) {
                 });
             }
 
+            const fieldsForStep = flatMap(step.fieldsets, 'fields');
+            const validators = fieldsForStep.map(getFieldValidator);
+
             router
                 .route(`/${section.slug}/${currentStepNumber}`)
                 .get((req, res) => renderStep(req, res))
-                .post(getValidators(step), handleSubmitStep);
+                .post(validators, handleSubmitStep);
         });
     });
 
