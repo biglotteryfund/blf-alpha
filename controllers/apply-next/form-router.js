@@ -13,23 +13,29 @@ const translateField = (field, locale) => {
 
 // @TODO this does not translate nested fields – should it?
 const translateSection = (section, locale) => {
-    section.title = translateField(section.title, locale);
-    if (section.summary) {
-        section.summary = translateField(section.summary, locale);
+    const clonedSection = cloneDeep(section);
+    clonedSection.title = translateField(clonedSection.title, locale);
+    if (clonedSection.summary) {
+        clonedSection.summary = translateField(clonedSection.summary, locale);
     }
-    return section;
+    return clonedSection;
 };
 
-const translateStep = (step, locale) => {
-    step.title = translateField(step.title, locale);
+const translateStep = (step, locale, values) => {
+    const clonedStep = cloneDeep(step);
+    clonedStep.title = translateField(clonedStep.title, locale);
 
     // Translate each fieldset
-    step.fieldsets = step.fieldsets.map(fieldset => {
+    clonedStep.fieldsets = clonedStep.fieldsets.map(fieldset => {
         fieldset.legend = translateField(fieldset.legend, locale);
         // Translate each field
         fieldset.fields = fieldset.fields.map(field => {
             field.label = translateField(field.label, locale);
             field.explanation = translateField(field.explanation, locale);
+            const match = find(values, (value, name) => name === field.name);
+            if (match) {
+                field.value = match;
+            }
 
             // Translate each option (if set)
             if (field.options) {
@@ -44,7 +50,7 @@ const translateStep = (step, locale) => {
         return fieldset;
     });
 
-    return step;
+    return clonedStep;
 };
 
 function getSessionPropFor(formId) {
@@ -74,21 +80,6 @@ function getFieldValidator(field) {
             .trim()
             .optional();
     }
-}
-
-function stepWithValues(step, values) {
-    const clonedStep = cloneDeep(step);
-    clonedStep.fieldsets = clonedStep.fieldsets.map(fieldset => {
-        fieldset.fields = fieldset.fields.map(field => {
-            const match = find(values, (value, name) => name === field.name);
-            if (match) {
-                field.value = match;
-            }
-            return field;
-        });
-        return fieldset;
-    });
-    return clonedStep;
 }
 
 function initFormRouter(form) {
@@ -130,7 +121,7 @@ function initFormRouter(form) {
     form.sections.forEach((sectionModel, sectionIndex) => {
         router.get(`/${sectionModel.slug}`, (req, res) => {
             const locale = req.i18n.getLocale();
-            const sectionLocalised = translateSection(cloneDeep(sectionModel), locale);
+            const sectionLocalised = translateSection(sectionModel, locale);
             if (sectionLocalised.summary) {
                 res.render(path.resolve(__dirname, './views/section-summary'), {
                     title: `${sectionLocalised.title} | ${res.locals.formTitle}`,
@@ -147,12 +138,12 @@ function initFormRouter(form) {
             const currentStepNumber = stepIndex + 1;
 
             function renderStep(req, res, errors = []) {
-                const stepLocalised = translateStep(cloneDeep(stepModel), req.i18n.getLocale());
                 const stepData = get(req.session, getSessionProp(sectionModel.id, stepIndex));
+                const stepLocalisedWithValues = translateStep(stepModel, req.i18n.getLocale(), stepData);
                 res.render(path.resolve(__dirname, './views/step'), {
-                    title: `${stepLocalised.title} | ${res.locals.formTitle}`,
+                    title: `${stepLocalisedWithValues.title} | ${res.locals.formTitle}`,
                     csrfToken: req.csrfToken(),
-                    step: stepWithValues(stepLocalised, stepData),
+                    step: stepLocalisedWithValues,
                     errors: errors
                 });
             }
@@ -194,7 +185,6 @@ function initFormRouter(form) {
             router
                 .route(`/${sectionModel.slug}/${currentStepNumber}`)
                 .get((req, res) => renderStep(req, res))
-                // @TODO translate validators
                 .post(validators, handleSubmitStep);
         });
     });
