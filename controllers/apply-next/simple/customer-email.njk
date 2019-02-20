@@ -1,0 +1,51 @@
+{% extends "views/layouts/emails.njk" %}
+{% from "../views/view-helpers.njk" import emailSummary %}
+
+{% block content %}
+    <p>Thank you for getting in touch with us.</p>
+
+    <p>You will see a copy of the information you submitted below.</p>
+    <p>In the meantime, you can find out more about our funding and how we can support your community on our website: <a href="https://www.tnlcommunityfund.org.uk">www.tnlcommunityfund.org.uk</a></p>
+    <p>Thanks,</p>
+    <p><strong>The National Lottery Community Fund</strong></p>
+
+    <h2>Your information</h2>
+    {% for section in form.sections %}
+        <h2>Section {{ loop.index }}: {{ section.title }}</h2>
+        {% for step in section.steps %}
+            {% set stepNumber = loop.index %}
+            <h4>
+                Step {{ stepNumber }} of {{ section.steps.length }} &ndash; {{ step.title }}
+            </h4>
+
+            {% for fieldset in step.fieldsets %}
+                <table>
+                    <thead>
+                    <tr>
+                        <th scope="col">Question</th>
+                        <th scope="col">Your answer</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for field in fieldset.fields %}
+                            <tr>
+                                <td>{{ field.label }}</td>
+                                <td>
+                                    {% if field.type === 'textarea' %}
+                                        {% set cleanValue = field.value | striptags(true) | escape | nl2br %}
+                                        {{ cleanValue }}
+                                    {% elseif (field.value | isArray) %}
+                                        {{ field.value | join(', ') }}
+                                    {% else %}
+                                        {{ field.value }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endfor %}
+        {% endfor %}
+            <hr />
+    {% endfor %}
+{% endblock %}

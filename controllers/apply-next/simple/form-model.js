@@ -3,6 +3,8 @@ const path = require('path');
 
 const { check } = require('express-validator/check');
 
+const processor = require('./processor');
+
 const sectionProject = {
     slug: 'your-project',
     title: {
@@ -231,7 +233,7 @@ module.exports = {
     },
     isBilingual: true,
     sections: [sectionProject, sectionBeneficiaries],
-    // processor: processor,
+    processor: processor,
     startPage: { template: path.resolve(__dirname, '../views/startpage') },
     successStep: { template: path.resolve(__dirname, '../views/success') }
 };

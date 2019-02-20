@@ -88,3 +88,79 @@ small {
 .space-above {
     margin-top: 50px;
 }
+
+table {
+    $table-spacing: 4px;
+
+    font-size: 90%;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 48em;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    margin: 0 0 1em;
+    padding: 0;
+
+    tr {
+        background-color: get-color('background', 'light-neutral');
+
+        &:nth-child(even) {
+            background-color: darken(get-color('background', 'light-neutral'), 3%);
+        }
+
+        td {
+            border: solid white;
+            border-width: $table-spacing 0 0 $table-spacing;
+
+            &:first-of-type {
+                border-left: 0;
+            }
+        }
+    }
+
+    thead,
+    th {
+        font-weight: normal;
+        vertical-align: middle;
+        font-family: font-stack('display');
+    }
+
+    thead {
+        color: white;
+        background-color: get-color('brand', 'primary');
+
+        tr {
+            background-color: transparent;
+        }
+
+        tr th {
+            border-left: $table-spacing solid lighten(get-color('brand', 'primary'), 5%);
+
+            &:first-of-type {
+                border-left: 0;
+            }
+        }
+    }
+
+    th,
+    td {
+        padding: 1em;
+        text-align: left;
+        word-wrap: break-word;
+
+        > p {
+            margin: 0;
+        }
+    }
+
+    td {
+        vertical-align: top;
+
+        // Fix word-break in IE when used in tables
+        a {
+            display: table-cell;
+            @include wrap-words();
+        }
+    }
+}
