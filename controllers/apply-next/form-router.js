@@ -32,6 +32,9 @@ function translateForm(formModel, locale, formData) {
         if (section.summary) {
             section.summary = translateField(section.summary, locale);
         }
+        if (section.introduction) {
+            section.introduction = translateField(section.introduction, locale);
+        }
         return section;
     };
 
@@ -220,6 +223,9 @@ function initFormRouter(formModel) {
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
+            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+                label: 'Summary'
+            });
             res.render(path.resolve(__dirname, './views/summary'), {
                 form: res.locals.form,
                 formTitle: res.locals.form.title,
