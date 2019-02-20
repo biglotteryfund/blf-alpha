@@ -233,20 +233,6 @@ function initFormRouter(formModel) {
         });
     }
 
-    function flattenFormData(formData) {
-        let flatData = {};
-        formData.sections.forEach(section => {
-            section.steps.forEach(step => {
-                step.fieldsets.forEach(fieldset => {
-                    fieldset.fields.forEach(field => {
-                        flatData[field.name] = field.value;
-                    });
-                });
-            });
-        });
-        return flatData;
-    }
-
     /**
      * Route: Summary
      */
@@ -272,7 +258,7 @@ function initFormRouter(formModel) {
                 try {
                     await formModel.processor({
                         form: res.locals.form,
-                        data: flattenFormData(res.locals.form)
+                        data: res.locals.formData
                     });
                     res.redirect(`${req.baseUrl}/success`);
                 } catch (error) {

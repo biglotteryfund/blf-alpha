@@ -20,7 +20,6 @@ module.exports = async function processor({ form, data }, mailTransport = null) 
         template: path.resolve(__dirname, './customer-email.njk'),
         templateData: {
             form: form,
-            data: data,
             isArray: xs => Array.isArray(xs),
             showDataProtectionStatement: true
         }
