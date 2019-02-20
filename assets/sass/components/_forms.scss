@@ -276,11 +276,11 @@
     > .btn {
         display: inline-block;
         vertical-align: middle;
-        margin-right: 5px;
+        margin-right: $spacingUnit * 2;
     }
 
     > .btn-link {
-        font-size: 16px;
+        font-size: 18px;
     }
 }
 
