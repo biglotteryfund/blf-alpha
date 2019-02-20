@@ -6,6 +6,7 @@ const express = require('express');
 const path = require('path');
 
 const cached = require('../../middleware/cached');
+const { localify } = require('../../modules/urls');
 
 const translateField = (field, locale) => {
     return get(field, locale);
@@ -119,7 +120,31 @@ function initFormRouter(form) {
         });
     }
 
+    /**
+     * Route: Start page
+     */
+    router.get('/', cached.noCache, function(req, res) {
+        const { startPage } = form;
+        if (!startPage) {
+            throw new Error('No startpage found');
+        }
+
+        if (startPage.template) {
+            res.render(startPage.template, {
+                title: res.locals.formTitle,
+                startUrl: `${req.baseUrl}/${form.sections[0].slug}`
+            });
+        } else if (startPage.urlPath) {
+            res.redirect(localify(req.i18n.getLocale())(startPage.urlPath));
+        } else {
+            throw new Error('No valid startpage types found');
+        }
+    });
+
     form.sections.forEach((sectionModel, sectionIndex) => {
+        /**
+         * Route: Form sections
+         */
         router.get(`/${sectionModel.slug}`, (req, res) => {
             const locale = req.i18n.getLocale();
             const sectionLocalised = translateSection(sectionModel, locale);
@@ -135,6 +160,9 @@ function initFormRouter(form) {
             }
         });
 
+        /**
+         * Route: Section steps
+         */
         sectionModel.steps.forEach((stepModel, stepIndex) => {
             const currentStepNumber = stepIndex + 1;
 
@@ -187,7 +215,7 @@ function initFormRouter(form) {
     });
 
     /**
-     * Summary
+     * Route: Summary
      */
     router.route('/summary').get(function(req, res) {
         const formData = getSessionData(req.session);

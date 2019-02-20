@@ -220,6 +220,6 @@ module.exports = {
     isBilingual: true,
     sections: [sectionProject, sectionBeneficiaries],
     // processor: processor,
-    startPage: { template: path.resolve(__dirname, './startpage') },
-    successStep: { template: path.resolve(__dirname, './success') }
+    startPage: { template: path.resolve(__dirname, '../views/startpage') },
+    successStep: { template: path.resolve(__dirname, '../views/success') }
 };

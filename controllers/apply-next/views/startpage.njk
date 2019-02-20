@@ -1,0 +1,21 @@
+{% from "components/buttons.njk" import startButton %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/form-header/macro.njk" import formHeader with context %}
+
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    <main role="main" id="content">
+        {% call contentBox() %}
+            {{ formHeader(
+                title = title,
+                suffix = copy.description | safe
+            ) }}
+
+            <h2>Introduction</h2>
+            <p>Form intro goes here</p>
+
+            {{ startButton(startUrl) }}
+        {% endcall %}
+    </main>
+{% endblock %}
