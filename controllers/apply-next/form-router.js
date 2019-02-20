@@ -2,28 +2,12 @@
 const { cloneDeep, find, flatMap, isEmpty, set, concat } = require('lodash');
 const { get, getOr } = require('lodash/fp');
 const { matchedData } = require('express-validator/filter');
-const { check, validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator/check');
 const express = require('express');
 const path = require('path');
 
 const cached = require('../../middleware/cached');
 const { localify } = require('../../modules/urls');
-
-function getFieldValidator(field) {
-    if (field.validator) {
-        return field.validator(field);
-    } else if (field.isRequired === true) {
-        return check(field.name)
-            .trim()
-            .not()
-            .isEmpty()
-            .withMessage('Field must be provided');
-    } else {
-        return check(field.name)
-            .trim()
-            .optional();
-    }
-}
 
 function translateForm(formModel, locale, formData) {
     const localise = get(locale);
@@ -86,12 +70,12 @@ function initFormRouter(formModel) {
     const router = express.Router();
 
     const sessionKey = `apply.${formModel.id}`;
-    const getSessionData = getOr({}, sessionKey);
-    const setSessionData = (session, data) => set(session, sessionKey, { ...getSessionData(session), ...data });
+    const getSession = getOr({}, sessionKey);
+    const setSession = (session, data) => set(session, sessionKey, { ...getSession(session), ...data });
 
     router.use(cached.csrfProtection, (req, res, next) => {
         // Translate the form object for each request and populate it with session data
-        res.locals.form = translateForm(formModel, req.i18n.getLocale(), getSessionData(req.session));
+        res.locals.form = translateForm(formModel, req.i18n.getLocale(), getSession(req.session));
         res.locals.formTitle = 'Application form: ' + res.locals.form.title;
         res.locals.isBilingual = formModel.isBilingual;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
@@ -129,7 +113,7 @@ function initFormRouter(formModel) {
         }
     });
 
-    formModel.sections.forEach((sectionModel, sectionIndex) => {
+    formModel.sections.forEach(sectionModel => {
         /**
          * Route: Form sections
          */
@@ -179,23 +163,18 @@ function initFormRouter(formModel) {
             }
 
             function handleSubmitStep(req, res) {
-                setSessionData(req.session, matchedData(req, { locations: ['body'] }));
+                setSession(req.session, matchedData(req, { locations: ['body'] }));
                 req.session.save(() => {
                     const errors = validationResult(req);
                     if (errors.isEmpty()) {
                         /**
                          * @TODO: Review this logic
-                         * 1. Is there a next step go there.
-                         * 2. If there is a next section go there.
-                         * 3. Otherwise go to summary screen
+                         * 1. If there a next step in the current section go there.
+                         * 2. Otherwise go to summary screen
                          */
                         const nextStep = sectionModel.steps[stepIndex + 1];
-                        const nextSection = formModel.sections[sectionIndex + 1];
-
                         if (nextStep) {
                             res.redirect(`${req.baseUrl}/${sectionModel.slug}/${currentStepNumber + 1}`);
-                        } else if (nextSection) {
-                            res.redirect(`${req.baseUrl}/${nextSection.slug}`);
                         } else {
                             res.redirect(`${req.baseUrl}/summary`);
                         }
@@ -206,7 +185,7 @@ function initFormRouter(formModel) {
             }
 
             const fieldsForStep = flatMap(stepModel.fieldsets, 'fields');
-            const validators = fieldsForStep.map(getFieldValidator);
+            const validators = fieldsForStep.map(field => field.validator(field));
 
             router
                 .route(`/${sectionModel.slug}/${currentStepNumber}`)
@@ -219,7 +198,7 @@ function initFormRouter(formModel) {
      * Route: Summary
      */
     router.route('/summary').get(function(req, res) {
-        const formData = getSessionData(req.session);
+        const formData = getSession(req.session);
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
