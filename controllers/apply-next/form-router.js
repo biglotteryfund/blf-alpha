@@ -97,6 +97,7 @@ function initFormRouter(formModel) {
         res.locals.isBilingual = formModel.isBilingual;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
+        res.locals.formBaseUrl = req.baseUrl;
         res.locals.breadcrumbs = [
             {
                 label: res.locals.form.title,

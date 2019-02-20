@@ -46,7 +46,8 @@
                 {% endif %}
 
                 <div class="form-actions">
-                    <input class="btn btn--next" type="submit" value="{{ __('global.misc.next') | capitalize }}" />
+                    <a href="{{ formBaseUrl }}/summary" class="btn btn--outline">Skip to summary</a>
+                    <input class="btn btn--next u-pull-right" type="submit" value="{{ __('global.misc.next') | capitalize }}" />
                 </div>
             </form>
         </div>
