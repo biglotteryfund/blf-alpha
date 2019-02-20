@@ -1,5 +1,5 @@
 'use strict';
-const { cloneDeep, find, flatMap, get, isEmpty, set } = require('lodash');
+const { cloneDeep, find, flatMap, get, isEmpty, set, concat } = require('lodash');
 const { matchedData } = require('express-validator/filter');
 const { check, validationResult } = require('express-validator/check');
 const express = require('express');
@@ -94,6 +94,12 @@ function initFormRouter(formModel) {
         res.locals.isBilingual = formModel.isBilingual;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
+        res.locals.breadcrumbs = [
+            {
+                label: res.locals.form.title,
+                url: req.baseUrl
+            }
+        ];
         next();
     });
 
@@ -127,6 +133,9 @@ function initFormRouter(formModel) {
         router.get(`/${sectionModel.slug}`, (req, res) => {
             const sectionLocalised = res.locals.form.sections.find(s => s.slug === sectionModel.slug);
             if (sectionLocalised.summary) {
+                res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+                    label: sectionLocalised.title
+                });
                 res.render(path.resolve(__dirname, './views/section-summary'), {
                     title: `${sectionLocalised.title} | ${res.locals.form.title}`,
                     section: sectionLocalised,
@@ -143,9 +152,21 @@ function initFormRouter(formModel) {
          */
         sectionModel.steps.forEach((stepModel, stepIndex) => {
             const currentStepNumber = stepIndex + 1;
+            const numSteps = sectionModel.steps.length;
 
             function renderStep(req, res, errors = []) {
-                const stepLocalised = res.locals.form.sections.find(s => s.slug === sectionModel.slug).steps[stepIndex];
+                const sectionLocalised = res.locals.form.sections.find(s => s.slug === sectionModel.slug);
+                const stepLocalised = sectionLocalised.steps[stepIndex];
+                res.locals.breadcrumbs = concat(
+                    res.locals.breadcrumbs,
+                    {
+                        label: sectionLocalised.title,
+                        url: `${req.baseUrl}/${sectionModel.slug}`
+                    },
+                    {
+                        label: `${stepLocalised.title} (Step ${currentStepNumber} of ${numSteps})`
+                    }
+                );
                 res.render(path.resolve(__dirname, './views/step'), {
                     title: `${stepLocalised.title} | ${res.locals.form.title}`,
                     csrfToken: req.csrfToken(),
@@ -201,6 +222,7 @@ function initFormRouter(formModel) {
         } else {
             res.render(path.resolve(__dirname, './views/summary'), {
                 form: res.locals.form,
+                formTitle: res.locals.form.title,
                 csrfToken: req.csrfToken()
             });
         }
