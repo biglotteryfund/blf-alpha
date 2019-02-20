@@ -217,6 +217,30 @@ function initFormRouter(formModel) {
         });
     });
 
+    function renderError(error, req, res) {
+        const errorCopy = req.i18n.__('apply.error');
+        res.render(path.resolve(__dirname, './views/error'), {
+            error: error,
+            title: errorCopy.title,
+            errorCopy: errorCopy,
+            returnUrl: `${req.baseUrl}/review`
+        });
+    }
+
+    function flattenFormData(formData) {
+        let flatData = {};
+        formData.sections.forEach(section => {
+            section.steps.forEach(step => {
+                step.fieldsets.forEach(fieldset => {
+                    fieldset.fields.forEach(field => {
+                        flatData[field.name] = field.value;
+                    });
+                });
+            });
+        });
+        return flatData;
+    }
+
     /**
      * Route: Summary
      */
