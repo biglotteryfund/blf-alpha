@@ -2,6 +2,7 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/icons.njk" import iconArrowDown %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% block title %}Summary | {{ formTitle }} | {% endblock %}
 
@@ -13,36 +14,73 @@
                     title = "Summary"
                 ) }}
 
-                <pre>{{ form | dump(2) }}</pre>
+                {{ breadcrumbTrail(breadcrumbs) }}
+
+                {#<pre>{{ form | dump(2) }}</pre>#}
                 
                 {% for section in form.sections %}
 
                     <section class="s-prose">
-                        <h2>Section title: {{ section.title }}</h2>
-                        {% for step in section.steps %}
-                            <h3>Step title: {{ step.title }}</h3>
-                            {% for fieldset in step.fieldsets %}
-                                <h4>Fieldset legend: {{ fieldset.legend }}</h4>
-                                
-                                <dl class="o-definition-list">
-                                {% for field in fieldset.fields %}
-                                    <dt>Field label: {{ field.label }}</dt>
-                                    <dd>
+                        <details class="u-margin-bottom-s">
+                            <summary>
+                                <h2>Section {{ loop.index }}: {{ section.title }}</h2>
+                                {% if section.introduction %}
+                                    <p>{{ section.introduction }}</p>
+                                {% endif %}
+                            </summary>
+                            <div>
+                                {% for step in section.steps %}
+                                    {% set stepNumber = loop.index %}
+                                    <h4>
+                                        Step {{ stepNumber }} of {{ section.steps.length }} &ndash; {{ step.title }}
+                                    </h4>
 
-                                    {% if field.type === 'textarea' %}
-                                        {% set cleanValue = field.value | striptags(true) | escape | nl2br %}
-                                        {{ cleanValue }}
-                                    {% elseif (field.value | isArray) %}
-                                        {{ field.value | join(', ') }}
-                                    {% else %}
-                                        {{ field.value }}
-                                    {% endif %}
-                                    </dd>
+                                    {% for fieldset in step.fieldsets %}
+                                        <table class="table table-striped mb-5">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Question</th>
+                                                    <th scope="col">Your answer</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for field in fieldset.fields %}
+                                                    <tr>
+                                                        <td>{{ field.label }}</td>
+                                                        <td>
+                                                            {% if not field.value %}
+                                                                Incomplete
+                                                                <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}">
+                                                                    Supply this answer
+                                                                </a>
+                                                            {% else %}
+                                                                {% if field.type === 'textarea' %}
+                                                                    {% set cleanValue = field.value | striptags(true) | escape | nl2br %}
+                                                                    {{ cleanValue }}
+                                                                {% elseif (field.value | isArray) %}
+                                                                    {{ field.value | join(', ') }}
+                                                                {% else %}
+                                                                    {{ field.value }}
+                                                                {% endif %}
+                                                                <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}">
+                                                                    Edit this answer
+                                                                </a>
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    {% endfor %}
                                 {% endfor %}
-                                </dl>
-                            {% endfor %}
-                            <hr />
-                        {% endfor %}
+                            </div>
+                        </details>
+                        <p class="u-pull-right">
+                            <a class="btn btn--medium" href="{{ formBaseUrl }}/{{ section.slug }}">
+                                Edit this section
+                            </a>
+                        </p>
+                        <hr class="u-clear-right" />
                     </section>
                 {% endfor %}
 
@@ -51,7 +89,10 @@
                 {% endif %}
 
 
-                <input class="btn" type="submit" value="Submit" />
+                <div class="u-margin-top">
+                    <input class="btn" type="submit" value="Save and next" />
+                </div>
+
             </form>
         </div>
     </main>

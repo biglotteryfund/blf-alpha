@@ -4,6 +4,7 @@
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/form-fields/macros.njk" import formErrors, formField with context %}
 {% from "components/language/macros.njk" import languageServiceMessage with context %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% block content %}
     <main role="main" id="content">
@@ -12,6 +13,8 @@
                 {{ formHeader(
                     title = formTitle
                 ) }}
+
+                {{ breadcrumbTrail(breadcrumbs) }}
 
                 {{ languageServiceMessage(currentLocale = locale) }}
 
@@ -43,7 +46,8 @@
                 {% endif %}
 
                 <div class="form-actions">
-                    <input class="btn btn--next" type="submit" value="{{ __('global.misc.next') | capitalize }}" />
+                    <a href="{{ formBaseUrl }}/summary" class="btn btn--outline">Skip to summary</a>
+                    <input class="btn btn--next u-pull-right" type="submit" value="{{ __('global.misc.next') | capitalize }}" />
                 </div>
             </form>
         </div>

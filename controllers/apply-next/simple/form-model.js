@@ -9,6 +9,12 @@ const sectionProject = {
         en: 'Your Project',
         cy: '(WELSH) Your Project'
     },
+    introduction: {
+        en:
+            'Please tell us about your project in this section. This is the most important section when it comes to making a decision about whether you will receive funding.',
+        cy:
+            '(WELSH) Please tell us about your project in this section. This is the most important section when it comes to making a decision about whether you will receive funding.'
+    },
     steps: [
         {
             title: {
@@ -160,6 +166,12 @@ const sectionBeneficiaries = {
         en: 'Who will benefit from your project',
         cy: '(WELSH) Who will benefit from your project'
     },
+    introduction: {
+        en:
+            'Please tell us about your beneficiaries in this section. This helps us to understand who will benefit if we fund your project.',
+        cy:
+            '(WELSH) Please tell us about your beneficiaries in this section. This helps us to understand who will benefit if we fund your project.'
+    },
     summary: {
         en: `
             <h2>Who will benefit from your project</h2>
@@ -220,6 +232,6 @@ module.exports = {
     isBilingual: true,
     sections: [sectionProject, sectionBeneficiaries],
     // processor: processor,
-    startPage: { template: path.resolve(__dirname, './startpage') },
-    successStep: { template: path.resolve(__dirname, './success') }
+    startPage: { template: path.resolve(__dirname, '../views/startpage') },
+    successStep: { template: path.resolve(__dirname, '../views/success') }
 };
