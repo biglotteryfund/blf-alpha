@@ -94,6 +94,7 @@ function initFormRouter(formModel) {
     router.use(cached.csrfProtection, (req, res, next) => {
         // Translate the form object for each request and populate it with session data
         res.locals.form = translateForm(formModel, req.i18n.getLocale(), getSessionData(req.session));
+        res.locals.formTitle = 'Application form: ' + res.locals.form.title;
         res.locals.isBilingual = formModel.isBilingual;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
@@ -229,7 +230,6 @@ function initFormRouter(formModel) {
             });
             res.render(path.resolve(__dirname, './views/summary'), {
                 form: res.locals.form,
-                formTitle: res.locals.form.title,
                 csrfToken: req.csrfToken()
             });
         }
