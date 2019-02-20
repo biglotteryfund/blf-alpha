@@ -8,52 +8,6 @@ const path = require('path');
 const cached = require('../../middleware/cached');
 const { localify } = require('../../modules/urls');
 
-const translateField = (field, locale) => {
-    return get(field, locale);
-};
-
-// @TODO this does not translate nested fields – should it?
-const translateSection = (section, locale) => {
-    const clonedSection = cloneDeep(section);
-    clonedSection.title = translateField(clonedSection.title, locale);
-    if (clonedSection.summary) {
-        clonedSection.summary = translateField(clonedSection.summary, locale);
-    }
-    return clonedSection;
-};
-
-const translateStep = (step, locale, values) => {
-    const clonedStep = cloneDeep(step);
-    clonedStep.title = translateField(clonedStep.title, locale);
-
-    // Translate each fieldset
-    clonedStep.fieldsets = clonedStep.fieldsets.map(fieldset => {
-        fieldset.legend = translateField(fieldset.legend, locale);
-        // Translate each field
-        fieldset.fields = fieldset.fields.map(field => {
-            field.label = translateField(field.label, locale);
-            field.explanation = translateField(field.explanation, locale);
-            const match = find(values, (value, name) => name === field.name);
-            if (match) {
-                field.value = match;
-            }
-
-            // Translate each option (if set)
-            if (field.options) {
-                field.options = field.options.map(option => {
-                    option.label = translateField(option.label, locale);
-                    return option;
-                });
-            }
-            return field;
-        });
-
-        return fieldset;
-    });
-
-    return clonedStep;
-};
-
 function getFieldValidator(field) {
     if (field.validator) {
         return field.validator(field);
@@ -70,69 +24,94 @@ function getFieldValidator(field) {
     }
 }
 
-function formWithValues(formModel, locale, formData) {
+function translateForm(formModel, locale, formData) {
+    const translateField = field => get(field, locale);
+
+    const translateSection = section => {
+        section.title = translateField(section.title, locale);
+        if (section.summary) {
+            section.summary = translateField(section.summary, locale);
+        }
+        return section;
+    };
+
+    const translateStep = step => {
+        step.title = translateField(step.title, locale);
+
+        // Translate each fieldset
+        step.fieldsets = step.fieldsets.map(fieldset => {
+            fieldset.legend = translateField(fieldset.legend, locale);
+            // Translate each field
+            fieldset.fields = fieldset.fields.map(field => {
+                field.label = translateField(field.label, locale);
+                field.explanation = translateField(field.explanation, locale);
+                const match = find(formData, (value, name) => name === field.name);
+                if (match) {
+                    field.value = match;
+                }
+
+                // Translate each option (if set)
+                if (field.options) {
+                    field.options = field.options.map(option => {
+                        option.label = translateField(option.label, locale);
+                        return option;
+                    });
+                }
+                return field;
+            });
+
+            return fieldset;
+        });
+
+        return step;
+    };
+
     const clonedForm = cloneDeep(formModel);
+    clonedForm.title = translateField(formModel.title, locale);
+
     clonedForm.sections = clonedForm.sections.map(section => {
+        section = translateSection(section, locale);
         section.steps = section.steps.map(step => translateStep(step, locale, formData));
         return section;
     });
+
     return clonedForm;
 }
 
-function initFormRouter(form) {
+function initFormRouter(formModel) {
     const router = express.Router();
 
-    const getSessionData = session => get(session, `apply.${form.id}`, {});
+    const getSessionData = session => get(session, `apply.${formModel.id}`, {});
 
     const setSessionData = (session, newData) => {
         const formData = getSessionData(session);
-        set(session, `apply.${form.id}`, Object.assign(formData, newData));
+        set(session, `apply.${formModel.id}`, Object.assign(formData, newData));
     };
 
     router.use(cached.csrfProtection, (req, res, next) => {
-        res.locals.formTitle = translateField(form.title, req.i18n.getLocale());
-        res.locals.isBilingual = form.isBilingual;
+        // Translate the form object for each request and populate it with session data
+        res.locals.form = translateForm(formModel, req.i18n.getLocale(), getSessionData(req.session));
+        res.locals.isBilingual = formModel.isBilingual;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
         next();
     });
 
     /**
-     * Collect all validators associated with each field for express-validator
-     */
-    function getValidators(step) {
-        const fields = flatMap(step.fieldsets, 'fields');
-        return fields.map(field => {
-            if (field.validator) {
-                // @TODO: Pass form data into this function
-                return field.validator(field);
-            } else if (field.isRequired === true) {
-                return check(field.name)
-                    .trim()
-                    .not()
-                    .isEmpty()
-                    .withMessage('Field must be provided');
-            } else {
-                return check(field.name)
-                    .trim()
-                    .optional();
-            }
-        });
-    }
-
-    /**
      * Route: Start page
      */
     router.get('/', cached.noCache, function(req, res) {
-        const { startPage } = form;
+        const { startPage } = res.locals.form;
         if (!startPage) {
             throw new Error('No startpage found');
         }
 
+        const firstSection = res.locals.form.sections[0];
+
         if (startPage.template) {
             res.render(startPage.template, {
-                title: res.locals.formTitle,
-                startUrl: `${req.baseUrl}/${form.sections[0].slug}`
+                title: res.locals.form.title,
+                startUrl: `${req.baseUrl}/${firstSection.slug}`
             });
         } else if (startPage.urlPath) {
             res.redirect(localify(req.i18n.getLocale())(startPage.urlPath));
@@ -141,16 +120,15 @@ function initFormRouter(form) {
         }
     });
 
-    form.sections.forEach((sectionModel, sectionIndex) => {
+    formModel.sections.forEach((sectionModel, sectionIndex) => {
         /**
          * Route: Form sections
          */
         router.get(`/${sectionModel.slug}`, (req, res) => {
-            const locale = req.i18n.getLocale();
-            const sectionLocalised = translateSection(sectionModel, locale);
+            const sectionLocalised = res.locals.form.sections.find(s => s.slug === sectionModel.slug);
             if (sectionLocalised.summary) {
                 res.render(path.resolve(__dirname, './views/section-summary'), {
-                    title: `${sectionLocalised.title} | ${res.locals.formTitle}`,
+                    title: `${sectionLocalised.title} | ${res.locals.form.title}`,
                     section: sectionLocalised,
                     backUrl: null, // @TODO: Determine backUrl
                     nextUrl: `${req.baseUrl}/${sectionModel.slug}/1`
@@ -167,12 +145,11 @@ function initFormRouter(form) {
             const currentStepNumber = stepIndex + 1;
 
             function renderStep(req, res, errors = []) {
-                const formData = getSessionData(req.session);
-                const stepLocalisedWithValues = translateStep(stepModel, req.i18n.getLocale(), formData);
+                const stepLocalised = res.locals.form.sections.find(s => s.slug === sectionModel.slug).steps[stepIndex];
                 res.render(path.resolve(__dirname, './views/step'), {
-                    title: `${stepLocalisedWithValues.title} | ${res.locals.formTitle}`,
+                    title: `${stepLocalised.title} | ${res.locals.form.title}`,
                     csrfToken: req.csrfToken(),
-                    step: stepLocalisedWithValues,
+                    step: stepLocalised,
                     errors: errors
                 });
             }
@@ -189,7 +166,7 @@ function initFormRouter(form) {
                          * 3. Otherwise go to summary screen
                          */
                         const nextStep = sectionModel.steps[stepIndex + 1];
-                        const nextSection = form.sections[sectionIndex + 1];
+                        const nextSection = formModel.sections[sectionIndex + 1];
 
                         if (nextStep) {
                             res.redirect(`${req.baseUrl}/${sectionModel.slug}/${currentStepNumber + 1}`);
@@ -223,7 +200,7 @@ function initFormRouter(form) {
             res.redirect(req.baseUrl);
         } else {
             res.render(path.resolve(__dirname, './views/summary'), {
-                form: formWithValues(form, req.i18n.getLocale(), formData),
+                form: res.locals.form,
                 csrfToken: req.csrfToken()
             });
         }
