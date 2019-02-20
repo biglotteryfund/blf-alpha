@@ -1,5 +1,6 @@
 'use strict';
-const { cloneDeep, find, flatMap, get, isEmpty, set, concat } = require('lodash');
+const { cloneDeep, find, flatMap, isEmpty, set, concat } = require('lodash');
+const { get, getOr } = require('lodash/fp');
 const { matchedData } = require('express-validator/filter');
 const { check, validationResult } = require('express-validator/check');
 const express = require('express');
@@ -25,29 +26,29 @@ function getFieldValidator(field) {
 }
 
 function translateForm(formModel, locale, formData) {
-    const translateField = field => get(field, locale);
+    const localise = get(locale);
 
     const translateSection = section => {
-        section.title = translateField(section.title, locale);
+        section.title = localise(section.title);
         if (section.summary) {
-            section.summary = translateField(section.summary, locale);
+            section.summary = localise(section.summary);
         }
         if (section.introduction) {
-            section.introduction = translateField(section.introduction, locale);
+            section.introduction = localise(section.introduction);
         }
         return section;
     };
 
     const translateStep = step => {
-        step.title = translateField(step.title, locale);
+        step.title = localise(step.title);
 
         // Translate each fieldset
         step.fieldsets = step.fieldsets.map(fieldset => {
-            fieldset.legend = translateField(fieldset.legend, locale);
+            fieldset.legend = localise(fieldset.legend);
             // Translate each field
             fieldset.fields = fieldset.fields.map(field => {
-                field.label = translateField(field.label, locale);
-                field.explanation = translateField(field.explanation, locale);
+                field.label = localise(field.label);
+                field.explanation = localise(field.explanation);
                 const match = find(formData, (value, name) => name === field.name);
                 if (match) {
                     field.value = match;
@@ -56,7 +57,7 @@ function translateForm(formModel, locale, formData) {
                 // Translate each option (if set)
                 if (field.options) {
                     field.options = field.options.map(option => {
-                        option.label = translateField(option.label, locale);
+                        option.label = localise(option.label);
                         return option;
                     });
                 }
@@ -70,11 +71,11 @@ function translateForm(formModel, locale, formData) {
     };
 
     const clonedForm = cloneDeep(formModel);
-    clonedForm.title = translateField(formModel.title, locale);
+    clonedForm.title = localise(formModel.title);
 
     clonedForm.sections = clonedForm.sections.map(section => {
-        section = translateSection(section, locale);
-        section.steps = section.steps.map(step => translateStep(step, locale, formData));
+        section = translateSection(section);
+        section.steps = section.steps.map(step => translateStep(step));
         return section;
     });
 
@@ -84,12 +85,9 @@ function translateForm(formModel, locale, formData) {
 function initFormRouter(formModel) {
     const router = express.Router();
 
-    const getSessionData = session => get(session, `apply.${formModel.id}`, {});
-
-    const setSessionData = (session, newData) => {
-        const formData = getSessionData(session);
-        set(session, `apply.${formModel.id}`, Object.assign(formData, newData));
-    };
+    const sessionKey = `apply.${formModel.id}`;
+    const getSessionData = getOr({}, sessionKey);
+    const setSessionData = (session, data) => set(session, sessionKey, { ...getSessionData(session), ...data });
 
     router.use(cached.csrfProtection, (req, res, next) => {
         // Translate the form object for each request and populate it with session data
