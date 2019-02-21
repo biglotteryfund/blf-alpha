@@ -1,5 +1,5 @@
 'use strict';
-const { cloneDeep, find, flatMap, get, isEmpty, set, concat, unset } = require('lodash');
+const { cloneDeep, find, flatMap, get, isEmpty, set, concat, unset, pickBy, identity } = require('lodash');
 const { matchedData } = require('express-validator/filter');
 const { check, validationResult } = require('express-validator/check');
 const express = require('express');
@@ -81,8 +81,111 @@ function translateForm(formModel, locale, formData) {
 
     return clonedForm;
 }
+const FORM_STATES = {
+    incomplete: {
+        type: 'INCOMPLETE',
+        label: 'In progress'
+    },
+    complete: {
+        type: 'COMPLETE',
+        label: 'Complete'
+    },
+    invalid: {
+        type: 'INVALID',
+        label: 'Invalid'
+    },
+    empty: {
+        type: 'EMPTY',
+        label: 'Not started'
+    }
+};
+
+function validateFormState(form, formErrors) {
+    const clonedForm = cloneDeep(form);
+    const invalidFieldNames = formErrors.map(e => e.param);
+
+    clonedForm.sections.map(section => {
+        // if a step has any errors, return and mark section as incomplete
+        section.steps.forEach(step => {
+            step.fieldsets.map(fieldset => {
+                fieldset.fields.map(field => {
+                    if (invalidFieldNames.indexOf(field.name) !== -1) {
+                        // Is this field in the error array?
+                        // (eg. it failed validation)
+                        // @TODO should this just be marked as incomplete?
+                        field.state = FORM_STATES.invalid;
+                    } else {
+                        // Otherwise, it must be valid
+                        field.state = FORM_STATES.complete;
+                    }
+                    return field;
+                });
+                return fieldset;
+            });
+
+            // See if this step's fieldsets are all empty (as opposed to invalid)
+            const stepIsEmpty = isEmpty(
+                pickBy(
+                    step.fieldsets.reduce((acc, fieldset) => {
+                        return concat(fieldset.fields.map(f => f.value), acc);
+                    }, []),
+                    identity
+                )
+            );
+
+            if (stepIsEmpty) {
+                step.state = FORM_STATES.empty;
+            } else {
+                // Work out this step's state based on its fieldsets' state
+                const stepHasInvalidFields = step.fieldsets.some(fieldset =>
+                    fieldset.fields.some(field => field.state !== FORM_STATES.complete)
+                );
+                step.state = stepHasInvalidFields ? FORM_STATES.incomplete : FORM_STATES.complete;
+            }
+
+            return step;
+        });
+
+        // See if this section's steps are all empty
+        const sectionIsNotEmpty = section.steps.some(step => step.state !== FORM_STATES.empty);
+
+        if (sectionIsNotEmpty) {
+            // Work out this section's state based on its steps' state
+            const sectionHasInvalidSteps = section.steps.some(step => step.state !== FORM_STATES.complete);
+            section.state = sectionHasInvalidSteps ? FORM_STATES.incomplete : FORM_STATES.complete;
+        } else {
+            section.state = FORM_STATES.empty;
+        }
+
+        return section;
+    });
+
+    // Check whether the entire form is empty
+    const formIsNotEmpty = clonedForm.sections.some(section => section.state !== FORM_STATES.empty);
+
+    if (formIsNotEmpty) {
+        // Work out the entire form's state based on its sections' state
+        const formHasInvalidSections = clonedForm.sections.some(section => section.state !== FORM_STATES.complete);
+        clonedForm.state = formHasInvalidSections ? FORM_STATES.incomplete : FORM_STATES.complete;
+    } else {
+        clonedForm.state = FORM_STATES.empty;
+    }
+    return clonedForm;
+}
 
 const getSessionKey = formModel => `apply.${formModel.id}`;
+
+const getAllFormFields = formModel => {
+    let allFields = [];
+    formModel.sections.forEach(section => {
+        section.steps.forEach(step => {
+            step.fieldsets.forEach(fieldset => {
+                fieldset.fields.forEach(field => allFields.push(field));
+            });
+        });
+    });
+    return allFields;
+};
 
 function initFormRouter(formModel) {
     const router = express.Router();
@@ -100,6 +203,7 @@ function initFormRouter(formModel) {
         const formData = getSessionData(req.session);
         res.locals.form = translateForm(formModel, req.i18n.getLocale(), formData);
         res.locals.formData = formData;
+        res.locals.FORM_STATES = FORM_STATES;
         res.locals.formTitle = 'Application form: ' + res.locals.form.title;
         res.locals.isBilingual = formModel.isBilingual;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
@@ -236,37 +340,50 @@ function initFormRouter(formModel) {
     /**
      * Route: Summary
      */
+    const validateAllFields = getAllFormFields(formModel).map(getFieldValidator);
     router
         .route('/summary')
         .get(function(req, res) {
-            if (isEmpty(res.locals.formData)) {
-                res.redirect(req.baseUrl);
-            } else {
-                res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-                    label: 'Summary'
-                });
-                res.render(path.resolve(__dirname, './views/summary'), {
-                    form: res.locals.form,
-                    csrfToken: req.csrfToken()
-                });
-            }
+            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+                label: 'Summary'
+            });
+            res.render(path.resolve(__dirname, './views/summary'), {
+                form: res.locals.form,
+                csrfToken: req.csrfToken()
+            });
         })
-        .post(async function(req, res) {
-            if (isEmpty(res.locals.formData)) {
-                res.redirect(req.baseUrl);
-            } else {
-                try {
-                    await formModel.processor({
-                        form: res.locals.form,
-                        data: res.locals.formData
+        .post(
+            (req, res, next) => {
+                // Fake a post body so the validators can run as if the entire form
+                // was submitted in one go
+                req.body = res.locals.formData;
+                next();
+            },
+            validateAllFields,
+            async function(req, res) {
+                const errors = validationResult(req);
+                if (errors.isEmpty()) {
+                    try {
+                        await formModel.processor({
+                            form: res.locals.form,
+                            data: res.locals.formData
+                        });
+                        res.redirect(`${req.baseUrl}/success`);
+                    } catch (error) {
+                        Raven.captureException(error);
+                        renderError(error, req, res);
+                    }
+                } else {
+                    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+                        label: 'Summary'
                     });
-                    res.redirect(`${req.baseUrl}/success`);
-                } catch (error) {
-                    Raven.captureException(error);
-                    renderError(error, req, res);
+                    res.render(path.resolve(__dirname, './views/summary'), {
+                        form: validateFormState(res.locals.form, errors.array()),
+                        csrfToken: req.csrfToken()
+                    });
                 }
             }
-        });
+        );
 
     /**
      * Route: Success

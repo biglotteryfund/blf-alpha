@@ -16,12 +16,17 @@
 
                 {{ breadcrumbTrail(breadcrumbs) }}
 
+                <h2>Application form status: {{ form.state.label }}</h2>
+
                 {% for section in form.sections %}
 
                     <section class="s-prose">
                         <details class="u-margin-bottom-s">
                             <summary>
-                                <h2>Section {{ loop.index }}: {{ section.title }}</h2>
+                                <h2>
+                                    Section {{ loop.index }}: {{ section.title }}
+                                    {% if section.state %}(Status: {{ section.state.label }}){% endif %}
+                                </h2>
                                 {% if section.introduction %}
                                     <p>{{ section.introduction }}</p>
                                 {% endif %}
@@ -31,6 +36,7 @@
                                     {% set stepNumber = loop.index %}
                                     <h4>
                                         Step {{ stepNumber }} of {{ section.steps.length }} &ndash; {{ step.title }}
+                                        {% if step.state %}(Status: {{ step.state.label }}){% endif %}
                                     </h4>
 
                                     {% for fieldset in step.fieldsets %}
@@ -64,6 +70,7 @@
                                                                     Edit this answer
                                                                 </a>
                                                             {% endif %}
+                                                            {% if field.state %}(Status: {{ field.state.label }}){% endif %}
                                                         </td>
                                                     </tr>
                                                 {% endfor %}
