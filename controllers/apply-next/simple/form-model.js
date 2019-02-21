@@ -64,6 +64,17 @@ const VALIDATORS = {
                 .withMessage(localiseMessage(message));
         };
     },
+    email: function(field) {
+        return check(field.name)
+            .trim()
+            .isEmail()
+            .withMessage(
+                localiseMessage({
+                    en: 'Please provide a valid email address',
+                    cy: ''
+                })
+            );
+    },
     postcode: function(field) {
         return check(field.name)
             .isPostalCode('GB')
@@ -317,10 +328,23 @@ const FIELDS = {
         isRequired: true,
         validator: VALIDATORS.postcode
     },
+    mainContactEmail: {
+        name: 'main-contact-email',
+        type: 'email',
+        label: { en: 'Email', cy: '' },
+        explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Field must be provided',
+            cy: ''
+        })
+    },
     mainContactPhonePrimary: {
         name: 'main-contact-phone-primary',
-        type: 'text',
+        type: 'tel',
+        size: 30,
         label: { en: 'Primary contact number', cy: '' },
+        explanation: { en: 'Please provide at least one contact number', cy: '' },
         isRequired: true,
         validator: VALIDATORS.required({
             en: 'Field must be provided',
@@ -329,9 +353,148 @@ const FIELDS = {
     },
     mainContactPhoneSecondary: {
         name: 'main-contact-phone-secondary',
-        type: 'text',
+        type: 'tel',
+        size: 30,
         label: { en: 'Secondary contact number', cy: '' },
+        explanation: { en: 'A secondary contact number in case we can’t reach you on your primary number.', cy: '' },
         validator: VALIDATORS.optional
+    },
+    mainContactCommunicationNeeds: {
+        name: 'main-contact-communication-needs',
+        type: 'select',
+        label: { en: 'Please tell us about any communication needs', cy: '' },
+        options: [
+            { value: '', label: { en: 'Select an option', cy: '' } },
+            { value: 'audiotape', label: { en: 'Audiotape', cy: '' } },
+            { value: 'braille', label: { en: 'Braille', cy: '' } },
+            { value: 'large-print', label: { en: 'Large print', cy: '' } }
+        ],
+        validator: VALIDATORS.optional
+    },
+    legalContactName: {
+        name: 'legal-contact-name',
+        autocompleteName: 'name',
+        type: 'text',
+        label: { en: 'Full name', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Enter your full name',
+            cy: ''
+        })
+    },
+    legalContactDob: {
+        name: 'legal-contact-dob',
+        type: 'date',
+        label: { en: 'Date of birth', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Field must be provided',
+            cy: ''
+        })
+    },
+    legalContactAddress: {
+        name: 'legal-contact-address',
+        type: 'text',
+        size: 20,
+        label: { en: 'What is your legally responsible contact’s current address?', cy: '' },
+        explanation: { en: 'Enter the postcode and search for the address.', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.postcode
+    },
+    legalContactEmail: {
+        name: 'legal-contact-email',
+        type: 'email',
+        label: { en: 'Email', cy: '' },
+        explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Field must be provided',
+            cy: ''
+        })
+    },
+    legalContactPhonePrimary: {
+        name: 'legal-contact-phone-primary',
+        type: 'tel',
+        size: 30,
+        label: { en: 'Primary contact number', cy: '' },
+        explanation: { en: 'Please provide at least one contact number', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Field must be provided',
+            cy: ''
+        })
+    },
+    legalContactPhoneSecondary: {
+        name: 'legal-contact-phone-secondary',
+        type: 'tel',
+        size: 30,
+        label: { en: 'Secondary contact number', cy: '' },
+        explanation: { en: 'A secondary contact number in case we can’t reach you on your primary number.', cy: '' },
+        validator: VALIDATORS.optional
+    },
+    legalContactCommunicationNeeds: {
+        name: 'legal-contact-communication-needs',
+        type: 'select',
+        label: { en: 'Please tell us about any communication needs', cy: '' },
+        options: [
+            { value: '', label: { en: 'Select an option', cy: '' } },
+            { value: 'audiotape', label: { en: 'Audiotape', cy: '' } },
+            { value: 'braille', label: { en: 'Braille', cy: '' } },
+            { value: 'large-print', label: { en: 'Large print', cy: '' } }
+        ],
+        validator: VALIDATORS.optional
+    },
+    bankAccountName: {
+        name: 'bank-account-name',
+        type: 'text',
+        label: { en: 'Name on the bank account', cy: '' },
+        explanation: { en: 'Name of your organisation as it appears on your bank statement', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Please provide the name on the account',
+            cy: ''
+        })
+    },
+    bankSortCode: {
+        name: 'bank-sort-code',
+        type: 'text',
+        size: 20,
+        label: { en: 'Sort code', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Please provide a sort code',
+            cy: ''
+        })
+    },
+    bankAccountNumber: {
+        name: 'bank-account-number',
+        type: 'text',
+        label: { en: 'Account number', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Please provide a bank account number',
+            cy: ''
+        })
+    },
+    bankBuildingSocietyNumber: {
+        name: 'bank-building-society-number',
+        type: 'text',
+        label: { en: 'Building society number (if applicable)', cy: '' },
+        explanation: {
+            en: 'This is only applicable if your organisation’s account is with a building society.',
+            cy: ''
+        },
+        validator: VALIDATORS.optional
+    },
+    bankStatement: {
+        name: 'bank-statement',
+        type: 'file',
+        label: { en: 'Upload a bank statement', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Please provide a bank statement',
+            cy: ''
+        })
     }
 };
 
@@ -422,7 +585,7 @@ const sectionOrganisation = {
  * @type Section
  */
 const sectionMainContact = {
-    slug: 'contacts',
+    slug: 'main-contact',
     title: { en: 'Main contact', cy: '' },
     steps: [
         {
@@ -440,8 +603,109 @@ const sectionMainContact = {
                     fields: [FIELDS.mainContactName, FIELDS.mainContactDob, FIELDS.mainContactAddress]
                 },
                 {
-                    legend: { en: 'Please provide at least one contact number', cy: '' },
-                    fields: [FIELDS.mainContactPhonePrimary, FIELDS.mainContactPhoneSecondary]
+                    legend: { en: 'Contact details', cy: '' },
+                    fields: [
+                        FIELDS.mainContactEmail,
+                        FIELDS.mainContactPhonePrimary,
+                        FIELDS.mainContactPhoneSecondary,
+                        FIELDS.mainContactCommunicationNeeds
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+/**
+ * @type Section
+ */
+const sectionLegalContact = {
+    slug: 'legal-contact',
+    title: { en: 'Legally responsible contact', cy: '' },
+    steps: [
+        {
+            title: { en: 'Legally responsible contact', cy: '' },
+            fieldsets: [
+                {
+                    legend: { en: 'Who is your legally responsible contact?', cy: '' },
+                    introduction: {
+                        en: `
+<p>This person will be legally responsible for the funding and must be unconnected to the main contact. By ‘unconnected’ we mean not related by blood, marriage, in a long-term relationship or people living together at the same address.</p>
+
+<p>They must be at least 18 years old and are responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.</p>
+
+<p>The position held by the legally responsible contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.</p>`,
+                        cy: ''
+                    },
+                    fields: [FIELDS.legalContactName, FIELDS.legalContactDob, FIELDS.legalContactAddress]
+                },
+                {
+                    legend: { en: 'Contact details', cy: '' },
+                    fields: [
+                        FIELDS.legalContactEmail,
+                        FIELDS.legalContactPhonePrimary,
+                        FIELDS.legalContactPhoneSecondary,
+                        FIELDS.legalContactCommunicationNeeds
+                    ]
+                }
+            ]
+        }
+    ]
+};
+
+/**
+ * @type Section
+ */
+const sectionBankDetails = {
+    slug: 'bank-details',
+    title: { en: 'Bank details', cy: '' },
+    steps: [
+        {
+            title: { en: 'Bank account', cy: '' },
+            fieldsets: [
+                {
+                    legend: { en: 'What are your bank account details?', cy: '' },
+                    introduction: {
+                        en:
+                            'This should be the legal name of your organisation as it appears on your bank statement, not the name of your bank. This will usually be the same as your organisation’s name on your governing document.',
+                        cy: ''
+                    },
+                    fields: [
+                        FIELDS.bankAccountName,
+                        FIELDS.bankSortCode,
+                        FIELDS.bankAccountNumber,
+                        FIELDS.bankBuildingSocietyNumber
+                    ]
+                }
+            ]
+        },
+        {
+            title: { en: 'Bank statement', cy: '' },
+            fieldsets: [
+                {
+                    legend: { en: 'Bank statement', cy: '' },
+                    introduction: {
+                        en: `
+    <p><strong>You must attach your bank statement as a PDF, JPEG or PNG file. Unfortunately we can’t accept Word documents, but photos of your bank statements are absolutely fine.</strong></p>
+
+    <p>Please make sure that we can clearly see the following on your bank statement:</p>
+
+    <ul>
+        <li>Your organisation’s legal name</li>
+        <li>The address the statements are sent to</li>
+        <li>The bank name</li>
+        <li>Account number</li>
+        <li>Sort code</li>
+        <li>Date (must be within last 3 months)</li>
+    </ul>
+
+    <p>Your statement needs to be less than three months old. For bank accounts opened within the last three months, we can accept a bank welcome letter. This must confirm the date your account was opened, account name, account number and sort code.</p>
+
+    <p>If you are a school who uses a local authority bank account, please attach a letter from the local authority that confirms your school name, the bank account name and number and sort code. The letter must be on local authority headed paper and dated. Other statutory bodies can attach a letter from their finance department that confirms the details of the bank account funding would be paid into.</p>                 
+                        `,
+                        cy: ''
+                    },
+                    fields: [FIELDS.bankStatement]
                 }
             ]
         }
@@ -468,7 +732,7 @@ const form = {
         cy: '(WELSH) National Lottery Awards for All'
     },
     isBilingual: true,
-    sections: [sectionProject, sectionOrganisation, sectionMainContact],
+    sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionLegalContact, sectionBankDetails],
     startPage: { template: path.resolve(__dirname, '../views/startpage') },
     successStep: { template: path.resolve(__dirname, '../views/success') }
 };
