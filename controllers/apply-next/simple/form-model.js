@@ -26,6 +26,7 @@ const { check } = require('express-validator/check');
 /**
  * @typedef {Object} Fieldset
  * @property {LocaleString} legend
+ * @property {LocaleString} [introduction]
  * @property {Array<Field>} fields
  */
 
@@ -49,21 +50,40 @@ function localiseMessage(options) {
  * Common validators
  */
 const VALIDATORS = {
-    required: field =>
-        check(field.name)
+    optional: function(field) {
+        return check(field.name)
             .trim()
-            .not()
-            .isEmpty()
+            .optional();
+    },
+    required: function(message) {
+        return function(field) {
+            return check(field.name)
+                .trim()
+                .not()
+                .isEmpty()
+                .withMessage(localiseMessage(message));
+        };
+    },
+    postcode: function(field) {
+        return check(field.name)
+            .isPostalCode('GB')
             .withMessage(
                 localiseMessage({
-                    en: 'Field must be provided',
-                    cy: '(Welsh) field must be provided'
+                    en: 'Must be a valid postcode',
+                    cy: 'WELSH ERROR'
                 })
-            ),
-    optional: field =>
-        check(field.name)
-            .trim()
-            .optional()
+            );
+    },
+    futureDate: function(field) {
+        return check(field.name)
+            .isAfter()
+            .withMessage(
+                localiseMessage({
+                    en: 'Date must be in the future',
+                    cy: 'WELSH ERROR'
+                })
+            );
+    }
 };
 
 const FIELDS = {
@@ -81,16 +101,7 @@ const FIELDS = {
                 '(WELSH) This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.'
         },
         isRequired: true,
-        validator: function(field) {
-            return check(field.name)
-                .isAfter()
-                .withMessage(
-                    localiseMessage({
-                        en: 'Date must be in the future',
-                        cy: 'WELSH ERROR'
-                    })
-                );
-        }
+        validator: VALIDATORS.futureDate
     },
     projectPostcode: {
         name: 'project-postcode',
@@ -106,16 +117,7 @@ const FIELDS = {
                 '(WELSH) If your project will take place across different locations, please use the postcode where most of the project will take place.'
         },
         isRequired: true,
-        validator: function(field) {
-            return check(field.name)
-                .isPostalCode('GB')
-                .withMessage(
-                    localiseMessage({
-                        en: 'Must be a valid postcode',
-                        cy: 'WELSH ERROR'
-                    })
-                );
-        }
+        validator: VALIDATORS.postcode
     },
     beneficiaryNumbers: {
         name: 'beneficiary-numbers',
@@ -129,7 +131,10 @@ const FIELDS = {
             cy: '(WELSH) Please enter the exact figure, or the closest estimate.'
         },
         isRequired: true,
-        validator: VALIDATORS.required
+        validator: VALIDATORS.required({
+            en: 'Please tell us how many people will benefit',
+            cy: ''
+        })
     },
     yourIdea: {
         name: 'your-idea',
@@ -166,7 +171,10 @@ const FIELDS = {
             cy: 'TODO'
         },
         isRequired: true,
-        validator: VALIDATORS.required
+        validator: VALIDATORS.required({
+            en: 'Field must be provided',
+            cy: ''
+        })
     },
     projectBudget: {
         name: 'project-budget',
@@ -183,7 +191,10 @@ const FIELDS = {
         },
         type: 'textarea',
         isRequired: true,
-        validator: VALIDATORS.required,
+        validator: VALIDATORS.required({
+            en: 'Field must be provided',
+            cy: ''
+        }),
         rows: 12
     },
     projectTotalCosts: {
@@ -202,7 +213,10 @@ const FIELDS = {
             cy: 'TODO'
         },
         isRequired: true,
-        validator: VALIDATORS.required
+        validator: VALIDATORS.required({
+            en: 'Field must be provided',
+            cy: ''
+        })
     },
     organisationLegalName: {
         name: 'organisation-legal-name',
@@ -218,7 +232,106 @@ const FIELDS = {
             cy: 'TODO'
         },
         isRequired: true,
-        validator: VALIDATORS.required
+        validator: VALIDATORS.required({
+            en: 'Field must be provided',
+            cy: ''
+        })
+    },
+    organisationType: {
+        name: 'organisation-type',
+        type: 'radio',
+        label: { en: 'What type of organisation are you?', cy: '(WELSH) What type of organisation are you?' },
+        options: [
+            {
+                value: 'voluntary',
+                label: { en: 'Voluntary or community organisation', cy: '' },
+                explanation: {
+                    en:
+                        'including registered charities, constituted groups or clubs, not for profit companies, community interest companies and social enterprises',
+                    cy: ''
+                }
+            },
+            { value: 'statutory', label: { en: 'Statutory organisation', cy: '' } },
+            {
+                value: 'school',
+                label: { en: 'School', cy: '' },
+                explanation: {
+                    en: 'including local authorities, health boards, and parish, town and community councils',
+                    cy: ''
+                }
+            },
+            { value: 'other', label: { en: 'Other', cy: '' } }
+        ],
+        validator: VALIDATORS.required({
+            en: 'Field must be provided',
+            cy: ''
+        })
+    },
+    accountingYearDate: {
+        name: 'accounting-year-date',
+        type: 'date',
+        label: { en: 'What is your accounting year end date?', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Field must be provided',
+            cy: ''
+        })
+    },
+    totalIncomeYear: {
+        name: 'total-income-year',
+        type: 'currency',
+        label: { en: 'What is your total income for the year?', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Field must be provided',
+            cy: ''
+        })
+    },
+    mainContactName: {
+        name: 'main-contact-name',
+        autocompleteName: 'name',
+        type: 'text',
+        label: { en: 'Full name', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Enter your full name',
+            cy: ''
+        })
+    },
+    mainContactDob: {
+        name: 'main-contact-dob',
+        type: 'date',
+        label: { en: 'Date of birth', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Field must be provided',
+            cy: ''
+        })
+    },
+    mainContactAddress: {
+        name: 'main-contact-address',
+        type: 'text',
+        size: 20,
+        label: { en: 'What is your main contact’s current home address?', cy: '' },
+        explanation: { en: 'Enter the postcode and search for the address.', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.postcode
+    },
+    mainContactPhonePrimary: {
+        name: 'main-contact-phone-primary',
+        type: 'text',
+        label: { en: 'Primary contact number', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Field must be provided',
+            cy: ''
+        })
+    },
+    mainContactPhoneSecondary: {
+        name: 'main-contact-phone-secondary',
+        type: 'text',
+        label: { en: 'Secondary contact number', cy: '' },
+        validator: VALIDATORS.optional
     }
 };
 
@@ -283,6 +396,54 @@ const sectionOrganisation = {
                     fields: [FIELDS.organisationLegalName]
                 }
             ]
+        },
+        {
+            title: { en: 'Organisation type', cy: '' },
+            fieldsets: [
+                {
+                    legend: { en: 'Organisation type', cy: '' },
+                    fields: [FIELDS.organisationType]
+                }
+            ]
+        },
+        {
+            title: { en: 'Organisation finances', cy: '' },
+            fieldsets: [
+                {
+                    legend: { en: 'Organisation finances', cy: '' },
+                    fields: [FIELDS.accountingYearDate, FIELDS.totalIncomeYear]
+                }
+            ]
+        }
+    ]
+};
+
+/**
+ * @type Section
+ */
+const sectionMainContact = {
+    slug: 'contacts',
+    title: { en: 'Main contact', cy: '' },
+    steps: [
+        {
+            title: { en: 'Main contact', cy: '' },
+            fieldsets: [
+                {
+                    legend: { en: 'Who is your main contact?', cy: '' },
+                    introduction: {
+                        en: `
+<p>The main contact is the person we can get in touch with if we have any questions about your project. While your main contact needs to be from the organisation applying, they don't need to hold a particular position.</p>
+
+<p>The main contact must be unconnected to the legally responsible contact. By ‘unconnected’ we mean not related by blood, marriage, in a long-term relationship or people living together at the same address.</p>`,
+                        cy: ''
+                    },
+                    fields: [FIELDS.mainContactName, FIELDS.mainContactDob, FIELDS.mainContactAddress]
+                },
+                {
+                    legend: { en: 'Please provide at least one contact number', cy: '' },
+                    fields: [FIELDS.mainContactPhonePrimary, FIELDS.mainContactPhoneSecondary]
+                }
+            ]
         }
     ]
 };
@@ -307,7 +468,7 @@ const form = {
         cy: '(WELSH) National Lottery Awards for All'
     },
     isBilingual: true,
-    sections: [sectionProject, sectionOrganisation],
+    sections: [sectionProject, sectionOrganisation, sectionMainContact],
     startPage: { template: path.resolve(__dirname, '../views/startpage') },
     successStep: { template: path.resolve(__dirname, '../views/success') }
 };
