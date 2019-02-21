@@ -72,6 +72,9 @@
                     {% endfor %}
                 </ul>
             {% endfor %}
+            {% if copy.sections.aboutIdeas.outro %}
+                {{ copy.sections.aboutIdeas.outro | safe }}
+            {% endif %}
         </div>
     {% endset %}
 
