@@ -72,9 +72,8 @@ function translateForm(formModel, locale, formData) {
 function initFormRouter(formModel) {
     const router = express.Router();
 
-    const sessionKey = `apply.${formModel.id}`;
-    const getSession = getOr({}, sessionKey);
-    const setSession = (session, data) => set(session, sessionKey, { ...getSession(session), ...data });
+    const getSession = getOr({}, formModel.sessionKey);
+    const setSession = (session, data) => set(session, formModel.sessionKey, { ...getSession(session), ...data });
 
     router.use(cached.csrfProtection, (req, res, next) => {
         // Translate the form object for each request and populate it with session data

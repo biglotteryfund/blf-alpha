@@ -1,5 +1,6 @@
 'use strict';
 const path = require('path');
+const { get, includes, values } = require('lodash');
 
 const { check } = require('express-validator/check');
 
@@ -46,6 +47,58 @@ function localiseMessage(options) {
         return options[req.i18n.getLocale()];
     };
 }
+
+const SESSION_KEY = 'awards-for-all';
+
+const ORGANISATION_TYPES = {
+    constitutedVoluntaryCommunity: {
+        value: 'constituted-voluntary-community',
+        label: { en: 'Constituted voluntary or community organisation', cy: '' },
+        explanation: { en: 'i.e. not registered as a company or charity', cy: '' }
+    },
+    unincorporatedRegisteredCharity: {
+        value: 'unincorporated-registered-charity',
+        label: { en: 'Unincorporated registered charity', cy: '' },
+        explanation: { en: 'You will need to provide your charities commission registration number', cy: '' }
+    },
+    charitableIncorporatedOrganisation: {
+        value: 'charitable-incorporated-organisation',
+        label: { en: 'Charitable incorporated organisation (CIO)', cy: '' },
+        explanation: { en: 'You will need to provide your companies house registration number', cy: '' }
+    },
+    notForProfitCompany: {
+        value: 'not-for-profit-company',
+        label: { en: 'Not-for-profit company', cy: '' }
+    },
+    communityInterestCompany: {
+        value: 'community-interest-company',
+        label: { en: 'Communit interest company (CIC)', cy: '' }
+    },
+    school: {
+        value: 'school',
+        label: { en: 'School', cy: '' }
+    },
+    statutoryBody: {
+        value: 'statutory-body',
+        label: { en: 'Statutory body', cy: '' }
+    }
+};
+
+const CONDITIONS = {
+    needsCharityNumber: function(formData) {
+        return formData['organisation-type'] === ORGANISATION_TYPES.unincorporatedRegisteredCharity.value;
+    },
+    needsCompanyNumber: function(formData) {
+        return includes(
+            [
+                ORGANISATION_TYPES.charitableIncorporatedOrganisation.value,
+                ORGANISATION_TYPES.notForProfitCompany.value,
+                ORGANISATION_TYPES.communityInterestCompany.value
+            ],
+            formData['organisation-type']
+        );
+    }
+};
 
 /**
  * Common validators
@@ -95,6 +148,34 @@ const VALIDATORS = {
                     cy: 'WELSH ERROR'
                 })
             );
+    },
+    charityNumber: function(field) {
+        return check(field.name).custom((value, { req }) => {
+            const formData = get(req.session, SESSION_KEY, {});
+            if (CONDITIONS.needsCharityNumber(formData)) {
+                const localisedMessage = {
+                    en: 'Must provide a charity number',
+                    cy: ''
+                }[req.i18n.getLocale()];
+                throw new Error(localisedMessage);
+            } else {
+                return true;
+            }
+        });
+    },
+    companyNumber: function(field) {
+        return check(field.name).custom((value, { req }) => {
+            const formData = get(req.session, SESSION_KEY, {});
+            if (CONDITIONS.needsCompanyNumber(formData)) {
+                const localisedMessage = {
+                    en: 'Must provide a company number',
+                    cy: ''
+                }[req.i18n.getLocale()];
+                throw new Error(localisedMessage);
+            } else {
+                return true;
+            }
+        });
     }
 };
 
@@ -253,27 +334,7 @@ const FIELDS = {
         name: 'organisation-type',
         type: 'radio',
         label: { en: 'What type of organisation are you?', cy: '(WELSH) What type of organisation are you?' },
-        options: [
-            {
-                value: 'voluntary',
-                label: { en: 'Voluntary or community organisation', cy: '' },
-                explanation: {
-                    en:
-                        'including registered charities, constituted groups or clubs, not for profit companies, community interest companies and social enterprises',
-                    cy: ''
-                }
-            },
-            { value: 'statutory', label: { en: 'Statutory organisation', cy: '' } },
-            {
-                value: 'school',
-                label: { en: 'School', cy: '' },
-                explanation: {
-                    en: 'including local authorities, health boards, and parish, town and community councils',
-                    cy: ''
-                }
-            },
-            { value: 'other', label: { en: 'Other', cy: '' } }
-        ],
+        options: values(ORGANISATION_TYPES),
         validator: VALIDATORS.required({
             en: 'Field must be provided',
             cy: ''
@@ -282,14 +343,21 @@ const FIELDS = {
     charityNumber: {
         name: 'charity-number',
         type: 'text',
-        label: { en: 'Charity registration number (if applicable)', cy: '' },
+        label: { en: 'Charity registration number', cy: '' },
         explanation: {
             en:
                 'If you are registered with OSCR, you only need to provide the last five digits of your registration number.',
             cy: ''
         },
         isRequired: false,
-        validator: VALIDATORS.optional
+        validator: VALIDATORS.charityNumber
+    },
+    companyNumber: {
+        name: 'company-number',
+        type: 'text',
+        label: { en: 'Companies house number', cy: '' },
+        isRequired: false,
+        validator: VALIDATORS.companyNumber
     },
     accountingYearDate: {
         name: 'accounting-year-date',
@@ -562,13 +630,13 @@ const sectionProject = {
  */
 const sectionOrganisation = {
     slug: 'organisation',
-    title: { en: 'Your organisation', cy: '(WELSH) Your organisation' },
+    title: { en: 'Your organisation', cy: '' },
     steps: [
         {
-            title: { en: 'Organisation details', cy: '(WELSH) Organisation details' },
+            title: { en: 'Organisation details', cy: '' },
             fieldsets: [
                 {
-                    legend: { en: 'Organisation details', cy: '(WELSH) Organisation details' },
+                    legend: { en: 'Organisation details', cy: '' },
                     fields: [FIELDS.organisationLegalName]
                 }
             ]
@@ -583,14 +651,22 @@ const sectionOrganisation = {
             ]
         },
         {
-            title: { en: 'Registration numbers', cy: '' },
-            matchesCondition: function(formData) {
-                return formData['organisation-type'] === 'voluntary';
-            },
+            title: { en: 'Charity number', cy: '' },
+            matchesCondition: CONDITIONS.needsCharityNumber,
             fieldsets: [
                 {
-                    legend: { en: 'Registration numbers', cy: '' },
+                    legend: { en: 'Charity number', cy: '' },
                     fields: [FIELDS.charityNumber]
+                }
+            ]
+        },
+        {
+            title: { en: 'Company number', cy: '' },
+            matchesCondition: CONDITIONS.needsCompanyNumber,
+            fieldsets: [
+                {
+                    legend: { en: 'Company number', cy: '' },
+                    fields: [FIELDS.companyNumber]
                 }
             ]
         },
@@ -739,7 +815,7 @@ const sectionBankDetails = {
 
 /**
  * @typedef {Object} FormModel
- * @property {string} id
+ * @property {string} sessionKey
  * @property {LocaleString} title
  * @property {boolean} isBilingual
  * @property {Array<Section>} sections
@@ -747,19 +823,23 @@ const sectionBankDetails = {
  * @property {Object} successStep
  */
 
-/**
- * @type FormModel
- */
-const form = {
-    id: 'awards-for-all',
-    title: {
-        en: 'National Lottery Awards for All',
-        cy: '(WELSH) National Lottery Awards for All'
-    },
-    isBilingual: true,
-    sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionLegalContact, sectionBankDetails],
-    startPage: { template: path.resolve(__dirname, '../views/startpage') },
-    successStep: { template: path.resolve(__dirname, '../views/success') }
+module.exports = {
+    ORGANISATION_TYPES,
+    VALIDATORS,
+    CONDITIONS,
+    FIELDS,
+    /**
+     * @type FormModel
+     */
+    formModel: {
+        sessionKey: SESSION_KEY,
+        title: {
+            en: 'National Lottery Awards for All',
+            cy: '(WELSH) National Lottery Awards for All'
+        },
+        isBilingual: true,
+        sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionLegalContact, sectionBankDetails],
+        startPage: { template: path.resolve(__dirname, '../views/startpage') },
+        successStep: { template: path.resolve(__dirname, '../views/success') }
+    }
 };
-
-module.exports = form;
