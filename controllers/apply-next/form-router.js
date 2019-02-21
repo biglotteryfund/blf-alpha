@@ -1,9 +1,10 @@
 'use strict';
-const { cloneDeep, find, flatMap, get, isEmpty, set, concat } = require('lodash');
+const { cloneDeep, find, flatMap, get, isEmpty, set, concat, unset } = require('lodash');
 const { matchedData } = require('express-validator/filter');
 const { check, validationResult } = require('express-validator/check');
 const express = require('express');
 const path = require('path');
+const Raven = require('raven');
 
 const cached = require('../../middleware/cached');
 const { localify } = require('../../modules/urls');
@@ -81,19 +82,24 @@ function translateForm(formModel, locale, formData) {
     return clonedForm;
 }
 
+const getSessionKey = formModel => `apply.${formModel.id}`;
+
 function initFormRouter(formModel) {
     const router = express.Router();
+    const sessionKey = getSessionKey(formModel);
 
-    const getSessionData = session => get(session, `apply.${formModel.id}`, {});
+    const getSessionData = session => get(session, sessionKey, {});
 
     const setSessionData = (session, newData) => {
         const formData = getSessionData(session);
-        set(session, `apply.${formModel.id}`, Object.assign(formData, newData));
+        set(session, sessionKey, Object.assign(formData, newData));
     };
 
     router.use(cached.csrfProtection, (req, res, next) => {
         // Translate the form object for each request and populate it with session data
-        res.locals.form = translateForm(formModel, req.i18n.getLocale(), getSessionData(req.session));
+        const formData = getSessionData(req.session);
+        res.locals.form = translateForm(formModel, req.i18n.getLocale(), formData);
+        res.locals.formData = formData;
         res.locals.formTitle = 'Application form: ' + res.locals.form.title;
         res.locals.isBilingual = formModel.isBilingual;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
@@ -217,20 +223,70 @@ function initFormRouter(formModel) {
         });
     });
 
+    function renderError(error, req, res) {
+        const errorCopy = req.i18n.__('apply.error');
+        res.render(path.resolve(__dirname, './views/error'), {
+            error: error,
+            title: errorCopy.title,
+            errorCopy: errorCopy,
+            returnUrl: `${req.baseUrl}/review`
+        });
+    }
+
     /**
      * Route: Summary
      */
-    router.route('/summary').get(function(req, res) {
-        const formData = getSessionData(req.session);
-        if (isEmpty(formData)) {
+    router
+        .route('/summary')
+        .get(function(req, res) {
+            if (isEmpty(res.locals.formData)) {
+                res.redirect(req.baseUrl);
+            } else {
+                res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+                    label: 'Summary'
+                });
+                res.render(path.resolve(__dirname, './views/summary'), {
+                    form: res.locals.form,
+                    csrfToken: req.csrfToken()
+                });
+            }
+        })
+        .post(async function(req, res) {
+            if (isEmpty(res.locals.formData)) {
+                res.redirect(req.baseUrl);
+            } else {
+                try {
+                    await formModel.processor({
+                        form: res.locals.form,
+                        data: res.locals.formData
+                    });
+                    res.redirect(`${req.baseUrl}/success`);
+                } catch (error) {
+                    Raven.captureException(error);
+                    renderError(error, req, res);
+                }
+            }
+        });
+
+    /**
+     * Route: Success
+     */
+    router.get('/success', cached.noCache, function(req, res) {
+        const stepConfig = formModel.successStep;
+        const stepCopy = get(res.locals.copy, 'success', {});
+
+        if (isEmpty(res.locals.formData)) {
             res.redirect(req.baseUrl);
         } else {
-            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-                label: 'Summary'
-            });
-            res.render(path.resolve(__dirname, './views/summary'), {
-                form: res.locals.form,
-                csrfToken: req.csrfToken()
+            // Clear the submission from the session on success
+            unset(req.session, sessionKey);
+            req.session.save(() => {
+                res.render(stepConfig.template, {
+                    form: res.locals.form,
+                    title: stepCopy.title,
+                    stepCopy: stepCopy,
+                    stepConfig: stepConfig
+                });
             });
         }
     });
