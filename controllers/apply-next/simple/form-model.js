@@ -20,6 +20,7 @@ const { check } = require('express-validator/check');
 /**
  * @typedef {Object} Step
  * @property {LocaleString} title
+ * @property {function} [matchesCondition]
  * @property {Array<Fieldset>} fieldsets
  */
 
@@ -277,6 +278,18 @@ const FIELDS = {
             en: 'Field must be provided',
             cy: ''
         })
+    },
+    charityNumber: {
+        name: 'charity-number',
+        type: 'text',
+        label: { en: 'Charity registration number (if applicable)', cy: '' },
+        explanation: {
+            en:
+                'If you are registered with OSCR, you only need to provide the last five digits of your registration number.',
+            cy: ''
+        },
+        isRequired: false,
+        validator: VALIDATORS.optional
     },
     accountingYearDate: {
         name: 'accounting-year-date',
@@ -566,6 +579,18 @@ const sectionOrganisation = {
                 {
                     legend: { en: 'Organisation type', cy: '' },
                     fields: [FIELDS.organisationType]
+                }
+            ]
+        },
+        {
+            title: { en: 'Registration numbers', cy: '' },
+            matchesCondition: function(formData) {
+                return formData['organisation-type'] === 'voluntary';
+            },
+            fieldsets: [
+                {
+                    legend: { en: 'Registration numbers', cy: '' },
+                    fields: [FIELDS.charityNumber]
                 }
             ]
         },

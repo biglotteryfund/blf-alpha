@@ -143,10 +143,25 @@ function initFormRouter(formModel) {
         sectionModel.steps.forEach((stepModel, stepIndex) => {
             const currentStepNumber = stepIndex + 1;
             const numSteps = sectionModel.steps.length;
+            const nextStep = sectionModel.steps[stepIndex + 1];
+
+            function redirectNext(req, res) {
+                /**
+                 * @TODO: Review this logic
+                 * 1. If there a next step in the current section go there.
+                 * 2. Otherwise go to summary screen
+                 */
+                if (nextStep) {
+                    res.redirect(`${req.baseUrl}/${sectionModel.slug}/${currentStepNumber + 1}`);
+                } else {
+                    res.redirect(`${req.baseUrl}/summary`);
+                }
+            }
 
             function renderStep(req, res, errors = []) {
                 const sectionLocalised = res.locals.form.sections.find(s => s.slug === sectionModel.slug);
                 const stepLocalised = sectionLocalised.steps[stepIndex];
+
                 res.locals.breadcrumbs = concat(
                     res.locals.breadcrumbs,
                     {
@@ -157,12 +172,17 @@ function initFormRouter(formModel) {
                         label: `${stepLocalised.title} (Step ${currentStepNumber} of ${numSteps})`
                     }
                 );
-                res.render(path.resolve(__dirname, './views/step'), {
-                    title: `${stepLocalised.title} | ${res.locals.form.title}`,
-                    csrfToken: req.csrfToken(),
-                    step: stepLocalised,
-                    errors: errors
-                });
+
+                if (stepModel.matchesCondition && stepModel.matchesCondition(getSession(req.session)) === false) {
+                    redirectNext(req, res);
+                } else {
+                    res.render(path.resolve(__dirname, './views/step'), {
+                        title: `${stepLocalised.title} | ${res.locals.form.title}`,
+                        csrfToken: req.csrfToken(),
+                        step: stepLocalised,
+                        errors: errors
+                    });
+                }
             }
 
             function handleSubmitStep(req, res) {
@@ -170,17 +190,7 @@ function initFormRouter(formModel) {
                 req.session.save(() => {
                     const errors = validationResult(req);
                     if (errors.isEmpty()) {
-                        /**
-                         * @TODO: Review this logic
-                         * 1. If there a next step in the current section go there.
-                         * 2. Otherwise go to summary screen
-                         */
-                        const nextStep = sectionModel.steps[stepIndex + 1];
-                        if (nextStep) {
-                            res.redirect(`${req.baseUrl}/${sectionModel.slug}/${currentStepNumber + 1}`);
-                        } else {
-                            res.redirect(`${req.baseUrl}/summary`);
-                        }
+                        redirectNext(req, res);
                     } else {
                         renderStep(req, res, errors.array());
                     }
