@@ -29,6 +29,8 @@ function translateForm(formModel, locale, formData) {
         // Translate each fieldset
         step.fieldsets = step.fieldsets.map(fieldset => {
             fieldset.legend = localise(fieldset.legend);
+            fieldset.introduction = localise(fieldset.introduction);
+
             // Translate each field
             fieldset.fields = fieldset.fields.map(field => {
                 field.label = localise(field.label);
@@ -42,6 +44,7 @@ function translateForm(formModel, locale, formData) {
                 if (field.options) {
                     field.options = field.options.map(option => {
                         option.label = localise(option.label);
+                        option.explanation = localise(option.explanation);
                         return option;
                     });
                 }
