@@ -90,38 +90,48 @@ const FORM_STATES = {
 
 // Build up a set of state parameters for steps, sections, and the form itself
 // eg. to show status on the summary page
-function validateFormState(form, sessionValidation) {
+function validateFormState(form, formData, sessionValidation) {
     const clonedForm = cloneDeep(form);
 
     clonedForm.sections = clonedForm.sections.map(section => {
         section.steps = section.steps.map((step, stepIndex) => {
-            // See if this step's fieldsets are all empty (as opposed to invalid)
-            const stepIsEmpty = isEmpty(
-                pickBy(
-                    step.fieldsets.reduce((acc, fieldset) => {
-                        return concat(fieldset.fields.map(f => f.value), acc);
-                    }, []),
-                    identity
-                )
-            );
-
-            if (stepIsEmpty) {
-                step.state = FORM_STATES.empty;
+            // Handle steps that this user doesn't need to complete
+            if (step.matchesCondition && step.matchesCondition(formData) === false) {
+                step.state = FORM_STATES.complete;
+                step.notRequired = true;
             } else {
-                // @TODO construct this via a function
-                const stepIsValid = getBasic(sessionValidation, `${section.slug}.step-${stepIndex}`, false);
-                step.state = stepIsValid ? FORM_STATES.complete : FORM_STATES.incomplete;
+                // See if this step's fieldsets are all empty (as opposed to invalid)
+                const stepIsEmpty = isEmpty(
+                    pickBy(
+                        step.fieldsets.reduce((acc, fieldset) => {
+                            return concat(fieldset.fields.map(f => f.value), acc);
+                        }, []),
+                        identity
+                    )
+                );
+
+                if (stepIsEmpty) {
+                    step.state = FORM_STATES.empty;
+                } else {
+                    // @TODO construct this via a function
+                    const stepIsValid = getBasic(sessionValidation, `${section.slug}.step-${stepIndex}`, false);
+                    step.state = stepIsValid ? FORM_STATES.complete : FORM_STATES.incomplete;
+                }
             }
 
             return step;
         });
 
         // See if this section's steps are all empty
-        const sectionIsNotEmpty = section.steps.some(step => step.state !== FORM_STATES.empty);
+        const sectionIsNotEmpty = section.steps
+            .filter(step => !step.notRequired)
+            .some(step => step.state !== FORM_STATES.empty);
 
         if (sectionIsNotEmpty) {
             // Work out this section's state based on its steps' state
-            const sectionHasInvalidSteps = section.steps.some(step => step.state !== FORM_STATES.complete);
+            const sectionHasInvalidSteps = section.steps
+                .filter(step => step.notRequired === undefined)
+                .some(step => step.state !== FORM_STATES.complete);
             section.state = sectionHasInvalidSteps ? FORM_STATES.incomplete : FORM_STATES.complete;
         } else {
             section.state = FORM_STATES.empty;
@@ -322,11 +332,13 @@ function initFormRouter(formModel) {
     router
         .route('/summary')
         .get(function(req, res) {
+            const formData = getSession(req.session);
+
             res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
                 label: 'Summary'
             });
             res.render(path.resolve(__dirname, './views/summary'), {
-                form: validateFormState(res.locals.form, res.locals.validation),
+                form: validateFormState(res.locals.form, formData, res.locals.validation),
                 csrfToken: req.csrfToken()
             });
         })
@@ -334,7 +346,7 @@ function initFormRouter(formModel) {
             (req, res, next) => {
                 // Fake a post body so the validators can run as if
                 // the entire form was submitted in one go
-                req.body = res.locals.formData;
+                req.body = getSession(req.session);
                 next();
             },
             validateAllFields,
@@ -344,7 +356,7 @@ function initFormRouter(formModel) {
                     try {
                         await formModel.processor({
                             form: res.locals.form,
-                            data: res.locals.formData
+                            data: getSession(req.session)
                         });
                         res.redirect(`${req.baseUrl}/success`);
                     } catch (error) {
