@@ -1,10 +1,11 @@
 'use strict';
-const { cloneDeep, find, flatMap, isEmpty, set, concat } = require('lodash');
+const { cloneDeep, find, flatMap, isEmpty, set, concat, unset } = require('lodash');
 const { get, getOr } = require('lodash/fp');
 const { matchedData } = require('express-validator/filter');
 const { validationResult } = require('express-validator/check');
 const express = require('express');
 const path = require('path');
+const Raven = require('raven');
 
 const cached = require('../../middleware/cached');
 const { localify } = require('../../modules/urls');
@@ -69,8 +70,11 @@ function translateForm(formModel, locale, formData) {
     return clonedForm;
 }
 
+const getSessionKey = formModel => `apply.${formModel.id}`;
+
 function initFormRouter(formModel) {
     const router = express.Router();
+    const sessionKey = getSessionKey(formModel);
 
     const getSession = getOr({}, formModel.sessionKey);
     const setSession = (session, data) => set(session, formModel.sessionKey, { ...getSession(session), ...data });
@@ -115,7 +119,7 @@ function initFormRouter(formModel) {
         }
     });
 
-    formModel.sections.forEach(sectionModel => {
+    formModel.sections.forEach((sectionModel, sectionIndex) => {
         /**
          * Route: Form sections
          */
@@ -143,15 +147,19 @@ function initFormRouter(formModel) {
             const currentStepNumber = stepIndex + 1;
             const numSteps = sectionModel.steps.length;
             const nextStep = sectionModel.steps[stepIndex + 1];
+            const nextSection = formModel.sections[sectionIndex + 1];
 
             function redirectNext(req, res) {
                 /**
                  * @TODO: Review this logic
                  * 1. If there a next step in the current section go there.
-                 * 2. Otherwise go to summary screen
+                 * 2. Otherwise, if there's a next section, go there
+                 * 2. Otherwise, go to summary screen
                  */
                 if (nextStep) {
                     res.redirect(`${req.baseUrl}/${sectionModel.slug}/${currentStepNumber + 1}`);
+                } else if (nextSection) {
+                    res.redirect(`${req.baseUrl}/${nextSection.slug}`);
                 } else {
                     res.redirect(`${req.baseUrl}/summary`);
                 }
@@ -188,6 +196,7 @@ function initFormRouter(formModel) {
                 setSession(req.session, matchedData(req, { locations: ['body'] }));
                 req.session.save(() => {
                     const errors = validationResult(req);
+                    console.log(errors.array());
                     if (errors.isEmpty()) {
                         redirectNext(req, res);
                     } else {
@@ -206,20 +215,70 @@ function initFormRouter(formModel) {
         });
     });
 
+    function renderError(error, req, res) {
+        const errorCopy = req.i18n.__('apply.error');
+        res.render(path.resolve(__dirname, './views/error'), {
+            error: error,
+            title: errorCopy.title,
+            errorCopy: errorCopy,
+            returnUrl: `${req.baseUrl}/review`
+        });
+    }
+
     /**
      * Route: Summary
      */
-    router.route('/summary').get(function(req, res) {
+    router
+        .route('/summary')
+        .get(function(req, res) {
+            const formData = getSession(req.session);
+            if (isEmpty(formData)) {
+                res.redirect(req.baseUrl);
+            } else {
+                res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+                    label: 'Summary'
+                });
+                res.render(path.resolve(__dirname, './views/summary'), {
+                    form: res.locals.form,
+                    csrfToken: req.csrfToken()
+                });
+            }
+        })
+        .post(async function(req, res) {
+            const formData = getSession(req.session);
+            if (isEmpty(formData)) {
+                res.redirect(req.baseUrl);
+            } else {
+                try {
+                    await formModel.processor({
+                        form: res.locals.form,
+                        data: formData
+                    });
+                    res.redirect(`${req.baseUrl}/success`);
+                } catch (error) {
+                    Raven.captureException(error);
+                    renderError(error, req, res);
+                }
+            }
+        });
+
+    /**
+     * Route: Success
+     */
+    router.get('/success', cached.noCache, function(req, res) {
+        const stepConfig = formModel.successStep;
         const formData = getSession(req.session);
+
         if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
-            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-                label: 'Summary'
-            });
-            res.render(path.resolve(__dirname, './views/summary'), {
-                form: res.locals.form,
-                csrfToken: req.csrfToken()
+            // Clear the submission from the session on success
+            unset(req.session, sessionKey);
+            req.session.save(() => {
+                res.render(stepConfig.template, {
+                    form: res.locals.form,
+                    title: 'Success'
+                });
             });
         }
     });
