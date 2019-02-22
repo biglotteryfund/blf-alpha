@@ -161,8 +161,6 @@ function validateFormState(form, formErrors) {
     return clonedForm;
 }
 
-const getSessionKey = formModel => `apply.${formModel.id}`;
-
 const getAllFormFields = formModel => {
     let allFields = [];
     formModel.sections.forEach(section => {
@@ -177,13 +175,15 @@ const getAllFormFields = formModel => {
 
 function initFormRouter(formModel) {
     const router = express.Router();
-    const sessionKey = getSessionKey(formModel);
     const getSession = getOr({}, formModel.sessionKey);
     const setSession = (session, data) => set(session, formModel.sessionKey, { ...getSession(session), ...data });
+    const validationSessionKey = `validation.${formModel.sessionKey}`;
+    const getSessionValidation = getOr({}, validationSessionKey);
 
     router.use(cached.csrfProtection, (req, res, next) => {
         // Translate the form object for each request and populate it with session data
         res.locals.form = translateForm(formModel, req.i18n.getLocale(), getSession(req.session));
+        res.locals.validation = getSessionValidation(req.session);
         res.locals.FORM_STATES = FORM_STATES;
         res.locals.formTitle = 'Application form: ' + res.locals.form.title;
         res.locals.isBilingual = formModel.isBilingual;
@@ -252,12 +252,14 @@ function initFormRouter(formModel) {
             const nextStep = sectionModel.steps[stepIndex + 1];
             const nextSection = formModel.sections[sectionIndex + 1];
 
+            const fieldsForStep = flatMap(stepModel.fieldsets, 'fields');
+            const validators = fieldsForStep.map(field => field.validator(field));
+
             function redirectNext(req, res) {
                 /**
-                 * @TODO: Review this logic
                  * 1. If there a next step in the current section go there.
                  * 2. Otherwise, if there's a next section, go there
-                 * 2. Otherwise, go to summary screen
+                 * 3. Otherwise, go to summary screen
                  */
                 if (nextStep) {
                     res.redirect(`${req.baseUrl}/${sectionModel.slug}/${currentStepNumber + 1}`);
@@ -298,17 +300,21 @@ function initFormRouter(formModel) {
             function handleSubmitStep(req, res) {
                 setSession(req.session, matchedData(req, { locations: ['body'] }));
                 req.session.save(() => {
+                    const validationPath = `${validationSessionKey}.${sectionModel.slug}.step-${stepIndex}]`;
                     const errors = validationResult(req);
                     if (errors.isEmpty()) {
-                        redirectNext(req, res);
+                        // If a step has no errors, then mark it as valid
+                        set(req.session, validationPath, FORM_STATES.complete);
+                        req.session.save(() => {
+                            redirectNext(req, res);
+                        });
                     } else {
+                        // Remove this step from the valid list (if it was there before)
+                        unset(req.session, validationPath);
                         renderStep(req, res, errors.array());
                     }
                 });
             }
-
-            const fieldsForStep = flatMap(stepModel.fieldsets, 'fields');
-            const validators = fieldsForStep.map(field => field.validator(field));
 
             router
                 .route(`/${sectionModel.slug}/${currentStepNumber}`)
@@ -323,7 +329,7 @@ function initFormRouter(formModel) {
             error: error,
             title: errorCopy.title,
             errorCopy: errorCopy,
-            returnUrl: `${req.baseUrl}/review`
+            returnUrl: `${req.baseUrl}/summary`
         });
     }
 
@@ -334,11 +340,18 @@ function initFormRouter(formModel) {
     router
         .route('/summary')
         .get(function(req, res) {
+            // Each step can be either:
+            // in-progress (some fields have values)
+            // not started (no fields have values)
+            // complete (all fields pass validation - loop through steps and check each one (if required) is in the valid list)
+            // @TODO read back the validation status
+
             res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
                 label: 'Summary'
             });
             res.render(path.resolve(__dirname, './views/summary'), {
                 form: res.locals.form,
+                validationStatuses: get(req.session, validationSessionKey),
                 csrfToken: req.csrfToken()
             });
         })
@@ -364,13 +377,8 @@ function initFormRouter(formModel) {
                         renderError(error, req, res);
                     }
                 } else {
-                    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-                        label: 'Summary'
-                    });
-                    res.render(path.resolve(__dirname, './views/summary'), {
-                        form: validateFormState(res.locals.form, errors.array()),
-                        csrfToken: req.csrfToken()
-                    });
+                    // They failed validation so send them back to confirm what they're missing
+                    res.redirect(`${req.baseUrl}/summary`);
                 }
             }
         );
