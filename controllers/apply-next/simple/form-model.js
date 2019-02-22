@@ -1,7 +1,6 @@
 'use strict';
 const path = require('path');
 const { get, includes, values } = require('lodash');
-
 const { check } = require('express-validator/check');
 const processor = require('./processor');
 
@@ -153,7 +152,7 @@ const VALIDATORS = {
     charityNumber: function(field) {
         return check(field.name).custom((value, { req }) => {
             const formData = get(req.session, SESSION_KEY, {});
-            if (CONDITIONS.needsCharityNumber(formData)) {
+            if (CONDITIONS.needsCharityNumber(formData) && !value) {
                 const localisedMessage = {
                     en: 'Must provide a charity number',
                     cy: ''
@@ -167,7 +166,7 @@ const VALIDATORS = {
     companyNumber: function(field) {
         return check(field.name).custom((value, { req }) => {
             const formData = get(req.session, SESSION_KEY, {});
-            if (CONDITIONS.needsCompanyNumber(formData)) {
+            if (CONDITIONS.needsCompanyNumber(formData) && !value) {
                 const localisedMessage = {
                     en: 'Must provide a company number',
                     cy: ''

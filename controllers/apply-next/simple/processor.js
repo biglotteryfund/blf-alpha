@@ -12,8 +12,8 @@ const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
  */
 module.exports = async function processor({ form, data }, mailTransport = null) {
     const customerSendTo = {
-        name: `${data['first-name']} ${data['last-name']}`,
-        address: data['email']
+        name: data['main-contact-name'],
+        address: data['main-contact-email']
     };
 
     const customerHtml = await generateHtmlEmail({

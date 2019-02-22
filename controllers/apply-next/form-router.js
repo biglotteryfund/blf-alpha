@@ -177,15 +177,13 @@ const getAllFormFields = formModel => {
 
 function initFormRouter(formModel) {
     const router = express.Router();
-
+    const sessionKey = getSessionKey(formModel);
     const getSession = getOr({}, formModel.sessionKey);
     const setSession = (session, data) => set(session, formModel.sessionKey, { ...getSession(session), ...data });
 
     router.use(cached.csrfProtection, (req, res, next) => {
         // Translate the form object for each request and populate it with session data
-        const formData = getSession(req.session);
-        res.locals.form = translateForm(formModel, req.i18n.getLocale(), formData);
-        res.locals.formData = formData;
+        res.locals.form = translateForm(formModel, req.i18n.getLocale(), getSession(req.session));
         res.locals.FORM_STATES = FORM_STATES;
         res.locals.formTitle = 'Application form: ' + res.locals.form.title;
         res.locals.isBilingual = formModel.isBilingual;
@@ -224,7 +222,7 @@ function initFormRouter(formModel) {
         }
     });
 
-    formModel.sections.forEach(sectionModel => {
+    formModel.sections.forEach((sectionModel, sectionIndex) => {
         /**
          * Route: Form sections
          */
@@ -252,15 +250,19 @@ function initFormRouter(formModel) {
             const currentStepNumber = stepIndex + 1;
             const numSteps = sectionModel.steps.length;
             const nextStep = sectionModel.steps[stepIndex + 1];
+            const nextSection = formModel.sections[sectionIndex + 1];
 
             function redirectNext(req, res) {
                 /**
                  * @TODO: Review this logic
                  * 1. If there a next step in the current section go there.
-                 * 2. Otherwise go to summary screen
+                 * 2. Otherwise, if there's a next section, go there
+                 * 2. Otherwise, go to summary screen
                  */
                 if (nextStep) {
                     res.redirect(`${req.baseUrl}/${sectionModel.slug}/${currentStepNumber + 1}`);
+                } else if (nextSection) {
+                    res.redirect(`${req.baseUrl}/${nextSection.slug}`);
                 } else {
                     res.redirect(`${req.baseUrl}/summary`);
                 }
@@ -378,9 +380,8 @@ function initFormRouter(formModel) {
      */
     router.get('/success', cached.noCache, function(req, res) {
         const stepConfig = formModel.successStep;
-        const stepCopy = get(res.locals.copy, 'success', {});
-
-        if (isEmpty(res.locals.formData)) {
+        const formData = getSession(req.session);
+        if (isEmpty(formData)) {
             res.redirect(req.baseUrl);
         } else {
             // Clear the submission from the session on success
@@ -388,9 +389,7 @@ function initFormRouter(formModel) {
             req.session.save(() => {
                 res.render(stepConfig.template, {
                     form: res.locals.form,
-                    title: stepCopy.title,
-                    stepCopy: stepCopy,
-                    stepConfig: stepConfig
+                    title: 'Success'
                 });
             });
         }
