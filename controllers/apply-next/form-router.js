@@ -1,5 +1,5 @@
 'use strict';
-const { cloneDeep, find, flatMap, isEmpty, set, concat, unset, pickBy, identity } = require('lodash');
+const { cloneDeep, find, flatMap, isEmpty, set, concat, unset, pickBy, identity, get: getBasic } = require('lodash');
 const { get, getOr } = require('lodash/fp');
 const { matchedData } = require('express-validator/filter');
 const { validationResult } = require('express-validator/check');
@@ -88,29 +88,13 @@ const FORM_STATES = {
     }
 };
 
-function validateFormState(form, formErrors) {
+// Build up a set of state parameters for steps, sections, and the form itself
+// eg. to show status on the summary page
+function validateFormState(form, sessionValidation) {
     const clonedForm = cloneDeep(form);
-    const invalidFieldNames = formErrors.map(e => e.param);
 
-    clonedForm.sections.map(section => {
-        // if a step has any errors, return and mark section as incomplete
-        section.steps.forEach(step => {
-            step.fieldsets.map(fieldset => {
-                fieldset.fields.map(field => {
-                    if (invalidFieldNames.indexOf(field.name) !== -1) {
-                        // Is this field in the error array?
-                        // (eg. it failed validation)
-                        // @TODO should this just be marked as incomplete?
-                        field.state = FORM_STATES.invalid;
-                    } else {
-                        // Otherwise, it must be valid
-                        field.state = FORM_STATES.complete;
-                    }
-                    return field;
-                });
-                return fieldset;
-            });
-
+    clonedForm.sections = clonedForm.sections.map(section => {
+        section.steps = section.steps.map((step, stepIndex) => {
             // See if this step's fieldsets are all empty (as opposed to invalid)
             const stepIsEmpty = isEmpty(
                 pickBy(
@@ -124,11 +108,9 @@ function validateFormState(form, formErrors) {
             if (stepIsEmpty) {
                 step.state = FORM_STATES.empty;
             } else {
-                // Work out this step's state based on its fieldsets' state
-                const stepHasInvalidFields = step.fieldsets.some(fieldset =>
-                    fieldset.fields.some(field => field.state !== FORM_STATES.complete)
-                );
-                step.state = stepHasInvalidFields ? FORM_STATES.incomplete : FORM_STATES.complete;
+                // @TODO construct this via a function
+                const stepIsValid = getBasic(sessionValidation, `${section.slug}.step-${stepIndex}`, false);
+                step.state = stepIsValid ? FORM_STATES.complete : FORM_STATES.incomplete;
             }
 
             return step;
@@ -161,6 +143,7 @@ function validateFormState(form, formErrors) {
     return clonedForm;
 }
 
+// @TODO flatmap some of this?
 const getAllFormFields = formModel => {
     let allFields = [];
     formModel.sections.forEach(section => {
@@ -178,12 +161,11 @@ function initFormRouter(formModel) {
     const getSession = getOr({}, formModel.sessionKey);
     const setSession = (session, data) => set(session, formModel.sessionKey, { ...getSession(session), ...data });
     const validationSessionKey = `validation.${formModel.sessionKey}`;
-    const getSessionValidation = getOr({}, validationSessionKey);
 
     router.use(cached.csrfProtection, (req, res, next) => {
         // Translate the form object for each request and populate it with session data
         res.locals.form = translateForm(formModel, req.i18n.getLocale(), getSession(req.session));
-        res.locals.validation = getSessionValidation(req.session);
+        res.locals.validation = getBasic(req.session, validationSessionKey);
         res.locals.FORM_STATES = FORM_STATES;
         res.locals.formTitle = 'Application form: ' + res.locals.form.title;
         res.locals.isBilingual = formModel.isBilingual;
@@ -340,18 +322,11 @@ function initFormRouter(formModel) {
     router
         .route('/summary')
         .get(function(req, res) {
-            // Each step can be either:
-            // in-progress (some fields have values)
-            // not started (no fields have values)
-            // complete (all fields pass validation - loop through steps and check each one (if required) is in the valid list)
-            // @TODO read back the validation status
-
             res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
                 label: 'Summary'
             });
             res.render(path.resolve(__dirname, './views/summary'), {
-                form: res.locals.form,
-                validationStatuses: get(req.session, validationSessionKey),
+                form: validateFormState(res.locals.form, res.locals.validation),
                 csrfToken: req.csrfToken()
             });
         })

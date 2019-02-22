@@ -96,7 +96,12 @@
 
 
                 <div class="u-margin-top">
-                    <input class="btn" type="submit" value="Submit" />
+                    {% if form.state.type === 'COMPLETE' %}
+                        <input class="btn" type="submit" value="Submit" />
+                    {% else %}
+                        <p>Your form isn't complete yet – you can submit it here when it's ready.</p>
+                    {% endif %}
+
                 </div>
 
             </form>
