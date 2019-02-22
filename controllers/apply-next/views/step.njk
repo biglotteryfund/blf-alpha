@@ -10,13 +10,13 @@
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
             <form action="" method="POST">
+                {{ breadcrumbTrail(breadcrumbs) }}
+
                 {{ formHeader(
                     title = formTitle
                 ) }}
 
-                {{ breadcrumbTrail(breadcrumbs) }}
-
-                {{ languageServiceMessage(currentLocale = locale) }}
+                {# {{ languageServiceMessage(currentLocale = locale) }} #}
 
                 {{ formErrors(errors = errors) }}
 
@@ -46,8 +46,8 @@
                 {% endif %}
 
                 <div class="form-actions">
-                    <a href="{{ formBaseUrl }}/summary" class="btn btn--outline">Skip to summary</a>
-                    <input class="btn btn--next u-pull-right" type="submit" value="{{ __('global.misc.next') | capitalize }}" />
+                    <input class="btn btn--next" type="submit" value="{{ __('global.misc.next') | capitalize }}" />
+                    <a href="{{ formBaseUrl }}/summary">Skip to summary</a>
                 </div>
             </form>
         </div>

@@ -1,7 +1,8 @@
 'use strict';
-const { cloneDeep, find, flatMap, get, isEmpty, set, concat, unset, pickBy, identity } = require('lodash');
+const { cloneDeep, find, flatMap, isEmpty, set, concat, unset, pickBy, identity } = require('lodash');
+const { get, getOr } = require('lodash/fp');
 const { matchedData } = require('express-validator/filter');
-const { check, validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator/check');
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
@@ -9,46 +10,32 @@ const Raven = require('raven');
 const cached = require('../../middleware/cached');
 const { localify } = require('../../modules/urls');
 
-function getFieldValidator(field) {
-    if (field.validator) {
-        return field.validator(field);
-    } else if (field.isRequired === true) {
-        return check(field.name)
-            .trim()
-            .not()
-            .isEmpty()
-            .withMessage('Field must be provided');
-    } else {
-        return check(field.name)
-            .trim()
-            .optional();
-    }
-}
-
 function translateForm(formModel, locale, formData) {
-    const translateField = field => get(field, locale);
+    const localise = get(locale);
 
     const translateSection = section => {
-        section.title = translateField(section.title, locale);
+        section.title = localise(section.title);
         if (section.summary) {
-            section.summary = translateField(section.summary, locale);
+            section.summary = localise(section.summary);
         }
         if (section.introduction) {
-            section.introduction = translateField(section.introduction, locale);
+            section.introduction = localise(section.introduction);
         }
         return section;
     };
 
     const translateStep = step => {
-        step.title = translateField(step.title, locale);
+        step.title = localise(step.title);
 
         // Translate each fieldset
         step.fieldsets = step.fieldsets.map(fieldset => {
-            fieldset.legend = translateField(fieldset.legend, locale);
+            fieldset.legend = localise(fieldset.legend);
+            fieldset.introduction = localise(fieldset.introduction);
+
             // Translate each field
             fieldset.fields = fieldset.fields.map(field => {
-                field.label = translateField(field.label, locale);
-                field.explanation = translateField(field.explanation, locale);
+                field.label = localise(field.label);
+                field.explanation = localise(field.explanation);
                 const match = find(formData, (value, name) => name === field.name);
                 if (match) {
                     field.value = match;
@@ -57,7 +44,8 @@ function translateForm(formModel, locale, formData) {
                 // Translate each option (if set)
                 if (field.options) {
                     field.options = field.options.map(option => {
-                        option.label = translateField(option.label, locale);
+                        option.label = localise(option.label);
+                        option.explanation = localise(option.explanation);
                         return option;
                     });
                 }
@@ -71,11 +59,11 @@ function translateForm(formModel, locale, formData) {
     };
 
     const clonedForm = cloneDeep(formModel);
-    clonedForm.title = translateField(formModel.title, locale);
+    clonedForm.title = localise(formModel.title);
 
     clonedForm.sections = clonedForm.sections.map(section => {
-        section = translateSection(section, locale);
-        section.steps = section.steps.map(step => translateStep(step, locale, formData));
+        section = translateSection(section);
+        section.steps = section.steps.map(step => translateStep(step));
         return section;
     });
 
@@ -189,18 +177,13 @@ const getAllFormFields = formModel => {
 
 function initFormRouter(formModel) {
     const router = express.Router();
-    const sessionKey = getSessionKey(formModel);
 
-    const getSessionData = session => get(session, sessionKey, {});
-
-    const setSessionData = (session, newData) => {
-        const formData = getSessionData(session);
-        set(session, sessionKey, Object.assign(formData, newData));
-    };
+    const getSession = getOr({}, formModel.sessionKey);
+    const setSession = (session, data) => set(session, formModel.sessionKey, { ...getSession(session), ...data });
 
     router.use(cached.csrfProtection, (req, res, next) => {
         // Translate the form object for each request and populate it with session data
-        const formData = getSessionData(req.session);
+        const formData = getSession(req.session);
         res.locals.form = translateForm(formModel, req.i18n.getLocale(), formData);
         res.locals.formData = formData;
         res.locals.FORM_STATES = FORM_STATES;
@@ -241,7 +224,7 @@ function initFormRouter(formModel) {
         }
     });
 
-    formModel.sections.forEach((sectionModel, sectionIndex) => {
+    formModel.sections.forEach(sectionModel => {
         /**
          * Route: Form sections
          */
@@ -268,10 +251,25 @@ function initFormRouter(formModel) {
         sectionModel.steps.forEach((stepModel, stepIndex) => {
             const currentStepNumber = stepIndex + 1;
             const numSteps = sectionModel.steps.length;
+            const nextStep = sectionModel.steps[stepIndex + 1];
+
+            function redirectNext(req, res) {
+                /**
+                 * @TODO: Review this logic
+                 * 1. If there a next step in the current section go there.
+                 * 2. Otherwise go to summary screen
+                 */
+                if (nextStep) {
+                    res.redirect(`${req.baseUrl}/${sectionModel.slug}/${currentStepNumber + 1}`);
+                } else {
+                    res.redirect(`${req.baseUrl}/summary`);
+                }
+            }
 
             function renderStep(req, res, errors = []) {
                 const sectionLocalised = res.locals.form.sections.find(s => s.slug === sectionModel.slug);
                 const stepLocalised = sectionLocalised.steps[stepIndex];
+
                 res.locals.breadcrumbs = concat(
                     res.locals.breadcrumbs,
                     {
@@ -282,35 +280,25 @@ function initFormRouter(formModel) {
                         label: `${stepLocalised.title} (Step ${currentStepNumber} of ${numSteps})`
                     }
                 );
-                res.render(path.resolve(__dirname, './views/step'), {
-                    title: `${stepLocalised.title} | ${res.locals.form.title}`,
-                    csrfToken: req.csrfToken(),
-                    step: stepLocalised,
-                    errors: errors
-                });
+
+                if (stepModel.matchesCondition && stepModel.matchesCondition(getSession(req.session)) === false) {
+                    redirectNext(req, res);
+                } else {
+                    res.render(path.resolve(__dirname, './views/step'), {
+                        title: `${stepLocalised.title} | ${res.locals.form.title}`,
+                        csrfToken: req.csrfToken(),
+                        step: stepLocalised,
+                        errors: errors
+                    });
+                }
             }
 
             function handleSubmitStep(req, res) {
-                setSessionData(req.session, matchedData(req, { locations: ['body'] }));
+                setSession(req.session, matchedData(req, { locations: ['body'] }));
                 req.session.save(() => {
                     const errors = validationResult(req);
                     if (errors.isEmpty()) {
-                        /**
-                         * @TODO: Review this logic
-                         * 1. Is there a next step go there.
-                         * 2. If there is a next section go there.
-                         * 3. Otherwise go to summary screen
-                         */
-                        const nextStep = sectionModel.steps[stepIndex + 1];
-                        const nextSection = formModel.sections[sectionIndex + 1];
-
-                        if (nextStep) {
-                            res.redirect(`${req.baseUrl}/${sectionModel.slug}/${currentStepNumber + 1}`);
-                        } else if (nextSection) {
-                            res.redirect(`${req.baseUrl}/${nextSection.slug}`);
-                        } else {
-                            res.redirect(`${req.baseUrl}/summary`);
-                        }
+                        redirectNext(req, res);
                     } else {
                         renderStep(req, res, errors.array());
                     }
@@ -318,7 +306,7 @@ function initFormRouter(formModel) {
             }
 
             const fieldsForStep = flatMap(stepModel.fieldsets, 'fields');
-            const validators = fieldsForStep.map(getFieldValidator);
+            const validators = fieldsForStep.map(field => field.validator(field));
 
             router
                 .route(`/${sectionModel.slug}/${currentStepNumber}`)
@@ -340,7 +328,7 @@ function initFormRouter(formModel) {
     /**
      * Route: Summary
      */
-    const validateAllFields = getAllFormFields(formModel).map(getFieldValidator);
+    const validateAllFields = getAllFormFields(formModel).map(f => f.validator(f));
     router
         .route('/summary')
         .get(function(req, res) {
@@ -354,8 +342,8 @@ function initFormRouter(formModel) {
         })
         .post(
             (req, res, next) => {
-                // Fake a post body so the validators can run as if the entire form
-                // was submitted in one go
+                // Fake a post body so the validators can run as if
+                // the entire form was submitted in one go
                 req.body = res.locals.formData;
                 next();
             },
@@ -396,7 +384,7 @@ function initFormRouter(formModel) {
             res.redirect(req.baseUrl);
         } else {
             // Clear the submission from the session on success
-            unset(req.session, sessionKey);
+            unset(req.session, formModel.sessionKey);
             req.session.save(() => {
                 res.render(stepConfig.template, {
                     form: res.locals.form,
