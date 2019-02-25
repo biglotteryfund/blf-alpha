@@ -315,12 +315,12 @@ const FIELDS = {
         name: 'organisation-legal-name',
         type: 'text',
         label: {
-            en: 'What is the full legal name of your organisation, as shown on your governing document?',
+            en: 'What is the full legal name of your organisation?',
             cy: '(WELSH) What is the full legal name of your organisation, as shown on your governing document?'
         },
         explanation: {
             en: `
-            <p>Your governing document could be called one of several things, depending on the type of organisation you're applying on behalf of. It may be called a constitution, trust deed, memorandum and articles of association, or something else entirely.</p>
+            <p>This must be as shown on your <strong>governing document</strong>. Your governing document could be called one of several things, depending on the type of organisation you're applying on behalf of. It may be called a constitution, trust deed, memorandum and articles of association, or something else entirely.</p>
             `,
             cy: 'TODO'
         },
@@ -333,10 +333,7 @@ const FIELDS = {
     organisationAlias: {
         name: 'organisation-alias',
         type: 'text',
-        label: {
-            en: 'If your organisation uses a different name in your day-to-day work, please enter it below.',
-            cy: ''
-        },
+        label: { en: 'Does your organisation use a different name in your day-to-day work?', cy: '' },
         isRequired: false,
         validator: VALIDATORS.optional
     },
