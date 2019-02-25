@@ -815,11 +815,12 @@ const sectionBankDetails = {
 
 /**
  * @typedef {Object} FormModel
- * @property {string} sessionKey
+ * @property {String} sessionKey
  * @property {LocaleString} title
  * @property {boolean} isBilingual
  * @property {Array<Section>} sections
- * @property {Object} startPage,
+ * @property {Function} processor
+ * @property {Object} startPage
  * @property {Object} successStep
  */
 
