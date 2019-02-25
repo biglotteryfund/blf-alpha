@@ -2,92 +2,127 @@ $statuses: (
     'complete': #55ac3b,
     'incomplete': #fd992b,
     'empty': #7b7b7b,
-    'invalid': red
 );
 
 $statusColumnWidth: 160px;
 
-.app-summary__status {
-    display: flex;
-    justify-content: space-between;
-    border-left: 3px solid get-color('background', 'light-neutral');
-    padding-left: $spacingUnit / 2;
+.app-summary {
 
-    @each $state, $color in $statuses {
-        &.app-summary__status--#{$state} {
-            border-left-color: $color;
+    // Grid of buttons at the top of the summary
+    .app-summary__actions {
+        display: flex;
+    }
+
+    // The header at the top of each section showing that section's title and completion status
+    .app-summary__status {
+        display: flex;
+        justify-content: space-between;
+        border-left: 3px solid get-color('background', 'light-neutral');
+        padding-left: $spacingUnit / 2;
+
+        &.app-summary__status--complete {
+            $colour: map-get($statuses, 'complete');
+            border-left-color: $colour;
             .app-summary__status__label {
-                background-color: $color;
+                background-color: $colour;
             }
         }
+
+        &.app-summary__status--incomplete {
+            $colour: map-get($statuses, 'incomplete');
+            border-left-color: $colour;
+            .app-summary__status__label {
+                background-color: $colour;
+            }
+        }
+
+        &.app-summary__status--empty {
+            $colour: map-get($statuses, 'empty');
+            border-left-color: $colour;
+            .app-summary__status__label {
+                background-color: $colour;
+            }
+        }
+
+
+        .app-summary__status__label {
+            margin-left: $spacingUnit;
+            color: #ffffff;
+            font-size: 14px;
+            text-align: center;
+            width: $statusColumnWidth;
+
+            svg {
+                margin-left: 5px;
+                vertical-align: middle;
+            }
+        }
+
     }
 
-    .app-summary__status__label {
+    // A link wrapped in square brackets to indicate form editing
+    .app-summary__edit-link {
+        font-family: font-stack('body');
+        font-size: 16px;
+        font-weight: normal !important;
+        text-decoration: none;
         margin-left: $spacingUnit;
-        color: #ffffff;
-        font-size: 14px;
-        text-align: center;
-        width: $statusColumnWidth;
+        &:before { content: '['; }
+        &:after { content: ']'; }
+    }
 
-        svg {
-            margin-left: 5px;
-            vertical-align: middle;
+    // The contents of each application summary section
+    .app-summary__status__content {
+        padding: $spacingUnit / 2;
+
+        p {
+            margin-right: $statusColumnWidth;
+            font-size: 18px;
+        }
+
+        summary {
+            font-weight: bold;
+            font-size: 16px;
+            color: get-color('links', 'base');
+            // the default underline styling doesn't appear here for some reason
+            text-decoration: none;
+            border-bottom: 1px solid get-color('links', 'base');
+            display: inline-block;
         }
     }
 
-}
+    .app-summary__step-title {
+        margin: $spacingUnit 0;
+    }
 
-.app-summary__edit-link {
-    font-family: font-stack('body');
-    font-size: 16px;
-    font-weight: normal !important;
-    text-decoration: none;
-    margin-left: $spacingUnit;
-    &:before { content: '['; }
-    &:after { content: ']'; }
-}
-
-.app-summary__status__content {
-    padding: $spacingUnit / 2;
-    margin-right: $statusColumnWidth;
-
-    p {
+    // The (mock) table of the user's form responses
+    .app-summary__data {
         font-size: 18px;
+        display: flex;
+        justify-content: start;
+        border-top: 1px solid get-color('border', 'base');
+
+        .app-summary__data__question,
+        .app-summary__data__answer,
+        .app-summary__data__link {
+            padding: $spacingUnit / 2;
+        }
+
+        .app-summary__data__question {
+            flex-basis: 260px;
+            font-weight: bold;
+            border-right: 1px solid get-color('border', 'base');
+        }
+
+        .app-summary__data__link {
+            flex-shrink: 1;
+            margin-left: auto;
+        }
     }
 
-    summary {
+    .app-summary__toggle {
+        font-size: 14px;
         font-weight: bold;
-        font-size: 16px;
-        color: get-color('links', 'base');
-        // the default underline styling doesn't appear here for some reason
-        text-decoration: none;
-        border-bottom: 1px solid get-color('links', 'base');
-        display: inline-block;
-    }
-}
-
-.app-summary__step {
-    margin: $spacingUnit 0;
-}
-
-.app-summary__data {
-    font-size: 18px;
-    display: flex;
-    justify-content: start;
-    border-top: 1px solid get-color('border', 'base');
-
-    > * {
-        padding: $spacingUnit / 2;
     }
 
-    .app-summary__data__question {
-        flex-basis: 260px;
-        font-weight: bold;
-        border-right: 1px solid get-color('border', 'base');
-    }
-
-    .app-summary__data__link {
-        flex-shrink: 1;
-        margin-left: auto;
-    }
 }

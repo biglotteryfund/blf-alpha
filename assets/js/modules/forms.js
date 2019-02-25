@@ -51,7 +51,7 @@ function handleExpandingDetails() {
 
     $toggleBtn.on('click', function() {
         $toggleBtn.text(isClosed ? $toggleBtn.data('label-open') : $toggleBtn.data('label-closed'));
-        $('details').attr('open', isClosed);
+        $('details.js-toggleable').attr('open', isClosed);
         isClosed = !isClosed;
     });
 }

@@ -1,6 +1,6 @@
 {% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero with context %}
-{% from "components/icons.njk" import iconArrowDown, iconTick %}
+{% from "components/icons.njk" import iconArrowDown, iconTick, iconBin %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
@@ -9,8 +9,8 @@
 
 {% block content %}
     <main role="main" id="content">
-        <div class="content-box u-inner-wide-only">
-            <form action="" method="POST">
+        <div class="content-box u-inner-wide-only app-summary">
+            <form action="" method="post">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 {{ formHeader(
@@ -22,18 +22,21 @@
                     <strong>Please note</strong>: in order to submit your application you will need to agree to our <a href="#">terms and conditions</a>.
                 </p>
 
-                <div class="u-margin-bottom-l">
-                    <div class="o-button-group o-button-group--separated">
+                <div class="u-margin-bottom-l app-summary__actions">
+                    <div class="o-button-group">
                         <a class="btn btn--medium btn--outline btn--reversed" href="#">Download (PDF)</a>
                         <a class="btn btn--medium btn--outline btn--reversed" href="#">Share</a>
                     </div>
-                    <div class="o-button-group o-button-group--separated o-button-group--separated--left">
-                        <a class="btn btn--medium btn--outline btn--reversed" href="#">Delete application</a>
+                    <div class="o-button-group o-button-group-separated o-button-group-separated--left">
+                        <a class="btn btn--medium btn--outline btn--reversed" href="#">
+                            {{ iconBin() }}
+                            Delete application
+                        </a>
                     </div>
                 </div>
 
-                <p class="u-pull-right ">
-                    <button class="btn-link js-toggle-all-details u-hidden"
+                <p class="u-pull-right">
+                    <button class="app-summary__toggle btn-link js-toggle-all-details u-hidden"
                             data-label-open="Collapse all sections"
                             data-label-closed="Expand all sections"
                             type="button">
@@ -45,7 +48,7 @@
 
                     {% for section in form.sections %}
 
-                        <section class="app-summary">
+                        <section>
                             <header class="app-summary__status app-summary__status--{{ section.state.type }} u-tone-background-tint">
                                 <h3 class="u-padded-vertical-s u-no-margin">
                                     Section {{ loop.index }}: {{ section.title }}
@@ -65,15 +68,13 @@
                             <article class="app-summary__status__content">
                                 {% if section.introduction %}
                                     <p>{{ section.introduction }}</p>
-                                {% else %}
-                                    <p>{{ form.sections[0].introduction }}</p>
                                 {% endif %}
-                                <details class="u-margin-bottom-s">
+                                <details class="js-toggleable u-margin-bottom-s">
                                     <summary>Show questions</summary>
                                     <div>
                                         {% for step in section.steps %}
                                             {% set stepNumber = loop.index %}
-                                            <h4 class="app-summary__step">
+                                            <h4 class="app-summary__step-title">
                                                 Step {{ stepNumber }} of {{ section.steps.length }} &ndash; {{ step.title }}
                                             </h4>
 
