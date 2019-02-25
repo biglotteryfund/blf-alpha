@@ -1,0 +1,93 @@
+$statuses: (
+    'complete': #55ac3b,
+    'incomplete': #fd992b,
+    'empty': #7b7b7b,
+    'invalid': red
+);
+
+$statusColumnWidth: 160px;
+
+.app-summary__status {
+    display: flex;
+    justify-content: space-between;
+    border-left: 3px solid get-color('background', 'light-neutral');
+    padding-left: $spacingUnit / 2;
+
+    @each $state, $color in $statuses {
+        &.app-summary__status--#{$state} {
+            border-left-color: $color;
+            .app-summary__status__label {
+                background-color: $color;
+            }
+        }
+    }
+
+    .app-summary__status__label {
+        margin-left: $spacingUnit;
+        color: #ffffff;
+        font-size: 14px;
+        text-align: center;
+        width: $statusColumnWidth;
+
+        svg {
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+    }
+
+}
+
+.app-summary__edit-link {
+    font-family: font-stack('body');
+    font-size: 16px;
+    font-weight: normal !important;
+    text-decoration: none;
+    margin-left: $spacingUnit;
+    &:before { content: '['; }
+    &:after { content: ']'; }
+}
+
+.app-summary__status__content {
+    padding: $spacingUnit / 2;
+    margin-right: $statusColumnWidth;
+
+    p {
+        font-size: 18px;
+    }
+
+    summary {
+        font-weight: bold;
+        font-size: 16px;
+        color: get-color('links', 'base');
+        // the default underline styling doesn't appear here for some reason
+        text-decoration: none;
+        border-bottom: 1px solid get-color('links', 'base');
+        display: inline-block;
+    }
+}
+
+.app-summary__step {
+    margin: $spacingUnit 0;
+}
+
+.app-summary__data {
+    font-size: 18px;
+    display: flex;
+    justify-content: start;
+    border-top: 1px solid get-color('border', 'base');
+
+    > * {
+        padding: $spacingUnit / 2;
+    }
+
+    .app-summary__data__question {
+        flex-basis: 260px;
+        font-weight: bold;
+        border-right: 1px solid get-color('border', 'base');
+    }
+
+    .app-summary__data__link {
+        flex-shrink: 1;
+        margin-left: auto;
+    }
+}

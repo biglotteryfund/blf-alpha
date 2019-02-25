@@ -328,6 +328,27 @@ $buttonColor: get-color('brand', 'primary');
 }
 
 /**
+ * Button group separated left
+ * Allows a set of buttons to be split from other buttons
+ * with a divider on their left
+ */
+.o-button-group--separated {
+    display: inline-block;
+
+    &.o-button-group--separated--left {
+        border-left: 1px solid get-color('border', 'base');;
+        padding-left: $spacingUnit;
+        margin-left: $spacingUnit / 2;
+    }
+
+    &.o-button-group--separated--right {
+        border-right: 1px solid get-color('border', 'base');;
+        padding-right: $spacingUnit;
+        margin-right: $spacingUnit / 2;
+    }
+}
+
+/**
  * Button group block
  * Groups together a set of block buttons with vertical spacing
  */
