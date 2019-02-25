@@ -1,5 +1,5 @@
 'use strict';
-const { cloneDeep, find, flatMap, isEmpty, set, concat, unset, pickBy, identity, get: getBasic } = require('lodash');
+const { cloneDeep, find, flatMap, isEmpty, set, concat, unset, pickBy, identity } = require('lodash');
 const { get, getOr } = require('lodash/fp');
 const { matchedData } = require('express-validator/filter');
 const { validationResult } = require('express-validator/check');
@@ -10,7 +10,7 @@ const Raven = require('raven');
 const cached = require('../../middleware/cached');
 const { localify } = require('../../modules/urls');
 
-function translateForm(formModel, locale, formData) {
+function translateForm(locale, formModel, formData) {
     const localise = get(locale);
 
     const translateSection = section => {
@@ -27,35 +27,34 @@ function translateForm(formModel, locale, formData) {
     const translateStep = step => {
         step.title = localise(step.title);
 
-        // Translate each fieldset
         step.fieldsets = step.fieldsets.map(fieldset => {
             fieldset.legend = localise(fieldset.legend);
             fieldset.introduction = localise(fieldset.introduction);
-
-            // Translate each field
-            fieldset.fields = fieldset.fields.map(field => {
-                field.label = localise(field.label);
-                field.explanation = localise(field.explanation);
-                const match = find(formData, (value, name) => name === field.name);
-                if (match) {
-                    field.value = match;
-                }
-
-                // Translate each option (if set)
-                if (field.options) {
-                    field.options = field.options.map(option => {
-                        option.label = localise(option.label);
-                        option.explanation = localise(option.explanation);
-                        return option;
-                    });
-                }
-                return field;
-            });
-
+            fieldset.fields = fieldset.fields.map(field => translateField(field));
             return fieldset;
         });
 
         return step;
+    };
+
+    const translateField = field => {
+        field.label = localise(field.label);
+        field.explanation = localise(field.explanation);
+
+        const match = find(formData, (value, name) => name === field.name);
+        if (match) {
+            field.value = match;
+        }
+
+        // Translate each option (if set)
+        if (field.options) {
+            field.options = field.options.map(option => {
+                option.label = localise(option.label);
+                option.explanation = localise(option.explanation);
+                return option;
+            });
+        }
+        return field;
     };
 
     const clonedForm = cloneDeep(formModel);
@@ -69,6 +68,7 @@ function translateForm(formModel, locale, formData) {
 
     return clonedForm;
 }
+
 const FORM_STATES = {
     incomplete: {
         type: 'incomplete',
@@ -88,8 +88,10 @@ const FORM_STATES = {
     }
 };
 
-// Build up a set of state parameters for steps, sections, and the form itself
-// eg. to show status on the summary page
+/**
+ * Build up a set of state parameters for steps, sections, and the form itself
+ * eg. to show status on the summary page
+ */
 function validateFormState(form, formData, sessionValidation) {
     const clonedForm = cloneDeep(form);
 
@@ -114,7 +116,7 @@ function validateFormState(form, formData, sessionValidation) {
                     step.state = FORM_STATES.empty;
                 } else {
                     // @TODO construct this via a function
-                    const stepIsValid = getBasic(sessionValidation, `${section.slug}.step-${stepIndex}`, false);
+                    const stepIsValid = getOr(false, `${section.slug}.step-${stepIndex}`)(sessionValidation);
                     step.state = stepIsValid ? FORM_STATES.complete : FORM_STATES.incomplete;
                 }
             }
@@ -174,8 +176,8 @@ function initFormRouter(formModel) {
 
     router.use(cached.csrfProtection, (req, res, next) => {
         // Translate the form object for each request and populate it with session data
-        res.locals.form = translateForm(formModel, req.i18n.getLocale(), getSession(req.session));
-        res.locals.validation = getBasic(req.session, validationSessionKey);
+        res.locals.form = translateForm(req.i18n.getLocale(), formModel, getSession(req.session));
+        res.locals.validation = get(validationSessionKey)(req.session);
         res.locals.FORM_STATES = FORM_STATES;
         res.locals.formTitle = 'Application form: ' + res.locals.form.title;
         res.locals.isBilingual = formModel.isBilingual;
@@ -329,6 +331,14 @@ function initFormRouter(formModel) {
      * Route: Summary
      */
     const validateAllFields = getAllFormFields(formModel).map(f => f.validator(f));
+
+    const injectFormBody = (req, res, next) => {
+        // Fake a post body so the validators can run as if
+        // the entire form was submitted in one go
+        req.body = getSession(req.session);
+        next();
+    };
+
     router
         .route('/summary')
         .get(function(req, res) {
@@ -342,33 +352,24 @@ function initFormRouter(formModel) {
                 csrfToken: req.csrfToken()
             });
         })
-        .post(
-            (req, res, next) => {
-                // Fake a post body so the validators can run as if
-                // the entire form was submitted in one go
-                req.body = getSession(req.session);
-                next();
-            },
-            validateAllFields,
-            async function(req, res) {
-                const errors = validationResult(req);
-                if (errors.isEmpty()) {
-                    try {
-                        await formModel.processor({
-                            form: res.locals.form,
-                            data: getSession(req.session)
-                        });
-                        res.redirect(`${req.baseUrl}/success`);
-                    } catch (error) {
-                        Raven.captureException(error);
-                        renderError(error, req, res);
-                    }
-                } else {
-                    // They failed validation so send them back to confirm what they're missing
-                    res.redirect(`${req.baseUrl}/summary`);
+        .post(injectFormBody, validateAllFields, async function(req, res) {
+            const errors = validationResult(req);
+            if (errors.isEmpty()) {
+                try {
+                    await formModel.processor({
+                        form: res.locals.form,
+                        data: getSession(req.session)
+                    });
+                    res.redirect(`${req.baseUrl}/success`);
+                } catch (error) {
+                    Raven.captureException(error);
+                    renderError(error, req, res);
                 }
+            } else {
+                // They failed validation so send them back to confirm what they're missing
+                res.redirect(`${req.baseUrl}/summary`);
             }
-        );
+        });
 
     /**
      * Route: Success
