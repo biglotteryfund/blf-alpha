@@ -6,46 +6,46 @@ $statuses: (
 
 $statusColumnWidth: 160px;
 
-.app-summary {
+.application-summary {
 
     // Grid of buttons at the top of the summary
-    .app-summary__actions {
+    .application-summary__actions {
         display: flex;
     }
 
     // The header at the top of each section showing that section's title and completion status
-    .app-summary__status {
+    .application-summary__status {
         display: flex;
         justify-content: space-between;
         border-left: 3px solid get-color('background', 'light-neutral');
         padding-left: $spacingUnit / 2;
 
-        &.app-summary__status--complete {
+        &.application-summary__status--complete {
             $colour: map-get($statuses, 'complete');
             border-left-color: $colour;
-            .app-summary__status__label {
+            .application-summary__status__label {
                 background-color: $colour;
             }
         }
 
-        &.app-summary__status--incomplete {
+        &.application-summary__status--incomplete {
             $colour: map-get($statuses, 'incomplete');
             border-left-color: $colour;
-            .app-summary__status__label {
+            .application-summary__status__label {
                 background-color: $colour;
             }
         }
 
-        &.app-summary__status--empty {
+        &.application-summary__status--empty {
             $colour: map-get($statuses, 'empty');
             border-left-color: $colour;
-            .app-summary__status__label {
+            .application-summary__status__label {
                 background-color: $colour;
             }
         }
 
 
-        .app-summary__status__label {
+        .application-summary__status__label {
             margin-left: $spacingUnit;
             color: #ffffff;
             font-size: 14px;
@@ -61,7 +61,7 @@ $statusColumnWidth: 160px;
     }
 
     // A link wrapped in square brackets to indicate form editing
-    .app-summary__edit-link {
+    .application-summary__edit-link {
         font-family: font-stack('body');
         font-size: 16px;
         font-weight: normal !important;
@@ -72,7 +72,7 @@ $statusColumnWidth: 160px;
     }
 
     // The contents of each application summary section
-    .app-summary__status__content {
+    .application-summary__status__content {
         padding: $spacingUnit / 2;
 
         p {
@@ -91,36 +91,36 @@ $statusColumnWidth: 160px;
         }
     }
 
-    .app-summary__step-title {
+    .application-summary__step-title {
         margin: $spacingUnit 0;
     }
 
     // The (mock) table of the user's form responses
-    .app-summary__data {
+    .application-summary__data {
         font-size: 18px;
         display: flex;
         justify-content: start;
         border-top: 1px solid get-color('border', 'base');
 
-        .app-summary__data__question,
-        .app-summary__data__answer,
-        .app-summary__data__link {
+        .application-summary__data__question,
+        .application-summary__data__answer,
+        .application-summary__data__link {
             padding: $spacingUnit / 2;
         }
 
-        .app-summary__data__question {
+        .application-summary__data__question {
             flex-basis: 260px;
             font-weight: bold;
             border-right: 1px solid get-color('border', 'base');
         }
 
-        .app-summary__data__link {
+        .application-summary__data__link {
             flex-shrink: 1;
             margin-left: auto;
         }
     }
 
-    .app-summary__toggle {
+    .application-summary__toggle {
         font-size: 14px;
         font-weight: bold;
     }

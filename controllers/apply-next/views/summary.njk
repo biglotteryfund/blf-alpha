@@ -9,7 +9,7 @@
 
 {% block content %}
     <main role="main" id="content">
-        <div class="content-box u-inner-wide-only app-summary">
+        <div class="content-box u-inner-wide-only application-summary">
             <form action="" method="post">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
@@ -22,7 +22,7 @@
                     <strong>Please note</strong>: in order to submit your application you will need to agree to our <a href="#">terms and conditions</a>.
                 </p>
 
-                <div class="u-margin-bottom-l app-summary__actions">
+                <div class="u-margin-bottom-l application-summary__actions">
                     <div class="o-button-group">
                         <a class="btn btn--medium btn--outline btn--reversed" href="#">Download (PDF)</a>
                         <a class="btn btn--medium btn--outline btn--reversed" href="#">Share</a>
@@ -36,7 +36,7 @@
                 </div>
 
                 <p class="u-pull-right">
-                    <button class="app-summary__toggle btn-link js-toggle-all-details u-hidden"
+                    <button class="application-summary__toggle btn-link js-toggle-all-details u-hidden"
                             data-label-open="Collapse all sections"
                             data-label-closed="Expand all sections"
                             type="button">
@@ -49,23 +49,23 @@
                     {% for section in form.sections %}
 
                         <section>
-                            <header class="app-summary__status app-summary__status--{{ section.state.type }} u-tone-background-tint">
+                            <header class="application-summary__status application-summary__status--{{ section.state.type }} u-tone-background-tint">
                                 <h3 class="u-padded-vertical-s u-no-margin">
                                     Section {{ loop.index }}: {{ section.title }}
 
-                                    <span class="app-summary__edit-link">
+                                    <span class="application-summary__edit-link">
                                         {% set editWord = 'Continue' if section.state.type === 'incomplete' else 'Edit' %}
                                         <a href="{{ formBaseUrl }}/{{ section.slug }}">{{ editWord }}</a>
                                     </span>
                                 </h3>
                                 {% if section.state %}
-                                    <div class="app-summary__status__label u-padded-vertical-s">
+                                    <div class="application-summary__status__label u-padded-vertical-s">
                                         {{ section.state.label }}
                                         {% if section.state.type === 'complete' %}{{ iconTick() }}{% endif %}
                                     </div>
                                 {% endif %}
                             </header>
-                            <article class="app-summary__status__content">
+                            <article class="application-summary__status__content">
                                 {% if section.introduction %}
                                     <p>{{ section.introduction }}</p>
                                 {% endif %}
@@ -74,18 +74,18 @@
                                     <div>
                                         {% for step in section.steps %}
                                             {% set stepNumber = loop.index %}
-                                            <h4 class="app-summary__step-title">
+                                            <h4 class="application-summary__step-title">
                                                 Step {{ stepNumber }} of {{ section.steps.length }} &ndash; {{ step.title }}
                                             </h4>
 
                                             {% if not step.notRequired %}
                                                 {% for fieldset in step.fieldsets %}
                                                     {% for field in fieldset.fields %}
-                                                        <div class="app-summary__data">
-                                                            <div class="app-summary__data__question">
+                                                        <div class="application-summary__data">
+                                                            <div class="application-summary__data__question">
                                                                 {{ field.label }}
                                                             </div>
-                                                            <div class="app-summary__data__answer s-prose">
+                                                            <div class="application-summary__data__answer s-prose">
                                                                 {% if not field.value %}
                                                                     &ndash;
                                                                 {% else %}
@@ -100,8 +100,8 @@
                                                                 {% endif %}
                                                                 {% if field.state %}(Status: {{ field.state.label }}){% endif %}
                                                             </div>
-                                                            <div class="app-summary__data__link">
-                                                                <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}" class="app-summary__edit-link">
+                                                            <div class="application-summary__data__link">
+                                                                <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}" class="application-summary__edit-link">
                                                                     Change
                                                                 </a>
                                                             </div>
@@ -134,7 +134,7 @@
                                                                         {% if field.state %}(Status: {{ field.state.label }}){% endif %}
                                                                     </td>
                                                                     <td>
-                                                                        <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}" class="app-summary__edit-link">
+                                                                        <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}" class="application-summary__edit-link">
                                                                             Change
                                                                         </a>
                                                                     </td>
