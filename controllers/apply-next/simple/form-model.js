@@ -631,6 +631,11 @@ const sectionProject = {
 const sectionOrganisation = {
     slug: 'organisation',
     title: { en: 'Your organisation', cy: '' },
+    introduction: {
+        en:
+            'Please tell us about your organisation, including legal name, registered address and income. This helps us understand the type of organisation you are.',
+        cy: '(WELSH) TBC'
+    },
     steps: [
         {
             title: { en: 'Organisation details', cy: '' },
@@ -688,6 +693,11 @@ const sectionOrganisation = {
 const sectionMainContact = {
     slug: 'main-contact',
     title: { en: 'Main contact', cy: '' },
+    introduction: {
+        en:
+            'Please provide details for your main contact. This will be the first person we contact if we need to discuss your project.',
+        cy: '(WELSH) TBC'
+    },
     steps: [
         {
             title: { en: 'Main contact', cy: '' },
@@ -723,6 +733,11 @@ const sectionMainContact = {
 const sectionLegalContact = {
     slug: 'legal-contact',
     title: { en: 'Legally responsible contact', cy: '' },
+    introduction: {
+        en:
+            'Please provide details for your legally responsible contact. This person will be legally responsible for the funding and must be unconnected to the main contact.',
+        cy: '(WELSH) TBC'
+    },
     steps: [
         {
             title: { en: 'Legally responsible contact', cy: '' },
@@ -760,6 +775,11 @@ const sectionLegalContact = {
 const sectionBankDetails = {
     slug: 'bank-details',
     title: { en: 'Bank details', cy: '' },
+    introduction: {
+        en:
+            'Please provide your bank details. Before you submit your application you will need to attach a copy of a bank statement that is less than two months old.',
+        cy: '(WELSH) TBC'
+    },
     steps: [
         {
             title: { en: 'Bank account', cy: '' },

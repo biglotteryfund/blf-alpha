@@ -44,6 +44,18 @@ function toggleReviewAnswers() {
     });
 }
 
+function handleExpandingDetails() {
+    let isClosed = true;
+    const $toggleBtn = $('.js-toggle-all-details');
+    $toggleBtn.text($toggleBtn.data('label-closed')).show();
+
+    $toggleBtn.on('click', function() {
+        $toggleBtn.text(isClosed ? $toggleBtn.data('label-open') : $toggleBtn.data('label-closed'));
+        $('details.js-toggleable').attr('open', isClosed);
+        isClosed = !isClosed;
+    });
+}
+
 function init() {
     /**
      * Review–step–specific logic
@@ -53,6 +65,7 @@ function init() {
         handleAbandonmentMessage(formReviewEl);
         toggleReviewAnswers();
     }
+    handleExpandingDetails();
 }
 
 export default {

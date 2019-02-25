@@ -71,19 +71,19 @@ function translateForm(formModel, locale, formData) {
 }
 const FORM_STATES = {
     incomplete: {
-        type: 'INCOMPLETE',
+        type: 'incomplete',
         label: 'In progress'
     },
     complete: {
-        type: 'COMPLETE',
+        type: 'complete',
         label: 'Complete'
     },
     invalid: {
-        type: 'INVALID',
+        type: 'invalid',
         label: 'Invalid'
     },
     empty: {
-        type: 'EMPTY',
+        type: 'empty',
         label: 'Not started'
     }
 };
