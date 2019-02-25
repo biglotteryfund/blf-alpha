@@ -17,12 +17,17 @@
                 ) }}
 
 
+                <h2>Application form status: {{ form.state.label }}</h2>
+
                 {% for section in form.sections %}
 
                     <section class="s-prose">
                         <details class="u-margin-bottom-s">
                             <summary>
-                                <h2>Section {{ loop.index }}: {{ section.title }}</h2>
+                                <h2>
+                                    Section {{ loop.index }}: {{ section.title }}
+                                    {% if section.state %}(Status: {{ section.state.label }}){% endif %}
+                                </h2>
                                 {% if section.introduction %}
                                     <p>{{ section.introduction }}</p>
                                 {% endif %}
@@ -32,45 +37,53 @@
                                     {% set stepNumber = loop.index %}
                                     <h4>
                                         Step {{ stepNumber }} of {{ section.steps.length }} &ndash; {{ step.title }}
+                                        {% if not step.notRequired %}
+                                            {% if step.state %}(Status: {{ step.state.label }}){% endif %}
+                                        {% endif %}
                                     </h4>
 
-                                    {% for fieldset in step.fieldsets %}
-                                        <table class="table table-striped mb-5">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Question</th>
-                                                    <th scope="col">Your answer</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {% for field in fieldset.fields %}
+                                    {% if not step.notRequired %}
+                                        {% for fieldset in step.fieldsets %}
+                                            <table class="table table-striped mb-5">
+                                                <thead>
                                                     <tr>
-                                                        <td>{{ field.label }}</td>
-                                                        <td>
-                                                            {% if not field.value %}
-                                                                Incomplete
-                                                                <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}">
-                                                                    Supply this answer
-                                                                </a>
-                                                            {% else %}
-                                                                {% if field.type === 'textarea' %}
-                                                                    {% set cleanValue = field.value | striptags(true) | escape | nl2br %}
-                                                                    {{ cleanValue }}
-                                                                {% elseif (field.value | isArray) %}
-                                                                    {{ field.value | join(', ') }}
-                                                                {% else %}
-                                                                    {{ field.value }}
-                                                                {% endif %}
-                                                                <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}">
-                                                                    Edit this answer
-                                                                </a>
-                                                            {% endif %}
-                                                        </td>
+                                                        <th scope="col">Question</th>
+                                                        <th scope="col">Your answer</th>
                                                     </tr>
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    {% endfor %}
+                                                </thead>
+                                                <tbody>
+                                                    {% for field in fieldset.fields %}
+                                                        <tr>
+                                                            <td>{{ field.label }}</td>
+                                                            <td>
+                                                                {% if not field.value %}
+                                                                    Incomplete
+                                                                    <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}">
+                                                                        Supply this answer
+                                                                    </a>
+                                                                {% else %}
+                                                                    {% if field.type === 'textarea' %}
+                                                                        {% set cleanValue = field.value | striptags(true) | escape | nl2br %}
+                                                                        {{ cleanValue }}
+                                                                    {% elseif (field.value | isArray) %}
+                                                                        {{ field.value | join(', ') }}
+                                                                    {% else %}
+                                                                        {{ field.value }}
+                                                                    {% endif %}
+                                                                    <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}">
+                                                                        Edit this answer
+                                                                    </a>
+                                                                {% endif %}
+                                                                {% if field.state %}(Status: {{ field.state.label }}){% endif %}
+                                                            </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p>Not required for your application.</p>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                         </details>
@@ -89,7 +102,12 @@
 
 
                 <div class="u-margin-top">
-                    <input class="btn" type="submit" value="Submit" />
+                    {% if form.state.type === 'COMPLETE' %}
+                        <input class="btn" type="submit" value="Submit" />
+                    {% else %}
+                        <p>Your form isn't complete yet – you can submit it here when it's ready.</p>
+                    {% endif %}
+
                 </div>
 
             </form>

@@ -2,7 +2,6 @@
 const path = require('path');
 const { get, includes, values } = require('lodash');
 const { check } = require('express-validator/check');
-
 const processor = require('./processor');
 
 /**
