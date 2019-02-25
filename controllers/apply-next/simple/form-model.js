@@ -330,6 +330,25 @@ const FIELDS = {
             cy: ''
         })
     },
+    organisationAlias: {
+        name: 'organisation-alias',
+        type: 'text',
+        label: {
+            en: 'If your organisation uses a different name in your day-to-day work, please enter it below.',
+            cy: ''
+        },
+        isRequired: false,
+        validator: VALIDATORS.optional
+    },
+    organisationAddress: {
+        name: 'organisation-address',
+        type: 'text',
+        size: 20,
+        label: { en: 'What is the main or registered address of your organisation?', cy: '' },
+        explanation: { en: 'Enter the postcode and search for the address.', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.postcode
+    },
     organisationType: {
         name: 'organisation-type',
         type: 'radio',
@@ -637,7 +656,7 @@ const sectionOrganisation = {
             fieldsets: [
                 {
                     legend: { en: 'Organisation details', cy: '' },
-                    fields: [FIELDS.organisationLegalName]
+                    fields: [FIELDS.organisationLegalName, FIELDS.organisationAlias, FIELDS.organisationAddress]
                 }
             ]
         },
