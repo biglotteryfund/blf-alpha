@@ -24,6 +24,25 @@ function translateForm(formModel, locale, formData) {
         return section;
     };
 
+    const translateField = field => {
+        field.label = localise(field.label);
+        field.explanation = localise(field.explanation);
+        const match = find(formData, (value, name) => name === field.name);
+        if (match) {
+            field.value = match;
+        }
+
+        // Translate each option (if set)
+        if (field.options) {
+            field.options = field.options.map(option => {
+                option.label = localise(option.label);
+                option.explanation = localise(option.explanation);
+                return option;
+            });
+        }
+        return field;
+    };
+
     const translateStep = step => {
         step.title = localise(step.title);
 
@@ -31,27 +50,7 @@ function translateForm(formModel, locale, formData) {
         step.fieldsets = step.fieldsets.map(fieldset => {
             fieldset.legend = localise(fieldset.legend);
             fieldset.introduction = localise(fieldset.introduction);
-
-            // Translate each field
-            fieldset.fields = fieldset.fields.map(field => {
-                field.label = localise(field.label);
-                field.explanation = localise(field.explanation);
-                const match = find(formData, (value, name) => name === field.name);
-                if (match) {
-                    field.value = match;
-                }
-
-                // Translate each option (if set)
-                if (field.options) {
-                    field.options = field.options.map(option => {
-                        option.label = localise(option.label);
-                        option.explanation = localise(option.explanation);
-                        return option;
-                    });
-                }
-                return field;
-            });
-
+            fieldset.fields = fieldset.fields.map(translateField);
             return fieldset;
         });
 
@@ -66,6 +65,10 @@ function translateForm(formModel, locale, formData) {
         section.steps = section.steps.map(step => translateStep(step));
         return section;
     });
+
+    if (clonedForm.termsFields) {
+        clonedForm.termsFields = clonedForm.termsFields.map(translateField);
+    }
 
     return clonedForm;
 }
@@ -353,22 +356,59 @@ function initFormRouter(formModel) {
             async function(req, res) {
                 const errors = validationResult(req);
                 if (errors.isEmpty()) {
-                    try {
-                        await formModel.processor({
-                            form: res.locals.form,
-                            data: getSession(req.session)
-                        });
-                        res.redirect(`${req.baseUrl}/success`);
-                    } catch (error) {
-                        Raven.captureException(error);
-                        renderError(error, req, res);
-                    }
+                    // send them to T&Cs
+                    res.redirect(`${req.baseUrl}/terms`);
                 } else {
                     // They failed validation so send them back to confirm what they're missing
                     res.redirect(`${req.baseUrl}/summary`);
                 }
             }
         );
+
+    /**
+     * Route: Terms and Conditions
+     */
+
+    router
+        .route('/terms')
+        .all((req, res, next) => {
+            const formData = getSession(req.session);
+            const validatedForm = validateFormState(res.locals.form, formData, res.locals.validation);
+            if (validatedForm.state.type !== 'complete') {
+                res.redirect(`${req.baseUrl}/summary`);
+            } else {
+                next();
+            }
+        })
+        .get(function(req, res) {
+            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+                label: 'Terms & Conditions'
+            });
+            res.render(path.resolve(__dirname, './views/terms'), {
+                csrfToken: req.csrfToken()
+            });
+        })
+        .post(formModel.termsFields.map(field => field.validator(field)), async (req, res) => {
+            const errors = validationResult(req);
+            if (errors.isEmpty()) {
+                // Everything is good, submit the form
+                try {
+                    await formModel.processor({
+                        form: res.locals.form,
+                        data: getSession(req.session)
+                    });
+                    res.redirect(`${req.baseUrl}/success`);
+                } catch (error) {
+                    Raven.captureException(error);
+                    renderError(error, req, res);
+                }
+            } else {
+                res.render(path.resolve(__dirname, './views/terms'), {
+                    csrfToken: req.csrfToken(),
+                    errors: errors.array()
+                });
+            }
+        });
 
     /**
      * Route: Success

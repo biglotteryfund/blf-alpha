@@ -576,7 +576,91 @@ const FIELDS = {
             en: 'Please provide a bank statement',
             cy: ''
         })
-    }
+    },
+    terms: [
+        {
+            name: 'terms-agreement-1',
+            type: 'checkbox',
+            label: {
+                en:
+                    'You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.',
+                cy: ''
+            },
+            options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Please provide your agreement',
+                cy: ''
+            })
+        },
+        {
+            name: 'terms-agreement-2',
+            type: 'checkbox',
+            label: {
+                en:
+                    'All the information you have provided in your application is accurate and complete; and you will notify us of any changes.',
+                cy: ''
+            },
+            options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Please provide your agreement',
+                cy: ''
+            })
+        },
+        {
+            name: 'terms-agreement-3',
+            type: 'checkbox',
+            label: {
+                en:
+                    'You understand that we will use any personal information you have provided for the purposes described under the Data Protection Statement.',
+                cy: ''
+            },
+            options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Please provide your agreement',
+                cy: ''
+            })
+        },
+        {
+            name: 'terms-agreement-4',
+            type: 'checkbox',
+            label: {
+                en:
+                    'If information about this application is requested under the Freedom of Information Act, we will release it in line with our Freedom of Information policy.',
+                cy: ''
+            },
+            options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Please provide your agreement',
+                cy: ''
+            })
+        },
+        {
+            name: 'terms-person-name',
+            autocompleteName: 'name',
+            type: 'text',
+            label: { en: 'Full name of person completing this form', cy: '' },
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Enter the full name',
+                cy: ''
+            })
+        },
+        {
+            name: 'terms-person-position',
+            autocompleteName: 'position',
+            type: 'text',
+            label: { en: 'Position in organisation', cy: '' },
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Enter the position',
+                cy: ''
+            })
+        }
+    ]
 };
 
 /**
@@ -860,6 +944,7 @@ module.exports = {
         isBilingual: true,
         sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionLegalContact, sectionBankDetails],
         processor: processor,
+        termsFields: FIELDS.terms,
         startPage: { template: path.resolve(__dirname, '../views/startpage') },
         successStep: { template: path.resolve(__dirname, '../views/success') }
     }
