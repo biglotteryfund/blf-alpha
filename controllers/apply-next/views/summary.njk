@@ -107,41 +107,6 @@
                                                             </div>
                                                         </div>
                                                     {% endfor %}
-
-                                                    <table class="table table-striped mb-5" style="display: none">
-                                                        <tbody>
-                                                            {% for field in fieldset.fields %}
-                                                                <tr>
-                                                                    <td>
-                                                                        <strong>{{ field.label }}</strong>
-                                                                    </td>
-                                                                    <td>
-                                                                        {% if not field.value %}
-                                                                            Incomplete
-                                                                            <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}">
-                                                                                Supply this answer
-                                                                            </a>
-                                                                        {% else %}
-                                                                            {% if field.type === 'textarea' %}
-                                                                                {% set cleanValue = field.value | striptags(true) | escape | nl2br %}
-                                                                                {{ cleanValue }}
-                                                                            {% elseif (field.value | isArray) %}
-                                                                                {{ field.value | join(', ') }}
-                                                                            {% else %}
-                                                                                {{ field.value }}
-                                                                            {% endif %}
-                                                                        {% endif %}
-                                                                        {% if field.state %}(Status: {{ field.state.label }}){% endif %}
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}" class="application-summary__edit-link">
-                                                                            Change
-                                                                        </a>
-                                                                    </td>
-                                                                </tr>
-                                                            {% endfor %}
-                                                        </tbody>
-                                                    </table>
                                                 {% endfor %}
                                             {% else %}
                                                 <p>Not required for your application.</p>
