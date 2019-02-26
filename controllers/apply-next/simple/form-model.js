@@ -706,39 +706,6 @@ const sectionProject = {
 /**
  * @type Section
  */
-const sectionBeneficiaries = {
-    slug: 'beneficiaries',
-    title: { en: 'Beneficiaries', cy: '' },
-    introduction: {
-        en:
-            'Please tell us about your organisation in this section. This helps us understand the type of organisation you are.',
-        cy: ''
-    },
-    steps: [
-        {
-            title: { en: 'Who will benefit from your project?', cy: '' },
-            fieldsets: [
-                {
-                    legend: { en: 'Project costs', cy: '(WELSH) Project costs' },
-                    introduction: {
-                        en: `
-    <p>We want to hear more about the people who will benefit from your project.</p>
-    
-    <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
-    
-    <p>However, the information you provide here is <strong>not assessed</strong> and will not be used to decide whether you will be awarded funding for your project.</p>`,
-                        cy: ''
-                    },
-                    fields: [FIELDS.beneficiaryNumbers]
-                }
-            ]
-        }
-    ]
-};
-
-/**
- * @type Section
- */
 const sectionOrganisation = {
     slug: 'organisation',
     title: { en: 'Your organisation', cy: '' },
@@ -976,14 +943,7 @@ module.exports = {
         sessionKey: SESSION_KEY,
         title: { en: 'National Lottery Awards for All', cy: '' },
         isBilingual: true,
-        sections: [
-            sectionProject,
-            sectionBeneficiaries,
-            sectionOrganisation,
-            sectionMainContact,
-            sectionLegalContact,
-            sectionBankDetails
-        ],
+        sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionLegalContact, sectionBankDetails],
         processor: processor,
         termsFields: FIELDS.terms,
         titleField: FIELDS.applicationTitle,
