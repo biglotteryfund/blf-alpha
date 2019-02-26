@@ -242,7 +242,9 @@ const organisationDetails = [
                 name: 'address-postcode',
                 size: 10,
                 isRequired: true,
-                customRegex: POSTCODE_PATTERN,
+                attributes: {
+                    pattern: POSTCODE_PATTERN
+                },
                 validator(field) {
                     return check(field.name)
                         .trim()

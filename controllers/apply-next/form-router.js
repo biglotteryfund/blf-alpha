@@ -12,7 +12,7 @@ const { requireUserAuth } = require('../../middleware/authed');
 const ApplicationService = require('../../services/applications');
 const { localify } = require('../../modules/urls');
 
-function translateForm(locale, formModel, formData) {
+function prepareForm(locale, formModel, formData) {
     const localise = get(locale);
 
     const translateField = field => {
@@ -205,7 +205,7 @@ function initFormRouter(formModel) {
         res.locals.currentApplicationData = applicationData ? applicationData.application_data : false;
 
         // Translate the form object for each request and populate it with current user input
-        res.locals.form = translateForm(req.i18n.getLocale(), formModel, res.locals.currentApplicationData);
+        res.locals.form = prepareForm(req.i18n.getLocale(), formModel, res.locals.currentApplicationData);
 
         // Share some useful form variables
         res.locals.validation = res.locals.getSessionData(sessionKeys.validation);
@@ -216,13 +216,8 @@ function initFormRouter(formModel) {
         res.locals.isBilingual = formModel.isBilingual;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
-        res.locals.formBaseUrl = req.baseUrl;
-        res.locals.breadcrumbs = [
-            {
-                label: res.locals.form.title,
-                url: req.baseUrl
-            }
-        ];
+        res.locals.breadcrumbs = [{ label: res.locals.form.title, url: req.baseUrl }];
+
         next();
     });
 
@@ -511,7 +506,7 @@ function initFormRouter(formModel) {
     /**
      * Route: Success
      */
-    router.get('/success', cached.noCache, function(req, res) {
+    router.get('/success', function(req, res) {
         const stepConfig = formModel.successStep;
         if (isEmpty(res.locals.currentApplicationData)) {
             res.redirect(req.baseUrl);

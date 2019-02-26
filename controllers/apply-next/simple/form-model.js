@@ -43,10 +43,11 @@ const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-
 
 /**
  * @typedef {Object} Field
- * @property {string} name
- * @property {string} type
+ * @property {String} name
  * @property {LocaleString} label
  * @property {LocaleString} [explanation]
+ * @property {String} type
+ * @property {Object} [attributes]
  * @property {boolean} [isRequired]
  * @property {function} validator
  */
@@ -232,7 +233,6 @@ const VALIDATORS = {
 const FIELDS = {
     projectStartDate: {
         name: 'project-start-date',
-        type: 'date',
         label: {
             en: 'When is the planned (or estimated) start date of your project?',
             cy: '(WELSH) When is the planned (or estimated) start date of your project?'
@@ -243,16 +243,17 @@ const FIELDS = {
             cy:
                 '(WELSH) This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.'
         },
+        type: 'date',
+        attributes: {
+            min: moment()
+                .add(12, 'weeks')
+                .format('YYYY-MM-DD')
+        },
         isRequired: true,
-        min: moment()
-            .add(12, 'weeks')
-            .format('YYYY-MM-DD'),
         validator: VALIDATORS.futureDate
     },
     projectPostcode: {
         name: 'project-postcode',
-        autocompleteName: 'postal-code',
-        type: 'text',
         label: {
             en: 'What is the postcode of the location where your project will take place?',
             cy: '(WELSH) What is the postcode of the location where your project will take place?'
@@ -263,13 +264,14 @@ const FIELDS = {
             cy:
                 '(WELSH) If your project will take place across different locations, please use the postcode where most of the project will take place.'
         },
+        type: 'text',
+        attributes: { autocomplete: 'postal-code' },
         isRequired: true,
         customRegex: POSTCODE_PATTERN,
         validator: VALIDATORS.postcode
     },
     beneficiaryNumbers: {
         name: 'beneficiary-numbers',
-        type: 'text',
         label: {
             en: 'How many people will benefit from your project?',
             cy: '(WELSH) How many people will benefit from your project?'
@@ -278,6 +280,7 @@ const FIELDS = {
             en: 'Please enter the exact figure, or the closest estimate.',
             cy: '(WELSH) Please enter the exact figure, or the closest estimate.'
         },
+        type: 'text',
         isRequired: true,
         validator: VALIDATORS.required({
             en: 'Please tell us how many people will benefit',
@@ -286,8 +289,6 @@ const FIELDS = {
     },
     yourIdea: {
         name: 'your-idea',
-        type: 'textarea',
-        rows: 12,
         label: {
             en: 'What would you like to do?',
             cy: 'WELSH What would you like to do?'
@@ -318,9 +319,13 @@ const FIELDS = {
             `,
             cy: 'TODO'
         },
+        type: 'textarea',
+        attributes: {
+            rows: 12
+        },
         isRequired: true,
         validator: VALIDATORS.required({
-            en: 'Field must be provided',
+            en: 'Please tell us about your idea',
             cy: ''
         })
     },
@@ -338,16 +343,17 @@ const FIELDS = {
             cy: 'TODO'
         },
         type: 'textarea',
+        attributes: {
+            rows: 12
+        },
         isRequired: true,
         validator: VALIDATORS.required({
             en: 'Field must be provided',
             cy: ''
-        }),
-        rows: 12
+        })
     },
     projectTotalCosts: {
         name: 'project-total-costs',
-        type: 'currency',
         label: {
             en: 'Please tell us the total cost of your project.',
             cy: '(WELSH) Please tell us the total cost of your project.'
@@ -360,6 +366,7 @@ const FIELDS = {
             `,
             cy: 'TODO'
         },
+        type: 'currency',
         isRequired: true,
         validator: VALIDATORS.required({
             en: 'Field must be provided',
@@ -368,7 +375,6 @@ const FIELDS = {
     },
     organisationLegalName: {
         name: 'organisation-legal-name',
-        type: 'text',
         label: {
             en: 'What is the full legal name of your organisation?',
             cy: '(WELSH) What is the full legal name of your organisation, as shown on your governing document?'
@@ -379,6 +385,7 @@ const FIELDS = {
             `,
             cy: 'TODO'
         },
+        type: 'text',
         isRequired: true,
         validator: VALIDATORS.required({
             en: 'Field must be provided',
@@ -387,25 +394,24 @@ const FIELDS = {
     },
     organisationAlias: {
         name: 'organisation-alias',
-        type: 'text',
         label: { en: 'Does your organisation use a different name in your day-to-day work?', cy: '' },
+        type: 'text',
         isRequired: false,
         validator: VALIDATORS.optional
     },
     organisationAddress: {
         name: 'organisation-address',
-        autocompleteName: 'postal-code',
-        type: 'text',
-        size: 20,
         label: { en: 'What is the main or registered address of your organisation?', cy: '' },
         explanation: { en: 'Enter the postcode and search for the address.', cy: '' },
+        type: 'text',
+        size: 20,
         isRequired: true,
         validator: VALIDATORS.postcode
     },
     organisationType: {
         name: 'organisation-type',
-        type: 'radio',
         label: { en: 'What type of organisation are you?', cy: '(WELSH) What type of organisation are you?' },
+        type: 'radio',
         options: values(ORGANISATION_TYPES),
         validator: VALIDATORS.required({
             en: 'Field must be provided',
@@ -414,46 +420,51 @@ const FIELDS = {
     },
     charityNumber: {
         name: 'charity-number',
-        type: 'number',
         label: { en: 'Charity registration number', cy: '' },
         explanation: {
             en:
                 'If you are registered with OSCR, you only need to provide the last five digits of your registration number.',
             cy: ''
         },
+        type: 'number',
         isRequired: false,
         validator: VALIDATORS.charityNumber
     },
     companyNumber: {
         name: 'company-number',
-        type: 'number',
         label: { en: 'Companies house number', cy: '' },
+        type: 'number',
         isRequired: false,
         validator: VALIDATORS.companyNumber
     },
     accountingYearDate: {
         name: 'accounting-year-date',
-        type: 'date',
         label: { en: 'What is your accounting year end date?', cy: '' },
-        max: moment().format('YYYY-MM-DD'),
+        type: 'date',
+        attributes: {
+            max: moment().format('YYYY-MM-DD')
+        },
         isRequired: true,
         validator: VALIDATORS.pastDate
     },
     totalIncomeYear: {
         name: 'total-income-year',
-        type: 'currency',
         label: { en: 'What is your total income for the year?', cy: '' },
+        type: 'currency',
         isRequired: true,
         validator: VALIDATORS.required({
-            en: 'Field must be provided',
+            en: 'Provide your total income for the year',
             cy: ''
         })
     },
     mainContactName: {
         name: 'main-contact-name',
-        autocompleteName: 'name',
-        type: 'text',
         label: { en: 'Full name', cy: '' },
+        type: 'text',
+        attributes: {
+            autocomplete: 'name',
+            spellcheck: 'false'
+        },
         isRequired: true,
         validator: VALIDATORS.required({
             en: 'Enter your full name',
@@ -462,59 +473,85 @@ const FIELDS = {
     },
     mainContactDob: {
         name: 'main-contact-dob',
-        type: 'date',
-        max: moment()
-            .subtract(minApplicantAge, 'years')
-            .format('YYYY-MM-DD'),
         label: { en: 'Date of birth', cy: '' },
+        type: 'date',
+        attributes: {
+            max: moment()
+                .subtract(minApplicantAge, 'years')
+                .format('YYYY-MM-DD')
+        },
         isRequired: true,
         validator: VALIDATORS.dateOfBirth
     },
-    mainContactAddress: {
-        name: 'main-contact-address',
-        autocompleteName: 'postal-code',
+    mainContactAddressBuildingStreet: {
+        name: 'main-contact-address-building-street',
+        label: { en: 'Building and street', cy: '' },
         type: 'text',
-        size: 20,
-        label: { en: 'What is your main contact’s current home address?', cy: '' },
-        explanation: { en: 'Enter the postcode and search for the address.', cy: '' },
+        attributes: { size: 50 },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Please provide a building and street',
+            cy: ''
+        })
+    },
+    mainContactAddressTownCity: {
+        name: 'main-contact-address-town-city',
+        label: { en: 'Town or city', cy: '' },
+        type: 'text',
+        attributes: { size: 25 },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Please provide a town or city',
+            cy: ''
+        })
+    },
+    mainContactAddressCounty: {
+        name: 'main-contact-address-county',
+        label: { en: 'County', cy: '' },
+        type: 'text',
+        attributes: { size: 25 },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Please provide a county',
+            cy: ''
+        })
+    },
+    mainContactAddressPostcode: {
+        name: 'main-contact-address-postcode',
+        label: { en: 'Postcode', cy: '' },
+        type: 'text',
+        attributes: { size: 10 },
         isRequired: true,
         customRegex: POSTCODE_PATTERN,
         validator: VALIDATORS.postcode
     },
     mainContactEmail: {
         name: 'main-contact-email',
-        type: 'email',
         label: { en: 'Email', cy: '' },
         explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' },
+        type: 'email',
         isRequired: true,
         validator: VALIDATORS.emailRequired
     },
-    mainContactPhonePrimary: {
-        name: 'main-contact-phone-primary',
+    mainContactPhone: {
+        name: 'main-contact-phone',
         type: 'tel',
-        size: 30,
-        label: { en: 'Primary contact number', cy: '' },
-        explanation: { en: 'Please provide at least one contact number', cy: '' },
+        attributes: {
+            size: 30,
+            autocomplete: 'tel'
+        },
+        label: { en: 'UK telephone number', cy: '' },
         isRequired: true,
         validator: VALIDATORS.required({
-            en: 'Field must be provided',
+            en: 'Please provide a phone number',
             cy: ''
         })
     },
-    mainContactPhoneSecondary: {
-        name: 'main-contact-phone-secondary',
-        type: 'tel',
-        size: 30,
-        label: { en: 'Secondary contact number', cy: '' },
-        explanation: { en: 'A secondary contact number in case we can’t reach you on your primary number.', cy: '' },
-        validator: VALIDATORS.optional
-    },
     mainContactCommunicationNeeds: {
         name: 'main-contact-communication-needs',
-        type: 'select',
-        label: { en: 'Please tell us about any communication needs', cy: '' },
+        label: { en: 'Does this contact have any communication needs?', cy: '' },
+        type: 'radio',
         options: [
-            { value: '', label: { en: 'Select an option', cy: '' } },
             { value: 'audiotape', label: { en: 'Audiotape', cy: '' } },
             { value: 'braille', label: { en: 'Braille', cy: '' } },
             { value: 'large-print', label: { en: 'Large print', cy: '' } }
@@ -523,9 +560,12 @@ const FIELDS = {
     },
     legalContactName: {
         name: 'legal-contact-name',
-        autocompleteName: 'name',
-        type: 'text',
         label: { en: 'Full name', cy: '' },
+        type: 'text',
+        attributes: {
+            autocomplete: 'name',
+            spellcheck: 'false'
+        },
         isRequired: true,
         validator: VALIDATORS.required({
             en: 'Enter your full name',
@@ -543,9 +583,40 @@ const FIELDS = {
         name: 'legal-contact-address',
         autocompleteName: 'postal-code',
         type: 'text',
-        size: 20,
-        label: { en: 'What is your legally responsible contact’s current address?', cy: '' },
-        explanation: { en: 'Enter the postcode and search for the address.', cy: '' },
+        attributes: { size: 50 },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Please provide a building and street',
+            cy: ''
+        })
+    },
+    legalContactAddressTownCity: {
+        name: 'legal-contact-address-town-city',
+        label: { en: 'Town or city', cy: '' },
+        type: 'text',
+        attributes: { size: 25 },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Please provide a town or city',
+            cy: ''
+        })
+    },
+    legalContactAddressCounty: {
+        name: 'legal-contact-address-county',
+        label: { en: 'County', cy: '' },
+        type: 'text',
+        attributes: { size: 25 },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Please provide a county',
+            cy: ''
+        })
+    },
+    legalContactAddressPostcode: {
+        name: 'legal-contact-address-postcode',
+        label: { en: 'Postcode', cy: '' },
+        type: 'text',
+        attributes: { size: 10 },
         isRequired: true,
         customRegex: POSTCODE_PATTERN,
         validator: VALIDATORS.postcode
@@ -558,32 +629,23 @@ const FIELDS = {
         isRequired: true,
         validator: VALIDATORS.emailRequired
     },
-    legalContactPhonePrimary: {
-        name: 'legal-contact-phone-primary',
+    legalContactPhone: {
+        name: 'legal-contact-phone',
+        autocompleteName: 'tel',
         type: 'tel',
         size: 30,
-        label: { en: 'Primary contact number', cy: '' },
-        explanation: { en: 'Please provide at least one contact number', cy: '' },
+        label: { en: 'Contact number', cy: '' },
         isRequired: true,
         validator: VALIDATORS.required({
-            en: 'Field must be provided',
+            en: 'Please provide a phone number',
             cy: ''
         })
     },
-    legalContactPhoneSecondary: {
-        name: 'legal-contact-phone-secondary',
-        type: 'tel',
-        size: 30,
-        label: { en: 'Secondary contact number', cy: '' },
-        explanation: { en: 'A secondary contact number in case we can’t reach you on your primary number.', cy: '' },
-        validator: VALIDATORS.optional
-    },
     legalContactCommunicationNeeds: {
         name: 'legal-contact-communication-needs',
-        type: 'select',
-        label: { en: 'Please tell us about any communication needs', cy: '' },
+        type: 'radio',
+        label: { en: 'Does this contact have any communication needs?', cy: '' },
         options: [
-            { value: '', label: { en: 'Select an option', cy: '' } },
             { value: 'audiotape', label: { en: 'Audiotape', cy: '' } },
             { value: 'braille', label: { en: 'Braille', cy: '' } },
             { value: 'large-print', label: { en: 'Large print', cy: '' } }
@@ -592,9 +654,9 @@ const FIELDS = {
     },
     bankAccountName: {
         name: 'bank-account-name',
-        type: 'text',
         label: { en: 'Name on the bank account', cy: '' },
         explanation: { en: 'Name of your organisation as it appears on your bank statement', cy: '' },
+        type: 'text',
         isRequired: true,
         validator: VALIDATORS.required({
             en: 'Please provide the name on the account',
@@ -603,9 +665,11 @@ const FIELDS = {
     },
     bankSortCode: {
         name: 'bank-sort-code',
-        type: 'number',
-        size: 20,
         label: { en: 'Sort code', cy: '' },
+        type: 'number',
+        attributes: {
+            size: 20
+        },
         isRequired: true,
         validator: VALIDATORS.required({
             en: 'Please provide a sort code',
@@ -614,8 +678,8 @@ const FIELDS = {
     },
     bankAccountNumber: {
         name: 'bank-account-number',
-        type: 'number',
         label: { en: 'Account number', cy: '' },
+        type: 'number',
         isRequired: true,
         validator: VALIDATORS.required({
             en: 'Please provide a bank account number',
@@ -624,8 +688,8 @@ const FIELDS = {
     },
     bankBuildingSocietyNumber: {
         name: 'bank-building-society-number',
-        type: 'number',
         label: { en: 'Building society number (if applicable)', cy: '' },
+        type: 'number',
         explanation: {
             en: 'This is only applicable if your organisation’s account is with a building society.',
             cy: ''
@@ -634,8 +698,8 @@ const FIELDS = {
     },
     bankStatement: {
         name: 'bank-statement',
-        type: 'file',
         label: { en: 'Upload a bank statement', cy: '' },
+        type: 'file',
         isRequired: true,
         validator: VALIDATORS.required({
             en: 'Please provide a bank statement',
@@ -870,16 +934,20 @@ const sectionMainContact = {
 <p>The main contact must be unconnected to the legally responsible contact. By ‘unconnected’ we mean not related by blood, marriage, in a long-term relationship or people living together at the same address.</p>`,
                         cy: ''
                     },
-                    fields: [FIELDS.mainContactName, FIELDS.mainContactDob, FIELDS.mainContactAddress]
+                    fields: [FIELDS.mainContactName, FIELDS.mainContactDob]
+                },
+                {
+                    legend: { en: 'Address', cy: '' },
+                    fields: [
+                        FIELDS.mainContactAddressBuildingStreet,
+                        FIELDS.mainContactAddressTownCity,
+                        FIELDS.mainContactAddressCounty,
+                        FIELDS.mainContactAddressPostcode
+                    ]
                 },
                 {
                     legend: { en: 'Contact details', cy: '' },
-                    fields: [
-                        FIELDS.mainContactEmail,
-                        FIELDS.mainContactPhonePrimary,
-                        FIELDS.mainContactPhoneSecondary,
-                        FIELDS.mainContactCommunicationNeeds
-                    ]
+                    fields: [FIELDS.mainContactEmail, FIELDS.mainContactPhone, FIELDS.mainContactCommunicationNeeds]
                 }
             ]
         }
@@ -912,16 +980,20 @@ const sectionLegalContact = {
 <p>The position held by the legally responsible contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.</p>`,
                         cy: ''
                     },
-                    fields: [FIELDS.legalContactName, FIELDS.legalContactDob, FIELDS.legalContactAddress]
+                    fields: [FIELDS.legalContactName, FIELDS.legalContactDob]
+                },
+                {
+                    legend: { en: 'Address', cy: '' },
+                    fields: [
+                        FIELDS.legalContactAddressBuildingStreet,
+                        FIELDS.legalContactAddressTownCity,
+                        FIELDS.legalContactAddressCounty,
+                        FIELDS.legalContactAddressPostcode
+                    ]
                 },
                 {
                     legend: { en: 'Contact details', cy: '' },
-                    fields: [
-                        FIELDS.legalContactEmail,
-                        FIELDS.legalContactPhonePrimary,
-                        FIELDS.legalContactPhoneSecondary,
-                        FIELDS.legalContactCommunicationNeeds
-                    ]
+                    fields: [FIELDS.legalContactEmail, FIELDS.legalContactPhone, FIELDS.legalContactCommunicationNeeds]
                 }
             ]
         }
