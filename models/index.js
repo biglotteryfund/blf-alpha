@@ -38,14 +38,15 @@ sequelize
  * Register models and associations
  */
 const db = {};
-db.Users = sequelize.import('../models/user.js');
-db.Staff = sequelize.import('../models/staff.js');
+db.Users = sequelize.import('./user.js');
+db.Staff = sequelize.import('./staff.js');
 db.Feedback = sequelize.import('./feedback');
+db.Application = sequelize.import('./application');
 
 db.SurveyAnswer = sequelize.import('./survey');
 
-db.Order = sequelize.import('../models/materials/order.js');
-db.OrderItem = sequelize.import('../models/materials/orderItem.js');
+db.Order = sequelize.import('./materials/order.js');
+db.OrderItem = sequelize.import('./materials/orderItem.js');
 
 Object.keys(db).forEach(modelName => {
     if ('associate' in db[modelName]) {

@@ -8,6 +8,8 @@ const path = require('path');
 const Raven = require('raven');
 
 const cached = require('../../middleware/cached');
+const { requireUserAuth } = require('../../middleware/authed');
+const ApplicationService = require('../../services/applications');
 const { localify } = require('../../modules/urls');
 
 function translateForm(locale, formModel, formData) {
@@ -65,6 +67,14 @@ function translateForm(locale, formModel, formData) {
         section.steps = section.steps.map(step => translateStep(step));
         return section;
     });
+
+    if (clonedForm.termsFields) {
+        clonedForm.termsFields = clonedForm.termsFields.map(translateField);
+    }
+
+    if (clonedForm.titleField) {
+        clonedForm.titleField = translateField(clonedForm.titleField);
+    }
 
     return clonedForm;
 }
@@ -179,11 +189,13 @@ function initFormRouter(formModel) {
         res.locals.form = translateForm(req.i18n.getLocale(), formModel, getSession(req.session));
         res.locals.validation = get(validationSessionKey)(req.session);
         res.locals.FORM_STATES = FORM_STATES;
+        res.locals.user = req.user;
         res.locals.formTitle = 'Application form: ' + res.locals.form.title;
         res.locals.isBilingual = formModel.isBilingual;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
         res.locals.formBaseUrl = req.baseUrl;
+        res.locals.currentlyEditingId = req.session.currentlyEditingId;
         res.locals.breadcrumbs = [
             {
                 label: res.locals.form.title,
@@ -196,25 +208,71 @@ function initFormRouter(formModel) {
     /**
      * Route: Start page
      */
-    router.get('/', cached.noCache, function(req, res) {
-        const { startPage } = res.locals.form;
-        if (!startPage) {
-            throw new Error('No startpage found');
-        }
+    router
+        .route('/')
+        .all((req, res, next) => {
+            const { startPage } = res.locals.form;
+            if (!startPage) {
+                throw new Error('No startpage found');
+            }
+            next();
+        })
+        .get(cached.noCache, async function(req, res) {
+            const { startPage } = res.locals.form;
+            const applications = await ApplicationService.getApplicationsForUser(
+                req.user.userData.id,
+                formModel.sessionKey
+            );
+            if (startPage.template) {
+                res.render(startPage.template, {
+                    title: res.locals.form.title,
+                    applications: applications,
+                    csrfToken: req.csrfToken()
+                });
+            } else if (startPage.urlPath) {
+                res.redirect(localify(req.i18n.getLocale())(startPage.urlPath));
+            } else {
+                throw new Error('No valid startpage types found');
+            }
+        })
+        .post(formModel.titleField.validator(formModel.titleField), (req, res) => {
+            const errors = validationResult(req);
+            if (errors.isEmpty()) {
+                // create app and proceed!
+                ApplicationService.createApplication({
+                    userId: req.user.userData.id,
+                    formId: formModel.sessionKey,
+                    title: req.body['application-title']
+                })
+                    .then(application => {
+                        res.redirect(`${req.baseUrl}/edit/${application.id}`);
+                    })
+                    .catch(error => {
+                        Raven.captureException(error);
+                        return renderError(error, req, res);
+                    });
+            } else {
+                const { startPage } = res.locals.form;
+                res.render(startPage.template, {
+                    title: res.locals.form.title,
+                    csrfToken: req.csrfToken(),
+                    errors: errors.array()
+                });
+            }
+        });
 
-        const firstSection = res.locals.form.sections[0];
+    // Require login before using everything else after this
+    router.use(requireUserAuth);
 
-        if (startPage.template) {
-            res.render(startPage.template, {
-                title: res.locals.form.title,
-                startUrl: `${req.baseUrl}/${firstSection.slug}`
-            });
-        } else if (startPage.urlPath) {
-            res.redirect(localify(req.i18n.getLocale())(startPage.urlPath));
-        } else {
-            throw new Error('No valid startpage types found');
-        }
+    router.get('/edit/:applicationId', (req, res) => {
+        req.session.currentlyEditingId = req.params.applicationId;
+        req.session.save(() => {
+            const firstSection = res.locals.form.sections[0];
+            res.redirect(`${req.baseUrl}/${firstSection.slug}`);
+        });
     });
+
+    // @TODO only allow proceeding beyond this point if the user has created an application / title
 
     formModel.sections.forEach((sectionModel, sectionIndex) => {
         /**

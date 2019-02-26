@@ -245,15 +245,15 @@ const FIELDS = {
 
 <ul>
     <li>bring people together and build strong relationships in and across communities</li>
-    <li>improve the places and spaces that matter to communities</li>         
-    <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage</li>     
+    <li>improve the places and spaces that matter to communities</li>
+    <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage</li>
 </ul>
-            
+
 <p><strong>2. It's important to us that you involve your community in the design, development and delivery of the activities you're planning, so please tell us how you've done this.</strong></p>
 
 <p>Here are some ideas about what else to tell us:</p>
 
-<ul>            
+<ul>
     <li>How your project idea came about. Is it something new, or are you continuing something that has worked well previously?</li>
     <li>If you are running a one-off event, what date it will take place</li>
     <li>How long you expect your project to run</li>
@@ -592,6 +592,100 @@ const FIELDS = {
             en: 'Please provide a bank statement',
             cy: ''
         })
+    },
+    terms: [
+        {
+            name: 'terms-agreement-1',
+            type: 'checkbox',
+            label: {
+                en:
+                    'You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.',
+                cy: ''
+            },
+            options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Please provide your agreement',
+                cy: ''
+            })
+        },
+        {
+            name: 'terms-agreement-2',
+            type: 'checkbox',
+            label: {
+                en:
+                    'All the information you have provided in your application is accurate and complete; and you will notify us of any changes.',
+                cy: ''
+            },
+            options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Please provide your agreement',
+                cy: ''
+            })
+        },
+        {
+            name: 'terms-agreement-3',
+            type: 'checkbox',
+            label: {
+                en:
+                    'You understand that we will use any personal information you have provided for the purposes described under the Data Protection Statement.',
+                cy: ''
+            },
+            options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Please provide your agreement',
+                cy: ''
+            })
+        },
+        {
+            name: 'terms-agreement-4',
+            type: 'checkbox',
+            label: {
+                en:
+                    'If information about this application is requested under the Freedom of Information Act, we will release it in line with our Freedom of Information policy.',
+                cy: ''
+            },
+            options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Please provide your agreement',
+                cy: ''
+            })
+        },
+        {
+            name: 'terms-person-name',
+            autocompleteName: 'name',
+            type: 'text',
+            label: { en: 'Full name of person completing this form', cy: '' },
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Enter the full name',
+                cy: ''
+            })
+        },
+        {
+            name: 'terms-person-position',
+            autocompleteName: 'position',
+            type: 'text',
+            label: { en: 'Position in organisation', cy: '' },
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Enter the position',
+                cy: ''
+            })
+        }
+    ],
+    applicationTitle: {
+        name: 'application-title',
+        type: 'text',
+        label: { en: 'Funding application title', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.required({
+            en: 'Please provide a title',
+            cy: ''
+        })
     }
 };
 
@@ -838,7 +932,7 @@ const sectionBankDetails = {
 
     <p>Your statement needs to be less than three months old. For bank accounts opened within the last three months, we can accept a bank welcome letter. This must confirm the date your account was opened, account name, account number and sort code.</p>
 
-    <p>If you are a school who uses a local authority bank account, please attach a letter from the local authority that confirms your school name, the bank account name and number and sort code. The letter must be on local authority headed paper and dated. Other statutory bodies can attach a letter from their finance department that confirms the details of the bank account funding would be paid into.</p>                 
+    <p>If you are a school who uses a local authority bank account, please attach a letter from the local authority that confirms your school name, the bank account name and number and sort code. The letter must be on local authority headed paper and dated. Other statutory bodies can attach a letter from their finance department that confirms the details of the bank account funding would be paid into.</p>
                         `,
                         cy: ''
                     },
@@ -877,6 +971,8 @@ module.exports = {
         isBilingual: true,
         sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionLegalContact, sectionBankDetails],
         processor: processor,
+        termsFields: FIELDS.terms,
+        titleField: FIELDS.applicationTitle,
         startPage: { template: path.resolve(__dirname, '../views/startpage') },
         successStep: { template: path.resolve(__dirname, '../views/success') }
     }

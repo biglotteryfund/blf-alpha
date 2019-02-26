@@ -1,6 +1,7 @@
-{% from "components/buttons.njk" import startButton %}
+{% from "components/buttons.njk" import startButton, startButtonSubmit %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
+{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
 
 {% extends "layouts/main.njk" %}
 
@@ -12,10 +13,35 @@
                 suffix = copy.description | safe
             ) }}
 
-            <h2>Introduction</h2>
-            <p>Form intro goes here</p>
+            {% if applications %}
+                <h2>Your existing applications</h2>
+                <ul>
+                    {% for application in applications %}
+                        <li>
+                            <a href="{{ formBaseUrl }}/edit/{{ application.id }}">{{ application.application_title }}</a>
+                            (Created {{ formatDate(application.createdAt, DATE_FORMATS.full) }})
 
-            {{ startButton(startUrl) }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <h2>Start a new application</h2>
+            <p>
+                First, give this application a name so you can keep track of it. <br />
+                <strong>Only you can see this information, it won't be part of your assessment.</strong>
+            </p>
+
+            {{ formErrors(errors = errors) }}
+
+            <form method="post" action="">
+                {{ formField(form.titleField) }}
+                {% if csrfToken %}
+                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                {% endif %}
+                {{ startButtonSubmit('Start this application') }}
+            </form>
+
         {% endcall %}
     </main>
 {% endblock %}

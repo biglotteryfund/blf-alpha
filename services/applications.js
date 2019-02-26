@@ -1,17 +1,62 @@
 'use strict';
-const request = require('request-promise-native');
-const { APPLICATIONS_SERVICE_ENDPOINT } = require('../modules/secrets');
+const moment = require('moment');
+const { Op } = require('sequelize');
 
-function store(formModel, applicationData) {
-    return request.post(APPLICATIONS_SERVICE_ENDPOINT, {
-        json: {
-            formId: formModel.id,
-            shortCode: formModel.shortCode,
-            applicationData: applicationData
+const { Application } = require('../models');
+
+function makeTitle(formId) {
+    return `${formId} - ${moment().toISOString()}`;
+}
+
+function createApplication({ userId, formId, title = false }) {
+    if (!title) {
+        title = makeTitle(formId);
+    }
+    return Application.create({
+        user_id: userId,
+        form_id: formId,
+        application_title: title,
+        application_data: ''
+    });
+}
+
+function getApplicationsForUser(userId, formId) {
+    return Application.findAll({
+        where: {
+            user_id: {
+                [Op.eq]: userId
+            },
+            form_id: {
+                [Op.eq]: formId
+            }
         }
     });
 }
 
+// function findOrCreateApplication(applicationData, cb) {
+//     return Application.findOrCreate({
+//         where: {
+//             id: {
+//                 [Op.eq]: applicationData.id
+//             }
+//         },
+//         defaults: {
+//             user_id: applicationData.userId,
+//             form_id: applicationData.formId,
+//             application_title: applicationData.title || makeTitle(applicationData.formId),
+//             application_data: ''
+//         }
+//     })
+//         .spread((application, wasCreated) => {
+//             return cb(null, { application, wasCreated });
+//         })
+//         .catch(err => {
+//             return cb(err, null);
+//         });
+// }
+
 module.exports = {
-    store
+    createApplication,
+    getApplicationsForUser
+    // findOrCreateApplication
 };
