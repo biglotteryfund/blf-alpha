@@ -3,7 +3,7 @@
 const httpMocks = require('node-mocks-http');
 const { validationResult } = require('express-validator/check');
 
-const { VALIDATORS } = require('../form-model');
+const validators = require('./validators');
 
 describe('form validators', () => {
     function requestWithBody(body) {
@@ -22,7 +22,7 @@ describe('form validators', () => {
     }
 
     describe('required', () => {
-        const validatorFn = VALIDATORS.required({ en: 'Value must be provided', cy: '' })({
+        const validatorFn = validators.required({ en: 'Value must be provided', cy: '' })({
             name: 'example'
         });
 
@@ -48,7 +48,7 @@ describe('form validators', () => {
     });
 
     describe('email', () => {
-        const validatorFn = VALIDATORS.email({
+        const validatorFn = validators.email({
             name: 'email'
         });
 
