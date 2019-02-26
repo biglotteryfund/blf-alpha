@@ -29,34 +29,42 @@ function getApplicationsForUser(userId, formId) {
             form_id: {
                 [Op.eq]: formId
             }
+        },
+        order: [['updatedAt', 'DESC']]
+    });
+}
+
+function getApplicationById(formId, id) {
+    return Application.findOne({
+        where: {
+            id: {
+                [Op.eq]: id
+            },
+            form_id: {
+                [Op.eq]: formId
+            }
         }
     });
 }
 
-// function findOrCreateApplication(applicationData, cb) {
-//     return Application.findOrCreate({
-//         where: {
-//             id: {
-//                 [Op.eq]: applicationData.id
-//             }
-//         },
-//         defaults: {
-//             user_id: applicationData.userId,
-//             form_id: applicationData.formId,
-//             application_title: applicationData.title || makeTitle(applicationData.formId),
-//             application_data: ''
-//         }
-//     })
-//         .spread((application, wasCreated) => {
-//             return cb(null, { application, wasCreated });
-//         })
-//         .catch(err => {
-//             return cb(err, null);
-//         });
-// }
+function updateApplication(id, data) {
+    return Application.update(
+        {
+            application_data: data
+        },
+        {
+            where: {
+                id: {
+                    [Op.eq]: id
+                }
+            }
+        }
+    );
+}
 
 module.exports = {
     createApplication,
-    getApplicationsForUser
-    // findOrCreateApplication
+    getApplicationsForUser,
+    getApplicationById,
+    updateApplication
 };

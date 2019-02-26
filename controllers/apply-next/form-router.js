@@ -180,13 +180,22 @@ const getAllFormFields = formModel => {
 
 function initFormRouter(formModel) {
     const router = express.Router();
+    // @TODO replace this with a db call
     const getSession = getOr({}, formModel.sessionKey);
-    const setSession = (session, data) => set(session, formModel.sessionKey, { ...getSession(session), ...data });
     const validationSessionKey = `validation.${formModel.sessionKey}`;
 
-    router.use(cached.csrfProtection, (req, res, next) => {
+    router.use(cached.csrfProtection, async (req, res, next) => {
+        let applicationData = {};
+        if (req.session.currentlyEditingId) {
+            applicationData = await ApplicationService.getApplicationById(
+                formModel.sessionKey,
+                req.session.currentlyEditingId
+            );
+        }
+
         // Translate the form object for each request and populate it with session data
-        res.locals.form = translateForm(req.i18n.getLocale(), formModel, getSession(req.session));
+        res.locals.currentApplicationData = applicationData ? applicationData.application_data : false;
+        res.locals.form = translateForm(req.i18n.getLocale(), formModel, res.locals.currentApplicationData);
         res.locals.validation = get(validationSessionKey)(req.session);
         res.locals.FORM_STATES = FORM_STATES;
         res.locals.user = req.user;
@@ -264,12 +273,16 @@ function initFormRouter(formModel) {
     // Require login before using everything else after this
     router.use(requireUserAuth);
 
-    router.get('/edit/:applicationId', (req, res) => {
-        req.session.currentlyEditingId = req.params.applicationId;
-        req.session.save(() => {
-            const firstSection = res.locals.form.sections[0];
-            res.redirect(`${req.baseUrl}/${firstSection.slug}`);
-        });
+    router.get('/edit/:applicationId', async (req, res) => {
+        if (req.params.applicationId) {
+            req.session.currentlyEditingId = req.params.applicationId;
+            req.session.save(() => {
+                const firstSection = res.locals.form.sections[0];
+                res.redirect(`${req.baseUrl}/${firstSection.slug}`);
+            });
+        } else {
+            res.redirect(`${req.baseUrl}`);
+        }
     });
 
     // @TODO only allow proceeding beyond this point if the user has created an application / title
@@ -349,8 +362,14 @@ function initFormRouter(formModel) {
                 }
             }
 
-            function handleSubmitStep(req, res) {
-                setSession(req.session, matchedData(req, { locations: ['body'] }));
+            async function handleSubmitStep(req, res) {
+                const newData = {
+                    ...res.locals.currentApplicationData,
+                    ...matchedData(req, { locations: ['body'] })
+                };
+
+                await ApplicationService.updateApplication(req.session.currentlyEditingId, newData);
+
                 req.session.save(() => {
                     const validationPath = `${validationSessionKey}.${sectionModel.slug}.step-${stepIndex}]`;
                     const errors = validationResult(req);
