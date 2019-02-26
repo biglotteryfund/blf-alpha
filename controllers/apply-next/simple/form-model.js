@@ -7,12 +7,6 @@ const moment = require('moment');
 
 const minApplicantAge = 16;
 
-// Allows us to use postcode validation on the client-side
-// via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
-// we have to double-escape the regex patterns here
-// to output it as a string for the HTML pattern attribute
-const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
-
 /**
  * @typedef {Object} LocaleString
  * @property {string} en
@@ -230,6 +224,71 @@ const VALIDATORS = {
     }
 };
 
+// Allows us to use postcode validation on the client-side
+// via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
+// we have to double-escape the regex patterns here
+// to output it as a string for the HTML pattern attribute
+
+function postcodeField(props) {
+    const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
+
+    return {
+        ...{
+            type: 'text',
+            attributes: {
+                size: 10,
+                autocomplete: 'postal-code',
+                pattern: POSTCODE_PATTERN
+            },
+            isRequired: true,
+            validator: VALIDATORS.postcode
+        },
+        ...props
+    };
+}
+
+function addressFields(prefix) {
+    return [
+        {
+            name: `${prefix}-address-building-street`,
+            label: { en: 'Building and street', cy: '' },
+            type: 'text',
+            attributes: { size: 50 },
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Please provide a building and street',
+                cy: ''
+            })
+        },
+        {
+            name: `${prefix}-address-town-city`,
+            label: { en: 'Town or city', cy: '' },
+            type: 'text',
+            attributes: { size: 25 },
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Please provide a town or city',
+                cy: ''
+            })
+        },
+        {
+            name: `${prefix}-address-county`,
+            label: { en: 'County', cy: '' },
+            type: 'text',
+            attributes: { size: 25 },
+            isRequired: true,
+            validator: VALIDATORS.required({
+                en: 'Please provide a county',
+                cy: ''
+            })
+        },
+        postcodeField({
+            name: `${prefix}-address-postcode`,
+            label: { en: 'Postcode', cy: '' }
+        })
+    ];
+}
+
 const FIELDS = {
     projectStartDate: {
         name: 'project-start-date',
@@ -252,7 +311,7 @@ const FIELDS = {
         isRequired: true,
         validator: VALIDATORS.futureDate
     },
-    projectPostcode: {
+    projectPostcode: postcodeField({
         name: 'project-postcode',
         label: {
             en: 'What is the postcode of the location where your project will take place?',
@@ -263,13 +322,8 @@ const FIELDS = {
                 'If your project will take place across different locations, please use the postcode where most of the project will take place.',
             cy:
                 '(WELSH) If your project will take place across different locations, please use the postcode where most of the project will take place.'
-        },
-        type: 'text',
-        attributes: { autocomplete: 'postal-code' },
-        isRequired: true,
-        customRegex: POSTCODE_PATTERN,
-        validator: VALIDATORS.postcode
-    },
+        }
+    }),
     beneficiaryNumbers: {
         name: 'beneficiary-numbers',
         label: {
@@ -399,15 +453,6 @@ const FIELDS = {
         isRequired: false,
         validator: VALIDATORS.optional
     },
-    organisationAddress: {
-        name: 'organisation-address',
-        label: { en: 'What is the main or registered address of your organisation?', cy: '' },
-        explanation: { en: 'Enter the postcode and search for the address.', cy: '' },
-        type: 'text',
-        size: 20,
-        isRequired: true,
-        validator: VALIDATORS.postcode
-    },
     organisationType: {
         name: 'organisation-type',
         label: { en: 'What type of organisation are you?', cy: '(WELSH) What type of organisation are you?' },
@@ -482,48 +527,6 @@ const FIELDS = {
         },
         isRequired: true,
         validator: VALIDATORS.dateOfBirth
-    },
-    mainContactAddressBuildingStreet: {
-        name: 'main-contact-address-building-street',
-        label: { en: 'Building and street', cy: '' },
-        type: 'text',
-        attributes: { size: 50 },
-        isRequired: true,
-        validator: VALIDATORS.required({
-            en: 'Please provide a building and street',
-            cy: ''
-        })
-    },
-    mainContactAddressTownCity: {
-        name: 'main-contact-address-town-city',
-        label: { en: 'Town or city', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        validator: VALIDATORS.required({
-            en: 'Please provide a town or city',
-            cy: ''
-        })
-    },
-    mainContactAddressCounty: {
-        name: 'main-contact-address-county',
-        label: { en: 'County', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        validator: VALIDATORS.required({
-            en: 'Please provide a county',
-            cy: ''
-        })
-    },
-    mainContactAddressPostcode: {
-        name: 'main-contact-address-postcode',
-        label: { en: 'Postcode', cy: '' },
-        type: 'text',
-        attributes: { size: 10 },
-        isRequired: true,
-        customRegex: POSTCODE_PATTERN,
-        validator: VALIDATORS.postcode
     },
     mainContactEmail: {
         name: 'main-contact-email',
@@ -612,15 +615,10 @@ const FIELDS = {
             cy: ''
         })
     },
-    legalContactAddressPostcode: {
+    legalContactAddressPostcode: postcodeField({
         name: 'legal-contact-address-postcode',
-        label: { en: 'Postcode', cy: '' },
-        type: 'text',
-        attributes: { size: 10 },
-        isRequired: true,
-        customRegex: POSTCODE_PATTERN,
-        validator: VALIDATORS.postcode
-    },
+        label: { en: 'Postcode', cy: '' }
+    }),
     legalContactEmail: {
         name: 'legal-contact-email',
         type: 'email',
@@ -898,7 +896,11 @@ const sectionOrganisation = {
             fieldsets: [
                 {
                     legend: { en: 'Organisation details', cy: '' },
-                    fields: [FIELDS.organisationLegalName, FIELDS.organisationAlias, FIELDS.organisationAddress]
+                    fields: [FIELDS.organisationLegalName, FIELDS.organisationAlias]
+                },
+                {
+                    legend: { en: 'What is the main or registered address of your organisation?', cy: '' },
+                    fields: addressFields('organisation')
                 }
             ]
         },
@@ -971,12 +973,7 @@ const sectionMainContact = {
                 },
                 {
                     legend: { en: 'Address', cy: '' },
-                    fields: [
-                        FIELDS.mainContactAddressBuildingStreet,
-                        FIELDS.mainContactAddressTownCity,
-                        FIELDS.mainContactAddressCounty,
-                        FIELDS.mainContactAddressPostcode
-                    ]
+                    fields: addressFields('main-contact')
                 },
                 {
                     legend: { en: 'Contact details', cy: '' },
@@ -1017,12 +1014,7 @@ const sectionLegalContact = {
                 },
                 {
                     legend: { en: 'Address', cy: '' },
-                    fields: [
-                        FIELDS.legalContactAddressBuildingStreet,
-                        FIELDS.legalContactAddressTownCity,
-                        FIELDS.legalContactAddressCounty,
-                        FIELDS.legalContactAddressPostcode
-                    ]
+                    fields: addressFields('legal-contact')
                 },
                 {
                     legend: { en: 'Contact details', cy: '' },
