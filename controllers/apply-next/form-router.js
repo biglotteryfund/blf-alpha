@@ -300,24 +300,8 @@ function initFormRouter(formModel) {
     });
 
     formModel.sections.forEach((sectionModel, sectionIndex) => {
-        /**
-         * Route: Form sections
-         */
         router.get(`/${sectionModel.slug}`, (req, res) => {
-            const sectionLocalised = res.locals.form.sections.find(s => s.slug === sectionModel.slug);
-            if (sectionLocalised.summary) {
-                res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-                    label: sectionLocalised.title
-                });
-                res.render(path.resolve(__dirname, './views/section-summary'), {
-                    title: `${sectionLocalised.title} | ${res.locals.form.title}`,
-                    section: sectionLocalised,
-                    backUrl: null, // @TODO: Determine backUrl
-                    nextUrl: `${req.baseUrl}/${sectionModel.slug}/1`
-                });
-            } else {
-                res.redirect(`${req.baseUrl}/${sectionModel.slug}/1`);
-            }
+            res.redirect(`${req.baseUrl}/${sectionModel.slug}/1`);
         });
 
         /**
@@ -419,20 +403,16 @@ function initFormRouter(formModel) {
         });
     }
 
-    /**
-     * Route: Summary
-     */
-    const allFieldValidators = getAllFields(formModel).map(field => {
-        return field.validator(field);
-    });
-
-    const injectFormBody = (req, res, next) => {
+    function injectFormBody(req, res, next) {
         // Fake a post body so the validators can run as if
         // the entire form was submitted in one go
         req.body = res.locals.currentApplicationData;
         next();
-    };
+    }
 
+    /**
+     * Route: Summary
+     */
     router
         .route('/summary')
         .get(function(req, res) {
@@ -444,7 +424,7 @@ function initFormRouter(formModel) {
                 csrfToken: req.csrfToken()
             });
         })
-        .post(injectFormBody, allFieldValidators, async function(req, res) {
+        .post(injectFormBody, getAllFields(formModel).map(f => f.validator(f)), async function(req, res) {
             const errors = validationResult(req);
             if (errors.isEmpty()) {
                 // send them to T&Cs
