@@ -57,6 +57,8 @@
         {% if field.value %}value="{{ field.value }}"{% endif %}
         {% if field.customRegex %}pattern="{{ field.customRegex }}"{% endif %}
         {% if field.isRequired %}required aria-required="true"{% endif %}
+        {% if field.min %}min="{{ field.min }}"{% endif %}
+        {% if field.max %}max="{{ field.max }}"{% endif %}
     />
 {% endmacro %}
 
