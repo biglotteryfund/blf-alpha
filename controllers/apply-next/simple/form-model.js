@@ -315,12 +315,12 @@ const FIELDS = {
         name: 'organisation-legal-name',
         type: 'text',
         label: {
-            en: 'What is the full legal name of your organisation, as shown on your governing document?',
+            en: 'What is the full legal name of your organisation?',
             cy: '(WELSH) What is the full legal name of your organisation, as shown on your governing document?'
         },
         explanation: {
             en: `
-            <p>Your governing document could be called one of several things, depending on the type of organisation you're applying on behalf of. It may be called a constitution, trust deed, memorandum and articles of association, or something else entirely.</p>
+            <p>This must be as shown on your <strong>governing document</strong>. Your governing document could be called one of several things, depending on the type of organisation you're applying on behalf of. It may be called a constitution, trust deed, memorandum and articles of association, or something else entirely.</p>
             `,
             cy: 'TODO'
         },
@@ -329,6 +329,22 @@ const FIELDS = {
             en: 'Field must be provided',
             cy: ''
         })
+    },
+    organisationAlias: {
+        name: 'organisation-alias',
+        type: 'text',
+        label: { en: 'Does your organisation use a different name in your day-to-day work?', cy: '' },
+        isRequired: false,
+        validator: VALIDATORS.optional
+    },
+    organisationAddress: {
+        name: 'organisation-address',
+        type: 'text',
+        size: 20,
+        label: { en: 'What is the main or registered address of your organisation?', cy: '' },
+        explanation: { en: 'Enter the postcode and search for the address.', cy: '' },
+        isRequired: true,
+        validator: VALIDATORS.postcode
     },
     organisationType: {
         name: 'organisation-type',
@@ -726,7 +742,7 @@ const sectionOrganisation = {
             fieldsets: [
                 {
                     legend: { en: 'Organisation details', cy: '' },
-                    fields: [FIELDS.organisationLegalName]
+                    fields: [FIELDS.organisationLegalName, FIELDS.organisationAlias, FIELDS.organisationAddress]
                 }
             ]
         },
@@ -919,11 +935,12 @@ const sectionBankDetails = {
 
 /**
  * @typedef {Object} FormModel
- * @property {string} sessionKey
+ * @property {String} sessionKey
  * @property {LocaleString} title
  * @property {boolean} isBilingual
  * @property {Array<Section>} sections
- * @property {Object} startPage,
+ * @property {Function} processor
+ * @property {Object} startPage
  * @property {Object} successStep
  */
 
