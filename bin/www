@@ -92,7 +92,7 @@ function onListening() {
     const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     debug(`App now running on ${bind}`);
 
-    if (!!process.env.ENABLE_BROWSER_SYNC === true) {
+    if (process.env.ENABLE_BROWSER_SYNC === 'true') {
         try {
             const browserSync = require('browser-sync');
             browserSync({
