@@ -1,5 +1,5 @@
 'use strict';
-const { cloneDeep, find, flatMap, isEmpty, set, concat, unset, pickBy, identity } = require('lodash');
+const { cloneDeep, concat, find, flatMap, isEmpty, pick, set, unset } = require('lodash');
 const { get, getOr } = require('lodash/fp');
 const { matchedData } = require('express-validator/filter');
 const { validationResult } = require('express-validator/check');
@@ -98,6 +98,18 @@ const FORM_STATES = {
     }
 };
 
+function getFieldsForStep(step) {
+    return flatMap(step.fieldsets, fieldset => fieldset.fields);
+}
+
+function getFieldsForSection(section) {
+    return flatMap(section.steps, getFieldsForStep);
+}
+
+function getAllFields(formModel) {
+    return flatMap(formModel.sections, getFieldsForSection);
+}
+
 /**
  * Build up a set of state parameters for steps, sections, and the form itself
  * eg. to show status on the summary page
@@ -112,17 +124,10 @@ function validateFormState(form, formData, sessionValidation) {
                 step.state = FORM_STATES.complete;
                 step.notRequired = true;
             } else {
-                // See if this step's fieldsets are all empty (as opposed to invalid)
-                const stepIsEmpty = isEmpty(
-                    pickBy(
-                        step.fieldsets.reduce((acc, fieldset) => {
-                            return concat(fieldset.fields.map(f => f.value), acc);
-                        }, []),
-                        identity
-                    )
-                );
+                const fieldsForStep = getFieldsForStep(step);
+                const stepData = pick(formData, fieldsForStep.map(field => field.name));
 
-                if (stepIsEmpty) {
+                if (isEmpty(stepData)) {
                     step.state = FORM_STATES.empty;
                 } else {
                     // @TODO construct this via a function
@@ -164,19 +169,6 @@ function validateFormState(form, formData, sessionValidation) {
     }
     return clonedForm;
 }
-
-// @TODO flatmap some of this?
-const getAllFormFields = formModel => {
-    let allFields = [];
-    formModel.sections.forEach(section => {
-        section.steps.forEach(step => {
-            step.fieldsets.forEach(fieldset => {
-                fieldset.fields.forEach(field => allFields.push(field));
-            });
-        });
-    });
-    return allFields;
-};
 
 function initFormRouter(formModel) {
     const router = express.Router();
@@ -435,7 +427,9 @@ function initFormRouter(formModel) {
     /**
      * Route: Summary
      */
-    const validateAllFields = getAllFormFields(formModel).map(f => f.validator(f));
+    const allFieldValidators = getAllFields(formModel).map(field => {
+        return field.validator(field);
+    });
 
     const injectFormBody = (req, res, next) => {
         // Fake a post body so the validators can run as if
@@ -455,7 +449,7 @@ function initFormRouter(formModel) {
                 csrfToken: req.csrfToken()
             });
         })
-        .post(injectFormBody, validateAllFields, async function(req, res) {
+        .post(injectFormBody, allFieldValidators, async function(req, res) {
             const errors = validationResult(req);
             if (errors.isEmpty()) {
                 // send them to T&Cs
