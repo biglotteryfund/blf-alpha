@@ -3,6 +3,15 @@ const path = require('path');
 const { get, includes, values } = require('lodash');
 const { check } = require('express-validator/check');
 const processor = require('./processor');
+const moment = require('moment');
+
+const minApplicantAge = 16;
+
+// Allows us to use postcode validation on the client-side
+// via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
+// we have to double-escape the regex patterns here
+// to output it as a string for the HTML pattern attribute
+const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
 
 /**
  * @typedef {Object} LocaleString
@@ -72,7 +81,7 @@ const ORGANISATION_TYPES = {
     },
     communityInterestCompany: {
         value: 'community-interest-company',
-        label: { en: 'Communit interest company (CIC)', cy: '' }
+        label: { en: 'Community interest company (CIC)', cy: '' }
     },
     school: {
         value: 'school',
@@ -129,6 +138,19 @@ const VALIDATORS = {
                 })
             );
     },
+    emailRequired: function(field) {
+        return check(field.name)
+            .trim()
+            .not()
+            .isEmpty()
+            .isEmail()
+            .withMessage(
+                localiseMessage({
+                    en: 'Please provide a valid email address',
+                    cy: ''
+                })
+            );
+    },
     postcode: function(field) {
         return check(field.name)
             .isPostalCode('GB')
@@ -140,11 +162,36 @@ const VALIDATORS = {
             );
     },
     futureDate: function(field) {
+        const minFutureDate = field.min ? moment(field.min, 'YYYY-MM-DD') : moment();
         return check(field.name)
-            .isAfter()
+            .isAfter(minFutureDate.toISOString())
             .withMessage(
                 localiseMessage({
                     en: 'Date must be in the future',
+                    cy: 'WELSH ERROR'
+                })
+            );
+    },
+    pastDate: function(field) {
+        return check(field.name)
+            .isBefore(moment().toISOString())
+            .withMessage(
+                localiseMessage({
+                    en: 'Date must be in the past',
+                    cy: 'WELSH ERROR'
+                })
+            );
+    },
+    dateOfBirth: function(field) {
+        return check(field.name)
+            .isBefore(
+                moment()
+                    .subtract(minApplicantAge, 'years')
+                    .toISOString()
+            )
+            .withMessage(
+                localiseMessage({
+                    en: `Date of birth must be over ${minApplicantAge} years ago`,
                     cy: 'WELSH ERROR'
                 })
             );
@@ -194,10 +241,14 @@ const FIELDS = {
                 '(WELSH) This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.'
         },
         isRequired: true,
+        min: moment()
+            .add(12, 'weeks')
+            .format('YYYY-MM-DD'),
         validator: VALIDATORS.futureDate
     },
     projectPostcode: {
         name: 'project-postcode',
+        autocompleteName: 'postal-code',
         type: 'text',
         label: {
             en: 'What is the postcode of the location where your project will take place?',
@@ -210,6 +261,7 @@ const FIELDS = {
                 '(WELSH) If your project will take place across different locations, please use the postcode where most of the project will take place.'
         },
         isRequired: true,
+        customRegex: POSTCODE_PATTERN,
         validator: VALIDATORS.postcode
     },
     beneficiaryNumbers: {
@@ -245,15 +297,15 @@ const FIELDS = {
 
 <ul>
     <li>bring people together and build strong relationships in and across communities</li>
-    <li>improve the places and spaces that matter to communities</li>
-    <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage</li>
+    <li>improve the places and spaces that matter to communities</li>         
+    <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage</li>     
 </ul>
-
+            
 <p><strong>2. It's important to us that you involve your community in the design, development and delivery of the activities you're planning, so please tell us how you've done this.</strong></p>
 
 <p>Here are some ideas about what else to tell us:</p>
 
-<ul>
+<ul>            
     <li>How your project idea came about. Is it something new, or are you continuing something that has worked well previously?</li>
     <li>If you are running a one-off event, what date it will take place</li>
     <li>How long you expect your project to run</li>
@@ -358,7 +410,7 @@ const FIELDS = {
     },
     charityNumber: {
         name: 'charity-number',
-        type: 'text',
+        type: 'number',
         label: { en: 'Charity registration number', cy: '' },
         explanation: {
             en:
@@ -370,7 +422,7 @@ const FIELDS = {
     },
     companyNumber: {
         name: 'company-number',
-        type: 'text',
+        type: 'number',
         label: { en: 'Companies house number', cy: '' },
         isRequired: false,
         validator: VALIDATORS.companyNumber
@@ -379,11 +431,9 @@ const FIELDS = {
         name: 'accounting-year-date',
         type: 'date',
         label: { en: 'What is your accounting year end date?', cy: '' },
+        max: moment().format('YYYY-MM-DD'),
         isRequired: true,
-        validator: VALIDATORS.required({
-            en: 'Field must be provided',
-            cy: ''
-        })
+        validator: VALIDATORS.pastDate
     },
     totalIncomeYear: {
         name: 'total-income-year',
@@ -409,20 +459,22 @@ const FIELDS = {
     mainContactDob: {
         name: 'main-contact-dob',
         type: 'date',
+        max: moment()
+            .subtract(minApplicantAge, 'years')
+            .format('YYYY-MM-DD'),
         label: { en: 'Date of birth', cy: '' },
         isRequired: true,
-        validator: VALIDATORS.required({
-            en: 'Field must be provided',
-            cy: ''
-        })
+        validator: VALIDATORS.dateOfBirth
     },
     mainContactAddress: {
         name: 'main-contact-address',
+        autocompleteName: 'postal-code',
         type: 'text',
         size: 20,
         label: { en: 'What is your main contact’s current home address?', cy: '' },
         explanation: { en: 'Enter the postcode and search for the address.', cy: '' },
         isRequired: true,
+        customRegex: POSTCODE_PATTERN,
         validator: VALIDATORS.postcode
     },
     mainContactEmail: {
@@ -431,10 +483,7 @@ const FIELDS = {
         label: { en: 'Email', cy: '' },
         explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' },
         isRequired: true,
-        validator: VALIDATORS.required({
-            en: 'Field must be provided',
-            cy: ''
-        })
+        validator: VALIDATORS.emailRequired
     },
     mainContactPhonePrimary: {
         name: 'main-contact-phone-primary',
@@ -484,18 +533,17 @@ const FIELDS = {
         type: 'date',
         label: { en: 'Date of birth', cy: '' },
         isRequired: true,
-        validator: VALIDATORS.required({
-            en: 'Field must be provided',
-            cy: ''
-        })
+        validator: VALIDATORS.dateOfBirth
     },
     legalContactAddress: {
         name: 'legal-contact-address',
+        autocompleteName: 'postal-code',
         type: 'text',
         size: 20,
         label: { en: 'What is your legally responsible contact’s current address?', cy: '' },
         explanation: { en: 'Enter the postcode and search for the address.', cy: '' },
         isRequired: true,
+        customRegex: POSTCODE_PATTERN,
         validator: VALIDATORS.postcode
     },
     legalContactEmail: {
@@ -504,10 +552,7 @@ const FIELDS = {
         label: { en: 'Email', cy: '' },
         explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' },
         isRequired: true,
-        validator: VALIDATORS.required({
-            en: 'Field must be provided',
-            cy: ''
-        })
+        validator: VALIDATORS.emailRequired
     },
     legalContactPhonePrimary: {
         name: 'legal-contact-phone-primary',
@@ -554,7 +599,7 @@ const FIELDS = {
     },
     bankSortCode: {
         name: 'bank-sort-code',
-        type: 'text',
+        type: 'number',
         size: 20,
         label: { en: 'Sort code', cy: '' },
         isRequired: true,
@@ -565,7 +610,7 @@ const FIELDS = {
     },
     bankAccountNumber: {
         name: 'bank-account-number',
-        type: 'text',
+        type: 'number',
         label: { en: 'Account number', cy: '' },
         isRequired: true,
         validator: VALIDATORS.required({
@@ -575,7 +620,7 @@ const FIELDS = {
     },
     bankBuildingSocietyNumber: {
         name: 'bank-building-society-number',
-        type: 'text',
+        type: 'number',
         label: { en: 'Building society number (if applicable)', cy: '' },
         explanation: {
             en: 'This is only applicable if your organisation’s account is with a building society.',
@@ -932,7 +977,7 @@ const sectionBankDetails = {
 
     <p>Your statement needs to be less than three months old. For bank accounts opened within the last three months, we can accept a bank welcome letter. This must confirm the date your account was opened, account name, account number and sort code.</p>
 
-    <p>If you are a school who uses a local authority bank account, please attach a letter from the local authority that confirms your school name, the bank account name and number and sort code. The letter must be on local authority headed paper and dated. Other statutory bodies can attach a letter from their finance department that confirms the details of the bank account funding would be paid into.</p>
+    <p>If you are a school who uses a local authority bank account, please attach a letter from the local authority that confirms your school name, the bank account name and number and sort code. The letter must be on local authority headed paper and dated. Other statutory bodies can attach a letter from their finance department that confirms the details of the bank account funding would be paid into.</p>                 
                         `,
                         cy: ''
                     },
