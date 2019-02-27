@@ -11,7 +11,7 @@ const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
 const ApplicationService = require('../../services/applications');
 const { localify } = require('../../modules/urls');
-const { FORM_STATES, findNextMatchingStepIndex, getAllFields, prepareForm, validateFormState } = require('./helpers');
+const { FORM_STATES, findNextMatchingStepIndex, prepareForm, validateFormState } = require('./helpers');
 
 function initFormRouter(formModel) {
     const router = express.Router();
@@ -185,11 +185,11 @@ function initFormRouter(formModel) {
                     }
                 );
 
-                const nextMatchingStepIndex = findNextMatchingStepIndex(
-                    sectionModel.steps,
-                    stepIndex,
-                    currentApplicationData
-                );
+                const nextMatchingStepIndex = findNextMatchingStepIndex({
+                    steps: sectionModel.steps,
+                    startIndex: stepIndex,
+                    formData: currentApplicationData
+                });
 
                 if (nextMatchingStepIndex === stepIndex) {
                     res.render(path.resolve(__dirname, './views/step'), {
@@ -218,11 +218,11 @@ function initFormRouter(formModel) {
                         // If a step has no errors, then mark it as valid
                         res.locals.setSessionData(validationPath, FORM_STATES.complete);
                         req.session.save(() => {
-                            const nextMatchingStepIndex = findNextMatchingStepIndex(
-                                sectionModel.steps,
-                                stepIndex + 1,
-                                res.locals.currentApplicationData
-                            );
+                            const nextMatchingStepIndex = findNextMatchingStepIndex({
+                                steps: sectionModel.steps,
+                                startIndex: stepIndex + 1,
+                                formData: res.locals.currentApplicationData
+                            });
                             redirectNext(nextMatchingStepIndex, req, res);
                         });
                     } else {
@@ -250,13 +250,6 @@ function initFormRouter(formModel) {
         });
     }
 
-    function injectFormBody(req, res, next) {
-        // Fake a post body so the validators can run as if
-        // the entire form was submitted in one go
-        req.body = res.locals.currentApplicationData;
-        next();
-    }
-
     /**
      * Route: Summary
      */
@@ -271,21 +264,14 @@ function initFormRouter(formModel) {
                 csrfToken: req.csrfToken()
             });
         })
-        .post(injectFormBody, getAllFields(formModel).map(f => f.validator(f)), async function(req, res) {
-            const errors = validationResult(req);
-            if (errors.isEmpty()) {
-                // send them to T&Cs
-                res.redirect(`${req.baseUrl}/terms`);
-            } else {
-                // They failed validation so send them back to confirm what they're missing
-                res.redirect(`${req.baseUrl}/summary`);
-            }
+        .post(function(req, res) {
+            // @TODO: Revisit whole-schema validation
+            res.redirect(`${req.baseUrl}/terms`);
         });
 
     /**
      * Route: Terms and Conditions
      */
-
     router
         .route('/terms')
         .all((req, res, next) => {

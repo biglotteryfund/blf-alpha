@@ -157,12 +157,13 @@ function getAllFields(formModel) {
  * matchesCondition returns a boolean to determine if a step is
  * suitable based on the form data submitted so far.
  *
- * @param {Object[]} steps
- * @param {Function} [steps[].matchesCondition]
- * @param {Number} startIndex
- * @param {Object} formData
+ * @param {Object} options
+ * @param {Object[]} options.steps
+ * @param {Function} [options.steps[].matchesCondition]
+ * @param {Number} options.startIndex
+ * @param {Object} options.formData
  */
-function findNextMatchingStepIndex(steps, startIndex, formData) {
+function findNextMatchingStepIndex({ steps, startIndex, formData }) {
     return findIndex(
         steps,
         step => (step.matchesCondition ? step.matchesCondition(formData) === true : true),

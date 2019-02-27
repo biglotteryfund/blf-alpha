@@ -330,16 +330,15 @@ const FIELDS = {
             cy: ''
         },
         type: 'number',
-        isRequired: false,
-        // @TODO: Reinstate validation check
-        validator: validators.optional
+        isRequired: true,
+        validator: validators.required({ en: 'Please provide a charity number', cy: '' })
     },
     companyNumber: {
         name: 'company-number',
         label: { en: 'Companies house number', cy: '' },
         type: 'number',
-        // @TODO: Reinstate validation check
-        validator: validators.optional
+        isRequired: true,
+        validator: validators.required({ en: 'Please provide a company number', cy: '' })
     },
     accountingYearDate: {
         name: 'accounting-year-date',
@@ -932,6 +931,8 @@ const sectionBankDetails = {
  * @property {LocaleString} title
  * @property {boolean} isBilingual
  * @property {Array<Section>} sections
+ * @property {Array<Field>} termsFields
+ * @property {Field} titleField
  * @property {Function} processor
  * @property {Object} startPage
  * @property {Object} successStep
@@ -946,9 +947,9 @@ module.exports = {
         title: { en: 'National Lottery Awards for All', cy: '' },
         isBilingual: true,
         sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionLegalContact, sectionBankDetails],
-        processor: processor,
         termsFields: FIELDS.terms,
         titleField: FIELDS.applicationTitle,
+        processor: processor,
         startPage: { template: path.resolve(__dirname, '../views/startpage') },
         successStep: { template: path.resolve(__dirname, '../views/success') }
     }

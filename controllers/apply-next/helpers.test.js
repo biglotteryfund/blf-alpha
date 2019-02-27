@@ -10,20 +10,50 @@ describe('findNextMatchingStepIndex', () => {
     ];
 
     it('should return start index if current step matches', () => {
-        expect(findNextMatchingStepIndex(mockSteps, 0, {})).toBe(0);
         expect(
-            findNextMatchingStepIndex(mockSteps, 1, {
-                name: 'example'
+            findNextMatchingStepIndex({
+                steps: mockSteps,
+                startIndex: 0,
+                formData: {}
+            })
+        ).toBe(0);
+
+        expect(
+            findNextMatchingStepIndex({
+                steps: mockSteps,
+                startIndex: 1,
+                formData: {
+                    name: 'example'
+                }
             })
         ).toBe(1);
-        expect(findNextMatchingStepIndex(mockSteps, 2, {})).toBe(2);
+
+        expect(
+            findNextMatchingStepIndex({
+                steps: mockSteps,
+                startIndex: 2,
+                formData: {}
+            })
+        ).toBe(2);
     });
 
     it('should skip steps where conditions do not match', () => {
-        expect(findNextMatchingStepIndex(mockSteps, 1, {})).toBe(2);
+        expect(
+            findNextMatchingStepIndex({
+                steps: mockSteps,
+                startIndex: 1,
+                formData: {}
+            })
+        ).toBe(2);
     });
 
     it('should return -1 if start index is greater than the number of steps', () => {
-        expect(findNextMatchingStepIndex(mockSteps, 5, {})).toBe(-1);
+        expect(
+            findNextMatchingStepIndex({
+                steps: mockSteps,
+                startIndex: 5,
+                formData: {}
+            })
+        ).toBe(-1);
     });
 });
