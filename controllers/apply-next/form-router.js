@@ -214,6 +214,14 @@ function initFormRouter(formModel) {
         next();
     });
 
+    // Require login before using everything else after this
+    router.use((req, res, next) => {
+        req.session.redirectUrl = req.baseUrl;
+        req.session.save(() => {
+            next();
+        });
+    }, requireUserAuth);
+
     /**
      * Route: Start page
      */
@@ -223,6 +231,9 @@ function initFormRouter(formModel) {
             const { startPage } = res.locals.form;
             if (!startPage) {
                 throw new Error('No startpage found');
+            }
+            if (!startPage.urlPath && !startPage.template) {
+                throw new Error('No valid startpage types found');
             }
             next();
         })
@@ -240,8 +251,6 @@ function initFormRouter(formModel) {
                 });
             } else if (startPage.urlPath) {
                 res.redirect(localify(req.i18n.getLocale())(startPage.urlPath));
-            } else {
-                throw new Error('No valid startpage types found');
             }
         })
         .post(formModel.titleField.validator(formModel.titleField), (req, res) => {
@@ -269,9 +278,6 @@ function initFormRouter(formModel) {
                 });
             }
         });
-
-    // Require login before using everything else after this
-    router.use(requireUserAuth);
 
     router.get('/edit/:applicationId', async (req, res) => {
         if (req.params.applicationId) {
@@ -447,6 +453,9 @@ function initFormRouter(formModel) {
     router
         .route('/terms')
         .all((req, res, next) => {
+            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+                label: 'Terms & Conditions'
+            });
             const formData = getSession(req.session);
             const validatedForm = validateFormState(res.locals.form, formData, res.locals.validation);
             if (validatedForm.state.type !== 'complete') {
@@ -456,9 +465,6 @@ function initFormRouter(formModel) {
             }
         })
         .get(function(req, res) {
-            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-                label: 'Terms & Conditions'
-            });
             res.render(path.resolve(__dirname, './views/terms'), {
                 csrfToken: req.csrfToken()
             });
