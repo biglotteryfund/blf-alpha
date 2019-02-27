@@ -24,23 +24,9 @@ function translateForm(locale, formModel, formData) {
         return section;
     };
 
-    const translateStep = step => {
-        step.title = localise(step.title);
-
-        step.fieldsets = step.fieldsets.map(fieldset => {
-            fieldset.legend = localise(fieldset.legend);
-            fieldset.introduction = localise(fieldset.introduction);
-            fieldset.fields = fieldset.fields.map(field => translateField(field));
-            return fieldset;
-        });
-
-        return step;
-    };
-
     const translateField = field => {
         field.label = localise(field.label);
         field.explanation = localise(field.explanation);
-
         const match = find(formData, (value, name) => name === field.name);
         if (match) {
             field.value = match;
@@ -57,6 +43,19 @@ function translateForm(locale, formModel, formData) {
         return field;
     };
 
+    const translateStep = step => {
+        step.title = localise(step.title);
+
+        step.fieldsets = step.fieldsets.map(fieldset => {
+            fieldset.legend = localise(fieldset.legend);
+            fieldset.introduction = localise(fieldset.introduction);
+            fieldset.fields = fieldset.fields.map(translateField);
+            return fieldset;
+        });
+
+        return step;
+    };
+
     const clonedForm = cloneDeep(formModel);
     clonedForm.title = localise(formModel.title);
 
@@ -65,6 +64,10 @@ function translateForm(locale, formModel, formData) {
         section.steps = section.steps.map(step => translateStep(step));
         return section;
     });
+
+    if (clonedForm.termsFields) {
+        clonedForm.termsFields = clonedForm.termsFields.map(translateField);
+    }
 
     return clonedForm;
 }
@@ -355,6 +358,41 @@ function initFormRouter(formModel) {
         .post(injectFormBody, validateAllFields, async function(req, res) {
             const errors = validationResult(req);
             if (errors.isEmpty()) {
+                // send them to T&Cs
+                res.redirect(`${req.baseUrl}/terms`);
+            } else {
+                // They failed validation so send them back to confirm what they're missing
+                res.redirect(`${req.baseUrl}/summary`);
+            }
+        });
+
+    /**
+     * Route: Terms and Conditions
+     */
+
+    router
+        .route('/terms')
+        .all((req, res, next) => {
+            const formData = getSession(req.session);
+            const validatedForm = validateFormState(res.locals.form, formData, res.locals.validation);
+            if (validatedForm.state.type !== 'complete') {
+                res.redirect(`${req.baseUrl}/summary`);
+            } else {
+                next();
+            }
+        })
+        .get(function(req, res) {
+            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+                label: 'Terms & Conditions'
+            });
+            res.render(path.resolve(__dirname, './views/terms'), {
+                csrfToken: req.csrfToken()
+            });
+        })
+        .post(formModel.termsFields.map(field => field.validator(field)), async (req, res) => {
+            const errors = validationResult(req);
+            if (errors.isEmpty()) {
+                // Everything is good, submit the form
                 try {
                     await formModel.processor({
                         form: res.locals.form,
@@ -366,8 +404,10 @@ function initFormRouter(formModel) {
                     renderError(error, req, res);
                 }
             } else {
-                // They failed validation so send them back to confirm what they're missing
-                res.redirect(`${req.baseUrl}/summary`);
+                res.render(path.resolve(__dirname, './views/terms'), {
+                    csrfToken: req.csrfToken(),
+                    errors: errors.array()
+                });
             }
         });
 
