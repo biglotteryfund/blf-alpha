@@ -18,13 +18,6 @@
 
                 {# {{ languageServiceMessage(currentLocale = locale) }} #}
 
-                {% if user and user.userType === 'user' %}
-                    <p>Logged in as <strong>{{ user.userData.username }}</strong>
-                {% endif %}
-                {% if currentlyEditingId %}
-                    <p>Currently editing: {{ currentlyEditingId }}</p>
-                {% endif %}
-
                 {{ formErrors(errors = errors) }}
 
                 {% for fieldset in step.fieldsets %}

@@ -95,16 +95,19 @@ const ORGANISATION_TYPES = {
 
 const CONDITIONS = {
     needsCharityNumber: function(formData) {
-        return formData['organisation-type'] === ORGANISATION_TYPES.unincorporatedRegisteredCharity.value;
+        return formData && formData['organisation-type'] === ORGANISATION_TYPES.unincorporatedRegisteredCharity.value;
     },
     needsCompanyNumber: function(formData) {
-        return includes(
-            [
-                ORGANISATION_TYPES.charitableIncorporatedOrganisation.value,
-                ORGANISATION_TYPES.notForProfitCompany.value,
-                ORGANISATION_TYPES.communityInterestCompany.value
-            ],
-            formData['organisation-type']
+        return (
+            formData &&
+            includes(
+                [
+                    ORGANISATION_TYPES.charitableIncorporatedOrganisation.value,
+                    ORGANISATION_TYPES.notForProfitCompany.value,
+                    ORGANISATION_TYPES.communityInterestCompany.value
+                ],
+                formData['organisation-type']
+            )
         );
     }
 };
@@ -391,6 +394,7 @@ const FIELDS = {
     },
     organisationAddress: {
         name: 'organisation-address',
+        autocompleteName: 'postal-code',
         type: 'text',
         size: 20,
         label: { en: 'What is the main or registered address of your organisation?', cy: '' },
