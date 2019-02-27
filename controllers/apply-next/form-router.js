@@ -180,31 +180,43 @@ const getAllFormFields = formModel => {
 
 function initFormRouter(formModel) {
     const router = express.Router();
-    // @TODO replace this with a db call
-    const getSession = getOr({}, formModel.sessionKey);
-    const validationSessionKey = `validation.${formModel.sessionKey}`;
+
+    const sessionKeys = {
+        form: formModel.sessionKey,
+        validation: 'validation',
+        editingId: 'currentEditingId'
+    };
 
     router.use(cached.csrfProtection, async (req, res, next) => {
+        res.locals.setSessionData = (dataPath, value) => set(req.session, `${sessionKeys.form}.${dataPath}`, value);
+        res.locals.getSessionData = dataPath => get(`${sessionKeys.form}.${dataPath}`)(req.session);
+        res.locals.unsetSessionData = dataPath => unset(req.session, `${sessionKeys.form}.${dataPath}`);
+        res.locals.clearSession = () => delete req.session[sessionKeys.form];
+
+        // Look up the current application data
         let applicationData = {};
-        if (req.session.currentlyEditingId) {
+        res.locals.currentlyEditingId = res.locals.getSessionData(sessionKeys.editingId);
+        if (res.locals.currentlyEditingId) {
             applicationData = await ApplicationService.getApplicationById(
-                formModel.sessionKey,
-                req.session.currentlyEditingId
+                sessionKeys.form,
+                res.locals.currentlyEditingId
             );
         }
-
-        // Translate the form object for each request and populate it with session data
         res.locals.currentApplicationData = applicationData ? applicationData.application_data : false;
+
+        // Translate the form object for each request and populate it with current user input
         res.locals.form = translateForm(req.i18n.getLocale(), formModel, res.locals.currentApplicationData);
-        res.locals.validation = get(validationSessionKey)(req.session);
+
+        // Share some useful form variables
+        res.locals.validation = res.locals.getSessionData(sessionKeys.validation);
         res.locals.FORM_STATES = FORM_STATES;
         res.locals.user = req.user;
+
         res.locals.formTitle = 'Application form: ' + res.locals.form.title;
         res.locals.isBilingual = formModel.isBilingual;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
         res.locals.formBaseUrl = req.baseUrl;
-        res.locals.currentlyEditingId = req.session.currentlyEditingId;
         res.locals.breadcrumbs = [
             {
                 label: res.locals.form.title,
@@ -241,7 +253,7 @@ function initFormRouter(formModel) {
             const { startPage } = res.locals.form;
             const applications = await ApplicationService.getApplicationsForUser(
                 req.user.userData.id,
-                formModel.sessionKey
+                sessionKeys.form
             );
             if (startPage.template) {
                 res.render(startPage.template, {
@@ -259,7 +271,7 @@ function initFormRouter(formModel) {
                 // create app and proceed!
                 ApplicationService.createApplication({
                     userId: req.user.userData.id,
-                    formId: formModel.sessionKey,
+                    formId: sessionKeys.form,
                     title: req.body['application-title']
                 })
                     .then(application => {
@@ -279,19 +291,26 @@ function initFormRouter(formModel) {
             }
         });
 
+    // Store the ID of the application currently being edited
     router.get('/edit/:applicationId', async (req, res) => {
         if (req.params.applicationId) {
-            req.session.currentlyEditingId = req.params.applicationId;
+            res.locals.setSessionData(sessionKeys.editingId, req.params.applicationId);
             req.session.save(() => {
                 const firstSection = res.locals.form.sections[0];
                 res.redirect(`${req.baseUrl}/${firstSection.slug}`);
             });
         } else {
-            res.redirect(`${req.baseUrl}`);
+            res.redirect(req.baseUrl);
         }
     });
 
-    // @TODO only allow proceeding beyond this point if the user has created an application / title
+    // All routes after this point require an ID to be selected for an application
+    router.use((req, res, next) => {
+        if (!res.locals.currentlyEditingId) {
+            return res.redirect(req.baseUrl);
+        }
+        next();
+    });
 
     formModel.sections.forEach((sectionModel, sectionIndex) => {
         /**
@@ -356,7 +375,10 @@ function initFormRouter(formModel) {
                     }
                 );
 
-                if (stepModel.matchesCondition && stepModel.matchesCondition(getSession(req.session)) === false) {
+                if (
+                    stepModel.matchesCondition &&
+                    stepModel.matchesCondition(res.locals.currentApplicationData) === false
+                ) {
                     redirectNext(req, res);
                 } else {
                     res.render(path.resolve(__dirname, './views/step'), {
@@ -374,20 +396,20 @@ function initFormRouter(formModel) {
                     ...matchedData(req, { locations: ['body'] })
                 };
 
-                await ApplicationService.updateApplication(req.session.currentlyEditingId, newData);
+                await ApplicationService.updateApplication(res.locals.currentlyEditingId, newData);
 
                 req.session.save(() => {
-                    const validationPath = `${validationSessionKey}.${sectionModel.slug}.step-${stepIndex}]`;
+                    const validationPath = `${sessionKeys.validation}.${sectionModel.slug}.step-${stepIndex}]`;
                     const errors = validationResult(req);
                     if (errors.isEmpty()) {
                         // If a step has no errors, then mark it as valid
-                        set(req.session, validationPath, FORM_STATES.complete);
+                        res.locals.setSessionData(validationPath, FORM_STATES.complete);
                         req.session.save(() => {
                             redirectNext(req, res);
                         });
                     } else {
                         // Remove this step from the valid list (if it was there before)
-                        unset(req.session, validationPath);
+                        res.locals.unsetSessionData(validationPath);
                         renderStep(req, res, errors.array());
                     }
                 });
@@ -418,20 +440,18 @@ function initFormRouter(formModel) {
     const injectFormBody = (req, res, next) => {
         // Fake a post body so the validators can run as if
         // the entire form was submitted in one go
-        req.body = getSession(req.session);
+        req.body = res.locals.currentApplicationData;
         next();
     };
 
     router
         .route('/summary')
         .get(function(req, res) {
-            const formData = getSession(req.session);
-
             res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
                 label: 'Summary'
             });
             res.render(path.resolve(__dirname, './views/summary'), {
-                form: validateFormState(res.locals.form, formData, res.locals.validation),
+                form: validateFormState(res.locals.form, res.locals.currentApplicationData, res.locals.validation),
                 csrfToken: req.csrfToken()
             });
         })
@@ -456,8 +476,11 @@ function initFormRouter(formModel) {
             res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
                 label: 'Terms & Conditions'
             });
-            const formData = getSession(req.session);
-            const validatedForm = validateFormState(res.locals.form, formData, res.locals.validation);
+            const validatedForm = validateFormState(
+                res.locals.form,
+                res.locals.currentApplicationData,
+                res.locals.validation
+            );
             if (validatedForm.state.type !== 'complete') {
                 res.redirect(`${req.baseUrl}/summary`);
             } else {
@@ -476,7 +499,7 @@ function initFormRouter(formModel) {
                 try {
                     await formModel.processor({
                         form: res.locals.form,
-                        data: getSession(req.session)
+                        data: res.locals.currentApplicationData
                     });
                     res.redirect(`${req.baseUrl}/success`);
                 } catch (error) {
@@ -496,12 +519,11 @@ function initFormRouter(formModel) {
      */
     router.get('/success', cached.noCache, function(req, res) {
         const stepConfig = formModel.successStep;
-        const formData = getSession(req.session);
-        if (isEmpty(formData)) {
+        if (isEmpty(res.locals.currentApplicationData)) {
             res.redirect(req.baseUrl);
         } else {
             // Clear the submission from the session on success
-            unset(req.session, formModel.sessionKey);
+            res.locals.clearSession();
             req.session.save(() => {
                 res.render(stepConfig.template, {
                     form: res.locals.form,
