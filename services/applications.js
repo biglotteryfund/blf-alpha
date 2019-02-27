@@ -62,6 +62,11 @@ function updateApplication(id, data) {
     );
 }
 
+/* @TODO
+ *
+ * functions to update/retrieve application state
+ */
+
 module.exports = {
     createApplication,
     getApplicationsForUser,

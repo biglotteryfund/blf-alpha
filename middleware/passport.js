@@ -7,6 +7,9 @@ const userService = require('../services/user');
 const { AZURE_AUTH } = require('../modules/secrets');
 const appData = require('../modules/appData');
 
+// Note: we return null after callbacks here to avoid this warning:
+// https://github.com/jaredhanson/passport/pull/461
+
 module.exports = function() {
     // Configure standard user sign-in (eg. members of the public)
     passport.use(
@@ -17,15 +20,19 @@ module.exports = function() {
                     // use generic error messages here to avoid exposing existing accounts
                     let genericError = 'Your username and password combination is invalid';
                     if (!user) {
-                        return done(null, false, { message: genericError });
+                        done(null, false, { message: genericError });
+                        return null;
                     }
                     if (!user.isValidPassword(user.password, password)) {
-                        return done(null, false, { message: genericError });
+                        done(null, false, { message: genericError });
+                        return null;
                     }
-                    return done(null, user);
+                    done(null, user);
+                    return null;
                 })
                 .catch(err => {
-                    return done(err);
+                    done(err);
+                    return null;
                 });
         })
     );
@@ -59,16 +66,20 @@ module.exports = function() {
                 },
                 (iss, sub, profile, accessToken, refreshToken, done) => {
                     if (!profile.oid) {
-                        return done(new Error('No oid found'), null);
+                        done(new Error('No oid found'), null);
+                        return null;
                     }
                     userService.findOrCreateStaffUser(profile, (err, response) => {
                         if (err) {
-                            return done(err);
+                            done(err);
+                            return null;
                         }
                         if (response.wasCreated) {
-                            return done(null, response.user);
+                            done(null, response.user);
+                            return null;
                         }
-                        return done(null, response.user);
+                        done(null, response.user);
+                        return null;
                     });
                 }
             )
@@ -91,6 +102,7 @@ module.exports = function() {
 
     passport.serializeUser((user, cb) => {
         cb(null, makeUserObject(user));
+        return null;
     });
 
     passport.deserializeUser((user, cb) => {
@@ -99,18 +111,22 @@ module.exports = function() {
                 .findById(user.userData.id)
                 .then(userObj => {
                     cb(null, makeUserObject(userObj));
+                    return null;
                 })
                 .catch(err => {
-                    return cb(err);
+                    cb(err, null);
+                    return null;
                 });
         } else if (user.userType === 'staff') {
             userService
                 .findStaffUserById(user.userData.id)
                 .then(staffUser => {
                     cb(null, makeUserObject(staffUser));
+                    return null;
                 })
                 .catch(err => {
-                    return cb(err);
+                    cb(err, null);
+                    return null;
                 });
         }
     });
