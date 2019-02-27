@@ -9,10 +9,7 @@ function localiseMessage(options) {
     };
 }
 
-const MIN_APPLICANT_AGE = 16;
-
 module.exports = {
-    MIN_APPLICANT_AGE,
     optional: function(field) {
         return check(field.name)
             .trim()
@@ -82,18 +79,20 @@ module.exports = {
                 })
             );
     },
-    dateOfBirth: function(field) {
-        return check(field.name)
-            .isBefore(
-                moment()
-                    .subtract(MIN_APPLICANT_AGE, 'years')
-                    .toISOString()
-            )
-            .withMessage(
-                localiseMessage({
-                    en: `Date of birth must be at least ${MIN_APPLICANT_AGE} years ago`,
-                    cy: 'WELSH ERROR'
-                })
-            );
+    dateOfBirth: function(minAge) {
+        return function(field) {
+            return check(field.name)
+                .isBefore(
+                    moment()
+                        .subtract(minAge, 'years')
+                        .toISOString()
+                )
+                .withMessage(
+                    localiseMessage({
+                        en: `Date of birth must be at least ${minAge} years ago`,
+                        cy: 'WELSH ERROR'
+                    })
+                );
+        };
     }
 };

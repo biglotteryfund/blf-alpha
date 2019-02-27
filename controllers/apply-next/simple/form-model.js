@@ -4,7 +4,7 @@ const { includes, values } = require('lodash');
 const moment = require('moment');
 
 const processor = require('./processor');
-const validators = require('./validators');
+const validators = require('../validators');
 
 /**
  * @typedef {Object} LocaleString
@@ -46,6 +46,8 @@ const validators = require('./validators');
  */
 
 const SESSION_KEY = 'awards-for-all';
+
+const MIN_APPLICANT_AGE = 16;
 
 const ORGANISATION_TYPES = {
     constitutedVoluntaryCommunity: {
@@ -379,11 +381,11 @@ const FIELDS = {
         type: 'date',
         attributes: {
             max: moment()
-                .subtract(validators.MIN_APPLICANT_AGE, 'years')
+                .subtract(MIN_APPLICANT_AGE, 'years')
                 .format('YYYY-MM-DD')
         },
         isRequired: true,
-        validator: validators.dateOfBirth
+        validator: validators.dateOfBirth(MIN_APPLICANT_AGE)
     },
     mainContactEmail: {
         name: 'main-contact-email',
@@ -437,7 +439,7 @@ const FIELDS = {
         type: 'date',
         label: { en: 'Date of birth', cy: '' },
         isRequired: true,
-        validator: validators.dateOfBirth
+        validator: validators.dateOfBirth(MIN_APPLICANT_AGE)
     },
     legalContactAddressBuildingStreet: {
         name: 'legal-contact-address-building-street',
