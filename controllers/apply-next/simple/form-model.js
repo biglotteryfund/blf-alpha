@@ -528,7 +528,7 @@ const FIELDS = {
     bankSortCode: {
         name: 'bank-sort-code',
         label: { en: 'Sort code', cy: '' },
-        type: 'text',
+        type: 'number',
         attributes: {
             size: 20
         },
@@ -541,7 +541,7 @@ const FIELDS = {
     bankAccountNumber: {
         name: 'bank-account-number',
         label: { en: 'Account number', cy: '' },
-        type: 'text',
+        type: 'number',
         isRequired: true,
         validator: validators.required({
             en: 'Please provide a bank account number',
