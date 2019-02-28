@@ -187,6 +187,14 @@ function initFormRouter(formModel) {
         editingId: 'currentEditingId'
     };
 
+    // Require login and redirect users back here once authorised
+    router.use((req, res, next) => {
+        req.session.redirectUrl = req.baseUrl;
+        req.session.save(() => {
+            next();
+        });
+    }, requireUserAuth);
+
     router.use(cached.csrfProtection, async (req, res, next) => {
         res.locals.setSessionData = (dataPath, value) => set(req.session, `${sessionKeys.form}.${dataPath}`, value);
         res.locals.getSessionData = dataPath => get(`${sessionKeys.form}.${dataPath}`)(req.session);
@@ -225,14 +233,6 @@ function initFormRouter(formModel) {
         ];
         next();
     });
-
-    // Require login before using everything else after this
-    router.use((req, res, next) => {
-        req.session.redirectUrl = req.baseUrl;
-        req.session.save(() => {
-            next();
-        });
-    }, requireUserAuth);
 
     /**
      * Route: Start page

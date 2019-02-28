@@ -35,13 +35,6 @@ const CONTENT_API_URL = process.env.CONTENT_API_URL || getSecret('content-api.ur
 const PAST_GRANTS_API_URI = process.env.PAST_GRANTS_API_URI || getSecret('pastgrants.api.uri', true);
 
 /**
- * Applications service API url
- * Secure service for storing grant programme applications
- */
-const APPLICATIONS_SERVICE_ENDPOINT =
-    process.env.APPLICATIONS_SERVICE_ENDPOINT || getSecret('applications-service.endpoint', true);
-
-/**
  * JWT signing token, used for user authentication
  * We allow overriding through an environment variable for CI
  */
@@ -74,7 +67,6 @@ const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.mat
 const DIGITAL_FUND_EMAIL = process.env.DIGITAL_FUND_EMAIL || getSecret('emails.digitalfund.demo');
 
 module.exports = {
-    APPLICATIONS_SERVICE_ENDPOINT,
     AZURE_AUTH,
     CONTENT_API_URL,
     DB_CONNECTION_URI,
