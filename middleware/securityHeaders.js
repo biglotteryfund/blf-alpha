@@ -50,6 +50,7 @@ function defaultSecurityHeaders() {
         '*.gstatic.com',
         '*.twimg.com',
         '*.youtube.com',
+        '*.vimeo.com',
         'cdn.polyfill.io',
         'cdn.syndication.twimg.com',
         'platform.twitter.com',
