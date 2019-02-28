@@ -7,9 +7,7 @@
             {% if errors.length > 0 %}
                 <ol class="form-errors__list">
                     {% for error in errors %}
-                        <li>
-                            <a href="#form-field-{{ error.param }}">{{ error.msg }}</a>
-                        </li>
+                        <li><a href="#form-field-{{ error.param }}">{{ error.msg }}</a></li>
                     {% endfor %}
                 </ol>
             {% endif %}
@@ -52,13 +50,11 @@
         type="{{ field.type }}"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
-        {% if field.autocompleteName %}autocomplete="{{ field.autocompleteName }}"{% endif %}
-        size="{{ field.size | default(40, true) }}"
         {% if field.value %}value="{{ field.value }}"{% endif %}
-        {% if field.customRegex %}pattern="{{ field.customRegex }}"{% endif %}
         {% if field.isRequired %}required aria-required="true"{% endif %}
-        {% if field.min %}min="{{ field.min }}"{% endif %}
-        {% if field.max %}max="{{ field.max }}"{% endif %}
+        {% if field.autocompleteName %}autocomplete="{{ field.autocompleteName }}"{% endif %}
+        {% if not field.attributes.size %}size="{{ field.size | default(40, true) }}"{% endif %}
+        {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
     />
 {% endmacro %}
 
@@ -79,6 +75,7 @@
         max="{{ field.max }}"
         value="{% if field.value %}{{ field.value }}{% endif %}"
         {% if field.isRequired %}required aria-required="true"{% endif %}
+        {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
     />
     <div class="ff-field-append">Type a number</div>
 {% endmacro %}
@@ -94,6 +91,7 @@
         name="{{ field.name }}"
         {% if field.isRequired %}required aria-required="true"{% endif %}
         {% if field.rows %}rows="{{ field.rows }}"{% endif %}
+        {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
     >{{ field.value }}</textarea>
 {% endmacro %}
 
