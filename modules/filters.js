@@ -9,6 +9,7 @@ const path = require('path');
 const slug = require('slugify');
 const uuid = require('uuid/v4');
 const { take } = require('lodash');
+const moment = require('moment');
 
 let assets = {};
 try {
@@ -75,6 +76,10 @@ function widont(str) {
     return str.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1');
 }
 
+function timeago(date) {
+    return moment(date).fromNow();
+}
+
 module.exports = {
     appendUuid,
     filter,
@@ -86,5 +91,6 @@ module.exports = {
     pluralise,
     slugify,
     take,
-    widont
+    widont,
+    timeago
 };

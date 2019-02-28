@@ -1,17 +1,75 @@
 'use strict';
-const request = require('request-promise-native');
-const { APPLICATIONS_SERVICE_ENDPOINT } = require('../modules/secrets');
+const moment = require('moment');
+const { Op } = require('sequelize');
 
-function store(formModel, applicationData) {
-    return request.post(APPLICATIONS_SERVICE_ENDPOINT, {
-        json: {
-            formId: formModel.id,
-            shortCode: formModel.shortCode,
-            applicationData: applicationData
+const { Application } = require('../models');
+
+function makeTitle(formId) {
+    return `${formId} - ${moment().toISOString()}`;
+}
+
+function createApplication({ userId, formId, title = false }) {
+    if (!title) {
+        title = makeTitle(formId);
+    }
+    return Application.create({
+        user_id: userId,
+        form_id: formId,
+        application_title: title,
+        application_data: ''
+    });
+}
+
+function getApplicationsForUser(userId, formId) {
+    return Application.findAll({
+        where: {
+            user_id: {
+                [Op.eq]: userId
+            },
+            form_id: {
+                [Op.eq]: formId
+            }
+        },
+        order: [['updatedAt', 'DESC']]
+    });
+}
+
+function getApplicationById(formId, id) {
+    return Application.findOne({
+        where: {
+            id: {
+                [Op.eq]: id
+            },
+            form_id: {
+                [Op.eq]: formId
+            }
         }
     });
 }
 
+function updateApplication(id, data) {
+    return Application.update(
+        {
+            application_data: data
+        },
+        {
+            where: {
+                id: {
+                    [Op.eq]: id
+                }
+            }
+        }
+    );
+}
+
+/* @TODO
+ *
+ * functions to update/retrieve application state
+ */
+
 module.exports = {
-    store
+    createApplication,
+    getApplicationsForUser,
+    getApplicationById,
+    updateApplication
 };
