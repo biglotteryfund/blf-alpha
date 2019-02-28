@@ -1,11 +1,11 @@
 'use strict';
-const { concat, flatMap, isEmpty, set, unset } = require('lodash');
+const { concat, flatMap, isEmpty, includes, set, unset } = require('lodash');
 const { get } = require('lodash/fp');
-const { matchedData } = require('express-validator/filter');
 const { validationResult } = require('express-validator/check');
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
+const Joi = require('joi');
 
 const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
@@ -157,7 +157,7 @@ function initFormRouter(formModel) {
             const nextSection = formModel.sections[sectionIndex + 1];
 
             const fieldsForStep = flatMap(stepModel.fieldsets, 'fields');
-            const validators = fieldsForStep.map(field => field.validator(field));
+            const fieldNamesForStep = fieldsForStep.map(field => field.name);
 
             function redirectNext(nextMatchingStepIndex, req, res) {
                 if (nextMatchingStepIndex !== -1 && nextMatchingStepIndex <= sectionModel.steps.length) {
@@ -206,28 +206,37 @@ function initFormRouter(formModel) {
 
             async function handleSubmitStep(req, res) {
                 const { currentlyEditingId, currentApplicationData } = res.locals;
-                const newData = { ...currentApplicationData, ...matchedData(req, { locations: ['body'] }) };
 
+                const { error, value } = Joi.validate(req.body, formModel.schema, {
+                    abortEarly: false,
+                    stripUnknown: true
+                });
+
+                const errorsForStep = error
+                    ? error.details.filter(detail => includes(fieldNamesForStep, detail.context.key))
+                    : [];
+
+                const newData = { ...currentApplicationData, ...value };
                 await ApplicationService.updateApplication(currentlyEditingId, newData);
 
                 req.session.save(() => {
-                    const validationPath = `${sessionKeys.validation}.${sectionModel.slug}.step-${stepIndex}]`;
-                    const errors = validationResult(req);
-                    if (errors.isEmpty()) {
-                        // If a step has no errors, then mark it as valid
-                        res.locals.setSessionData(validationPath, FORM_STATES.complete);
-                        req.session.save(() => {
-                            const nextMatchingStepIndex = findNextMatchingStepIndex({
-                                steps: sectionModel.steps,
-                                startIndex: stepIndex + 1,
-                                formData: newData
-                            });
-                            redirectNext(nextMatchingStepIndex, req, res);
+                    if (errorsForStep.length > 0) {
+                        // Normalise errors to match structure used by express-validator and expected in views
+                        const normalisedErrors = errorsForStep.map(detail => {
+                            return {
+                                param: detail.context.key,
+                                // @TODO: Determine how best to customise and translate these
+                                msg: detail.message
+                            };
                         });
+                        renderStep(req, res, normalisedErrors);
                     } else {
-                        // Remove this step from the valid list (if it was there before)
-                        res.locals.unsetSessionData(validationPath);
-                        renderStep(req, res, errors.array());
+                        const nextMatchingStepIndex = findNextMatchingStepIndex({
+                            steps: sectionModel.steps,
+                            startIndex: stepIndex + 1,
+                            formData: newData
+                        });
+                        redirectNext(nextMatchingStepIndex, req, res);
                     }
                 });
             }
@@ -235,7 +244,7 @@ function initFormRouter(formModel) {
             router
                 .route(`/${sectionModel.slug}/${currentStepNumber}`)
                 .get((req, res) => renderStep(req, res))
-                .post(validators, handleSubmitStep);
+                .post(handleSubmitStep);
         });
     });
 

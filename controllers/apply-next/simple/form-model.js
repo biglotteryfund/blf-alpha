@@ -3,6 +3,7 @@ const path = require('path');
 const { includes, values } = require('lodash');
 const moment = require('moment');
 
+const schema = require('./schema');
 const processor = require('./processor');
 const validators = require('../validators');
 
@@ -938,6 +939,7 @@ const sectionBankDetails = {
  * @property {Array<Section>} sections
  * @property {Array<Field>} termsFields
  * @property {Field} titleField
+ * @property {Object} schema
  * @property {Function} processor
  * @property {Object} startPage
  * @property {Object} successStep
@@ -954,6 +956,7 @@ module.exports = {
         sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionLegalContact, sectionBankDetails],
         termsFields: FIELDS.terms,
         titleField: FIELDS.applicationTitle,
+        schema: schema,
         processor: processor,
         startPage: { template: path.resolve(__dirname, '../views/startpage') },
         successStep: { template: path.resolve(__dirname, '../views/success') }
