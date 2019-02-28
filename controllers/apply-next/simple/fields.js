@@ -1,37 +1,11 @@
 'use strict';
-const { reduce, values } = require('lodash');
+const { forEach, has, reduce, values } = require('lodash');
 const Joi = require('joi');
 const moment = require('moment');
 
-const commonValidators = {
-    postcode: Joi.string()
-        // via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
-        .regex(/^(gir\s?0aa|[a-z]{1,2}\d[\da-z]?\s?(\d[a-z]{2})?)$/i)
-        .description('postcode'),
-    futureDate: function(amount, unit) {
-        const minDate = moment()
-            .add(amount, unit)
-            .toISOString();
-
-        return Joi.date().min(minDate);
-    },
-    dateOfBirth: function(minAge) {
-        const maxDate = moment()
-            .add(minAge, 'years')
-            .toISOString();
-
-        return Joi.date().max(maxDate);
-    }
-};
+const commonValidators = require('../validators');
 
 // const schema = Joi.object({
-//     // @TODO how to share this with the field?
-//     'project-start-date': Joi.date()
-//         .min(dateFromNow(12, 'weeks'))
-//         .required(),
-//     'project-postcode': postcode.required(),
-//     'your-idea': Joi.string().required(),
-//     'project-budget': Joi.string().required(),
 //     'project-total-costs': Joi.number().required(),
 //     'organisation-legal-name': Joi.string().required(),
 //     'organisation-address-building-street': Joi.string().required(),
@@ -125,6 +99,12 @@ function postcodeField(props) {
                 size: 10,
                 autocomplete: 'postal-code',
                 pattern: POSTCODE_PATTERN
+            },
+            isRequired: true,
+            schema: commonValidators.postcode.required(),
+            messages: {
+                base: { en: 'Please provide a postcode', cy: '' },
+                'string.regex.base': { en: 'Please provide a valid postcode', cy: '' }
             }
         },
         ...props
@@ -183,8 +163,12 @@ const allFields = {
                 .add(12, 'weeks')
                 .format('YYYY-MM-DD')
         },
-        // isRequired: true,
-        schema: commonValidators.futureDate('12', 'weeks')
+        isRequired: true,
+        schema: commonValidators.futureDate('12', 'weeks'),
+        messages: {
+            base: { en: 'Please provide a project start date', cy: '' },
+            'date.min': { en: 'Project start date must be at least 12 weeks into the future', cy: '' }
+        }
     },
     projectPostcode: postcodeField({
         name: 'project-postcode',
@@ -197,8 +181,7 @@ const allFields = {
                 'If your project will take place across different locations, please use the postcode where most of the project will take place.',
             cy:
                 '(WELSH) If your project will take place across different locations, please use the postcode where most of the project will take place.'
-        },
-        schema: commonValidators.postcode.required()
+        }
     }),
     yourIdea: {
         name: 'your-idea',
@@ -236,8 +219,11 @@ const allFields = {
         attributes: {
             rows: 12
         },
-        // isRequired: true,
-        schema: Joi.string().required()
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please tell us about your idea', cy: '' }
+        }
     },
     projectBudget: {
         name: 'project-budget',
@@ -256,7 +242,11 @@ const allFields = {
         attributes: {
             rows: 12
         },
-        isRequired: true
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide a project budget', cy: '' }
+        }
     },
     projectTotalCosts: {
         name: 'project-total-costs',
@@ -273,7 +263,11 @@ const allFields = {
             cy: 'TODO'
         },
         type: 'currency',
-        isRequired: true
+        isRequired: true,
+        schema: Joi.number().required(),
+        messages: {
+            base: { en: 'Please provide the total costs for your project', cy: '' }
+        }
     },
     organisationLegalName: {
         name: 'organisation-legal-name',
@@ -288,13 +282,15 @@ const allFields = {
             cy: 'TODO'
         },
         type: 'text',
-        isRequired: true
+        isRequired: true,
+        schema: Joi.string().required()
     },
     organisationAlias: {
         name: 'organisation-alias',
         label: { en: 'Does your organisation use a different name in your day-to-day work?', cy: '' },
         type: 'text',
-        isRequired: false
+        isRequired: false,
+        schema: Joi.string()
     },
     organisationType: {
         name: 'organisation-type',
@@ -360,10 +356,7 @@ const allFields = {
         label: { en: 'Email', cy: '' },
         explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' },
         type: 'email',
-        isRequired: true,
-        schema: Joi.string()
-            .email()
-            .required()
+        isRequired: true
     },
     mainContactPhone: {
         name: 'main-contact-phone',
@@ -436,10 +429,7 @@ const allFields = {
         type: 'email',
         label: { en: 'Email', cy: '' },
         explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' },
-        isRequired: true,
-        schema: Joi.string()
-            .email()
-            .required()
+        isRequired: true
     },
     legalContactPhone: {
         name: 'legal-contact-phone',
@@ -502,7 +492,7 @@ const schema = Joi.object(
     reduce(
         allFields,
         function(acc, field) {
-            // @TODO: Throw an error if schema is not defined
+            // @TODO: Remove this check when all schemas are added. Joi.object should throw an error for invalid schemas.
             if (field.schema) {
                 acc[field.name] = field.schema;
             }

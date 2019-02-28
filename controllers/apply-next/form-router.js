@@ -1,6 +1,6 @@
 'use strict';
 const { concat, flatMap, isEmpty, includes, set, unset } = require('lodash');
-const { get } = require('lodash/fp');
+const { find, get } = require('lodash/fp');
 const { validationResult } = require('express-validator/check');
 const express = require('express');
 const path = require('path');
@@ -12,14 +12,12 @@ const ApplicationService = require('../../services/applications');
 const { localify } = require('../../modules/urls');
 const { FORM_STATES, findNextMatchingStepIndex, prepareForm, validateFormState } = require('./helpers');
 
-// Normalise errors to match structure used by express-validator and expected in views
-function normaliseErrors(errors) {
+function normaliseErrors({ fields, errors, locale }) {
     return errors.map(detail => {
-        return {
-            detail,
-            param: detail.context.key,
-            msg: detail.message
-        };
+        const name = detail.context.key;
+        const fieldMatch = find(field => field.name === name)(fields);
+        const localeString = fieldMatch.messages[detail.type] || fieldMatch.messages['base'];
+        return { param: detail.context.key, msg: localeString[locale] };
     });
 }
 
@@ -165,9 +163,7 @@ function initFormRouter(formModel) {
             const currentStepNumber = stepIndex + 1;
             const numSteps = sectionModel.steps.length;
             const nextSection = formModel.sections[sectionIndex + 1];
-
             const fieldsForStep = flatMap(stepModel.fieldsets, 'fields');
-            const fieldNamesForStep = fieldsForStep.map(field => field.name);
 
             function redirectNext(nextMatchingStepIndex, req, res) {
                 if (nextMatchingStepIndex !== -1 && nextMatchingStepIndex <= sectionModel.steps.length) {
@@ -187,13 +183,8 @@ function initFormRouter(formModel) {
 
                 res.locals.breadcrumbs = concat(
                     res.locals.breadcrumbs,
-                    {
-                        label: sectionLocalised.title,
-                        url: `${req.baseUrl}/${sectionModel.slug}`
-                    },
-                    {
-                        label: `${stepLocalised.title} (Step ${currentStepNumber} of ${numSteps})`
-                    }
+                    { label: sectionLocalised.title, url: `${req.baseUrl}/${sectionModel.slug}` },
+                    { label: `${stepLocalised.title} (Step ${currentStepNumber} of ${numSteps})` }
                 );
 
                 const nextMatchingStepIndex = findNextMatchingStepIndex({
@@ -223,7 +214,9 @@ function initFormRouter(formModel) {
                 });
 
                 const errorsForStep = error
-                    ? error.details.filter(detail => includes(fieldNamesForStep, detail.context.key))
+                    ? error.details.filter(detail =>
+                          includes(fieldsForStep.map(field => field.name), detail.context.key)
+                      )
                     : [];
 
                 const newData = { ...currentApplicationData, ...value };
@@ -231,7 +224,12 @@ function initFormRouter(formModel) {
 
                 req.session.save(() => {
                     if (errorsForStep.length > 0) {
-                        renderStep(req, res, normaliseErrors(errorsForStep));
+                        const errors = normaliseErrors({
+                            fields: fieldsForStep,
+                            errors: errorsForStep,
+                            locale: req.i18n.getLocale()
+                        });
+                        renderStep(req, res, errors);
                     } else {
                         const nextMatchingStepIndex = findNextMatchingStepIndex({
                             steps: sectionModel.steps,
@@ -270,17 +268,10 @@ function initFormRouter(formModel) {
                 label: 'Summary'
             });
 
-            const { error, value } = formModel.schema.validate(res.locals.currentApplicationData, {
-                abortEarly: false,
-                stripUnknown: true
+            res.render(path.resolve(__dirname, './views/summary'), {
+                form: validateFormState(res.locals.form, res.locals.currentApplicationData, res.locals.validation),
+                csrfToken: req.csrfToken()
             });
-
-            res.send({ error, value });
-
-            // res.render(path.resolve(__dirname, './views/summary'), {
-            //     form: validateFormState(res.locals.form, res.locals.currentApplicationData, res.locals.validation),
-            //     csrfToken: req.csrfToken()
-            // });
         })
         .post(function(req, res) {
             // @TODO: Revisit whole-schema validation
