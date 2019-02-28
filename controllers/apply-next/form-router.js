@@ -5,13 +5,23 @@ const { validationResult } = require('express-validator/check');
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
-const Joi = require('joi');
 
 const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
 const ApplicationService = require('../../services/applications');
 const { localify } = require('../../modules/urls');
 const { FORM_STATES, findNextMatchingStepIndex, prepareForm, validateFormState } = require('./helpers');
+
+// Normalise errors to match structure used by express-validator and expected in views
+function normaliseErrors(errors) {
+    return errors.map(detail => {
+        return {
+            detail,
+            param: detail.context.key,
+            msg: detail.message
+        };
+    });
+}
 
 function initFormRouter(formModel) {
     const router = express.Router();
@@ -207,7 +217,7 @@ function initFormRouter(formModel) {
             async function handleSubmitStep(req, res) {
                 const { currentlyEditingId, currentApplicationData } = res.locals;
 
-                const { error, value } = Joi.validate(req.body, formModel.schema, {
+                const { error, value } = formModel.schema.validate(req.body, {
                     abortEarly: false,
                     stripUnknown: true
                 });
@@ -221,15 +231,7 @@ function initFormRouter(formModel) {
 
                 req.session.save(() => {
                     if (errorsForStep.length > 0) {
-                        // Normalise errors to match structure used by express-validator and expected in views
-                        const normalisedErrors = errorsForStep.map(detail => {
-                            return {
-                                param: detail.context.key,
-                                // @TODO: Determine how best to customise and translate these
-                                msg: detail.message
-                            };
-                        });
-                        renderStep(req, res, normalisedErrors);
+                        renderStep(req, res, normaliseErrors(errorsForStep));
                     } else {
                         const nextMatchingStepIndex = findNextMatchingStepIndex({
                             steps: sectionModel.steps,
@@ -267,10 +269,18 @@ function initFormRouter(formModel) {
             res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
                 label: 'Summary'
             });
-            res.render(path.resolve(__dirname, './views/summary'), {
-                form: validateFormState(res.locals.form, res.locals.currentApplicationData, res.locals.validation),
-                csrfToken: req.csrfToken()
+
+            const { error, value } = formModel.schema.validate(res.locals.currentApplicationData, {
+                abortEarly: false,
+                stripUnknown: true
             });
+
+            res.send({ error, value });
+
+            // res.render(path.resolve(__dirname, './views/summary'), {
+            //     form: validateFormState(res.locals.form, res.locals.currentApplicationData, res.locals.validation),
+            //     csrfToken: req.csrfToken()
+            // });
         })
         .post(function(req, res) {
             // @TODO: Revisit whole-schema validation
