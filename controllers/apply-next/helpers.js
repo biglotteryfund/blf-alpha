@@ -77,6 +77,10 @@ function prepareForm(locale, formModel, formData) {
         clonedForm.termsFields = clonedForm.termsFields.map(translateField);
     }
 
+    if (clonedForm.titleField) {
+        clonedForm.titleField = translateField(clonedForm.titleField);
+    }
+
     return clonedForm;
 }
 

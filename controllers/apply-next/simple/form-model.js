@@ -435,8 +435,13 @@ const FIELDS = {
     },
     legalContactDob: {
         name: 'legal-contact-dob',
-        type: 'date',
         label: { en: 'Date of birth', cy: '' },
+        type: 'date',
+        attributes: {
+            max: moment()
+                .subtract(MIN_APPLICANT_AGE, 'years')
+                .format('YYYY-MM-DD')
+        },
         isRequired: true,
         validator: validators.dateOfBirth(MIN_APPLICANT_AGE)
     },
@@ -522,7 +527,7 @@ const FIELDS = {
     bankSortCode: {
         name: 'bank-sort-code',
         label: { en: 'Sort code', cy: '' },
-        type: 'number',
+        type: 'text',
         attributes: {
             size: 20
         },
@@ -535,7 +540,7 @@ const FIELDS = {
     bankAccountNumber: {
         name: 'bank-account-number',
         label: { en: 'Account number', cy: '' },
-        type: 'number',
+        type: 'text',
         isRequired: true,
         validator: validators.required({
             en: 'Please provide a bank account number',

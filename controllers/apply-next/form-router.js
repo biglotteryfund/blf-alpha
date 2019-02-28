@@ -55,6 +55,7 @@ function initFormRouter(formModel) {
         res.locals.FORM_STATES = FORM_STATES;
         res.locals.user = req.user;
 
+        res.locals.formBaseUrl = req.baseUrl;
         res.locals.formTitle = 'Application form: ' + res.locals.form.title;
         res.locals.isBilingual = formModel.isBilingual;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
@@ -204,12 +205,10 @@ function initFormRouter(formModel) {
             }
 
             async function handleSubmitStep(req, res) {
-                const newData = {
-                    ...res.locals.currentApplicationData,
-                    ...matchedData(req, { locations: ['body'] })
-                };
+                const { currentlyEditingId, currentApplicationData } = res.locals;
+                const newData = { ...currentApplicationData, ...matchedData(req, { locations: ['body'] }) };
 
-                await ApplicationService.updateApplication(res.locals.currentlyEditingId, newData);
+                await ApplicationService.updateApplication(currentlyEditingId, newData);
 
                 req.session.save(() => {
                     const validationPath = `${sessionKeys.validation}.${sectionModel.slug}.step-${stepIndex}]`;
@@ -221,7 +220,7 @@ function initFormRouter(formModel) {
                             const nextMatchingStepIndex = findNextMatchingStepIndex({
                                 steps: sectionModel.steps,
                                 startIndex: stepIndex + 1,
-                                formData: res.locals.currentApplicationData
+                                formData: newData
                             });
                             redirectNext(nextMatchingStepIndex, req, res);
                         });
