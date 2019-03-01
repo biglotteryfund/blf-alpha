@@ -1,55 +1,9 @@
 'use strict';
-const { forEach, has, reduce, values } = require('lodash');
+const { forEach, reduce, values } = require('lodash');
 const Joi = require('joi');
 const moment = require('moment');
 
 const commonValidators = require('../validators');
-
-// const schema = Joi.object({
-//     'project-total-costs': Joi.number().required(),
-//     'organisation-legal-name': Joi.string().required(),
-//     'organisation-address-building-street': Joi.string().required(),
-//     'organisation-address-town-city': Joi.string().required(),
-//     'organisation-address-county': Joi.string().required(),
-//     'organisation-address-postcode': postcode.required(),
-//     'organisation-type': Joi.string().required(),
-//     'charity-number': Joi.number(),
-//     'company-number': Joi.number(),
-//     // @TODO share this with the model
-//     'accounting-year-date': Joi.date().max('now'),
-//     'total-income-year': Joi.number().required(),
-//     'main-contact-name': Joi.string().required(),
-//     // @TODO share this with the model
-//     'main-contact-dob': Joi.date()
-//         .max(dateBeforeNow(16, 'years'))
-//         .required(),
-//     'main-contact-address-building-street': Joi.string().required(),
-//     'main-contact-address-town-city': Joi.string().required(),
-//     'main-contact-address-county': Joi.string().required(),
-//     'main-contact-address-postcode': postcode.required(),
-//     'main-contact-email': Joi.string()
-//         .email()
-//         .required(),
-//     'main-contact-phone': Joi.string().required(),
-//     'legal-contact-name': Joi.string().required(),
-//     // @TODO share this with the model
-//     'legal-contact-dob': Joi.date()
-//         .max(dateBeforeNow(16, 'years'))
-//         .required(),
-//     'legal-contact-address-building-street': Joi.string().required(),
-//     'legal-contact-address-town-city': Joi.string().required(),
-//     'legal-contact-address-county': Joi.string().required(),
-//     'legal-contact-address-postcode': postcode.required(),
-//     'legal-contact-email': Joi.string()
-//         .email()
-//         .required(),
-//     'legal-contact-phone': Joi.string().required(),
-//     'bank-account-name': Joi.string().required(),
-//     'bank-sort-code': Joi.number().required(),
-//     'bank-account-number': Joi.number().required(),
-//     'bank-building-society-number': Joi.number(),
-//     'bank-statement': Joi.string().required()
-// });
 
 const organisationTypes = {
     constitutedVoluntaryCommunity: {
@@ -69,11 +23,13 @@ const organisationTypes = {
     },
     notForProfitCompany: {
         value: 'not-for-profit-company',
-        label: { en: 'Not-for-profit company', cy: '' }
+        label: { en: 'Not-for-profit company', cy: '' },
+        explanation: { en: 'You will need to provide your companies house registration number', cy: '' }
     },
     communityInterestCompany: {
         value: 'community-interest-company',
-        label: { en: 'Community interest company (CIC)', cy: '' }
+        label: { en: 'Community interest company (CIC)', cy: '' },
+        explanation: { en: 'You will need to provide your companies house registration number', cy: '' }
     },
     school: {
         value: 'school',
@@ -85,64 +41,13 @@ const organisationTypes = {
     }
 };
 
-function postcodeField(props) {
-    // Allows us to use postcode validation on the client-side
-    // via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
-    // we have to double-escape the regex patterns here
-    // to output it as a string for the HTML pattern attribute
-    const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
-
-    return {
-        ...{
-            type: 'text',
-            attributes: {
-                size: 10,
-                autocomplete: 'postal-code',
-                pattern: POSTCODE_PATTERN
-            },
-            isRequired: true,
-            schema: commonValidators.postcode.required(),
-            messages: {
-                base: { en: 'Please provide a postcode', cy: '' },
-                'string.regex.base': { en: 'Please provide a valid postcode', cy: '' }
-            }
-        },
-        ...props
-    };
-}
-
-// @TODO: Split out into function to use in allFields object
-function addressFields(prefix) {
-    return [
-        {
-            name: `${prefix}-address-building-street`,
-            label: { en: 'Building and street', cy: '' },
-            type: 'text',
-            attributes: { size: 50 },
-            isRequired: true
-        },
-        {
-            name: `${prefix}-address-town-city`,
-            label: { en: 'Town or city', cy: '' },
-            type: 'text',
-            attributes: { size: 25 },
-            isRequired: true
-        },
-        {
-            name: `${prefix}-address-county`,
-            label: { en: 'County', cy: '' },
-            type: 'text',
-            attributes: { size: 25 },
-            isRequired: true
-        },
-        postcodeField({
-            name: `${prefix}-address-postcode`,
-            label: { en: 'Postcode', cy: '' }
-        })
-    ];
-}
-
 const MIN_APPLICANT_AGE = 16;
+
+// Allows us to use postcode validation on the client-side
+// via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
+// we have to double-escape the regex patterns here
+// to output it as a string for the HTML pattern attribute
+const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
 
 const allFields = {
     projectStartDate: {
@@ -170,7 +75,7 @@ const allFields = {
             'date.min': { en: 'Project start date must be at least 12 weeks into the future', cy: '' }
         }
     },
-    projectPostcode: postcodeField({
+    projectPostcode: {
         name: 'project-postcode',
         label: {
             en: 'What is the postcode of the location where your project will take place?',
@@ -181,8 +86,20 @@ const allFields = {
                 'If your project will take place across different locations, please use the postcode where most of the project will take place.',
             cy:
                 '(WELSH) If your project will take place across different locations, please use the postcode where most of the project will take place.'
+        },
+        type: 'text',
+        attributes: {
+            size: 10,
+            autocomplete: 'postal-code',
+            pattern: POSTCODE_PATTERN
+        },
+        isRequired: true,
+        schema: commonValidators.postcode.required(),
+        messages: {
+            base: { en: 'Please provide a postcode', cy: '' },
+            'string.regex.base': { en: 'Please provide a valid postcode', cy: '' }
         }
-    }),
+    },
     yourIdea: {
         name: 'your-idea',
         label: {
@@ -283,20 +200,82 @@ const allFields = {
         },
         type: 'text',
         isRequired: true,
-        schema: Joi.string().required()
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide the name of your organisation', cy: '' }
+        }
     },
     organisationAlias: {
         name: 'organisation-alias',
         label: { en: 'Does your organisation use a different name in your day-to-day work?', cy: '' },
         type: 'text',
         isRequired: false,
-        schema: Joi.string()
+        schema: Joi.any()
+            .disallow(Joi.ref('organisation-legal-name'))
+            .optional(),
+        messages: {
+            base: { en: 'Organisation alias should’t be the same as the legal name', cy: '' }
+        }
+    },
+    organisationAddressBuildingStreet: {
+        name: `main-contact-address-building-street`,
+        label: { en: 'Building and street', cy: '' },
+        type: 'text',
+        attributes: { size: 50 },
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide a building and street' }
+        }
+    },
+    organisationAddressTownCity: {
+        name: `organisation-address-town-city`,
+        label: { en: 'Town or city', cy: '' },
+        type: 'text',
+        attributes: { size: 25 },
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide a town or city' }
+        }
+    },
+    organisationAddressCounty: {
+        name: `organisation-address-county`,
+        label: { en: 'County', cy: '' },
+        type: 'text',
+        attributes: { size: 25 },
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide a county' }
+        }
+    },
+    organisationAddressPostcode: {
+        name: `organisation-address-postcode`,
+        label: { en: 'Postcode', cy: '' },
+        type: 'text',
+        attributes: {
+            size: 10,
+            autocomplete: 'postal-code',
+            pattern: POSTCODE_PATTERN
+        },
+        isRequired: true,
+        schema: commonValidators.postcode.required(),
+        messages: {
+            base: { en: 'Please provide a postcode', cy: '' },
+            'string.regex.base': { en: 'Please provide a valid postcode', cy: '' }
+        }
     },
     organisationType: {
         name: 'organisation-type',
         label: { en: 'What type of organisation are you?', cy: '(WELSH) What type of organisation are you?' },
         type: 'radio',
-        options: values(organisationTypes)
+        options: values(organisationTypes),
+        get schema() {
+            return Joi.string()
+                .valid(this.options.map(option => option.value))
+                .required();
+        }
     },
     charityNumber: {
         name: 'charity-number',
@@ -307,28 +286,39 @@ const allFields = {
             cy: ''
         },
         type: 'number',
-        isRequired: true
+        isRequired: true,
+        schema: Joi.any().when('organsation-type', {
+            is: Joi.valid(organisationTypes.unincorporatedRegisteredCharity.value),
+            then: Joi.number().required()
+        })
     },
     companyNumber: {
         name: 'company-number',
         label: { en: 'Companies house number', cy: '' },
         type: 'number',
-        isRequired: true
+        isRequired: true,
+        schema: Joi.any().when('organsation-type', {
+            is: Joi.valid([
+                organisationTypes.charitableIncorporatedOrganisation.value,
+                organisationTypes.notForProfitCompany.value,
+                organisationTypes.communityInterestCompany.value
+            ]),
+            then: Joi.number().required()
+        })
     },
     accountingYearDate: {
         name: 'accounting-year-date',
         label: { en: 'What is your accounting year end date?', cy: '' },
         type: 'date',
-        attributes: {
-            max: moment().format('YYYY-MM-DD')
-        },
-        isRequired: true
+        isRequired: true,
+        schema: Joi.date().max('now')
     },
     totalIncomeYear: {
         name: 'total-income-year',
         label: { en: 'What is your total income for the year?', cy: '' },
         type: 'currency',
-        isRequired: true
+        isRequired: true,
+        schema: Joi.number().required()
     },
     mainContactName: {
         name: 'main-contact-name',
@@ -338,7 +328,8 @@ const allFields = {
             autocomplete: 'name',
             spellcheck: 'false'
         },
-        isRequired: true
+        isRequired: true,
+        schema: Joi.string().required()
     },
     mainContactDob: {
         name: 'main-contact-dob',
@@ -349,14 +340,67 @@ const allFields = {
                 .subtract(MIN_APPLICANT_AGE, 'years')
                 .format('YYYY-MM-DD')
         },
-        isRequired: true
+        isRequired: true,
+        schema: commonValidators.dateOfBirth(MIN_APPLICANT_AGE)
+    },
+    mainContactAddressBuildingStreet: {
+        name: `main-contact-address-building-street`,
+        label: { en: 'Building and street', cy: '' },
+        type: 'text',
+        attributes: { size: 50 },
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide a building and street' }
+        }
+    },
+    mainContactAddressTownCity: {
+        name: `main-contact-address-town-city`,
+        label: { en: 'Town or city', cy: '' },
+        type: 'text',
+        attributes: { size: 25 },
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide a town or city' }
+        }
+    },
+    mainContactAddressCounty: {
+        name: `main-contact-address-county`,
+        label: { en: 'County', cy: '' },
+        type: 'text',
+        attributes: { size: 25 },
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide a county' }
+        }
+    },
+    mainContactAddressPostcode: {
+        name: `main-contact-address-postcode`,
+        label: { en: 'Postcode', cy: '' },
+        type: 'text',
+        attributes: {
+            size: 10,
+            autocomplete: 'postal-code',
+            pattern: POSTCODE_PATTERN
+        },
+        isRequired: true,
+        schema: commonValidators.postcode.required(),
+        messages: {
+            base: { en: 'Please provide a postcode', cy: '' },
+            'string.regex.base': { en: 'Please provide a valid postcode', cy: '' }
+        }
     },
     mainContactEmail: {
         name: 'main-contact-email',
         label: { en: 'Email', cy: '' },
         explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' },
         type: 'email',
-        isRequired: true
+        isRequired: true,
+        schema: Joi.string()
+            .email()
+            .required()
     },
     mainContactPhone: {
         name: 'main-contact-phone',
@@ -366,7 +410,8 @@ const allFields = {
             autocomplete: 'tel'
         },
         label: { en: 'UK telephone number', cy: '' },
-        isRequired: true
+        isRequired: true,
+        schema: Joi.string().required()
     },
     mainContactCommunicationNeeds: {
         name: 'main-contact-communication-needs',
@@ -376,7 +421,10 @@ const allFields = {
             { value: 'audiotape', label: { en: 'Audiotape', cy: '' } },
             { value: 'braille', label: { en: 'Braille', cy: '' } },
             { value: 'large-print', label: { en: 'Large print', cy: '' } }
-        ]
+        ],
+        get schema() {
+            return Joi.any().valid(this.options.map(option => option.value));
+        }
     },
     legalContactName: {
         name: 'legal-contact-name',
@@ -386,7 +434,8 @@ const allFields = {
             autocomplete: 'name',
             spellcheck: 'false'
         },
-        isRequired: true
+        isRequired: true,
+        schema: Joi.string().required()
     },
     legalContactDob: {
         name: 'legal-contact-dob',
@@ -397,39 +446,67 @@ const allFields = {
                 .subtract(MIN_APPLICANT_AGE, 'years')
                 .format('YYYY-MM-DD')
         },
-        isRequired: true
+        isRequired: true,
+        schema: commonValidators.dateOfBirth(MIN_APPLICANT_AGE)
     },
     legalContactAddressBuildingStreet: {
-        name: 'legal-contact-address-building-street',
+        name: `legal-contact-address-building-street`,
         label: { en: 'Building and street', cy: '' },
         type: 'text',
         attributes: { size: 50 },
-        isRequired: true
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide a building and street' }
+        }
     },
     legalContactAddressTownCity: {
-        name: 'legal-contact-address-town-city',
+        name: `legal-contact-address-town-city`,
         label: { en: 'Town or city', cy: '' },
         type: 'text',
         attributes: { size: 25 },
-        isRequired: true
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide a town or city' }
+        }
     },
     legalContactAddressCounty: {
-        name: 'legal-contact-address-county',
+        name: `legal-contact-address-county`,
         label: { en: 'County', cy: '' },
         type: 'text',
         attributes: { size: 25 },
-        isRequired: true
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide a county' }
+        }
     },
-    legalContactAddressPostcode: postcodeField({
+    legalContactAddressPostcode: {
         name: 'legal-contact-address-postcode',
-        label: { en: 'Postcode', cy: '' }
-    }),
+        label: { en: 'Postcode', cy: '' },
+        type: 'text',
+        attributes: {
+            size: 10,
+            autocomplete: 'postal-code',
+            pattern: POSTCODE_PATTERN
+        },
+        isRequired: true,
+        schema: commonValidators.postcode.required(),
+        messages: {
+            base: { en: 'Please provide a postcode', cy: '' },
+            'string.regex.base': { en: 'Please provide a valid postcode', cy: '' }
+        }
+    },
     legalContactEmail: {
         name: 'legal-contact-email',
-        type: 'email',
         label: { en: 'Email', cy: '' },
         explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' },
-        isRequired: true
+        type: 'email',
+        isRequired: true,
+        schema: Joi.string()
+            .email()
+            .required()
     },
     legalContactPhone: {
         name: 'legal-contact-phone',
@@ -437,7 +514,8 @@ const allFields = {
         type: 'tel',
         size: 30,
         label: { en: 'Contact number', cy: '' },
-        isRequired: true
+        isRequired: true,
+        schema: Joi.number().required()
     },
     legalContactCommunicationNeeds: {
         name: 'legal-contact-communication-needs',
@@ -447,55 +525,108 @@ const allFields = {
             { value: 'audiotape', label: { en: 'Audiotape', cy: '' } },
             { value: 'braille', label: { en: 'Braille', cy: '' } },
             { value: 'large-print', label: { en: 'Large print', cy: '' } }
-        ]
+        ],
+        get schema() {
+            return Joi.any().valid(this.options.map(option => option.value));
+        }
     },
     bankAccountName: {
         name: 'bank-account-name',
         label: { en: 'Name on the bank account', cy: '' },
         explanation: { en: 'Name of your organisation as it appears on your bank statement', cy: '' },
         type: 'text',
-        isRequired: true
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide the name on the accunt', cy: '' }
+        }
     },
     bankSortCode: {
         name: 'bank-sort-code',
         label: { en: 'Sort code', cy: '' },
-        type: 'number',
+        type: 'string',
         attributes: {
             size: 20
         },
-        isRequired: true
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide a sort-code', cy: '' }
+        }
     },
     bankAccountNumber: {
         name: 'bank-account-number',
         label: { en: 'Account number', cy: '' },
-        type: 'number',
-        isRequired: true
+        type: 'string',
+        isRequired: true,
+        schema: Joi.number().required(),
+        messages: {
+            base: { en: 'Please provide an account number', cy: '' }
+        }
     },
     bankBuildingSocietyNumber: {
         name: 'bank-building-society-number',
         label: { en: 'Building society number (if applicable)', cy: '' },
-        type: 'number',
+        type: 'text',
         explanation: {
             en: 'This is only applicable if your organisation’s account is with a building society.',
             cy: ''
-        }
+        },
+        schema: Joi.number()
+            .allow('')
+            .empty()
     },
     bankStatement: {
         name: 'bank-statement',
         label: { en: 'Upload a bank statement', cy: '' },
         type: 'file',
-        isRequired: true
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: {
+            base: { en: 'Please provide an bank statement', cy: '' }
+        }
     }
 };
+
+/**
+ * Validate fields against a schema
+ */
+forEach(allFields, field => {
+    const localeString = Joi.object({
+        en: Joi.string().required(),
+        cy: Joi.any() // @TODO: Make required
+    });
+
+    const fieldSchema = Joi.object({
+        name: Joi.string().required(),
+        label: localeString.required(),
+        explanation: localeString.optional(),
+        type: Joi.string().required(),
+        attributes: Joi.object().optional(),
+        isRequired: Joi.boolean().optional(),
+        schema: Joi.object()
+            .schema()
+            .required(),
+        messages: Joi.object({ base: localeString.required() })
+            .pattern(Joi.string(), localeString.required())
+            .optional()
+    });
+
+    const validationResult = Joi.validate(field, fieldSchema, {
+        abortEarly: true,
+        allowUnknown: true
+    });
+
+    if (validationResult.error) {
+        throw new Error(`${field.name}: ${validationResult.error.message}`);
+    }
+});
 
 const schema = Joi.object(
     reduce(
         allFields,
         function(acc, field) {
-            // @TODO: Remove this check when all schemas are added. Joi.object should throw an error for invalid schemas.
-            if (field.schema) {
-                acc[field.name] = field.schema;
-            }
+            acc[field.name] = field.schema;
             return acc;
         },
         {}
@@ -505,6 +636,5 @@ const schema = Joi.object(
 module.exports = {
     schema,
     allFields,
-    addressFields,
     organisationTypes
 };

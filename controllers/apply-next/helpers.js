@@ -1,5 +1,5 @@
 'use strict';
-const { cloneDeep, find, findIndex, flatMap, isEmpty, pick } = require('lodash');
+const { cloneDeep, find, findIndex, flatMap, flatMapDeep, includes, isEmpty, pick } = require('lodash');
 const { get, getOr } = require('lodash/fp');
 
 const FORM_STATES = {
@@ -84,63 +84,57 @@ function prepareForm(locale, formModel, formData) {
     return clonedForm;
 }
 
+function determineState(data, errors = []) {
+    if (isEmpty(data)) {
+        return FORM_STATES.empty;
+    } else if (errors.length > 0) {
+        return FORM_STATES.incomplete;
+    } else {
+        return FORM_STATES.complete;
+    }
+}
+
 /**
  * Build up a set of state parameters for steps, sections, and the form itself
  * eg. to show status on the summary page
  */
-function validateFormState(form, formData, sessionValidation) {
+function injectFormState(form, data) {
     const clonedForm = cloneDeep(form);
 
-    clonedForm.sections = clonedForm.sections.map(section => {
-        section.steps = section.steps.map((step, stepIndex) => {
-            // Handle steps that this user doesn't need to complete
-            if (step.matchesCondition && step.matchesCondition(formData) === false) {
-                step.state = FORM_STATES.complete;
-                step.notRequired = true;
-            } else {
-                const fieldsForStep = getFieldsForStep(step);
-                const stepData = pick(formData, fieldsForStep.map(field => field.name));
+    const validationResult = form.schema.validate(data, {
+        abortEarly: false,
+        stripUnknown: true
+    });
 
-                if (isEmpty(stepData)) {
-                    step.state = FORM_STATES.empty;
-                } else {
-                    // @TODO construct this via a function
-                    const stepIsValid = getOr(false, `${section.slug}.step-${stepIndex}`)(sessionValidation);
-                    step.state = stepIsValid ? FORM_STATES.complete : FORM_STATES.incomplete;
-                }
+    const errors = getOr([], 'details', validationResult.error);
+
+    clonedForm.sections = clonedForm.sections.map(section => {
+        const fieldNamesForSection = flatMapDeep(section.steps, step => {
+            return step.fieldsets.map(fieldset => fieldset.fields.map(field => field.name));
+        });
+
+        const dataForSection = pick(validationResult.value, fieldNamesForSection);
+
+        const errorsForSection = errors.filter(detail => {
+            return includes(fieldNamesForSection, detail.context.key);
+        });
+
+        section.state = determineState(dataForSection, errorsForSection);
+
+        section.steps = section.steps.map(step => {
+            // Handle steps that this user doesn't need to complete
+            if (step.matchesCondition && step.matchesCondition(data) === false) {
+                step.notRequired = true;
             }
 
             return step;
         });
 
-        // See if this section's steps are all empty
-        const sectionIsNotEmpty = section.steps
-            .filter(step => !step.notRequired)
-            .some(step => step.state !== FORM_STATES.empty);
-
-        if (sectionIsNotEmpty) {
-            // Work out this section's state based on its steps' state
-            const sectionHasInvalidSteps = section.steps
-                .filter(step => step.notRequired === undefined)
-                .some(step => step.state !== FORM_STATES.complete);
-            section.state = sectionHasInvalidSteps ? FORM_STATES.incomplete : FORM_STATES.complete;
-        } else {
-            section.state = FORM_STATES.empty;
-        }
-
         return section;
     });
 
-    // Check whether the entire form is empty
-    const formIsNotEmpty = clonedForm.sections.some(section => section.state !== FORM_STATES.empty);
+    clonedForm.state = determineState(validationResult.value, errors);
 
-    if (formIsNotEmpty) {
-        // Work out the entire form's state based on its sections' state
-        const formHasInvalidSections = clonedForm.sections.some(section => section.state !== FORM_STATES.complete);
-        clonedForm.state = formHasInvalidSections ? FORM_STATES.incomplete : FORM_STATES.complete;
-    } else {
-        clonedForm.state = FORM_STATES.empty;
-    }
     return clonedForm;
 }
 
@@ -182,5 +176,5 @@ module.exports = {
     getFieldsForSection,
     getFieldsForStep,
     prepareForm,
-    validateFormState
+    injectFormState
 };

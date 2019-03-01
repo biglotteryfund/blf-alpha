@@ -2,54 +2,12 @@
 const { includes } = require('lodash');
 const path = require('path');
 
-const { schema, allFields, addressFields, organisationTypes } = require('./fields');
+const { schema, allFields, organisationTypes } = require('./fields');
 const processor = require('./processor');
 const validatorsLegacy = require('../validators-legacy');
 
-/**
- * @typedef {Object} LocaleString
- * @property {string} en
- * @property {string} cy
- */
-
-/**
- * @typedef {Object} Section
- * @property {string} slug
- * @property {LocaleString} title
- * @property {LocaleString} [introduction]
- * @property {Array<Step>} steps
- */
-
-/**
- * @typedef {Object} Step
- * @property {LocaleString} title
- * @property {function} [matchesCondition]
- * @property {Array<Fieldset>} fieldsets
- */
-
-/**
- * @typedef {Object} Fieldset
- * @property {LocaleString} legend
- * @property {LocaleString} [introduction]
- * @property {Array<Field>} fields
- */
-
-/**
- * @typedef {Object} Field
- * @property {String} name
- * @property {LocaleString} label
- * @property {LocaleString} [explanation]
- * @property {String} type
- * @property {Object} [attributes]
- * @property {Boolean} [isRequired]
- * @property {Function} schema
- */
-
 const SESSION_KEY = 'awards-for-all';
 
-/**
- * @type Section
- */
 const sectionProject = {
     slug: 'your-project',
     title: { en: 'Your Project', cy: '(WELSH) Your Project' },
@@ -65,9 +23,6 @@ const sectionProject = {
             fieldsets: [
                 {
                     legend: { en: 'Get started', cy: '(WELSH) Get started' },
-                    /**
-                     * @type Array<Field>
-                     */
                     fields: [allFields.projectStartDate, allFields.projectPostcode]
                 }
             ]
@@ -93,9 +48,6 @@ const sectionProject = {
     ]
 };
 
-/**
- * @type Section
- */
 const sectionOrganisation = {
     slug: 'organisation',
     title: { en: 'Your organisation', cy: '' },
@@ -114,7 +66,12 @@ const sectionOrganisation = {
                 },
                 {
                     legend: { en: 'What is the main or registered address of your organisation?', cy: '' },
-                    fields: addressFields('organisation')
+                    fields: [
+                        allFields.organisationAddressBuildingStreet,
+                        allFields.organisationAddressTownCity,
+                        allFields.organisationAddressCounty,
+                        allFields.organisationAddressPostcode
+                    ]
                 }
             ]
         },
@@ -170,9 +127,6 @@ const sectionOrganisation = {
     ]
 };
 
-/**
- * @type Section
- */
 const sectionMainContact = {
     slug: 'main-contact',
     title: { en: 'Main contact', cy: '' },
@@ -198,7 +152,12 @@ const sectionMainContact = {
                 },
                 {
                     legend: { en: 'Address', cy: '' },
-                    fields: addressFields('main-contact')
+                    fields: [
+                        allFields.mainContactAddressBuildingStreet,
+                        allFields.mainContactAddressTownCity,
+                        allFields.mainContactAddressCounty,
+                        allFields.mainContactAddressPostcode
+                    ]
                 },
                 {
                     legend: { en: 'Contact details', cy: '' },
@@ -213,9 +172,6 @@ const sectionMainContact = {
     ]
 };
 
-/**
- * @type Section
- */
 const sectionLegalContact = {
     slug: 'legal-contact',
     title: { en: 'Legally responsible contact', cy: '' },
@@ -243,7 +199,12 @@ const sectionLegalContact = {
                 },
                 {
                     legend: { en: 'Address', cy: '' },
-                    fields: addressFields('legal-contact')
+                    fields: [
+                        allFields.legalContactAddressBuildingStreet,
+                        allFields.legalContactAddressTownCity,
+                        allFields.legalContactAddressCounty,
+                        allFields.legalContactAddressPostcode
+                    ]
                 },
                 {
                     legend: { en: 'Contact details', cy: '' },
@@ -258,9 +219,6 @@ const sectionLegalContact = {
     ]
 };
 
-/**
- * @type Section
- */
 const sectionBankDetails = {
     slug: 'bank-details',
     title: { en: 'Bank details', cy: '' },
