@@ -43,11 +43,31 @@ const organisationTypes = {
 
 const MIN_APPLICANT_AGE = 16;
 
-// Allows us to use postcode validation on the client-side
-// via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
-// we have to double-escape the regex patterns here
-// to output it as a string for the HTML pattern attribute
-const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
+function postcodeField(props) {
+    // Allows us to use postcode validation on the client-side
+    // via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
+    // we have to double-escape the regex patterns here
+    // to output it as a string for the HTML pattern attribute
+    const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
+
+    const defaultProps = {
+        label: { en: 'Postcode', cy: '' },
+        type: 'text',
+        attributes: {
+            size: 10,
+            autocomplete: 'postal-code',
+            pattern: POSTCODE_PATTERN
+        },
+        isRequired: true,
+        schema: commonValidators.postcode.required(),
+        messages: {
+            base: { en: 'Please provide a postcode', cy: '' },
+            'string.regex.base': { en: 'Please provide a valid postcode', cy: '' }
+        }
+    };
+
+    return { ...defaultProps, ...props };
+}
 
 const allFields = {
     projectStartDate: {
@@ -75,7 +95,7 @@ const allFields = {
             'date.min': { en: 'Project start date must be at least 12 weeks into the future', cy: '' }
         }
     },
-    projectPostcode: {
+    projectPostcode: postcodeField({
         name: 'project-postcode',
         label: {
             en: 'What is the postcode of the location where your project will take place?',
@@ -86,20 +106,8 @@ const allFields = {
                 'If your project will take place across different locations, please use the postcode where most of the project will take place.',
             cy:
                 '(WELSH) If your project will take place across different locations, please use the postcode where most of the project will take place.'
-        },
-        type: 'text',
-        attributes: {
-            size: 10,
-            autocomplete: 'postal-code',
-            pattern: POSTCODE_PATTERN
-        },
-        isRequired: true,
-        schema: commonValidators.postcode.required(),
-        messages: {
-            base: { en: 'Please provide a postcode', cy: '' },
-            'string.regex.base': { en: 'Please provide a valid postcode', cy: '' }
         }
-    },
+    }),
     yourIdea: {
         name: 'your-idea',
         label: {
@@ -251,22 +259,10 @@ const allFields = {
             base: { en: 'Please provide a county' }
         }
     },
-    organisationAddressPostcode: {
+    organisationAddressPostcode: postcodeField({
         name: `organisation-address-postcode`,
-        label: { en: 'Postcode', cy: '' },
-        type: 'text',
-        attributes: {
-            size: 10,
-            autocomplete: 'postal-code',
-            pattern: POSTCODE_PATTERN
-        },
-        isRequired: true,
-        schema: commonValidators.postcode.required(),
-        messages: {
-            base: { en: 'Please provide a postcode', cy: '' },
-            'string.regex.base': { en: 'Please provide a valid postcode', cy: '' }
-        }
-    },
+        label: { en: 'Postcode', cy: '' }
+    }),
     organisationType: {
         name: 'organisation-type',
         label: { en: 'What type of organisation are you?', cy: '(WELSH) What type of organisation are you?' },
@@ -377,22 +373,10 @@ const allFields = {
             base: { en: 'Please provide a county' }
         }
     },
-    mainContactAddressPostcode: {
+    mainContactAddressPostcode: postcodeField({
         name: `main-contact-address-postcode`,
-        label: { en: 'Postcode', cy: '' },
-        type: 'text',
-        attributes: {
-            size: 10,
-            autocomplete: 'postal-code',
-            pattern: POSTCODE_PATTERN
-        },
-        isRequired: true,
-        schema: commonValidators.postcode.required(),
-        messages: {
-            base: { en: 'Please provide a postcode', cy: '' },
-            'string.regex.base': { en: 'Please provide a valid postcode', cy: '' }
-        }
-    },
+        label: { en: 'Postcode', cy: '' }
+    }),
     mainContactEmail: {
         name: 'main-contact-email',
         label: { en: 'Email', cy: '' },
@@ -483,22 +467,10 @@ const allFields = {
             base: { en: 'Please provide a county' }
         }
     },
-    legalContactAddressPostcode: {
+    legalContactAddressPostcode: postcodeField({
         name: 'legal-contact-address-postcode',
-        label: { en: 'Postcode', cy: '' },
-        type: 'text',
-        attributes: {
-            size: 10,
-            autocomplete: 'postal-code',
-            pattern: POSTCODE_PATTERN
-        },
-        isRequired: true,
-        schema: commonValidators.postcode.required(),
-        messages: {
-            base: { en: 'Please provide a postcode', cy: '' },
-            'string.regex.base': { en: 'Please provide a valid postcode', cy: '' }
-        }
-    },
+        label: { en: 'Postcode', cy: '' }
+    }),
     legalContactEmail: {
         name: 'legal-contact-email',
         label: { en: 'Email', cy: '' },
