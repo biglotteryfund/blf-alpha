@@ -1,5 +1,5 @@
 'use strict';
-const { concat, difference, flatMap, isEmpty, includes, pick, set, unset } = require('lodash');
+const { concat, difference, flatMap, isEmpty, includes, pick, set } = require('lodash');
 const { get, getOr } = require('lodash/fp');
 const express = require('express');
 const path = require('path');
@@ -30,7 +30,6 @@ function initFormRouter(formModel) {
     router.use(cached.csrfProtection, async (req, res, next) => {
         res.locals.setSessionData = (dataPath, value) => set(req.session, `${sessionKeys.form}.${dataPath}`, value);
         res.locals.getSessionData = dataPath => get(`${sessionKeys.form}.${dataPath}`)(req.session);
-        res.locals.unsetSessionData = dataPath => unset(req.session, `${sessionKeys.form}.${dataPath}`);
         res.locals.clearSession = () => delete req.session[sessionKeys.form];
 
         // Look up the current application data
