@@ -10,14 +10,14 @@ module.exports = {
     futureDate: function(amount, unit) {
         const minDate = moment()
             .add(amount, unit)
-            .toISOString();
+            .format('YYYY-MM-DD');
 
         return Joi.date().min(minDate);
     },
     dateOfBirth: function(minAge) {
         const maxDate = moment()
             .add(minAge, 'years')
-            .toISOString();
+            .format('YYYY-MM-DD');
 
         return Joi.date().max(maxDate);
     }
