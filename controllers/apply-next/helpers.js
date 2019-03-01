@@ -1,6 +1,7 @@
 'use strict';
 const { cloneDeep, find, findIndex, flatMap, flatMapDeep, includes, isEmpty, pick } = require('lodash');
 const { get, getOr } = require('lodash/fp');
+const moment = require('moment');
 
 const FORM_STATES = {
     incomplete: {
@@ -36,8 +37,17 @@ function prepareForm(locale, formModel, formData) {
         field.label = localise(field.label);
         field.explanation = localise(field.explanation);
         const match = find(formData, (value, name) => name === field.name);
+
         if (match) {
-            field.value = match;
+            // @TODO: How should this logic be handled?
+            // Should we split up date field into multiple parts in the UI?
+            if (field.type === 'date') {
+                field.value = moment(match)
+                    .locale(locale)
+                    .format('YYYY-MM-DD');
+            } else {
+                field.value = match;
+            }
         }
 
         // Translate each option (if set)
