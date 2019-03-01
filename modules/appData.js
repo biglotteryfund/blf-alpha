@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const config = require('config');
 const { get } = require('lodash');
-const debug = require('debug')('biglotteryfund:appData');
+const debug = require('debug')('tnlcf:environment');
 
 /**
  * Extract deploy ID from AWS (where provided)
