@@ -8,7 +8,7 @@ function makeTitle(formId) {
     return `${formId} - ${moment().toISOString()}`;
 }
 
-function createApplication({ userId, formId, title = false }) {
+function createApplication({ userId, formId, title = null }) {
     if (!title) {
         title = makeTitle(formId);
     }

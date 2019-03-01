@@ -1,26 +1,15 @@
 'use strict';
-const { concat, flatMap, isEmpty, includes, set, unset } = require('lodash');
-const { find, get } = require('lodash/fp');
-const { validationResult: validationResultEv } = require('express-validator/check');
+const { concat, difference, flatMap, isEmpty, includes, pick, set, unset } = require('lodash');
+const { get, getOr } = require('lodash/fp');
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
 
 const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
-const ApplicationService = require('../../services/applications');
-const { localify } = require('../../modules/urls');
-const { FORM_STATES, findNextMatchingStepIndex, prepareForm, injectFormState } = require('./helpers');
+const applicationsService = require('../../services/applications');
 
-function normaliseErrors({ fields, errors, locale }) {
-    console.log(errors);
-    return errors.map(detail => {
-        const name = detail.context.key;
-        const fieldMatch = find(field => field.name === name)(fields);
-        const localeString = get(detail.type)(fieldMatch.messages) || get('base')(fieldMatch.messages);
-        return { param: detail.context.key, msg: get(locale)(localeString) };
-    });
-}
+const { FORM_STATES, findNextMatchingStepIndex, prepareForm, injectFormState, normaliseErrors } = require('./helpers');
 
 function initFormRouter(formModel) {
     const router = express.Router();
@@ -48,7 +37,7 @@ function initFormRouter(formModel) {
         let applicationData = {};
         res.locals.currentlyEditingId = res.locals.getSessionData(sessionKeys.editingId);
         if (res.locals.currentlyEditingId) {
-            applicationData = await ApplicationService.getApplicationById(
+            applicationData = await applicationsService.getApplicationById(
                 sessionKeys.form,
                 res.locals.currentlyEditingId
             );
@@ -75,57 +64,35 @@ function initFormRouter(formModel) {
     /**
      * Route: Start page
      */
+    async function renderStartPage(req, res, errors = []) {
+        const { startPage } = res.locals.form;
+        const applications = await applicationsService.getApplicationsForUser(req.user.userData.id, sessionKeys.form);
+
+        res.render(startPage.template, {
+            title: res.locals.formTitle,
+            applications: applications,
+            csrfToken: req.csrfToken(),
+            errors: errors
+        });
+    }
+
     router
         .route('/')
-        .all((req, res, next) => {
-            const { startPage } = res.locals.form;
-            if (!startPage) {
-                throw new Error('No startpage found');
-            }
-            if (!startPage.urlPath && !startPage.template) {
-                throw new Error('No valid startpage types found');
-            }
-            next();
+        .get(async function(req, res) {
+            renderStartPage(req, res);
         })
-        .get(cached.noCache, async function(req, res) {
-            const { startPage } = res.locals.form;
-            const applications = await ApplicationService.getApplicationsForUser(
-                req.user.userData.id,
-                sessionKeys.form
-            );
-            if (startPage.template) {
-                res.render(startPage.template, {
-                    title: res.locals.form.title,
-                    applications: applications,
-                    csrfToken: req.csrfToken()
-                });
-            } else if (startPage.urlPath) {
-                res.redirect(localify(req.i18n.getLocale())(startPage.urlPath));
-            }
-        })
-        .post(formModel.titleField.validator(formModel.titleField), (req, res) => {
-            const errors = validationResultEv(req);
-            if (errors.isEmpty()) {
-                // create app and proceed!
-                ApplicationService.createApplication({
+        .post(async (req, res) => {
+            try {
+                const application = applicationsService.createApplication({
                     userId: req.user.userData.id,
                     formId: sessionKeys.form,
+                    // @TODO: Validate the title field
                     title: req.body['application-title']
-                })
-                    .then(application => {
-                        res.redirect(`${req.baseUrl}/edit/${application.id}`);
-                    })
-                    .catch(error => {
-                        Raven.captureException(error);
-                        return renderError(error, req, res);
-                    });
-            } else {
-                const { startPage } = res.locals.form;
-                res.render(startPage.template, {
-                    title: res.locals.form.title,
-                    csrfToken: req.csrfToken(),
-                    errors: errors.array()
                 });
+                res.redirect(`${req.baseUrl}/edit/${application.id}`);
+            } catch (error) {
+                Raven.captureException(error);
+                renderError(error, req, res);
             }
         });
 
@@ -163,6 +130,7 @@ function initFormRouter(formModel) {
             const numSteps = sectionModel.steps.length;
             const nextSection = formModel.sections[sectionIndex + 1];
             const fieldsForStep = flatMap(stepModel.fieldsets, 'fields');
+            const fieldNamesForStep = fieldsForStep.map(field => field.name);
 
             function redirectNext(nextMatchingStepIndex, req, res) {
                 if (nextMatchingStepIndex !== -1 && nextMatchingStepIndex <= sectionModel.steps.length) {
@@ -175,7 +143,7 @@ function initFormRouter(formModel) {
             }
 
             function renderStep(req, res, data, errors = []) {
-                const { form } = res.locals;
+                const form = prepareForm(req.i18n.getLocale(), formModel, data);
 
                 const sectionLocalised = form.sections.find(s => s.slug === sectionModel.slug);
                 const stepLocalised = sectionLocalised.steps[stepIndex];
@@ -204,46 +172,69 @@ function initFormRouter(formModel) {
                 }
             }
 
-            async function handleSubmitStep(req, res) {
-                const { currentlyEditingId, currentApplicationData } = res.locals;
-
-                const validationResult = formModel.schema.validate(req.body, {
-                    abortEarly: false,
-                    stripUnknown: true
-                });
-
-                const errorsForStep = validationResult.error
-                    ? validationResult.error.details.filter(detail =>
-                          includes(fieldsForStep.map(field => field.name), detail.context.key)
-                      )
-                    : [];
-
-                const newData = { ...currentApplicationData, ...validationResult.value };
-                await ApplicationService.updateApplication(currentlyEditingId, newData);
-
-                req.session.save(() => {
-                    if (errorsForStep.length > 0) {
-                        const errors = normaliseErrors({
-                            fields: fieldsForStep,
-                            errors: errorsForStep,
-                            locale: req.i18n.getLocale()
-                        });
-                        renderStep(req, res, newData, errors);
-                    } else {
-                        const nextMatchingStepIndex = findNextMatchingStepIndex({
-                            steps: sectionModel.steps,
-                            startIndex: stepIndex + 1,
-                            formData: newData
-                        });
-                        redirectNext(nextMatchingStepIndex, req, res);
-                    }
-                });
-            }
-
             router
                 .route(`/${sectionModel.slug}/${currentStepNumber}`)
-                .get((req, res) => renderStep(req, res, res.locals.currentApplicationData))
-                .post(handleSubmitStep);
+                .get((req, res) => {
+                    renderStep(req, res, res.locals.currentApplicationData);
+                })
+                .post(async function handleSubmitStep(req, res) {
+                    const { currentlyEditingId, currentApplicationData } = res.locals;
+
+                    /**
+                     * Validate the current request body against our validation schema
+                     * @see https://github.com/hapijs/joi/blob/master/API.md#validatevalue-schema-options-callback
+                     * We include `stripUnknown` to exclude any values that are required in
+                     * the POST body, like CSRF tokens, but not needed as part of the submission.
+                     */
+                    const validationResult = formModel.schema.validate(req.body, {
+                        abortEarly: false,
+                        stripUnknown: true
+                    });
+
+                    /**
+                     * Get the errors for the current step
+                     * We validate against the whole form schema so need to limit the errors to the current step
+                     */
+                    const errorDetails = getOr([], 'error.details')(validationResult);
+                    const errorsForStep = errorDetails.filter(detail =>
+                        includes(fieldNamesForStep, detail.context.key)
+                    );
+
+                    /**
+                     * Prepare data for storage
+                     * Excludes any values in the current submission which have errors
+                     */
+                    const goodKeys = difference(fieldNamesForStep, errorsForStep.map(detail => detail.context.key));
+                    const newDataToStore = pick(validationResult.value, goodKeys);
+                    const newFormData = { ...currentApplicationData, ...newDataToStore };
+
+                    try {
+                        await applicationsService.updateApplication(currentlyEditingId, newFormData);
+
+                        /**
+                         * If there are errors re-render the step with errors
+                         * - Pass the full data object from validationResult to the view. Including invalid values.
+                         * Otherwise, find the next suitable step and redirect there.
+                         */
+                        if (errorsForStep.length > 0) {
+                            const errors = normaliseErrors({
+                                fields: fieldsForStep,
+                                errors: errorsForStep,
+                                locale: req.i18n.getLocale()
+                            });
+                            renderStep(req, res, validationResult.value, errors);
+                        } else {
+                            const nextMatchingStepIndex = findNextMatchingStepIndex({
+                                steps: sectionModel.steps,
+                                startIndex: stepIndex + 1,
+                                formData: newFormData
+                            });
+                            redirectNext(nextMatchingStepIndex, req, res);
+                        }
+                    } catch (error) {
+                        renderError(error, req, res);
+                    }
+                });
         });
     });
 
@@ -260,68 +251,57 @@ function initFormRouter(formModel) {
     /**
      * Route: Summary
      */
-    router
-        .route('/summary')
-        .get(function(req, res) {
-            const { form, currentApplicationData } = res.locals;
-            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, { label: 'Summary' });
-            const validatedForm = injectFormState(form, currentApplicationData);
-            res.render(path.resolve(__dirname, './views/summary'), {
-                form: validatedForm,
-                csrfToken: req.csrfToken()
-            });
-        })
-        .post(function(req, res) {
-            // @TODO: Revisit whole-schema validation
-            res.redirect(`${req.baseUrl}/terms`);
+    router.route('/summary').get(function(req, res) {
+        const { form, currentApplicationData } = res.locals;
+        res.locals.breadcrumbs = concat(res.locals.breadcrumbs, { label: 'Summary' });
+        const validatedForm = injectFormState(form, currentApplicationData);
+        res.render(path.resolve(__dirname, './views/summary'), {
+            form: validatedForm,
+            csrfToken: req.csrfToken()
         });
+    });
 
     /**
      * Route: Terms and Conditions
      */
-    // router
-    //     .route('/terms')
-    //     .all((req, res, next) => {
-    //         res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-    //             label: 'Terms & Conditions'
-    //         });
-    //         const validatedForm = validateFormState(
-    //             res.locals.form,
-    //             res.locals.currentApplicationData,
-    //             res.locals.validation
-    //         );
-    //         if (validatedForm.state.type !== 'complete') {
-    //             res.redirect(`${req.baseUrl}/summary`);
-    //         } else {
-    //             next();
-    //         }
-    //     })
-    //     .get(function(req, res) {
-    //         res.render(path.resolve(__dirname, './views/terms'), {
-    //             csrfToken: req.csrfToken()
-    //         });
-    //     })
-    //     .post(formModel.termsFields.map(field => field.validator(field)), async (req, res) => {
-    //         const errors = validationResult(req);
-    //         if (errors.isEmpty()) {
-    //             // Everything is good, submit the form
-    //             try {
-    //                 await formModel.processor({
-    //                     form: res.locals.form,
-    //                     data: res.locals.currentApplicationData
-    //                 });
-    //                 res.redirect(`${req.baseUrl}/success`);
-    //             } catch (error) {
-    //                 Raven.captureException(error);
-    //                 renderError(error, req, res);
-    //             }
-    //         } else {
-    //             res.render(path.resolve(__dirname, './views/terms'), {
-    //                 csrfToken: req.csrfToken(),
-    //                 errors: errors.array()
-    //             });
-    //         }
-    //     });
+    router
+        .route('/terms')
+        .all((req, res, next) => {
+            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, { label: 'Terms & Conditions' });
+
+            res.locals.form = prepareForm(req.i18n.getLocale(), formModel, res.locals.currentApplicationData);
+
+            const validationResult = formModel.schema.validate(res.locals.currentApplicationData, {
+                abortEarly: false,
+                stripUnknown: true
+            });
+
+            const errors = getOr([], 'error.details', validationResult);
+
+            if (errors.length > 0) {
+                res.redirect(`${req.baseUrl}/summary`);
+            } else {
+                next();
+            }
+        })
+        .get(function(req, res) {
+            res.render(path.resolve(__dirname, './views/terms'), {
+                csrfToken: req.csrfToken()
+            });
+        })
+        .post(async (req, res) => {
+            // @TODO: Validate fields on terms screen?
+            try {
+                await formModel.processor({
+                    form: res.locals.form,
+                    data: res.locals.currentApplicationData
+                });
+                res.redirect(`${req.baseUrl}/success`);
+            } catch (error) {
+                Raven.captureException(error);
+                renderError(error, req, res);
+            }
+        });
 
     /**
      * Route: Success

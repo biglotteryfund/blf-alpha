@@ -113,11 +113,6 @@
                                         {% endfor %}
                                     </div>
                                 </details>
-                                {#<p class="u-pull-right">#}
-                                    {#<a class="btn btn--medium" href="{{ formBaseUrl }}/{{ section.slug }}">#}
-                                        {#Edit this section#}
-                                    {#</a>#}
-                                {#</p>#}
                             </article>
                         </section>
                     {% endfor %}
@@ -129,11 +124,10 @@
 
                     <div class="u-margin-top">
                         {% if form.state.type === 'complete' %}
-                            <input class="btn" type="submit" value="Submit" />
+                            <a href="{{ formBaseUrl }}/terms" class="btn">Submit</a>
                         {% else %}
                             <p>Your form isn't complete yet – you can submit it here when it's ready.</p>
                         {% endif %}
-
                     </div>
                 </div>
 

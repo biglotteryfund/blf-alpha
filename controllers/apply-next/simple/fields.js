@@ -183,7 +183,8 @@ const allFields = {
         isRequired: true,
         schema: Joi.number().required(),
         messages: {
-            base: { en: 'Please provide the total costs for your project', cy: '' }
+            base: { en: 'Please provide the total costs for your project', cy: '' },
+            'number.base': { en: 'Please enter a number', cy: '' }
         }
     },
     organisationLegalName: {

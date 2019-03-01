@@ -116,7 +116,7 @@ function injectFormState(form, data) {
         stripUnknown: true
     });
 
-    const errors = getOr([], 'details', validationResult.error);
+    const errors = getOr([], 'error.details', validationResult);
 
     clonedForm.sections = clonedForm.sections.map(section => {
         const fieldNamesForSection = flatMapDeep(section.steps, step => {
@@ -179,6 +179,15 @@ function findNextMatchingStepIndex({ steps, startIndex, formData }) {
     );
 }
 
+function normaliseErrors({ fields, errors, locale }) {
+    return errors.map(detail => {
+        const name = detail.context.key;
+        const match = find(fields, field => field.name === name);
+        const localeString = get(detail.type)(match.messages) || get('base')(match.messages);
+        return { param: detail.context.key, msg: get(locale)(localeString) };
+    });
+}
+
 module.exports = {
     FORM_STATES,
     findNextMatchingStepIndex,
@@ -186,5 +195,6 @@ module.exports = {
     getFieldsForSection,
     getFieldsForStep,
     prepareForm,
-    injectFormState
+    injectFormState,
+    normaliseErrors
 };
