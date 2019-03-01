@@ -2,6 +2,7 @@
 const { cloneDeep, find, findIndex, flatMap, flatMapDeep, includes, isEmpty, pick } = require('lodash');
 const { get, getOr } = require('lodash/fp');
 const moment = require('moment');
+const debug = require('debug')('tnlcf:forms');
 
 const FORM_STATES = {
     incomplete: {
@@ -182,6 +183,7 @@ function findNextMatchingStepIndex({ steps, startIndex, formData }) {
 function normaliseErrors({ fields, errors, locale }) {
     return errors.map(detail => {
         const name = detail.context.key;
+        debug(`[${detail.type}] ${detail.message}`);
         const match = find(fields, field => field.name === name);
         const localeString = get(detail.type)(match.messages) || get('base')(match.messages);
         return { param: detail.context.key, msg: get(locale)(localeString) };
