@@ -91,7 +91,7 @@ function initFormRouter(formModel) {
         })
         .post(async (req, res) => {
             try {
-                const application = applicationsService.createApplication({
+                const application = await applicationsService.createApplication({
                     userId: req.user.userData.id,
                     formId: sessionKeys.form,
                     // @TODO: Validate the title field
