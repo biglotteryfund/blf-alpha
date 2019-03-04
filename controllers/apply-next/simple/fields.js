@@ -579,7 +579,7 @@ const allFields = {
     bankSortCode: {
         name: 'bank-sort-code',
         label: { en: 'Sort code', cy: '' },
-        type: 'string',
+        type: 'text',
         attributes: {
             size: 20
         },
@@ -592,7 +592,7 @@ const allFields = {
     bankAccountNumber: {
         name: 'bank-account-number',
         label: { en: 'Account number', cy: '' },
-        type: 'string',
+        type: 'text',
         isRequired: true,
         schema: Joi.number().required(),
         messages: {
@@ -637,7 +637,9 @@ forEach(allFields, field => {
         name: Joi.string().required(),
         label: localeString.required(),
         explanation: localeString.optional(),
-        type: Joi.string().required(),
+        type: Joi.string()
+            .valid(['text', 'textarea', 'number', 'radio', 'checkbox', 'file', 'email', 'tel', 'date', 'currency'])
+            .required(),
         attributes: Joi.object().optional(),
         isRequired: Joi.boolean().required(),
         schema: Joi.object()
