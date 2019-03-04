@@ -26,7 +26,11 @@ function initFormRouter(formModel) {
         editingId: 'currentEditingId'
     };
 
-    // Require login and redirect users back here once authorised
+    router.use(cached.csrfProtection);
+
+    /**
+     * Require login, redirect back here once authenticated.
+     */
     router.use((req, res, next) => {
         req.session.redirectUrl = req.baseUrl;
         req.session.save(() => {
@@ -34,7 +38,10 @@ function initFormRouter(formModel) {
         });
     }, requireUserAuth);
 
-    router.use(cached.csrfProtection, async (req, res, next) => {
+    /**
+     * Set common locals
+     */
+    router.use(async (req, res, next) => {
         res.locals.setSessionData = (dataPath, value) => set(req.session, `${sessionKeys.form}.${dataPath}`, value);
         res.locals.getSessionData = dataPath => get(`${sessionKeys.form}.${dataPath}`)(req.session);
         res.locals.clearSession = () => delete req.session[sessionKeys.form];
