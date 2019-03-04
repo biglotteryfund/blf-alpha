@@ -1,30 +1,52 @@
 'use strict';
-const { cloneDeep, find, findIndex, flatMap, isEmpty, pick } = require('lodash');
-const { get, getOr } = require('lodash/fp');
+const { cloneDeep, find, findIndex, findLastIndex, flatMapDeep, includes, isEmpty, pick } = require('lodash');
+const { get, getOr, uniqBy } = require('lodash/fp');
+const moment = require('moment');
 
 const FORM_STATES = {
-    incomplete: {
-        type: 'incomplete',
-        label: 'In progress'
-    },
-    complete: {
-        type: 'complete',
-        label: 'Complete'
-    },
-    invalid: {
-        type: 'invalid',
-        label: 'Invalid'
-    },
-    empty: {
-        type: 'empty',
-        label: 'Not started'
-    }
+    empty: 'empty',
+    invalid: 'invalid',
+    incomplete: 'incomplete',
+    complete: 'complete'
 };
 
-function prepareForm(locale, formModel, formData) {
-    const localise = get(locale);
+/**
+ * Format field values for display in views
+ * If the field has a custom displayFormat use that
+ * Or, try common display formats based on type
+ * Otherwise, call toString on the result
+ *
+ * @param {any} value
+ * @param {object} field
+ */
+function toDisplayValue(value, field) {
+    if (field.displayFormat) {
+        return field.displayFormat.call(field, value);
+    } else if (field.type === 'radio') {
+        const optionMatch = find(field.options, option => option.value === value);
+        return optionMatch ? optionMatch.label : value.toString();
+    } else if (field.type === 'date') {
+        return moment(value).format('D MMMM, YYYY');
+    } else {
+        return value.toString();
+    }
+}
 
-    const translateSection = section => {
+/**
+ * Enhances a form object by:
+ * - Localising all labels and messages
+ * - Assigning values to fields, along with a display value for views
+ * - Marking steps as notRequired if matchesCondition is currently false
+ *
+ * @param {String} locale
+ * @param {Object} form
+ * @param {Object} data
+ */
+function enhanceForm(locale, form, data) {
+    const localise = get(locale);
+    const clonedForm = cloneDeep(form);
+
+    const enhanceSection = section => {
         section.title = localise(section.title);
         if (section.introduction) {
             section.introduction = localise(section.introduction);
@@ -32,15 +54,10 @@ function prepareForm(locale, formModel, formData) {
         return section;
     };
 
-    const translateField = field => {
+    const enhanceField = field => {
         field.label = localise(field.label);
         field.explanation = localise(field.explanation);
-        const match = find(formData, (value, name) => name === field.name);
-        if (match) {
-            field.value = match;
-        }
 
-        // Translate each option (if set)
         if (field.options) {
             field.options = field.options.map(option => {
                 option.label = localise(option.label);
@@ -48,139 +65,204 @@ function prepareForm(locale, formModel, formData) {
                 return option;
             });
         }
+
+        // Assign value to field if present
+        const fieldValue = find(data, (value, name) => name === field.name);
+        if (fieldValue) {
+            field.value = fieldValue;
+            field.displayValue = toDisplayValue(fieldValue, field);
+        }
+
         return field;
     };
 
-    const translateStep = step => {
+    const enhanceStep = step => {
         step.title = localise(step.title);
 
         step.fieldsets = step.fieldsets.map(fieldset => {
             fieldset.legend = localise(fieldset.legend);
             fieldset.introduction = localise(fieldset.introduction);
-            fieldset.fields = fieldset.fields.map(translateField);
+            fieldset.fields = fieldset.fields.map(enhanceField);
             return fieldset;
         });
+
+        // Handle steps that don't need to be completed based on current form data
+        if (step.matchesCondition && step.matchesCondition(data) === false) {
+            step.notRequired = true;
+        }
 
         return step;
     };
 
-    const clonedForm = cloneDeep(formModel);
-    clonedForm.title = localise(formModel.title);
+    clonedForm.title = localise(form.title);
 
     clonedForm.sections = clonedForm.sections.map(section => {
-        section = translateSection(section);
-        section.steps = section.steps.map(step => translateStep(step));
+        section = enhanceSection(section);
+        section.steps = section.steps.map(enhanceStep);
         return section;
     });
 
     if (clonedForm.termsFields) {
-        clonedForm.termsFields = clonedForm.termsFields.map(translateField);
+        clonedForm.termsFields = clonedForm.termsFields.map(enhanceField);
     }
 
     if (clonedForm.titleField) {
-        clonedForm.titleField = translateField(clonedForm.titleField);
+        clonedForm.titleField = enhanceField(clonedForm.titleField);
     }
 
     return clonedForm;
 }
 
 /**
- * Build up a set of state parameters for steps, sections, and the form itself
- * eg. to show status on the summary page
+ * Determine status from data and validation errors
+ * @param {Object} data
+ * @param {Array} errors
  */
-function validateFormState(form, formData, sessionValidation) {
-    const clonedForm = cloneDeep(form);
-
-    clonedForm.sections = clonedForm.sections.map(section => {
-        section.steps = section.steps.map((step, stepIndex) => {
-            // Handle steps that this user doesn't need to complete
-            if (step.matchesCondition && step.matchesCondition(formData) === false) {
-                step.state = FORM_STATES.complete;
-                step.notRequired = true;
-            } else {
-                const fieldsForStep = getFieldsForStep(step);
-                const stepData = pick(formData, fieldsForStep.map(field => field.name));
-
-                if (isEmpty(stepData)) {
-                    step.state = FORM_STATES.empty;
-                } else {
-                    // @TODO construct this via a function
-                    const stepIsValid = getOr(false, `${section.slug}.step-${stepIndex}`)(sessionValidation);
-                    step.state = stepIsValid ? FORM_STATES.complete : FORM_STATES.incomplete;
-                }
-            }
-
-            return step;
-        });
-
-        // See if this section's steps are all empty
-        const sectionIsNotEmpty = section.steps
-            .filter(step => !step.notRequired)
-            .some(step => step.state !== FORM_STATES.empty);
-
-        if (sectionIsNotEmpty) {
-            // Work out this section's state based on its steps' state
-            const sectionHasInvalidSteps = section.steps
-                .filter(step => step.notRequired === undefined)
-                .some(step => step.state !== FORM_STATES.complete);
-            section.state = sectionHasInvalidSteps ? FORM_STATES.incomplete : FORM_STATES.complete;
-        } else {
-            section.state = FORM_STATES.empty;
-        }
-
-        return section;
-    });
-
-    // Check whether the entire form is empty
-    const formIsNotEmpty = clonedForm.sections.some(section => section.state !== FORM_STATES.empty);
-
-    if (formIsNotEmpty) {
-        // Work out the entire form's state based on its sections' state
-        const formHasInvalidSections = clonedForm.sections.some(section => section.state !== FORM_STATES.complete);
-        clonedForm.state = formHasInvalidSections ? FORM_STATES.incomplete : FORM_STATES.complete;
+function determineStatus(data, errors = []) {
+    if (isEmpty(data)) {
+        return FORM_STATES.empty;
+    } else if (errors.length > 0) {
+        return FORM_STATES.incomplete;
     } else {
-        clonedForm.state = FORM_STATES.empty;
+        return FORM_STATES.complete;
     }
-    return clonedForm;
-}
-
-function getFieldsForStep(step) {
-    return flatMap(step.fieldsets, fieldset => fieldset.fields);
-}
-
-function getFieldsForSection(section) {
-    return flatMap(section.steps, getFieldsForStep);
-}
-
-function getAllFields(formModel) {
-    return flatMap(formModel.sections, getFieldsForSection);
 }
 
 /**
- * Find the next step starting from the given index which should be shown
- * matchesCondition returns a boolean to determine if a step is
- * suitable based on the form data submitted so far.
+ * Calculate form progress
+ * Validates the form and returns a status
+ * for each section and the form as a whole.
+ *
+ * @param {Object} form
+ * @param {Object} data
+ */
+function calculateFormProgress(form, data) {
+    const validationResult = form.schema.validate(data, { abortEarly: false, stripUnknown: true });
+
+    const errors = getOr([], 'error.details', validationResult);
+
+    return {
+        all: determineStatus(validationResult.value, errors),
+        sections: form.sections.reduce((obj, section) => {
+            const fieldNames = flatMapDeep(section.steps, step => {
+                return step.fieldsets.map(fieldset => fieldset.fields.map(field => field.name));
+            });
+
+            const dataForSection = pick(validationResult.value, fieldNames);
+            const errorsForSection = errors.filter(detail => includes(fieldNames, detail.context.key));
+
+            obj[section.slug] = determineStatus(dataForSection, errorsForSection);
+
+            return obj;
+        }, {})
+    };
+}
+
+/**
+ * @typedef {object} MatchOptions
+ * @property {String} baseUrl
+ * @property {Array} sections
+ * @property {Number} currentSectionIndex
+ * @property {Number} currentStepIndex
+ * @property {Object} formData
+ */
+
+/**
+ * Find next matching URL
+ * @param {MatchOptions} options
+ */
+function findNextMatchingUrl({ baseUrl, sections, currentSectionIndex, currentStepIndex, formData }) {
+    const currentSection = sections[currentSectionIndex];
+    const nextSection = sections[currentSectionIndex + 1];
+
+    const targetStepIndex = findIndex(
+        currentSection.steps,
+        step => (step.matchesCondition ? step.matchesCondition(formData) === true : true),
+        currentStepIndex + 1
+    );
+
+    if (targetStepIndex !== -1 && targetStepIndex <= currentSection.steps.length) {
+        return `${baseUrl}/${currentSection.slug}/${targetStepIndex + 1}`;
+    } else if (nextSection) {
+        return `${baseUrl}/${nextSection.slug}`;
+    } else {
+        return `${baseUrl}/summary`;
+    }
+}
+
+/**
+ * Find previous matching URL
+ * @param {MatchOptions} options
+ */
+function findPreviousMatchingUrl({ baseUrl, sections, currentSectionIndex, currentStepIndex, formData }) {
+    const currentSection = sections[currentSectionIndex];
+    const previousSection = sections[currentSectionIndex - 1];
+
+    if (currentStepIndex !== 0) {
+        const targetStepIndex = findLastIndex(
+            currentSection.steps,
+            step => (step.matchesCondition ? step.matchesCondition(formData) === true : true),
+            currentStepIndex - 1
+        );
+        return `${baseUrl}/${currentSection.slug}/${targetStepIndex + 1}`;
+    } else if (previousSection) {
+        return `${baseUrl}/${previousSection.slug}/${previousSection.steps.length}`;
+    } else {
+        return baseUrl;
+    }
+}
+
+/**
+ * Find next and previous matching URLs
+ * @param {MatchOptions} options
+ */
+function nextAndPrevious(options) {
+    return {
+        nextUrl: findNextMatchingUrl(options),
+        previousUrl: findPreviousMatchingUrl(options)
+    };
+}
+
+/**
+ * Filter joi error object by given field names
+ * In order to avoid showing multiple validation errors per field we find the first error per field name
+ * @param {Object} validationError
+ * @param {Array<String>} fieldNames
+ */
+function filterErrors(validationError, fieldNames) {
+    const errorDetails = getOr([], 'details')(validationError);
+    return uniqBy(detail => detail.context.key)(
+        errorDetails.filter(detail => includes(fieldNames, detail.context.key))
+    );
+}
+
+/**
+ * Normalise errors for use in views
+ * Maps raw joi error objects to a simplified format and
+ * determines the appropriate translated error message to
+ * use based on a fields current error type.
  *
  * @param {Object} options
- * @param {Object[]} options.steps
- * @param {Function} [options.steps[].matchesCondition]
- * @param {Number} options.startIndex
- * @param {Object} options.formData
+ * @param {Array<Object>} options.fields
+ * @param {Array<Object>} options.errors
+ * @param {String} options.locale
  */
-function findNextMatchingStepIndex({ steps, startIndex, formData }) {
-    return findIndex(
-        steps,
-        step => (step.matchesCondition ? step.matchesCondition(formData) === true : true),
-        startIndex
-    );
+function normaliseErrors({ fields, errors, locale }) {
+    return errors.map(detail => {
+        const name = detail.context.key;
+        const match = find(fields, field => field.name === name);
+        const localeString = get(detail.type)(match.messages) || get('base')(match.messages);
+        return { param: name, msg: get(locale)(localeString) };
+    });
 }
 
 module.exports = {
     FORM_STATES,
-    findNextMatchingStepIndex,
-    getAllFields,
-    getFieldsForSection,
-    getFieldsForStep,
-    prepareForm,
-    validateFormState
+    calculateFormProgress,
+    enhanceForm,
+    filterErrors,
+    findNextMatchingUrl,
+    findPreviousMatchingUrl,
+    nextAndPrevious,
+    normaliseErrors
 };

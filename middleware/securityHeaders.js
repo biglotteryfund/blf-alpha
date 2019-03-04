@@ -63,7 +63,7 @@ function defaultSecurityHeaders() {
     const directives = {
         defaultSrc: defaultSecurityDomains,
         childSrc: ['www.google.com'],
-        styleSrc: ['fonts.googleapis.com', '*.typekit.net'],
+        styleSrc: ['*.typekit.net'],
         imgSrc: ['stats.g.doubleclick.net', 'via.placeholder.com', 'biglotteryfund-assets.imgix.net'],
         connectSrc: [],
         scriptSrc: [],

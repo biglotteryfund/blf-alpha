@@ -13,7 +13,9 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 {{ formHeader(
-                    title = formTitle
+                    backUrl = previousUrl,
+                    title = currentApplicationTitle if currentApplicationTitle else formTitle,
+                    suffix = formTitle if currentApplicationTitle
                 ) }}
 
                 {# {{ languageServiceMessage(currentLocale = locale) }} #}

@@ -35,107 +35,98 @@
                     </div>
                 </div>
 
-                <p class="u-pull-right">
-                    <button class="application-summary__toggle btn-link js-toggle-all-details u-hidden"
-                            data-label-open="Collapse all sections"
-                            data-label-closed="Expand all sections"
-                            type="button">
+                <p class="u-align-right">
+                    <button type="button"
+                        class="application-summary__toggle btn-link js-toggle-all-details u-hidden"
+                        data-label-open="Collapse all sections"
+                        data-label-closed="Expand all sections">
                     </button>
                 </p>
 
+                {% for section in form.sections %}
+                    {% set sectionProgress = progress.sections[section.slug] %}
 
-                <div class="u-clear-right">
+                    <section>
+                        <header class="application-summary__status application-summary__status--{{ sectionProgress }} u-tone-background-tint">
+                            <h3 class="u-padded-vertical-s u-no-margin">
+                                Section {{ loop.index }}: {{ section.title }}
 
-                    {% for section in form.sections %}
+                                <span class="application-summary__edit-link">
+                                    {% set editWord = 'Continue' if sectionProgress === FORM_STATES.incomplete else 'Edit' %}
+                                    <a href="{{ formBaseUrl }}/{{ section.slug }}">{{ editWord }}</a>
+                                </span>
+                            </h3>
+                            {% if sectionProgress %}
+                                <div class="application-summary__status__label u-padded-vertical-s">
+                                    {% if sectionProgress === FORM_STATES.complete %}
+                                        {{ iconTick() }} Complete
+                                    {% elseif sectionProgress === FORM_STATES.incomplete %}
+                                        In progress
+                                    {% elseif sectionProgress === FORM_STATES.invald %}
+                                        Invalid
+                                    {% else %}
+                                        Not started
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </header>
+                        <article class="application-summary__status__content">
+                            {% if section.introduction %}
+                                <p>{{ section.introduction }}</p>
+                            {% endif %}
+                            <details class="js-toggleable u-margin-bottom-s">
+                                <summary>Show questions</summary>
+                                <div>
+                                    {% for step in section.steps %}
+                                        {% set stepNumber = loop.index %}
+                                        <h4 class="application-summary__step-title">
+                                            Step {{ stepNumber }} of {{ section.steps.length }} &ndash; {{ step.title }}
+                                        </h4>
 
-                        <section>
-                            <header class="application-summary__status application-summary__status--{{ section.state.type }} u-tone-background-tint">
-                                <h3 class="u-padded-vertical-s u-no-margin">
-                                    Section {{ loop.index }}: {{ section.title }}
-
-                                    <span class="application-summary__edit-link">
-                                        {% set editWord = 'Continue' if section.state.type === 'incomplete' else 'Edit' %}
-                                        <a href="{{ formBaseUrl }}/{{ section.slug }}">{{ editWord }}</a>
-                                    </span>
-                                </h3>
-                                {% if section.state %}
-                                    <div class="application-summary__status__label u-padded-vertical-s">
-                                        {{ section.state.label }}
-                                        {% if section.state.type === 'complete' %}{{ iconTick() }}{% endif %}
-                                    </div>
-                                {% endif %}
-                            </header>
-                            <article class="application-summary__status__content">
-                                {% if section.introduction %}
-                                    <p>{{ section.introduction }}</p>
-                                {% endif %}
-                                <details class="js-toggleable u-margin-bottom-s">
-                                    <summary>Show questions</summary>
-                                    <div>
-                                        {% for step in section.steps %}
-                                            {% set stepNumber = loop.index %}
-                                            <h4 class="application-summary__step-title">
-                                                Step {{ stepNumber }} of {{ section.steps.length }} &ndash; {{ step.title }}
-                                            </h4>
-
-                                            {% if not step.notRequired %}
-                                                {% for fieldset in step.fieldsets %}
-                                                    {% for field in fieldset.fields %}
-                                                        <div class="application-summary__data">
-                                                            <div class="application-summary__data__question">
-                                                                {{ field.label }}
-                                                            </div>
-                                                            <div class="application-summary__data__answer s-prose">
-                                                                {% if not field.value %}
-                                                                    &ndash;
-                                                                {% else %}
-                                                                    {% if field.type === 'textarea' %}
-                                                                        {% set cleanValue = field.value | striptags(true) | escape | nl2br %}
-                                                                        {{ cleanValue }}
-                                                                    {% elseif (field.value | isArray) %}
-                                                                        {{ field.value | join(', ') }}
-                                                                    {% else %}
-                                                                        {{ field.value }}
-                                                                    {% endif %}
-                                                                {% endif %}
-                                                                {% if field.state %}(Status: {{ field.state.label }}){% endif %}
-                                                            </div>
-                                                            <div class="application-summary__data__link">
-                                                                <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}" class="application-summary__edit-link">
-                                                                    Change
-                                                                </a>
-                                                            </div>
+                                        {% if not step.notRequired %}
+                                            {% for fieldset in step.fieldsets %}
+                                                {% for field in fieldset.fields %}
+                                                    <div class="application-summary__data">
+                                                        <div class="application-summary__data__question">
+                                                            {{ field.label }}
                                                         </div>
-                                                    {% endfor %}
+                                                        <div class="application-summary__data__answer s-prose">
+                                                            {% if field.displayValue %}
+                                                                {% set cleanValue = field.displayValue | striptags(true) | escape | nl2br %}
+                                                                {{ cleanValue }}
+                                                            {% else %}
+                                                                &ndash;
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="application-summary__data__link">
+                                                            <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}" class="application-summary__edit-link">
+                                                                Change
+                                                            </a>
+                                                        </div>
+                                                    </div>
                                                 {% endfor %}
-                                            {% else %}
-                                                <p>Not required for your application.</p>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                </details>
-                                {#<p class="u-pull-right">#}
-                                    {#<a class="btn btn--medium" href="{{ formBaseUrl }}/{{ section.slug }}">#}
-                                        {#Edit this section#}
-                                    {#</a>#}
-                                {#</p>#}
-                            </article>
-                        </section>
-                    {% endfor %}
+                                            {% endfor %}
+                                        {% else %}
+                                            <p>Not required for your application.</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </details>
+                        </article>
+                    </section>
+                {% endfor %}
 
-                    {% if csrfToken %}
-                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                {% if csrfToken %}
+                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                {% endif %}
+
+
+                <div class="u-margin-top">
+                    {% if progress.all === FORM_STATES.complete %}
+                        <a href="{{ formBaseUrl }}/terms" class="btn">Submit</a>
+                    {% else %}
+                        <p>Your form isn't complete yet – you can submit it here when it's ready.</p>
                     {% endif %}
-
-
-                    <div class="u-margin-top">
-                        {% if form.state.type === 'complete' %}
-                            <input class="btn" type="submit" value="Submit" />
-                        {% else %}
-                            <p>Your form isn't complete yet – you can submit it here when it's ready.</p>
-                        {% endif %}
-
-                    </div>
                 </div>
 
             </form>

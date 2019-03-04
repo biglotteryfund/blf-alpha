@@ -1,98 +1,24 @@
 'use strict';
-
+const Joi = require('joi');
 const moment = require('moment');
-const { check } = require('express-validator/check');
-
-function localiseMessage(options) {
-    return function(value, { req }) {
-        return options[req.i18n.getLocale()];
-    };
-}
 
 module.exports = {
-    optional: function(field) {
-        return check(field.name)
-            .trim()
-            .optional();
-    },
-    required: function(message) {
-        return function(field) {
-            return check(field.name)
-                .trim()
-                .not()
-                .isEmpty()
-                .withMessage(localiseMessage(message));
-        };
-    },
-    email: function(field) {
-        return check(field.name)
-            .trim()
-            .isEmail()
-            .withMessage(
-                localiseMessage({
-                    en: 'Please provide a valid email address',
-                    cy: ''
-                })
-            );
-    },
-    emailRequired: function(field) {
-        return check(field.name)
-            .trim()
-            .not()
-            .isEmpty()
-            .isEmail()
-            .withMessage(
-                localiseMessage({
-                    en: 'Please provide a valid email address',
-                    cy: ''
-                })
-            );
-    },
-    postcode: function(field) {
-        return check(field.name)
-            .isPostalCode('GB')
-            .withMessage(
-                localiseMessage({
-                    en: 'Must be a valid postcode',
-                    cy: 'WELSH ERROR'
-                })
-            );
-    },
-    futureDate: function(field) {
-        const minFutureDate = field.min ? moment(field.min, 'YYYY-MM-DD') : moment();
-        return check(field.name)
-            .isAfter(minFutureDate.toISOString())
-            .withMessage(
-                localiseMessage({
-                    en: 'Date must be in the future',
-                    cy: 'WELSH ERROR'
-                })
-            );
-    },
-    pastDate: function(field) {
-        return check(field.name)
-            .isBefore(moment().toISOString())
-            .withMessage(
-                localiseMessage({
-                    en: 'Date must be in the past',
-                    cy: 'WELSH ERROR'
-                })
-            );
+    postcode: Joi.string()
+        // via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
+        .regex(/^(gir\s?0aa|[a-z]{1,2}\d[\da-z]?\s?(\d[a-z]{2})?)$/i)
+        .description('postcode'),
+    futureDate: function(amount, unit) {
+        const minDate = moment()
+            .add(amount, unit)
+            .format('YYYY-MM-DD');
+
+        return Joi.date().min(minDate);
     },
     dateOfBirth: function(minAge) {
-        return function(field) {
-            return check(field.name)
-                .isBefore(
-                    moment()
-                        .subtract(minAge, 'years')
-                        .toISOString()
-                )
-                .withMessage(
-                    localiseMessage({
-                        en: `Date of birth must be at least ${minAge} years ago`,
-                        cy: 'WELSH ERROR'
-                    })
-                );
-        };
+        const maxDate = moment()
+            .subtract(minAge, 'years')
+            .format('YYYY-MM-DD');
+
+        return Joi.date().max(maxDate);
     }
 };
