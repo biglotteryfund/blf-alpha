@@ -6,7 +6,7 @@ const nunjucks = require('nunjucks');
 const nodemailer = require('nodemailer');
 const juice = require('juice');
 const htmlToText = require('html-to-text');
-const debug = require('debug')('tnlcf:mail');
+const debug = require('debug')('biglotteryfund:mail');
 const { isString, isArray } = require('lodash');
 
 const metrics = require('../modules/metrics');
