@@ -1,5 +1,5 @@
 'use strict';
-const { concat, difference, flatMap, isEmpty, includes, pick, set } = require('lodash');
+const { concat, flatMap, isEmpty, omit, set } = require('lodash');
 const { get, getOr } = require('lodash/fp');
 const express = require('express');
 const path = require('path');
@@ -9,7 +9,14 @@ const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
 const applicationsService = require('../../services/applications');
 
-const { FORM_STATES, findNextMatchingStepIndex, prepareForm, injectFormState, normaliseErrors } = require('./helpers');
+const {
+    FORM_STATES,
+    calculateFormProgress,
+    enhanceForm,
+    filterErrors,
+    nextAndPrevious,
+    normaliseErrors
+} = require('./helpers');
 
 function initFormRouter(formModel) {
     const router = express.Router();
@@ -32,30 +39,32 @@ function initFormRouter(formModel) {
         res.locals.getSessionData = dataPath => get(`${sessionKeys.form}.${dataPath}`)(req.session);
         res.locals.clearSession = () => delete req.session[sessionKeys.form];
 
+        const currentEditingId = res.locals.getSessionData(sessionKeys.editingId);
+
+        res.locals.currentlyEditingId = currentEditingId;
+
         // Look up the current application data
-        let applicationData = {};
-        res.locals.currentlyEditingId = res.locals.getSessionData(sessionKeys.editingId);
-        if (res.locals.currentlyEditingId) {
-            applicationData = await applicationsService.getApplicationById(
-                sessionKeys.form,
-                res.locals.currentlyEditingId
-            );
-        }
-        res.locals.currentApplicationData = applicationData ? applicationData.application_data : false;
+        const application = currentEditingId
+            ? await applicationsService.getApplicationById(sessionKeys.form, currentEditingId)
+            : {};
+
+        const currentApplicationData = get('application_data')(application);
+        res.locals.currentApplicationTitle = get('application_title')(application);
+        res.locals.currentApplicationData = currentApplicationData;
 
         // Translate the form object for each request and populate it with current user input
-        res.locals.form = prepareForm(req.i18n.getLocale(), formModel, res.locals.currentApplicationData);
+        const form = enhanceForm(req.i18n.getLocale(), formModel, currentApplicationData);
 
-        // Share some useful form variables
-        res.locals.FORM_STATES = FORM_STATES;
-        res.locals.user = req.user;
-
+        res.locals.form = form;
+        res.locals.formTitle = form.title;
         res.locals.formBaseUrl = req.baseUrl;
-        res.locals.formTitle = 'Application form: ' + res.locals.form.title;
+        res.locals.FORM_STATES = FORM_STATES;
+        res.locals.breadcrumbs = [{ label: form.title, url: req.baseUrl }];
+
+        res.locals.user = req.user;
         res.locals.isBilingual = formModel.isBilingual;
         res.locals.enablePrompt = false; // Disable prompts on apply pages
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
-        res.locals.breadcrumbs = [{ label: res.locals.form.title, url: req.baseUrl }];
 
         next();
     });
@@ -116,96 +125,88 @@ function initFormRouter(formModel) {
         next();
     });
 
-    formModel.sections.forEach((sectionModel, sectionIndex) => {
-        router.get(`/${sectionModel.slug}`, (req, res) => {
-            res.redirect(`${req.baseUrl}/${sectionModel.slug}/1`);
+    formModel.sections.forEach((currentSection, currentSectionIndex) => {
+        router.get(`/${currentSection.slug}`, (req, res) => {
+            res.redirect(`${req.baseUrl}/${currentSection.slug}/1`);
         });
 
         /**
          * Route: Section steps
          */
-        sectionModel.steps.forEach((stepModel, stepIndex) => {
-            const currentStepNumber = stepIndex + 1;
-            const numSteps = sectionModel.steps.length;
-            const nextSection = formModel.sections[sectionIndex + 1];
-            const fieldsForStep = flatMap(stepModel.fieldsets, 'fields');
+        currentSection.steps.forEach((currentStep, currentStepIndex) => {
+            const currentStepNumber = currentStepIndex + 1;
+            const numSteps = currentSection.steps.length;
+            const fieldsForStep = flatMap(currentStep.fieldsets, 'fields');
             const fieldNamesForStep = fieldsForStep.map(field => field.name);
 
-            function redirectNext(nextMatchingStepIndex, req, res) {
-                if (nextMatchingStepIndex !== -1 && nextMatchingStepIndex <= sectionModel.steps.length) {
-                    res.redirect(`${req.baseUrl}/${sectionModel.slug}/${nextMatchingStepIndex + 1}`);
-                } else if (nextSection) {
-                    res.redirect(`${req.baseUrl}/${nextSection.slug}`);
-                } else {
-                    res.redirect(`${req.baseUrl}/summary`);
-                }
-            }
-
             function renderStep(req, res, data, errors = []) {
-                const form = prepareForm(req.i18n.getLocale(), formModel, data);
+                const form = enhanceForm(req.i18n.getLocale(), formModel, data);
 
-                const sectionLocalised = form.sections.find(s => s.slug === sectionModel.slug);
-                const stepLocalised = sectionLocalised.steps[stepIndex];
+                const sectionLocalised = form.sections.find(s => s.slug === currentSection.slug);
+                const stepLocalised = sectionLocalised.steps[currentStepIndex];
 
                 res.locals.breadcrumbs = concat(
                     res.locals.breadcrumbs,
-                    { label: sectionLocalised.title, url: `${req.baseUrl}/${sectionModel.slug}` },
+                    { label: sectionLocalised.title, url: `${req.baseUrl}/${currentSection.slug}` },
                     { label: `${stepLocalised.title} (Step ${currentStepNumber} of ${numSteps})` }
                 );
 
-                const nextMatchingStepIndex = findNextMatchingStepIndex({
-                    steps: sectionModel.steps,
-                    startIndex: stepIndex,
+                const { nextUrl, previousUrl } = nextAndPrevious({
+                    baseUrl: req.baseUrl,
+                    sections: formModel.sections,
+                    currentSectionIndex: currentSectionIndex,
+                    currentStepIndex: currentStepIndex,
                     formData: data
                 });
 
-                if (nextMatchingStepIndex === stepIndex) {
+                const shouldRender = currentStep.matchesCondition ? currentStep.matchesCondition(data) === true : true;
+                if (shouldRender) {
                     res.render(path.resolve(__dirname, './views/step'), {
+                        previousUrl,
                         title: `${stepLocalised.title} | ${res.locals.form.title}`,
                         csrfToken: req.csrfToken(),
                         step: stepLocalised,
                         errors: errors
                     });
                 } else {
-                    redirectNext(nextMatchingStepIndex, req, res);
+                    res.redirect(nextUrl);
                 }
             }
 
             router
-                .route(`/${sectionModel.slug}/${currentStepNumber}`)
+                .route(`/${currentSection.slug}/${currentStepNumber}`)
                 .get((req, res) => {
                     renderStep(req, res, res.locals.currentApplicationData);
                 })
-                .post(async function handleSubmitStep(req, res) {
+                .post(async function(req, res) {
                     const { currentlyEditingId, currentApplicationData } = res.locals;
 
                     /**
-                     * Validate the current request body against our validation schema
+                     * Validate the all the data so far against validation schema
+                     * - Validating against the whole form ensures that conditional validations are taken into account
+                     * - We include `stripUnknown` to exclude any values that are required in the POST body,
+                     *   like request forgery tokens, but not needed as part of the submission data.
                      * @see https://github.com/hapijs/joi/blob/master/API.md#validatevalue-schema-options-callback
-                     * We include `stripUnknown` to exclude any values that are required in
-                     * the POST body, like CSRF tokens, but not needed as part of the submission.
                      */
-                    const validationResult = formModel.schema.validate(req.body, {
+                    const dataToValidate = { ...currentApplicationData, ...req.body };
+                    const validationResult = formModel.schema.validate(dataToValidate, {
                         abortEarly: false,
-                        stripUnknown: true
+                        stripUnknown: true,
+                        escapeHtml: true
                     });
 
                     /**
                      * Get the errors for the current step
                      * We validate against the whole form schema so need to limit the errors to the current step
                      */
-                    const errorDetails = getOr([], 'error.details')(validationResult);
-                    const errorsForStep = errorDetails.filter(detail =>
-                        includes(fieldNamesForStep, detail.context.key)
-                    );
+                    const errorsForStep = filterErrors(validationResult.error, fieldNamesForStep);
+                    const errorKeysForStep = errorsForStep.map(detail => detail.context.key);
 
                     /**
                      * Prepare data for storage
-                     * Excludes any values in the current submission which have errors
+                     * Exclude any values in the current submission which have errors
                      */
-                    const goodKeys = difference(fieldNamesForStep, errorsForStep.map(detail => detail.context.key));
-                    const newDataToStore = pick(validationResult.value, goodKeys);
-                    const newFormData = { ...currentApplicationData, ...newDataToStore };
+                    const newFormData = omit(validationResult.value, errorKeysForStep);
 
                     try {
                         await applicationsService.updateApplication(currentlyEditingId, newFormData);
@@ -223,12 +224,14 @@ function initFormRouter(formModel) {
                             });
                             renderStep(req, res, validationResult.value, errors);
                         } else {
-                            const nextMatchingStepIndex = findNextMatchingStepIndex({
-                                steps: sectionModel.steps,
-                                startIndex: stepIndex + 1,
+                            const { nextUrl } = nextAndPrevious({
+                                baseUrl: req.baseUrl,
+                                sections: formModel.sections,
+                                currentSectionIndex: currentSectionIndex,
+                                currentStepIndex: currentStepIndex,
                                 formData: newFormData
                             });
-                            redirectNext(nextMatchingStepIndex, req, res);
+                            res.redirect(nextUrl);
                         }
                     } catch (error) {
                         renderError(error, req, res);
@@ -253,9 +256,8 @@ function initFormRouter(formModel) {
     router.route('/summary').get(function(req, res) {
         const { form, currentApplicationData } = res.locals;
         res.locals.breadcrumbs = concat(res.locals.breadcrumbs, { label: 'Summary' });
-        const validatedForm = injectFormState(form, currentApplicationData);
         res.render(path.resolve(__dirname, './views/summary'), {
-            form: validatedForm,
+            progress: calculateFormProgress(form, currentApplicationData),
             csrfToken: req.csrfToken()
         });
     });
@@ -268,7 +270,7 @@ function initFormRouter(formModel) {
         .all((req, res, next) => {
             res.locals.breadcrumbs = concat(res.locals.breadcrumbs, { label: 'Terms & Conditions' });
 
-            res.locals.form = prepareForm(req.i18n.getLocale(), formModel, res.locals.currentApplicationData);
+            res.locals.form = enhanceForm(req.i18n.getLocale(), formModel, res.locals.currentApplicationData);
 
             const validationResult = formModel.schema.validate(res.locals.currentApplicationData, {
                 abortEarly: false,

@@ -1,59 +1,96 @@
 /* eslint-env jest */
 'use strict';
-const { findNextMatchingStepIndex } = require('./helpers');
+const { nextAndPrevious } = require('./helpers');
 
-describe('findNextMatchingStepIndex', () => {
-    const mockSteps = [
-        { title: 'Step 1' },
-        { title: 'Step 2', matchesCondition: formData => formData.name === 'example' },
-        { title: 'Step 3' }
+describe('nextAndPrevious', () => {
+    const mockSections = [
+        {
+            slug: 'section-a',
+            steps: [{ title: 'Step 1' }, { title: 'Step 2' }, { title: 'Step 3' }, { title: 'Step 4' }]
+        },
+        {
+            slug: 'section-b',
+            steps: [
+                { title: 'Step 1' },
+                { title: 'Step 2', matchesCondition: formData => formData.name === 'example' },
+                { title: 'Step 3' }
+            ]
+        },
+        {
+            slug: 'section-c',
+            steps: [{ title: 'Step 1' }, { title: 'Step 2' }]
+        }
     ];
 
-    it('should return start index if current step matches', () => {
-        expect(
-            findNextMatchingStepIndex({
-                steps: mockSteps,
-                startIndex: 0,
-                formData: {}
-            })
-        ).toBe(0);
-
-        expect(
-            findNextMatchingStepIndex({
-                steps: mockSteps,
-                startIndex: 1,
-                formData: {
-                    name: 'example'
-                }
-            })
-        ).toBe(1);
-
-        expect(
-            findNextMatchingStepIndex({
-                steps: mockSteps,
-                startIndex: 2,
-                formData: {}
-            })
-        ).toBe(2);
+    test('first step', () => {
+        const { nextUrl, previousUrl } = nextAndPrevious({
+            baseUrl: '/example',
+            sections: mockSections,
+            currentSectionIndex: 0,
+            currentStepIndex: 0,
+            formData: {}
+        });
+        expect(nextUrl).toBe('/example/section-a/2');
+        expect(previousUrl).toBe('/example');
     });
 
-    it('should skip steps where conditions do not match', () => {
-        expect(
-            findNextMatchingStepIndex({
-                steps: mockSteps,
-                startIndex: 1,
-                formData: {}
-            })
-        ).toBe(2);
+    test('next section', () => {
+        const { nextUrl, previousUrl } = nextAndPrevious({
+            baseUrl: '/example',
+            sections: mockSections,
+            currentSectionIndex: 0,
+            currentStepIndex: 3,
+            formData: {}
+        });
+        expect(nextUrl).toBe('/example/section-b');
+        expect(previousUrl).toBe('/example/section-a/3');
     });
 
-    it('should return -1 if start index is greater than the number of steps', () => {
-        expect(
-            findNextMatchingStepIndex({
-                steps: mockSteps,
-                startIndex: 5,
-                formData: {}
-            })
-        ).toBe(-1);
+    test('previous section', () => {
+        const { nextUrl, previousUrl } = nextAndPrevious({
+            baseUrl: '/example',
+            sections: mockSections,
+            currentSectionIndex: 2,
+            currentStepIndex: 0,
+            formData: {}
+        });
+        expect(nextUrl).toBe('/example/section-c/2');
+        expect(previousUrl).toBe('/example/section-b/3');
+    });
+
+    test('last step', () => {
+        const { nextUrl, previousUrl } = nextAndPrevious({
+            baseUrl: '/example',
+            sections: mockSections,
+            currentSectionIndex: 2,
+            currentStepIndex: 2,
+            formData: {}
+        });
+        expect(nextUrl).toBe('/example/summary');
+        expect(previousUrl).toBe('/example/section-c/2');
+    });
+
+    test('skips conditional steps', () => {
+        const { nextUrl, previousUrl } = nextAndPrevious({
+            baseUrl: '/example',
+            sections: mockSections,
+            currentSectionIndex: 1,
+            currentStepIndex: 0,
+            formData: {}
+        });
+        expect(nextUrl).toBe('/example/section-b/3');
+        expect(previousUrl).toBe('/example/section-a/4');
+    });
+
+    it('should include steps where matchesCondition is true', () => {
+        const { nextUrl, previousUrl } = nextAndPrevious({
+            baseUrl: '/example',
+            sections: mockSections,
+            currentSectionIndex: 1,
+            currentStepIndex: 0,
+            formData: { name: 'example' }
+        });
+        expect(nextUrl).toBe('/example/section-b/2');
+        expect(previousUrl).toBe('/example/section-a/4');
     });
 });
