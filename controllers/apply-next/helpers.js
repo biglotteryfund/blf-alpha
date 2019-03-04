@@ -1,6 +1,6 @@
 'use strict';
-const { cloneDeep, find, findIndex, findLastIndex, flatMapDeep, includes, isEmpty, pick, uniqBy } = require('lodash');
-const { get, getOr } = require('lodash/fp');
+const { cloneDeep, find, findIndex, findLastIndex, flatMapDeep, includes, isEmpty, pick } = require('lodash');
+const { get, getOr, uniqBy } = require('lodash/fp');
 const moment = require('moment');
 
 const FORM_STATES = {
