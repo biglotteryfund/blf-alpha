@@ -1,10 +1,9 @@
 'use strict';
-const { includes } = require('lodash');
+const { get, includes } = require('lodash');
 const path = require('path');
 
 const { schema, allFields, organisationTypes } = require('./fields');
 const processor = require('./processor');
-const validatorsLegacy = require('../validators-legacy');
 
 const SESSION_KEY = 'awards-for-all';
 
@@ -86,8 +85,8 @@ const sectionOrganisation = {
         },
         {
             title: { en: 'Charity number', cy: '' },
-            matchesCondition: function(formData) {
-                return formData['organisation-type'] === organisationTypes.unincorporatedRegisteredCharity.value;
+            matchesCondition: function(formData = {}) {
+                return get(formData, 'organisation-type') === organisationTypes.unincorporatedRegisteredCharity.value;
             },
             fieldsets: [
                 {
@@ -98,14 +97,14 @@ const sectionOrganisation = {
         },
         {
             title: { en: 'Company number', cy: '' },
-            matchesCondition: function(formData) {
+            matchesCondition: function(formData = {}) {
                 return includes(
                     [
                         organisationTypes.charitableIncorporatedOrganisation.value,
                         organisationTypes.notForProfitCompany.value,
                         organisationTypes.communityInterestCompany.value
                     ],
-                    formData['organisation-type']
+                    get(formData, 'organisation-type')
                 );
             },
             fieldsets: [
@@ -296,11 +295,7 @@ module.exports = {
                     cy: ''
                 },
                 options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
-                isRequired: true,
-                validator: validatorsLegacy.required({
-                    en: 'Please provide your agreement',
-                    cy: ''
-                })
+                isRequired: true
             },
             {
                 name: 'terms-agreement-2',
@@ -311,11 +306,7 @@ module.exports = {
                     cy: ''
                 },
                 options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
-                isRequired: true,
-                validator: validatorsLegacy.required({
-                    en: 'Please provide your agreement',
-                    cy: ''
-                })
+                isRequired: true
             },
             {
                 name: 'terms-agreement-3',
@@ -326,11 +317,7 @@ module.exports = {
                     cy: ''
                 },
                 options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
-                isRequired: true,
-                validator: validatorsLegacy.required({
-                    en: 'Please provide your agreement',
-                    cy: ''
-                })
+                isRequired: true
             },
             {
                 name: 'terms-agreement-4',
@@ -341,44 +328,28 @@ module.exports = {
                     cy: ''
                 },
                 options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
-                isRequired: true,
-                validator: validatorsLegacy.required({
-                    en: 'Please provide your agreement',
-                    cy: ''
-                })
+                isRequired: true
             },
             {
                 name: 'terms-person-name',
                 autocompleteName: 'name',
                 type: 'text',
                 label: { en: 'Full name of person completing this form', cy: '' },
-                isRequired: true,
-                validator: validatorsLegacy.required({
-                    en: 'Enter the full name',
-                    cy: ''
-                })
+                isRequired: true
             },
             {
                 name: 'terms-person-position',
                 autocompleteName: 'position',
                 type: 'text',
                 label: { en: 'Position in organisation', cy: '' },
-                isRequired: true,
-                validator: validatorsLegacy.required({
-                    en: 'Enter the position',
-                    cy: ''
-                })
+                isRequired: true
             }
         ],
         titleField: {
             name: 'application-title',
             type: 'text',
             label: { en: 'Funding application title', cy: '' },
-            isRequired: true,
-            validator: validatorsLegacy.required({
-                en: 'Please provide a title',
-                cy: ''
-            })
+            isRequired: true
         },
         schema: schema,
         processor: processor,

@@ -16,7 +16,7 @@ module.exports = {
     },
     dateOfBirth: function(minAge) {
         const maxDate = moment()
-            .add(minAge, 'years')
+            .subtract(minAge, 'years')
             .format('YYYY-MM-DD');
 
         return Joi.date().max(maxDate);
