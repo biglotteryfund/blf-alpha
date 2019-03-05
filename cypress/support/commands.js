@@ -77,12 +77,6 @@ Cypress.Commands.add('checkRedirect', ({ from, to, isRelative = true, status = 3
     });
 });
 
-Cypress.Commands.add('uiRegisterUser', (username, password) => {
-    cy.get('#field-username').type(username, { delay: 0 });
-    cy.get('#field-password').type(password, { delay: 0 });
-    cy.get('input[type="submit"]').click();
-});
-
 Cypress.Commands.add('closeCookieMessage', () => {
     cy.get('.cookie-consent button').click();
 });

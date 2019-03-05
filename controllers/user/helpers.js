@@ -1,31 +1,9 @@
 'use strict';
 const jsonwebtoken = require('jsonwebtoken');
-const { body } = require('express-validator/check');
 
 const { sendEmail } = require('../../services/mail');
 const { getAbsoluteUrl } = require('../../modules/urls');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
-
-// configure form validation
-const PASSWORD_MIN_LENGTH = 8;
-const validators = {
-    emailAddress: body('username')
-        .exists()
-        .not()
-        .isEmpty()
-        .withMessage('Please provide your email address')
-        .isEmail()
-        .withMessage('Please provide a valid email address'),
-    password: body('password')
-        .exists()
-        .not()
-        .isEmpty()
-        .withMessage('Please provide a password')
-        .isLength({ min: PASSWORD_MIN_LENGTH })
-        .withMessage(`Please provide a password that is longer than ${PASSWORD_MIN_LENGTH} characters`)
-        .matches(/\d/)
-        .withMessage('Please provide a password that contains at least one number')
-};
 
 async function sendActivationEmail(req, user) {
     const payload = { data: { userId: user.id, reason: 'activate' } };
@@ -56,6 +34,5 @@ async function sendActivationEmail(req, user) {
 }
 
 module.exports = {
-    validators,
     sendActivationEmail
 };
