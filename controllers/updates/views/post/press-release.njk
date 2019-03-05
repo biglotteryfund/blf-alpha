@@ -1,5 +1,6 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/card/macro.njk" import card %}
+{% from "components/document-list/macro.njk" import documentList %}
 {% from "components/flexible-content/macro.njk" import flexibleContent %}
 {% from "components/inline-links/macro.njk" import inlineLinks %}
 {% from "components/page-title/macro.njk" import pageTitle %}
@@ -42,6 +43,18 @@
                         {{ flexibleContent(entry.content) }}
                     {% endif %}
 
+                    {% if entry.documentGroups.length > 0 %}
+                        <section class="content-box">
+                            {% for group in entry.documentGroups  %}
+                                <h3 class="t2 t--underline">{{ group.title }}</h3>
+                                {{ documentList(group.files) }}
+                                <div class="s-prose">
+                                    {{ group.extraContent | safe }}
+                                </div>
+                            {% endfor %}
+                        </section>
+                    {% endif %}
+
                     <div class="content-meta">
                         {{ entryMeta(entry) }}
                     </div>
@@ -58,7 +71,7 @@
 
                 <div class="content-sidebar__secondary">
                     {% call card(copy.pressRelease.aboutThisPressRelease) %}
-                        <div class="u-text-small">
+                        <div class="s-prose u-text-small u-wrap-links">
                             {{ entryMeta(entry) }}
                             {% if entry.notesToEditors %}
                                 <p><a href="#notes">{{ copy.pressRelease.notesToEditors }}</a></p>
@@ -68,7 +81,7 @@
 
                     {% if entry.contacts %}
                         {% call card(copy.pressRelease.contacts) %}
-                            <div class="s-prose u-text-small">
+                            <div class="s-prose u-text-small u-wrap-links">
                                 {{ entry.contacts | safe }}
                             </div>
                         {% endcall %}

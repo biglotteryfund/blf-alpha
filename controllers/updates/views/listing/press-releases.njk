@@ -19,7 +19,10 @@
                 <div class="content-sidebar__primary">
                     {% if entries.length > 0 %}
                         {% if entriesMeta.activeRegion %}
-                            <p>{{ copy.pressRelease.viewingPressReleasesIn }} <strong>{{ entriesMeta.activeRegion.title }}</strong></p>
+                            <p class="message s-prose">
+                                {{ copy.pressRelease.viewingPressReleasesIn }} <strong>{{ entriesMeta.activeRegion.title }}</strong>,
+                                <a href="{{ currentPath }}">{{ copy.pressRelease.viewAllPressReleases }}</a>
+                            </p>
                         {% endif %}
 
                         <ol class="article-listing">

@@ -7,7 +7,7 @@ import tabs from '../modules/tabs';
 import forms from '../modules/forms';
 
 function init() {
-    fitvids('.video-container');
+    fitvids();
 
     tabs.init();
     forms.init();

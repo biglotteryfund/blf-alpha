@@ -50,6 +50,7 @@ function defaultSecurityHeaders() {
         '*.gstatic.com',
         '*.twimg.com',
         '*.youtube.com',
+        '*.vimeo.com',
         'cdn.polyfill.io',
         'cdn.syndication.twimg.com',
         'platform.twitter.com',
@@ -62,7 +63,7 @@ function defaultSecurityHeaders() {
     const directives = {
         defaultSrc: defaultSecurityDomains,
         childSrc: ['www.google.com'],
-        styleSrc: ['fonts.googleapis.com', '*.typekit.net'],
+        styleSrc: ['*.typekit.net'],
         imgSrc: ['stats.g.doubleclick.net', 'via.placeholder.com', 'biglotteryfund-assets.imgix.net'],
         connectSrc: [],
         scriptSrc: [],

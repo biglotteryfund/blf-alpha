@@ -33,6 +33,12 @@
     }
 }
 
+.u-align-left {
+    text-align: right !important;
+}
+.u-align-right {
+    text-align: right !important;
+}
 .u-align-center {
     text-align: center !important;
 }
@@ -78,6 +84,10 @@
 }
 
 .u-wrap-words {
+    @include wrap-words();
+}
+
+.u-wrap-links a {
     @include wrap-words();
 }
 

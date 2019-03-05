@@ -1,41 +1,8 @@
 import $ from 'jquery';
-import { featureIsEnabled } from '../helpers/features';
 import { trackEvent } from '../helpers/metrics';
 
-// Materials form logic
-function initLegacyForms() {
-    // Handle making "other" inputs required for radio sets
-    const classes = {
-        radioContainer: 'js-has-radios',
-        otherTrigger: 'js-other-trigger'
-    };
-
-    // We bind to the body element like this because these
-    // fields are rendered by Vue and not always in the DOM
-    $('body').on('click', `.${classes.radioContainer} input[type="radio"]`, function() {
-        const $clickedRadio = $(this);
-        // find the corresponding <input> field for this radio set
-        const $other = $('#' + $clickedRadio.parents(`.${classes.radioContainer}`).data('other-id'));
-        if ($other.length === 0) {
-            return;
-        }
-        // is the clicked element an "other" trigger?
-        if ($clickedRadio.hasClass(classes.otherTrigger)) {
-            $other.attr('required', true);
-        } else {
-            // they clicked on one of the regular radio options
-            $other.attr('required', false);
-        }
-    });
-}
-
 function handleAbandonmentMessage(formEl) {
-    if (!featureIsEnabled('review-abandonment-message')) {
-        return;
-    }
-
     let recordUnload = true;
-
     function handleBeforeUnload(e) {
         // Message cannot be customised in Chrome 51+
         // https://developers.google.com/web/updates/2016/04/chrome-51-deprecations?hl=en
@@ -77,7 +44,19 @@ function toggleReviewAnswers() {
     });
 }
 
-function initApplicationForms() {
+function handleExpandingDetails() {
+    let isClosed = true;
+    const $toggleBtn = $('.js-toggle-all-details');
+    $toggleBtn.text($toggleBtn.data('label-closed')).show();
+
+    $toggleBtn.on('click', function() {
+        $toggleBtn.text(isClosed ? $toggleBtn.data('label-open') : $toggleBtn.data('label-closed'));
+        $('details.js-toggleable').attr('open', isClosed);
+        isClosed = !isClosed;
+    });
+}
+
+function init() {
     /**
      * Review–step–specific logic
      */
@@ -86,11 +65,7 @@ function initApplicationForms() {
         handleAbandonmentMessage(formReviewEl);
         toggleReviewAnswers();
     }
-}
-
-function init() {
-    initLegacyForms();
-    initApplicationForms();
+    handleExpandingDetails();
 }
 
 export default {

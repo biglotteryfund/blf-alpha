@@ -4,6 +4,7 @@ const Sequelize = require('sequelize');
 const debug = require('debug')('biglotteryfund:models');
 
 const { DB_CONNECTION_URI } = require('../modules/secrets');
+const appData = require('../modules/appData');
 
 const dialect = startsWith(DB_CONNECTION_URI, 'sqlite://') ? 'sqlite' : 'mysql';
 debug(`Using ${dialect} database`);
@@ -38,14 +39,18 @@ sequelize
  * Register models and associations
  */
 const db = {};
-db.Users = sequelize.import('../models/user.js');
-db.Staff = sequelize.import('../models/staff.js');
+db.Users = sequelize.import('./user');
+db.Staff = sequelize.import('./staff');
 db.Feedback = sequelize.import('./feedback');
+
+if (appData.isNotProduction) {
+    db.Application = sequelize.import('./application');
+}
 
 db.SurveyAnswer = sequelize.import('./survey');
 
-db.Order = sequelize.import('../models/materials/order.js');
-db.OrderItem = sequelize.import('../models/materials/orderItem.js');
+db.Order = sequelize.import('./materials/order');
+db.OrderItem = sequelize.import('./materials/orderItem');
 
 Object.keys(db).forEach(modelName => {
     if ('associate' in db[modelName]) {

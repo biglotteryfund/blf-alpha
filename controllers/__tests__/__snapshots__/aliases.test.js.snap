@@ -2523,6 +2523,46 @@ Array [
     "to": "/welsh/insights/youth-serious-violence",
   },
   Object {
+    "from": "/research/social-investment/publications",
+    "to": "/insights/social-investment-publications",
+  },
+  Object {
+    "from": "/welsh/research/social-investment/publications",
+    "to": "/welsh/insights/social-investment-publications",
+  },
+  Object {
+    "from": "/england/research/social-investment/publications",
+    "to": "/insights/social-investment-publications",
+  },
+  Object {
+    "from": "/welsh/england/research/social-investment/publications",
+    "to": "/welsh/insights/social-investment-publications",
+  },
+  Object {
+    "from": "/scotland/research/social-investment/publications",
+    "to": "/insights/social-investment-publications",
+  },
+  Object {
+    "from": "/welsh/scotland/research/social-investment/publications",
+    "to": "/welsh/insights/social-investment-publications",
+  },
+  Object {
+    "from": "/northernireland/research/social-investment/publications",
+    "to": "/insights/social-investment-publications",
+  },
+  Object {
+    "from": "/welsh/northernireland/research/social-investment/publications",
+    "to": "/welsh/insights/social-investment-publications",
+  },
+  Object {
+    "from": "/wales/research/social-investment/publications",
+    "to": "/insights/social-investment-publications",
+  },
+  Object {
+    "from": "/welsh/wales/research/social-investment/publications",
+    "to": "/welsh/insights/social-investment-publications",
+  },
+  Object {
     "from": "/funding/awards-for-all",
     "to": "/funding/under10k",
   },

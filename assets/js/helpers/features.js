@@ -23,11 +23,6 @@ export const FEATURES = [
         id: 'analytics',
         description: 'Enable Google Analytics',
         isEnabled: !window.AppConfig.blockAnalytics && !isDoNotTrack
-    }),
-    createFeature({
-        id: 'review-abandonment-message',
-        description: 'Show abandonment message on the review step',
-        isEnabled: true
     })
 ];
 
