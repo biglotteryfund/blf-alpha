@@ -212,11 +212,13 @@ describe('e2e', function() {
         // Navigate to over 10k page
         cy.get('#qa-button-over10k').click();
         cy.checkActiveSection('Funding');
+        cy.checkA11y();
 
         // Navigate to reaching communities page
         cy.get('#qa-button-england').click();
         cy.get('#qa-promo-card-link-reaching-communities-england').click();
         cy.checkActiveSection('Funding');
+        cy.checkA11y();
 
         cy.percySnapshot('reaching-communities');
 
