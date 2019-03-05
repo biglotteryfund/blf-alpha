@@ -188,17 +188,14 @@ describe('e2e', function() {
             cy.visit('/apply-next/simple');
 
             cy.checkA11y();
-
             cy.get('#field-application-title').type('My application');
             cy.get('.start-button [type="submit"]').click();
 
             cy.checkA11y();
-
             cy.get('#field-project-start-date').type('2021-01-01');
-            cy.get('#field-project-postcode').type('Not a postcode');
-            cy.get('input[type="submit"]').click();
-
+            cy.get('#field-project-postcode').type('EC4A 1DE');
             cy.checkA11y();
+            cy.get('input[type="submit"]').click();
         });
     });
 
@@ -363,7 +360,19 @@ describe('e2e', function() {
         cy.get('.qa-grant-result').should('have.length', textQueryCount - 50);
     });
 
-    it('patterns', function() {
+    it('smoke tests', function() {
+        cy.visit('/about');
+        cy.checkA11y();
+
+        cy.visit('/funding');
+        cy.checkA11y();
+
+        cy.visit('/insights');
+        cy.checkA11y();
+
+        cy.visit('/news');
+        cy.checkA11y();
+
         cy.visit('/patterns/components');
         cy.percySnapshot('patterns');
     });

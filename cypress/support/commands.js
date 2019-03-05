@@ -116,10 +116,18 @@ Cypress.Commands.add('checkA11y', () => {
 
     cy.window({ log: false })
         .then(window => {
-            return window.axe.run({
-                include: window.document,
-                exclude: [['iframe']]
-            });
+            return window.axe.run(
+                {
+                    include: window.document,
+                    exclude: [['iframe']]
+                },
+                {
+                    rules: {
+                        // @TODO: Review and re-enable this
+                        'color-contrast': { enabled: false }
+                    }
+                }
+            );
         })
         .then(({ violations }) => {
             if (violations.length) {
