@@ -1,13 +1,17 @@
 {% macro formErrors(errors, title) %}
     {% if errors | length > 0 %}
         <div class="form-errors">
-            <h3 class="form-errors__title">
+            <h2 class="form-errors__title">
                 {% if title -%}{{ title }}{%- else -%}{{ __('global.misc.errorTitle') }}{%- endif %}
-            </h3>
+            </h2>
             {% if errors.length > 0 %}
                 <ol class="form-errors__list">
                     {% for error in errors %}
-                        <li><a href="#form-field-{{ error.param }}">{{ error.msg }}</a></li>
+                        <li>
+                            {% if error.param %}<a href="#form-field-{{ error.param }}">{% endif %}
+                            {{ error.msg }}
+                            {% if error.param %}</a>{% endif %}
+                        </li>
                     {% endfor %}
                 </ol>
             {% endif %}

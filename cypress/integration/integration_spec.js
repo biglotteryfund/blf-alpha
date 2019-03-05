@@ -1,4 +1,6 @@
 // @ts-nocheck
+const uuid = require('uuid/v4');
+
 describe('common', function() {
     it('should have common headers', () => {
         cy.request('/').then(response => {
@@ -81,10 +83,11 @@ describe('common', function() {
 describe('user', () => {
     it('should allow users to register', () => {
         cy.visit('/user/register');
-        const now = Date.now();
-        const username = `${now}@example.com`;
+        const password = uuid();
+        const username = `${Date.now()}@example.com`;
         cy.get('#field-username').type(username, { delay: 0 });
-        cy.get('#field-password').type(now, { delay: 0 });
+        cy.get('#field-password').type(password, { delay: 0 });
+        cy.checkA11y();
         cy.get('input[type="submit"]').click();
     });
 
@@ -94,6 +97,7 @@ describe('user', () => {
         cy.get('#field-password').type('examplepassword', { delay: 0 });
         cy.get('input[type="submit"]').click();
         cy.get('.form-errors').contains('Your username and password combination is invalid');
+        cy.checkA11y();
     });
 
     it('should prevent registrations with invalid passwords', () => {
@@ -179,10 +183,30 @@ describe('e2e', function() {
         cy.get('.survey').should('contain', 'Diolch am');
     });
 
+    it('should apply to awards for all', () => {
+        cy.newUser().then(() => {
+            cy.visit('/apply-next/simple');
+
+            cy.checkA11y();
+
+            cy.get('#field-application-title').type('My application');
+            cy.get('.start-button [type="submit"]').click();
+
+            cy.checkA11y();
+
+            cy.get('#field-project-start-date').type('2021-01-01');
+            cy.get('#field-project-postcode').type('Not a postcode');
+            cy.get('input[type="submit"]').click();
+
+            cy.checkA11y();
+        });
+    });
+
     it('should navigate through a funding application from the homepage', () => {
         cy.visit('/');
         cy.closeCookieMessage();
 
+        cy.checkA11y();
         cy.percySnapshot('homepage');
 
         // Navigate to over 10k page
@@ -224,6 +248,7 @@ describe('e2e', function() {
         cy.get(submitSelector).click();
 
         // Step 2
+        cy.checkA11y();
         cy.get('#field-location-1').check();
         cy.get('#field-location-3').check();
         cy.get('#field-project-location').type('Example', { delay: 0 });
@@ -252,6 +277,7 @@ describe('e2e', function() {
 
         // Success
         cy.get('h1').should('contain', 'Thank you for submitting your idea');
+        cy.checkA11y();
 
         // Inline feedback
         cy.get('#js-feedback textarea').type('Test feedback');
