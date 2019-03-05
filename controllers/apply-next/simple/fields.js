@@ -182,14 +182,17 @@ const allFields = {
             `,
             cy: 'TODO'
         },
-        type: 'textarea',
+        type: 'budget',
         attributes: {
             rows: 12
         },
         isRequired: true,
-        schema: Joi.string().required(),
+        schema: commonValidators.budgetField(),
+        postProcessor: function() {},
         messages: {
-            base: { en: 'Enter a project budget', cy: '' }
+            base: { en: 'Enter a project budget', cy: '' },
+            'any.empty': { en: 'Please supply both an item name and a cost', cy: '' },
+            'number.base': { en: 'Make sure each cost is a valid number', cy: '' }
         }
     },
     projectTotalCosts: {
@@ -380,6 +383,7 @@ const allFields = {
         },
         isRequired: true,
         schema: commonValidators.dateOfBirth(MIN_APPLICANT_AGE),
+        prepareForStorage: function(body) {},
         messages: {
             base: { en: 'Enter a date of birth', cy: '' },
             'date.max': { en: 'Main contact must be at least 18 years old' }
@@ -638,7 +642,19 @@ forEach(allFields, field => {
         label: localeString.required(),
         explanation: localeString.optional(),
         type: Joi.string()
-            .valid(['text', 'textarea', 'number', 'radio', 'checkbox', 'file', 'email', 'tel', 'date', 'currency'])
+            .valid([
+                'text',
+                'textarea',
+                'number',
+                'radio',
+                'checkbox',
+                'file',
+                'email',
+                'tel',
+                'date',
+                'currency',
+                'budget'
+            ])
             .required(),
         attributes: Joi.object().optional(),
         isRequired: Joi.boolean().required(),

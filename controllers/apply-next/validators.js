@@ -20,5 +20,15 @@ module.exports = {
             .format('YYYY-MM-DD');
 
         return Joi.date().max(maxDate);
+    },
+    budgetField: function() {
+        const budgetLineSchema = {
+            item: Joi.string().trim(),
+            cost: Joi.number()
+        };
+        return Joi.array()
+            .min(1)
+            .items(Joi.object(budgetLineSchema))
+            .required();
     }
 };

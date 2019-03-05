@@ -149,7 +149,8 @@ function calculateFormProgress(form, data) {
             });
 
             const dataForSection = pick(validationResult.value, fieldNames);
-            const errorsForSection = errors.filter(detail => includes(fieldNames, detail.context.key));
+            // const errorsForSection = errors.filter(detail => includes(fieldNames, detail.context.key));
+            const errorsForSection = errors.filter(detail => includes(fieldNames, detail.path[0]));
 
             obj[section.slug] = determineStatus(dataForSection, errorsForSection);
 
@@ -231,9 +232,10 @@ function nextAndPrevious(options) {
  */
 function filterErrors(validationError, fieldNames) {
     const errorDetails = getOr([], 'details')(validationError);
-    return uniqBy(detail => detail.context.key)(
-        errorDetails.filter(detail => includes(fieldNames, detail.context.key))
-    );
+    // return uniqBy(detail => detail.context.key)(
+    //     errorDetails.filter(detail => includes(fieldNames, detail.context.key))
+    // );
+    return uniqBy(detail => detail.path[0])(errorDetails.filter(detail => includes(fieldNames, detail.path[0])));
 }
 
 /**
@@ -249,7 +251,8 @@ function filterErrors(validationError, fieldNames) {
  */
 function normaliseErrors({ fields, errors, locale }) {
     return errors.map(detail => {
-        const name = detail.context.key;
+        // const name = detail.context.key;
+        const name = detail.path[0];
         const match = find(fields, field => field.name === name);
         const localeString = get(detail.type)(match.messages) || get('base')(match.messages);
         return { param: name, msg: get(locale)(localeString) };

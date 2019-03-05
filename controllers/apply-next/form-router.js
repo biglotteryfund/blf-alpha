@@ -1,5 +1,5 @@
 'use strict';
-const { concat, flatMap, isEmpty, omit, set } = require('lodash');
+const { concat, flatMap, isEmpty, omit, set, isArray } = require('lodash');
 const { get, getOr } = require('lodash/fp');
 const express = require('express');
 const path = require('path');
@@ -188,6 +188,33 @@ function initFormRouter(formModel) {
                 .post(async function(req, res) {
                     const { currentlyEditingId, currentApplicationData } = res.locals;
 
+                    const deleteBudgetLine = req.body['delete-budget-line'];
+                    const addBudgetLine = req.body['add-budget'];
+                    const budgetFieldName = req.body['budget-field-name'];
+
+                    if ((addBudgetLine || deleteBudgetLine) && budgetFieldName) {
+                        let newApplicationData = currentApplicationData;
+
+                        if (!isArray(newApplicationData[budgetFieldName])) {
+                            newApplicationData[budgetFieldName] = [];
+                        }
+
+                        if (addBudgetLine) {
+                            newApplicationData[budgetFieldName].push([
+                                {
+                                    item: '',
+                                    cost: ''
+                                }
+                            ]);
+                        } else {
+                            // delete index
+                            newApplicationData[budgetFieldName].splice(deleteBudgetLine, 1);
+                        }
+
+                        // @TODO save this new data
+                        return renderStep(req, res, currentApplicationData);
+                    }
+
                     /**
                      * Validate the all the data so far against validation schema
                      * - Validating against the whole form ensures that conditional validations are taken into account
@@ -207,7 +234,8 @@ function initFormRouter(formModel) {
                      * We validate against the whole form schema so need to limit the errors to the current step
                      */
                     const errorsForStep = filterErrors(validationResult.error, fieldNamesForStep);
-                    const errorKeysForStep = errorsForStep.map(detail => detail.context.key);
+                    // const errorKeysForStep = errorsForStep.map(detail => detail.context.key);
+                    const errorKeysForStep = errorsForStep.map(detail => detail.path[0]);
 
                     /**
                      * Prepare data for storage

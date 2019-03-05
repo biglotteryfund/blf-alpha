@@ -171,6 +171,25 @@
     </fieldset>
 {% endmacro %}
 
+{% macro inputBudget(field, fieldCopy) %}
+    BUDGET FIELD
+    <label class="ff-label" for="field-{{ field.name }}">
+        {{ fieldLabelText(field, fieldCopy) }}
+    </label>
+    {{ fieldHelpText(field, fieldCopy) }}
+
+    <input type="hidden" name="budget-field-name" value="{{ field.name }}" />
+
+    {% for lineItem in field.value %}
+        <fieldset>
+            <input type="text" name="{{ field.name }}[{{ loop.index0 }}][item]" value="{{ lineItem.item }}" />
+            <input type="number" step=".01" min="0" name="{{ field.name }}[{{ loop.index0 }}][cost]" value="{{ lineItem.cost }}" />
+            <button type="submit" name="delete-budget-line" value="{{ loop.index0 }}">Delete this item</button>
+        </fieldset>
+    {% endfor %}
+    <input type="submit" name="add-budget" value="Add an item" />
+{% endmacro %}
+
 {% macro formField(field, fieldCopy = {}, errors = []) %}
     {% set fieldErrors = errors | filter('param', field.name) %}
     <div
@@ -188,6 +207,8 @@
                     {{ inputDate(field, fieldCopy) }}
                 {% elseif field.type === 'currency' %}
                     {{ inputCurrency(field, fieldCopy) }}
+                {% elseif field.type === 'budget' %}
+                    {{ inputBudget(field, fieldCopy) }}
                 {% else %}
                     {{ inputText(field, fieldCopy) }}
                 {% endif %}
