@@ -161,7 +161,8 @@ const allFields = {
         },
         type: 'textarea',
         settings: {
-            showWordCount: true
+            showWordCount: true,
+            maxWords: 100
         },
         attributes: {
             rows: 12

@@ -121,7 +121,7 @@
                 :current-text="text"
                 locale="{{ locale }}"
                 field-id="field-{{ field.name }}"
-                max-words=100
+                :max-words={{ settings.maxWords }}
             />
         {% endif %}
     {% if settings.showWordCount %}</div>{% endif %}

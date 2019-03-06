@@ -1,6 +1,10 @@
 <script>
 export default {
-    props: ['maxWords', 'currentText', 'locale'],
+    props: {
+        currentText: { type: String },
+        maxWords: { type: Number, required: true },
+        locale: { type: String, required: true }
+    },
     methods: {
         count(text) {
             if (text) {
@@ -46,5 +50,5 @@ export default {
 </script>
 
 <template>
-    <div class="character-count u-margin-top" role="region" aria-live="polite" v-html="message"></div>
+  <div class="character-count u-margin-top" role="region" aria-live="polite" v-html="message"></div>
 </template>
