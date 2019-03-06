@@ -83,19 +83,25 @@ describe('user', () => {
         cy.visit('/user/register');
         const now = Date.now();
         const username = `${now}@example.com`;
-        cy.uiRegisterUser(username, now);
+        cy.get('#field-username').type(username, { delay: 0 });
+        cy.get('#field-password').type(now, { delay: 0 });
+        cy.get('input[type="submit"]').click();
     });
 
     it('should not allow unknown users to login', () => {
         cy.visit('/user/login');
-        cy.uiRegisterUser('person@example.com', 'badpassword');
+        cy.get('#field-username').type('person@example.com', { delay: 0 });
+        cy.get('#field-password').type('examplepassword', { delay: 0 });
+        cy.get('input[type="submit"]').click();
         cy.get('.form-errors').contains('Your username and password combination is invalid');
     });
 
     it('should prevent registrations with invalid passwords', () => {
         cy.visit('/user/register');
-        cy.uiRegisterUser('person@example.com', 'badpassword');
-        cy.get('.form-errors').contains('Please provide a password that contains at least one number');
+        cy.get('#field-username').type('person@example.com', { delay: 0 });
+        cy.get('#field-password').type('tooshort', { delay: 0 });
+        cy.get('input[type="submit"]').click();
+        cy.get('.form-errors').contains('Password must be at least 10 characters long');
     });
 
     it('should email valid users with a token', () => {

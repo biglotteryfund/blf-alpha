@@ -36,7 +36,6 @@ router
     .post((req, res, next) => {
         // @TODO consider rate limiting?
         passport.authenticate('local', (err, user, info) => {
-
             if (!user) {
                 // User not valid, send them to login again
                 res.locals.errors = [{ msg: info.message }];
