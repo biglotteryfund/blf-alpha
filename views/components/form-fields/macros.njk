@@ -103,27 +103,27 @@
 {% macro inputTextarea(field, fieldCopy) %}
     {% set settings = field.settings %}
     {% if settings.showWordCount %}<div class="js-character-count">{% endif %}
-        <label class="ff-label" for="field-{{ field.name }}">
-            {{ fieldLabelText(field, fieldCopy) }}
-        </label>
-        {{ fieldHelpText(field, fieldCopy) }}
-        <textarea class="ff-textarea"
-            id="field-{{ field.name }}"
-            name="{{ field.name }}"
-            {% if field.isRequired %}required aria-required="true"{% endif %}
-            {# @TODO: Remove field.rows in favour of field.attributes #}
-            {% if field.rows %}rows="{{ field.rows }}"{% endif %} 
-            {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
-            {% if settings.showWordCount %} v-model="text"{% endif %}
-        >{{ field.value }}</textarea>
-        {% if settings.showWordCount %}
-            <character-count
-                :current-text="text"
-                locale="{{ locale }}"
-                field-id="field-{{ field.name }}"
-                :max-words={{ settings.maxWords }}
-            />
-        {% endif %}
+    <label class="ff-label" for="field-{{ field.name }}">
+        {{ fieldLabelText(field, fieldCopy) }}
+    </label>
+    {{ fieldHelpText(field, fieldCopy) }}
+    <textarea class="ff-textarea"
+        id="field-{{ field.name }}"
+        name="{{ field.name }}"
+        {% if field.isRequired %}required aria-required="true"{% endif %}
+        {# @TODO: Remove field.rows in favour of field.attributes #}
+        {% if field.rows %}rows="{{ field.rows }}"{% endif %} 
+        {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
+        {% if settings.showWordCount %} v-model="text"{% endif %}
+    >{{ field.value }}</textarea>
+    {% if settings.showWordCount %}
+        <character-count
+            :current-text="text"
+            locale="{{ locale }}"
+            field-id="field-{{ field.name }}"
+            :max-words={{ settings.maxWords }}
+        />
+    {% endif %}
     {% if settings.showWordCount %}</div>{% endif %}
 {% endmacro %}
 
