@@ -1,7 +1,7 @@
 <script>
 export default {
     props: {
-        currentText: { type: String },
+        currentText: { type: String, default: '' },
         maxWords: { type: Number, required: true },
         locale: { type: String, required: true }
     },

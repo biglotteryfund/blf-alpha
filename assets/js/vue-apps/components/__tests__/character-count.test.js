@@ -7,7 +7,9 @@ import CharacterCount from '../character-count.vue';
 
 describe('CharacterCount', () => {
     it('should render', () => {
-        const wrapper = shallowMount(CharacterCount);
+        const wrapper = shallowMount(CharacterCount, {
+            propsData: { currentText: null, maxWords: 10, locale: 'en' }
+        });
 
         expect(wrapper.vm.count('this is a test')).toBe(4);
         expect(wrapper.vm.count('this 📝 contains emoji ❤️')).toBe(5);
