@@ -160,6 +160,10 @@ const allFields = {
             cy: 'TODO'
         },
         type: 'textarea',
+        settings: {
+            showWordCount: true,
+            maxWords: 100
+        },
         attributes: {
             rows: 12
         },
