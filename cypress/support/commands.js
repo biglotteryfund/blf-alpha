@@ -1,7 +1,34 @@
 // @ts-nocheck
 // https://on.cypress.io/custom-commands
 
+const uuid = require('uuid/v4');
 import '@percy/cypress';
+
+Cypress.Commands.add('checkMetaTitles', expected => {
+    cy.title().should('equal', expected);
+    cy.get('meta[name="title"]').should('have.attr', 'content', expected);
+    cy.get('meta[property="og:title"]').should('have.attr', 'content', expected);
+});
+
+Cypress.Commands.add('checkActiveSection', label => {
+    cy.get(`#global-nav .is-current a`).should('have.length', 1);
+    cy.get(`#global-nav .is-current a`).should('contain', label);
+});
+
+Cypress.Commands.add('checkRedirect', ({ from, to, isRelative = true, status = 301 }) => {
+    cy.request({
+        url: from,
+        followRedirects: false
+    }).then(response => {
+        const expected = isRelative ? `http://localhost:8090${to}` : to;
+        expect(response.status).to.eq(status);
+        expect(response.redirectedToUrl).to.eq(expected);
+    });
+});
+
+Cypress.Commands.add('closeCookieMessage', () => {
+    cy.get('.cookie-consent button').click();
+});
 
 Cypress.Commands.add('getCsrf', () => {
     return cy
@@ -55,28 +82,73 @@ Cypress.Commands.add('registerUser', ({ username, password, returnToken }) => {
     });
 });
 
-Cypress.Commands.add('checkMetaTitles', expected => {
-    cy.title().should('equal', expected);
-    cy.get('meta[name="title"]').should('have.attr', 'content', expected);
-    cy.get('meta[property="og:title"]').should('have.attr', 'content', expected);
+Cypress.Commands.add('newUser', () => {
+    const password = uuid();
+    const username = `${Date.now()}@example.com`;
+    return cy
+        .registerUser({
+            username: username,
+            password: password,
+            returnToken: true
+        })
+        .then(res => {
+            return cy.loginUser({ username, password }).then(() => {
+                return cy
+                    .request({
+                        method: 'GET',
+                        url: `/user/activate?token=${res.body.token}`
+                    })
+                    .then(() => {
+                        return { username, password };
+                    });
+            });
+        });
 });
 
-Cypress.Commands.add('checkActiveSection', label => {
-    cy.get(`#global-nav .is-current a`).should('have.length', 1);
-    cy.get(`#global-nav .is-current a`).should('contain', label);
-});
-
-Cypress.Commands.add('checkRedirect', ({ from, to, isRelative = true, status = 301 }) => {
-    cy.request({
-        url: from,
-        followRedirects: false
-    }).then(response => {
-        const expected = isRelative ? `http://localhost:8090${to}` : to;
-        expect(response.status).to.eq(status);
-        expect(response.redirectedToUrl).to.eq(expected);
+// @see https://github.com/avanslaars/cypress-axe
+Cypress.Commands.add('checkA11y', () => {
+    cy.window({ log: false }).then(window => {
+        if (window.axe === undefined) {
+            const axe = require('axe-core');
+            window.eval(axe.source);
+        }
     });
-});
 
-Cypress.Commands.add('closeCookieMessage', () => {
-    cy.get('.cookie-consent button').click();
+    cy.window({ log: false })
+        .then(window => {
+            return window.axe.run(
+                {
+                    include: window.document,
+                    exclude: [['iframe']]
+                },
+                {
+                    rules: {
+                        // @TODO: Review and re-enable this
+                        'color-contrast': { enabled: false }
+                    }
+                }
+            );
+        })
+        .then(({ violations }) => {
+            if (violations.length) {
+                cy.log(violations);
+                cy.wrap(violations, { log: true }).each(v => {
+                    Cypress.log({
+                        name: 'a11y error!',
+                        consoleProps: () => v,
+                        message: `${v.id} on ${v.nodes.length} Node${v.nodes.length === 1 ? '' : 's'}`
+                    });
+                });
+            }
+            return cy.wrap(violations, { log: false });
+        })
+        .then(violations => {
+            assert.equal(
+                violations.length,
+                0,
+                `${violations.length} accessibility violation${violations.length === 1 ? '' : 's'} ${
+                    violations.length === 1 ? 'was' : 'were'
+                } detected`
+            );
+        });
 });
