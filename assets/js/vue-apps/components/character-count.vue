@@ -1,6 +1,6 @@
 <script>
 export default {
-    props: ['fieldId', 'maxWords', 'currentText', 'locale'],
+    props: ['maxWords', 'currentText', 'locale'],
     methods: {
         count(text) {
             if (text) {
@@ -34,7 +34,9 @@ export default {
                 }[this.locale];
             } else {
                 return {
-                    en: `<strong>${this.currentCount}</strong> / ${this.maxWords} words. You have a maximum of <strong>${this.wordsRemaining}</strong> words remaining`,
+                    en: `<strong>${this.currentCount}</strong> / ${
+                        this.maxWords
+                    } words. You have a maximum of <strong>${this.wordsRemaining}</strong> words remaining`,
                     cy: 'Welsh'
                 }[this.locale];
             }
@@ -44,5 +46,5 @@ export default {
 </script>
 
 <template>
-  <div class="character-count u-margin-top" role="region" aria-live="polite" v-html="message"></div>
+    <div class="character-count u-margin-top" role="region" aria-live="polite" v-html="message"></div>
 </template>
