@@ -55,7 +55,7 @@ export default {
             "{{ deletedItem.name }}" was removed.
             <button class="btn btn--small btn--outline" v-on:click="restoreLastDeletedItem()">Undo</button>
         </div>
-        <table class="table table-striped mb-5">
+        <table class="table mb-5">
             <thead>
                 <tr>
                     <th scope="col">Name</th>

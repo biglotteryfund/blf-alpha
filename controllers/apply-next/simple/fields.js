@@ -1,9 +1,8 @@
 'use strict';
 const { forEach, reduce, values } = require('lodash');
-const Joi = require('joi');
 const moment = require('moment');
 
-const commonValidators = require('../validators');
+const { Joi, ...commonValidators } = require('../validators');
 
 const organisationTypes = {
     constitutedVoluntaryCommunity: {
@@ -42,6 +41,7 @@ const organisationTypes = {
 };
 
 const MIN_APPLICANT_AGE = 18;
+const MAX_BUDGET_TOTAL = 10000; // in GBP
 
 function postcodeField(props) {
     // Allows us to use postcode validation on the client-side
@@ -184,15 +184,18 @@ const allFields = {
         },
         type: 'budget',
         attributes: {
-            rows: 12
+            max: MAX_BUDGET_TOTAL
         },
         isRequired: true,
-        schema: commonValidators.budgetField(),
-        postProcessor: function() {},
+        schema: commonValidators.budgetField(MAX_BUDGET_TOTAL),
         messages: {
             base: { en: 'Enter a project budget', cy: '' },
             'any.empty': { en: 'Please supply both an item name and a cost', cy: '' },
-            'number.base': { en: 'Make sure each cost is a valid number', cy: '' }
+            'number.base': { en: 'Make sure each cost is a valid number', cy: '' },
+            'budgetItems.overBudget': {
+                en: `Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`,
+                cy: `(WELSH) Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`
+            }
         }
     },
     projectTotalCosts: {
@@ -309,7 +312,7 @@ const allFields = {
             size: 20
         },
         isRequired: true,
-        schema: Joi.any().when('organsation-type', {
+        schema: Joi.any().when('organisation-type', {
             is: Joi.valid(organisationTypes.unincorporatedRegisteredCharity.value),
             then: Joi.number().required()
         }),
@@ -322,7 +325,7 @@ const allFields = {
         label: { en: 'Companies house number', cy: '' },
         type: 'text',
         isRequired: true,
-        schema: Joi.any().when('organsation-type', {
+        schema: Joi.any().when('organisation-type', {
             is: Joi.valid([
                 organisationTypes.charitableIncorporatedOrganisation.value,
                 organisationTypes.notForProfitCompany.value,
