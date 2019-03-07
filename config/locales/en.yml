@@ -152,6 +152,9 @@ global:
     instagram: Instagram
     facebook: Facebook
     twitter: Twitter
+    day: Day
+    month: Month
+    year: Year
   programmes:
     programmeLabels:
       area: Area

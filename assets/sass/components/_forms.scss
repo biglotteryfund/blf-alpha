@@ -58,72 +58,6 @@
 }
 
 /* =========================================================================
-   Form field container
-   ========================================================================= */
-
-.form-field {
-    margin-bottom: 1.5em;
-
-    &:target {
-        background-color: rgba(255, 255, 0, 0.5);
-    }
-
-    .form-field__errors {
-        margin-top: $spacingUnit / 3;
-    }
-    .form-field__errors li,
-    .form-field__errors li a {
-        color: get-color('message', 'warning');
-        font-weight: font-weight('body', 'bold');
-    }
-
-    &.has-errors {
-        .form-field__main {
-            border-left: 3px solid get-color('message', 'warning');
-            padding-left: $spacingUnit / 2;
-        }
-    }
-}
-
-.no-js .form-field[hidden] {
-    display: block;
-}
-
-/* =========================================================================
-   Form field add-on
-   ========================================================================= */
-/* @see https://philipwalton.github.io/solved-by-flexbox/demos/input-add-ons/ */
-
-.form-field-addon {
-    display: flex;
-
-    .form-field-addon__input {
-        flex: 1 1 0%;
-
-        padding: 6px 12px;
-        border: 2px solid get-color('brand', 'primary');
-
-        &:focus {
-            outline: 3px solid get-color('border', 'outline');
-            outline-offset: 0;
-        }
-    }
-
-    .form-field-addon__action {
-        font-size: 18px;
-        font-family: font-stack('display');
-        font-weight: font-weight('display', 'semibold');
-        color: white;
-        border: none;
-        -webkit-appearance: none;
-        background-color: get-color('brand', 'primary');
-        padding-left: $spacingUnit / 2;
-        padding-right: $spacingUnit;
-        border-radius: 0 50px 50px 0;
-    }
-}
-
-/* =========================================================================
    Fields (individual field styles)
    ========================================================================= */
 
@@ -166,8 +100,12 @@
  */
 .ff-help {
     font-size: 18px;
-    margin-bottom: 10px;
+    margin: 10px 0;
     color: get-color('text', 'note');
+
+    p {
+        margin-bottom: 0.25em;
+    }
 }
 
 .ff-length-hint {
@@ -261,6 +199,103 @@
     @include mq('medium-minor') {
         font-size: 16px;
         margin-bottom: 3px;
+    }
+}
+
+/**
+ * Field modifiers
+ */
+// Approx 2 character width
+.ff-width-2 {
+    width: 7ex;
+}
+// Approx 4 character width
+.ff-width-4 {
+    width: 10ex;
+}
+
+.ff-inline {
+    display: inline-block;
+    margin-right: $spacingUnit / 2;
+}
+
+/* =========================================================================
+   Form field container
+   ========================================================================= */
+
+.form-field {
+    margin-bottom: 2em;
+
+    &:target {
+        background-color: rgba(255, 255, 0, 0.5);
+    }
+
+    .form-field__errors {
+        margin-top: $spacingUnit / 3;
+    }
+    .form-field__errors li,
+    .form-field__errors li a {
+        color: get-color('message', 'warning');
+        font-weight: font-weight('body', 'bold');
+    }
+
+    &.has-errors {
+        .form-field__main {
+            border-left: 3px solid get-color('message', 'warning');
+            padding-left: $spacingUnit / 2;
+        }
+    }
+}
+
+.no-js .form-field[hidden] {
+    display: block;
+}
+
+/* =========================================================================
+   Field Type Overrides
+   ========================================================================= */
+
+/**
+ * Suppress numeric spin controls on date input sets.
+ */
+.form-field--type-date {
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+/* =========================================================================
+   Form field add-on
+   ========================================================================= */
+/* @see https://philipwalton.github.io/solved-by-flexbox/demos/input-add-ons/ */
+
+.form-field-addon {
+    display: flex;
+
+    .form-field-addon__input {
+        flex: 1 1 0%;
+
+        padding: 6px 12px;
+        border: 2px solid get-color('brand', 'primary');
+
+        &:focus {
+            outline: 3px solid get-color('border', 'outline');
+            outline-offset: 0;
+        }
+    }
+
+    .form-field-addon__action {
+        font-size: 18px;
+        font-family: font-stack('display');
+        font-weight: font-weight('display', 'semibold');
+        color: white;
+        border: none;
+        -webkit-appearance: none;
+        background-color: get-color('brand', 'primary');
+        padding-left: $spacingUnit / 2;
+        padding-right: $spacingUnit;
+        border-radius: 0 50px 50px 0;
     }
 }
 

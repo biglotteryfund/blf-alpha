@@ -1,9 +1,8 @@
 'use strict';
 const { forEach, reduce, values } = require('lodash');
-const Joi = require('joi');
 const moment = require('moment');
 
-const commonValidators = require('../validators');
+const { Joi, ...commonValidators } = require('../validators');
 
 const organisationTypes = {
     constitutedVoluntaryCommunity: {
@@ -96,22 +95,19 @@ const allFields = {
             cy: '(WELSH) When is the planned (or estimated) start date of your project?'
         },
         explanation: {
-            en:
-                'This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.',
-            cy:
-                '(WELSH) This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.'
+            en: `
+                <p><strong>For example: 12 11 2020</strong></p>
+                <p>This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
+            `,
+            cy: ''
         },
         type: 'date',
-        attributes: {
-            min: moment()
-                .add(12, 'weeks')
-                .format('YYYY-MM-DD')
-        },
         isRequired: true,
         schema: commonValidators.futureDate('12', 'weeks'),
         messages: {
-            base: { en: 'Enter project start date', cy: '' },
-            'date.min': { en: 'Project start date must be at least 12 weeks into the future', cy: '' }
+            base: { en: 'Enter a date', cy: '' },
+            'date.isoDate': { en: 'Enter a real date', cy: '' },
+            'date.min': { en: 'Date ust be at least 12 weeks into the future', cy: '' }
         }
     },
     projectPostcode: postcodeField({
