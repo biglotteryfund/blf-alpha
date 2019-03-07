@@ -2,6 +2,7 @@
 const moment = require('moment');
 const baseJoi = require('joi');
 const { toInteger, isObject } = require('lodash');
+const { POSTCODE_REGEX } = require('../../modules/postcodes');
 
 const Joi = baseJoi.extend(joi => ({
     base: joi.date(),
@@ -29,8 +30,8 @@ const Joi = baseJoi.extend(joi => ({
 module.exports = {
     Joi,
     postcode: Joi.string()
-        // via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
-        .regex(/^(gir\s?0aa|[a-z]{1,2}\d[\da-z]?\s?(\d[a-z]{2})?)$/i)
+        .trim()
+        .regex(POSTCODE_REGEX)
         .description('postcode'),
     futureDate: function(amount, unit) {
         const minDate = moment()

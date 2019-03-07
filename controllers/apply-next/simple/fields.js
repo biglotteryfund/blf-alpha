@@ -3,6 +3,7 @@ const { forEach, reduce, values } = require('lodash');
 const moment = require('moment');
 
 const { Joi, ...commonValidators } = require('../validators');
+const { POSTCODE_PATTERN } = require('../../../modules/postcodes');
 
 const organisationTypes = {
     constitutedVoluntaryCommunity: {
@@ -43,12 +44,6 @@ const organisationTypes = {
 const MIN_APPLICANT_AGE = 18;
 
 function postcodeField(props) {
-    // Allows us to use postcode validation on the client-side
-    // via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
-    // we have to double-escape the regex patterns here
-    // to output it as a string for the HTML pattern attribute
-    const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
-
     const defaultProps = {
         label: { en: 'Postcode', cy: '' },
         type: 'text',
