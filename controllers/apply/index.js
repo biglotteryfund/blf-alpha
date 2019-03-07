@@ -3,11 +3,9 @@ const express = require('express');
 const config = require('config');
 
 const { initFormRouter } = require('./form-router');
-const appData = require('../../modules/appData');
 
 const digitalFundForm = require('./digital-fund/form-model');
 const reachingCommunitiesForm = require('./reaching-communities/form-model');
-const buildingConnectionsTempForm = require('./building-connections/form-model');
 
 const features = config.get('features');
 
@@ -23,10 +21,6 @@ if (features.enableDigitalFundApplications) {
     const redirectToProgramme = (req, res) => res.redirect('/funding/programmes/digital-fund');
     router.use('/digital-fund-strand-1', redirectToProgramme);
     router.use('/digital-fund-strand-2', redirectToProgramme);
-}
-
-if (appData.isNotProduction) {
-    router.use('/building-connections-temporary', initFormRouter(buildingConnectionsTempForm));
 }
 
 module.exports = router;
