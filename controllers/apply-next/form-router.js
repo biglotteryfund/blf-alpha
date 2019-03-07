@@ -207,7 +207,6 @@ function initFormRouter(formModel) {
                      * We validate against the whole form schema so need to limit the errors to the current step
                      */
                     const errorsForStep = filterErrors(validationResult.error, fieldNamesForStep);
-                    // const errorKeysForStep = errorsForStep.map(detail => detail.context.key);
                     const errorKeysForStep = errorsForStep.map(detail => detail.path[0]);
 
                     /**

@@ -386,7 +386,6 @@ const allFields = {
         },
         isRequired: true,
         schema: commonValidators.dateOfBirth(MIN_APPLICANT_AGE),
-        prepareForStorage: function(body) {},
         messages: {
             base: { en: 'Enter a date of birth', cy: '' },
             'date.max': { en: 'Main contact must be at least 18 years old' }
