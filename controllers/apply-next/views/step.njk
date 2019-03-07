@@ -12,11 +12,23 @@
             <form action="" method="POST">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
-                {{ formHeader(
-                    backUrl = previousUrl,
-                    title = currentApplicationTitle if currentApplicationTitle else formTitle,
-                    suffix = formTitle if currentApplicationTitle
-                ) }}
+
+                {% set formHeaderTitle = currentApplicationTitle if currentApplicationTitle else formTitle %}
+                {% set formHeaderSuffix = formTitle if currentApplicationTitle %}
+                <div class="form-header">
+                    <div class="form-header__actions">
+                        {% if previousUrl %}
+                            <a href="{{ previousUrl }}">← Previous</a>
+                        {% endif %}
+                        {% if nextUrl %}
+                            <a href="{{ nextUrl }}">Next →</a>
+                        {% endif %}
+                    </div>
+                    <h1 class="form-header__title">{{ formHeaderTitle }}</h1>
+                    {% if formHeaderSuffix %}
+                        <p class="form-header__suffix">{{ formHeaderSuffix }}</p>
+                    {% endif %}
+                </div>
 
                 {# {{ languageServiceMessage(currentLocale = locale) }} #}
 
@@ -48,9 +60,13 @@
                 {% endif %}
 
                 <div class="form-actions">
-                    <input class="btn btn--next" type="submit" value="{{ __('global.misc.next') | capitalize }}" />
-                    <a href="{{ formBaseUrl }}/summary">Skip to summary</a>
+                    <input class="btn" type="submit" value="Continue" />
                 </div>
+
+                <p class="u-text-medium">
+                    Not sure about this step? <a href="{{ nextUrl }}">Skip to the next step</a>
+                    or <a href="{{ formBaseUrl }}/summary">go to the summary</a>
+                </p>
             </form>
         </div>
     </main>

@@ -3,10 +3,14 @@
    ========================================================================= */
 
 .form-header {
-    margin-bottom: $spacingUnit;
+    margin-bottom: $spacingUnit * 2;
 
     .form-header__actions {
         margin-bottom: $spacingUnit / 2;
+
+        a:not(:last-of-type) {
+            margin-right: $spacingUnit / 2;
+        }
     }
     .form-header__prefix,
     .form-header__title {
@@ -307,6 +311,7 @@
     max-width: $constrainedWide;
     border-top: 1px solid get-color('border', 'base');
     padding: 1em 0;
+    margin-bottom: $spacingUnit / 2;
 
     > .btn {
         display: inline-block;

@@ -163,6 +163,7 @@ function initFormRouter(formModel) {
                 if (shouldRender) {
                     res.render(path.resolve(__dirname, './views/step'), {
                         previousUrl,
+                        nextUrl,
                         title: `${stepLocalised.title} | ${res.locals.form.title}`,
                         csrfToken: req.csrfToken(),
                         step: stepLocalised,
