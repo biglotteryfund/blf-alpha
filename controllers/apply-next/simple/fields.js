@@ -308,7 +308,7 @@ const allFields = {
             size: 20
         },
         isRequired: true,
-        schema: Joi.any().when('organsation-type', {
+        schema: Joi.any().when('organisation-type', {
             is: Joi.valid(organisationTypes.unincorporatedRegisteredCharity.value),
             then: Joi.number().required()
         }),
@@ -321,7 +321,7 @@ const allFields = {
         label: { en: 'Companies house number', cy: '' },
         type: 'text',
         isRequired: true,
-        schema: Joi.any().when('organsation-type', {
+        schema: Joi.any().when('organisation-type', {
             is: Joi.valid([
                 organisationTypes.charitableIncorporatedOrganisation.value,
                 organisationTypes.notForProfitCompany.value,
