@@ -192,26 +192,21 @@ describe('e2e', function() {
             cy.get('.start-button [type="submit"]').click();
 
             cy.checkA11y();
-            cy.get('input[name="project-start-date[day]"]').type('1');
-            cy.get('input[name="project-start-date[month]"]').type('01');
-            cy.get('input[name="project-start-date[year]"]').type('2000');
-            cy.get('#field-project-postcode').type('EC4A 1DE');
-            cy.get('input[type="submit"]').click();
-            cy.get('.form-errors').contains('Date must be at least 12 weeks into the future');
-            cy.checkA11y();
-
-            cy.get('input[name="project-start-date[day]"]')
-                .clear()
-                .type('1');
-
-            cy.get('input[name="project-start-date[month]"]')
-                .clear()
-                .type('1');
-
+            cy.get('input[name="project-start-date[day]"]').type('31');
+            cy.get('input[name="project-start-date[month]"]').type('1');
             cy.get('input[name="project-start-date[year]"]')
+                .type('2000')
+                .should($el => {
+                    const el = $el.get(0);
+                    expect(el.checkValidity()).to.equal(false);
+                    expect(el.validationMessage).to.contain('Value must be greater than or equal to');
+                })
                 .clear()
                 .type('2021');
 
+            cy.get('#field-project-postcode').type('EC4A 1DE');
+
+            cy.checkA11y();
             cy.get('input[type="submit"]').click();
         });
     });
