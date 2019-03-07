@@ -192,9 +192,26 @@ describe('e2e', function() {
             cy.get('.start-button [type="submit"]').click();
 
             cy.checkA11y();
-            cy.get('#field-project-start-date').type('2021-01-01');
+            cy.get('input[name="project-start-date[day]"]').type('1');
+            cy.get('input[name="project-start-date[month]"]').type('01');
+            cy.get('input[name="project-start-date[year]"]').type('2000');
             cy.get('#field-project-postcode').type('EC4A 1DE');
+            cy.get('input[type="submit"]').click();
+            cy.get('.form-errors').contains('Date must be at least 12 weeks into the future');
             cy.checkA11y();
+
+            cy.get('input[name="project-start-date[day]"]')
+                .clear()
+                .type('1');
+
+            cy.get('input[name="project-start-date[month]"]')
+                .clear()
+                .type('1');
+
+            cy.get('input[name="project-start-date[year]"]')
+                .clear()
+                .type('2021');
+
             cy.get('input[type="submit"]').click();
         });
     });

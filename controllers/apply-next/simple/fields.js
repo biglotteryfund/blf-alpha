@@ -102,7 +102,7 @@ const allFields = {
         messages: {
             base: { en: 'Enter a date', cy: '' },
             'date.isoDate': { en: 'Enter a real date', cy: '' },
-            'date.min': { en: 'Date ust be at least 12 weeks into the future', cy: '' }
+            'date.min': { en: 'Date must be at least 12 weeks into the future', cy: '' }
         }
     },
     projectPostcode: postcodeField({
