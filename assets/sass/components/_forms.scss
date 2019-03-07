@@ -486,3 +486,35 @@
         }
     }
 }
+
+// Budget table
+.ff-budget {
+    background-color: get-color('background', 'light-neutral');
+    padding: $spacingUnit;
+
+    // Hide some of the initial 10 rows for non-JS browsers
+    .no-js & {
+        height: 300px;
+        overflow: auto;
+    }
+
+    .ff-budget-line {
+        display: flex;
+
+        > .ff-budget-line__col {
+            flex-grow: 1;
+            flex-shrink: 0;
+            margin-right: $spacingUnit;
+            margin-bottom: $spacingUnit;
+
+            &.ff-budget-line__col--item {
+                flex-basis: 50%;
+                max-width: 50%;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}

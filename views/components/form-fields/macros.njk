@@ -172,6 +172,31 @@
     </fieldset>
 {% endmacro %}
 
+{% macro budgetLineItemRow(field, counter, lineItem = false) %}
+    <div class="ff-budget-line">
+        <div class="ff-budget-line__col ff-budget-line__col--item">
+            <input type="text"
+                   name="{{ field.name }}[{{ counter }}][item]"
+                   placeholder="Add item name"
+                   {% if lineItem %}value="{{ lineItem.item }}"{% endif %}
+                   class="ff-text u-block-full" />
+        </div>
+        <div class="ff-budget-line__col ff-budget-line__col--cost">
+            <div class="ff-field-prepend">£</div>
+            <input type="number"
+                   name="{{ field.name }}[{{ counter }}][cost]"
+                   min="1" max="{{ field.attributes.max }}"
+                   {% if lineItem %}value="{{ lineItem.cost }}"{% endif %}
+                   class="ff-text ff-text--currency" />
+        </div>
+        <div class="ff-budget-line__col ff-budget-line__col--actions js-only">
+            <button class="btn btn--small btn--outline u-block-full">
+                Delete row
+            </button>
+        </div>
+    </div>
+{% endmacro %}
+
 {% macro inputBudget(field, fieldCopy) %}
     <label class="ff-label" for="field-{{ field.name }}">
         {{ fieldLabelText(field, fieldCopy) }}
@@ -179,53 +204,20 @@
 
     {{ fieldHelpText(field, fieldCopy) }}
 
-    <div class="s-prose">
-        <table class="table table-budget mb-5">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col" class="table__col--minor">Cost</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for lineItem in field.value %}
-                    <tr>
-                        <td>
-                            <input type="text"
-                                   placeholder="Type a budget item name..."
-                                   name="{{ field.name }}[{{ loop.index0 }}][item]"
-                                   value="{{ lineItem.item }}"
-                                   class="u-block-full" />
-                        </td>
-                        <td>
-                            <input type="number"
-                                   min="1"
-                                   max="{{ field.attributes.max }}"
-                                   name="{{ field.name }}[{{ loop.index0 }}][cost]"
-                                   value="{{ lineItem.cost }}"
-                                   class="u-block-full" />
-                        </td>
-                    </tr>
-                {% endfor %}
-                {% for i in range(0 + field.value | length, 10) %}
-                    <tr>
-                        <td>
-                            <input type="text"
-                                   placeholder="Type a budget item name..."
-                                   name="{{ field.name }}[{{ i }}][item]"
-                                   class="u-block-full" />
-                        </td>
-                        <td>
-                            <input type="number"
-                                   min="1"
-                                   max="{{ field.attributes.max }}"
-                                   name="{{ field.name }}[{{ i }}][cost]"
-                                   class="u-block-full" />
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="ff-budget">
+
+        <div class="ff-budget-line">
+            <h4 class="ff-budget-line__col ff-budget-line__col--item">Item or activity</h4>
+            <h4 class="ff-budget-line__col ff-budget-line__col--cost">Amount from us</h4>
+            <h4 class="ff-budget-line__col ff-budget-line__col--actions js-only"></h4>
+        </div>
+
+        {% for lineItem in field.value %}
+            {{ budgetLineItemRow(field, loop.index0, lineItem) }}
+        {% endfor %}
+        {% for i in range(0 + field.value | length, 10) %}
+            {{ budgetLineItemRow(field, i) }}
+        {% endfor %}
     </div>
 
 {% endmacro %}
