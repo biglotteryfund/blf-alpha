@@ -6,16 +6,20 @@ const { toInteger, isObject } = require('lodash');
 const Joi = baseJoi.extend(joi => ({
     base: joi.date(),
     name: 'dateObject',
-    /* eslint-disable-next-line no-unused-vars */
     coerce: function(value, state, options) {
-        // @TODO: Extract this out and unit test
         if (isObject(value)) {
-            return moment({
+            const date = moment({
                 year: toInteger(value.year),
                 // month is 0 indexed when constructing a date object
                 month: toInteger(value.month) - 1,
                 day: toInteger(value.day)
-            }).format('YYYY-MM-DD');
+            });
+
+            if (date.isValid()) {
+                return date.toISOString();
+            } else {
+                return this.createError('date.isoDate', { v: value }, state, options);
+            }
         } else {
             return value;
         }
