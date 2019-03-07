@@ -6,29 +6,6 @@ const FUND_SIZE = {
     max: 100000
 };
 
-const LENGTH_HINTS = {
-    HEMINGWAY: {
-        rows: 3,
-        text: 'A single sentence.'
-    },
-    FEW_LINES: {
-        rows: 5,
-        text: 'A couple of sentences, no more than a paragraph.'
-    },
-    FEW_PARAS: {
-        rows: 10,
-        text: 'A couple of paragraphs.'
-    },
-    MANY_PARAS: {
-        rows: 12,
-        text: 'At least three paragraphs.'
-    },
-    TOLSTOY: {
-        rows: 15,
-        text: 'At least five paragraphs'
-    }
-};
-
 // Allows us to share postcode validation on server and client-side
 // via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
 // we have to double-escape the regex patterns here to output it as a native RegExp
@@ -43,6 +20,7 @@ const currentWork = [
             {
                 name: 'current-work',
                 type: 'textarea',
+                attributes: { rows: 12 },
                 isRequired: true
             }
         ]
@@ -62,11 +40,13 @@ const yourIdea = [
             {
                 name: 'project-idea',
                 type: 'textarea',
+                attributes: { rows: 12 },
                 isRequired: true
             },
             {
                 name: 'project-impact',
                 type: 'textarea',
+                attributes: { rows: 12 },
                 isRequired: true
             }
         ]
@@ -79,15 +59,18 @@ const projectActivities = [
             {
                 name: 'project-activities-a',
                 type: 'textarea',
+                attributes: { rows: 12 },
                 isRequired: true
             },
             {
                 name: 'project-activities-b',
-                type: 'textarea'
+                type: 'textarea',
+                attributes: { rows: 12 }
             },
             {
                 name: 'project-activities-c',
-                type: 'textarea'
+                type: 'textarea',
+                attributes: { rows: 12 }
             }
         ]
     }
@@ -99,6 +82,7 @@ const socialConnections = [
             {
                 name: 'social-connections',
                 type: 'textarea',
+                attributes: { rows: 12 },
                 isRequired: true
             }
         ]
@@ -111,7 +95,8 @@ const projectEvaluation = [
             {
                 name: 'project-evaluation',
                 type: 'textarea',
-                lengthHint: LENGTH_HINTS.FEW_PARAS
+                attributes: { rows: 12 },
+                lengthHint: 'A couple of paragraphs.'
             }
         ]
     }
@@ -173,6 +158,7 @@ const projectBudget = [
             {
                 name: 'project-budget-a-description',
                 type: 'textarea',
+                attributes: { rows: 12 },
                 isRequired: true
             },
             {
@@ -187,6 +173,7 @@ const projectBudget = [
             {
                 name: 'project-budget-b-description',
                 type: 'textarea',
+                attributes: { rows: 12 },
                 silentlyOptional: true
             },
             {
@@ -201,6 +188,7 @@ const projectBudget = [
             {
                 name: 'project-budget-c-description',
                 type: 'textarea',
+                attributes: { rows: 12 },
                 silentlyOptional: true
             }
         ]
