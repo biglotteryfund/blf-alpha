@@ -62,20 +62,47 @@
     />
 {% endmacro %}
 
-{% macro inputDate(field, fieldCopy) %}
-    <label class="ff-label" for="field-{{ field.name }}">
-        {{ fieldLabelText(field, fieldCopy) }}
-    </label>
-    {{ fieldHelpText(field, fieldCopy) }}
-    <input
-        class="ff-text"
-        type="date"
-        id="field-{{ field.name }}"
-        name="{{ field.name }}"
-        {% if field.value %}value="{{ formatDate(field.value, 'YYYY-MM-DD') }}"{% endif %}
-        {% if field.isRequired %}required aria-required="true"{% endif %}
-        {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
-    />
+{% macro inputDate(field) %}
+    <fieldset class="ff-choice">
+        <legend class="ff-label" for="field-{{ field.name }}">
+            {{ fieldLabelText(field) }}
+        </legend>
+        {{ fieldHelpText(field, fieldCopy) }}
+        <div id="field-{{ field.name }}">
+            <label class="ff-inline">
+                <span class="ff-label">{{ __('global.misc.day') }}</span>
+                <input
+                    class="ff-text ff-width-2"
+                    type="number" pattern="[0-9]*"  min="1"
+                    name="{{ field.name }}[day]"
+                    value="{{ field.value.day or formatDate(field.value, 'D') }}"
+                    {% if field.isRequired %}required aria-required="true"{% endif %}
+                />
+            </label>
+            <label class="ff-inline">
+                <span class="ff-label">{{ __('global.misc.month') }}</span>
+                <input
+                    class="ff-text ff-width-2"
+                    type="number" pattern="[0-9]*"  min="1"
+                    name="{{ field.name }}[month]"
+                    value="{{ field.value.month or formatDate(field.value, 'M') }}"
+                    {% if field.isRequired %}required aria-required="true"{% endif %}
+                />
+            </label>
+            <label class="ff-inline">
+                <span class="ff-label">{{ __('global.misc.year') }}</span>
+                <input
+                    class="ff-text ff-width-4"
+                    type="number"
+                    pattern="[0-9]*" min="{{ field.settings.minYear | default(1900) }}"
+                    name="{{ field.name }}[year]"
+                    size="20"
+                    value="{{ field.value.year or formatDate(field.value, 'YYYY') }}"
+                    {% if field.isRequired %}required aria-required="true"{% endif %}
+                />
+            </label>
+        </div>
+    </fieldset>
 {% endmacro %}
 
 {% macro inputCurrency(field, fieldCopy) %}

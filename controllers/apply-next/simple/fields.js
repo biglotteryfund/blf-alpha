@@ -1,9 +1,9 @@
 'use strict';
 const { forEach, reduce, values } = require('lodash');
-const Joi = require('joi');
 const moment = require('moment');
 
-const commonValidators = require('../validators');
+const { Joi, ...commonValidators } = require('../validators');
+const { POSTCODE_PATTERN } = require('../../../modules/postcodes');
 
 const organisationTypes = {
     constitutedVoluntaryCommunity: {
@@ -44,12 +44,6 @@ const organisationTypes = {
 const MIN_APPLICANT_AGE = 18;
 
 function postcodeField(props) {
-    // Allows us to use postcode validation on the client-side
-    // via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
-    // we have to double-escape the regex patterns here
-    // to output it as a string for the HTML pattern attribute
-    const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
-
     const defaultProps = {
         label: { en: 'Postcode', cy: '' },
         type: 'text',
@@ -95,23 +89,27 @@ const allFields = {
             en: 'When is the planned (or estimated) start date of your project?',
             cy: '(WELSH) When is the planned (or estimated) start date of your project?'
         },
-        explanation: {
-            en:
-                'This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.',
-            cy:
-                '(WELSH) This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.'
+        get settings() {
+            const dt = moment().add(12, 'weeks');
+            return {
+                minDateExample: dt.format('DD MM YYYY'),
+                minYear: dt.format('YYYY')
+            };
+        },
+        get explanation() {
+            return {
+                en: `<p>This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
+                <p><strong>For example: ${this.settings.minDateExample}</strong></p>`,
+                cy: ''
+            };
         },
         type: 'date',
-        attributes: {
-            min: moment()
-                .add(12, 'weeks')
-                .format('YYYY-MM-DD')
-        },
         isRequired: true,
-        schema: commonValidators.futureDate('12', 'weeks'),
+        schema: commonValidators.futureDate({ amount: '12', unit: 'weeks' }),
         messages: {
-            base: { en: 'Enter project start date', cy: '' },
-            'date.min': { en: 'Project start date must be at least 12 weeks into the future', cy: '' }
+            base: { en: 'Enter a date', cy: '' },
+            'date.isoDate': { en: 'Enter a real date', cy: '' },
+            'date.min': { en: 'Date must be at least 12 weeks into the future', cy: '' }
         }
     },
     projectPostcode: postcodeField({
@@ -310,7 +308,7 @@ const allFields = {
             size: 20
         },
         isRequired: true,
-        schema: Joi.any().when('organsation-type', {
+        schema: Joi.any().when('organisation-type', {
             is: Joi.valid(organisationTypes.unincorporatedRegisteredCharity.value),
             then: Joi.number().required()
         }),
@@ -323,7 +321,7 @@ const allFields = {
         label: { en: 'Companies house number', cy: '' },
         type: 'text',
         isRequired: true,
-        schema: Joi.any().when('organsation-type', {
+        schema: Joi.any().when('organisation-type', {
             is: Joi.valid([
                 organisationTypes.charitableIncorporatedOrganisation.value,
                 organisationTypes.notForProfitCompany.value,
@@ -339,11 +337,15 @@ const allFields = {
         name: 'accounting-year-date',
         label: { en: 'What is your accounting year end date?', cy: '' },
         type: 'date',
+        settings: {
+            minYear: moment().format('YYYY')
+        },
         isRequired: true,
-        schema: Joi.date().min('now'),
+        schema: commonValidators.futureDate(),
         messages: {
-            base: { en: 'Enter an accounting year end date', cy: '' },
-            'date.min': { en: 'Accounting year end date must be in the future', cy: '' }
+            base: { en: 'Enter a date', cy: '' },
+            'date.isoDate': { en: 'Enter a real date', cy: '' },
+            'date.min': { en: 'Date must be in the future', cy: '' }
         }
     },
     totalIncomeYear: {

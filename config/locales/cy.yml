@@ -150,6 +150,9 @@ global:
     instagram: Instagram
     facebook: Facebook
     twitter: Twitter
+    day: Diwrnod
+    month: Mis
+    year: Blwyddyn
   programmes:
     programmeLabels:
       area: Ardal

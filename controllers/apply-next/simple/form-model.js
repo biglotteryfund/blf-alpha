@@ -18,10 +18,10 @@ const sectionProject = {
     },
     steps: [
         {
-            title: { en: 'Project details', cy: '(WELSH) Project details' },
+            title: { en: 'Project details', cy: '(cy) Project details' },
             fieldsets: [
                 {
-                    legend: { en: 'Get started', cy: '(WELSH) Get started' },
+                    legend: { en: 'Project date and location', cy: '(cy) Project date and location' },
                     fields: [allFields.projectStartDate, allFields.projectPostcode]
                 }
             ]
