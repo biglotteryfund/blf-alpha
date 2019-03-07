@@ -33,10 +33,13 @@ module.exports = {
         .trim()
         .regex(POSTCODE_REGEX)
         .description('postcode'),
-    futureDate: function(amount, unit) {
-        const minDate = moment()
-            .add(amount, unit)
-            .format('YYYY-MM-DD');
+    futureDate: function({ amount = null, unit = null } = {}) {
+        let minDate = 'now';
+        if (amount && unit) {
+            moment()
+                .add(amount, unit)
+                .format('YYYY-MM-DD');
+        }
 
         return Joi.dateObject()
             .iso()
@@ -47,6 +50,8 @@ module.exports = {
             .subtract(minAge, 'years')
             .format('YYYY-MM-DD');
 
-        return Joi.date().max(maxDate);
+        return Joi.dateObject()
+            .iso()
+            .max(maxDate);
     }
 };

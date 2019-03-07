@@ -105,7 +105,7 @@ const allFields = {
         },
         type: 'date',
         isRequired: true,
-        schema: commonValidators.futureDate('12', 'weeks'),
+        schema: commonValidators.futureDate({ amount: '12', unit: 'weeks' }),
         messages: {
             base: { en: 'Enter a date', cy: '' },
             'date.isoDate': { en: 'Enter a real date', cy: '' },
@@ -337,11 +337,15 @@ const allFields = {
         name: 'accounting-year-date',
         label: { en: 'What is your accounting year end date?', cy: '' },
         type: 'date',
+        settings: {
+            minYear: moment().format('YYYY')
+        },
         isRequired: true,
-        schema: Joi.date().min('now'),
+        schema: commonValidators.futureDate(),
         messages: {
-            base: { en: 'Enter an accounting year end date', cy: '' },
-            'date.min': { en: 'Accounting year end date must be in the future', cy: '' }
+            base: { en: 'Enter a date', cy: '' },
+            'date.isoDate': { en: 'Enter a real date', cy: '' },
+            'date.min': { en: 'Date must be in the future', cy: '' }
         }
     },
     totalIncomeYear: {
