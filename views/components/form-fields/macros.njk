@@ -94,7 +94,7 @@
                 <input
                     class="ff-text ff-width-4"
                     type="number"
-                    pattern="[0-9]*" min="1"
+                    pattern="[0-9]*" min="{{ field.settings.minYear | default(1900) }}"
                     name="{{ field.name }}[year]"
                     size="20"
                     value="{{ field.value.year or formatDate(field.value, 'YYYY') }}"

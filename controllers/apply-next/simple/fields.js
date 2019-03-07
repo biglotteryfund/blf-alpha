@@ -89,12 +89,19 @@ const allFields = {
             en: 'When is the planned (or estimated) start date of your project?',
             cy: '(WELSH) When is the planned (or estimated) start date of your project?'
         },
-        explanation: {
-            en: `
-                <p><strong>For example: 12 11 2020</strong></p>
-                <p>This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
-            `,
-            cy: ''
+        get settings() {
+            const dt = moment().add(12, 'weeks');
+            return {
+                minDateExample: dt.format('DD MM YYYY'),
+                minYear: dt.format('YYYY')
+            };
+        },
+        get explanation() {
+            return {
+                en: `<p>This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
+                <p><strong>For example: ${this.settings.minDateExample}</strong></p>`,
+                cy: ''
+            };
         },
         type: 'date',
         isRequired: true,
