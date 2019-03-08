@@ -1,5 +1,5 @@
 'use strict';
-const { forEach, reduce, values } = require('lodash');
+const { forEach, reduce, values, isArray } = require('lodash');
 const moment = require('moment');
 
 const { Joi, ...commonValidators } = require('../validators');
@@ -198,6 +198,22 @@ const allFields = {
             'budgetItems.overBudget': {
                 en: `Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`,
                 cy: `(WELSH) Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`
+            }
+        },
+        displayFormat(value) {
+            if (!isArray(value)) {
+                return value;
+            } else {
+                const total = value.reduce((acc, cur) => {
+                    return acc + (parseInt(cur.cost || 0) || 0);
+                }, 0);
+                let str = '<ul>';
+                value.forEach(line => {
+                    str += `<li>${line.item} &ndash; £${line.cost}</li>`;
+                });
+                str += '</ul>';
+                str += `<p><strong>Total</strong>: £${total}`;
+                return str;
             }
         }
     },

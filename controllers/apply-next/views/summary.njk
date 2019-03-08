@@ -92,7 +92,7 @@
                                                         </div>
                                                         <div class="application-summary__data__answer s-prose">
                                                             {% if field.displayValue %}
-                                                                {% set cleanValue = field.displayValue | striptags(true) | escape | nl2br %}
+                                                                {% set cleanValue = field.displayValue | safe | escape | nl2br %}
                                                                 {{ cleanValue }}
                                                             {% else %}
                                                                 &ndash;
