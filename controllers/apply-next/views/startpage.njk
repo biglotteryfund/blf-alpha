@@ -13,7 +13,7 @@
                 suffix = copy.description | safe
             ) }}
 
-            {% if applications %}
+            {% if applications.length > 0 %}
                 <h2>Your existing applications</h2>
                 <ul>
                     {% for application in applications %}

@@ -1,43 +1,36 @@
 'use strict';
 const path = require('path');
 const jwt = require('jsonwebtoken');
-const { validationResult } = require('express-validator/check');
 const express = require('express');
 
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 const { requireUnauthed } = require('../../middleware/authed');
 const userService = require('../../services/user');
 
-const { validators } = require('./helpers');
+const { localify } = require('../../modules/urls');
+const { normaliseErrors } = require('../../modules/errors');
+const { accountSchema, errorMessages } = require('./schema');
 
 const router = express.Router();
 
-function verify(token) {
+function verifyToken(token) {
     return new Promise((resolve, reject) => {
         jwt.verify(token, JWT_SIGNING_TOKEN, async (err, decoded) => {
             if (err) {
                 reject(err);
             } else {
                 if (decoded.data.reason === 'resetpassword') {
-                    try {
-                        const user = await userService.findWithActivePasswordReset({
-                            id: decoded.data.userId
-                        });
-
-                        if (user) {
-                            resolve(user);
-                        } else {
-                            reject(new Error('user not found'));
-                        }
-                    } catch (error) {
-                        reject(error);
-                    }
+                    resolve(decoded.data);
                 } else {
-                    reject(new Error('invalid token reason'));
+                    reject(new Error('Invalid token reason'));
                 }
             }
         });
     });
+}
+
+function redirect(req, res) {
+    res.redirect(localify(req.i18n.getLocale())('/user/login'));
 }
 
 function renderForm(req, res) {
@@ -56,50 +49,72 @@ router
     .get(async (req, res) => {
         let token = req.query.token ? req.query.token : res.locals.token;
         if (!token) {
-            return res.redirect('/user/login');
-        }
-
-        try {
-            await verify(token);
-            res.locals.token = token;
-            renderForm(req, res);
-        } catch (error) {
-            renderFormExpired(req, res);
+            redirect(req, res);
+        } else {
+            try {
+                await verifyToken(token);
+                res.locals.token = token;
+                renderForm(req, res);
+            } catch (error) {
+                renderFormExpired(req, res);
+            }
         }
     })
-    .post(validators.password, async (req, res) => {
-        const changePasswordToken = req.body.token;
+    .post(async (req, res) => {
+        const { token } = req.body;
 
-        if (!changePasswordToken) {
-            res.redirect('/user/login');
+        if (!token) {
+            redirect(req, res);
         } else {
-            // store the token to pass on to other requests (eg. outside the URL)
-            res.locals.token = changePasswordToken;
-            const errors = validationResult(req);
+            try {
+                const decodedData = await verifyToken(token);
 
-            if (errors.isEmpty()) {
-                try {
-                    const user = await verify(changePasswordToken);
+                /**
+                 * Validate new password,
+                 * Include username in password to allow us to check against conditional rules
+                 * e.g. password must not match username
+                 */
+                const validationResult = accountSchema.validate(
+                    { username: decodedData.userId, password: req.body.password },
+                    { abortEarly: false, stripUnknown: true }
+                );
 
+                const errors = normaliseErrors({
+                    validationError: validationResult.error,
+                    errorMessages: errorMessages,
+                    locale: req.i18n.getLocale(),
+                    fieldNames: ['password']
+                });
+
+                if (errors.length > 0) {
+                    res.locals.errors = errors;
+                    res.locals.token = token;
+                    res.locals.formValues = validationResult.value;
+                    return renderForm(req, res);
+                } else {
                     try {
-                        await userService.updateNewPassword({
-                            id: user.id,
-                            newPassword: req.body.password
+                        const user = await userService.findWithActivePasswordReset({
+                            id: validationResult.value.username
                         });
+
+                        if (user) {
+                            await userService.updateNewPassword({
+                                id: validationResult.value.username,
+                                newPassword: validationResult.value.password
+                            });
+                        } else {
+                            throw new Error('User not found');
+                        }
 
                         res.redirect('/user/login?s=passwordUpdated');
                     } catch (error) {
-                        res.locals.alertMessage = 'There was an error updating your password - please try again';
+                        res.locals.token = token;
+                        res.locals.alertMessage = 'There was an problem updating your password - please try again';
                         renderForm(req, res);
                     }
-                } catch (error) {
-                    renderFormExpired(req, res);
                 }
-            } else {
-                // failed validation
-                res.locals.errors = errors.array();
-                res.locals.formValues = req.body;
-                return renderForm(req, res);
+            } catch (error) {
+                renderFormExpired(req, res);
             }
         }
     });

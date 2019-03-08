@@ -1,6 +1,6 @@
 'use strict';
-const { cloneDeep, find, findIndex, findLastIndex, flatMapDeep, includes, isEmpty, pick } = require('lodash');
-const { get, getOr, uniqBy } = require('lodash/fp');
+const { cloneDeep, find, findIndex, findLastIndex, flatMap, flatMapDeep, includes, isEmpty, pick } = require('lodash');
+const { get, getOr } = require('lodash/fp');
 const moment = require('moment');
 
 const FORM_STATES = {
@@ -113,6 +113,19 @@ function enhanceForm(locale, form, data) {
     return clonedForm;
 }
 
+// @TODO: Add tests for this
+function fieldsForStep(step) {
+    const fields = flatMap(step.fieldsets, 'fields');
+    return {
+        fields: fields,
+        names: fields.map(field => field.name),
+        messages: fields.reduce((obj, field) => {
+            obj[field.name] = field.messages;
+            return obj;
+        }, {})
+    };
+}
+
 /**
  * Determine status from data and validation errors
  * @param {Object} data
@@ -223,44 +236,12 @@ function nextAndPrevious(options) {
     };
 }
 
-/**
- * Filter joi error object by given field names
- * In order to avoid showing multiple validation errors per field we find the first error per field name
- * @param {Object} validationError
- * @param {Array<String>} fieldNames
- */
-function filterErrors(validationError, fieldNames) {
-    const errorDetails = getOr([], 'details')(validationError);
-    return uniqBy(detail => detail.path[0])(errorDetails.filter(detail => includes(fieldNames, detail.path[0])));
-}
-
-/**
- * Normalise errors for use in views
- * Maps raw joi error objects to a simplified format and
- * determines the appropriate translated error message to
- * use based on a fields current error type.
- *
- * @param {Object} options
- * @param {Array<Object>} options.fields
- * @param {Array<Object>} options.errors
- * @param {String} options.locale
- */
-function normaliseErrors({ fields, errors, locale }) {
-    return errors.map(detail => {
-        const name = detail.path[0];
-        const match = find(fields, field => field.name === name);
-        const localeString = get(detail.type)(match.messages) || get('base')(match.messages);
-        return { param: name, msg: get(locale)(localeString) };
-    });
-}
-
 module.exports = {
     FORM_STATES,
     calculateFormProgress,
     enhanceForm,
-    filterErrors,
+    fieldsForStep,
     findNextMatchingUrl,
     findPreviousMatchingUrl,
-    nextAndPrevious,
-    normaliseErrors
+    nextAndPrevious
 };

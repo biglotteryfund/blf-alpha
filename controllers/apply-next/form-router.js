@@ -9,14 +9,8 @@ const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
 const applicationsService = require('../../services/applications');
 
-const {
-    FORM_STATES,
-    calculateFormProgress,
-    enhanceForm,
-    filterErrors,
-    nextAndPrevious,
-    normaliseErrors
-} = require('./helpers');
+const { normaliseErrors } = require('../../modules/errors');
+const { FORM_STATES, calculateFormProgress, enhanceForm, fieldsForStep, nextAndPrevious } = require('./helpers');
 
 function initFormRouter(formModel) {
     const router = express.Router();
@@ -143,8 +137,7 @@ function initFormRouter(formModel) {
         currentSection.steps.forEach((currentStep, currentStepIndex) => {
             const currentStepNumber = currentStepIndex + 1;
             const numSteps = currentSection.steps.length;
-            const fieldsForStep = flatMap(currentStep.fieldsets, 'fields');
-            const fieldNamesForStep = fieldsForStep.map(field => field.name);
+            const stepFields = fieldsForStep(currentStep);
 
             function renderStep(req, res, data, errors = []) {
                 const form = enhanceForm(req.i18n.getLocale(), formModel, data);
@@ -206,14 +199,18 @@ function initFormRouter(formModel) {
                      * Get the errors for the current step
                      * We validate against the whole form schema so need to limit the errors to the current step
                      */
-                    const errorsForStep = filterErrors(validationResult.error, fieldNamesForStep);
-                    const errorKeysForStep = errorsForStep.map(detail => detail.path[0]);
+                    const errors = normaliseErrors({
+                        validationError: validationResult.error,
+                        errorMessages: stepFields.messages,
+                        fieldNames: stepFields.names,
+                        locale: req.i18n.getLocale()
+                    });
 
                     /**
                      * Prepare data for storage
                      * Exclude any values in the current submission which have errors
                      */
-                    const newFormData = omit(validationResult.value, errorKeysForStep);
+                    const newFormData = omit(validationResult.value, errors.map(err => err.param));
 
                     try {
                         await applicationsService.updateApplication(currentlyEditingId, newFormData);
@@ -223,12 +220,7 @@ function initFormRouter(formModel) {
                          * - Pass the full data object from validationResult to the view. Including invalid values.
                          * Otherwise, find the next suitable step and redirect there.
                          */
-                        if (errorsForStep.length > 0) {
-                            const errors = normaliseErrors({
-                                fields: fieldsForStep,
-                                errors: errorsForStep,
-                                locale: req.i18n.getLocale()
-                            });
+                        if (errors.length > 0) {
                             renderStep(req, res, validationResult.value, errors);
                         } else {
                             const { nextUrl } = nextAndPrevious({

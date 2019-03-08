@@ -1,4 +1,6 @@
 // @ts-nocheck
+const uuid = require('uuid/v4');
+
 describe('common', function() {
     it('should have common headers', () => {
         cy.request('/').then(response => {
@@ -81,21 +83,29 @@ describe('common', function() {
 describe('user', () => {
     it('should allow users to register', () => {
         cy.visit('/user/register');
-        const now = Date.now();
-        const username = `${now}@example.com`;
-        cy.uiRegisterUser(username, now);
+        const password = uuid();
+        const username = `${Date.now()}@example.com`;
+        cy.get('#field-username').type(username, { delay: 0 });
+        cy.get('#field-password').type(password, { delay: 0 });
+        cy.checkA11y();
+        cy.get('input[type="submit"]').click();
     });
 
     it('should not allow unknown users to login', () => {
         cy.visit('/user/login');
-        cy.uiRegisterUser('person@example.com', 'badpassword');
+        cy.get('#field-username').type('person@example.com', { delay: 0 });
+        cy.get('#field-password').type('examplepassword', { delay: 0 });
+        cy.get('input[type="submit"]').click();
         cy.get('.form-errors').contains('Your username and password combination is invalid');
+        cy.checkA11y();
     });
 
     it('should prevent registrations with invalid passwords', () => {
         cy.visit('/user/register');
-        cy.uiRegisterUser('person@example.com', 'badpassword');
-        cy.get('.form-errors').contains('Please provide a password that contains at least one number');
+        cy.get('#field-username').type('person@example.com', { delay: 0 });
+        cy.get('#field-password').type('tooshort', { delay: 0 });
+        cy.get('input[type="submit"]').click();
+        cy.get('.form-errors').contains('Password must be at least 10 characters long');
     });
 
     it('should email valid users with a token', () => {
@@ -173,20 +183,51 @@ describe('e2e', function() {
         cy.get('.survey').should('contain', 'Diolch am');
     });
 
+    it('should apply to awards for all', () => {
+        cy.newUser().then(() => {
+            cy.visit('/apply-next/simple');
+
+            cy.checkA11y();
+            cy.get('#field-application-title').type('My application');
+            cy.get('.start-button [type="submit"]').click();
+
+            cy.checkA11y();
+            cy.get('input[name="project-start-date[day]"]').type('31');
+            cy.get('input[name="project-start-date[month]"]').type('1');
+            cy.get('input[name="project-start-date[year]"]')
+                .type('2000')
+                .should($el => {
+                    const el = $el.get(0);
+                    expect(el.checkValidity()).to.equal(false);
+                    expect(el.validationMessage).to.contain('Value must be greater than or equal to');
+                })
+                .clear()
+                .type('2021');
+
+            cy.get('#field-project-postcode').type('EC4A 1DE');
+
+            cy.checkA11y();
+            cy.get('input[type="submit"]').click();
+        });
+    });
+
     it('should navigate through a funding application from the homepage', () => {
         cy.visit('/');
         cy.closeCookieMessage();
 
+        cy.checkA11y();
         cy.percySnapshot('homepage');
 
         // Navigate to over 10k page
         cy.get('#qa-button-over10k').click();
         cy.checkActiveSection('Funding');
+        cy.checkA11y();
 
         // Navigate to reaching communities page
         cy.get('#qa-button-england').click();
         cy.get('#qa-promo-card-link-reaching-communities-england').click();
         cy.checkActiveSection('Funding');
+        cy.checkA11y();
 
         cy.percySnapshot('reaching-communities');
 
@@ -218,6 +259,7 @@ describe('e2e', function() {
         cy.get(submitSelector).click();
 
         // Step 2
+        cy.checkA11y();
         cy.get('#field-location-1').check();
         cy.get('#field-location-3').check();
         cy.get('#field-project-location').type('Example', { delay: 0 });
@@ -246,6 +288,7 @@ describe('e2e', function() {
 
         // Success
         cy.get('h1').should('contain', 'Thank you for submitting your idea');
+        cy.checkA11y();
 
         // Inline feedback
         cy.get('#js-feedback textarea').type('Test feedback');
@@ -329,7 +372,19 @@ describe('e2e', function() {
         cy.get('.qa-grant-result').should('have.length', textQueryCount - 50);
     });
 
-    it('patterns', function() {
+    it('smoke tests', function() {
+        cy.visit('/about');
+        cy.checkA11y();
+
+        cy.visit('/funding');
+        cy.checkA11y();
+
+        cy.visit('/insights');
+        cy.checkA11y();
+
+        cy.visit('/news');
+        cy.checkA11y();
+
         cy.visit('/patterns/components');
         cy.percySnapshot('patterns');
     });
