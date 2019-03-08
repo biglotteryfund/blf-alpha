@@ -79,7 +79,6 @@
     "cookie-parser": "~1.4.3",
     "csurf": "^1.9.0",
     "debug": "^3.1.0",
-    "decimal.js": "10.0.2",
     "details-element-polyfill": "2.2.0",
     "dictionary-cy-gb": "1.0.0",
     "dictionary-en-gb": "2.0.0",

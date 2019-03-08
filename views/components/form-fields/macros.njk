@@ -1,3 +1,5 @@
+{% from "components/icons.njk" import iconBin %}
+
 {% macro formErrors(errors, title) %}
     {% if errors | length > 0 %}
         <div class="form-errors">
@@ -216,28 +218,29 @@
 {% endmacro %}
 
 {% macro budgetLineItemRow(field, counter, lineItem = false) %}
-    <div class="ff-budget-line">
-        <div class="ff-budget-line__col ff-budget-line__col--item">
+    <tr>
+        <td>
             <input type="text"
                    name="{{ field.name }}[{{ counter }}][item]"
                    placeholder="Add item name"
                    {% if lineItem %}value="{{ lineItem.item }}"{% endif %}
                    class="ff-text u-block-full" />
-        </div>
-        <div class="ff-budget-line__col ff-budget-line__col--cost">
+        </td>
+        <td>
             <div class="ff-field-prepend">£</div>
             <input type="number"
                    name="{{ field.name }}[{{ counter }}][cost]"
                    min="1" max="{{ field.attributes.max }}"
                    {% if lineItem %}value="{{ lineItem.cost }}"{% endif %}
                    class="ff-text ff-text--currency" />
-        </div>
-        <div class="ff-budget-line__col ff-budget-line__col--actions js-only">
+        </td>
+        <td class="js-only">
             <button class="btn btn--small btn--outline u-block-full">
+                {{ iconBin() }}
                 Delete row
             </button>
-        </div>
-    </div>
+        </td>
+    </tr>
 {% endmacro %}
 
 {% macro inputBudget(field, fieldCopy) %}
@@ -247,20 +250,80 @@
 
     {{ fieldHelpText(field, fieldCopy) }}
 
-    <div class="ff-budget">
+    <div class="ff-budget"
+         id="js-vue-budget"
+         data-budget="{{ field.value | dump }}"
+         data-max-budget="{{ field.attributes.max }}"
+         data-field-name="{{ field.name }}">
 
-        <div class="ff-budget-line">
-            <h4 class="ff-budget-line__col ff-budget-line__col--item">Item or activity</h4>
-            <h4 class="ff-budget-line__col ff-budget-line__col--cost">Amount from us</h4>
-            <h4 class="ff-budget-line__col ff-budget-line__col--actions js-only"></h4>
-        </div>
+        <table class="ff-budget__table">
+            <thead>
+                <tr>
+                    <th scope="col" class="ff-budget__item-col">Item or activity</th>
+                    <th scope="col">Amount from us</th>
+                    <th scope="col" class="ff-budget__actions"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(lineItem, index) in items" class="js-only">
+                    <td>
+                        <input type="text"
+                               v-bind:disabled="!ready"
+                               :name="getLineItemName(index, 'item')"
+                               v-model="lineItem.item"
+                               placeholder="Add item name"
+                               class="ff-text u-block-full" />
+                    </td>
+                    <td>
+                        <div class="ff-field-prepend">£</div>
+                        <input type="number"
+                               v-bind:disabled="!ready"
+                               :name="getLineItemName(index, 'cost')"
+                               v-model="lineItem.cost"
+                               min="1" max="{{ field.attributes.max }}"
+                               class="ff-text ff-text--currency" />
+                    </td>
+                    <td>
+                        <button class="btn btn--small btn--outline u-block-full"
+                                type="button"
+                                v-on:click="removeItem(lineItem)">
+                            {{ iconBin() }}
+                            Delete row
+                        </button>
+                    </td>
+                </tr>
 
-        {% for lineItem in field.value %}
-            {{ budgetLineItemRow(field, loop.index0, lineItem) }}
-        {% endfor %}
-        {% for i in range(0 + field.value | length, 10) %}
-            {{ budgetLineItemRow(field, i) }}
-        {% endfor %}
+                <tr v-if="error" v-cloak>
+                    <td class="ff-budget__error">
+                        <span v-if="error === 'TOO_MANY_ITEMS'">You have added the maximum number of budget rows available.</span>
+                        <span v-if="error === 'OVER_BUDGET'">You have exceeded the budget limit for this application of £{{ field.attributes.max }}.</span>
+                    </td>
+                </tr>
+
+                <noscript>
+                    {% for lineItem in field.value %}
+                        {{ budgetLineItemRow(field, loop.index0, lineItem) }}
+                    {% endfor %}
+                    {% for i in range(0 + field.value | length, 10) %}
+                        {{ budgetLineItemRow(field, i) }}
+                    {% endfor %}
+                </noscript>
+
+            </tbody>
+
+            <tfoot class="js-only" v-cloak>
+                <tr>
+                    <td>
+                        <span class="ff-budget__label">Total:</span>
+                    </td>
+                    <td>
+                        <span class="ff-budget__total"><% total %></span>
+                    </td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+
     </div>
 
 {% endmacro %}
