@@ -30,8 +30,7 @@ function initBudgetInput() {
         delimiters: ['<%', '%>'],
         data() {
             return {
-                // @TODO should this be defined on the model?
-                maxItems: 10,
+                maxItems: null,
                 maxBudget: null,
                 items: [],
                 fieldName: null,
@@ -68,6 +67,7 @@ function initBudgetInput() {
             let budgetData = this.$el.getAttribute('data-budget');
             let fieldName = this.$el.getAttribute('data-field-name');
             let maxBudget = this.$el.getAttribute('data-max-budget');
+            let maxItems = this.$el.getAttribute('data-max-items');
 
             if (budgetData) {
                 this.items = JSON.parse(budgetData);
@@ -82,6 +82,8 @@ function initBudgetInput() {
             if (maxBudget) {
                 this.maxBudget = maxBudget;
             }
+
+            this.maxItems = maxItems ? maxItems : 10;
 
             // Activate disabled fields (which are disabled to avoid non-JS double submit)
             this.ready = true;
@@ -106,7 +108,7 @@ function initBudgetInput() {
             clearError: function() {
                 this.error = null;
             },
-            addItem: function(item = { item: '', cost: '' }) {
+            addItem: function(item = { item: '', cost: '', isNew: true }) {
                 this.items.push(item);
             },
             removeItem: function(item) {

@@ -187,7 +187,8 @@ const allFields = {
         },
         type: 'budget',
         attributes: {
-            max: MAX_BUDGET_TOTAL
+            max: MAX_BUDGET_TOTAL,
+            rowLimit: 10
         },
         isRequired: true,
         schema: commonValidators.budgetField(MAX_BUDGET_TOTAL),

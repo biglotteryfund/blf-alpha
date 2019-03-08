@@ -266,7 +266,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(lineItem, index) in items" class="js-only">
+                <tr v-for="(lineItem, index) in items"
+                    class="js-only"
+                    :aria-live="lineItem.isNew ? 'polite' : false"
+                    v-cloak>
                     <td>
                         <input type="text"
                                autocomplete="off"
@@ -297,8 +300,8 @@
 
                 <tr v-if="error" v-cloak>
                     <td class="ff-budget__error">
-                        <span v-if="error === 'TOO_MANY_ITEMS'">You have added the maximum number of budget rows available.</span>
-                        <span v-if="error === 'OVER_BUDGET'">You have exceeded the budget limit for this application of £{{ field.attributes.max }}.</span>
+                        <span v-if="error === 'TOO_MANY_ITEMS'">You have added the maximum number of budget rows available ({{ field.attributes.rowLimit }}).</span>
+                        <span v-if="error === 'OVER_BUDGET'">You have exceeded the budget limit for this application of £{{ field.attributes.max.toLocaleString() }}.</span>
                     </td>
                 </tr>
 
@@ -306,7 +309,7 @@
                     {% for lineItem in field.value %}
                         {{ budgetLineItemRow(field, loop.index0, lineItem) }}
                     {% endfor %}
-                    {% for i in range(0 + field.value | length, 10) %}
+                    {% for i in range(0 + field.value | length, field.attributes.rowLimit) %}
                         {{ budgetLineItemRow(field, i) }}
                     {% endfor %}
                 </noscript>
@@ -319,7 +322,7 @@
                         <span class="ff-budget__label">Total:</span>
                     </td>
                     <td>
-                        <span class="ff-budget__total"><% total %></span>
+                        <span class="ff-budget__total" tabindex="0"><% total %></span>
                     </td>
                     <td></td>
                 </tr>
