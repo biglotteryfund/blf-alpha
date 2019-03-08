@@ -221,6 +221,7 @@
     <tr>
         <td>
             <input type="text"
+                   autocomplete="off"
                    name="{{ field.name }}[{{ counter }}][item]"
                    placeholder="Add item name"
                    {% if lineItem %}value="{{ lineItem.item }}"{% endif %}
@@ -268,6 +269,7 @@
                 <tr v-for="(lineItem, index) in items" class="js-only">
                     <td>
                         <input type="text"
+                               autocomplete="off"
                                v-bind:disabled="!ready"
                                :name="getLineItemName(index, 'item')"
                                v-model="lineItem.item"
