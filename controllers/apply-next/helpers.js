@@ -1,7 +1,18 @@
 'use strict';
-const { cloneDeep, find, findIndex, findLastIndex, flatMap, flatMapDeep, includes, isEmpty, pick } = require('lodash');
-const { get, getOr } = require('lodash/fp');
 const moment = require('moment');
+const { get, getOr } = require('lodash/fp');
+const {
+    cloneDeep,
+    find,
+    findIndex,
+    findLastIndex,
+    flatMap,
+    flatMapDeep,
+    includes,
+    isEmpty,
+    isString,
+    pick
+} = require('lodash');
 
 const FORM_STATES = {
     empty: 'empty',
@@ -9,6 +20,23 @@ const FORM_STATES = {
     incomplete: 'incomplete',
     complete: 'complete'
 };
+
+function prepareValue(value, field) {
+    if (field.type === 'date') {
+        if (isString(value)) {
+            const dt = moment(value);
+            return {
+                day: dt.format('DD'),
+                month: dt.format('MM'),
+                year: dt.format('YYYY')
+            };
+        } else {
+            return value;
+        }
+    } else {
+        return value;
+    }
+}
 
 /**
  * Format field values for display in views
@@ -19,7 +47,7 @@ const FORM_STATES = {
  * @param {any} value
  * @param {object} field
  */
-function toDisplayValue(value, field) {
+function prepareDisplayValue(value, field) {
     if (field.displayFormat) {
         return field.displayFormat.call(field, value);
     } else if (field.type === 'radio') {
@@ -69,8 +97,8 @@ function enhanceForm(locale, form, data) {
         // Assign value to field if present
         const fieldValue = find(data, (value, name) => name === field.name);
         if (fieldValue) {
-            field.value = fieldValue;
-            field.displayValue = toDisplayValue(fieldValue, field);
+            field.value = prepareValue(fieldValue, field);
+            field.displayValue = prepareDisplayValue(fieldValue, field);
         }
 
         return field;
