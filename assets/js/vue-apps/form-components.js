@@ -30,8 +30,9 @@ function initBudgetInput() {
         delimiters: ['<%', '%>'],
         data() {
             return {
+                // @TODO should this be defined on the model?
                 maxItems: 10,
-                maxBudget: 10000,
+                maxBudget: null,
                 items: [],
                 fieldName: null,
                 ready: false,
@@ -90,7 +91,7 @@ function initBudgetInput() {
                 const total = this.items.reduce((acc, cur) => {
                     return acc + (parseInt(cur.cost || 0) || 0);
                 }, 0);
-                if (total > this.maxBudget) {
+                if (this.maxBudget && total > this.maxBudget) {
                     this.setError('OVER_BUDGET');
                 } else {
                     this.clearError();
