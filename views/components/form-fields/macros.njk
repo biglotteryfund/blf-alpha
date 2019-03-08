@@ -217,6 +217,7 @@
     </fieldset>
 {% endmacro %}
 
+{# If we update this we should change the Vue component too #}
 {% macro budgetLineItemRow(field, counter, lineItem = false) %}
     <tr>
         <td>
@@ -261,83 +262,35 @@
 
     {{ fieldHelpText(field, fieldCopy) }}
 
-    <div class="ff-budget"
-         id="js-vue-budget"
-         data-budget="{{ field.value | dump }}"
-         data-max-budget="{{ field.attributes.max }}"
-         data-field-name="{{ field.name }}">
+    <div class="ff-budget" id="js-budget-input">
 
-        <table class="ff-budget__table">
-            <thead>
-                <tr>
-                    <th scope="col" class="ff-budget__item-col">Item or activity</th>
-                    <th scope="col">Amount from us</th>
-                    <th scope="col" class="ff-budget__actions"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(lineItem, index) in items"
-                    class="js-only"
-                    :aria-live="lineItem.isNew ? 'polite' : false"
-                    v-cloak>
-                    <td>
-                        <input type="text"
-                               autocomplete="off"
-                               v-bind:disabled="!ready"
-                               :name="getLineItemName(index, 'item')"
-                               v-model="lineItem.item"
-                               placeholder="Add item name"
-                               class="ff-text u-block-full" />
-                    </td>
-                    <td>
-                        <div class="ff-field-prepend">£</div>
-                        <input type="number"
-                               v-bind:disabled="!ready"
-                               :name="getLineItemName(index, 'cost')"
-                               v-model="lineItem.cost"
-                               min="1" max="{{ field.attributes.max }}"
-                               class="ff-text ff-text--currency" />
-                    </td>
-                    <td>
-                        <button class="btn btn--small btn--outline u-block-full"
-                                type="button"
-                                v-on:click="removeItem(lineItem)">
-                            {{ iconBin() }}
-                            Delete row
-                        </button>
-                    </td>
-                </tr>
+        <budget-input
+            field-name="{{ field.name }}"
+            :max-budget="{{ field.attributes.max }}"
+            :max-items="{{ field.attributes.rowLimit }}"
+            :budget-data="{{ field.value | dump }}"
+        ></budget-input>
 
-                <tr v-if="error" v-cloak>
-                    <td class="ff-budget__error">
-                        <span v-if="error === 'TOO_MANY_ITEMS'">You have added the maximum number of budget rows available ({{ field.attributes.rowLimit }}).</span>
-                        <span v-if="error === 'OVER_BUDGET'">You have exceeded the budget limit for this application of £{{ field.attributes.max.toLocaleString() }}.</span>
-                    </td>
-                </tr>
 
-                <noscript>
+        {# @TODO have Vue remove this to avoid double inputs #}
+        <noscript>
+            <table class="ff-budget__table">
+                <thead>
+                    <tr>
+                        <th scope="col" class="ff-budget__item-col">Item or activity</th>
+                        <th scope="col">Amount from us</th>
+                    </tr>
+                </thead>
+                <tbody>
                     {% for lineItem in field.value %}
                         {{ budgetLineItemRow(field, loop.index0, lineItem) }}
                     {% endfor %}
                     {% for i in range(0 + field.value | length, field.attributes.rowLimit) %}
                         {{ budgetLineItemRow(field, i) }}
                     {% endfor %}
-                </noscript>
-
-            </tbody>
-
-            <tfoot class="js-only" v-cloak>
-                <tr>
-                    <td>
-                        <span class="ff-budget__label">Total:</span>
-                    </td>
-                    <td>
-                        <span class="ff-budget__total" tabindex="0"><% total %></span>
-                    </td>
-                    <td></td>
-                </tr>
-            </tfoot>
-        </table>
+                </tbody>
+            </table>
+        </noscript>
 
     </div>
 
