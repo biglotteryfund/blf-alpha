@@ -63,6 +63,12 @@ function initBudgetInput() {
                 .find('noscript')
                 .remove();
 
+            // Prevent Enter from submitting the entire form
+            // when focused on an input within the budget
+            $(this.$el).on('keypress', 'input', function(event) {
+                return event.keyCode !== 13;
+            });
+
             // Parse config via data attributes
             let budgetData = this.$el.getAttribute('data-budget');
             let fieldName = this.$el.getAttribute('data-field-name');
