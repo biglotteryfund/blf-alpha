@@ -66,13 +66,16 @@ function prepareDisplayValue(value, field) {
  * - Assigning values to fields, along with a display value for views
  * - Marking steps as notRequired if matchesCondition is currently false
  *
- * @param {String} locale
- * @param {Object} form
- * @param {Object} data
+ * @param {Object} options
+ * @param {String} options.locale
+ * @param {Object} options.baseForm
+ * @param {Object} [options.data]
  */
-function enhanceForm(locale, form, data) {
+function enhanceForm({ locale, baseForm, data = {} }) {
     const localise = get(locale);
-    const clonedForm = cloneDeep(form);
+    const clonedForm = cloneDeep(baseForm);
+
+    clonedForm.title = localise(baseForm.title);
 
     const enhanceSection = section => {
         section.title = localise(section.title);
@@ -122,28 +125,22 @@ function enhanceForm(locale, form, data) {
         return step;
     };
 
-    clonedForm.title = localise(form.title);
-
     clonedForm.sections = clonedForm.sections.map(section => {
         section = enhanceSection(section);
         section.steps = section.steps.map(enhanceStep);
         return section;
     });
 
+    clonedForm.newApplicationFields = clonedForm.newApplicationFields.map(enhanceField);
+
     if (clonedForm.termsFields) {
         clonedForm.termsFields = clonedForm.termsFields.map(enhanceField);
-    }
-
-    if (clonedForm.titleField) {
-        clonedForm.titleField = enhanceField(clonedForm.titleField);
     }
 
     return clonedForm;
 }
 
-// @TODO: Add tests for this
-function fieldsForStep(step) {
-    const fields = flatMap(step.fieldsets, 'fields');
+function mapFields(fields) {
     return {
         fields: fields,
         names: fields.map(field => field.name),
@@ -152,6 +149,11 @@ function fieldsForStep(step) {
             return obj;
         }, {})
     };
+}
+
+function fieldsForStep(step) {
+    const fields = flatMap(step.fieldsets, 'fields');
+    return mapFields(fields);
 }
 
 /**
@@ -268,6 +270,7 @@ module.exports = {
     FORM_STATES,
     calculateFormProgress,
     enhanceForm,
+    mapFields,
     fieldsForStep,
     findNextMatchingUrl,
     findPreviousMatchingUrl,

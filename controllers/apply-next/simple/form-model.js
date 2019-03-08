@@ -1,6 +1,5 @@
 'use strict';
 const { get, includes } = require('lodash');
-const path = require('path');
 
 const { schema, allFields, organisationTypes } = require('./fields');
 const processor = require('./processor');
@@ -284,6 +283,7 @@ module.exports = {
         sessionKey: SESSION_KEY,
         title: { en: 'National Lottery Awards for All', cy: '' },
         isBilingual: true,
+        newApplicationFields: [allFields.applicationTitle, allFields.applicationCountry],
         sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionLegalContact, sectionBankDetails],
         termsFields: [
             {
@@ -345,15 +345,7 @@ module.exports = {
                 isRequired: true
             }
         ],
-        titleField: {
-            name: 'application-title',
-            type: 'text',
-            label: { en: 'Funding application title', cy: '' },
-            isRequired: true
-        },
         schema: schema,
-        processor: processor,
-        startPage: { template: path.resolve(__dirname, '../views/startpage') },
-        successStep: { template: path.resolve(__dirname, '../views/success') }
+        processor: processor
     }
 };
