@@ -220,7 +220,12 @@
 {% macro budgetLineItemRow(field, counter, lineItem = false) %}
     <tr>
         <td>
+            <label class="u-visually-hidden"
+                   for="ff-{{ field.name }}-{{ counter }}-item">
+                Item name
+            </label>
             <input type="text"
+                   id="ff-{{ field.name }}-{{ counter }}-item"
                    autocomplete="off"
                    name="{{ field.name }}[{{ counter }}][item]"
                    placeholder="Add item name"
@@ -228,8 +233,13 @@
                    class="ff-text u-block-full" />
         </td>
         <td>
+            <label class="u-visually-hidden"
+                   for="ff-{{ field.name }}-{{ counter }}-item">
+                Item cost
+            </label>
             <div class="ff-field-prepend">£</div>
             <input type="number"
+                   id="ff-{{ field.name }}-{{ counter }}-cost"
                    name="{{ field.name }}[{{ counter }}][cost]"
                    min="1" max="{{ field.attributes.max }}"
                    {% if lineItem %}value="{{ lineItem.cost }}"{% endif %}

@@ -1,7 +1,7 @@
 'use strict';
 const moment = require('moment');
 const baseJoi = require('joi');
-const { isEmpty, isArray, filter, toInteger, isObject } = require('lodash');
+const { isEmpty, isArray, reject, toInteger, isObject } = require('lodash');
 
 const { POSTCODE_REGEX } = require('../../modules/postcodes');
 
@@ -38,7 +38,7 @@ const budgetValidator = joi => {
             if (isArray(value)) {
                 // Strip out anything that doesn't have an item name and a cost
                 // (eg. validate things that are half-supplied, but not empty)
-                return filter(value, line => !isEmpty(line.item) || !isEmpty(line.cost));
+                return reject(value, line => isEmpty(line.item) && isEmpty(line.cost));
             } else {
                 return value;
             }

@@ -41,11 +41,8 @@ function initBudgetInput() {
         watch: {
             items: {
                 handler() {
-                    const lastItem = this.items[this.items.length - 1];
-                    if (lastItem) {
-                        if (this.items.length < this.maxItems && (!isEmpty(lastItem.item) || !isEmpty(lastItem.cost))) {
-                            this.addItem();
-                        }
+                    if (this.shouldCreateNewRow()) {
+                        this.addItem();
                     }
                     if (this.items.length === this.maxItems) {
                         this.setError('TOO_MANY_ITEMS');
@@ -119,6 +116,14 @@ function initBudgetInput() {
             },
             removeItem: function(item) {
                 this.items = this.items.filter(i => i !== item);
+            },
+            shouldCreateNewRow: function() {
+                const lastItem = this.items[this.items.length - 1];
+                return (
+                    lastItem &&
+                    this.items.length < this.maxItems &&
+                    (!isEmpty(lastItem.item) || !isEmpty(lastItem.cost))
+                );
             },
             getLineItemName: function(index, subFieldName) {
                 return `${this.fieldName}[${index}][${subFieldName}]`;
