@@ -6,53 +6,51 @@
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner u-inner-wide-only">
-            <div class="s-prose u-constrained-wide">
-                <h1>Eligibility Checker</h1>
-                {% if eligibility === 'pending' %}
-                    <h2 class="t2 t--underline">Step {{ currentStepNumber }} of {{ questions.length }}</h2>
+            <h1>Eligibility Checker</h1>
+            {% if eligibility === 'pending' %}
+                <h2 class="t2 t--underline">Step {{ currentStepNumber }} of {{ questions.length }}</h2>
 
-                    <form method="post">
-                        {% if csrfToken %}
-                            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                        {% endif %}
+                <form method="post">
+                    {% if csrfToken %}
+                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                    {% endif %}
 
-                        {{ inputChoice({
-                            type: 'radio',
-                            name: 'eligibility',
-                            label: currentStep.question,
-                            explanation: currentStep.explanation,
-                            value: queryParams.amount,
-                            isRequired: true,
-                            options: [
-                                {
-                                    label: "Yes",
-                                    value: "yes"
-                                },
-                                {
-                                    label: "No",
-                                    value: "no"
-                                }
-                            ]
-                        }) }}
+                    {{ inputChoice({
+                        type: 'radio',
+                        name: 'eligibility',
+                        label: currentStep.question,
+                        explanation: currentStep.explanation,
+                        value: queryParams.amount,
+                        isRequired: true,
+                        options: [
+                            {
+                                label: "Yes",
+                                value: "yes"
+                            },
+                            {
+                                label: "No",
+                                value: "no"
+                            }
+                        ]
+                    }) }}
 
-                        <input class="btn" type="submit" value="Continue" />
-                    </form>
-                {% elseif eligibility === 'ineligible' %}
-                    <h2 class="t2 t--underline">Sorry, you're not eligible to apply at this time</h2>
-                    <p>{{ currentStep.ineligibleReason }}</p>
-                    <h2 class="t2 t--underline">What now?</h2>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.</p>
+                    <input class="btn" type="submit" value="Continue" />
+                </form>
+            {% elseif eligibility === 'ineligible' %}
+                <h2 class="t2 t--underline">Sorry, you're not eligible to apply at this time</h2>
+                <p>{{ currentStep.ineligibleReason }}</p>
+                <h2 class="t2 t--underline">What now?</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.</p>
 
-                    <p><a class="btn" href="{{ formBaseUrl }}">Start a new application</a></p>
+                <p><a class="btn" href="{{ formBaseUrl }}">Start a new application</a></p>
 
-                {% elseif eligibility === 'eligible' %}
-                    <h2 class="t2 t--underline">Great! You're eligible to apply to {{ formTitle }}</h2>
-                    <p>We're excited to hear more about your project and invite you to fill in our application form.</p>
-                    <p>
-                        <a class="btn" href="{{ formBaseUrl }}/edit/{{ currentlyEditingId }}">Continue your application</a>
-                    </p>
-                {% endif %}
-            </div>
+            {% elseif eligibility === 'eligible' %}
+                <h2 class="t2 t--underline">Great! You're eligible to apply to {{ formTitle }}</h2>
+                <p>We're excited to hear more about your project and invite you to fill in our application form.</p>
+                <p>
+                    <a class="btn" href="{{ formBaseUrl }}/edit/{{ currentlyEditingId }}">Continue your application</a>
+                </p>
+            {% endif %}
         </div>
     </main>
 {% endblock %}

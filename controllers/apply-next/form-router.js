@@ -145,8 +145,18 @@ function initFormRouter(formModel) {
     // Allow an application owned by this user to be deleted
     router
         .route('/delete/:applicationId')
-        .get((req, res) => {
+        .get(async (req, res) => {
             if (req.params.applicationId && req.user.userData.id) {
+                const application = await applicationsService.getApplicationById({
+                    formId: formModel.id,
+                    applicationId: req.params.applicationId,
+                    userId: req.user.userData.id
+                });
+
+                if (!application) {
+                    return res.redirect(req.baseUrl);
+                }
+
                 res.render(path.resolve(__dirname, './views/delete'), {
                     title: res.locals.formTitle,
                     csrfToken: req.csrfToken()
@@ -156,7 +166,7 @@ function initFormRouter(formModel) {
             }
         })
         .post(async (req, res) => {
-            const deleteApplication = applicationsService.deleteApplication(
+            const deleteApplication = await applicationsService.deleteApplication(
                 req.params.applicationId,
                 req.user.userData.id
             );
@@ -183,7 +193,8 @@ function initFormRouter(formModel) {
             try {
                 const application = await applicationsService.getApplicationById({
                     formId: formModel.id,
-                    applicationId: currentEditingId
+                    applicationId: currentEditingId,
+                    userId: req.user.userData.id
                 });
 
                 if (application) {
@@ -209,9 +220,6 @@ function initFormRouter(formModel) {
             res.redirect(req.baseUrl);
         }
     });
-
-    const requireEligible = (req, res, next) =>
-        res.locals.currentApplicationStatus === 'eligible' ? next() : res.redirect(`${req.baseUrl}/eligibility/1`);
 
     /**
      * Route: Eligibility checker
@@ -281,7 +289,11 @@ function initFormRouter(formModel) {
         });
 
     // Any pages after this point must be for eligible applications
-    router.use(requireEligible);
+    router.use((req, res, next) => {
+        return res.locals.currentApplicationStatus === 'eligible'
+            ? next()
+            : res.redirect(`${req.baseUrl}/eligibility/1`);
+    });
 
     /**
      * Routes: Form sections

@@ -34,7 +34,7 @@ function getApplicationsForUser({ userId, formId }) {
     });
 }
 
-function getApplicationById({ formId, applicationId }) {
+function getApplicationById({ formId, applicationId, userId }) {
     return Application.findOne({
         where: {
             id: {
@@ -42,6 +42,9 @@ function getApplicationById({ formId, applicationId }) {
             },
             form_id: {
                 [Op.eq]: formId
+            },
+            user_id: {
+                [Op.eq]: userId
             }
         }
     });
