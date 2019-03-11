@@ -197,6 +197,7 @@
                                 id="field-{{ field.name }}-{{ loop.index }}"
                                 name="{{ field.name }}"
                                 value="{{ option.value }}"
+                                {% if field.isRequired %}required aria-required="true"{% endif %}
                                 {% if field.value === option.value %}checked{% endif %}
                             />
                         {% endif %}
