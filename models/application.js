@@ -30,7 +30,8 @@ module.exports = function(sequelize, DataTypes) {
                 allowNull: false
             },
             status: {
-                type: DataTypes.STRING,
+                type: DataTypes.ENUM,
+                values: ['ineligible', 'pending', 'complete'],
                 allowNull: true
             }
         },

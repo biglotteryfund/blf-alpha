@@ -75,10 +75,26 @@ function deleteApplication(id, userId) {
     });
 }
 
+function changeApplicationState(id, newState) {
+    return Application.update(
+        {
+            status: newState
+        },
+        {
+            where: {
+                id: {
+                    [Op.eq]: id
+                }
+            }
+        }
+    );
+}
+
 module.exports = {
     createApplication,
     getApplicationsForUser,
     getApplicationById,
     updateApplication,
-    deleteApplication
+    deleteApplication,
+    changeApplicationState
 };
