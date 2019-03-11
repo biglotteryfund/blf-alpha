@@ -490,7 +490,6 @@ function initFormRouter(formModel) {
      * Route: Success
      */
     router.get('/success', function(req, res) {
-        const stepConfig = formModel.successStep;
         if (isEmpty(res.locals.currentApplicationData)) {
             res.redirect(req.baseUrl);
         } else {
