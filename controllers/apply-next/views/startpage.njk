@@ -19,7 +19,7 @@
                     {% for application in applications %}
                         <li>
                             <a href="{{ formBaseUrl }}/edit/{{ application.id }}">{{ application.application_title }}</a><br />
-                            Created on {{ formatDate(application.createdAt, DATE_FORMATS.full) }}, last updated {{ application.updatedAt | timeago }}
+                            Created on {{ formatDate(application.createdAt.toString(), DATE_FORMATS.full) }}, last updated {{ application.updatedAt | timeago }}
                         </li>
                     {% endfor %}
                 </ul>

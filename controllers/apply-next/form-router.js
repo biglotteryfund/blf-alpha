@@ -113,6 +113,34 @@ function initFormRouter(formModel) {
         }
     });
 
+    // Allow an application owned by this user to be deleted
+    router
+        .route('/delete/:applicationId')
+        .get((req, res) => {
+            if (req.params.applicationId && req.user.userData.id) {
+                res.render(path.resolve(__dirname, './views/delete'), {
+                    title: res.locals.formTitle,
+                    csrfToken: req.csrfToken()
+                });
+            } else {
+                res.redirect(req.baseUrl);
+            }
+        })
+        .post(async (req, res) => {
+            const deleteApplication = applicationsService.deleteApplication(
+                req.params.applicationId,
+                req.user.userData.id
+            );
+            deleteApplication
+                .then(() => {
+                    // @TODO show a success message on the subsequent (dashboard?) screen
+                    res.redirect(req.baseUrl);
+                })
+                .catch(error => {
+                    renderError(error, req, res);
+                });
+        });
+
     // All routes after this point require an ID to be selected for an application
     router.use((req, res, next) => {
         if (!res.locals.currentlyEditingId) {

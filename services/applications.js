@@ -62,14 +62,23 @@ function updateApplication(id, data) {
     );
 }
 
-/* @TODO
- *
- * functions to update/retrieve application state
- */
+function deleteApplication(id, userId) {
+    return Application.destroy({
+        where: {
+            user_id: {
+                [Op.eq]: userId
+            },
+            id: {
+                [Op.eq]: id
+            }
+        }
+    });
+}
 
 module.exports = {
     createApplication,
     getApplicationsForUser,
     getApplicationById,
-    updateApplication
+    updateApplication,
+    deleteApplication
 };
