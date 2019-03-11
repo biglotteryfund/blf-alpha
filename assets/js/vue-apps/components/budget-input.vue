@@ -103,7 +103,7 @@ export default {
                             class="ff-text ff-text--currency"
                         />
                     </td>
-                    <td v-if="index > 0 && index !== budgetRows.length - 1">
+                    <td v-if="budgetRows.length > 1 && index !== budgetRows.length - 1">
                         <button
                             class="btn btn--small btn--outline u-block-full"
                             type="button"
