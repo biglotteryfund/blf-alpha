@@ -18,18 +18,29 @@ module.exports = function() {
             userService
                 .findByUsername(username)
                 .then(user => {
-                    // use generic error messages here to avoid exposing existing accounts
-                    let genericError = 'Your username and password combination is invalid';
+                    /**
+                     * Use generic error messages here to avoid exposing existing accounts
+                     */
+                    const genericError = 'Your username and password combination is invalid';
                     if (!user) {
                         done(null, false, { message: genericError });
                         return null;
                     }
-                    if (!user.isValidPassword(user.password, password)) {
-                        done(null, false, { message: genericError });
-                        return null;
-                    }
-                    done(null, user);
-                    return null;
+
+                    user.isValidPassword(user.password, password)
+                        .then(isValid => {
+                            if (isValid) {
+                                done(null, user);
+                                return null;
+                            } else {
+                                done(null, false, { message: genericError });
+                                return null;
+                            }
+                        })
+                        .catch(() => {
+                            done(null, false, { message: genericError });
+                            return null;
+                        });
                 })
                 .catch(err => {
                     done(err);
