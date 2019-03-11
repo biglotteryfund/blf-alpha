@@ -34,6 +34,12 @@ function initBudgetInput() {
                 $(this.$el).on('keypress', 'input', function(event) {
                     return event.keyCode !== 13;
                 });
+
+                // Clear out <noscript> fallbacks otherwise they submit as well as the
+                // Vue-enhanced fields (eg. double inputs)
+                $(this.$el)
+                    .find('.js-fallback-only')
+                    .remove();
             }
         });
     }

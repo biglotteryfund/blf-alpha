@@ -256,18 +256,20 @@
 
     {{ fieldHelpText(field, fieldCopy) }}
 
-    <div class="ff-budget" id="js-budget-input">
+    <div id="js-budget-input">
 
         <budget-input
             field-name="{{ field.name }}"
             :max-budget="{{ field.attributes.max }}"
             :max-items="{{ field.attributes.rowLimit }}"
-            :budget-data="{{ field.value | dump }}" />
+            {% if field.value %}:budget-data="{{ field.value | dump }}"{% endif %}>
+        </budget-input>
 
 
         {# Non-JS version (*not* <noscript> because we still need it if JS fails #}
-        {# (this will be removed by Vue automatically) #}
-        <table class="ff-budget__table">
+        {# (this will be removed by our Vue component when mounted) #}
+        <div class="js-fallback-only ff-budget">
+            <table class="ff-budget__table">
             <thead>
                 <tr>
                     <th scope="col" class="ff-budget__item-col">Item or activity</th>
@@ -283,7 +285,7 @@
                 {% endfor %}
             </tbody>
         </table>
-
+        </div>
     </div>
 
 {% endmacro %}
