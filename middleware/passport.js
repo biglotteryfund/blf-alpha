@@ -3,9 +3,10 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 
-const userService = require('../services/user');
 const { AZURE_AUTH } = require('../modules/secrets');
 const appData = require('../modules/appData');
+const staffService = require('../services/staff');
+const userService = require('../services/user');
 
 // Note: we return null after callbacks here to avoid this warning:
 // https://github.com/jaredhanson/passport/pull/461
@@ -69,7 +70,7 @@ module.exports = function() {
                         done(new Error('No oid found'), null);
                         return null;
                     }
-                    userService.findOrCreateStaffUser(profile, (err, response) => {
+                    staffService.findOrCreate(profile, (err, response) => {
                         if (err) {
                             done(err);
                             return null;
@@ -118,8 +119,8 @@ module.exports = function() {
                     return null;
                 });
         } else if (user.userType === 'staff') {
-            userService
-                .findStaffUserById(user.userData.id)
+            staffService
+                .findById(user.userData.id)
                 .then(staffUser => {
                     cb(null, makeUserObject(staffUser));
                     return null;
