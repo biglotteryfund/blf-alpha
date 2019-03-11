@@ -1,5 +1,5 @@
 'use strict';
-const { forEach, reduce, values } = require('lodash');
+const { forEach, reduce, values, isArray } = require('lodash');
 const moment = require('moment');
 
 const { Joi, ...commonValidators } = require('../validators');
@@ -49,6 +49,7 @@ const organisationTypes = {
 };
 
 const MIN_APPLICANT_AGE = 18;
+const MAX_BUDGET_TOTAL = 10000; // in GBP
 
 function postcodeField(props) {
     const defaultProps = {
@@ -222,14 +223,37 @@ const allFields = {
             `,
             cy: 'TODO'
         },
-        type: 'textarea',
+        type: 'budget',
         attributes: {
-            rows: 12
+            max: MAX_BUDGET_TOTAL,
+            rowLimit: 10
         },
         isRequired: true,
-        schema: Joi.string().required(),
+        schema: commonValidators.budgetField(MAX_BUDGET_TOTAL),
         messages: {
-            base: { en: 'Enter a project budget', cy: '' }
+            base: { en: 'Enter a project budget', cy: '' },
+            'any.empty': { en: 'Please supply both an item name and a cost', cy: '' },
+            'number.base': { en: 'Make sure each cost is a valid number', cy: '' },
+            'budgetItems.overBudget': {
+                en: `Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`,
+                cy: `(WELSH) Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`
+            }
+        },
+        displayFormat(value) {
+            if (!isArray(value)) {
+                return value;
+            } else {
+                const total = value.reduce((acc, cur) => {
+                    return acc + (parseInt(cur.cost || 0) || 0);
+                }, 0);
+                let str = '<ul>';
+                value.forEach(line => {
+                    str += `<li>${line.item} &ndash; £${line.cost}</li>`;
+                });
+                str += '</ul>';
+                str += `<p><strong>Total</strong>: £${total}`;
+                return str;
+            }
         }
     },
     projectTotalCosts: {
@@ -685,7 +709,19 @@ forEach(allFields, field => {
         label: localeString.required(),
         explanation: localeString.optional(),
         type: Joi.string()
-            .valid(['text', 'textarea', 'number', 'radio', 'checkbox', 'file', 'email', 'tel', 'date', 'currency'])
+            .valid([
+                'text',
+                'textarea',
+                'number',
+                'radio',
+                'checkbox',
+                'file',
+                'email',
+                'tel',
+                'date',
+                'currency',
+                'budget'
+            ])
             .required(),
         attributes: Joi.object().optional(),
         isRequired: Joi.boolean().required(),

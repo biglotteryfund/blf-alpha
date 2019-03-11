@@ -526,3 +526,76 @@
         }
     }
 }
+
+// Budget table
+.ff-budget {
+    background-color: get-color('background', 'light-neutral');
+    padding: $spacingUnit;
+
+    // Hide some of the initial 10 rows for non-JS browsers
+    .no-js & {
+        height: 300px;
+        overflow: auto;
+    }
+
+    .ff-budget__table {
+        box-sizing: border-box;
+        border-collapse: separate;
+        border-spacing: 0;
+        table-layout: fixed;
+        width: 100%;
+
+        th, td {
+            padding-right: $spacingUnit;
+            padding-bottom: $spacingUnit;
+
+            &:last-child {
+                padding-right: 0;
+            }
+        }
+
+        thead {
+
+            th {
+                font-family: font-stack('display');
+                text-align: left;
+                padding-bottom: $spacingUnit;
+
+                &.ff-budget__item-col {
+                    width: 50%;
+                }
+            }
+        }
+
+        tfoot {
+
+            td {
+                border-top: 1px solid get-color('border', 'base');
+                padding-top: $spacingUnit;
+            }
+        }
+
+        .ff-budget__label {
+            text-transform: uppercase;
+            font-weight: bold;
+            float: right;
+        }
+
+        .ff-budget__total {
+            border: 1px solid get-color('border', 'base');
+            padding: 5px;
+            width: 100%;
+            display: block;
+        }
+
+    }
+
+    .no-js & {
+        .ff-budget__item-col {
+            width: 70% !important;
+        }
+        .ff-budget__actions {
+            width: 0;
+        }
+    }
+}

@@ -1,3 +1,5 @@
+{% from "components/icons.njk" import iconBin %}
+
 {% macro formErrors(errors, title) %}
     {% if errors | length > 0 %}
         <div class="form-errors">
@@ -166,7 +168,8 @@
         name="{{ field.name }}">
         {% for option in field.options %}
             {% set optionCopy = fieldCopy.options[loop.index0] %}
-            <option value="{{ option.value }}"{% if option.selected === true or field.value === option.value %} selected{% endif %}>
+            <option
+                value="{{ option.value }}"{% if option.selected === true or field.value === option.value %} selected{% endif %}>
                 {{ optionCopy.label or option.label }}
             </option>
         {% endfor %}
@@ -216,6 +219,79 @@
     </fieldset>
 {% endmacro %}
 
+{# If we update this we should change the Vue component too #}
+{% macro budgetLineItemRow(field, counter, lineItem = false) %}
+    <tr>
+        <td>
+            <label class="u-visually-hidden"
+                   for="ff-{{ field.name }}-{{ counter }}-item">
+                Item name
+            </label>
+            <input type="text"
+                   id="ff-{{ field.name }}-{{ counter }}-item"
+                   autocomplete="off"
+                   name="{{ field.name }}[{{ counter }}][item]"
+                   placeholder="Add item name"
+                   {% if lineItem %}value="{{ lineItem.item }}"{% endif %}
+                   class="ff-text u-block-full" />
+        </td>
+        <td>
+            <label class="u-visually-hidden"
+                   for="ff-{{ field.name }}-{{ counter }}-cost">
+                Item cost
+            </label>
+            <div class="ff-field-prepend">£</div>
+            <input type="number"
+                   id="ff-{{ field.name }}-{{ counter }}-cost"
+                   name="{{ field.name }}[{{ counter }}][cost]"
+                   min="1" max="{{ field.attributes.max }}"
+                   {% if lineItem %}value="{{ lineItem.cost }}"{% endif %}
+                   class="ff-text ff-text--currency" />
+        </td>
+    </tr>
+{% endmacro %}
+
+{% macro inputBudget(field, fieldCopy) %}
+    <label class="ff-label" for="field-{{ field.name }}">
+        {{ fieldLabelText(field, fieldCopy) }}
+    </label>
+
+    {{ fieldHelpText(field, fieldCopy) }}
+
+    <div id="js-budget-input">
+
+        <budget-input
+            field-name="{{ field.name }}"
+            :max-budget="{{ field.attributes.max }}"
+            :max-items="{{ field.attributes.rowLimit }}"
+            {% if field.value %}:budget-data="{{ field.value | dump }}"{% endif %}>
+        </budget-input>
+
+
+        {# Non-JS version (*not* <noscript> because we still need it if JS fails #}
+        {# (this will be removed by our Vue component when mounted) #}
+        <div class="js-fallback-only ff-budget">
+            <table class="ff-budget__table">
+            <thead>
+                <tr>
+                    <th scope="col" class="ff-budget__item-col">Item or activity</th>
+                    <th scope="col">Amount from us</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lineItem in field.value %}
+                    {{ budgetLineItemRow(field, loop.index0, lineItem) }}
+                {% endfor %}
+                {% for i in range(0 + field.value | length, field.attributes.rowLimit) %}
+                    {{ budgetLineItemRow(field, i) }}
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+{% endmacro %}
+
 {% macro formField(field, fieldCopy = {}, errors = []) %}
     {% set fieldErrors = errors | filter('param', field.name) %}
     <div
@@ -233,6 +309,8 @@
                     {{ inputDate(field, fieldCopy) }}
                 {% elseif field.type === 'currency' %}
                     {{ inputCurrency(field, fieldCopy) }}
+                {% elseif field.type === 'budget' %}
+                    {{ inputBudget(field, fieldCopy) }}
                 {% else %}
                     {{ inputText(field, fieldCopy) }}
                 {% endif %}
