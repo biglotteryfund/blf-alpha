@@ -4,8 +4,6 @@ const { get, includes } = require('lodash');
 const { schema, allFields, organisationTypes } = require('./fields');
 const processor = require('./processor');
 
-const SESSION_KEY = 'awards-for-all';
-
 const sectionProject = {
     slug: 'your-project',
     title: { en: 'Your Project', cy: '(WELSH) Your Project' },
@@ -280,7 +278,7 @@ const sectionBankDetails = {
 
 module.exports = {
     formModel: {
-        sessionKey: SESSION_KEY,
+        id: 'awards-for-all',
         title: { en: 'National Lottery Awards for All', cy: '' },
         isBilingual: true,
         newApplicationFields: [allFields.applicationTitle, allFields.applicationCountry],

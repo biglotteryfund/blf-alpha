@@ -1,6 +1,5 @@
 'use strict';
-const { concat, head, isEmpty, omit, set } = require('lodash');
-const { get, getOr } = require('lodash/fp');
+const { concat, head, isEmpty, omit, get, set, unset } = require('lodash');
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
@@ -22,10 +21,7 @@ const {
 function initFormRouter(formModel) {
     const router = express.Router();
 
-    const sessionKeys = {
-        form: formModel.sessionKey,
-        editingId: 'currentEditingId'
-    };
+    const SESSION_PREFIX = `forms.${formModel.id}`;
 
     router.use(cached.csrfProtection);
 
@@ -43,10 +39,6 @@ function initFormRouter(formModel) {
      * Set common locals
      */
     router.use(async (req, res, next) => {
-        res.locals.setEditingId = value => set(req.session, `${sessionKeys.form}.currentEditingId`, value);
-        res.locals.getEditingId = () => get(`${sessionKeys.form}.currentEditingId`)(req.session);
-        res.locals.clearSession = () => delete req.session[sessionKeys.form];
-
         // Translate the form object for each request and populate it with current user input
         const form = enhanceForm({
             locale: req.i18n.getLocale(),
@@ -70,7 +62,10 @@ function initFormRouter(formModel) {
      * Route: Dashboard
      */
     router.route('/').get(async function(req, res) {
-        const applications = await applicationsService.getApplicationsForUser(req.user.userData.id, sessionKeys.form);
+        const applications = await applicationsService.getApplicationsForUser({
+            userId: req.user.userData.id,
+            formId: formModel.id
+        });
 
         res.render(path.resolve(__dirname, './views/dashboard'), {
             title: res.locals.formTitle,
@@ -122,8 +117,8 @@ function initFormRouter(formModel) {
                 try {
                     const application = await applicationsService.createApplication({
                         userId: req.user.userData.id,
-                        formId: sessionKeys.form,
-                        title: get('application-title')(validationResult.value),
+                        formId: formModel.id,
+                        title: get(validationResult.value, 'application-title'),
                         data: validationResult.value
                     });
 
@@ -140,8 +135,9 @@ function initFormRouter(formModel) {
      * Store the ID of the application currently being edited
      */
     router.get('/edit/:applicationId', async (req, res) => {
-        if (req.params.applicationId) {
-            res.locals.setEditingId(req.params.applicationId);
+        const { applicationId } = req.params;
+        if (applicationId) {
+            set(req.session, `${SESSION_PREFIX}.currentEditingId`, applicationId);
             req.session.save(() => {
                 const firstSection = head(formModel.sections);
                 res.redirect(`${req.baseUrl}/${firstSection.slug}`);
@@ -156,17 +152,20 @@ function initFormRouter(formModel) {
      * All routes after this point require an application to be selected
      */
     router.use(async (req, res, next) => {
-        const currentEditingId = res.locals.getEditingId();
+        const currentEditingId = get(req.session, `${SESSION_PREFIX}.currentEditingId`);
 
         if (currentEditingId) {
             res.locals.currentlyEditingId = currentEditingId;
 
             try {
-                const application = await applicationsService.getApplicationById(sessionKeys.form, currentEditingId);
+                const application = await applicationsService.getApplicationById({
+                    formId: formModel.id,
+                    applicationId: currentEditingId
+                });
 
                 if (application) {
-                    const currentApplicationData = get('application_data')(application);
-                    res.locals.currentApplicationTitle = get('application_title')(application);
+                    const currentApplicationData = get(application, 'application_data');
+                    res.locals.currentApplicationTitle = get(application, 'application_title');
                     res.locals.currentApplicationData = currentApplicationData;
 
                     res.locals.form = enhanceForm({
@@ -350,7 +349,7 @@ function initFormRouter(formModel) {
                 stripUnknown: true
             });
 
-            const errors = getOr([], 'error.details', validationResult);
+            const errors = get(validationResult, 'error.details', []);
 
             if (errors.length > 0) {
                 res.redirect(`${req.baseUrl}/summary`);
@@ -386,7 +385,7 @@ function initFormRouter(formModel) {
             res.redirect(req.baseUrl);
         } else {
             // Clear the submission from the session on success
-            res.locals.clearSession();
+            unset(req.session, SESSION_PREFIX);
             req.session.save(() => {
                 res.render(stepConfig.template, {
                     form: res.locals.form,
