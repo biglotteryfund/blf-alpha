@@ -1,6 +1,5 @@
 'use strict';
-const { concat, isEmpty, omit, set } = require('lodash');
-const { get, getOr } = require('lodash/fp');
+const { concat, head, isEmpty, omit, get, set, unset } = require('lodash');
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
@@ -10,15 +9,19 @@ const { requireUserAuth } = require('../../middleware/authed');
 const applicationsService = require('../../services/applications');
 
 const { normaliseErrors } = require('../../modules/errors');
-const { FORM_STATES, calculateFormProgress, enhanceForm, fieldsForStep, nextAndPrevious } = require('./helpers');
+const {
+    FORM_STATES,
+    calculateFormProgress,
+    enhanceForm,
+    fieldsForStep,
+    mapFields,
+    nextAndPrevious
+} = require('./helpers');
 
 function initFormRouter(formModel) {
     const router = express.Router();
 
-    const sessionKeys = {
-        form: formModel.sessionKey,
-        editingId: 'currentEditingId'
-    };
+    const SESSION_PREFIX = `forms.${formModel.id}`;
 
     router.use(cached.csrfProtection);
 
@@ -36,27 +39,12 @@ function initFormRouter(formModel) {
      * Set common locals
      */
     router.use(async (req, res, next) => {
-        res.locals.setSessionData = (dataPath, value) => set(req.session, `${sessionKeys.form}.${dataPath}`, value);
-        res.locals.getSessionData = dataPath => get(`${sessionKeys.form}.${dataPath}`)(req.session);
-        res.locals.clearSession = () => delete req.session[sessionKeys.form];
-
-        const currentEditingId = res.locals.getSessionData(sessionKeys.editingId);
-
-        res.locals.currentlyEditingId = currentEditingId;
-
-        // Look up the current application data
-        const application = currentEditingId
-            ? await applicationsService.getApplicationById(sessionKeys.form, currentEditingId)
-            : {};
-
-        const currentApplicationData = get('application_data')(application);
-        res.locals.currentApplicationTitle = get('application_title')(application);
-        res.locals.currentApplicationData = currentApplicationData;
-
         // Translate the form object for each request and populate it with current user input
-        const form = enhanceForm(req.i18n.getLocale(), formModel, currentApplicationData);
+        const form = enhanceForm({
+            locale: req.i18n.getLocale(),
+            baseForm: formModel
+        });
 
-        res.locals.form = form;
         res.locals.formTitle = form.title;
         res.locals.formBaseUrl = req.baseUrl;
         res.locals.FORM_STATES = FORM_STATES;
@@ -71,46 +59,87 @@ function initFormRouter(formModel) {
     });
 
     /**
-     * Route: Start page
+     * Route: Dashboard
      */
-    async function renderStartPage(req, res, errors = []) {
-        const { startPage } = res.locals.form;
-        const applications = await applicationsService.getApplicationsForUser(req.user.userData.id, sessionKeys.form);
+    router.route('/').get(async function(req, res) {
+        const applications = await applicationsService.getApplicationsForUser({
+            userId: req.user.userData.id,
+            formId: formModel.id
+        });
 
-        res.render(startPage.template, {
+        res.render(path.resolve(__dirname, './views/dashboard'), {
             title: res.locals.formTitle,
-            applications: applications,
+            applications
+        });
+    });
+
+    /**
+     * Route: New Application
+     */
+    function renderNewApplication(req, res, data = null, errors = []) {
+        const form = enhanceForm({
+            locale: req.i18n.getLocale(),
+            baseForm: formModel,
+            data: data
+        });
+
+        res.render(path.resolve(__dirname, './views/new'), {
+            title: res.locals.formTitle,
             csrfToken: req.csrfToken(),
+            fields: form.newApplicationFields,
             errors: errors
         });
     }
 
     router
-        .route('/')
-        .get(async function(req, res) {
-            renderStartPage(req, res);
+        .route('/new')
+        .get(function(req, res) {
+            renderNewApplication(req, res);
         })
         .post(async (req, res) => {
-            try {
-                const application = await applicationsService.createApplication({
-                    userId: req.user.userData.id,
-                    formId: sessionKeys.form,
-                    // @TODO: Validate the title field
-                    title: req.body['application-title']
-                });
-                res.redirect(`${req.baseUrl}/edit/${application.id}`);
-            } catch (error) {
-                Raven.captureException(error);
-                renderError(error, req, res);
+            const validationResult = formModel.schema.validate(req.body, {
+                abortEarly: false,
+                stripUnknown: true,
+                escapeHtml: true
+            });
+
+            const fields = mapFields(formModel.newApplicationFields);
+            const errors = normaliseErrors({
+                validationError: validationResult.error,
+                errorMessages: fields.messages,
+                fieldNames: fields.names,
+                locale: req.i18n.getLocale()
+            });
+
+            if (errors.length > 0) {
+                renderNewApplication(req, res, validationResult.value, errors);
+            } else {
+                try {
+                    const application = await applicationsService.createApplication({
+                        userId: req.user.userData.id,
+                        formId: formModel.id,
+                        title: get(validationResult.value, 'application-title'),
+                        data: validationResult.value
+                    });
+
+                    res.redirect(`${req.baseUrl}/edit/${application.id}`);
+                } catch (error) {
+                    Raven.captureException(error);
+                    renderError(error, req, res);
+                }
             }
         });
 
-    // Store the ID of the application currently being edited
+    /**
+     * Route: Edit application ID
+     * Store the ID of the application currently being edited
+     */
     router.get('/edit/:applicationId', async (req, res) => {
-        if (req.params.applicationId) {
-            res.locals.setSessionData(sessionKeys.editingId, req.params.applicationId);
+        const { applicationId } = req.params;
+        if (applicationId) {
+            set(req.session, `${SESSION_PREFIX}.currentEditingId`, applicationId);
             req.session.save(() => {
-                const firstSection = res.locals.form.sections[0];
+                const firstSection = head(formModel.sections);
                 res.redirect(`${req.baseUrl}/${firstSection.slug}`);
             });
         } else {
@@ -118,14 +147,48 @@ function initFormRouter(formModel) {
         }
     });
 
-    // All routes after this point require an ID to be selected for an application
-    router.use((req, res, next) => {
-        if (!res.locals.currentlyEditingId) {
-            return res.redirect(req.baseUrl);
+    /**
+     * Require application
+     * All routes after this point require an application to be selected
+     */
+    router.use(async (req, res, next) => {
+        const currentEditingId = get(req.session, `${SESSION_PREFIX}.currentEditingId`);
+
+        if (currentEditingId) {
+            res.locals.currentlyEditingId = currentEditingId;
+
+            try {
+                const application = await applicationsService.getApplicationById({
+                    formId: formModel.id,
+                    applicationId: currentEditingId
+                });
+
+                if (application) {
+                    const currentApplicationData = get(application, 'application_data');
+                    res.locals.currentApplicationTitle = get(application, 'application_title');
+                    res.locals.currentApplicationData = currentApplicationData;
+
+                    res.locals.form = enhanceForm({
+                        locale: req.i18n.getLocale(),
+                        baseForm: formModel,
+                        data: currentApplicationData
+                    });
+                    next();
+                } else {
+                    res.redirect(req.baseUrl);
+                }
+            } catch (error) {
+                Raven.captureException(new Error(`Unable to find application ${currentEditingId}`));
+                res.redirect(req.baseUrl);
+            }
+        } else {
+            res.redirect(req.baseUrl);
         }
-        next();
     });
 
+    /**
+     * Routes: Form sections
+     */
     formModel.sections.forEach((currentSection, currentSectionIndex) => {
         router.get(`/${currentSection.slug}`, (req, res) => {
             res.redirect(`${req.baseUrl}/${currentSection.slug}/1`);
@@ -140,7 +203,11 @@ function initFormRouter(formModel) {
             const stepFields = fieldsForStep(currentStep);
 
             function renderStep(req, res, data, errors = []) {
-                const form = enhanceForm(req.i18n.getLocale(), formModel, data);
+                const form = enhanceForm({
+                    locale: req.i18n.getLocale(),
+                    baseForm: formModel,
+                    data: data
+                });
 
                 const sectionLocalised = form.sections.find(s => s.slug === currentSection.slug);
                 const stepLocalised = sectionLocalised.steps[currentStepIndex];
@@ -163,7 +230,8 @@ function initFormRouter(formModel) {
                 if (shouldRender) {
                     res.render(path.resolve(__dirname, './views/step'), {
                         previousUrl,
-                        title: `${stepLocalised.title} | ${res.locals.form.title}`,
+                        nextUrl,
+                        title: `${stepLocalised.title} | ${form.title}`,
                         csrfToken: req.csrfToken(),
                         step: stepLocalised,
                         errors: errors
@@ -267,16 +335,21 @@ function initFormRouter(formModel) {
     router
         .route('/terms')
         .all((req, res, next) => {
+            const { currentApplicationData } = res.locals;
             res.locals.breadcrumbs = concat(res.locals.breadcrumbs, { label: 'Terms & Conditions' });
 
-            res.locals.form = enhanceForm(req.i18n.getLocale(), formModel, res.locals.currentApplicationData);
+            res.locals.form = enhanceForm({
+                locale: req.i18n.getLocale(),
+                baseForm: formModel,
+                data: currentApplicationData
+            });
 
-            const validationResult = formModel.schema.validate(res.locals.currentApplicationData, {
+            const validationResult = formModel.schema.validate(currentApplicationData, {
                 abortEarly: false,
                 stripUnknown: true
             });
 
-            const errors = getOr([], 'error.details', validationResult);
+            const errors = get(validationResult, 'error.details', []);
 
             if (errors.length > 0) {
                 res.redirect(`${req.baseUrl}/summary`);
@@ -312,7 +385,7 @@ function initFormRouter(formModel) {
             res.redirect(req.baseUrl);
         } else {
             // Clear the submission from the session on success
-            res.locals.clearSession();
+            unset(req.session, SESSION_PREFIX);
             req.session.save(() => {
                 res.render(stepConfig.template, {
                     form: res.locals.form,
