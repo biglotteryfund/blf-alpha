@@ -18,12 +18,12 @@ function normaliseErrors({ validationError, errorMessages, locale, fieldNames = 
     const errors = getOr([], 'details')(validationError);
 
     const filteredErrors =
-        fieldNames.length > 0 ? errors.filter(detail => includes(fieldNames, detail.context.key)) : errors;
+        fieldNames.length > 0 ? errors.filter(detail => includes(fieldNames, detail.path[0])) : errors;
 
-    const uniqueFilteredErrors = uniqBy(detail => detail.context.key)(filteredErrors);
+    const uniqueFilteredErrors = uniqBy(detail => detail.path[0])(filteredErrors);
 
     return uniqueFilteredErrors.map(detail => {
-        const name = detail.context.key;
+        const name = detail.path[0];
         const fieldMessages = errorMessages[name];
         const fieldMessage = fieldMessages[detail.type] || fieldMessages['base'];
         return { param: name, msg: fieldMessage[locale] };

@@ -192,7 +192,7 @@ function calculateFormProgress(form, data) {
             });
 
             const dataForSection = pick(validationResult.value, fieldNames);
-            const errorsForSection = errors.filter(detail => includes(fieldNames, detail.context.key));
+            const errorsForSection = errors.filter(detail => includes(fieldNames, detail.path[0]));
 
             obj[section.slug] = determineStatus(dataForSection, errorsForSection);
 
