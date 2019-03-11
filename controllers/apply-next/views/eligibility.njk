@@ -8,7 +8,6 @@
         <div class="content-box u-inner u-inner-wide-only">
             <div class="s-prose u-constrained-wide">
                 <h1>Eligibility Checker</h1>
-
                 {% if eligibility === 'pending' %}
                     <h2 class="t2 t--underline">Step {{ currentStepNumber }} of {{ questions.length }}</h2>
 
@@ -43,11 +42,14 @@
                     <p>{{ currentStep.ineligibleReason }}</p>
                     <h2 class="t2 t--underline">What now?</h2>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.</p>
+
+                    <p><a class="btn" href="{{ formBaseUrl }}">Start a new application</a></p>
+
                 {% elseif eligibility === 'eligible' %}
                     <h2 class="t2 t--underline">Great! You're eligible to apply to {{ formTitle }}</h2>
                     <p>We're excited to hear more about your project and invite you to fill in our application form.</p>
                     <p>
-                        <a class="btn" href="#">Create an application</a>
+                        <a class="btn" href="{{ formBaseUrl }}/edit/{{ currentlyEditingId }}">Continue your application</a>
                     </p>
                 {% endif %}
             </div>

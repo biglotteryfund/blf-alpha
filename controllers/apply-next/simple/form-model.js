@@ -343,6 +343,47 @@ module.exports = {
                 isRequired: true
             }
         ],
+        // @TODO i18n - move these to locale files when they're signed off
+        eligibilityQuestions: [
+            {
+                question: 'Does your organisation have at least two unconnected people on the board or committee?',
+                explanation:
+                    'By unconnected, we mean not a relation by blood, marriage, in a long-term relationship or people living together at the same address.',
+                ineligibleReason:
+                    'This is because you declared that your organisation does not have at least two unconnected people on the board or committee'
+            },
+            {
+                question:
+                    'Are you applying for an amount between £300 and £10,000 for a project that will be finished within about 12 months?',
+                explanation:
+                    "We know it's not always possible to complete a project in 12 months for lots of reasons. We can therefore consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.",
+                ineligibleReason:
+                    'This is because you declared that your organisation does not need an amount between £300 and £10,000 for a project that will be finished within about 12 months.'
+            },
+            {
+                question: 'Does your project start at least 12 weeks from when you plan to submit your application?',
+                explanation:
+                    "We need 12 weeks to be able to assess your application and pay your grant, if you're successful. Therefore, projects need to start at least 12 weeks from the date you submit your application to us.",
+                ineligibleReason:
+                    "This is because you declared that your project doesn't start at least 12 weeks from when we plan to submit your application."
+            },
+            {
+                question:
+                    'Do you have a UK bank account in the legal name of your organisation, with at least two unrelated people who are able to manage the account?',
+                explanation:
+                    "This should be the legal name of your organisation as it appears on your bank statement, not the name of your bank. This will usually be the same as your organisation's name on your governing document.",
+                ineligibleReason:
+                    "This is because you declared that your organisation doesn't have a UK bank account in the name of your organisation."
+            },
+            {
+                question:
+                    "Do you produce annual accounts (or did you set up your organisation less than 15 months ago and haven't produced annual accounts yet)?",
+                explanation:
+                    "By annual accounts, we mean a summary of your financial activity. If you are a small organisation, this may be produced by your board and doesn't have to be done by an accountant.",
+                ineligibleReason:
+                    "This is because you declared that your organisation hasn't produced annual accounts, or that your your organisation was set up less than 15 months ago and has not yet produced annual accounts."
+            }
+        ],
         schema: schema,
         processor: processor
     }
