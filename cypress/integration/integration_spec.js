@@ -183,7 +183,7 @@ describe('e2e', function() {
         cy.get('.survey').should('contain', 'Diolch am');
     });
 
-    it('should apply to awards for all', () => {
+    it.skip('should apply to awards for all', () => {
         cy.newUser().then(() => {
             cy.visit('/apply-next/simple');
 
