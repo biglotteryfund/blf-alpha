@@ -27,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
             },
             application_data: {
                 type: DataTypes.JSON,
-                allowNull: false
+                allowNull: true
             },
             status: {
                 type: DataTypes.ENUM,

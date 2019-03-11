@@ -1,0 +1,30 @@
+{% extends "layouts/main.njk" %}
+{% from "components/form-header/macro.njk" import formHeader with context %}
+{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
+
+{% block content %}
+    <main role="main" id="content">
+        <form method="post" action="" class="content-box u-inner-wide-only">
+            {{ formHeader(
+                prefix = formTitle,
+                title = "Start a new application"
+            ) }}
+
+            {{ formErrors(errors = errors) }}
+
+            <div class="u-constrained-wide u-constrained-content">
+                {% for field in fields %}
+                    {{ formField(field, errors = errors) }}
+                {% endfor %}
+
+                {% if csrfToken %}
+                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                {% endif %}
+                
+                <div class="form-actions">
+                    <input class="btn" type="submit" value="Start application" />
+                </div>
+            </div>
+        </form>
+    </main>
+{% endblock %}

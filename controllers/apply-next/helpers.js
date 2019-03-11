@@ -1,7 +1,18 @@
 'use strict';
-const { cloneDeep, find, findIndex, findLastIndex, flatMap, flatMapDeep, includes, isEmpty, pick } = require('lodash');
-const { get, getOr } = require('lodash/fp');
 const moment = require('moment');
+const { get, getOr } = require('lodash/fp');
+const {
+    cloneDeep,
+    find,
+    findIndex,
+    findLastIndex,
+    flatMap,
+    flatMapDeep,
+    includes,
+    isEmpty,
+    isString,
+    pick
+} = require('lodash');
 
 const FORM_STATES = {
     empty: 'empty',
@@ -9,6 +20,23 @@ const FORM_STATES = {
     incomplete: 'incomplete',
     complete: 'complete'
 };
+
+function prepareValue(value, field) {
+    if (field.type === 'date') {
+        if (isString(value)) {
+            const dt = moment(value);
+            return {
+                day: dt.format('DD'),
+                month: dt.format('MM'),
+                year: dt.format('YYYY')
+            };
+        } else {
+            return value;
+        }
+    } else {
+        return value;
+    }
+}
 
 /**
  * Format field values for display in views
@@ -19,7 +47,7 @@ const FORM_STATES = {
  * @param {any} value
  * @param {object} field
  */
-function toDisplayValue(value, field) {
+function prepareDisplayValue(value, field) {
     if (field.displayFormat) {
         return field.displayFormat.call(field, value);
     } else if (field.type === 'radio') {
@@ -38,13 +66,16 @@ function toDisplayValue(value, field) {
  * - Assigning values to fields, along with a display value for views
  * - Marking steps as notRequired if matchesCondition is currently false
  *
- * @param {String} locale
- * @param {Object} form
- * @param {Object} data
+ * @param {Object} options
+ * @param {String} options.locale
+ * @param {Object} options.baseForm
+ * @param {Object} [options.data]
  */
-function enhanceForm(locale, form, data) {
+function enhanceForm({ locale, baseForm, data = {} }) {
     const localise = get(locale);
-    const clonedForm = cloneDeep(form);
+    const clonedForm = cloneDeep(baseForm);
+
+    clonedForm.title = localise(baseForm.title);
 
     const enhanceSection = section => {
         section.title = localise(section.title);
@@ -69,8 +100,8 @@ function enhanceForm(locale, form, data) {
         // Assign value to field if present
         const fieldValue = find(data, (value, name) => name === field.name);
         if (fieldValue) {
-            field.value = fieldValue;
-            field.displayValue = toDisplayValue(fieldValue, field);
+            field.value = prepareValue(fieldValue, field);
+            field.displayValue = prepareDisplayValue(fieldValue, field);
         }
 
         return field;
@@ -94,28 +125,22 @@ function enhanceForm(locale, form, data) {
         return step;
     };
 
-    clonedForm.title = localise(form.title);
-
     clonedForm.sections = clonedForm.sections.map(section => {
         section = enhanceSection(section);
         section.steps = section.steps.map(enhanceStep);
         return section;
     });
 
+    clonedForm.newApplicationFields = clonedForm.newApplicationFields.map(enhanceField);
+
     if (clonedForm.termsFields) {
         clonedForm.termsFields = clonedForm.termsFields.map(enhanceField);
-    }
-
-    if (clonedForm.titleField) {
-        clonedForm.titleField = enhanceField(clonedForm.titleField);
     }
 
     return clonedForm;
 }
 
-// @TODO: Add tests for this
-function fieldsForStep(step) {
-    const fields = flatMap(step.fieldsets, 'fields');
+function mapFields(fields) {
     return {
         fields: fields,
         names: fields.map(field => field.name),
@@ -124,6 +149,11 @@ function fieldsForStep(step) {
             return obj;
         }, {})
     };
+}
+
+function fieldsForStep(step) {
+    const fields = flatMap(step.fieldsets, 'fields');
+    return mapFields(fields);
 }
 
 /**
@@ -240,6 +270,7 @@ module.exports = {
     FORM_STATES,
     calculateFormProgress,
     enhanceForm,
+    mapFields,
     fieldsForStep,
     findNextMatchingUrl,
     findPreviousMatchingUrl,
