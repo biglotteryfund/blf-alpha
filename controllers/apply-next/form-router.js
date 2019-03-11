@@ -25,12 +25,7 @@ function initFormRouter(formModel) {
     /**
      * Require login, redirect back here once authenticated.
      */
-    router.use((req, res, next) => {
-        req.session.redirectUrl = req.baseUrl;
-        req.session.save(() => {
-            next();
-        });
-    }, requireUserAuth);
+    router.use(requireUserAuth);
 
     /**
      * Set common locals
