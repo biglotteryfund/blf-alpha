@@ -246,12 +246,6 @@
                    {% if lineItem %}value="{{ lineItem.cost }}"{% endif %}
                    class="ff-text ff-text--currency" />
         </td>
-        <td class="js-only">
-            <button class="btn btn--small btn--outline u-block-full">
-                {{ iconBin() }}
-                Delete row
-            </button>
-        </td>
     </tr>
 {% endmacro %}
 
@@ -268,29 +262,27 @@
             field-name="{{ field.name }}"
             :max-budget="{{ field.attributes.max }}"
             :max-items="{{ field.attributes.rowLimit }}"
-            :budget-data="{{ field.value | dump }}"
-        ></budget-input>
+            :budget-data="{{ field.value | dump }}" />
 
 
-        {# @TODO have Vue remove this to avoid double inputs #}
-        <noscript>
-            <table class="ff-budget__table">
-                <thead>
-                    <tr>
-                        <th scope="col" class="ff-budget__item-col">Item or activity</th>
-                        <th scope="col">Amount from us</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for lineItem in field.value %}
-                        {{ budgetLineItemRow(field, loop.index0, lineItem) }}
-                    {% endfor %}
-                    {% for i in range(0 + field.value | length, field.attributes.rowLimit) %}
-                        {{ budgetLineItemRow(field, i) }}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </noscript>
+        {# Non-JS version (*not* <noscript> because we still need it if JS fails #}
+        {# (this will be removed by Vue automatically) #}
+        <table class="ff-budget__table">
+            <thead>
+                <tr>
+                    <th scope="col" class="ff-budget__item-col">Item or activity</th>
+                    <th scope="col">Amount from us</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lineItem in field.value %}
+                    {{ budgetLineItemRow(field, loop.index0, lineItem) }}
+                {% endfor %}
+                {% for i in range(0 + field.value | length, field.attributes.rowLimit) %}
+                    {{ budgetLineItemRow(field, i) }}
+                {% endfor %}
+            </tbody>
+        </table>
 
     </div>
 
