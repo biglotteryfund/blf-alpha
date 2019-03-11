@@ -290,7 +290,7 @@ function initFormRouter(formModel) {
 
     // Any pages after this point must be for eligible applications
     router.use((req, res, next) => {
-        return res.locals.currentApplicationStatus === 'eligible'
+        return res.locals.currentApplicationStatus === 'eligible' || res.locals.currentApplicationStatus === 'complete'
             ? next()
             : res.redirect(`${req.baseUrl}/eligibility/1`);
     });
@@ -497,7 +497,7 @@ function initFormRouter(formModel) {
             // Clear the submission from the session on success
             unset(req.session, SESSION_PREFIX);
             req.session.save(() => {
-                res.render(stepConfig.template, {
+                res.render(path.resolve(__dirname, './views/success'), {
                     form: res.locals.form,
                     title: 'Success'
                 });
