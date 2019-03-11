@@ -8,7 +8,7 @@ function makeTitle(formId) {
     return `${formId} - ${moment().toISOString()}`;
 }
 
-function createApplication({ userId, formId, title = null }) {
+function createApplication({ userId, formId, title = null, data = null }) {
     if (!title) {
         title = makeTitle(formId);
     }
@@ -16,11 +16,11 @@ function createApplication({ userId, formId, title = null }) {
         user_id: userId,
         form_id: formId,
         application_title: title,
-        application_data: ''
+        application_data: data
     });
 }
 
-function getApplicationsForUser(userId, formId) {
+function getApplicationsForUser({ userId, formId }) {
     return Application.findAll({
         where: {
             user_id: {
@@ -34,11 +34,11 @@ function getApplicationsForUser(userId, formId) {
     });
 }
 
-function getApplicationById(formId, id) {
+function getApplicationById({ formId, applicationId }) {
     return Application.findOne({
         where: {
             id: {
-                [Op.eq]: id
+                [Op.eq]: applicationId
             },
             form_id: {
                 [Op.eq]: formId

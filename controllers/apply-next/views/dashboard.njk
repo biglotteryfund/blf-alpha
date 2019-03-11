@@ -26,20 +26,8 @@
             {% endif %}
 
             <h2>Start a new application</h2>
-            <p>
-                First, give this application a name so you can keep track of it. <br />
-                <strong>Only you can see this information, it won't be part of your assessment.</strong>
-            </p>
-
-            {{ formErrors(errors = errors) }}
-
-            <form method="post" action="">
-                {{ formField(form.titleField) }}
-                {% if csrfToken %}
-                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                {% endif %}
-                {{ startButtonSubmit('Start this application') }}
-            </form>
+            {# @TODO: Should this go to the start page? #}
+            <p><a href="{{ formBaseUrl }}/new" class="btn">New application</a></p>
 
         {% endcall %}
     </main>

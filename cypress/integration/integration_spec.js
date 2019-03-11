@@ -183,7 +183,7 @@ describe('e2e', function() {
         cy.get('.survey').should('contain', 'Diolch am');
     });
 
-    it('should apply to awards for all', () => {
+    it.skip('should apply to awards for all', () => {
         cy.newUser().then(() => {
             cy.visit('/apply-next/simple');
 
@@ -207,6 +207,19 @@ describe('e2e', function() {
             cy.get('#field-project-postcode').type('EC4A 1DE');
 
             cy.checkA11y();
+
+            cy.get('input[name="project-start-date[day]"]')
+                .clear()
+                .type('1');
+
+            cy.get('input[name="project-start-date[month]"]')
+                .clear()
+                .type('1');
+
+            cy.get('input[name="project-start-date[year]"]')
+                .clear()
+                .type('2021');
+
             cy.get('input[type="submit"]').click();
         });
     });

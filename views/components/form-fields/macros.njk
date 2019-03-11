@@ -70,6 +70,7 @@
             {{ fieldLabelText(field) }}
         </legend>
         {{ fieldHelpText(field, fieldCopy) }}
+
         <div id="field-{{ field.name }}">
             <label class="ff-inline">
                 <span class="ff-label">{{ __('global.misc.day') }}</span>
@@ -77,7 +78,7 @@
                     class="ff-text ff-width-2"
                     type="number" pattern="[0-9]*"  min="1"
                     name="{{ field.name }}[day]"
-                    value="{{ field.value.day or formatDate(field.value, 'D') }}"
+                    value="{{ field.value.day }}"
                     {% if field.isRequired %}required aria-required="true"{% endif %}
                 />
             </label>
@@ -87,7 +88,7 @@
                     class="ff-text ff-width-2"
                     type="number" pattern="[0-9]*"  min="1"
                     name="{{ field.name }}[month]"
-                    value="{{ field.value.month or formatDate(field.value, 'M') }}"
+                    value="{{ field.value.month }}"
                     {% if field.isRequired %}required aria-required="true"{% endif %}
                 />
             </label>
@@ -99,7 +100,7 @@
                     pattern="[0-9]*" min="{{ field.settings.minYear | default(1900) }}"
                     name="{{ field.name }}[year]"
                     size="20"
-                    value="{{ field.value.year or formatDate(field.value, 'YYYY') }}"
+                    value="{{ field.value.year }}"
                     {% if field.isRequired %}required aria-required="true"{% endif %}
                 />
             </label>
