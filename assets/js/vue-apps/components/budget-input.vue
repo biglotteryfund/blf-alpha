@@ -86,7 +86,12 @@ export default {
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(lineItem, index) in budgetRows" :aria-live="lineItem.isNew ? 'polite' : false" v-cloak>
+            <tr
+                v-for="(lineItem, index) in budgetRows"
+                :aria-live="lineItem.isNew ? 'polite' : false"
+                :key="index"
+                v-cloak
+            >
                 <td>
                     <input
                         type="text"
@@ -112,7 +117,7 @@ export default {
                     <button
                         class="btn btn--small btn--outline u-block-full"
                         type="button"
-                        v-on:click="removeItem(lineItem)"
+                        @click="removeItem(lineItem)"
                     >
                         <IconBin id="delete-icon" description="Delete this row" />
                         Delete row
@@ -123,9 +128,9 @@ export default {
             <tr v-if="error" v-cloak>
                 <td class="ff-budget__error">
                     <!-- @TODO localise -->
-                    <span v-if="error === 'TOO_MANY_ITEMS'"
-                        >You have added the maximum number of budget rows available ({{ maxItems }}).</span
-                    >
+                    <span v-if="error === 'TOO_MANY_ITEMS'">
+                        You have added the maximum number of budget rows available ({{ maxItems }}).
+                    </span>
                     <span v-if="error === 'OVER_BUDGET'">
                         You have exceeded the budget limit for this application of £{{ maxBudget.toLocaleString() }}.
                     </span>
