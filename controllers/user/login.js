@@ -52,7 +52,9 @@ router
                     } else {
                         // User is valid, send them on
                         let redirectUrl = '/user';
-                        if (req.body.redirectUrl) {
+                        if (req.query.redirectUrl) {
+                            redirectUrl = req.query.redirectUrl;
+                        } else if (req.body.redirectUrl) {
                             redirectUrl = req.body.redirectUrl;
                         } else if (req.session.redirectUrl) {
                             redirectUrl = req.session.redirectUrl;

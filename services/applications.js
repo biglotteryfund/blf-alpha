@@ -34,7 +34,7 @@ function getApplicationsForUser({ userId, formId }) {
     });
 }
 
-function getApplicationById({ formId, applicationId }) {
+function getApplicationById({ formId, applicationId, userId }) {
     return Application.findOne({
         where: {
             id: {
@@ -42,6 +42,9 @@ function getApplicationById({ formId, applicationId }) {
             },
             form_id: {
                 [Op.eq]: formId
+            },
+            user_id: {
+                [Op.eq]: userId
             }
         }
     });
@@ -62,14 +65,39 @@ function updateApplication(id, data) {
     );
 }
 
-/* @TODO
- *
- * functions to update/retrieve application state
- */
+function deleteApplication(id, userId) {
+    return Application.destroy({
+        where: {
+            user_id: {
+                [Op.eq]: userId
+            },
+            id: {
+                [Op.eq]: id
+            }
+        }
+    });
+}
+
+function changeApplicationState(id, newState) {
+    return Application.update(
+        {
+            status: newState
+        },
+        {
+            where: {
+                id: {
+                    [Op.eq]: id
+                }
+            }
+        }
+    );
+}
 
 module.exports = {
     createApplication,
     getApplicationsForUser,
     getApplicationById,
-    updateApplication
+    updateApplication,
+    deleteApplication,
+    changeApplicationState
 };

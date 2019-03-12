@@ -25,18 +25,19 @@
                 </p>
             </div>
 
-            {# <div class="u-margin-bottom-l application-summary__actions">
+            <div class="u-margin-bottom-l application-summary__actions">
                 <div class="o-button-group">
                     <a class="btn btn--medium btn--outline btn--reversed" href="#">Download (PDF)</a>
                     <a class="btn btn--medium btn--outline btn--reversed" href="#">Share</a>
                 </div>
                 <div class="o-button-group o-button-group-separated o-button-group-separated--left">
-                    <a class="btn btn--medium btn--outline btn--reversed" href="#">
+                    <a class="btn btn--medium btn--outline btn--reversed"
+                       href="{{ formBaseUrl }}/delete/{{ currentlyEditingId }}">
                         {{ iconBin() }}
                         Delete application
                     </a>
                 </div>
-            </div> #}
+            </div>
 
             <p class="u-align-right">
                 <button type="button"

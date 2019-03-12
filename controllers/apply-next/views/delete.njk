@@ -1,0 +1,23 @@
+{% extends "layouts/main.njk" %}
+
+{% block title %}Are you sure you want to delete your application? | {{ formTitle }} | {% endblock %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner u-inner-wide-only">
+            <div class="s-prose u-constrained-wide">
+                <h1>Are you sure you want to delete your application?</h1>
+
+                <h2 class="t2 t--underline">This can't be undone.</h2>
+                <p>If you're sure you want to delete your application, then you can proceed below &ndash; please note this this cannot be recovered.</p>
+
+                <form method="post">
+                    {% if csrfToken %}
+                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                    {% endif %}
+                    <input class="btn" type="submit" value="Delete my application" />
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock %}

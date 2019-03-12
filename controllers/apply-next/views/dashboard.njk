@@ -18,8 +18,13 @@
                 <ul>
                     {% for application in applications %}
                         <li>
-                            <a href="{{ formBaseUrl }}/edit/{{ application.id }}">{{ application.application_title }}</a><br />
-                            Created on {{ formatDate(application.createdAt, DATE_FORMATS.full) }}, last updated {{ application.updatedAt | timeago }}
+                            {% if application.status !== 'ineligible' %}
+                                <a href="{{ formBaseUrl }}/edit/{{ application.id }}">
+                            {% endif %}
+                            {{ application.application_title }}
+                            (<strong>Status</strong>: {{ application.status or "unknown" }})<br />
+                            {% if application.status !== 'ineligible' %}</a>{% endif %}
+                            Created on {{ formatDate(application.createdAt.toISOString(), DATE_FORMATS.full) }}, last updated {{ application.updatedAt | timeago }}
                         </li>
                     {% endfor %}
                 </ul>

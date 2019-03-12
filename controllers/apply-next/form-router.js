@@ -28,12 +28,7 @@ function initFormRouter(formModel) {
     /**
      * Require login, redirect back here once authenticated.
      */
-    router.use((req, res, next) => {
-        req.session.redirectUrl = req.baseUrl;
-        req.session.save(() => {
-            next();
-        });
-    }, requireUserAuth);
+    router.use(requireUserAuth);
 
     /**
      * Set common locals
@@ -147,6 +142,44 @@ function initFormRouter(formModel) {
         }
     });
 
+    // Allow an application owned by this user to be deleted
+    router
+        .route('/delete/:applicationId')
+        .get(async (req, res) => {
+            if (req.params.applicationId && req.user.userData.id) {
+                const application = await applicationsService.getApplicationById({
+                    formId: formModel.id,
+                    applicationId: req.params.applicationId,
+                    userId: req.user.userData.id
+                });
+
+                if (!application) {
+                    return res.redirect(req.baseUrl);
+                }
+
+                res.render(path.resolve(__dirname, './views/delete'), {
+                    title: res.locals.formTitle,
+                    csrfToken: req.csrfToken()
+                });
+            } else {
+                res.redirect(req.baseUrl);
+            }
+        })
+        .post(async (req, res) => {
+            const deleteApplication = await applicationsService.deleteApplication(
+                req.params.applicationId,
+                req.user.userData.id
+            );
+            deleteApplication
+                .then(() => {
+                    // @TODO show a success message on the subsequent (dashboard?) screen
+                    res.redirect(req.baseUrl);
+                })
+                .catch(error => {
+                    renderError(error, req, res);
+                });
+        });
+
     /**
      * Require application
      * All routes after this point require an application to be selected
@@ -160,13 +193,15 @@ function initFormRouter(formModel) {
             try {
                 const application = await applicationsService.getApplicationById({
                     formId: formModel.id,
-                    applicationId: currentEditingId
+                    applicationId: currentEditingId,
+                    userId: req.user.userData.id
                 });
 
                 if (application) {
                     const currentApplicationData = get(application, 'application_data');
                     res.locals.currentApplicationTitle = get(application, 'application_title');
                     res.locals.currentApplicationData = currentApplicationData;
+                    res.locals.currentApplicationStatus = get(application, 'status');
 
                     res.locals.form = enhanceForm({
                         locale: req.i18n.getLocale(),
@@ -184,6 +219,80 @@ function initFormRouter(formModel) {
         } else {
             res.redirect(req.baseUrl);
         }
+    });
+
+    /**
+     * Route: Eligibility checker
+     */
+    router
+        .route('/eligibility/:step?')
+        .all((req, res, next) => {
+            if (res.locals.currentApplicationStatus === 'ineligible') {
+                return res.redirect(`${req.baseUrl}`);
+            }
+
+            res.locals.eligibilityQuestions = formModel.eligibilityQuestions;
+
+            if (!req.params.step || req.params.step > res.locals.eligibilityQuestions.length) {
+                return res.redirect(`${req.baseUrl}/eligibility/1`);
+            }
+
+            res.locals.currentStepNumber = parseInt(req.params.step);
+
+            // See how far this user has progressed with these questions
+            // (eg. to prevent URL tampering)
+            const currentProgress = parseInt(
+                get(req.session, `${SESSION_PREFIX}.eligibilityProgress.${res.locals.currentlyEditingId}`)
+            );
+
+            // Prevent skipping ahead
+            if (currentProgress < res.locals.currentStepNumber) {
+                return res.redirect(`${req.baseUrl}/eligibility/${currentProgress}`);
+            }
+
+            res.locals.currentStep = res.locals.eligibilityQuestions[res.locals.currentStepNumber - 1];
+            next();
+        })
+        .get((req, res) => {
+            res.render(path.resolve(__dirname, './views/eligibility'), {
+                eligibility: 'pending',
+                csrfToken: req.csrfToken(),
+                questions: res.locals.eligibilityQuestions
+            });
+        })
+        .post(async (req, res) => {
+            const stepAnswer = req.body.eligibility;
+            if (!stepAnswer || stepAnswer !== 'yes') {
+                // Mark this application as ineligible and show an error
+                await applicationsService.changeApplicationState(res.locals.currentlyEditingId, 'ineligible');
+                res.render(path.resolve(__dirname, './views/eligibility'), {
+                    eligibility: 'ineligible'
+                });
+            } else {
+                const isComplete = res.locals.currentStepNumber === res.locals.eligibilityQuestions.length;
+                const nextStepNumber = res.locals.currentStepNumber + 1;
+                if (!isComplete) {
+                    // Store their progress in their session
+                    set(
+                        req.session,
+                        `${SESSION_PREFIX}.eligibilityProgress.${res.locals.currentlyEditingId}`,
+                        nextStepNumber
+                    );
+                    res.redirect(`${req.baseUrl}/eligibility/${nextStepNumber}`);
+                } else {
+                    await applicationsService.changeApplicationState(res.locals.currentlyEditingId, 'eligible');
+                    res.render(path.resolve(__dirname, './views/eligibility'), {
+                        eligibility: 'eligible'
+                    });
+                }
+            }
+        });
+
+    // Any pages after this point must be for eligible applications
+    router.use((req, res, next) => {
+        return res.locals.currentApplicationStatus === 'eligible' || res.locals.currentApplicationStatus === 'complete'
+            ? next()
+            : res.redirect(`${req.baseUrl}/eligibility/1`);
     });
 
     /**
@@ -369,6 +478,7 @@ function initFormRouter(formModel) {
                     form: res.locals.form,
                     data: res.locals.currentApplicationData
                 });
+                await applicationsService.changeApplicationState(res.locals.currentlyEditingId, 'complete');
                 res.redirect(`${req.baseUrl}/success`);
             } catch (error) {
                 Raven.captureException(error);
@@ -380,14 +490,13 @@ function initFormRouter(formModel) {
      * Route: Success
      */
     router.get('/success', function(req, res) {
-        const stepConfig = formModel.successStep;
         if (isEmpty(res.locals.currentApplicationData)) {
             res.redirect(req.baseUrl);
         } else {
             // Clear the submission from the session on success
             unset(req.session, SESSION_PREFIX);
             req.session.save(() => {
-                res.render(stepConfig.template, {
+                res.render(path.resolve(__dirname, './views/success'), {
                     form: res.locals.form,
                     title: 'Success'
                 });

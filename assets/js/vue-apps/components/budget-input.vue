@@ -20,7 +20,7 @@ export default {
     data() {
         return {
             budgetRows: [],
-            error: null
+            error: {}
         };
     },
     computed: {
@@ -36,17 +36,8 @@ export default {
                 if (this.shouldCreateNewRow()) {
                     this.addItem();
                 }
-                if (this.budgetRows.length === this.maxItems) {
-                    this.error = 'TOO_MANY_ITEMS';
-                } else {
-                    this.error = null;
-                }
-
-                if (this.maxBudget && this.total > this.maxBudget) {
-                    this.error = 'OVER_BUDGET';
-                } else {
-                    this.error = null;
-                }
+                this.error.TOO_MANY_ITEMS = this.budgetRows.length === this.maxItems;
+                this.error.OVER_BUDGET = this.maxBudget && this.total > this.maxBudget;
             },
             deep: true
         }
@@ -112,7 +103,7 @@ export default {
                             class="ff-text ff-text--currency"
                         />
                     </td>
-                    <td>
+                    <td v-if="budgetRows.length > 1 && index !== budgetRows.length - 1">
                         <button
                             class="btn btn--small btn--outline u-block-full"
                             type="button"
@@ -127,10 +118,10 @@ export default {
                 <tr v-if="error" v-cloak>
                     <td class="ff-budget__error">
                         <!-- @TODO localise -->
-                        <span v-if="error === 'TOO_MANY_ITEMS'">
+                        <span v-if="error.TOO_MANY_ITEMS">
                             You have added the maximum number of budget rows available ({{ maxItems }}).
                         </span>
-                        <span v-if="error === 'OVER_BUDGET'">
+                        <span v-if="error.OVER_BUDGET">
                             You have exceeded the budget limit for this application of £{{
                                 maxBudget.toLocaleString()
                             }}.

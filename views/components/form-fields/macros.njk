@@ -78,6 +78,7 @@
                     class="ff-text ff-width-2"
                     type="number" pattern="[0-9]*"  min="1"
                     name="{{ field.name }}[day]"
+                    autocomplete="off"
                     value="{{ field.value.day }}"
                     {% if field.isRequired %}required aria-required="true"{% endif %}
                 />
@@ -88,6 +89,7 @@
                     class="ff-text ff-width-2"
                     type="number" pattern="[0-9]*"  min="1"
                     name="{{ field.name }}[month]"
+                    autocomplete="off"
                     value="{{ field.value.month }}"
                     {% if field.isRequired %}required aria-required="true"{% endif %}
                 />
@@ -99,6 +101,7 @@
                     type="number"
                     pattern="[0-9]*" min="{{ field.settings.minYear | default(1900) }}"
                     name="{{ field.name }}[year]"
+                    autocomplete="off"
                     size="20"
                     value="{{ field.value.year }}"
                     {% if field.isRequired %}required aria-required="true"{% endif %}
@@ -201,6 +204,7 @@
                                 id="field-{{ field.name }}-{{ loop.index }}"
                                 name="{{ field.name }}"
                                 value="{{ option.value }}"
+                                {% if field.isRequired %}required aria-required="true"{% endif %}
                                 {% if field.value === option.value %}checked{% endif %}
                             />
                         {% endif %}

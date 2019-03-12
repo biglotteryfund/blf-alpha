@@ -21,7 +21,7 @@ function requireUserAuth(req, res, next) {
     if (req.isAuthenticated() && get(req, 'user.userType', false) === 'user') {
         return next();
     } else {
-        res.redirect('/user/login');
+        res.redirect(`/user/login?redirectUrl=${req.originalUrl}`);
     }
 }
 
