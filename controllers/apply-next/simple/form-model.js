@@ -182,16 +182,7 @@ const sectionLegalContact = {
             fieldsets: [
                 {
                     legend: { en: 'Who is your legally responsible contact?', cy: '' },
-                    introduction: {
-                        en: `
-<p>This person will be legally responsible for the funding and must be unconnected to the main contact. By ‘unconnected’ we mean not related by blood, marriage, in a long-term relationship or people living together at the same address.</p>
-
-<p>They must be at least 18 years old and are responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.</p>
-
-<p>The position held by the legally responsible contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.</p>`,
-                        cy: ''
-                    },
-                    fields: [allFields.legalContactName, allFields.legalContactDob]
+                    fields: [allFields.legalContactName, allFields.legalContactRole, allFields.legalContactDob]
                 },
                 {
                     legend: { en: 'Address', cy: '' },
