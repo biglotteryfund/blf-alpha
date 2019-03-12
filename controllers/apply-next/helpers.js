@@ -21,23 +21,6 @@ const FORM_STATES = {
     complete: 'complete'
 };
 
-function prepareValue(value, field) {
-    if (field.type === 'date') {
-        if (isString(value)) {
-            const dt = moment(value);
-            return {
-                day: dt.format('DD'),
-                month: dt.format('MM'),
-                year: dt.format('YYYY')
-            };
-        } else {
-            return value;
-        }
-    } else {
-        return value;
-    }
-}
-
 /**
  * Format field values for display in views
  * If the field has a custom displayFormat use that
@@ -104,10 +87,10 @@ function enhanceForm({ locale, baseForm, data = {} }) {
         }
 
         // Assign value to field if present
-        const fieldValue = find(data, (value, name) => name === field.name);
-        if (fieldValue) {
-            field.value = prepareValue(fieldValue, field);
-            field.displayValue = prepareDisplayValue(fieldValue, field);
+        const value = find(data, (item, name) => name === field.name);
+        if (value) {
+            field.value = value;
+            field.displayValue = prepareDisplayValue(value, field);
         }
 
         return field;
