@@ -96,7 +96,7 @@ function postcodeField(props) {
             pattern: POSTCODE_PATTERN
         },
         isRequired: true,
-        schema: commonValidators.postcode.required(),
+        schema: commonValidators.postcode().required(),
         messages: {
             base: { en: 'Enter a postcode', cy: '' }
         }
