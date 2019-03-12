@@ -14,12 +14,14 @@
 <meta property="og:description" content="{{ metaDescription }}">
 <meta property="og:url" content="{{ getCurrentAbsoluteUrl() }}">
 
-<meta name="twitter:card" content="summary" />
 <meta name="twitter:site" content="@{{ globalCopy.brand.twitter }}" />
 
 {% if socialImage %}
+<meta name="twitter:card" content="summary_large_image" />
 <meta property="twitter:image" content="{{ getSocialImageUrl(socialImage) | safe }}">
 <meta property="og:image" content="{{ getSocialImageUrl(socialImage) | safe }}">
+{% else %}
+<meta name="twitter:card" content="summary" />
 {% endif %}
 
 <meta name="google-site-verification" content="YJm5YK8XXPjyF0oyks3mvJ2P2qc1mwm9GyF7OlyNl9A" />
