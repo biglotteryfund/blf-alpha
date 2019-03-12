@@ -1,18 +1,10 @@
 'use strict';
 const moment = require('moment');
 const baseJoi = require('joi');
-const { isEmpty, isArray, reject, toInteger, sumBy } = require('lodash');
+const { isEmpty, isArray, reject, sumBy } = require('lodash');
 
 const { POSTCODE_REGEX } = require('../../modules/postcodes');
-
-function dateFromParts(parts) {
-    return moment({
-        year: toInteger(parts.year),
-        // month is 0 indexed when constructing a date object
-        month: toInteger(parts.month) - 1,
-        day: toInteger(parts.day)
-    });
-}
+const { dateFromParts } = require('./helpers');
 
 const dateParts = joi => {
     return {

@@ -10,7 +10,7 @@ const {
     flatMapDeep,
     includes,
     isEmpty,
-    isString,
+    toInteger,
     pick
 } = require('lodash');
 
@@ -20,6 +20,15 @@ const FORM_STATES = {
     incomplete: 'incomplete',
     complete: 'complete'
 };
+
+function dateFromParts(parts) {
+    return moment({
+        year: toInteger(parts.year),
+        // month is 0 indexed when constructing a date object
+        month: toInteger(parts.month) - 1,
+        day: toInteger(parts.day)
+    });
+}
 
 /**
  * Format field values for display in views
@@ -37,7 +46,7 @@ function prepareDisplayValue(value, field) {
         const optionMatch = find(field.options, option => option.value === value);
         return optionMatch ? optionMatch.label : value.toString();
     } else if (field.type === 'date') {
-        return moment(value).format('D MMMM, YYYY');
+        return dateFromParts(value).format('D MMMM, YYYY');
     } else {
         return value.toString();
     }
@@ -258,6 +267,7 @@ function nextAndPrevious(options) {
 module.exports = {
     FORM_STATES,
     calculateFormProgress,
+    dateFromParts,
     enhanceForm,
     fieldsForStep,
     filterOptionsBy,
