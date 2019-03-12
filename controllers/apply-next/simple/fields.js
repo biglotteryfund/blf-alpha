@@ -1,9 +1,12 @@
 'use strict';
-const { forEach, reduce, values, isArray } = require('lodash');
+const { forEach, get, has, isArray, reduce, values } = require('lodash');
 const moment = require('moment');
 
 const { Joi, ...commonValidators } = require('../validators');
 const { POSTCODE_PATTERN } = require('../../../modules/postcodes');
+
+const MIN_APPLICANT_AGE = 18;
+const MAX_BUDGET_TOTAL = 10000; // in GBP
 
 const countries = {
     england: { value: 'england', label: { en: 'England', cy: '' } },
@@ -48,8 +51,40 @@ const organisationTypes = {
     }
 };
 
-const MIN_APPLICANT_AGE = 18;
-const MAX_BUDGET_TOTAL = 10000; // in GBP
+const legalContactRoles = [
+    {
+        value: 'director',
+        label: { en: 'Director', cy: '' },
+        showWhen: formData => {
+            return has(formData, 'company-number');
+        }
+    },
+    {
+        value: 'company-secretary',
+        label: { en: 'Company Secretary', cy: '' },
+        showWhen: formData => {
+            return has(formData, 'company-number');
+        }
+    },
+    {
+        value: 'clerk',
+        label: { en: 'Parish, Town or Community Council Clerk', cy: '' },
+        showWhen: formData => {
+            return get(formData, 'organisation-type') === organisationTypes.statutoryBody.value;
+        }
+    },
+    {
+        value: 'head-teacher',
+        label: { en: 'Head Teacher', cy: '' },
+        showWhen: formData => {
+            return get(formData, 'organisation-type') === organisationTypes.school.value;
+        }
+    },
+    { value: 'chair', label: { en: 'Chair', cy: '' } },
+    { value: 'vice-chair', label: { en: 'Vice-chair', cy: '' } },
+    { value: 'treasurer', label: { en: 'Treasurer', cy: '' } },
+    { value: 'trustee', label: { en: 'Trustee', cy: '' } }
+];
 
 function postcodeField(props) {
     const defaultProps = {
@@ -532,6 +567,10 @@ const allFields = {
     legalContactName: {
         name: 'legal-contact-name',
         label: { en: 'Full name', cy: '' },
+        explanation: {
+            en: `This person will be legally responsible for the funding and must be unconnected to the main contact. By ‘unconnected’ we mean not related by blood, marriage, in a long-term relationship or people living together at the same address.`,
+            cy: ''
+        },
         type: 'text',
         attributes: {
             autocomplete: 'name',
@@ -543,9 +582,33 @@ const allFields = {
             base: { en: 'Enter full name', cy: '' }
         }
     },
+    legalContactRole: {
+        name: 'legal-contact-role',
+        label: { en: 'Role', cy: '' },
+        explanation: {
+            en: `The position held by the legally responsible contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.`,
+            cy: ''
+        },
+        type: 'radio',
+        options: legalContactRoles,
+        isRequired: true,
+        get schema() {
+            return Joi.array()
+                .items(Joi.string().valid(this.options.map(option => option.value)))
+                .single()
+                .optional();
+        },
+        messages: {
+            base: { en: 'Choose from one of the options provided', cy: '' }
+        }
+    },
     legalContactDob: {
         name: 'legal-contact-dob',
         label: { en: 'Date of birth', cy: '' },
+        explanation: {
+            en: `They must be at least ${MIN_APPLICANT_AGE} years old and are responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.`,
+            cy: ''
+        },
         type: 'date',
         attributes: {
             max: moment()
@@ -764,5 +827,6 @@ module.exports = {
     schema,
     allFields,
     countries,
+    legalContactRoles,
     organisationTypes
 };

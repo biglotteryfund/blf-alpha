@@ -60,6 +60,12 @@ function prepareDisplayValue(value, field) {
     }
 }
 
+function filterOptionsBy(data = {}) {
+    return function(option) {
+        return option.showWhen ? option.showWhen(data) : true;
+    };
+}
+
 /**
  * Enhances a form object by:
  * - Localising all labels and messages
@@ -90,7 +96,7 @@ function enhanceForm({ locale, baseForm, data = {} }) {
         field.explanation = localise(field.explanation);
 
         if (field.options) {
-            field.options = field.options.map(option => {
+            field.options = field.options.filter(filterOptionsBy(data)).map(option => {
                 option.label = localise(option.label);
                 option.explanation = localise(option.explanation);
                 return option;
@@ -270,9 +276,10 @@ module.exports = {
     FORM_STATES,
     calculateFormProgress,
     enhanceForm,
-    mapFields,
     fieldsForStep,
+    filterOptionsBy,
     findNextMatchingUrl,
     findPreviousMatchingUrl,
+    mapFields,
     nextAndPrevious
 };
