@@ -1,7 +1,7 @@
 'use strict';
 const moment = require('moment');
 const baseJoi = require('joi');
-const { isEmpty, isArray, reject, toInteger } = require('lodash');
+const { isEmpty, isArray, reject, toInteger, sumBy } = require('lodash');
 
 const { POSTCODE_REGEX } = require('../../modules/postcodes');
 
@@ -80,8 +80,25 @@ const dateParts = joi => {
 
 const budgetValidator = joi => {
     return {
-        base: joi.array(),
+        base: joi
+            .array()
+            .min(1)
+            .items(
+                joi.object({
+                    item: joi
+                        .string()
+                        .trim()
+                        .required(),
+                    cost: joi
+                        .number()
+                        .required()
+                        .min(1)
+                })
+            ),
         name: 'budgetItems',
+        language: {
+            overBudget: 'over maximum budget'
+        },
         /* eslint-disable-next-line no-unused-vars */
         coerce(value, state, options) {
             if (isArray(value)) {
@@ -92,42 +109,24 @@ const budgetValidator = joi => {
                 return value;
             }
         },
-        pre(value, state, options) {
-            if (this._flags.maxBudget) {
-                const total = value.reduce((acc, cur) => acc + cur.cost, 0);
-                if (total > this._flags.maxBudget) {
-                    return this.createError(
-                        'budgetItems.overBudget',
-                        { v: value, number: this._flags.maxBudget },
-                        state,
-                        options
-                    );
-                }
-            }
-            return value;
-        },
-        language: {
-            maxBudget: 'needs to be a number'
-        },
         rules: [
             {
                 name: 'maxBudget',
                 params: {
-                    number: joi.number().required()
+                    maxBudget: joi.number().required()
                 },
                 validate(params, value, state, options) {
-                    if (!params.number) {
+                    const total = sumBy(value, item => item.cost);
+                    if (total > params.maxBudget) {
                         return this.createError(
-                            'budgetItems.maxBudget',
-                            { v: value, number: params.number },
+                            'budgetItems.overBudget',
+                            { v: value, number: params.maxBudget },
                             state,
                             options
                         );
+                    } else {
+                        return value;
                     }
-                    return value;
-                },
-                setup(params) {
-                    this._flags.maxBudget = params.number;
                 }
             }
         ]
@@ -152,18 +151,6 @@ module.exports = {
     },
     budgetField(maxBudget) {
         return Joi.budgetItems()
-            .min(1)
-            .items(
-                Joi.object({
-                    item: Joi.string()
-                        .trim()
-                        .required(),
-                    cost: Joi.number()
-                        .required()
-                        .min(1)
-                        .max(maxBudget)
-                })
-            )
             .maxBudget(maxBudget)
             .required();
     }
