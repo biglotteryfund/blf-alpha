@@ -9,6 +9,8 @@ const { requireUserAuth } = require('../../middleware/authed');
 const applicationsService = require('../../services/applications');
 
 const { normaliseErrors } = require('../../modules/errors');
+const { purify } = require('../../modules/validators');
+
 const {
     FORM_STATES,
     calculateFormProgress,
@@ -354,7 +356,7 @@ function initFormRouter(formModel) {
                 .get((req, res) => {
                     renderStep(req, res, res.locals.currentApplicationData);
                 })
-                .post(async function(req, res) {
+                .post(purify, async function(req, res) {
                     const { currentlyEditingId, currentApplicationData } = res.locals;
 
                     /**
