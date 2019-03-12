@@ -1,6 +1,8 @@
 'use strict';
 const moment = require('moment');
 const { get, getOr } = require('lodash/fp');
+const Joi = require('joi');
+
 const {
     cloneDeep,
     find,
@@ -22,11 +24,26 @@ const FORM_STATES = {
 };
 
 function dateFromParts(parts) {
+    const value = Joi.attempt(
+        parts,
+        Joi.object({
+            day: Joi.number()
+                .integer()
+                .required(),
+            month: Joi.number()
+                .integer()
+                .required(),
+            year: Joi.number()
+                .integer()
+                .required()
+        })
+    );
+
     return moment({
-        year: toInteger(parts.year),
+        year: toInteger(value.year),
         // month is 0 indexed when constructing a date object
-        month: toInteger(parts.month) - 1,
-        day: toInteger(parts.day)
+        month: toInteger(value.month) - 1,
+        day: toInteger(value.day)
     });
 }
 

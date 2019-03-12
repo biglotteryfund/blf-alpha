@@ -1,6 +1,14 @@
 /* eslint-env jest */
 'use strict';
-const { nextAndPrevious } = require('./helpers');
+const { dateFromParts, nextAndPrevious } = require('./helpers');
+
+describe('dateFromParts', () => {
+    const dt = dateFromParts({ day: 1, month: 2, year: 2000 });
+    expect(dt.isValid()).toBeTruthy();
+    expect(dt.format('YYYY-MM-DD')).toBe('2000-02-01');
+
+    expect(() => dateFromParts({ day: 1, month: 2 })).toThrow();
+});
 
 describe('nextAndPrevious', () => {
     const mockSections = [
