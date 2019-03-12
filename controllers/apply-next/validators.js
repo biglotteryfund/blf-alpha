@@ -138,18 +138,19 @@ const Joi = baseJoi.extend([dateParts, budgetValidator]);
 
 module.exports = {
     Joi,
-    postcode: Joi.string()
-        .trim()
-        .regex(POSTCODE_REGEX)
-        .description('postcode'),
-    futureDate: function({ amount = null, unit = null } = {}) {
+    postcode() {
+        return Joi.string()
+            .trim()
+            .regex(POSTCODE_REGEX);
+    },
+    futureDate({ amount = null, unit = null } = {}) {
         const minDate = amount && unit ? moment().add(amount, unit) : moment();
         return Joi.dateParts().futureDate(minDate.format('YYYY-MM-DD'));
     },
-    dateOfBirth: function(minAge) {
+    dateOfBirth(minAge) {
         return Joi.dateParts().dob(minAge);
     },
-    budgetField: function(maxBudget) {
+    budgetField(maxBudget) {
         return Joi.budgetItems()
             .min(1)
             .items(
