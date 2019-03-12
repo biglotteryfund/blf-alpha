@@ -5,16 +5,16 @@ const { isEmpty, isArray, reject, toInteger } = require('lodash');
 
 const { POSTCODE_REGEX } = require('../../modules/postcodes');
 
-const dateParts = joi => {
-    const fromParts = parts => {
-        return moment({
-            year: toInteger(parts.year),
-            // month is 0 indexed when constructing a date object
-            month: toInteger(parts.month) - 1,
-            day: toInteger(parts.day)
-        });
-    };
+function dateFromParts(parts) {
+    return moment({
+        year: toInteger(parts.year),
+        // month is 0 indexed when constructing a date object
+        month: toInteger(parts.month) - 1,
+        day: toInteger(parts.day)
+    });
+}
 
+const dateParts = joi => {
     return {
         base: joi.object({
             day: joi
@@ -32,7 +32,7 @@ const dateParts = joi => {
         }),
         name: 'dateParts',
         pre(value, state, options) {
-            const date = fromParts(value);
+            const date = dateFromParts(value);
             if (date.isValid()) {
                 return value;
             } else {
@@ -46,7 +46,7 @@ const dateParts = joi => {
                     min: joi.string().required()
                 },
                 validate(params, value, state, options) {
-                    const date = fromParts(value);
+                    const date = dateFromParts(value);
                     if (date.isValid() && date.isSameOrAfter(params.min)) {
                         return value;
                     } else {
@@ -65,7 +65,7 @@ const dateParts = joi => {
                     minAge: joi.number().required()
                 },
                 validate(params, value, state, options) {
-                    const date = fromParts(value);
+                    const date = dateFromParts(value);
                     const maxDate = moment().subtract(params.minAge, 'years');
                     if (date.isValid() && date.isSameOrBefore(maxDate)) {
                         return value;
