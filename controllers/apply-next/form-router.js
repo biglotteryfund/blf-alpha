@@ -308,7 +308,6 @@ function initFormRouter(formModel) {
          */
         currentSection.steps.forEach((currentStep, currentStepIndex) => {
             const currentStepNumber = currentStepIndex + 1;
-            const numSteps = currentSection.steps.length;
             const stepFields = fieldsForStep(currentStep);
 
             function renderStep(req, res, data, errors = []) {
@@ -324,7 +323,7 @@ function initFormRouter(formModel) {
                 res.locals.breadcrumbs = concat(
                     res.locals.breadcrumbs,
                     { label: sectionLocalised.title, url: `${req.baseUrl}/${currentSection.slug}` },
-                    { label: `${stepLocalised.title} (Step ${currentStepNumber} of ${numSteps})` }
+                    { label: stepLocalised.title }
                 );
 
                 const { nextUrl, previousUrl } = nextAndPrevious({
