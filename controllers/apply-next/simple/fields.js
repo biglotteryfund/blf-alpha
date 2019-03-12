@@ -182,8 +182,8 @@ const allFields = {
         schema: commonValidators.futureDate({ amount: '12', unit: 'weeks' }),
         messages: {
             base: { en: 'Enter a date', cy: '' },
-            'date.isoDate': { en: 'Enter a real date', cy: '' },
-            'date.min': { en: 'Date must be at least 12 weeks into the future', cy: '' }
+            'any.invalid': { en: 'Enter a real date', cy: '' },
+            'dateParts.futureDate': { en: 'Date must be at least 12 weeks into the future', cy: '' }
         }
     },
     projectPostcode: postcodeField({
@@ -441,8 +441,8 @@ const allFields = {
         schema: commonValidators.futureDate(),
         messages: {
             base: { en: 'Enter a date', cy: '' },
-            'date.isoDate': { en: 'Enter a real date', cy: '' },
-            'date.min': { en: 'Date must be in the future', cy: '' }
+            'any.invalid': { en: 'Enter a real date', cy: '' },
+            'dateParts.futureDate': { en: 'Date must be in the future', cy: '' }
         }
     },
     totalIncomeYear: {
@@ -485,7 +485,7 @@ const allFields = {
         schema: commonValidators.dateOfBirth(MIN_APPLICANT_AGE),
         messages: {
             base: { en: 'Enter a date of birth', cy: '' },
-            'date.max': { en: 'Main contact must be at least 18 years old', cy: '' }
+            'dateParts.dob': { en: `Main contact must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
         }
     },
     mainContactAddressBuildingStreet: {
@@ -619,7 +619,7 @@ const allFields = {
         schema: commonValidators.dateOfBirth(MIN_APPLICANT_AGE),
         messages: {
             base: { en: 'Enter a date of birth', cy: '' },
-            'date.max': { en: 'Legal contact must be at least 18 years old', cy: '' }
+            'dateParts.dob': { en: `Legal contact must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
         }
     },
     legalContactAddressBuildingStreet: {
