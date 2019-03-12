@@ -3,13 +3,12 @@
         role="img"
         class="icon icon--bin"
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 459 459"
-        width="14"
+        viewBox="0 0 16 16"
+        width="16"
+        height="16"
         :aria-describedby="'aria-bin-desc-' + props.id"
     >
         <desc :id="'aria-bin-desc-' + props.id">{{ props.description }}</desc>
-        <path
-            d="M76.5 408c0 28.05 22.95 51 51 51h204c28.05 0 51-22.95 51-51V102h-306v306zM408 25.5h-89.25L293.25 0h-127.5l-25.5 25.5H51v51h357v-51z"
-        />
+        <path d="M3 16h10l1-11h-12zM10 2v-2h-4v2h-5v3l1-1h12l1 1v-3h-5zM9 2h-2v-1h2v1z"></path>
     </svg>
 </template>

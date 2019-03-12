@@ -109,7 +109,9 @@ export default {
                             type="button"
                             @click="removeItem(lineItem)"
                         >
-                            <IconBin id="delete-icon" description="Delete this row" />
+                            <span class="btn__icon btn__icon-left">
+                                <IconBin id="delete-icon" description="Delete this row" />
+                            </span>
                             Delete row
                         </button>
                     </td>
