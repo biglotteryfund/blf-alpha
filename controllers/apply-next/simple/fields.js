@@ -43,7 +43,8 @@ const organisationTypes = {
     },
     school: {
         value: 'school',
-        label: { en: 'School', cy: '' }
+        label: { en: 'School', cy: '' },
+        explanation: { en: 'You will need to provide your department for education number', cy: '' }
     },
     statutoryBody: {
         value: 'statutory-body',
@@ -428,6 +429,19 @@ const allFields = {
         }),
         messages: {
             base: { en: 'Enter a companies house number', cy: '' }
+        }
+    },
+    departmentForEducationNumber: {
+        name: 'department-for-education-number',
+        label: { en: 'Department for Education number', cy: '' },
+        type: 'text',
+        isRequired: true,
+        schema: Joi.any().when('organisation-type', {
+            is: Joi.valid(organisationTypes.school.value),
+            then: Joi.string().required()
+        }),
+        messages: {
+            base: { en: 'Enter a department for education number', cy: '' }
         }
     },
     accountingYearDate: {

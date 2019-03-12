@@ -112,6 +112,18 @@ const sectionOrganisation = {
             ]
         },
         {
+            title: { en: 'Department for Education number', cy: '' },
+            matchesCondition: function(formData = {}) {
+                return get(formData, 'organisation-type') === organisationTypes.school.value;
+            },
+            fieldsets: [
+                {
+                    legend: { en: 'Department for Education number', cy: '' },
+                    fields: [allFields.departmentForEducationNumber]
+                }
+            ]
+        },
+        {
             title: { en: 'Organisation finances', cy: '' },
             fieldsets: [
                 {
