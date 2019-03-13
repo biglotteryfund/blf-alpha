@@ -10,16 +10,9 @@ export default {
         maxItems: { type: Number, required: true },
         budgetData: { type: Array, required: false }
     },
-    mounted() {
-        if (this.budgetData) {
-            this.budgetRows = this.budgetData;
-        } else {
-            this.addNewItem();
-        }
-    },
     data() {
         return {
-            budgetRows: [],
+            budgetRows: this.budgetData || [{ item: '', cost: '' }],
             error: {}
         };
     },
@@ -31,8 +24,8 @@ export default {
     watch: {
         budgetRows: {
             handler() {
-                if (this.shouldCreateNewRow()) {
-                    this.addNewItem();
+                if (this.shouldAddNewRow()) {
+                    this.addRow();
                 }
                 this.error.TOO_MANY_ITEMS = this.budgetRows.length === this.maxItems;
                 this.error.OVER_BUDGET = this.maxBudget && this.total > this.maxBudget;
@@ -41,18 +34,20 @@ export default {
         }
     },
     methods: {
-        addNewItem() {
-            this.budgetRows.push({ item: '', cost: '' });
+        getLineItemName(index, subFieldName) {
+            return `${this.fieldName}[${index}][${subFieldName}]`;
+        },
+        shouldAddNewRow() {
+            const lastItem = this.budgetRows[this.budgetRows.length - 1];
+            return lastItem.item || lastItem.cost;
+        },
+        addRow() {
+            if (this.budgetRows.length < this.maxItems) {
+                this.budgetRows.push({ item: '', cost: '' });
+            }
         },
         removeItem(item) {
             this.budgetRows = this.budgetRows.filter(i => i !== item);
-        },
-        shouldCreateNewRow() {
-            const lastItem = this.budgetRows[this.budgetRows.length - 1];
-            return this.budgetRows.length < this.maxItems && lastItem.item || lastItem.cost;
-        },
-        getLineItemName(index, subFieldName) {
-            return `${this.fieldName}[${index}][${subFieldName}]`;
         },
         canDelete(index) {
             return this.budgetRows.length > 1 && index !== this.budgetRows.length - 1;
@@ -65,7 +60,7 @@ export default {
 <template>
     <div class="ff-budget">
         <ol class="ff-budget__list">
-            <li class="ff-budget__row" v-for="(lineItem, index) in budgetRows" :key="index">
+            <li class="ff-budget__row" v-for="(lineItem, index) in budgetRows" :key="index" data-testid="budget-row">
                 <div class="ff-budget__row-item">
                     <label class="ff-label" :for="getLineItemName(index, 'item')">
                         Item or activity
@@ -113,7 +108,7 @@ export default {
             </li>
         </ol>
 
-        <div class="ff-budget__errors" aria-live="polite" aria-atomic="true">
+        <div class="ff-budget__errors" aria-live="polite" aria-atomic="true" data-testid="budget-errors">
             <!-- @TODO localise -->
             <p v-if="error.TOO_MANY_ITEMS">
                 You have added the maximum number of budget rows available ({{ maxItems }}).
@@ -123,7 +118,7 @@ export default {
             </p>
         </div>
 
-        <dl class="ff-budget__total" aria-live="polite" aria-atomic="true">
+        <dl class="ff-budget__total" aria-live="polite" aria-atomic="true" data-testid="budget-total">
             <dt class="ff-budget__total-label">Total</dt>
             <dd class="ff-budget__total-amount">£{{ total.toLocaleString() }}</dd>
         </dl>
