@@ -81,16 +81,6 @@ describe('common', function() {
 });
 
 describe('user', () => {
-    it('should allow users to register', () => {
-        cy.visit('/user/register');
-        const password = uuid();
-        const username = `${Date.now()}@example.com`;
-        cy.get('#field-username').type(username, { delay: 0 });
-        cy.get('#field-password').type(password, { delay: 0 });
-        cy.checkA11y();
-        cy.get('input[type="submit"]').click();
-    });
-
     it('should not allow unknown users to login', () => {
         cy.visit('/user/login');
         cy.get('#field-username').type('person@example.com', { delay: 0 });
@@ -106,6 +96,32 @@ describe('user', () => {
         cy.get('#field-password').type('tooshort', { delay: 0 });
         cy.get('input[type="submit"]').click();
         cy.get('.form-errors').contains('Password must be at least 10 characters long');
+    });
+
+    it('user registration and login', () => {
+        // Register
+        cy.visit('/user/register');
+        const password = uuid();
+        const username = `${Date.now()}@example.com`;
+        cy.get('#field-username').type(username, { delay: 0 });
+        cy.get('#field-password').type(password, { delay: 0 });
+        cy.checkA11y();
+        cy.get('input[type="submit"]').click();
+        cy.get('h1').contains('Your account');
+
+        // Log out
+        cy.get('[data-testid="logout-button"]').click();
+
+        // Attempt to log in with new user with an incorrect password
+        cy.get('#field-username').type(username, { delay: 0 });
+        cy.get('#field-password').type('invalid password', { delay: 0 });
+        cy.get('input[type="submit"]').click();
+        cy.get('.form-errors').contains('Your username and password combination is invalid');
+
+        // Correct password
+        cy.get('#field-password').type(password, { delay: 0 });
+        cy.get('input[type="submit"]').click();
+        cy.get('h1').contains('Your account');
     });
 
     it('should email valid users with a token', () => {

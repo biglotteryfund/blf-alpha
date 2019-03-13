@@ -26,7 +26,7 @@
                 {% elseif user.userType === 'staff' %}
                     <p>Staff: logged in as <strong>{{ user.userData.fullName }}</strong>
                 {% endif %}
-                <p><a class="btn btn--small" href="/user/logout">Log out?</a></p>
+                <p><a class="btn btn--small" href="/user/logout" data-testid="logout-button">Log out?</a></p>
             {% else %}
                 <p><a class="btn btn--small" href="/user/login">Log in</a></p>
             {% endif %}
