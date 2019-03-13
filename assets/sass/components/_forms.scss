@@ -76,7 +76,7 @@ $inputOutline: 3px solid get-color('border', 'outline');
     margin-bottom: 5px;
     font-weight: font-weight('body', 'bold');
 
-    &.ff-label--append:after {
+    &[data-append]:after {
         margin-left: 5px;
         content: attr(data-append);
         text-transform: uppercase;
