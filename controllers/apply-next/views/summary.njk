@@ -3,6 +3,7 @@
 {% from "components/icons.njk" import iconArrowDown, iconTick, iconBin %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "./view-helpers.njk" import showSectionProgress with context %}
 
 {% block title %}Summary | {{ formTitle }} | {% endblock %}
 
@@ -60,19 +61,7 @@
                                 <a href="{{ formBaseUrl }}/{{ section.slug }}">{{ editWord }}</a>
                             </span>
                         </h3>
-                        {% if sectionProgress %}
-                            <div class="application-summary__status__label u-padded-vertical-s">
-                                {% if sectionProgress === FORM_STATES.complete %}
-                                    {{ iconTick() }} Complete
-                                {% elseif sectionProgress === FORM_STATES.incomplete %}
-                                    In progress
-                                {% elseif sectionProgress === FORM_STATES.invald %}
-                                    Invalid
-                                {% else %}
-                                    Not started
-                                {% endif %}
-                            </div>
-                        {% endif %}
+                        {{ showSectionProgress(sectionProgress) }}
                     </header>
                     <article class="application-summary__status__content">
                         {% if section.introduction %}

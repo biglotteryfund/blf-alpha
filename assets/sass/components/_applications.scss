@@ -20,6 +20,11 @@ $statusColumnWidth: 160px;
         border-left: 3px solid get-color('background', 'light-neutral');
         padding-left: $spacingUnit / 2;
 
+        &.application-summary__status--mini {
+            align-items: center;
+            margin-bottom: 3px;
+        }
+
         &.application-summary__status--complete {
             $colour: map-get($statuses, 'complete');
             border-left-color: $colour;
@@ -51,9 +56,10 @@ $statusColumnWidth: 160px;
             font-size: 14px;
             text-align: center;
             width: $statusColumnWidth;
+            min-width: $statusColumnWidth;
 
             svg {
-                margin-left: 5px;
+                margin-right: 5px;
                 vertical-align: middle;
             }
         }

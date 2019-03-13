@@ -62,9 +62,20 @@ function initFormRouter(formModel) {
             formId: formModel.id
         });
 
+        const form = enhanceForm({
+            locale: req.i18n.getLocale(),
+            baseForm: formModel
+        });
+
+        const applicationsWithProgress = applications.map(application => {
+            application.progress = calculateFormProgress(form, get(application, 'application_data'));
+            return application;
+        });
+
         res.render(path.resolve(__dirname, './views/dashboard'), {
             title: res.locals.formTitle,
-            applications
+            applications: applicationsWithProgress,
+            form: form
         });
     });
 

@@ -11,6 +11,11 @@
 .u-tone-background-tint {
     background-color: get-color('background', 'light-neutral');
 }
+
+.u-tone-background-tint--medium {
+    background-color: #eeeeee;
+}
+
 .u-tone-background-dark {
     background-color: get-color('background', 'dark-neutral');
 }

@@ -376,6 +376,13 @@ module.exports = {
             }
         ],
         schema: schema,
-        processor: processor
+        processor: processor,
+        // @TODO these links will change when these docs are updated - should we just link to the programme page?
+        documentation: {
+            guidance:
+                'https://www.tnlcommunityfund.org.uk/media/documents/awards-for-all/England/A4AOnlineGuidance-03-2019.pdf?mtime=20190312112420',
+            terms:
+                'https://www.tnlcommunityfund.org.uk/media/documents/National-Lottery-Awards-for-All-Terms-and-Conditions.pdf?mtime=20181116141630'
+        }
     }
 };
