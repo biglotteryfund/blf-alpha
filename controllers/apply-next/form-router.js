@@ -166,18 +166,13 @@ function initFormRouter(formModel) {
             }
         })
         .post(async (req, res) => {
-            const deleteApplication = await applicationsService.deleteApplication(
-                req.params.applicationId,
-                req.user.userData.id
-            );
-            deleteApplication
-                .then(() => {
-                    // @TODO show a success message on the subsequent (dashboard?) screen
-                    res.redirect(req.baseUrl);
-                })
-                .catch(error => {
-                    renderError(error, req, res);
-                });
+            try {
+                await applicationsService.deleteApplication(req.params.applicationId, req.user.userData.id);
+                // @TODO show a success message on the subsequent (dashboard?) screen
+                res.redirect(req.baseUrl);
+            } catch (error) {
+                renderError(error, req, res);
+            }
         });
 
     /**

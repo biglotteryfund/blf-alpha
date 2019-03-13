@@ -1,18 +1,7 @@
 'use strict';
 const moment = require('moment');
 const { get, getOr } = require('lodash/fp');
-const {
-    cloneDeep,
-    find,
-    findIndex,
-    findLastIndex,
-    flatMap,
-    flatMapDeep,
-    includes,
-    isEmpty,
-    isString,
-    pick
-} = require('lodash');
+const { cloneDeep, find, findIndex, findLastIndex, flatMap, flatMapDeep, includes, isEmpty, pick } = require('lodash');
 
 const FORM_STATES = {
     empty: 'empty',
@@ -20,23 +9,6 @@ const FORM_STATES = {
     incomplete: 'incomplete',
     complete: 'complete'
 };
-
-function prepareValue(value, field) {
-    if (field.type === 'date') {
-        if (isString(value)) {
-            const dt = moment(value);
-            return {
-                day: dt.format('DD'),
-                month: dt.format('MM'),
-                year: dt.format('YYYY')
-            };
-        } else {
-            return value;
-        }
-    } else {
-        return value;
-    }
-}
 
 /**
  * Format field values for display in views
@@ -54,7 +26,18 @@ function prepareDisplayValue(value, field) {
         const optionMatch = find(field.options, option => option.value === value);
         return optionMatch ? optionMatch.label : value.toString();
     } else if (field.type === 'date') {
-        return moment(value).format('D MMMM, YYYY');
+        const dt = moment({
+            year: value.year,
+            month: value.month - 1,
+            day: value.day
+        });
+        if (dt.isValid()) {
+            return dt.format('D MMMM, YYYY');
+        } else {
+            return '';
+        }
+    } else if (field.type === 'currency') {
+        return `£${value.toLocaleString()}`;
     } else {
         return value.toString();
     }
@@ -106,7 +89,7 @@ function enhanceForm({ locale, baseForm, data = {} }) {
         // Assign value to field if present
         const fieldValue = find(data, (value, name) => name === field.name);
         if (fieldValue) {
-            field.value = prepareValue(fieldValue, field);
+            field.value = fieldValue;
             field.displayValue = prepareDisplayValue(fieldValue, field);
         }
 

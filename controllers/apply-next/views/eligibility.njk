@@ -1,21 +1,31 @@
 {% extends "layouts/main.njk" %}
-{% from "components/form-fields/macros.njk" import inputChoice with context %}
+{% from "components/form-fields/macros.njk" import formField with context %}
+{% from "components/form-header/macro.njk" import formHeader with context %}
 
 {% block title %}Eligibility | {{ formTitle }} | {% endblock %}
 
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner u-inner-wide-only">
-            <h1>Eligibility Checker</h1>
             {% if eligibility === 'pending' %}
-                <h2 class="t2 t--underline">Step {{ currentStepNumber }} of {{ questions.length }}</h2>
+                {% set prefix -%}
+                    Step {{ currentStepNumber }} of {{ questions.length }}
+                {%- endset %}
+            {% endif %}
 
-                <form method="post">
+            {{ formHeader(
+                backUrl = formBaseUrl,
+                title = 'Eligibility Checker',
+                prefix = prefix
+            )}}
+
+            {% if eligibility === 'pending' %}
+                <form method="post" class="u-constrained-wide u-constrained-content">
                     {% if csrfToken %}
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                     {% endif %}
 
-                    {{ inputChoice({
+                    {{ formField({
                         type: 'radio',
                         name: 'eligibility',
                         label: currentStep.question,
@@ -34,7 +44,9 @@
                         ]
                     }) }}
 
-                    <input class="btn" type="submit" value="Continue" />
+                    <div class="form-actions">
+                        <input class="btn" type="submit" value="Continue" />
+                    </div>
                 </form>
             {% elseif eligibility === 'ineligible' %}
                 <h2 class="t2 t--underline">Sorry, you're not eligible to apply at this time</h2>

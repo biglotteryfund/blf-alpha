@@ -91,8 +91,9 @@ const budgetValidator = joi => {
                         .required(),
                     cost: joi
                         .number()
-                        .required()
                         .min(1)
+                        .integer()
+                        .required()
                 })
             ),
         name: 'budgetItems',

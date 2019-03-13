@@ -118,21 +118,17 @@
         {{ fieldLabelText(field, fieldCopy) }}
     </label>
     {{ fieldHelpText(field, fieldCopy) }}
-    <div class="ff-field-prepend">£</div>
-    <input
-        class="ff-text ff-text--currency"
-        type="number"
-        id="field-{{ field.name }}"
-        name="{{ field.name }}"
-        {% if field.autocompleteName %}autocomplete="{{ field.autocompleteName }}"{% endif %}
-        size="40"
-        min="{{ field.min }}"
-        max="{{ field.max }}"
-        value="{% if field.value %}{{ field.value }}{% endif %}"
-        {% if field.isRequired %}required aria-required="true"{% endif %}
-        {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
-    />
-    <div class="ff-field-append">Type a number</div>
+    <div class="ff-currency ff-currency--constrained">
+        <div class="ff-currency__pre">£</div>
+        <input class="ff-currency__input"
+            type="number"
+            id="field-{{ field.name }}"
+            name="{{ field.name }}"
+            value="{% if field.value %}{{ field.value }}{% endif %}"
+            {% if field.isRequired %}required aria-required="true"{% endif %}
+            {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
+        />
+    </div>
 {% endmacro %}
 
 {% macro inputTextarea(field, fieldCopy) %}
@@ -157,7 +153,7 @@
             locale="{{ locale }}"
             field-id="field-{{ field.name }}"
             :max-words={{ settings.maxWords }}
-        />
+        ></character-count>
     {% endif %}
     {% if settings.showWordCount %}</div>{% endif %}
 {% endmacro %}
@@ -224,78 +220,72 @@
     </fieldset>
 {% endmacro %}
 
+{% macro inputBudget(field, fieldCopy) %}
+
+    <fieldset class="ff-choice">
+        <legend class="ff-label">
+            {{ fieldLabelText(field) }}
+        </legend>
+        {{ fieldHelpText(field, fieldCopy) }}
+
+        <div id="js-budget-input">
+            <budget-input
+                field-name="{{ field.name }}"
+                :max-budget="{{ field.attributes.max }}"
+                :max-items="{{ field.attributes.rowLimit }}"
+                {% if field.value %}:budget-data="{{ field.value | dump }}"{% endif %}>
+            </budget-input>
+
+            {# Non-JS version (*not* <noscript> because we still need it if JS fails #}
+            {# (this will be removed by our Vue component when mounted) #}
+            <div class="js-fallback-only ff-budget">
+                <ol class="ff-budget__list">
+                    {% for lineItem in field.value %}
+                        {{ budgetRow(field, loop.index0, lineItem) }}
+                    {% endfor %}
+                    {% for i in range(0 + field.value | length, field.attributes.rowLimit) %}
+                        {{ budgetRow(field, i) }}
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </fieldset>
+{% endmacro %}
+
 {# If we update this we should change the Vue component too #}
-{% macro budgetLineItemRow(field, counter, lineItem = false) %}
-    <tr>
-        <td>
-            <label class="u-visually-hidden"
-                   for="ff-{{ field.name }}-{{ counter }}-item">
-                Item name
+{% macro budgetRow(field, counter, lineItem = false) %}
+    <li class="ff-budget__row">
+        <div class="ff-budget__row-item">
+            <label class="ff-label" for="ff-{{ field.name }}-{{ counter }}-item">
+                Item or activity
             </label>
             <input type="text"
-                   id="ff-{{ field.name }}-{{ counter }}-item"
-                   autocomplete="off"
-                   name="{{ field.name }}[{{ counter }}][item]"
-                   placeholder="Add item name"
-                   {% if lineItem %}value="{{ lineItem.item }}"{% endif %}
-                   class="ff-text u-block-full" />
-        </td>
-        <td>
-            <label class="u-visually-hidden"
-                   for="ff-{{ field.name }}-{{ counter }}-cost">
-                Item cost
-            </label>
-            <div class="ff-field-prepend">£</div>
-            <input type="number"
-                   id="ff-{{ field.name }}-{{ counter }}-cost"
-                   name="{{ field.name }}[{{ counter }}][cost]"
-                   min="1" max="{{ field.attributes.max }}"
-                   {% if lineItem %}value="{{ lineItem.cost }}"{% endif %}
-                   class="ff-text ff-text--currency" />
-        </td>
-    </tr>
-{% endmacro %}
-
-{% macro inputBudget(field, fieldCopy) %}
-    <label class="ff-label" for="field-{{ field.name }}">
-        {{ fieldLabelText(field, fieldCopy) }}
-    </label>
-
-    {{ fieldHelpText(field, fieldCopy) }}
-
-    <div id="js-budget-input">
-
-        <budget-input
-            field-name="{{ field.name }}"
-            :max-budget="{{ field.attributes.max }}"
-            :max-items="{{ field.attributes.rowLimit }}"
-            {% if field.value %}:budget-data="{{ field.value | dump }}"{% endif %}>
-        </budget-input>
-
-
-        {# Non-JS version (*not* <noscript> because we still need it if JS fails #}
-        {# (this will be removed by our Vue component when mounted) #}
-        <div class="js-fallback-only ff-budget">
-            <table class="ff-budget__table">
-            <thead>
-                <tr>
-                    <th scope="col" class="ff-budget__item-col">Item or activity</th>
-                    <th scope="col">Amount from us</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for lineItem in field.value %}
-                    {{ budgetLineItemRow(field, loop.index0, lineItem) }}
-                {% endfor %}
-                {% for i in range(0 + field.value | length, field.attributes.rowLimit) %}
-                    {{ budgetLineItemRow(field, i) }}
-                {% endfor %}
-            </tbody>
-        </table>
+                id="ff-{{ field.name }}-{{ counter }}-item"
+                autocomplete="off"
+                name="{{ field.name }}[{{ counter }}][item]"
+                {% if lineItem %}value="{{ lineItem.item }}"{% endif %}
+                class="ff-text u-block-full"
+            />
         </div>
-    </div>
-
+        <div class="ff-budget__row-amount">
+            <label class="ff-label" for="ff-{{ field.name }}-{{ counter }}-cost">
+                Amount
+            </label>
+            <div class="ff-currency">
+                <div class="ff-currency__pre">£</div>
+                <input
+                    type="number"
+                    id="ff-{{ field.name }}-{{ counter }}-cost"
+                    name="{{ field.name }}[{{ counter }}][cost]"
+                    min="1" max="{{ field.attributes.max }}"
+                    {% if lineItem %}value="{{ lineItem.cost }}"{% endif %}
+                    class="ff-currency__input"
+                />
+            </div>
+        </div>
+    </li>
 {% endmacro %}
+
 
 {% macro formField(field, fieldCopy = {}, errors = []) %}
     {% set fieldErrors = errors | filter('param', field.name) %}

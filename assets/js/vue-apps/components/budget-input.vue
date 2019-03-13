@@ -1,5 +1,5 @@
 <script>
-import isEmpty from 'lodash/isEmpty';
+import sumBy from 'lodash/sumBy';
 import IconBin from './icon-bin.vue';
 
 export default {
@@ -11,10 +11,10 @@ export default {
         budgetData: { type: Array, required: false }
     },
     mounted() {
-        if (!this.budgetData) {
-            this.addItem();
-        } else {
+        if (this.budgetData) {
             this.budgetRows = this.budgetData;
+        } else {
+            this.addNewItem();
         }
     },
     data() {
@@ -25,16 +25,14 @@ export default {
     },
     computed: {
         total() {
-            return this.budgetRows.reduce((acc, cur) => {
-                return acc + parseInt(cur.cost || 0);
-            }, 0);
+            return sumBy(this.budgetRows, row => parseInt(row.cost || 0));
         }
     },
     watch: {
         budgetRows: {
             handler() {
                 if (this.shouldCreateNewRow()) {
-                    this.addItem();
+                    this.addNewItem();
                 }
                 this.error.TOO_MANY_ITEMS = this.budgetRows.length === this.maxItems;
                 this.error.OVER_BUDGET = this.maxBudget && this.total > this.maxBudget;
@@ -43,102 +41,91 @@ export default {
         }
     },
     methods: {
-        addItem: function(item = { item: '', cost: '', isNew: true }) {
-            this.budgetRows.push(item);
+        addNewItem() {
+            this.budgetRows.push({ item: '', cost: '' });
         },
-        removeItem: function(item) {
+        removeItem(item) {
             this.budgetRows = this.budgetRows.filter(i => i !== item);
         },
-        shouldCreateNewRow: function() {
+        shouldCreateNewRow() {
             const lastItem = this.budgetRows[this.budgetRows.length - 1];
-            return (
-                lastItem &&
-                this.budgetRows.length < this.maxItems &&
-                (!isEmpty(lastItem.item) || !isEmpty(lastItem.cost))
-            );
+            return this.budgetRows.length < this.maxItems && lastItem.item || lastItem.cost;
         },
-        getLineItemName: function(index, subFieldName) {
+        getLineItemName(index, subFieldName) {
             return `${this.fieldName}[${index}][${subFieldName}]`;
+        },
+        canDelete(index) {
+            return this.budgetRows.length > 1 && index !== this.budgetRows.length - 1;
         }
     }
 };
 </script>
 
-<!-- If we update this we should change the Vue component too -->
+<!-- If we update this we should change the Nunjucks component too -->
 <template>
     <div class="ff-budget">
-        <table class="ff-budget__table">
-            <thead>
-                <tr>
-                    <th scope="col" class="ff-budget__item-col">Item or activity</th>
-                    <th scope="col">Amount from us</th>
-                    <th scope="col" class="ff-budget__actions"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr
-                    v-for="(lineItem, index) in budgetRows"
-                    :aria-live="lineItem.isNew ? 'polite' : false"
-                    :key="index"
-                    v-cloak
-                >
-                    <td>
-                        <input
-                            type="text"
-                            autocomplete="off"
-                            :name="getLineItemName(index, 'item')"
-                            v-model="lineItem.item"
-                            placeholder="Add item name"
-                            class="ff-text u-block-full"
-                        />
-                    </td>
-                    <td>
-                        <div class="ff-field-prepend">£</div>
+        <ol class="ff-budget__list">
+            <li class="ff-budget__row" v-for="(lineItem, index) in budgetRows" :key="index">
+                <div class="ff-budget__row-item">
+                    <label class="ff-label" :for="getLineItemName(index, 'item')">
+                        Item or activity
+                    </label>
+                    <input
+                        class="ff-text u-block-full"
+                        type="text"
+                        :name="getLineItemName(index, 'item')"
+                        :id="getLineItemName(index, 'item')"
+                        autocomplete="off"
+                        v-model="lineItem.item"
+                    />
+                </div>
+                <div class="ff-budget__row-amount">
+                    <label class="ff-label" :for="getLineItemName(index, 'cost')">
+                        Amount
+                    </label>
+                    <div class="ff-currency">
+                        <div class="ff-currency__pre">£</div>
                         <input
                             type="number"
                             :name="getLineItemName(index, 'cost')"
+                            :id="getLineItemName(index, 'cost')"
                             v-model="lineItem.cost"
                             min="1"
+                            step="1"
                             :max="maxBudget"
-                            class="ff-text ff-text--currency"
+                            class="ff-currency__input"
                         />
-                    </td>
-                    <td v-if="budgetRows.length > 1 && index !== budgetRows.length - 1">
-                        <button
-                            class="btn btn--small btn--outline u-block-full"
-                            type="button"
-                            @click="removeItem(lineItem)"
-                        >
+                    </div>
+                </div>
+                <div class="ff-budget-row__action">
+                    <button
+                        class="btn btn--small btn--outline"
+                        type="button"
+                        @click="removeItem(lineItem)"
+                        v-if="canDelete(index)"
+                    >
+                        <span class="btn__icon btn__icon-left">
                             <IconBin id="delete-icon" description="Delete this row" />
-                            Delete row
-                        </button>
-                    </td>
-                </tr>
-
-                <tr v-if="error" v-cloak>
-                    <td class="ff-budget__error">
-                        <!-- @TODO localise -->
-                        <span v-if="error.TOO_MANY_ITEMS">
-                            You have added the maximum number of budget rows available ({{ maxItems }}).
                         </span>
-                        <span v-if="error.OVER_BUDGET">
-                            You have exceeded the budget limit for this application of £{{
-                                maxBudget.toLocaleString()
-                            }}.
-                        </span>
-                    </td>
-                </tr>
-            </tbody>
+                        Delete row
+                    </button>
+                </div>
+            </li>
+        </ol>
 
-            <tfoot v-cloak>
-                <tr>
-                    <td><span class="ff-budget__label">Total:</span></td>
-                    <td>
-                        <span class="ff-budget__total" tabindex="0">£{{ total }}</span>
-                    </td>
-                    <td></td>
-                </tr>
-            </tfoot>
-        </table>
+        <div class="ff-budget__errors" aria-live="polite" aria-atomic="true">
+            <!-- @TODO localise -->
+            <p v-if="error.TOO_MANY_ITEMS">
+                You have added the maximum number of budget rows available ({{ maxItems }}).
+            </p>
+            <p v-if="error.OVER_BUDGET">
+                You have exceeded the budget limit for this application of £{{ maxBudget.toLocaleString() }}.
+            </p>
+        </div>
+
+        <dl class="ff-budget__total" aria-live="polite" aria-atomic="true">
+            <dt class="ff-budget__total-label">Total</dt>
+            <dd class="ff-budget__total-amount">£{{ total.toLocaleString() }}</dd>
+        </dl>
     </div>
 </template>

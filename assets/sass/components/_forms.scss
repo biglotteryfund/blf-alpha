@@ -65,6 +65,9 @@
    Fields (individual field styles)
    ========================================================================= */
 
+$inputPadding: 6px 12px;
+$inputOutline: 3px solid get-color('border', 'outline');
+
 /**
  * Field labels
  */
@@ -73,7 +76,7 @@
     margin-bottom: 5px;
     font-weight: font-weight('body', 'bold');
 
-    &.ff-label--append:after {
+    &[data-append]:after {
         margin-left: 5px;
         content: attr(data-append);
         text-transform: uppercase;
@@ -121,9 +124,8 @@
 }
 
 .ff-text,
-.ff-textarea,
-.ff-field-prepend {
-    padding: 6px 12px;
+.ff-textarea {
+    padding: $inputPadding;
     border: 2px solid get-color('border', 'dark');
 }
 
@@ -134,28 +136,9 @@
     max-width: 100%;
 
     &:focus {
-        outline: 3px solid get-color('border', 'outline');
+        outline: $inputOutline;
         outline-offset: 0;
     }
-
-    &.ff-text--currency {
-        display: inline-block;
-        border-left: none;
-        margin: 0;
-    }
-}
-
-.ff-field-prepend {
-    background-color: get-color('background', 'light-neutral');
-    float: left;
-    border-right: none;
-}
-
-.ff-field-append {
-    display: inline-block;
-    margin-left: 5px;
-    font-size: 14px;
-    font-style: italic;
 }
 
 .ff-textarea {
@@ -165,62 +148,187 @@
 }
 
 /**
- * Form field: Choice
- * i.e. radio or checkboxes
- */
-.ff-choice {
-    margin-bottom: 3px;
-}
-.ff-choice__option {
-    display: table;
-    margin-bottom: 5px;
-
-    &.ff-choice__option--flex {
-        display: flex;
-        align-items: center;
-    }
-
-    input[type='radio'],
-    input[type='checkbox'] {
-        margin: 0 0.5em 0 0;
-
-        @include mq('medium-minor') {
-            margin-right: 0.75em;
-            position: relative;
-            top: -2px;
-        }
-    }
-}
-.ff-choice__input,
-.ff-choice__label {
-    display: table-cell;
-}
-.ff-choice__caption {
-    font-size: 14px;
-    color: get-color('text', 'note');
-    display: block;
-
-    @include mq('medium-minor') {
-        font-size: 16px;
-        margin-bottom: 3px;
-    }
-}
-
-/**
  * Field modifiers
  */
-// Approx 2 character width
 .ff-width-2 {
+    // Approx 2 character width
     width: 7ex;
 }
-// Approx 4 character width
 .ff-width-4 {
+    // Approx 4 character width
     width: 10ex;
 }
 
 .ff-inline {
     display: inline-block;
     margin-right: $spacingUnit / 2;
+}
+
+/* =========================================================================
+   Choice Input Type (radio and checkboxes)
+   ========================================================================= */
+
+.ff-choice {
+    margin-bottom: 3px;
+
+    .ff-choice__option {
+        display: table;
+        margin-bottom: 5px;
+
+        &.ff-choice__option--flex {
+            display: flex;
+            align-items: center;
+        }
+
+        input[type='radio'],
+        input[type='checkbox'] {
+            margin: 0 0.5em 0 0;
+
+            @include mq('medium-minor') {
+                margin-right: 0.75em;
+                position: relative;
+                top: -2px;
+            }
+        }
+    }
+    .ff-choice__input,
+    .ff-choice__label {
+        display: table-cell;
+    }
+    .ff-choice__caption {
+        font-size: 14px;
+        color: get-color('text', 'note');
+        display: block;
+
+        @include mq('medium-minor') {
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+    }
+}
+
+/* =========================================================================
+   Currency Input Type
+   ========================================================================= */
+
+.ff-currency {
+    display: flex;
+
+    &.ff-currency--constrained {
+        max-width: 10em;
+    }
+
+    .ff-currency__pre,
+    .ff-currency__input {
+        padding: $inputPadding;
+        border: 2px solid get-color('border', 'dark');
+    }
+
+    .ff-currency__pre {
+        border-right: none;
+        background-color: get-color('background', 'light-neutral');
+    }
+
+    .ff-currency__input {
+        flex: 1 1 0%;
+        max-width: 100%;
+        border-left: none;
+
+        &:focus {
+            outline: $inputOutline;
+            outline-offset: 0;
+        }
+    }
+}
+
+/* =========================================================================
+   Budget Field Type
+   ========================================================================= */
+
+.ff-budget {
+    background-color: get-color('background', 'light-neutral');
+    padding: $spacingUnit;
+
+    // Hide some of the initial 10 rows for non-JS browsers
+    .no-js & {
+        height: 300px;
+        overflow: auto;
+    }
+
+    .ff-budget__list {
+        margin-bottom: $spacingUnit;
+    }
+
+    .ff-budget__row {
+        margin-bottom: 5px;
+
+        .ff-label {
+            font-size: 18px;
+            font-weight: font-weight('body', 'semibold');
+        }
+
+        @include mq('medium', 'max') {
+            .ff-budget__row-item,
+            .ff-budget__row-amount {
+                margin-bottom: $spacingUnit / 2;
+            }
+
+            .ff-budget-row__action {
+                text-align: center;
+            }
+        }
+
+        @include mq('medium') {
+            display: flex;
+            align-items: flex-end;
+
+            &:not(:first-child) {
+                label {
+                    @include visually-hidden();
+                }
+            }
+
+            .ff-budget__row-item {
+                flex: 0 0 48%;
+                margin-right: 2%;
+            }
+
+            .ff-budget__row-amount,
+            .ff-budget-row__action {
+                flex: 1 1 100%;
+            }
+
+            .ff-budget-row__action {
+                text-align: right;
+            }
+        }
+    }
+
+    .ff-budget__errors {
+        color: get-color('message', 'warning');
+        font-weight: font-weight('body', 'semibold');
+        font-size: 18px;
+
+        p {
+            margin-bottom: 0.5em;
+        }
+    }
+
+    .ff-budget__total {
+        border-top: 1px solid get-color('border', 'base');
+        padding-top: $spacingUnit / 2;
+
+        @include mq('medium') {
+            padding-left: 50%;
+        }
+    }
+    .ff-budget__total-label {
+        font-weight: font-weight('body', 'semibold');
+    }
+    .ff-budget__total-amount {
+        border: 1px solid get-color('border', 'base');
+        padding: 5px;
+    }
 }
 
 /* =========================================================================
@@ -280,11 +388,11 @@
     .form-field-addon__input {
         flex: 1 1 0%;
 
-        padding: 6px 12px;
+        padding: $inputPadding;
         border: 2px solid get-color('brand', 'primary');
 
         &:focus {
-            outline: 3px solid get-color('border', 'outline');
+            outline: $inputOutline;
             outline-offset: 0;
         }
     }
@@ -523,79 +631,6 @@
                     padding-left: $spacingUnit / 2;
                 }
             }
-        }
-    }
-}
-
-// Budget table
-.ff-budget {
-    background-color: get-color('background', 'light-neutral');
-    padding: $spacingUnit;
-
-    // Hide some of the initial 10 rows for non-JS browsers
-    .no-js & {
-        height: 300px;
-        overflow: auto;
-    }
-
-    .ff-budget__table {
-        box-sizing: border-box;
-        border-collapse: separate;
-        border-spacing: 0;
-        table-layout: fixed;
-        width: 100%;
-
-        th, td {
-            padding-right: $spacingUnit;
-            padding-bottom: $spacingUnit;
-
-            &:last-child {
-                padding-right: 0;
-            }
-        }
-
-        thead {
-
-            th {
-                font-family: font-stack('display');
-                text-align: left;
-                padding-bottom: $spacingUnit;
-
-                &.ff-budget__item-col {
-                    width: 50%;
-                }
-            }
-        }
-
-        tfoot {
-
-            td {
-                border-top: 1px solid get-color('border', 'base');
-                padding-top: $spacingUnit;
-            }
-        }
-
-        .ff-budget__label {
-            text-transform: uppercase;
-            font-weight: bold;
-            float: right;
-        }
-
-        .ff-budget__total {
-            border: 1px solid get-color('border', 'base');
-            padding: 5px;
-            width: 100%;
-            display: block;
-        }
-
-    }
-
-    .no-js & {
-        .ff-budget__item-col {
-            width: 70% !important;
-        }
-        .ff-budget__actions {
-            width: 0;
         }
     }
 }

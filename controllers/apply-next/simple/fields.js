@@ -1,5 +1,5 @@
 'use strict';
-const { forEach, get, has, isArray, reduce, values } = require('lodash');
+const { forEach, get, has, isArray, reduce, sumBy, values } = require('lodash');
 const moment = require('moment');
 
 const { Joi, ...commonValidators } = require('../validators');
@@ -234,7 +234,7 @@ const allFields = {
         type: 'textarea',
         settings: {
             showWordCount: true,
-            maxWords: 100
+            maxWords: 500
         },
         attributes: {
             rows: 12
@@ -278,16 +278,11 @@ const allFields = {
             if (!isArray(value)) {
                 return value;
             } else {
-                const total = value.reduce((acc, cur) => {
-                    return acc + (parseInt(cur.cost || 0) || 0);
-                }, 0);
-                let str = '<ul>';
-                value.forEach(line => {
-                    str += `<li>${line.item} &ndash; £${line.cost}</li>`;
-                });
-                str += '</ul>';
-                str += `<p><strong>Total</strong>: £${total}`;
-                return str;
+                const total = sumBy(value, item => parseInt(item.cost || 0));
+                return [
+                    value.map(line => `${line.item} – £${line.cost.toLocaleString()}`).join('\n'),
+                    `Total: £${total}`
+                ].join('\n');
             }
         }
     },
