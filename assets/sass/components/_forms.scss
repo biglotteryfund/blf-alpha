@@ -275,43 +275,74 @@ $inputOutline: 3px solid get-color('border', 'outline');
     }
 
     .ff-budget__row {
-        display: flex;
-        align-items: flex-end;
         margin-bottom: 5px;
 
         .ff-label {
             font-size: 18px;
-            font-weight: font-weight('display', 'semibold');
+            font-weight: font-weight('body', 'semibold');
         }
 
-        &:not(:first-child) {
-            label {
-                @include visually-hidden();
+        @include mq('medium', 'max') {
+            .ff-budget__row-item,
+            .ff-budget__row-amount {
+                margin-bottom: $spacingUnit / 2;
+            }
+
+            .ff-budget-row__action {
+                text-align: center;
+            }
+        }
+
+        @include mq('medium') {
+            display: flex;
+            align-items: flex-end;
+
+            &:not(:first-child) {
+                label {
+                    @include visually-hidden();
+                }
+            }
+
+            .ff-budget__row-item {
+                flex: 0 0 48%;
+                margin-right: 2%;
+            }
+
+            .ff-budget__row-amount,
+            .ff-budget-row__action {
+                flex: 1 1 100%;
+            }
+
+            .ff-budget-row__action {
+                text-align: right;
             }
         }
     }
 
-    .ff-budget__row-item {
-        flex: 0 0 48%;
-        margin-right: 2%;
-    }
-    .ff-budget__row-amount,
-    .ff-budget-row__action {
-        flex: 1 1 100%;
-    }
-
-    .ff-budget-row__action {
-        text-align: right;
-    }
-
     .ff-budget__errors {
         color: get-color('message', 'warning');
-        font-weight: bold;
+        font-weight: font-weight('body', 'semibold');
+        font-size: 18px;
+
+        p {
+            margin-bottom: 0.5em;
+        }
     }
 
     .ff-budget__total {
         border-top: 1px solid get-color('border', 'base');
         padding-top: $spacingUnit / 2;
+
+        @include mq('medium') {
+            padding-left: 50%;
+        }
+    }
+    .ff-budget__total-label {
+        font-weight: font-weight('body', 'semibold');
+    }
+    .ff-budget__total-amount {
+        border: 1px solid get-color('border', 'base');
+        padding: 5px;
     }
 }
 

@@ -96,6 +96,7 @@ export default {
                             :id="getLineItemName(index, 'cost')"
                             v-model="lineItem.cost"
                             min="1"
+                            step="1"
                             :max="maxBudget"
                             class="ff-currency__input"
                         />
@@ -127,8 +128,9 @@ export default {
             </p>
         </div>
 
-        <div class="ff-budget__total" aria-live="polite" aria-atomic="true">
-            Total: <strong class="ff-budget__total-amount">£{{ total.toLocaleString() }}</strong>
-        </div>
+        <dl class="ff-budget__total" aria-live="polite" aria-atomic="true">
+            <dt class="ff-budget__total-label">Total</dt>
+            <dd class="ff-budget__total-amount">£{{ total.toLocaleString() }}</dd>
+        </dl>
     </div>
 </template>
