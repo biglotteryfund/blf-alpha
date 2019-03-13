@@ -234,7 +234,7 @@ const allFields = {
         type: 'textarea',
         settings: {
             showWordCount: true,
-            maxWords: 100
+            maxWords: 500
         },
         attributes: {
             rows: 12

@@ -50,5 +50,11 @@ export default {
 </script>
 
 <template>
-  <div class="character-count u-margin-top" role="region" aria-live="polite" v-html="message"></div>
+    <div
+        class="character-count u-margin-top"
+        role="region"
+        aria-live="polite"
+        aria-atomic="true"
+        v-html="message"
+    ></div>
 </template>
