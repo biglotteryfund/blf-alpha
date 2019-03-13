@@ -137,12 +137,7 @@
 {% endmacro %}
 
 {% block contentPrimary %}
-    {#{{ super() }}#}
-
-    {# @TODO put this text into the CMS and uncomment super() above #}
-    <section class="content-box u-inner-wide-only">
-        {{ copy.intro | safe }}
-    </section>
+    {{ super() }}
 
     <div class="content-box u-inner-wide-only" id="segment-1">
         <p><strong>{{ copy.locationPrompt }}</strong></p>
