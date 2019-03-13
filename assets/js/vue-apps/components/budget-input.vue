@@ -1,5 +1,4 @@
 <script>
-import isEmpty from 'lodash/isEmpty';
 import sumBy from 'lodash/sumBy';
 import IconBin from './icon-bin.vue';
 
@@ -50,11 +49,7 @@ export default {
         },
         shouldCreateNewRow() {
             const lastItem = this.budgetRows[this.budgetRows.length - 1];
-            return (
-                lastItem &&
-                this.budgetRows.length < this.maxItems &&
-                (!isEmpty(lastItem.item) || !isEmpty(lastItem.cost))
-            );
+            return this.budgetRows.length < this.maxItems && lastItem.item || lastItem.cost;
         },
         getLineItemName(index, subFieldName) {
             return `${this.fieldName}[${index}][${subFieldName}]`;
