@@ -118,21 +118,17 @@
         {{ fieldLabelText(field, fieldCopy) }}
     </label>
     {{ fieldHelpText(field, fieldCopy) }}
-    <div class="ff-field-prepend">£</div>
-    <input
-        class="ff-text ff-text--currency"
-        type="number"
-        id="field-{{ field.name }}"
-        name="{{ field.name }}"
-        {% if field.autocompleteName %}autocomplete="{{ field.autocompleteName }}"{% endif %}
-        size="40"
-        min="{{ field.min }}"
-        max="{{ field.max }}"
-        value="{% if field.value %}{{ field.value }}{% endif %}"
-        {% if field.isRequired %}required aria-required="true"{% endif %}
-        {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
-    />
-    <div class="ff-field-append">Type a number</div>
+    <div class="ff-currency ff-currency--constrained">
+        <div class="ff-currency__pre">£</div>
+        <input class="ff-currency__input"
+            type="number"
+            id="field-{{ field.name }}"
+            name="{{ field.name }}"
+            value="{% if field.value %}{{ field.value }}{% endif %}"
+            {% if field.isRequired %}required aria-required="true"{% endif %}
+            {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
+        />
+    </div>
 {% endmacro %}
 
 {% macro inputTextarea(field, fieldCopy) %}

@@ -124,8 +124,7 @@ $inputOutline: 3px solid get-color('border', 'outline');
 }
 
 .ff-text,
-.ff-textarea,
-.ff-field-prepend {
+.ff-textarea {
     padding: $inputPadding;
     border: 2px solid get-color('border', 'dark');
 }
@@ -140,25 +139,6 @@ $inputOutline: 3px solid get-color('border', 'outline');
         outline: $inputOutline;
         outline-offset: 0;
     }
-
-    &.ff-text--currency {
-        display: inline-block;
-        border-left: none;
-        margin: 0;
-    }
-}
-
-.ff-field-prepend {
-    background-color: get-color('background', 'light-neutral');
-    float: left;
-    border-right: none;
-}
-
-.ff-field-append {
-    display: inline-block;
-    margin-left: 5px;
-    font-size: 14px;
-    font-style: italic;
 }
 
 .ff-textarea {
@@ -234,6 +214,10 @@ $inputOutline: 3px solid get-color('border', 'outline');
 .ff-currency {
     display: flex;
 
+    &.ff-currency--constrained {
+        max-width: 10em;
+    }
+
     .ff-currency__pre,
     .ff-currency__input {
         padding: $inputPadding;
@@ -247,6 +231,7 @@ $inputOutline: 3px solid get-color('border', 'outline');
 
     .ff-currency__input {
         flex: 1 1 0%;
+        max-width: 100%;
         border-left: none;
 
         &:focus {
