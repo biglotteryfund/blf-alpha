@@ -36,6 +36,8 @@ function prepareDisplayValue(value, field) {
         } else {
             return '';
         }
+    } else if (field.type === 'currency') {
+        return `£${value.toLocaleString()}`;
     } else {
         return value.toString();
     }
