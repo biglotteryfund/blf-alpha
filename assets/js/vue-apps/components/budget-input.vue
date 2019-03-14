@@ -9,11 +9,16 @@ export default {
         fieldName: { type: String, required: true },
         maxBudget: { type: Number, required: true },
         maxItems: { type: Number, required: true },
-        budgetData: { type: Array, required: false }
+        budgetData: {
+            type: Array,
+            default() {
+                return [];
+            }
+        }
     },
     data() {
         return {
-            budgetRows: concat(this.budgetData || [], [{ item: '', cost: '' }]),
+            budgetRows: concat(this.budgetData, [{ item: '', cost: '' }]),
             error: {}
         };
     },
