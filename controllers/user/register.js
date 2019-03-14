@@ -55,8 +55,7 @@ router
                 } else {
                     const newUser = await userService.createUser({
                         username: username,
-                        password: password,
-                        level: 0
+                        password: password
                     });
 
                     // Success! now send them an activation email

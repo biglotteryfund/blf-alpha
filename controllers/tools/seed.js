@@ -13,8 +13,7 @@ if (process.env.NODE_ENV !== 'production' && startsWith(DB_CONNECTION_URI, 'sqli
         const uuid = uuidv4();
         const newUser = {
             username: `${uuid}@example.com`,
-            password: uuid,
-            level: 5
+            password: uuid
         };
 
         userService.createUser(newUser).then(() => {
