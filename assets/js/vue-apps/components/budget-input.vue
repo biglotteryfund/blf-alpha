@@ -1,5 +1,6 @@
 <script>
 import sumBy from 'lodash/sumBy';
+import concat from 'lodash/concat';
 import IconBin from './icon-bin.vue';
 
 export default {
@@ -12,7 +13,7 @@ export default {
     },
     data() {
         return {
-            budgetRows: this.budgetData || [{ item: '', cost: '' }],
+            budgetRows: concat(this.budgetData || [], [{ item: '', cost: '' }]),
             error: {}
         };
     },
