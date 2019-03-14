@@ -282,12 +282,6 @@ $inputOutline: 3px solid get-color('border', 'outline');
             display: flex;
             align-items: flex-end;
 
-            &:not(:first-child) {
-                label {
-                    @include visually-hidden();
-                }
-            }
-
             .ff-budget__row-item {
                 flex: 0 0 48%;
                 margin-right: 2%;
