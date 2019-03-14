@@ -101,7 +101,7 @@ export default {
                         v-if="canDelete(index)"
                     >
                         <span class="btn__icon btn__icon-left">
-                            <IconBin id="delete-icon" description="Delete this row" />
+                            <IconBin :id="'delete-icon-' + index" description="Delete this row" />
                         </span>
                         Delete row
                     </button>
