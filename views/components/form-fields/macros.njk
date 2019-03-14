@@ -147,7 +147,7 @@
         {# @TODO: Remove field.rows in favour of field.attributes #}
         {% if field.rows %}rows="{{ field.rows }}"{% endif %} 
         {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
-        {% if settings.showWordCount %} v-model="text"{% endif %}
+        {% if settings.showWordCount %} @input="onInput" ref="textarea"{% endif %}
     >{{ field.value }}</textarea>
     {% if settings.showWordCount %}
         <character-count
