@@ -150,7 +150,7 @@ const loremLong = `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pra
 
 Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.`;
 
-describe.only('awards for all', function() {
+describe('awards for all', function() {
     it('happy path application', () => {
         const eligibilityStep = () => {
             cy.getByLabelText('Yes').click();
@@ -173,7 +173,6 @@ describe.only('awards for all', function() {
             eligibilityStep();
             cy.getByText('Continue your application').click();
 
-            // Step 1
             cy.getByLabelText('Day').type('12');
             cy.getByLabelText('Month').type('12');
             cy.getByLabelText('Year').type('2020');
@@ -181,9 +180,40 @@ describe.only('awards for all', function() {
             cy.checkA11y();
             cy.getByText('Continue').click();
 
-            // Step 2
-            cy.getByLabelText('What would you like to do?', { exact: false }).type(loremLong, { delay: 0 });
+            cy.getByLabelText('What would you like to do?', { exact: false })
+                .invoke('val', loremLong)
+                .trigger('change');
+
             cy.checkA11y();
+            cy.getByText('Continue').click();
+
+            cy.getByTestId('budget-row').within(() => {
+                cy.getByLabelText('Item or activity').type('Example budget item');
+                cy.getByLabelText('Amount').type('1200');
+            });
+            cy.getAllByTestId('budget-row')
+                .last()
+                .within(() => {
+                    cy.getByLabelText('Item or activity').type('Example budget item 2');
+                    cy.getByLabelText('Amount').type('1200');
+                });
+            cy.getAllByTestId('budget-row')
+                .last()
+                .within(() => {
+                    cy.getByLabelText('Item or activity').type('Example budget item 3');
+                    cy.getByLabelText('Amount').type('500');
+                });
+            cy.getAllByTestId('budget-row').should('have.length', 4);
+            cy.getAllByTestId('budget-total').should('contain', '£2,900');
+            cy.checkA11y();
+            cy.getAllByText('Delete row', { exact: false })
+                .last()
+                .click();
+            cy.getAllByTestId('budget-total').should('contain', '£2,400');
+            cy.getAllByTestId('budget-row').should('have.length', 3);
+
+            cy.getByLabelText('Tell us the total cost of your project', { exact: false }).type('5000');
+
             cy.getByText('Continue').click();
         });
     });
