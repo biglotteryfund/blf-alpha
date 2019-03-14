@@ -36,6 +36,17 @@ function prepareDisplayValue(value, field) {
         } else {
             return '';
         }
+    } else if (field.type === 'day-month') {
+        const dt = moment({
+            year: moment().year(),
+            month: value.month - 1,
+            day: value.day
+        });
+        if (dt.isValid()) {
+            return dt.format('Do MMMM');
+        } else {
+            return '';
+        }
     } else if (field.type === 'currency') {
         return `£${value.toLocaleString()}`;
     } else {
