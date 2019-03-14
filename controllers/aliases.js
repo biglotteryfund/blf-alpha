@@ -109,6 +109,7 @@ const aliases = {
 
     //===== Funding programmes =====//
     '/global-content/programmes/england/awards-for-all-england': '/funding/programmes/national-lottery-awards-for-all-england',
+    '/global-content/programmes/england/awards-for-all-england/a4alightpilotintro': '/funding/programmes/national-lottery-awards-for-all-england',
     '/global-content/programmes/england/building-better-opportunities/black-country': '/funding/programmes/building-better-opportunities/black-country',
     '/global-content/programmes/england/building-better-opportunities/buckinghamshire': '/funding/programmes/building-better-opportunities/buckinghamshire',
     '/global-content/programmes/england/building-better-opportunities/building-better-opportunities-case-studies': '/funding/programmes/building-better-opportunities/case-studies',
