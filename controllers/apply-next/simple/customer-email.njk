@@ -11,12 +11,10 @@
 
     <h2>Your information</h2>
     {% for section in form.sections %}
-        <h2>Section {{ loop.index }}: {{ section.title }}</h2>
+        <h3>Section {{ loop.index }}: {{ section.title }}</h3>
         {% for step in section.steps %}
             {% set stepNumber = loop.index %}
-            <h4>
-                Step {{ stepNumber }} of {{ section.steps.length }} &ndash; {{ step.title }}
-            </h4>
+            <h4>{{ step.title }}</h4>
 
             {% for fieldset in step.fieldsets %}
                 <table>
@@ -31,13 +29,10 @@
                             <tr>
                                 <td>{{ field.label }}</td>
                                 <td>
-                                    {% if field.type === 'textarea' %}
-                                        {% set cleanValue = field.value | striptags(true) | escape | nl2br %}
-                                        {{ cleanValue }}
-                                    {% elseif (field.value | isArray) %}
-                                        {{ field.value | join(', ') }}
+                                    {% if field.displayValue %}
+                                        {{ field.displayValue | striptags(true) | escape | nl2br  }}
                                     {% else %}
-                                        {{ field.value }}
+                                        &ndash;
                                     {% endif %}
                                 </td>
                             </tr>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Vue from 'vue';
 import $ from 'jquery';
 
@@ -9,12 +10,20 @@ function initCharacterCount() {
     if (el) {
         new Vue({
             el: el,
+            components: {
+                'character-count': CharacterCount
+            },
             data: {
                 // Assumes a v-model on the input within the component template
                 text: null
             },
-            components: {
-                'character-count': CharacterCount
+            mounted() {
+                this.text = this.$refs.textarea.value;
+            },
+            methods: {
+                onInput(e) {
+                    this.text = e.target.value;
+                }
             }
         });
     }

@@ -428,16 +428,15 @@ const allFields = {
     accountingYearDate: {
         name: 'accounting-year-date',
         label: { en: 'What is your accounting year end date?', cy: '' },
-        type: 'date',
-        settings: {
-            minYear: moment().format('YYYY')
+        explanation: {
+            en: `<p><strong>For example: 31 03</strong></p>`,
+            cy: ''
         },
+        type: 'day-month',
         isRequired: true,
-        schema: commonValidators.futureDate(),
+        schema: Joi.dayMonth().required(),
         messages: {
-            base: { en: 'Enter a date', cy: '' },
-            'any.invalid': { en: 'Enter a real date', cy: '' },
-            'dateParts.futureDate': { en: 'Date must be in the future', cy: '' }
+            base: { en: 'Enter valid day and month', cy: '' }
         }
     },
     totalIncomeYear: {
@@ -777,6 +776,7 @@ forEach(allFields, field => {
                 'email',
                 'tel',
                 'date',
+                'day-month',
                 'currency',
                 'budget'
             ])

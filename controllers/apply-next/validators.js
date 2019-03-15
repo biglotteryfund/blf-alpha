@@ -16,6 +16,7 @@ function dateFromParts(parts) {
 
 const dateParts = joi => {
     return {
+        name: 'dateParts',
         base: joi.object({
             day: joi
                 .number()
@@ -30,7 +31,6 @@ const dateParts = joi => {
                 .integer()
                 .required()
         }),
-        name: 'dateParts',
         pre(value, state, options) {
             const date = dateFromParts(value);
             if (date.isValid()) {
@@ -78,8 +78,38 @@ const dateParts = joi => {
     };
 };
 
-const budgetValidator = joi => {
+const dayMonth = joi => {
     return {
+        name: 'dayMonth',
+        base: joi.object({
+            day: joi
+                .number()
+                .integer()
+                .required(),
+            month: joi
+                .number()
+                .integer()
+                .required()
+        }),
+        pre(value, state, options) {
+            const date = moment({
+                year: moment().year(),
+                month: toInteger(value.month) - 1,
+                day: toInteger(value.day)
+            });
+
+            if (date.isValid()) {
+                return value;
+            } else {
+                return this.createError('any.invalid', { v: value }, state, options);
+            }
+        }
+    };
+};
+
+const budgetItems = joi => {
+    return {
+        name: 'budgetItems',
         base: joi
             .array()
             .min(1)
@@ -96,7 +126,6 @@ const budgetValidator = joi => {
                         .required()
                 })
             ),
-        name: 'budgetItems',
         language: {
             overBudget: 'over maximum budget'
         },
@@ -134,7 +163,7 @@ const budgetValidator = joi => {
     };
 };
 
-const Joi = baseJoi.extend([dateParts, budgetValidator]);
+const Joi = baseJoi.extend([dateParts, dayMonth, budgetItems]);
 
 module.exports = {
     Joi,
