@@ -17,8 +17,11 @@
     {% endif %}
 {% endmacro %}
 
-{% macro getGrantAmount(budget) %}
-
+{% macro getFriendlyStatus(status) %}
+    {% set friendlyStatus = 'Not submitted' %}
+    {% if status === 'ineligible' %}{% set friendlyStatus = 'Ineligible' %}{% endif %}
+    {% if status === 'complete' %}{% set friendlyStatus = 'Submitted for consideration' %}{% endif %}
+    {{ friendlyStatus }}
 {% endmacro %}
 
 {% macro getApplicationSummary(application) %}
@@ -71,78 +74,87 @@
 
                 <h2 class="t2 t--underline">In progress</h2>
 
-                {% for application in applications %}
-                    <div class="u-tone-background-tint u-margin-bottom-l">
-                        <div class="flex-grid">
+                <div class="application-dashboard">
+                    {% for application in applications %}
+                        <div class="application-dashboard__item">
 
                             {# Application summary info #}
-                            <div class="flex-grid__item u-no-margin">
-                                <div class="u-padded">
-                                    <small><strong>{{ formTitle }}</strong></small>
-                                    <h3 class="t3 t--underline u-tone-brand-primary">{{ application.application_title }}</h3>
-                                    {{ getApplicationSummary(application) }}
-                                    <div class="o-button-group-flex">
-                                        {% if application.status === 'complete' %}
-                                            <a class="btn btn--small btn--outline" href="{{ formBaseUrl }}/edit/{{ application.id }}">
-                                                View application
-                                            </a>
-                                            <a class="btn btn--small btn--outline" href="#">
-                                                Download (PDF)
-                                            </a>
-                                        {% else %}
-                                            <a class="btn" href="{{ formBaseUrl }}/edit/{{ application.id }}">
-                                                Continue with this application
-                                            </a>
-                                            <a class="btn btn--medium btn--outline btn--reversed"
-                                               href="{{ formBaseUrl }}/delete/{{ application.id }}">
-                                                {{ iconBin() }}
-                                                Delete application
-                                            </a>
-                                        {% endif %}
-
-                                        <small>
-                                            <strong>Guidance for this programme:</strong><br />
-                                            <a href="{{ form.documentation.guidance }}">{{ formTitle }} guidance</a><br />
-                                            <a href="{{ form.documentation.terms }}">Terms and Conditions for {{ formTitle }}</a>
-                                        </small>
-                                    </div>
+                            <div class="application-dashboard__summary">
+                                <h6 class="application-dashboard__minor-title">{{ formTitle }}</h6>
+                                <h3 class="t3 t--underline u-tone-brand-primary">{{ application.application_title }}</h3>
+                                {{ getApplicationSummary(application) }}
+                                <div class="o-button-group-flex">
+                                    {% if application.status === 'complete' %}
+                                        <a class="btn btn--small btn--outline" href="{{ formBaseUrl }}/edit/{{ application.id }}">
+                                            View application
+                                        </a>
+                                        <a class="btn btn--small btn--outline" href="#">
+                                            Download (PDF)
+                                        </a>
+                                    {% else %}
+                                        <a class="btn btn--medium" href="{{ formBaseUrl }}/edit/{{ application.id }}">
+                                            Continue with this application
+                                        </a>
+                                        <a class="btn btn--medium btn--outline btn--reversed"
+                                           href="{{ formBaseUrl }}/delete/{{ application.id }}">
+                                            {{ iconBin() }}
+                                            Delete application
+                                        </a>
+                                    {% endif %}
                                 </div>
+
+                                <aside class="application-summary__links u-margin-top-l">
+                                    <h6 class="application-dashboard__minor-title">Guidance for this programme:</h6>
+                                    <p>
+                                        <a href="{{ form.documentation.guidance }}">{{ formTitle }} guidance</a><br />
+                                        <a href="{{ form.documentation.terms }}">Terms and Conditions for {{ formTitle }}</a>
+                                    </p>
+                                </aside>
                             </div>
 
                             {# Section progress #}
-                            <div class="flex-grid__item u-no-margin u-tone-background-tint--medium">
-                                <div class="u-padded">
-                                    <div class="u-padded u-tone-background-tint">
-                                        <small><strong>Application status:</strong></small>
-                                        <h3 class="t3">{{ application.status or "unknown" }}</h3>
-                                        <p class="u-margin-top">
-                                            You started your application on {{ formatDate(application.createdAt.toISOString(), DATE_FORMATS.numeric) }}<br />
-                                            It must be completed by ???
-                                        </p>
-                                    </div>
+                            <div class="application-dashboard__progress">
 
-                                    <div class="application-summary">
-                                        {% for section in form.sections %}
-                                            {% set sectionProgress = application.progress.sections[section.slug] %}
-                                            <header class="application-summary__status application-summary__status--mini application-summary__status--{{ sectionProgress }} u-tone-background-tint">
-                                                <small>{{ loop.index }}: {{ section.title }}</small>
-                                                {{ showSectionProgress(sectionProgress) }}
-                                            </header>
-                                        {% endfor %}
-                                    </div>
+                                <div class="application-dashboard__progress__inner">
+                                    {% set expiryDate = application.createdAt | addTime(3, 'months') %}
+
+                                    <h6 class="application-dashboard__minor-title">Application status:</h6>
+                                    <h3 class="t3">{{ getFriendlyStatus(application.status) }}</h3>
+                                    {% if application.status === 'complete' %}
+                                        <p>We aim to let you know our decision in about 14 weeks. If you have any questions, <a href="#">contact a member of our advice team</a>.</p>
+                                    {% else %}
+                                        <p>
+                                            You started your application on {{ formatDate(application.createdAt.toISOString(), DATE_FORMATS.numeric) }}. <strong>It must be completed by {{ formatDate(expiryDate, DATE_FORMATS.numeric) }}</strong>
+                                        </p>
+                                        <p><a href="#">Need help with your application?</a></p>
+                                    {% endif %}
                                 </div>
 
+                                <div class="application-summary">
+                                    {% for section in form.sections %}
+                                        {% set sectionProgress = application.progress.sections[section.slug] %}
+                                        <header class="application-summary__status application-summary__status--mini application-summary__status--{{ sectionProgress }} u-tone-background-tint">
+                                            {{ loop.index }}: {{ section.title }}
+                                            {{ showSectionProgress(sectionProgress) }}
+                                        </header>
+                                    {% endfor %}
+                                </div>
                             </div>
 
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             {% endif %}
 
-            <h2>Start a new application</h2>
-            {# @TODO: Should this go to the start page? #}
-            <p><a href="{{ formBaseUrl }}/new" class="btn">New application</a></p>
-
         {% endcall %}
+
+        {% call contentBox() %}
+            <h2>New application</h2>
+            <p>You can create a new funding application for {{ formTitle }} here after completing our eligibility checks.</p>
+            {# @TODO: Should this go to the start page? #}
+            <p><a href="{{ formBaseUrl }}/new" class="btn btn--outline">Start new application</a></p>
+        {% endcall %}
+
+
     </main>
 {% endblock %}
