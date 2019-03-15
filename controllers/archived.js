@@ -35,7 +35,8 @@ router.get(legacyFilesPath, (req, res) => {
         dimension: 'DOWNLOADED',
         value: 'REQUEST_COUNT'
     });
-    res.render('static-pages/legacy-file', {
+
+    res.status(404).render('static-pages/legacy-file', {
         title: 'Document archived',
         filePath: filePath
     });

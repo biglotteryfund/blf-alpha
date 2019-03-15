@@ -3483,6 +3483,46 @@ Array [
     "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
   },
   Object {
+    "from": "/global-content/programmes/england/awards-for-all-england/a4alightpilotintro",
+    "to": "/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/welsh/global-content/programmes/england/awards-for-all-england/a4alightpilotintro",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/england/global-content/programmes/england/awards-for-all-england/a4alightpilotintro",
+    "to": "/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/welsh/england/global-content/programmes/england/awards-for-all-england/a4alightpilotintro",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/scotland/global-content/programmes/england/awards-for-all-england/a4alightpilotintro",
+    "to": "/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/welsh/scotland/global-content/programmes/england/awards-for-all-england/a4alightpilotintro",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/northernireland/global-content/programmes/england/awards-for-all-england/a4alightpilotintro",
+    "to": "/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/welsh/northernireland/global-content/programmes/england/awards-for-all-england/a4alightpilotintro",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/wales/global-content/programmes/england/awards-for-all-england/a4alightpilotintro",
+    "to": "/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
+    "from": "/welsh/wales/global-content/programmes/england/awards-for-all-england/a4alightpilotintro",
+    "to": "/welsh/funding/programmes/national-lottery-awards-for-all-england",
+  },
+  Object {
     "from": "/global-content/programmes/england/building-better-opportunities/black-country",
     "to": "/funding/programmes/building-better-opportunities/black-country",
   },
