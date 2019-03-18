@@ -162,12 +162,13 @@ Object {
             "Items": Array [
               "draft",
               "version",
+              "social",
               "location",
               "amount",
               "min",
               "max",
             ],
-            "Quantity": 6,
+            "Quantity": 7,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -226,9 +227,10 @@ Object {
             "Items": Array [
               "draft",
               "version",
+              "social",
               "location",
             ],
-            "Quantity": 3,
+            "Quantity": 4,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -287,13 +289,14 @@ Object {
             "Items": Array [
               "draft",
               "version",
+              "social",
               "page",
               "tag",
               "author",
               "category",
               "region",
             ],
-            "Quantity": 7,
+            "Quantity": 8,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -414,11 +417,12 @@ Object {
             "Items": Array [
               "draft",
               "version",
+              "social",
               "redirectUrl",
               "s",
               "token",
             ],
-            "Quantity": 5,
+            "Quantity": 6,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -533,12 +537,13 @@ Object {
             "Items": Array [
               "draft",
               "version",
+              "social",
               "location",
               "amount",
               "min",
               "max",
             ],
-            "Quantity": 6,
+            "Quantity": 7,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -597,9 +602,10 @@ Object {
             "Items": Array [
               "draft",
               "version",
+              "social",
               "location",
             ],
-            "Quantity": 3,
+            "Quantity": 4,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -658,13 +664,14 @@ Object {
             "Items": Array [
               "draft",
               "version",
+              "social",
               "page",
               "tag",
               "author",
               "category",
               "region",
             ],
-            "Quantity": 7,
+            "Quantity": 8,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -771,8 +778,9 @@ Object {
             "Items": Array [
               "draft",
               "version",
+              "social",
             ],
-            "Quantity": 2,
+            "Quantity": 3,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -822,8 +830,9 @@ Object {
             "Items": Array [
               "draft",
               "version",
+              "social",
             ],
-            "Quantity": 2,
+            "Quantity": 3,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -890,8 +899,9 @@ Object {
         "Items": Array [
           "draft",
           "version",
+          "social",
         ],
-        "Quantity": 2,
+        "Quantity": 3,
       },
     },
     "LambdaFunctionAssociations": Object {
@@ -1022,9 +1032,10 @@ Object {
       "Items": Array [
         "draft",
         "version",
+        "social",
         "q",
       ],
-      "Quantity": 3,
+      "Quantity": 4,
     },
   },
   "LambdaFunctionAssociations": Object {
