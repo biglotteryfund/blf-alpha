@@ -352,7 +352,7 @@ toplevel:
           - "Helping organisations to work together with others to improve communities and solve problems"
         outro: >
           <h2>Reduce your environmental footprint</h2>
-          <p>The National Lottery Community Fund cares about our environment and are always striving to manage our environmental impact. We encourage and support projects and communities to do the same. <a href="/funding/funding-guidance/reducing-your-environmental-footprint">Learn more about how you can make your project or event more sustainable and save money</a>.</p>
+          <p>The National Lottery Community Fund cares about our environment and are always striving to manage our environmental impact. We encourage and support projects and communities to do the same. <a href="/funding/funding-guidance/reducing-your-environmental-footprint">Learn more about how you can make your project or event more environmentally sustainable and perhaps save money at the same time</a>.</p>
   funding:
     title: Funding
     latestProgrammes: Latest Programmes
@@ -1254,4 +1254,3 @@ apply:
       title: 'Thank you for getting in touch'
       emailConfirmation: We have emailed your a copy of your submission
       whatToExpect: If your request is successful, your local funding officer will arrange a phone call or visit and give you a full application form to fill out and return to us.
-  
