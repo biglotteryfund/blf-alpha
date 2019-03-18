@@ -1,8 +1,8 @@
 // @ts-nocheck
 // https://on.cypress.io/custom-commands
 
-const uuid = require('uuid/v4');
 import '@percy/cypress';
+import 'cypress-testing-library/add-commands';
 
 Cypress.Commands.add('checkMetaTitles', expected => {
     cy.title().should('equal', expected);
@@ -59,6 +59,12 @@ Cypress.Commands.add('loginUser', ({ username, password }) => {
     });
 });
 
+Cypress.Commands.add('seedUserAndLogin', () => {
+    return cy.seedUser().then(newUser => {
+        return cy.loginUser({ username: newUser.username, password: newUser.password });
+    });
+});
+
 Cypress.Commands.add('registerUser', ({ username, password, returnToken }) => {
     return cy.getCsrf().then(csrfToken => {
         const formBody = {
@@ -80,29 +86,6 @@ Cypress.Commands.add('registerUser', ({ username, password, returnToken }) => {
             body: formBody
         });
     });
-});
-
-Cypress.Commands.add('newUser', () => {
-    const password = uuid();
-    const username = `${Date.now()}@example.com`;
-    return cy
-        .registerUser({
-            username: username,
-            password: password,
-            returnToken: true
-        })
-        .then(res => {
-            return cy.loginUser({ username, password }).then(() => {
-                return cy
-                    .request({
-                        method: 'GET',
-                        url: `/user/activate?token=${res.body.token}`
-                    })
-                    .then(() => {
-                        return { username, password };
-                    });
-            });
-        });
 });
 
 // @see https://github.com/avanslaars/cypress-axe
