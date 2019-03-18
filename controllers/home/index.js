@@ -17,7 +17,7 @@ router.get('/', async (req, res, next) => {
             heroImage: {
                 small: '/assets/images/home/superhero-small.jpg',
                 medium: '/assets/images/home/superhero-medium.jpg',
-                large: '/assets/images/home/superhero-large.jpg',
+                large: '/assets/images/home/superhero-large-v2.jpg',
                 default: '/assets/images/home/superhero-medium.jpg',
                 caption: 'Superstars Club'
             }
