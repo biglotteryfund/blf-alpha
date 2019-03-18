@@ -37,6 +37,7 @@ function setCommonLocals({ res, entry }) {
     res.locals.title = entry.title;
 
     res.locals.isBilingual = entry.availableLanguages.length === 2;
+    res.locals.openGraph = entry.openGraph || null;
 
     res.locals.previewStatus = {
         isDraftOrVersion: entry.status === 'draft' || entry.status === 'version',
@@ -123,10 +124,15 @@ function injectBreadcrumbs(req, res, next) {
 
 async function injectListingContent(req, res, next) {
     try {
+        let query = {};
+        if (req.query.social) {
+            query.social = req.query.social;
+        }
         const content = await contentApi.getListingPage({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
-            previewMode: res.locals.PREVIEW_MODE || false
+            previewMode: res.locals.PREVIEW_MODE || false,
+            query: query
         });
 
         if (content) {
@@ -142,10 +148,15 @@ async function injectListingContent(req, res, next) {
 
 async function injectFlexibleContent(req, res, next) {
     try {
+        let query = {};
+        if (req.query.social) {
+            query.social = req.query.social;
+        }
         const content = await contentApi.getFlexibleContent({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
-            previewMode: res.locals.PREVIEW_MODE || false
+            previewMode: res.locals.PREVIEW_MODE || false,
+            query: query
         });
 
         if (content) {
@@ -165,10 +176,16 @@ async function injectFlexibleContent(req, res, next) {
  */
 async function injectFundingProgramme(req, res, next) {
     try {
+        let query = {};
+        if (req.query.social) {
+            query.social = req.query.social;
+        }
+
         const entry = await contentApi.getFundingProgramme({
             slug: req.params.slug,
             locale: req.i18n.getLocale(),
-            previewMode: res.locals.PREVIEW_MODE || false
+            previewMode: res.locals.PREVIEW_MODE || false,
+            query: query
         });
 
         res.locals.fundingProgramme = entry;
@@ -187,11 +204,16 @@ async function injectStrategicProgramme(req, res, next) {
     try {
         // Assumes a parameter of :slug in the request
         const { slug } = req.params;
+        let query = {};
+        if (req.query.social) {
+            query.social = req.query.social;
+        }
         if (slug) {
             const entry = await contentApi.getStrategicProgrammes({
                 slug: slug,
                 locale: req.i18n.getLocale(),
-                previewMode: res.locals.PREVIEW_MODE || false
+                previewMode: res.locals.PREVIEW_MODE || false,
+                query: query
             });
 
             res.locals.strategicProgramme = entry;
@@ -243,10 +265,16 @@ async function injectResearchEntry(req, res, next) {
         // Assumes a parameter of :slug in the request
         const { slug } = req.params;
         if (slug) {
+            let query = {};
+            if (req.query.social) {
+                query.social = req.query.social;
+            }
+
             const entry = await contentApi.getResearch({
                 slug: slug,
                 locale: req.i18n.getLocale(),
-                previewMode: res.locals.PREVIEW_MODE || false
+                previewMode: res.locals.PREVIEW_MODE || false,
+                query: query
             });
 
             res.locals.researchEntry = entry;

@@ -10,10 +10,17 @@ router.get('/', async (req, res, next) => {
     const locale = req.i18n.getLocale();
 
     try {
+        let query = {};
+        if (req.query.social) {
+            query.social = req.query.social;
+        }
         const dataStats = await contentApi.getDataStats({
             locale: locale,
-            previewMode: res.locals.PREVIEW_MODE || false
+            previewMode: res.locals.PREVIEW_MODE || false,
+            query: query
         });
+
+        res.locals.openGraph = dataStats.openGraph;
 
         res.render(path.resolve(__dirname, './views/data'), { title: dataStats.title, dataStats });
     } catch (error) {

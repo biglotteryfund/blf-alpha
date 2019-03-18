@@ -53,7 +53,7 @@ router.get(
                 type: 'press-releases',
                 date: req.params.date,
                 slug: req.params.slug,
-                query: pick(req.query, ['page', 'region']),
+                query: pick(req.query, ['page', 'region', 'social']),
                 previewMode: res.locals.PREVIEW_MODE || false
             });
 
@@ -82,6 +82,8 @@ router.get(
                     res.redirect(entry.articleLink);
                 } else if (entry.content.length > 0) {
                     res.locals.isBilingual = entry.availableLanguages.length === 2;
+                    res.locals.openGraph = entry.openGraph;
+
                     return res.render(path.resolve(__dirname, './views/post/press-release'), {
                         title: entry.title,
                         description: entry.summary,
@@ -124,7 +126,7 @@ router.get(
                 type: 'blog',
                 date: req.params.date,
                 slug: req.params.slug,
-                query: pick(req.query, ['page', 'tag', 'author', 'category', 'region']),
+                query: pick(req.query, ['page', 'tag', 'author', 'category', 'region', 'social']),
                 previewMode: res.locals.PREVIEW_MODE || false
             });
 
@@ -171,6 +173,8 @@ router.get(
                     res.redirect(entry.linkUrl);
                 } else if (entry.content.length > 0) {
                     res.locals.isBilingual = entry.availableLanguages.length === 2;
+                    res.locals.openGraph = entry.openGraph;
+
                     return res.render(path.resolve(__dirname, './views/post/blogpost'), {
                         title: entry.title,
                         description: entry.summary,

@@ -269,10 +269,15 @@ router.get('/:id', injectCopy('funding.pastGrants.search'), async (req, res, nex
 
         let projectStory;
         try {
+            let query = {};
+            if (req.query.social) {
+                query.social = req.query.social;
+            }
             projectStory = await contentApi.getProjectStory({
                 locale: req.i18n.getLocale(),
                 grantId: req.params.id,
-                previewMode: res.locals.PREVIEW_MODE || false
+                previewMode: res.locals.PREVIEW_MODE || false,
+                query: query
             });
             setHeroLocals({ res, entry: projectStory });
         } catch (e) {} // eslint-disable-line no-empty
@@ -280,6 +285,7 @@ router.get('/:id', injectCopy('funding.pastGrants.search'), async (req, res, nex
         if (data && data.result) {
             let fundingProgramme;
             const grant = data.result;
+            res.locals.openGraph = projectStory.openGraph;
             const grantProgramme = get(grant, 'grantProgramme[0]', false);
             if (grantProgramme && grantProgramme.url && grantProgramme.url.indexOf('/') === -1) {
                 try {
