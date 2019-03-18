@@ -1,62 +1,12 @@
 'use strict';
-const moment = require('moment');
-const { get, getOr } = require('lodash/fp');
-const { cloneDeep, find, findIndex, findLastIndex, flatMap, flatMapDeep, includes, isEmpty, pick } = require('lodash');
+const { get } = require('lodash/fp');
+const { cloneDeep, find, findIndex, findLastIndex } = require('lodash');
 
-const FORM_STATES = {
-    empty: 'empty',
-    invalid: 'invalid',
-    incomplete: 'incomplete',
-    complete: 'complete'
-};
-
-/**
- * Format field values for display in views
- * If the field has a custom displayFormat use that
- * Or, try common display formats based on type
- * Otherwise, call toString on the result
- *
- * @param {any} value
- * @param {object} field
- */
-function prepareDisplayValue(value, field) {
-    if (field.displayFormat) {
-        return field.displayFormat.call(field, value);
-    } else if (field.type === 'radio') {
-        const optionMatch = find(field.options, option => option.value === value);
-        return optionMatch ? optionMatch.label : value.toString();
-    } else if (field.type === 'date') {
-        const dt = moment({
-            year: value.year,
-            month: value.month - 1,
-            day: value.day
-        });
-        if (dt.isValid()) {
-            return dt.format('D MMMM, YYYY');
-        } else {
-            return '';
-        }
-    } else if (field.type === 'day-month') {
-        const dt = moment({
-            year: moment().year(),
-            month: value.month - 1,
-            day: value.day
-        });
-        if (dt.isValid()) {
-            return dt.format('Do MMMM');
-        } else {
-            return '';
-        }
-    } else if (field.type === 'currency') {
-        return `£${value.toLocaleString()}`;
-    } else {
-        return value.toString();
-    }
-}
+const displayFormat = require('./lib/display-format');
 
 function filterOptionsBy(data = {}) {
     return function(option) {
-        return option.showWhen ? option.showWhen(data) : true;
+        return option.showWhen ? option.showWhen(data || {}) : true;
     };
 }
 
@@ -101,7 +51,7 @@ function enhanceForm({ locale, baseForm, data = {} }) {
         const fieldValue = find(data, (value, name) => name === field.name);
         if (fieldValue) {
             field.value = fieldValue;
-            field.displayValue = prepareDisplayValue(fieldValue, field);
+            field.displayValue = displayFormat(field, fieldValue);
         }
 
         return field;
@@ -138,67 +88,6 @@ function enhanceForm({ locale, baseForm, data = {} }) {
     }
 
     return clonedForm;
-}
-
-function mapFields(fields) {
-    return {
-        fields: fields,
-        names: fields.map(field => field.name),
-        messages: fields.reduce((obj, field) => {
-            obj[field.name] = field.messages;
-            return obj;
-        }, {})
-    };
-}
-
-function fieldsForStep(step) {
-    const fields = flatMap(step.fieldsets, 'fields');
-    return mapFields(fields);
-}
-
-/**
- * Determine status from data and validation errors
- * @param {Object} data
- * @param {Array} errors
- */
-function determineStatus(data, errors = []) {
-    if (isEmpty(data)) {
-        return FORM_STATES.empty;
-    } else if (errors.length > 0) {
-        return FORM_STATES.incomplete;
-    } else {
-        return FORM_STATES.complete;
-    }
-}
-
-/**
- * Calculate form progress
- * Validates the form and returns a status
- * for each section and the form as a whole.
- *
- * @param {Object} form
- * @param {Object} data
- */
-function calculateFormProgress(form, data) {
-    const validationResult = form.schema.validate(data, { abortEarly: false, stripUnknown: true });
-
-    const errors = getOr([], 'error.details', validationResult);
-
-    return {
-        all: determineStatus(validationResult.value, errors),
-        sections: form.sections.reduce((obj, section) => {
-            const fieldNames = flatMapDeep(section.steps, step => {
-                return step.fieldsets.map(fieldset => fieldset.fields.map(field => field.name));
-            });
-
-            const dataForSection = pick(validationResult.value, fieldNames);
-            const errorsForSection = errors.filter(detail => includes(fieldNames, detail.path[0]));
-
-            obj[section.slug] = determineStatus(dataForSection, errorsForSection);
-
-            return obj;
-        }, {})
-    };
 }
 
 /**
@@ -267,13 +156,9 @@ function nextAndPrevious(options) {
 }
 
 module.exports = {
-    FORM_STATES,
-    calculateFormProgress,
     enhanceForm,
-    fieldsForStep,
     filterOptionsBy,
     findNextMatchingUrl,
     findPreviousMatchingUrl,
-    mapFields,
     nextAndPrevious
 };

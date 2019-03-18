@@ -1,5 +1,5 @@
 'use strict';
-const { forEach, get, has, isArray, reduce, sumBy, values } = require('lodash');
+const { forEach, get, has, reduce, values } = require('lodash');
 const moment = require('moment');
 
 const { Joi, ...commonValidators } = require('../validators');
@@ -273,17 +273,6 @@ const allFields = {
                 en: `Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`,
                 cy: `(WELSH) Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`
             }
-        },
-        displayFormat(value) {
-            if (!isArray(value)) {
-                return value;
-            } else {
-                const total = sumBy(value, item => parseInt(item.cost || 0));
-                return [
-                    value.map(line => `${line.item} – £${line.cost.toLocaleString()}`).join('\n'),
-                    `Total: £${total}`
-                ].join('\n');
-            }
         }
     },
     projectTotalCosts: {
@@ -335,43 +324,17 @@ const allFields = {
             .allow('')
             .optional()
     },
-    organisationAddressBuildingStreet: {
-        name: `main-contact-address-building-street`,
-        label: { en: 'Building and street', cy: '' },
-        type: 'text',
-        attributes: { size: 50 },
-        isRequired: true,
-        schema: Joi.string().required(),
+    organisationAddress: {
+        name: 'organisation-address',
+        label: { en: 'What is the main or registered address of your organisation?', cy: '' },
+        type: 'address',
+        isRequired: false,
+        schema: commonValidators.ukAddress().required(),
         messages: {
-            base: { en: 'Enter a building and street', cy: '' }
+            base: { en: 'Enter a full UK address', cy: '' },
+            'string.regex.base': { en: 'Enter a valid postcode', cy: '' }
         }
     },
-    organisationAddressTownCity: {
-        name: `organisation-address-town-city`,
-        label: { en: 'Town or city', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a town or city', cy: '' }
-        }
-    },
-    organisationAddressCounty: {
-        name: `organisation-address-county`,
-        label: { en: 'County', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a county', cy: '' }
-        }
-    },
-    organisationAddressPostcode: postcodeField({
-        name: `organisation-address-postcode`,
-        label: { en: 'Postcode', cy: '' }
-    }),
     organisationType: {
         name: 'organisation-type',
         label: { en: 'What type of organisation are you?', cy: '(WELSH) What type of organisation are you?' },
@@ -447,9 +410,6 @@ const allFields = {
         schema: Joi.number().required(),
         messages: {
             base: { en: 'Enter a number for total income for the year', cy: '' }
-        },
-        displayFormat(value) {
-            return `£${value}`;
         }
     },
     mainContactName: {
@@ -767,18 +727,19 @@ forEach(allFields, field => {
         explanation: localeString.optional(),
         type: Joi.string()
             .valid([
-                'text',
-                'textarea',
-                'number',
-                'radio',
+                'address',
+                'budget',
                 'checkbox',
-                'file',
-                'email',
-                'tel',
+                'currency',
                 'date',
                 'day-month',
-                'currency',
-                'budget'
+                'email',
+                'file',
+                'number',
+                'radio',
+                'tel',
+                'text',
+                'textarea'
             ])
             .required(),
         attributes: Joi.object().optional(),
@@ -791,10 +752,7 @@ forEach(allFields, field => {
             then: Joi.object({ base: localeString.required() })
                 .pattern(Joi.string(), localeString.required())
                 .required()
-        }),
-        displayFormat: Joi.func()
-            .arity(1)
-            .optional()
+        })
     });
 
     const validationResult = Joi.validate(field, fieldSchema, {

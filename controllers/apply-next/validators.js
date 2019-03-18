@@ -172,6 +172,17 @@ module.exports = {
             .trim()
             .regex(POSTCODE_REGEX);
     },
+    ukAddress() {
+        return Joi.object({
+            'building-street': Joi.string().required(),
+            'town-city': Joi.string().required(),
+            county: Joi.string().required(),
+            postcode: Joi.string()
+                .trim()
+                .regex(POSTCODE_REGEX)
+                .required()
+        });
+    },
     futureDate({ amount = null, unit = null } = {}) {
         const minDate = amount && unit ? moment().add(amount, unit) : moment();
         return Joi.dateParts().futureDate(minDate.format('YYYY-MM-DD'));
