@@ -150,7 +150,7 @@ const loremLong = `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pra
 
 Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.`;
 
-describe('awards for all', function() {
+describe.skip('awards for all', function() {
     it('happy path application', () => {
         const eligibilityStep = () => {
             cy.getByLabelText('Yes').click();
