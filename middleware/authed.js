@@ -21,7 +21,10 @@ function requireUserAuth(req, res, next) {
     if (req.isAuthenticated() && get(req, 'user.userType', false) === 'user') {
         return next();
     } else {
-        res.redirect(`/user/login?redirectUrl=${req.originalUrl}`);
+        req.session.redirectUrl = req.originalUrl;
+        req.session.save(() => {
+            res.redirect('/user/login');
+        });
     }
 }
 
@@ -37,8 +40,25 @@ function requireStaffAuth(req, res, next) {
     }
 }
 
+function redirectUrlWithFallback(fallbackUrl, req, res) {
+    let redirectUrl = fallbackUrl;
+    if (req.query.redirectUrl) {
+        redirectUrl = req.query.redirectUrl;
+    } else if (req.body.redirectUrl) {
+        redirectUrl = req.body.redirectUrl;
+    } else if (req.session.redirectUrl) {
+        redirectUrl = req.session.redirectUrl;
+        delete req.session.redirectUrl;
+    }
+
+    req.session.save(() => {
+        res.redirect(redirectUrl);
+    });
+}
+
 module.exports = {
     requireUnauthed,
     requireUserAuth,
-    requireStaffAuth
+    requireStaffAuth,
+    redirectUrlWithFallback
 };
