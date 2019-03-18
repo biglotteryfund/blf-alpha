@@ -4,14 +4,14 @@ const passport = require('passport');
 const path = require('path');
 const Raven = require('raven');
 
-const { csrfProtection } = require('../../middleware/cached');
-const { requireUnauthed } = require('../../middleware/authed');
 const userService = require('../../services/user');
+const { csrfProtection } = require('../../middleware/cached');
+const { requireUnauthed, redirectUrlWithFallback } = require('../../middleware/authed');
+const { localify } = require('../../modules/urls');
+const { normaliseErrors } = require('../../modules/errors');
 
 const { sendActivationEmail } = require('./helpers');
-
 const { accountSchema, errorMessages } = require('./schema');
-const { normaliseErrors } = require('../../modules/errors');
 
 const router = express.Router();
 
@@ -73,7 +73,8 @@ router
                                     if (loginErr) {
                                         next(loginErr);
                                     } else {
-                                        res.redirect('/user?s=activationSent');
+                                        const fallbackUrl = localify(req.i18n.getLocale())('/user?s=activationSent');
+                                        redirectUrlWithFallback(fallbackUrl, req, res);
                                     }
                                 });
                             }
