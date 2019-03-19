@@ -80,10 +80,6 @@ function timeago(date) {
     return moment(date).fromNow();
 }
 
-function addTime(date, amount, unit) {
-    return moment(date).add(amount, unit);
-}
-
 module.exports = {
     appendUuid,
     filter,
@@ -96,6 +92,5 @@ module.exports = {
     slugify,
     take,
     widont,
-    timeago,
-    addTime
+    timeago
 };

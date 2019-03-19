@@ -106,8 +106,7 @@
                                 <aside class="application-summary__links u-margin-top-l">
                                     <h6 class="application-dashboard__minor-title">Guidance for this programme:</h6>
                                     <p>
-                                        <a href="{{ form.documentation.guidance }}">{{ formTitle }} guidance</a><br />
-                                        <a href="{{ form.documentation.terms }}">Terms and Conditions for {{ formTitle }}</a>
+                                        <a href="{{ form.programmePage }}">{{ formTitle }} guidance</a><br />
                                     </p>
                                 </aside>
                             </div>
@@ -116,15 +115,13 @@
                             <div class="application-dashboard__progress">
 
                                 <div class="application-dashboard__progress__inner">
-                                    {% set expiryDate = application.createdAt | addTime(3, 'months') %}
-
                                     <h6 class="application-dashboard__minor-title">Application status:</h6>
                                     <h3 class="t3">{{ getFriendlyStatus(application.status) }}</h3>
                                     {% if application.status === 'complete' %}
                                         <p>We aim to let you know our decision in about 14 weeks. If you have any questions, <a href="#">contact a member of our advice team</a>.</p>
                                     {% else %}
                                         <p>
-                                            You started your application on {{ formatDate(application.createdAt.toISOString(), DATE_FORMATS.numeric) }}. <strong>It must be completed by {{ formatDate(expiryDate, DATE_FORMATS.numeric) }}</strong>
+                                            You started your application on {{ formatDate(application.createdAt.toISOString(), DATE_FORMATS.numeric) }}. <strong>It must be completed by {{ formatDate(application.expiryDate, DATE_FORMATS.numeric) }}</strong>
                                         </p>
                                         <p><a href="#">Need help with your application?</a></p>
                                     {% endif %}

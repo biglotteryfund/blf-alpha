@@ -26,7 +26,7 @@ $statusColumnWidth: 160px;
             font-size: 13px;
             font-weight: bold;
 
-            .application-summary__status__label {
+            .application-status-label {
                 min-width: 100px;
                 font-size: 12px;
             }
@@ -35,34 +35,36 @@ $statusColumnWidth: 160px;
         &.application-summary__status--complete {
             $colour: map-get($statuses, 'complete');
             border-left-color: $colour;
-            .application-summary__status__label {
-                background-color: $colour;
-            }
         }
 
         &.application-summary__status--incomplete {
             $colour: map-get($statuses, 'incomplete');
             border-left-color: $colour;
-            .application-summary__status__label {
-                background-color: $colour;
-            }
         }
 
         &.application-summary__status--empty {
             $colour: map-get($statuses, 'empty');
             border-left-color: $colour;
-            .application-summary__status__label {
-                background-color: $colour;
-            }
         }
 
-
-        .application-summary__status__label {
+        .application-status-label {
             margin-left: $spacingUnit;
             color: #ffffff;
             font-size: 14px;
             text-align: center;
             min-width: $statusColumnWidth;
+
+            &.application-status-label--complete {
+                background-color: map-get($statuses, 'complete');
+            }
+
+            &.application-status-label--incomplete {
+                background-color: map-get($statuses, 'incomplete');
+            }
+
+            &.application-status-label--empty {
+                background-color: map-get($statuses, 'empty');
+            }
 
             svg {
                 margin-right: 5px;

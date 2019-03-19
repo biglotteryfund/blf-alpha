@@ -71,7 +71,7 @@
 
 {% macro showSectionProgress(sectionProgress) %}
     {% if sectionProgress %}
-        <div class="application-summary__status__label u-padded-vertical-s">
+        <div class="application-status-label application-status-label--{{ sectionProgress }} u-padded-vertical-s">
             {% if sectionProgress === FORM_STATES.complete %}
                 {{ iconTick() }} Complete
             {% elseif sectionProgress === FORM_STATES.incomplete %}
