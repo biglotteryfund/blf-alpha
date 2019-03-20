@@ -371,10 +371,6 @@ toplevel:
       href: "/funding/grants"
     - label: Help with managing your grant
       href: "/funding/funding-guidance/managing-your-funding"
-    recentProgrammes:
-    - "rural-programme"
-    - "digital-fund"
-    - "reaching-communities-england"
   local:
     title: In your area
   data:

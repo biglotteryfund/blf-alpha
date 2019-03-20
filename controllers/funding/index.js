@@ -18,17 +18,12 @@ router.get('/', sMaxAge('30m'), injectHeroImage('funding-letterbox-new'), async 
      * Hardcoded for now but we may want to fetch these dynamically.
      */
     try {
-        const programmeSlugs = get(res.locals.copy, 'recentProgrammes', []);
-
         const fundingProgrammes = await contentApi.getFundingProgrammes({
-            locale: req.i18n.getLocale()
+            locale: req.i18n.getLocale(),
+            pageLimit: 3,
+            newestFirst: true
         });
-
-        if (fundingProgrammes.result) {
-            latestProgrammes = programmeSlugs.map(slug =>
-                find(fundingProgrammes.result, programme => programme.linkUrl.indexOf(slug) !== -1)
-            );
-        }
+        latestProgrammes = fundingProgrammes.result ? fundingProgrammes.result : null;
     } catch (error) {} // eslint-disable-line no-empty
 
     res.render(path.resolve(__dirname, './views/funding-landing'), { latestProgrammes });

@@ -128,9 +128,9 @@ function getUpdates({ locale, type = null, date = null, slug = null, query = {},
     }
 }
 
-function getFundingProgrammes({ locale, page = 1, pageLimit = 100, showAll = false }) {
+function getFundingProgrammes({ locale, page = 1, pageLimit = 100, showAll = false, newestFirst = false }) {
     return fetchAllLocales(reqLocale => `/v2/${reqLocale}/funding-programmes`, {
-        qs: { page: page, 'page-limit': pageLimit, all: showAll === true }
+        qs: { page: page, 'page-limit': pageLimit, all: showAll === true, newest: newestFirst === true }
     }).then(responses => {
         const [enResults, cyResults] = responses.map(mapAttrs);
         return {
