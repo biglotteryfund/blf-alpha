@@ -15,10 +15,10 @@ router.get('/', async (req, res, next) => {
             featuredLinks,
             promotedUpdates,
             heroImage: {
-                small: '/assets/images/home/superhero-small.jpg',
-                medium: '/assets/images/home/superhero-medium.jpg',
+                small: '/assets/images/home/superhero-small-v2.jpg',
+                medium: '/assets/images/home/superhero-medium-v2.jpg',
                 large: '/assets/images/home/superhero-large-v2.jpg',
-                default: '/assets/images/home/superhero-medium.jpg',
+                default: '/assets/images/home/superhero-medium-v2.jpg',
                 caption: 'Superstars Club'
             }
         });
