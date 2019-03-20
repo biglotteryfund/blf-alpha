@@ -9,7 +9,7 @@ const contentApi = require('../services/content-api');
  * - Call next() and passthrough on any failures
  */
 module.exports = async function vanityLookup(req, res, next) {
-    const findAlias = find(alias => alias.from === req.path);
+    const findAlias = find(alias => alias.from.toLowerCase() === req.path.toLowerCase());
     try {
         const enAliases = await contentApi.getAliases({ locale: 'en' });
         const enMatch = findAlias(enAliases);
