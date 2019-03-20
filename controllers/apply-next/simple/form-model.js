@@ -376,6 +376,7 @@ module.exports = {
             }
         ],
         schema: schema,
-        processor: processor
+        processor: processor,
+        programmePage: '/funding/programmes/national-lottery-awards-for-all-england'
     }
 };
