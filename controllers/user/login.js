@@ -6,7 +6,8 @@ const passport = require('passport');
 const router = express.Router();
 
 const { csrfProtection } = require('../../middleware/cached');
-const { requireUnauthed } = require('../../middleware/authed');
+const { requireUnauthed, redirectUrlWithFallback } = require('../../middleware/authed');
+const { localify } = require('../../modules/urls');
 
 function renderForm(req, res) {
     let alertMessage;
@@ -50,22 +51,8 @@ router
                     if (loginErr) {
                         next(loginErr);
                     } else {
-                        // User is valid, send them on
-                        let redirectUrl = '/user';
-                        if (req.query.redirectUrl) {
-                            redirectUrl = req.query.redirectUrl;
-                        } else if (req.body.redirectUrl) {
-                            redirectUrl = req.body.redirectUrl;
-                        } else if (req.session.redirectUrl) {
-                            redirectUrl = req.session.redirectUrl;
-                            delete req.session.redirectUrl;
-                        } else if (res.locals.newStatus) {
-                            redirectUrl += `?s=${res.locals.newStatus}`;
-                        }
-
-                        req.session.save(() => {
-                            res.redirect(redirectUrl);
-                        });
+                        const fallbackUrl = localify(req.i18n.getLocale())('/user');
+                        redirectUrlWithFallback(fallbackUrl, req, res);
                     }
                 });
             }

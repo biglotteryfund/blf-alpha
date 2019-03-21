@@ -1,5 +1,6 @@
 <script>
 import sumBy from 'lodash/sumBy';
+import concat from 'lodash/concat';
 import IconBin from './icon-bin.vue';
 
 export default {
@@ -8,11 +9,16 @@ export default {
         fieldName: { type: String, required: true },
         maxBudget: { type: Number, required: true },
         maxItems: { type: Number, required: true },
-        budgetData: { type: Array, required: false }
+        budgetData: {
+            type: Array,
+            default() {
+                return [];
+            }
+        }
     },
     data() {
         return {
-            budgetRows: this.budgetData || [{ item: '', cost: '' }],
+            budgetRows: concat(this.budgetData, [{ item: '', cost: '' }]),
             error: {}
         };
     },
@@ -100,7 +106,7 @@ export default {
                         v-if="canDelete(index)"
                     >
                         <span class="btn__icon btn__icon-left">
-                            <IconBin id="delete-icon" description="Delete this row" />
+                            <IconBin :id="'delete-icon-' + index" description="Delete this row" />
                         </span>
                         Delete row
                     </button>

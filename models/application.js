@@ -1,4 +1,6 @@
 'use strict';
+const { sumBy } = require('lodash');
+const moment = require('moment');
 
 module.exports = function(sequelize, DataTypes) {
     return sequelize.define(
@@ -36,7 +38,21 @@ module.exports = function(sequelize, DataTypes) {
             }
         },
         {
-            freezeTableName: true
+            freezeTableName: true,
+            getterMethods: {
+                grantAmount() {
+                    if (this.application_data && this.application_data['project-budget']) {
+                        return sumBy(this.application_data['project-budget'], item => parseInt(item.cost || 0));
+                    }
+                    return false;
+                },
+                expiryDate() {
+                    // @TODO should this be configurable somewhere?
+                    return moment(this.createdAt)
+                        .add(3, 'months')
+                        .toDate();
+                }
+            }
         }
     );
 };

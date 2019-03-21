@@ -150,6 +150,75 @@ const loremLong = `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Pra
 
 Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.`;
 
+describe.skip('awards for all', function() {
+    it('happy path application', () => {
+        const eligibilityStep = () => {
+            cy.getByLabelText('Yes').click();
+            cy.getByText('Continue').click();
+        };
+
+        cy.seedUserAndLogin().then(() => {
+            cy.visit('/apply-next/simple');
+            cy.getByText('New application').click();
+            cy.checkA11y();
+            cy.getByLabelText('What is the name of your project?', { exact: false }).type('My application');
+            cy.getByLabelText('England').click();
+            cy.getByText('Start application').click();
+
+            // Eligibility Checker
+            eligibilityStep();
+            eligibilityStep();
+            eligibilityStep();
+            eligibilityStep();
+            eligibilityStep();
+            cy.getByText('Continue your application').click();
+
+            cy.getByLabelText('Day').type('12');
+            cy.getByLabelText('Month').type('12');
+            cy.getByLabelText('Year').type('2020');
+            cy.getByLabelText('What is the postcode', { exact: false }).type('B15 1TR');
+            cy.checkA11y();
+            cy.getByText('Continue').click();
+
+            cy.getByLabelText('What would you like to do?', { exact: false })
+                .invoke('val', loremLong)
+                .trigger('change');
+
+            cy.checkA11y();
+            cy.getByText('Continue').click();
+
+            cy.getByTestId('budget-row').within(() => {
+                cy.getByLabelText('Item or activity').type('Example budget item');
+                cy.getByLabelText('Amount').type('1200');
+            });
+            cy.getAllByTestId('budget-row')
+                .last()
+                .within(() => {
+                    cy.getByLabelText('Item or activity').type('Example budget item 2');
+                    cy.getByLabelText('Amount').type('1200');
+                });
+            cy.getAllByTestId('budget-row')
+                .last()
+                .within(() => {
+                    cy.getByLabelText('Item or activity').type('Example budget item 3');
+                    cy.getByLabelText('Amount').type('500');
+                });
+            cy.getAllByTestId('budget-row').should('have.length', 4);
+            cy.getAllByTestId('budget-total').should('contain', '£2,900');
+            cy.checkA11y();
+            cy.getAllByText('Delete row', { exact: false })
+                .last()
+                .click();
+            cy.getAllByTestId('budget-total').should('contain', '£2,400');
+            cy.getAllByTestId('budget-row').should('have.length', 3);
+
+            cy.getByLabelText('Tell us the total cost of your project', { exact: false }).type('5000');
+
+            cy.getByText('Continue').click();
+        });
+    });
+});
+
 describe('e2e', function() {
     it('should perform common interactions', () => {
         cy.visit('/');
@@ -197,47 +266,6 @@ describe('e2e', function() {
         // Submit micro survey (welsh)
         cy.get('.survey button:first-child').click();
         cy.get('.survey').should('contain', 'Diolch am');
-    });
-
-    it.skip('should apply to awards for all', () => {
-        cy.newUser().then(() => {
-            cy.visit('/apply-next/simple');
-
-            cy.checkA11y();
-            cy.get('#field-application-title').type('My application');
-            cy.get('.start-button [type="submit"]').click();
-
-            cy.checkA11y();
-            cy.get('input[name="project-start-date[day]"]').type('31');
-            cy.get('input[name="project-start-date[month]"]').type('1');
-            cy.get('input[name="project-start-date[year]"]')
-                .type('2000')
-                .should($el => {
-                    const el = $el.get(0);
-                    expect(el.checkValidity()).to.equal(false);
-                    expect(el.validationMessage).to.contain('Value must be greater than or equal to');
-                })
-                .clear()
-                .type('2021');
-
-            cy.get('#field-project-postcode').type('EC4A 1DE');
-
-            cy.checkA11y();
-
-            cy.get('input[name="project-start-date[day]"]')
-                .clear()
-                .type('1');
-
-            cy.get('input[name="project-start-date[month]"]')
-                .clear()
-                .type('1');
-
-            cy.get('input[name="project-start-date[year]"]')
-                .clear()
-                .type('2021');
-
-            cy.get('input[type="submit"]').click();
-        });
     });
 
     it('should navigate through a funding application from the homepage', () => {

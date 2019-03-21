@@ -20,40 +20,54 @@ $statusColumnWidth: 160px;
         border-left: 3px solid get-color('background', 'light-neutral');
         padding-left: $spacingUnit / 2;
 
+        &.application-summary__status--mini {
+            align-items: center;
+            margin-bottom: 3px;
+            font-size: 13px;
+            font-weight: bold;
+
+            .application-status-label {
+                min-width: 100px;
+                font-size: 12px;
+            }
+        }
+
         &.application-summary__status--complete {
             $colour: map-get($statuses, 'complete');
             border-left-color: $colour;
-            .application-summary__status__label {
-                background-color: $colour;
-            }
         }
 
         &.application-summary__status--incomplete {
             $colour: map-get($statuses, 'incomplete');
             border-left-color: $colour;
-            .application-summary__status__label {
-                background-color: $colour;
-            }
         }
 
         &.application-summary__status--empty {
             $colour: map-get($statuses, 'empty');
             border-left-color: $colour;
-            .application-summary__status__label {
-                background-color: $colour;
-            }
         }
 
-
-        .application-summary__status__label {
+        .application-status-label {
             margin-left: $spacingUnit;
             color: #ffffff;
             font-size: 14px;
             text-align: center;
-            width: $statusColumnWidth;
+            min-width: $statusColumnWidth;
+
+            &.application-status-label--complete {
+                background-color: map-get($statuses, 'complete');
+            }
+
+            &.application-status-label--incomplete {
+                background-color: map-get($statuses, 'incomplete');
+            }
+
+            &.application-status-label--empty {
+                background-color: map-get($statuses, 'empty');
+            }
 
             svg {
-                margin-left: 5px;
+                margin-right: 5px;
                 vertical-align: middle;
             }
         }
@@ -125,4 +139,53 @@ $statusColumnWidth: 160px;
         font-weight: bold;
     }
 
+}
+
+.application-dashboard {
+
+    .application-dashboard__minor-title {
+        margin-bottom: 3px;
+        font-size: 13px;
+    }
+
+    .application-dashboard__item {
+        display: flex;
+        justify-content: space-between;
+        background-color: get-color('background', 'light-neutral');
+        margin-bottom: $spacingUnit;
+
+        p, ul {
+            font-size: 15px;
+        }
+
+        .application-dashboard__summary {
+            padding: $spacingUnit;
+            margin-right: $spacingUnit;
+            flex-shrink: 0;
+            flex-basis: 60%;
+
+            .application-summary__links p {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        }
+
+        .application-dashboard__progress {
+            padding: $spacingUnit;
+            background-color: #eeeeee;
+
+            .application-dashboard__progress__inner {
+                background-color: get-color('background', 'light-neutral');
+                padding: $spacingUnit;
+                margin-bottom: 5px;
+            }
+        }
+    }
+
+}
+
+.application-data-missing {
+    &:before {content: '<';}
+    &:after {content: '>';}
+    color: lighten(get-color('text', 'base'), 50%);
 }

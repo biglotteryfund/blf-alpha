@@ -47,6 +47,8 @@ function defaultSecurityHeaders() {
         '*.biglotteryfund.org.uk',
         '*.tnlcommunityfund.org.uk',
         '*.google.com',
+        '*.facebook.com',
+        '*.twitter.com',
         '*.gstatic.com',
         '*.twimg.com',
         '*.youtube.com',
