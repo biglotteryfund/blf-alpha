@@ -27,7 +27,8 @@ module.exports = function() {
                         return null;
                     }
 
-                    user.isValidPassword(user.password, password)
+                    userService
+                        .isValidPassword(user.password, password)
                         .then(isValid => {
                             if (isValid) {
                                 done(null, user);

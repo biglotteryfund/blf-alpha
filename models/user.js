@@ -1,8 +1,7 @@
 'use strict';
-const bcrypt = require('bcryptjs');
 
 module.exports = (sequelize, DataTypes) => {
-    const User = sequelize.define('user', {
+    return sequelize.define('user', {
         username: {
             type: DataTypes.STRING,
             allowNull: false
@@ -22,22 +21,4 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: false
         }
     });
-
-    User.hook('beforeCreate', function(user) {
-        const rounds = 12;
-        return bcrypt
-            .hash(user.password, rounds)
-            .then(hashedPassword => {
-                user.password = hashedPassword;
-            })
-            .catch(err => {
-                throw new Error(err);
-            });
-    });
-
-    User.prototype.isValidPassword = (storedHash, typedPass) => {
-        return bcrypt.compare(typedPass, storedHash);
-    };
-
-    return User;
 };

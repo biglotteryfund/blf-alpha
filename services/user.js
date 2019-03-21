@@ -1,7 +1,13 @@
 'use strict';
+const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize');
 const { Users } = require('../models');
 const { purifyUserInput } = require('../modules/validators');
+
+function encryptPassword(password) {
+    const rounds = 12;
+    return bcrypt.hash(password, rounds);
+}
 
 function findById(id) {
     return Users.findById(id);
@@ -22,6 +28,18 @@ function findWithActivePasswordReset({ id }) {
     });
 }
 
+async function createUser({ username, password }) {
+    try {
+        const encryptedPassword = await encryptPassword(purifyUserInput(password));
+        return Users.create({
+            username: purifyUserInput(username),
+            password: encryptedPassword
+        });
+    } catch (error) {
+        throw error;
+    }
+}
+
 function updateIsInPasswordReset({ id }) {
     return Users.update(
         { is_password_reset: true },
@@ -31,13 +49,16 @@ function updateIsInPasswordReset({ id }) {
     );
 }
 
-function updateNewPassword({ newPassword, id }) {
-    return Users.update(
-        { password: newPassword, is_password_reset: false },
-        {
-            where: { id: { [Op.eq]: id } }
-        }
-    );
+async function updateNewPassword({ newPassword, id }) {
+    try {
+        const newEncryptedPassword = await encryptPassword(purifyUserInput(newPassword));
+        return Users.update(
+            { password: newEncryptedPassword, is_password_reset: false },
+            { where: { id: { [Op.eq]: id } } }
+        );
+    } catch (error) {
+        throw error;
+    }
 }
 
 function updateActivateUser({ id }) {
@@ -49,19 +70,17 @@ function updateActivateUser({ id }) {
     );
 }
 
-function createUser({ username, password }) {
-    return Users.create({
-        username: purifyUserInput(username),
-        password: purifyUserInput(password)
-    });
+function isValidPassword(storedHash, typedPass) {
+    return bcrypt.compare(typedPass, storedHash);
 }
 
 module.exports = {
+    createUser,
     findById,
     findByUsername,
     findWithActivePasswordReset,
-    updateIsInPasswordReset,
-    updateNewPassword,
+    isValidPassword,
     updateActivateUser,
-    createUser
+    updateIsInPasswordReset,
+    updateNewPassword
 };
