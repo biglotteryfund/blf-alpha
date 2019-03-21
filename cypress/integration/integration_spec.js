@@ -81,47 +81,47 @@ describe('common', function() {
 });
 
 describe('user', () => {
+    function submitForm(username, password) {
+        cy.getByLabelText('Email address', { exact: false })
+            .clear()
+            .type(username, { delay: 0 });
+        cy.getByLabelText('Password', { exact: false })
+            .clear()
+            .type(password, { delay: 0 });
+        cy.get('.form-actions input[type="submit"]').click();
+    }
+
     it('should not allow unknown users to login', () => {
         cy.visit('/user/login');
-        cy.get('#field-username').type('person@example.com', { delay: 0 });
-        cy.get('#field-password').type('examplepassword', { delay: 0 });
-        cy.get('input[type="submit"]').click();
-        cy.get('.form-errors').contains('Your username and password combination is invalid');
+        submitForm('person@example.com', 'examplepassword');
+        cy.getByText('Your username and password combination is invalid').should('exist');
         cy.checkA11y();
     });
 
     it('should prevent registrations with invalid passwords', () => {
         cy.visit('/user/register');
-        cy.get('#field-username').type('person@example.com', { delay: 0 });
-        cy.get('#field-password').type('tooshort', { delay: 0 });
-        cy.get('input[type="submit"]').click();
-        cy.get('.form-errors').contains('Password must be at least 10 characters long');
+        submitForm('person@example.com', 'tooshort');
+        cy.getByText('Password must be at least 10 characters long').should('exist');
     });
 
-    it('user registration and login', () => {
-        // Register
-        cy.visit('/user/register');
+    it('Register, login, reset password', () => {
         const password = uuid();
         const username = `${Date.now()}@example.com`;
-        cy.get('#field-username').type(username, { delay: 0 });
-        cy.get('#field-password').type(password, { delay: 0 });
+
+        // Register
+        cy.visit('/user/register');
+        submitForm(username, password);
         cy.checkA11y();
-        cy.get('input[type="submit"]').click();
-        cy.get('h1').contains('Your account');
+        cy.getByText('Your account').should('be.visible');
 
         // Log out
-        cy.get('[data-testid="logout-button"]').click();
+        cy.getByTestId('logout-button').click();
 
-        // Attempt to log in with new user with an incorrect password
-        cy.get('#field-username').type(username, { delay: 0 });
-        cy.get('#field-password').type('invalid password', { delay: 0 });
-        cy.get('input[type="submit"]').click();
-        cy.get('.form-errors').contains('Your username and password combination is invalid');
-
-        // Correct password
-        cy.get('#field-password').type(password, { delay: 0 });
-        cy.get('input[type="submit"]').click();
-        cy.get('h1').contains('Your account');
+        // Attempt to log in with new user with an incorrect password and then correct it
+        submitForm(username, 'invalidpassword');
+        cy.getByText('Your username and password combination is invalid').should('exist');
+        submitForm(username, password);
+        cy.getByText('Your account').should('be.visible');
     });
 
     it('should email valid users with a token', () => {
