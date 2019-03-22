@@ -19,17 +19,23 @@
             {% if dateParts.day and dateParts.month and dateParts.year %}
                 {{ dateParts.day }}/{{ dateParts.month }}/{{ dateParts.year }}
             {% else %}
-                not yet completed
+                <span class="application-data-missing">not yet completed</span>
             {% endif %}
         </dd>
         <dt>Grant amount</dt>
-        <dd>{% if application.grantAmount %}£{{ application.grantAmount }}{% else %}not yet completed{% endif %}</dd>
+        <dd>
+            {% if application.grantAmount %}
+                £{{ application.grantAmount }}
+            {% else %}
+                <span class="application-data-missing">not yet completed</span>
+            {% endif %}
+        </dd>
         <dt>Organisation</dt>
         <dd>
             {% if application.application_data['organisation-legal-name'] %}
                 {{ application.application_data['organisation-legal-name'] }}
             {% else %}
-                not yet completed
+                <span class="application-data-missing">not yet completed</span>
             {% endif %}
         </dd>
         <dt>Project location</dt>
@@ -37,7 +43,7 @@
             {% if application.application_data['project-postcode'] %}
                 {{ application.application_data['project-postcode'] }}
             {% else %}
-                not yet completed
+                <span class="application-data-missing">not yet completed</span>
             {% endif %}
         </dd>
     </dl>
