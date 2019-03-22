@@ -14,21 +14,21 @@
         <meta property="og:url" content="{{ getCurrentAbsoluteUrl() }}">
         <meta property="og:title" content="{{ openGraph.title if openGraph.title else metaTitle }}">
         <meta property="og:description" content="{{ metaDescription }}">
-        {% if openGraph.images.facebook -%}
-            <meta property="og:image" content="{{ openGraph.images.facebook | safe }}">
+        {% if openGraph.facebookImage -%}
+            <meta property="og:image" content="{{ openGraph.facebookImage | safe }}">
         {% elseif socialImage -%}
             <meta property="og:image" content="{{ getSocialImageUrl(socialImage) | safe }}">
         {% endif %}
 
         <meta name="twitter:site" content="@{{ globalCopy.brand.twitter }}" />
-        {% if socialImage or openGraph.images.twitter or openGraph.images.facebook -%}
+        {% if socialImage or openGraph.twitterImage or openGraph.facebookImage -%}
             <meta name="twitter:card" content="summary_large_image" />
         {% else -%}
             <meta name="twitter:card" content="summary" />
         {% endif -%}
 
-        {% if openGraph.images.twitter -%}
-            <meta property="twitter:image" content="{{ openGraph.images.twitter | safe }}">
+        {% if openGraph.twitterImage -%}
+            <meta property="twitter:image" content="{{ openGraph.twitterImage | safe }}">
         {% elseif socialImage -%}
             <meta property="twitter:image" content="{{ getSocialImageUrl(socialImage) | safe }}">
         {% endif %}
