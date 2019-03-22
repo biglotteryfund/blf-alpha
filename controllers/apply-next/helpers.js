@@ -1,7 +1,7 @@
 'use strict';
 const moment = require('moment');
 const { get, getOr } = require('lodash/fp');
-const { cloneDeep, find, findIndex, findLastIndex, flatMap, flatMapDeep, includes, isEmpty, pick } = require('lodash');
+const { cloneDeep, find, flatMapDeep, includes, isEmpty, pick } = require('lodash');
 
 const FORM_STATES = {
     empty: 'empty',
@@ -140,22 +140,6 @@ function enhanceForm({ locale, baseForm, data = {} }) {
     return clonedForm;
 }
 
-function mapFields(fields) {
-    return {
-        fields: fields,
-        names: fields.map(field => field.name),
-        messages: fields.reduce((obj, field) => {
-            obj[field.name] = field.messages;
-            return obj;
-        }, {})
-    };
-}
-
-function fieldsForStep(step) {
-    const fields = flatMap(step.fieldsets, 'fields');
-    return mapFields(fields);
-}
-
 /**
  * Determine status from data and validation errors
  * @param {Object} data
@@ -201,79 +185,9 @@ function calculateFormProgress(form, data) {
     };
 }
 
-/**
- * @typedef {object} MatchOptions
- * @property {String} baseUrl
- * @property {Array} sections
- * @property {Number} currentSectionIndex
- * @property {Number} currentStepIndex
- * @property {Object} formData
- */
-
-/**
- * Find next matching URL
- * @param {MatchOptions} options
- */
-function findNextMatchingUrl({ baseUrl, sections, currentSectionIndex, currentStepIndex, formData }) {
-    const currentSection = sections[currentSectionIndex];
-    const nextSection = sections[currentSectionIndex + 1];
-
-    const targetStepIndex = findIndex(
-        currentSection.steps,
-        step => (step.matchesCondition ? step.matchesCondition(formData) === true : true),
-        currentStepIndex + 1
-    );
-
-    if (targetStepIndex !== -1 && targetStepIndex <= currentSection.steps.length) {
-        return `${baseUrl}/${currentSection.slug}/${targetStepIndex + 1}`;
-    } else if (nextSection) {
-        return `${baseUrl}/${nextSection.slug}`;
-    } else {
-        return `${baseUrl}/summary`;
-    }
-}
-
-/**
- * Find previous matching URL
- * @param {MatchOptions} options
- */
-function findPreviousMatchingUrl({ baseUrl, sections, currentSectionIndex, currentStepIndex, formData }) {
-    const currentSection = sections[currentSectionIndex];
-    const previousSection = sections[currentSectionIndex - 1];
-
-    if (currentStepIndex !== 0) {
-        const targetStepIndex = findLastIndex(
-            currentSection.steps,
-            step => (step.matchesCondition ? step.matchesCondition(formData) === true : true),
-            currentStepIndex - 1
-        );
-        return `${baseUrl}/${currentSection.slug}/${targetStepIndex + 1}`;
-    } else if (previousSection) {
-        return `${baseUrl}/${previousSection.slug}/${previousSection.steps.length}`;
-    } else {
-        return baseUrl;
-    }
-}
-
-/**
- * Find next and previous matching URLs
- * @param {MatchOptions} options
- */
-function nextAndPrevious(options) {
-    return {
-        nextUrl: findNextMatchingUrl(options),
-        previousUrl: findPreviousMatchingUrl(options)
-    };
-}
-
 module.exports = {
     FORM_STATES,
     calculateFormProgress,
     enhanceForm,
-    fieldsForStep,
-    filterOptionsBy,
-    findNextMatchingUrl,
-    findPreviousMatchingUrl,
-    mapFields,
-    nextAndPrevious
+    filterOptionsBy
 };
