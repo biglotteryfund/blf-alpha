@@ -9,8 +9,9 @@ const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
 const { normaliseErrors } = require('../../modules/errors');
 
-const { FORM_STATES, calculateFormProgress, enhanceForm } = require('./helpers');
+const enhanceForm = require('./lib/enhance-form');
 const { nextAndPrevious } = require('./lib/pagination');
+const { FORM_STATES, calculateFormProgress } = require('./lib/progress');
 
 function mapFields(fields) {
     return {
