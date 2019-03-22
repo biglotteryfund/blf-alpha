@@ -336,13 +336,13 @@ $buttonColor: get-color('brand', 'primary');
     display: inline-block;
 
     &.o-button-group-separated--left {
-        border-left: 1px solid get-color('border', 'base');;
+        border-left: 1px solid get-color('border', 'base');
         padding-left: $spacingUnit;
         margin-left: $spacingUnit;
     }
 
     &.o-button-group-separated--right {
-        border-right: 1px solid get-color('border', 'base');;
+        border-right: 1px solid get-color('border', 'base');
         padding-right: $spacingUnit;
         margin-right: $spacingUnit;
     }

@@ -1,13 +1,12 @@
 $statuses: (
     'complete': #55ac3b,
     'incomplete': #fd992b,
-    'empty': #7b7b7b,
+    'empty': #7b7b7b
 );
 
 $statusColumnWidth: 160px;
 
 .application-summary {
-
     // Grid of buttons at the top of the summary
     .application-summary__actions {
         display: flex;
@@ -71,7 +70,6 @@ $statusColumnWidth: 160px;
                 vertical-align: middle;
             }
         }
-
     }
 
     // A link wrapped in square brackets to indicate form editing
@@ -81,8 +79,12 @@ $statusColumnWidth: 160px;
         font-weight: normal !important;
         text-decoration: none;
         margin-left: $spacingUnit;
-        &:before { content: '['; }
-        &:after { content: ']'; }
+        &:before {
+            content: '[';
+        }
+        &:after {
+            content: ']';
+        }
     }
 
     // The contents of each application summary section
@@ -138,54 +140,61 @@ $statusColumnWidth: 160px;
         font-size: 14px;
         font-weight: bold;
     }
-
 }
 
-.application-dashboard {
+/* =========================================================================
+   Application Card
+   ========================================================================= */
 
-    .application-dashboard__minor-title {
+.application-card {
+    background-color: get-color('background', 'light-neutral');
+    margin-bottom: $spacingUnit;
+    font-size: 16px;
+
+    .application-card__minor-title {
+        font-family: font-stack('display');
+        font-weight: font-weight('display', 'semibold');
         margin-bottom: 3px;
-        font-size: 13px;
+        font-size: 16px;
     }
 
-    .application-dashboard__item {
+    .application-card__summary {
+        padding: $spacingUnit;
+        margin-right: $spacingUnit;
+        flex-shrink: 0;
+        flex-basis: 60%;
+    }
+
+    .application-card__progress {
+        padding: $spacingUnit / 2;
+        background-color: #eeeeee;
+    }
+    .application-card__progress__status {
+        background-color: get-color('background', 'light-neutral');
+        padding: $spacingUnit / 2;
+        margin-bottom: 5px;
+    }
+
+    @include mq('medium') {
         display: flex;
         justify-content: space-between;
-        background-color: get-color('background', 'light-neutral');
-        margin-bottom: $spacingUnit;
 
-        p, ul {
-            font-size: 15px;
+        .application-card__progress {
+            display: flex;
+            flex-direction: column;
         }
-
-        .application-dashboard__summary {
-            padding: $spacingUnit;
-            margin-right: $spacingUnit;
-            flex-shrink: 0;
-            flex-basis: 60%;
-
-            .application-summary__links p {
-                font-size: 14px;
-                line-height: 1.6;
-            }
-        }
-
-        .application-dashboard__progress {
-            padding: $spacingUnit;
-            background-color: #eeeeee;
-
-            .application-dashboard__progress__inner {
-                background-color: get-color('background', 'light-neutral');
-                padding: $spacingUnit;
-                margin-bottom: 5px;
-            }
+        .application-card__progress__status {
+            flex: 1 1 0;
         }
     }
-
 }
 
 .application-data-missing {
-    &:before {content: '<';}
-    &:after {content: '>';}
+    &:before {
+        content: '<';
+    }
+    &:after {
+        content: '>';
+    }
     color: lighten(get-color('text', 'base'), 50%);
 }

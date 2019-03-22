@@ -3,7 +3,7 @@
 {% from "components/icons.njk" import iconArrowDown, iconTick, iconBin %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "./view-helpers.njk" import showSectionProgress with context %}
+{% from "components/progress-marker/macro.njk" import progressMarker with context %}
 
 {% block title %}Summary | {{ formTitle }} | {% endblock %}
 
@@ -56,7 +56,7 @@
                                 <a href="{{ formBaseUrl }}/{{ section.slug }}">{{ editWord }}</a>
                             </span>
                         </h3>
-                        {{ showSectionProgress(sectionProgress) }}
+                        {{ progressMarker(sectionProgress) }}
                     </header>
                     <article class="application-summary__status__content">
                         {% if section.introduction %}
