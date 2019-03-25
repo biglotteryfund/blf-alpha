@@ -665,8 +665,8 @@ funding:
   digitalFund:
     title: Y Gronfa Ddigidol
     intro: Mae'r Gronfa Ddigidol yn rhaglen ariannu £15 miliwn newydd i gefnogi elusennau a mudiadau cymunedol. Mae'n ymwneud â helpu'r sector elusennol a gwirfoddol i ddefnyddio offer a dulliau digidol i gefnogi pobl a chymunedau i ffynnu.
-    openingDates: Gallwch gyflwyno ceisiadau amlinellol rhwng 22 Hydref 2018 a 5PM ar 3 Rhagfyr 2018. Bydd cyfleoedd pellach i ymgeisio yn 2019.
-    openingDatesClosed: Daeth rownd gyntaf y Gronfa Ddigidol i ben ar 3 Rhagfyr 2018 am 5pm. Bydd cyfleoedd pellach i ymgeisio yn 2019.
+    openingDates: Gallwch gyflwyno ceisiadau amlinellol rhwng 22 Hydref 2018 a 5PM ar 3 Rhagfyr 2018.
+    openingDatesClosed: Daeth rownd gyntaf y Gronfa Ddigidol i ben ar 3 Rhagfyr 2018 am 5pm.
     aboutStrandLabel: Mwy o wybodaeth am yr edefyn hwn
     strand1:
       title: Rydym eisiau defnyddio digidol i newid ein gwaith

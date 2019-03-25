@@ -757,8 +757,8 @@ funding:
   digitalFund:
     title: Digital Fund
     intro: The Digital Fund is a new UK wide £15 million funding programme to support charities and community organisations. It is about helping the charity and voluntary sector to use digital tools and approaches to support people and communities to thrive.
-    openingDates: You can submit outline proposals from 22nd October 2018 until 5pm 3rd December 2018. There will be further opportunities to apply in 2019.
-    openingDatesClosed: The first round of Digital Funding closed on 3rd December 2018 at 5pm. There will be further opportunities to apply in 2019.
+    openingDates: You can submit outline proposals from 22nd October 2018 until 5pm 3rd December 2018.
+    openingDatesClosed: The first round of Digital Funding closed on 3rd December 2018 at 5pm.
     aboutStrandLabel: Find out more about this strand
     strand1:
       title: We want to use digital to change our work
