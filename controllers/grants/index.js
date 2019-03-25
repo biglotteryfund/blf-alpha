@@ -285,7 +285,7 @@ router.get('/:id', injectCopy('funding.pastGrants.search'), async (req, res, nex
         if (data && data.result) {
             let fundingProgramme;
             const grant = data.result;
-            res.locals.openGraph = projectStory.openGraph;
+            res.locals.openGraph = get(projectStory, 'openGraph', false);
             const grantProgramme = get(grant, 'grantProgramme[0]', false);
             if (grantProgramme && grantProgramme.url && grantProgramme.url.indexOf('/') === -1) {
                 try {

@@ -37,7 +37,7 @@ function setCommonLocals({ res, entry }) {
     res.locals.title = entry.title;
 
     res.locals.isBilingual = entry.availableLanguages.length === 2;
-    res.locals.openGraph = entry.openGraph || null;
+    res.locals.openGraph = get(entry, 'openGraph', false);
 
     res.locals.previewStatus = {
         isDraftOrVersion: entry.status === 'draft' || entry.status === 'version',

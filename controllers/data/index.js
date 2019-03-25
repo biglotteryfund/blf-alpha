@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
+const { get } = require('lodash');
 
 const contentApi = require('../../services/content-api');
 
@@ -20,7 +21,7 @@ router.get('/', async (req, res, next) => {
             query: query
         });
 
-        res.locals.openGraph = dataStats.openGraph;
+        res.locals.openGraph = get(dataStats, 'openGraph', false);
 
         res.render(path.resolve(__dirname, './views/data'), { title: dataStats.title, dataStats });
     } catch (error) {
