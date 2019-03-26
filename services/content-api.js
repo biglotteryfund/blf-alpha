@@ -109,7 +109,7 @@ function getHomepage({ locale }) {
 function getUpdates({ locale, type = null, date = null, slug = null, query = {}, previewMode = null }) {
     if (slug) {
         return fetch(`/v1/${locale}/updates/${type}/${date}/${slug}`, {
-            qs: addPreviewParams(previewMode)
+            qs: addPreviewParams(previewMode, { ...query })
         }).then(response => {
             return {
                 meta: response.meta,
@@ -140,16 +140,16 @@ function getFundingProgrammes({ locale, page = 1, pageLimit = 100, showAll = fal
     });
 }
 
-function getFundingProgramme({ locale, slug, previewMode = false }) {
+function getFundingProgramme({ locale, slug, previewMode = false, query = {} }) {
     return fetch(`/v2/${locale}/funding-programmes/${slug}`, {
-        qs: addPreviewParams(previewMode)
+        qs: addPreviewParams(previewMode, { ...query })
     }).then(response => get('data.attributes')(response));
 }
 
-function getResearch({ locale, slug = null, previewMode = null }) {
+function getResearch({ locale, slug = null, previewMode = null, query = {} }) {
     if (slug) {
         return fetch(`/v1/${locale}/research/${slug}`, {
-            qs: addPreviewParams(previewMode)
+            qs: addPreviewParams(previewMode, { ...query })
         }).then(getAttrs);
     } else {
         return fetch(`/v1/${locale}/research`, {
@@ -158,10 +158,10 @@ function getResearch({ locale, slug = null, previewMode = null }) {
     }
 }
 
-function getStrategicProgrammes({ locale, slug = null, previewMode = null }) {
+function getStrategicProgrammes({ locale, slug = null, previewMode = null, query = {} }) {
     if (slug) {
         return fetch(`/v1/${locale}/strategic-programmes/${slug}`, {
-            qs: addPreviewParams(previewMode)
+            qs: addPreviewParams(previewMode, { ...query })
         }).then(response => get('data.attributes')(response));
     } else {
         return fetchAllLocales(reqLocale => `/v1/${reqLocale}/strategic-programmes`).then(responses => {
@@ -171,26 +171,26 @@ function getStrategicProgrammes({ locale, slug = null, previewMode = null }) {
     }
 }
 
-function getListingPage({ locale, path, previewMode }) {
+function getListingPage({ locale, path, previewMode, query = {} }) {
     const sanitisedPath = sanitiseUrlPath(path);
     return fetch(`/v1/${locale}/listing`, {
-        qs: addPreviewParams(previewMode, { path: sanitisedPath })
+        qs: addPreviewParams(previewMode, { ...query, ...{ path: sanitisedPath } })
     }).then(response => {
         const attributes = response.data.map(item => item.attributes);
         return attributes.find(_ => _.path === sanitisedPath);
     });
 }
 
-function getFlexibleContent({ locale, path, previewMode }) {
+function getFlexibleContent({ locale, path, previewMode, query = {} }) {
     const sanitisedPath = sanitiseUrlPath(path);
     return fetch(`/v1/${locale}/flexible-content`, {
-        qs: addPreviewParams(previewMode, { path: sanitisedPath })
+        qs: addPreviewParams(previewMode, { ...query, ...{ path: sanitisedPath } })
     }).then(response => response.data.attributes);
 }
 
-function getProjectStory({ locale, grantId, previewMode }) {
+function getProjectStory({ locale, grantId, previewMode, query = {} }) {
     return fetch(`/v1/${locale}/project-stories/${grantId}`, {
-        qs: addPreviewParams(previewMode)
+        qs: addPreviewParams(previewMode, { ...query })
     }).then(getAttrs);
 }
 
@@ -208,9 +208,9 @@ function getOurPeople({ locale, previewMode = null }) {
     }).then(mapAttrs);
 }
 
-function getDataStats({ locale, previewMode }) {
+function getDataStats({ locale, previewMode, query = {} }) {
     return fetch(`/v1/${locale}/data`, {
-        qs: addPreviewParams(previewMode)
+        qs: addPreviewParams(previewMode, { ...query })
     }).then(response => response.data.attributes);
 }
 

@@ -38,9 +38,10 @@
       "QueryStringCacheKeys": {
         "Items": [
           "draft",
-          "version"
+          "version",
+          "social"
         ],
-        "Quantity": 2
+        "Quantity": 3
       },
       "QueryString": true,
       "Cookies": {
@@ -218,12 +219,13 @@
             "Items": [
               "draft",
               "version",
+              "social",
               "location",
               "amount",
               "min",
               "max"
             ],
-            "Quantity": 6
+            "Quantity": 7
           },
           "QueryString": true,
           "Cookies": {
@@ -282,9 +284,10 @@
             "Items": [
               "draft",
               "version",
+              "social",
               "location"
             ],
-            "Quantity": 3
+            "Quantity": 4
           },
           "QueryString": true,
           "Cookies": {
@@ -343,13 +346,14 @@
             "Items": [
               "draft",
               "version",
+              "social",
               "page",
               "tag",
               "author",
               "category",
               "region"
             ],
-            "Quantity": 7
+            "Quantity": 8
           },
           "QueryString": true,
           "Cookies": {
@@ -470,11 +474,12 @@
             "Items": [
               "draft",
               "version",
+              "social",
               "redirectUrl",
               "s",
               "token"
             ],
-            "Quantity": 5
+            "Quantity": 6
           },
           "QueryString": true,
           "Cookies": {
@@ -589,12 +594,13 @@
             "Items": [
               "draft",
               "version",
+              "social",
               "location",
               "amount",
               "min",
               "max"
             ],
-            "Quantity": 6
+            "Quantity": 7
           },
           "QueryString": true,
           "Cookies": {
@@ -653,9 +659,10 @@
             "Items": [
               "draft",
               "version",
+              "social",
               "location"
             ],
-            "Quantity": 3
+            "Quantity": 4
           },
           "QueryString": true,
           "Cookies": {
@@ -714,13 +721,14 @@
             "Items": [
               "draft",
               "version",
+              "social",
               "page",
               "tag",
               "author",
               "category",
               "region"
             ],
-            "Quantity": 7
+            "Quantity": 8
           },
           "QueryString": true,
           "Cookies": {
@@ -832,9 +840,10 @@
           "QueryStringCacheKeys": {
             "Items": [
               "draft",
-              "version"
+              "version",
+              "social"
             ],
-            "Quantity": 2
+            "Quantity": 3
           },
           "QueryString": true,
           "Cookies": {
@@ -883,9 +892,10 @@
           "QueryStringCacheKeys": {
             "Items": [
               "draft",
-              "version"
+              "version",
+              "social"
             ],
-            "Quantity": 2
+            "Quantity": 3
           },
           "QueryString": true,
           "Cookies": {
