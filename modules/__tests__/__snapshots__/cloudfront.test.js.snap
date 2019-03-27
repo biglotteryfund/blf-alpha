@@ -291,6 +291,73 @@ Object {
               "version",
               "social",
               "page",
+              "programme",
+              "tag",
+              "doctype",
+              "portfolio",
+              "q",
+            ],
+            "Quantity": 9,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/insights/documents*",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "GET",
+          ],
+          "Quantity": 2,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "blf-alpha-session",
+              ],
+              "Quantity": 1,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [
+              "draft",
+              "version",
+              "social",
+              "page",
               "tag",
               "author",
               "category",
@@ -666,6 +733,73 @@ Object {
               "version",
               "social",
               "page",
+              "programme",
+              "tag",
+              "doctype",
+              "portfolio",
+              "q",
+            ],
+            "Quantity": 9,
+          },
+        },
+        "LambdaFunctionAssociations": Object {
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "MaxTTL": 31536000,
+        "MinTTL": 0,
+        "PathPattern": "/welsh/insights/documents*",
+        "SmoothStreaming": false,
+        "TargetOriginId": "ELB_LIVE",
+        "TrustedSigners": Object {
+          "Enabled": false,
+          "Items": Array [],
+          "Quantity": 0,
+        },
+        "ViewerProtocolPolicy": "redirect-to-https",
+      },
+      Object {
+        "AllowedMethods": Object {
+          "CachedMethods": Object {
+            "Items": Array [
+              "HEAD",
+              "GET",
+            ],
+            "Quantity": 2,
+          },
+          "Items": Array [
+            "HEAD",
+            "GET",
+          ],
+          "Quantity": 2,
+        },
+        "Compress": true,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "ForwardedValues": Object {
+          "Cookies": Object {
+            "Forward": "whitelist",
+            "WhitelistedNames": Object {
+              "Items": Array [
+                "blf-alpha-session",
+              ],
+              "Quantity": 1,
+            },
+          },
+          "Headers": Object {
+            "Items": Array [
+              "Accept",
+              "Host",
+            ],
+            "Quantity": 2,
+          },
+          "QueryString": true,
+          "QueryStringCacheKeys": Object {
+            "Items": Array [
+              "draft",
+              "version",
+              "social",
+              "page",
               "tag",
               "author",
               "category",
@@ -852,7 +986,7 @@ Object {
         "ViewerProtocolPolicy": "redirect-to-https",
       },
     ],
-    "Quantity": 14,
+    "Quantity": 16,
   },
   "DefaultCacheBehavior": Object {
     "AllowedMethods": Object {
