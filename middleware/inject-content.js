@@ -182,7 +182,7 @@ async function injectFundingProgramme(req, res, next) {
         }
 
         const entry = await contentApi.getFundingProgramme({
-            slug: req.params.slug,
+            slug: req.params.childPageSlug ? req.params.childPageSlug : req.params.programmeSlug,
             locale: req.i18n.getLocale(),
             previewMode: res.locals.PREVIEW_MODE || false,
             query: query
