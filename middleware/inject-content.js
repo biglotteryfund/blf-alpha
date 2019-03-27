@@ -251,7 +251,7 @@ function injectResearch(researchType = null, pageLimit = null) {
             let query = {};
             if (researchType === 'documents') {
                 // Add in any allowed filters
-                query = pick(req.query, ['page', 'programme', 'tag', 'doctype', 'portfolio', 'q']);
+                query = pick(req.query, ['page', 'programme', 'tag', 'doctype', 'portfolio', 'q', 'sort']);
                 res.locals.queryParams = clone(query);
                 if (pageLimit) {
                     query['page-limit'] = pageLimit;

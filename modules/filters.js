@@ -87,6 +87,12 @@ function removeQueryParam(queryParams, param) {
     return querystring.stringify(queryObj);
 }
 
+function addQueryParam(queryParams, param, value) {
+    let queryObj = clone(queryParams);
+    queryObj[param] = value;
+    return querystring.stringify(queryObj);
+}
+
 module.exports = {
     appendUuid,
     filter,
@@ -100,5 +106,6 @@ module.exports = {
     take,
     widont,
     timeago,
-    removeQueryParam
+    removeQueryParam,
+    addQueryParam
 };

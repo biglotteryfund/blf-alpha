@@ -149,7 +149,7 @@ function generateBehaviours(origins) {
         { path: '/news/*', queryStrings: ['page', 'tag', 'author', 'category', 'region'], isBilingual: true },
         {
             path: '/insights/documents*',
-            queryStrings: ['page', 'programme', 'tag', 'doctype', 'portfolio', 'q'],
+            queryStrings: ['page', 'programme', 'tag', 'doctype', 'portfolio', 'q', 'sort'],
             isBilingual: true
         },
         { path: '/search', allowAllQueryStrings: true, isBilingual: true },

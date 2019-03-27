@@ -3,7 +3,7 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/article-teaser/macro.njk" import articleTeaser %}
+{% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav %}
 {% from "components/icons.njk" import iconClose %}
 {% from "components/form-fields/macros.njk" import inputChoice, inputSelect with context %}
@@ -37,6 +37,7 @@
                         type="search"
                         id="search-query"
                         name="q"
+                        value="{{ queryParams.q }}"
                         autocomplete="off"
                         data-hj-whitelist
                     />
@@ -97,8 +98,15 @@
                                 name="sort"
                                 id="field-sort"
                             >
-                                <option>Most relevant</option>
+                                {% if queryParams.q %}
+                                    <option value="score"{% if queryParams.sort === 'score' %} selected{% endif %}>
+                                        Most relevant
+                                    </option>
+                                {% endif %}
+                                <option value="oldest"{% if queryParams.sort === 'oldest' %} selected{% endif %}>Oldest first</option>
+                                <option value="newest"{% if queryParams.sort === 'newest' %} selected{% endif %}>Newest first</option>
                             </select>
+                            <input type="submit" value="Sort" class="btn btn--small">
                         </div>
                     </div>
                 </div>
@@ -106,8 +114,60 @@
                 <div class="search__content">
 
                     <div class="search__results">
+
                         {% if researchEntries.length > 0 %}
-                            <ol class="article-listing">
+
+                            {% for entry in researchEntries %}
+                                <div class="u-margin-bottom-s">
+                                    {% set subtitle %}
+                                        {% for programme in entry.relatedFundingProgrammes %}
+                                            {#<a href="{{ localify(programme.linkUrl) }}">#}
+                                                {{ programme.title }}
+                                            {#</a>#}
+                                        {% endfor %}
+                                    {% endset %}
+                                    {% call promoCard({
+                                        "title": entry.title,
+                                        "subtitle": subtitle | safe,
+                                        "trailText": entry.summary,
+                                        "link": {
+                                            "url": entry.document.url,
+                                            "label": 'View document'
+                                        }
+                                    }) %}
+                                        {% set docTitle = 'Download (' + entry.document.filetype | upper + ', ' + entry.document.filesize + ')' %}
+                                        <p>
+                                            <a class="btn btn--outline btn--small" href="{{ entry.document.url }}">
+                                                {{ docTitle }}
+                                            </a>
+                                        </p>
+                                        <dl class="o-definition-list o-definition-list--compact">
+                                            {% if entry.portfolio.length > 0 %}
+                                                <dt>Region</dt>
+                                                {% for region in entry.portfolio %}
+                                                    <dd>{{ region.title }}</dd>
+                                                {% endfor %}
+                                            {% endif %}
+
+                                            <dt>Partner</dt>
+                                            <dd>{{ entry.partnershipName }}</dd>
+
+                                            {% if entry.tags %}
+                                                {% set comma = joiner() %}
+                                                <dt>Tags</dt>
+                                                <dd>
+                                                    {%- for tag in entry.tags -%}
+                                                        {{ comma() }} <a href="?{{ queryParams | addQueryParam('tag', tag.slug) }}">{{ tag.title }}</a>
+                                                    {%- endfor -%}
+                                                </dd>
+                                            {% endif %}
+
+                                        </dl>
+                                    {% endcall %}
+                                </div>
+                            {% endfor %}
+
+                            <ol class="article-listing" style="display: none;">
                                 {% for entry in researchEntries %}
                                     <li class="article-listing__item">
                                         {% set subtitle %}
@@ -142,13 +202,13 @@
 
                                         {% set docTitle = entry.title + ' (' + entry.document.filetype | upper + ', ' + entry.document.filesize + ')' %}
 
-                                        {{ articleTeaser({
-                                            'title': docTitle,
-                                            'subtitle': subtitle | safe,
-                                            'summary': entry.summary,
-                                            '_linkUrl': entry.linkUrl,
-                                            'linkUrl': entry.document.url
-                                        }) }}
+                                        {#{{ articleTeaser({#}
+                                            {#'title': docTitle,#}
+                                            {#'subtitle': subtitle | safe,#}
+                                            {#'summary': entry.summary,#}
+                                            {#'_linkUrl': entry.linkUrl,#}
+                                            {#'linkUrl': entry.document.url#}
+                                        {#}) }}#}
                                     </li>
                                 {% endfor %}
                             </ol>
@@ -181,31 +241,43 @@
                             </div>
 
                             {% call facetGroup('Funding programme') %}
+                                {% set options = (entriesMeta.programmes.unshift({
+                                    'label': 'Any programme',
+                                    'value': ''
+                                }), entriesMeta.programmes) %}
                                 {{ inputSelect({
                                     type: 'select',
                                     name: 'programme',
                                     value: entriesMeta.activeProgramme.value if entriesMeta.activeProgramme,
-                                    options: entriesMeta.programmes,
+                                    options: options,
                                     silentlyOptional: true
                                 }) }}
                             {% endcall %}
 
-                            {% call facetGroup('Country') %}
+                            {% call facetGroup('Region') %}
+                                {% set options = (entriesMeta.portfolios.unshift({
+                                    'label': 'Any region',
+                                    'value': ''
+                                }), entriesMeta.portfolios) %}
                                 {{ inputSelect({
                                     type: 'select',
                                     name: 'portfolio',
                                     value: entriesMeta.activePortfolio.value if entriesMeta.activeProgramme,
-                                    options: entriesMeta.portfolios,
+                                    options: options,
                                     silentlyOptional: true
                                 }) }}
                             {% endcall %}
 
                             {% call facetGroup('Document type') %}
+                                {% set options = (entriesMeta.docTypes.unshift({
+                                    'label': 'Any type',
+                                    'value': ''
+                                }), entriesMeta.docTypes) %}
                                 {{ inputChoice({
                                     type: 'radio',
                                     name: 'doctype',
                                     value: entriesMeta.activeDocType.value if entriesMeta.activeDocType,
-                                    options: entriesMeta.docTypes,
+                                    options: options,
                                     silentlyOptional: true
                                 }) }}
                             {% endcall %}
