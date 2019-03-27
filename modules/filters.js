@@ -8,8 +8,9 @@ const fs = require('fs');
 const path = require('path');
 const slug = require('slugify');
 const uuid = require('uuid/v4');
-const { take } = require('lodash');
+const { take, clone } = require('lodash');
 const moment = require('moment');
+const querystring = require('querystring');
 
 let assets = {};
 try {
@@ -80,6 +81,12 @@ function timeago(date) {
     return moment(date).fromNow();
 }
 
+function removeQueryParam(queryParams, param) {
+    let queryObj = clone(queryParams);
+    delete queryObj[param];
+    return querystring.stringify(queryObj);
+}
+
 module.exports = {
     appendUuid,
     filter,
@@ -92,5 +99,6 @@ module.exports = {
     slugify,
     take,
     widont,
-    timeago
+    timeago,
+    removeQueryParam
 };

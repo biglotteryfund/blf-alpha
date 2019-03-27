@@ -1,5 +1,5 @@
 'use strict';
-const { pick } = require('lodash');
+const { pick, clone } = require('lodash');
 const { flatten, get, getOr } = require('lodash/fp');
 const moment = require('moment');
 const Raven = require('raven');
@@ -252,6 +252,7 @@ function injectResearch(researchType = null, pageLimit = null) {
             if (researchType === 'documents') {
                 // Add in any allowed filters
                 query = pick(req.query, ['page', 'programme', 'tag', 'doctype', 'portfolio', 'q']);
+                res.locals.queryParams = clone(query);
                 if (pageLimit) {
                     query['page-limit'] = pageLimit;
                 }
