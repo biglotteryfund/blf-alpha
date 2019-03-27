@@ -1,0 +1,164 @@
+{% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero with context %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/article-teaser/macro.njk" import articleTeaser %}
+{% from "components/split-nav/macro.njk" import splitNav %}
+{% from "components/card/macro.njk" import card %}
+
+{% from "../../updates/views/view-helpers.njk" import entryRegions with context %}
+
+{% block content %}
+    <main role="main" id="content">
+        {{ hero(title, pageHero.image) }}
+
+        <div class="nudge-up">
+
+            {% call contentBox() %}
+                {{ copy.intro | safe }}
+            {% endcall %}
+        </div>
+
+        <section class="content-box u-inner-wide-only">
+            {{ breadcrumbTrail(breadcrumbs) }}
+
+            <div class="content-sidebar">
+                <div class="content-sidebar__primary">
+                    {% if researchEntries.length > 0 %}
+
+                        {#{% if entriesMeta.activeRegion %}#}
+                            {#<p class="message s-prose">#}
+                                {#{{ copy.pressRelease.viewingPressReleasesIn }} <strong>{{ entriesMeta.activeRegion.title }}</strong>,#}
+                                {#<a href="{{ currentPath }}">{{ copy.pressRelease.viewAllPressReleases }}</a>#}
+                            {#</p>#}
+                        {#{% endif %}#}
+
+                        <ol class="article-listing">
+                            {% for entry in researchEntries %}
+                                <li class="article-listing__item">
+                                    {% set subtitle %}
+                                        {% if entry.documentType %}
+                                            <strong>{{ entry.documentType.title }}</strong>
+                                        {% endif %}
+                                        <time class="article-teaser__pubdate" datetime="{{ props.postDate.date }}">
+                                            published in {{ formatDate(entry.postDate.date, 'YYYY') }}
+                                        </time>
+                                        {% if entry.portfolio.length > 0 %}
+                                            in {{ entryRegions(entry.portfolio, currentPath) }}
+                                        {% endif %}
+                                        {% if entry.publisher %}
+                                            by {{ entry.publisher }}
+                                        {% endif %}
+                                        {% if entry.partnershipName %}
+                                            in partnership with {{ entry.partnershipName }}
+                                        {% endif %}
+                                        {% if entry.relatedFundingProgrammes %}
+                                            relating to
+                                            {% for programme in entry.relatedFundingProgrammes %}
+                                                <a href="{{ localify(programme.linkUrl) }}">{{ programme.title }}</a>
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% if entry.tags %}
+                                            tagged with
+                                            {% for tag in entry.tags %}
+                                                <a href="?tag={{ tag.slug }}">{{ tag.title }}</a>
+                                               {% endfor %}
+                                        {% endif %}
+                                    {% endset %}
+
+                                    {% set docTitle = entry.title + ' (' + entry.document.filetype | upper + ', ' + entry.document.filesize + ')' %}
+
+                                    {{ articleTeaser({
+                                        'title': docTitle,
+                                        'subtitle': subtitle | safe,
+                                        'summary': entry.summary,
+                                        '_linkUrl': entry.linkUrl,
+                                        'linkUrl': entry.document.url
+                                    }) }}
+                                </li>
+                            {% endfor %}
+                        </ol>
+
+                        {% if pagination %}
+                            {{ splitNav(
+                                prevLink = {
+                                    "label": __('global.misc.pagination.prev'),
+                                    "url": pagination.prevLink
+                                },
+                                nextLink = {
+                                    "label": __('global.misc.pagination.next'),
+                                    "url": pagination.nextLink
+                                }
+                            ) }}
+                        {% endif %}
+                    {% else %}
+                        <p class="message s-prose">
+                            @TODO
+                            {#{{ copy.pressRelease.noResultsFor }} "{{ entriesMeta.activeRegion.title }}",#}
+                            {#<a href="{{ currentPath }}">{{ copy.pressRelease.viewAllPressReleases }}</a>#}
+                        </p>
+                    {% endif %}
+                </div>
+
+                <div class="content-sidebar__secondary">
+
+                    {% call card() %}
+                        <form action="" method="get">
+
+                            {% set activeRegion = entriesMeta.activePortfolio.slug if entriesMeta.activePortfolio %}
+                            <label class="ff-label" for="field-region">{{ copy.pressRelease.filterByRegion }}</label>
+                            <select class="ff-select u-block-full u-margin-bottom-s" name="portfolio" id="field-region">
+                                <option value=""{% if not activeRegion %} selected{% endif %}>
+                                    TBD {{ copy.pressRelease.allPosts }}
+                                </option>
+                                {% for region in entriesMeta.portfolios %}
+                                    <optgroup label="{{ region.title }}">
+                                        <option value="{{ region.slug }}"{% if activeRegion === region.slug %} selected{% endif %}>
+                                            {{ copy.pressRelease.allPostsIn }} {{ region.title }}
+                                        </option>
+                                        {% for childRegion in region.children %}
+                                            <option value="{{ childRegion.slug }}"{% if activeRegion === childRegion.slug %} selected{% endif %}>
+                                                {{ childRegion.title }}
+                                            </option>
+                                        {% endfor %}
+                                    </optgroup>
+                                {% endfor %}
+                            </select>
+
+                            {% set activeDocType = entriesMeta.activeDocType.slug if entriesMeta.activeDocType %}
+                            <label class="ff-label" for="field-doctype">Filter by document type</label>
+                            <select class="ff-select u-block-full u-margin-bottom-s" name="doctype" id="field-doctype">
+                                <option value=""{% if not activeDocType %} selected{% endif %}>
+                                    All document types
+                                </option>
+                                {% for type in entriesMeta.docTypes %}
+                                    <option value="{{ type.slug }}"{% if activeDocType === type.slug %} selected{% endif %}>
+                                        {{ type.title }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+
+                            {% set activeProgramme = entriesMeta.activeProgramme.slug if entriesMeta.activeProgramme %}
+                            <label class="ff-label" for="field-programme">Filter by programme</label>
+                            <select class="ff-select u-block-full u-margin-bottom-s" name="programme" id="field-programme">
+                                <option value=""{% if not activeProgramme %} selected{% endif %}>
+                                    All programmes
+                                </option>
+                                {% for type in entriesMeta.programmes %}
+                                    <option value="{{ type.slug }}"{% if activeProgramme === type.slug %} selected{% endif %}>
+                                        {{ type.title }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+
+                            <input type="submit" value="{{ copy.pressRelease.filter }}" class="btn btn--small" />
+                        </form>
+                    {% endcall %}
+
+
+                </div>
+            </div>{#  end content-sidebar #}
+        </section>
+
+    </main>
+{% endblock %}

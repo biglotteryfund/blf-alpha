@@ -408,6 +408,9 @@ insights:
     datePublished: Date published
     partners: Research partners
     contact: Contact
+  documents:
+    title: "Insights from our funding: documents"
+    intro: TBC
 news:
   title: News
   allNews: All news

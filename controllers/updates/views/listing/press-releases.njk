@@ -34,7 +34,7 @@
                                         </time>
 
                                         {% if entry.regions.length > 0 %}
-                                            {{ copy.pressRelease.in }} {{ entryRegions(entry, currentPath) }}
+                                            {{ copy.pressRelease.in }} {{ entryRegions(entry.regions, currentPath) }}
                                         {% endif %}
                                     {% endset %}
                                     {{ articleTeaser({

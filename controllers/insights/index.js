@@ -11,14 +11,28 @@ const {
 } = require('../../middleware/inject-content');
 const { buildArchiveUrl } = require('../../modules/archived');
 const { localify } = require('../../modules/urls');
+const { buildPagination } = require('../../modules/pagination');
 
 const router = express.Router();
 
-router.get('/', injectHeroImage('insights-letterbox-new'), injectCopy('insights'), injectResearch, (req, res) => {
+router.get('/', injectHeroImage('insights-letterbox-new'), injectCopy('insights'), injectResearch(), (req, res) => {
     res.render(path.resolve(__dirname, './views/insights-landing'), {
         researchArchiveUrl: buildArchiveUrl(localify(req.i18n.getLocale())('/research'))
     });
 });
+
+router.get(
+    '/documents',
+    injectHeroImage('insights-letterbox-new'),
+    injectCopy('insights.documents'),
+    injectResearch('documents', 10),
+    (req, res) => {
+        res.render(path.resolve(__dirname, './views/insights-documents'), {
+            entriesMeta: res.locals.researchMeta,
+            pagination: buildPagination(res.locals.researchMeta.pagination, req.query)
+        });
+    }
+);
 
 router.get('/:slug', injectResearchEntry, injectBreadcrumbs, (req, res, next) => {
     const { researchEntry } = res.locals;
