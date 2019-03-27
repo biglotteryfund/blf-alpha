@@ -296,8 +296,9 @@ Object {
               "doctype",
               "portfolio",
               "q",
+              "sort",
             ],
-            "Quantity": 9,
+            "Quantity": 10,
           },
         },
         "LambdaFunctionAssociations": Object {
@@ -738,8 +739,9 @@ Object {
               "doctype",
               "portfolio",
               "q",
+              "sort",
             ],
-            "Quantity": 9,
+            "Quantity": 10,
           },
         },
         "LambdaFunctionAssociations": Object {
