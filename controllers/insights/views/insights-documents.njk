@@ -1,11 +1,12 @@
 {% extends "layouts/main.njk" %}
+
 {% from "components/hero.njk" import hero with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/article-teaser/macro.njk" import articleTeaser %}
 {% from "components/split-nav/macro.njk" import splitNav %}
-{% from "components/card/macro.njk" import card %}
 {% from "components/icons.njk" import iconClose %}
+{% from "components/form-fields/macros.njk" import inputChoice, inputSelect with context %}
 
 {% from "../../updates/views/view-helpers.njk" import entryRegions with context %}
 {% from "../../grants/views/helpers.njk" import facetGroup %}
@@ -25,7 +26,7 @@
 
         <form class="u-inner" method="get" action="">
 
-            <div class="grants-searchbar">
+            <div class="search-bar">
                 <label class="ff-label"
                        for="search-query">
                     Search our documents
@@ -50,16 +51,16 @@
                 </p>
             </div>
 
-            <div class="grants-search">
+            <div class="search">
 
                 {# Search totals #}
-                <div class="grants-search__meta">
-                    <h2 class="grants-search__total t--underline">
+                <div class="search__meta">
+                    <h2 class="search__total t--underline">
                         {{ researchEntries.length }} document{{ researchEntries.length | pluralise("", "s") }} found
                     </h2>
                 </div>
 
-                <div class="grants-search__meta">
+                <div class="search__meta">
                     {# Filter summary #}
 
                     <ul class="filter-list">
@@ -68,9 +69,9 @@
                                 {% if field %}
                                     <li class="filter-list__item">
                                         <a class="active-filter"
-                                           title="{{ field.title }}"
+                                           title="{{ field.label }}"
                                            href="?{{ queryParams | removeQueryParam(param) }}">
-                                            {{ field.title }}
+                                            {{ field.label }}
                                             {{ iconClose() }}
                                         </a>
                                     </li>
@@ -88,7 +89,7 @@
                     </ul>
 
                     {# Sort controls #}
-                    <div class="grants-search__sort">
+                    <div class="search__sort">
                         <div class="sort-controls">
                             <label class="ff-label" for="field-sort">Ordered by</label>
                             <select
@@ -102,9 +103,9 @@
                     </div>
                 </div>
 
-                <div class="grants-search__content">
+                <div class="search__content">
 
-                    <div class="grants-search__results">
+                    <div class="search__results">
                         {% if researchEntries.length > 0 %}
                             <ol class="article-listing">
                                 {% for entry in researchEntries %}
@@ -169,7 +170,7 @@
                         {% endif %}
                     </div>
 
-                    <div class="grants-search__filters">
+                    <div class="search__controls">
 
                         <fieldset class="search-filters">
                             <div class="search-filters__header">
@@ -180,77 +181,34 @@
                             </div>
 
                             {% call facetGroup('Funding programme') %}
-
-                                {% set activeProgramme = entriesMeta.activeProgramme.slug if entriesMeta.activeProgramme %}
-                                <label class="ff-label" for="field-programme">Filter by programme</label>
-                                <select class="ff-select u-block-full u-margin-bottom-s" name="programme"
-                                        id="field-programme">
-                                    <option value=""{% if not activeProgramme %} selected{% endif %}>
-                                        All programmes
-                                    </option>
-                                    {% for type in entriesMeta.programmes %}
-                                        <option
-                                            value="{{ type.slug }}"{% if activeProgramme === type.slug %} selected{% endif %}>
-                                            {{ type.title }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
-
-                                {# Filter: Amount awarded #}
-                                {% if facets.amountAwarded %}
-                                    {{ inputChoice({
-                                        type: 'radio',
-                                        name: 'amount',
-                                        label: copy.filters.options.amountAwarded.label,
-                                        value: queryParams.amount,
-                                        options: facets.amountAwarded,
-                                        silentlyOptional: true
-                                    }) }}
-                                {% endif %}
+                                {{ inputSelect({
+                                    type: 'select',
+                                    name: 'programme',
+                                    value: entriesMeta.activeProgramme.value if entriesMeta.activeProgramme,
+                                    options: entriesMeta.programmes,
+                                    silentlyOptional: true
+                                }) }}
                             {% endcall %}
 
                             {% call facetGroup('Country') %}
-                                {% set activeRegion = entriesMeta.activePortfolio.slug if entriesMeta.activePortfolio %}
-                                <label class="ff-label" for="field-region">Filter by region</label>
-                                <select class="ff-select u-block-full u-margin-bottom-s" name="portfolio"
-                                        id="field-region">
-                                    <option value=""{% if not activeRegion %} selected{% endif %}>
-                                        All regions
-                                    </option>
-                                    {% for region in entriesMeta.portfolios %}
-                                        <optgroup label="{{ region.title }}">
-                                            <option
-                                                value="{{ region.slug }}"{% if activeRegion === region.slug %} selected{% endif %}>
-                                                {{ copy.pressRelease.allPostsIn }} {{ region.title }}
-                                            </option>
-                                            {% for childRegion in region.children %}
-                                                <option
-                                                    value="{{ childRegion.slug }}"{% if activeRegion === childRegion.slug %} selected{% endif %}>
-                                                    {{ childRegion.title }}
-                                                </option>
-                                            {% endfor %}
-                                        </optgroup>
-                                    {% endfor %}
-                                </select>
+                                {{ inputSelect({
+                                    type: 'select',
+                                    name: 'portfolio',
+                                    value: entriesMeta.activePortfolio.value if entriesMeta.activeProgramme,
+                                    options: entriesMeta.portfolios,
+                                    silentlyOptional: true
+                                }) }}
                             {% endcall %}
 
                             {% call facetGroup('Document type') %}
-                                {% set activeDocType = entriesMeta.activeDocType.slug if entriesMeta.activeDocType %}
-                                <label class="ff-label" for="field-doctype">Filter by document type</label>
-                                <select class="ff-select u-block-full u-margin-bottom-s" name="doctype"
-                                        id="field-doctype">
-                                    <option value=""{% if not activeDocType %} selected{% endif %}>
-                                        All document types
-                                    </option>
-                                    {% for type in entriesMeta.docTypes %}
-                                        <option
-                                            value="{{ type.slug }}"{% if activeDocType === type.slug %} selected{% endif %}>
-                                            {{ type.title }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
+                                {{ inputChoice({
+                                    type: 'radio',
+                                    name: 'doctype',
+                                    value: entriesMeta.activeDocType.value if entriesMeta.activeDocType,
+                                    options: entriesMeta.docTypes,
+                                    silentlyOptional: true
+                                }) }}
                             {% endcall %}
-
 
                             <div class="search-filters__actions">
                                 <input type="submit" value="Submit" class="btn btn--medium">

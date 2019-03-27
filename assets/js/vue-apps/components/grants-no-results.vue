@@ -12,14 +12,14 @@ export default {
 };
 </script>
 <template>
-    <div class="grants-no-results s-prose u-padded" v-if="totalResults === 0 && status.state !== 'Loading'">
+    <div class="s-prose u-padded" v-if="totalResults === 0 && status.state !== 'Loading'">
         <h3>{{ copy.errors.noResults.heading }}</h3>
 
         <div v-if="searchSuggestions && searchSuggestions.suggestions.length > 0">
             <p v-html="copy.errors.noResults.didYouMean"></p>
             <ul>
                 <li v-for="suggestion in searchSuggestions.suggestions" :key="suggestion">
-                    <button class="btn-link" @click="$emit('update-query', suggestion);">{{ suggestion }}</button>
+                    <button class="btn-link" @click="$emit('update-query', suggestion)">{{ suggestion }}</button>
                 </li>
             </ul>
         </div>
@@ -30,7 +30,7 @@ export default {
         </ul>
 
         <p>
-            <button type="button" class="btn btn--medium" @click="$emit('clear-all');">{{ copy.filters.clear }}</button>
+            <button type="button" class="btn btn--medium" @click="$emit('clear-all')">{{ copy.filters.clear }}</button>
             <span v-if="canGoBack()">
                 {{ copy.or }}
                 <button type="button" class="btn btn--medium" @click="goBack">{{ copy.goBackAStep }}</button>

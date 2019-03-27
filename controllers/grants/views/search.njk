@@ -59,7 +59,7 @@
 
             <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>
 
-                <div class="grants-searchbar js-only">
+                <div class="search-bar js-only">
                     <label class="ff-label"
                            for="search-query"
                            data-append="{{ copy.beta }}">
@@ -89,7 +89,7 @@
                 </div>
 
                 <noscript>
-                    <div class="grants-searchbar">
+                    <div class="search-bar">
                         <label class="ff-label" for="search-query-fallback">
                             {{ copy.title }}
                         </label>
@@ -113,11 +113,11 @@
                     </div>
                 </noscript>
 
-                <div class="grants-search{% if meta.totalResults === 0 %} js-only{% endif %}">
+                <div class="search{% if meta.totalResults === 0 %} js-only{% endif %}">
 
                     {# Search totals #}
-                    <div class="grants-search__meta">
-                        <h2 class="grants-search__total t--underline">
+                    <div class="search__meta">
+                        <h2 class="search__total t--underline">
                             <grants-total-summary
                                 :total-results="totalResults"
                                 :total-awarded="totalAwarded"
@@ -127,7 +127,7 @@
                         </h2>
                     </div>
 
-                    <div class="grants-search__meta">
+                    <div class="search__meta">
                         {# Filter summary #}
                         <div>
                             <grants-filter-summary
@@ -138,7 +138,7 @@
                         </div>
 
                         {# Sort controls #}
-                        <div class="grants-search__sort"
+                        <div class="search__sort"
                              v-if="totalResults > 0">
                             <grants-sort
                                 :sort="sort"
@@ -148,11 +148,10 @@
                         </div>
                     </div>
 
-                    <div class="grants-search__content">
+                    <div class="search__content">
 
-                        <div class="grants-search__results">
-
-                            <div class="grants-search__status">
+                        <div class="search__results">
+                            <div>
                                 <grants-loading-status
                                     :status="status"
                                     :copy="copy"
@@ -171,7 +170,7 @@
                             </div>
                         </div>
 
-                        <div class="grants-search__filters" v-if="totalResults > 0">
+                        <div class="search__controls" v-if="totalResults > 0">
 
                             {# Javascript component version of filters #}
                             <grants-filters
@@ -308,7 +307,7 @@
                 />
 
                 {% if meta.totalResults === 0 %}
-                    <div class="grants-no-results s-prose u-margin-bottom" v-if="totalResults === 0">
+                    <div class="s-prose u-margin-bottom" v-if="totalResults === 0">
                         <h3>{{ copy.errors.noResults.title }}</h3>
 
                         {% if searchSuggestions and searchSuggestions.searchHadATypo %}
