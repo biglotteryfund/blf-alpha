@@ -55,3 +55,8 @@ $spinnerColour: get-color('brand', 'primary');
         transform: rotate(360deg);
     }
 }
+
+.icon--download-btn {
+    position: relative;
+    top: 3px;
+}

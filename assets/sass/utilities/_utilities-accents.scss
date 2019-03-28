@@ -20,6 +20,11 @@
 .u-border-top {
     border-top: 4px solid get-color('border', 'base');
 }
+
+.u-border-top--thin {
+    border-top: 1px solid get-color('border', 'base');
+}
+
 .u-border-top-brand-primary {
     border-top: 4px solid get-color('brand', 'primary');
 }

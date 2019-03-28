@@ -5,7 +5,7 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav %}
-{% from "components/icons.njk" import iconClose %}
+{% from "components/icons.njk" import iconClose, iconDownload %}
 {% from "components/form-fields/macros.njk" import inputChoice, inputSelect with context %}
 
 {% from "../../updates/views/view-helpers.njk" import entryRegions with context %}
@@ -25,6 +25,10 @@
         </div>
 
         <form class="u-inner" method="get" action="">
+
+            {% if entriesMeta.activeTag %}
+                <input type="hidden" name="tag" value="{{ entriesMeta.activeTag.value }}" />
+            {% endif %}
 
             <div class="search-bar">
                 <label class="ff-label"
@@ -65,7 +69,8 @@
                     {# Filter summary #}
 
                     <ul class="filter-list">
-                        {% if entriesMeta.activeProgramme or entriesMeta.activePortfolio or entriesMeta.activeDocType %}
+                        {% if entriesMeta.activeProgramme or entriesMeta.activePortfolio or entriesMeta.activeDocType or entriesMeta.activeTag %}
+
                             {% macro filterField(field, param) %}
                                 {% if field %}
                                     <li class="filter-list__item">
@@ -82,6 +87,7 @@
                             {{ filterField(entriesMeta.activeProgramme, 'programme') }}
                             {{ filterField(entriesMeta.activePortfolio, 'portfolio') }}
                             {{ filterField(entriesMeta.activeDocType, 'doctype') }}
+                            {{ filterField(entriesMeta.activeTag, 'tag') }}
 
                             <li class="filter-list__item">
                                 <a class="btn-link" href="{{ basePageUrl }}">Clear all filters</a>
@@ -103,8 +109,8 @@
                                         Most relevant
                                     </option>
                                 {% endif %}
-                                <option value="oldest"{% if queryParams.sort === 'oldest' %} selected{% endif %}>Oldest first</option>
                                 <option value="newest"{% if queryParams.sort === 'newest' %} selected{% endif %}>Newest first</option>
+                                <option value="oldest"{% if queryParams.sort === 'oldest' %} selected{% endif %}>Oldest first</option>
                             </select>
                             <input type="submit" value="Sort" class="btn btn--small">
                         </div>
@@ -121,10 +127,12 @@
                                 <div class="u-margin-bottom-s">
                                     {% set subtitle %}
                                         {% for programme in entry.relatedFundingProgrammes %}
-                                            {#<a href="{{ localify(programme.linkUrl) }}">#}
-                                                {{ programme.title }}
-                                            {#</a>#}
+                                            {{ programme.title }}
                                         {% endfor %}
+                                        &mdash;
+                                        <time datetime="{{ props.postDate.date }}">
+                                            {{ formatDate(entry.postDate.date, 'YYYY') }}
+                                        </time>
                                     {% endset %}
                                     {% call promoCard({
                                         "title": entry.title,
@@ -135,13 +143,19 @@
                                             "label": 'View document'
                                         }
                                     }) %}
-                                        {% set docTitle = 'Download (' + entry.document.filetype | upper + ', ' + entry.document.filesize + ')' %}
+                                        {% set docTitle = entry.documentType.title + ' (' + entry.document.filetype | upper + ', ' + entry.document.filesize + ')' %}
                                         <p>
+                                            {% if entry.relatedInsightsPage %}
+                                                <a class="btn btn--outline btn--small" href="{{ entry.relatedInsightsPage.linkUrl }}">
+                                                    Read summary
+                                                </a>
+                                            {% endif %}
                                             <a class="btn btn--outline btn--small" href="{{ entry.document.url }}">
+                                                {{ iconDownload() }}
                                                 {{ docTitle }}
                                             </a>
                                         </p>
-                                        <dl class="o-definition-list o-definition-list--compact">
+                                        <dl class="o-definition-list o-definition-list--compact u-border-top--thin u-padded-top">
                                             {% if entry.portfolio.length > 0 %}
                                                 <dt>Region</dt>
                                                 {% for region in entry.portfolio %}
@@ -166,52 +180,6 @@
                                     {% endcall %}
                                 </div>
                             {% endfor %}
-
-                            <ol class="article-listing" style="display: none;">
-                                {% for entry in researchEntries %}
-                                    <li class="article-listing__item">
-                                        {% set subtitle %}
-                                            {% if entry.documentType %}
-                                                <strong>{{ entry.documentType.title }}</strong>
-                                            {% endif %}
-                                            <time class="article-teaser__pubdate" datetime="{{ props.postDate.date }}">
-                                                published in {{ formatDate(entry.postDate.date, 'YYYY') }}
-                                            </time>
-                                            {% if entry.portfolio.length > 0 %}
-                                                in {{ entryRegions(entry.portfolio, currentPath) }}
-                                            {% endif %}
-                                            {% if entry.publisher %}
-                                                by {{ entry.publisher }}
-                                            {% endif %}
-                                            {% if entry.partnershipName %}
-                                                in partnership with {{ entry.partnershipName }}
-                                            {% endif %}
-                                            {% if entry.relatedFundingProgrammes %}
-                                                relating to
-                                                {% for programme in entry.relatedFundingProgrammes %}
-                                                    <a href="{{ localify(programme.linkUrl) }}">{{ programme.title }}</a>
-                                                {% endfor %}
-                                            {% endif %}
-                                            {% if entry.tags %}
-                                                tagged with
-                                                {% for tag in entry.tags %}
-                                                    <a href="?tag={{ tag.slug }}">{{ tag.title }}</a>
-                                                {% endfor %}
-                                            {% endif %}
-                                        {% endset %}
-
-                                        {% set docTitle = entry.title + ' (' + entry.document.filetype | upper + ', ' + entry.document.filesize + ')' %}
-
-                                        {#{{ articleTeaser({#}
-                                            {#'title': docTitle,#}
-                                            {#'subtitle': subtitle | safe,#}
-                                            {#'summary': entry.summary,#}
-                                            {#'_linkUrl': entry.linkUrl,#}
-                                            {#'linkUrl': entry.document.url#}
-                                        {#}) }}#}
-                                    </li>
-                                {% endfor %}
-                            </ol>
 
                             {% if pagination %}
                                 {{ splitNav(
@@ -283,7 +251,8 @@
                             {% endcall %}
 
                             <div class="search-filters__actions">
-                                <input type="submit" value="Submit" class="btn btn--medium">
+                                <input type="submit" value="Apply filters" class="btn btn--medium">
+                                <a class="btn-link" href="{{ basePageUrl }}">Clear all filters</a>
                             </div>
 
                         </fieldset>
