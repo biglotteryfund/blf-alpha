@@ -141,15 +141,6 @@ $buttonColor: get-color('brand', 'primary');
 }
 
 /**
- * Buttons: Extra Small Variant
- */
-.btn--x-small {
-    @include getBtnVertPadding(map-get($btnConf, 'mini'));
-    font-size: map-deep-get($btnConf, 'mini', 'fontSize');
-    background-color: get-color('brand', 'primary');
-}
-
-/**
  * Buttons: Reversed Variant
  */
 .btn.btn--reversed {
