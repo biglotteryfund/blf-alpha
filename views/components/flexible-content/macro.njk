@@ -1,39 +1,56 @@
 {% from "components/callout/macro.njk" import callout %}
 {% from "components/media-aside/macro.njk" import mediaAside %}
 
+{% macro flexibleContentPart(part) %}
+    {% if part.title %}
+        <h2 class="t1">{{ part.title }}</h2>
+    {% endif %}
+    {% if part.type === 'mediaAside' %}
+        {% set mediaAsideCounter = mediaAsideCounter + 1 %}
+        {{ mediaAside(
+            quoteText = part.quoteText,
+            link = { "label": part.linkText, "url": part.linkUrl },
+            image = { "url": part.photo, "caption": part.photoCaption },
+            isReversed = mediaAsideCounter % 2 == 0
+        ) }}
+    {% else %}
+        <div class="s-prose u-constrained-content-wide">
+            {% if part.type === 'contentArea' %}
+                {{ part.content | safe }}
+            {% elseif part.type === 'inlineFigure' %}
+                <figure>
+                    <img src="{{ part.photo }}" alt="{{ part.caption }}">
+                    <figcaption>{{ part.photoCaption }}</figcaption>
+                </figure>
+            {% elseif part.type === 'quote' %}
+                <blockquote class="blockquote">
+                    <div class="blockquote__text">
+                        {{ part.quoteText | widont | safe }}
+                    </div>
+                    {% if part.attribution %}
+                        <cite class="blockquote__cite">{{ part.attribution }}</cite>
+                    {% endif %}
+                </blockquote>
+            {% elseif part.type === 'gridBlocks' %}
+                <div class="flex-grid flex-grid--2up">
+                    {% for blockContent in part.content %}
+                        <div class="flex-grid__item">
+                            <div class="u-tone-background-tint u-padded">
+                                {{ blockContent | safe }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
 {% macro flexibleContent(flexibleContent) %}
     {% if flexibleContent.length > 0 %}
         {% set mediaAsideCounter = 0 %}
         {% for part in flexibleContent %}
-            {% if part.type === 'mediaAside' %}
-                {% set mediaAsideCounter = mediaAsideCounter + 1 %}
-                {{ mediaAside(
-                    quoteText = part.quoteText,
-                    link = { "label": part.linkText, "url": part.linkUrl },
-                    image = { "url": part.photo, "caption": part.photoCaption },
-                    isReversed = mediaAsideCounter % 2 == 0
-                ) }}
-            {% else %}
-                <div class="s-prose u-constrained-content-wide">
-                    {% if part.type === 'contentArea' %}
-                        {{ part.content | safe }}
-                    {% elseif  part.type === 'inlineFigure' %}
-                        <figure>
-                            <img src="{{ part.photo }}" alt="{{ part.caption }}">
-                            <figcaption>{{ part.photoCaption }}</figcaption>
-                        </figure>
-                    {% elseif  part.type === 'quote' %}
-                        <blockquote class="blockquote">
-                            <div class="blockquote__text">
-                                {{ part.quoteText | widont | safe }}
-                            </div>
-                            {% if part.attribution %}
-                                <cite class="blockquote__cite">{{ part.attribution }}</cite>
-                            {% endif %}
-                        </blockquote>
-                    {% endif %}
-                </div>
-            {% endif %}
+            {{ flexibleContentPart(part) }}
         {% endfor %}
     {% endif %}
 {% endmacro %}
