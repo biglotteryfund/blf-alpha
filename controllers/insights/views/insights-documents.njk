@@ -5,7 +5,7 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav %}
-{% from "components/icons.njk" import iconClose, iconDownload %}
+{% from "components/icons.njk" import iconClose, iconDownload, iconTickPlain %}
 {% from "components/form-fields/macros.njk" import inputChoice, inputSelect with context %}
 
 {% from "../../updates/views/view-helpers.njk" import entryRegions with context %}
@@ -69,25 +69,26 @@
                     {# Filter summary #}
 
                     <ul class="filter-list">
-                        {% if entriesMeta.activeProgramme or entriesMeta.activePortfolio or entriesMeta.activeDocType or entriesMeta.activeTag %}
+                        {% if entriesMeta.activeProgramme or entriesMeta.activePortfolio or entriesMeta.activeDocType or entriesMeta.activeTag or queryParams.q %}
 
-                            {% macro filterField(field, param) %}
-                                {% if field %}
+                            {% macro filterField(fieldName, param) %}
+                                {% if fieldName %}
                                     <li class="filter-list__item">
                                         <a class="active-filter"
-                                           title="{{ field.label }}"
+                                           title="{{ fieldName }}"
                                            href="?{{ queryParams | removeQueryParam(param) }}">
-                                            {{ field.label }}
+                                            {{ fieldName }}
                                             {{ iconClose() }}
                                         </a>
                                     </li>
                                 {% endif %}
                             {% endmacro %}
 
-                            {{ filterField(entriesMeta.activeProgramme, 'programme') }}
-                            {{ filterField(entriesMeta.activePortfolio, 'portfolio') }}
-                            {{ filterField(entriesMeta.activeDocType, 'doctype') }}
-                            {{ filterField(entriesMeta.activeTag, 'tag') }}
+                            {{ filterField(queryParams.q, 'q') }}
+                            {{ filterField(entriesMeta.activeProgramme.label, 'programme') }}
+                            {{ filterField(entriesMeta.activePortfolio.label, 'portfolio') }}
+                            {{ filterField(entriesMeta.activeDocType.label, 'doctype') }}
+                            {{ filterField(entriesMeta.activeTag.label, 'tag') }}
 
                             <li class="filter-list__item">
                                 <a class="btn-link" href="{{ basePageUrl }}">Clear all filters</a>
@@ -97,23 +98,41 @@
 
                     {# Sort controls #}
                     <div class="search__sort">
-                        <div class="sort-controls">
-                            <label class="ff-label" for="field-sort">Ordered by</label>
-                            <select
-                                class="ff-select"
-                                name="sort"
-                                id="field-sort"
-                            >
-                                {% if queryParams.q %}
-                                    <option value="score"{% if queryParams.sort === 'score' %} selected{% endif %}>
-                                        Most relevant
-                                    </option>
-                                {% endif %}
-                                <option value="newest"{% if queryParams.sort === 'newest' %} selected{% endif %}>Newest first</option>
-                                <option value="oldest"{% if queryParams.sort === 'oldest' %} selected{% endif %}>Oldest first</option>
-                            </select>
-                            <input type="submit" value="Sort" class="btn btn--small">
-                        </div>
+
+                        <ul class="link-filters">
+                            {% set sortOptions = [
+                                {
+                                    key: 'score',
+                                    title: 'Most relevant'
+                                },
+                                {
+                                    key: 'newest',
+                                    title: 'Newest first'
+                                },
+                                {
+                                    key: 'oldest',
+                                    title: 'Oldest first'
+                                }
+                            ] %}
+
+                            {% macro makeLinkFilterItem(item) %}
+                                {% set isSelected = queryParams.sort === item.key or not queryParams.sort and queryParams.q and item.key === 'score' %}
+                                <li class="link-filters__item{% if isSelected %} link-filters__item--selected{% endif %}">
+                                    {% if isSelected %}
+                                        {{ iconTickPlain() }}
+                                    {% else %}
+                                        <a href="?{{ queryParams | addQueryParam('sort', item.key) }}">
+                                    {% endif %}
+                                    {{ item.title }}
+                                    {% if not isSelected %}</a>{% endif %}
+                                </li>
+                            {% endmacro %}
+
+                            <li class="link-filters__item">Ordered by</li>
+                            {% for item in sortOptions %}
+                                {{ makeLinkFilterItem(item) }}
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
 
@@ -137,11 +156,7 @@
                                     {% call promoCard({
                                         "title": entry.title,
                                         "subtitle": subtitle | safe,
-                                        "trailText": entry.summary,
-                                        "link": {
-                                            "url": entry.document.url,
-                                            "label": 'View document'
-                                        }
+                                        "trailText": entry.summary
                                     }) %}
                                         {% set docTitle = entry.documentType.title + ' (' + entry.document.filetype | upper + ', ' + entry.document.filesize + ')' %}
                                         <p>
@@ -171,7 +186,7 @@
                                                 <dt>Tags</dt>
                                                 <dd>
                                                     {%- for tag in entry.tags -%}
-                                                        {{ comma() }} <a href="?{{ queryParams | addQueryParam('tag', tag.slug) }}">{{ tag.title }}</a>
+                                                        {{ comma() }} <a href="?tag={{ tag.slug }}">{{ tag.title }}</a>
                                                     {%- endfor -%}
                                                 </dd>
                                             {% endif %}
@@ -210,7 +225,7 @@
 
                             {% call facetGroup('Funding programme') %}
                                 {% set options = (entriesMeta.programmes.unshift({
-                                    'label': 'Any programme',
+                                    'label': 'Choose programme',
                                     'value': ''
                                 }), entriesMeta.programmes) %}
                                 {{ inputSelect({
@@ -224,7 +239,7 @@
 
                             {% call facetGroup('Region') %}
                                 {% set options = (entriesMeta.portfolios.unshift({
-                                    'label': 'Any region',
+                                    'label': 'Choose region',
                                     'value': ''
                                 }), entriesMeta.portfolios) %}
                                 {{ inputSelect({
@@ -238,7 +253,7 @@
 
                             {% call facetGroup('Document type') %}
                                 {% set options = (entriesMeta.docTypes.unshift({
-                                    'label': 'Any type',
+                                    'label': 'All',
                                     'value': ''
                                 }), entriesMeta.docTypes) %}
                                 {{ inputChoice({

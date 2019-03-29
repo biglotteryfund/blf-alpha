@@ -141,6 +141,15 @@ $buttonColor: get-color('brand', 'primary');
 }
 
 /**
+ * Buttons: Extra Small Variant
+ */
+.btn--x-small {
+    @include getBtnVertPadding(map-get($btnConf, 'mini'));
+    font-size: map-deep-get($btnConf, 'mini', 'fontSize');
+    background-color: get-color('brand', 'primary');
+}
+
+/**
  * Buttons: Reversed Variant
  */
 .btn.btn--reversed {
@@ -153,12 +162,12 @@ $buttonColor: get-color('brand', 'primary');
  * Button: Outline variant
  */
 .btn.btn--outline {
-    background-color: white !important;
+    background-color: transparent !important;
     color: $buttonColor !important;
     border: 3px solid $buttonColor;
 
     @include on-interact {
-        background-color: white;
+        background-color: transparent;
         border-color: darken($buttonColor, 10%);
         color: darken($buttonColor, 10%) !important;
     }

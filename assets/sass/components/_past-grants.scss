@@ -316,3 +316,27 @@ $filterSpacing: 10px;
 .active-filter--mini {
     padding: 2px;
 }
+
+
+.link-filters {
+    display: flex;
+
+    .link-filters__item {
+        font-size: 13px;
+        font-weight: bold;
+        margin-left: 5px;
+        padding: 3px 6px;
+
+        a {
+            vertical-align: middle;
+        }
+
+        &.link-filters__item--selected {
+            border: 1px solid get-color('border', 'base');
+        }
+
+        a {
+            font-weight: normal;
+        }
+    }
+}
