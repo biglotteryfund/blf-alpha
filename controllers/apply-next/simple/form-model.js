@@ -58,15 +58,10 @@ const sectionOrganisation = {
             fieldsets: [
                 {
                     legend: { en: 'Organisation details', cy: '' },
-                    fields: [allFields.organisationLegalName, allFields.organisationAlias]
-                },
-                {
-                    legend: { en: 'What is the main or registered address of your organisation?', cy: '' },
                     fields: [
-                        allFields.organisationAddressBuildingStreet,
-                        allFields.organisationAddressTownCity,
-                        allFields.organisationAddressCounty,
-                        allFields.organisationAddressPostcode
+                        allFields.organisationLegalName,
+                        allFields.organisationAlias,
+                        allFields.organisationAddress
                     ]
                 }
             ]

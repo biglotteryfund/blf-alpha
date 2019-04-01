@@ -222,9 +222,59 @@
     </fieldset>
 {% endmacro %}
 
-{% macro inputBudget(field, fieldCopy) %}
+{% macro inputAddress(field) %}
+    <fieldset class="ff-address" id="field-{{ field.name }}">
+        <legend class="ff-address__legend t2 t--underline">
+            {{ fieldLabelText(field) }}
+        </legend>
 
-    <fieldset class="ff-choice">
+        {{ fieldHelpText(field, fieldCopy) }}
+
+        <div class="ff-address__field">
+            {{ inputText({
+                label: 'Building and street',
+                name: field.name + '[building-street]',
+                value: field.value['building-street'],
+                type: 'text',
+                isRequired: field.isRequired,
+                attributes: { size: 40 }
+            }) }}
+        </div>
+        <div class="ff-address__field">
+            {{ inputText({
+                label: 'Town or city',
+                name: field.name + '[town-city]',
+                value: field.value['town-city'],
+                type: 'text',
+                isRequired: field.isRequired,
+                attributes: { size: 30 }
+            }) }}
+        </div>
+        <div class="ff-address__field">
+            {{ inputText({
+                label: 'County',
+                name: field.name + '[county]',
+                value: field.value['county'],
+                type: 'text',
+                isRequired: field.isRequired,
+                attributes: { size: 30 }
+            }) }}
+        </div>
+        <div class="ff-address__field">
+            {{ inputText({
+                label: 'Postcode',
+                name: field.name + '[postcode]',
+                value: field.value['postcode'],
+                type: 'text',
+                isRequired: field.isRequired,
+                attributes: { size: 10 }
+            }) }}
+        </div>
+    </fieldset>
+{% endmacro %}
+
+{% macro inputBudget(field, fieldCopy) %}
+    <fieldset>
         <legend class="ff-label">
             {{ fieldLabelText(field) }}
         </legend>
@@ -308,6 +358,8 @@
                     {{ inputDate(field, includeYear = false) }}
                 {% elseif field.type === 'currency' %}
                     {{ inputCurrency(field, fieldCopy) }}
+                {% elseif field.type === 'address' %}
+                    {{ inputAddress(field) }}
                 {% elseif field.type === 'budget' %}
                     {{ inputBudget(field, fieldCopy) }}
                 {% else %}

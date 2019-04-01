@@ -1,22 +1,19 @@
 'use strict';
 const moment = require('moment');
-const { find } = require('lodash');
+const { find, isArray, sumBy } = require('lodash');
 
 /**
  * Format field values for display in views
- * If the field has a custom displayFormat use that
- * Or, try common display formats based on type
- * Otherwise, call toString on the result
  *
  * @param {object} field
  * @param {any} value
  */
 module.exports = function displayValue(field, value) {
-    if (field.displayFormat) {
-        return field.displayFormat.call(field, value);
-    } else if (field.type === 'radio') {
+    if (field.type === 'radio') {
         const optionMatch = find(field.options, option => option.value === value);
         return optionMatch ? optionMatch.label : value.toString();
+    } else if (field.type === 'address') {
+        return [value['building-street'], value['town-city'], value['county'], value['postcode']].join(',\n');
     } else if (field.type === 'date') {
         const dt = moment({
             year: value.year,
@@ -41,6 +38,16 @@ module.exports = function displayValue(field, value) {
         }
     } else if (field.type === 'currency') {
         return `£${value.toLocaleString()}`;
+    } else if (field.type === 'budget') {
+        if (!isArray(value)) {
+            return value;
+        } else {
+            const total = sumBy(value, item => parseInt(item.cost || 0));
+            return [
+                value.map(line => `${line.item} – £${line.cost.toLocaleString()}`).join('\n'),
+                `Total: £${total}`
+            ].join('\n');
+        }
     } else {
         return value.toString();
     }
