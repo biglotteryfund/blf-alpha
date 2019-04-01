@@ -33,7 +33,7 @@
             {% endif %}
                 {{ location.name -}}
             {% if showLinks %}</a>{% endif %}
-        {% else %}
+        {%- else -%}
             {{ location.name -}}
         {% endif %}
         {%- if not loop.last -%}, {% endif %}
@@ -45,17 +45,4 @@
     {% if organisation.organisationSubtype %}
         > <a href="{{ pgLink('orgType', organisation.organisationSubtype) }}">{{ organisation.organisationSubtype }}</a>
     {% endif %}
-{% endmacro %}
-
-{% macro facetGroup(legend) %}
-    <div class="facet-group is-open">
-        <fieldset class="facet-group__fieldset">
-            <legend class="facet-group__legend">
-                {{ legend }}
-            </legend>
-            <div class="facet-group__body">
-                {{ caller() }}
-            </div>
-        </fieldset>
-    </div>
 {% endmacro %}
