@@ -1,17 +1,16 @@
 {% from "components/callout/macro.njk" import callout %}
 {% from "components/media-aside/macro.njk" import mediaAside %}
 
-{% macro flexibleContentPart(part) %}
+{% macro flexibleContentPart(part, cycler = null) %}
     {% if part.title %}
         <h2 class="t1">{{ part.title }}</h2>
     {% endif %}
     {% if part.type === 'mediaAside' %}
-        {% set mediaAsideCounter = mediaAsideCounter + 1 %}
         {{ mediaAside(
             quoteText = part.quoteText,
             link = { "label": part.linkText, "url": part.linkUrl },
             image = { "url": part.photo, "caption": part.photoCaption },
-            isReversed = mediaAsideCounter % 2 == 0
+            isReversed = cycler.next() if cycler else false
         ) }}
     {% else %}
         <div class="s-prose u-constrained-content-wide">
@@ -48,9 +47,9 @@
 
 {% macro flexibleContent(flexibleContent) %}
     {% if flexibleContent.length > 0 %}
-        {% set mediaAsideCounter = 0 %}
+        {% set mediaAsideCycler = cycler(true, false) %}
         {% for part in flexibleContent %}
-            {{ flexibleContentPart(part) }}
+            {{ flexibleContentPart(part, cycler = mediaAsideCycler) }}
         {% endfor %}
     {% endif %}
 {% endmacro %}
