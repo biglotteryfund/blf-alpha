@@ -1,5 +1,5 @@
 'use strict';
-const { forEach, get, has, reduce, values } = require('lodash');
+const { get, has, reduce, values } = require('lodash');
 const moment = require('moment');
 
 const { Joi, ...commonValidators } = require('../lib/validators');
@@ -558,11 +558,10 @@ const allFields = {
     }),
     legalContactPhone: {
         name: 'legal-contact-phone',
-        autocompleteName: 'tel',
-        type: 'tel',
-        size: 30,
         label: { en: 'Contact number', cy: '' },
+        type: 'tel',
         isRequired: true,
+        attributes: { size: 30, autocomplete: 'tel' },
         schema: Joi.number().required(),
         messages: {
             base: { en: 'Enter a phone number', cy: '' }
@@ -646,62 +645,6 @@ const allFields = {
         }
     }
 };
-
-/**
- * Validate fields against a schema
- */
-forEach(allFields, field => {
-    const localeString = Joi.object({
-        en: Joi.string().required(),
-        // @TODO: Remove allow '' when translating
-        cy: Joi.string()
-            .allow('')
-            .required()
-    });
-
-    const fieldSchema = Joi.object({
-        name: Joi.string().required(),
-        label: localeString.required(),
-        explanation: localeString.optional(),
-        type: Joi.string()
-            .valid([
-                'address',
-                'budget',
-                'checkbox',
-                'currency',
-                'date',
-                'day-month',
-                'email',
-                'file',
-                'number',
-                'radio',
-                'tel',
-                'text',
-                'textarea'
-            ])
-            .required(),
-        attributes: Joi.object().optional(),
-        isRequired: Joi.boolean().required(),
-        schema: Joi.object()
-            .schema()
-            .required(),
-        messages: Joi.any().when('isRequired', {
-            is: Joi.valid(true),
-            then: Joi.object({ base: localeString.required() })
-                .pattern(Joi.string(), localeString.required())
-                .required()
-        })
-    });
-
-    const validationResult = Joi.validate(field, fieldSchema, {
-        abortEarly: true,
-        allowUnknown: true
-    });
-
-    if (validationResult.error) {
-        throw new Error(`${field.name}: ${validationResult.error.message}`);
-    }
-});
 
 const schema = Joi.object(
     reduce(
