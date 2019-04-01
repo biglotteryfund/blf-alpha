@@ -1,6 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const { nextAndPrevious } = require('./helpers');
+const { nextAndPrevious } = require('./pagination');
 
 describe('nextAndPrevious', () => {
     const mockSections = [

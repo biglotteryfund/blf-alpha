@@ -3,7 +3,11 @@ const moment = require('moment');
 const baseJoi = require('joi');
 const { isEmpty, isArray, reject, toInteger, sumBy } = require('lodash');
 
-const { POSTCODE_REGEX } = require('../../modules/postcodes');
+// Allows us to share postcode validation on server and client-side
+// via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
+// we have to double-escape the regex patterns here to output it as a native RegExp
+// but also as a string for the HTML pattern attribute
+const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
 
 function dateFromParts(parts) {
     return moment({
@@ -167,10 +171,11 @@ const Joi = baseJoi.extend([dateParts, dayMonth, budgetItems]);
 
 module.exports = {
     Joi,
+    POSTCODE_PATTERN,
     postcode() {
         return Joi.string()
             .trim()
-            .regex(POSTCODE_REGEX);
+            .regex(new RegExp(POSTCODE_PATTERN, 'i'));
     },
     futureDate({ amount = null, unit = null } = {}) {
         const minDate = amount && unit ? moment().add(amount, unit) : moment();

@@ -1,22 +1,33 @@
 'use strict';
-const { concat, head, isEmpty, omit, get, set, unset } = require('lodash');
+const { get, set, unset, concat, flatMap, head, isEmpty, omit } = require('lodash');
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
 
+const applicationsService = require('../../services/applications');
 const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
-const applicationsService = require('../../services/applications');
-
 const { normaliseErrors } = require('../../modules/errors');
-const {
-    FORM_STATES,
-    calculateFormProgress,
-    enhanceForm,
-    fieldsForStep,
-    mapFields,
-    nextAndPrevious
-} = require('./helpers');
+
+const enhanceForm = require('./lib/enhance-form');
+const { nextAndPrevious } = require('./lib/pagination');
+const { FORM_STATES, calculateFormProgress } = require('./lib/progress');
+
+function mapFields(fields) {
+    return {
+        fields: fields,
+        names: fields.map(field => field.name),
+        messages: fields.reduce((obj, field) => {
+            obj[field.name] = field.messages;
+            return obj;
+        }, {})
+    };
+}
+
+function fieldsForStep(step) {
+    const fields = flatMap(step.fieldsets, 'fields');
+    return mapFields(fields);
+}
 
 function initFormRouter(formModel) {
     const router = express.Router();
