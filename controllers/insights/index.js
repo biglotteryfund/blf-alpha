@@ -28,24 +28,28 @@ router.get(
     '/documents',
     injectHeroImage('insights-letterbox-new'),
     injectCopy('insights.documents'),
-    async (req, res) => {
+    async (req, res, next) => {
         let query = pick(req.query, ['page', 'programme', 'tag', 'doctype', 'portfolio', 'q', 'sort']);
         res.locals.queryParams = clone(query);
         query['page-limit'] = 10;
 
-        const research = await contentApi.getResearch({
-            locale: req.i18n.getLocale(),
-            previewMode: res.locals.PREVIEW_MODE || false,
-            type: 'documents',
-            query: query
-        });
+        try {
+            const research = await contentApi.getResearch({
+                locale: req.i18n.getLocale(),
+                previewMode: res.locals.PREVIEW_MODE || false,
+                type: 'documents',
+                query: query
+            });
 
-        res.locals.researchEntries = research.result;
+            res.locals.researchEntries = research.result;
 
-        res.render(path.resolve(__dirname, './views/insights-documents'), {
-            entriesMeta: research.meta,
-            pagination: buildPagination(research.meta.pagination, req.query)
-        });
+            res.render(path.resolve(__dirname, './views/insights-documents'), {
+                entriesMeta: research.meta,
+                pagination: buildPagination(research.meta.pagination, req.query)
+            });
+        } catch (error) {
+            next(error);
+        }
     }
 );
 
