@@ -2,7 +2,7 @@
 const { forEach, get, has, reduce, values } = require('lodash');
 const moment = require('moment');
 
-const { Joi, POSTCODE_PATTERN, ...commonValidators } = require('../lib/validators');
+const { Joi, ...commonValidators } = require('../lib/validators');
 
 const MIN_APPLICANT_AGE = 18;
 const MAX_BUDGET_TOTAL = 10000; // in GBP
@@ -85,25 +85,6 @@ const legalContactRoles = [
     { value: 'trustee', label: { en: 'Trustee', cy: '' } }
 ];
 
-function postcodeField(props) {
-    const defaultProps = {
-        label: { en: 'Postcode', cy: '' },
-        type: 'text',
-        attributes: {
-            size: 10,
-            autocomplete: 'postal-code',
-            pattern: POSTCODE_PATTERN
-        },
-        isRequired: true,
-        schema: commonValidators.postcode().required(),
-        messages: {
-            base: { en: 'Enter a postcode', cy: '' }
-        }
-    };
-
-    return { ...defaultProps, ...props };
-}
-
 function emailField(props) {
     const defaultProps = {
         label: { en: 'Email', cy: '' },
@@ -185,7 +166,7 @@ const allFields = {
             'dateParts.futureDate': { en: 'Date must be at least 12 weeks into the future', cy: '' }
         }
     },
-    projectPostcode: postcodeField({
+    projectPostcode: {
         name: 'project-postcode',
         label: {
             en: 'What is the postcode of the location where your project will take place?',
@@ -196,8 +177,18 @@ const allFields = {
                 'If your project will take place across different locations, please use the postcode where most of the project will take place.',
             cy:
                 '(WELSH) If your project will take place across different locations, please use the postcode where most of the project will take place.'
+        },
+        type: 'text',
+        attributes: {
+            size: 10,
+            autocomplete: 'postal-code'
+        },
+        isRequired: true,
+        schema: commonValidators.postcode().required(),
+        messages: {
+            base: { en: 'Enter a postcode', cy: '' }
         }
-    }),
+    },
     yourIdea: {
         name: 'your-idea',
         label: {
