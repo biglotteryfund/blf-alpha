@@ -1,6 +1,9 @@
 'use strict';
 const express = require('express');
 const path = require('path');
+const { pick, clone } = require('lodash');
+
+const contentApi = require('../../services/content-api');
 
 const {
     injectBreadcrumbs,
@@ -15,7 +18,7 @@ const { buildPagination } = require('../../modules/pagination');
 
 const router = express.Router();
 
-router.get('/', injectHeroImage('insights-letterbox-new'), injectCopy('insights'), injectResearch(), (req, res) => {
+router.get('/', injectHeroImage('insights-letterbox-new'), injectCopy('insights'), injectResearch, (req, res) => {
     res.render(path.resolve(__dirname, './views/insights-landing'), {
         researchArchiveUrl: buildArchiveUrl(localify(req.i18n.getLocale())('/research'))
     });
@@ -25,11 +28,23 @@ router.get(
     '/documents',
     injectHeroImage('insights-letterbox-new'),
     injectCopy('insights.documents'),
-    injectResearch('documents', 10),
-    (req, res) => {
+    async (req, res) => {
+        let query = pick(req.query, ['page', 'programme', 'tag', 'doctype', 'portfolio', 'q', 'sort']);
+        res.locals.queryParams = clone(query);
+        query['page-limit'] = 10;
+
+        const research = await contentApi.getResearch({
+            locale: req.i18n.getLocale(),
+            previewMode: res.locals.PREVIEW_MODE || false,
+            type: 'documents',
+            query: query
+        });
+
+        res.locals.researchEntries = research.result;
+
         res.render(path.resolve(__dirname, './views/insights-documents'), {
-            entriesMeta: res.locals.researchMeta,
-            pagination: buildPagination(res.locals.researchMeta.pagination, req.query)
+            entriesMeta: research.meta,
+            pagination: buildPagination(research.meta.pagination, req.query)
         });
     }
 );

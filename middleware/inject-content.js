@@ -245,36 +245,22 @@ async function injectStrategicProgrammes(req, res, next) {
     }
 }
 
-function injectResearch(researchType = null, pageLimit = null) {
-    return async (req, res, next) => {
-        try {
-            let query = {};
-            if (researchType === 'documents') {
-                // Add in any allowed filters
-                query = pick(req.query, ['page', 'programme', 'tag', 'doctype', 'portfolio', 'q', 'sort']);
-                res.locals.queryParams = clone(query);
-                if (pageLimit) {
-                    query['page-limit'] = pageLimit;
-                }
-            }
-
-            const research = await contentApi.getResearch({
-                locale: req.i18n.getLocale(),
-                previewMode: res.locals.PREVIEW_MODE || false,
-                type: researchType,
-                query: query
-            });
-            res.locals.researchEntries = research.result;
-            res.locals.researchMeta = research.meta;
+async function injectResearch(req, res, next) {
+    try {
+        const research = await contentApi.getResearch({
+            locale: req.i18n.getLocale(),
+            previewMode: res.locals.PREVIEW_MODE || false
+        });
+        res.locals.researchEntries = research.result;
+        res.locals.researchMeta = research.meta;
+        next();
+    } catch (error) {
+        if (error.statusCode >= 500) {
+            next(error);
+        } else {
             next();
-        } catch (error) {
-            if (error.statusCode >= 500) {
-                next(error);
-            } else {
-                next();
-            }
         }
-    };
+    }
 }
 
 async function injectResearchEntry(req, res, next) {
