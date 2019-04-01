@@ -108,6 +108,20 @@ function emailField(props) {
     return { ...defaultProps, ...props };
 }
 
+function addressField(props) {
+    const defaultProps = {
+        type: 'address',
+        isRequired: true,
+        schema: commonValidators.ukAddress().required(),
+        messages: [
+            { type: 'base', message: { en: 'Enter a full UK address', cy: '' } },
+            { type: 'string.regex.base', key: 'postcode', message: { en: 'Enter a valid postcode', cy: '' } }
+        ]
+    };
+
+    return { ...defaultProps, ...props };
+}
+
 const allFields = {
     applicationTitle: {
         name: 'application-title',
@@ -314,17 +328,10 @@ const allFields = {
             .optional(),
         messages: []
     },
-    organisationAddress: {
+    organisationAddress: addressField({
         name: 'organisation-address',
-        label: { en: 'What is the main or registered address of your organisation?', cy: '' },
-        type: 'address',
-        isRequired: false,
-        schema: commonValidators.ukAddress().required(),
-        messages: [
-            { type: 'base', message: { en: 'Enter a full UK address', cy: '' } },
-            { type: 'string.regex.base', message: { en: 'Enter a valid postcode', cy: '' } }
-        ]
-    },
+        label: { en: 'What is the main or registered address of your organisation?', cy: '' }
+    }),
     organisationType: {
         name: 'organisation-type',
         label: { en: 'What type of organisation are you?', cy: '(WELSH) What type of organisation are you?' },
@@ -426,17 +433,10 @@ const allFields = {
             }
         ]
     },
-    mainContactAddress: {
+    mainContactAddress: addressField({
         name: 'main-contact-address',
-        label: { en: 'Address', cy: '' },
-        type: 'address',
-        isRequired: true,
-        schema: commonValidators.ukAddress().required(),
-        messages: [
-            { type: 'base', message: { en: 'Enter a full UK address', cy: '' } },
-            { type: 'string.regex.base', key: 'postcode', message: { en: 'Enter a valid postcode', cy: '' } }
-        ]
-    },
+        label: { en: 'Address', cy: '' }
+    }),
     mainContactEmail: emailField({
         name: 'main-contact-email',
         label: { en: 'Email', cy: '' },
@@ -534,17 +534,10 @@ const allFields = {
             }
         ]
     },
-    legalContactAddress: {
+    legalContactAddress: addressField({
         name: 'legal-contact-address',
-        label: { en: 'Address', cy: '' },
-        type: 'address',
-        isRequired: true,
-        schema: commonValidators.ukAddress().required(),
-        messages: [
-            { type: 'base', message: { en: 'Enter a full UK address', cy: '' } },
-            { type: 'string.regex.base', message: { en: 'Enter a valid postcode', cy: '' } }
-        ]
-    },
+        label: { en: 'Address', cy: '' }
+    }),
     legalContactEmail: emailField({
         name: 'legal-contact-email',
         label: { en: 'Email', cy: '' },
