@@ -11,23 +11,36 @@ const mockSchema = Joi.object({
         .required(),
     b: Joi.string()
         .min(12)
-        .required()
+        .required(),
+    c: Joi.string().required()
 });
 
 const mockErrorMessages = {
-    a: {
-        base: { en: 'Please enter A', cy: '(cy) Please enter A' },
-        'string.min': { en: 'A must be at least 10 characters', cy: '(cy) A must be at least 10 characters' },
-        'any.invalid': { en: 'A must not be the same as B', cy: '(cy) A must not be the same as B' }
-    },
-    b: {
-        base: { en: 'Please enter B', cy: '(cy) Please enter B' }
-    }
+    a: [
+        {
+            type: 'base',
+            message: { en: 'Please enter A', cy: '(cy) Please enter A' }
+        },
+        {
+            type: 'string.min',
+            message: { en: 'A must be at least 10 characters', cy: '(cy) A must be at least 10 characters' }
+        },
+        {
+            type: 'any.invalid',
+            message: { en: 'A must not be the same as B', cy: '(cy) A must not be the same as B' }
+        }
+    ],
+    b: [
+        {
+            type: 'base',
+            message: { en: 'Please enter B', cy: '(cy) Please enter B' }
+        }
+    ]
 };
 
 describe('normaliseErrors', () => {
     test('normalise errors', () => {
-        const validationResult = mockSchema.validate({ a: 'tooshort' }, { abortEarly: false });
+        const validationResult = mockSchema.validate({ a: 'tooshort', c: 'here' }, { abortEarly: false });
 
         const normalised = normaliseErrors({
             validationError: validationResult.error,
@@ -42,7 +55,7 @@ describe('normaliseErrors', () => {
     });
 
     test('returns first error per field', () => {
-        const validationResult = mockSchema.validate({ a: 'same', b: 'same' }, { abortEarly: false });
+        const validationResult = mockSchema.validate({ a: 'same', b: 'same', c: 'here' }, { abortEarly: false });
 
         const normalised = normaliseErrors({
             validationError: validationResult.error,
@@ -58,7 +71,7 @@ describe('normaliseErrors', () => {
     });
 
     test('can filter errors by name', () => {
-        const validationResult = mockSchema.validate({}, { abortEarly: false });
+        const validationResult = mockSchema.validate({ c: 'here' }, { abortEarly: false });
 
         const normalised = normaliseErrors({
             validationError: validationResult.error,

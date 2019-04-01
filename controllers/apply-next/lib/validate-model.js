@@ -38,7 +38,14 @@ module.exports = function validateModel(formModel) {
         isRequired: Joi.boolean().required(),
         schema: Joi.object()
             .schema()
-            .required()
+            .required(),
+        messages: Joi.array().items(
+            Joi.object({
+                type: Joi.string().required(),
+                key: Joi.string().optional(),
+                message: localeString.required()
+            })
+        )
     });
 
     const fieldsetSchema = Joi.object({
