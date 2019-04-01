@@ -307,49 +307,6 @@ async function injectOurPeople(req, res, next) {
     }
 }
 
-async function injectBlogPosts(req, res, next) {
-    try {
-        res.locals.blogPosts = await contentApi.getBlogPosts({
-            locale: req.i18n.getLocale(),
-            previewMode: res.locals.PREVIEW_MODE || false,
-            page: req.query.page || 1
-        });
-        next();
-    } catch (error) {
-        if (error.statusCode >= 500) {
-            next(error);
-        } else {
-            next();
-        }
-    }
-}
-
-async function injectBlogDetail(req, res, next) {
-    try {
-        const blogDetail = await contentApi.getBlogDetail({
-            urlPath: req.path,
-            locale: req.i18n.getLocale(),
-            previewMode: res.locals.PREVIEW_MODE || false
-        });
-
-        if (blogDetail) {
-            res.locals.blogDetail = blogDetail;
-
-            if (blogDetail.meta.pageType === 'blogpost') {
-                setCommonLocals({ res, entry: blogDetail.result });
-            }
-
-            next();
-        }
-    } catch (error) {
-        if (error.statusCode >= 500) {
-            next(error);
-        } else {
-            next();
-        }
-    }
-}
-
 function injectMerchandise({ locale = null, showAll = false }) {
     return async (req, res, next) => {
         try {
@@ -363,8 +320,6 @@ function injectMerchandise({ locale = null, showAll = false }) {
 }
 
 module.exports = {
-    injectBlogDetail,
-    injectBlogPosts,
     injectBreadcrumbs,
     injectCopy,
     injectFlexibleContent,
