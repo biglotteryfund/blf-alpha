@@ -441,43 +441,17 @@ const allFields = {
             'dateParts.dob': { en: `Main contact must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
         }
     },
-    mainContactAddressBuildingStreet: {
-        name: `main-contact-address-building-street`,
-        label: { en: 'Building and street', cy: '' },
-        type: 'text',
-        attributes: { size: 50 },
+    mainContactAddress: {
+        name: 'main-contact-address',
+        label: { en: 'Address', cy: '' },
+        type: 'address',
         isRequired: true,
-        schema: Joi.string().required(),
+        schema: commonValidators.ukAddress().required(),
         messages: {
-            base: { en: 'Enter a building and street', cy: '' }
+            base: { en: 'Enter a full UK address', cy: '' },
+            'string.regex.base': { en: 'Enter a valid postcode', cy: '' }
         }
     },
-    mainContactAddressTownCity: {
-        name: `main-contact-address-town-city`,
-        label: { en: 'Town or city', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a town or city', cy: '' }
-        }
-    },
-    mainContactAddressCounty: {
-        name: `main-contact-address-county`,
-        label: { en: 'County', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a county', cy: '' }
-        }
-    },
-    mainContactAddressPostcode: postcodeField({
-        name: `main-contact-address-postcode`,
-        label: { en: 'Postcode', cy: '' }
-    }),
     mainContactEmail: emailField({
         name: 'main-contact-email',
         label: { en: 'Email', cy: '' },
@@ -575,43 +549,17 @@ const allFields = {
             'dateParts.dob': { en: `Legal contact must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
         }
     },
-    legalContactAddressBuildingStreet: {
-        name: `legal-contact-address-building-street`,
-        label: { en: 'Building and street', cy: '' },
-        type: 'text',
-        attributes: { size: 50 },
+    legalContactAddress: {
+        name: 'legal-contact-address',
+        label: { en: 'Address', cy: '' },
+        type: 'address',
         isRequired: true,
-        schema: Joi.string().required(),
+        schema: commonValidators.ukAddress().required(),
         messages: {
-            base: { en: 'Enter a building and street', cy: '' }
+            base: { en: 'Enter a full UK address', cy: '' },
+            'string.regex.base': { en: 'Enter a valid postcode', cy: '' }
         }
     },
-    legalContactAddressTownCity: {
-        name: `legal-contact-address-town-city`,
-        label: { en: 'Town or city', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a town or city', cy: '' }
-        }
-    },
-    legalContactAddressCounty: {
-        name: `legal-contact-address-county`,
-        label: { en: 'County', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a county', cy: '' }
-        }
-    },
-    legalContactAddressPostcode: postcodeField({
-        name: 'legal-contact-address-postcode',
-        label: { en: 'Postcode', cy: '' }
-    }),
     legalContactEmail: emailField({
         name: 'legal-contact-email',
         label: { en: 'Email', cy: '' },

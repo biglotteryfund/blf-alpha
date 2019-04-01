@@ -139,20 +139,10 @@ const sectionMainContact = {
 <p>The main contact must be unconnected to the legally responsible contact. By ‘unconnected’ we mean not related by blood, marriage, in a long-term relationship or people living together at the same address.</p>`,
                         cy: ''
                     },
-                    fields: [allFields.mainContactName, allFields.mainContactDob]
-                },
-                {
-                    legend: { en: 'Address', cy: '' },
                     fields: [
-                        allFields.mainContactAddressBuildingStreet,
-                        allFields.mainContactAddressTownCity,
-                        allFields.mainContactAddressCounty,
-                        allFields.mainContactAddressPostcode
-                    ]
-                },
-                {
-                    legend: { en: 'Contact details', cy: '' },
-                    fields: [
+                        allFields.mainContactName,
+                        allFields.mainContactDob,
+                        allFields.mainContactAddress,
                         allFields.mainContactEmail,
                         allFields.mainContactPhone,
                         allFields.mainContactCommunicationNeeds
@@ -177,20 +167,11 @@ const sectionLegalContact = {
             fieldsets: [
                 {
                     legend: { en: 'Who is your legally responsible contact?', cy: '' },
-                    fields: [allFields.legalContactName, allFields.legalContactRole, allFields.legalContactDob]
-                },
-                {
-                    legend: { en: 'Address', cy: '' },
                     fields: [
-                        allFields.legalContactAddressBuildingStreet,
-                        allFields.legalContactAddressTownCity,
-                        allFields.legalContactAddressCounty,
-                        allFields.legalContactAddressPostcode
-                    ]
-                },
-                {
-                    legend: { en: 'Contact details', cy: '' },
-                    fields: [
+                        allFields.legalContactName,
+                        allFields.legalContactRole,
+                        allFields.legalContactDob,
+                        allFields.legalContactAddress,
                         allFields.legalContactEmail,
                         allFields.legalContactPhone,
                         allFields.legalContactCommunicationNeeds
