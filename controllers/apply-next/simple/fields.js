@@ -1,5 +1,5 @@
 'use strict';
-const { forEach, get, has, isArray, reduce, sumBy, values } = require('lodash');
+const { forEach, get, has, reduce, values } = require('lodash');
 const moment = require('moment');
 
 const { Joi, POSTCODE_PATTERN, ...commonValidators } = require('../lib/validators');
