@@ -348,6 +348,74 @@
               "version",
               "social",
               "page",
+              "programme",
+              "tag",
+              "doctype",
+              "portfolio",
+              "q",
+              "sort"
+            ],
+            "Quantity": 10
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
+                "blf-alpha-session"
+              ],
+              "Quantity": 1
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/insights/documents*"
+      },
+      {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "GET"
+          ],
+          "Quantity": 2,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version",
+              "social",
+              "page",
               "tag",
               "author",
               "category",
@@ -723,6 +791,74 @@
               "version",
               "social",
               "page",
+              "programme",
+              "tag",
+              "doctype",
+              "portfolio",
+              "q",
+              "sort"
+            ],
+            "Quantity": 10
+          },
+          "QueryString": true,
+          "Cookies": {
+            "Forward": "whitelist",
+            "WhitelistedNames": {
+              "Items": [
+                "blf-alpha-session"
+              ],
+              "Quantity": 1
+            }
+          }
+        },
+        "TrustedSigners": {
+          "Enabled": false,
+          "Items": [],
+          "Quantity": 0
+        },
+        "LambdaFunctionAssociations": {
+          "Items": [],
+          "Quantity": 0
+        },
+        "PathPattern": "/welsh/insights/documents*"
+      },
+      {
+        "TargetOriginId": "ELB_LIVE",
+        "ViewerProtocolPolicy": "redirect-to-https",
+        "MinTTL": 0,
+        "MaxTTL": 31536000,
+        "DefaultTTL": 86400,
+        "FieldLevelEncryptionId": "",
+        "Compress": true,
+        "SmoothStreaming": false,
+        "AllowedMethods": {
+          "Items": [
+            "HEAD",
+            "GET"
+          ],
+          "Quantity": 2,
+          "CachedMethods": {
+            "Items": [
+              "HEAD",
+              "GET"
+            ],
+            "Quantity": 2
+          }
+        },
+        "ForwardedValues": {
+          "Headers": {
+            "Items": [
+              "Accept",
+              "Host"
+            ],
+            "Quantity": 2
+          },
+          "QueryStringCacheKeys": {
+            "Items": [
+              "draft",
+              "version",
+              "social",
+              "page",
               "tag",
               "author",
               "category",
@@ -914,6 +1050,6 @@
         "PathPattern": "media/*"
       }
     ],
-    "Quantity": 14
+    "Quantity": 16
   }
 }
