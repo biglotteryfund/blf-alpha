@@ -284,10 +284,6 @@ toplevel:
       href: "/welsh/funding/grants"
     - label: Cymorth rheoli’ch grant
       href: "/welsh/funding/funding-guidance/managing-your-funding"
-    recentProgrammes:
-    - "national-lottery-awards-for-all-wales"
-    - "rural-programme"
-    - "people-and-places-medium-grants"
   data:
     keyStats: Ystadegau allweddol
     mapTitle: Ein blwyddyn mewn Rhifau
