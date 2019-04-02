@@ -30,7 +30,7 @@
             <div class="search-bar">
                 <label class="ff-label"
                        for="search-query">
-                    Search our documents
+                    {{ copy.search.cta }}
                 </label>
                 <div class="form-field-addon u-margin-bottom-s">
                     <input
@@ -45,22 +45,26 @@
                     <input
                         class="form-field-addon__action"
                         type="submit"
-                        value="Search"
+                        value="{{ copy.search.submit }}"
                     />
                 </div>
                 <p class="ff-help u-no-margin">
-                    Search for a keyword such as "loneliness" or an organisation name
+                    {{ copy.search.explanation }}
                 </p>
             </div>
 
             <div class="search">
 
                 {# Search totals #}
-                <div class="search__meta">
-                    <h2 class="search__total t--underline">
-                        {{ researchEntries.length }} document{{ researchEntries.length | pluralise("", "s") }} found
-                    </h2>
-                </div>
+                    <div class="search__meta">
+                        <h2 class="search__total t--underline">
+                            {% if researchEntries.length > 0 %}
+                                {{ __n('insights.documents.search.totals', researchEntries.length) }}
+                            {% else %}
+                                {{ copy.search.noResultsTotal }}
+                            {% endif %}
+                        </h2>
+                    </div>
 
                 <div class="search__meta">
                     {# Filter summary #}
@@ -88,7 +92,9 @@
                             {{ filterField(entriesMeta.activeTag.label, 'tag') }}
 
                             <li class="filter-list__item">
-                                <a class="btn-link" href="{{ basePageUrl }}">Clear all filters</a>
+                                <a class="btn-link" href="{{ basePageUrl }}">
+                                    {{ copy.search.filters.clearAllFilters }}
+                                </a>
                             </li>
                         {% endif %}
                     </ul>
@@ -100,15 +106,15 @@
                             {% set sortOptions = [
                                 {
                                     key: 'score',
-                                    title: 'Most relevant'
+                                    title: copy.search.sortBy.relevancy
                                 },
                                 {
                                     key: 'newest',
-                                    title: 'Newest first'
+                                    title: copy.search.sortBy.newest
                                 },
                                 {
                                     key: 'oldest',
-                                    title: 'Oldest first'
+                                    title: copy.search.sortBy.oldest
                                 }
                             ] %}
 
@@ -125,7 +131,7 @@
                                 </li>
                             {% endmacro %}
 
-                            <li class="link-filters__item">Ordered by</li>
+                            <li class="link-filters__item">{{ copy.search.sortBy.orderedBy }}</li>
                             {% for item in sortOptions %}
                                 {{ makeLinkFilterItem(item) }}
                             {% endfor %}
@@ -142,10 +148,12 @@
                             {% for entry in researchEntries %}
                                 <div class="u-margin-bottom-s">
                                     {% set subtitle %}
-                                        {% for programme in entry.relatedFundingProgrammes %}
-                                            {{ programme.title }}
-                                        {% endfor %}
-                                        &mdash;
+                                        {% if entry.relatedFundingProgrammes.length > 0 %}
+                                            {% for programme in entry.relatedFundingProgrammes %}
+                                                {{ programme.title }}
+                                            {% endfor %}
+                                            &mdash;
+                                        {% endif %}
                                         <time datetime="{{ props.postDate.date }}">
                                             {{ formatDate(entry.postDate.date, 'YYYY') }}
                                         </time>
@@ -155,32 +163,36 @@
                                         "subtitle": subtitle | safe,
                                         "trailText": entry.summary
                                     }) %}
-                                        {% set docTitle = entry.documentType.title + ' (' + entry.document.filetype | upper + ', ' + entry.document.filesize + ')' %}
+                                        {% set docTitle = (entry.documentType.title or copy.search.download)  + ' (' + entry.document.filetype | upper + ', ' + entry.document.filesize + ')' %}
                                         <p>
                                             {% if entry.relatedInsightsPage %}
                                                 <a class="btn btn--outline btn--small" href="{{ entry.relatedInsightsPage.linkUrl }}">
-                                                    Read summary
+                                                    {{ copy.readSummary }}
                                                 </a>
                                             {% endif %}
-                                            <a class="btn btn--outline btn--small" href="{{ entry.document.url }}">
-                                                {{ iconDownload() }}
-                                                {{ docTitle }}
-                                            </a>
+                                            {% if entry.document %}
+                                                <a class="btn btn--outline btn--small" href="{{ entry.document.url }}">
+                                                    {{ iconDownload() }}
+                                                    {{ docTitle }}
+                                                </a>
+                                            {% endif %}
                                         </p>
                                         <dl class="o-definition-list o-definition-list--compact u-border-top--thin u-padded-top">
                                             {% if entry.portfolio.length > 0 %}
-                                                <dt>Region</dt>
+                                                <dt>{{ copy.region }}</dt>
                                                 {% for region in entry.portfolio %}
                                                     <dd>{{ region.title }}</dd>
                                                 {% endfor %}
                                             {% endif %}
 
-                                            <dt>Partner</dt>
-                                            <dd>{{ entry.partnershipName }}</dd>
+                                            {% if entry.partnershipName %}
+                                                <dt>{{ copy.partner }}</dt>
+                                                <dd>{{ entry.partnershipName }}</dd>
+                                            {% endif %}
 
-                                            {% if entry.tags %}
+                                            {% if entry.tags.length > 0 %}
                                                 {% set comma = joiner() %}
-                                                <dt>Tags</dt>
+                                                <dt>{{ copy.tags }}</dt>
                                                 <dd>
                                                     {%- for tag in entry.tags -%}
                                                         {{ comma() }} <a href="?tag={{ tag.slug }}">{{ tag.title }}</a>
@@ -206,7 +218,7 @@
                                 ) }}
                             {% endif %}
                         {% else %}
-                            <p>No results were found for this search – please try removing filters or entering a different query.</p>
+                            <p>{{ copy.search.noResults }}</p>
                         {% endif %}
                     </div>
 
@@ -214,15 +226,15 @@
 
                         <fieldset class="search-filters">
                             <div class="search-filters__header">
-                                <legend class="search-filters__title">Filter by</legend>
+                                <legend class="search-filters__title">{{ copy.search.filters.filterBy }}</legend>
                                 <a class="search-filters__clear-all btn-link" href="{{ basePageUrl }}">
-                                    Clear all
+                                    {{ copy.search.filters.clearAll }}
                                 </a>
                             </div>
 
-                            {% call facetGroup('Funding programme') %}
+                            {% call facetGroup(copy.search.filters.programme.title) %}
                                 {% set options = (entriesMeta.programmes.unshift({
-                                    'label': 'Choose programme',
+                                    'label': copy.search.filters.programme.label,
                                     'value': ''
                                 }), entriesMeta.programmes) %}
                                 {{ inputSelect({
@@ -234,9 +246,9 @@
                                 }) }}
                             {% endcall %}
 
-                            {% call facetGroup('Region') %}
+                            {% call facetGroup(copy.search.filters.region.title) %}
                                 {% set options = (entriesMeta.portfolios.unshift({
-                                    'label': 'Choose region',
+                                    'label': copy.search.filters.region.label,
                                     'value': ''
                                 }), entriesMeta.portfolios) %}
                                 {{ inputSelect({
@@ -248,9 +260,9 @@
                                 }) }}
                             {% endcall %}
 
-                            {% call facetGroup('Document type') %}
+                            {% call facetGroup(copy.search.filters.docType.title) %}
                                 {% set options = (entriesMeta.docTypes.unshift({
-                                    'label': 'All',
+                                    'label': copy.search.filters.docType.label,
                                     'value': ''
                                 }), entriesMeta.docTypes) %}
                                 {{ inputChoice({
@@ -263,8 +275,8 @@
                             {% endcall %}
 
                             <div class="search-filters__actions">
-                                <input type="submit" value="Apply filters" class="btn btn--medium">
-                                <a class="btn-link" href="{{ basePageUrl }}">Clear all filters</a>
+                                <input type="submit" value="{{ copy.search.filters.applyFilters }}" class="btn btn--medium">
+                                <a class="btn-link" href="{{ basePageUrl }}">{{ copy.search.filters.clearAllFilters }}</a>
                             </div>
 
                         </fieldset>
