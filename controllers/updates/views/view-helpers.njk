@@ -1,12 +1,12 @@
 {% from "components/promo-card/macro.njk" import promoCard %}
 
-{% macro entryRegions(entry, baseUrlPath) -%}
+{% macro entryRegions(regions, baseUrlPath, regionParam = 'region') -%}
     {% set comma = joiner() %}
-    {% for region in entry.regions -%}
-        {{ comma() }} <a href="{{ baseUrlPath }}?region={{ region.slug }}">{{ region.title }}</a>
+    {% for region in regions -%}
+        {{ comma() }} <a href="{{ baseUrlPath }}?{{ regionParam }}={{ region.slug }}">{{ region.title }}</a>
         {% set childComma = joiner() %}
         {% if region.children.length > 0 %}({% endif %}{%- for childRegion in region.children -%}
-            {% if childComma() %}{{ childComma() }} {% endif %}<a href="{{ baseUrlPath }}?region={{ childRegion.slug }}">{{ childRegion.title }}</a>
+            {% if childComma() %}{{ childComma() }} {% endif %}<a href="{{ baseUrlPath }}?{{ regionParam }}={{ childRegion.slug }}">{{ childRegion.title }}</a>
         {%- endfor -%}{% if region.children.length > 0 %}){% endif %}
     {%- endfor %}
 {% endmacro %}

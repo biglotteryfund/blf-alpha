@@ -398,12 +398,53 @@ insights:
   intro: >
     <p>Every day the people, projects and communities we support generate valuable evidence, learning and data. Here you’ll find our latest insights into their achievements, successes and challenges.</p>
   moreLinkText: View archived research and insights
+  evidenceLibrary: Evidence library
   detail:
     documents: Documents
     relatedProgrammes: Related programmes
     datePublished: Date published
     partners: Research partners
     contact: Contact
+  documents:
+    title: "Insights from our funding: documents"
+    intro:  >
+      Over the last 25 years we've funded many evaluations and learning reports on our grants and investments.
+      This library offers a new way to access this evidence and insight through a tagged and searchable library, making
+      it much easier to find what you need. We're starting with our most recent reports from 2018, and will be adding to
+      these over the coming weeks.
+    search:
+      cta: Search our documents
+      submit: Search
+      download: Download
+      explanation: 'Search for a keyword such as "loneliness" or an organisation name'
+      totals:
+        one: '%s document found'
+        zero: '%s documents found'
+      noResultsTotal: 0 documents found
+      sortBy:
+        orderedBy: Ordered by
+        relevancy: Most relevant
+        newest: Newest first
+        oldest: Oldest first
+      filters:
+        clearAll: Clear all
+        clearAllFilters: Clear all filters
+        filterBy: Filter by
+        applyFilters: Apply filters
+        programme:
+          title: Funding programme
+          label: Choose programme
+        region:
+          title: Region
+          label: Choose region
+        docType:
+          title: Document type
+          label: All document types
+      noResults: No results were found for this search – please try removing filters or entering a different query.
+    readSummary: Read summary
+    region: Region
+    partner: Partner
+    tags: Tags
 news:
   title: News
   allNews: All news

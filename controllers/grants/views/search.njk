@@ -1,13 +1,12 @@
 {% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
-{% from "components/form-fields/macros.njk" import inputChoice, inputSelect with context %}
+{% from "components/form-fields/macros.njk" import inputChoice, inputSelect, facetGroup with context %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/split-nav/macro.njk" import splitNav with context %}
 
 {% from "./grant-results.njk" import grantResultList with context %}
-{% from "./helpers.njk" import facetGroup %}
 
 {% set grantNavLink = "http://grantnav.threesixtygiving.org/search?json_query=%7B%22query%22%3A+%7B%22bool%22%3A+%7B%22filter%22%3A+%5B%7B%22bool%22%3A+%7B%22should%22%3A+%5B%7B%22term%22%3A+%7B%22fundingOrganization.id_and_name%22%3A+%22%5B%5C%22The+Big+Lottery+Fund%5C%22%2C+%5C%22360G-blf%5C%22%5D%22%7D%7D%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%2C+%22must%22%3A+%7B%7D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%7B%22range%22%3A+%7B%22amountAwarded%22%3A+%7B%7D%7D%7D%2C+%22must%22%3A+%7B%7D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%2C+%7B%22bool%22%3A+%7B%22should%22%3A+%5B%5D%7D%7D%5D%2C+%22must%22%3A+%7B%22query_string%22%3A+%7B%22default_field%22%3A+%22_all%22%2C+%22query%22%3A+%22%2A%22%7D%7D%7D%7D%2C+%22sort%22%3A+%7B%22_score%22%3A+%7B%22order%22%3A+%22desc%22%7D%7D%2C+%22aggs%22%3A+%7B%22recipientDistrictName%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientDistrictName%22%7D%7D%2C+%22currency%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22currency%22%7D%7D%2C+%22recipientOrganization%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientOrganization.id_and_name%22%7D%7D%2C+%22fundingOrganization%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22fundingOrganization.id_and_name%22%7D%7D%2C+%22recipientRegionName%22%3A+%7B%22terms%22%3A+%7B%22size%22%3A+3%2C+%22field%22%3A+%22recipientRegionName%22%7D%7D%7D%2C+%22extra_context%22%3A+%7B%22awardYear_facet_size%22%3A+3%2C+%22amountAwardedFixed_facet_size%22%3A+3%7D%7D" %}
 
@@ -59,7 +58,7 @@
 
             <form class="u-inner" id="js-past-grants" method="get" action="" v-on:submit.prevent>
 
-                <div class="grants-searchbar js-only">
+                <div class="search-bar js-only">
                     <label class="ff-label"
                            for="search-query"
                            data-append="{{ copy.beta }}">
@@ -67,7 +66,7 @@
                     </label>
                     <div class="form-field-addon u-margin-bottom-s">
                         <input
-                            class="form-field-addon__input "
+                            class="form-field-addon__input"
                             disabled="disabled"
                             type="search"
                             id="search-query"
@@ -89,7 +88,7 @@
                 </div>
 
                 <noscript>
-                    <div class="grants-searchbar">
+                    <div class="search-bar">
                         <label class="ff-label" for="search-query-fallback">
                             {{ copy.title }}
                         </label>
@@ -113,11 +112,11 @@
                     </div>
                 </noscript>
 
-                <div class="grants-search{% if meta.totalResults === 0 %} js-only{% endif %}">
+                <div class="search{% if meta.totalResults === 0 %} js-only{% endif %}">
 
                     {# Search totals #}
-                    <div class="grants-search__meta">
-                        <h2 class="grants-search__total t--underline">
+                    <div class="search__meta">
+                        <h2 class="search__total t--underline">
                             <grants-total-summary
                                 :total-results="totalResults"
                                 :total-awarded="totalAwarded"
@@ -127,7 +126,7 @@
                         </h2>
                     </div>
 
-                    <div class="grants-search__meta">
+                    <div class="search__meta">
                         {# Filter summary #}
                         <div>
                             <grants-filter-summary
@@ -138,7 +137,7 @@
                         </div>
 
                         {# Sort controls #}
-                        <div class="grants-search__sort"
+                        <div class="search__sort"
                              v-if="totalResults > 0">
                             <grants-sort
                                 :sort="sort"
@@ -148,11 +147,10 @@
                         </div>
                     </div>
 
-                    <div class="grants-search__content">
+                    <div class="search__content">
 
-                        <div class="grants-search__results">
-
-                            <div class="grants-search__status">
+                        <div class="search__results">
+                            <div>
                                 <grants-loading-status
                                     :status="status"
                                     :copy="copy"
@@ -171,7 +169,7 @@
                             </div>
                         </div>
 
-                        <div class="grants-search__filters" v-if="totalResults > 0">
+                        <div class="search__controls" v-if="totalResults > 0">
 
                             {# Javascript component version of filters #}
                             <grants-filters
@@ -308,7 +306,7 @@
                 />
 
                 {% if meta.totalResults === 0 %}
-                    <div class="grants-no-results s-prose u-margin-bottom" v-if="totalResults === 0">
+                    <div class="s-prose u-margin-bottom" v-if="totalResults === 0">
                         <h3>{{ copy.errors.noResults.title }}</h3>
 
                         {% if searchSuggestions and searchSuggestions.searchHadATypo %}

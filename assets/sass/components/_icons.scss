@@ -55,3 +55,16 @@ $spinnerColour: get-color('brand', 'primary');
         transform: rotate(360deg);
     }
 }
+
+.icon--download-btn {
+    position: relative;
+    top: 3px;
+    height: 13px;
+}
+
+.icon--tick-plain {
+    width: 11px;
+    height: 11px;
+    margin-right: 3px;
+    fill: darken(get-color('border', 'base'), 30%);
+}

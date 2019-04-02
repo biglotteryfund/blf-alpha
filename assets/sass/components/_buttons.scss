@@ -153,12 +153,12 @@ $buttonColor: get-color('brand', 'primary');
  * Button: Outline variant
  */
 .btn.btn--outline {
-    background-color: white !important;
+    background-color: transparent !important;
     color: $buttonColor !important;
     border: 3px solid $buttonColor;
 
     @include on-interact {
-        background-color: white;
+        background-color: transparent;
         border-color: darken($buttonColor, 10%);
         color: darken($buttonColor, 10%) !important;
     }

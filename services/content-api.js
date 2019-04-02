@@ -148,15 +148,24 @@ function getFundingProgramme({ locale, slug, previewMode = false, query = {} }) 
     }).then(response => get('data.attributes')(response));
 }
 
-function getResearch({ locale, slug = null, previewMode = null, query = {} }) {
+function getResearch({ locale, slug = null, previewMode = null, query = {}, type = null }) {
     if (slug) {
         return fetch(`/v1/${locale}/research/${slug}`, {
             qs: addPreviewParams(previewMode, { ...query })
         }).then(getAttrs);
     } else {
-        return fetch(`/v1/${locale}/research`, {
-            qs: addPreviewParams(previewMode)
-        }).then(mapAttrs);
+        let path = `/v1/${locale}/research`;
+        if (type) {
+            path += `/${type}`;
+        }
+        return fetch(path, {
+            qs: addPreviewParams(previewMode, { ...query })
+        }).then(response => {
+            return {
+                meta: response.meta,
+                result: mapAttrs(response)
+            };
+        });
     }
 }
 

@@ -324,3 +324,16 @@
         </div>
     </div>
 {% endmacro %}
+
+{% macro facetGroup(legend) %}
+    <div class="facet-group is-open">
+        <fieldset class="facet-group__fieldset">
+            <legend class="facet-group__legend">
+                {{ legend }}
+            </legend>
+            <div class="facet-group__body">
+                {{ caller() }}
+            </div>
+        </fieldset>
+    </div>
+{% endmacro %}

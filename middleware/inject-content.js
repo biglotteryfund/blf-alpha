@@ -1,4 +1,5 @@
 'use strict';
+const { pick, clone } = require('lodash');
 const { flatten, get, getOr } = require('lodash/fp');
 const moment = require('moment');
 const Raven = require('raven');
@@ -251,10 +252,12 @@ async function injectStrategicProgrammes(req, res, next) {
 
 async function injectResearch(req, res, next) {
     try {
-        res.locals.researchEntries = await contentApi.getResearch({
+        const research = await contentApi.getResearch({
             locale: req.i18n.getLocale(),
             previewMode: res.locals.PREVIEW_MODE || false
         });
+        res.locals.researchEntries = research.result;
+        res.locals.researchMeta = research.meta;
         next();
     } catch (error) {
         if (error.statusCode >= 500) {
