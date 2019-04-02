@@ -11,7 +11,9 @@ const { sanitiseUrlPath } = require('../modules/urls');
 let { CONTENT_API_URL } = require('../modules/secrets');
 
 function fetch(urlPath, options) {
-    debug(`Fetching ${urlPath}${options && options.qs ? '?' + querystring.stringify(options.qs) : ''}`);
+    debug(
+        `Fetching ${CONTENT_API_URL}${urlPath}${options && options.qs ? '?' + querystring.stringify(options.qs) : ''}`
+    );
     const defaults = {
         url: `${CONTENT_API_URL}${urlPath}`,
         json: true

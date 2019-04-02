@@ -1,5 +1,5 @@
 'use strict';
-const { concat, get, groupBy, head, map } = require('lodash');
+const { concat, get, groupBy, head, map, set } = require('lodash');
 const express = require('express');
 const path = require('path');
 
@@ -7,7 +7,8 @@ const {
     injectBreadcrumbs,
     injectCopy,
     injectHeroImage,
-    injectFundingProgramme
+    injectFundingProgramme,
+    setCommonLocals
 } = require('../../middleware/inject-content');
 const { basicContent } = require('../common');
 const { buildArchiveUrl } = require('../../modules/archived');
@@ -181,10 +182,22 @@ router.use('/digital-fund', require('../digital-fund'));
 /**
  * Programme detail
  */
-router.get('/:slug', injectFundingProgramme, (req, res, next) => {
+router.get('/:programmeSlug/:childPageSlug?', injectFundingProgramme, (req, res, next) => {
     const { fundingProgramme } = res.locals;
 
-    if (get(fundingProgramme, 'contentSections', []).length > 0) {
+    if (get(fundingProgramme, 'entryType') === 'contentPage') {
+        setCommonLocals({ res, entry: fundingProgramme });
+        set(res.locals, 'content.flexibleContent', fundingProgramme.content);
+        const parentProgrammeCrumb = fundingProgramme.parent
+            ? {
+                  label: fundingProgramme.parent.title,
+                  url: fundingProgramme.parent.linkUrl
+              }
+            : {};
+        res.render(path.resolve(__dirname, '../common/views/flexible-content'), {
+            breadcrumbs: concat(res.locals.breadcrumbs, [parentProgrammeCrumb, { label: res.locals.title }])
+        });
+    } else if (get(fundingProgramme, 'contentSections', []).length > 0) {
         /**
          * Programme Detail page
          */
