@@ -7,7 +7,7 @@ const {
     formatDayMonth,
     formatCurrency,
     formatBudget
-} = require('./formaters');
+} = require('./formatters');
 
 describe('formatters', () => {
     test('formatOptions', () => {

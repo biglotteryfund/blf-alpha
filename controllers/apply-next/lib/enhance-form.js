@@ -9,7 +9,7 @@ const {
     formatDayMonth,
     formatCurrency,
     formatBudget
-} = require('./formaters');
+} = require('./formatters');
 
 function displayValue(field, value) {
     if (field.type === 'radio' || field.type === 'checkbox') {
