@@ -313,6 +313,7 @@ insights:
   intro: >
     <p>Bob dydd mae’r bobl, prosiectau a chymunedau a gefnogwn yn cynhyrchu tystiolaeth, dysgu a data gwerthfawr. Yma fe ddewch o hyd i’n mewnwelediad diweddaraf i’w cyflawniadau, llwyddiannau a heriau.</p>
   moreLinkText: Gweld ymchwil a mewnwelediad wedi’i archifo
+  evidenceLibrary: Llyfrgell dystiolaeth
   detail:
     documents: Dogfennau
     relatedProgrammes: Rhaglenni cysylltiedig
@@ -320,45 +321,42 @@ insights:
     partners: Partneriaid ymchwil
     contact: Manylion cyswllt
   documents:
-    title: "WELSH_Insights from our funding: documents"
+    title: "Mewnwelediad o'n hariannu: dogfennau"
     intro:  >
-      WELSH_Over the last 25 years we've funded many evaluations and learning reports on our grants and investments.
-      This library offers a new way to access this evidence and insight through a tagged and searchable library, making
-      it much easier to find what you need. We're starting with our most recent reports from 2018, and will be adding to
-      these over the coming weeks.
+      Dros y 25 mlynedd ddiwethaf rydym wedi ariannu nifer mawr o werthusiadau ac adroddiadau dysgu ar ein grantiau a buddsoddiadau. Mae'r llyfrgell hwn yn cynnig dull newydd o gyrchu'r dystiolaeth a mewnwelediad hwn trwy lyfrgell wedi'i thagio y gellir ei chwilio, gan ei wneud yn llawer haws dod o hyd i'r hyn y mae ei angen arnoch. Rydym yn dechrau gyda'n hadroddiadau mwyaf diweddar o 2018, a byddwn yn ychwanegu at y rhain dros yr wythnosau i ddod.
     search:
-      cta: WELSH_Search our documents
+      cta: Chwiliwch ein dogfennau
       submit: Chwilio
       download: Lawrlwytho'r
-      explanation: 'Search for a keyword such as "loneliness" or an organisation name'
+      explanation: 'Chwiliwch am allweddair fel "unigrwydd" neu enw mudiad'
       totals:
-        one: '%s document found'
-        other: '%s documents found'
-      noResultsTotal: 0 documents found
+        one: 'Canfuwyd %s dogfen'
+        other: 'Canfuwyd %s ddogfen'
+      noResultsTotal: Canfuwyd 0 dogfen
       sortBy:
-        orderedBy: Ordered by
-        relevancy: Most relevant
-        newest: Newest first
-        oldest: Oldest first
+        orderedBy: "Wedi'u trefnu fesul"
+        relevancy: Mwyaf perthnasol
+        newest: Diweddaraf yn gyntaf
+        oldest: Hynaf yn gyntaf
       filters:
-        clearAll: Clear all
+        clearAll: Clirio popeth
         clearAllFilters: Clirio pob hidlydd
         filterBy: Hidlwch fesul
-        applyFilters: Apply filters
+        applyFilters: Cymhwyso hidlyddion
         programme:
           title: Rhaglen ariannu
-          label: Choose programme
+          label: Dewis rhaglen
         region:
           title: Rhanbarth
-          label: Choose region
+          label: Dewis rhanbarth
         docType:
-          title: Document type
-          label: All document types
-      noResults: No results were found for this search – please try removing filters or entering a different query.
-    readSummary: Read summary
+          title: Math o ddogfen
+          label: Pob math o ddogfen
+      noResults: Ni chanfuwyd canlyniadau ar gyfer y chwiliad hwn - rhowch gynnig ar ddileu hidlyddion neu nodwch ymholiad gwahanol.
+    readSummary: Darllen crynodeb
     region: Rhanbarth
     partner: Partner
-    tags: Tags
+    tags: Tagiau
 news:
   title: Newyddion
   allNews: Holl newyddion
