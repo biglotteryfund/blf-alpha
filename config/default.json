@@ -39,7 +39,7 @@
     "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
     "enablePrompt": false,
-    "enableRelatedGrants": true,
+    "enableRelatedGrants": false,
     "enableSurvey": true
   },
   "cookies": {
