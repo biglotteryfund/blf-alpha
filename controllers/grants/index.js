@@ -235,10 +235,10 @@ if (config.get('features.enableRelatedGrants')) {
 
 router.get('/recipients/:id', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
     try {
-        const data = await grantsService.query({
-            page: req.query.page || 1,
-            recipient: req.params.id,
-            locale: req.i18n.getLocale()
+        const data = await grantsService.getRecipientById({
+            id: req.params.id,
+            locale: req.i18n.getLocale(),
+            page: req.query.page
         });
 
         const organisation = get(data, 'results[0].recipientOrganization[0]');
@@ -265,7 +265,10 @@ router.get('/recipients/:id', injectCopy('funding.pastGrants.search'), async (re
 
 router.get('/:id', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
     try {
-        const data = await grantsService.getById({ id: req.params.id, locale: req.i18n.getLocale() });
+        const data = await grantsService.getGrantById({
+            id: req.params.id,
+            locale: req.i18n.getLocale()
+        });
 
         let projectStory;
         try {
