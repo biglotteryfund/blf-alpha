@@ -65,53 +65,51 @@
 {% endmacro %}
 
 {% macro inputDate(field, includeYear = true) %}
-    <fieldset class="ff-date">
-        <legend class="ff-label" for="field-{{ field.name }}">
-            {{ fieldLabelText(field) }}
+    <fieldset class="ff-date" id="field-{{ field.name }}">
+        <legend class="ff-label ff-date__legend">
+            {{ field.label }}
         </legend>
         {{ fieldHelpText(field, fieldCopy) }}
 
-        <div id="field-{{ field.name }}">
-            <label class="ff-inline">
-                <span class="ff-label">{{ __('global.misc.day') }}</span>
+        <label class="ff-date__field">
+            <span class="ff-label">{{ __('global.misc.day') }}</span>
+            <input
+                class="ff-text ff-width-2"
+                name="{{ field.name }}[day]"
+                type="number"
+                pattern="[0-9]*"  min="1"
+                autocomplete="off"
+                {% if field.isRequired %}required aria-required="true"{% endif %}
+                value="{{ field.value.day }}"
+            />
+        </label>
+        <label class="ff-date__field">
+            <span class="ff-label">{{ __('global.misc.month') }}</span>
+            <input
+                class="ff-text ff-width-2"
+                name="{{ field.name }}[month]"
+                type="number"
+                pattern="[0-9]*"  min="1"
+                autocomplete="off"
+                {% if field.isRequired %}required aria-required="true"{% endif %}
+                value="{{ field.value.month }}"
+            />
+        </label>
+        {% if includeYear %}
+            <label class="ff-date__field">
+                <span class="ff-label">{{ __('global.misc.year') }}</span>
                 <input
-                    class="ff-text ff-width-2"
-                    name="{{ field.name }}[day]"
+                    class="ff-text ff-width-4"
+                    name="{{ field.name }}[year]"
                     type="number"
-                    pattern="[0-9]*"  min="1"
+                    pattern="[0-9]*" min="{{ field.settings.minYear | default(1900) }}"
                     autocomplete="off"
+                    size="20"
                     {% if field.isRequired %}required aria-required="true"{% endif %}
-                    value="{{ field.value.day }}"
+                    value="{{ field.value.year }}"
                 />
             </label>
-            <label class="ff-inline">
-                <span class="ff-label">{{ __('global.misc.month') }}</span>
-                <input
-                    class="ff-text ff-width-2"
-                    name="{{ field.name }}[month]"
-                    type="number"
-                    pattern="[0-9]*"  min="1"
-                    autocomplete="off"
-                    {% if field.isRequired %}required aria-required="true"{% endif %}
-                    value="{{ field.value.month }}"
-                />
-            </label>
-            {% if includeYear %}
-                <label class="ff-inline">
-                    <span class="ff-label">{{ __('global.misc.year') }}</span>
-                    <input
-                        class="ff-text ff-width-4"
-                        name="{{ field.name }}[year]"
-                        type="number"
-                        pattern="[0-9]*" min="{{ field.settings.minYear | default(1900) }}"
-                        autocomplete="off"
-                        size="20"
-                        {% if field.isRequired %}required aria-required="true"{% endif %}
-                        value="{{ field.value.year }}"
-                    />
-                </label>
-            {% endif %}
-        </div>
+        {% endif %}
     </fieldset>
 {% endmacro %}
 
@@ -205,7 +203,7 @@
                                 name="{{ field.name }}"
                                 value="{{ option.value }}"
                                 {% if field.isRequired %}required aria-required="true"{% endif %}
-                                {% if field.value === option.value %}checked{% endif %}
+                                {% if field.value[0] === option.value %}checked{% endif %}
                             />
                         {% endif %}
                     </div>
@@ -222,9 +220,59 @@
     </fieldset>
 {% endmacro %}
 
-{% macro inputBudget(field, fieldCopy) %}
+{% macro inputAddress(field) %}
+    <fieldset class="ff-address" id="field-{{ field.name }}">
+        <legend class="ff-address__legend t2 t--underline">
+            {{ fieldLabelText(field) }}
+        </legend>
 
-    <fieldset class="ff-choice">
+        {{ fieldHelpText(field, fieldCopy) }}
+
+        <div class="ff-address__field">
+            {{ inputText({
+                label: 'Building and street',
+                name: field.name + '[building-street]',
+                value: field.value['building-street'],
+                type: 'text',
+                isRequired: field.isRequired,
+                attributes: { size: 40 }
+            }) }}
+        </div>
+        <div class="ff-address__field">
+            {{ inputText({
+                label: 'Town or city',
+                name: field.name + '[town-city]',
+                value: field.value['town-city'],
+                type: 'text',
+                isRequired: field.isRequired,
+                attributes: { size: 30 }
+            }) }}
+        </div>
+        <div class="ff-address__field">
+            {{ inputText({
+                label: 'County',
+                name: field.name + '[county]',
+                value: field.value['county'],
+                type: 'text',
+                isRequired: field.isRequired,
+                attributes: { size: 30 }
+            }) }}
+        </div>
+        <div class="ff-address__field">
+            {{ inputText({
+                label: 'Postcode',
+                name: field.name + '[postcode]',
+                value: field.value['postcode'],
+                type: 'text',
+                isRequired: field.isRequired,
+                attributes: { size: 10 }
+            }) }}
+        </div>
+    </fieldset>
+{% endmacro %}
+
+{% macro inputBudget(field, fieldCopy) %}
+    <fieldset>
         <legend class="ff-label">
             {{ fieldLabelText(field) }}
         </legend>
@@ -308,6 +356,8 @@
                     {{ inputDate(field, includeYear = false) }}
                 {% elseif field.type === 'currency' %}
                     {{ inputCurrency(field, fieldCopy) }}
+                {% elseif field.type === 'address' %}
+                    {{ inputAddress(field) }}
                 {% elseif field.type === 'budget' %}
                     {{ inputBudget(field, fieldCopy) }}
                 {% else %}

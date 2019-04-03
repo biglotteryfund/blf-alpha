@@ -159,11 +159,6 @@ $inputOutline: 3px solid get-color('border', 'outline');
     width: 10ex;
 }
 
-.ff-inline {
-    display: inline-block;
-    margin-right: $spacingUnit / 2;
-}
-
 /* =========================================================================
    Choice Input Type (radio and checkboxes)
    ========================================================================= */
@@ -204,6 +199,37 @@ $inputOutline: 3px solid get-color('border', 'outline');
             font-size: 16px;
             margin-bottom: 3px;
         }
+    }
+}
+
+/* =========================================================================
+   Date Field Type
+   ========================================================================= */
+
+.ff-date {
+    .ff-date__field {
+        display: inline-block;
+        margin-right: $spacingUnit / 2;
+    }
+
+    /**
+     * Suppress numeric spin controls on date input sets.
+     */
+    input[type='number']::-webkit-inner-spin-button,
+    input[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+/* =========================================================================
+   Address Field Type
+   ========================================================================= */
+
+.ff-address {
+    .ff-address__legend,
+    .ff-address__field {
+        margin-bottom: $spacingUnit;
     }
 }
 
@@ -357,20 +383,6 @@ $inputOutline: 3px solid get-color('border', 'outline');
     display: block;
 }
 
-/* =========================================================================
-   Field Type Overrides
-   ========================================================================= */
-
-/**
- * Suppress numeric spin controls on date input sets.
- */
-.form-field--type-date {
-    input[type='number']::-webkit-inner-spin-button,
-    input[type='number']::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-}
 /* =========================================================================
    Form field add-on
    ========================================================================= */

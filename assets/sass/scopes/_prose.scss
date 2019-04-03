@@ -186,5 +186,26 @@
         figcaption {
             @include text-caption();
         }
+
+        // Used in conjunction with Redactor's image position settings in the CMS
+        &.image-left {
+            float: left;
+            margin-right: $spacingUnit;
+            margin-bottom: $spacingUnit;
+            margin-top: 0;
+        }
+
+        &.image-right{
+            float: right;
+            margin-left: $spacingUnit;
+            margin-bottom: $spacingUnit;
+            margin-top: 0;
+        }
+
+        &.image-centre {
+            img {
+                margin: auto;
+            }
+        }
     }
 }

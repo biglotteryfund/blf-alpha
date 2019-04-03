@@ -15,11 +15,25 @@ module.exports = {
             .required()
     }),
     errorMessages: {
-        username: {
-            base: { en: 'Enter a valid email address', cy: '' }
-        },
-        password: {
-            base: { en: 'Password must be at least 10 characters long', cy: '' }
-        }
+        username: [
+            {
+                type: 'base',
+                message: { en: 'Enter a valid email address', cy: '' }
+            }
+        ],
+        password: [
+            {
+                type: 'base',
+                message: { en: 'Enter a password', cy: '' }
+            },
+            {
+                type: 'any.invalid',
+                message: { en: 'Password is invalid, check it is not the same as your username', cy: '' }
+            },
+            {
+                type: 'string.min',
+                message: { en: 'Password must be at least 10 characters long', cy: '' }
+            }
+        ]
     }
 };

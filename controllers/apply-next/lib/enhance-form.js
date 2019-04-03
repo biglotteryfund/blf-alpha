@@ -2,7 +2,32 @@
 const { get } = require('lodash/fp');
 const { cloneDeep, find } = require('lodash');
 
-const displayValue = require('./display-value');
+const {
+    formatOptions,
+    formatAddress,
+    formatDate,
+    formatDayMonth,
+    formatCurrency,
+    formatBudget
+} = require('./formatters');
+
+function displayValue(field, value) {
+    if (field.type === 'radio' || field.type === 'checkbox') {
+        return formatOptions(field.options, value);
+    } else if (field.type === 'address') {
+        return formatAddress(value);
+    } else if (field.type === 'date') {
+        return formatDate(value);
+    } else if (field.type === 'day-month') {
+        return formatDayMonth(value);
+    } else if (field.type === 'currency') {
+        return formatCurrency(value);
+    } else if (field.type === 'budget') {
+        return formatBudget(value);
+    } else {
+        return value.toString();
+    }
+}
 
 /**
  * Enhances a form object by:
