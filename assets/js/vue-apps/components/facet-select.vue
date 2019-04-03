@@ -28,7 +28,7 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div class="ff-choice">
         <label class="ff-label" :for="id"> {{ label }} </label>
         <div class="ff-choice__option ff-choice__option--flex">
             <select class="ff-select" :id="id" :name="name" :value="value" @change="handleInput">
@@ -54,7 +54,7 @@ export default {
 
             <button
                 class="active-filter active-filter--mini u-margin-left-s"
-                @click="$emit('clear-selection');"
+                @click="$emit('clear-selection')"
                 v-if="value"
             >
                 <IconClose :id="'clear-' + id" :description="clearLabel" />
