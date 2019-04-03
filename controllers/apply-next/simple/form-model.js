@@ -3,6 +3,7 @@ const { get, includes } = require('lodash');
 
 const { schema, allFields, organisationTypes } = require('./fields');
 const processor = require('./processor');
+const validateModel = require('../lib/validate-model');
 
 const sectionProject = {
     slug: 'your-project',
@@ -58,15 +59,10 @@ const sectionOrganisation = {
             fieldsets: [
                 {
                     legend: { en: 'Organisation details', cy: '' },
-                    fields: [allFields.organisationLegalName, allFields.organisationAlias]
-                },
-                {
-                    legend: { en: 'What is the main or registered address of your organisation?', cy: '' },
                     fields: [
-                        allFields.organisationAddressBuildingStreet,
-                        allFields.organisationAddressTownCity,
-                        allFields.organisationAddressCounty,
-                        allFields.organisationAddressPostcode
+                        allFields.organisationLegalName,
+                        allFields.organisationAlias,
+                        allFields.organisationAddress
                     ]
                 }
             ]
@@ -144,20 +140,10 @@ const sectionMainContact = {
 <p>The main contact must be unconnected to the legally responsible contact. By ‘unconnected’ we mean not related by blood, marriage, in a long-term relationship or people living together at the same address.</p>`,
                         cy: ''
                     },
-                    fields: [allFields.mainContactName, allFields.mainContactDob]
-                },
-                {
-                    legend: { en: 'Address', cy: '' },
                     fields: [
-                        allFields.mainContactAddressBuildingStreet,
-                        allFields.mainContactAddressTownCity,
-                        allFields.mainContactAddressCounty,
-                        allFields.mainContactAddressPostcode
-                    ]
-                },
-                {
-                    legend: { en: 'Contact details', cy: '' },
-                    fields: [
+                        allFields.mainContactName,
+                        allFields.mainContactDob,
+                        allFields.mainContactAddress,
                         allFields.mainContactEmail,
                         allFields.mainContactPhone,
                         allFields.mainContactCommunicationNeeds
@@ -182,20 +168,11 @@ const sectionLegalContact = {
             fieldsets: [
                 {
                     legend: { en: 'Who is your legally responsible contact?', cy: '' },
-                    fields: [allFields.legalContactName, allFields.legalContactRole, allFields.legalContactDob]
-                },
-                {
-                    legend: { en: 'Address', cy: '' },
                     fields: [
-                        allFields.legalContactAddressBuildingStreet,
-                        allFields.legalContactAddressTownCity,
-                        allFields.legalContactAddressCounty,
-                        allFields.legalContactAddressPostcode
-                    ]
-                },
-                {
-                    legend: { en: 'Contact details', cy: '' },
-                    fields: [
+                        allFields.legalContactName,
+                        allFields.legalContactRole,
+                        allFields.legalContactDob,
+                        allFields.legalContactAddress,
                         allFields.legalContactEmail,
                         allFields.legalContactPhone,
                         allFields.legalContactCommunicationNeeds
@@ -267,116 +244,120 @@ const sectionBankDetails = {
     ]
 };
 
+const formModel = {
+    id: 'awards-for-all',
+    title: { en: 'National Lottery Awards for All', cy: '' },
+    isBilingual: true,
+    newApplicationFields: [allFields.applicationTitle, allFields.applicationCountry],
+    sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionLegalContact, sectionBankDetails],
+    termsFields: [
+        {
+            name: 'terms-agreement-1',
+            type: 'checkbox',
+            label: {
+                en:
+                    'You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.',
+                cy: ''
+            },
+            options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+            isRequired: true
+        },
+        {
+            name: 'terms-agreement-2',
+            type: 'checkbox',
+            label: {
+                en:
+                    'All the information you have provided in your application is accurate and complete; and you will notify us of any changes.',
+                cy: ''
+            },
+            options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+            isRequired: true
+        },
+        {
+            name: 'terms-agreement-3',
+            type: 'checkbox',
+            label: {
+                en:
+                    'You understand that we will use any personal information you have provided for the purposes described under the Data Protection Statement.',
+                cy: ''
+            },
+            options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+            isRequired: true
+        },
+        {
+            name: 'terms-agreement-4',
+            type: 'checkbox',
+            label: {
+                en:
+                    'If information about this application is requested under the Freedom of Information Act, we will release it in line with our Freedom of Information policy.',
+                cy: ''
+            },
+            options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+            isRequired: true
+        },
+        {
+            name: 'terms-person-name',
+            autocompleteName: 'name',
+            type: 'text',
+            label: { en: 'Full name of person completing this form', cy: '' },
+            isRequired: true
+        },
+        {
+            name: 'terms-person-position',
+            autocompleteName: 'position',
+            type: 'text',
+            label: { en: 'Position in organisation', cy: '' },
+            isRequired: true
+        }
+    ],
+    // @TODO i18n - move these to locale files when they're signed off
+    eligibilityQuestions: [
+        {
+            question: 'Does your organisation have at least two unconnected people on the board or committee?',
+            explanation:
+                'By unconnected, we mean not a relation by blood, marriage, in a long-term relationship or people living together at the same address.',
+            ineligibleReason:
+                'This is because you declared that your organisation does not have at least two unconnected people on the board or committee'
+        },
+        {
+            question:
+                'Are you applying for an amount between £300 and £10,000 for a project that will be finished within about 12 months?',
+            explanation:
+                "We know it's not always possible to complete a project in 12 months for lots of reasons. We can therefore consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.",
+            ineligibleReason:
+                'This is because you declared that your organisation does not need an amount between £300 and £10,000 for a project that will be finished within about 12 months.'
+        },
+        {
+            question: 'Does your project start at least 12 weeks from when you plan to submit your application?',
+            explanation:
+                "We need 12 weeks to be able to assess your application and pay your grant, if you're successful. Therefore, projects need to start at least 12 weeks from the date you submit your application to us.",
+            ineligibleReason:
+                "This is because you declared that your project doesn't start at least 12 weeks from when we plan to submit your application."
+        },
+        {
+            question:
+                'Do you have a UK bank account in the legal name of your organisation, with at least two unrelated people who are able to manage the account?',
+            explanation:
+                "This should be the legal name of your organisation as it appears on your bank statement, not the name of your bank. This will usually be the same as your organisation's name on your governing document.",
+            ineligibleReason:
+                "This is because you declared that your organisation doesn't have a UK bank account in the name of your organisation."
+        },
+        {
+            question:
+                "Do you produce annual accounts (or did you set up your organisation less than 15 months ago and haven't produced annual accounts yet)?",
+            explanation:
+                "By annual accounts, we mean a summary of your financial activity. If you are a small organisation, this may be produced by your board and doesn't have to be done by an accountant.",
+            ineligibleReason:
+                "This is because you declared that your organisation hasn't produced annual accounts, or that your your organisation was set up less than 15 months ago and has not yet produced annual accounts."
+        }
+    ],
+    schema: schema,
+    processor: processor,
+    programmePage: '/funding/programmes/national-lottery-awards-for-all-england'
+};
+
+validateModel(formModel);
+
 module.exports = {
-    formModel: {
-        id: 'awards-for-all',
-        title: { en: 'National Lottery Awards for All', cy: '' },
-        isBilingual: true,
-        newApplicationFields: [allFields.applicationTitle, allFields.applicationCountry],
-        sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionLegalContact, sectionBankDetails],
-        termsFields: [
-            {
-                name: 'terms-agreement-1',
-                type: 'checkbox',
-                label: {
-                    en:
-                        'You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.',
-                    cy: ''
-                },
-                options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
-                isRequired: true
-            },
-            {
-                name: 'terms-agreement-2',
-                type: 'checkbox',
-                label: {
-                    en:
-                        'All the information you have provided in your application is accurate and complete; and you will notify us of any changes.',
-                    cy: ''
-                },
-                options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
-                isRequired: true
-            },
-            {
-                name: 'terms-agreement-3',
-                type: 'checkbox',
-                label: {
-                    en:
-                        'You understand that we will use any personal information you have provided for the purposes described under the Data Protection Statement.',
-                    cy: ''
-                },
-                options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
-                isRequired: true
-            },
-            {
-                name: 'terms-agreement-4',
-                type: 'checkbox',
-                label: {
-                    en:
-                        'If information about this application is requested under the Freedom of Information Act, we will release it in line with our Freedom of Information policy.',
-                    cy: ''
-                },
-                options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
-                isRequired: true
-            },
-            {
-                name: 'terms-person-name',
-                autocompleteName: 'name',
-                type: 'text',
-                label: { en: 'Full name of person completing this form', cy: '' },
-                isRequired: true
-            },
-            {
-                name: 'terms-person-position',
-                autocompleteName: 'position',
-                type: 'text',
-                label: { en: 'Position in organisation', cy: '' },
-                isRequired: true
-            }
-        ],
-        // @TODO i18n - move these to locale files when they're signed off
-        eligibilityQuestions: [
-            {
-                question: 'Does your organisation have at least two unconnected people on the board or committee?',
-                explanation:
-                    'By unconnected, we mean not a relation by blood, marriage, in a long-term relationship or people living together at the same address.',
-                ineligibleReason:
-                    'This is because you declared that your organisation does not have at least two unconnected people on the board or committee'
-            },
-            {
-                question:
-                    'Are you applying for an amount between £300 and £10,000 for a project that will be finished within about 12 months?',
-                explanation:
-                    "We know it's not always possible to complete a project in 12 months for lots of reasons. We can therefore consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.",
-                ineligibleReason:
-                    'This is because you declared that your organisation does not need an amount between £300 and £10,000 for a project that will be finished within about 12 months.'
-            },
-            {
-                question: 'Does your project start at least 12 weeks from when you plan to submit your application?',
-                explanation:
-                    "We need 12 weeks to be able to assess your application and pay your grant, if you're successful. Therefore, projects need to start at least 12 weeks from the date you submit your application to us.",
-                ineligibleReason:
-                    "This is because you declared that your project doesn't start at least 12 weeks from when we plan to submit your application."
-            },
-            {
-                question:
-                    'Do you have a UK bank account in the legal name of your organisation, with at least two unrelated people who are able to manage the account?',
-                explanation:
-                    "This should be the legal name of your organisation as it appears on your bank statement, not the name of your bank. This will usually be the same as your organisation's name on your governing document.",
-                ineligibleReason:
-                    "This is because you declared that your organisation doesn't have a UK bank account in the name of your organisation."
-            },
-            {
-                question:
-                    "Do you produce annual accounts (or did you set up your organisation less than 15 months ago and haven't produced annual accounts yet)?",
-                explanation:
-                    "By annual accounts, we mean a summary of your financial activity. If you are a small organisation, this may be produced by your board and doesn't have to be done by an accountant.",
-                ineligibleReason:
-                    "This is because you declared that your organisation hasn't produced annual accounts, or that your your organisation was set up less than 15 months ago and has not yet produced annual accounts."
-            }
-        ],
-        schema: schema,
-        processor: processor,
-        programmePage: '/funding/programmes/national-lottery-awards-for-all-england'
-    }
+    formModel: formModel
 };

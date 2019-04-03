@@ -1,8 +1,8 @@
 'use strict';
-const { forEach, get, has, isArray, reduce, sumBy, values } = require('lodash');
+const { get, has, reduce, values } = require('lodash');
 const moment = require('moment');
 
-const { Joi, POSTCODE_PATTERN, ...commonValidators } = require('../lib/validators');
+const { Joi, ...commonValidators } = require('../lib/validators');
 
 const MIN_APPLICANT_AGE = 18;
 const MAX_BUDGET_TOTAL = 10000; // in GBP
@@ -85,25 +85,6 @@ const legalContactRoles = [
     { value: 'trustee', label: { en: 'Trustee', cy: '' } }
 ];
 
-function postcodeField(props) {
-    const defaultProps = {
-        label: { en: 'Postcode', cy: '' },
-        type: 'text',
-        attributes: {
-            size: 10,
-            autocomplete: 'postal-code',
-            pattern: POSTCODE_PATTERN
-        },
-        isRequired: true,
-        schema: commonValidators.postcode().required(),
-        messages: {
-            base: { en: 'Enter a postcode', cy: '' }
-        }
-    };
-
-    return { ...defaultProps, ...props };
-}
-
 function emailField(props) {
     const defaultProps = {
         label: { en: 'Email', cy: '' },
@@ -115,10 +96,27 @@ function emailField(props) {
         schema: Joi.string()
             .email()
             .required(),
-        messages: {
-            base: { en: 'Enter an email address', cy: '' },
-            'string.email': { en: 'Enter an email address in the correct format, like name@example.com', cy: '' }
-        }
+        messages: [
+            { type: 'base', message: { en: 'Enter an email address', cy: '' } },
+            {
+                type: 'string.email',
+                message: { en: 'Enter an email address in the correct format, like name@example.com', cy: '' }
+            }
+        ]
+    };
+
+    return { ...defaultProps, ...props };
+}
+
+function addressField(props) {
+    const defaultProps = {
+        type: 'address',
+        isRequired: true,
+        schema: commonValidators.ukAddress().required(),
+        messages: [
+            { type: 'base', message: { en: 'Enter a full UK address', cy: '' } },
+            { type: 'string.regex.base', key: 'postcode', message: { en: 'Enter a valid postcode', cy: '' } }
+        ]
     };
 
     return { ...defaultProps, ...props };
@@ -132,9 +130,7 @@ const allFields = {
         type: 'text',
         isRequired: true,
         schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a project name', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Enter a project name', cy: '' } }]
     },
     applicationCountry: {
         name: 'application-country',
@@ -152,9 +148,7 @@ const allFields = {
                 .valid(this.options.map(option => option.value))
                 .required();
         },
-        messages: {
-            base: { en: 'Choose a country', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Choose a country', cy: '' } }]
     },
     projectStartDate: {
         name: 'project-start-date',
@@ -179,13 +173,13 @@ const allFields = {
         type: 'date',
         isRequired: true,
         schema: commonValidators.futureDate({ amount: '12', unit: 'weeks' }),
-        messages: {
-            base: { en: 'Enter a date', cy: '' },
-            'any.invalid': { en: 'Enter a real date', cy: '' },
-            'dateParts.futureDate': { en: 'Date must be at least 12 weeks into the future', cy: '' }
-        }
+        messages: [
+            { type: 'base', message: { en: 'Enter a date', cy: '' } },
+            { type: 'any.invalid', message: { en: 'Enter a real date', cy: '' } },
+            { type: 'dateParts.futureDate', message: { en: 'Date must be at least 12 weeks into the future', cy: '' } }
+        ]
     },
-    projectPostcode: postcodeField({
+    projectPostcode: {
         name: 'project-postcode',
         label: {
             en: 'What is the postcode of the location where your project will take place?',
@@ -196,8 +190,16 @@ const allFields = {
                 'If your project will take place across different locations, please use the postcode where most of the project will take place.',
             cy:
                 '(WELSH) If your project will take place across different locations, please use the postcode where most of the project will take place.'
-        }
-    }),
+        },
+        type: 'text',
+        attributes: {
+            size: 10,
+            autocomplete: 'postal-code'
+        },
+        isRequired: true,
+        schema: commonValidators.postcode().required(),
+        messages: [{ type: 'base', message: { en: 'Enter a postcode', cy: '' } }]
+    },
     yourIdea: {
         name: 'your-idea',
         label: {
@@ -240,9 +242,7 @@ const allFields = {
         },
         isRequired: true,
         schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Tell us about your idea', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Tell us about your idea', cy: '' } }]
     },
     projectBudget: {
         name: 'project-budget',
@@ -264,26 +264,18 @@ const allFields = {
         },
         isRequired: true,
         schema: commonValidators.budgetField(MAX_BUDGET_TOTAL),
-        messages: {
-            base: { en: 'Enter a project budget', cy: '' },
-            'any.empty': { en: 'Please supply both an item name and a cost', cy: '' },
-            'number.base': { en: 'Make sure each cost is a valid number', cy: '' },
-            'budgetItems.overBudget': {
-                en: `Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`,
-                cy: `(WELSH) Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`
+        messages: [
+            { type: 'base', message: { en: 'Enter a project budget', cy: '' } },
+            { type: 'any.empty', message: { en: 'Please supply both an item name and a cost', cy: '' } },
+            { type: 'number.base', message: { en: 'Make sure each cost is a valid number', cy: '' } },
+            {
+                type: 'budgetItems.overBudget',
+                message: {
+                    en: `Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`,
+                    cy: `(WELSH) Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`
+                }
             }
-        },
-        displayFormat(value) {
-            if (!isArray(value)) {
-                return value;
-            } else {
-                const total = sumBy(value, item => parseInt(item.cost || 0));
-                return [
-                    value.map(line => `${line.item} – £${line.cost.toLocaleString()}`).join('\n'),
-                    `Total: £${total}`
-                ].join('\n');
-            }
-        }
+        ]
     },
     projectTotalCosts: {
         name: 'project-total-costs',
@@ -302,9 +294,12 @@ const allFields = {
         type: 'currency',
         isRequired: true,
         schema: Joi.number().required(),
-        messages: {
-            base: { en: 'Enter a total cost for your project, must be a number', cy: '' }
-        }
+        messages: [
+            {
+                type: 'base',
+                message: { en: 'Enter a total cost for your project, must be a number', cy: '' }
+            }
+        ]
     },
     organisationLegalName: {
         name: 'organisation-legal-name',
@@ -321,9 +316,7 @@ const allFields = {
         type: 'text',
         isRequired: true,
         schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter the legal name of the organisation', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Enter the legal name of the organisation', cy: '' } }]
     },
     organisationAlias: {
         name: 'organisation-alias',
@@ -332,44 +325,12 @@ const allFields = {
         isRequired: false,
         schema: Joi.string()
             .allow('')
-            .optional()
+            .optional(),
+        messages: []
     },
-    organisationAddressBuildingStreet: {
-        name: `main-contact-address-building-street`,
-        label: { en: 'Building and street', cy: '' },
-        type: 'text',
-        attributes: { size: 50 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a building and street', cy: '' }
-        }
-    },
-    organisationAddressTownCity: {
-        name: `organisation-address-town-city`,
-        label: { en: 'Town or city', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a town or city', cy: '' }
-        }
-    },
-    organisationAddressCounty: {
-        name: `organisation-address-county`,
-        label: { en: 'County', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a county', cy: '' }
-        }
-    },
-    organisationAddressPostcode: postcodeField({
-        name: `organisation-address-postcode`,
-        label: { en: 'Postcode', cy: '' }
+    organisationAddress: addressField({
+        name: 'organisation-address',
+        label: { en: 'What is the main or registered address of your organisation?', cy: '' }
     }),
     organisationType: {
         name: 'organisation-type',
@@ -382,9 +343,7 @@ const allFields = {
                 .valid(this.options.map(option => option.value))
                 .required();
         },
-        messages: {
-            base: { en: 'Choose an organisation type', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Choose an organisation type', cy: '' } }]
     },
     charityNumber: {
         name: 'charity-number',
@@ -403,9 +362,7 @@ const allFields = {
             is: Joi.valid(organisationTypes.unincorporatedRegisteredCharity.value),
             then: Joi.number().required()
         }),
-        messages: {
-            base: { en: 'Enter a charity number', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Enter a charity number', cy: '' } }]
     },
     companyNumber: {
         name: 'company-number',
@@ -420,9 +377,7 @@ const allFields = {
             ]),
             then: Joi.string().required()
         }),
-        messages: {
-            base: { en: 'Enter a companies house number', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Enter a companies house number', cy: '' } }]
     },
     accountingYearDate: {
         name: 'accounting-year-date',
@@ -434,9 +389,7 @@ const allFields = {
         type: 'day-month',
         isRequired: true,
         schema: Joi.dayMonth().required(),
-        messages: {
-            base: { en: 'Enter valid day and month', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Enter valid day and month', cy: '' } }]
     },
     totalIncomeYear: {
         name: 'total-income-year',
@@ -444,12 +397,7 @@ const allFields = {
         type: 'currency',
         isRequired: true,
         schema: Joi.number().required(),
-        messages: {
-            base: { en: 'Enter a number for total income for the year', cy: '' }
-        },
-        displayFormat(value) {
-            return `£${value}`;
-        }
+        messages: [{ type: 'base', message: { en: 'Enter a number for total income for the year', cy: '' } }]
     },
     mainContactName: {
         name: 'main-contact-name',
@@ -461,9 +409,7 @@ const allFields = {
         },
         isRequired: true,
         schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter full name', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Enter full name', cy: '' } }]
     },
     mainContactDob: {
         name: 'main-contact-dob',
@@ -476,47 +422,20 @@ const allFields = {
         },
         isRequired: true,
         schema: commonValidators.dateOfBirth(MIN_APPLICANT_AGE),
-        messages: {
-            base: { en: 'Enter a date of birth', cy: '' },
-            'dateParts.dob': { en: `Main contact must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
-        }
+        messages: [
+            {
+                type: 'base',
+                message: { en: 'Enter a date of birth', cy: '' }
+            },
+            {
+                type: 'dateParts.dob',
+                message: { en: `Main contact must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
+            }
+        ]
     },
-    mainContactAddressBuildingStreet: {
-        name: `main-contact-address-building-street`,
-        label: { en: 'Building and street', cy: '' },
-        type: 'text',
-        attributes: { size: 50 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a building and street', cy: '' }
-        }
-    },
-    mainContactAddressTownCity: {
-        name: `main-contact-address-town-city`,
-        label: { en: 'Town or city', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a town or city', cy: '' }
-        }
-    },
-    mainContactAddressCounty: {
-        name: `main-contact-address-county`,
-        label: { en: 'County', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a county', cy: '' }
-        }
-    },
-    mainContactAddressPostcode: postcodeField({
-        name: `main-contact-address-postcode`,
-        label: { en: 'Postcode', cy: '' }
+    mainContactAddress: addressField({
+        name: 'main-contact-address',
+        label: { en: 'Address', cy: '' }
     }),
     mainContactEmail: emailField({
         name: 'main-contact-email',
@@ -533,9 +452,7 @@ const allFields = {
         },
         isRequired: true,
         schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a phone number', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Enter a phone number', cy: '' } }]
     },
     mainContactCommunicationNeeds: {
         name: 'main-contact-communication-needs',
@@ -553,9 +470,12 @@ const allFields = {
                 .single()
                 .optional();
         },
-        messages: {
-            'any.allowOnly': { en: 'Choose from one of the options provided', cy: '' }
-        }
+        messages: [
+            {
+                type: 'any.allowOnly',
+                message: { en: 'Choose from one of the options provided', cy: '' }
+            }
+        ]
     },
     legalContactName: {
         name: 'legal-contact-name',
@@ -571,9 +491,7 @@ const allFields = {
         },
         isRequired: true,
         schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter full name', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Enter full name', cy: '' } }]
     },
     legalContactRole: {
         name: 'legal-contact-role',
@@ -591,9 +509,7 @@ const allFields = {
                 .single()
                 .optional();
         },
-        messages: {
-            base: { en: 'Choose from one of the options provided', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Choose from one of the options provided', cy: '' } }]
     },
     legalContactDob: {
         name: 'legal-contact-dob',
@@ -610,47 +526,17 @@ const allFields = {
         },
         isRequired: true,
         schema: commonValidators.dateOfBirth(MIN_APPLICANT_AGE),
-        messages: {
-            base: { en: 'Enter a date of birth', cy: '' },
-            'dateParts.dob': { en: `Legal contact must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
-        }
+        messages: [
+            { type: 'base', message: { en: 'Enter a date of birth', cy: '' } },
+            {
+                type: 'dateParts.dob',
+                message: { en: `Legal contact must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
+            }
+        ]
     },
-    legalContactAddressBuildingStreet: {
-        name: `legal-contact-address-building-street`,
-        label: { en: 'Building and street', cy: '' },
-        type: 'text',
-        attributes: { size: 50 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a building and street', cy: '' }
-        }
-    },
-    legalContactAddressTownCity: {
-        name: `legal-contact-address-town-city`,
-        label: { en: 'Town or city', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a town or city', cy: '' }
-        }
-    },
-    legalContactAddressCounty: {
-        name: `legal-contact-address-county`,
-        label: { en: 'County', cy: '' },
-        type: 'text',
-        attributes: { size: 25 },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a county', cy: '' }
-        }
-    },
-    legalContactAddressPostcode: postcodeField({
-        name: 'legal-contact-address-postcode',
-        label: { en: 'Postcode', cy: '' }
+    legalContactAddress: addressField({
+        name: 'legal-contact-address',
+        label: { en: 'Address', cy: '' }
     }),
     legalContactEmail: emailField({
         name: 'legal-contact-email',
@@ -659,15 +545,12 @@ const allFields = {
     }),
     legalContactPhone: {
         name: 'legal-contact-phone',
-        autocompleteName: 'tel',
-        type: 'tel',
-        size: 30,
         label: { en: 'Contact number', cy: '' },
+        type: 'tel',
         isRequired: true,
+        attributes: { size: 30, autocomplete: 'tel' },
         schema: Joi.number().required(),
-        messages: {
-            base: { en: 'Enter a phone number', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Enter a phone number', cy: '' } }]
     },
     legalContactCommunicationNeeds: {
         name: 'legal-contact-communication-needs',
@@ -685,9 +568,12 @@ const allFields = {
                 .single()
                 .optional();
         },
-        messages: {
-            'any.allowOnly': { en: 'Choose from one of the options provided', cy: '' }
-        }
+        messages: [
+            {
+                type: 'any.allowOnly',
+                message: { en: 'Choose from one of the options provided', cy: '' }
+            }
+        ]
     },
     bankAccountName: {
         name: 'bank-account-name',
@@ -696,9 +582,7 @@ const allFields = {
         type: 'text',
         isRequired: true,
         schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter the name on the account', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Enter the name on the account', cy: '' } }]
     },
     bankSortCode: {
         name: 'bank-sort-code',
@@ -709,9 +593,7 @@ const allFields = {
         },
         isRequired: true,
         schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Enter a sort-code', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Enter a sort-code', cy: '' } }]
     },
     bankAccountNumber: {
         name: 'bank-account-number',
@@ -719,9 +601,7 @@ const allFields = {
         type: 'text',
         isRequired: true,
         schema: Joi.number().required(),
-        messages: {
-            base: { en: 'Enter an account number', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Enter an account number', cy: '' } }]
     },
     bankBuildingSocietyNumber: {
         name: 'bank-building-society-number',
@@ -734,7 +614,8 @@ const allFields = {
         isRequired: false,
         schema: Joi.string()
             .allow('')
-            .empty()
+            .empty(),
+        messages: []
     },
     bankStatement: {
         name: 'bank-statement',
@@ -742,69 +623,9 @@ const allFields = {
         type: 'file',
         isRequired: true,
         schema: Joi.string().required(),
-        messages: {
-            base: { en: 'Provide a bank statement', cy: '' }
-        }
+        messages: [{ type: 'base', message: { en: 'Provide a bank statement', cy: '' } }]
     }
 };
-
-/**
- * Validate fields against a schema
- */
-forEach(allFields, field => {
-    const localeString = Joi.object({
-        en: Joi.string().required(),
-        // @TODO: Remove allow '' when translating
-        cy: Joi.string()
-            .allow('')
-            .required()
-    });
-
-    const fieldSchema = Joi.object({
-        name: Joi.string().required(),
-        label: localeString.required(),
-        explanation: localeString.optional(),
-        type: Joi.string()
-            .valid([
-                'text',
-                'textarea',
-                'number',
-                'radio',
-                'checkbox',
-                'file',
-                'email',
-                'tel',
-                'date',
-                'day-month',
-                'currency',
-                'budget'
-            ])
-            .required(),
-        attributes: Joi.object().optional(),
-        isRequired: Joi.boolean().required(),
-        schema: Joi.object()
-            .schema()
-            .required(),
-        messages: Joi.any().when('isRequired', {
-            is: Joi.valid(true),
-            then: Joi.object({ base: localeString.required() })
-                .pattern(Joi.string(), localeString.required())
-                .required()
-        }),
-        displayFormat: Joi.func()
-            .arity(1)
-            .optional()
-    });
-
-    const validationResult = Joi.validate(field, fieldSchema, {
-        abortEarly: true,
-        allowUnknown: true
-    });
-
-    if (validationResult.error) {
-        throw new Error(`${field.name}: ${validationResult.error.message}`);
-    }
-});
 
 const schema = Joi.object(
     reduce(

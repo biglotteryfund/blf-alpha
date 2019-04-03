@@ -188,5 +188,16 @@ module.exports = {
         return Joi.budgetItems()
             .maxBudget(maxBudget)
             .required();
+    },
+    ukAddress() {
+        return Joi.object({
+            'building-street': Joi.string().required(),
+            'town-city': Joi.string().required(),
+            county: Joi.string().required(),
+            postcode: Joi.string()
+                .trim()
+                .regex(new RegExp(POSTCODE_PATTERN, 'i'))
+                .required()
+        });
     }
 };
