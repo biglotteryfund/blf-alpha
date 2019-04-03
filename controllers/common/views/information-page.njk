@@ -3,9 +3,12 @@
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/segment/macro.njk" import segment %}
+{% from "components/flexible-content/macro.njk" import flexibleContentPart %}
 
 {% extends "layouts/main.njk" %}
 {% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
+
+{% set flexAnchor = 'item' %}
 
 {% block content %}
     <main id="content">
@@ -23,7 +26,10 @@
                         {% if not pageHero.image %}<h1>{{ content.title }}</h1>{% endif %}
                         {{ content.introduction | safe }}
                     </div>
-                    {{ segmentLinks(customSegmentLinks | default(content.segments)) }}
+                    {{ segmentLinks(content.segments) }}
+                    {% if content.flexibleContent %}
+                        {{ segmentLinks(content.flexibleContent, anchor = flexAnchor) }}
+                    {% endif %}
                 </section>
             {% endif %}
 
@@ -41,6 +47,16 @@
                     {% endfor %}
                 </div>
             {% endif %}
+
+            {# Flexible content #}
+            {% if content.flexibleContent %}
+                {% for part in content.flexibleContent %}
+                    {% call contentBox(id = flexAnchor + '-' + loop.index) %}
+                        {{ flexibleContentPart(part) }}
+                    {% endcall %}
+                {% endfor %}
+            {% endif %}
+
         {% endblock %}
 
         {# Custom content #}

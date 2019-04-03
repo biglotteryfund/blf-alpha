@@ -72,7 +72,7 @@ function basicContent({ customTemplate = null } = {}) {
                 res.render(path.resolve(__dirname, './views/listing-page'), {
                     childrenLayoutMode: childrenLayoutMode
                 });
-            } else if (content.introduction || content.segments.length > 0) {
+            } else if (content.introduction || content.segments.length > 0 || content.flexibleContent.length > 0) {
                 // ↑ information pages must have at least an introduction or some content segments
                 res.render(path.resolve(__dirname, './views/information-page'));
             } else {
