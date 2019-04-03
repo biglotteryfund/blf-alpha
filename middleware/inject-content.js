@@ -1,5 +1,4 @@
 'use strict';
-const { pick, clone } = require('lodash');
 const { flatten, get, getOr } = require('lodash/fp');
 const moment = require('moment');
 const Raven = require('raven');
