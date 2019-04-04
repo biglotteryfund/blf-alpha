@@ -407,7 +407,7 @@ describe('e2e', function() {
 
         // Search query
         const testQuery = 'cake';
-        const textQueryCount = 78;
+        const textQueryCount = 79;
 
         cy.get('#js-past-grants')
             .find('#search-query')
