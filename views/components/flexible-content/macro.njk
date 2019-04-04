@@ -31,6 +31,9 @@
                     {% endif %}
                 </blockquote>
             {% elseif part.type === 'gridBlocks' %}
+                {% if part.introduction %}
+                    {{ part.introduction | safe }}
+                {% endif %}
                 <div class="flex-grid flex-grid--2up">
                     {% for blockContent in part.content %}
                         <div class="flex-grid__item">
