@@ -4,7 +4,9 @@
             {% if prefix %}<p class="u-margin-bottom-s">{{ prefix }}</p>{% endif %}
             <ul>
                 {% for segment in segments %}
-                    <li><a href="#{{ anchor }}-{{ loop.index }}">{{ segment.title }}</a></li>
+                    {% if segment.title %}
+                        <li><a href="#{{ anchor }}-{{ loop.index }}">{{ segment.title }}</a></li>
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>
