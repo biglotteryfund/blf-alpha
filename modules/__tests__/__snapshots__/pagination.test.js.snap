@@ -7,7 +7,7 @@ Object {
   "nextLink": "?page=2",
   "perPage": 10,
   "prevLink": null,
-  "total": 28,
+  "total": 29,
   "totalPages": 3,
 }
 `;
@@ -19,7 +19,7 @@ Object {
   "nextLink": "?page=3",
   "perPage": 10,
   "prevLink": "?page=1",
-  "total": 28,
+  "total": 29,
   "totalPages": 3,
 }
 `;
@@ -31,7 +31,7 @@ Object {
   "nextLink": null,
   "perPage": 10,
   "prevLink": "?page=2",
-  "total": 28,
+  "total": 29,
   "totalPages": 3,
 }
 `;
@@ -43,7 +43,7 @@ Object {
   "nextLink": "?region=scotland&page=3",
   "perPage": 10,
   "prevLink": "?region=scotland&page=1",
-  "total": 28,
+  "total": 29,
   "totalPages": 3,
 }
 `;
