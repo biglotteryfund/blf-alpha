@@ -271,8 +271,8 @@ const allFields = {
             {
                 type: 'budgetItems.overBudget',
                 message: {
-                    en: `Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`,
-                    cy: `(WELSH) Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`
+                    en: `You have exceeded the budget limit for this application of £${MAX_BUDGET_TOTAL.toLocaleString()}`,
+                    cy: ``
                 }
             }
         ]
@@ -345,6 +345,21 @@ const allFields = {
         },
         messages: [{ type: 'base', message: { en: 'Choose an organisation type', cy: '' } }]
     },
+    companyNumber: {
+        name: 'company-number',
+        label: { en: 'Companies house number', cy: '' },
+        type: 'text',
+        isRequired: true,
+        schema: Joi.any().when('organisation-type', {
+            is: Joi.valid([
+                organisationTypes.charitableIncorporatedOrganisation.value,
+                organisationTypes.notForProfitCompany.value,
+                organisationTypes.communityInterestCompany.value
+            ]),
+            then: Joi.string().required()
+        }),
+        messages: [{ type: 'base', message: { en: 'Enter a companies house number', cy: '' } }]
+    },
     charityNumber: {
         name: 'charity-number',
         label: { en: 'Charity registration number', cy: '' },
@@ -363,21 +378,6 @@ const allFields = {
             then: Joi.number().required()
         }),
         messages: [{ type: 'base', message: { en: 'Enter a charity number', cy: '' } }]
-    },
-    companyNumber: {
-        name: 'company-number',
-        label: { en: 'Companies house number', cy: '' },
-        type: 'text',
-        isRequired: true,
-        schema: Joi.any().when('organisation-type', {
-            is: Joi.valid([
-                organisationTypes.charitableIncorporatedOrganisation.value,
-                organisationTypes.notForProfitCompany.value,
-                organisationTypes.communityInterestCompany.value
-            ]),
-            then: Joi.string().required()
-        }),
-        messages: [{ type: 'base', message: { en: 'Enter a companies house number', cy: '' } }]
     },
     accountingYearDate: {
         name: 'accounting-year-date',
@@ -428,8 +428,12 @@ const allFields = {
                 message: { en: 'Enter a date of birth', cy: '' }
             },
             {
+                type: 'any.invalid',
+                message: { en: 'Enter a real date', cy: '' }
+            },
+            {
                 type: 'dateParts.dob',
-                message: { en: `Main contact must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
+                message: { en: `Must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
             }
         ]
     },
@@ -530,7 +534,7 @@ const allFields = {
             { type: 'base', message: { en: 'Enter a date of birth', cy: '' } },
             {
                 type: 'dateParts.dob',
-                message: { en: `Legal contact must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
+                message: { en: `Must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
             }
         ]
     },
