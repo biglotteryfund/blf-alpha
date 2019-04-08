@@ -3,13 +3,19 @@ export default {
     props: {
         currentText: { type: String, default: '' },
         maxWords: { type: Number, required: true },
+        minWords: { type: Number, default: 0 },
         locale: { type: String, required: true }
     },
     methods: {
-        count(text) {
+        /**
+         * Count words
+         * Matches consecutive non-whitespace chars
+         * If changing match this with character-count.vue
+         * @param {string} text
+         */
+        countWords(text) {
             if (text) {
-                // Matches consecutive non-whitespace chars
-                const tokens = text.match(/\S+/g) || [];
+                const tokens = text.trim().match(/\S+/g) || [];
                 return tokens.length;
             } else {
                 return 0;
@@ -18,7 +24,7 @@ export default {
     },
     computed: {
         currentCount() {
-            return this.count(this.currentText);
+            return this.countWords(this.currentText);
         },
         wordsRemaining() {
             return this.maxWords - this.currentCount;
@@ -30,19 +36,39 @@ export default {
                 return 0;
             }
         },
+        overLimitMessage() {
+            return {
+                en: `You have <strong>${this.amountOver}</strong> words too many.`,
+                cy: 'Welsh'
+            }[this.locale];
+        },
+        wordCountMessage() {
+            const currentCountMessage = {
+                en: `<strong>${this.currentCount}</strong> / ${this.maxWords} words`,
+                cy: ''
+            }[this.locale];
+
+            const minimumMessage = {
+                en: `Must be at least <strong>${this.minWords}</strong> words`,
+                cy: 'Welsh'
+            }[this.locale];
+
+            const wordsRemainingMessage = {
+                en: `You have a maximum of <strong>${this.wordsRemaining}</strong> words remaining`,
+                cy: ''
+            }[this.locale];
+
+            if (this.currentCount < this.minWords) {
+                return `${currentCountMessage}. ${minimumMessage}. ${wordsRemainingMessage}.`;
+            } else {
+                return `${currentCountMessage}. ${wordsRemainingMessage}.`;
+            }
+        },
         message() {
             if (this.amountOver > 0) {
-                return {
-                    en: `You have <strong>${this.amountOver}</strong> words too many`,
-                    cy: 'Welsh'
-                }[this.locale];
+                return this.overLimitMessage;
             } else {
-                return {
-                    en: `<strong>${this.currentCount}</strong> / ${
-                        this.maxWords
-                    } words. You have a maximum of <strong>${this.wordsRemaining}</strong> words remaining`,
-                    cy: 'Welsh'
-                }[this.locale];
+                return this.wordCountMessage;
             }
         }
     }

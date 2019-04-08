@@ -9,6 +9,21 @@ const { isEmpty, isArray, reject, toInteger, sumBy } = require('lodash');
 // but also as a string for the HTML pattern attribute
 const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
 
+/**
+ * Count words
+ * Matches consecutive non-whitespace chars
+ * If changing match this with character-count.vue
+ * @param {string} text
+ */
+function countWords(text) {
+    if (text) {
+        const tokens = text.trim().match(/\S+/g) || [];
+        return tokens.length;
+    } else {
+        return 0;
+    }
+}
+
 function dateFromParts(parts) {
     return moment({
         year: toInteger(parts.year),
@@ -17,6 +32,53 @@ function dateFromParts(parts) {
         day: toInteger(parts.day)
     });
 }
+
+const wordCount = joi => {
+    return {
+        base: joi.string(),
+        name: 'string',
+        language: {
+            maxWords: 'must have less than {{max}} words',
+            minWords: 'must have at least {{min}} words'
+        },
+        rules: [
+            {
+                name: 'maxWords',
+                params: {
+                    max: joi
+                        .number()
+                        .integer()
+                        .min(0)
+                        .required()
+                },
+                validate(params, value, state, options) {
+                    if (countWords(value) > params.max) {
+                        return this.createError('string.maxWords', { max: params.max }, state, options);
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                name: 'minWords',
+                params: {
+                    min: joi
+                        .number()
+                        .integer()
+                        .min(0)
+                        .required()
+                },
+                validate(params, value, state, options) {
+                    if (countWords(value) < params.min) {
+                        return this.createError('string.minWords', { min: params.min }, state, options);
+                    } else {
+                        return value;
+                    }
+                }
+            }
+        ]
+    };
+};
 
 const dateParts = joi => {
     return {
@@ -167,7 +229,7 @@ const budgetItems = joi => {
     };
 };
 
-const Joi = baseJoi.extend([dateParts, dayMonth, budgetItems]);
+const Joi = baseJoi.extend([wordCount, dateParts, dayMonth, budgetItems]);
 
 module.exports = {
     Joi,

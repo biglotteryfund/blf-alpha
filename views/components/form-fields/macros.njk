@@ -152,6 +152,7 @@
             :current-text="text"
             locale="{{ locale }}"
             field-id="field-{{ field.name }}"
+            {% if settings.minWords %}:min-words={{ settings.minWords }}{% endif %}
             :max-words={{ settings.maxWords }}
         ></character-count>
     {% endif %}
