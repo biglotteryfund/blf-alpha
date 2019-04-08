@@ -197,9 +197,12 @@ Address field group, consists of:
 
 **Type**: string
 
-| Rule           | Message              |
-| -------------- | -------------------- |
-| Required field | Enter a phone number |
+| Rule                 | Message                       |
+| -------------------- | ----------------------------- |
+| Required field       | Enter a phone number          |
+| Invalid phone number | Enter a valid UK phone number |
+
+**Note**: Phone numbers validated using [joi-phone-number](https://github.com/Salesflare/joi-phone-number) which is a wrapper around the Google `libphonenumber` library.
 
 ### Main contact communication needs
 
@@ -263,9 +266,12 @@ Address field group, consists of:
 
 **Type**: string
 
-| Rule           | Message              |
-| -------------- | -------------------- |
-| Required field | Enter a phone number |
+| Rule                 | Message                       |
+| -------------------- | ----------------------------- |
+| Required field       | Enter a phone number          |
+| Invalid phone number | Enter a valid UK phone number |
+
+**Note**: Phone numbers validated using [joi-phone-number](https://github.com/Salesflare/joi-phone-number) which is a wrapper around the Google `libphonenumber` library.
 
 ### Legal contact communication needs
 

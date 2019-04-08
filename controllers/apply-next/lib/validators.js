@@ -1,7 +1,8 @@
 'use strict';
+const { isEmpty, isArray, reject, toInteger, sumBy } = require('lodash');
 const moment = require('moment');
 const baseJoi = require('joi');
-const { isEmpty, isArray, reject, toInteger, sumBy } = require('lodash');
+const phoneNumber = require('joi-phone-number');
 
 // Allows us to share postcode validation on server and client-side
 // via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
@@ -229,7 +230,7 @@ const budgetItems = joi => {
     };
 };
 
-const Joi = baseJoi.extend([wordCount, dateParts, dayMonth, budgetItems]);
+const Joi = baseJoi.extend([phoneNumber, wordCount, dateParts, dayMonth, budgetItems]);
 
 module.exports = {
     Joi,

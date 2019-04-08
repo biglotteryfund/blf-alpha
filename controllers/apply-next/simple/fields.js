@@ -108,6 +108,26 @@ function emailField(props) {
     return { ...defaultProps, ...props };
 }
 
+function phoneField(props) {
+    const defaultProps = {
+        type: 'tel',
+        attributes: {
+            size: 30,
+            autocomplete: 'tel'
+        },
+        isRequired: true,
+        schema: Joi.string()
+            .phoneNumber({ defaultCountry: 'GB', format: 'national' })
+            .required(),
+        messages: [
+            { type: 'base', message: { en: 'Enter a phone number', cy: '' } },
+            { type: 'string.phonenumber', message: { en: 'Enter a valid UK phone number', cy: '' } }
+        ]
+    };
+
+    return { ...defaultProps, ...props };
+}
+
 function addressField(props) {
     const defaultProps = {
         type: 'address',
@@ -467,18 +487,10 @@ const allFields = {
         label: { en: 'Email', cy: '' },
         explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' }
     }),
-    mainContactPhone: {
+    mainContactPhone: phoneField({
         name: 'main-contact-phone',
-        label: { en: 'UK telephone number', cy: '' },
-        type: 'tel',
-        attributes: {
-            size: 30,
-            autocomplete: 'tel'
-        },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: [{ type: 'base', message: { en: 'Enter a phone number', cy: '' } }]
-    },
+        label: { en: 'UK telephone number', cy: '' }
+    }),
     mainContactCommunicationNeeds: {
         name: 'main-contact-communication-needs',
         label: { en: 'Does this contact have any communication needs?', cy: '' },
@@ -568,15 +580,10 @@ const allFields = {
         label: { en: 'Email', cy: '' },
         explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' }
     }),
-    legalContactPhone: {
+    legalContactPhone: phoneField({
         name: 'legal-contact-phone',
-        label: { en: 'Contact number', cy: '' },
-        type: 'tel',
-        isRequired: true,
-        attributes: { size: 30, autocomplete: 'tel' },
-        schema: Joi.number().required(),
-        messages: [{ type: 'base', message: { en: 'Enter a phone number', cy: '' } }]
-    },
+        label: { en: 'UK telephone number', cy: '' }
+    }),
     legalContactCommunicationNeeds: {
         name: 'legal-contact-communication-needs',
         type: 'checkbox',
