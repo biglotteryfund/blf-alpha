@@ -235,14 +235,35 @@ const allFields = {
         type: 'textarea',
         settings: {
             showWordCount: true,
-            maxWords: 500
+            minWords: 10,
+            maxWords: 50
         },
         attributes: {
             rows: 12
         },
         isRequired: true,
-        schema: Joi.string().required(),
-        messages: [{ type: 'base', message: { en: 'Tell us about your idea', cy: '' } }]
+        get schema() {
+            return Joi.string()
+                .minWords(this.settings.minWords)
+                .maxWords(this.settings.maxWords)
+                .required();
+        },
+        get messages() {
+            return [
+                {
+                    type: 'base',
+                    message: { en: 'Tell us about your idea', cy: '' }
+                },
+                {
+                    type: 'string.minWords',
+                    message: { en: `Must be at least ${this.settings.minWords} words`, cy: '' }
+                },
+                {
+                    type: 'string.maxWords',
+                    message: { en: `Must be no more than ${this.settings.maxWords} words`, cy: '' }
+                }
+            ];
+        }
     },
     projectBudget: {
         name: 'project-budget',

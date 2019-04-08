@@ -43,10 +43,21 @@
 
 **Type**: text
 
-| Rule           | Message                         |
-| -------------- | ------------------------------- |
-| Required field | Tell us about your idea         |
-| Max words: 500 | **(no error message text yet)** |
+Server-side rules and messages:
+
+| Rule           | Message                        |
+| -------------- | ------------------------------ |
+| Required field | Tell us about your idea        |
+| Min words: 50  | Must be at least 50 words      |
+| Max words: 500 | Must be no more than 500 words |
+
+Word count messages (in-browser):
+
+| Rule            | Message                                                                             |
+| --------------- | ----------------------------------------------------------------------------------- |
+| Word count      | 0 / 500 words. Must be at least 10 words. You have a maximum of 47 words remaining. |
+| Reached minimum | 50 / 500 words. You have a maximum of 450 words remaining.                          |
+| Over limit      | You have 30 words too many.                                                         |
 
 ### Project budget
 
