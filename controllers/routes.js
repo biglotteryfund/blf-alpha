@@ -116,6 +116,10 @@ const funding = {
             router: require('./strategic-investments')
         },
         {
+            path: '/the-big-lunch',
+            router: basicContent()
+        },
+        {
             path: '/grants',
             router: require('./grants')
         },
