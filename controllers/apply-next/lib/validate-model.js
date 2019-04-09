@@ -35,7 +35,7 @@ module.exports = function validateModel(formModel) {
             ])
             .required(),
         attributes: Joi.object().optional(),
-        isRequired: Joi.boolean().required(),
+        isRequired: Joi.alternatives().try(Joi.boolean(), Joi.func()),
         schema: Joi.object()
             .schema()
             .required(),

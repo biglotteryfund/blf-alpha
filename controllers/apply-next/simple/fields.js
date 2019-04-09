@@ -1,5 +1,5 @@
 'use strict';
-const { get, has, reduce, values } = require('lodash');
+const { get, includes, reduce, values } = require('lodash');
 const moment = require('moment');
 
 const { Joi, ...commonValidators } = require('../lib/validators');
@@ -15,75 +15,48 @@ const countries = {
 };
 
 const organisationTypes = {
-    constitutedVoluntaryCommunity: {
-        value: 'constituted-voluntary-community',
-        label: { en: 'Constituted voluntary or community organisation', cy: '' },
-        explanation: { en: 'i.e. not registered as a company or charity', cy: '' }
+    unregisterdVco: {
+        value: 'unregistered-vco',
+        label: { en: 'Unregistered voluntary or community organisation', cy: '' },
+        explanation: {
+            en: `Groups that are consituted but not registered as a charity or company, for example, Scouts groups, sports clubs, community groups, residents associations`,
+            cy: ``
+        }
     },
     unincorporatedRegisteredCharity: {
         value: 'unincorporated-registered-charity',
-        label: { en: 'Unincorporated registered charity', cy: '' },
-        explanation: { en: 'You will need to provide your charities commission registration number', cy: '' }
+        label: { en: 'Registered charity (unincorporated)', cy: '' },
+        explanation: {
+            en: `Voluntary and community organisations that are registered charities but are not also registered with Companies House as a Company`,
+            cy: ``
+        }
     },
     charitableIncorporatedOrganisation: {
         value: 'charitable-incorporated-organisation',
-        label: { en: 'Charitable incorporated organisation (CIO)', cy: '' },
-        explanation: { en: 'You will need to provide your companies house registration number', cy: '' }
+        label: { en: 'Charitable incorporated organisation (CIO)', cy: '' }
     },
     notForProfitCompany: {
         value: 'not-for-profit-company',
         label: { en: 'Not-for-profit company', cy: '' },
-        explanation: { en: 'You will need to provide your companies house registration number', cy: '' }
-    },
-    communityInterestCompany: {
-        value: 'community-interest-company',
-        label: { en: 'Community interest company (CIC)', cy: '' },
-        explanation: { en: 'You will need to provide your companies house registration number', cy: '' }
+        explanation: {
+            en: `Not for profit companies registered with Companies House including those Registered as Charities`,
+            cy: ``
+        }
     },
     school: {
         value: 'school',
-        label: { en: 'School', cy: '' }
+        label: { en: 'School or educational body', cy: '' },
+        explanation: {
+            en: `Only select this option if your organisation is a school or regsitered educational establishment`,
+            cy: ``
+        }
     },
     statutoryBody: {
         value: 'statutory-body',
-        label: { en: 'Statutory body', cy: '' }
+        label: { en: 'Statutory body', cy: '' },
+        explanation: { en: 'For example, Health Body, Local Authority, Parish Council, Police', cy: '' }
     }
 };
-
-const legalContactRoles = [
-    {
-        value: 'director',
-        label: { en: 'Director', cy: '' },
-        showWhen: formData => {
-            return has(formData, 'company-number');
-        }
-    },
-    {
-        value: 'company-secretary',
-        label: { en: 'Company Secretary', cy: '' },
-        showWhen: formData => {
-            return has(formData, 'company-number');
-        }
-    },
-    {
-        value: 'clerk',
-        label: { en: 'Parish, Town or Community Council Clerk', cy: '' },
-        showWhen: formData => {
-            return get(formData, 'organisation-type') === organisationTypes.statutoryBody.value;
-        }
-    },
-    {
-        value: 'head-teacher',
-        label: { en: 'Head Teacher', cy: '' },
-        showWhen: formData => {
-            return get(formData, 'organisation-type') === organisationTypes.school.value;
-        }
-    },
-    { value: 'chair', label: { en: 'Chair', cy: '' } },
-    { value: 'vice-chair', label: { en: 'Vice-chair', cy: '' } },
-    { value: 'treasurer', label: { en: 'Treasurer', cy: '' } },
-    { value: 'trustee', label: { en: 'Trustee', cy: '' } }
-];
 
 function emailField(props) {
     const defaultProps = {
@@ -97,7 +70,10 @@ function emailField(props) {
             .email()
             .required(),
         messages: [
-            { type: 'base', message: { en: 'Enter an email address', cy: '' } },
+            {
+                type: 'base',
+                message: { en: 'Enter an email address', cy: '' }
+            },
             {
                 type: 'string.email',
                 message: { en: 'Enter an email address in the correct format, like name@example.com', cy: '' }
@@ -120,8 +96,14 @@ function phoneField(props) {
             .phoneNumber({ defaultCountry: 'GB', format: 'national' })
             .required(),
         messages: [
-            { type: 'base', message: { en: 'Enter a phone number', cy: '' } },
-            { type: 'string.phonenumber', message: { en: 'Enter a valid UK phone number', cy: '' } }
+            {
+                type: 'base',
+                message: { en: 'Enter a phone number', cy: '' }
+            },
+            {
+                type: 'string.phonenumber',
+                message: { en: 'Enter a valid UK phone number', cy: '' }
+            }
         ]
     };
 
@@ -132,10 +114,60 @@ function addressField(props) {
     const defaultProps = {
         type: 'address',
         isRequired: true,
-        schema: commonValidators.ukAddress().required(),
+        schema: commonValidators.ukAddress().when('organisation-type', {
+            is: organisationTypes.school.value,
+            then: Joi.optional(),
+            else: Joi.required()
+        }),
+        shouldShow(formData = {}) {
+            return get(formData, 'organisation-type') !== organisationTypes.school.value;
+        },
         messages: [
-            { type: 'base', message: { en: 'Enter a full UK address', cy: '' } },
-            { type: 'string.regex.base', key: 'postcode', message: { en: 'Enter a valid postcode', cy: '' } }
+            {
+                type: 'base',
+                message: { en: 'Enter a full UK address', cy: '' }
+            },
+            {
+                type: 'string.regex.base',
+                key: 'postcode',
+                message: { en: 'Enter a valid postcode', cy: '' }
+            }
+        ]
+    };
+
+    return { ...defaultProps, ...props };
+}
+
+function dateOfBirthField(props) {
+    const defaultProps = {
+        type: 'date',
+        attributes: {
+            max: moment()
+                .subtract(MIN_APPLICANT_AGE, 'years')
+                .format('YYYY-MM-DD')
+        },
+        isRequired: true,
+        schema: commonValidators.dateOfBirth(MIN_APPLICANT_AGE).when('organisation-type', {
+            is: organisationTypes.school.value,
+            then: Joi.optional(),
+            else: Joi.required()
+        }),
+        shouldShow(formData = {}) {
+            return get(formData, 'organisation-type') !== organisationTypes.school.value;
+        },
+        messages: [
+            {
+                type: 'base',
+                message: { en: 'Enter a date of birth', cy: '' }
+            },
+            {
+                type: 'any.invalid',
+                message: { en: 'Enter a real date', cy: '' }
+            },
+            {
+                type: 'dateParts.dob',
+                message: { en: `Must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
+            }
         ]
     };
 
@@ -154,7 +186,9 @@ const allFields = {
     },
     applicationCountry: {
         name: 'application-country',
-        label: { en: 'What country will your project be based in?', cy: '' },
+        label: {
+            default: { en: 'What country will your project be based in?', cy: '' }
+        },
         explanation: {
             en:
                 'We work slightly differently depending on which country your project is based in, to meet local needs and the regulations that apply there.',
@@ -391,12 +425,11 @@ const allFields = {
         label: { en: 'Companies house number', cy: '' },
         type: 'text',
         isRequired: true,
+        shouldShow(formData = {}) {
+            return get(formData, 'organisation-type') === organisationTypes.notForProfitCompany.value;
+        },
         schema: Joi.any().when('organisation-type', {
-            is: Joi.valid([
-                organisationTypes.charitableIncorporatedOrganisation.value,
-                organisationTypes.notForProfitCompany.value,
-                organisationTypes.communityInterestCompany.value
-            ]),
+            is: Joi.valid(organisationTypes.notForProfitCompany.value),
             then: Joi.string().required()
         }),
         messages: [{ type: 'base', message: { en: 'Enter a companies house number', cy: '' } }]
@@ -405,20 +438,44 @@ const allFields = {
         name: 'charity-number',
         label: { en: 'Charity registration number', cy: '' },
         explanation: {
-            en:
-                'If you are registered with OSCR, you only need to provide the last five digits of your registration number.',
+            en: `If you are registered with OSCR, you only need to provide the last five digits of your registration number.`,
             cy: ''
         },
         type: 'text',
-        attributes: {
-            size: 20
+        attributes: { size: 20 },
+        isRequired(formData = {}) {
+            return includes(
+                [
+                    organisationTypes.unincorporatedRegisteredCharity.value,
+                    organisationTypes.charitableIncorporatedOrganisation.value
+                ],
+                get(formData, 'organisation-type')
+            );
         },
-        isRequired: true,
-        schema: Joi.any().when('organisation-type', {
-            is: Joi.valid(organisationTypes.unincorporatedRegisteredCharity.value),
-            then: Joi.number().required()
+        shouldShow(formData = {}) {
+            return includes(
+                [
+                    organisationTypes.unincorporatedRegisteredCharity.value,
+                    organisationTypes.charitableIncorporatedOrganisation.value,
+                    organisationTypes.notForProfitCompany.value
+                ],
+                get(formData, 'organisation-type')
+            );
+        },
+        schema: Joi.number().when('organisation-type', {
+            is: Joi.valid([
+                organisationTypes.unincorporatedRegisteredCharity.value,
+                organisationTypes.charitableIncorporatedOrganisation.value
+            ]),
+            then: Joi.required(),
+            else: Joi.optional()
         }),
-        messages: [{ type: 'base', message: { en: 'Enter a charity number', cy: '' } }]
+        messages: [
+            {
+                type: 'base',
+                message: { en: 'Enter a charity number', cy: '' }
+            }
+        ]
     },
     accountingYearDate: {
         name: 'accounting-year-date',
@@ -452,32 +509,10 @@ const allFields = {
         schema: Joi.string().required(),
         messages: [{ type: 'base', message: { en: 'Enter full name', cy: '' } }]
     },
-    mainContactDob: {
+    mainContactDob: dateOfBirthField({
         name: 'main-contact-dob',
-        label: { en: 'Date of birth', cy: '' },
-        type: 'date',
-        attributes: {
-            max: moment()
-                .subtract(MIN_APPLICANT_AGE, 'years')
-                .format('YYYY-MM-DD')
-        },
-        isRequired: true,
-        schema: commonValidators.dateOfBirth(MIN_APPLICANT_AGE),
-        messages: [
-            {
-                type: 'base',
-                message: { en: 'Enter a date of birth', cy: '' }
-            },
-            {
-                type: 'any.invalid',
-                message: { en: 'Enter a real date', cy: '' }
-            },
-            {
-                type: 'dateParts.dob',
-                message: { en: `Must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
-            }
-        ]
-    },
+        label: { en: 'Date of birth', cy: '' }
+    }),
     mainContactAddress: addressField({
         name: 'main-contact-address',
         label: { en: 'Address', cy: '' }
@@ -538,39 +573,58 @@ const allFields = {
             cy: ''
         },
         type: 'radio',
-        options: legalContactRoles,
-        isRequired: true,
-        get schema() {
-            return Joi.array()
-                .items(Joi.string().valid(this.options.map(option => option.value)))
-                .single()
-                .optional();
+        options(formData) {
+            let options = [];
+            switch (get(formData, 'organisation-type')) {
+                case organisationTypes.unregisterdVco.value:
+                    options = [
+                        { value: 'chair', label: { en: 'Chair', cy: '' } },
+                        { value: 'vice-chair', label: { en: 'Vice-chair', cy: '' } },
+                        { value: 'cecretary', label: { en: 'Secretary', cy: '' } },
+                        { value: 'treasurer', label: { en: 'Treasurer', cy: '' } }
+                    ];
+                    break;
+                case organisationTypes.unincorporatedRegisteredCharity.value:
+                case organisationTypes.charitableIncorporatedOrganisation.value:
+                    options = [{ value: 'trustee', label: { en: 'Trustee', cy: '' } }];
+                    break;
+                case organisationTypes.notForProfitCompany.value:
+                    options = [
+                        { value: 'company-director', label: { en: 'Company Director', cy: '' } },
+                        { value: 'company-secretary', label: { en: 'Company Secretary', cy: '' } }
+                    ];
+                    break;
+                case organisationTypes.school.value:
+                    options = [
+                        { value: 'head-teacher', label: { en: 'Head Teacher', cy: '' } },
+                        { value: 'chancellor', label: { en: 'Chancellor', cy: '' } },
+                        { value: 'vice-chancellor', label: { en: 'Vice-chancellor', cy: '' } }
+                    ];
+                    break;
+                case organisationTypes.statutoryBody.value:
+                    options = [
+                        { value: 'parish-clerk', label: { en: 'Parish Clerk', cy: '' } },
+                        { value: 'chief-executive', label: { en: 'Chief Executive', cy: '' } }
+                    ];
+                    break;
+                default:
+                    break;
+            }
+
+            return options;
         },
-        messages: [{ type: 'base', message: { en: 'Choose from one of the options provided', cy: '' } }]
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: [{ type: 'base', message: { en: 'Choose a role', cy: '' } }]
     },
-    legalContactDob: {
+    legalContactDob: dateOfBirthField({
         name: 'legal-contact-dob',
         label: { en: 'Date of birth', cy: '' },
         explanation: {
             en: `They must be at least ${MIN_APPLICANT_AGE} years old and are responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.`,
             cy: ''
-        },
-        type: 'date',
-        attributes: {
-            max: moment()
-                .subtract(MIN_APPLICANT_AGE, 'years')
-                .format('YYYY-MM-DD')
-        },
-        isRequired: true,
-        schema: commonValidators.dateOfBirth(MIN_APPLICANT_AGE),
-        messages: [
-            { type: 'base', message: { en: 'Enter a date of birth', cy: '' } },
-            {
-                type: 'dateParts.dob',
-                message: { en: `Must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
-            }
-        ]
-    },
+        }
+    }),
     legalContactAddress: addressField({
         name: 'legal-contact-address',
         label: { en: 'Address', cy: '' }
@@ -597,7 +651,6 @@ const allFields = {
         get schema() {
             return Joi.array()
                 .items(Joi.string().valid(this.options.map(option => option.value)))
-                .single()
                 .optional();
         },
         messages: [
@@ -674,6 +727,5 @@ module.exports = {
     schema,
     allFields,
     countries,
-    legalContactRoles,
     organisationTypes
 };

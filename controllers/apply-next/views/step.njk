@@ -35,25 +35,26 @@
                 {{ formErrors(errors = errors) }}
 
                 {% for fieldset in step.fieldsets %}
-                    <fieldset class="form-fieldset u-constrained-wide">
-                        <legend class="form-fieldset__legend t2 t--underline">
-                            {{ fieldset.legend }}
-                        </legend>
+                    {% if fieldset.fields.length > 0 %}
+                        <fieldset class="form-fieldset u-constrained-wide">
+                            <legend class="form-fieldset__legend t2 t--underline">
+                                {{ fieldset.legend }}
+                            </legend>
 
-                        {% set introduction = fieldsetCopy.introduction or fieldset.introduction %}
-                        {% if introduction %}
-                            <div class="form-fieldset__intro s-prose">{{ introduction | safe }}</div>
-                        {% endif %}
+                            {% set introduction = fieldsetCopy.introduction or fieldset.introduction %}
+                            {% if introduction %}
+                                <div class="form-fieldset__intro s-prose">{{ introduction | safe }}</div>
+                            {% endif %}
 
-                        <div class="form-fieldset__fields">
-                            {% for field in fieldset.fields %}
-                                {% set fieldCopy = copy.fields[field.name] %}
-                                {{ formField(field, errors = errors) }}
-                            {% endfor %}
-                        </div>
-                    </fieldset>
+                            <div class="form-fieldset__fields">
+                                {% for field in fieldset.fields %}
+                                    {% set fieldCopy = copy.fields[field.name] %}
+                                    {{ formField(field, errors = errors) }}
+                                {% endfor %}
+                            </div>
+                        </fieldset>
+                    {% endif %}
                 {% endfor %}
-
 
                 {% if csrfToken %}
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
