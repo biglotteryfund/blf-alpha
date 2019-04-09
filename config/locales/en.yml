@@ -419,7 +419,7 @@ insights:
       explanation: 'Search for a keyword such as "loneliness" or an organisation name'
       totals:
         one: '%s document found'
-        zero: '%s documents found'
+        other: '%s documents found'
       noResultsTotal: 0 documents found
       sortBy:
         orderedBy: Ordered by
