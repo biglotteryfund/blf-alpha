@@ -268,7 +268,7 @@ app.get('/error-unauthorised', renderUnauthorised);
  * Final wildcard request handler
  * - Lookup vanity URLs and redirect if any match
  * - Attempt to proxy pages from the legacy site
- * - Othewise, if the URL is welsh strip that from the URL and try again
+ * - Otherwise, if the URL is welsh strip that from the URL and try again
  * - If all else fails, pass through to the 404 handler.
  */
 app.route('*').get(vanityMiddleware, function(req, res, next) {

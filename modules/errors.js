@@ -37,9 +37,9 @@ function normaliseErrors({ validationError, errorMessages, locale, fieldNames = 
     const errorDetails =
         fieldNames.length > 0 ? errors.filter(detail => includes(fieldNames, head(detail.path))) : errors;
 
-    const uniqeErrorsDetails = uniqBy(detail => head(detail.path))(errorDetails);
+    const uniqueErrorsDetails = uniqBy(detail => head(detail.path))(errorDetails);
 
-    const suitableErrors = flatMap(uniqeErrorsDetails, detail => {
+    const suitableErrors = flatMap(uniqueErrorsDetails, detail => {
         const name = head(detail.path);
         const fieldMessages = getOr([], name)(errorMessages);
         const matchingMessages = messagesForError(detail, fieldMessages);

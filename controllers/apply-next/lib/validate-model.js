@@ -50,7 +50,7 @@ module.exports = function validateModel(formModel) {
 
     const fieldsetSchema = Joi.object({
         legend: localeString.required(),
-        introducition: localeString.optional(),
+        introduction: localeString.optional(),
         fields: Joi.array()
             .items(fieldSchema)
             .required()
@@ -66,7 +66,7 @@ module.exports = function validateModel(formModel) {
     const sectionSchema = Joi.object({
         slug: Joi.string().required(),
         title: localeString.required(),
-        introducition: localeString.optional(),
+        introduction: localeString.optional(),
         steps: Joi.array()
             .items(stepSchema)
             .required()
