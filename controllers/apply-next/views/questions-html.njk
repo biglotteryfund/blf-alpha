@@ -1,0 +1,21 @@
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "./questions-list.njk" import questionList %}
+
+{% extends "layouts/main.njk" %}
+
+{% block content %}
+    <main role="main" id="content">
+        <section class="content-box u-inner-wide-only">
+            <div class="s-prose">
+                <h1 class="t--underline">All questions</h1>
+                <p>@TODO</p>
+            </div>
+
+        </section>
+
+        {% call contentBox() %}
+            {{ questionList(form) }}
+        {% endcall %}
+
+    </main>
+{% endblock %}

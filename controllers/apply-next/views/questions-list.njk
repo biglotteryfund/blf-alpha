@@ -1,0 +1,94 @@
+{% macro questionList(form) %}
+    <h2>Up-front application questions</h2>
+    {% for field in form.newApplicationFields %}
+        <h3>{{ field.label }}</h3>
+        {% if field.explanation %}
+            <p>{{ field.explanation | safe }}</p>
+        {% endif %}
+    {% endfor %}
+
+    <h2>Eligibility questions</h2>
+    <ol>
+        {% for field in form.eligibilityQuestions %}
+            <li>
+                <h3>{{ field.question }}</h3>
+                {% if field.explanation %}
+                    <p>{{ field.explanation | safe }}</p>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ol>
+
+    <h2>Form sections</h2>
+    {% for section in form.sections %}
+        <h3 class="t--underline">Section {{ loop.index }}: {{ section.title }}</h3>
+        {% if section.introduction %}
+            <div class="u-margin-bottom-s">{{ section.introduction }}</div>
+        {% endif %}
+        {% for step in section.steps %}
+            <h4>Step {{ loop.index }}: {{ step.title }}</h4>
+            {% for fieldset in step.fieldsets %}
+                <ul>
+                    {% for field in fieldset.fields %}
+                        <li>
+                            <h5>
+                                {{ field.label }}
+                                {% if step.notRequired %}
+                                    (optional, but may be required depending on your circumstances)
+                                {% elseif field.isRequired %}
+                                    * (required)
+                                {% endif %}
+                            </h5>
+                            <h6>
+                                {% if field.type === 'checkbox' %}
+                                    Pick one of:
+                                {% elseif field.type === 'radio' %}
+                                    Choose as many as you like from:
+                                {% elseif field.type === 'budget' %}
+                                    Provide an itemised budget
+                                    {% if field.attributes.max %}
+                                        (to a maximum total of £{{ field.attributes.max.toLocaleString() }}{% if field.attributes.rowLimit %} across {{ field.attributes.rowLimit }} items{% endif %})
+                                    {% endif %}
+                                {% elseif field.type === 'currency' %}
+                                    Provide a financial figure
+                                {% elseif field.type === 'address' %}
+                                    Provide an address
+                                {% elseif field.type === 'date' or field.type === 'day-month' %}
+                                    Provide a date
+                                {% elseif field.type === 'email' %}
+                                    Provide an email address
+                                {% elseif field.type === 'file' %}
+                                    Upload a file
+                                {% elseif field.type === 'number' %}
+                                    Provide a number
+                                {% elseif field.type === 'tel' %}
+                                    Provide a telephone number
+                                {% elseif field.type === 'text' %}
+                                    Provide a sentence or two
+                                {% elseif field.type === 'textarea' %}
+                                    Provide a longer answer
+                                    {% if field.settings.minWords and field.settings.maxWords %}
+                                        (between {{ field.settings.minWords }}-{{ field.settings.maxWords }} words)
+                                    {% else %}
+                                        {% if field.settings.minWords %} (minimum of {{ field.settings.minWords }} words){% endif %}
+                                        {% if field.settings.maxWords %} (maximum of {{ field.settings.maxWords }} words){% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            </h6>
+                            {% if field.options %}
+                                <ul>
+                                    {% for option in field.options %}
+                                        <li>{{ option.value }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            {% if field.explanation %}
+                                <div class="u-margin-bottom-s">{{ field.explanation | safe }}</div>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+{% endmacro %}
