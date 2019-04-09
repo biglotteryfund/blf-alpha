@@ -23,22 +23,22 @@ const organisationTypes = {
     unincorporatedRegisteredCharity: {
         value: 'unincorporated-registered-charity',
         label: { en: 'Unincorporated registered charity', cy: '' },
-        explanation: { en: 'You will need to provide your charities commission registration number', cy: '' }
+        explanation: { en: 'You will need to provide your Charity Commission registration number', cy: '' }
     },
     charitableIncorporatedOrganisation: {
         value: 'charitable-incorporated-organisation',
         label: { en: 'Charitable incorporated organisation (CIO)', cy: '' },
-        explanation: { en: 'You will need to provide your companies house registration number', cy: '' }
+        explanation: { en: 'You will need to provide your Companies House registration number', cy: '' }
     },
     notForProfitCompany: {
         value: 'not-for-profit-company',
         label: { en: 'Not-for-profit company', cy: '' },
-        explanation: { en: 'You will need to provide your companies house registration number', cy: '' }
+        explanation: { en: 'You will need to provide your Companies House registration number', cy: '' }
     },
     communityInterestCompany: {
         value: 'community-interest-company',
         label: { en: 'Community interest company (CIC)', cy: '' },
-        explanation: { en: 'You will need to provide your companies house registration number', cy: '' }
+        explanation: { en: 'You will need to provide your Companies House registration number', cy: '' }
     },
     school: {
         value: 'school',
@@ -388,7 +388,7 @@ const allFields = {
     },
     companyNumber: {
         name: 'company-number',
-        label: { en: 'Companies house number', cy: '' },
+        label: { en: 'Companies House number', cy: '' },
         type: 'text',
         isRequired: true,
         schema: Joi.any().when('organisation-type', {
@@ -399,7 +399,7 @@ const allFields = {
             ]),
             then: Joi.string().required()
         }),
-        messages: [{ type: 'base', message: { en: 'Enter a companies house number', cy: '' } }]
+        messages: [{ type: 'base', message: { en: 'Enter a Companies House number', cy: '' } }]
     },
     charityNumber: {
         name: 'charity-number',

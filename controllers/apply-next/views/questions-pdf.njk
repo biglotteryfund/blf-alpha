@@ -1,0 +1,9 @@
+{% from "./questions-list.njk" import questionList with context %}
+
+{% extends "views/layouts/emails.njk" %}
+
+{% block content %}
+    {{ questionList(form) }}
+{% endblock %}
+
+

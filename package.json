@@ -91,6 +91,7 @@
     "fontfaceobserver": "^2.0.13",
     "globby": "^8.0.1",
     "helmet": "^3.8.1",
+    "html-pdf": "2.2.0",
     "html-to-text": "4.0.0",
     "i18n-2": "^0.7.2",
     "joi": "14.3.1",

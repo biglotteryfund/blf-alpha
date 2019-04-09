@@ -5,10 +5,16 @@
         <style>
             @import url('https://use.typekit.net/yyc1dgh.css');
         </style>
-        <link rel="stylesheet" type="text/css" href="/build/latest/stylesheets/emails.css">
+        {% if appData.isDev %}
+            <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/emails.css' | getCachebustedPath }}">
+        {% else %}
+            <link rel="stylesheet" type="text/css" href="/build/latest/stylesheets/emails.css">
+        {% endif %}
     </head>
     <body>
-        <div class="logo"><img src="/images/site-logo.svg" alt="" /></div>
+        <div class="logo">
+            <img src="{% if appData.isDev %}/assets{% endif %}/images/site-logo.svg" alt="" />
+        </div>
 
         {% block content %}{% endblock %}
 

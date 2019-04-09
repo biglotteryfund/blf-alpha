@@ -3,6 +3,9 @@ const { get, set, unset, concat, flatMap, head, isEmpty, omit } = require('lodas
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
+const nunjucks = require('nunjucks');
+const pdf = require('html-pdf');
+const config = require('config');
 
 const applicationsService = require('../../services/applications');
 const cached = require('../../middleware/cached');
@@ -35,6 +38,51 @@ function initFormRouter(formModel) {
     const SESSION_PREFIX = `forms.${formModel.id}`;
 
     router.use(cached.csrfProtection);
+
+    router.get('/questions/:pdf?', (req, res) => {
+        const form = enhanceForm({
+            locale: req.i18n.getLocale(),
+            baseForm: formModel
+        });
+
+        const output = {
+            templates: {
+                html: path.resolve(__dirname, './views/questions-html.njk'),
+                pdf: path.resolve(__dirname, './views/questions-pdf.njk')
+            },
+            context: {
+                title: form.title,
+                form: form
+            }
+        };
+
+        if (req.params.pdf) {
+            // Repopulate existing global context so templates render properly
+            const context = { ...res.locals, ...req.app.locals, ...output.context };
+            nunjucks.render(output.templates.pdf, context, (renderErr, html) => {
+                if (renderErr) {
+                    Raven.captureException(renderErr);
+                    res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
+                } else {
+                    pdf.create(html, {
+                        format: 'A4',
+                        base: config.get('domains.base'),
+                        border: '40px',
+                        zoomFactor: '0.7'
+                    }).toBuffer((err, buffer) => {
+                        if (err) {
+                            Raven.captureException(err);
+                            return res.status(400).json({ error: 'ERR-PDF-BUFFER-ERROR' });
+                        }
+                        res.setHeader('Content-Disposition', `attachment; filename=questions.pdf`);
+                        return res.status(200).send(buffer);
+                    });
+                }
+            });
+        } else {
+            return res.render(output.templates.html, output.context);
+        }
+    });
 
     /**
      * Require login, redirect back here once authenticated.
