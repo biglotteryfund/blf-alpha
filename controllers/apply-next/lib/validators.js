@@ -1,13 +1,29 @@
 'use strict';
+const { isEmpty, isArray, reject, toInteger, sumBy } = require('lodash');
 const moment = require('moment');
 const baseJoi = require('joi');
-const { isEmpty, isArray, reject, toInteger, sumBy } = require('lodash');
+const phoneNumber = require('joi-phone-number');
 
 // Allows us to share postcode validation on server and client-side
 // via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
 // we have to double-escape the regex patterns here to output it as a native RegExp
 // but also as a string for the HTML pattern attribute
 const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
+
+/**
+ * Count words
+ * Matches consecutive non-whitespace chars
+ * If changing match this with character-count.vue
+ * @param {string} text
+ */
+function countWords(text) {
+    if (text) {
+        const tokens = text.trim().match(/\S+/g) || [];
+        return tokens.length;
+    } else {
+        return 0;
+    }
+}
 
 function dateFromParts(parts) {
     return moment({
@@ -17,6 +33,53 @@ function dateFromParts(parts) {
         day: toInteger(parts.day)
     });
 }
+
+const wordCount = joi => {
+    return {
+        base: joi.string(),
+        name: 'string',
+        language: {
+            maxWords: 'must have less than {{max}} words',
+            minWords: 'must have at least {{min}} words'
+        },
+        rules: [
+            {
+                name: 'maxWords',
+                params: {
+                    max: joi
+                        .number()
+                        .integer()
+                        .min(0)
+                        .required()
+                },
+                validate(params, value, state, options) {
+                    if (countWords(value) > params.max) {
+                        return this.createError('string.maxWords', { max: params.max }, state, options);
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                name: 'minWords',
+                params: {
+                    min: joi
+                        .number()
+                        .integer()
+                        .min(0)
+                        .required()
+                },
+                validate(params, value, state, options) {
+                    if (countWords(value) < params.min) {
+                        return this.createError('string.minWords', { min: params.min }, state, options);
+                    } else {
+                        return value;
+                    }
+                }
+            }
+        ]
+    };
+};
 
 const dateParts = joi => {
     return {
@@ -167,7 +230,7 @@ const budgetItems = joi => {
     };
 };
 
-const Joi = baseJoi.extend([dateParts, dayMonth, budgetItems]);
+const Joi = baseJoi.extend([phoneNumber, wordCount, dateParts, dayMonth, budgetItems]);
 
 module.exports = {
     Joi,

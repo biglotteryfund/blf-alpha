@@ -11,10 +11,10 @@ describe('CharacterCount', () => {
             propsData: { currentText: null, maxWords: 10, locale: 'en' }
         });
 
-        expect(wrapper.vm.count('this is a test')).toBe(4);
-        expect(wrapper.vm.count('this 📝 contains emoji ❤️')).toBe(5);
+        expect(wrapper.vm.countWords('this is a test')).toBe(4);
+        expect(wrapper.vm.countWords('this 📝 contains emoji ❤️')).toBe(5);
         expect(
-            wrapper.vm.count(`
+            wrapper.vm.countWords(`
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, esse voluptas. Aspernatur explicabo quia suscipit itaque non nisi consequuntur tempore. Voluptas suscipit iure dolorum ipsam illo, temporibus incidunt sapiente deserunt.
 
     Ut ducimus eos possimus animi doloremque quasi fuga quis nisi, nesciunt minus cupiditate quidem. Aspernatur voluptas temporibus ducimus amet corrupti, culpa eius eaque, iste cumque sequi rerum fugit sunt est.

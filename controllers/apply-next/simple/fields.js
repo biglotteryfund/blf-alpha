@@ -108,6 +108,26 @@ function emailField(props) {
     return { ...defaultProps, ...props };
 }
 
+function phoneField(props) {
+    const defaultProps = {
+        type: 'tel',
+        attributes: {
+            size: 30,
+            autocomplete: 'tel'
+        },
+        isRequired: true,
+        schema: Joi.string()
+            .phoneNumber({ defaultCountry: 'GB', format: 'national' })
+            .required(),
+        messages: [
+            { type: 'base', message: { en: 'Enter a phone number', cy: '' } },
+            { type: 'string.phonenumber', message: { en: 'Enter a valid UK phone number', cy: '' } }
+        ]
+    };
+
+    return { ...defaultProps, ...props };
+}
+
 function addressField(props) {
     const defaultProps = {
         type: 'address',
@@ -235,14 +255,35 @@ const allFields = {
         type: 'textarea',
         settings: {
             showWordCount: true,
-            maxWords: 500
+            minWords: 10,
+            maxWords: 50
         },
         attributes: {
             rows: 12
         },
         isRequired: true,
-        schema: Joi.string().required(),
-        messages: [{ type: 'base', message: { en: 'Tell us about your idea', cy: '' } }]
+        get schema() {
+            return Joi.string()
+                .minWords(this.settings.minWords)
+                .maxWords(this.settings.maxWords)
+                .required();
+        },
+        get messages() {
+            return [
+                {
+                    type: 'base',
+                    message: { en: 'Tell us about your idea', cy: '' }
+                },
+                {
+                    type: 'string.minWords',
+                    message: { en: `Must be at least ${this.settings.minWords} words`, cy: '' }
+                },
+                {
+                    type: 'string.maxWords',
+                    message: { en: `Must be no more than ${this.settings.maxWords} words`, cy: '' }
+                }
+            ];
+        }
     },
     projectBudget: {
         name: 'project-budget',
@@ -271,8 +312,8 @@ const allFields = {
             {
                 type: 'budgetItems.overBudget',
                 message: {
-                    en: `Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`,
-                    cy: `(WELSH) Ensure your budget total is £${MAX_BUDGET_TOTAL.toLocaleString()} or less.`
+                    en: `You have exceeded the budget limit for this application of £${MAX_BUDGET_TOTAL.toLocaleString()}`,
+                    cy: ``
                 }
             }
         ]
@@ -345,6 +386,21 @@ const allFields = {
         },
         messages: [{ type: 'base', message: { en: 'Choose an organisation type', cy: '' } }]
     },
+    companyNumber: {
+        name: 'company-number',
+        label: { en: 'Companies house number', cy: '' },
+        type: 'text',
+        isRequired: true,
+        schema: Joi.any().when('organisation-type', {
+            is: Joi.valid([
+                organisationTypes.charitableIncorporatedOrganisation.value,
+                organisationTypes.notForProfitCompany.value,
+                organisationTypes.communityInterestCompany.value
+            ]),
+            then: Joi.string().required()
+        }),
+        messages: [{ type: 'base', message: { en: 'Enter a companies house number', cy: '' } }]
+    },
     charityNumber: {
         name: 'charity-number',
         label: { en: 'Charity registration number', cy: '' },
@@ -363,21 +419,6 @@ const allFields = {
             then: Joi.number().required()
         }),
         messages: [{ type: 'base', message: { en: 'Enter a charity number', cy: '' } }]
-    },
-    companyNumber: {
-        name: 'company-number',
-        label: { en: 'Companies house number', cy: '' },
-        type: 'text',
-        isRequired: true,
-        schema: Joi.any().when('organisation-type', {
-            is: Joi.valid([
-                organisationTypes.charitableIncorporatedOrganisation.value,
-                organisationTypes.notForProfitCompany.value,
-                organisationTypes.communityInterestCompany.value
-            ]),
-            then: Joi.string().required()
-        }),
-        messages: [{ type: 'base', message: { en: 'Enter a companies house number', cy: '' } }]
     },
     accountingYearDate: {
         name: 'accounting-year-date',
@@ -428,8 +469,12 @@ const allFields = {
                 message: { en: 'Enter a date of birth', cy: '' }
             },
             {
+                type: 'any.invalid',
+                message: { en: 'Enter a real date', cy: '' }
+            },
+            {
                 type: 'dateParts.dob',
-                message: { en: `Main contact must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
+                message: { en: `Must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
             }
         ]
     },
@@ -442,18 +487,10 @@ const allFields = {
         label: { en: 'Email', cy: '' },
         explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' }
     }),
-    mainContactPhone: {
+    mainContactPhone: phoneField({
         name: 'main-contact-phone',
-        label: { en: 'UK telephone number', cy: '' },
-        type: 'tel',
-        attributes: {
-            size: 30,
-            autocomplete: 'tel'
-        },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: [{ type: 'base', message: { en: 'Enter a phone number', cy: '' } }]
-    },
+        label: { en: 'UK telephone number', cy: '' }
+    }),
     mainContactCommunicationNeeds: {
         name: 'main-contact-communication-needs',
         label: { en: 'Does this contact have any communication needs?', cy: '' },
@@ -530,7 +567,7 @@ const allFields = {
             { type: 'base', message: { en: 'Enter a date of birth', cy: '' } },
             {
                 type: 'dateParts.dob',
-                message: { en: `Legal contact must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
+                message: { en: `Must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
             }
         ]
     },
@@ -543,15 +580,10 @@ const allFields = {
         label: { en: 'Email', cy: '' },
         explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' }
     }),
-    legalContactPhone: {
+    legalContactPhone: phoneField({
         name: 'legal-contact-phone',
-        label: { en: 'Contact number', cy: '' },
-        type: 'tel',
-        isRequired: true,
-        attributes: { size: 30, autocomplete: 'tel' },
-        schema: Joi.number().required(),
-        messages: [{ type: 'base', message: { en: 'Enter a phone number', cy: '' } }]
-    },
+        label: { en: 'UK telephone number', cy: '' }
+    }),
     legalContactCommunicationNeeds: {
         name: 'legal-contact-communication-needs',
         type: 'checkbox',
