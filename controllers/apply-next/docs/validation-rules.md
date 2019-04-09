@@ -66,7 +66,7 @@ Word count messages (in-browser):
 | Rule                         | Message                                                            |
 | ---------------------------- | ------------------------------------------------------------------ |
 | Required field               | Enter a project budget                                             |
-| Missing name and/or cost     | Please supply both an item name and a cost                         |
+| Missing name and/or cost     | Supply both an item name and a cost                                |
 | Cost is not a number         | Make sure each cost is a valid number                              |
 | Total amount is over £10,000 | You have exceeded the budget limit for this application of £10,000 |
 | Too many rows                | You have added the maximum number of budget rows available (10)    |
