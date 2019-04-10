@@ -58,8 +58,8 @@
                 {# Search totals #}
                     <div class="search__meta">
                         <h2 class="search__total t--underline">
-                            {% if researchEntries.length > 0 %}
-                                {{ __n('insights.documents.search.totals', researchEntries.length) }}
+                            {% if entriesMeta.pagination.total > 0 %}
+                                {{ __n('insights.documents.search.totals', entriesMeta.pagination.total) }}
                             {% else %}
                                 {{ copy.search.noResultsTotal }}
                             {% endif %}
