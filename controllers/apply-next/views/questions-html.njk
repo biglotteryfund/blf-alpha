@@ -1,21 +1,32 @@
-{% from "components/content-box/macro.njk" import contentBox %}
 {% from "./questions-list.njk" import questionList %}
+{% from "components/icons.njk" import iconDownload %}
+{% from "components/print-button/macro.njk" import printButton %}
+
 
 {% extends "layouts/main.njk" %}
+{% set bodyClass = 'has-static-header' %}
 
 {% block content %}
     <main role="main" id="content">
+
         <section class="content-box u-inner-wide-only">
             <div class="s-prose">
-                <h1 class="t--underline">All questions</h1>
-                <p>@TODO</p>
+                <h1 class="t--underline">{{ form.title }}</h1>
+                <h3>Questions you'll be asked</h3>
+                <p>Below is a list of all of the questions you may be asked when applying for {{ form.title }}. Please note that some questions are optional depending on your other answers to the form. You may find it helpful to revise our <a href="{{ form.programmePage }}">{{ form.title }} guidance</a>. <strong>Please note</strong>: in order to submit your application you'll need to agree to our <a href="#">terms and conditions</a>.</p>
             </div>
-
+            <div class="o-button-group">
+                {{ printButton(label = 'Print these questions') }}
+                <a class="btn btn--medium btn--outline"
+                   href="./questions/pdf">
+                    {{ iconDownload() }} Download these questions (PDF)
+                </a>
+            </div>
         </section>
 
-        {% call contentBox() %}
+        <section class="content-box u-inner-wide-only">
             {{ questionList(form) }}
-        {% endcall %}
+        </section>
 
     </main>
 {% endblock %}
