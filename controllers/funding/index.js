@@ -10,16 +10,24 @@ const router = express.Router();
 
 router.get('/', sMaxAge('30m'), injectHeroImage('funding-letterbox-new'), async (req, res) => {
     let latestProgrammes = [];
+    let bigLunch = false;
     try {
         const fundingProgrammes = await contentApi.getFundingProgrammes({
             locale: req.i18n.getLocale(),
             pageLimit: 3,
             newestFirst: true
         });
+
+        const bigLunchContent = await contentApi.getListingPage({
+            locale: req.i18n.getLocale(),
+            path: 'funding/the-big-lunch'
+        });
+
+        bigLunch = bigLunchContent;
         latestProgrammes = fundingProgrammes.result ? fundingProgrammes.result : null;
     } catch (error) {} // eslint-disable-line no-empty
 
-    res.render(path.resolve(__dirname, './views/funding-landing'), { latestProgrammes });
+    res.render(path.resolve(__dirname, './views/funding-landing'), { latestProgrammes, bigLunch });
 });
 
 module.exports = router;
