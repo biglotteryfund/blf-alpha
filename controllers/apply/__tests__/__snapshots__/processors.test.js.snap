@@ -55,7 +55,8 @@ Content-Transfer-Encoding: quoted-printable
             @import =
 url('https://use.typekit.net/yyc1dgh.css');
         </style>
-        <style type=3D\\"text/css\\">
+       =20
+            <style type=3D\\"text/css\\">
 body{padding:10px;margin:auto}body,=
 p{color:#333;font-weight:400;font-size:20px;line-height:1.35}.fonts-loaded =
 body,.fonts-loaded p{font-family:caecilia-sans-text,Trebuchet MS,=
@@ -83,12 +84,14 @@ rflow-wrap:break-word;word-wrap:break-word;word-break:break-all;word-break:=
 break-word;-webkit-hyphens:auto;-ms-hyphens:auto;hyphens:auto}
 /*# sourceMappingURL=3Demails.css.map */
 </style>
+       =20
     </head>
     <body style=3D\\"padding: 10px; margin: auto; color: #333; font-weight: =
 400; font-size: 20px; line-height: 1.35; font-family: caecilia-sans-text,=
 Trebuchet MS,sans-serif;\\">
         <div class=3D\\"logo\\" =
-style=3D\\"margin-bottom: 20px; display: block;\\"><img alt=3D\\"\\" =
+style=3D\\"margin-bottom: 20px; display: block;\\">
+            <img alt=3D\\"\\" =
 src=3D\\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMj=
 AwMC9zdmciIHZpZXdCb3g9IjAgMCA2MTEuMiAxOTguNDMiPjxwYXRoIGQ9Ik0yMjIuODMgMTI5L=
 jU1YTI2LjcxIDI2LjcxIDAgMCAxLTIxLjg5IDEwLjM5IDI3LjM0IDI3LjM0IDAgMCAxLTEwLjM5=
@@ -192,45 +195,45 @@ NTMgMS41NCAxLjU0IDAgMCAxIC4xMS41OSAxLjgzIDEuODMgMCAwIDEtLjI3IDEgMS42OCAxLjY=
 4IDAgMCAxLS44My42NmwxLjM4IDIuMzRoLTEuMjJsLTEuMjYtMi4xOWgtLjl2Mi4xN2gtMS4wN3=
 ptMi4xMyAyLjYxYTEgMSAwIDAgMCAuNzItLjI0Ljg5Ljg5IDAgMCAwIC4yMi0uNjQuNzkuNzkgM=
 CAwIDAtLjI0LS42MyAxLjIyIDEuMjIgMCAwIDAtLjc3LS4yaC0xdjEuNzF6IiBmaWxsPSIjMWQx=
-ZDFiIi8+PC9zdmc+\\" style=3D\\"width: 200px;\\" width=3D\\"200\\"></div>
+ZDFiIi8+PC9zdmc+\\" style=3D\\"width: 200px;\\" width=3D\\"200\\">
+        </div>
 
        =20
    =20
 
+    <p style=3D\\"color: #333; font-weight: 400; =
+font-size: 20px; line-height: 1.35; font-family: caecilia-sans-text,=
+Trebuchet MS,sans-serif;\\">Thank you for getting in touch.</p>
     <p style=3D\\"color: #333; font-weight: 400; font-size: 20px; =
 line-height: 1.35; font-family: caecilia-sans-text,Trebuchet MS,=
-sans-serif;\\">Thank you for getting in touch.</p>
-    <p style=3D\\"color: =
-#333; font-weight: 400; font-size: 20px; line-height: 1.35; font-family: =
-caecilia-sans-text,Trebuchet MS,sans-serif;\\">Here is a copy of the =
-information you've submitted. We'll be in touch as soon as we can.</p>
+sans-serif;\\">Here is a copy of the information you've submitted. We'll be =
+in touch as soon as we can.</p>
 
    =20
     <div class=3D\\"summary\\">
        =20
-            <h4 =
-style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: =
-16px; font-family: caecilia,sans-serif; border-bottom: 1px solid #e5007d; =
-padding-bottom: 3px; font-weight: 800;\\">Your details</h4>
+            <h4 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
+color: #e5007d; font-size: 16px; font-family: caecilia,sans-serif; =
+border-bottom: 1px solid #e5007d; padding-bottom: 3px; font-weight: =
+800;\\">Your details</h4>
            =20
-                   =20
-                   =20
-                        <h5 =
-style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: =
-14px; font-family: caecilia,sans-serif; font-weight: 800;\\">Your name</h5>
-                       =20
-                            <p style=3D\\"color: =
-#333; font-weight: 400; font-size: 20px; line-height: 1.35; font-family: =
-caecilia-sans-text,Trebuchet MS,sans-serif;\\">Example Person</p>
-                       =20
-                   =20
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.=
 2; margin: 0 0 20px; color: #e5007d; font-size: 14px; font-family: caecilia=
-,sans-serif; font-weight: 800;\\">Email address</h5>
-                       =
-=20
+,sans-serif; font-weight: 800;\\">Your name</h5>
+                       =20
+                            <p style=3D\\"color: #333; font-weight: 400; =
+font-size: 20px; line-height: 1.35; font-family: caecilia-sans-text,=
+Trebuchet MS,sans-serif;\\">Example Person</p>
+                       =20
+                   =20
+                   =20
+                   =20
+                        <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
+color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+font-weight: 800;\\">Email address</h5>
+                       =20
                             <p style=3D\\"color: #333; font-weight: 400; =
 font-size: 20px; line-height: 1.35; font-family: caecilia-sans-text,=
 Trebuchet MS,sans-serif;\\">example@example.com</p>
@@ -338,7 +341,8 @@ Content-Transfer-Encoding: quoted-printable
             @import =
 url('https://use.typekit.net/yyc1dgh.css');
         </style>
-        <style type=3D\\"text/css\\">
+       =20
+            <style type=3D\\"text/css\\">
 body{padding:10px;margin:auto}body,=
 p{color:#333;font-weight:400;font-size:20px;line-height:1.35}.fonts-loaded =
 body,.fonts-loaded p{font-family:caecilia-sans-text,Trebuchet MS,=
@@ -366,12 +370,14 @@ rflow-wrap:break-word;word-wrap:break-word;word-break:break-all;word-break:=
 break-word;-webkit-hyphens:auto;-ms-hyphens:auto;hyphens:auto}
 /*# sourceMappingURL=3Demails.css.map */
 </style>
+       =20
     </head>
     <body style=3D\\"padding: 10px; margin: auto; color: #333; font-weight: =
 400; font-size: 20px; line-height: 1.35; font-family: caecilia-sans-text,=
 Trebuchet MS,sans-serif;\\">
         <div class=3D\\"logo\\" =
-style=3D\\"margin-bottom: 20px; display: block;\\"><img alt=3D\\"\\" =
+style=3D\\"margin-bottom: 20px; display: block;\\">
+            <img alt=3D\\"\\" =
 src=3D\\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMj=
 AwMC9zdmciIHZpZXdCb3g9IjAgMCA2MTEuMiAxOTguNDMiPjxwYXRoIGQ9Ik0yMjIuODMgMTI5L=
 jU1YTI2LjcxIDI2LjcxIDAgMCAxLTIxLjg5IDEwLjM5IDI3LjM0IDI3LjM0IDAgMCAxLTEwLjM5=
@@ -475,38 +481,39 @@ NTMgMS41NCAxLjU0IDAgMCAxIC4xMS41OSAxLjgzIDEuODMgMCAwIDEtLjI3IDEgMS42OCAxLjY=
 4IDAgMCAxLS44My42NmwxLjM4IDIuMzRoLTEuMjJsLTEuMjYtMi4xOWgtLjl2Mi4xN2gtMS4wN3=
 ptMi4xMyAyLjYxYTEgMSAwIDAgMCAuNzItLjI0Ljg5Ljg5IDAgMCAwIC4yMi0uNjQuNzkuNzkgM=
 CAwIDAtLjI0LS42MyAxLjIyIDEuMjIgMCAwIDAtLjc3LS4yaC0xdjEuNzF6IiBmaWxsPSIjMWQx=
-ZDFiIi8+PC9zdmc+\\" style=3D\\"width: 200px;\\" width=3D\\"200\\"></div>
+ZDFiIi8+PC9zdmc+\\" style=3D\\"width: 200px;\\" width=3D\\"200\\">
+        </div>
 
        =20
-    <h1 style=3D\\"font-weight: 700; line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 26px; font-family: caecilia,sans-serif;\\">New =
-submission for Digital Fund Strand 1</h1>
+    <h1 style=3D\\"font-weight: 700; line-height: 1.2; margin: 0 0=
+ 20px; color: #e5007d; font-size: 26px; font-family: caecilia,=
+sans-serif;\\">New submission for Digital Fund Strand 1</h1>
    =20
-    <div =
-class=3D\\"summary\\">
+    <div class=3D\\"summary\\">
        =20
-            <h4 style=3D\\"line-height: 1.2; =
-margin: 0 0 20px; color: #e5007d; font-size: 16px; font-family: caecilia,=
-sans-serif; border-bottom: 1px solid #e5007d; padding-bottom: 3px; =
-font-weight: 800;\\">Your details</h4>
+            <h4 =
+style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: =
+16px; font-family: caecilia,sans-serif; border-bottom: 1px solid #e5007d; =
+padding-bottom: 3px; font-weight: 800;\\">Your details</h4>
            =20
+                   =20
+                   =20
+                        <h5 =
+style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: =
+14px; font-family: caecilia,sans-serif; font-weight: 800;\\">Your name</h5>
+                       =20
+                            <p style=3D\\"color: =
+#333; font-weight: 400; font-size: 20px; line-height: 1.35; font-family: =
+caecilia-sans-text,Trebuchet MS,sans-serif;\\">Example Person</p>
+                       =20
+                   =20
                    =20
                    =20
                         <h5 style=3D\\"line-height: 1.=
 2; margin: 0 0 20px; color: #e5007d; font-size: 14px; font-family: caecilia=
-,sans-serif; font-weight: 800;\\">Your name</h5>
-                       =20
-                            <p style=3D\\"color: #333; font-weight: 400; =
-font-size: 20px; line-height: 1.35; font-family: caecilia-sans-text,=
-Trebuchet MS,sans-serif;\\">Example Person</p>
-                       =20
-                   =20
-                   =20
-                   =20
-                        <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
-font-weight: 800;\\">Email address</h5>
-                       =20
+,sans-serif; font-weight: 800;\\">Email address</h5>
+                       =
+=20
                             <p style=3D\\"color: #333; font-weight: 400; =
 font-size: 20px; line-height: 1.35; font-family: caecilia-sans-text,=
 Trebuchet MS,sans-serif;\\">example@example.com</p>
@@ -649,7 +656,8 @@ Content-Transfer-Encoding: quoted-printable
             @import =
 url('https://use.typekit.net/yyc1dgh.css');
         </style>
-        <style type=3D\\"text/css\\">
+       =20
+            <style type=3D\\"text/css\\">
 body{padding:10px;margin:auto}body,=
 p{color:#333;font-weight:400;font-size:20px;line-height:1.35}.fonts-loaded =
 body,.fonts-loaded p{font-family:caecilia-sans-text,Trebuchet MS,=
@@ -677,12 +685,14 @@ rflow-wrap:break-word;word-wrap:break-word;word-break:break-all;word-break:=
 break-word;-webkit-hyphens:auto;-ms-hyphens:auto;hyphens:auto}
 /*# sourceMappingURL=3Demails.css.map */
 </style>
+       =20
     </head>
     <body style=3D\\"padding: 10px; margin: auto; color: #333; font-weight: =
 400; font-size: 20px; line-height: 1.35; font-family: caecilia-sans-text,=
 Trebuchet MS,sans-serif;\\">
         <div class=3D\\"logo\\" =
-style=3D\\"margin-bottom: 20px; display: block;\\"><img alt=3D\\"\\" =
+style=3D\\"margin-bottom: 20px; display: block;\\">
+            <img alt=3D\\"\\" =
 src=3D\\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMj=
 AwMC9zdmciIHZpZXdCb3g9IjAgMCA2MTEuMiAxOTguNDMiPjxwYXRoIGQ9Ik0yMjIuODMgMTI5L=
 jU1YTI2LjcxIDI2LjcxIDAgMCAxLTIxLjg5IDEwLjM5IDI3LjM0IDI3LjM0IDAgMCAxLTEwLjM5=
@@ -786,7 +796,8 @@ NTMgMS41NCAxLjU0IDAgMCAxIC4xMS41OSAxLjgzIDEuODMgMCAwIDEtLjI3IDEgMS42OCAxLjY=
 4IDAgMCAxLS44My42NmwxLjM4IDIuMzRoLTEuMjJsLTEuMjYtMi4xOWgtLjl2Mi4xN2gtMS4wN3=
 ptMi4xMyAyLjYxYTEgMSAwIDAgMCAuNzItLjI0Ljg5Ljg5IDAgMCAwIC4yMi0uNjQuNzkuNzkgM=
 CAwIDAtLjI0LS42MyAxLjIyIDEuMjIgMCAwIDAtLjc3LS4yaC0xdjEuNzF6IiBmaWxsPSIjMWQx=
-ZDFiIi8+PC9zdmc+\\" style=3D\\"width: 200px;\\" width=3D\\"200\\"></div>
+ZDFiIi8+PC9zdmc+\\" style=3D\\"width: 200px;\\" width=3D\\"200\\">
+        </div>
 
        =20
     <p style=3D\\"color: #333; font-weight: 400; font-size: 20px; =
@@ -1022,7 +1033,8 @@ Content-Transfer-Encoding: quoted-printable
             @import =
 url('https://use.typekit.net/yyc1dgh.css');
         </style>
-        <style type=3D\\"text/css\\">
+       =20
+            <style type=3D\\"text/css\\">
 body{padding:10px;margin:auto}body,=
 p{color:#333;font-weight:400;font-size:20px;line-height:1.35}.fonts-loaded =
 body,.fonts-loaded p{font-family:caecilia-sans-text,Trebuchet MS,=
@@ -1050,12 +1062,14 @@ rflow-wrap:break-word;word-wrap:break-word;word-break:break-all;word-break:=
 break-word;-webkit-hyphens:auto;-ms-hyphens:auto;hyphens:auto}
 /*# sourceMappingURL=3Demails.css.map */
 </style>
+       =20
     </head>
     <body style=3D\\"padding: 10px; margin: auto; color: #333; font-weight: =
 400; font-size: 20px; line-height: 1.35; font-family: caecilia-sans-text,=
 Trebuchet MS,sans-serif;\\">
         <div class=3D\\"logo\\" =
-style=3D\\"margin-bottom: 20px; display: block;\\"><img alt=3D\\"\\" =
+style=3D\\"margin-bottom: 20px; display: block;\\">
+            <img alt=3D\\"\\" =
 src=3D\\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMj=
 AwMC9zdmciIHZpZXdCb3g9IjAgMCA2MTEuMiAxOTguNDMiPjxwYXRoIGQ9Ik0yMjIuODMgMTI5L=
 jU1YTI2LjcxIDI2LjcxIDAgMCAxLTIxLjg5IDEwLjM5IDI3LjM0IDI3LjM0IDAgMCAxLTEwLjM5=
@@ -1159,43 +1173,46 @@ NTMgMS41NCAxLjU0IDAgMCAxIC4xMS41OSAxLjgzIDEuODMgMCAwIDEtLjI3IDEgMS42OCAxLjY=
 4IDAgMCAxLS44My42NmwxLjM4IDIuMzRoLTEuMjJsLTEuMjYtMi4xOWgtLjl2Mi4xN2gtMS4wN3=
 ptMi4xMyAyLjYxYTEgMSAwIDAgMCAuNzItLjI0Ljg5Ljg5IDAgMCAwIC4yMi0uNjQuNzkuNzkgM=
 CAwIDAtLjI0LS42MyAxLjIyIDEuMjIgMCAwIDAtLjc3LS4yaC0xdjEuNzF6IiBmaWxsPSIjMWQx=
-ZDFiIi8+PC9zdmc+\\" style=3D\\"width: 200px;\\" width=3D\\"200\\"></div>
+ZDFiIi8+PC9zdmc+\\" style=3D\\"width: 200px;\\" width=3D\\"200\\">
+        </div>
 
        =20
-    <h1 style=3D\\"font-weight: 700; line-height: 1.2; margin: 0 0 20px; =
-color: #e5007d; font-size: 26px; font-family: caecilia,sans-serif;\\">A =
-customer has submitted an idea from the Reaching Communities &amp; =
-Partnerships web form.</h1>
-    <p style=3D\\"color: #333; font-weight: 400; =
-font-size: 20px; line-height: 1.35; font-family: caecilia-sans-text,=
-Trebuchet MS,sans-serif;\\">The details they provided are included below:</p>
-    <h2 class=3D\\"space-above\\" style=3D\\"font-weight: 700; line-height: 1.2; =
-margin: 0 0 20px; color: #e5007d; font-size: 22px; margin-top: 50px; =
-font-family: caecilia,sans-serif;\\">Customer information</h2>
+    <h1 style=3D\\"font-weight: 700; line-height: 1.2; margin: 0 0=
+ 20px; color: #e5007d; font-size: 26px; font-family: caecilia,=
+sans-serif;\\">A customer has submitted an idea from the Reaching Communities=
+ &amp; Partnerships web form.</h1>
+    <p style=3D\\"color: #333; =
+font-weight: 400; font-size: 20px; line-height: 1.35; font-family: =
+caecilia-sans-text,Trebuchet MS,sans-serif;\\">The details they provided are =
+included below:</p>
+    <h2 class=3D\\"space-above\\" style=3D\\"font-weight: =
+700; line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: 22px; =
+margin-top: 50px; font-family: caecilia,sans-serif;\\">Customer =
+information</h2>
    =20
     <div class=3D\\"summary\\">
        =20
-            <h4 =
-style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: =
-16px; font-family: caecilia,sans-serif; border-bottom: 1px solid #e5007d; =
-padding-bottom: 3px; font-weight: 800;\\">Your details</h4>
+            <h4 style=3D\\"line-height: 1.2; margin: 0 0 20px; color: =
+#e5007d; font-size: 16px; font-family: caecilia,sans-serif; border-bottom: =
+1px solid #e5007d; padding-bottom: 3px; font-weight: 800;\\">Your =
+details</h4>
            =20
                    =20
                    =20
-                        <h5 =
-style=3D\\"line-height: 1.2; margin: 0 0 20px; color: #e5007d; font-size: =
-14px; font-family: caecilia,sans-serif; font-weight: 800;\\">First name</h5>
+                        <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
+color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+font-weight: 800;\\">First name</h5>
                        =20
-                            <p style=3D\\"color: =
-#333; font-weight: 400; font-size: 20px; line-height: 1.35; font-family: =
-caecilia-sans-text,Trebuchet MS,sans-serif;\\">Example</p>
+                            <p style=3D\\"color: #333; font-weight: 400; =
+font-size: 20px; line-height: 1.35; font-family: caecilia-sans-text,=
+Trebuchet MS,sans-serif;\\">Example</p>
                        =20
                    =20
                    =20
                    =20
-                        <h5 style=3D\\"line-height: 1.=
-2; margin: 0 0 20px; color: #e5007d; font-size: 14px; font-family: caecilia=
-,sans-serif; font-weight: 800;\\">Last name</h5>
+                        <h5 style=3D\\"line-height: 1.2; margin: 0 0 20px; =
+color: #e5007d; font-size: 14px; font-family: caecilia,sans-serif; =
+font-weight: 800;\\">Last name</h5>
                        =20
                             <p style=3D\\"color: #333; font-weight: 400; =
 font-size: 20px; line-height: 1.35; font-family: caecilia-sans-text,=
