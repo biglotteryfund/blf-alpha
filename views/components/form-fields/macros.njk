@@ -204,7 +204,7 @@
                                 name="{{ field.name }}"
                                 value="{{ option.value }}"
                                 {% if field.isRequired %}required aria-required="true"{% endif %}
-                                {% if field.value[0] === option.value %}checked{% endif %}
+                                {% if field.value[0] === option.value or field.value === option.value %}checked{% endif %}
                             />
                         {% endif %}
                     </div>

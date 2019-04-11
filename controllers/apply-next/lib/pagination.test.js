@@ -6,19 +6,24 @@ describe('nextAndPrevious', () => {
     const mockSections = [
         {
             slug: 'section-a',
-            steps: [{ title: 'Step 1' }, { title: 'Step 2' }, { title: 'Step 3' }, { title: 'Step 4' }]
+            steps: [
+                { title: 'Step 1', isRequired: true },
+                { title: 'Step 2', isRequired: true },
+                { title: 'Step 3', isRequired: true },
+                { title: 'Step 4', isRequired: true }
+            ]
         },
         {
             slug: 'section-b',
             steps: [
-                { title: 'Step 1' },
-                { title: 'Step 2', matchesCondition: formData => formData.name === 'example' },
-                { title: 'Step 3' }
+                { title: 'Step 1', isRequired: true },
+                { title: 'Step 2', isRequired: false },
+                { title: 'Step 3', isRequired: true }
             ]
         },
         {
             slug: 'section-c',
-            steps: [{ title: 'Step 1' }, { title: 'Step 2' }]
+            steps: [{ title: 'Step 1', isRequired: true }, { title: 'Step 2', isRequired: true }]
         }
     ];
 
@@ -27,8 +32,7 @@ describe('nextAndPrevious', () => {
             baseUrl: '/example',
             sections: mockSections,
             currentSectionIndex: 0,
-            currentStepIndex: 0,
-            formData: {}
+            currentStepIndex: 0
         });
         expect(nextUrl).toBe('/example/section-a/2');
         expect(previousUrl).toBe('/example');
@@ -39,8 +43,7 @@ describe('nextAndPrevious', () => {
             baseUrl: '/example',
             sections: mockSections,
             currentSectionIndex: 0,
-            currentStepIndex: 3,
-            formData: {}
+            currentStepIndex: 3
         });
         expect(nextUrl).toBe('/example/section-b');
         expect(previousUrl).toBe('/example/section-a/3');
@@ -51,8 +54,7 @@ describe('nextAndPrevious', () => {
             baseUrl: '/example',
             sections: mockSections,
             currentSectionIndex: 2,
-            currentStepIndex: 0,
-            formData: {}
+            currentStepIndex: 0
         });
         expect(nextUrl).toBe('/example/section-c/2');
         expect(previousUrl).toBe('/example/section-b/3');
@@ -63,8 +65,7 @@ describe('nextAndPrevious', () => {
             baseUrl: '/example',
             sections: mockSections,
             currentSectionIndex: 2,
-            currentStepIndex: 2,
-            formData: {}
+            currentStepIndex: 2
         });
         expect(nextUrl).toBe('/example/summary');
         expect(previousUrl).toBe('/example/section-c/2');
@@ -75,22 +76,9 @@ describe('nextAndPrevious', () => {
             baseUrl: '/example',
             sections: mockSections,
             currentSectionIndex: 1,
-            currentStepIndex: 0,
-            formData: {}
+            currentStepIndex: 0
         });
         expect(nextUrl).toBe('/example/section-b/3');
-        expect(previousUrl).toBe('/example/section-a/4');
-    });
-
-    it('should include steps where matchesCondition is true', () => {
-        const { nextUrl, previousUrl } = nextAndPrevious({
-            baseUrl: '/example',
-            sections: mockSections,
-            currentSectionIndex: 1,
-            currentStepIndex: 0,
-            formData: { name: 'example' }
-        });
-        expect(nextUrl).toBe('/example/section-b/2');
         expect(previousUrl).toBe('/example/section-a/4');
     });
 });
