@@ -114,14 +114,7 @@ function addressField(props) {
     const defaultProps = {
         type: 'address',
         isRequired: true,
-        schema: commonValidators.ukAddress().when('organisation-type', {
-            is: organisationTypes.school.value,
-            then: Joi.optional(),
-            else: Joi.required()
-        }),
-        shouldShow(formData = {}) {
-            return get(formData, 'organisation-type') !== organisationTypes.school.value;
-        },
+        schema: commonValidators.ukAddress().required(),
         messages: [
             {
                 type: 'base',
@@ -147,10 +140,10 @@ function dateOfBirthField(props) {
                 .format('YYYY-MM-DD')
         },
         isRequired: true,
-        schema: commonValidators.dateOfBirth(MIN_APPLICANT_AGE).when('organisation-type', {
+        schema: Joi.when(Joi.ref('organisation-type'), {
             is: organisationTypes.school.value,
-            then: Joi.optional(),
-            else: Joi.required()
+            then: Joi.any().optional(),
+            otherwise: commonValidators.dateOfBirth(MIN_APPLICANT_AGE).required()
         }),
         shouldShow(formData = {}) {
             return get(formData, 'organisation-type') !== organisationTypes.school.value;
@@ -289,8 +282,8 @@ const allFields = {
         type: 'textarea',
         settings: {
             showWordCount: true,
-            minWords: 10,
-            maxWords: 50
+            minWords: 50,
+            maxWords: 500
         },
         attributes: {
             rows: 12
@@ -428,8 +421,8 @@ const allFields = {
         shouldShow(formData = {}) {
             return get(formData, 'organisation-type') === organisationTypes.notForProfitCompany.value;
         },
-        schema: Joi.any().when('organisation-type', {
-            is: Joi.valid(organisationTypes.notForProfitCompany.value),
+        schema: Joi.when('organisation-type', {
+            is: organisationTypes.notForProfitCompany.value,
             then: Joi.string().required()
         }),
         messages: [{ type: 'base', message: { en: 'Enter a companies house number', cy: '' } }]
@@ -443,6 +436,7 @@ const allFields = {
         },
         type: 'text',
         attributes: { size: 20 },
+        // @TODO: Can we compute this based on the schema?
         isRequired(formData = {}) {
             return includes(
                 [
@@ -462,13 +456,12 @@ const allFields = {
                 get(formData, 'organisation-type')
             );
         },
-        schema: Joi.number().when('organisation-type', {
-            is: Joi.valid([
-                organisationTypes.unincorporatedRegisteredCharity.value,
-                organisationTypes.charitableIncorporatedOrganisation.value
-            ]),
-            then: Joi.required(),
-            else: Joi.optional()
+        schema: Joi.when('organisation-type', {
+            is: organisationTypes.unincorporatedRegisteredCharity.value,
+            then: Joi.number().required()
+        }).when('organisation-type', {
+            is: organisationTypes.charitableIncorporatedOrganisation.value,
+            then: Joi.number().required()
         }),
         messages: [
             {
@@ -515,7 +508,15 @@ const allFields = {
     }),
     mainContactAddress: addressField({
         name: 'main-contact-address',
-        label: { en: 'Address', cy: '' }
+        label: { en: 'Address', cy: '' },
+        schema: Joi.when(Joi.ref('organisation-type'), {
+            is: organisationTypes.school.value,
+            then: Joi.any().optional(),
+            otherwise: commonValidators.ukAddress().required()
+        }),
+        shouldShow(formData = {}) {
+            return get(formData, 'organisation-type') !== organisationTypes.school.value;
+        }
     }),
     mainContactEmail: emailField({
         name: 'main-contact-email',
@@ -627,7 +628,15 @@ const allFields = {
     }),
     legalContactAddress: addressField({
         name: 'legal-contact-address',
-        label: { en: 'Address', cy: '' }
+        label: { en: 'Address', cy: '' },
+        schema: Joi.when(Joi.ref('organisation-type'), {
+            is: organisationTypes.school.value,
+            then: Joi.any().optional(),
+            otherwise: commonValidators.ukAddress().required()
+        }),
+        shouldShow(formData = {}) {
+            return get(formData, 'organisation-type') !== organisationTypes.school.value;
+        }
     }),
     legalContactEmail: emailField({
         name: 'legal-contact-email',
