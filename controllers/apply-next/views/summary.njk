@@ -71,7 +71,7 @@
                                         Step {{ stepNumber }} of {{ section.steps.length }} &ndash; {{ step.title }}
                                     </h4>
 
-                                    {% if not step.notRequired %}
+                                    {% if step.isRequired %}
                                         {% for fieldset in step.fieldsets %}
                                             {% for field in fieldset.fields %}
                                                 <div class="application-summary__data">
