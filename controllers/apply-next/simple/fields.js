@@ -15,7 +15,7 @@ const countries = {
 };
 
 const organisationTypes = {
-    unregisterdVco: {
+    unregisteredVco: {
         value: 'unregistered-vco',
         label: { en: 'Unregistered voluntary or community organisation', cy: '' },
         explanation: {
@@ -577,11 +577,11 @@ const allFields = {
         options(formData) {
             let options = [];
             switch (get(formData, 'organisation-type')) {
-                case organisationTypes.unregisterdVco.value:
+                case organisationTypes.unregisteredVco.value:
                     options = [
                         { value: 'chair', label: { en: 'Chair', cy: '' } },
                         { value: 'vice-chair', label: { en: 'Vice-chair', cy: '' } },
-                        { value: 'cecretary', label: { en: 'Secretary', cy: '' } },
+                        { value: 'secretary', label: { en: 'Secretary', cy: '' } },
                         { value: 'treasurer', label: { en: 'Treasurer', cy: '' } }
                     ];
                     break;
