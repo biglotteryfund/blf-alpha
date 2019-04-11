@@ -199,6 +199,42 @@ $statusColumnWidth: 160px;
     color: lighten(get-color('text', 'base'), 50%);
 }
 
-.application-text-minor {
-    font-size: 15px;
+.application-questions {
+
+    .application-questions__header {
+        background-color: get-color('background', 'light-neutral');
+        padding: $spacingUnit;
+    }
+
+    .application-questions__set {
+        padding: $spacingUnit;
+
+        .application-questions__item {
+            padding-bottom: $spacingUnit;
+            margin-bottom: $spacingUnit;
+            border-bottom: 1px solid get-color('border', 'base');
+
+            &:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+        }
+    }
+
+    .application-questions__q,
+    .application-questions__help {
+        font-weight: bold;
+        font-family: font-stack('display');
+        margin-bottom: $spacingUnit / 2;
+    }
+
+    .application-questions__q {
+        font-size: font-scale('display', 't5');
+    }
+    .application-questions__help {
+        font-size: font-scale('display', 't6');
+    }
+
+
 }

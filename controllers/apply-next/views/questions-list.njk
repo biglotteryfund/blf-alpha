@@ -41,70 +41,77 @@
 {% endmacro %}
 
 {% macro header() %}
-    <div class="u-tone-background-tint u-padded">
+    <div class="application-questions__header">
         {{ caller() }}
     </div>
 {% endmacro %}
 
 {% macro question(first = false) %}
-    <div class="{% if not first %}u-padded-top u-border-top--thin u-margin-top{% endif %}">
+    <dl class="application-questions__item">
         {{ caller() }}
-    </div>
+    </dl>
 {% endmacro %}
 
 {% macro questionList(form) %}
 
-    {% call header() %}
-        <h3>Eligibility questions</h3>
-        <p class="u-no-margin application-text-minor">You'll need to answer all of these before beginning your application form.</p>
-    {% endcall %}
-    <div class="u-padded">
-        {% for field in form.eligibilityQuestions %}
-            {% call question(first = loop.first) %}
-                <h5>{{ field.question }}</h5>
-                {% if field.explanation %}
-                    <p class="s-prose application-text-minor">{{ field.explanation | safe }}</p>
-                {% endif %}
-            {% endcall %}
-        {% endfor %}
-    </div>
+    <section class="application-questions">
 
-    {% for section in form.sections %}
-        <div class="u-tone-background-tint u-padded">
-            <h3>Section {{ loop.index }}: {{ section.title }}</h3>
-            {% if section.introduction %}
-                <p class="u-no-margin application-text-minor">{{ section.introduction }}</p>
-            {% endif %}
-        </div>
-        <div class="u-padded">
-            {% for step in section.steps %}
-                <h4 class="t--underline{% if not loop.first %}  u-margin-top-l{% endif %}">
-                    Step {{ loop.index }}: {{ step.title }}
-                </h4>
-                {% for fieldset in step.fieldsets %}
-                    {% for field in fieldset.fields %}
-                        <div class="{% if not loop.first %}u-padded-top u-border-top--thin u-margin-top{% endif %}">
-                            <h5>{{ field.label }}</h5>
-                            <h6>{{ fieldTypeHelpText(field, step) }}</h6>
-                            {% if field.options %}
-                                <div class="s-prose application-text-minor">
-                                    <ul>
-                                        {% for option in field.options %}
-                                            <li>{{ option.label }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
-                            {% if field.explanation %}
-                                <div class="u-margin-bottom-s application-text-minor s-prose">
-                                    {{ field.explanation | safe }}
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
-                {% endfor %}
+        {% call header() %}
+            <h3>Eligibility questions</h3>
+            <p class="u-no-margin u-text-x-small">You'll need to answer all of these before beginning your application form.</p>
+        {% endcall %}
+
+        <div class="application-questions__set">
+            {% for field in form.eligibilityQuestions %}
+                {% call question(first = loop.first) %}
+                    <dt class="application-questions__q">{{ field.question }}</dt>
+                    {% if field.explanation %}
+                        <dd class="s-prose u-text-x-small">{{ field.explanation | safe }}</dd>
+                    {% endif %}
+                {% endcall %}
             {% endfor %}
         </div>
-    {% endfor %}
+
+        {% for section in form.sections %}
+
+            {% call header() %}
+                <h3>Section {{ loop.index }}: {{ section.title }}</h3>
+                {% if section.introduction %}
+                    <p class="u-no-margin u-text-x-small">{{ section.introduction }}</p>
+                {% endif %}
+            {% endcall %}
+
+            {% for step in section.steps %}
+                <div class="application-questions__set">
+                    <h4 class="t--underline">Step {{ loop.index }}: {{ step.title }}</h4>
+
+                    {% for fieldset in step.fieldsets %}
+                        {% for field in fieldset.fields %}
+                            {% call question(first = loop.first) %}
+                                <dt class="application-questions__q">{{ field.label }}</dt>
+                                <dd class="application-questions__help">{{ fieldTypeHelpText(field, step) }}</dd>
+
+                                {% if field.options %}
+                                    <div class="s-prose u-text-x-small">
+                                        <ul>
+                                            {% for option in field.options %}
+                                                <li>{{ option.label }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                                {% if field.explanation %}
+                                    <dd class="u-margin-bottom-s u-text-x-small s-prose">
+                                        {{ field.explanation | safe }}
+                                    </dd>
+                                {% endif %}
+                            {% endcall %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+    </section>
 
 {% endmacro %}
