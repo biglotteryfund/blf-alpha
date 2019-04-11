@@ -80,20 +80,30 @@ module.exports = function enhanceForm({ locale, baseForm, data = {} }) {
         return field;
     };
 
+    const enhanceFieldset = fieldset => {
+        fieldset.legend = localise(fieldset.legend);
+        fieldset.introduction = localise(fieldset.introduction);
+        fieldset.fields = reject(
+            fieldset.fields,
+            field => field.shouldShow && field.shouldShow(data || {}) === false
+        ).map(enhanceField);
+        return fieldset;
+    };
+
     const enhanceStep = step => {
         step.title = localise(step.title);
 
-        step.fieldsets = step.fieldsets.map(fieldset => {
-            fieldset.legend = localise(fieldset.legend);
-            fieldset.introduction = localise(fieldset.introduction);
-            fieldset.fields = reject(
-                fieldset.fields,
-                field => field.shouldShow && field.shouldShow(data || {}) === false
-            ).map(enhanceField);
-            return fieldset;
-        });
+        /**
+         * Enhance fieldset and filter out any fieldsets with no fields
+         * i.e. to account for cases where a fieldset is conditional
+         */
+        const stepFieldsets = step.fieldsets.map(enhanceFieldset);
+        step.fieldsets = reject(stepFieldsets, fieldset => fieldset.fields.length === 0);
 
-        // Handle steps that don't need to be completed based on current form data
+        /**
+         * Flag optional steps if there are no fields
+         * i.e. to account for cases where whole step is conditional
+         */
         const stepFields = flatMap(step.fieldsets, 'fields');
         step.isRequired = stepFields.length > 0;
 
