@@ -125,11 +125,23 @@ Address field group, consists of:
 
 ### Company number
 
-@TODO
+**Type**: string
+
+**Conditions**: Conditionally required when the organisation type is a **not for profit company**.
+
+| Rule                         | Message                        |
+| ---------------------------- | ------------------------------ |
+| Conditionally required field | Enter a companies house number |
 
 ### Charity number
 
-@TODO
+**Type**: string
+
+**Conditions**: Conditionally required when the organisation type is a **unincorporated registered charity** or **CIO**. Shown, but optional, if the organisation type is a **not for profit company**.
+
+| Rule                         | Message                |
+| ---------------------------- | ---------------------- |
+| Conditionally required field | Enter a charity number |
 
 ### Accounting year date
 
@@ -162,6 +174,8 @@ Address field group, consists of:
 
 **Type**: date
 
+**Optional** if the organisation type is a **school or educational body**.
+
 | Rule                 | Message                                    |
 | -------------------- | ------------------------------------------ |
 | Required field       | Enter a date of birth                      |
@@ -178,6 +192,8 @@ Address field group, consists of:
 -   Address line 2 (optional)
 -   Town or city
 -   Postcode
+
+**Optional** if the organisation type is a **school or educational body**.
 
 | Rule           | Message                 |
 | -------------- | ----------------------- |
@@ -225,11 +241,30 @@ Address field group, consists of:
 
 ### Legal contact role
 
-@TODO
+**Type**: single choice (radio)
+
+| Rule           | Message       |
+| -------------- | ------------- |
+| Required field | Choose a role |
+
+#### Mappings
+
+The legal contact role shows the following choices depending on the organisation type:
+
+| Organisation type                                | Choices                                   |
+| ------------------------------------------------ | ----------------------------------------- |
+| Unregistered voluntary or community organisation | Chair, Vice-chair, Secretary, Treasurer   |
+| Registered charity (unincorporated)              | Trustee                                   |
+| Charitable incorporated organisation (CIO)       | Trustee                                   |
+| Not-for-profit company                           | Company Director, Company Secretary       |
+| School or educational body                       | Head Teacher, Chancellor, Vice-chancellor |
+| Statutory body                                   | Parish Clerk, Chief Executive             |
 
 ### Legal contact date of birth
 
 **Type**: date
+
+**Optional** if the organisation type is a **school or educational body**.
 
 | Rule                 | Message                       |
 | -------------------- | ----------------------------- |
@@ -247,6 +282,8 @@ Address field group, consists of:
 -   Address line 2 (optional)
 -   Town or city
 -   Postcode
+
+**Optional** if the organisation type is a **school or educational body**.
 
 | Rule           | Message                 |
 | -------------- | ----------------------- |
