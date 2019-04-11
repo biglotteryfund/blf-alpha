@@ -3,19 +3,7 @@ const moment = require('moment');
 const { Op } = require('sequelize');
 const { groupBy } = require('lodash/fp');
 const { Feedback } = require('../models');
-
-function findAll() {
-    return Feedback.findAll({
-        order: [['description', 'ASC'], ['updatedAt', 'DESC']]
-    }).then(results => {
-        return groupBy(result => result.description.toLowerCase())(results);
-    });
-}
-
-function storeFeedback(response) {
-    cleanupOldData();
-    return Feedback.create(response);
-}
+const { purifyUserInput } = require('../modules/validators');
 
 function cleanupOldData() {
     return Feedback.destroy({
@@ -26,6 +14,22 @@ function cleanupOldData() {
                     .toDate()
             }
         }
+    });
+}
+
+function storeFeedback({ description, message }) {
+    cleanupOldData();
+    return Feedback.create({
+        description: purifyUserInput(description),
+        message: purifyUserInput(message)
+    });
+}
+
+function findAll() {
+    return Feedback.findAll({
+        order: [['description', 'ASC'], ['updatedAt', 'DESC']]
+    }).then(results => {
+        return groupBy(result => result.description.toLowerCase())(results);
     });
 }
 
