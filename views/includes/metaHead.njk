@@ -9,11 +9,6 @@
         isNotProduction: {{ appData.isNotProduction }},
         locale: '{{ locale }}',
         localePrefix: '{{ localePrefix }}',
-        isModernBrowser:
-            'querySelector' in document &&
-            'addEventListener' in window &&
-            'localStorage' in window &&
-            'bind' in Function,
         isOldIE:
             navigator.userAgent.indexOf('MSIE') !== -1 ||
             navigator.appVersion.indexOf('Trident/') > 0,
