@@ -70,7 +70,8 @@ const toplevel = {
         },
         {
             path: '/apply-next',
-            router: require('./apply-next')
+            router: require('./apply-next'),
+            isDraft: true
         }
     ]
 };

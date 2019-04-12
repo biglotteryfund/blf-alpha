@@ -17,10 +17,10 @@ const sortedUniqByPath = compose(
 async function getCanonicalRoutes() {
     const routerCanonicalUrls = flatMap(section => {
         const withoutWildcards = filter(_ => _.path.indexOf('*') === -1);
-        const mapSummary = map((page, key) => {
+        const mapSummary = map(page => {
             return {
-                title: key,
-                path: section.path + page.path
+                path: section.path + page.path,
+                live: !page.isDraft
             };
         });
 
@@ -32,7 +32,7 @@ async function getCanonicalRoutes() {
 
     const cmsCanonicalUrls = await contentApi.getRoutes();
     const combined = concat(routerCanonicalUrls, cmsCanonicalUrls);
-    const filtered = combined.filter(route => !route.isDraft);
+    const filtered = combined.filter(route => route.live);
     return sortedUniqByPath(filtered);
 }
 
