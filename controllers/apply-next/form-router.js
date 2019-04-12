@@ -326,7 +326,6 @@ function initFormRouter(formModel) {
         currentSection.steps.forEach((currentStep, currentStepIndex) => {
             const currentStepNumber = currentStepIndex + 1;
             const numSteps = currentSection.steps.length;
-            const stepFields = fieldsForStep(currentStep);
 
             function renderStep(req, res, data, errors = []) {
                 const form = enhanceForm({
@@ -346,14 +345,12 @@ function initFormRouter(formModel) {
 
                 const { nextUrl, previousUrl } = nextAndPrevious({
                     baseUrl: req.baseUrl,
-                    sections: formModel.sections,
+                    sections: form.sections,
                     currentSectionIndex: currentSectionIndex,
-                    currentStepIndex: currentStepIndex,
-                    formData: data
+                    currentStepIndex: currentStepIndex
                 });
 
-                const shouldRender = currentStep.matchesCondition ? currentStep.matchesCondition(data) === true : true;
-                if (shouldRender) {
+                if (stepLocalised.isRequired) {
                     res.render(path.resolve(__dirname, './views/step'), {
                         previousUrl,
                         nextUrl,
@@ -374,6 +371,7 @@ function initFormRouter(formModel) {
                 })
                 .post(async function(req, res) {
                     const { currentlyEditingId, currentApplicationData } = res.locals;
+                    const stepFields = fieldsForStep(currentStep);
 
                     /**
                      * Validate the all the data so far against validation schema
@@ -409,6 +407,12 @@ function initFormRouter(formModel) {
                     try {
                         await applicationsService.updateApplication(currentlyEditingId, newFormData);
 
+                        const form = enhanceForm({
+                            locale: req.i18n.getLocale(),
+                            baseForm: formModel,
+                            data: newFormData
+                        });
+
                         /**
                          * If there are errors re-render the step with errors
                          * - Pass the full data object from validationResult to the view. Including invalid values.
@@ -419,10 +423,9 @@ function initFormRouter(formModel) {
                         } else {
                             const { nextUrl } = nextAndPrevious({
                                 baseUrl: req.baseUrl,
-                                sections: formModel.sections,
+                                sections: form.sections,
                                 currentSectionIndex: currentSectionIndex,
-                                currentStepIndex: currentStepIndex,
-                                formData: newFormData
+                                currentStepIndex: currentStepIndex
                             });
                             res.redirect(nextUrl);
                         }

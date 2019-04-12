@@ -7,22 +7,17 @@ const { findIndex, findLastIndex } = require('lodash');
  * @property {Array} sections
  * @property {Number} currentSectionIndex
  * @property {Number} currentStepIndex
- * @property {Object} formData
  */
 
 /**
  * Find next matching URL
  * @param {MatchOptions} options
  */
-function findNextMatchingUrl({ baseUrl, sections, currentSectionIndex, currentStepIndex, formData }) {
+function findNextMatchingUrl({ baseUrl, sections, currentSectionIndex, currentStepIndex }) {
     const currentSection = sections[currentSectionIndex];
     const nextSection = sections[currentSectionIndex + 1];
 
-    const targetStepIndex = findIndex(
-        currentSection.steps,
-        step => (step.matchesCondition ? step.matchesCondition(formData) === true : true),
-        currentStepIndex + 1
-    );
+    const targetStepIndex = findIndex(currentSection.steps, step => step.isRequired === true, currentStepIndex + 1);
 
     if (targetStepIndex !== -1 && targetStepIndex <= currentSection.steps.length) {
         return `${baseUrl}/${currentSection.slug}/${targetStepIndex + 1}`;
@@ -37,14 +32,14 @@ function findNextMatchingUrl({ baseUrl, sections, currentSectionIndex, currentSt
  * Find previous matching URL
  * @param {MatchOptions} options
  */
-function findPreviousMatchingUrl({ baseUrl, sections, currentSectionIndex, currentStepIndex, formData }) {
+function findPreviousMatchingUrl({ baseUrl, sections, currentSectionIndex, currentStepIndex }) {
     const currentSection = sections[currentSectionIndex];
     const previousSection = sections[currentSectionIndex - 1];
 
     if (currentStepIndex !== 0) {
         const targetStepIndex = findLastIndex(
             currentSection.steps,
-            step => (step.matchesCondition ? step.matchesCondition(formData) === true : true),
+            step => step.isRequired === true,
             currentStepIndex - 1
         );
         return `${baseUrl}/${currentSection.slug}/${targetStepIndex + 1}`;
