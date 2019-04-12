@@ -1,4 +1,6 @@
-# Validation and Error Messages
+# Awards for All: Validation and Error Messages
+
+This file documents validation rules, conditions, and error message text for all fields that make up the Awards for All form.
 
 ## Application details
 
@@ -127,21 +129,26 @@ Address field group, consists of:
 
 **Type**: string
 
-**Conditions**: Conditionally required when the organisation type is a **not for profit company**.
+| Rule              | Message                        |
+| ----------------- | ------------------------------ |
+| Conditional field | Enter a companies house number |
 
-| Rule                         | Message                        |
-| ---------------------------- | ------------------------------ |
-| Conditionally required field | Enter a companies house number |
+#### Conditions
+
+-   If the **organisation type** is either **not for profit company** then this field will be **required**, otherwise it is _optional_.
 
 ### Charity number
 
 **Type**: string
 
-**Conditions**: Conditionally required when the organisation type is a **unincorporated registered charity** or **CIO**. Shown, but optional, if the organisation type is a **not for profit company**.
+| Rule              | Message                |
+| ----------------- | ---------------------- |
+| Conditional field | Enter a charity number |
 
-| Rule                         | Message                |
-| ---------------------------- | ---------------------- |
-| Conditionally required field | Enter a charity number |
+#### Conditions
+
+-   If the **organisation type** is an **unincorporated registered charity** or **CIO** then the field will be shown and **required**.
+-   If the **organisation type** is a **not for profit company** then this field will be shown but _optional_.
 
 ### Accounting year date
 
@@ -174,13 +181,15 @@ Address field group, consists of:
 
 **Type**: date
 
-**Optional** if the organisation type is a **school or educational body**.
-
 | Rule                 | Message                                    |
 | -------------------- | ------------------------------------------ |
 | Required field       | Enter a date of birth                      |
 | Must be a valid date | Enter a real date                          |
 | Date of birth        | Main contact must be at least 18 years old |
+
+#### Conditions
+
+-   If the **organisation type** is either **school or educational body** then this field will not be shown.
 
 ### Main contact address
 
@@ -193,12 +202,14 @@ Address field group, consists of:
 -   Town or city
 -   Postcode
 
-**Optional** if the organisation type is a **school or educational body**.
-
 | Rule           | Message                 |
 | -------------- | ----------------------- |
 | Required field | Enter a full UK address |
 | Valid postcode | Enter a valid postcode  |
+
+#### Conditions
+
+-   If the **organisation type** is either **school or educational body** then this field will not be shown.
 
 ### Main contact email
 
@@ -264,13 +275,15 @@ The legal contact role shows the following choices depending on the organisation
 
 **Type**: date
 
-**Optional** if the organisation type is a **school or educational body**.
-
 | Rule                 | Message                       |
 | -------------------- | ----------------------------- |
 | Required field       | Enter a date of birth         |
 | Must be a valid date | Enter a real date             |
 | Date of birth        | Must be at least 18 years old |
+
+#### Conditions
+
+-   If the **organisation type** is either **school or educational body** then this field will not be shown.
 
 ### Legal contact address
 
@@ -283,12 +296,14 @@ Address field group, consists of:
 -   Town or city
 -   Postcode
 
-**Optional** if the organisation type is a **school or educational body**.
-
 | Rule           | Message                 |
 | -------------- | ----------------------- |
 | Required field | Enter a full UK address |
 | Valid postcode | Enter a valid postcode  |
+
+#### Conditions
+
+-   If the **organisation type** is either **school or educational body** then this field will not be shown.
 
 ### Legal contact email
 
