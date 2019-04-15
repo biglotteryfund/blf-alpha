@@ -27,10 +27,9 @@ addons:
       - google-chrome-stable
 
 before_install:
+  # Required for Cypress on xenial
+  # Subset of https://docs.cypress.io/guides/guides/continuous-integration.html#Docker
   - sudo apt-get install -y libgconf-2-4
-
-# Install dependencies
-# install: npm ci --quiet --prefer-offline
 
 # Cache locations
 cache:
