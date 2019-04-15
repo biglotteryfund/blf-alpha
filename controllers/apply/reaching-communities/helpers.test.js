@@ -2,7 +2,7 @@
 'use strict';
 const { sample, sampleSize } = require('lodash');
 
-const { DEFAULT_EMAIL, PROJECT_LOCATIONS, determineInternalSendTo } = require('../helpers');
+const { DEFAULT_EMAIL, PROJECT_LOCATIONS, determineInternalSendTo } = require('./helpers');
 
 describe('determineInternalSendTo', () => {
     it('should return correct internal email for location', () => {
