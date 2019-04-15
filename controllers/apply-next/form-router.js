@@ -103,8 +103,7 @@ function initFormRouter(formModel) {
                                     return res.status(400).json({ error: 'ERR-PDF-WRITE-ERROR' });
                                 }
                                 // Give the user the file directly
-                                res.setHeader('Content-Disposition', `attachment; filename=${formModel.id}.pdf`);
-                                return res.status(200).send(buffer);
+                                return res.download(filePath, `${formModel.id}.pdf`);
                             });
                         });
                     }
