@@ -164,3 +164,49 @@ table {
         }
     }
 }
+
+.application-questions {
+    background-image: url(../../../images/sample.png);
+    background-size: 50%;
+
+    h3 {
+        font-size: 22px;
+    }
+
+    h4 {
+        margin-top: $spacingUnit;
+        font-size: 20px;
+    }
+
+    p,
+    li {
+        font-size: 16px;
+    }
+
+    .application-questions__item {
+        padding-bottom: $spacingUnit;
+        margin-bottom: $spacingUnit;
+        border-bottom: 1px solid get-color('border', 'base');
+
+        &:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+    }
+
+    .application-questions__header {
+        margin-top: $spacingUnit;
+    }
+
+    .application-questions__q {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    dd {
+        margin: 0 0 10px 0;
+        font-size: 14px;
+    }
+}

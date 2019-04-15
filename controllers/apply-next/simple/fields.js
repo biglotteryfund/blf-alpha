@@ -39,7 +39,7 @@ const organisationTypes = {
         value: 'not-for-profit-company',
         label: { en: 'Not-for-profit company', cy: '' },
         explanation: {
-            en: `Not for profit companies registered with Companies House including those Registered as Charities`,
+            en: `Not for profit companies registered with Companies House including those registered as Charities`,
             cy: ``
         }
     },

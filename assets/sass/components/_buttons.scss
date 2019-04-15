@@ -247,18 +247,15 @@ $buttonColor: get-color('brand', 'primary');
     font-weight: font-weight('display', 'semibold');
     text-align: center;
     text-decoration: none;
-    border: none;
     border-radius: 50px;
     -webkit-appearance: none;
     display: inline-block;
     vertical-align: top;
     line-height: 1;
-
     color: currentColor;
     background-color: transparent;
     border: 2px solid currentColor;
     padding: 8px 20px 9px;
-
     margin-right: 0.5em;
 
     .icon--tick {

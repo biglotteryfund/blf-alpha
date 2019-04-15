@@ -1,0 +1,125 @@
+{% macro fieldTypeHelpText(field, step) %}
+    {% if field.type === 'checkbox' %}
+        Pick one of:
+    {% elseif field.type === 'radio' %}
+        Choose as many as you like from:
+    {% elseif field.type === 'budget' %}
+        Provide an itemised budget
+        {% if field.attributes.max %}
+            (to a maximum total of £{{ field.attributes.max.toLocaleString() }}{% if field.attributes.rowLimit %} across {{ field.attributes.rowLimit }} items{% endif %})
+        {% endif %}
+    {% elseif field.type === 'currency' %}
+        Provide a financial figure
+    {% elseif field.type === 'address' %}
+        Provide an address
+    {% elseif field.type === 'date' or field.type === 'day-month' %}
+        Provide a date
+    {% elseif field.type === 'email' %}
+        Provide an email address
+    {% elseif field.type === 'file' %}
+        Upload a file
+    {% elseif field.type === 'number' %}
+        Provide a number
+    {% elseif field.type === 'tel' %}
+        Provide a telephone number
+    {% elseif field.type === 'text' %}
+        Provide a sentence or two
+    {% elseif field.type === 'textarea' %}
+        Provide a longer answer
+        {% if field.settings.minWords and field.settings.maxWords %}
+            (between {{ field.settings.minWords }}-{{ field.settings.maxWords }} words)
+        {% else %}
+            {% if field.settings.minWords %} (minimum of {{ field.settings.minWords }} words){% endif %}
+            {% if field.settings.maxWords %} (maximum of {{ field.settings.maxWords }} words){% endif %}
+        {% endif %}
+    {% endif %}
+    {% if step.notRequired %}
+        &mdash; optional, but may be required depending on your circumstances
+    {% elseif field.isRequired %}
+        &mdash; required
+    {% endif %}
+{% endmacro %}
+
+{% macro header(title) %}
+    <div class="application-questions__header">
+        <h3>{{ title }}</h3>
+        {{ caller() }}
+    </div>
+{% endmacro %}
+
+{% macro question(first = false) %}
+    <dl class="application-questions__item">
+        {{ caller() }}
+    </dl>
+{% endmacro %}
+
+{% macro questionsIntro(form) %}
+    <div class="s-prose">
+        <h1 class="t--underline">{{ form.title }}</h1>
+        <h3>Questions you'll be asked</h3>
+        <p>Below is a list of all of the questions you may be asked when applying for {{ form.title }}. Please note that some questions are optional depending on your other answers to the form. You may find it helpful to revise our <a href="{{ form.programmePage }}">{{ form.title }} guidance</a>. <strong>Please note</strong>: in order to submit your application you'll need to agree to our <a href="#">terms and conditions</a>.</p>
+    </div>
+{% endmacro %}
+
+{% macro questionList(form) %}
+
+    <section class="application-questions">
+
+        {% call header('Eligibility questions') %}
+            <p class="u-no-margin u-text-x-small">You'll need to answer all of these before beginning your application form.</p>
+        {% endcall %}
+
+        <div class="application-questions__set">
+            {% for field in form.eligibilityQuestions %}
+                {% call question(first = loop.first) %}
+                    <dt class="application-questions__q">{{ field.question }}</dt>
+                    {% if field.explanation %}
+                        <dd class="s-prose u-text-x-small">{{ field.explanation | safe }}</dd>
+                    {% endif %}
+                {% endcall %}
+            {% endfor %}
+        </div>
+
+        {% for section in form.sections %}
+            {% set count = loop.index %}
+
+            {% call header('Section ' + count + ': ' + section.title) %}
+                {% if section.introduction %}
+                    <p class="u-no-margin u-text-x-small">{{ section.introduction }}</p>
+                {% endif %}
+            {% endcall %}
+
+            {% for step in section.steps %}
+                <div class="application-questions__set">
+                    <h4 class="t--underline">Step {{ loop.index }}: {{ step.title }}</h4>
+
+                    {% for fieldset in step.fieldsets %}
+                        {% for field in fieldset.fields %}
+                            {% call question(first = loop.first) %}
+                                <dt class="application-questions__q">{{ field.label }}</dt>
+                                <dd class="application-questions__help">{{ fieldTypeHelpText(field, step) }}</dd>
+
+                                {% if field.options %}
+                                    <div class="s-prose u-text-x-small">
+                                        <ul>
+                                            {% for option in field.options %}
+                                                <li>{{ option.label }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                                {% if field.explanation %}
+                                    <dd class="u-margin-bottom-s u-text-x-small s-prose">
+                                        {{ field.explanation | safe }}
+                                    </dd>
+                                {% endif %}
+                            {% endcall %}
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </section>
+
+
+{% endmacro %}
