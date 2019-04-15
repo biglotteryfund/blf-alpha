@@ -1,22 +1,13 @@
 'use strict';
-const moment = require('moment');
 const { Op } = require('sequelize');
-
 const { Application } = require('../models');
 
-function makeTitle(formId) {
-    return `${formId} - ${moment().toISOString()}`;
-}
-
-function createApplication({ userId, formId, title = null, data = null }) {
-    if (!title) {
-        title = makeTitle(formId);
-    }
+function createApplication({ userId, formId, data = null }) {
     return Application.create({
         user_id: userId,
         form_id: formId,
-        application_title: title,
-        application_data: data
+        application_data: data,
+        status: 'pending'
     });
 }
 
