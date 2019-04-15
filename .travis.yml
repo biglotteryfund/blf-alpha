@@ -27,12 +27,22 @@ script:
   - npm run build-production
   - npm test
   - npm run test-integration
+
+# Prepare artefact for deployment
+# Store a temporary env var to only run before_deploy once
+# (current behaviour is to run before_deploy once _per_ provider) 
+# https://github.com/travis-ci/travis-ci/issues/2570#issuecomment-171262181
 before_deploy:
-  - npm prune --production > /dev/null 2>&1
-  - sh deploy/store_deploy_info.sh
-  - zip -qr latest * -x .\* -x "README.md" -x assets/\* -x "gulpfile.js"
-  - mkdir -p dpl_cd_upload
-  - mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip
+  - >
+    if ! [ "$BEFORE_DEPLOY_RUN" ]; then
+      export BEFORE_DEPLOY_RUN=1;
+      npm prune --production > /dev/null 2>&1;
+      sh deploy/store_deploy_info.sh;
+      zip -qr latest * -x .\* -x "README.md" -x assets/\*;
+      mkdir -p dpl_cd_upload
+      mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip
+    fi
+
 deploy:
   - provider: s3
     region: eu-west-1
