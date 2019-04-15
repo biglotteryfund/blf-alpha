@@ -356,6 +356,7 @@ toplevel:
   funding:
     title: Funding
     latestProgrammes: Latest Programmes
+    latestProgrammesPartnerships: Latest Programmes & Partnerships
     sectionLinks:
     - label: Learn how to apply for funding under £10,000
       href: "/funding/under10k"

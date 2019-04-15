@@ -98,6 +98,10 @@ const dateParts = joi => {
                 .integer()
                 .required()
         }),
+        language: {
+            futureDate: 'Date must be at least {{min}}',
+            dob: 'Must be at least {{minAge}} years old'
+        },
         pre(value, state, options) {
             const date = dateFromParts(value);
             if (date.isValid()) {
@@ -117,12 +121,7 @@ const dateParts = joi => {
                     if (date.isValid() && date.isSameOrAfter(params.min)) {
                         return value;
                     } else {
-                        return this.createError(
-                            'dateParts.futureDate',
-                            { v: value, number: params.number },
-                            state,
-                            options
-                        );
+                        return this.createError('dateParts.futureDate', { v: value, min: params.min }, state, options);
                     }
                 }
             },
@@ -137,7 +136,7 @@ const dateParts = joi => {
                     if (date.isValid() && date.isSameOrBefore(maxDate)) {
                         return value;
                     } else {
-                        return this.createError('dateParts.dob', { v: value, number: params.number }, state, options);
+                        return this.createError('dateParts.dob', { v: value, minAge: params.minAge }, state, options);
                     }
                 }
             }

@@ -1,7 +1,5 @@
 'use strict';
-const { get, includes } = require('lodash');
-
-const { schema, allFields, organisationTypes } = require('./fields');
+const { schema, allFields } = require('./fields');
 const processor = require('./processor');
 const validateModel = require('../lib/validate-model');
 
@@ -77,33 +75,11 @@ const sectionOrganisation = {
             ]
         },
         {
-            title: { en: 'Charity number', cy: '' },
-            matchesCondition: function(formData = {}) {
-                return get(formData, 'organisation-type') === organisationTypes.unincorporatedRegisteredCharity.value;
-            },
+            title: { en: 'Registration numbers', cy: '' },
             fieldsets: [
                 {
-                    legend: { en: 'Charity number', cy: '' },
-                    fields: [allFields.charityNumber]
-                }
-            ]
-        },
-        {
-            title: { en: 'Company number', cy: '' },
-            matchesCondition: function(formData = {}) {
-                return includes(
-                    [
-                        organisationTypes.charitableIncorporatedOrganisation.value,
-                        organisationTypes.notForProfitCompany.value,
-                        organisationTypes.communityInterestCompany.value
-                    ],
-                    get(formData, 'organisation-type')
-                );
-            },
-            fieldsets: [
-                {
-                    legend: { en: 'Company number', cy: '' },
-                    fields: [allFields.companyNumber]
+                    legend: { en: 'Registration numbers', cy: '' },
+                    fields: [allFields.companyNumber, allFields.charityNumber]
                 }
             ]
         },

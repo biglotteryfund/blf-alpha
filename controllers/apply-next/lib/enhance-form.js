@@ -1,6 +1,6 @@
 'use strict';
 const { get } = require('lodash/fp');
-const { cloneDeep, find } = require('lodash');
+const { cloneDeep, find, flatMap, isFunction, reject } = require('lodash');
 
 const {
     formatOptions,
@@ -33,7 +33,6 @@ function displayValue(field, value) {
  * Enhances a form object by:
  * - Localising all labels and messages
  * - Assigning values to fields, along with a display value for views
- * - Marking steps as notRequired if matchesCondition is currently false
  *
  * @param {Object} options
  * @param {String} options.locale
@@ -59,15 +58,16 @@ module.exports = function enhanceForm({ locale, baseForm, data = {} }) {
         field.explanation = localise(field.explanation);
 
         if (field.options) {
-            field.options = field.options
-                .filter(function(option) {
-                    return option.showWhen ? option.showWhen(data || {}) : true;
-                })
-                .map(option => {
-                    option.label = localise(option.label);
-                    option.explanation = localise(option.explanation);
-                    return option;
-                });
+            const options = isFunction(field.options) ? field.options(data || {}) : field.options;
+            field.options = options.map(option => {
+                option.label = localise(option.label);
+                option.explanation = localise(option.explanation);
+                return option;
+            });
+        }
+
+        if (isFunction(field.isRequired)) {
+            field.isRequired = field.isRequired(data || {});
         }
 
         // Assign value to field if present
@@ -80,20 +80,32 @@ module.exports = function enhanceForm({ locale, baseForm, data = {} }) {
         return field;
     };
 
+    const enhanceFieldset = fieldset => {
+        fieldset.legend = localise(fieldset.legend);
+        fieldset.introduction = localise(fieldset.introduction);
+        fieldset.fields = reject(
+            fieldset.fields,
+            field => field.shouldShow && field.shouldShow(data || {}) === false
+        ).map(enhanceField);
+        return fieldset;
+    };
+
     const enhanceStep = step => {
         step.title = localise(step.title);
 
-        step.fieldsets = step.fieldsets.map(fieldset => {
-            fieldset.legend = localise(fieldset.legend);
-            fieldset.introduction = localise(fieldset.introduction);
-            fieldset.fields = fieldset.fields.map(enhanceField);
-            return fieldset;
-        });
+        /**
+         * Enhance fieldset and filter out any fieldsets with no fields
+         * i.e. to account for cases where a fieldset is conditional
+         */
+        const stepFieldsets = step.fieldsets.map(enhanceFieldset);
+        step.fieldsets = reject(stepFieldsets, fieldset => fieldset.fields.length === 0);
 
-        // Handle steps that don't need to be completed based on current form data
-        if (step.matchesCondition && step.matchesCondition(data) === false) {
-            step.notRequired = true;
-        }
+        /**
+         * Flag optional steps if there are no fields
+         * i.e. to account for cases where whole step is conditional
+         */
+        const stepFields = flatMap(step.fieldsets, 'fields');
+        step.isRequired = stepFields.length > 0;
 
         return step;
     };

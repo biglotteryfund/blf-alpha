@@ -1,4 +1,6 @@
-# Validation and Error Messages
+# Awards for All: Validation and Error Messages
+
+This file documents validation rules, conditions, and error message text for all fields that make up the Awards for All form.
 
 ## Application details
 
@@ -125,11 +127,28 @@ Address field group, consists of:
 
 ### Company number
 
-@TODO
+**Type**: string
+
+| Rule              | Message                        |
+| ----------------- | ------------------------------ |
+| Conditional field | Enter a companies house number |
+
+#### Conditions
+
+-   If the **organisation type** is either **not for profit company** then this field will be **required**, otherwise it is _optional_.
 
 ### Charity number
 
-@TODO
+**Type**: string
+
+| Rule              | Message                |
+| ----------------- | ---------------------- |
+| Conditional field | Enter a charity number |
+
+#### Conditions
+
+-   If the **organisation type** is an **unincorporated registered charity** or **CIO** then the field will be shown and **required**.
+-   If the **organisation type** is a **not for profit company** then this field will be shown but _optional_.
 
 ### Accounting year date
 
@@ -168,6 +187,10 @@ Address field group, consists of:
 | Must be a valid date | Enter a real date                          |
 | Date of birth        | Main contact must be at least 18 years old |
 
+#### Conditions
+
+-   If the **organisation type** is either **school or educational body** then this field will not be shown.
+
 ### Main contact address
 
 **Type**: address
@@ -183,6 +206,10 @@ Address field group, consists of:
 | -------------- | ----------------------- |
 | Required field | Enter a full UK address |
 | Valid postcode | Enter a valid postcode  |
+
+#### Conditions
+
+-   If the **organisation type** is either **school or educational body** then this field will not be shown.
 
 ### Main contact email
 
@@ -225,7 +252,24 @@ Address field group, consists of:
 
 ### Legal contact role
 
-@TODO
+**Type**: single choice (radio)
+
+| Rule           | Message       |
+| -------------- | ------------- |
+| Required field | Choose a role |
+
+#### Mappings
+
+The legal contact role shows the following choices depending on the organisation type:
+
+| Organisation type                                | Choices                                   |
+| ------------------------------------------------ | ----------------------------------------- |
+| Unregistered voluntary or community organisation | Chair, Vice-chair, Secretary, Treasurer   |
+| Registered charity (unincorporated)              | Trustee                                   |
+| Charitable incorporated organisation (CIO)       | Trustee                                   |
+| Not-for-profit company                           | Company Director, Company Secretary       |
+| School or educational body                       | Head Teacher, Chancellor, Vice-chancellor |
+| Statutory body                                   | Parish Clerk, Chief Executive             |
 
 ### Legal contact date of birth
 
@@ -236,6 +280,10 @@ Address field group, consists of:
 | Required field       | Enter a date of birth         |
 | Must be a valid date | Enter a real date             |
 | Date of birth        | Must be at least 18 years old |
+
+#### Conditions
+
+-   If the **organisation type** is either **school or educational body** then this field will not be shown.
 
 ### Legal contact address
 
@@ -252,6 +300,10 @@ Address field group, consists of:
 | -------------- | ----------------------- |
 | Required field | Enter a full UK address |
 | Valid postcode | Enter a valid postcode  |
+
+#### Conditions
+
+-   If the **organisation type** is either **school or educational body** then this field will not be shown.
 
 ### Legal contact email
 

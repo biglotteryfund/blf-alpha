@@ -3,40 +3,26 @@
 import 'details-element-polyfill';
 import FontFaceObserver from 'fontfaceobserver/fontfaceobserver.js';
 
-function getCommonBodyClasses() {
-    const classes = ['js-on'];
-
-    if (AppConfig.isModernBrowser) {
-        classes.push('is-modern');
-    }
+(function() {
+    const docEl = document.documentElement;
+    docEl.className = docEl.className.replace('no-js', 'js-on');
 
     if (AppConfig.isOldIE) {
-        classes.push('is-ie');
+        docEl.className += ' ' + 'is-ie';
     }
 
-    return classes;
-}
-
-function addBodyClasses(classes) {
-    const docEl = document.documentElement;
-    const docClass = docEl.className;
-    docEl.className = docClass.replace('no-js', '') + ' ' + classes.join(' ');
-}
-
-(function() {
     const LOADED_CLASS = 'fonts-loaded';
-    const classes = getCommonBodyClasses();
-
     if (sessionStorage.fontsLoaded) {
-        classes.push(LOADED_CLASS);
-        addBodyClasses(classes);
+        docEl.className += ' ' + LOADED_CLASS;
     } else {
-        Promise.all([new FontFaceObserver('caecilia').load(), new FontFaceObserver('caecilia-sans-text').load()]).then(
-            function() {
-                classes.push(LOADED_CLASS);
-                addBodyClasses(classes);
-                sessionStorage.fontsLoaded = true;
-            }
-        );
+        const webFontObservers = [
+            new FontFaceObserver('caecilia').load(),
+            new FontFaceObserver('caecilia-sans-text').load()
+        ];
+
+        Promise.all(webFontObservers).then(function() {
+            docEl.className += ' ' + LOADED_CLASS;
+            sessionStorage.fontsLoaded = true;
+        });
     }
 })();
