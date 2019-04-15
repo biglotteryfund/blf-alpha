@@ -6,6 +6,7 @@ const Raven = require('raven');
 const nunjucks = require('nunjucks');
 const pdf = require('html-pdf');
 const config = require('config');
+const fs = require('fs');
 
 const applicationsService = require('../../services/applications');
 const cached = require('../../middleware/cached');
@@ -39,6 +40,10 @@ function initFormRouter(formModel) {
 
     router.use(cached.csrfProtection);
 
+    /**
+     * Show a list of questions, accessible to anyone.
+     * Optionally allows downloading as a PDF file (cached on disk)
+     */
     router.get('/questions/:pdf?', (req, res) => {
         const form = enhanceForm({
             locale: req.i18n.getLocale(),
@@ -57,29 +62,56 @@ function initFormRouter(formModel) {
         };
 
         if (req.params.pdf) {
-            // Repopulate existing global context so templates render properly
-            const context = { ...res.locals, ...req.app.locals, ...output.context };
-            nunjucks.render(output.templates.pdf, context, (renderErr, html) => {
-                if (renderErr) {
-                    Raven.captureException(renderErr);
-                    res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
-                } else {
-                    pdf.create(html, {
-                        format: 'A4',
-                        base: config.get('domains.base'),
-                        border: '40px',
-                        zoomFactor: '0.7'
-                    }).toBuffer((err, buffer) => {
-                        if (err) {
-                            Raven.captureException(err);
-                            return res.status(400).json({ error: 'ERR-PDF-BUFFER-ERROR' });
-                        }
-                        res.setHeader('Content-Disposition', `attachment; filename=questions.pdf`);
-                        return res.status(200).send(buffer);
-                    });
+            const fileLocation = `documents/application-questions/${formModel.id}.pdf`;
+
+            const filePath = path.resolve(__dirname, '../../public/', fileLocation);
+
+            // First check to see if this file has already been rendered and saved in the app directory
+            fs.access(filePath, fs.F_OK, accessError => {
+                if (!accessError) {
+                    // The file exists so just redirect the user there
+                    return res.redirect(`/assets/${fileLocation}`);
                 }
+
+                // Otherwise it hasn't been rendered before, so we create it from scratch and save the file
+
+                // Repopulate existing global context so templates render properly
+                const context = { ...res.locals, ...req.app.locals, ...output.context };
+
+                // Render the HTML template to a string
+                nunjucks.render(output.templates.pdf, context, (renderErr, html) => {
+                    if (renderErr) {
+                        Raven.captureException(renderErr);
+                        res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
+                    } else {
+                        // Turn HTML into a PDF
+                        pdf.create(html, {
+                            format: 'A4',
+                            base: config.get('domains.base'),
+                            border: '40px',
+                            zoomFactor: '0.7'
+                        }).toBuffer((pdfError, buffer) => {
+                            if (pdfError) {
+                                Raven.captureException(pdfError);
+                                return res.status(400).json({ error: 'ERR-PDF-BUFFER-ERROR' });
+                            }
+
+                            // Write the file locally so we can look it up next time instead of rendering
+                            fs.writeFile(filePath, buffer, writeError => {
+                                if (writeError) {
+                                    Raven.captureException(writeError);
+                                    return res.status(400).json({ error: 'ERR-PDF-WRITE-ERROR' });
+                                }
+                                // Give the user the file directly
+                                res.setHeader('Content-Disposition', `attachment; filename=${formModel.id}.pdf`);
+                                return res.status(200).send(buffer);
+                            });
+                        });
+                    }
+                });
             });
         } else {
+            // Render a standard HTML page otherwise
             return res.render(output.templates.html, output.context);
         }
     });

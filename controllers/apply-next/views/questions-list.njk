@@ -40,8 +40,9 @@
     {% endif %}
 {% endmacro %}
 
-{% macro header() %}
+{% macro header(title) %}
     <div class="application-questions__header">
+        <h3>{{ title }}</h3>
         {{ caller() }}
     </div>
 {% endmacro %}
@@ -52,12 +53,19 @@
     </dl>
 {% endmacro %}
 
+{% macro questionsIntro(form) %}
+    <div class="s-prose">
+        <h1 class="t--underline">{{ form.title }}</h1>
+        <h3>Questions you'll be asked</h3>
+        <p>Below is a list of all of the questions you may be asked when applying for {{ form.title }}. Please note that some questions are optional depending on your other answers to the form. You may find it helpful to revise our <a href="{{ form.programmePage }}">{{ form.title }} guidance</a>. <strong>Please note</strong>: in order to submit your application you'll need to agree to our <a href="#">terms and conditions</a>.</p>
+    </div>
+{% endmacro %}
+
 {% macro questionList(form) %}
 
     <section class="application-questions">
 
-        {% call header() %}
-            <h3>Eligibility questions</h3>
+        {% call header('Eligibility questions') %}
             <p class="u-no-margin u-text-x-small">You'll need to answer all of these before beginning your application form.</p>
         {% endcall %}
 
@@ -73,9 +81,9 @@
         </div>
 
         {% for section in form.sections %}
+            {% set count = loop.index %}
 
-            {% call header() %}
-                <h3>Section {{ loop.index }}: {{ section.title }}</h3>
+            {% call header('Section ' + count + ': ' + section.title) %}
                 {% if section.introduction %}
                     <p class="u-no-margin u-text-x-small">{{ section.introduction }}</p>
                 {% endif %}
@@ -111,7 +119,7 @@
                 </div>
             {% endfor %}
         {% endfor %}
-
     </section>
+
 
 {% endmacro %}
