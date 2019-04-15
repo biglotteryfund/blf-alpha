@@ -7,7 +7,7 @@ const Joi = require('joi');
 const { allFields } = require('./fields');
 
 const toDateParts = dt => ({
-    day: dt.get('day'),
+    day: dt.get('date'),
     month: dt.get('month') + 1,
     year: dt.get('year')
 });
