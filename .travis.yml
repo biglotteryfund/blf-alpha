@@ -26,6 +26,9 @@ addons:
     packages:
       - google-chrome-stable
 
+before_install:
+  - sudo apt-get install -y libgconf-2-4
+
 # Install dependencies
 # install: npm ci --quiet --prefer-offline
 
