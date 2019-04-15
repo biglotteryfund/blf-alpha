@@ -19,7 +19,6 @@
     "test-watch": "jest --watch",
     "test": "npm audit || true && npm run lint && npm run test-unit",
     "test-integration": "./bin/start-test-server & wait-on http://localhost:8090 && percy exec -- cypress run",
-    "test-ci": "npm run build && concurrently --raw npm:test npm:test-integration",
     "clean": "del-cli $npm_package_config_dist_root/* ./config/assets.json",
     "build-sass": "node-sass assets/sass --output $npm_package_config_dist_css --source-map $npm_package_config_dist_css",
     "build-css": "npm run build-sass && postcss $npm_package_config_dist_css/*.css --replace --map",

@@ -8,13 +8,6 @@ env:
 
 dist: xenial
 
-# Build stage conditions
-stages:
-  - test
-  # https://github.com/travis-ci/travis-ci/issues/9614#issuecomment-388798396
-  - name: build
-    if: (NOT type IN (pull_request)) AND (branch = master)
-
 # Defaults
 language: node_js
 node_js: '10'
@@ -30,53 +23,47 @@ cache:
   directories:
     - ~/.cache # Cypress installed into ~/.cache/Cypress
 
-# Build stages
-jobs:
-  include:
-    # Stage: Tests
-    - stage: test
-      script: npm run test-ci
-
-    # Stage: Build & deploy (only on master)
-    - stage: build
-      script: npm run build-production
-      after_success:
-        - npm prune --production > /dev/null 2>&1
-        - sh deploy/store_deploy_info.sh
-        - zip -qr latest * -x .\* -x "README.md" -x assets/\* -x "gulpfile.js"
-        - mkdir -p dpl_cd_upload
-        - mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip
-      deploy:
-        - provider: s3
-          region: eu-west-1
-          bucket: blf-assets
-          access_key_id: $AWS_ACCESS_KEY_ID
-          secret_access_key: $AWS_SECRET_ACCESS_KEY
-          local_dir: public
-          upload-dir: assets
-          acl: public_read
-          cache_control: 'max-age=31536000'
-          skip_cleanup: true
-        - provider: s3
-          region: eu-west-2
-          bucket: blf-deployments
-          access_key_id: $AWS_ACCESS_KEY_ID
-          secret_access_key: $AWS_SECRET_ACCESS_KEY
-          local_dir: dpl_cd_upload
-          skip_cleanup: true
-          on:
-            repo: biglotteryfund/blf-alpha
-        - provider: codedeploy
-          region: eu-west-2
-          access_key_id: $AWS_ACCESS_KEY_ID
-          secret_access_key: $AWS_SECRET_ACCESS_KEY
-          bucket: blf-deployments
-          key: build-$TRAVIS_BUILD_NUMBER.zip
-          bundle_type: zip
-          application: BLF_WWW
-          deployment_group: Test_Fleet
-          on:
-            tags: false
+script:
+  - npm run build-production
+  - npm test
+  - npm run test-integration
+before_deploy:
+  - npm prune --production > /dev/null 2>&1
+  - sh deploy/store_deploy_info.sh
+  - zip -qr latest * -x .\* -x "README.md" -x assets/\* -x "gulpfile.js"
+  - mkdir -p dpl_cd_upload
+  - mv latest.zip dpl_cd_upload/build-$TRAVIS_BUILD_NUMBER.zip
+deploy:
+  - provider: s3
+    region: eu-west-1
+    bucket: blf-assets
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    local_dir: public
+    upload-dir: assets
+    acl: public_read
+    cache_control: 'max-age=31536000'
+    skip_cleanup: true
+  - provider: s3
+    region: eu-west-2
+    bucket: blf-deployments
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    local_dir: dpl_cd_upload
+    skip_cleanup: true
+    on:
+      repo: biglotteryfund/blf-alpha
+  - provider: codedeploy
+    region: eu-west-2
+    access_key_id: $AWS_ACCESS_KEY_ID
+    secret_access_key: $AWS_SECRET_ACCESS_KEY
+    bucket: blf-deployments
+    key: build-$TRAVIS_BUILD_NUMBER.zip
+    bundle_type: zip
+    application: BLF_WWW
+    deployment_group: Test_Fleet
+    on:
+      tags: false
 
 # Notifications
 notifications:
