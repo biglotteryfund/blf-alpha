@@ -24,7 +24,7 @@ cache:
     - ~/.cache # Cypress installed into ~/.cache/Cypress
 
 script:
-  - npm run-build production
+  - npm run build-production
   - npm test
   - npm run test-integration
 before_deploy:
