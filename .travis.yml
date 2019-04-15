@@ -19,13 +19,6 @@ stages:
 language: node_js
 node_js: '10'
 
-addons:
-  apt:
-    sources:
-      - google-chrome
-    packages:
-      - google-chrome-stable
-
 before_install:
   # Required for Cypress on xenial
   # Subset of https://docs.cypress.io/guides/guides/continuous-integration.html#Docker
