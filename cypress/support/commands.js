@@ -107,7 +107,9 @@ Cypress.Commands.add('checkA11y', () => {
                 {
                     rules: {
                         // @TODO: Review and re-enable this
-                        'color-contrast': { enabled: false }
+                        'color-contrast': { enabled: false },
+                        // New ARIA complementary rule. Review and then re-enable
+                        'landmark-complementary-is-top-level': { enabled: false }
                     }
                 }
             );
