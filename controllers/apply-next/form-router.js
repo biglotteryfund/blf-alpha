@@ -44,6 +44,25 @@ function initFormRouter(formModel) {
         return set(req.session, `${sessionPrefixFor(formModel)}.currentEditingId`, applicationId);
     }
 
+    router.use(cached.csrfProtection, async (req, res, next) => {
+        const form = enhanceForm({
+            baseForm: formModel,
+            locale: req.i18n.getLocale()
+        });
+
+        res.locals.formTitle = form.title;
+        res.locals.formBaseUrl = req.baseUrl;
+        res.locals.FORM_STATES = FORM_STATES;
+        res.locals.breadcrumbs = [{ label: form.title, url: req.baseUrl }];
+
+        res.locals.user = req.user;
+        res.locals.isBilingual = form.isBilingual;
+        res.locals.enablePrompt = false; // Disable prompts on apply pages
+        res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
+
+        next();
+    });
+
     /**
      * Show a list of questions, accessible to anyone.
      * Optionally allows downloading as a PDF file (cached on disk)
@@ -71,7 +90,7 @@ function initFormRouter(formModel) {
             const filePath = path.resolve(__dirname, '../../public/', fileLocation);
 
             // First check to see if this file has already been rendered and saved in the app directory
-            fs.access(filePath, fs.F_OK, accessError => {
+            fs.access(filePath, fs.constants.F_OK, accessError => {
                 if (!accessError) {
                     // The file exists so just redirect the user there
                     return res.redirect(`/assets/${fileLocation}`);
@@ -117,30 +136,6 @@ function initFormRouter(formModel) {
             // Render a standard HTML page otherwise
             return res.render(output.templates.html, output.context);
         }
-    });
-
-    /**
-     * Require login, redirect back here once authenticated.
-     */
-    router.use(requireUserAuth);
-
-    router.use(cached.csrfProtection, async (req, res, next) => {
-        const form = enhanceForm({
-            baseForm: formModel,
-            locale: req.i18n.getLocale()
-        });
-
-        res.locals.formTitle = form.title;
-        res.locals.formBaseUrl = req.baseUrl;
-        res.locals.FORM_STATES = FORM_STATES;
-        res.locals.breadcrumbs = [{ label: form.title, url: req.baseUrl }];
-
-        res.locals.user = req.user;
-        res.locals.isBilingual = form.isBilingual;
-        res.locals.enablePrompt = false; // Disable prompts on apply pages
-        res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
-
-        next();
     });
 
     /**
@@ -235,27 +230,24 @@ function initFormRouter(formModel) {
 
     /**
      * New application
-     * - Unset existing
+     * Create a new blank application and redirect to first step
      */
-    router.get('/new', function(req, res) {
-        resetCurrentlyEditingId(req);
-        req.session.save(async () => {
-            try {
-                const application = await applicationsService.createApplication({
-                    userId: req.user.userData.id,
-                    formId: formModel.id
-                });
+    router.get('/new', async function(req, res) {
+        try {
+            const application = await applicationsService.createApplication({
+                userId: req.user.userData.id,
+                formId: formModel.id
+            });
 
-                setCurrentlyEditingId(req, application.id);
-                req.session.save(() => {
-                    const firstSection = head(formModel.sections);
-                    res.redirect(`${req.baseUrl}/${firstSection.slug}`);
-                });
-            } catch (error) {
-                Raven.captureException(error);
-                renderError(error, req, res);
-            }
-        });
+            setCurrentlyEditingId(req, application.id);
+            req.session.save(() => {
+                const firstSection = head(formModel.sections);
+                res.redirect(`${req.baseUrl}/${firstSection.slug}`);
+            });
+        } catch (error) {
+            Raven.captureException(error);
+            renderError(error, req, res);
+        }
     });
 
     /**
@@ -273,7 +265,10 @@ function initFormRouter(formModel) {
         }
     });
 
-    // Allow an application owned by this user to be deleted
+    /**
+     * Route: Delete application
+     * Allow an application owned by this user to be deleted
+     */
     router
         .route('/delete/:applicationId')
         .get(async (req, res) => {
