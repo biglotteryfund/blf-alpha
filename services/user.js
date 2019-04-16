@@ -62,7 +62,6 @@ async function updateNewPassword({ newPassword, id }) {
 }
 
 async function updateNewEmail({ newEmail, id }) {
-    console.log({ newEmail, id });
     try {
         return Users.update({ username: newEmail, is_active: false }, { where: { id: { [Op.eq]: id } } });
     } catch (error) {
