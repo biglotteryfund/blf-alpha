@@ -6,7 +6,7 @@ const { sendHtmlEmail } = require('../../services/mail');
 const { getAbsoluteUrl } = require('../../modules/urls');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 
-async function sendActivationEmail(req, user) {
+async function sendActivationEmail(req, user, isExisting = false) {
     const payload = { data: { userId: user.id, reason: 'activate' } };
 
     const token = jwt.sign(payload, JWT_SIGNING_TOKEN, {
@@ -19,7 +19,8 @@ async function sendActivationEmail(req, user) {
             templateData: {
                 locale: req.i18n.getLocale(),
                 activateUrl: getAbsoluteUrl(req, `/user/activate?token=${token}`),
-                email: user.username
+                email: user.username,
+                isExisting: isExisting
             }
         },
         {

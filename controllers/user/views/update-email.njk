@@ -1,0 +1,44 @@
+{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+
+{% extends "layouts/main.njk" %}
+
+{% set title = 'Update email address' %}
+{% set bodyClass = 'has-static-header' %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only">
+            {{ breadcrumbTrail(breadcrumbs) }}
+
+            <h1>{{ title }}</h1>
+            <p>You can modify your registered email address here. Please bear in mind you will need to confirm your account again once you have done this.</p>
+
+            {% if alertMessage %}
+                <div class="message" role="alert">
+                    {{ alertMessage }}
+                </div>
+            {% endif %}
+
+            <form action="" method="post" autocomplete="off">
+                {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
+
+                {% if csrfToken %}
+                    <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                {% endif %}
+
+                {{ formField({
+                    type: 'email',
+                    name: 'username',
+                    label: 'Email address',
+                    isRequired: true,
+                    value: formValues['username']
+                }, errors = errors) }}
+
+                <div class="form-actions">
+                    <input type="submit" class="btn" value="Update email address" />
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}

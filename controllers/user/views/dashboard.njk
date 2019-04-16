@@ -17,16 +17,16 @@
 
                 {% if user.userType === 'user' %}
 
+                    {% if alertMessage %}
+                        <div class="message" role="alert">
+                            {{ alertMessage }}
+                        </div>
+                    {% endif %}
+
                     {% if not user.userData.is_active %}
                         <div class="message" role="alert">
                             <p>You haven't activated your account yet.</p>
                             <p>Would you like to <a href="/user/activate">re-send your activation link</a>?</p>
-                        </div>
-                    {% endif %}
-
-                    {% if alertMessage %}
-                        <div class="message" role="alert">
-                            {{ alertMessage }}
                         </div>
                     {% endif %}
 
@@ -40,7 +40,7 @@
                             },
                             {
                                 "label": "Change your email address",
-                                "href": "#"
+                                "href": "/user/update-email"
                             },
                             {
                                 "label": "View your funding applications",

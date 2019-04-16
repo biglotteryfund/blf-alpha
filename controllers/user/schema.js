@@ -14,6 +14,9 @@ module.exports = {
             .invalid(Joi.ref('username')) // Must not equal username
             .required()
     }),
+    emailSchema: Joi.object({
+        username: username
+    }),
     errorMessages: {
         username: [
             {
