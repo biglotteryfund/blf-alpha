@@ -1,3 +1,5 @@
+{% from "components/section-links/macro.njk" import sectionLinks %}
+
 {% extends "layouts/main.njk" %}
 
 {% set title = 'Your account' %}
@@ -8,8 +10,9 @@
         <div class="content-box u-inner-wide-only">
             <h1>{{ title }}</h1>
 
-            {% if user.userType === 'user' %}
-                {% if not user.userData.is_active %}
+            {% if user %}
+
+                {% if user.userType === 'user' and not user.userData.is_active %}
                     <div class="message" role="alert">
                         <p>You haven't activated your account yet.</p>
                         {% if activationSent %}
@@ -18,17 +21,36 @@
                         <p>Would you like to <a href="/user/activate">re-send your activation link</a>?</p>
                     </div>
                 {% endif %}
-            {% endif %}
 
-            {% if user %}
                 {% if user.userType === 'user' %}
-                    <p>Logged in as <strong>{{ user.userData.username }}</strong>
+                    <p>Logged in as <strong>{{ user.userData.username }}</strong></p>
+
+                    <div class="u-margin-bottom">
+                        {{ sectionLinks([
+                            {
+                                "label": "Change your password",
+                                "href": "#"
+                            },
+                            {
+                                "label": "Change your email address",
+                                "href": "#"
+                            },
+                            {
+                                "label": "View your funding applications",
+                                "href": "/apply-next/simple"
+                            }
+                        ]) }}
+                    </div>
+
+
                 {% elseif user.userType === 'staff' %}
-                    <p>Staff: logged in as <strong>{{ user.userData.fullName }}</strong>
+                    <p>Staff: logged in as <strong>{{ user.userData.fullName }}</strong></p>
                 {% endif %}
+
                 <p><a class="btn btn--small" href="/user/logout" data-testid="logout-button">Log out?</a></p>
             {% else %}
-                <p><a class="btn btn--small" href="/user/login">Log in</a></p>
+                <p>You don't have a user account yet &ndash; please <a href="{{ localify('/user/register') }}">create one</a>, or log in to an existing account below.</p>
+                <p><a class="btn btn--small" href="{{ localify('/user/login') }}">Log in</a></p>
             {% endif %}
         </div>
     </main>
