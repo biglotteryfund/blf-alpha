@@ -1,0 +1,11 @@
+{% extends "views/layouts/emails.njk" %}
+
+{% block content %}
+    <h1>The National Lottery Community Fund</h1>
+    <h2>Account activation</h2>
+    <p>We recently received a request to register an account for this email address ({{ email }}). If you didn't initiate this request, please ignore this email.</p>
+    <p>If you wish to activate this account, then please click the following link to start using your The National Lottery Community Fund account:</p>
+    <p><a href="{{ activateUrl }}">{{ activateUrl }}</a></p>
+    <p>Thank you,</p>
+    <p>The National Lottery Community Fund</p>
+{% endblock %}
