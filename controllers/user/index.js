@@ -1,12 +1,29 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
+const { concat } = require('lodash');
 
 const { noCache } = require('../../middleware/cached');
 const { noindex } = require('../../middleware/robots');
 
 router.use(noCache, noindex, (req, res, next) => {
     res.locals.isBilingual = false;
+    next();
+});
+
+router.use((req, res, next) => {
+    let crumbs = [
+        {
+            label: 'Your account',
+            url: req.baseUrl
+        }
+    ];
+    if (req.user) {
+        crumbs = concat(crumbs, {
+            label: req.user.userData.username
+        });
+    }
+    res.locals.breadcrumbs = crumbs;
     next();
 });
 

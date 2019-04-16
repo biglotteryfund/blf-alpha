@@ -2,6 +2,7 @@
 const path = require('path');
 const express = require('express');
 const router = express.Router();
+const { concat } = require('lodash');
 
 router.get('/', (req, res) => {
     let alertMessage;
@@ -18,6 +19,10 @@ router.get('/', (req, res) => {
             alertMessage = `Your account was successfully activated!`;
             break;
     }
+
+    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+        label: 'Dashboard'
+    });
 
     res.render(path.resolve(__dirname, './views/dashboard'), {
         user: req.user,

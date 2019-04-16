@@ -2,6 +2,7 @@
 const path = require('path');
 const express = require('express');
 const passport = require('passport');
+const { concat } = require('lodash');
 
 const router = express.Router();
 
@@ -23,6 +24,10 @@ function renderForm(req, res) {
                 'Password reset requested. If the email address entered is correct, you will receive further instructions via email.';
             break;
     }
+
+    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+        label: 'Log in'
+    });
 
     res.render(path.resolve(__dirname, './views/login'), {
         csrfToken: req.csrfToken(),

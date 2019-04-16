@@ -1,4 +1,5 @@
 {% from "components/section-links/macro.njk" import sectionLinks %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% extends "layouts/main.njk" %}
 
@@ -8,6 +9,8 @@
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
+            {{ breadcrumbTrail(breadcrumbs) }}
+
             <h1>{{ title }}</h1>
 
             {% if user %}
