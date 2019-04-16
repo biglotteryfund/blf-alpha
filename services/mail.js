@@ -63,6 +63,34 @@ function generateHtmlEmail({ template, templateData }) {
 }
 
 /**
+ * Utility function to generate an HTML email and send it.
+ *
+ *
+ * @param {object} options
+ * @param {string} options.template
+ * @param {object} options.templateData
+ * @param {object} mailParams
+ * @return {object}
+ */
+async function sendHtmlEmail({ template, templateData }, mailParams) {
+    const emailHtml = await generateHtmlEmail({ template, templateData });
+
+    const mailConfig = {
+        sendTo: mailParams.sendTo,
+        subject: mailParams.subject,
+        type: 'html',
+        content: emailHtml
+    };
+
+    await sendEmail({
+        name: mailParams.name,
+        mailConfig: mailConfig
+    });
+
+    return mailConfig;
+}
+
+/**
  * Get send from address
  *
  * If we are sending to a biglotteryfund domain use the blf.digital,
@@ -196,5 +224,6 @@ module.exports = {
     generateHtmlEmail,
     getSendAddress,
     normaliseSendTo,
-    sendEmail
+    sendEmail,
+    sendHtmlEmail
 };
