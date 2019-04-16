@@ -3,6 +3,7 @@ const express = require('express');
 const passport = require('passport');
 const path = require('path');
 const Raven = require('raven');
+const { concat } = require('lodash');
 
 const userService = require('../../services/user');
 const { csrfProtection } = require('../../middleware/cached');
@@ -16,6 +17,9 @@ const { accountSchema, errorMessages } = require('./schema');
 const router = express.Router();
 
 function renderForm(req, res, data = null, errors = []) {
+    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+        label: 'Register'
+    });
     res.render(path.resolve(__dirname, './views/register'), {
         csrfToken: req.csrfToken(),
         formValues: data,

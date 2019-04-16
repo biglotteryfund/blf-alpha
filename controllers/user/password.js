@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const express = require('express');
 const Raven = require('raven');
 const Joi = require('joi');
+const { concat } = require('lodash');
 
 const { localify, getAbsoluteUrl } = require('../../modules/urls');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
@@ -101,6 +102,9 @@ function redirectToLogin(req, res) {
 }
 
 function renderForgotForm(req, res, data = null, errors = []) {
+    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+        label: 'Forgotten password'
+    });
     res.render(path.resolve(__dirname, './views/forgotten-password'), {
         formValues: data,
         errors: errors
@@ -108,6 +112,9 @@ function renderForgotForm(req, res, data = null, errors = []) {
 }
 
 function renderResetForm(req, res) {
+    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+        label: 'Reset password'
+    });
     res.render(path.resolve(__dirname, './views/reset-password'), {
         errors: res.locals.errors || [],
         user: req.user
@@ -115,6 +122,9 @@ function renderResetForm(req, res) {
 }
 
 function renderResetFormExpired(req, res) {
+    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+        label: 'Reset password'
+    });
     res.render(path.resolve(__dirname, './views/reset-password-expired'));
 }
 
