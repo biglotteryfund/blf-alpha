@@ -17,7 +17,6 @@ async function sendActivationEmail(req, user) {
         {
             template: path.resolve(__dirname, './views/emails/activate-account.njk'),
             templateData: {
-                getAbsoluteUrl: str => getAbsoluteUrl(req, str),
                 locale: req.i18n.getLocale(),
                 activateUrl: getAbsoluteUrl(req, `/user/activate?token=${token}`),
                 email: user.username

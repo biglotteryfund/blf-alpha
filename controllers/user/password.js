@@ -25,7 +25,6 @@ async function processResetRequest(req, user) {
         {
             template: path.resolve(__dirname, './views/emails/forgotten-password.njk'),
             templateData: {
-                getAbsoluteUrl: str => getAbsoluteUrl(req, str),
                 locale: req.i18n.getLocale(),
                 resetUrl: getAbsoluteUrl(req, `/user/password/reset?token=${token}`),
                 email: user.username
@@ -48,7 +47,6 @@ function sendPasswordResetNotification(req, email) {
         {
             template: path.resolve(__dirname, './views/emails/password-reset.njk'),
             templateData: {
-                getAbsoluteUrl: str => getAbsoluteUrl(req, str),
                 locale: req.i18n.getLocale(),
                 email: email
             }

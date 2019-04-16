@@ -9,7 +9,8 @@
     </head>
     <body>
         <div class="logo">
-            <img src="{{ getAbsoluteUrl('/assets/images/logos/email.gif') }}" alt="The National Lottery Community Fund logo" />
+            {# We hard-code this path to avoid having to pass functions in for assembling a local path, and to prevent HTML parsers from inlining this image as a data URI #}
+            <img src="https://www.tnlcommunityfund.org.uk/assets/images/logos/email.gif" alt="The National Lottery Community Fund logo" />
         </div>
 
         {% block content %}{% endblock %}
