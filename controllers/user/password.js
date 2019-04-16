@@ -9,40 +9,56 @@ const { localify, getAbsoluteUrl } = require('../../modules/urls');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 const { normaliseErrors } = require('../../modules/errors');
 const { requireUnauthed } = require('../../middleware/authed');
-const { generateHtmlEmail, sendEmail } = require('../../services/mail');
+const { sendHtmlEmail } = require('../../services/mail');
 const userService = require('../../services/user');
 const schema = require('./schema');
 
 const router = express.Router();
 
-async function processResetRequest(req, res, user) {
+async function processResetRequest(req, user) {
     const payload = { data: { userId: user.id, reason: 'resetpassword' } };
     const token = jwt.sign(payload, JWT_SIGNING_TOKEN, {
         expiresIn: '1h' // Short-lived token
     });
 
-    const emailHtml = await generateHtmlEmail({
-        template: path.resolve(__dirname, './views/emails/forgotten-password.njk'),
-        templateData: {
-            locale: req.i18n.getLocale(),
-            resetUrl: getAbsoluteUrl(req, `/user/password/reset?token=${token}`),
-            email: user.username
-        }
-    });
-
-    await sendEmail({
-        name: 'user_password_reset',
-        mailConfig: {
+    await sendHtmlEmail(
+        {
+            template: path.resolve(__dirname, './views/emails/forgotten-password.njk'),
+            templateData: {
+                getAbsoluteUrl: str => getAbsoluteUrl(req, str),
+                locale: req.i18n.getLocale(),
+                resetUrl: getAbsoluteUrl(req, `/user/password/reset?token=${token}`),
+                email: user.username
+            }
+        },
+        {
+            name: 'user_password_reset',
             sendTo: user.username,
-            subject: 'Reset the password for your The National Lottery Community Fund website account',
-            type: 'html',
-            content: emailHtml
+            subject: 'Reset the password for your The National Lottery Community Fund website account'
         }
-    });
+    );
 
     await userService.updateIsInPasswordReset({
         id: user.id
     });
+}
+
+function sendPasswordResetNotification(req, email) {
+    return sendHtmlEmail(
+        {
+            template: path.resolve(__dirname, './views/emails/password-reset.njk'),
+            templateData: {
+                getAbsoluteUrl: str => getAbsoluteUrl(req, str),
+                locale: req.i18n.getLocale(),
+                email: email
+            }
+        },
+        {
+            name: 'user_password_reset_success',
+            sendTo: email,
+            subject: 'Your National Lottery Community Fund account password was successfully reset'
+        }
+    );
 }
 
 function verifyToken(token) {
@@ -135,7 +151,7 @@ router
                 const user = await userService.findByUsername(username);
 
                 if (user) {
-                    await processResetRequest(req, res, user);
+                    await processResetRequest(req, user);
                     res.locals.passwordWasJustReset = true;
                 }
 
@@ -199,9 +215,10 @@ router
                             id: validationResult.value.username,
                             newPassword: validationResult.value.password
                         });
+                        await sendPasswordResetNotification(req, req.user.userData.username);
                         res.redirect('/user?s=passwordUpdated');
                     } catch (error) {
-                        res.locals.alertMessage = 'There was an problem updating your password - please try again';
+                        res.locals.alertMessage = 'There was a problem updating your password - please try again';
                         renderResetForm(req, res);
                     }
                 }
@@ -244,6 +261,7 @@ router
                                     id: validationResult.value.username,
                                     newPassword: validationResult.value.password
                                 });
+                                await sendPasswordResetNotification(req, user.username);
                             } else {
                                 res.redirect('/user/login');
                             }
@@ -251,7 +269,7 @@ router
                             res.redirect('/user/login?s=passwordUpdated');
                         } catch (error) {
                             res.locals.token = token;
-                            res.locals.alertMessage = 'There was an problem updating your password - please try again';
+                            res.locals.alertMessage = 'There was a problem updating your password - please try again';
                             renderResetForm(req, res);
                         }
                     }
