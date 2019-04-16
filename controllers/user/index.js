@@ -15,8 +15,7 @@ router.use('/login', require('./login'));
 router.use('/logout', require('./logout'));
 router.use('/register', require('./register'));
 router.use('/activate', require('./activate'));
-router.use('/forgotten-password', require('./forgotten-password'));
-router.use('/reset-password', require('./reset-password'));
+router.use('/password', require('./password'));
 router.use('/staff', require('./staff'));
 
 module.exports = router;
