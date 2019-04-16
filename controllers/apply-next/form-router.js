@@ -36,6 +36,21 @@ function sessionPrefixFor(formModel) {
 function initFormRouter(formModel) {
     const router = express.Router();
 
+    /**
+     * Validate data against the form scehema
+     * Validating against the whole form ensures that
+     * conditional validations are taken into account
+     */
+    function validateData(data) {
+        return formModel.schema.validate(data, {
+            // Return all errors not just the first one
+            abortEarly: false,
+            // Strip unknown properties.
+            // Notably to allow us to ignore request forgery tokens as part of POST bodies
+            stripUnknown: true
+        });
+    }
+
     function getCurrentlyEditingId(req) {
         return get(req.session, `${sessionPrefixFor(formModel)}.currentEditingId`);
     }
@@ -403,19 +418,8 @@ function initFormRouter(formModel) {
                     const { currentlyEditingId, currentApplicationData } = res.locals;
                     const stepFields = fieldsForStep(currentStep);
 
-                    /**
-                     * Validate the all the data so far against validation schema
-                     * - Validating against the whole form ensures that conditional validations are taken into account
-                     * - We include `stripUnknown` to exclude any values that are required in the POST body,
-                     *   like request forgery tokens, but not needed as part of the submission data.
-                     * @see https://github.com/hapijs/joi/blob/master/API.md#validatevalue-schema-options-callback
-                     */
                     const dataToValidate = { ...currentApplicationData, ...req.body };
-                    const validationResult = formModel.schema.validate(dataToValidate, {
-                        abortEarly: false,
-                        stripUnknown: true,
-                        escapeHtml: true
-                    });
+                    const validationResult = validateData(dataToValidate);
 
                     /**
                      * Get the errors for the current step
@@ -503,11 +507,7 @@ function initFormRouter(formModel) {
                 data: currentApplicationData
             });
 
-            const validationResult = formModel.schema.validate(currentApplicationData, {
-                abortEarly: false,
-                stripUnknown: true
-            });
-
+            const validationResult = validateData(currentApplicationData);
             const errors = get(validationResult, 'error.details', []);
 
             if (errors.length > 0) {
