@@ -5,15 +5,11 @@
         <style>
             @import url('https://use.typekit.net/yyc1dgh.css');
         </style>
-        {% if appData.isDev %}
-            <link rel="stylesheet" type="text/css" href="{{ 'stylesheets/emails.css' | getCachebustedPath }}">
-        {% else %}
-            <link rel="stylesheet" type="text/css" href="/build/latest/stylesheets/emails.css">
-        {% endif %}
+        <link rel="stylesheet" type="text/css" href="/build/latest/stylesheets/emails.css">
     </head>
     <body>
         <div class="logo">
-            <img src="{% if appData.isDev %}/assets{% endif %}/images/site-logo.svg" alt="" />
+            <img src="{{ getAbsoluteUrl('/assets/images/logos/email.gif') }}" alt="The National Lottery Community Fund logo" />
         </div>
 
         {% block content %}{% endblock %}
