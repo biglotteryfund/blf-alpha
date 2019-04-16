@@ -14,6 +14,9 @@ router.get('/', (req, res) => {
                 req.user.userData.username
             } with a link to activate your account.`;
             break;
+        case 'activationComplete':
+            alertMessage = `Your account was successfully activated!`;
+            break;
     }
 
     res.render(path.resolve(__dirname, './views/dashboard'), {

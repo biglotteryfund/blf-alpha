@@ -48,7 +48,7 @@ router.route('/').get(requireUserAuth, async (req, res) => {
     if (token) {
         try {
             await activate(token, user);
-            res.redirect('/user');
+            res.redirect('/user?s=activationComplete');
         } catch (error) {
             Raven.captureException(error);
             res.render(path.resolve(__dirname, './views/activate-error'));
