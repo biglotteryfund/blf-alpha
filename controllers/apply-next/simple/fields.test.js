@@ -5,6 +5,7 @@ const moment = require('moment');
 const Joi = require('joi');
 
 const { allFields } = require('./fields');
+const { mockAddress, mockBudget } = require('./mocks');
 
 const toDateParts = dt => ({
     day: dt.get('date'),
@@ -98,14 +99,7 @@ describe('yourIdea', () => {
 
 describe('projectBudget', () => {
     test('valid', () => {
-        const { error } = allFields.projectBudget.schema.validate(
-            new Array(5).fill(null).map(() => {
-                return {
-                    item: faker.lorem.words(5),
-                    cost: faker.random.number({ min: 100, max: 1000 })
-                };
-            })
-        );
+        const { error } = allFields.projectBudget.schema.validate(mockBudget());
         expect(error).toBeNull();
     });
 
@@ -161,12 +155,7 @@ describe('organisationAlias', () => {
 
 describe('organisationAddress', () => {
     test('valid', () => {
-        const { error } = allFields.organisationAddress.schema.validate({
-            'building-street': '3 Embassy Drive',
-            'town-city': 'Edgbaston, Birmingham',
-            county: 'West Midlands',
-            postcode: 'B15 1TR'
-        });
+        const { error } = allFields.organisationAddress.schema.validate(mockAddress());
         expect(error).toBeNull();
     });
 
@@ -186,10 +175,8 @@ describe('organisationAddress', () => {
 
     test('invalid postcode', () => {
         const { error } = allFields.organisationAddress.schema.validate({
-            'building-street': '3 Embassy Drive',
-            'town-city': 'Edgbaston, Birmingham',
-            county: 'West Midlands',
-            postcode: 'not a postcode'
+            ...mockAddress(),
+            ...{ postcode: 'not a postcode' }
         });
         expect(error.message).toContain('fails to match the required pattern');
     });

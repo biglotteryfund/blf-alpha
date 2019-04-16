@@ -32,11 +32,12 @@ function mockAddress() {
 }
 
 function mockBudget() {
-    return [
-        { item: faker.lorem.words(5), cost: faker.random.number({ min: 100, max: 1000 }) },
-        { item: faker.lorem.words(5), cost: faker.random.number({ min: 100, max: 1000 }) },
-        { item: faker.lorem.words(5), cost: faker.random.number({ min: 100, max: 1000 }) }
-    ];
+    return new Array(5).fill(null).map(() => {
+        return {
+            item: faker.lorem.words(5),
+            cost: faker.random.number({ min: 100, max: 1000 })
+        };
+    });
 }
 
 function mockFullForm({ country, organisationType, companyNumber = null, charityNumber = null }) {
@@ -75,5 +76,8 @@ function mockFullForm({ country, organisationType, companyNumber = null, charity
 }
 
 module.exports = {
+    mockDateOfBirth,
+    mockAddress,
+    mockBudget,
     mockFullForm
 };
