@@ -25,12 +25,11 @@ cache:
 
 script:
   - npm run build-production
-  - npm test
-  - npm run test-integration
+  - npm run test-ci
 
 # Prepare artefact for deployment
 # Store a temporary env var to only run before_deploy once
-# (current behaviour is to run before_deploy once _per_ provider) 
+# (current behaviour is to run before_deploy once _per_ provider)
 # https://github.com/travis-ci/travis-ci/issues/2570#issuecomment-171262181
 before_deploy:
   - >
