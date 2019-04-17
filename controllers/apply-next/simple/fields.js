@@ -179,9 +179,7 @@ const allFields = {
     },
     applicationCountry: {
         name: 'application-country',
-        label: {
-            default: { en: 'What country will your project be based in?', cy: '' }
-        },
+        label: { en: 'What country will your project be based in?', cy: '' },
         explanation: {
             en:
                 'We work slightly differently depending on which country your project is based in, to meet local needs and the regulations that apply there.',

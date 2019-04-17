@@ -9,7 +9,7 @@
         <div class="content-box u-inner u-inner-wide-only">
             {% if eligibility === 'pending' %}
                 {% set prefix -%}
-                    Step {{ currentStepNumber }} of {{ questions.length }}
+                    Step {{ currentStepNumber }} of {{ totalQuestions }}
                 {%- endset %}
             {% endif %}
 
@@ -60,7 +60,7 @@
                 <h2 class="t2 t--underline">Great! You're eligible to apply to {{ formTitle }}</h2>
                 <p>We're excited to hear more about your project and invite you to fill in our application form.</p>
                 <p>
-                    <a class="btn" href="{{ formBaseUrl }}/edit/{{ currentlyEditingId }}">Continue your application</a>
+                    <a class="btn" href="{{ formBaseUrl }}/new">Start your application</a>
                 </p>
             {% endif %}
         </div>

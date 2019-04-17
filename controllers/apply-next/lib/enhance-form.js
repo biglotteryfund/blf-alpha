@@ -116,8 +116,6 @@ module.exports = function enhanceForm({ locale, baseForm, data = {} }) {
         return section;
     });
 
-    clonedForm.newApplicationFields = clonedForm.newApplicationFields.map(enhanceField);
-
     if (clonedForm.termsFields) {
         clonedForm.termsFields = clonedForm.termsFields.map(enhanceField);
     }

@@ -17,7 +17,8 @@ const enhanceForm = require('./lib/enhance-form');
 const { nextAndPrevious } = require('./lib/pagination');
 const { FORM_STATES, calculateFormProgress } = require('./lib/progress');
 
-function mapFields(fields) {
+function fieldsForStep(step) {
+    const fields = flatMap(step.fieldsets, 'fields');
     return {
         fields: fields,
         names: fields.map(field => field.name),
@@ -28,17 +29,39 @@ function mapFields(fields) {
     };
 }
 
-function fieldsForStep(step) {
-    const fields = flatMap(step.fieldsets, 'fields');
-    return mapFields(fields);
+function sessionPrefixFor(formModel) {
+    return `forms.${formModel.id}`;
 }
 
 function initFormRouter(formModel) {
     const router = express.Router();
 
-    const SESSION_PREFIX = `forms.${formModel.id}`;
+    function getCurrentlyEditingId(req) {
+        return get(req.session, `${sessionPrefixFor(formModel)}.currentEditingId`);
+    }
 
-    router.use(cached.csrfProtection);
+    function setCurrentlyEditingId(req, applicationId) {
+        return set(req.session, `${sessionPrefixFor(formModel)}.currentEditingId`, applicationId);
+    }
+
+    router.use(cached.csrfProtection, async (req, res, next) => {
+        const form = enhanceForm({
+            baseForm: formModel,
+            locale: req.i18n.getLocale()
+        });
+
+        res.locals.formTitle = form.title;
+        res.locals.formBaseUrl = req.baseUrl;
+        res.locals.FORM_STATES = FORM_STATES;
+        res.locals.breadcrumbs = [{ label: form.title, url: req.baseUrl }];
+
+        res.locals.user = req.user;
+        res.locals.isBilingual = form.isBilingual;
+        res.locals.enablePrompt = false; // Disable prompts on apply pages
+        res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
+
+        next();
+    });
 
     /**
      * Show a list of questions, accessible to anyone.
@@ -67,7 +90,7 @@ function initFormRouter(formModel) {
             const filePath = path.resolve(__dirname, '../../public/', fileLocation);
 
             // First check to see if this file has already been rendered and saved in the app directory
-            fs.access(filePath, fs.F_OK, accessError => {
+            fs.access(filePath, fs.constants.F_OK, accessError => {
                 if (!accessError) {
                     // The file exists so just redirect the user there
                     return res.redirect(`/assets/${fileLocation}`);
@@ -116,32 +139,60 @@ function initFormRouter(formModel) {
     });
 
     /**
+     * Route: Eligibility checker
+     */
+    router
+        .route('/eligibility/:step?')
+        .all(function(req, res, next) {
+            const { eligibilityQuestions } = formModel;
+            const currentStepNumber = parseInt(req.params.step);
+            const currentStep = eligibilityQuestions[currentStepNumber - 1];
+            if (currentStep) {
+                res.locals.currentStep = currentStep;
+                res.locals.currentStepNumber = currentStepNumber;
+                next();
+            } else {
+                return res.redirect(`${req.baseUrl}/eligibility/1`);
+            }
+        })
+        .get(function(req, res) {
+            const { eligibilityQuestions } = formModel;
+            const { currentStep, currentStepNumber } = res.locals;
+
+            res.render(path.resolve(__dirname, './views/eligibility'), {
+                eligibility: 'pending',
+                csrfToken: req.csrfToken(),
+                currentStep: currentStep,
+                currentStepNumber: currentStepNumber,
+                eligibilityQuestions: eligibilityQuestions,
+                totalQuestions: eligibilityQuestions.length
+            });
+        })
+        .post(async (req, res) => {
+            const { eligibilityQuestions } = formModel;
+            const { currentStepNumber } = res.locals;
+
+            if (req.body.eligibility === 'yes') {
+                const isComplete = currentStepNumber === eligibilityQuestions.length;
+                const nextStepNumber = currentStepNumber + 1;
+                if (isComplete) {
+                    res.render(path.resolve(__dirname, './views/eligibility'), {
+                        eligibility: 'eligible'
+                    });
+                } else {
+                    res.redirect(`${req.baseUrl}/eligibility/${nextStepNumber}`);
+                }
+            } else {
+                res.render(path.resolve(__dirname, './views/eligibility'), {
+                    eligibility: 'ineligible'
+                });
+            }
+        });
+
+    /**
      * Require login, redirect back here once authenticated.
      */
     router.use(requireUserAuth);
-
-    /**
-     * Set common locals
-     */
-    router.use(async (req, res, next) => {
-        // Translate the form object for each request and populate it with current user input
-        const form = enhanceForm({
-            locale: req.i18n.getLocale(),
-            baseForm: formModel
-        });
-
-        res.locals.formTitle = form.title;
-        res.locals.formBaseUrl = req.baseUrl;
-        res.locals.FORM_STATES = FORM_STATES;
-        res.locals.breadcrumbs = [{ label: form.title, url: req.baseUrl }];
-
-        res.locals.user = req.user;
-        res.locals.isBilingual = formModel.isBilingual;
-        res.locals.enablePrompt = false; // Disable prompts on apply pages
-        res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
-
-        next();
-    });
 
     /**
      * Route: Dashboard
@@ -170,80 +221,54 @@ function initFormRouter(formModel) {
     });
 
     /**
-     * Route: New Application
+     * Start application
+     * Redirect to eligibility checker
      */
-    function renderNewApplication(req, res, data = null, errors = []) {
-        const form = enhanceForm({
-            locale: req.i18n.getLocale(),
-            baseForm: formModel,
-            data: data
-        });
+    router.get('/start', function(req, res) {
+        res.redirect(`${req.baseUrl}/eligibility/1`);
+    });
 
-        res.render(path.resolve(__dirname, './views/new'), {
-            title: res.locals.formTitle,
-            csrfToken: req.csrfToken(),
-            fields: form.newApplicationFields,
-            errors: errors
-        });
-    }
-
-    router
-        .route('/new')
-        .get(function(req, res) {
-            renderNewApplication(req, res);
-        })
-        .post(async (req, res) => {
-            const validationResult = formModel.schema.validate(req.body, {
-                abortEarly: false,
-                stripUnknown: true,
-                escapeHtml: true
+    /**
+     * New application
+     * Create a new blank application and redirect to first step
+     */
+    router.get('/new', async function(req, res) {
+        try {
+            const application = await applicationsService.createApplication({
+                userId: req.user.userData.id,
+                formId: formModel.id
             });
 
-            const fields = mapFields(formModel.newApplicationFields);
-            const errors = normaliseErrors({
-                validationError: validationResult.error,
-                errorMessages: fields.messages,
-                fieldNames: fields.names,
-                locale: req.i18n.getLocale()
+            setCurrentlyEditingId(req, application.id);
+            req.session.save(() => {
+                const firstSection = head(formModel.sections);
+                res.redirect(`${req.baseUrl}/${firstSection.slug}`);
             });
-
-            if (errors.length > 0) {
-                renderNewApplication(req, res, validationResult.value, errors);
-            } else {
-                try {
-                    const application = await applicationsService.createApplication({
-                        userId: req.user.userData.id,
-                        formId: formModel.id,
-                        title: get(validationResult.value, 'application-title'),
-                        data: validationResult.value
-                    });
-
-                    res.redirect(`${req.baseUrl}/edit/${application.id}`);
-                } catch (error) {
-                    Raven.captureException(error);
-                    renderError(error, req, res);
-                }
-            }
-        });
+        } catch (error) {
+            Raven.captureException(error);
+            renderError(error, req, res);
+        }
+    });
 
     /**
      * Route: Edit application ID
      * Store the ID of the application currently being edited
      */
     router.get('/edit/:applicationId', async (req, res) => {
-        const { applicationId } = req.params;
-        if (applicationId) {
-            set(req.session, `${SESSION_PREFIX}.currentEditingId`, applicationId);
+        if (req.params.applicationId) {
+            setCurrentlyEditingId(req, req.params.applicationId);
             req.session.save(() => {
-                const firstSection = head(formModel.sections);
-                res.redirect(`${req.baseUrl}/${firstSection.slug}`);
+                res.redirect(`${req.baseUrl}/summary`);
             });
         } else {
             res.redirect(req.baseUrl);
         }
     });
 
-    // Allow an application owned by this user to be deleted
+    /**
+     * Route: Delete application
+     * Allow an application owned by this user to be deleted
+     */
     router
         .route('/delete/:applicationId')
         .get(async (req, res) => {
@@ -281,8 +306,7 @@ function initFormRouter(formModel) {
      * All routes after this point require an application to be selected
      */
     router.use(async (req, res, next) => {
-        const currentEditingId = get(req.session, `${SESSION_PREFIX}.currentEditingId`);
-
+        const currentEditingId = getCurrentlyEditingId(req);
         if (currentEditingId) {
             res.locals.currentlyEditingId = currentEditingId;
 
@@ -295,9 +319,9 @@ function initFormRouter(formModel) {
 
                 if (application) {
                     const currentApplicationData = get(application, 'application_data');
-                    res.locals.currentApplicationTitle = get(application, 'application_title');
                     res.locals.currentApplicationData = currentApplicationData;
                     res.locals.currentApplicationStatus = get(application, 'status');
+                    res.locals.currentApplicationTitle = get(currentApplicationData, 'application-title');
 
                     res.locals.form = enhanceForm({
                         locale: req.i18n.getLocale(),
@@ -315,80 +339,6 @@ function initFormRouter(formModel) {
         } else {
             res.redirect(req.baseUrl);
         }
-    });
-
-    /**
-     * Route: Eligibility checker
-     */
-    router
-        .route('/eligibility/:step?')
-        .all((req, res, next) => {
-            if (res.locals.currentApplicationStatus === 'ineligible') {
-                return res.redirect(`${req.baseUrl}`);
-            }
-
-            res.locals.eligibilityQuestions = formModel.eligibilityQuestions;
-
-            if (!req.params.step || req.params.step > res.locals.eligibilityQuestions.length) {
-                return res.redirect(`${req.baseUrl}/eligibility/1`);
-            }
-
-            res.locals.currentStepNumber = parseInt(req.params.step);
-
-            // See how far this user has progressed with these questions
-            // (eg. to prevent URL tampering)
-            const currentProgress = parseInt(
-                get(req.session, `${SESSION_PREFIX}.eligibilityProgress.${res.locals.currentlyEditingId}`)
-            );
-
-            // Prevent skipping ahead
-            if (currentProgress < res.locals.currentStepNumber) {
-                return res.redirect(`${req.baseUrl}/eligibility/${currentProgress}`);
-            }
-
-            res.locals.currentStep = res.locals.eligibilityQuestions[res.locals.currentStepNumber - 1];
-            next();
-        })
-        .get((req, res) => {
-            res.render(path.resolve(__dirname, './views/eligibility'), {
-                eligibility: 'pending',
-                csrfToken: req.csrfToken(),
-                questions: res.locals.eligibilityQuestions
-            });
-        })
-        .post(async (req, res) => {
-            const stepAnswer = req.body.eligibility;
-            if (!stepAnswer || stepAnswer !== 'yes') {
-                // Mark this application as ineligible and show an error
-                await applicationsService.changeApplicationState(res.locals.currentlyEditingId, 'ineligible');
-                res.render(path.resolve(__dirname, './views/eligibility'), {
-                    eligibility: 'ineligible'
-                });
-            } else {
-                const isComplete = res.locals.currentStepNumber === res.locals.eligibilityQuestions.length;
-                const nextStepNumber = res.locals.currentStepNumber + 1;
-                if (!isComplete) {
-                    // Store their progress in their session
-                    set(
-                        req.session,
-                        `${SESSION_PREFIX}.eligibilityProgress.${res.locals.currentlyEditingId}`,
-                        nextStepNumber
-                    );
-                    res.redirect(`${req.baseUrl}/eligibility/${nextStepNumber}`);
-                } else {
-                    await applicationsService.changeApplicationState(res.locals.currentlyEditingId, 'eligible');
-                    res.render(path.resolve(__dirname, './views/eligibility'), {
-                        eligibility: 'eligible'
-                    });
-                }
-            }
-        });
-
-    // Any pages after this point must be for eligible applications
-    router.use((req, res, next) => {
-        return res.locals.currentApplicationStatus === 'eligible' || res.locals.currentApplicationStatus === 'complete'
-            ? next()
-            : res.redirect(`${req.baseUrl}/eligibility/1`);
     });
 
     /**
@@ -446,7 +396,8 @@ function initFormRouter(formModel) {
             router
                 .route(`/${currentSection.slug}/${currentStepNumber}`)
                 .get((req, res) => {
-                    renderStep(req, res, res.locals.currentApplicationData);
+                    const data = get(res.locals, 'currentApplicationData', {});
+                    renderStep(req, res, data);
                 })
                 .post(async function(req, res) {
                     const { currentlyEditingId, currentApplicationData } = res.locals;
@@ -593,7 +544,7 @@ function initFormRouter(formModel) {
             res.redirect(req.baseUrl);
         } else {
             // Clear the submission from the session on success
-            unset(req.session, SESSION_PREFIX);
+            unset(req.session, sessionPrefixFor(formModel));
             req.session.save(() => {
                 res.render(path.resolve(__dirname, './views/success'), {
                     form: res.locals.form,
