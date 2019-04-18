@@ -9,7 +9,8 @@ const {
     generateHtmlEmail,
     getSendAddress,
     normaliseSendTo,
-    sendEmail
+    sendEmail,
+    sendHtmlEmail
 } = require('../mail');
 
 const exampleEmail = 'example@biglotteryfund.org.uk';
@@ -30,6 +31,19 @@ function createMockHtml() {
         template: path.resolve(__dirname, 'test-email.njk'),
         templateData: { example: 'Example data' }
     });
+}
+
+function createAndSendMockHtmlEmail(mailConfig) {
+    return sendHtmlEmail(
+        {
+            template: path.resolve(__dirname, 'test-email.njk'),
+            templateData: { example: 'Example data' }
+        },
+        mailConfig,
+        nodemailer.createTransport({
+            jsonTransport: true
+        })
+    );
 }
 
 describe('buildMailOptions', () => {
@@ -218,6 +232,23 @@ describe('sendEmail', () => {
         expect(info.envelope.to).toEqual(['example@example.com']);
 
         const infoMessage = JSON.parse(info.message);
+        expect(infoMessage.text).toMatchSnapshot();
+        expect(infoMessage.html).toMatchSnapshot();
+    });
+});
+
+describe('sendHTMLEmail', () => {
+    test('create an html email response and send it', async () => {
+        const htmlEmail = await createAndSendMockHtmlEmail({
+            name: 'mock_html_email',
+            subject: 'Mock HTML email',
+            sendTo: [{ address: 'example@example.com' }]
+        });
+
+        expect(htmlEmail.envelope.from).toEqual('noreply@tnlcommunityfund.org.uk');
+        expect(htmlEmail.envelope.to).toEqual(['example@example.com']);
+
+        const infoMessage = JSON.parse(htmlEmail.message);
         expect(infoMessage.text).toMatchSnapshot();
         expect(infoMessage.html).toMatchSnapshot();
     });
