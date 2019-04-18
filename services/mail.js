@@ -70,24 +70,25 @@ function generateHtmlEmail({ template, templateData }) {
  * @param {string} options.template
  * @param {object} options.templateData
  * @param {object} mailParams
+ * @param {object} mailTransport
  * @return {object}
  */
-async function sendHtmlEmail({ template, templateData }, mailParams) {
+async function sendHtmlEmail({ template, templateData }, mailParams, mailTransport = {}) {
     const emailHtml = await generateHtmlEmail({ template, templateData });
 
     const mailConfig = {
-        sendTo: mailParams.sendTo,
-        subject: mailParams.subject,
-        type: 'html',
-        content: emailHtml
+        ...mailParams,
+        ...{
+            type: 'html',
+            content: emailHtml
+        }
     };
 
-    await sendEmail({
+    return sendEmail({
         name: mailParams.name,
-        mailConfig: mailConfig
+        mailConfig: mailConfig,
+        mailTransport: mailTransport
     });
-
-    return mailConfig;
 }
 
 /**
