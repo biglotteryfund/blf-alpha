@@ -1,5 +1,6 @@
 {% from "components/form-fields/macros.njk" import formErrors, formField with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "./user-helpers.njk" import userInfoPanel %}
 
 {% extends "layouts/main.njk" %}
 
@@ -12,6 +13,9 @@
             {{ breadcrumbTrail(breadcrumbs) }}
 
             <h1>{{ title }}</h1>
+
+            {{ userInfoPanel(user) }}
+
             <p>You can modify your registered email address here. Please bear in mind you will need to confirm your account again once you have done this.</p>
 
             {% if alertMessage %}
