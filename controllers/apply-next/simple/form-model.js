@@ -17,8 +17,13 @@ const sectionProject = {
             title: { en: 'Project details', cy: '(cy) Project details' },
             fieldsets: [
                 {
-                    legend: { en: 'Project date and location', cy: '(cy) Project date and location' },
-                    fields: [allFields.projectStartDate, allFields.projectPostcode]
+                    legend: { en: 'Project details', cy: '' },
+                    fields: [
+                        allFields.applicationTitle,
+                        allFields.projectStartDate,
+                        allFields.applicationCountry,
+                        allFields.projectPostcode
+                    ]
                 }
             ]
         },
@@ -224,7 +229,6 @@ const formModel = {
     id: 'awards-for-all',
     title: { en: 'National Lottery Awards for All', cy: '' },
     isBilingual: true,
-    newApplicationFields: [allFields.applicationTitle, allFields.applicationCountry],
     sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionLegalContact, sectionBankDetails],
     termsFields: [
         {

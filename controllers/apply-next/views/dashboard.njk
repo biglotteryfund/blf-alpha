@@ -10,8 +10,7 @@
                 <h1 class="t--underline">Your applications</h1>
                 <p>
                     Here you can check the status of an online application in progress.
-                    You can also <a href="{{ formBaseUrl }}/new">start a brand new application</a> and see any applications you've previously submitted online.
-                    You can <a href="{{ formBaseUrl }}/questions">preview the questions you'll be asked</a> during your application.
+                    You can also <a href="#new">start a brand new application</a> and see any applications you've previously submitted online. You can <a href="{{ formBaseUrl }}/questions">preview the questions you'll be asked</a> during your application.
                 </p>
             </div>
 
@@ -23,10 +22,10 @@
             {% endif %}
         </section>
 
-        {% call contentBox() %}
+        {% call contentBox(id = "new") %}
             <h2>New application</h2>
             <p>You can create a new funding application for {{ formTitle }} here after completing our eligibility checks.</p>
-            <p><a href="{{ formBaseUrl }}/new" class="btn btn--outline">Start new application</a></p>
+            <p><a href="{{ formBaseUrl }}/start" class="btn btn--outline">Start new application</a></p>
         {% endcall %}
 
     </main>
