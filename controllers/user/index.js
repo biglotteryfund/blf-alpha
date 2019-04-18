@@ -1,7 +1,6 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const { concat } = require('lodash');
 
 const { noCache } = require('../../middleware/cached');
 const { noindex } = require('../../middleware/robots');

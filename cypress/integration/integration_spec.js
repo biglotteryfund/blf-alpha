@@ -256,8 +256,8 @@ describe('user', () => {
         }).then(res => {
             // via https://github.com/auth0/node-jsonwebtoken/issues/162
             expect(res.body.token).to.match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/);
-            expect(res.body.email.sendTo).to.equal(username);
-            expect(res.body.email.subject).to.equal(
+            expect(res.body.mailParams.sendTo).to.equal(username);
+            expect(res.body.mailParams.subject).to.equal(
                 'Activate your The National Lottery Community Fund website account'
             );
         });
