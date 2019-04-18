@@ -13,6 +13,12 @@ async function sendActivationEmail(req, user, isExisting = false) {
         expiresIn: '7d' // allow a week to activate
     });
 
+    const mailParams = {
+        name: 'user_activate_account',
+        sendTo: user.username,
+        subject: 'Activate your The National Lottery Community Fund website account'
+    };
+
     const email = await sendHtmlEmail(
         {
             template: path.resolve(__dirname, './views/emails/activate-account.njk'),
@@ -23,16 +29,13 @@ async function sendActivationEmail(req, user, isExisting = false) {
                 isExisting: isExisting
             }
         },
-        {
-            name: 'user_activate_account',
-            sendTo: user.username,
-            subject: 'Activate your The National Lottery Community Fund website account'
-        }
+        mailParams
     );
 
     return {
         email: email,
-        token: token
+        token: token,
+        mailParams: mailParams
     };
 }
 

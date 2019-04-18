@@ -29,7 +29,6 @@ function addAlertMessage(req, res, next) {
             break;
     }
     res.locals.alertMessage = alertMessage;
-    console.log(alertMessage);
     next();
 }
 
