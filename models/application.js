@@ -23,22 +23,17 @@ module.exports = function(sequelize, DataTypes) {
                 type: DataTypes.STRING,
                 allowNull: false
             },
-            application_title: {
-                type: DataTypes.STRING,
-                allowNull: false
-            },
             application_data: {
                 type: DataTypes.JSON,
                 allowNull: true
             },
             status: {
                 type: DataTypes.ENUM,
-                values: ['ineligible', 'eligible', 'pending', 'complete'],
-                allowNull: true
+                values: ['pending', 'complete'],
+                allowNull: false
             }
         },
         {
-            freezeTableName: true,
             getterMethods: {
                 grantAmount() {
                     if (this.application_data && this.application_data['project-budget']) {

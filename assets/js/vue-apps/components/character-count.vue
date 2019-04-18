@@ -81,6 +81,7 @@ export default {
         role="region"
         aria-live="polite"
         aria-atomic="true"
+        data-testid="word-count"
         v-html="message"
     ></div>
 </template>

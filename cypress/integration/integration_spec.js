@@ -1,5 +1,7 @@
 // @ts-nocheck
 const uuid = require('uuid/v4');
+const faker = require('faker');
+const sample = require('lodash/sample');
 
 describe('common', function() {
     it('should have common headers', () => {
@@ -41,7 +43,7 @@ describe('common', function() {
     });
 
     it('should redirect legacy funding programmes', () => {
-        [
+        const sampleRedirect = sample([
             {
                 originalPath: '/global-content/programmes/england/acitve-england',
                 redirectedPath: '/funding/programmes/acitve-england'
@@ -58,13 +60,14 @@ describe('common', function() {
                 originalPath: '/welsh/global-content/programmes/wales/young-peoples-fund-bridging-the-gap',
                 redirectedPath: '/welsh/funding/programmes/young-peoples-fund-bridging-the-gap'
             }
-        ].forEach(page => {
-            cy.checkRedirect({
-                from: page.originalPath,
-                to: page.redirectedPath
-            });
+        ]);
+
+        cy.checkRedirect({
+            from: sampleRedirect.originalPath,
+            to: sampleRedirect.redirectedPath
         });
     });
+
     it('should protect access to staff-only tools', () => {
         cy.checkRedirect({
             from: '/funding/programmes/national-lottery-awards-for-all-england?draft=42',
@@ -77,6 +80,108 @@ describe('common', function() {
             to: '/user/staff/login?redirectUrl=/tools/survey-results',
             status: 302
         });
+    });
+
+    it('should allow survey API responses', () => {
+        const dataYes = {
+            choice: 'yes',
+            path: '/'
+        };
+
+        cy.request('POST', '/api/survey', dataYes).then(response => {
+            expect(response.body.result).to.have.property('id');
+            expect(response.body.status).to.equal('success');
+            expect(response.body.result.choice).to.equal(dataYes.choice);
+            expect(response.body.result.path).to.equal(dataYes.path);
+        });
+
+        const dataNo = {
+            choice: 'no',
+            path: '/',
+            message: 'this is an example message'
+        };
+
+        cy.request('POST', '/api/survey', dataNo).then(response => {
+            expect(response.body.result).to.have.property('id');
+            expect(response.body.status).to.equal('success');
+            expect(response.body.result.choice).to.equal(dataNo.choice);
+            expect(response.body.result.path).to.equal(dataNo.path);
+            expect(response.body.result.message).to.equal(dataNo.message);
+        });
+    });
+
+    it('should allow feedback API responses', () => {
+        const data = {
+            description: 'example',
+            message: 'this is an example message'
+        };
+
+        cy.request('POST', '/api/feedback', data).then(response => {
+            expect(response.body.result).to.have.property('id');
+            expect(response.body.status).to.equal('success');
+            expect(response.body.result.description).to.equal(data.description);
+            expect(response.body.result.message).to.equal(data.message);
+        });
+    });
+
+    it('should perform common interactions', () => {
+        cy.visit('/');
+        cy.checkA11y();
+        cy.percySnapshot('homepage');
+
+        cy.viewport(375, 667);
+
+        cy.get('.js-toggle-nav').as('navToggle');
+        cy.get('#global-nav').as('nav');
+        cy.get('.js-toggle-search').as('searchToggle');
+        cy.get('#global-search').as('search');
+
+        cy.get('@nav').should('not.be.visible');
+        cy.get('@search').should('not.be.visible');
+
+        // Toggle search
+        cy.get('@searchToggle').click();
+        cy.get('@nav').should('not.be.visible');
+        cy.get('@search').should('be.visible');
+        // Check search input for focus
+        cy.focused().should('have.attr', 'name', 'q');
+
+        // Toggle mobile navigation
+        cy.get('@navToggle').click();
+        cy.get('@nav').should('be.visible');
+        cy.get('@search').should('not.be.visible');
+
+        // Switch language
+        cy.get('.language-control')
+            .contains('Cymraeg')
+            .click();
+
+        // Welsh language smoke tests
+        cy.checkMetaTitles('Hafan | Cronfa Gymunedol y Loteri Genedlaethol');
+        cy.get('@navToggle').click();
+        cy.get('@nav').should('be.visible');
+        cy.get('.qa-nav-link').should('contain', 'Ariannu');
+        cy.get('@navToggle').click();
+        cy.get('@nav').should('not.be.visible');
+    });
+
+    it('should check top-level pages for a11y violations', function() {
+        cy.visit('/about');
+        cy.checkA11y();
+
+        cy.visit('/funding');
+        cy.checkA11y();
+
+        cy.visit('/insights');
+        cy.checkA11y();
+
+        cy.visit('/news');
+        cy.checkA11y();
+    });
+
+    it('should check patterns for visual regressions', function() {
+        cy.visit('/patterns/components');
+        cy.percySnapshot('patterns');
     });
 });
 
@@ -104,7 +209,7 @@ describe('user', () => {
         cy.getByText('Password must be at least 10 characters long').should('exist');
     });
 
-    it('Register, login, reset password', () => {
+    it('should be able to register, log in, and reset password', () => {
         const password = uuid();
         const username = `${Date.now()}@example.com`;
 
@@ -142,37 +247,21 @@ describe('user', () => {
     });
 });
 
-const loremLong = `Lorem, ipsum dolor sit amet consectetur adipisicing elit. Praesentium quidem nihil, similique voluptatibus tempore quasi, cumque laborum officia voluptatem laboriosam tempora.
-
-- Repudiandae doloremque necessitatibus
-- Laudantium repellendus
-- Soluta neque consequatur tenetur maiores.
-
-Enim provident necessitatibus ipsa ad autem aliquam ducimus minima delectus exercitationem, minus blanditiis molestias quas eaque ullam ab aperiam assumenda.`;
-
-describe.skip('awards for all', function() {
-    it('happy path application', () => {
-        const eligibilityStep = () => {
-            cy.getByLabelText('Yes').click();
-            cy.getByText('Continue').click();
-        };
+describe('awards for all', function() {
+    it('should submit full awards for all application', () => {
+        function fillAddress() {
+            cy.getByLabelText('Building and street', { exact: false }).type(faker.address.streetAddress());
+            cy.getByLabelText('Town or city', { exact: false }).type(faker.address.city());
+            cy.getByLabelText('County', { exact: false }).type(faker.address.county());
+            cy.getByLabelText('Postcode', { exact: false }).type('B15 1TR');
+        }
 
         cy.seedUserAndLogin().then(() => {
-            cy.visit('/apply-next/simple');
-            cy.getByText('New application').click();
-            cy.checkA11y();
+            cy.visit('/apply-next/simple/new');
+
+            // Form
             cy.getByLabelText('What is the name of your project?', { exact: false }).type('My application');
             cy.getByLabelText('England').click();
-            cy.getByText('Start application').click();
-
-            // Eligibility Checker
-            eligibilityStep();
-            eligibilityStep();
-            eligibilityStep();
-            eligibilityStep();
-            eligibilityStep();
-            cy.getByText('Continue your application').click();
-
             cy.getByLabelText('Day').type('12');
             cy.getByLabelText('Month').type('12');
             cy.getByLabelText('Year').type('2020');
@@ -181,7 +270,7 @@ describe.skip('awards for all', function() {
             cy.getByText('Continue').click();
 
             cy.getByLabelText('What would you like to do?', { exact: false })
-                .invoke('val', loremLong)
+                .invoke('val', faker.lorem.paragraphs(5))
                 .trigger('change');
 
             cy.checkA11y();
@@ -215,78 +304,29 @@ describe.skip('awards for all', function() {
             cy.getByLabelText('Tell us the total cost of your project', { exact: false }).type('5000');
 
             cy.getByText('Continue').click();
+
+            cy.getByLabelText('What is the full legal name of your organisation?', { exact: false }).type(
+                faker.company.companyName()
+            );
+            fillAddress();
+            cy.getByText('Continue').click();
         });
     });
 });
 
-describe('e2e', function() {
-    it('should perform common interactions', () => {
-        cy.visit('/');
-
-        cy.viewport(375, 667);
+describe('reaching communities', function() {
+    it('should allow applications for reaching communities', () => {
+        cy.visit('/funding/programmes/reaching-communities-england');
         cy.closeCookieMessage();
 
-        // Submit micro survey
-        cy.get('.survey button:first-child').click();
-        cy.get('.survey').should('contain', 'Thank you');
-
-        cy.get('.js-toggle-nav').as('navToggle');
-        cy.get('#global-nav').as('nav');
-        cy.get('.js-toggle-search').as('searchToggle');
-        cy.get('#global-search').as('search');
-
-        cy.get('@nav').should('not.be.visible');
-        cy.get('@search').should('not.be.visible');
-
-        // Toggle search
-        cy.get('@searchToggle').click();
-        cy.get('@nav').should('not.be.visible');
-        cy.get('@search').should('be.visible');
-        // Check search input for focus
-        cy.focused().should('have.attr', 'name', 'q');
-
-        // Toggle mobile navigation
-        cy.get('@navToggle').click();
-        cy.get('@nav').should('be.visible');
-        cy.get('@search').should('not.be.visible');
-
-        // Switch language
-        cy.get('.language-control')
-            .contains('Cymraeg')
-            .click();
-
-        // Welsh language smoke tests
-        cy.checkMetaTitles('Hafan | Cronfa Gymunedol y Loteri Genedlaethol');
-        cy.get('@navToggle').click();
-        cy.get('@nav').should('be.visible');
-        cy.get('.qa-nav-link').should('contain', 'Ariannu');
-        cy.get('@navToggle').click();
-        cy.get('@nav').should('not.be.visible');
-
-        // Submit micro survey (welsh)
-        cy.get('.survey button:first-child').click();
-        cy.get('.survey').should('contain', 'Diolch am');
-    });
-
-    it('should navigate through a funding application from the homepage', () => {
-        cy.visit('/');
-        cy.closeCookieMessage();
-
-        cy.checkA11y();
-        cy.percySnapshot('homepage');
-
-        // Navigate to over 10k page
-        cy.get('#qa-button-over10k').click();
-        cy.checkActiveSection('Funding');
-        cy.checkA11y();
-
-        // Navigate to reaching communities page
-        cy.get('#qa-button-england').click();
-        cy.get('#qa-promo-card-link-reaching-communities-england').click();
         cy.checkActiveSection('Funding');
         cy.checkA11y();
 
         cy.percySnapshot('reaching-communities');
+
+        // Submit micro survey
+        cy.get('.survey button:first-child').click();
+        cy.get('.survey').should('contain', 'Thank you');
 
         // Interact with tabs
         cy.get('.js-tabset .js-tab').each($el => {
@@ -310,7 +350,7 @@ describe('e2e', function() {
 
         // Step 1
         cy.get('#field-your-idea')
-            .invoke('val', loremLong)
+            .invoke('val', faker.lorem.paragraphs(3))
             .trigger('change');
 
         cy.get(submitSelector).click();
@@ -352,7 +392,9 @@ describe('e2e', function() {
         cy.get('#js-feedback form').submit();
         cy.get('#js-feedback').should('contain', 'Thank you for sharing');
     });
+});
 
+describe('free materials', function() {
     it('should submit materials order', () => {
         cy.visit('/funding/funding-guidance/managing-your-funding/ordering-free-materials');
         cy.get('a[href="#monolingual"]').click();
@@ -398,7 +440,9 @@ describe('e2e', function() {
         // Confirm submission
         cy.get('h2').should('contain', 'Thank you for your order');
     });
+});
 
+describe('past grants', function() {
     it('should be able to browse grants search results', () => {
         cy.visit('/funding/grants');
         cy.closeCookieMessage();
@@ -427,22 +471,5 @@ describe('e2e', function() {
         // Test pagination
         cy.get('.split-nav__next').click();
         cy.get('.qa-grant-result').should('have.length', textQueryCount - 50);
-    });
-
-    it('smoke tests', function() {
-        cy.visit('/about');
-        cy.checkA11y();
-
-        cy.visit('/funding');
-        cy.checkA11y();
-
-        cy.visit('/insights');
-        cy.checkA11y();
-
-        cy.visit('/news');
-        cy.checkA11y();
-
-        cy.visit('/patterns/components');
-        cy.percySnapshot('patterns');
     });
 });
