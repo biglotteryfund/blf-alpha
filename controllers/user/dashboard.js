@@ -10,6 +10,7 @@ const { emailSchema, errorMessages } = require('./schema');
 const userService = require('../../services/user');
 const { csrfProtection } = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
+const { addAlertMessage } = require('../../middleware/user');
 const { normaliseErrors } = require('../../modules/errors');
 
 function renderUpdateEmailForm(req, res, data = null, errors = []) {
@@ -26,33 +27,12 @@ function renderUpdateEmailForm(req, res, data = null, errors = []) {
 /**
  * Route: Generic user dashboard
  */
-router.get('/', (req, res) => {
-    let alertMessage;
-    switch (req.query.s) {
-        case 'passwordUpdated':
-            alertMessage = 'Your password was successfully updated!';
-            break;
-        case 'activationSent':
-            alertMessage = `We have sent an email to ${
-                req.user.userData.username
-            } with a link to activate your account.`;
-            break;
-        case 'activationComplete':
-            alertMessage = `Your account was successfully activated!`;
-            break;
-        case 'emailUpdated':
-            alertMessage = `Your email address was successfully updated!`;
-            break;
-    }
-
+router.get('/', addAlertMessage, (req, res) => {
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
         label: 'Dashboard'
     });
-
     res.render(path.resolve(__dirname, './views/dashboard'), {
-        user: req.user,
-        errors: res.locals.errors || [],
-        alertMessage: alertMessage
+        errors: res.locals.errors || []
     });
 });
 

@@ -116,8 +116,7 @@ function renderResetForm(req, res) {
         label: 'Reset password'
     });
     res.render(path.resolve(__dirname, './views/reset-password'), {
-        errors: res.locals.errors || [],
-        user: req.user
+        errors: res.locals.errors || []
     });
 }
 

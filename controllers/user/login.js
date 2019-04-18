@@ -8,37 +8,22 @@ const router = express.Router();
 
 const { csrfProtection } = require('../../middleware/cached');
 const { requireUnauthed, redirectUrlWithFallback } = require('../../middleware/authed');
+const { addAlertMessage } = require('../../middleware/user');
 const { localify } = require('../../modules/urls');
 
 function renderForm(req, res) {
-    let alertMessage;
-    switch (req.query.s) {
-        case 'loggedOut':
-            alertMessage = 'You were successfully logged out.';
-            break;
-        case 'passwordUpdated':
-            alertMessage = 'Your password was successfully updated! Please log in below.';
-            break;
-        case 'passwordResetRequest':
-            alertMessage =
-                'Password reset requested. If the email address entered is correct, you will receive further instructions via email.';
-            break;
-    }
-
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
         label: 'Log in'
     });
-
     res.render(path.resolve(__dirname, './views/login'), {
-        csrfToken: req.csrfToken(),
-        alertMessage: alertMessage
+        csrfToken: req.csrfToken()
     });
 }
 
 router
     .route('/')
     .all(csrfProtection, requireUnauthed)
-    .get(renderForm)
+    .get(addAlertMessage, renderForm)
     .post((req, res, next) => {
         // @TODO consider rate limiting?
         passport.authenticate('local', (err, user, info) => {

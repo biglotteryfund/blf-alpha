@@ -18,12 +18,10 @@ router.use((req, res, next) => {
             url: req.baseUrl
         }
     ];
-    if (req.user) {
-        crumbs = concat(crumbs, {
-            label: req.user.userData.username
-        });
-    }
     res.locals.breadcrumbs = crumbs;
+    if (req.user) {
+        res.locals.user = req.user;
+    }
     next();
 });
 
