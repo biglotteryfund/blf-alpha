@@ -37,8 +37,8 @@ function handleAbandonmentMessage(formEl) {
  * Caveats: form must have the class below and the field must lose focus to trigger the change() event.
  * */
 function warnOnUnsavedChanges() {
-    let formHasChanged = false;
     $('.js-form-warn-unsaved').each(function() {
+        let formHasChanged = false;
         const $form = $(this);
         const initialState = $form.serialize();
         $(':input', $form).change(function() {
