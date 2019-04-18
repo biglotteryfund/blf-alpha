@@ -16,8 +16,7 @@ export default {
             status: statuses.NOT_ASKED,
             response: {
                 choice: null,
-                message: null,
-                path: window.location.pathname
+                message: null
             }
         };
     },
@@ -25,11 +24,20 @@ export default {
         storeResponse(choice) {
             this.response.choice = choice;
 
+            const data = {
+                choice: choice,
+                path: window.location.pathname
+            };
+
+            if (this.response.message) {
+                data.message = this.response.message;
+            }
+
             $.ajax({
                 url: `/api/survey`,
                 type: 'POST',
                 dataType: 'json',
-                data: this.response
+                data: data
             }).then(
                 response => {
                     if (response.status === 'success') {
@@ -61,10 +69,10 @@ export default {
             <div class="survey__choices" v-if="status === statuses.NOT_ASKED">
                 <p class="survey__choices-question">{{ question }}</p>
                 <div class="survey__choices-actions">
-                    <button class="btn btn--small survey__choice" type="button" @click="selectChoice('yes');">
+                    <button class="btn btn--small survey__choice" type="button" @click="selectChoice('yes')">
                         {{ yes }}
                     </button>
-                    <button class="btn btn--small survey__choice" type="button" @click="selectChoice('no');">
+                    <button class="btn btn--small survey__choice" type="button" @click="selectChoice('no')">
                         {{ no }}
                     </button>
                 </div>
@@ -75,7 +83,7 @@ export default {
             <p class="survey__response" v-if="status === statuses.SUBMISSION_ERROR">{{ error }}</p>
 
             <div class="survey__extra" v-if="status === statuses.MESSAGE_BOX_SHOWN">
-                <form class="survey__form" @submit.prevent="storeResponse('no');">
+                <form class="survey__form" @submit.prevent="storeResponse('no')">
                     <div class="survey__form-fields">
                         <label class="ff-label" for="survey-extra-msg">{{ prompt }}</label>
                         <textarea class="ff-textarea" id="survey-extra-msg" v-model="response.message"></textarea>
