@@ -1,16 +1,17 @@
 import $ from 'jquery';
 import { trackEvent } from '../helpers/metrics';
 
+function handleBeforeUnload(e) {
+    // Message cannot be customised in Chrome 51+
+    // https://developers.google.com/web/updates/2016/04/chrome-51-deprecations?hl=en
+    trackEvent('Apply', 'Review step abandonment check', 'message shown');
+    const confirmationMessage = 'Are you sure you want to leave this page?';
+    e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34-51
+    return confirmationMessage; // Gecko, WebKit, Chrome <34
+}
+
 function handleAbandonmentMessage(formEl) {
     let recordUnload = true;
-    function handleBeforeUnload(e) {
-        // Message cannot be customised in Chrome 51+
-        // https://developers.google.com/web/updates/2016/04/chrome-51-deprecations?hl=en
-        trackEvent('Apply', 'Review step abandonment check', 'message shown');
-        const confirmationMessage = 'Are you sure you want to leave this page?';
-        e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34-51
-        return confirmationMessage; // Gecko, WebKit, Chrome <34
-    }
 
     function removeBeforeUnload() {
         recordUnload = false;
@@ -27,6 +28,28 @@ function handleAbandonmentMessage(formEl) {
 
     window.addEventListener('unload', function() {
         recordUnload && trackEvent('Apply', 'Review step abandonment check', 'left page');
+    });
+}
+
+/*
+ * Warns the user before leaving a page if the form's state is different from when the page was loaded.
+ *
+ * Caveats: form must have the class below and the field must lose focus to trigger the change() event.
+ * */
+function warnOnUnsavedChanges() {
+    let formHasChanged = false;
+    $('.js-form-warn-unsaved').each(function() {
+        const $form = $(this);
+        const initialState = $form.serialize();
+        $(':input', $form).change(function() {
+            const newState = $form.serialize();
+            formHasChanged = newState !== initialState;
+            if (formHasChanged) {
+                window.addEventListener('beforeunload', handleBeforeUnload);
+            } else {
+                window.removeEventListener('beforeunload', handleBeforeUnload);
+            }
+        });
     });
 }
 
@@ -66,6 +89,7 @@ function init() {
         toggleReviewAnswers();
     }
     handleExpandingDetails();
+    warnOnUnsavedChanges();
 }
 
 export default {
