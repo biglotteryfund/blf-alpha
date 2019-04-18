@@ -19,7 +19,7 @@ module.exports = {
     },
     getRecipientById({ id, locale, page = 1 }) {
         return request({
-            url: `${PAST_GRANTS_API_URI}/recipient/${id}`,
+            url: `${PAST_GRANTS_API_URI}/recipient/${encodeURIComponent(id)}`,
             json: true,
             qs: { locale, page }
         });
