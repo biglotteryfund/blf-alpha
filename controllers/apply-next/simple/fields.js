@@ -251,43 +251,83 @@ const allFields = {
         schema: commonValidators.postcode().required(),
         messages: [{ type: 'base', message: { en: 'Enter a postcode', cy: '' } }]
     },
-    yourIdea: {
-        name: 'your-idea',
+    yourIdeaProject: {
+        name: 'your-idea-project',
         label: {
             en: 'What would you like to do?',
-            cy: 'WELSH What would you like to do?'
+            cy: ''
         },
         explanation: {
             en: `
-<p>When answering this question there are two key areas that we will use to make a decision on your project:</p>
-
-<p><strong>1. National Lottery Awards for all has three funding priorities and you must meet at least one of these. Please tell us how your project will:</strong></p>
-
-<ul>
-    <li>bring people together and build strong relationships in and across communities</li>
-    <li>improve the places and spaces that matter to communities</li>         
-    <li>enable more people to fulfil their potential by working to address issues at the earliest possible stage</li>     
-</ul>
-            
-<p><strong>2. It's important to us that you involve your community in the design, development and delivery of the activities you're planning, so please tell us how you've done this.</strong></p>
-
-<p>Here are some ideas about what else to tell us:</p>
-
-<ul>            
-    <li>How your project idea came about. Is it something new, or are you continuing something that has worked well previously?</li>
-    <li>If you are running a one-off event, what date it will take place</li>
-    <li>How long you expect your project to run</li>
-    <li>How you will make sure people know about your project and will attend</li>
-    <li>How you'll learn from your project and use this to shape future projects</li>
-</ul>
-            `,
+            <p><strong>Here are some ideas of what to tell us about your project:</strong></p>
+            <ul>
+                <li>What you would like to do</li>
+                <li>What difference your project will make</li>
+                <li>Who will benefit from it</li>
+                <li>How long you expect to run it for. This can be an estimate</li>
+                <li>How you will make sure people know about it and will benefit from it</li>
+                <li>How you plan to learn from it and use this learning to shape future projects</li>
+                <li>Is it something new, or are you continuing something that has worked well previously? We want to fund both types of projects</li>
+            </ul>`,
             cy: 'TODO'
         },
         type: 'textarea',
         settings: {
             showWordCount: true,
             minWords: 50,
-            maxWords: 500
+            maxWords: 300,
+            recommendedWords: 250
+        },
+        attributes: {
+            rows: 20
+        },
+        isRequired: true,
+        get schema() {
+            return Joi.string()
+                .minWords(this.settings.minWords)
+                .maxWords(this.settings.maxWords)
+                .required();
+        },
+        get messages() {
+            return [
+                {
+                    type: 'base',
+                    message: { en: 'Tell us about your project', cy: '' }
+                },
+                {
+                    type: 'string.minWords',
+                    message: { en: `Must be at least ${this.settings.minWords} words`, cy: '' }
+                },
+                {
+                    type: 'string.maxWords',
+                    message: { en: `Must be no more than ${this.settings.maxWords} words`, cy: '' }
+                }
+            ];
+        }
+    },
+    yourIdeaPriorities: {
+        name: 'your-idea-priorities',
+        label: {
+            en: 'How does your project meet at least one of our funding priorities?',
+            cy: ''
+        },
+        explanation: {
+            en: `
+            <p>National Lottery Awards for All has three funding priorities, please tell us how your project will <strong>meet at least one of these:</strong></p>
+            <ol>
+                <li>bring people together and build strong relationships in and across communities</li>
+                <li>improve the places and spaces that matter to communities</li>
+                <li>help more people to reach their potential, by supporting them at the earliest possible stage</li>
+            </ol>
+            <p>You can tell us if your project meets more than one priority, but don't worry if it doesn't.</p>`,
+            cy: ''
+        },
+        type: 'textarea',
+        settings: {
+            showWordCount: true,
+            minWords: 50,
+            maxWords: 150,
+            recommendedWords: 100
         },
         attributes: {
             rows: 12
@@ -303,7 +343,69 @@ const allFields = {
             return [
                 {
                     type: 'base',
-                    message: { en: 'Tell us about your idea', cy: '' }
+                    message: { en: 'Tell us how your project meet at least one of our funding priorities', cy: '' }
+                },
+                {
+                    type: 'string.minWords',
+                    message: { en: `Must be at least ${this.settings.minWords} words`, cy: '' }
+                },
+                {
+                    type: 'string.maxWords',
+                    message: { en: `Must be no more than ${this.settings.maxWords} words`, cy: '' }
+                }
+            ];
+        }
+    },
+    yourIdeaCommunity: {
+        name: 'your-idea-community',
+        label: {
+            en: 'How does your project involve your community?',
+            cy: ''
+        },
+        explanation: {
+            en: `
+            <details>
+                <summary>What do we mean by 'community'?</summary>
+                <ol>
+                    <li>People living in the same area</li>
+                    <li>People who have similar interests or life experiences, but might not live in the same area</li>
+                    <li>We don't think of a school or club as a community, but will fund a project run by one of these organisations that also benefits the communities around it</li>
+                </ol>
+            </details>
+
+            <p>We believe that people understand what's needed in their communities better than anyone. Tell us how your community came up with the idea for your project, and how they will be involved in the development and delivery of the project you're planning.</p>
+            <p><strong>Here are some examples of how you could be involving your community:</strong></p>
+            <ul>
+                <li>Having regular chats with community members, in person or on social media</li>
+                <li>Including community members on your board or committee</li>
+                <li>Regular surveys</li>
+                <li>Setting up steering groups</li>
+                <li>Running open days</li>
+            </ul>`,
+            cy: ''
+        },
+        type: 'textarea',
+        settings: {
+            showWordCount: true,
+            minWords: 50,
+            maxWords: 200,
+            recommendedWords: 150
+        },
+        attributes: {
+            rows: 15
+        },
+        isRequired: true,
+        get schema() {
+            return Joi.string()
+                .minWords(this.settings.minWords)
+                .maxWords(this.settings.maxWords)
+                .required();
+        },
+        get messages() {
+            return [
+                {
+                    type: 'base',
+                    message: { en: 'Tell us how your project involves your community', cy: '' }
                 },
                 {
                     type: 'string.minWords',

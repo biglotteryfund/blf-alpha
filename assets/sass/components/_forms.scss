@@ -110,8 +110,9 @@ $inputOutline: 3px solid get-color('border', 'outline');
     margin: 10px 0;
     color: get-color('text', 'note');
 
-    p {
-        margin-bottom: 0.25em;
+    p,
+    details {
+        margin-bottom: 0.75em;
     }
 }
 
