@@ -633,31 +633,86 @@ describe('legalContactCommunicationNeeds', () => {
 });
 
 describe('bankAccountName', () => {
-    test.todo('valid');
-    test.todo('invalid');
-    test.todo('missing');
+    test('valid', () => {
+        const { error } = allFields.bankAccountName.schema.validate(faker.company.companyName());
+        expect(error).toBeNull();
+    });
+
+    test('missing', () => {
+        const { error } = allFields.bankAccountName.schema.validate();
+        expect(error.message).toContain('is required');
+    });
+
+    test('invalid', () => {
+        const { error } = allFields.bankAccountName.schema.validate(Infinity);
+        expect(error.message).toContain('must be a string');
+    });
 });
 
 describe('bankSortCode', () => {
-    test.todo('valid');
-    test.todo('invalid');
-    test.todo('missing');
+    test('valid', () => {
+        const { error } = allFields.bankAccountName.schema.validate('108800');
+        expect(error).toBeNull();
+    });
+
+    test('missing', () => {
+        const { error } = allFields.bankAccountName.schema.validate();
+        expect(error.message).toContain('is required');
+    });
+
+    test('invalid', () => {
+        const { error } = allFields.bankAccountName.schema.validate(Infinity);
+        expect(error.message).toContain('must be a string');
+    });
 });
 
 describe('bankAccountNumber', () => {
-    test.todo('valid');
-    test.todo('invalid');
-    test.todo('missing');
+    test('valid', () => {
+        const { error } = allFields.bankAccountNumber.schema.validate('00012345');
+        expect(error).toBeNull();
+    });
+
+    test('missing', () => {
+        const { error } = allFields.bankAccountNumber.schema.validate();
+        expect(error.message).toContain('is required');
+    });
+
+    test('invalid', () => {
+        const { error } = allFields.bankAccountNumber.schema.validate(Infinity);
+        expect(error.message).toContain('must be a string');
+    });
 });
 
 describe('bankBuildingSocietyNumber', () => {
-    test.todo('valid');
-    test.todo('invalid');
-    test.todo('missing');
+    test('valid', () => {
+        const { error } = allFields.bankBuildingSocietyNumber.schema.validate('1234566');
+        expect(error).toBeNull();
+    });
+
+    test('optional', () => {
+        const { error } = allFields.bankBuildingSocietyNumber.schema.validate();
+        expect(error).toBeNull();
+    });
+
+    test('invalid', () => {
+        const { error } = allFields.bankBuildingSocietyNumber.schema.validate(Infinity);
+        expect(error.message).toContain('must be a string');
+    });
 });
 
 describe('bankStatement', () => {
-    test.todo('valid');
-    test.todo('invalid');
-    test.todo('missing');
+    test('valid', () => {
+        const { error } = allFields.bankStatement.schema.validate('example.pdf');
+        expect(error).toBeNull();
+    });
+
+    test('missing', () => {
+        const { error } = allFields.bankStatement.schema.validate();
+        expect(error.message).toContain('is required');
+    });
+
+    test('invalid', () => {
+        const { error } = allFields.bankStatement.schema.validate(Infinity);
+        expect(error.message).toContain('must be a string');
+    });
 });

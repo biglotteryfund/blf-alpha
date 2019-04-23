@@ -811,7 +811,7 @@ const allFields = {
         label: { en: 'Account number', cy: '' },
         type: 'text',
         isRequired: true,
-        schema: Joi.number().required(),
+        schema: Joi.string().required(),
         messages: [{ type: 'base', message: { en: 'Enter an account number', cy: '' } }]
     },
     bankBuildingSocietyNumber: {

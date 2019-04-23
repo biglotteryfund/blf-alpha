@@ -71,8 +71,8 @@ function mockFullForm({ country, organisationType, companyNumber = null, charity
         'legal-contact-phone': '020 7211 1888',
         'bank-account-name': faker.lorem.words(5),
         'bank-sort-code': faker.lorem.words(5),
-        'bank-account-number': faker.random.number({ min: 10000 }),
-        'bank-building-society-number': '11-11-11',
+        'bank-account-number': '00012345',
+        'bank-building-society-number': '108800',
         'bank-statement': faker.system.fileName()
     };
 }
