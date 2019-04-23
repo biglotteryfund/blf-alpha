@@ -110,8 +110,9 @@ $inputOutline: 3px solid get-color('border', 'outline');
     margin: 10px 0;
     color: get-color('text', 'note');
 
-    p {
-        margin-bottom: 0.25em;
+    p,
+    details {
+        margin-bottom: 0.75em;
     }
 }
 
@@ -348,6 +349,38 @@ $inputOutline: 3px solid get-color('border', 'outline');
     .ff-budget__total-amount {
         border: 1px solid get-color('border', 'base');
         padding: 5px;
+    }
+}
+
+/* =========================================================================
+   Word Count
+   ========================================================================= */
+
+.word-count {
+    background-color: get-color('background', 'light-neutral');
+    font-size: 18px;
+    margin-bottom: $spacingUnit / 2;
+
+    .word-count__counter,
+    .word-count__message {
+        padding: 10px 12px;
+        display: inline-block;
+    }
+
+    .word-count__counter {
+        min-width: 9.5em;
+        background-color: darken(get-color('background', 'light-neutral'), 3%);
+        font-weight: font-weight('body', 'bold');
+    }
+
+    &.word-count--over {
+        background-color: #fcf3f5;
+
+        .word-count__counter {
+            color: white;
+            font-weight: font-weight('body', 'semibold');
+            background-color: get-color('message', 'warning');
+        }
     }
 }
 

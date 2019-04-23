@@ -80,20 +80,54 @@ describe('projectPostcode', () => {
     });
 });
 
-describe('yourIdea', () => {
+describe('yourIdeaProject', () => {
     test('valid', () => {
-        const { error } = allFields.yourIdea.schema.validate(faker.lorem.paragraphs(4));
+        const { error } = allFields.yourIdeaProject.schema.validate(faker.lorem.paragraphs(4));
         expect(error).toBeNull();
     });
 
-    test('at least 50 workds', () => {
-        const { error } = allFields.yourIdea.schema.validate(faker.lorem.words(49));
+    test('at least 50 words', () => {
+        const { error } = allFields.yourIdeaProject.schema.validate(faker.lorem.words(49));
         expect(error.message).toContain('must have at least 50 words');
     });
 
-    test('no more than 500 words', () => {
-        const { error } = allFields.yourIdea.schema.validate(faker.lorem.words(550));
-        expect(error.message).toContain('must have less than 500 words');
+    test('no more than 300 words', () => {
+        const { error } = allFields.yourIdeaProject.schema.validate(faker.lorem.words(301));
+        expect(error.message).toContain('must have less than 300 words');
+    });
+});
+
+describe('yourIdeaPriorities', () => {
+    test('valid', () => {
+        const { error } = allFields.yourIdeaPriorities.schema.validate(faker.lorem.paragraphs(4));
+        expect(error).toBeNull();
+    });
+
+    test('at least 50 words', () => {
+        const { error } = allFields.yourIdeaPriorities.schema.validate(faker.lorem.words(49));
+        expect(error.message).toContain('must have at least 50 words');
+    });
+
+    test('no more than 150 words', () => {
+        const { error } = allFields.yourIdeaPriorities.schema.validate(faker.lorem.words(151));
+        expect(error.message).toContain('must have less than 150 words');
+    });
+});
+
+describe('yourIdeaCommunity', () => {
+    test('valid', () => {
+        const { error } = allFields.yourIdeaCommunity.schema.validate(faker.lorem.paragraphs(4));
+        expect(error).toBeNull();
+    });
+
+    test('at least 50 words', () => {
+        const { error } = allFields.yourIdeaCommunity.schema.validate(faker.lorem.words(49));
+        expect(error.message).toContain('must have at least 50 words');
+    });
+
+    test('no more than 150 words', () => {
+        const { error } = allFields.yourIdeaCommunity.schema.validate(faker.lorem.words(201));
+        expect(error.message).toContain('must have less than 200 words');
     });
 });
 
