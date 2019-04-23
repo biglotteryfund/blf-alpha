@@ -1,10 +1,11 @@
 'use strict';
 /* eslint-env jest */
+const { map } = require('lodash');
 const faker = require('faker');
 const moment = require('moment');
 const Joi = require('joi');
 
-const { allFields } = require('./fields');
+const { allFields, organisationTypes } = require('./fields');
 const { mockAddress, mockBudget } = require('./mocks');
 
 const toDateParts = dt => ({
@@ -312,15 +313,37 @@ describe('charityNumber', () => {
 });
 
 describe('accountingYearDate', () => {
-    test.todo('valid');
-    test.todo('invalid');
-    test.todo('missing');
+    test('valid', () => {
+        const { error } = allFields.accountingYearDate.schema.validate({ day: 12, month: 2 });
+        expect(error).toBeNull();
+    });
+
+    test('missing', () => {
+        const { error } = allFields.accountingYearDate.schema.validate(null);
+        expect(error.message).toContain('must be an object');
+    });
+
+    test('invalid', () => {
+        const { error } = allFields.accountingYearDate.schema.validate({ day: 31, month: 2 });
+        expect(error.message).toContain('contains an invalid value');
+    });
 });
 
 describe('totalIncomeYear', () => {
-    test.todo('valid');
-    test.todo('invalid');
-    test.todo('missing');
+    test('valid', () => {
+        const { error } = allFields.totalIncomeYear.schema.validate(1000);
+        expect(error).toBeNull();
+    });
+
+    test('missing', () => {
+        const { error } = allFields.totalIncomeYear.schema.validate();
+        expect(error.message).toContain('is required');
+    });
+
+    test('invalid', () => {
+        const { error } = allFields.totalIncomeYear.schema.validate(Infinity);
+        expect(error.message).toContain('contains an invalid value');
+    });
 });
 
 function testContactName(field) {
@@ -505,9 +528,37 @@ describe('legalContactName', () => {
 });
 
 describe('legalContactRole', () => {
-    test.todo('valid');
-    test.todo('invalid');
-    test.todo('missing');
+    const field = allFields.legalContactRole;
+    test('valid', () => {
+        const { error } = field.schema.validate('chair');
+        expect(error).toBeNull();
+    });
+
+    test('invalid', () => {
+        const { error } = field.schema.validate(Infinity);
+        expect(error.message).toContain('must be a string');
+    });
+
+    test('missing', () => {
+        const { error } = field.schema.validate();
+        expect(error.message).toContain('is required');
+    });
+
+    test('returns options based on organisation-type', () => {
+        const mappings = {
+            [organisationTypes.unregisteredVco.value]: ['chair', 'vice-chair', 'secretary', 'treasurer'],
+            [organisationTypes.unincorporatedRegisteredCharity.value]: ['trustee'],
+            [organisationTypes.charitableIncorporatedOrganisation.value]: ['trustee'],
+            [organisationTypes.notForProfitCompany.value]: ['company-director', 'company-secretary'],
+            [organisationTypes.school.value]: ['head-teacher', 'chancellor', 'vice-chancellor'],
+            [organisationTypes.statutoryBody.value]: ['parish-clerk', 'chief-executive']
+        };
+
+        expect(field.options({}).map(o => o.value)).toEqual([]);
+        map(mappings, (expected, type) => {
+            expect(field.options({ 'organisation-type': type }).map(o => o.value)).toEqual(expected);
+        });
+    });
 });
 
 describe('legalContactDob', () => {
