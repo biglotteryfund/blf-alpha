@@ -352,6 +352,38 @@ $inputOutline: 3px solid get-color('border', 'outline');
 }
 
 /* =========================================================================
+   Word Count
+   ========================================================================= */
+
+.word-count {
+    background-color: get-color('background', 'light-neutral');
+    font-size: 18px;
+    margin-bottom: $spacingUnit / 2;
+
+    .word-count__counter,
+    .word-count__message {
+        padding: 10px 12px;
+        display: inline-block;
+    }
+
+    .word-count__counter {
+        min-width: 9.5em;
+        background-color: darken(get-color('background', 'light-neutral'), 3%);
+        font-weight: font-weight('body', 'bold');
+    }
+
+    &.word-count--over {
+        background-color: #fcf3f5;
+
+        .word-count__counter {
+            color: white;
+            font-weight: font-weight('body', 'semibold');
+            background-color: get-color('message', 'warning');
+        }
+    }
+}
+
+/* =========================================================================
    Form field container
    ========================================================================= */
 
