@@ -2,9 +2,9 @@
 
 This file documents validation rules, conditions, and error message text for all fields that make up the Awards for All form.
 
-## Application details
+## Project details
 
-### Application title
+### What is the name of your project?
 
 **Type**: string
 
@@ -12,17 +12,7 @@ This file documents validation rules, conditions, and error message text for all
 | -------------- | -------------------- |
 | Required field | Enter a project name |
 
-### Application country
-
-**Type**: single choice (radio)
-
-| Rule           | Message          |
-| -------------- | ---------------- |
-| Required field | Choose a country |
-
-## Your project
-
-### Project start date
+### When is the planned (or estimated) start date of your project?
 
 **Type**: date
 
@@ -32,7 +22,15 @@ This file documents validation rules, conditions, and error message text for all
 | Must be a valid date              | Enter a real date                              |
 | At least 12 weeks into the future | Date must be at least 12 weeks into the future |
 
-### Project postcode
+### What country will your project be based in?
+
+**Type**: single choice (radio)
+
+| Rule           | Message          |
+| -------------- | ---------------- |
+| Required field | Choose a country |
+
+### What is the postcode of the location where your project will take place?
 
 **Type**: string, postcode
 
@@ -41,27 +39,51 @@ This file documents validation rules, conditions, and error message text for all
 | Required field | Enter a postcode |
 | Valid postcode | Enter a postcode |
 
-### Your idea
+## Your idea
+
+### What would you like to do?
 
 **Type**: text
 
-Server-side rules and messages:
+| Rule           | Message                        |
+| -------------- | ------------------------------ |
+| Required field | Tell us about your project     |
+| Min words: 50  | Must be at least 50 words      |
+| Max words: 300 | Must be no more than 300 words |
+
+### How does your project meet at least one of our funding priorities?
+
+**Type**: text
 
 | Rule           | Message                        |
 | -------------- | ------------------------------ |
-| Required field | Tell us about your idea        |
+| Required field | Tell us about your project     |
 | Min words: 50  | Must be at least 50 words      |
-| Max words: 500 | Must be no more than 500 words |
+| Max words: 150 | Must be no more than 150 words |
 
-Word count messages (in-browser):
+### How does your project involve your community?
 
-| Rule            | Message                                                                             |
-| --------------- | ----------------------------------------------------------------------------------- |
-| Word count      | 0 / 500 words. Must be at least 10 words. You have a maximum of 47 words remaining. |
-| Reached minimum | 50 / 500 words. You have a maximum of 450 words remaining.                          |
-| Over limit      | You have 30 words too many.                                                         |
+**Type**: text
 
-### Project budget
+| Rule           | Message                        |
+| -------------- | ------------------------------ |
+| Required field | Tell us about your project     |
+| Min words: 50  | Must be at least 50 words      |
+| Max words: 200 | Must be no more than 200 words |
+
+### Word count messages
+
+All project idea questions have the following in-browser word-count messages.
+
+| Rule            | Message                                                                                 |
+| --------------- | --------------------------------------------------------------------------------------- |
+| Word count      | 0 / MAX words. Must be at least MIN words. We recommend using around RECOMMENDED words. |
+| Reached minimum | MIN / MAX words. We recommend using around \RECOMMENDED words.                          |
+| Over limit      | You have X words too many.                                                              |
+
+## Project costs
+
+### Budget Items
 
 **Type**: list of items and costs
 

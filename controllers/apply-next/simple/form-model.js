@@ -32,7 +32,7 @@ const sectionProject = {
             fieldsets: [
                 {
                     legend: { en: 'Your idea', cy: '(WELSH) Your idea' },
-                    fields: [allFields.yourIdea]
+                    fields: [allFields.yourIdeaProject, allFields.yourIdeaPriorities, allFields.yourIdeaCommunity]
                 }
             ]
         },

@@ -1,17 +1,17 @@
 // @ts-nocheck
 import Vue from 'vue';
 import $ from 'jquery';
+import forEach from 'lodash/forEach';
 
-import CharacterCount from './components/character-count.vue';
+import WordCount from './components/word-count.vue';
 import BudgetInput from './components/budget-input.vue';
 
-function initCharacterCount() {
-    const el = document.querySelector('.js-character-count');
-    if (el) {
+function initWordCount() {
+    forEach(document.querySelectorAll('.js-word-count'), el => {
         new Vue({
             el: el,
             components: {
-                'character-count': CharacterCount
+                'word-count': WordCount
             },
             data: {
                 // Assumes a v-model on the input within the component template
@@ -26,7 +26,7 @@ function initCharacterCount() {
                 }
             }
         });
-    }
+    });
 }
 
 function initBudgetInput() {
@@ -55,7 +55,7 @@ function initBudgetInput() {
 }
 
 function init() {
-    initCharacterCount();
+    initWordCount();
     initBudgetInput();
 }
 

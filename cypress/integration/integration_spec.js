@@ -270,7 +270,18 @@ describe('awards for all', function() {
             cy.getByText('Continue').click();
 
             cy.getByLabelText('What would you like to do?', { exact: false })
-                .invoke('val', faker.lorem.paragraphs(5))
+                .invoke('val', faker.lorem.paragraphs(4))
+                .trigger('change');
+
+            cy.getByLabelText('How does your project meet at least one of our funding priorities?', {
+                exact: false
+            })
+                .invoke('val', faker.lorem.words(100))
+                .invoke('val', faker.lorem.paragraphs(4))
+                .trigger('change');
+
+            cy.getByLabelText('How does your project involve your community?', { exact: false })
+                .invoke('val', faker.lorem.paragraphs(4))
                 .trigger('change');
 
             cy.checkA11y();

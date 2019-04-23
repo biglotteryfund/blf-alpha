@@ -133,7 +133,7 @@
 
 {% macro inputTextarea(field, fieldCopy) %}
     {% set settings = field.settings %}
-    {% if settings.showWordCount %}<div class="js-character-count">{% endif %}
+    {% if settings.showWordCount %}<div class="js-word-count">{% endif %}
     <label class="ff-label" for="field-{{ field.name }}">
         {{ fieldLabelText(field, fieldCopy) }}
     </label>
@@ -148,13 +148,14 @@
         {% if settings.showWordCount %} @input="onInput" ref="textarea"{% endif %}
     >{{ field.value }}</textarea>
     {% if settings.showWordCount %}
-        <character-count
+        <word-count
             :current-text="text"
             locale="{{ locale }}"
             field-id="field-{{ field.name }}"
-            {% if settings.minWords %}:min-words={{ settings.minWords }}{% endif %}
+            :min-words={{ settings.minWords }}
             :max-words={{ settings.maxWords }}
-        ></character-count>
+            :recommended-words={{ settings.recommendedWords }}
+        ></word-count>
     {% endif %}
     {% if settings.showWordCount %}</div>{% endif %}
 {% endmacro %}
