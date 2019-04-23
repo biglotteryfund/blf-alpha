@@ -673,6 +673,7 @@ const allFields = {
         get schema() {
             return Joi.array()
                 .items(Joi.string().valid(this.options.map(option => option.value)))
+                .single()
                 .optional();
         },
         messages: [
