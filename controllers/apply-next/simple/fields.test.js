@@ -421,9 +421,15 @@ describe('mainContactName', () => {
 
 describe('mainContactDob', () => {
     test('valid', () => {
-        const dt = moment().subtract(18, 'years');
+        const dt = moment().subtract(16, 'years');
         const { error } = allFields.mainContactDob.schema.validate(toDateParts(dt));
         expect(error).toBeNull();
+    });
+
+    test('at least 16 years old', () => {
+        const dt = moment().subtract(15, 'years');
+        const { error } = allFields.mainContactDob.schema.validate(toDateParts(dt));
+        expect(error.message).toContain('Must be at least 16 years old');
     });
 
     test('not required if organisation-type is a school or statutory-body', () => {
@@ -475,6 +481,12 @@ describe('legalContactDob', () => {
         const dt = moment().subtract(18, 'years');
         const { error } = allFields.legalContactDob.schema.validate(toDateParts(dt));
         expect(error).toBeNull();
+    });
+
+    test('at least 18 years old', () => {
+        const dt = moment().subtract(17, 'years');
+        const { error } = allFields.mainContactDob.schema.validate(toDateParts(dt));
+        expect(error.message).toContain('Must be at least 18 years old');
     });
 
     test('not required if organisation-type is a school or statutory-body', () => {
