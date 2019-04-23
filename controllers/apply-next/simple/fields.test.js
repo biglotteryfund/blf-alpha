@@ -485,7 +485,7 @@ describe('legalContactDob', () => {
 
     test('at least 18 years old', () => {
         const dt = moment().subtract(17, 'years');
-        const { error } = allFields.mainContactDob.schema.validate(toDateParts(dt));
+        const { error } = allFields.legalContactDob.schema.validate(toDateParts(dt));
         expect(error.message).toContain('Must be at least 18 years old');
     });
 

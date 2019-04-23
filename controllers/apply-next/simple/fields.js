@@ -4,7 +4,8 @@ const moment = require('moment');
 
 const { Joi, ...commonValidators } = require('../lib/validators');
 
-const MIN_APPLICANT_AGE = 18;
+const MIN_AGE_MAIN_CONTACT = 16;
+const MIN_AGE_SENIOR_CONTACT = 18;
 const MAX_BUDGET_TOTAL = 10000; // in GBP
 
 const countries = {
@@ -131,19 +132,19 @@ function addressField(props) {
     return { ...defaultProps, ...props };
 }
 
-function dateOfBirthField(props) {
+function dateOfBirthField(minAge, props) {
     const defaultProps = {
         type: 'date',
         attributes: {
             max: moment()
-                .subtract(MIN_APPLICANT_AGE, 'years')
+                .subtract(minAge, 'years')
                 .format('YYYY-MM-DD')
         },
         isRequired: true,
         schema: Joi.when(Joi.ref('organisation-type'), {
             is: organisationTypes.school.value,
             then: Joi.any().optional(),
-            otherwise: commonValidators.dateOfBirth(MIN_APPLICANT_AGE).required()
+            otherwise: commonValidators.dateOfBirth(minAge).required()
         }),
         shouldShow(formData = {}) {
             return (
@@ -164,7 +165,7 @@ function dateOfBirthField(props) {
             },
             {
                 type: 'dateParts.dob',
-                message: { en: `Must be at least ${MIN_APPLICANT_AGE} years old`, cy: '' }
+                message: { en: `Must be at least ${minAge} years old`, cy: '' }
             }
         ]
     };
@@ -505,7 +506,7 @@ const allFields = {
         schema: Joi.string().required(),
         messages: [{ type: 'base', message: { en: 'Enter full name', cy: '' } }]
     },
-    mainContactDob: dateOfBirthField({
+    mainContactDob: dateOfBirthField(MIN_AGE_MAIN_CONTACT, {
         name: 'main-contact-dob',
         label: { en: 'Date of birth', cy: '' }
     }),
@@ -626,11 +627,11 @@ const allFields = {
         schema: Joi.string().required(),
         messages: [{ type: 'base', message: { en: 'Choose a role', cy: '' } }]
     },
-    legalContactDob: dateOfBirthField({
+    legalContactDob: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
         name: 'legal-contact-dob',
         label: { en: 'Date of birth', cy: '' },
         explanation: {
-            en: `They must be at least ${MIN_APPLICANT_AGE} years old and are responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.`,
+            en: `They must be at least ${MIN_AGE_SENIOR_CONTACT} years old and are responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.`,
             cy: ''
         }
     }),
