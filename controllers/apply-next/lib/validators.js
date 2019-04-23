@@ -13,7 +13,7 @@ const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-
 /**
  * Count words
  * Matches consecutive non-whitespace chars
- * If changing match this with character-count.vue
+ * If changing match this with word-count.vue
  * @param {string} text
  */
 function countWords(text) {
