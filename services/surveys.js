@@ -88,9 +88,13 @@ async function getAllResponses({ path = null } = {}) {
     }
 }
 
-function createResponse(response) {
+function createResponse({ choice, path, message }) {
     cleanupOldData();
-    return SurveyAnswer.create(response);
+    return SurveyAnswer.create({
+        choice: purifyUserInput(choice),
+        path: purifyUserInput(path),
+        message: purifyUserInput(message)
+    });
 }
 
 function cleanupOldData() {

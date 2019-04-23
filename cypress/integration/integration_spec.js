@@ -82,6 +82,48 @@ describe('common', function() {
         });
     });
 
+    it('should allow survey API responses', () => {
+        const dataYes = {
+            choice: 'yes',
+            path: '/'
+        };
+
+        cy.request('POST', '/api/survey', dataYes).then(response => {
+            expect(response.body.result).to.have.property('id');
+            expect(response.body.status).to.equal('success');
+            expect(response.body.result.choice).to.equal(dataYes.choice);
+            expect(response.body.result.path).to.equal(dataYes.path);
+        });
+
+        const dataNo = {
+            choice: 'no',
+            path: '/',
+            message: 'this is an example message'
+        };
+
+        cy.request('POST', '/api/survey', dataNo).then(response => {
+            expect(response.body.result).to.have.property('id');
+            expect(response.body.status).to.equal('success');
+            expect(response.body.result.choice).to.equal(dataNo.choice);
+            expect(response.body.result.path).to.equal(dataNo.path);
+            expect(response.body.result.message).to.equal(dataNo.message);
+        });
+    });
+
+    it('should allow feedback API responses', () => {
+        const data = {
+            description: 'example',
+            message: 'this is an example message'
+        };
+
+        cy.request('POST', '/api/feedback', data).then(response => {
+            expect(response.body.result).to.have.property('id');
+            expect(response.body.status).to.equal('success');
+            expect(response.body.result.description).to.equal(data.description);
+            expect(response.body.result.message).to.equal(data.message);
+        });
+    });
+
     it('should perform common interactions', () => {
         cy.visit('/');
         cy.checkA11y();
