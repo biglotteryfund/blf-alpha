@@ -179,13 +179,37 @@ describe('projectTotalCosts', () => {
 });
 
 describe('organisationLegalName', () => {
-    test.todo('valid');
-    test.todo('invalid');
+    test('valid', () => {
+        const { error } = allFields.organisationLegalName.schema.validate(faker.company.companyName());
+        expect(error).toBeNull();
+    });
+
+    test('missing', () => {
+        const { error } = allFields.organisationLegalName.schema.validate();
+        expect(error.message).toContain('is required');
+    });
+
+    test('invalid', () => {
+        const { error } = allFields.organisationLegalName.schema.validate(Infinity);
+        expect(error.message).toContain('must be a string');
+    });
 });
 
 describe('organisationAlias', () => {
-    test.todo('valid');
-    test.todo('optional');
+    test('valid', () => {
+        const { error } = allFields.organisationAlias.schema.validate(faker.company.companyName());
+        expect(error).toBeNull();
+    });
+
+    test('optional', () => {
+        const { error } = allFields.organisationAlias.schema.validate();
+        expect(error).toBeNull();
+    });
+
+    test('invalid', () => {
+        const { error } = allFields.organisationAlias.schema.validate(Infinity);
+        expect(error.message).toContain('must be a string');
+    });
 });
 
 describe('organisationAddress', () => {
