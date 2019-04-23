@@ -146,7 +146,12 @@ function dateOfBirthField(props) {
             otherwise: commonValidators.dateOfBirth(MIN_APPLICANT_AGE).required()
         }),
         shouldShow(formData = {}) {
-            return get(formData, 'organisation-type') !== organisationTypes.school.value;
+            return (
+                includes(
+                    [organisationTypes.school.value, organisationTypes.statutoryBody.value],
+                    get(formData, 'organisation-type')
+                ) === false
+            );
         },
         messages: [
             {
@@ -513,7 +518,12 @@ const allFields = {
             otherwise: commonValidators.ukAddress().required()
         }),
         shouldShow(formData = {}) {
-            return get(formData, 'organisation-type') !== organisationTypes.school.value;
+            return (
+                includes(
+                    [organisationTypes.school.value, organisationTypes.statutoryBody.value],
+                    get(formData, 'organisation-type')
+                ) === false
+            );
         }
     }),
     mainContactEmail: emailField({
@@ -633,7 +643,12 @@ const allFields = {
             otherwise: commonValidators.ukAddress().required()
         }),
         shouldShow(formData = {}) {
-            return get(formData, 'organisation-type') !== organisationTypes.school.value;
+            return (
+                includes(
+                    [organisationTypes.school.value, organisationTypes.statutoryBody.value],
+                    get(formData, 'organisation-type')
+                ) === false
+            );
         }
     }),
     legalContactEmail: emailField({
