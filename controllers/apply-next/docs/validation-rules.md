@@ -189,7 +189,7 @@ Address field group, consists of:
 
 #### Conditions
 
--   If the **organisation type** is either **school or educational body** then this field will not be shown.
+-   If the **organisation type** is either **school / educational body** or **statutory body** then this field will not be shown.
 
 ### Main contact address
 
@@ -209,7 +209,7 @@ Address field group, consists of:
 
 #### Conditions
 
--   If the **organisation type** is either **school or educational body** then this field will not be shown.
+-   If the **organisation type** is either **school / educational body** or **statutory body** then this field will not be shown.
 
 ### Main contact email
 
@@ -283,7 +283,7 @@ The legal contact role shows the following choices depending on the organisation
 
 #### Conditions
 
--   If the **organisation type** is either **school or educational body** then this field will not be shown.
+-   If the **organisation type** is either **school / educational body** or **statutory body** then this field will not be shown.
 
 ### Legal contact address
 
@@ -303,7 +303,7 @@ Address field group, consists of:
 
 #### Conditions
 
--   If the **organisation type** is either **school or educational body** then this field will not be shown.
+-   If the **organisation type** is either **school / educational body** or **statutory body** then this field will not be shown.
 
 ### Legal contact email
 

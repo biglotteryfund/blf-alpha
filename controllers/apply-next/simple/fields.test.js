@@ -289,37 +289,150 @@ describe('totalIncomeYear', () => {
     test.todo('missing');
 });
 
-describe('mainContactName', () => {
+function testContactName(field) {
     test('valid', () => {
-        const { error } = allFields.mainContactName.schema.validate(faker.name.findName());
+        const { error } = field.schema.validate(faker.name.findName());
         expect(error).toBeNull();
     });
 
     test('invalid', () => {
-        const { error } = allFields.mainContactName.schema.validate(Infinity);
+        const { error } = field.schema.validate(Infinity);
         expect(error.message).toContain('must be a string');
     });
 
     test('missing', () => {
-        const { error } = allFields.mainContactName.schema.validate();
+        const { error } = field.schema.validate();
         expect(error.message).toContain('is required');
     });
+}
+
+function testContactAddress(field) {
+    test('valid', () => {
+        const { error } = field.schema.validate({
+            'building-street': '3 Embassy Drive',
+            'town-city': 'Edgbaston, Birmingham',
+            county: 'West Midlands',
+            postcode: 'B15 1TR'
+        });
+        expect(error).toBeNull();
+    });
+
+    test('missing', () => {
+        const { error } = field.schema.validate();
+        expect(error.message).toContain('is required');
+    });
+
+    test('partial address fields', () => {
+        const { error } = field.schema.validate({
+            'building-street': '3 Embassy Drive',
+            county: 'West Midlands',
+            postcode: 'B15 1TR'
+        });
+        expect(error.message).toEqual('child "town-city" fails because ["town-city" is required]');
+    });
+
+    test('invalid postcode', () => {
+        const { error } = field.schema.validate({
+            'building-street': '3 Embassy Drive',
+            'town-city': 'Edgbaston, Birmingham',
+            county: 'West Midlands',
+            postcode: 'not a postcode'
+        });
+        expect(error.message).toContain('fails to match the required pattern');
+    });
+
+    test('not required if organisation-type is a school or statutory-body', () => {
+        const schemaWithOrgType = {
+            'organisation-type': allFields.organisationType.schema,
+            'main-contact-dob': field.schema
+        };
+
+        const { error } = Joi.validate(
+            {
+                'organisation-type': 'school',
+                'main-contact-dob': null
+            },
+            schemaWithOrgType
+        );
+
+        expect(error).toBeNull();
+
+        expect(field.shouldShow()).toBeTruthy();
+        expect(field.shouldShow({ 'organisation-type': 'unregistered-vco' })).toBeTruthy();
+        expect(field.shouldShow({ 'organisation-type': 'school' })).toBeFalsy();
+        expect(field.shouldShow({ 'organisation-type': 'statutory-body' })).toBeFalsy();
+    });
+}
+
+function testContactEmail(field) {
+    test('valid', () => {
+        const { error } = field.schema.validate(faker.internet.exampleEmail());
+        expect(error).toBeNull();
+    });
+
+    test('invalid', () => {
+        const { error } = field.schema.validate(Infinity);
+        expect(error.message).toContain('must be a string');
+    });
+
+    test('missing', () => {
+        const { error } = field.schema.validate();
+        expect(error.message).toContain('is required');
+    });
+}
+
+function testContactPhone(field) {
+    test('valid', () => {
+        const { error } = field.schema.validate('0345 4 10 20 30');
+        expect(error).toBeNull();
+    });
+
+    test('invalid', () => {
+        const { error } = field.schema.validate('not a phone number');
+        expect(error.message).toContain('did not seem to be a phone number');
+    });
+
+    test('missing', () => {
+        const { error } = field.schema.validate();
+        expect(error.message).toContain('is required');
+    });
+}
+
+function testContactCommunicationNeeds(field) {
+    test('valid', () => {
+        const { error } = field.schema.validate('audiotape');
+        expect(error).toBeNull();
+    });
+
+    test('invalid', () => {
+        const { error } = field.schema.validate('invalid');
+        expect(error.message).toContain('must be one of [audiotape, braille, large-print]');
+    });
+
+    test('optional', () => {
+        const { error } = field.schema.validate();
+        expect(error).toBeNull();
+    });
+}
+
+describe('mainContactName', () => {
+    testContactName(allFields.mainContactName);
 });
 
 describe('mainContactDob', () => {
     test('valid', () => {
-        const dt = moment().subtract(18, 'years');
+        const dt = moment().subtract(16, 'years');
         const { error } = allFields.mainContactDob.schema.validate(toDateParts(dt));
         expect(error).toBeNull();
     });
 
-    test('under 18', () => {
-        const dt = moment().subtract(16, 'years');
+    test('at least 16 years old', () => {
+        const dt = moment().subtract(15, 'years');
         const { error } = allFields.mainContactDob.schema.validate(toDateParts(dt));
-        expect(error.message).toContain('Must be at least 18 years old');
+        expect(error.message).toContain('Must be at least 16 years old');
     });
 
-    test('not required if organisation-type is a school', () => {
+    test('not required if organisation-type is a school or statutory-body', () => {
         const { error } = Joi.validate(
             { 'organisation-type': 'school' },
             {
@@ -333,132 +446,34 @@ describe('mainContactDob', () => {
         expect(allFields.mainContactDob.shouldShow()).toBeTruthy();
         expect(allFields.mainContactDob.shouldShow({ 'organisation-type': 'unregistered-vco' })).toBeTruthy();
         expect(allFields.mainContactDob.shouldShow({ 'organisation-type': 'school' })).toBeFalsy();
+        expect(allFields.mainContactDob.shouldShow({ 'organisation-type': 'statutory-body' })).toBeFalsy();
     });
 });
 
-describe('mainContactAddress', () => {
-    test('valid', () => {
-        const { error } = allFields.mainContactAddress.schema.validate({
-            'building-street': '3 Embassy Drive',
-            'town-city': 'Edgbaston, Birmingham',
-            county: 'West Midlands',
-            postcode: 'B15 1TR'
-        });
-        expect(error).toBeNull();
-    });
-
-    test('missing', () => {
-        const { error } = allFields.mainContactAddress.schema.validate();
-        expect(error.message).toContain('is required');
-    });
-
-    test('partial address fields', () => {
-        const { error } = allFields.mainContactAddress.schema.validate({
-            'building-street': '3 Embassy Drive',
-            county: 'West Midlands',
-            postcode: 'B15 1TR'
-        });
-        expect(error.message).toEqual('child "town-city" fails because ["town-city" is required]');
-    });
-
-    test('invalid postcode', () => {
-        const { error } = allFields.mainContactAddress.schema.validate({
-            'building-street': '3 Embassy Drive',
-            'town-city': 'Edgbaston, Birmingham',
-            county: 'West Midlands',
-            postcode: 'not a postcode'
-        });
-        expect(error.message).toContain('fails to match the required pattern');
-    });
-
-    test('not required if organisation-type is a school', () => {
-        const schemaWithOrgType = {
-            'organisation-type': allFields.organisationType.schema,
-            'main-contact-dob': allFields.mainContactAddress.schema
-        };
-
-        const { error } = Joi.validate(
-            {
-                'organisation-type': 'school',
-                'main-contact-dob': null
-            },
-            schemaWithOrgType
-        );
-
-        expect(error).toBeNull();
-
-        expect(allFields.mainContactAddress.shouldShow()).toBeTruthy();
-        expect(allFields.mainContactAddress.shouldShow({ 'organisation-type': 'unregistered-vco' })).toBeTruthy();
-        expect(allFields.mainContactAddress.shouldShow({ 'organisation-type': 'school' })).toBeFalsy();
-    });
+describe('legalContactAddress', () => {
+    testContactAddress(allFields.legalContactAddress);
 });
 
-describe('mainContactEmail', () => {
-    test('valid', () => {
-        const { error } = allFields.mainContactEmail.schema.validate(faker.internet.exampleEmail());
-        expect(error).toBeNull();
-    });
-
-    test('invalid', () => {
-        const { error } = allFields.mainContactName.schema.validate(Infinity);
-        expect(error.message).toContain('must be a string');
-    });
-
-    test('missing', () => {
-        const { error } = allFields.mainContactName.schema.validate();
-        expect(error.message).toContain('is required');
-    });
+describe('legalContactEmail', () => {
+    testContactEmail(allFields.legalContactEmail);
 });
 
-describe('mainContactPhone', () => {
-    test('valid', () => {
-        const { error } = allFields.mainContactPhone.schema.validate('0345 4 10 20 30');
-        expect(error).toBeNull();
-    });
-
-    test('invalid', () => {
-        const { error } = allFields.mainContactPhone.schema.validate('not a phone number');
-        expect(error.message).toContain('did not seem to be a phone number');
-    });
-
-    test('missing', () => {
-        const { error } = allFields.mainContactPhone.schema.validate();
-        expect(error.message).toContain('is required');
-    });
+describe('legalContactPhone', () => {
+    testContactPhone(allFields.legalContactPhone);
 });
 
-describe('mainContactCommunicationNeeds', () => {
-    test('valid', () => {
-        const { error } = allFields.mainContactCommunicationNeeds.schema.validate('audiotape');
-        expect(error).toBeNull();
-    });
-
-    test('invalid', () => {
-        const { error } = allFields.mainContactCommunicationNeeds.schema.validate('invalid');
-        expect(error.message).toContain('must be one of [audiotape, braille, large-print]');
-    });
-
-    test('optional', () => {
-        const { error } = allFields.mainContactCommunicationNeeds.schema.validate();
-        expect(error).toBeNull();
-    });
+describe('legalContactCommunicationNeeds', () => {
+    testContactCommunicationNeeds(allFields.legalContactCommunicationNeeds);
 });
 
 describe('legalContactName', () => {
-    test('valid', () => {
-        const { error } = allFields.legalContactName.schema.validate(faker.name.findName());
-        expect(error).toBeNull();
-    });
+    testContactName(allFields.legalContactName);
+});
 
-    test('invalid', () => {
-        const { error } = allFields.legalContactName.schema.validate(Infinity);
-        expect(error.message).toContain('must be a string');
-    });
-
-    test('missing', () => {
-        const { error } = allFields.legalContactName.schema.validate();
-        expect(error.message).toContain('is required');
-    });
+describe('legalContactRole', () => {
+    test.todo('valid');
+    test.todo('invalid');
+    test.todo('missing');
 });
 
 describe('legalContactDob', () => {
@@ -468,24 +483,19 @@ describe('legalContactDob', () => {
         expect(error).toBeNull();
     });
 
-    test('under 18', () => {
-        const dt = moment().subtract(16, 'years');
+    test('at least 18 years old', () => {
+        const dt = moment().subtract(17, 'years');
         const { error } = allFields.legalContactDob.schema.validate(toDateParts(dt));
         expect(error.message).toContain('Must be at least 18 years old');
     });
 
-    test('not required if organisation-type is a school', () => {
-        const schemaWithOrgType = {
-            'organisation-type': allFields.organisationType.schema,
-            'main-contact-dob': allFields.legalContactDob.schema
-        };
-
+    test('not required if organisation-type is a school or statutory-body', () => {
         const { error } = Joi.validate(
+            { 'organisation-type': 'school' },
             {
-                'organisation-type': 'school',
-                'main-contact-dob': null
-            },
-            schemaWithOrgType
+                'organisation-type': allFields.organisationType.schema,
+                'main-contact-dob': allFields.legalContactDob.schema
+            }
         );
 
         expect(error).toBeNull();
@@ -493,81 +503,24 @@ describe('legalContactDob', () => {
         expect(allFields.legalContactDob.shouldShow()).toBeTruthy();
         expect(allFields.legalContactDob.shouldShow({ 'organisation-type': 'unregistered-vco' })).toBeTruthy();
         expect(allFields.legalContactDob.shouldShow({ 'organisation-type': 'school' })).toBeFalsy();
+        expect(allFields.legalContactDob.shouldShow({ 'organisation-type': 'statutory-body' })).toBeFalsy();
     });
 });
 
 describe('legalContactAddress', () => {
-    test('valid', () => {
-        const { error } = allFields.legalContactAddress.schema.validate({
-            'building-street': '3 Embassy Drive',
-            'town-city': 'Edgbaston, Birmingham',
-            county: 'West Midlands',
-            postcode: 'B15 1TR'
-        });
-        expect(error).toBeNull();
-    });
-
-    test('missing', () => {
-        const { error } = allFields.legalContactAddress.schema.validate();
-        expect(error.message).toContain('is required');
-    });
-
-    test('partial address fields', () => {
-        const { error } = allFields.legalContactAddress.schema.validate({
-            'building-street': '3 Embassy Drive',
-            county: 'West Midlands',
-            postcode: 'B15 1TR'
-        });
-        expect(error.message).toEqual('child "town-city" fails because ["town-city" is required]');
-    });
-
-    test('invalid postcode', () => {
-        const { error } = allFields.legalContactAddress.schema.validate({
-            'building-street': '3 Embassy Drive',
-            'town-city': 'Edgbaston, Birmingham',
-            county: 'West Midlands',
-            postcode: 'not a postcode'
-        });
-        expect(error.message).toContain('fails to match the required pattern');
-    });
-
-    test('not required if organisation-type is a school', () => {
-        const schemaWithOrgType = {
-            'organisation-type': allFields.organisationType.schema,
-            'main-contact-dob': allFields.legalContactAddress.schema
-        };
-
-        const { error } = Joi.validate(
-            {
-                'organisation-type': 'school',
-                'main-contact-dob': null
-            },
-            schemaWithOrgType
-        );
-
-        expect(error).toBeNull();
-
-        expect(allFields.legalContactAddress.shouldShow()).toBeTruthy();
-        expect(allFields.legalContactAddress.shouldShow({ 'organisation-type': 'unregistered-vco' })).toBeTruthy();
-        expect(allFields.legalContactAddress.shouldShow({ 'organisation-type': 'school' })).toBeFalsy();
-    });
+    testContactAddress(allFields.legalContactAddress);
 });
 
 describe('legalContactEmail', () => {
-    test.todo('valid');
-    test.todo('invalid');
-    test.todo('missing');
+    testContactEmail(allFields.legalContactEmail);
 });
 
 describe('legalContactPhone', () => {
-    test.todo('valid');
-    test.todo('invalid');
-    test.todo('missing');
+    testContactPhone(allFields.legalContactPhone);
 });
 
 describe('legalContactCommunicationNeeds', () => {
-    test.todo('valid');
-    test.todo('optional');
+    testContactCommunicationNeeds(allFields.legalContactCommunicationNeeds);
 });
 
 describe('bankAccountName', () => {

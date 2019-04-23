@@ -5,7 +5,7 @@ const { castArray, filter, includes, isArray, sumBy } = require('lodash');
 function formatOptions(options, value) {
     const choices = castArray(value);
     const matches = filter(options, option => includes(choices, option.value));
-    return matches.length > 0 ? matches.map(match => match.label).join(', ') : value.join(', ');
+    return matches.length > 0 ? matches.map(match => match.label).join(', ') : choices.join(', ');
 }
 
 function formatAddress(value) {
