@@ -23,17 +23,28 @@ describe('WordCount', () => {
         expect(wrapper.vm.countWords(faker.lorem.words(100))).toBe(100);
     });
 
-    // it('should render word count', () => {
-    //     const wrapper = shallowMount(WordCount, {
-    //         propsData: { currentText: null, maxWords: 10, locale: 'en' }
-    //     });
+    it('should render word count', () => {
+        const wrapper = shallowMount(WordCount, {
+            propsData: {
+                currentText: null,
+                minWords: 50,
+                maxWords: 150,
+                recommendedWords: 100,
+                locale: 'en'
+            }
+        });
 
-    //     expect(wrapper.text()).toContain('0 / 10 words');
-    //     wrapper.setProps({ currentText: 'this is a test' });
-    //     expect(wrapper.text()).toContain('4 / 10 words');
-    //     wrapper.setProps({ currentText: 'this current text is exactly ten words and no more' });
-    //     expect(wrapper.text()).toContain('10 / 10 words');
-    //     wrapper.setProps({ currentText: 'this current text is over the specified limit by a couple of words.' });
-    //     expect(wrapper.text()).toContain('You have 3 words too many');
-    // });
+        expect(wrapper.text()).toEqual('0 / 150 words Must be at least 50 words. We recommend using around 100 words.');
+
+        wrapper.setProps({ currentText: faker.lorem.words(10) });
+        expect(wrapper.text()).toContain(
+            '10 / 150 words Must be at least 50 words. We recommend using around 100 words.'
+        );
+
+        wrapper.setProps({ currentText: faker.lorem.words(50) });
+        expect(wrapper.text()).toContain('50 / 150 words We recommend using around 100 words.');
+
+        wrapper.setProps({ currentText: faker.lorem.words(175) });
+        expect(wrapper.text()).toContain('175 / 150 words You have 25 words too many.');
+    });
 });
