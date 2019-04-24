@@ -1,19 +1,17 @@
 // @ts-nocheck
 // https://on.cypress.io/custom-commands
 
+/**
+ * Percy commands
+ * @see https://github.com/percy/percy-cypress
+ */
 import '@percy/cypress';
+
+/**
+ * Cypress testing library
+ * @see https://github.com/kentcdodds/cypress-testing-library
+ */
 import 'cypress-testing-library/add-commands';
-
-Cypress.Commands.add('checkMetaTitles', expected => {
-    cy.title().should('equal', expected);
-    cy.get('meta[name="title"]').should('have.attr', 'content', expected);
-    cy.get('meta[property="og:title"]').should('have.attr', 'content', expected);
-});
-
-Cypress.Commands.add('checkActiveSection', label => {
-    cy.get(`#global-nav .is-current a`).should('have.length', 1);
-    cy.get(`#global-nav .is-current a`).should('contain', label);
-});
 
 Cypress.Commands.add('checkRedirect', ({ from, to, isRelative = true, status = 301 }) => {
     cy.request({
@@ -26,10 +24,6 @@ Cypress.Commands.add('checkRedirect', ({ from, to, isRelative = true, status = 3
     });
 });
 
-Cypress.Commands.add('closeCookieMessage', () => {
-    cy.get('.cookie-consent button').click();
-});
-
 Cypress.Commands.add('getCsrf', () => {
     return cy
         .request('/user/login')
@@ -38,10 +32,6 @@ Cypress.Commands.add('getCsrf', () => {
             const $html = Cypress.$(body);
             return $html.find('input[name=_csrf]').val();
         });
-});
-
-Cypress.Commands.add('seedUser', () => {
-    return cy.request('POST', '/tools/seed/user').its('body');
 });
 
 Cypress.Commands.add('loginUser', ({ username, password }) => {
@@ -59,10 +49,13 @@ Cypress.Commands.add('loginUser', ({ username, password }) => {
     });
 });
 
-Cypress.Commands.add('seedUserAndLogin', () => {
-    return cy.seedUser().then(newUser => {
-        return cy.loginUser({ username: newUser.username, password: newUser.password });
-    });
+Cypress.Commands.add('seedAndLogin', () => {
+    return cy
+        .request('POST', '/tools/seed/user')
+        .its('body')
+        .then(newUser => {
+            return cy.loginUser({ username: newUser.username, password: newUser.password });
+        });
 });
 
 Cypress.Commands.add('registerUser', ({ username, password, returnToken }) => {
@@ -88,7 +81,10 @@ Cypress.Commands.add('registerUser', ({ username, password, returnToken }) => {
     });
 });
 
-// @see https://github.com/avanslaars/cypress-axe
+/**
+ * A11y check with axe-core
+ * @see https://github.com/avanslaars/cypress-axe
+ */
 Cypress.Commands.add('checkA11y', () => {
     cy.window({ log: false }).then(window => {
         if (window.axe === undefined) {

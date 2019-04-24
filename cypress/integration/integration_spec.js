@@ -157,7 +157,11 @@ describe('common', function() {
             .click();
 
         // Welsh language smoke tests
-        cy.checkMetaTitles('Hafan | Cronfa Gymunedol y Loteri Genedlaethol');
+        const expectedTitle = 'Hafan | Cronfa Gymunedol y Loteri Genedlaethol';
+        cy.title().should('equal', expectedTitle);
+        cy.get('meta[name="title"]').should('have.attr', 'content', expectedTitle);
+        cy.get('meta[property="og:title"]').should('have.attr', 'content', expectedTitle);
+
         cy.get('@navToggle').click();
         cy.get('@nav').should('be.visible');
         cy.get('.qa-nav-link').should('contain', 'Ariannu');
@@ -362,7 +366,7 @@ describe('awards for all', function() {
             cy.getByLabelText('Sort code', { exact: false }).type('108800');
         }
 
-        cy.seedUserAndLogin().then(() => {
+        cy.seedAndLogin().then(() => {
             cy.visit('/apply-next/simple/new');
 
             fillProjectDetails();
@@ -401,9 +405,8 @@ describe('awards for all', function() {
 describe('reaching communities', function() {
     it('should allow applications for reaching communities', () => {
         cy.visit('/funding/programmes/reaching-communities-england');
-        cy.closeCookieMessage();
+        cy.get('.cookie-consent button').click();
 
-        cy.checkActiveSection('Funding');
         cy.checkA11y();
 
         cy.percySnapshot('reaching-communities');
@@ -529,7 +532,7 @@ describe('free materials', function() {
 describe('past grants', function() {
     it('should be able to browse grants search results', () => {
         cy.visit('/funding/grants');
-        cy.closeCookieMessage();
+        cy.get('.cookie-consent button').click();
         cy.get('.qa-grant-result').should('have.length', 50);
         cy.percySnapshot('grants-search');
 
