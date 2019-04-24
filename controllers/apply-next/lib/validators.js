@@ -1,5 +1,5 @@
 'use strict';
-const { isEmpty, isArray, reject, toInteger, sumBy } = require('lodash');
+const { get, isEmpty, isArray, reject, toInteger, sumBy } = require('lodash');
 const moment = require('moment');
 const baseJoi = require('joi');
 const phoneNumber = require('joi-phone-number');
@@ -229,7 +229,28 @@ const budgetItems = joi => {
     };
 };
 
-const Joi = baseJoi.extend([phoneNumber, wordCount, dateParts, dayMonth, budgetItems]);
+const budgetTotalCosts = joi => {
+    return {
+        name: 'budgetTotalCosts',
+        base: joi.number(),
+        language: {
+            underBudget: 'under project budget total'
+        },
+        /* eslint-disable-next-line no-unused-vars */
+        pre(value, state, options) {
+            const projectBudget = get(state.parent, 'project-budget');
+            if (projectBudget) {
+                const total = sumBy(projectBudget, item => item.cost);
+                if (value < total) {
+                    return this.createError('budgetTotalCosts.underBudget', { v: value }, state, options);
+                }
+            }
+            return value;
+        }
+    };
+};
+
+const Joi = baseJoi.extend([phoneNumber, wordCount, dateParts, dayMonth, budgetItems, budgetTotalCosts]);
 
 module.exports = {
     Joi,

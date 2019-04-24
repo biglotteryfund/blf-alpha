@@ -176,6 +176,46 @@ describe('projectTotalCosts', () => {
         const { error } = allFields.projectTotalCosts.schema.validate(Infinity);
         expect(error.message).toContain('contains an invalid value');
     });
+
+    test('under project budget', () => {
+        const schemaWithProjectBudget = Joi.object({
+            'project-budget': allFields.projectBudget.schema,
+            'project-total-costs': allFields.projectTotalCosts.schema
+        });
+
+        const { error } = Joi.validate(
+            {
+                'project-budget': [
+                    { item: faker.lorem.words(5), cost: 1100 },
+                    { item: faker.lorem.words(5), cost: 1100 }
+                ],
+                'project-total-costs': 1000
+            },
+            schemaWithProjectBudget
+        );
+
+        expect(error.message).toContain('under project budget total');
+    });
+
+    test('minimum of project budget', () => {
+        const schemaWithProjectBudget = Joi.object({
+            'project-budget': allFields.projectBudget.schema,
+            'project-total-costs': allFields.projectTotalCosts.schema
+        });
+
+        const { error } = Joi.validate(
+            {
+                'project-budget': [
+                    { item: faker.lorem.words(5), cost: 1100 },
+                    { item: faker.lorem.words(5), cost: 1100 }
+                ],
+                'project-total-costs': 2200
+            },
+            schemaWithProjectBudget
+        );
+
+        expect(error).toBeNull();
+    });
 });
 
 describe('organisationLegalName', () => {
