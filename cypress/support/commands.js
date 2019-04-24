@@ -13,6 +13,13 @@ import '@percy/cypress';
  */
 import 'cypress-testing-library/add-commands';
 
+/**
+ * File upload support
+ * @see https://github.com/abramenal/cypress-file-upload
+ * @see https://github.com/cypress-io/cypress/issues/170
+ */
+import 'cypress-file-upload';
+
 Cypress.Commands.add('checkRedirect', ({ from, to, isRelative = true, status = 301 }) => {
     cy.request({
         url: from,

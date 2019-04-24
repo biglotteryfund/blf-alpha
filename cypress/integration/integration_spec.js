@@ -271,22 +271,23 @@ describe('awards for all', function() {
         }
 
         function fillYourIdea() {
+            cy.checkA11y();
+
             cy.getByLabelText('What would you like to do?', { exact: false })
-                .invoke('val', faker.lorem.paragraphs(4))
+                .invoke('val', faker.lorem.paragraphs(5))
                 .trigger('change');
+
+            cy.checkA11y();
 
             cy.getByLabelText('How does your project meet at least one of our funding priorities?', {
                 exact: false
             })
                 .invoke('val', faker.lorem.words(100))
-                .invoke('val', faker.lorem.paragraphs(4))
                 .trigger('change');
 
             cy.getByLabelText('How does your project involve your community?', { exact: false })
-                .invoke('val', faker.lorem.paragraphs(4))
+                .invoke('val', faker.lorem.words(200))
                 .trigger('change');
-
-            cy.checkA11y();
         }
 
         function fillProjectCosts() {
@@ -364,6 +365,24 @@ describe('awards for all', function() {
             cy.getByLabelText('Name on the bank account', { exact: false }).type(faker.company.companyName());
             cy.getByLabelText('Account number', { exact: false }).type('00012345');
             cy.getByLabelText('Sort code', { exact: false }).type('108800');
+        }
+
+        function fillBankStatement() {
+            cy.fixture('example.pdf', 'base64').then(fileContent => {
+                cy.getByLabelText('Upload a bank statement', { exact: false }).upload(
+                    { fileContent, fileName: 'example.pdf', mimeType: 'application/pdf' },
+                    { subjectType: 'input' }
+                );
+            });
+        }
+
+        function fillTerms() {
+            cy.getAllByLabelText('I agree').each($el => {
+                cy.wrap($el).click();
+            });
+
+            cy.getByLabelText('Full name of person completing this form', { exact: false }).type(faker.name.findName());
+            cy.getByLabelText('Position in organisation', { exact: false }).type(faker.name.jobDescriptor());
         }
 
         cy.seedAndLogin().then(() => {
