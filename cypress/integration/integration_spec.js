@@ -256,10 +256,7 @@ describe('awards for all', function() {
             cy.getByLabelText('Postcode', { exact: false }).type('B15 1TR');
         }
 
-        cy.seedUserAndLogin().then(() => {
-            cy.visit('/apply-next/simple/new');
-
-            // Form
+        function fillProjectDetails() {
             cy.getByLabelText('What is the name of your project?', { exact: false }).type('My application');
             cy.getByLabelText('England').click();
             cy.getByLabelText('Day').type('12');
@@ -267,8 +264,9 @@ describe('awards for all', function() {
             cy.getByLabelText('Year').type('2020');
             cy.getByLabelText('What is the postcode', { exact: false }).type('B15 1TR');
             cy.checkA11y();
-            cy.getByText('Continue').click();
+        }
 
+        function fillYourIdea() {
             cy.getByLabelText('What would you like to do?', { exact: false })
                 .invoke('val', faker.lorem.paragraphs(4))
                 .trigger('change');
@@ -285,8 +283,9 @@ describe('awards for all', function() {
                 .trigger('change');
 
             cy.checkA11y();
-            cy.getByText('Continue').click();
+        }
 
+        function fillProjectCosts() {
             cy.getByTestId('budget-row').within(() => {
                 cy.getByLabelText('Item or activity').type('Example budget item');
                 cy.getByLabelText('Amount').type('1200');
@@ -313,13 +312,87 @@ describe('awards for all', function() {
             cy.getAllByTestId('budget-row').should('have.length', 3);
 
             cy.getByLabelText('Tell us the total cost of your project', { exact: false }).type('5000');
+        }
 
-            cy.getByText('Continue').click();
-
+        function fillOrganisationDetails() {
             cy.getByLabelText('What is the full legal name of your organisation?', { exact: false }).type(
                 faker.company.companyName()
             );
             fillAddress();
+        }
+
+        function fillOrganisationType() {
+            cy.getByLabelText('Registered charity', { exact: false }).click();
+        }
+
+        function fillRegistrationNumbers() {
+            cy.getByLabelText('Charity registration number', { exact: false }).type(12345678);
+        }
+
+        function fillOrganisationFinances() {
+            cy.getByLabelText('Day').type(31);
+            cy.getByLabelText('Month').type(3);
+            cy.getByLabelText('What is your total income for the year?', { exact: false }).type('150000');
+        }
+
+        function fillMainContact() {
+            cy.getByLabelText('Full name', { exact: false }).type(faker.name.findName());
+            cy.getByLabelText('Day').type('5');
+            cy.getByLabelText('Month').type('11');
+            cy.getByLabelText('Year').type('1926');
+            fillAddress();
+            cy.getByLabelText('Email', { exact: false }).type(faker.internet.exampleEmail());
+            cy.getByLabelText('UK telephone number', { exact: false }).type(faker.phone.phoneNumber());
+        }
+
+        function fillSeniorContact() {
+            cy.getByLabelText('Full name', { exact: false }).type(faker.name.findName());
+            cy.getByLabelText('Trustee').click();
+            cy.getByLabelText('Day').type('5');
+            cy.getByLabelText('Month').type('11');
+            cy.getByLabelText('Year').type('1926');
+            fillAddress();
+            cy.getByLabelText('Email', { exact: false }).type(faker.internet.exampleEmail());
+            cy.getByLabelText('UK telephone number', { exact: false }).type(faker.phone.phoneNumber());
+        }
+
+        function fillBankDetails() {
+            cy.getByLabelText('Name on the bank account', { exact: false }).type(faker.company.companyName());
+            cy.getByLabelText('Account number', { exact: false }).type('00012345');
+            cy.getByLabelText('Sort code', { exact: false }).type('108800');
+        }
+
+        cy.seedUserAndLogin().then(() => {
+            cy.visit('/apply-next/simple/new');
+
+            fillProjectDetails();
+            cy.getByText('Continue').click();
+
+            fillYourIdea();
+            cy.getByText('Continue').click();
+
+            fillProjectCosts();
+            cy.getByText('Continue').click();
+
+            fillOrganisationDetails();
+            cy.getByText('Continue').click();
+
+            fillOrganisationType();
+            cy.getByText('Continue').click();
+
+            fillRegistrationNumbers();
+            cy.getByText('Continue').click();
+
+            fillOrganisationFinances();
+            cy.getByText('Continue').click();
+
+            fillMainContact();
+            cy.getByText('Continue').click();
+
+            fillSeniorContact();
+            cy.getByText('Continue').click();
+
+            fillBankDetails();
             cy.getByText('Continue').click();
         });
     });

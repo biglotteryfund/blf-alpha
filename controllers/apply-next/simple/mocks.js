@@ -69,8 +69,8 @@ function mockFullForm({ country, organisationType, companyNumber = null, charity
         'legal-contact-address': mockAddress(),
         'legal-contact-email': faker.internet.exampleEmail(),
         'legal-contact-phone': '020 7211 1888',
-        'bank-account-name': faker.lorem.words(5),
-        'bank-sort-code': faker.lorem.words(5),
+        'bank-account-name': faker.company.companyName(),
+        'bank-sort-code': '108800',
         'bank-account-number': '00012345',
         'bank-building-society-number': '108800',
         'bank-statement': faker.system.fileName()
