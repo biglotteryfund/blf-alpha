@@ -124,52 +124,15 @@ describe('common', function() {
         });
     });
 
-    it('should perform common interactions', () => {
+    it('should check top-level pages for a11y violations', function() {
         cy.visit('/');
         cy.checkA11y();
         cy.percySnapshot('homepage');
 
-        cy.viewport(375, 667);
+        cy.visit('/welsh');
+        cy.checkA11y();
+        cy.percySnapshot('homepage-welsh');
 
-        cy.get('.js-toggle-nav').as('navToggle');
-        cy.get('#global-nav').as('nav');
-        cy.get('.js-toggle-search').as('searchToggle');
-        cy.get('#global-search').as('search');
-
-        cy.get('@nav').should('not.be.visible');
-        cy.get('@search').should('not.be.visible');
-
-        // Toggle search
-        cy.get('@searchToggle').click();
-        cy.get('@nav').should('not.be.visible');
-        cy.get('@search').should('be.visible');
-        // Check search input for focus
-        cy.focused().should('have.attr', 'name', 'q');
-
-        // Toggle mobile navigation
-        cy.get('@navToggle').click();
-        cy.get('@nav').should('be.visible');
-        cy.get('@search').should('not.be.visible');
-
-        // Switch language
-        cy.get('.language-control')
-            .contains('Cymraeg')
-            .click();
-
-        // Welsh language smoke tests
-        const expectedTitle = 'Hafan | Cronfa Gymunedol y Loteri Genedlaethol';
-        cy.title().should('equal', expectedTitle);
-        cy.get('meta[name="title"]').should('have.attr', 'content', expectedTitle);
-        cy.get('meta[property="og:title"]').should('have.attr', 'content', expectedTitle);
-
-        cy.get('@navToggle').click();
-        cy.get('@nav').should('be.visible');
-        cy.get('.qa-nav-link').should('contain', 'Ariannu');
-        cy.get('@navToggle').click();
-        cy.get('@nav').should('not.be.visible');
-    });
-
-    it('should check top-level pages for a11y violations', function() {
         cy.visit('/about');
         cy.checkA11y();
 
@@ -186,6 +149,56 @@ describe('common', function() {
     it('should check patterns for visual regressions', function() {
         cy.visit('/patterns/components');
         cy.percySnapshot('patterns');
+    });
+});
+
+describe('interactions', () => {
+    it('should perform common interactions', () => {
+        cy.visit('/funding/programmes/national-lottery-awards-for-all-england');
+        cy.get('.cookie-consent button').click();
+        cy.checkA11y();
+        cy.percySnapshot('funding-programme');
+
+        function interactWithTabs() {
+            cy.get('.js-tabset .js-tab').each($el => {
+                cy.wrap($el)
+                    .click()
+                    .should('have.class', 'is-active');
+
+                // Check there is only one tab active
+                cy.get('.js-tabset .is-active').should('have.length', 1);
+
+                // Check tab content is visible
+                cy.get($el.attr('href')).should('be.visible');
+            });
+        }
+
+        function interactWithMobileNav() {
+            cy.viewport(375, 667);
+
+            cy.get('.js-toggle-nav').as('navToggle');
+            cy.get('#global-nav').as('nav');
+            cy.get('.js-toggle-search').as('searchToggle');
+            cy.get('#global-search').as('search');
+
+            cy.get('@nav').should('not.be.visible');
+            cy.get('@search').should('not.be.visible');
+
+            // Toggle search
+            cy.get('@searchToggle').click();
+            cy.get('@nav').should('not.be.visible');
+            cy.get('@search').should('be.visible');
+            // Check search input for focus
+            cy.focused().should('have.attr', 'name', 'q');
+
+            // Toggle mobile navigation
+            cy.get('@navToggle').click();
+            cy.get('@nav').should('be.visible');
+            cy.get('@search').should('not.be.visible');
+        }
+
+        interactWithTabs();
+        interactWithMobileNav();
     });
 });
 
