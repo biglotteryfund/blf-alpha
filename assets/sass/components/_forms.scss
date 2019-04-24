@@ -128,10 +128,6 @@ $inputOutline: 3px solid get-color('border', 'outline');
 .ff-textarea {
     padding: $inputPadding;
     border: 2px solid get-color('border', 'dark');
-}
-
-.ff-text,
-.ff-textarea {
     display: block;
     // prevent elements with size attributes overflowing on mobile
     max-width: 100%;
@@ -231,6 +227,23 @@ $inputOutline: 3px solid get-color('border', 'outline');
     .ff-address__legend,
     .ff-address__field {
         margin-bottom: $spacingUnit;
+    }
+}
+
+/* =========================================================================
+   Postcode lookup
+   ========================================================================= */
+
+.postcode-lookup {
+    margin-bottom: 20px;
+
+    .postcode-lookup__field {
+        display: flex;
+
+        input[type='text'] {
+            flex: 0 0 auto;
+            margin-right: 5px;
+        }
     }
 }
 

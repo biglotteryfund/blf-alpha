@@ -222,7 +222,7 @@
     </fieldset>
 {% endmacro %}
 
-{% macro inputAddress(field) %}
+{# {% macro inputAddress(field) %}
     <fieldset class="ff-address" id="field-{{ field.name }}">
         <legend class="ff-address__legend t2 t--underline">
             {{ fieldLabelText(field) }}
@@ -271,7 +271,71 @@
             }) }}
         </div>
     </fieldset>
+{% endmacro %} #}
+
+
+{% macro inputAddress(field) %}
+    <fieldset class="ff-address js-address-lookup" id="field-{{ field.name }}">
+        <legend class="ff-address__legend t2 t--underline">
+            {{ fieldLabelText(field) }}
+        </legend>
+
+        <address-lookup
+            locale="{{ locale }}"
+            @full-address="handleAddress"
+            @show-fallback="handleFallback"
+        ></address-lookup>
+
+        {{ fieldHelpText(field, fieldCopy) }}
+
+        <details open :open="showFallbackFields" @click="showFallbackFields = !showFallbackFields">
+            <summary>Enter address manually</summary>
+            <div class="ff-address__fields">
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'Address line 1',
+                        name: field.name + '[address-1]',
+                        value: field.value['address-1'],
+                        type: 'text',
+                        isRequired: true,
+                        attributes: { size: 40, ref: 'address1' }
+                    }) }}
+                </div>
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'Address line 2',
+                        name: field.name + '[address-2]',
+                        value: field.value['address-2'],
+                        type: 'text',
+                        isRequired: false,
+                        attributes: { size: 40, ref: 'address2' }
+                    }) }}
+                </div>
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'Town or city',
+                        name: field.name + '[town-city]',
+                        value: field.value['town-city'],
+                        type: 'text',
+                        isRequired: true,
+                        attributes: { size: 30, ref: 'townCity' }
+                    }) }}
+                </div>
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'Postcode',
+                        name: field.name + '[postcode]',
+                        value: field.value['postcode'],
+                        type: 'text',
+                        isRequired: true,
+                        attributes: { size: 10, ref: 'postcode' }
+                    }) }}
+                </div>
+            </div>
+        </details>
+    </fieldset>
 {% endmacro %}
+
 
 {% macro inputBudget(field, fieldCopy) %}
     <fieldset>
