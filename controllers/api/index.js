@@ -1,11 +1,67 @@
 'use strict';
 const express = require('express');
+const request = require('request-promise-native');
 const Joi = require('joi');
-
-const router = express.Router();
+const Raven = require('raven');
 
 const feedbackService = require('../../services/feedback');
 const surveyService = require('../../services/surveys');
+const appData = require('../../modules/appData');
+
+const router = express.Router();
+
+if (appData.isNotProduction) {
+    /**
+     * API: UK address lookup proxy
+     * @TODO: Connect direct to service rather than via legacy domain
+     */
+    const addressLookupEndpoint = 'https://apply.tnlcommunityfund.org.uk/AddressFinder.ashx';
+    router.get('/address-lookup', async (req, res) => {
+        if (req.query.q) {
+            try {
+                const data = await request({
+                    url: addressLookupEndpoint,
+                    json: true,
+                    qs: { Query: req.query.q }
+                });
+                res.json({ data });
+            } catch (error) {
+                Raven.captureException(error);
+                res.status(400).json({
+                    errors: [{ status: '400', title: 'Connection error' }]
+                });
+            }
+        } else {
+            res.status(400).json({
+                errors: [
+                    {
+                        status: '400',
+                        title: 'Invalid query parmater',
+                        detail: 'Must include q paramter',
+                        source: { parameter: 'q' }
+                    }
+                ]
+            });
+        }
+    });
+
+    router.get('/address-lookup/:moniker', async (req, res) => {
+        try {
+            const [data] = await request({
+                url: addressLookupEndpoint,
+                json: true,
+                qs: { GetAddress: 1, Moniker: req.params.moniker }
+            });
+
+            res.json({ data });
+        } catch (error) {
+            Raven.captureException(error);
+            res.status(400).json({
+                errors: [{ status: '400', title: 'Connection error' }]
+            });
+        }
+    });
+}
 
 /**
  * API: Feedback endpoint
