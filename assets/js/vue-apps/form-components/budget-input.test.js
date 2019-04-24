@@ -4,7 +4,7 @@
 /* eslint-env jest */
 import { mount } from '@vue/test-utils';
 import { times } from 'lodash';
-import BudgetInput from '../budget-input.vue';
+import BudgetInput from './budget-input.vue';
 
 describe('BudgetInput', () => {
     test('should be able to add items up to max limit', () => {
