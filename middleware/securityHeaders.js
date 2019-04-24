@@ -79,21 +79,27 @@ function defaultSecurityHeaders() {
      * @see https://help.hotjar.com/hc/en-us/articles/115011640307-Content-Security-Policies
      */
     if (config.get('features.enableHotjar')) {
-        directives.imgSrc = directives.imgSrc.concat(['http://*.hotjar.com', 'https://*.hotjar.com']);
+        directives.imgSrc = directives.imgSrc.concat([
+            'https://insights.hotjar.com',
+            'http://static.hotjar.com',
+            'https://static.hotjar.com'
+        ]);
         directives.scriptSrc = directives.scriptSrc.concat([
-            'http://*.hotjar.com',
-            'https://*.hotjar.com',
-            "'unsafe-eval'"
+            'http://static.hotjar.com',
+            'https://static.hotjar.com',
+            'https://script.hotjar.com',
+            "'unsafe-eval'",
+            "'unsafe-inline'"
         ]);
         directives.connectSrc = directives.connectSrc.concat([
             'http://*.hotjar.com:*',
             'https://*.hotjar.com:*',
-            'ws://*.hotjar.com',
+            'https://vc.hotjar.io:*',
             'wss://*.hotjar.com'
         ]);
-        directives.frameSrc = directives.frameSrc.concat(['https://*.hotjar.com']);
-        directives.childSrc = directives.childSrc.concat(['https://*.hotjar.com']);
-        directives.fontSrc = directives.fontSrc.concat(['http://*.hotjar.com', 'https://*.hotjar.com']);
+        directives.frameSrc = directives.frameSrc.concat(['https://vars.hotjar.com']);
+        directives.childSrc = directives.childSrc.concat(['https://vars.hotjar.com']);
+        directives.fontSrc = directives.fontSrc.concat(['http://static.hotjar.com', 'https://static.hotjar.com']);
     }
 
     /**
