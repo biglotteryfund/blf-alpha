@@ -132,6 +132,36 @@ function addressField(props) {
     return { ...defaultProps, ...props };
 }
 
+function firstNameField(props) {
+    const defaultProps = {
+        type: 'text',
+        attributes: {
+            autocomplete: 'given-name',
+            spellcheck: 'false'
+        },
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: [{ type: 'base', message: { en: 'Enter first name', cy: '' } }]
+    };
+
+    return { ...defaultProps, ...props };
+}
+
+function lastNameField(props) {
+    const defaultProps = {
+        type: 'text',
+        attributes: {
+            autocomplete: 'familiy-name',
+            spellcheck: 'false'
+        },
+        isRequired: true,
+        schema: Joi.string().required(),
+        messages: [{ type: 'base', message: { en: 'Enter last name', cy: '' } }]
+    };
+
+    return { ...defaultProps, ...props };
+}
+
 function dateOfBirthField(minAge, props) {
     const defaultProps = {
         type: 'date',
@@ -600,18 +630,14 @@ const allFields = {
         schema: Joi.number().required(),
         messages: [{ type: 'base', message: { en: 'Enter a number for total income for the year', cy: '' } }]
     },
-    mainContactName: {
-        name: 'main-contact-name',
-        label: { en: 'Full name', cy: '' },
-        type: 'text',
-        attributes: {
-            autocomplete: 'name',
-            spellcheck: 'false'
-        },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: [{ type: 'base', message: { en: 'Enter full name', cy: '' } }]
-    },
+    mainContactFirstName: firstNameField({
+        name: 'main-contact-first-name',
+        label: { en: 'First name', cy: '' }
+    }),
+    mainContactLastName: lastNameField({
+        name: 'main-contact-last-name',
+        label: { en: 'Last name', cy: '' }
+    }),
     mainContactDob: dateOfBirthField(MIN_AGE_MAIN_CONTACT, {
         name: 'main-contact-dob',
         label: { en: 'Date of birth', cy: '' }
@@ -665,22 +691,14 @@ const allFields = {
             }
         ]
     },
-    legalContactName: {
-        name: 'legal-contact-name',
-        label: { en: 'Full name', cy: '' },
-        explanation: {
-            en: `This person will be legally responsible for the funding and must be unconnected to the main contact. By ‘unconnected’ we mean not related by blood, marriage, in a long-term relationship or people living together at the same address.`,
-            cy: ''
-        },
-        type: 'text',
-        attributes: {
-            autocomplete: 'name',
-            spellcheck: 'false'
-        },
-        isRequired: true,
-        schema: Joi.string().required(),
-        messages: [{ type: 'base', message: { en: 'Enter full name', cy: '' } }]
-    },
+    legalContactFirstName: firstNameField({
+        name: 'legal-contact-first-name',
+        label: { en: 'First name', cy: '' }
+    }),
+    legalContactLastName: lastNameField({
+        name: 'legal-contact-last-name',
+        label: { en: 'Last name', cy: '' }
+    }),
     legalContactRole: {
         name: 'legal-contact-role',
         label: { en: 'Role', cy: '' },

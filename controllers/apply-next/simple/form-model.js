@@ -122,7 +122,8 @@ const sectionMainContact = {
                         cy: ''
                     },
                     fields: [
-                        allFields.mainContactName,
+                        allFields.mainContactFirstName,
+                        allFields.mainContactLastName,
                         allFields.mainContactDob,
                         allFields.mainContactAddress,
                         allFields.mainContactEmail,
@@ -150,7 +151,8 @@ const sectionLegalContact = {
                 {
                     legend: { en: 'Who is your legally responsible contact?', cy: '' },
                     fields: [
-                        allFields.legalContactName,
+                        allFields.legalContactFirstName,
+                        allFields.legalContactLastName,
                         allFields.legalContactRole,
                         allFields.legalContactDob,
                         allFields.legalContactAddress,

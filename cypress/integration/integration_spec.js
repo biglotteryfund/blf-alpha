@@ -353,8 +353,9 @@ describe('awards for all', function() {
             cy.getByLabelText('What is your total income for the year?', { exact: false }).type('150000');
         }
 
-        function fillMainContact() {
-            cy.getByLabelText('Full name', { exact: false }).type(faker.name.findName());
+        function fillContact() {
+            cy.getByLabelText('First name', { exact: false }).type(faker.name.firstName());
+            cy.getByLabelText('Last name', { exact: false }).type(faker.name.lastName());
             cy.getByLabelText('Day').type('5');
             cy.getByLabelText('Month').type('11');
             cy.getByLabelText('Year').type('1926');
@@ -363,15 +364,13 @@ describe('awards for all', function() {
             cy.getByLabelText('UK telephone number', { exact: false }).type(faker.phone.phoneNumber());
         }
 
+        function fillMainContact() {
+            fillContact();
+        }
+
         function fillSeniorContact() {
-            cy.getByLabelText('Full name', { exact: false }).type(faker.name.findName());
+            fillContact();
             cy.getByLabelText('Trustee').click();
-            cy.getByLabelText('Day').type('5');
-            cy.getByLabelText('Month').type('11');
-            cy.getByLabelText('Year').type('1926');
-            fillAddress();
-            cy.getByLabelText('Email', { exact: false }).type(faker.internet.exampleEmail());
-            cy.getByLabelText('UK telephone number', { exact: false }).type(faker.phone.phoneNumber());
         }
 
         function fillBankDetails() {

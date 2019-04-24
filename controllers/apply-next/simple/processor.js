@@ -12,7 +12,7 @@ const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
  */
 module.exports = async function processor({ form, data }, mailTransport = null) {
     const customerSendTo = {
-        name: data['main-contact-name'],
+        name: `${data['main-contact-first-name']} ${data['main-contact-last-name']}`,
         address: data['main-contact-email']
     };
 
