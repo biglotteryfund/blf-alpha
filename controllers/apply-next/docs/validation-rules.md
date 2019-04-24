@@ -102,6 +102,7 @@ All project idea questions have the following in-browser word-count messages.
 | Rule           | Message                                               |
 | -------------- | ----------------------------------------------------- |
 | Required field | Enter a total cost for your project, must be a number |
+| Under budget   | Must be at least equal to the requested project costs |
 
 ## Your organisation
 
