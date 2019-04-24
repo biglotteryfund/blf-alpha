@@ -467,11 +467,15 @@ const allFields = {
         },
         type: 'currency',
         isRequired: true,
-        schema: Joi.number().required(),
+        schema: Joi.budgetTotalCosts().required(),
         messages: [
             {
                 type: 'base',
                 message: { en: 'Enter a total cost for your project, must be a number', cy: '' }
+            },
+            {
+                type: 'budgetTotalCosts.underBudget',
+                message: { en: 'Must be at least equal to the requested project costs', cy: '' }
             }
         ]
     },
