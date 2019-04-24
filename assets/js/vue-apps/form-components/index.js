@@ -3,6 +3,7 @@ import Vue from 'vue';
 import $ from 'jquery';
 import forEach from 'lodash/forEach';
 
+import addressLookup from './address-lookup.js';
 import WordCount from './word-count.vue';
 import BudgetInput from './budget-input.vue';
 
@@ -57,6 +58,7 @@ function initBudgetInput() {
 function init() {
     initWordCount();
     initBudgetInput();
+    addressLookup.init();
 }
 
 export default {
