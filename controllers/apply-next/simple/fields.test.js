@@ -410,7 +410,7 @@ describe('totalIncomeYear', () => {
     });
 });
 
-function testContactName(field) {
+function testContactNamePart(field) {
     test('valid', () => {
         const { error } = field.schema.validate(faker.name.findName());
         expect(error).toBeNull();
@@ -537,7 +537,8 @@ function testContactCommunicationNeeds(field) {
 }
 
 describe('mainContactName', () => {
-    testContactName(allFields.mainContactName);
+    testContactNamePart(allFields.mainContactFirstName);
+    testContactNamePart(allFields.mainContactLastName);
 });
 
 describe('mainContactDob', () => {
@@ -588,7 +589,8 @@ describe('legalContactCommunicationNeeds', () => {
 });
 
 describe('legalContactName', () => {
-    testContactName(allFields.legalContactName);
+    testContactNamePart(allFields.legalContactFirstName);
+    testContactNamePart(allFields.legalContactLastName);
 });
 
 describe('legalContactRole', () => {
