@@ -83,7 +83,7 @@ describe('projectPostcode', () => {
 
 describe('yourIdeaProject', () => {
     test('valid', () => {
-        const { error } = allFields.yourIdeaProject.schema.validate(faker.lorem.paragraphs(4));
+        const { error } = allFields.yourIdeaProject.schema.validate(faker.lorem.words(250));
         expect(error).toBeNull();
     });
 
@@ -100,7 +100,7 @@ describe('yourIdeaProject', () => {
 
 describe('yourIdeaPriorities', () => {
     test('valid', () => {
-        const { error } = allFields.yourIdeaPriorities.schema.validate(faker.lorem.paragraphs(4));
+        const { error } = allFields.yourIdeaPriorities.schema.validate(faker.lorem.words(100));
         expect(error).toBeNull();
     });
 
@@ -117,7 +117,7 @@ describe('yourIdeaPriorities', () => {
 
 describe('yourIdeaCommunity', () => {
     test('valid', () => {
-        const { error } = allFields.yourIdeaCommunity.schema.validate(faker.lorem.paragraphs(4));
+        const { error } = allFields.yourIdeaCommunity.schema.validate(faker.lorem.words(150));
         expect(error).toBeNull();
     });
 
