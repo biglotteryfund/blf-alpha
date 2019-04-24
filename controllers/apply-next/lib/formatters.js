@@ -2,10 +2,12 @@
 const moment = require('moment');
 const { castArray, filter, includes, isArray, sumBy } = require('lodash');
 
-function formatOptions(options, value) {
-    const choices = castArray(value);
-    const matches = filter(options, option => includes(choices, option.value));
-    return matches.length > 0 ? matches.map(match => match.label).join(', ') : choices.join(', ');
+function formatOptions(options) {
+    return function(value) {
+        const choices = castArray(value);
+        const matches = filter(options, option => includes(choices, option.value));
+        return matches.length > 0 ? matches.map(match => match.label).join(', ') : choices.join(', ');
+    };
 }
 
 function formatAddress(value) {
@@ -48,7 +50,42 @@ function formatBudget(value) {
     }
 }
 
+function formatDefault(value) {
+    return value.toString();
+}
+
+function formatterFor(field) {
+    let formatter;
+    switch (field.type) {
+        case 'radio':
+        case 'checkbox':
+            formatter = formatOptions(field.options);
+            break;
+        case 'address':
+            formatter = formatAddress;
+            break;
+        case 'date':
+            formatter = formatDate;
+            break;
+        case 'day-month':
+            formatter = formatDayMonth;
+            break;
+        case 'currency':
+            formatter = formatCurrency;
+            break;
+        case 'budget':
+            formatter = formatBudget;
+            break;
+        default:
+            formatter = formatDefault;
+            break;
+    }
+
+    return formatter;
+}
+
 module.exports = {
+    formatterFor,
     formatOptions,
     formatAddress,
     formatDate,

@@ -1,28 +1,39 @@
 /* eslint-env jest */
 'use strict';
-const {
-    formatOptions,
-    formatAddress,
-    formatDate,
-    formatDayMonth,
-    formatCurrency,
-    formatBudget
-} = require('./formatters');
+const { formatterFor } = require('./formatters');
 
 describe('formatters', () => {
-    test('formatOptions', () => {
-        const options = {
-            a: { value: 'a', label: 'A' },
-            b: { value: 'b', label: 'B' },
-            c: { value: 'c', label: 'C' }
+    test('radio', () => {
+        const field = {
+            type: 'radio',
+            options: {
+                a: { value: 'a', label: 'A' },
+                b: { value: 'b', label: 'B' },
+                c: { value: 'c', label: 'C' }
+            }
         };
-        expect(formatOptions(options, 'a')).toBe('A');
-        expect(formatOptions(options, ['b', 'c'])).toBe('B, C');
+
+        expect(formatterFor(field)('a')).toBe('A');
     });
 
-    test('formatAddress', () => {
+    test('checkbox', () => {
+        const formatter = formatterFor({
+            type: 'checkbox',
+            options: {
+                a: { value: 'a', label: 'A' },
+                b: { value: 'b', label: 'B' },
+                c: { value: 'c', label: 'C' }
+            }
+        });
+
+        expect(formatter(['b', 'c'])).toBe('B, C');
+    });
+
+    test('address', () => {
+        const formatter = formatterFor({ type: 'address' });
+
         expect(
-            formatAddress({
+            formatter({
                 'building-street': 'Apex House, 3 Embassy Drive',
                 'town-city': 'Birmingham',
                 county: 'West Midlands',
@@ -31,9 +42,11 @@ describe('formatters', () => {
         ).toBe('Apex House, 3 Embassy Drive,\nBirmingham,\nWest Midlands,\nB15 1TR');
     });
 
-    test('formatDate', () => {
+    test('date', () => {
+        const formatter = formatterFor({ type: 'date' });
+
         expect(
-            formatDate({
+            formatter({
                 day: 31,
                 month: 7,
                 year: 2100
@@ -41,27 +54,38 @@ describe('formatters', () => {
         ).toBe('31 July, 2100');
     });
 
-    test('formatDayMonth', () => {
+    test('day-month', () => {
+        const formatter = formatterFor({ type: 'day-month' });
+
         expect(
-            formatDayMonth({
+            formatter({
                 day: 31,
                 month: 7
             })
         ).toBe('31st July');
     });
 
-    test('formatCurrency', () => {
-        expect(formatCurrency(100.5)).toBe('£100.5');
-        expect(formatCurrency(10000)).toBe('£10,000');
+    test('currency', () => {
+        const formatter = formatterFor({ type: 'currency' });
+        expect(formatter(100.5)).toBe('£100.5');
+        expect(formatter(10000)).toBe('£10,000');
     });
 
-    test('formatBudget', () => {
+    test('budget', () => {
+        const formatter = formatterFor({ type: 'budget' });
         expect(
-            formatBudget([
+            formatter([
                 { item: 'Example A', cost: 100 },
                 { item: 'Example B', cost: 1200 },
                 { item: 'Example C', cost: 525 }
             ])
         ).toBe('Example A – £100\nExample B – £1,200\nExample C – £525\nTotal: £1,825');
+    });
+
+    test('default', () => {
+        const formatter = formatterFor({ type: null });
+        expect(formatter('thing')).toBe('thing');
+        expect(formatter(Infinity)).toBe('Infinity');
+        expect(formatter(100.50001)).toBe('100.50001');
     });
 });

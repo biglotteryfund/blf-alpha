@@ -2,32 +2,7 @@
 const { get } = require('lodash/fp');
 const { cloneDeep, find, flatMap, isFunction, reject } = require('lodash');
 
-const {
-    formatOptions,
-    formatAddress,
-    formatDate,
-    formatDayMonth,
-    formatCurrency,
-    formatBudget
-} = require('./formatters');
-
-function displayValue(field, value) {
-    if (field.type === 'radio' || field.type === 'checkbox') {
-        return formatOptions(field.options, value);
-    } else if (field.type === 'address') {
-        return formatAddress(value);
-    } else if (field.type === 'date') {
-        return formatDate(value);
-    } else if (field.type === 'day-month') {
-        return formatDayMonth(value);
-    } else if (field.type === 'currency') {
-        return formatCurrency(value);
-    } else if (field.type === 'budget') {
-        return formatBudget(value);
-    } else {
-        return value.toString();
-    }
-}
+const { formatterFor } = require('./formatters');
 
 /**
  * Enhances a form object by:
@@ -74,7 +49,7 @@ module.exports = function enhanceForm({ locale, baseForm, data = {} }) {
         const fieldValue = find(data, (value, name) => name === field.name);
         if (fieldValue) {
             field.value = fieldValue;
-            field.displayValue = displayValue(field, fieldValue);
+            field.displayValue = formatterFor(field)(fieldValue);
         }
 
         return field;
