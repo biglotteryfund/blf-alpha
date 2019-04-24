@@ -430,86 +430,83 @@ describe('awards for all', function() {
 
             fillBankDetails();
             cy.getByText('Continue').click();
+
+            fillBankStatement();
+            cy.getByText('Continue').click();
+
+            cy.get('h2').should('contain', 'Summary');
+            cy.getByText('Submit').click();
+
+            fillTerms();
+            cy.getByText('Submit application').click();
+
+            cy.get('h1').should('contain', 'Thank you for submitting your idea');
         });
     });
 });
 
 describe('reaching communities', function() {
     it('should allow applications for reaching communities', () => {
-        cy.visit('/funding/programmes/reaching-communities-england');
-        cy.get('.cookie-consent button').click();
+        function fillIdea() {
+            cy.getByLabelText('Briefly explain your idea and why it’ll make a difference', { exact: false })
+                .invoke('val', faker.lorem.paragraphs(3))
+                .trigger('change');
+        }
 
-        cy.checkA11y();
+        function fillLocation() {
+            cy.checkA11y();
+            cy.getByLabelText('North East & Cumbria', { exact: false }).check();
+            cy.getByLabelText('Yorkshire and the Humber', { exact: false }).check();
+            cy.getByLabelText('Project location', { exact: false }).type('Example', { delay: 0 });
+        }
 
-        cy.percySnapshot('reaching-communities');
+        function fillOrganisation() {
+            cy.getByLabelText('Legal name', { exact: false }).type('Test Organisation', { delay: 0 });
+        }
 
-        // Submit micro survey
-        cy.get('.survey button:first-child').click();
-        cy.get('.survey').should('contain', 'Thank you');
+        function fillYourDetails() {
+            cy.getByLabelText('First name', { exact: false }).type(faker.name.firstName(), { delay: 0 });
+            cy.getByLabelText('Last name', { exact: false }).type(faker.name.lastName(), { delay: 0 });
+            cy.getByLabelText('Email address', { exact: false }).type(faker.internet.exampleEmail(), { delay: 0 });
+            cy.getByLabelText('Phone number', { exact: false }).type('0123456789', { delay: 0 });
+        }
 
-        // Interact with tabs
-        cy.get('.js-tabset .js-tab').each($el => {
-            cy.wrap($el)
-                .click()
-                .should('have.class', 'is-active');
+        function interactWithAnswerToggle() {
+            cy.get('.js-toggle-answer button').click();
+            cy.get('.js-toggle-answer').should('have.class', 'is-active');
+            cy.get('.js-toggle-answer button').should('contain', 'Show less');
+            cy.get('.js-toggle-answer button').click();
+        }
 
-            // Check there is only one tab active
-            cy.get('.js-tabset .is-active').should('have.length', 1);
+        function interactWithInlineFeedback() {
+            cy.get('#js-feedback textarea').type('Test feedback');
+            cy.get('#js-feedback form').submit();
+            cy.get('#js-feedback').should('contain', 'Thank you for sharing');
+        }
 
-            // Check tab content is visible
-            cy.get($el.attr('href')).should('be.visible');
-        });
+        cy.visit('/apply/your-idea');
+        cy.getByText('Start', { exact: false }).click();
 
-        cy.get('#section-4 .btn').click();
+        fillIdea();
+        cy.getByText('Next').click();
 
-        const submitSelector = '.js-application-form input[type="submit"]';
+        fillLocation();
+        cy.getByText('Next').click();
 
-        // Start page
-        cy.get('.start-button .btn').click();
+        fillOrganisation();
+        cy.getByText('Next').click();
 
-        // Step 1
-        cy.get('#field-your-idea')
-            .invoke('val', faker.lorem.paragraphs(3))
-            .trigger('change');
+        fillYourDetails();
+        cy.getByText('Next').click();
 
-        cy.get(submitSelector).click();
+        interactWithAnswerToggle();
 
-        // Step 2
-        cy.checkA11y();
-        cy.get('#field-location-1').check();
-        cy.get('#field-location-3').check();
-        cy.get('#field-project-location').type('Example', { delay: 0 });
-        cy.get(submitSelector).click();
+        cy.getByText('Submit').click();
 
-        // Step 3
-        cy.get('#field-organisation-name').type('Test Organisation', { delay: 0 });
-        cy.get(submitSelector).click();
-
-        // Step 4
-        cy.get('#field-first-name').type('Anne', { delay: 0 });
-        cy.get('#field-last-name').type('Example', { delay: 0 });
-        cy.get('#field-email').type('example@example.com', { delay: 0 });
-        cy.get('#field-phone-number').type('0123456789', { delay: 0 });
-        cy.get(submitSelector).click();
-
-        // Review, toggle answer
-        cy.get('.js-toggle-answer button').click();
-
-        cy.get('.js-toggle-answer').should('have.class', 'is-active');
-        cy.get('.js-toggle-answer button').should('contain', 'Show less');
-        cy.get('.js-toggle-answer button').click();
-
-        // Submit form
-        cy.get(submitSelector).click();
-
-        // Success
         cy.get('h1').should('contain', 'Thank you for submitting your idea');
         cy.checkA11y();
 
-        // Inline feedback
-        cy.get('#js-feedback textarea').type('Test feedback');
-        cy.get('#js-feedback form').submit();
-        cy.get('#js-feedback').should('contain', 'Thank you for sharing');
+        interactWithInlineFeedback();
     });
 });
 
