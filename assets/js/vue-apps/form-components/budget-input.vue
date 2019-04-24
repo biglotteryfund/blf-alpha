@@ -1,7 +1,7 @@
 <script>
 import sumBy from 'lodash/sumBy';
 import concat from 'lodash/concat';
-import IconBin from './icon-bin.vue';
+import IconBin from '../components/icon-bin.vue';
 
 export default {
     components: { IconBin },
