@@ -294,7 +294,7 @@ const allFields = {
         },
         isRequired: true,
         schema: commonValidators.postcode().required(),
-        messages: [{ type: 'base', message: { en: 'Enter a postcode', cy: '' } }]
+        messages: [{ type: 'base', message: { en: 'Enter a real postcode', cy: '' } }]
     },
     yourIdeaProject: {
         name: 'your-idea-project',
