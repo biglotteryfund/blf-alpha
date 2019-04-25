@@ -5,16 +5,13 @@ const config = require('config');
 const Raven = require('raven');
 const express = require('express');
 const nunjucks = require('nunjucks');
-
 const querystring = require('querystring');
-const nspell = require('nspell');
-const cyGB = require('dictionary-cy-gb');
-const enGB = require('dictionary-en-gb');
 
 const { injectBreadcrumbs, injectCopy, injectHeroImage, setHeroLocals } = require('../../middleware/inject-content');
 const { sMaxAge } = require('../../middleware/cached');
 const contentApi = require('../../services/content-api');
 const grantsService = require('../../services/grants');
+const checkSpelling = require('./check-spelling');
 
 const router = express.Router();
 
@@ -54,52 +51,6 @@ function buildPagination(req, paginationMeta, currentQuery = {}) {
     }
 }
 
-async function checkSpelling(searchTerm, locale = 'en') {
-    const dictToUse = locale === 'cy' ? cyGB : enGB;
-    return new Promise((resolve, reject) => {
-        dictToUse((err, dict) => {
-            const alphaNumeric = /[^a-zA-Z0-9 -]/g;
-            let searchHadATypo = false;
-            let suggestions = [];
-
-            if (err) {
-                return reject(err);
-            }
-            const spell = nspell(dict);
-
-            searchTerm.split(' ').forEach(word => {
-                const wordAlphaNumeric = word.replace(alphaNumeric, '');
-                const isCorrect = spell.correct(wordAlphaNumeric);
-                const wordSuggestions = isCorrect ? [] : spell.suggest(wordAlphaNumeric);
-
-                if (!searchHadATypo && !isCorrect) {
-                    searchHadATypo = true;
-                }
-
-                // Build up a list of replaced words (allowing for multiple typos)
-                if (wordSuggestions.length > 0) {
-                    if (suggestions.length === 0) {
-                        suggestions = wordSuggestions.map(fixedWord => searchTerm.replace(word, fixedWord));
-                    } else {
-                        suggestions = suggestions.map(s => {
-                            let fixedSuggestion = s;
-                            wordSuggestions.forEach(fixedWord => {
-                                fixedSuggestion = fixedSuggestion.replace(word, fixedWord);
-                            });
-                            return fixedSuggestion;
-                        });
-                    }
-                }
-            });
-
-            return resolve({
-                searchHadATypo,
-                suggestions
-            });
-        });
-    });
-}
-
 router.get(
     '/',
     injectHeroImage('search-all-grants-letterbox-new'),
@@ -133,12 +84,15 @@ router.get(
 
             let searchSuggestions = false;
             if (data.meta.totalResults === 0 && req.query.q) {
-                searchSuggestions = await checkSpelling(req.query.q, locale);
+                searchSuggestions = await checkSpelling({
+                    searchTerm: req.query.q,
+                    locale: locale
+                });
             }
 
             res.format({
                 // Initial / server-only search
-                html: async () => {
+                'html': async () => {
                     res.render(path.resolve(__dirname, './views/search'), {
                         title: res.locals.copy.title,
                         queryParams: isEmpty(facetParams) ? false : facetParams,
@@ -181,7 +135,7 @@ router.get(
             });
         } catch (errorResponse) {
             return res.format({
-                html: () => {
+                'html': () => {
                     next(errorResponse.error);
                 },
                 'application/json': () => {
