@@ -122,9 +122,29 @@ function addressField(props) {
                 message: { en: 'Enter a full UK address', cy: '' }
             },
             {
+                type: 'any.empty',
+                key: 'building-street',
+                message: { en: 'Enter a building and street', cy: '' }
+            },
+            {
+                type: 'any.empty',
+                key: 'town-city',
+                message: { en: 'Enter a town or city', cy: '' }
+            },
+            {
+                type: 'any.empty',
+                key: 'county',
+                message: { en: 'Enter a county', cy: '' }
+            },
+            {
+                type: 'any.empty',
+                key: 'postcode',
+                message: { en: 'Enter a postcode', cy: '' }
+            },
+            {
                 type: 'string.regex.base',
                 key: 'postcode',
-                message: { en: 'Enter a valid postcode', cy: '' }
+                message: { en: 'Enter a real postcode', cy: '' }
             }
         ]
     };
@@ -546,7 +566,7 @@ const allFields = {
         type: 'text',
         isRequired: true,
         schema: Joi.string().required(),
-        messages: [{ type: 'base', message: { en: 'Enter the legal name of the organisation', cy: '' } }]
+        messages: [{ type: 'base', message: { en: 'Enter the full legal name of the organisation', cy: '' } }]
     },
     organisationAlias: {
         name: 'organisation-alias',
