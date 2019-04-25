@@ -77,7 +77,7 @@ function emailField(props) {
             },
             {
                 type: 'string.email',
-                message: { en: 'Enter an email address in the correct format, like name@example.com', cy: '' }
+                message: { en: 'Email address must be in the correct format, like name@example.com', cy: '' }
             }
         ]
     };
@@ -99,11 +99,11 @@ function phoneField(props) {
         messages: [
             {
                 type: 'base',
-                message: { en: 'Enter a phone number', cy: '' }
+                message: { en: 'Enter a UK telephone number', cy: '' }
             },
             {
                 type: 'string.phonenumber',
-                message: { en: 'Enter a valid UK phone number', cy: '' }
+                message: { en: 'Enter a real UK telephone number', cy: '' }
             }
         ]
     };
@@ -122,9 +122,29 @@ function addressField(props) {
                 message: { en: 'Enter a full UK address', cy: '' }
             },
             {
+                type: 'any.empty',
+                key: 'building-street',
+                message: { en: 'Enter a building and street', cy: '' }
+            },
+            {
+                type: 'any.empty',
+                key: 'town-city',
+                message: { en: 'Enter a town or city', cy: '' }
+            },
+            {
+                type: 'any.empty',
+                key: 'county',
+                message: { en: 'Enter a county', cy: '' }
+            },
+            {
+                type: 'any.empty',
+                key: 'postcode',
+                message: { en: 'Enter a postcode', cy: '' }
+            },
+            {
                 type: 'string.regex.base',
                 key: 'postcode',
-                message: { en: 'Enter a valid postcode', cy: '' }
+                message: { en: 'Enter a real postcode', cy: '' }
             }
         ]
     };
@@ -241,6 +261,7 @@ const allFields = {
             const dt = moment().add(12, 'weeks');
             return {
                 minDateExample: dt.format('DD MM YYYY'),
+                fromDateExample: dt.subtract(1, 'days').format('D MMMM YYYY'),
                 minYear: dt.format('YYYY')
             };
         },
@@ -253,12 +274,26 @@ const allFields = {
         },
         type: 'date',
         isRequired: true,
-        schema: commonValidators.futureDate({ amount: '12', unit: 'weeks' }),
-        messages: [
-            { type: 'base', message: { en: 'Enter a date', cy: '' } },
-            { type: 'any.invalid', message: { en: 'Enter a real date', cy: '' } },
-            { type: 'dateParts.futureDate', message: { en: 'Date must be at least 12 weeks into the future', cy: '' } }
-        ]
+        schema: commonValidators.futureDate({
+            amount: '12',
+            unit: 'weeks'
+        }),
+        get messages() {
+            return [
+                {
+                    type: 'base',
+                    message: { en: 'Enter a date', cy: '' }
+                },
+                {
+                    type: 'any.invalid',
+                    message: { en: 'Enter a real date', cy: '' }
+                },
+                {
+                    type: 'dateParts.futureDate',
+                    message: { en: `Date you start the project must be after ${this.settings.fromDateExample}`, cy: '' }
+                }
+            ];
+        }
     },
     projectPostcode: {
         name: 'project-postcode',
@@ -279,7 +314,7 @@ const allFields = {
         },
         isRequired: true,
         schema: commonValidators.postcode().required(),
-        messages: [{ type: 'base', message: { en: 'Enter a postcode', cy: '' } }]
+        messages: [{ type: 'base', message: { en: 'Enter a real postcode', cy: '' } }]
     },
     yourIdeaProject: {
         name: 'your-idea-project',
@@ -326,11 +361,11 @@ const allFields = {
                 },
                 {
                     type: 'string.minWords',
-                    message: { en: `Must be at least ${this.settings.minWords} words`, cy: '' }
+                    message: { en: `Answer must be at least ${this.settings.minWords} words`, cy: '' }
                 },
                 {
                     type: 'string.maxWords',
-                    message: { en: `Must be no more than ${this.settings.maxWords} words`, cy: '' }
+                    message: { en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' }
                 }
             ];
         }
@@ -377,11 +412,11 @@ const allFields = {
                 },
                 {
                     type: 'string.minWords',
-                    message: { en: `Must be at least ${this.settings.minWords} words`, cy: '' }
+                    message: { en: `Answer must be at least ${this.settings.minWords} words`, cy: '' }
                 },
                 {
                     type: 'string.maxWords',
-                    message: { en: `Must be no more than ${this.settings.maxWords} words`, cy: '' }
+                    message: { en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' }
                 }
             ];
         }
@@ -439,11 +474,11 @@ const allFields = {
                 },
                 {
                     type: 'string.minWords',
-                    message: { en: `Must be at least ${this.settings.minWords} words`, cy: '' }
+                    message: { en: `Answer must be at least ${this.settings.minWords} words`, cy: '' }
                 },
                 {
                     type: 'string.maxWords',
-                    message: { en: `Must be no more than ${this.settings.maxWords} words`, cy: '' }
+                    message: { en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' }
                 }
             ];
         }
@@ -470,12 +505,12 @@ const allFields = {
         schema: commonValidators.budgetField(MAX_BUDGET_TOTAL),
         messages: [
             { type: 'base', message: { en: 'Enter a project budget', cy: '' } },
-            { type: 'any.empty', message: { en: 'Please supply both an item name and a cost', cy: '' } },
-            { type: 'number.base', message: { en: 'Make sure each cost is a valid number', cy: '' } },
+            { type: 'any.empty', key: 'item', message: { en: 'Enter an item or activity', cy: '' } },
+            { type: 'number.base', key: 'cost', message: { en: 'Enter an amount', cy: '' } },
             {
                 type: 'budgetItems.overBudget',
                 message: {
-                    en: `You have exceeded the budget limit for this application of £${MAX_BUDGET_TOTAL.toLocaleString()}`,
+                    en: `Total project costs must be less than £${MAX_BUDGET_TOTAL.toLocaleString()}`,
                     cy: ``
                 }
             }
@@ -501,11 +536,18 @@ const allFields = {
         messages: [
             {
                 type: 'base',
-                message: { en: 'Enter a total cost for your project, must be a number', cy: '' }
+                message: { en: 'Enter a total cost for your project', cy: '' }
+            },
+            {
+                type: 'number.base',
+                message: { en: 'Total cost must be a real number', cy: '' }
             },
             {
                 type: 'budgetTotalCosts.underBudget',
-                message: { en: 'Must be at least equal to the requested project costs', cy: '' }
+                message: {
+                    en: 'Total cost must be the same as or higher than the amount you’re asking us to fund',
+                    cy: ''
+                }
             }
         ]
     },
@@ -524,7 +566,7 @@ const allFields = {
         type: 'text',
         isRequired: true,
         schema: Joi.string().required(),
-        messages: [{ type: 'base', message: { en: 'Enter the legal name of the organisation', cy: '' } }]
+        messages: [{ type: 'base', message: { en: 'Enter the full legal name of the organisation', cy: '' } }]
     },
     organisationAlias: {
         name: 'organisation-alias',
@@ -551,7 +593,7 @@ const allFields = {
                 .valid(this.options.map(option => option.value))
                 .required();
         },
-        messages: [{ type: 'base', message: { en: 'Choose an organisation type', cy: '' } }]
+        messages: [{ type: 'base', message: { en: 'Choose a type of organisation', cy: '' } }]
     },
     companyNumber: {
         name: 'company-number',
@@ -565,7 +607,7 @@ const allFields = {
             is: organisationTypes.notForProfitCompany.value,
             then: Joi.string().required()
         }),
-        messages: [{ type: 'base', message: { en: 'Enter a companies house number', cy: '' } }]
+        messages: [{ type: 'base', message: { en: 'Enter your organisation’s Companies House number', cy: '' } }]
     },
     charityNumber: {
         name: 'charity-number',
@@ -606,7 +648,7 @@ const allFields = {
         messages: [
             {
                 type: 'base',
-                message: { en: 'Enter a charity number', cy: '' }
+                message: { en: 'Enter your organisation’s charity number', cy: '' }
             }
         ]
     },
@@ -620,7 +662,10 @@ const allFields = {
         type: 'day-month',
         isRequired: true,
         schema: Joi.dayMonth().required(),
-        messages: [{ type: 'base', message: { en: 'Enter valid day and month', cy: '' } }]
+        messages: [
+            { type: 'base', message: { en: 'Enter a day and month', cy: '' } },
+            { type: 'any.invalid', message: { en: 'Enter a real day and month', cy: '' } }
+        ]
     },
     totalIncomeYear: {
         name: 'total-income-year',
@@ -628,7 +673,10 @@ const allFields = {
         type: 'currency',
         isRequired: true,
         schema: Joi.number().required(),
-        messages: [{ type: 'base', message: { en: 'Enter a number for total income for the year', cy: '' } }]
+        messages: [
+            { type: 'base', message: { en: 'Enter a total income for the year', cy: '' } },
+            { type: 'any.invalid', message: { en: 'Total income must be a real number', cy: '' } }
+        ]
     },
     mainContactFirstName: firstNameField({
         name: 'main-contact-first-name',
@@ -815,7 +863,7 @@ const allFields = {
         type: 'text',
         isRequired: true,
         schema: Joi.string().required(),
-        messages: [{ type: 'base', message: { en: 'Enter the name on the account', cy: '' } }]
+        messages: [{ type: 'base', message: { en: 'Enter the name on the bank account', cy: '' } }]
     },
     bankSortCode: {
         name: 'bank-sort-code',
