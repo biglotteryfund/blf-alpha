@@ -7,23 +7,29 @@ module.exports = function checkSpelling({ searchTerm, locale = 'en' }) {
     const dictToUse = locale === 'cy' ? cyGB : enGB;
     return new Promise((resolve, reject) => {
         dictToUse((err, dict) => {
-            const alphaNumeric = /[^a-zA-Z0-9 -]/g;
-            let hasTypo = false;
-            let suggestions = [];
-
             if (err) {
                 return reject(err);
             }
+
+            const alphaNumeric = /[^a-zA-Z0-9 -]/g;
+
             const spell = nspell(dict);
 
+            const terms = searchTerm.split(' ').map(word => {
+                const wordAlphaNumeric = word.replace(alphaNumeric, '');
+                const isCorrect = spell.correct(wordAlphaNumeric);
+
+                return {
+                    word,
+                    isCorrect
+                };
+            });
+
+            let suggestions = [];
             searchTerm.split(' ').forEach(word => {
                 const wordAlphaNumeric = word.replace(alphaNumeric, '');
                 const isCorrect = spell.correct(wordAlphaNumeric);
                 const wordSuggestions = isCorrect ? [] : spell.suggest(wordAlphaNumeric);
-
-                if (!hasTypo && !isCorrect) {
-                    hasTypo = true;
-                }
 
                 // Build up a list of replaced words (allowing for multiple typos)
                 if (wordSuggestions.length > 0) {
@@ -42,7 +48,7 @@ module.exports = function checkSpelling({ searchTerm, locale = 'en' }) {
             });
 
             return resolve({
-                hasTypo,
+                hasTypo: terms.some(term => term.isCorrect === false),
                 suggestions
             });
         });
