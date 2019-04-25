@@ -241,6 +241,7 @@ const allFields = {
             const dt = moment().add(12, 'weeks');
             return {
                 minDateExample: dt.format('DD MM YYYY'),
+                fromDateExample: dt.subtract(1, 'days').format('D MMMM YYYY'),
                 minYear: dt.format('YYYY')
             };
         },
@@ -253,12 +254,26 @@ const allFields = {
         },
         type: 'date',
         isRequired: true,
-        schema: commonValidators.futureDate({ amount: '12', unit: 'weeks' }),
-        messages: [
-            { type: 'base', message: { en: 'Enter a date', cy: '' } },
-            { type: 'any.invalid', message: { en: 'Enter a real date', cy: '' } },
-            { type: 'dateParts.futureDate', message: { en: 'Date must be at least 12 weeks into the future', cy: '' } }
-        ]
+        schema: commonValidators.futureDate({
+            amount: '12',
+            unit: 'weeks'
+        }),
+        get messages() {
+            return [
+                {
+                    type: 'base',
+                    message: { en: 'Enter a date', cy: '' }
+                },
+                {
+                    type: 'any.invalid',
+                    message: { en: 'Enter a real date', cy: '' }
+                },
+                {
+                    type: 'dateParts.futureDate',
+                    message: { en: `Date you start the project must be after ${this.settings.fromDateExample}`, cy: '' }
+                }
+            ];
+        }
     },
     projectPostcode: {
         name: 'project-postcode',
