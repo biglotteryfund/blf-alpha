@@ -26,9 +26,9 @@ module.exports = function checkSpelling({ searchTerm, locale = 'en' }) {
             });
 
             let suggestions = [];
-            terms.forEach(term => {
-                // Build up a list of replaced words (allowing for multiple typos)
-                if (term.suggestions.length > 0) {
+            terms
+                .filter(term => term.suggestions.length > 0)
+                .forEach(term => {
                     if (suggestions.length === 0) {
                         suggestions = term.suggestions.map(fixedWord => searchTerm.replace(term.word, fixedWord));
                     } else {
@@ -40,8 +40,7 @@ module.exports = function checkSpelling({ searchTerm, locale = 'en' }) {
                             return fixedSuggestion;
                         });
                     }
-                }
-            });
+                });
 
             return resolve({
                 hasTypo: terms.some(term => term.isCorrect === false),
