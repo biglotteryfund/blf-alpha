@@ -485,12 +485,12 @@ const allFields = {
         schema: commonValidators.budgetField(MAX_BUDGET_TOTAL),
         messages: [
             { type: 'base', message: { en: 'Enter a project budget', cy: '' } },
-            { type: 'any.empty', message: { en: 'Please supply both an item name and a cost', cy: '' } },
-            { type: 'number.base', message: { en: 'Make sure each cost is a valid number', cy: '' } },
+            { type: 'any.empty', key: 'item', message: { en: 'Enter an item or activity', cy: '' } },
+            { type: 'number.base', key: 'cost', message: { en: 'Enter an amount', cy: '' } },
             {
                 type: 'budgetItems.overBudget',
                 message: {
-                    en: `You have exceeded the budget limit for this application of £${MAX_BUDGET_TOTAL.toLocaleString()}`,
+                    en: `Total project costs must be less than £${MAX_BUDGET_TOTAL.toLocaleString()}`,
                     cy: ``
                 }
             }
@@ -516,11 +516,18 @@ const allFields = {
         messages: [
             {
                 type: 'base',
-                message: { en: 'Enter a total cost for your project, must be a number', cy: '' }
+                message: { en: 'Enter a total cost for your project', cy: '' }
+            },
+            {
+                type: 'number.base',
+                message: { en: 'Total cost must be a real number', cy: '' }
             },
             {
                 type: 'budgetTotalCosts.underBudget',
-                message: { en: 'Must be at least equal to the requested project costs', cy: '' }
+                message: {
+                    en: 'Total cost must be the same as or higher than the amount you’re asking us to fund',
+                    cy: ''
+                }
             }
         ]
     },

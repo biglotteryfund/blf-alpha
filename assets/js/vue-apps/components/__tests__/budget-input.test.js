@@ -9,9 +9,10 @@ import BudgetInput from '../budget-input.vue';
 describe('BudgetInput', () => {
     test('should be able to add items up to max limit', () => {
         const maxItems = 10;
+        const maxBudget = 500;
         const wrapper = mount(BudgetInput, {
             attachToDocument: true,
-            propsData: { fieldName: 'budget', maxBudget: 500, maxItems: maxItems }
+            propsData: { fieldName: 'budget', maxBudget: maxBudget, maxItems: maxItems }
         });
 
         expect(wrapper.findAll('[data-testid="budget-row"]').length).toBe(1);
@@ -31,12 +32,14 @@ describe('BudgetInput', () => {
 
         expect(wrapper.findAll('[data-testid="budget-row"]').length).toBe(10);
         expect(wrapper.find('[data-testid="budget-errors"]').text()).toContain(
-            'You have added the maximum number of budget rows available'
+            `You must use ${maxItems} budget headings or fewer to tell us your costs`
         );
 
         // Over-budget
-        lastRow.find('input[type="number"]').setValue(1000);
-        expect(wrapper.find('[data-testid="budget-errors"]').text()).toContain('You have exceeded the budget limit');
+        lastRow.find('input[type="number"]').setValue(10000);
+        expect(wrapper.find('[data-testid="budget-errors"]').text()).toContain(
+            `Total project costs must be less than £${maxBudget}.`
+        );
 
         // Can't exceed limit
         wrapper
