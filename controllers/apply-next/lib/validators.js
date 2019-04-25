@@ -28,9 +28,11 @@ function postcode() {
 
 function ukAddress() {
     return Joi.object({
-        'building-street': Joi.string().required(),
+        'address-line-1': Joi.string().required(),
+        'address-line-2': Joi.string()
+            .allow('')
+            .optional(),
         'town-city': Joi.string().required(),
-        'county': Joi.string().required(),
         'postcode': postcode()
     });
 }

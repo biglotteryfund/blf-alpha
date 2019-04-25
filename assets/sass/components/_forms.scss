@@ -74,7 +74,7 @@ $inputOutline: 3px solid get-color('border', 'outline');
 .ff-label {
     display: block;
     margin-bottom: 5px;
-    font-weight: font-weight('body', 'bold');
+    font-weight: font-weight('body', 'semibold');
 
     &[data-append]:after {
         margin-left: 5px;
@@ -231,19 +231,42 @@ $inputOutline: 3px solid get-color('border', 'outline');
 }
 
 /* =========================================================================
-   Postcode lookup
+   Address lookup
    ========================================================================= */
 
-.postcode-lookup {
-    margin-bottom: 20px;
+.address-lookup {
+    padding: $spacingUnit;
+    background-color: get-color('background', 'light-neutral');
+    margin-bottom: 2px;
+    max-width: 30em;
 
-    .postcode-lookup__field {
+    .address-lookup__field {
         display: flex;
+        margin-bottom: 5px;
 
         input[type='text'] {
             flex: 0 0 auto;
             margin-right: 5px;
         }
+    }
+
+    .address-lookup__candidates {
+        margin-top: $spacingUnit / 2;
+    }
+}
+
+.selected-address {
+    padding: $spacingUnit;
+    background-color: get-color('background', 'light-neutral');
+    max-width: 30em;
+
+    .selected-address__title {
+        font-family: font-stack('body');
+        font-weight: font-weight('body', 'semibold');
+    }
+
+    .selected-address__address {
+        margin-bottom: $spacingUnit;
     }
 }
 

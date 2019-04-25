@@ -19,8 +19,8 @@ function init() {
             methods: {
                 handleAddress(data) {
                     this.showFallbackFields = false;
-                    this.$refs.address1.value = data.address1;
-                    this.$refs.address2.value = data.address2 || '';
+                    this.$refs.addressLine1.value = data.addressLine1;
+                    this.$refs.addressLine2.value = data.addressLine2 || '';
                     this.$refs.townCity.value = data.townCity;
                     this.$refs.postcode.value = data.postcode;
                 },

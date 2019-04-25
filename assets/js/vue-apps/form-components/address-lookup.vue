@@ -1,5 +1,6 @@
 <script>
 import $ from 'jquery';
+import compact from 'lodash/compact';
 
 const states = {
     NotAsked: 'NotAsked',
@@ -26,7 +27,7 @@ export default {
     methods: {
         formatAddress(result) {
             return {
-                address1: [result.Flat_No, result.Building_No, result.Building_Name, result.Street_Name].join(' '),
+                addressLine1: [result.Flat_No, result.Building_No, result.Building_Name, result.Street_Name].join(' '),
                 townCity: result.Town_City,
                 postcode: result.PostCode
             };
@@ -66,20 +67,36 @@ export default {
                 });
             }
         }
-    }
+    },
+    computed: {
+        lookupLabel() {
+            if (this.currentState === this.states.Loading) {
+                return 'Looking up address…';
+            } else {
+                return 'Find address';   
+            }
+        },
+        addressHtml() {
+            return compact([
+                this.fullAddress.addressLine1,
+                this.fullAddress.townCity,
+                this.fullAddress.postcode
+            ]).join('<br />')
+        }
+    },
 };
 </script>
 
 <template>
     <div>
-        <div class="postcode-lookup">
+        <div class="address-lookup">
             <label for="postcode-lookup" class="ff-label">Find address by postcode</label>
-            <div class="postcode-lookup__field">
+            <div class="address-lookup__field">
                 <input
                     type="text"
                     id="postcode-lookup"
                     name="postcode-lookup"
-                    size="10"
+                    size="20"
                     class="ff-text"
                     v-model="postcode"
                 />
@@ -88,27 +105,20 @@ export default {
                     class="btn btn--small"
                     @click="handleLookup"
                     :disabled="currentState === states.Loading"
+                    aria-live="assertive"
+                    aria-atomic="true"
                 >
-                    Find address
+                    {{ lookupLabel }}
                 </button>
             </div>
-        </div>
 
-        <div role="alert" aria-live="assertive">
-            <template v-if="currentState === states.Loading"
-                ><p>Looking up addressess…</p></template
-            >
-        </div>
-
-        <template v-if="candidates.length > 0">
-            <div class="u-margin-bottom">
+            <div class="address-lookup__candidates" v-if="candidates.length > 0">
                 <label for="address-selection" class="ff-label">Select an address</label>
                 <select
                     v-model="selectedAddressId"
                     name="address-selection"
                     id="address-selection"
                     :disabled="currentState === states.Loading"
-                    style="max-width: 25em;"
                 >
                     <option disabled value="">{{ candidates.length }} addresses found</option>
                     <option v-for="option in candidates" :value="option.value" :key="option.value">
@@ -116,25 +126,14 @@ export default {
                     </option>
                 </select>
             </div>
-        </template>
+        </div>
 
-        <template v-if="fullAddress && showAddressPreview">
-            <div class="card">
-                <header class="card__header">
-                    <h2 class="card__title t4">Selected address</h2>
-                </header>
-                <address class="card__body">
-                    {{ fullAddress.address1 }}<br />
-                    <template v-if="fullAddress.address2"
-                        >{{ fullAddress.address2 }}<br
-                    /></template>
-                    {{ fullAddress.townCity }}<br />
-                    {{ fullAddress.postcode }}
-                </address>
-                <footer class="card__footer">
-                    <p><button type="button" class="btn-link" @click="handleFallback">Edit</button></p>
-                </footer>
+        <div class="selected-address" v-if="fullAddress && showAddressPreview">
+            <h3 class="selected-address__title">Selected address</h3>
+            <address class="selected-address__address" v-html="addressHtml"></address>
+            <div class="selected-address__actions">
+                <button type="button" class="btn-link" @click="handleFallback">Edit</button>
             </div>
-        </template>
+        </div>
     </div>
 </template>

@@ -47,7 +47,7 @@
 {%- endmacro %}
 
 {% macro inputText(field, fieldCopy) %}
-    <label class="ff-label" for="field-{{ field.name }}">
+    <label class="ff-label{% if field.hideLabel %} u-visually-hidden{% endif %}" for="field-{{ field.name }}">
         {{ fieldLabelText(field, fieldCopy) }}
     </label>
     {{ fieldHelpText(field, fieldCopy) }}
@@ -222,57 +222,6 @@
     </fieldset>
 {% endmacro %}
 
-{# {% macro inputAddress(field) %}
-    <fieldset class="ff-address" id="field-{{ field.name }}">
-        <legend class="ff-address__legend t2 t--underline">
-            {{ fieldLabelText(field) }}
-        </legend>
-
-        {{ fieldHelpText(field, fieldCopy) }}
-
-        <div class="ff-address__field">
-            {{ inputText({
-                label: 'Building and street',
-                name: field.name + '[building-street]',
-                value: field.value['building-street'],
-                type: 'text',
-                isRequired: field.isRequired,
-                attributes: { size: 40 }
-            }) }}
-        </div>
-        <div class="ff-address__field">
-            {{ inputText({
-                label: 'Town or city',
-                name: field.name + '[town-city]',
-                value: field.value['town-city'],
-                type: 'text',
-                isRequired: field.isRequired,
-                attributes: { size: 30 }
-            }) }}
-        </div>
-        <div class="ff-address__field">
-            {{ inputText({
-                label: 'County',
-                name: field.name + '[county]',
-                value: field.value['county'],
-                type: 'text',
-                isRequired: field.isRequired,
-                attributes: { size: 30 }
-            }) }}
-        </div>
-        <div class="ff-address__field">
-            {{ inputText({
-                label: 'Postcode',
-                name: field.name + '[postcode]',
-                value: field.value['postcode'],
-                type: 'text',
-                isRequired: field.isRequired,
-                attributes: { size: 10 }
-            }) }}
-        </div>
-    </fieldset>
-{% endmacro %} #}
-
 
 {% macro inputAddress(field) %}
     <fieldset class="ff-address js-address-lookup" id="field-{{ field.name }}">
@@ -288,27 +237,28 @@
 
         {{ fieldHelpText(field, fieldCopy) }}
 
-        <details open :open="showFallbackFields" @click="showFallbackFields = !showFallbackFields">
+        <details open :open="showFallbackFields" @click="showFallbackFields = !showFallbackFields" class="u-margin-top">
             <summary>Enter address manually</summary>
             <div class="ff-address__fields">
                 <div class="ff-address__field">
                     {{ inputText({
-                        label: 'Address line 1',
-                        name: field.name + '[address-1]',
-                        value: field.value['address-1'],
+                        label: 'Building and street',
+                        name: field.name + '[address-line-1]',
+                        value: field.value['address-line-1'],
                         type: 'text',
                         isRequired: true,
-                        attributes: { size: 40, ref: 'address1' }
+                        attributes: { size: 40, ref: 'addressLine1' }
                     }) }}
                 </div>
                 <div class="ff-address__field">
                     {{ inputText({
-                        label: 'Address line 2',
-                        name: field.name + '[address-2]',
-                        value: field.value['address-2'],
+                        label: 'Building and street line 2',
+                        hideLabel: true,
+                        name: field.name + '[address-line-2]',
+                        value: field.value['address-line-2'],
                         type: 'text',
                         isRequired: false,
-                        attributes: { size: 40, ref: 'address2' }
+                        attributes: { size: 40, ref: 'addressLine2' }
                     }) }}
                 </div>
                 <div class="ff-address__field">

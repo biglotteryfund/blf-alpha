@@ -34,12 +34,11 @@ describe('formatters', () => {
 
         expect(
             formatter({
-                'building-street': 'Apex House, 3 Embassy Drive',
+                'address-line-1': 'Apex House, 3 Embassy Drive',
                 'town-city': 'Birmingham',
-                county: 'West Midlands',
-                postcode: 'B15 1TR'
+                'postcode': 'B15 1TR'
             })
-        ).toBe('Apex House, 3 Embassy Drive,\nBirmingham,\nWest Midlands,\nB15 1TR');
+        ).toBe('Apex House, 3 Embassy Drive,\nBirmingham,\nB15 1TR');
     });
 
     test('date', () => {

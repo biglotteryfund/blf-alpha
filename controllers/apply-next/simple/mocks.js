@@ -24,10 +24,9 @@ function mockDateOfBirth() {
 
 function mockAddress() {
     return {
-        'building-street': faker.address.streetAddress(),
+        'address-line-1': faker.address.streetAddress(),
         'town-city': faker.address.city(),
-        county: faker.address.county(),
-        postcode: 'B15 1TR'
+        'postcode': 'B15 1TR'
     };
 }
 

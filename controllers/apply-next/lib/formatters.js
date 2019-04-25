@@ -11,7 +11,7 @@ function formatOptions(options) {
 }
 
 function formatAddress(value) {
-    return [value['building-street'], value['town-city'], value['county'], value['postcode']].join(',\n');
+    return [value['address-line-1'], value['town-city'], value['postcode']].join(',\n');
 }
 
 function formatDate(value) {
