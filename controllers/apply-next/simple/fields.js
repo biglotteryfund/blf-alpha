@@ -341,11 +341,11 @@ const allFields = {
                 },
                 {
                     type: 'string.minWords',
-                    message: { en: `Must be at least ${this.settings.minWords} words`, cy: '' }
+                    message: { en: `Answer must be at least ${this.settings.minWords} words`, cy: '' }
                 },
                 {
                     type: 'string.maxWords',
-                    message: { en: `Must be no more than ${this.settings.maxWords} words`, cy: '' }
+                    message: { en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' }
                 }
             ];
         }
@@ -392,11 +392,11 @@ const allFields = {
                 },
                 {
                     type: 'string.minWords',
-                    message: { en: `Must be at least ${this.settings.minWords} words`, cy: '' }
+                    message: { en: `Answer must be at least ${this.settings.minWords} words`, cy: '' }
                 },
                 {
                     type: 'string.maxWords',
-                    message: { en: `Must be no more than ${this.settings.maxWords} words`, cy: '' }
+                    message: { en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' }
                 }
             ];
         }
@@ -454,11 +454,11 @@ const allFields = {
                 },
                 {
                     type: 'string.minWords',
-                    message: { en: `Must be at least ${this.settings.minWords} words`, cy: '' }
+                    message: { en: `Answer must be at least ${this.settings.minWords} words`, cy: '' }
                 },
                 {
                     type: 'string.maxWords',
-                    message: { en: `Must be no more than ${this.settings.maxWords} words`, cy: '' }
+                    message: { en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' }
                 }
             ];
         }
