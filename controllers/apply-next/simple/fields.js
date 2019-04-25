@@ -77,7 +77,7 @@ function emailField(props) {
             },
             {
                 type: 'string.email',
-                message: { en: 'Enter an email address in the correct format, like name@example.com', cy: '' }
+                message: { en: 'Email address must be in the correct format, like name@example.com', cy: '' }
             }
         ]
     };
@@ -99,11 +99,11 @@ function phoneField(props) {
         messages: [
             {
                 type: 'base',
-                message: { en: 'Enter a phone number', cy: '' }
+                message: { en: 'Enter a UK telephone number', cy: '' }
             },
             {
                 type: 'string.phonenumber',
-                message: { en: 'Enter a valid UK phone number', cy: '' }
+                message: { en: 'Enter a real UK telephone number', cy: '' }
             }
         ]
     };
@@ -593,7 +593,7 @@ const allFields = {
                 .valid(this.options.map(option => option.value))
                 .required();
         },
-        messages: [{ type: 'base', message: { en: 'Choose an organisation type', cy: '' } }]
+        messages: [{ type: 'base', message: { en: 'Choose a type of organisation', cy: '' } }]
     },
     companyNumber: {
         name: 'company-number',
@@ -607,7 +607,7 @@ const allFields = {
             is: organisationTypes.notForProfitCompany.value,
             then: Joi.string().required()
         }),
-        messages: [{ type: 'base', message: { en: 'Enter a companies house number', cy: '' } }]
+        messages: [{ type: 'base', message: { en: 'Enter your organisation’s Companies House number', cy: '' } }]
     },
     charityNumber: {
         name: 'charity-number',
@@ -648,7 +648,7 @@ const allFields = {
         messages: [
             {
                 type: 'base',
-                message: { en: 'Enter a charity number', cy: '' }
+                message: { en: 'Enter your organisation’s charity number', cy: '' }
             }
         ]
     },
@@ -662,7 +662,10 @@ const allFields = {
         type: 'day-month',
         isRequired: true,
         schema: Joi.dayMonth().required(),
-        messages: [{ type: 'base', message: { en: 'Enter valid day and month', cy: '' } }]
+        messages: [
+            { type: 'base', message: { en: 'Enter a day and month', cy: '' } },
+            { type: 'any.invalid', message: { en: 'Enter a real day and month', cy: '' } }
+        ]
     },
     totalIncomeYear: {
         name: 'total-income-year',
@@ -670,7 +673,10 @@ const allFields = {
         type: 'currency',
         isRequired: true,
         schema: Joi.number().required(),
-        messages: [{ type: 'base', message: { en: 'Enter a number for total income for the year', cy: '' } }]
+        messages: [
+            { type: 'base', message: { en: 'Enter a total income for the year', cy: '' } },
+            { type: 'any.invalid', message: { en: 'Total income must be a real number', cy: '' } }
+        ]
     },
     mainContactFirstName: firstNameField({
         name: 'main-contact-first-name',
@@ -857,7 +863,7 @@ const allFields = {
         type: 'text',
         isRequired: true,
         schema: Joi.string().required(),
-        messages: [{ type: 'base', message: { en: 'Enter the name on the account', cy: '' } }]
+        messages: [{ type: 'base', message: { en: 'Enter the name on the bank account', cy: '' } }]
     },
     bankSortCode: {
         name: 'bank-sort-code',
