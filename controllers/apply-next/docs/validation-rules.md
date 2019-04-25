@@ -16,10 +16,10 @@ This file documents validation rules, conditions, and error message text for all
 
 **Type**: date
 
-| Rule                              | Message                                        |
-| --------------------------------- | ---------------------------------------------- |
-| Required field                    | Enter a date                                   |
-| Must be a valid date              | Enter a real date                              |
+| Rule                              | Message                                                                    |
+| --------------------------------- | -------------------------------------------------------------------------- |
+| Required field                    | Enter a date                                                               |
+| Must be a valid date              | Enter a real date                                                          |
 | At least 12 weeks into the future | Date you start the project must be after 25 July 2019/12 WEEKS INTO FUTURE |
 
 ### What country will your project be based in?
@@ -34,9 +34,9 @@ This file documents validation rules, conditions, and error message text for all
 
 **Type**: string, postcode
 
-| Rule           | Message          |
-| -------------- | ---------------- |
-| Required field | Enter a postcode |
+| Rule           | Message               |
+| -------------- | --------------------- |
+| Required field | Enter a postcode      |
 | Valid postcode | Enter a real postcode |
 
 ## Your idea
@@ -45,9 +45,9 @@ This file documents validation rules, conditions, and error message text for all
 
 **Type**: text
 
-| Rule           | Message                        |
-| -------------- | ------------------------------ |
-| Required field | Tell us about your project     |
+| Rule           | Message                               |
+| -------------- | ------------------------------------- |
+| Required field | Tell us about your project            |
 | Min words: 50  | Answer must be at least 50 words      |
 | Max words: 300 | Answer must be no more than 300 words |
 
@@ -55,9 +55,9 @@ This file documents validation rules, conditions, and error message text for all
 
 **Type**: text
 
-| Rule           | Message                        |
-| -------------- | ------------------------------ |
-| Required field | Tell us about your project     |
+| Rule           | Message                               |
+| -------------- | ------------------------------------- |
+| Required field | Tell us about your project            |
 | Min words: 50  | Answer must be at least 50 words      |
 | Max words: 150 | Answer must be no more than 150 words |
 
@@ -65,9 +65,9 @@ This file documents validation rules, conditions, and error message text for all
 
 **Type**: text
 
-| Rule           | Message                        |
-| -------------- | ------------------------------ |
-| Required field | Tell us about your project     |
+| Rule           | Message                               |
+| -------------- | ------------------------------------- |
+| Required field | Tell us about your project            |
 | Min words: 50  | Answer must be at least 50 words      |
 | Max words: 200 | Answer must be no more than 200 words |
 
@@ -87,23 +87,23 @@ All project idea questions have the following in-browser word-count messages.
 
 **Type**: list of items and costs
 
-| Rule                         | Message                                                            |
-| ---------------------------- | ------------------------------------------------------------------ |
-| Required field               | Enter a project budget                                             |
-| Missing item or activity     | Enter an item or activity                                          |
-| Missing cost                 | Enter an amount                                                    |
-| Cost is not a number         | Each cost must be a real number                                    |
-| Total amount is over £10,000 | Total project costs must be less than £10,000                      |
-| Too many rows                | You must use 10 budget headings or fewer to tell us your costs     |
+| Rule                         | Message                                                        |
+| ---------------------------- | -------------------------------------------------------------- |
+| Required field               | Enter a project budget                                         |
+| Missing item or activity     | Enter an item or activity                                      |
+| Missing cost                 | Enter an amount                                                |
+| Cost is not a number         | Each cost must be a real number                                |
+| Total amount is over £10,000 | Total project costs must be less than £10,000                  |
+| Too many rows                | You must use 10 budget headings or fewer to tell us your costs |
 
 ### Project total cost
 
 **Type**: number
 
-| Rule                 | Message                                               |
-| -------------------- | ----------------------------------------------------- |
-| Required field       | Enter a total cost for your project                   |
-| Cost is not a number | Total cost must be a real number                      |
+| Rule                 | Message                                                                           |
+| -------------------- | --------------------------------------------------------------------------------- |
+| Required field       | Enter a total cost for your project                                               |
+| Cost is not a number | Total cost must be a real number                                                  |
 | Under budget         | Total cost must be the same as or higher than the amount you're asking us to fund |
 
 ## Your organisation
@@ -112,8 +112,8 @@ All project idea questions have the following in-browser word-count messages.
 
 **Type**: string
 
-| Rule           | Message                                  |
-| -------------- | ---------------------------------------- |
+| Rule           | Message                                       |
+| -------------- | --------------------------------------------- |
 | Required field | Enter the full legal name of the organisation |
 
 ### Organisation alias
@@ -137,14 +137,14 @@ Address field group, consists of:
 -   Town or city
 -   Postcode
 
-| Rule                   | Message                 |
-| --------------         | ----------------------- |
-| Required field         | Enter a full UK address |
+| Rule                   | Message                     |
+| ---------------------- | --------------------------- |
+| Required field         | Enter a full UK address     |
 | No building and street | Enter a building and street |
-| No town or city        | Enter a town or city    |
-| No county              | Enter a county          |
-| No postcode            | Enter a postcode        |
-| Valid postcode         | Enter a real postcode   |
+| No town or city        | Enter a town or city        |
+| No county              | Enter a county              |
+| No postcode            | Enter a postcode            |
+| Valid postcode         | Enter a real postcode       |
 
 ### Organisation type
 
@@ -183,18 +183,18 @@ Address field group, consists of:
 
 **Type**: day and month
 
-| Rule                 | Message                   |
-| -------------------- | ------------------------- |
-| Required field       | Enter a day and month |
+| Rule                 | Message                    |
+| -------------------- | -------------------------- |
+| Required field       | Enter a day and month      |
 | Must be a valid date | Enter a real day and month |
 
 ### Total income for the year
 
 **Type**: number
 
-| Rule           | Message                                    |
-| -------------- | -------------------------------------------|
-| Required field | Enter a total income for the year          |
+| Rule                   | Message                            |
+| ---------------------- | ---------------------------------- |
+| Required field         | Enter a total income for the year  |
 | Must be a valid number | Total income must be a real number |
 
 ## Main contact
@@ -203,8 +203,8 @@ Address field group, consists of:
 
 **Type**: string
 
-| Rule           | Message         |
-| -------------- | --------------- |
+| Rule           | Message          |
+| -------------- | ---------------- |
 | Required field | Enter first name |
 
 ### Main contact last name
@@ -240,14 +240,14 @@ Address field group, consists of:
 -   Town or city
 -   Postcode
 
-| Rule                   | Message                 |
-| --------------         | ----------------------- |
-| Required field         | Enter a full UK address |
+| Rule                   | Message                     |
+| ---------------------- | --------------------------- |
+| Required field         | Enter a full UK address     |
 | No building and street | Enter a building and street |
-| No town or city        | Enter a town or city    |
-| No county              | Enter a county          |
-| No postcode            | Enter a postcode        |
-| Valid postcode         | Enter a real postcode   |
+| No town or city        | Enter a town or city        |
+| No county              | Enter a county              |
+| No postcode            | Enter a postcode            |
+| Valid postcode         | Enter a real postcode       |
 
 #### Conditions
 
@@ -257,19 +257,19 @@ Address field group, consists of:
 
 **Type**: email
 
-| Rule           | Message                                                             |
-| -------------- | ------------------------------------------------------------------- |
-| Required field | Enter an email address                                              |
-| Invalid format | Email address must be in the correct format, like name@example.com  |
+| Rule           | Message                                                            |
+| -------------- | ------------------------------------------------------------------ |
+| Required field | Enter an email address                                             |
+| Invalid format | Email address must be in the correct format, like name@example.com |
 
 ### Main contact phone
 
 **Type**: string
 
-| Rule                 | Message                       |
-| -------------------- | ----------------------------- |
-| Required field       | Enter a UK telephone number   |
-| Invalid phone number | Enter a real UK telephone number  |
+| Rule                 | Message                          |
+| -------------------- | -------------------------------- |
+| Required field       | Enter a UK telephone number      |
+| Invalid phone number | Enter a real UK telephone number |
 
 **Note**: Phone numbers validated using [joi-phone-number](https://github.com/Salesflare/joi-phone-number) which is a wrapper around the Google `libphonenumber` library.
 
@@ -288,8 +288,8 @@ Address field group, consists of:
 
 **Type**: string
 
-| Rule           | Message         |
-| -------------- | --------------- |
+| Rule           | Message          |
+| -------------- | ---------------- |
 | Required field | Enter first name |
 
 ### Senior contact last name
@@ -325,10 +325,10 @@ The senior contact role shows the following choices depending on the organisatio
 
 **Type**: date
 
-| Rule                 | Message                       |
-| -------------------- | ----------------------------- |
-| Required field       | Enter a date of birth         |
-| Must be a valid date | Enter a real date             |
+| Rule                 | Message                                      |
+| -------------------- | -------------------------------------------- |
+| Required field       | Enter a date of birth                        |
+| Must be a valid date | Enter a real date                            |
 | Date of birth        | Senior contact must be at least 18 years old |
 
 #### Conditions
@@ -346,14 +346,14 @@ Address field group, consists of:
 -   Town or city
 -   Postcode
 
-| Rule                   | Message                 |
-| --------------         | ----------------------- |
-| Required field         | Enter a full UK address |
+| Rule                   | Message                     |
+| ---------------------- | --------------------------- |
+| Required field         | Enter a full UK address     |
 | No building and street | Enter a building and street |
-| No town or city        | Enter a town or city    |
-| No county              | Enter a county          |
-| No postcode            | Enter a postcode        |
-| Valid postcode         | Enter a real postcode   |
+| No town or city        | Enter a town or city        |
+| No county              | Enter a county              |
+| No postcode            | Enter a postcode            |
+| Valid postcode         | Enter a real postcode       |
 
 #### Conditions
 
@@ -363,18 +363,18 @@ Address field group, consists of:
 
 **Type**: email
 
-| Rule           | Message                                                             |
-| -------------- | ------------------------------------------------------------------- |
-| Required field | Enter an email address                                              |
-| Invalid format | Email address must be in the correct format, like name@example.com  |
+| Rule           | Message                                                            |
+| -------------- | ------------------------------------------------------------------ |
+| Required field | Enter an email address                                             |
+| Invalid format | Email address must be in the correct format, like name@example.com |
 
 ### Legal contact phone
 
 **Type**: string
 
-| Rule                 | Message                       |
-| -------------------- | ----------------------------- |
-| Required field       | Enter a UK telephone number   |
+| Rule                 | Message                          |
+| -------------------- | -------------------------------- |
+| Required field       | Enter a UK telephone number      |
 | Invalid phone number | Enter a real UK telephone number |
 
 **Note**: Phone numbers validated using [joi-phone-number](https://github.com/Salesflare/joi-phone-number) which is a wrapper around the Google `libphonenumber` library.
