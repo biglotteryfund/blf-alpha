@@ -1,4 +1,5 @@
 'use strict';
+const { max } = require('lodash');
 const nspell = require('nspell');
 const cyGB = require('dictionary-cy-gb');
 const enGB = require('dictionary-en-gb');
@@ -25,26 +26,23 @@ module.exports = function checkSpelling({ searchTerm, locale = 'en' }) {
                 };
             });
 
-            const suggestions = terms
-                .filter(term => term.suggestions.length > 0)
-                .reduce((acc, term) => {
-                    if (acc.length === 0) {
-                        acc = term.suggestions.map(suggestion => searchTerm.replace(term.word, suggestion));
-                    } else {
-                        acc = acc.map(s => {
-                            let fixedSuggestion = s;
-                            term.suggestions.forEach(suggestion => {
-                                fixedSuggestion = fixedSuggestion.replace(term.word, suggestion);
-                            });
-                            return fixedSuggestion;
-                        });
-                    }
-                    return acc;
-                }, []);
+            function buildSuggestions() {
+                const permutationLimit = max(terms.map(term => term.suggestions.length));
+                const permutations = new Array(permutationLimit).fill(searchTerm);
+                const termsWithSuggestions = terms.filter(term => term.suggestions.length > 0);
+                return permutations.map((permutation, index) => {
+                    termsWithSuggestions.forEach(term => {
+                        const replacement = term.suggestions[index] || term.suggestions[0];
+                        permutation = permutation.replace(term.word, replacement);
+                    });
+
+                    return permutation;
+                });
+            }
 
             return resolve({
                 hasTypo: terms.some(term => term.isCorrect === false),
-                suggestions
+                suggestions: buildSuggestions()
             });
         });
     });
