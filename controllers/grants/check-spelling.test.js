@@ -25,12 +25,22 @@ describe('checkSpelling', () => {
 
     test('accept multiple words', async () => {
         const result = await checkSpelling({
-            searchTerm: 'peeple and comunity',
+            searchTerm: 'people and comunity',
             locale: 'en'
         });
 
         expect(result.hasTypo).toBeTruthy();
         expect(result.suggestions).toEqual(['people and community']);
+    });
+
+    test('allow multiple typos', async () => {
+        const result = await checkSpelling({
+            searchTerm: 'pebple and comunity',
+            locale: 'en'
+        });
+
+        expect(result.hasTypo).toBeTruthy();
+        expect(result.suggestions).toEqual(['people and community', 'pebble and community']);
     });
 
     test('no suggestions for correct words', async () => {
