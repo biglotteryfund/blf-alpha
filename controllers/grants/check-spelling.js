@@ -25,22 +25,22 @@ module.exports = function checkSpelling({ searchTerm, locale = 'en' }) {
                 };
             });
 
-            let suggestions = [];
-            terms
+            const suggestions = terms
                 .filter(term => term.suggestions.length > 0)
-                .forEach(term => {
-                    if (suggestions.length === 0) {
-                        suggestions = term.suggestions.map(fixedWord => searchTerm.replace(term.word, fixedWord));
+                .reduce((acc, term) => {
+                    if (acc.length === 0) {
+                        acc = term.suggestions.map(suggestion => searchTerm.replace(term.word, suggestion));
                     } else {
-                        suggestions = suggestions.map(s => {
+                        acc = acc.map(s => {
                             let fixedSuggestion = s;
-                            term.suggestions.forEach(fixedWord => {
-                                fixedSuggestion = fixedSuggestion.replace(term.word, fixedWord);
+                            term.suggestions.forEach(suggestion => {
+                                fixedSuggestion = fixedSuggestion.replace(term.word, suggestion);
                             });
                             return fixedSuggestion;
                         });
                     }
-                });
+                    return acc;
+                }, []);
 
             return resolve({
                 hasTypo: terms.some(term => term.isCorrect === false),
