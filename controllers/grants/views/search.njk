@@ -309,7 +309,7 @@
                     <div class="s-prose u-margin-bottom" v-if="totalResults === 0">
                         <h3>{{ copy.errors.noResults.title }}</h3>
 
-                        {% if searchSuggestions and searchSuggestions.searchHadATypo %}
+                        {% if searchSuggestions and searchSuggestions.hasTypo %}
                             <p>{{ copy.errors.noResults.didYouMean }}</p>
                             <ul>
                                 {% for s in searchSuggestions.suggestions %}
