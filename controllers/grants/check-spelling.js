@@ -11,35 +11,31 @@ module.exports = function checkSpelling({ searchTerm, locale = 'en' }) {
                 return reject(err);
             }
 
-            const alphaNumeric = /[^a-zA-Z0-9 -]/g;
-
             const spell = nspell(dict);
 
             const terms = searchTerm.split(' ').map(word => {
-                const wordAlphaNumeric = word.replace(alphaNumeric, '');
+                const wordAlphaNumeric = word.replace(/[^a-zA-Z0-9 -]/g, '');
                 const isCorrect = spell.correct(wordAlphaNumeric);
+                const suggestions = isCorrect ? [] : spell.suggest(wordAlphaNumeric);
 
                 return {
                     word,
+                    suggestions,
                     isCorrect
                 };
             });
 
             let suggestions = [];
-            searchTerm.split(' ').forEach(word => {
-                const wordAlphaNumeric = word.replace(alphaNumeric, '');
-                const isCorrect = spell.correct(wordAlphaNumeric);
-                const wordSuggestions = isCorrect ? [] : spell.suggest(wordAlphaNumeric);
-
+            terms.forEach(term => {
                 // Build up a list of replaced words (allowing for multiple typos)
-                if (wordSuggestions.length > 0) {
+                if (term.suggestions.length > 0) {
                     if (suggestions.length === 0) {
-                        suggestions = wordSuggestions.map(fixedWord => searchTerm.replace(word, fixedWord));
+                        suggestions = term.suggestions.map(fixedWord => searchTerm.replace(term.word, fixedWord));
                     } else {
                         suggestions = suggestions.map(s => {
                             let fixedSuggestion = s;
-                            wordSuggestions.forEach(fixedWord => {
-                                fixedSuggestion = fixedSuggestion.replace(word, fixedWord);
+                            term.suggestions.forEach(fixedWord => {
+                                fixedSuggestion = fixedSuggestion.replace(term.word, fixedWord);
                             });
                             return fixedSuggestion;
                         });
