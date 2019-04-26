@@ -249,6 +249,10 @@ function initFormRouter({ id, formModel, formBuilder, processor }) {
      * Create a new blank application and redirect to first step
      */
     router.get('/new', async function(req, res) {
+        const form = formBuilder({
+            locale: req.i18n.getLocale()
+        });
+
         try {
             const application = await applicationsService.createApplication({
                 formId: id,
@@ -257,7 +261,7 @@ function initFormRouter({ id, formModel, formBuilder, processor }) {
 
             setCurrentlyEditingId(req, application.id);
             req.session.save(() => {
-                const firstSection = head(formModel.sections);
+                const firstSection = head(form.sections);
                 res.redirect(`${req.baseUrl}/${firstSection.slug}`);
             });
         } catch (error) {
