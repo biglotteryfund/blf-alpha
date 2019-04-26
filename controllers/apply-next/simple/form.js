@@ -15,63 +15,102 @@ module.exports = function({ locale, data = {} }) {
     const MAX_BUDGET_TOTAL_GBP = 10000;
 
     const countries = {
-        england: { value: 'england', label: { en: 'England', cy: '' } },
-        northernIreland: { value: 'northern-ireland', label: { en: 'Northern Ireland', cy: '' } },
-        scotland: { value: 'scotland', label: { en: 'Scotland', cy: '' } },
-        wales: { value: 'wales', label: { en: 'Wales', cy: '' } }
+        england: { value: 'england', label: localise({ en: 'England', cy: '' }) },
+        northernIreland: { value: 'northern-ireland', label: localise({ en: 'Northern Ireland', cy: '' }) },
+        scotland: { value: 'scotland', label: localise({ en: 'Scotland', cy: '' }) },
+        wales: { value: 'wales', label: localise({ en: 'Wales', cy: '' }) }
     };
 
     const organisationTypes = {
         unregisteredVco: {
             value: 'unregistered-vco',
-            label: { en: 'Unregistered voluntary or community organisation', cy: '' },
-            explanation: {
+            label: localise({ en: 'Unregistered voluntary or community organisation', cy: '' }),
+            explanation: localise({
                 en: `Groups that are consituted but not registered as a charity or company, for example, Scouts groups, sports clubs, community groups, residents associations`,
                 cy: ``
-            }
+            })
         },
         unincorporatedRegisteredCharity: {
             value: 'unincorporated-registered-charity',
-            label: { en: 'Registered charity (unincorporated)', cy: '' },
-            explanation: {
+            label: localise({ en: 'Registered charity (unincorporated)', cy: '' }),
+            explanation: localise({
                 en: `Voluntary and community organisations that are registered charities but are not also registered with Companies House as a Company`,
                 cy: ``
-            }
+            })
         },
         charitableIncorporatedOrganisation: {
             value: 'charitable-incorporated-organisation',
-            label: { en: 'Charitable incorporated organisation (CIO)', cy: '' }
+            label: localise({ en: 'Charitable incorporated organisation (CIO)', cy: '' })
         },
         notForProfitCompany: {
             value: 'not-for-profit-company',
-            label: { en: 'Not-for-profit company', cy: '' },
-            explanation: {
+            label: localise({ en: 'Not-for-profit company', cy: '' }),
+            explanation: localise({
                 en: `Not for profit companies registered with Companies House including those registered as Charities`,
                 cy: ``
-            }
+            })
         },
         school: {
             value: 'school',
-            label: { en: 'School or educational body', cy: '' },
-            explanation: {
+            label: localise({ en: 'School or educational body', cy: '' }),
+            explanation: localise({
                 en: `Only select this option if your organisation is a school or regsitered educational establishment`,
                 cy: ``
-            }
+            })
         },
         statutoryBody: {
             value: 'statutory-body',
-            label: { en: 'Statutory body', cy: '' },
-            explanation: { en: 'For example, Health Body, Local Authority, Parish Council, Police', cy: '' }
+            label: localise({ en: 'Statutory body', cy: '' }),
+            explanation: localise({ en: 'For example, Health Body, Local Authority, Parish Council, Police', cy: '' })
         }
     };
 
+    function seniorContactRolesFor(organisationType) {
+        let options = [];
+        switch (organisationType) {
+            case organisationTypes.unregisteredVco.value:
+                options = [
+                    { value: 'chair', label: localise({ en: 'Chair', cy: '' }) },
+                    { value: 'vice-chair', label: localise({ en: 'Vice-chair', cy: '' }) },
+                    { value: 'secretary', label: localise({ en: 'Secretary', cy: '' }) },
+                    { value: 'treasurer', label: localise({ en: 'Treasurer', cy: '' }) }
+                ];
+                break;
+            case organisationTypes.unincorporatedRegisteredCharity.value:
+            case organisationTypes.charitableIncorporatedOrganisation.value:
+                options = [{ value: 'trustee', label: localise({ en: 'Trustee', cy: '' }) }];
+                break;
+            case organisationTypes.notForProfitCompany.value:
+                options = [
+                    { value: 'company-director', label: localise({ en: 'Company Director', cy: '' }) },
+                    { value: 'company-secretary', label: localise({ en: 'Company Secretary', cy: '' }) }
+                ];
+                break;
+            case organisationTypes.school.value:
+                options = [
+                    { value: 'head-teacher', label: localise({ en: 'Head Teacher', cy: '' }) },
+                    { value: 'chancellor', label: localise({ en: 'Chancellor', cy: '' }) },
+                    { value: 'vice-chancellor', label: localise({ en: 'Vice-chancellor', cy: '' }) }
+                ];
+                break;
+            case organisationTypes.statutoryBody.value:
+                options = [
+                    { value: 'parish-clerk', label: localise({ en: 'Parish Clerk', cy: '' }) },
+                    { value: 'chief-executive', label: localise({ en: 'Chief Executive', cy: '' }) }
+                ];
+                break;
+            default:
+                break;
+        }
+
+        return options;
+    }
+
     function emailField(props) {
         const defaultProps = {
-            label: { en: 'Email', cy: '' },
+            label: localise({ en: 'Email', cy: '' }),
             type: 'email',
-            attributes: {
-                autocomplete: 'email'
-            },
+            attributes: { autocomplete: 'email' },
             isRequired: true,
             schema: Joi.string()
                 .email()
@@ -190,10 +229,10 @@ module.exports = function({ locale, data = {} }) {
 
     function dateOfBirthField(minAge, props) {
         const defaultProps = {
-            explanation: {
+            explanation: localise({
                 en: `It's important to make sure the date of birth is correct, as errors will fail our authenticity checks and delay your application.`,
                 cy: ''
-            },
+            }),
             type: 'date',
             attributes: {
                 max: moment()
@@ -206,14 +245,6 @@ module.exports = function({ locale, data = {} }) {
                 then: Joi.any().optional(),
                 otherwise: commonValidators.dateOfBirth(minAge).required()
             }),
-            shouldShow(formData = {}) {
-                return (
-                    includes(
-                        [organisationTypes.school.value, organisationTypes.statutoryBody.value],
-                        getOrganisationType(formData)
-                    ) === false
-                );
-            },
             messages: [
                 {
                     type: 'base',
@@ -237,13 +268,13 @@ module.exports = function({ locale, data = {} }) {
         const defaultProps = {
             type: 'radio',
             options: [
-                { value: 'audiotape', label: { en: 'Audiotape', cy: '' } },
-                { value: 'braille', label: { en: 'Braille', cy: '' } },
-                { value: 'disk', label: { en: 'Disk', cy: '' } },
-                { value: 'large-print', label: { en: 'Large print', cy: '' } },
-                { value: 'letter', label: { en: 'Letter', cy: '' } },
-                { value: 'sign-language', label: { en: 'Sign language', cy: '' } },
-                { value: 'text-relay', label: { en: 'Text relay', cy: '' } }
+                { value: 'audiotape', label: localise({ en: 'Audiotape', cy: '' }) },
+                { value: 'braille', label: localise({ en: 'Braille', cy: '' }) },
+                { value: 'disk', label: localise({ en: 'Disk', cy: '' }) },
+                { value: 'large-print', label: localise({ en: 'Large print', cy: '' }) },
+                { value: 'letter', label: localise({ en: 'Letter', cy: '' }) },
+                { value: 'sign-language', label: localise({ en: 'Sign language', cy: '' }) },
+                { value: 'text-relay', label: localise({ en: 'Text relay', cy: '' }) }
             ],
             get schema() {
                 return Joi.array()
@@ -265,8 +296,8 @@ module.exports = function({ locale, data = {} }) {
     const allFields = {
         projectName: {
             name: 'project-name',
-            label: { en: 'What is the name of your project?', cy: '' },
-            explanation: { en: 'The project name should be simple and to the point', cy: '' },
+            label: localise({ en: 'What is the name of your project?', cy: '' }),
+            explanation: localise({ en: 'The project name should be simple and to the point', cy: '' }),
             type: 'text',
             isRequired: true,
             schema: Joi.string().required(),
@@ -274,12 +305,12 @@ module.exports = function({ locale, data = {} }) {
         },
         projectCountry: {
             name: 'project-country',
-            label: { en: 'What country will your project be based in?', cy: '' },
-            explanation: {
+            label: localise({ en: 'What country will your project be based in?', cy: '' }),
+            explanation: localise({
                 en:
                     'We work slightly differently depending on which country your project is based in, to meet local needs and the regulations that apply there.',
                 cy: ''
-            },
+            }),
             type: 'radio',
             options: values(countries),
             isRequired: true,
@@ -292,10 +323,10 @@ module.exports = function({ locale, data = {} }) {
         },
         projectStartDate: {
             name: 'project-start-date',
-            label: {
+            label: localise({
                 en: 'When is the planned (or estimated) start date of your project?',
                 cy: '(WELSH) When is the planned (or estimated) start date of your project?'
-            },
+            }),
             get settings() {
                 const dt = moment().add(12, 'weeks');
                 return {
@@ -305,11 +336,11 @@ module.exports = function({ locale, data = {} }) {
                 };
             },
             get explanation() {
-                return {
+                return localise({
                     en: `<p>This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
                 <p><strong>For example: ${this.settings.minDateExample}</strong></p>`,
                     cy: ''
-                };
+                });
             },
             type: 'date',
             isRequired: true,
@@ -339,16 +370,14 @@ module.exports = function({ locale, data = {} }) {
         },
         projectPostcode: {
             name: 'project-postcode',
-            label: {
+            label: localise({
                 en: 'What is the postcode of the location where your project will take place?',
-                cy: '(WELSH) What is the postcode of the location where your project will take place?'
-            },
-            explanation: {
-                en:
-                    'If your project will take place across different locations, please use the postcode where most of the project will take place.',
-                cy:
-                    '(WELSH) If your project will take place across different locations, please use the postcode where most of the project will take place.'
-            },
+                cy: ''
+            }),
+            explanation: localise({
+                en: `If your project will take place across different locations, please use the postcode where most of the project will take place.`,
+                cy: ''
+            }),
             type: 'text',
             attributes: {
                 size: 10,
@@ -360,11 +389,11 @@ module.exports = function({ locale, data = {} }) {
         },
         yourIdeaProject: {
             name: 'your-idea-project',
-            label: {
+            label: localise({
                 en: 'What would you like to do?',
                 cy: ''
-            },
-            explanation: {
+            }),
+            explanation: localise({
                 en: `
             <p><strong>Here are some ideas of what to tell us about your project:</strong></p>
             <ul>
@@ -377,7 +406,7 @@ module.exports = function({ locale, data = {} }) {
                 <li>Is it something new, or are you continuing something that has worked well previously? We want to fund both types of projects</li>
             </ul>`,
                 cy: 'TODO'
-            },
+            }),
             type: 'textarea',
             settings: {
                 showWordCount: true,
@@ -385,9 +414,7 @@ module.exports = function({ locale, data = {} }) {
                 maxWords: 300,
                 recommendedWords: 250
             },
-            attributes: {
-                rows: 20
-            },
+            attributes: { rows: 20 },
             isRequired: true,
             get schema() {
                 return Joi.string()
@@ -414,11 +441,11 @@ module.exports = function({ locale, data = {} }) {
         },
         yourIdeaPriorities: {
             name: 'your-idea-priorities',
-            label: {
+            label: localise({
                 en: 'How does your project meet at least one of our funding priorities?',
                 cy: ''
-            },
-            explanation: {
+            }),
+            explanation: localise({
                 en: `
             <p>National Lottery Awards for All has three funding priorities, please tell us how your project will <strong>meet at least one of these:</strong></p>
             <ol>
@@ -428,7 +455,7 @@ module.exports = function({ locale, data = {} }) {
             </ol>
             <p>You can tell us if your project meets more than one priority, but don't worry if it doesn't.</p>`,
                 cy: ''
-            },
+            }),
             type: 'textarea',
             settings: {
                 showWordCount: true,
@@ -465,11 +492,11 @@ module.exports = function({ locale, data = {} }) {
         },
         yourIdeaCommunity: {
             name: 'your-idea-community',
-            label: {
+            label: localise({
                 en: 'How does your project involve your community?',
                 cy: ''
-            },
-            explanation: {
+            }),
+            explanation: localise({
                 en: `
             <details>
                 <summary>What do we mean by 'community'?</summary>
@@ -490,7 +517,7 @@ module.exports = function({ locale, data = {} }) {
                 <li>Running open days</li>
             </ul>`,
                 cy: ''
-            },
+            }),
             type: 'textarea',
             settings: {
                 showWordCount: true,
@@ -498,9 +525,7 @@ module.exports = function({ locale, data = {} }) {
                 maxWords: 200,
                 recommendedWords: 150
             },
-            attributes: {
-                rows: 15
-            },
+            attributes: { rows: 15 },
             isRequired: true,
             get schema() {
                 return Joi.string()
@@ -527,17 +552,17 @@ module.exports = function({ locale, data = {} }) {
         },
         projectBudget: {
             name: 'project-budget',
-            label: {
+            label: localise({
                 en: 'List the costs you would like us to fund',
                 cy: ''
-            },
-            explanation: {
+            }),
+            explanation: localise({
                 en: `
 <p>You should use budget headings, rather than a detailed list of items.</p>
 <p>For example, if you're applying for pens, pencils, paper and envelopes, using 'office supplies' is fine.</p>
             `,
                 cy: 'TODO'
-            },
+            }),
             type: 'budget',
             attributes: {
                 max: MAX_BUDGET_TOTAL_GBP,
@@ -560,18 +585,18 @@ module.exports = function({ locale, data = {} }) {
         },
         projectTotalCosts: {
             name: 'project-total-costs',
-            label: {
+            label: localise({
                 en: 'Tell us the total cost of your project.',
                 cy: '(WELSH) Tell us the total cost of your project.'
-            },
-            explanation: {
+            }),
+            explanation: localise({
                 en: `
             <p>This is the cost of everything related to your project, even things you aren't asking us to fund.</p>
 
             <p>For example, if you are asking us for £8,000 and you are getting £10,000 from another funder to cover additional costs, then your total project cost is £18,000. If you are asking us for £8,000 and there are no other costs then your total project cost is £8,000.</p>
             `,
                 cy: 'TODO'
-            },
+            }),
             type: 'currency',
             isRequired: true,
             schema: Joi.budgetTotalCosts().required(),
@@ -595,16 +620,16 @@ module.exports = function({ locale, data = {} }) {
         },
         organisationLegalName: {
             name: 'organisation-legal-name',
-            label: {
+            label: localise({
                 en: 'What is the full legal name of your organisation?',
                 cy: '(WELSH) What is the full legal name of your organisation, as shown on your governing document?'
-            },
-            explanation: {
+            }),
+            explanation: localise({
                 en: `
             <p>This must be as shown on your <strong>governing document</strong>. Your governing document could be called one of several things, depending on the type of organisation you're applying on behalf of. It may be called a constitution, trust deed, memorandum and articles of association, or something else entirely.</p>
             `,
                 cy: ''
-            },
+            }),
             type: 'text',
             isRequired: true,
             schema: Joi.string().required(),
@@ -612,7 +637,7 @@ module.exports = function({ locale, data = {} }) {
         },
         organisationAlias: {
             name: 'organisation-alias',
-            label: { en: 'Does your organisation use a different name in your day-to-day work?', cy: '' },
+            label: localise({ en: 'Does your organisation use a different name in your day-to-day work?', cy: '' }),
             type: 'text',
             isRequired: false,
             schema: Joi.string()
@@ -622,11 +647,14 @@ module.exports = function({ locale, data = {} }) {
         },
         organisationAddress: addressField({
             name: 'organisation-address',
-            label: { en: 'What is the main or registered address of your organisation?', cy: '' }
+            label: localise({ en: 'What is the main or registered address of your organisation?', cy: '' })
         }),
         organisationType: {
             name: 'organisation-type',
-            label: { en: 'What type of organisation are you?', cy: '(WELSH) What type of organisation are you?' },
+            label: localise({
+                en: 'What type of organisation are you?',
+                cy: '(WELSH) What type of organisation are you?'
+            }),
             type: 'radio',
             options: values(organisationTypes),
             isRequired: true,
@@ -639,12 +667,9 @@ module.exports = function({ locale, data = {} }) {
         },
         companyNumber: {
             name: 'company-number',
-            label: { en: 'Companies house number', cy: '' },
+            label: localise({ en: 'Companies house number', cy: '' }),
             type: 'text',
             isRequired: true,
-            shouldShow(formData = {}) {
-                return getOrganisationType(formData) === organisationTypes.notForProfitCompany.value;
-            },
             schema: Joi.when('organisation-type', {
                 is: organisationTypes.notForProfitCompany.value,
                 then: Joi.string().required()
@@ -653,11 +678,11 @@ module.exports = function({ locale, data = {} }) {
         },
         charityNumber: {
             name: 'charity-number',
-            label: { en: 'Charity registration number', cy: '' },
-            explanation: {
+            label: localise({ en: 'Charity registration number', cy: '' }),
+            explanation: localise({
                 en: `If you are registered with OSCR, you only need to provide the last five digits of your registration number.`,
                 cy: ''
-            },
+            }),
             type: 'text',
             attributes: { size: 20 },
             isRequired: includes(
@@ -667,16 +692,6 @@ module.exports = function({ locale, data = {} }) {
                 ],
                 getOrganisationType(data)
             ),
-            shouldShow(formData = {}) {
-                return includes(
-                    [
-                        organisationTypes.unincorporatedRegisteredCharity.value,
-                        organisationTypes.charitableIncorporatedOrganisation.value,
-                        organisationTypes.notForProfitCompany.value
-                    ],
-                    getOrganisationType(formData)
-                );
-            },
             schema: Joi.when('organisation-type', {
                 is: organisationTypes.unincorporatedRegisteredCharity.value,
                 then: Joi.number().required()
@@ -693,11 +708,11 @@ module.exports = function({ locale, data = {} }) {
         },
         accountingYearDate: {
             name: 'accounting-year-date',
-            label: { en: 'What is your accounting year end date?', cy: '' },
-            explanation: {
+            label: localise({ en: 'What is your accounting year end date?', cy: '' }),
+            explanation: localise({
                 en: `<p><strong>For example: 31 03</strong></p>`,
                 cy: ''
-            },
+            }),
             type: 'day-month',
             isRequired: true,
             schema: Joi.dayMonth().required(),
@@ -708,7 +723,7 @@ module.exports = function({ locale, data = {} }) {
         },
         totalIncomeYear: {
             name: 'total-income-year',
-            label: { en: 'What is your total income for the year?', cy: '' },
+            label: localise({ en: 'What is your total income for the year?', cy: '' }),
             type: 'currency',
             isRequired: true,
             schema: Joi.number().required(),
@@ -719,144 +734,89 @@ module.exports = function({ locale, data = {} }) {
         },
         mainContactFirstName: firstNameField({
             name: 'main-contact-first-name',
-            label: { en: 'First name', cy: '' }
+            label: localise({ en: 'First name', cy: '' })
         }),
         mainContactLastName: lastNameField({
             name: 'main-contact-last-name',
-            label: { en: 'Last name', cy: '' }
+            label: localise({ en: 'Last name', cy: '' })
         }),
         mainContactDob: dateOfBirthField(MIN_AGE_MAIN_CONTACT, {
             name: 'main-contact-dob',
-            label: { en: 'Date of birth', cy: '' }
+            label: localise({ en: 'Date of birth', cy: '' })
         }),
         mainContactAddress: addressField({
             name: 'main-contact-address',
-            label: { en: 'Address', cy: '' },
+            label: localise({ en: 'Address', cy: '' }),
             schema: Joi.when(Joi.ref('organisation-type'), {
                 is: organisationTypes.school.value,
                 then: Joi.any().optional(),
                 otherwise: commonValidators.ukAddress().required()
-            }),
-            shouldShow(formData = {}) {
-                return (
-                    includes(
-                        [organisationTypes.school.value, organisationTypes.statutoryBody.value],
-                        getOrganisationType(formData)
-                    ) === false
-                );
-            }
+            })
         }),
         mainContactEmail: emailField({
             name: 'main-contact-email',
-            label: { en: 'Email', cy: '' },
-            explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' }
+            label: localise({ en: 'Email', cy: '' }),
+            explanation: localise({ en: 'We’ll use this whenever we get in touch about the project', cy: '' })
         }),
         mainContactPhone: phoneField({
             name: 'main-contact-phone',
-            label: { en: 'Telephone number', cy: '' }
+            label: localise({ en: 'Telephone number', cy: '' })
         }),
         mainContactCommunicationNeeds: communicationNeedsField({
             name: 'main-contact-communication-needs',
-            label: { en: 'Please tell us about any particular communication needs this contact has.', cy: '' }
+            label: localise({ en: 'Please tell us about any particular communication needs this contact has.', cy: '' })
         }),
         seniorContactFirstName: firstNameField({
             name: 'senior-contact-first-name',
-            label: { en: 'First name', cy: '' }
+            label: localise({ en: 'First name', cy: '' })
         }),
         seniorContactLastName: lastNameField({
             name: 'senior-contact-last-name',
-            label: { en: 'Last name', cy: '' }
+            label: localise({ en: 'Last name', cy: '' })
         }),
         seniorContactRole: {
             name: 'senior-contact-role',
-            label: { en: 'Role', cy: '' },
-            explanation: {
+            label: localise({ en: 'Role', cy: '' }),
+            explanation: localise({
                 en: `The position held by the senior contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.`,
                 cy: ''
-            },
+            }),
             type: 'radio',
-            options: (function() {
-                let options = [];
-                switch (getOrganisationType(data)) {
-                    case organisationTypes.unregisteredVco.value:
-                        options = [
-                            { value: 'chair', label: { en: 'Chair', cy: '' } },
-                            { value: 'vice-chair', label: { en: 'Vice-chair', cy: '' } },
-                            { value: 'secretary', label: { en: 'Secretary', cy: '' } },
-                            { value: 'treasurer', label: { en: 'Treasurer', cy: '' } }
-                        ];
-                        break;
-                    case organisationTypes.unincorporatedRegisteredCharity.value:
-                    case organisationTypes.charitableIncorporatedOrganisation.value:
-                        options = [{ value: 'trustee', label: { en: 'Trustee', cy: '' } }];
-                        break;
-                    case organisationTypes.notForProfitCompany.value:
-                        options = [
-                            { value: 'company-director', label: { en: 'Company Director', cy: '' } },
-                            { value: 'company-secretary', label: { en: 'Company Secretary', cy: '' } }
-                        ];
-                        break;
-                    case organisationTypes.school.value:
-                        options = [
-                            { value: 'head-teacher', label: { en: 'Head Teacher', cy: '' } },
-                            { value: 'chancellor', label: { en: 'Chancellor', cy: '' } },
-                            { value: 'vice-chancellor', label: { en: 'Vice-chancellor', cy: '' } }
-                        ];
-                        break;
-                    case organisationTypes.statutoryBody.value:
-                        options = [
-                            { value: 'parish-clerk', label: { en: 'Parish Clerk', cy: '' } },
-                            { value: 'chief-executive', label: { en: 'Chief Executive', cy: '' } }
-                        ];
-                        break;
-                    default:
-                        break;
-                }
-
-                return options;
-            })(),
+            options: seniorContactRolesFor(getOrganisationType(data)),
             isRequired: true,
             schema: Joi.string().required(),
             messages: [{ type: 'base', message: { en: 'Choose a role', cy: '' } }]
         },
         seniorContactDob: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
             name: 'senior-contact-dob',
-            label: { en: 'Date of birth', cy: '' }
+            label: localise({ en: 'Date of birth', cy: '' })
         }),
         seniorContactAddress: addressField({
             name: 'senior-contact-address',
-            label: { en: 'Address', cy: '' },
+            label: localise({ en: 'Address', cy: '' }),
             schema: Joi.when(Joi.ref('organisation-type'), {
                 is: organisationTypes.school.value,
                 then: Joi.any().optional(),
                 otherwise: commonValidators.ukAddress().required()
-            }),
-            shouldShow(formData = {}) {
-                return (
-                    includes(
-                        [organisationTypes.school.value, organisationTypes.statutoryBody.value],
-                        getOrganisationType(formData)
-                    ) === false
-                );
-            }
+            })
         }),
         seniorContactEmail: emailField({
             name: 'senior-contact-email',
-            label: { en: 'Email', cy: '' },
-            explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' }
+            label: localise({ en: 'Email', cy: '' }),
+            explanation: localise({ en: 'We’ll use this whenever we get in touch about the project', cy: '' })
         }),
         seniorContactPhone: phoneField({
             name: 'senior-contact-phone',
-            label: { en: 'Telephone number', cy: '' }
+            label: localise({ en: 'Telephone number', cy: '' })
         }),
         seniorContactCommunicationNeeds: communicationNeedsField({
             name: 'senior-contact-communication-needs',
-            label: { en: 'Please tell us about any particular communication needs this contact has.', cy: '' }
+            label: localise({ en: 'Please tell us about any particular communication needs this contact has.', cy: '' })
         }),
         bankAccountName: {
             name: 'bank-account-name',
-            label: { en: 'Name on the bank account', cy: '' },
-            explanation: { en: 'Name of your organisation as it appears on your bank statement', cy: '' },
+            label: localise({ en: 'Name on the bank account', cy: '' }),
+            explanation: localise({ en: 'Name of your organisation as it appears on your bank statement', cy: '' }),
             type: 'text',
             isRequired: true,
             schema: Joi.string().required(),
@@ -864,18 +824,16 @@ module.exports = function({ locale, data = {} }) {
         },
         bankSortCode: {
             name: 'bank-sort-code',
-            label: { en: 'Sort code', cy: '' },
+            label: localise({ en: 'Sort code', cy: '' }),
             type: 'text',
-            attributes: {
-                size: 20
-            },
+            attributes: { size: 20 },
             isRequired: true,
             schema: Joi.string().required(),
             messages: [{ type: 'base', message: { en: 'Enter a sort-code', cy: '' } }]
         },
         bankAccountNumber: {
             name: 'bank-account-number',
-            label: { en: 'Account number', cy: '' },
+            label: localise({ en: 'Account number', cy: '' }),
             type: 'text',
             isRequired: true,
             schema: Joi.string().required(),
@@ -883,12 +841,12 @@ module.exports = function({ locale, data = {} }) {
         },
         bankBuildingSocietyNumber: {
             name: 'bank-building-society-number',
-            label: { en: 'Building society number (if applicable)', cy: '' },
+            label: localise({ en: 'Building society number (if applicable)', cy: '' }),
             type: 'text',
-            explanation: {
+            explanation: localise({
                 en: 'This is only applicable if your organisation’s account is with a building society.',
                 cy: ''
-            },
+            }),
             isRequired: false,
             schema: Joi.string()
                 .allow('')
@@ -897,7 +855,7 @@ module.exports = function({ locale, data = {} }) {
         },
         bankStatement: {
             name: 'bank-statement',
-            label: { en: 'Upload a bank statement', cy: '' },
+            label: localise({ en: 'Upload a bank statement', cy: '' }),
             type: 'file',
             isRequired: true,
             schema: Joi.string().required(),
@@ -915,6 +873,10 @@ module.exports = function({ locale, data = {} }) {
             {}
         )
     );
+
+    const includeAddressAndDob =
+        includes([organisationTypes.school.value, organisationTypes.statutoryBody.value], getOrganisationType(data)) ===
+        false;
 
     const sectionProject = {
         slug: 'your-project',
@@ -994,7 +956,31 @@ module.exports = function({ locale, data = {} }) {
                 fieldsets: [
                     {
                         legend: localise({ en: 'Registration numbers', cy: '' }),
-                        fields: [allFields.companyNumber, allFields.charityNumber]
+                        get fields() {
+                            const fields = [];
+
+                            const includeCompanyNumber =
+                                getOrganisationType(data) === organisationTypes.notForProfitCompany.value;
+
+                            if (includeCompanyNumber) {
+                                fields.push(allFields.companyNumber);
+                            }
+
+                            const includeCharityNumber = includes(
+                                [
+                                    organisationTypes.unincorporatedRegisteredCharity.value,
+                                    organisationTypes.charitableIncorporatedOrganisation.value,
+                                    organisationTypes.notForProfitCompany.value
+                                ],
+                                getOrganisationType(data)
+                            );
+
+                            if (includeCharityNumber) {
+                                fields.push(allFields.charityNumber);
+                            }
+
+                            return fields;
+                        }
                     }
                 ]
             },
@@ -1035,15 +1021,27 @@ module.exports = function({ locale, data = {} }) {
                             </p>`,
                             cy: ''
                         }),
-                        fields: [
-                            allFields.mainContactFirstName,
-                            allFields.mainContactLastName,
-                            allFields.mainContactDob,
-                            allFields.mainContactAddress,
-                            allFields.mainContactEmail,
-                            allFields.mainContactPhone,
-                            allFields.mainContactCommunicationNeeds
-                        ]
+                        get fields() {
+                            if (includeAddressAndDob) {
+                                return [
+                                    allFields.mainContactFirstName,
+                                    allFields.mainContactLastName,
+                                    allFields.mainContactDob,
+                                    allFields.mainContactAddress,
+                                    allFields.mainContactEmail,
+                                    allFields.mainContactPhone,
+                                    allFields.mainContactCommunicationNeeds
+                                ];
+                            } else {
+                                return [
+                                    allFields.mainContactFirstName,
+                                    allFields.mainContactLastName,
+                                    allFields.mainContactEmail,
+                                    allFields.mainContactPhone,
+                                    allFields.mainContactCommunicationNeeds
+                                ];
+                            }
+                        }
                     }
                 ]
             }
@@ -1068,16 +1066,29 @@ module.exports = function({ locale, data = {} }) {
                             <p>Your senior contact must be at least 18 years old and is legally responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.</p>`,
                             cy: ``
                         }),
-                        fields: [
-                            allFields.seniorContactFirstName,
-                            allFields.seniorContactLastName,
-                            allFields.seniorContactRole,
-                            allFields.seniorContactDob,
-                            allFields.seniorContactAddress,
-                            allFields.seniorContactEmail,
-                            allFields.seniorContactPhone,
-                            allFields.seniorContactCommunicationNeeds
-                        ]
+                        get fields() {
+                            if (includeAddressAndDob) {
+                                return [
+                                    allFields.seniorContactFirstName,
+                                    allFields.seniorContactLastName,
+                                    allFields.seniorContactRole,
+                                    allFields.seniorContactDob,
+                                    allFields.seniorContactAddress,
+                                    allFields.seniorContactEmail,
+                                    allFields.seniorContactPhone,
+                                    allFields.seniorContactCommunicationNeeds
+                                ];
+                            } else {
+                                return [
+                                    allFields.seniorContactFirstName,
+                                    allFields.seniorContactLastName,
+                                    allFields.seniorContactRole,
+                                    allFields.seniorContactEmail,
+                                    allFields.seniorContactPhone,
+                                    allFields.seniorContactCommunicationNeeds
+                                ];
+                            }
+                        }
                     }
                 ]
             }
@@ -1153,63 +1164,62 @@ module.exports = function({ locale, data = {} }) {
             {
                 name: 'terms-agreement-1',
                 type: 'checkbox',
-                label: {
+                label: localise({
                     en:
                         'You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.',
                     cy: ''
-                },
-                options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+                }),
+                options: [{ value: 'yes', label: localise({ en: 'I agree', cy: '' }) }],
                 isRequired: true
             },
             {
                 name: 'terms-agreement-2',
                 type: 'checkbox',
-                label: {
+                label: localise({
                     en:
                         'All the information you have provided in your application is accurate and complete; and you will notify us of any changes.',
                     cy: ''
-                },
-                options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+                }),
+                options: [{ value: 'yes', label: localise({ en: 'I agree', cy: '' }) }],
                 isRequired: true
             },
             {
                 name: 'terms-agreement-3',
                 type: 'checkbox',
-                label: {
+                label: localise({
                     en:
                         'You understand that we will use any personal information you have provided for the purposes described under the Data Protection Statement.',
                     cy: ''
-                },
-                options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+                }),
+                options: [{ value: 'yes', label: localise({ en: 'I agree', cy: '' }) }],
                 isRequired: true
             },
             {
                 name: 'terms-agreement-4',
                 type: 'checkbox',
-                label: {
+                label: localise({
                     en:
                         'If information about this application is requested under the Freedom of Information Act, we will release it in line with our Freedom of Information policy.',
                     cy: ''
-                },
-                options: [{ value: 'yes', label: { en: 'I agree', cy: '' } }],
+                }),
+                options: [{ value: 'yes', label: localise({ en: 'I agree', cy: '' }) }],
                 isRequired: true
             },
             {
                 name: 'terms-person-name',
                 autocompleteName: 'name',
                 type: 'text',
-                label: { en: 'Full name of person completing this form', cy: '' },
+                label: localise({ en: 'Full name of person completing this form', cy: '' }),
                 isRequired: true
             },
             {
                 name: 'terms-person-position',
                 autocompleteName: 'position',
                 type: 'text',
-                label: { en: 'Position in organisation', cy: '' },
+                label: localise({ en: 'Position in organisation', cy: '' }),
                 isRequired: true
             }
         ],
-        // @TODO i18n - move these to locale files when they're signed off
         eligibilityQuestions: [
             {
                 question: 'Does your organisation have at least two unconnected people on the board or committee?',
@@ -1255,10 +1265,6 @@ module.exports = function({ locale, data = {} }) {
         programmePage: '/funding/programmes/national-lottery-awards-for-all-england'
     };
 
-    // @TODO: Lift properties of enrich-form up here?
-    return enrichForm({
-        baseForm: formModel,
-        locale: locale,
-        data: data
-    });
+    // @TODO: Minimise transformations in enrich-form
+    return enrichForm(formModel, data);
 };

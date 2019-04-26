@@ -1,6 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const { map } = require('lodash');
+const { map, flatMap } = require('lodash');
 const faker = require('faker');
 const moment = require('moment');
 const Joi = require('joi');
@@ -323,10 +323,6 @@ describe('fields', () => {
             );
 
             expect(error.message).toContain('is required');
-
-            expect(allFields.companyNumber.shouldShow()).toBeFalsy();
-            expect(allFields.companyNumber.shouldShow({ 'organisation-type': 'not-for-profit-company' })).toBeTruthy();
-            expect(allFields.companyNumber.shouldShow({ 'organisation-type': 'school' })).toBeFalsy();
         });
     });
 
@@ -353,11 +349,6 @@ describe('fields', () => {
             );
 
             expect(error.message).toContain('is required');
-
-            expect(allFields.charityNumber.shouldShow()).toBeFalsy();
-            expect(
-                allFields.charityNumber.shouldShow({ 'organisation-type': 'unincorporated-registered-charity' })
-            ).toBeTruthy();
         });
 
         test('required if cio', () => {
@@ -372,25 +363,16 @@ describe('fields', () => {
             );
 
             expect(error.message).toContain('is required');
-
-            expect(allFields.charityNumber.shouldShow()).toBeFalsy();
-            expect(
-                allFields.charityNumber.shouldShow({ 'organisation-type': 'charitable-incorporated-organisation' })
-            ).toBeTruthy();
         });
 
-        test('shown but optional when a not for profit company', () => {
+        test('optional when a not for profit company', () => {
             const schemaWithOrgType = {
                 'organisation-type': allFields.organisationType.schema,
                 'charity-number': allFields.charityNumber.schema
             };
 
             const { error } = Joi.validate({ 'organisation-type': 'not-for-profit-company' }, schemaWithOrgType);
-
             expect(error).toBeNull();
-
-            expect(allFields.charityNumber.shouldShow()).toBeFalsy();
-            expect(allFields.charityNumber.shouldShow({ 'organisation-type': 'not-for-profit-company' })).toBeTruthy();
         });
     });
 
@@ -495,11 +477,6 @@ describe('fields', () => {
             );
 
             expect(error).toBeNull();
-
-            expect(field.shouldShow()).toBeTruthy();
-            expect(field.shouldShow({ 'organisation-type': 'unregistered-vco' })).toBeTruthy();
-            expect(field.shouldShow({ 'organisation-type': 'school' })).toBeFalsy();
-            expect(field.shouldShow({ 'organisation-type': 'statutory-body' })).toBeFalsy();
         });
     }
 
@@ -584,11 +561,6 @@ describe('fields', () => {
             );
 
             expect(error).toBeNull();
-
-            expect(allFields.mainContactDob.shouldShow()).toBeTruthy();
-            expect(allFields.mainContactDob.shouldShow({ 'organisation-type': 'unregistered-vco' })).toBeTruthy();
-            expect(allFields.mainContactDob.shouldShow({ 'organisation-type': 'school' })).toBeFalsy();
-            expect(allFields.mainContactDob.shouldShow({ 'organisation-type': 'statutory-body' })).toBeFalsy();
         });
     });
 
@@ -654,11 +626,6 @@ describe('fields', () => {
             );
 
             expect(error).toBeNull();
-
-            expect(allFields.seniorContactDob.shouldShow()).toBeTruthy();
-            expect(allFields.seniorContactDob.shouldShow({ 'organisation-type': 'unregistered-vco' })).toBeTruthy();
-            expect(allFields.seniorContactDob.shouldShow({ 'organisation-type': 'school' })).toBeFalsy();
-            expect(allFields.seniorContactDob.shouldShow({ 'organisation-type': 'statutory-body' })).toBeFalsy();
         });
     });
 
@@ -839,5 +806,87 @@ describe('form model', () => {
             });
             expect(form.allFields.seniorContactRole.options.map(o => o.value)).toEqual(expected);
         });
+    });
+
+    function fieldNamesFor(sectionSlug, stepTitle) {
+        return function(data) {
+            const form = formBuilder({
+                locale: 'en',
+                data: data
+            });
+
+            const section = form.sections.find(s => s.slug === sectionSlug);
+            const step = section.steps.find(s => s.title === stepTitle);
+            return map(flatMap(step.fieldsets, 'fields'), f => f.name);
+        };
+    }
+
+    test('registration numbers shown based on organisation type', () => {
+        const fieldNamesFn = fieldNamesFor('organisation', 'Registration numbers');
+
+        expect(fieldNamesFn({})).toEqual([]);
+
+        const mappings = {
+            'unincorporated-registered-charity': ['charity-number'],
+            'charitable-incorporated-organisation': ['charity-number'],
+            'not-for-profit-company': ['company-number', 'charity-number']
+        };
+
+        map(mappings, (expected, type) => {
+            const result = fieldNamesFn({ 'organisation-type': type });
+            expect(result).toEqual(expected);
+        });
+    });
+
+    test('exclude address and date of birth for schools or statutory bodies', () => {
+        const mainContactFn = fieldNamesFor('main-contact', 'Main contact');
+
+        const mainContactDefaultFields = [
+            'main-contact-first-name',
+            'main-contact-last-name',
+            'main-contact-dob',
+            'main-contact-address',
+            'main-contact-email',
+            'main-contact-phone',
+            'main-contact-communication-needs'
+        ];
+
+        const mainContactReducedFields = [
+            'main-contact-first-name',
+            'main-contact-last-name',
+            'main-contact-email',
+            'main-contact-phone',
+            'main-contact-communication-needs'
+        ];
+
+        expect(mainContactFn({})).toEqual(mainContactDefaultFields);
+        expect(mainContactFn({ 'organisation-type': 'school' })).toEqual(mainContactReducedFields);
+        expect(mainContactFn({ 'organisation-type': 'statutory-body' })).toEqual(mainContactReducedFields);
+
+        const seniorContactFn = fieldNamesFor('senior-contact', 'Senior contact');
+
+        const seniorContactDefaultFields = [
+            'senior-contact-first-name',
+            'senior-contact-last-name',
+            'senior-contact-role',
+            'senior-contact-dob',
+            'senior-contact-address',
+            'senior-contact-email',
+            'senior-contact-phone',
+            'senior-contact-communication-needs'
+        ];
+
+        const seniorContactReducedFields = [
+            'senior-contact-first-name',
+            'senior-contact-last-name',
+            'senior-contact-role',
+            'senior-contact-email',
+            'senior-contact-phone',
+            'senior-contact-communication-needs'
+        ];
+
+        expect(seniorContactFn({})).toEqual(seniorContactDefaultFields);
+        expect(seniorContactFn({ 'organisation-type': 'school' })).toEqual(seniorContactReducedFields);
+        expect(seniorContactFn({ 'organisation-type': 'statutory-body' })).toEqual(seniorContactReducedFields);
     });
 });
