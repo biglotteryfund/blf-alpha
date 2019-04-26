@@ -13,7 +13,6 @@ const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
 const { normaliseErrors } = require('../../modules/errors');
 
-const enhanceForm = require('./lib/enhance-form');
 const { nextAndPrevious } = require('./lib/pagination');
 const { FORM_STATES, calculateFormProgress } = require('./lib/progress');
 
@@ -44,7 +43,7 @@ function validateDataFor(form, data) {
     });
 }
 
-function initFormRouter({ id, formModel, processor }) {
+function initFormRouter({ id, formModel, formBuilder, processor }) {
     const router = express.Router();
 
     function sessionPrefix() {
@@ -60,8 +59,7 @@ function initFormRouter({ id, formModel, processor }) {
     }
 
     router.use(cached.csrfProtection, async (req, res, next) => {
-        const form = enhanceForm({
-            baseForm: formModel,
+        const form = formBuilder({
             locale: req.i18n.getLocale()
         });
 
@@ -83,9 +81,8 @@ function initFormRouter({ id, formModel, processor }) {
      * Optionally allows downloading as a PDF file (cached on disk)
      */
     router.get('/questions/:pdf?', (req, res) => {
-        const form = enhanceForm({
-            locale: req.i18n.getLocale(),
-            baseForm: formModel
+        const form = formBuilder({
+            locale: req.i18n.getLocale()
         });
 
         const output = {
@@ -160,9 +157,15 @@ function initFormRouter({ id, formModel, processor }) {
     router
         .route('/eligibility/:step?')
         .all(function(req, res, next) {
-            const { eligibilityQuestions } = formModel;
+            const form = formBuilder({
+                locale: req.i18n.getLocale()
+            });
+
+            res.locals.eligibilityQuestions = form.eligibilityQuestions;
+
             const currentStepNumber = parseInt(req.params.step);
-            const currentStep = eligibilityQuestions[currentStepNumber - 1];
+            const currentStep = form.eligibilityQuestions[currentStepNumber - 1];
+
             if (currentStep) {
                 res.locals.currentStep = currentStep;
                 res.locals.currentStepNumber = currentStepNumber;
@@ -172,8 +175,7 @@ function initFormRouter({ id, formModel, processor }) {
             }
         })
         .get(function(req, res) {
-            const { eligibilityQuestions } = formModel;
-            const { currentStep, currentStepNumber } = res.locals;
+            const { currentStep, currentStepNumber, eligibilityQuestions } = res.locals;
 
             res.render(path.resolve(__dirname, './views/eligibility'), {
                 eligibility: 'pending',
@@ -185,8 +187,7 @@ function initFormRouter({ id, formModel, processor }) {
             });
         })
         .post(async (req, res) => {
-            const { eligibilityQuestions } = formModel;
-            const { currentStepNumber } = res.locals;
+            const { currentStepNumber, eligibilityQuestions } = res.locals;
 
             if (req.body.eligibility === 'yes') {
                 const isComplete = currentStepNumber === eligibilityQuestions.length;
@@ -219,9 +220,8 @@ function initFormRouter({ id, formModel, processor }) {
             userId: req.user.userData.id
         });
 
-        const form = enhanceForm({
-            locale: req.i18n.getLocale(),
-            baseForm: formModel
+        const form = formBuilder({
+            locale: req.i18n.getLocale()
         });
 
         const applicationsWithProgress = applications.map(application => {
@@ -339,9 +339,8 @@ function initFormRouter({ id, formModel, processor }) {
                     res.locals.currentApplicationStatus = get(application, 'status');
                     res.locals.currentApplicationTitle = get(currentApplicationData, 'project-name');
 
-                    res.locals.form = enhanceForm({
+                    res.locals.form = formBuilder({
                         locale: req.i18n.getLocale(),
-                        baseForm: formModel,
                         data: currentApplicationData
                     });
                     next();
@@ -373,9 +372,8 @@ function initFormRouter({ id, formModel, processor }) {
             const numSteps = currentSection.steps.length;
 
             function renderStep(req, res, data, errors = []) {
-                const form = enhanceForm({
+                const form = formBuilder({
                     locale: req.i18n.getLocale(),
-                    baseForm: formModel,
                     data: data
                 });
 
@@ -421,9 +419,8 @@ function initFormRouter({ id, formModel, processor }) {
 
                     const dataToValidate = { ...currentApplicationData, ...req.body };
 
-                    const form = enhanceForm({
+                    const form = formBuilder({
                         locale: req.i18n.getLocale(),
-                        baseForm: formModel,
                         data: dataToValidate
                     });
 
@@ -495,9 +492,8 @@ function initFormRouter({ id, formModel, processor }) {
             const { currentApplicationData } = res.locals;
             res.locals.breadcrumbs = concat(res.locals.breadcrumbs, { label: 'Terms & Conditions' });
 
-            const form = enhanceForm({
+            const form = formBuilder({
                 locale: req.i18n.getLocale(),
-                baseForm: formModel,
                 data: currentApplicationData
             });
 

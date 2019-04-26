@@ -1,6 +1,7 @@
 'use strict';
 const { schema, allFields } = require('./fields');
 const validateModel = require('../lib/validate-model');
+const enhanceForm = require('../lib/enhance-form');
 
 const sectionProject = {
     slug: 'your-project',
@@ -345,9 +346,13 @@ const formModel = {
 
 validateModel(formModel);
 
-function formBuilder(/* locale, data = {} */) {
-    // Merge enhance-form
-    return formModel;
+// @TODO: Lift properties of enhance-form up here?
+function formBuilder({ locale, data = {} }) {
+    return enhanceForm({
+        baseForm: formModel,
+        locale: locale,
+        data: data
+    });
 }
 
 module.exports = {

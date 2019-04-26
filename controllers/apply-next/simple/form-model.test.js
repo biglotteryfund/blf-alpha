@@ -5,7 +5,7 @@ const { mockFullForm } = require('./mocks');
 
 describe('awards for all form model', () => {
     function validate(mock) {
-        const form = formBuilder('en');
+        const form = formBuilder({ locale: 'en' });
         return form.schema.validate(mock, {
             abortEarly: false,
             stripUnknown: true
