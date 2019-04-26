@@ -5,17 +5,80 @@ const faker = require('faker');
 const moment = require('moment');
 const Joi = require('joi');
 
-const { mockFullForm, mockAddress, mockBudget } = require('./mocks');
+function toDateParts(dt) {
+    return {
+        day: dt.date(),
+        month: dt.month() + 1,
+        year: dt.year()
+    };
+}
+
+function mockDateOfBirth() {
+    const dt = moment().subtract(faker.random.number({ min: 18, max: 75 }), 'years');
+    return toDateParts(dt);
+}
+
+function mockAddress() {
+    return {
+        'building-street': faker.address.streetAddress(),
+        'town-city': faker.address.city(),
+        'county': faker.address.county(),
+        'postcode': 'B15 1TR'
+    };
+}
+
+function mockBudget() {
+    return new Array(5).fill(null).map(() => {
+        return {
+            item: faker.lorem.words(5),
+            cost: faker.random.number({ min: 100, max: 1000 })
+        };
+    });
+}
+
+function mockFullForm({ country, organisationType, companyNumber = null, charityNumber = null }) {
+    return {
+        'project-name': faker.lorem.words(5),
+        'project-country': country,
+        'project-start-date': toDateParts(moment().add(12, 'weeks')),
+        'project-postcode': 'B15 1TR',
+        'your-idea-project': faker.lorem.words(250),
+        'your-idea-priorities': faker.lorem.words(100),
+        'your-idea-community': faker.lorem.words(150),
+        'project-budget': mockBudget(),
+        'project-total-costs': faker.random.number({ min: 5000, max: 10000 }),
+        'organisation-legal-name': faker.company.companyName(),
+        'organisation-address': mockAddress(),
+        'organisation-type': organisationType,
+        'company-number': companyNumber,
+        'charity-number': charityNumber,
+        'accounting-year-date': { day: 1, month: 3 },
+        'total-income-year': faker.random.number({ min: 10000, max: 1000000 }),
+        'main-contact-first-name': faker.name.firstName(),
+        'main-contact-last-name': faker.name.lastName(),
+        'main-contact-dob': mockDateOfBirth(),
+        'main-contact-address': mockAddress(),
+        'main-contact-email': faker.internet.exampleEmail(),
+        'main-contact-phone': '0345 4 10 20 30',
+        'senior-contact-first-name': faker.name.firstName(),
+        'senior-contact-last-name': faker.name.lastName(),
+        'senior-contact-role': faker.lorem.words(5),
+        'senior-contact-dob': mockDateOfBirth(),
+        'senior-contact-address': mockAddress(),
+        'senior-contact-email': faker.internet.exampleEmail(),
+        'senior-contact-phone': '020 7211 1888',
+        'bank-account-name': faker.company.companyName(),
+        'bank-sort-code': '108800',
+        'bank-account-number': '00012345',
+        'bank-building-society-number': '108800',
+        'bank-statement': faker.system.fileName()
+    };
+}
+
 const formBuilder = require('./form');
 const { allFields } = formBuilder({ locale: 'en' });
 
 describe('fields', () => {
-    const toDateParts = dt => ({
-        day: dt.get('date'),
-        month: dt.get('month') + 1,
-        year: dt.get('year')
-    });
-
     describe('projectName', () => {
         test('valid', () => {
             const { error } = allFields.projectName.schema.validate(faker.lorem.words(5));
