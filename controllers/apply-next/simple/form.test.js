@@ -79,10 +79,14 @@ const formBuilder = require('./form');
 const { allFields } = formBuilder({ locale: 'en' });
 
 describe('fields', () => {
+    function assertValid(field, val) {
+        const { error } = field.schema.validate(val);
+        expect(error).toBeNull();
+    }
+
     describe('projectName', () => {
         test('valid', () => {
-            const { error } = allFields.projectName.schema.validate(faker.lorem.words(5));
-            expect(error).toBeNull();
+            assertValid(allFields.projectName, faker.lorem.words(5));
         });
 
         test('invalid', () => {
@@ -93,10 +97,10 @@ describe('fields', () => {
 
     describe('projectCountry', () => {
         test('valid', () => {
-            const { error } = allFields.projectCountry.schema.validate(
+            assertValid(
+                allFields.projectCountry,
                 faker.random.arrayElement(['england', 'northern-ireland', 'scotland', 'wales'])
             );
-            expect(error).toBeNull();
         });
 
         test('invalid', () => {
@@ -107,9 +111,7 @@ describe('fields', () => {
 
     describe('projectStartDate', () => {
         test('valid', () => {
-            const dt = moment().add(12, 'weeks');
-            const { error } = allFields.projectStartDate.schema.validate(toDateParts(dt));
-            expect(error).toBeNull();
+            assertValid(allFields.projectStartDate, toDateParts(moment().add(12, 'weeks')));
         });
 
         test('missing', () => {
@@ -131,8 +133,7 @@ describe('fields', () => {
 
     describe('projectPostcode', () => {
         test('valid', () => {
-            const { error } = allFields.projectPostcode.schema.validate('B15 1TR');
-            expect(error).toBeNull();
+            assertValid(allFields.projectPostcode, 'B15 1TR');
         });
 
         test('missing', () => {
@@ -148,8 +149,7 @@ describe('fields', () => {
 
     describe('yourIdeaProject', () => {
         test('valid', () => {
-            const { error } = allFields.yourIdeaProject.schema.validate(faker.lorem.words(250));
-            expect(error).toBeNull();
+            assertValid(allFields.yourIdeaProject, faker.lorem.words(250));
         });
 
         test('at least 50 words', () => {
@@ -165,8 +165,7 @@ describe('fields', () => {
 
     describe('yourIdeaPriorities', () => {
         test('valid', () => {
-            const { error } = allFields.yourIdeaPriorities.schema.validate(faker.lorem.words(100));
-            expect(error).toBeNull();
+            assertValid(allFields.yourIdeaPriorities, faker.lorem.words(100));
         });
 
         test('at least 50 words', () => {
@@ -182,8 +181,7 @@ describe('fields', () => {
 
     describe('yourIdeaCommunity', () => {
         test('valid', () => {
-            const { error } = allFields.yourIdeaCommunity.schema.validate(faker.lorem.words(150));
-            expect(error).toBeNull();
+            assertValid(allFields.yourIdeaCommunity, faker.lorem.words(150));
         });
 
         test('at least 50 words', () => {
@@ -199,8 +197,7 @@ describe('fields', () => {
 
     describe('projectBudget', () => {
         test('valid', () => {
-            const { error } = allFields.projectBudget.schema.validate(mockBudget());
-            expect(error).toBeNull();
+            assertValid(allFields.projectBudget, mockBudget());
         });
 
         test('over budget', () => {
@@ -228,8 +225,7 @@ describe('fields', () => {
 
     describe('projectTotalCosts', () => {
         test('valid', () => {
-            const { error } = allFields.projectTotalCosts.schema.validate(1000);
-            expect(error).toBeNull();
+            assertValid(allFields.projectTotalCosts, 1000);
         });
 
         test('missing', () => {
@@ -285,8 +281,7 @@ describe('fields', () => {
 
     describe('organisationLegalName', () => {
         test('valid', () => {
-            const { error } = allFields.organisationLegalName.schema.validate(faker.company.companyName());
-            expect(error).toBeNull();
+            assertValid(allFields.organisationLegalName, faker.company.companyName());
         });
 
         test('missing', () => {
@@ -301,14 +296,9 @@ describe('fields', () => {
     });
 
     describe('organisationAlias', () => {
-        test('valid', () => {
-            const { error } = allFields.organisationAlias.schema.validate(faker.company.companyName());
-            expect(error).toBeNull();
-        });
-
-        test('optional', () => {
-            const { error } = allFields.organisationAlias.schema.validate();
-            expect(error).toBeNull();
+        test('optional field', () => {
+            assertValid(allFields.organisationAlias, undefined);
+            assertValid(allFields.organisationAlias, faker.company.companyName());
         });
 
         test('invalid', () => {
@@ -319,8 +309,7 @@ describe('fields', () => {
 
     describe('organisationAddress', () => {
         test('valid', () => {
-            const { error } = allFields.organisationAddress.schema.validate(mockAddress());
-            expect(error).toBeNull();
+            assertValid(allFields.organisationAddress, mockAddress());
         });
 
         test('missing', () => {
@@ -348,8 +337,7 @@ describe('fields', () => {
 
     describe('organisationType', () => {
         test('valid', () => {
-            const { error } = allFields.organisationType.schema.validate('unregistered-vco');
-            expect(error).toBeNull();
+            assertValid(allFields.organisationType, 'unregistered-vco');
         });
 
         test('invalid', () => {
@@ -367,8 +355,7 @@ describe('fields', () => {
 
     describe('companyNumber', () => {
         test('valid', () => {
-            const { error } = allFields.companyNumber.schema.validate('CE002712');
-            expect(error).toBeNull();
+            assertValid(allFields.companyNumber, 'CE002712');
         });
 
         test('optional by default', () => {
@@ -391,13 +378,11 @@ describe('fields', () => {
 
     describe('charityNumber', () => {
         test('valid', () => {
-            const { error } = allFields.charityNumber.schema.validate('1160580');
-            expect(error).toBeNull();
+            assertValid(allFields.charityNumber, '1160580');
         });
 
         test('optional by default', () => {
-            const { error } = allFields.charityNumber.schema.validate();
-            expect(error).toBeNull();
+            assertValid(allFields.charityNumber);
         });
 
         test('required if unincorporated registered charity', () => {
@@ -441,8 +426,7 @@ describe('fields', () => {
 
     describe('accountingYearDate', () => {
         test('valid', () => {
-            const { error } = allFields.accountingYearDate.schema.validate({ day: 12, month: 2 });
-            expect(error).toBeNull();
+            assertValid(allFields.accountingYearDate, { day: 12, month: 2 });
         });
 
         test('missing', () => {
@@ -458,8 +442,7 @@ describe('fields', () => {
 
     describe('totalIncomeYear', () => {
         test('valid', () => {
-            const { error } = allFields.totalIncomeYear.schema.validate(1000);
-            expect(error).toBeNull();
+            assertValid(allFields.totalIncomeYear, 1000);
         });
 
         test('missing', () => {
@@ -475,8 +458,7 @@ describe('fields', () => {
 
     function testContactNamePart(field) {
         test('valid', () => {
-            const { error } = field.schema.validate(faker.name.findName());
-            expect(error).toBeNull();
+            assertValid(field, faker.name.findName());
         });
 
         test('invalid', () => {
@@ -492,13 +474,7 @@ describe('fields', () => {
 
     function testContactAddress(field) {
         test('valid', () => {
-            const { error } = field.schema.validate({
-                'building-street': '3 Embassy Drive',
-                'town-city': 'Edgbaston, Birmingham',
-                'county': 'West Midlands',
-                'postcode': 'B15 1TR'
-            });
-            expect(error).toBeNull();
+            assertValid(field, mockAddress());
         });
 
         test('missing', () => {
@@ -545,8 +521,7 @@ describe('fields', () => {
 
     function testContactEmail(field) {
         test('valid', () => {
-            const { error } = field.schema.validate(faker.internet.exampleEmail());
-            expect(error).toBeNull();
+            assertValid(field, faker.internet.exampleEmail());
         });
 
         test('invalid', () => {
@@ -562,8 +537,7 @@ describe('fields', () => {
 
     function testContactPhone(field) {
         test('valid', () => {
-            const { error } = field.schema.validate('0345 4 10 20 30');
-            expect(error).toBeNull();
+            assertValid(field, '0345 4 10 20 30');
         });
 
         test('invalid', () => {
@@ -579,8 +553,7 @@ describe('fields', () => {
 
     function testContactCommunicationNeeds(field) {
         test('valid', () => {
-            const { error } = field.schema.validate('audiotape');
-            expect(error).toBeNull();
+            assertValid(field, 'audiotape');
         });
 
         test('invalid', () => {
@@ -602,15 +575,18 @@ describe('fields', () => {
     });
 
     describe('mainContactDob', () => {
-        test('valid', () => {
-            const dt = moment().subtract(16, 'years');
-            const { error } = allFields.mainContactDob.schema.validate(toDateParts(dt));
-            expect(error).toBeNull();
-        });
+        test('must be at least 16 years old', () => {
+            const randomDob = moment().subtract(
+                faker.random.number({
+                    min: 16,
+                    max: 100
+                }),
+                'years'
+            );
+            assertValid(allFields.mainContactDob, toDateParts(randomDob));
 
-        test('at least 16 years old', () => {
-            const dt = moment().subtract(15, 'years');
-            const { error } = allFields.mainContactDob.schema.validate(toDateParts(dt));
+            const invalidDob = moment().subtract(15, 'years');
+            const { error } = allFields.mainContactDob.schema.validate(toDateParts(invalidDob));
             expect(error.message).toContain('Must be at least 16 years old');
         });
 
@@ -649,33 +625,34 @@ describe('fields', () => {
     });
 
     describe('seniorContactRole', () => {
-        const field = allFields.seniorContactRole;
         test('valid', () => {
-            const { error } = field.schema.validate('chair');
-            expect(error).toBeNull();
+            assertValid(allFields.seniorContactRole, 'chair');
         });
 
         test('invalid', () => {
-            const { error } = field.schema.validate(Infinity);
+            const { error } = allFields.seniorContactRole.schema.validate(Infinity);
             expect(error.message).toContain('must be a string');
         });
 
         test('missing', () => {
-            const { error } = field.schema.validate();
+            const { error } = allFields.seniorContactRole.schema.validate();
             expect(error.message).toContain('is required');
         });
     });
 
     describe('seniorContactDob', () => {
-        test('valid', () => {
-            const dt = moment().subtract(18, 'years');
-            const { error } = allFields.seniorContactDob.schema.validate(toDateParts(dt));
-            expect(error).toBeNull();
-        });
+        test('must be at least 18 years old', () => {
+            const randomDob = moment().subtract(
+                faker.random.number({
+                    min: 18,
+                    max: 100
+                }),
+                'years'
+            );
+            assertValid(allFields.seniorContactDob, toDateParts(randomDob));
 
-        test('at least 18 years old', () => {
-            const dt = moment().subtract(17, 'years');
-            const { error } = allFields.seniorContactDob.schema.validate(toDateParts(dt));
+            const invalidDob = moment().subtract(17, 'years');
+            const { error } = allFields.seniorContactDob.schema.validate(toDateParts(invalidDob));
             expect(error.message).toContain('Must be at least 18 years old');
         });
 
@@ -710,8 +687,7 @@ describe('fields', () => {
 
     describe('bankAccountName', () => {
         test('valid', () => {
-            const { error } = allFields.bankAccountName.schema.validate(faker.company.companyName());
-            expect(error).toBeNull();
+            assertValid(allFields.bankAccountName, faker.company.companyName());
         });
 
         test('missing', () => {
@@ -727,8 +703,7 @@ describe('fields', () => {
 
     describe('bankSortCode', () => {
         test('valid', () => {
-            const { error } = allFields.bankAccountName.schema.validate('108800');
-            expect(error).toBeNull();
+            assertValid(allFields.bankAccountName, '108800');
         });
 
         test('missing', () => {
@@ -744,8 +719,7 @@ describe('fields', () => {
 
     describe('bankAccountNumber', () => {
         test('valid', () => {
-            const { error } = allFields.bankAccountNumber.schema.validate('00012345');
-            expect(error).toBeNull();
+            assertValid(allFields.bankAccountNumber, '00012345');
         });
 
         test('missing', () => {
@@ -760,14 +734,9 @@ describe('fields', () => {
     });
 
     describe('bankBuildingSocietyNumber', () => {
-        test('valid', () => {
-            const { error } = allFields.bankBuildingSocietyNumber.schema.validate('1234566');
-            expect(error).toBeNull();
-        });
-
-        test('optional', () => {
-            const { error } = allFields.bankBuildingSocietyNumber.schema.validate();
-            expect(error).toBeNull();
+        test('optional field', () => {
+            assertValid(allFields.bankBuildingSocietyNumber);
+            assertValid(allFields.bankBuildingSocietyNumber, '1234566');
         });
 
         test('invalid', () => {
@@ -778,8 +747,7 @@ describe('fields', () => {
 
     describe('bankStatement', () => {
         test('valid', () => {
-            const { error } = allFields.bankStatement.schema.validate('example.pdf');
-            expect(error).toBeNull();
+            assertValid(allFields.bankStatement, 'example.pdf');
         });
 
         test('missing', () => {
