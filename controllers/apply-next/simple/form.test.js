@@ -1,6 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const { map, flatMap } = require('lodash');
+const { flatMap, map, range, times } = require('lodash');
 const faker = require('faker');
 const moment = require('moment');
 const Joi = require('joi');
@@ -79,52 +79,49 @@ const formBuilder = require('./form');
 const { allFields } = formBuilder({ locale: 'en' });
 
 describe('fields', () => {
-    function assertValid(field, val) {
-        const { error } = field.schema.validate(val);
+    function assertValid(field, value) {
+        const { error } = field.schema.validate(value);
         expect(error).toBeNull();
     }
 
-    describe('projectName', () => {
-        test('valid', () => {
-            assertValid(allFields.projectName, faker.lorem.words(5));
-        });
+    function assertErrorContains(field, value, messagePart) {
+        const { error } = field.schema.validate(value);
+        expect(error.message).toContain(messagePart);
+    }
 
-        test('invalid', () => {
-            const { error } = allFields.projectName.schema.validate('');
-            expect(error.message).toContain('not allowed to be empty');
+    describe('projectName', () => {
+        test('valididate project name', () => {
+            assertValid(allFields.projectName, faker.lorem.words(5));
+            assertErrorContains(allFields.projectName, '', 'not allowed to be empty');
         });
     });
 
     describe('projectCountry', () => {
-        test('valid', () => {
+        test('valididate project country', () => {
             assertValid(
                 allFields.projectCountry,
                 faker.random.arrayElement(['england', 'northern-ireland', 'scotland', 'wales'])
             );
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.projectCountry.schema.validate('not-a-country');
-            expect(error.message).toContain('must be one of [england, northern-ireland, scotland, wales]');
+            assertErrorContains(
+                allFields.projectCountry,
+                'not-a-country',
+                'must be one of [england, northern-ireland, scotland, wales]'
+            );
         });
     });
 
     describe('projectStartDate', () => {
-        test('valid', () => {
+        test('must be a valid date', () => {
             assertValid(allFields.projectStartDate, toDateParts(moment().add(12, 'weeks')));
+            assertErrorContains(allFields.projectStartDate, null, 'must be an object');
+            assertErrorContains(
+                allFields.projectStartDate,
+                { day: 31, month: 2, year: 2030 },
+                'contains an invalid value'
+            );
         });
 
-        test('missing', () => {
-            const { error } = allFields.projectStartDate.schema.validate(null);
-            expect(error.message).toContain('must be an object');
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.projectStartDate.schema.validate({ day: 31, month: 2, year: 2030 });
-            expect(error.message).toContain('contains an invalid value');
-        });
-
-        test('less than 12 weeks in the future', () => {
+        test('must be at least 12 weeks in the future', () => {
             const dt = moment().add(6, 'weeks');
             const { error } = allFields.projectStartDate.schema.validate(toDateParts(dt));
             expect(error.message).toContain('Date must be at least');
@@ -132,166 +129,97 @@ describe('fields', () => {
     });
 
     describe('projectPostcode', () => {
-        test('valid', () => {
+        test('must be a valid UK postcode', () => {
             assertValid(allFields.projectPostcode, 'B15 1TR');
-        });
-
-        test('missing', () => {
-            const { error } = allFields.projectPostcode.schema.validate(null);
-            expect(error.message).toContain('must be a string');
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.projectPostcode.schema.validate('not a postcode');
-            expect(error.message).toContain('fails to match the required pattern');
+            assertErrorContains(allFields.projectPostcode, null, 'must be a string');
+            assertErrorContains(allFields.projectPostcode, 'not a postcode', 'fails to match the required pattern');
         });
     });
 
+    function testWordCountRange(field, min, max) {
+        assertErrorContains(field, null, 'must be a string');
+
+        const wordCountIncrement = faker.random.number({ min: 25, max: 100 });
+        range(min, max, wordCountIncrement).forEach(wordCount => {
+            assertValid(field, faker.lorem.words(wordCount));
+        });
+
+        assertErrorContains(field, faker.lorem.words(49), `must have at least ${min} words`);
+        assertErrorContains(field, faker.lorem.words(301), `must have less than ${max} words`);
+    }
+
     describe('yourIdeaProject', () => {
-        test('valid', () => {
-            assertValid(allFields.yourIdeaProject, faker.lorem.words(250));
-        });
-
-        test('at least 50 words', () => {
-            const { error } = allFields.yourIdeaProject.schema.validate(faker.lorem.words(49));
-            expect(error.message).toContain('must have at least 50 words');
-        });
-
-        test('no more than 300 words', () => {
-            const { error } = allFields.yourIdeaProject.schema.validate(faker.lorem.words(301));
-            expect(error.message).toContain('must have less than 300 words');
+        test('must be between 50 and 300 words', () => {
+            testWordCountRange(allFields.yourIdeaProject, 50, 300);
         });
     });
 
     describe('yourIdeaPriorities', () => {
-        test('valid', () => {
-            assertValid(allFields.yourIdeaPriorities, faker.lorem.words(100));
-        });
-
-        test('at least 50 words', () => {
-            const { error } = allFields.yourIdeaPriorities.schema.validate(faker.lorem.words(49));
-            expect(error.message).toContain('must have at least 50 words');
-        });
-
-        test('no more than 150 words', () => {
-            const { error } = allFields.yourIdeaPriorities.schema.validate(faker.lorem.words(151));
-            expect(error.message).toContain('must have less than 150 words');
+        test('must be between 50 and 150 words', () => {
+            testWordCountRange(allFields.yourIdeaPriorities, 50, 150);
         });
     });
 
     describe('yourIdeaCommunity', () => {
-        test('valid', () => {
-            assertValid(allFields.yourIdeaCommunity, faker.lorem.words(150));
-        });
-
-        test('at least 50 words', () => {
-            const { error } = allFields.yourIdeaCommunity.schema.validate(faker.lorem.words(49));
-            expect(error.message).toContain('must have at least 50 words');
-        });
-
-        test('no more than 150 words', () => {
-            const { error } = allFields.yourIdeaCommunity.schema.validate(faker.lorem.words(201));
-            expect(error.message).toContain('must have less than 200 words');
+        test('must be between 50 and 200 words', () => {
+            testWordCountRange(allFields.yourIdeaCommunity, 50, 200);
         });
     });
 
     describe('projectBudget', () => {
-        test('valid', () => {
+        test('must provide a valid budget', () => {
             assertValid(allFields.projectBudget, mockBudget());
         });
 
-        test('over budget', () => {
-            const { error } = allFields.projectBudget.schema.validate(
-                new Array(10).fill(null).map(() => {
-                    return {
-                        item: faker.lorem.words(5),
-                        cost: 1100
-                    };
-                })
-            );
-            expect(error.message).toContain('over maximum budget');
+        test('must have at least one budget item', () => {
+            assertErrorContains(allFields.projectBudget, [], 'must contain at least 1 items');
         });
 
-        test('invalid', () => {
-            const { error } = allFields.projectBudget.schema.validate([{ item: faker.lorem.words(5) }]);
-            expect(error.message).toContain('"cost" is required');
+        test('total amount requested must not exceed £10,000', () => {
+            const budget = times(10, () => ({ item: faker.lorem.words(5), cost: 1100 }));
+            assertErrorContains(allFields.projectBudget, budget, 'over maximum budget');
         });
 
-        test('missing', () => {
-            const { error } = allFields.projectBudget.schema.validate([]);
-            expect(error.message).toContain('must contain at least 1 items');
+        test('all items must contain both a description and a cost', () => {
+            const budget = times(5, () => ({ item: faker.lorem.words(5) }));
+            assertErrorContains(allFields.projectBudget, budget, '"cost" is required');
         });
     });
 
     describe('projectTotalCosts', () => {
-        test('valid', () => {
+        test('validate project total costs', () => {
             assertValid(allFields.projectTotalCosts, 1000);
+            assertErrorContains(allFields.projectTotalCosts, undefined, 'is required');
+            assertErrorContains(allFields.projectTotalCosts, Infinity, 'contains an invalid value');
         });
 
-        test('missing', () => {
-            const { error } = allFields.projectTotalCosts.schema.validate();
-            expect(error.message).toContain('is required');
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.projectTotalCosts.schema.validate(Infinity);
-            expect(error.message).toContain('contains an invalid value');
-        });
-
-        test('under project budget', () => {
+        test('must be at least value of project budget', () => {
             const schemaWithProjectBudget = Joi.object({
                 'project-budget': allFields.projectBudget.schema,
                 'project-total-costs': allFields.projectTotalCosts.schema
             });
 
-            const { error } = Joi.validate(
-                {
-                    'project-budget': [
-                        { item: faker.lorem.words(5), cost: 1100 },
-                        { item: faker.lorem.words(5), cost: 1100 }
-                    ],
-                    'project-total-costs': 1000
-                },
+            const budget = times(2, () => ({ item: faker.lorem.words(5), cost: 1100 }));
+
+            const validationResultValid = Joi.validate(
+                { 'project-budget': budget, 'project-total-costs': 2200 },
                 schemaWithProjectBudget
             );
+            expect(validationResultValid.error).toBeNull();
 
-            expect(error.message).toContain('under project budget total');
-        });
-
-        test('minimum of project budget', () => {
-            const schemaWithProjectBudget = Joi.object({
-                'project-budget': allFields.projectBudget.schema,
-                'project-total-costs': allFields.projectTotalCosts.schema
-            });
-
-            const { error } = Joi.validate(
-                {
-                    'project-budget': [
-                        { item: faker.lorem.words(5), cost: 1100 },
-                        { item: faker.lorem.words(5), cost: 1100 }
-                    ],
-                    'project-total-costs': 2200
-                },
+            const validationResultInvalid = Joi.validate(
+                { 'project-budget': budget, 'project-total-costs': 1000 },
                 schemaWithProjectBudget
             );
-
-            expect(error).toBeNull();
+            expect(validationResultInvalid.error.message).toContain('under project budget total');
         });
     });
 
     describe('organisationLegalName', () => {
-        test('valid', () => {
+        test('validate organisation legal name', () => {
             assertValid(allFields.organisationLegalName, faker.company.companyName());
-        });
-
-        test('missing', () => {
-            const { error } = allFields.organisationLegalName.schema.validate();
-            expect(error.message).toContain('is required');
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.organisationLegalName.schema.validate(Infinity);
-            expect(error.message).toContain('must be a string');
+            assertErrorContains(allFields.organisationLegalName, undefined, 'is required');
+            assertErrorContains(allFields.organisationLegalName, Infinity, 'must be a string');
         });
     });
 
@@ -299,273 +227,199 @@ describe('fields', () => {
         test('optional field', () => {
             assertValid(allFields.organisationAlias, undefined);
             assertValid(allFields.organisationAlias, faker.company.companyName());
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.organisationAlias.schema.validate(Infinity);
-            expect(error.message).toContain('must be a string');
+            assertErrorContains(allFields.organisationAlias, Infinity, 'must be a string');
         });
     });
 
     describe('organisationAddress', () => {
-        test('valid', () => {
+        test('must be a full valid address', () => {
             assertValid(allFields.organisationAddress, mockAddress());
-        });
+            assertErrorContains(allFields.organisationAddress, undefined, 'is required');
 
-        test('missing', () => {
-            const { error } = allFields.organisationAddress.schema.validate();
-            expect(error.message).toContain('is required');
-        });
+            assertErrorContains(
+                allFields.organisationAddress,
+                {
+                    'building-street': '3 Embassy Drive',
+                    'county': 'West Midlands',
+                    'postcode': 'B15 1TR'
+                },
+                'child "town-city" fails because ["town-city" is required]'
+            );
 
-        test('partial address fields', () => {
-            const { error } = allFields.organisationAddress.schema.validate({
-                'building-street': '3 Embassy Drive',
-                'county': 'West Midlands',
-                'postcode': 'B15 1TR'
-            });
-            expect(error.message).toEqual('child "town-city" fails because ["town-city" is required]');
-        });
-
-        test('invalid postcode', () => {
-            const { error } = allFields.organisationAddress.schema.validate({
-                ...mockAddress(),
-                ...{ postcode: 'not a postcode' }
-            });
-            expect(error.message).toContain('fails to match the required pattern');
+            assertErrorContains(
+                allFields.organisationAddress,
+                { ...mockAddress(), ...{ postcode: 'not a postcode' } },
+                'fails to match the required pattern'
+            );
         });
     });
 
     describe('organisationType', () => {
-        test('valid', () => {
+        test('must be a valid organisation type', () => {
             assertValid(allFields.organisationType, 'unregistered-vco');
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.organisationType.schema.validate('not-an-option');
-            expect(error.message).toContain(
+            assertErrorContains(allFields.organisationType, undefined, 'is required');
+            assertErrorContains(
+                allFields.organisationType,
+                'not-an-option',
                 'must be one of [unregistered-vco, unincorporated-registered-charity, charitable-incorporated-organisation, not-for-profit-company, school, statutory-body]'
             );
-        });
-
-        test('missing', () => {
-            const { error } = allFields.organisationType.schema.validate();
-            expect(error.message).toContain('is required');
         });
     });
 
     describe('companyNumber', () => {
-        test('valid', () => {
+        test('conditionally required based on organisation type', () => {
             assertValid(allFields.companyNumber, 'CE002712');
-        });
+            assertValid(allFields.companyNumber, undefined);
 
-        test('optional by default', () => {
-            const { error } = allFields.companyNumber.schema.validate();
-            expect(error).toBeNull();
-        });
+            const schemaWithOrgType = {
+                'organisation-type': allFields.organisationType.schema,
+                'company-number': allFields.companyNumber.schema
+            };
 
-        test('conditionally required', () => {
-            const { error } = Joi.validate(
-                { 'organisation-type': 'not-for-profit-company' },
-                {
-                    'organisation-type': allFields.organisationType.schema,
-                    'company-number': allFields.companyNumber.schema
-                }
-            );
-
-            expect(error.message).toContain('is required');
+            const requiredOrgTypes = ['not-for-profit-company'];
+            requiredOrgTypes.forEach(type => {
+                const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
+                expect(error.message).toContain('is required');
+            });
         });
     });
 
     describe('charityNumber', () => {
-        test('valid', () => {
+        test('conditionally required based on organisation type', () => {
             assertValid(allFields.charityNumber, '1160580');
-        });
+            assertValid(allFields.charityNumber, undefined);
 
-        test('optional by default', () => {
-            assertValid(allFields.charityNumber);
-        });
-
-        test('required if unincorporated registered charity', () => {
             const schemaWithOrgType = {
                 'organisation-type': allFields.organisationType.schema,
                 'charity-number': allFields.charityNumber.schema
             };
 
-            const { error } = Joi.validate(
-                { 'organisation-type': 'unincorporated-registered-charity' },
-                schemaWithOrgType
-            );
-
-            expect(error.message).toContain('is required');
-        });
-
-        test('required if cio', () => {
-            const schemaWithOrgType = {
-                'organisation-type': allFields.organisationType.schema,
-                'charity-number': allFields.charityNumber.schema
-            };
-
-            const { error } = Joi.validate(
-                { 'organisation-type': 'charitable-incorporated-organisation' },
-                schemaWithOrgType
-            );
-
-            expect(error.message).toContain('is required');
-        });
-
-        test('optional when a not for profit company', () => {
-            const schemaWithOrgType = {
-                'organisation-type': allFields.organisationType.schema,
-                'charity-number': allFields.charityNumber.schema
-            };
-
-            const { error } = Joi.validate({ 'organisation-type': 'not-for-profit-company' }, schemaWithOrgType);
-            expect(error).toBeNull();
+            const requiredOrgTypes = ['unincorporated-registered-charity', 'charitable-incorporated-organisation'];
+            requiredOrgTypes.forEach(type => {
+                const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
+                expect(error.message).toContain('is required');
+            });
         });
     });
 
     describe('accountingYearDate', () => {
-        test('valid', () => {
+        test('must be a valid day and month', () => {
             assertValid(allFields.accountingYearDate, { day: 12, month: 2 });
-        });
-
-        test('missing', () => {
-            const { error } = allFields.accountingYearDate.schema.validate(null);
-            expect(error.message).toContain('must be an object');
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.accountingYearDate.schema.validate({ day: 31, month: 2 });
-            expect(error.message).toContain('contains an invalid value');
+            assertErrorContains(allFields.accountingYearDate, null, 'must be an object');
+            assertErrorContains(allFields.accountingYearDate, { day: 31, month: 2 }, 'contains an invalid value');
         });
     });
 
     describe('totalIncomeYear', () => {
-        test('valid', () => {
+        test('must be a valid number', () => {
             assertValid(allFields.totalIncomeYear, 1000);
-        });
-
-        test('missing', () => {
-            const { error } = allFields.totalIncomeYear.schema.validate();
-            expect(error.message).toContain('is required');
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.totalIncomeYear.schema.validate(Infinity);
-            expect(error.message).toContain('contains an invalid value');
+            assertErrorContains(allFields.totalIncomeYear, undefined, 'is required');
+            assertErrorContains(allFields.totalIncomeYear, Infinity, 'contains an invalid value');
         });
     });
 
     function testContactNamePart(field) {
-        test('valid', () => {
+        test('valid string', () => {
             assertValid(field, faker.name.findName());
+            assertErrorContains(field, undefined, 'is required');
+            assertErrorContains(field, Infinity, 'must be a string');
+        });
+    }
+
+    function testContactDateOfBirth(field, minAge) {
+        test(`must be at least ${minAge} years old`, () => {
+            const randomDob = moment().subtract(
+                faker.random.number({
+                    min: minAge,
+                    max: 100
+                }),
+                'years'
+            );
+
+            assertValid(field, toDateParts(randomDob));
+
+            const invalidDob = moment().subtract(minAge - 1, 'years');
+            assertErrorContains(field, toDateParts(invalidDob), `Must be at least ${minAge} years old`);
         });
 
-        test('invalid', () => {
-            const { error } = field.schema.validate(Infinity);
-            expect(error.message).toContain('must be a string');
-        });
+        test('optional if organisation-type is a school or statutory-body', () => {
+            const schemaWithOrgType = {
+                'organisation-type': allFields.organisationType.schema,
+                [field.name]: field.schema
+            };
 
-        test('missing', () => {
-            const { error } = field.schema.validate();
-            expect(error.message).toContain('is required');
+            const optionalOrgTypes = ['school', 'statutory-body'];
+            optionalOrgTypes.forEach(type => {
+                const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
+
+                expect(error).toBeNull();
+            });
         });
     }
 
     function testContactAddress(field) {
-        test('valid', () => {
+        test('must be a full valid address', () => {
             assertValid(field, mockAddress());
-        });
+            assertErrorContains(field, null, 'must be an object');
 
-        test('missing', () => {
-            const { error } = field.schema.validate();
-            expect(error.message).toContain('is required');
-        });
-
-        test('partial address fields', () => {
-            const { error } = field.schema.validate({
-                'building-street': '3 Embassy Drive',
-                'county': 'West Midlands',
-                'postcode': 'B15 1TR'
-            });
-            expect(error.message).toEqual('child "town-city" fails because ["town-city" is required]');
-        });
-
-        test('invalid postcode', () => {
-            const { error } = field.schema.validate({
-                'building-street': '3 Embassy Drive',
-                'town-city': 'Edgbaston, Birmingham',
-                'county': 'West Midlands',
-                'postcode': 'not a postcode'
-            });
-            expect(error.message).toContain('fails to match the required pattern');
-        });
-
-        test('not required if organisation-type is a school or statutory-body', () => {
-            const schemaWithOrgType = {
-                'organisation-type': allFields.organisationType.schema,
-                'main-contact-dob': field.schema
-            };
-
-            const { error } = Joi.validate(
+            assertErrorContains(
+                field,
                 {
-                    'organisation-type': 'school',
-                    'main-contact-dob': null
+                    'building-street': '3 Embassy Drive',
+                    'county': 'West Midlands',
+                    'postcode': 'B15 1TR'
                 },
-                schemaWithOrgType
+                'child "town-city" fails because ["town-city" is required]'
             );
 
-            expect(error).toBeNull();
+            assertErrorContains(
+                field,
+                { ...mockAddress(), ...{ postcode: 'not a postcode' } },
+                'fails to match the required pattern'
+            );
+        });
+
+        test('optional if organisation-type is a school or statutory-body', () => {
+            const schemaWithOrgType = {
+                'organisation-type': allFields.organisationType.schema,
+                [field.name]: field.schema
+            };
+
+            const optionalOrgTypes = ['school', 'statutory-body'];
+            optionalOrgTypes.forEach(type => {
+                const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
+
+                expect(error).toBeNull();
+            });
         });
     }
 
     function testContactEmail(field) {
-        test('valid', () => {
+        test('valid email address', () => {
             assertValid(field, faker.internet.exampleEmail());
-        });
-
-        test('invalid', () => {
-            const { error } = field.schema.validate(Infinity);
-            expect(error.message).toContain('must be a string');
-        });
-
-        test('missing', () => {
-            const { error } = field.schema.validate();
-            expect(error.message).toContain('is required');
+            assertErrorContains(field, undefined, 'is required');
+            assertErrorContains(field, Infinity, 'must be a string');
         });
     }
 
     function testContactPhone(field) {
-        test('valid', () => {
+        test('valid uk phone number', () => {
             assertValid(field, '0345 4 10 20 30');
-        });
-
-        test('invalid', () => {
-            const { error } = field.schema.validate('not a phone number');
-            expect(error.message).toContain('did not seem to be a phone number');
-        });
-
-        test('missing', () => {
-            const { error } = field.schema.validate();
-            expect(error.message).toContain('is required');
+            assertErrorContains(field, undefined, 'is required');
+            assertErrorContains(field, NaN, 'must be a string');
+            assertErrorContains(field, 'not a phone number', 'did not seem to be a phone number');
         });
     }
 
     function testContactCommunicationNeeds(field) {
-        test('valid', () => {
+        test('validates optional choice', () => {
+            assertValid(field, undefined);
             assertValid(field, 'audiotape');
-        });
-
-        test('invalid', () => {
-            const { error } = field.schema.validate('invalid');
-            expect(error.message).toContain(
+            assertErrorContains(
+                field,
+                'invalid',
                 'must be one of [audiotape, braille, disk, large-print, letter, sign-language, text-relay]'
             );
-        });
-
-        test('optional', () => {
-            const { error } = field.schema.validate();
-            expect(error).toBeNull();
         });
     }
 
@@ -575,48 +429,23 @@ describe('fields', () => {
     });
 
     describe('mainContactDob', () => {
-        test('must be at least 16 years old', () => {
-            const randomDob = moment().subtract(
-                faker.random.number({
-                    min: 16,
-                    max: 100
-                }),
-                'years'
-            );
-            assertValid(allFields.mainContactDob, toDateParts(randomDob));
-
-            const invalidDob = moment().subtract(15, 'years');
-            const { error } = allFields.mainContactDob.schema.validate(toDateParts(invalidDob));
-            expect(error.message).toContain('Must be at least 16 years old');
-        });
-
-        test('not required if organisation-type is a school or statutory-body', () => {
-            const { error } = Joi.validate(
-                { 'organisation-type': 'school' },
-                {
-                    'organisation-type': allFields.organisationType.schema,
-                    'main-contact-dob': allFields.mainContactDob.schema
-                }
-            );
-
-            expect(error).toBeNull();
-        });
+        testContactDateOfBirth(allFields.mainContactDob, 16);
     });
 
-    describe('seniorContactAddress', () => {
-        testContactAddress(allFields.seniorContactAddress);
+    describe('mainContactAddress', () => {
+        testContactAddress(allFields.mainContactAddress);
     });
 
-    describe('seniorContactEmail', () => {
-        testContactEmail(allFields.seniorContactEmail);
+    describe('mainContactEmail', () => {
+        testContactEmail(allFields.mainContactEmail);
     });
 
-    describe('seniorContactPhone', () => {
-        testContactPhone(allFields.seniorContactPhone);
+    describe('mainContactPhone', () => {
+        testContactPhone(allFields.mainContactPhone);
     });
 
-    describe('seniorContactCommunicationNeeds', () => {
-        testContactCommunicationNeeds(allFields.seniorContactCommunicationNeeds);
+    describe('mainContactCommunicationNeeds', () => {
+        testContactCommunicationNeeds(allFields.mainContactCommunicationNeeds);
     });
 
     describe('seniorContactName', () => {
@@ -625,48 +454,15 @@ describe('fields', () => {
     });
 
     describe('seniorContactRole', () => {
-        test('valid', () => {
+        test('must be a valid role', () => {
             assertValid(allFields.seniorContactRole, 'chair');
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.seniorContactRole.schema.validate(Infinity);
-            expect(error.message).toContain('must be a string');
-        });
-
-        test('missing', () => {
-            const { error } = allFields.seniorContactRole.schema.validate();
-            expect(error.message).toContain('is required');
+            assertErrorContains(allFields.seniorContactRole, undefined, 'is required');
+            assertErrorContains(allFields.seniorContactRole, Infinity, 'must be a string');
         });
     });
 
     describe('seniorContactDob', () => {
-        test('must be at least 18 years old', () => {
-            const randomDob = moment().subtract(
-                faker.random.number({
-                    min: 18,
-                    max: 100
-                }),
-                'years'
-            );
-            assertValid(allFields.seniorContactDob, toDateParts(randomDob));
-
-            const invalidDob = moment().subtract(17, 'years');
-            const { error } = allFields.seniorContactDob.schema.validate(toDateParts(invalidDob));
-            expect(error.message).toContain('Must be at least 18 years old');
-        });
-
-        test('not required if organisation-type is a school or statutory-body', () => {
-            const { error } = Joi.validate(
-                { 'organisation-type': 'school' },
-                {
-                    'organisation-type': allFields.organisationType.schema,
-                    'main-contact-dob': allFields.seniorContactDob.schema
-                }
-            );
-
-            expect(error).toBeNull();
-        });
+        testContactDateOfBirth(allFields.seniorContactDob, 18);
     });
 
     describe('seniorContactAddress', () => {
@@ -686,78 +482,42 @@ describe('fields', () => {
     });
 
     describe('bankAccountName', () => {
-        test('valid', () => {
+        test('valid account name', () => {
             assertValid(allFields.bankAccountName, faker.company.companyName());
-        });
-
-        test('missing', () => {
-            const { error } = allFields.bankAccountName.schema.validate();
-            expect(error.message).toContain('is required');
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.bankAccountName.schema.validate(Infinity);
-            expect(error.message).toContain('must be a string');
+            assertErrorContains(allFields.bankAccountName, undefined, 'is required');
+            assertErrorContains(allFields.bankAccountName, Infinity, 'must be a string');
         });
     });
 
     describe('bankSortCode', () => {
-        test('valid', () => {
-            assertValid(allFields.bankAccountName, '108800');
-        });
-
-        test('missing', () => {
-            const { error } = allFields.bankAccountName.schema.validate();
-            expect(error.message).toContain('is required');
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.bankAccountName.schema.validate(Infinity);
-            expect(error.message).toContain('must be a string');
+        test('valid sort code', () => {
+            assertValid(allFields.bankSortCode, '108800');
+            assertErrorContains(allFields.bankSortCode, undefined, 'is required');
+            assertErrorContains(allFields.bankSortCode, Infinity, 'must be a string');
         });
     });
 
     describe('bankAccountNumber', () => {
-        test('valid', () => {
+        test('valid account number', () => {
             assertValid(allFields.bankAccountNumber, '00012345');
-        });
-
-        test('missing', () => {
-            const { error } = allFields.bankAccountNumber.schema.validate();
-            expect(error.message).toContain('is required');
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.bankAccountNumber.schema.validate(Infinity);
-            expect(error.message).toContain('must be a string');
+            assertErrorContains(allFields.bankAccountNumber, undefined, 'is required');
+            assertErrorContains(allFields.bankAccountNumber, Infinity, 'must be a string');
         });
     });
 
     describe('bankBuildingSocietyNumber', () => {
         test('optional field', () => {
             assertValid(allFields.bankBuildingSocietyNumber);
+            assertErrorContains(allFields.bankBuildingSocietyNumber, Infinity, 'must be a string');
             assertValid(allFields.bankBuildingSocietyNumber, '1234566');
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.bankBuildingSocietyNumber.schema.validate(Infinity);
-            expect(error.message).toContain('must be a string');
         });
     });
 
     describe('bankStatement', () => {
-        test('valid', () => {
+        test('valid bank statement upload', () => {
             assertValid(allFields.bankStatement, 'example.pdf');
-        });
-
-        test('missing', () => {
-            const { error } = allFields.bankStatement.schema.validate();
-            expect(error.message).toContain('is required');
-        });
-
-        test('invalid', () => {
-            const { error } = allFields.bankStatement.schema.validate(Infinity);
-            expect(error.message).toContain('must be a string');
+            assertErrorContains(allFields.bankStatement, undefined, 'is required');
+            assertErrorContains(allFields.bankStatement, Infinity, 'must be a string');
         });
     });
 });
