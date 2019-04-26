@@ -4,7 +4,7 @@ const express = require('express');
 const appData = require('../../modules/appData');
 const { initFormRouter } = require('./form-router');
 
-const { formBuilder } = require('./simple/form');
+const formBuilder = require('./simple/form');
 const processor = require('./simple/processor');
 
 const router = express.Router();
