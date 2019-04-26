@@ -19,9 +19,9 @@ const sectionProject = {
                 {
                     legend: { en: 'Project details', cy: '' },
                     fields: [
-                        allFields.applicationTitle,
+                        allFields.projectName,
                         allFields.projectStartDate,
-                        allFields.applicationCountry,
+                        allFields.projectCountry,
                         allFields.projectPostcode
                     ]
                 }

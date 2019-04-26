@@ -224,8 +224,8 @@ function dateOfBirthField(minAge, props) {
 }
 
 const allFields = {
-    applicationTitle: {
-        name: 'application-title',
+    projectName: {
+        name: 'project-name',
         label: { en: 'What is the name of your project?', cy: '' },
         explanation: { en: 'The project name should be simple and to the point', cy: '' },
         type: 'text',
@@ -233,8 +233,8 @@ const allFields = {
         schema: Joi.string().required(),
         messages: [{ type: 'base', message: { en: 'Enter a project name', cy: '' } }]
     },
-    applicationCountry: {
-        name: 'application-country',
+    projectCountry: {
+        name: 'project-country',
         label: { en: 'What country will your project be based in?', cy: '' },
         explanation: {
             en:

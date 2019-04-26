@@ -14,28 +14,28 @@ const toDateParts = dt => ({
     year: dt.get('year')
 });
 
-describe('applicationTitle', () => {
+describe('projectName', () => {
     test('valid', () => {
-        const { error } = allFields.applicationTitle.schema.validate(faker.lorem.words(5));
+        const { error } = allFields.projectName.schema.validate(faker.lorem.words(5));
         expect(error).toBeNull();
     });
 
     test('invalid', () => {
-        const { error } = allFields.applicationTitle.schema.validate('');
+        const { error } = allFields.projectName.schema.validate('');
         expect(error.message).toContain('not allowed to be empty');
     });
 });
 
-describe('applicationCountry', () => {
+describe('projectCountry', () => {
     test('valid', () => {
-        const { error } = allFields.applicationCountry.schema.validate(
+        const { error } = allFields.projectCountry.schema.validate(
             faker.random.arrayElement(['england', 'northern-ireland', 'scotland', 'wales'])
         );
         expect(error).toBeNull();
     });
 
     test('invalid', () => {
-        const { error } = allFields.applicationCountry.schema.validate('not-a-country');
+        const { error } = allFields.projectCountry.schema.validate('not-a-country');
         expect(error.message).toContain('must be one of [england, northern-ireland, scotland, wales]');
     });
 });
@@ -266,8 +266,8 @@ describe('organisationAddress', () => {
     test('partial address fields', () => {
         const { error } = allFields.organisationAddress.schema.validate({
             'building-street': '3 Embassy Drive',
-            county: 'West Midlands',
-            postcode: 'B15 1TR'
+            'county': 'West Midlands',
+            'postcode': 'B15 1TR'
         });
         expect(error.message).toEqual('child "town-city" fails because ["town-city" is required]');
     });
@@ -432,8 +432,8 @@ function testContactAddress(field) {
         const { error } = field.schema.validate({
             'building-street': '3 Embassy Drive',
             'town-city': 'Edgbaston, Birmingham',
-            county: 'West Midlands',
-            postcode: 'B15 1TR'
+            'county': 'West Midlands',
+            'postcode': 'B15 1TR'
         });
         expect(error).toBeNull();
     });
@@ -446,8 +446,8 @@ function testContactAddress(field) {
     test('partial address fields', () => {
         const { error } = field.schema.validate({
             'building-street': '3 Embassy Drive',
-            county: 'West Midlands',
-            postcode: 'B15 1TR'
+            'county': 'West Midlands',
+            'postcode': 'B15 1TR'
         });
         expect(error.message).toEqual('child "town-city" fails because ["town-city" is required]');
     });
@@ -456,8 +456,8 @@ function testContactAddress(field) {
         const { error } = field.schema.validate({
             'building-street': '3 Embassy Drive',
             'town-city': 'Edgbaston, Birmingham',
-            county: 'West Midlands',
-            postcode: 'not a postcode'
+            'county': 'West Midlands',
+            'postcode': 'not a postcode'
         });
         expect(error.message).toContain('fails to match the required pattern');
     });

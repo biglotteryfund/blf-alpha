@@ -26,8 +26,8 @@ function mockAddress() {
     return {
         'building-street': faker.address.streetAddress(),
         'town-city': faker.address.city(),
-        county: faker.address.county(),
-        postcode: 'B15 1TR'
+        'county': faker.address.county(),
+        'postcode': 'B15 1TR'
     };
 }
 
@@ -42,8 +42,8 @@ function mockBudget() {
 
 function mockFullForm({ country, organisationType, companyNumber = null, charityNumber = null }) {
     return {
-        'application-title': faker.lorem.words(5),
-        'application-country': country,
+        'project-name': faker.lorem.words(5),
+        'project-country': country,
         'project-start-date': toDateParts(moment().add(12, 'weeks')),
         'project-postcode': 'B15 1TR',
         'your-idea-project': faker.lorem.words(250),
