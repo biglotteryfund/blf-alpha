@@ -12,10 +12,9 @@ router.get('/', sMaxAge('30m'), injectHeroImage('funding-letterbox-new'), async 
     let latestProgrammes = [];
     let bigLunch = false;
     try {
-        const fundingProgrammes = await contentApi.getFundingProgrammes({
+        const fundingProgrammes = await contentApi.getRecentFundingProgrammes({
             locale: req.i18n.getLocale(),
-            pageLimit: 3,
-            newestFirst: true
+            limit: 2
         });
 
         const bigLunchContent = await contentApi.getListingPage({
