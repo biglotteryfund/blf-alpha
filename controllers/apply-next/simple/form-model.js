@@ -118,7 +118,7 @@ const sectionMainContact = {
                         en: `
 <p>The main contact is the person we can get in touch with if we have any questions about your project. While your main contact needs to be from the organisation applying, they don't need to hold a particular position.</p>
 
-<p>The main contact must be unconnected to the legally responsible contact. By ‘unconnected’ we mean not related by blood, marriage, in a long-term relationship or people living together at the same address.</p>`,
+<p>The main contact must be unconnected to the senior contact. By ‘unconnected’ we mean not related by blood, marriage, in a long-term relationship or people living together at the same address.</p>`,
                         cy: ''
                     },
                     fields: [
@@ -136,29 +136,36 @@ const sectionMainContact = {
     ]
 };
 
-const sectionLegalContact = {
-    slug: 'legal-contact',
-    title: { en: 'Legally responsible contact', cy: '' },
+const sectionSeniorContact = {
+    slug: 'senior-contact',
+    title: { en: 'Senior contact', cy: '' },
     introduction: {
         en:
-            'Please provide details for your legally responsible contact. This person will be legally responsible for the funding and must be unconnected to the main contact.',
+            'Please provide details for your senior contact. This person will be legally responsible for the funding and must be unconnected to the main contact.',
         cy: '(WELSH) TBC'
     },
     steps: [
         {
-            title: { en: 'Legally responsible contact', cy: '' },
+            title: { en: 'Senior contact', cy: '' },
             fieldsets: [
                 {
-                    legend: { en: 'Who is your legally responsible contact?', cy: '' },
+                    legend: { en: 'Who is your senior contact?', cy: '' },
+                    introduction: {
+                        en: `
+                            <p>Please give us the contact details of a senior member of your organisation.</p>
+                            <p>Your senior contact must be at least 18 years old and is legally responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.</p>
+                        `,
+                        cy: ``
+                    },
                     fields: [
-                        allFields.legalContactFirstName,
-                        allFields.legalContactLastName,
-                        allFields.legalContactRole,
-                        allFields.legalContactDob,
-                        allFields.legalContactAddress,
-                        allFields.legalContactEmail,
-                        allFields.legalContactPhone,
-                        allFields.legalContactCommunicationNeeds
+                        allFields.seniorContactFirstName,
+                        allFields.seniorContactLastName,
+                        allFields.seniorContactRole,
+                        allFields.seniorContactDob,
+                        allFields.seniorContactAddress,
+                        allFields.seniorContactEmail,
+                        allFields.seniorContactPhone,
+                        allFields.seniorContactCommunicationNeeds
                     ]
                 }
             ]
@@ -231,7 +238,7 @@ const formModel = {
     id: 'awards-for-all',
     title: { en: 'National Lottery Awards for All', cy: '' },
     isBilingual: true,
-    sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionLegalContact, sectionBankDetails],
+    sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionSeniorContact, sectionBankDetails],
     termsFields: [
         {
             name: 'terms-agreement-1',

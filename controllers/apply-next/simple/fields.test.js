@@ -527,7 +527,9 @@ function testContactCommunicationNeeds(field) {
 
     test('invalid', () => {
         const { error } = field.schema.validate('invalid');
-        expect(error.message).toContain('must be one of [audiotape, braille, large-print]');
+        expect(error.message).toContain(
+            'must be one of [audiotape, braille, disk, large-print, letter, sign-language, text-relay]'
+        );
     });
 
     test('optional', () => {
@@ -572,29 +574,29 @@ describe('mainContactDob', () => {
     });
 });
 
-describe('legalContactAddress', () => {
-    testContactAddress(allFields.legalContactAddress);
+describe('seniorContactAddress', () => {
+    testContactAddress(allFields.seniorContactAddress);
 });
 
-describe('legalContactEmail', () => {
-    testContactEmail(allFields.legalContactEmail);
+describe('seniorContactEmail', () => {
+    testContactEmail(allFields.seniorContactEmail);
 });
 
-describe('legalContactPhone', () => {
-    testContactPhone(allFields.legalContactPhone);
+describe('seniorContactPhone', () => {
+    testContactPhone(allFields.seniorContactPhone);
 });
 
-describe('legalContactCommunicationNeeds', () => {
-    testContactCommunicationNeeds(allFields.legalContactCommunicationNeeds);
+describe('seniorContactCommunicationNeeds', () => {
+    testContactCommunicationNeeds(allFields.seniorContactCommunicationNeeds);
 });
 
-describe('legalContactName', () => {
-    testContactNamePart(allFields.legalContactFirstName);
-    testContactNamePart(allFields.legalContactLastName);
+describe('seniorContactName', () => {
+    testContactNamePart(allFields.seniorContactFirstName);
+    testContactNamePart(allFields.seniorContactLastName);
 });
 
-describe('legalContactRole', () => {
-    const field = allFields.legalContactRole;
+describe('seniorContactRole', () => {
+    const field = allFields.seniorContactRole;
     test('valid', () => {
         const { error } = field.schema.validate('chair');
         expect(error).toBeNull();
@@ -627,16 +629,16 @@ describe('legalContactRole', () => {
     });
 });
 
-describe('legalContactDob', () => {
+describe('seniorContactDob', () => {
     test('valid', () => {
         const dt = moment().subtract(18, 'years');
-        const { error } = allFields.legalContactDob.schema.validate(toDateParts(dt));
+        const { error } = allFields.seniorContactDob.schema.validate(toDateParts(dt));
         expect(error).toBeNull();
     });
 
     test('at least 18 years old', () => {
         const dt = moment().subtract(17, 'years');
-        const { error } = allFields.legalContactDob.schema.validate(toDateParts(dt));
+        const { error } = allFields.seniorContactDob.schema.validate(toDateParts(dt));
         expect(error.message).toContain('Must be at least 18 years old');
     });
 
@@ -645,33 +647,33 @@ describe('legalContactDob', () => {
             { 'organisation-type': 'school' },
             {
                 'organisation-type': allFields.organisationType.schema,
-                'main-contact-dob': allFields.legalContactDob.schema
+                'main-contact-dob': allFields.seniorContactDob.schema
             }
         );
 
         expect(error).toBeNull();
 
-        expect(allFields.legalContactDob.shouldShow()).toBeTruthy();
-        expect(allFields.legalContactDob.shouldShow({ 'organisation-type': 'unregistered-vco' })).toBeTruthy();
-        expect(allFields.legalContactDob.shouldShow({ 'organisation-type': 'school' })).toBeFalsy();
-        expect(allFields.legalContactDob.shouldShow({ 'organisation-type': 'statutory-body' })).toBeFalsy();
+        expect(allFields.seniorContactDob.shouldShow()).toBeTruthy();
+        expect(allFields.seniorContactDob.shouldShow({ 'organisation-type': 'unregistered-vco' })).toBeTruthy();
+        expect(allFields.seniorContactDob.shouldShow({ 'organisation-type': 'school' })).toBeFalsy();
+        expect(allFields.seniorContactDob.shouldShow({ 'organisation-type': 'statutory-body' })).toBeFalsy();
     });
 });
 
-describe('legalContactAddress', () => {
-    testContactAddress(allFields.legalContactAddress);
+describe('seniorContactAddress', () => {
+    testContactAddress(allFields.seniorContactAddress);
 });
 
-describe('legalContactEmail', () => {
-    testContactEmail(allFields.legalContactEmail);
+describe('seniorContactEmail', () => {
+    testContactEmail(allFields.seniorContactEmail);
 });
 
-describe('legalContactPhone', () => {
-    testContactPhone(allFields.legalContactPhone);
+describe('seniorContactPhone', () => {
+    testContactPhone(allFields.seniorContactPhone);
 });
 
-describe('legalContactCommunicationNeeds', () => {
-    testContactCommunicationNeeds(allFields.legalContactCommunicationNeeds);
+describe('seniorContactCommunicationNeeds', () => {
+    testContactCommunicationNeeds(allFields.seniorContactCommunicationNeeds);
 });
 
 describe('bankAccountName', () => {
