@@ -336,7 +336,7 @@ function initFormRouter(formModel) {
                     const currentApplicationData = get(application, 'application_data');
                     res.locals.currentApplicationData = currentApplicationData;
                     res.locals.currentApplicationStatus = get(application, 'status');
-                    res.locals.currentApplicationTitle = get(currentApplicationData, 'application-title');
+                    res.locals.currentApplicationTitle = get(currentApplicationData, 'project-name');
 
                     res.locals.form = enhanceForm({
                         locale: req.i18n.getLocale(),

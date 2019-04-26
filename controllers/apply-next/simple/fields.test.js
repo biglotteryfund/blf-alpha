@@ -14,28 +14,28 @@ const toDateParts = dt => ({
     year: dt.get('year')
 });
 
-describe('applicationTitle', () => {
+describe('projectName', () => {
     test('valid', () => {
-        const { error } = allFields.applicationTitle.schema.validate(faker.lorem.words(5));
+        const { error } = allFields.projectName.schema.validate(faker.lorem.words(5));
         expect(error).toBeNull();
     });
 
     test('invalid', () => {
-        const { error } = allFields.applicationTitle.schema.validate('');
+        const { error } = allFields.projectName.schema.validate('');
         expect(error.message).toContain('not allowed to be empty');
     });
 });
 
-describe('applicationCountry', () => {
+describe('projectCountry', () => {
     test('valid', () => {
-        const { error } = allFields.applicationCountry.schema.validate(
+        const { error } = allFields.projectCountry.schema.validate(
             faker.random.arrayElement(['england', 'northern-ireland', 'scotland', 'wales'])
         );
         expect(error).toBeNull();
     });
 
     test('invalid', () => {
-        const { error } = allFields.applicationCountry.schema.validate('not-a-country');
+        const { error } = allFields.projectCountry.schema.validate('not-a-country');
         expect(error.message).toContain('must be one of [england, northern-ireland, scotland, wales]');
     });
 });
@@ -266,8 +266,8 @@ describe('organisationAddress', () => {
     test('partial address fields', () => {
         const { error } = allFields.organisationAddress.schema.validate({
             'building-street': '3 Embassy Drive',
-            county: 'West Midlands',
-            postcode: 'B15 1TR'
+            'county': 'West Midlands',
+            'postcode': 'B15 1TR'
         });
         expect(error.message).toEqual('child "town-city" fails because ["town-city" is required]');
     });
@@ -432,8 +432,8 @@ function testContactAddress(field) {
         const { error } = field.schema.validate({
             'building-street': '3 Embassy Drive',
             'town-city': 'Edgbaston, Birmingham',
-            county: 'West Midlands',
-            postcode: 'B15 1TR'
+            'county': 'West Midlands',
+            'postcode': 'B15 1TR'
         });
         expect(error).toBeNull();
     });
@@ -446,8 +446,8 @@ function testContactAddress(field) {
     test('partial address fields', () => {
         const { error } = field.schema.validate({
             'building-street': '3 Embassy Drive',
-            county: 'West Midlands',
-            postcode: 'B15 1TR'
+            'county': 'West Midlands',
+            'postcode': 'B15 1TR'
         });
         expect(error.message).toEqual('child "town-city" fails because ["town-city" is required]');
     });
@@ -456,8 +456,8 @@ function testContactAddress(field) {
         const { error } = field.schema.validate({
             'building-street': '3 Embassy Drive',
             'town-city': 'Edgbaston, Birmingham',
-            county: 'West Midlands',
-            postcode: 'not a postcode'
+            'county': 'West Midlands',
+            'postcode': 'not a postcode'
         });
         expect(error.message).toContain('fails to match the required pattern');
     });
@@ -527,7 +527,9 @@ function testContactCommunicationNeeds(field) {
 
     test('invalid', () => {
         const { error } = field.schema.validate('invalid');
-        expect(error.message).toContain('must be one of [audiotape, braille, large-print]');
+        expect(error.message).toContain(
+            'must be one of [audiotape, braille, disk, large-print, letter, sign-language, text-relay]'
+        );
     });
 
     test('optional', () => {
@@ -572,29 +574,29 @@ describe('mainContactDob', () => {
     });
 });
 
-describe('legalContactAddress', () => {
-    testContactAddress(allFields.legalContactAddress);
+describe('seniorContactAddress', () => {
+    testContactAddress(allFields.seniorContactAddress);
 });
 
-describe('legalContactEmail', () => {
-    testContactEmail(allFields.legalContactEmail);
+describe('seniorContactEmail', () => {
+    testContactEmail(allFields.seniorContactEmail);
 });
 
-describe('legalContactPhone', () => {
-    testContactPhone(allFields.legalContactPhone);
+describe('seniorContactPhone', () => {
+    testContactPhone(allFields.seniorContactPhone);
 });
 
-describe('legalContactCommunicationNeeds', () => {
-    testContactCommunicationNeeds(allFields.legalContactCommunicationNeeds);
+describe('seniorContactCommunicationNeeds', () => {
+    testContactCommunicationNeeds(allFields.seniorContactCommunicationNeeds);
 });
 
-describe('legalContactName', () => {
-    testContactNamePart(allFields.legalContactFirstName);
-    testContactNamePart(allFields.legalContactLastName);
+describe('seniorContactName', () => {
+    testContactNamePart(allFields.seniorContactFirstName);
+    testContactNamePart(allFields.seniorContactLastName);
 });
 
-describe('legalContactRole', () => {
-    const field = allFields.legalContactRole;
+describe('seniorContactRole', () => {
+    const field = allFields.seniorContactRole;
     test('valid', () => {
         const { error } = field.schema.validate('chair');
         expect(error).toBeNull();
@@ -627,16 +629,16 @@ describe('legalContactRole', () => {
     });
 });
 
-describe('legalContactDob', () => {
+describe('seniorContactDob', () => {
     test('valid', () => {
         const dt = moment().subtract(18, 'years');
-        const { error } = allFields.legalContactDob.schema.validate(toDateParts(dt));
+        const { error } = allFields.seniorContactDob.schema.validate(toDateParts(dt));
         expect(error).toBeNull();
     });
 
     test('at least 18 years old', () => {
         const dt = moment().subtract(17, 'years');
-        const { error } = allFields.legalContactDob.schema.validate(toDateParts(dt));
+        const { error } = allFields.seniorContactDob.schema.validate(toDateParts(dt));
         expect(error.message).toContain('Must be at least 18 years old');
     });
 
@@ -645,33 +647,33 @@ describe('legalContactDob', () => {
             { 'organisation-type': 'school' },
             {
                 'organisation-type': allFields.organisationType.schema,
-                'main-contact-dob': allFields.legalContactDob.schema
+                'main-contact-dob': allFields.seniorContactDob.schema
             }
         );
 
         expect(error).toBeNull();
 
-        expect(allFields.legalContactDob.shouldShow()).toBeTruthy();
-        expect(allFields.legalContactDob.shouldShow({ 'organisation-type': 'unregistered-vco' })).toBeTruthy();
-        expect(allFields.legalContactDob.shouldShow({ 'organisation-type': 'school' })).toBeFalsy();
-        expect(allFields.legalContactDob.shouldShow({ 'organisation-type': 'statutory-body' })).toBeFalsy();
+        expect(allFields.seniorContactDob.shouldShow()).toBeTruthy();
+        expect(allFields.seniorContactDob.shouldShow({ 'organisation-type': 'unregistered-vco' })).toBeTruthy();
+        expect(allFields.seniorContactDob.shouldShow({ 'organisation-type': 'school' })).toBeFalsy();
+        expect(allFields.seniorContactDob.shouldShow({ 'organisation-type': 'statutory-body' })).toBeFalsy();
     });
 });
 
-describe('legalContactAddress', () => {
-    testContactAddress(allFields.legalContactAddress);
+describe('seniorContactAddress', () => {
+    testContactAddress(allFields.seniorContactAddress);
 });
 
-describe('legalContactEmail', () => {
-    testContactEmail(allFields.legalContactEmail);
+describe('seniorContactEmail', () => {
+    testContactEmail(allFields.seniorContactEmail);
 });
 
-describe('legalContactPhone', () => {
-    testContactPhone(allFields.legalContactPhone);
+describe('seniorContactPhone', () => {
+    testContactPhone(allFields.seniorContactPhone);
 });
 
-describe('legalContactCommunicationNeeds', () => {
-    testContactCommunicationNeeds(allFields.legalContactCommunicationNeeds);
+describe('seniorContactCommunicationNeeds', () => {
+    testContactCommunicationNeeds(allFields.seniorContactCommunicationNeeds);
 });
 
 describe('bankAccountName', () => {

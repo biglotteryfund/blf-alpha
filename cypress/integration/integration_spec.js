@@ -361,7 +361,7 @@ describe('awards for all', function() {
             cy.getByLabelText('Year').type('1926');
             fillAddress();
             cy.getByLabelText('Email', { exact: false }).type(faker.internet.exampleEmail());
-            cy.getByLabelText('UK telephone number', { exact: false }).type(faker.phone.phoneNumber());
+            cy.getByLabelText('Telephone number', { exact: false }).type(faker.phone.phoneNumber());
         }
 
         function fillMainContact() {

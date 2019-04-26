@@ -6,7 +6,7 @@ const { Joi, ...commonValidators } = require('../lib/validators');
 
 const MIN_AGE_MAIN_CONTACT = 16;
 const MIN_AGE_SENIOR_CONTACT = 18;
-const MAX_BUDGET_TOTAL = 10000; // in GBP
+const MAX_BUDGET_TOTAL_GBP = 10000;
 
 const countries = {
     england: { value: 'england', label: { en: 'England', cy: '' } },
@@ -184,6 +184,10 @@ function lastNameField(props) {
 
 function dateOfBirthField(minAge, props) {
     const defaultProps = {
+        explanation: {
+            en: `It's important to make sure the date of birth is correct, as errors will fail our authenticity checks and delay your application.`,
+            cy: ''
+        },
         type: 'date',
         attributes: {
             max: moment()
@@ -223,9 +227,38 @@ function dateOfBirthField(minAge, props) {
     return { ...defaultProps, ...props };
 }
 
+function communicationNeedsField(props) {
+    const defaultProps = {
+        type: 'radio',
+        options: [
+            { value: 'audiotape', label: { en: 'Audiotape', cy: '' } },
+            { value: 'braille', label: { en: 'Braille', cy: '' } },
+            { value: 'disk', label: { en: 'Disk', cy: '' } },
+            { value: 'large-print', label: { en: 'Large print', cy: '' } },
+            { value: 'letter', label: { en: 'Letter', cy: '' } },
+            { value: 'sign-language', label: { en: 'Sign language', cy: '' } },
+            { value: 'text-relay', label: { en: 'Text relay', cy: '' } }
+        ],
+        get schema() {
+            return Joi.array()
+                .items(Joi.string().valid(this.options.map(option => option.value)))
+                .single()
+                .optional();
+        },
+        messages: [
+            {
+                type: 'any.allowOnly',
+                message: { en: 'Choose from one of the options provided', cy: '' }
+            }
+        ]
+    };
+
+    return { ...defaultProps, ...props };
+}
+
 const allFields = {
-    applicationTitle: {
-        name: 'application-title',
+    projectName: {
+        name: 'project-name',
         label: { en: 'What is the name of your project?', cy: '' },
         explanation: { en: 'The project name should be simple and to the point', cy: '' },
         type: 'text',
@@ -233,8 +266,8 @@ const allFields = {
         schema: Joi.string().required(),
         messages: [{ type: 'base', message: { en: 'Enter a project name', cy: '' } }]
     },
-    applicationCountry: {
-        name: 'application-country',
+    projectCountry: {
+        name: 'project-country',
         label: { en: 'What country will your project be based in?', cy: '' },
         explanation: {
             en:
@@ -498,11 +531,11 @@ const allFields = {
         },
         type: 'budget',
         attributes: {
-            max: MAX_BUDGET_TOTAL,
+            max: MAX_BUDGET_TOTAL_GBP,
             rowLimit: 10
         },
         isRequired: true,
-        schema: commonValidators.budgetField(MAX_BUDGET_TOTAL),
+        schema: commonValidators.budgetField(MAX_BUDGET_TOTAL_GBP),
         messages: [
             { type: 'base', message: { en: 'Enter a project budget', cy: '' } },
             { type: 'any.empty', key: 'item', message: { en: 'Enter an item or activity', cy: '' } },
@@ -510,7 +543,7 @@ const allFields = {
             {
                 type: 'budgetItems.overBudget',
                 message: {
-                    en: `Total project costs must be less than £${MAX_BUDGET_TOTAL.toLocaleString()}`,
+                    en: `Total project costs must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
                     cy: ``
                 }
             }
@@ -714,44 +747,25 @@ const allFields = {
     }),
     mainContactPhone: phoneField({
         name: 'main-contact-phone',
-        label: { en: 'UK telephone number', cy: '' }
+        label: { en: 'Telephone number', cy: '' }
     }),
-    mainContactCommunicationNeeds: {
+    mainContactCommunicationNeeds: communicationNeedsField({
         name: 'main-contact-communication-needs',
-        label: { en: 'Does this contact have any communication needs?', cy: '' },
-        type: 'checkbox',
-        options: [
-            { value: 'audiotape', label: { en: 'Audiotape', cy: '' } },
-            { value: 'braille', label: { en: 'Braille', cy: '' } },
-            { value: 'large-print', label: { en: 'Large print', cy: '' } }
-        ],
-        isRequired: false,
-        get schema() {
-            return Joi.array()
-                .items(Joi.string().valid(this.options.map(option => option.value)))
-                .single()
-                .optional();
-        },
-        messages: [
-            {
-                type: 'any.allowOnly',
-                message: { en: 'Choose from one of the options provided', cy: '' }
-            }
-        ]
-    },
-    legalContactFirstName: firstNameField({
-        name: 'legal-contact-first-name',
+        label: { en: 'Please tell us about any particular communication needs this contact has.', cy: '' }
+    }),
+    seniorContactFirstName: firstNameField({
+        name: 'senior-contact-first-name',
         label: { en: 'First name', cy: '' }
     }),
-    legalContactLastName: lastNameField({
-        name: 'legal-contact-last-name',
+    seniorContactLastName: lastNameField({
+        name: 'senior-contact-last-name',
         label: { en: 'Last name', cy: '' }
     }),
-    legalContactRole: {
-        name: 'legal-contact-role',
+    seniorContactRole: {
+        name: 'senior-contact-role',
         label: { en: 'Role', cy: '' },
         explanation: {
-            en: `The position held by the legally responsible contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.`,
+            en: `The position held by the senior contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.`,
             cy: ''
         },
         type: 'radio',
@@ -799,16 +813,12 @@ const allFields = {
         schema: Joi.string().required(),
         messages: [{ type: 'base', message: { en: 'Choose a role', cy: '' } }]
     },
-    legalContactDob: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
-        name: 'legal-contact-dob',
-        label: { en: 'Date of birth', cy: '' },
-        explanation: {
-            en: `They must be at least ${MIN_AGE_SENIOR_CONTACT} years old and are responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.`,
-            cy: ''
-        }
+    seniorContactDob: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
+        name: 'senior-contact-dob',
+        label: { en: 'Date of birth', cy: '' }
     }),
-    legalContactAddress: addressField({
-        name: 'legal-contact-address',
+    seniorContactAddress: addressField({
+        name: 'senior-contact-address',
         label: { en: 'Address', cy: '' },
         schema: Joi.when(Joi.ref('organisation-type'), {
             is: organisationTypes.school.value,
@@ -824,38 +834,19 @@ const allFields = {
             );
         }
     }),
-    legalContactEmail: emailField({
-        name: 'legal-contact-email',
+    seniorContactEmail: emailField({
+        name: 'senior-contact-email',
         label: { en: 'Email', cy: '' },
         explanation: { en: 'We’ll use this whenever we get in touch about the project', cy: '' }
     }),
-    legalContactPhone: phoneField({
-        name: 'legal-contact-phone',
-        label: { en: 'UK telephone number', cy: '' }
+    seniorContactPhone: phoneField({
+        name: 'senior-contact-phone',
+        label: { en: 'Telephone number', cy: '' }
     }),
-    legalContactCommunicationNeeds: {
-        name: 'legal-contact-communication-needs',
-        type: 'checkbox',
-        label: { en: 'Does this contact have any communication needs?', cy: '' },
-        options: [
-            { value: 'audiotape', label: { en: 'Audiotape', cy: '' } },
-            { value: 'braille', label: { en: 'Braille', cy: '' } },
-            { value: 'large-print', label: { en: 'Large print', cy: '' } }
-        ],
-        isRequired: false,
-        get schema() {
-            return Joi.array()
-                .items(Joi.string().valid(this.options.map(option => option.value)))
-                .single()
-                .optional();
-        },
-        messages: [
-            {
-                type: 'any.allowOnly',
-                message: { en: 'Choose from one of the options provided', cy: '' }
-            }
-        ]
-    },
+    seniorContactCommunicationNeeds: communicationNeedsField({
+        name: 'senior-contact-communication-needs',
+        label: { en: 'Please tell us about any particular communication needs this contact has.', cy: '' }
+    }),
     bankAccountName: {
         name: 'bank-account-name',
         label: { en: 'Name on the bank account', cy: '' },
