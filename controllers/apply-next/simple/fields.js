@@ -6,7 +6,7 @@ const { Joi, ...commonValidators } = require('../lib/validators');
 
 const MIN_AGE_MAIN_CONTACT = 16;
 const MIN_AGE_SENIOR_CONTACT = 18;
-const MAX_BUDGET_TOTAL = 10000; // in GBP
+const MAX_BUDGET_TOTAL_GBP = 10000;
 
 const countries = {
     england: { value: 'england', label: { en: 'England', cy: '' } },
@@ -498,11 +498,11 @@ const allFields = {
         },
         type: 'budget',
         attributes: {
-            max: MAX_BUDGET_TOTAL,
+            max: MAX_BUDGET_TOTAL_GBP,
             rowLimit: 10
         },
         isRequired: true,
-        schema: commonValidators.budgetField(MAX_BUDGET_TOTAL),
+        schema: commonValidators.budgetField(MAX_BUDGET_TOTAL_GBP),
         messages: [
             { type: 'base', message: { en: 'Enter a project budget', cy: '' } },
             { type: 'any.empty', key: 'item', message: { en: 'Enter an item or activity', cy: '' } },
@@ -510,7 +510,7 @@ const allFields = {
             {
                 type: 'budgetItems.overBudget',
                 message: {
-                    en: `Total project costs must be less than £${MAX_BUDGET_TOTAL.toLocaleString()}`,
+                    en: `Total project costs must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
                     cy: ``
                 }
             }
