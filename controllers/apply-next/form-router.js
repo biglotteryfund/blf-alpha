@@ -29,34 +29,34 @@ function fieldsForStep(step) {
     };
 }
 
-function sessionPrefixFor(formModel) {
-    return `forms.${formModel.id}`;
+/**
+ * Validate data against the form schema
+ * Validating against the whole form ensures that
+ * conditional validations are taken into account
+ */
+function validateDataFor(form, data) {
+    return form.schema.validate(data, {
+        // Return all errors not just the first one
+        abortEarly: false,
+        // Strip unknown properties.
+        // Notably to allow us to ignore request forgery tokens as part of POST bodies
+        stripUnknown: true
+    });
 }
 
-function initFormRouter(formModel) {
+function initFormRouter(id, formModel) {
     const router = express.Router();
 
-    /**
-     * Validate data against the form scehema
-     * Validating against the whole form ensures that
-     * conditional validations are taken into account
-     */
-    function validateData(data) {
-        return formModel.schema.validate(data, {
-            // Return all errors not just the first one
-            abortEarly: false,
-            // Strip unknown properties.
-            // Notably to allow us to ignore request forgery tokens as part of POST bodies
-            stripUnknown: true
-        });
+    function sessionPrefix() {
+        return `forms.${id}`;
     }
 
     function getCurrentlyEditingId(req) {
-        return get(req.session, `${sessionPrefixFor(formModel)}.currentEditingId`);
+        return get(req.session, `${sessionPrefix()}.currentEditingId`);
     }
 
     function setCurrentlyEditingId(req, applicationId) {
-        return set(req.session, `${sessionPrefixFor(formModel)}.currentEditingId`, applicationId);
+        return set(req.session, `${sessionPrefix()}.currentEditingId`, applicationId);
     }
 
     router.use(cached.csrfProtection, async (req, res, next) => {
@@ -419,41 +419,34 @@ function initFormRouter(formModel) {
                     const stepFields = fieldsForStep(currentStep);
 
                     const dataToValidate = { ...currentApplicationData, ...req.body };
-                    const validationResult = validateData(dataToValidate);
 
-                    /**
-                     * Get the errors for the current step
-                     * We validate against the whole form schema so need to limit the errors to the current step
-                     */
-                    const errors = normaliseErrors({
+                    const form = enhanceForm({
+                        locale: req.i18n.getLocale(),
+                        baseForm: formModel,
+                        data: dataToValidate
+                    });
+
+                    const validationResult = validateDataFor(form, dataToValidate);
+
+                    const normalisedErrors = normaliseErrors({
                         validationError: validationResult.error,
                         errorMessages: stepFields.messages,
                         fieldNames: stepFields.names,
                         locale: req.i18n.getLocale()
                     });
 
-                    /**
-                     * Prepare data for storage
-                     * Exclude any values in the current submission which have errors
-                     */
-                    const newFormData = omit(validationResult.value, errors.map(err => err.param));
-
                     try {
-                        await applicationsService.updateApplication(currentlyEditingId, newFormData);
-
-                        const form = enhanceForm({
-                            locale: req.i18n.getLocale(),
-                            baseForm: formModel,
-                            data: newFormData
-                        });
+                        // Exclude any values in the current submission which have errors
+                        const dataToStore = omit(validationResult.value, normalisedErrors.map(err => err.param));
+                        await applicationsService.updateApplication(currentlyEditingId, dataToStore);
 
                         /**
                          * If there are errors re-render the step with errors
                          * - Pass the full data object from validationResult to the view. Including invalid values.
                          * Otherwise, find the next suitable step and redirect there.
                          */
-                        if (errors.length > 0) {
-                            renderStep(req, res, validationResult.value, errors);
+                        if (normalisedErrors.length > 0) {
+                            renderStep(req, res, validationResult.value, normalisedErrors);
                         } else {
                             const { nextUrl } = nextAndPrevious({
                                 baseUrl: req.baseUrl,
@@ -501,13 +494,15 @@ function initFormRouter(formModel) {
             const { currentApplicationData } = res.locals;
             res.locals.breadcrumbs = concat(res.locals.breadcrumbs, { label: 'Terms & Conditions' });
 
-            res.locals.form = enhanceForm({
+            const form = enhanceForm({
                 locale: req.i18n.getLocale(),
                 baseForm: formModel,
                 data: currentApplicationData
             });
 
-            const validationResult = validateData(currentApplicationData);
+            res.locals.form = form;
+
+            const validationResult = validateDataFor(form, currentApplicationData);
             const errors = get(validationResult, 'error.details', []);
 
             if (errors.length > 0) {
@@ -544,7 +539,7 @@ function initFormRouter(formModel) {
             res.redirect(req.baseUrl);
         } else {
             // Clear the submission from the session on success
-            unset(req.session, sessionPrefixFor(formModel));
+            unset(req.session, sessionPrefix(formModel));
             req.session.save(() => {
                 res.render(path.resolve(__dirname, './views/success'), {
                     form: res.locals.form,

@@ -10,7 +10,7 @@ const router = express.Router();
 
 if (appData.isNotProduction) {
     router.get('/', (req, res) => res.redirect('/'));
-    router.use('/simple', initFormRouter(formModel));
+    router.use('/simple', initFormRouter('awards-for-all', formModel));
 }
 
 module.exports = router;
