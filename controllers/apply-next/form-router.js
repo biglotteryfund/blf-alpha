@@ -44,7 +44,7 @@ function validateDataFor(form, data) {
     });
 }
 
-function initFormRouter(id, formModel) {
+function initFormRouter({ id, formModel, processor }) {
     const router = express.Router();
 
     function sessionPrefix() {
@@ -100,7 +100,8 @@ function initFormRouter(id, formModel) {
         };
 
         if (req.params.pdf) {
-            const fileLocation = `documents/application-questions/${formModel.id}.pdf`;
+            const fileName = `${id}.pdf`;
+            const fileLocation = `documents/application-questions/${fileName}`;
 
             const filePath = path.resolve(__dirname, '../../public/', fileLocation);
 
@@ -141,7 +142,7 @@ function initFormRouter(id, formModel) {
                                     return res.status(400).json({ error: 'ERR-PDF-WRITE-ERROR' });
                                 }
                                 // Give the user the file directly
-                                return res.download(filePath, `${formModel.id}.pdf`);
+                                return res.download(filePath, fileName);
                             });
                         });
                     }
@@ -214,8 +215,8 @@ function initFormRouter(id, formModel) {
      */
     router.route('/').get(async function(req, res) {
         const applications = await applicationsService.getApplicationsForUser({
-            userId: req.user.userData.id,
-            formId: formModel.id
+            formId: id,
+            userId: req.user.userData.id
         });
 
         const form = enhanceForm({
@@ -250,8 +251,8 @@ function initFormRouter(id, formModel) {
     router.get('/new', async function(req, res) {
         try {
             const application = await applicationsService.createApplication({
-                userId: req.user.userData.id,
-                formId: formModel.id
+                formId: id,
+                userId: req.user.userData.id
             });
 
             setCurrentlyEditingId(req, application.id);
@@ -289,7 +290,7 @@ function initFormRouter(id, formModel) {
         .get(async (req, res) => {
             if (req.params.applicationId && req.user.userData.id) {
                 const application = await applicationsService.getApplicationById({
-                    formId: formModel.id,
+                    formId: id,
                     applicationId: req.params.applicationId,
                     userId: req.user.userData.id
                 });
@@ -327,7 +328,7 @@ function initFormRouter(id, formModel) {
 
             try {
                 const application = await applicationsService.getApplicationById({
-                    formId: formModel.id,
+                    formId: id,
                     applicationId: currentEditingId,
                     userId: req.user.userData.id
                 });
@@ -517,9 +518,8 @@ function initFormRouter(id, formModel) {
             });
         })
         .post(async (req, res) => {
-            // @TODO: Validate fields on terms screen?
             try {
-                await formModel.processor({
+                await processor({
                     form: res.locals.form,
                     data: res.locals.currentApplicationData
                 });
@@ -539,7 +539,7 @@ function initFormRouter(id, formModel) {
             res.redirect(req.baseUrl);
         } else {
             // Clear the submission from the session on success
-            unset(req.session, sessionPrefix(formModel));
+            unset(req.session, sessionPrefix());
             req.session.save(() => {
                 res.render(path.resolve(__dirname, './views/success'), {
                     form: res.locals.form,

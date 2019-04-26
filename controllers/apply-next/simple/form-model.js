@@ -1,6 +1,5 @@
 'use strict';
 const { schema, allFields } = require('./fields');
-const processor = require('./processor');
 const validateModel = require('../lib/validate-model');
 
 const sectionProject = {
@@ -341,12 +340,17 @@ const formModel = {
         }
     ],
     schema: schema,
-    processor: processor,
     programmePage: '/funding/programmes/national-lottery-awards-for-all-england'
 };
 
 validateModel(formModel);
 
+function formBuilder(/* locale, data = {} */) {
+    // Merge enhance-form
+    return formModel;
+}
+
 module.exports = {
-    formModel: formModel
+    formModel: formModel,
+    formBuilder: formBuilder
 };

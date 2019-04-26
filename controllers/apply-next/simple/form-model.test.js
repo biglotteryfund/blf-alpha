@@ -1,11 +1,12 @@
 /* eslint-env jest */
 'use strict';
-const { formModel } = require('./form-model');
+const { formBuilder } = require('./form-model');
 const { mockFullForm } = require('./mocks');
 
 describe('awards for all form model', () => {
     function validate(mock) {
-        return formModel.schema.validate(mock, {
+        const form = formBuilder('en');
+        return form.schema.validate(mock, {
             abortEarly: false,
             stripUnknown: true
         });
