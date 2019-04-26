@@ -1,16 +1,25 @@
 'use strict';
 const express = require('express');
 
-const { initFormRouter } = require('./form-router');
 const appData = require('../../modules/appData');
+const { initFormRouter } = require('./form-router');
 
-const { formModel } = require('./simple/form-model');
+const formBuilder = require('./simple/form');
+const processor = require('./simple/processor');
 
 const router = express.Router();
 
 if (appData.isNotProduction) {
     router.get('/', (req, res) => res.redirect('/'));
-    router.use('/simple', initFormRouter(formModel));
+
+    router.use(
+        '/simple',
+        initFormRouter({
+            id: 'awards-for-all',
+            formBuilder: formBuilder,
+            processor: processor
+        })
+    );
 }
 
 module.exports = router;
