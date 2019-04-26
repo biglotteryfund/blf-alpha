@@ -1,6 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const { formBuilder } = require('./form-model');
+const { formBuilder } = require('./form');
 const { mockFullForm } = require('./mocks');
 
 describe('awards for all form model', () => {

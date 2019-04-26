@@ -1,5 +1,5 @@
 'use strict';
-const { get, set, unset, concat, find, findIndex, flatMap, head, isEmpty, omit } = require('lodash');
+const { get, set, unset, concat, findIndex, flatMap, head, isEmpty, omit } = require('lodash');
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
