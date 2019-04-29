@@ -1,6 +1,6 @@
 'use strict';
 const { get } = require('lodash/fp');
-const { includes, reduce, values } = require('lodash');
+const { includes, reduce } = require('lodash');
 const moment = require('moment');
 
 const { Joi, ...commonValidators } = require('../lib/validators');
@@ -15,49 +15,6 @@ const {
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
     const getOrganisationType = get('organisation-type');
-    const organisationTypes = {
-        unregisteredVco: {
-            value: ORGANISATION_TYPES.UNREGISTERED_VCO,
-            label: localise({ en: 'Unregistered voluntary or community organisation', cy: '' }),
-            explanation: localise({
-                en: `Groups that are consituted but not registered as a charity or company, for example, Scouts groups, sports clubs, community groups, residents associations`,
-                cy: ``
-            })
-        },
-        unincorporatedRegisteredCharity: {
-            value: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-            label: localise({ en: 'Registered charity (unincorporated)', cy: '' }),
-            explanation: localise({
-                en: `Voluntary and community organisations that are registered charities but are not also registered with Companies House as a Company`,
-                cy: ``
-            })
-        },
-        charitableIncorporatedOrganisation: {
-            value: ORGANISATION_TYPES.CIO,
-            label: localise({ en: 'Charitable incorporated organisation (CIO)', cy: '' })
-        },
-        notForProfitCompany: {
-            value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
-            label: localise({ en: 'Not-for-profit company', cy: '' }),
-            explanation: localise({
-                en: `Not for profit companies registered with Companies House including those registered as Charities`,
-                cy: ``
-            })
-        },
-        school: {
-            value: ORGANISATION_TYPES.SCHOOL,
-            label: localise({ en: 'School or educational body', cy: '' }),
-            explanation: localise({
-                en: `Only select this option if your organisation is a school or regsitered educational establishment`,
-                cy: ``
-            })
-        },
-        statutoryBody: {
-            value: ORGANISATION_TYPES.STATUTORY_BODY,
-            label: localise({ en: 'Statutory body', cy: '' }),
-            explanation: localise({ en: 'For example, Health Body, Local Authority, Parish Council, Police', cy: '' })
-        }
-    };
 
     function seniorContactRolesFor(organisationType) {
         let options = [];
@@ -656,7 +613,52 @@ module.exports = function({ locale, data = {} }) {
                 cy: '(WELSH) What type of organisation are you?'
             }),
             type: 'radio',
-            options: values(organisationTypes),
+            options: [
+                {
+                    value: ORGANISATION_TYPES.UNREGISTERED_VCO,
+                    label: localise({ en: 'Unregistered voluntary or community organisation', cy: '' }),
+                    explanation: localise({
+                        en: `Groups that are consituted but not registered as a charity or company, for example, Scouts groups, sports clubs, community groups, residents associations`,
+                        cy: ``
+                    })
+                },
+                {
+                    value: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                    label: localise({ en: 'Registered charity (unincorporated)', cy: '' }),
+                    explanation: localise({
+                        en: `Voluntary and community organisations that are registered charities but are not also registered with Companies House as a Company`,
+                        cy: ``
+                    })
+                },
+                {
+                    value: ORGANISATION_TYPES.CIO,
+                    label: localise({ en: 'Charitable incorporated organisation (CIO)', cy: '' })
+                },
+                {
+                    value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
+                    label: localise({ en: 'Not-for-profit company', cy: '' }),
+                    explanation: localise({
+                        en: `Not for profit companies registered with Companies House including those registered as Charities`,
+                        cy: ``
+                    })
+                },
+                {
+                    value: ORGANISATION_TYPES.SCHOOL,
+                    label: localise({ en: 'School or educational body', cy: '' }),
+                    explanation: localise({
+                        en: `Only select this option if your organisation is a school or regsitered educational establishment`,
+                        cy: ``
+                    })
+                },
+                {
+                    value: ORGANISATION_TYPES.STATUTORY_BODY,
+                    label: localise({ en: 'Statutory body', cy: '' }),
+                    explanation: localise({
+                        en: 'For example, Health Body, Local Authority, Parish Council, Police',
+                        cy: ''
+                    })
+                }
+            ],
             isRequired: true,
             get schema() {
                 return Joi.string()
