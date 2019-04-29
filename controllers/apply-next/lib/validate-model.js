@@ -2,21 +2,10 @@
 const Joi = require('joi');
 
 module.exports = function validateModel(formModel) {
-    /**
-     * Validate fields against a schema
-     */
-    const localeString = Joi.object({
-        en: Joi.string().required(),
-        // @TODO: Remove allow '' when translating
-        cy: Joi.string()
-            .allow('')
-            .required()
-    });
-
     const fieldSchema = Joi.object({
         name: Joi.string().required(),
-        label: localeString.required(),
-        explanation: localeString.optional(),
+        label: Joi.string().required(),
+        explanation: Joi.string().optional(),
         type: Joi.string()
             .valid([
                 'address',
@@ -43,21 +32,21 @@ module.exports = function validateModel(formModel) {
             Joi.object({
                 type: Joi.string().required(),
                 key: Joi.string().optional(),
-                message: localeString.required()
+                message: Joi.any().required()
             })
         )
     });
 
     const fieldsetSchema = Joi.object({
-        legend: localeString.required(),
-        introduction: localeString.optional(),
+        legend: Joi.string().required(),
+        introduction: Joi.string().optional(),
         fields: Joi.array()
             .items(fieldSchema)
             .required()
     });
 
     const stepSchema = Joi.object({
-        title: localeString.required(),
+        title: Joi.string().required(),
         fieldsets: Joi.array()
             .items(fieldsetSchema)
             .required()
@@ -65,8 +54,8 @@ module.exports = function validateModel(formModel) {
 
     const sectionSchema = Joi.object({
         slug: Joi.string().required(),
-        title: localeString.required(),
-        introduction: localeString.optional(),
+        title: Joi.string().required(),
+        introduction: Joi.string().optional(),
         steps: Joi.array()
             .items(stepSchema)
             .required()
@@ -74,7 +63,7 @@ module.exports = function validateModel(formModel) {
 
     const formSchema = Joi.object({
         id: Joi.string().required(),
-        title: localeString.required(),
+        title: Joi.string().required(),
         sections: Joi.array()
             .items(sectionSchema)
             .required()

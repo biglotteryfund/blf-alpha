@@ -1137,7 +1137,7 @@ module.exports = function({ locale, data = {} }) {
                 ]
             },
             {
-                title: { en: 'Bank statement', cy: '' },
+                title: localise({ en: 'Bank statement', cy: '' }),
                 fieldsets: [
                     {
                         legend: localise({ en: 'Bank statement', cy: '' }),

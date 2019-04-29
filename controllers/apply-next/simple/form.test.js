@@ -4,7 +4,9 @@ const { flatMap, map, range, times } = require('lodash');
 const faker = require('faker');
 const moment = require('moment');
 const Joi = require('joi');
+
 const { ORGANISATION_TYPES } = require('./constants');
+const validateModel = require('../lib/validate-model');
 
 function toDateParts(dt) {
     return {
@@ -545,6 +547,10 @@ describe('form model', () => {
             stripUnknown: true
         });
     }
+
+    test('validate model shape', () => {
+        validateModel(formBuilder({ locale: 'en' }));
+    });
 
     test('invalid empty form', () => {
         const validationResult = validate({});
