@@ -31,7 +31,7 @@
 
                 {# {{ languageServiceMessage(currentLocale = locale) }} #}
 
-                {{ formErrors(errors = errors) }}
+                {{ formErrors(__('global.misc.errorTitle'), errors) }}
 
                 {% for fieldset in step.fieldsets %}
                     <fieldset class="form-fieldset u-constrained-wide">

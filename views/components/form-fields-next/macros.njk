@@ -1,11 +1,9 @@
 {% from "components/icons.njk" import iconBin %}
 
-{% macro formErrors(errors, title) %}
+{% macro formErrors(title, errors) %}
     {% if errors | length > 0 %}
         <div class="form-errors">
-            <h2 class="form-errors__title">
-                {% if title -%}{{ title }}{%- else -%}{{ __('global.misc.errorTitle') }}{%- endif %}
-            </h2>
+            <h2 class="form-errors__title">{{ title }}</h2>
             {% if errors.length > 0 %}
                 <ol class="form-errors__list">
                     {% for error in errors %}
