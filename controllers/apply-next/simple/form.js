@@ -14,7 +14,7 @@ const {
 
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
-    const getOrganisationType = get('organisation-type');
+    const orgTypeFor = get('organisation-type');
 
     function seniorContactRolesFor(organisationType) {
         let options = [];
@@ -689,7 +689,7 @@ module.exports = function({ locale, data = {} }) {
             attributes: { size: 20 },
             isRequired: includes(
                 [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY, ORGANISATION_TYPES.CIO],
-                getOrganisationType(data)
+                orgTypeFor(data)
             ),
             schema: Joi.when('organisation-type', {
                 is: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
@@ -780,7 +780,7 @@ module.exports = function({ locale, data = {} }) {
                 cy: ''
             }),
             type: 'radio',
-            options: seniorContactRolesFor(getOrganisationType(data)),
+            options: seniorContactRolesFor(orgTypeFor(data)),
             isRequired: true,
             schema: Joi.string().required(),
             messages: [{ type: 'base', message: { en: 'Choose a role', cy: '' } }]
@@ -872,7 +872,7 @@ module.exports = function({ locale, data = {} }) {
     );
 
     const includeAddressAndDob =
-        includes([ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY], getOrganisationType(data)) === false;
+        includes([ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY], orgTypeFor(data)) === false;
 
     const sectionProject = {
         slug: 'your-project',
@@ -953,8 +953,7 @@ module.exports = function({ locale, data = {} }) {
                     {
                         legend: localise({ en: 'Registration numbers', cy: '' }),
                         get fields() {
-                            const includeCompanyNumber =
-                                getOrganisationType(data) === ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY;
+                            const includeCompanyNumber = orgTypeFor(data) === ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY;
 
                             const includeCharityNumber = includes(
                                 [
@@ -962,7 +961,7 @@ module.exports = function({ locale, data = {} }) {
                                     ORGANISATION_TYPES.CIO,
                                     ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
                                 ],
-                                getOrganisationType(data)
+                                orgTypeFor(data)
                             );
 
                             const fields = [];
