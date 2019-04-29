@@ -3,7 +3,11 @@
 exports[`buildMailOptions build mail options for a html email 1`] = `
 Object {
   "from": "The National Lottery Community Fund <noreply@tnlcommunityfund.org.uk>",
-  "html": "<p>This is a test</p>",
+  "html": 
+<p>
+  This is a test
+</p>
+,
   "subject": "Test",
   "text": "This is a test",
   "to": Array [
@@ -44,7 +48,11 @@ Object {
 exports[`buildMailOptions build mail options for an internal html email 1`] = `
 Object {
   "from": "The National Lottery Community Fund <noreply@blf.digital>",
-  "html": "<p>This is a test</p>",
+  "html": 
+<p>
+  This is a test
+</p>
+,
   "subject": "Test",
   "text": "This is a test",
   "to": Array [
@@ -72,9 +80,14 @@ Object {
 `;
 
 exports[`generateHtmlEmail generate html email content 1`] = `
-"<h1>Test email</h1>
-<p>Example data</p>
-"
+
+<h1>
+  Test email
+</h1>
+<p>
+  Example data
+</p>
+
 `;
 
 exports[`sendEmail create a html email response to be sent 1`] = `
@@ -83,7 +96,12 @@ Example data"
 `;
 
 exports[`sendEmail create a html email response to be sent 2`] = `
-"<h1>Test email</h1>
-<p>Example data</p>
-"
+
+<h1>
+  Test email
+</h1>
+<p>
+  Example data
+</p>
+
 `;
