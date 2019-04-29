@@ -39,9 +39,7 @@
 
 {% macro fieldLabelText(field, fieldCopy) -%}
     {{ fieldCopy.label or field.label }}
-    {% if field.isRequired %}
-        <span class="ff-label-note ff-label-note--required">* {{ __('global.misc.required') }}</span>
-    {% elseif not field.silentlyOptional %}
+    {% if not field.isRequired %}
         <span class="ff-label-note">{{ __('global.misc.optional') }}</span>
     {% endif %}
 {%- endmacro %}
