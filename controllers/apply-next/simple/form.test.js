@@ -4,6 +4,7 @@ const { flatMap, map, range, times } = require('lodash');
 const faker = require('faker');
 const moment = require('moment');
 const Joi = require('joi');
+const { ORGANISATION_TYPES } = require('./constants');
 
 function toDateParts(dt) {
     return {
@@ -276,7 +277,7 @@ describe('fields', () => {
                 'company-number': allFields.companyNumber.schema
             };
 
-            const requiredOrgTypes = ['not-for-profit-company'];
+            const requiredOrgTypes = [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY];
             requiredOrgTypes.forEach(type => {
                 const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
                 expect(error.message).toContain('is required');
@@ -294,7 +295,7 @@ describe('fields', () => {
                 'charity-number': allFields.charityNumber.schema
             };
 
-            const requiredOrgTypes = ['unincorporated-registered-charity', 'charitable-incorporated-organisation'];
+            const requiredOrgTypes = [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY, ORGANISATION_TYPES.CIO];
             requiredOrgTypes.forEach(type => {
                 const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
                 expect(error.message).toContain('is required');
@@ -348,7 +349,7 @@ describe('fields', () => {
                 [field.name]: field.schema
             };
 
-            const optionalOrgTypes = ['school', 'statutory-body'];
+            const optionalOrgTypes = [ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY];
             optionalOrgTypes.forEach(type => {
                 const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
 
@@ -385,7 +386,7 @@ describe('fields', () => {
                 [field.name]: field.schema
             };
 
-            const optionalOrgTypes = ['school', 'statutory-body'];
+            const optionalOrgTypes = [ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY];
             optionalOrgTypes.forEach(type => {
                 const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
 
@@ -549,14 +550,14 @@ describe('form model', () => {
     test('validate full form with company number', () => {
         const mockWithoutCompanyNumber = mockFullForm({
             country: 'england',
-            organisationType: 'not-for-profit-company'
+            organisationType: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
         });
 
         expect(validate(mockWithoutCompanyNumber).error).toBeInstanceOf(Error);
 
         const mockWithCompanyNumber = mockFullForm({
             country: 'england',
-            organisationType: 'not-for-profit-company',
+            organisationType: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
             companyNumber: '123456789'
         });
         expect(validate(mockWithCompanyNumber).error).toBeNull();
@@ -565,14 +566,14 @@ describe('form model', () => {
     test('validate full form with charity number', () => {
         const mockWithoutCharityNumber = mockFullForm({
             country: 'england',
-            organisationType: 'not-for-profit-company'
+            organisationType: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
         });
 
         expect(validate(mockWithoutCharityNumber).error).toBeInstanceOf(Error);
 
         const mockWithCharityNumber = mockFullForm({
             country: 'england',
-            organisationType: 'unincorporated-registered-charity',
+            organisationType: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
             charityNumber: '123456789'
         });
 
@@ -582,30 +583,23 @@ describe('form model', () => {
     test('return conditional role choices based on organisation type', () => {
         const mappings = {
             '': [],
-            'unregistered-vco': ['chair', 'vice-chair', 'secretary', 'treasurer'],
-            'unincorporated-registered-charity': ['trustee'],
-            'charitable-incorporated-organisation': ['trustee'],
-            'not-for-profit-company': ['company-director', 'company-secretary'],
-            'school': ['head-teacher', 'chancellor', 'vice-chancellor'],
-            'statutory-body': ['parish-clerk', 'chief-executive']
+            [ORGANISATION_TYPES.UNREGISTERED_VCO]: ['chair', 'vice-chair', 'secretary', 'treasurer'],
+            [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY]: ['trustee'],
+            [ORGANISATION_TYPES.CIO]: ['trustee'],
+            [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY]: ['company-director', 'company-secretary'],
+            [ORGANISATION_TYPES.SCHOOL]: ['head-teacher', 'chancellor', 'vice-chancellor'],
+            [ORGANISATION_TYPES.STATUTORY_BODY]: ['parish-clerk', 'chief-executive']
         };
 
         map(mappings, (expected, type) => {
-            const form = formBuilder({
-                locale: 'en',
-                data: { 'organisation-type': type }
-            });
+            const form = formBuilder({ locale: 'en', data: { 'organisation-type': type } });
             expect(form.allFields.seniorContactRole.options.map(o => o.value)).toEqual(expected);
         });
     });
 
     function fieldNamesFor(sectionSlug, stepTitle) {
         return function(data) {
-            const form = formBuilder({
-                locale: 'en',
-                data: data
-            });
-
+            const form = formBuilder({ locale: 'en', data: data });
             const section = form.sections.find(s => s.slug === sectionSlug);
             const step = section.steps.find(s => s.title === stepTitle);
             return map(flatMap(step.fieldsets, 'fields'), f => f.name);
@@ -618,9 +612,9 @@ describe('form model', () => {
         expect(fieldNamesFn({})).toEqual([]);
 
         const mappings = {
-            'unincorporated-registered-charity': ['charity-number'],
-            'charitable-incorporated-organisation': ['charity-number'],
-            'not-for-profit-company': ['company-number', 'charity-number']
+            [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY]: ['charity-number'],
+            [ORGANISATION_TYPES.CIO]: ['charity-number'],
+            [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY]: ['company-number', 'charity-number']
         };
 
         map(mappings, (expected, type) => {
@@ -651,8 +645,10 @@ describe('form model', () => {
         ];
 
         expect(mainContactFn({})).toEqual(mainContactDefaultFields);
-        expect(mainContactFn({ 'organisation-type': 'school' })).toEqual(mainContactReducedFields);
-        expect(mainContactFn({ 'organisation-type': 'statutory-body' })).toEqual(mainContactReducedFields);
+        expect(mainContactFn({ 'organisation-type': ORGANISATION_TYPES.SCHOOL })).toEqual(mainContactReducedFields);
+        expect(mainContactFn({ 'organisation-type': ORGANISATION_TYPES.STATUTORY_BODY })).toEqual(
+            mainContactReducedFields
+        );
 
         const seniorContactFn = fieldNamesFor('senior-contact', 'Senior contact');
 
@@ -677,7 +673,9 @@ describe('form model', () => {
         ];
 
         expect(seniorContactFn({})).toEqual(seniorContactDefaultFields);
-        expect(seniorContactFn({ 'organisation-type': 'school' })).toEqual(seniorContactReducedFields);
-        expect(seniorContactFn({ 'organisation-type': 'statutory-body' })).toEqual(seniorContactReducedFields);
+        expect(seniorContactFn({ 'organisation-type': ORGANISATION_TYPES.SCHOOL })).toEqual(seniorContactReducedFields);
+        expect(seniorContactFn({ 'organisation-type': ORGANISATION_TYPES.STATUTORY_BODY })).toEqual(
+            seniorContactReducedFields
+        );
     });
 });
