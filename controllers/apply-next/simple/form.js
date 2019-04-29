@@ -705,6 +705,23 @@ module.exports = function({ locale, data = {} }) {
                 }
             ]
         },
+        educationNumber: {
+            name: 'education-number',
+            label: localise({ en: 'Department for Education number', cy: '' }),
+            type: 'text',
+            attributes: { size: 20 },
+            isRequired: true,
+            schema: Joi.when('organisation-type', {
+                is: ORGANISATION_TYPES.SCHOOL,
+                then: Joi.string().required()
+            }),
+            messages: [
+                {
+                    type: 'base',
+                    message: { en: 'Enter your organisation’s Department for Education number', cy: '' }
+                }
+            ]
+        },
         accountingYearDate: {
             name: 'accounting-year-date',
             label: localise({ en: 'What is your accounting year end date?', cy: '' }),
@@ -953,24 +970,27 @@ module.exports = function({ locale, data = {} }) {
                     {
                         legend: localise({ en: 'Registration numbers', cy: '' }),
                         get fields() {
-                            const includeCompanyNumber = orgTypeFor(data) === ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY;
-
-                            const includeCharityNumber = includes(
-                                [
-                                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                                    ORGANISATION_TYPES.CIO,
-                                    ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-                                ],
-                                orgTypeFor(data)
-                            );
+                            function matchesTypes(orgTypes) {
+                                return includes(orgTypes, orgTypeFor(data));
+                            }
 
                             const fields = [];
-                            if (includeCompanyNumber) {
+                            if (matchesTypes([ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY])) {
                                 fields.push(allFields.companyNumber);
                             }
 
-                            if (includeCharityNumber) {
+                            if (
+                                matchesTypes([
+                                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                                    ORGANISATION_TYPES.CIO,
+                                    ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+                                ])
+                            ) {
                                 fields.push(allFields.charityNumber);
+                            }
+
+                            if (matchesTypes([ORGANISATION_TYPES.SCHOOL])) {
+                                fields.push(allFields.educationNumber);
                             }
 
                             return fields;

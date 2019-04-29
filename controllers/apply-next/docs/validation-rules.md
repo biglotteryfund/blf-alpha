@@ -164,7 +164,7 @@ Address field group, consists of:
 
 #### Conditions
 
--   If the **organisation type** is either **not for profit company** then this field will be **required**, otherwise it is _optional_.
+-   If the **organisation type** is a **not for profit company** then this field will be **required**, otherwise it is _optional_.
 
 ### Charity number
 
@@ -173,6 +173,18 @@ Address field group, consists of:
 | Rule              | Message                                  |
 | ----------------- | ---------------------------------------- |
 | Conditional field | Enter your organisation's charity number |
+
+### Department for Education number
+
+**Type**: string
+
+| Rule              | Message                                    |
+| ----------------- | ------------------------------------------ |
+| Conditional field | Enter your Department for Education number |
+
+#### Conditions
+
+-   If the **organisation type** is a **school** then this field will be **required**, otherwise it is _optional_.
 
 #### Conditions
 
