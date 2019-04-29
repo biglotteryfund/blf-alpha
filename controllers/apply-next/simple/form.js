@@ -240,11 +240,13 @@ module.exports = function({ locale, data = {} }) {
                     .format('YYYY-MM-DD')
             },
             isRequired: true,
-            schema: Joi.when(Joi.ref('organisation-type'), {
-                is: organisationTypes.school.value,
-                then: Joi.any().optional(),
-                otherwise: commonValidators.dateOfBirth(minAge).required()
-            }),
+            schema: commonValidators
+                .dateOfBirth(minAge)
+                .required()
+                .when(Joi.ref('organisation-type'), {
+                    is: Joi.valid(organisationTypes.school.value, organisationTypes.statutoryBody.value),
+                    then: Joi.any().optional()
+                }),
             messages: [
                 {
                     type: 'base',
@@ -747,10 +749,9 @@ module.exports = function({ locale, data = {} }) {
         mainContactAddress: addressField({
             name: 'main-contact-address',
             label: localise({ en: 'Address', cy: '' }),
-            schema: Joi.when(Joi.ref('organisation-type'), {
-                is: organisationTypes.school.value,
-                then: Joi.any().optional(),
-                otherwise: commonValidators.ukAddress().required()
+            schema: commonValidators.ukAddress().when(Joi.ref('organisation-type'), {
+                is: Joi.valid(organisationTypes.school.value, organisationTypes.statutoryBody.value),
+                then: Joi.any().optional()
             })
         }),
         mainContactEmail: emailField({
@@ -794,10 +795,9 @@ module.exports = function({ locale, data = {} }) {
         seniorContactAddress: addressField({
             name: 'senior-contact-address',
             label: localise({ en: 'Address', cy: '' }),
-            schema: Joi.when(Joi.ref('organisation-type'), {
-                is: organisationTypes.school.value,
-                then: Joi.any().optional(),
-                otherwise: commonValidators.ukAddress().required()
+            schema: commonValidators.ukAddress().when(Joi.ref('organisation-type'), {
+                is: Joi.valid(organisationTypes.school.value, organisationTypes.statutoryBody.value),
+                then: Joi.any().optional()
             })
         }),
         seniorContactEmail: emailField({
