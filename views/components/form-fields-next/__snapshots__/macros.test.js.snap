@@ -15,7 +15,6 @@ exports[`form field macros inputCurrency 1`] = `
          type="number"
          id="field-example"
          name="example"
-         value
          required
          aria-required="true"
   >
