@@ -1,9 +1,9 @@
 /* eslint-env jest */
 'use strict';
-const checkSpelling = require('./check-spelling');
+const checkSpelling = require('../check-spelling');
 
 describe('checkSpelling', () => {
-    test('check spelling for english terms', async () => {
+    test('check spelling', async () => {
         const result = await checkSpelling({
             searchTerm: 'fundig',
             locale: 'en'
@@ -11,16 +11,6 @@ describe('checkSpelling', () => {
 
         expect(result.hasTypo).toBeTruthy();
         expect(result.suggestions).toEqual(['funding']);
-    });
-
-    test('check spelling for welsh terms', async () => {
-        const result = await checkSpelling({
-            searchTerm: 'ariannuy',
-            locale: 'cy'
-        });
-
-        expect(result.hasTypo).toBeTruthy();
-        expect(result.suggestions).toEqual(['ariannu']);
     });
 
     test('accept multiple words', async () => {
