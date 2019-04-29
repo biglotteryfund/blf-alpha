@@ -335,7 +335,7 @@ The senior contact role shows the following choices depending on the organisatio
 
 -   If the **organisation type** is either **school / educational body** or **statutory body** then this field will not be shown.
 
-### Legal contact address
+### Senior contact address
 
 **Type**: address
 
@@ -368,7 +368,7 @@ Address field group, consists of:
 | Required field | Enter an email address                                             |
 | Invalid format | Email address must be in the correct format, like name@example.com |
 
-### Legal contact phone
+### Senior contact phone
 
 **Type**: string
 
@@ -379,7 +379,7 @@ Address field group, consists of:
 
 **Note**: Phone numbers validated using [joi-phone-number](https://github.com/Salesflare/joi-phone-number) which is a wrapper around the Google `libphonenumber` library.
 
-### Legal contact communication needs
+### Senior contact communication needs
 
 **Type**: multiple choice (checkbox)
 
