@@ -1,74 +1,25 @@
 'use strict';
 const { get } = require('lodash/fp');
-const { includes, reduce, values } = require('lodash');
+const { includes, reduce } = require('lodash');
 const moment = require('moment');
-const enrichForm = require('../lib/enrich-form');
 
 const { Joi, ...commonValidators } = require('../lib/validators');
+const enrichForm = require('../lib/enrich-form');
+const {
+    MIN_AGE_MAIN_CONTACT,
+    MIN_AGE_SENIOR_CONTACT,
+    MAX_BUDGET_TOTAL_GBP,
+    ORGANISATION_TYPES
+} = require('./constants');
 
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
-    const getOrganisationType = get('organisation-type');
-
-    const MIN_AGE_MAIN_CONTACT = 16;
-    const MIN_AGE_SENIOR_CONTACT = 18;
-    const MAX_BUDGET_TOTAL_GBP = 10000;
-
-    const countries = {
-        england: { value: 'england', label: localise({ en: 'England', cy: '' }) },
-        northernIreland: { value: 'northern-ireland', label: localise({ en: 'Northern Ireland', cy: '' }) },
-        scotland: { value: 'scotland', label: localise({ en: 'Scotland', cy: '' }) },
-        wales: { value: 'wales', label: localise({ en: 'Wales', cy: '' }) }
-    };
-
-    const organisationTypes = {
-        unregisteredVco: {
-            value: 'unregistered-vco',
-            label: localise({ en: 'Unregistered voluntary or community organisation', cy: '' }),
-            explanation: localise({
-                en: `Groups that are consituted but not registered as a charity or company, for example, Scouts groups, sports clubs, community groups, residents associations`,
-                cy: ``
-            })
-        },
-        unincorporatedRegisteredCharity: {
-            value: 'unincorporated-registered-charity',
-            label: localise({ en: 'Registered charity (unincorporated)', cy: '' }),
-            explanation: localise({
-                en: `Voluntary and community organisations that are registered charities but are not also registered with Companies House as a Company`,
-                cy: ``
-            })
-        },
-        charitableIncorporatedOrganisation: {
-            value: 'charitable-incorporated-organisation',
-            label: localise({ en: 'Charitable incorporated organisation (CIO)', cy: '' })
-        },
-        notForProfitCompany: {
-            value: 'not-for-profit-company',
-            label: localise({ en: 'Not-for-profit company', cy: '' }),
-            explanation: localise({
-                en: `Not for profit companies registered with Companies House including those registered as Charities`,
-                cy: ``
-            })
-        },
-        school: {
-            value: 'school',
-            label: localise({ en: 'School or educational body', cy: '' }),
-            explanation: localise({
-                en: `Only select this option if your organisation is a school or regsitered educational establishment`,
-                cy: ``
-            })
-        },
-        statutoryBody: {
-            value: 'statutory-body',
-            label: localise({ en: 'Statutory body', cy: '' }),
-            explanation: localise({ en: 'For example, Health Body, Local Authority, Parish Council, Police', cy: '' })
-        }
-    };
+    const orgTypeFor = get('organisation-type');
 
     function seniorContactRolesFor(organisationType) {
         let options = [];
         switch (organisationType) {
-            case organisationTypes.unregisteredVco.value:
+            case ORGANISATION_TYPES.UNREGISTERED_VCO:
                 options = [
                     { value: 'chair', label: localise({ en: 'Chair', cy: '' }) },
                     { value: 'vice-chair', label: localise({ en: 'Vice-chair', cy: '' }) },
@@ -76,24 +27,24 @@ module.exports = function({ locale, data = {} }) {
                     { value: 'treasurer', label: localise({ en: 'Treasurer', cy: '' }) }
                 ];
                 break;
-            case organisationTypes.unincorporatedRegisteredCharity.value:
-            case organisationTypes.charitableIncorporatedOrganisation.value:
+            case ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY:
+            case ORGANISATION_TYPES.CIO:
                 options = [{ value: 'trustee', label: localise({ en: 'Trustee', cy: '' }) }];
                 break;
-            case organisationTypes.notForProfitCompany.value:
+            case ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY:
                 options = [
                     { value: 'company-director', label: localise({ en: 'Company Director', cy: '' }) },
                     { value: 'company-secretary', label: localise({ en: 'Company Secretary', cy: '' }) }
                 ];
                 break;
-            case organisationTypes.school.value:
+            case ORGANISATION_TYPES.SCHOOL:
                 options = [
                     { value: 'head-teacher', label: localise({ en: 'Head Teacher', cy: '' }) },
                     { value: 'chancellor', label: localise({ en: 'Chancellor', cy: '' }) },
                     { value: 'vice-chancellor', label: localise({ en: 'Vice-chancellor', cy: '' }) }
                 ];
                 break;
-            case organisationTypes.statutoryBody.value:
+            case ORGANISATION_TYPES.STATUTORY_BODY:
                 options = [
                     { value: 'parish-clerk', label: localise({ en: 'Parish Clerk', cy: '' }) },
                     { value: 'chief-executive', label: localise({ en: 'Chief Executive', cy: '' }) }
@@ -244,7 +195,7 @@ module.exports = function({ locale, data = {} }) {
                 .dateOfBirth(minAge)
                 .required()
                 .when(Joi.ref('organisation-type'), {
-                    is: Joi.valid(organisationTypes.school.value, organisationTypes.statutoryBody.value),
+                    is: Joi.valid(ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY),
                     then: Joi.any().optional()
                 }),
             messages: [
@@ -309,12 +260,16 @@ module.exports = function({ locale, data = {} }) {
             name: 'project-country',
             label: localise({ en: 'What country will your project be based in?', cy: '' }),
             explanation: localise({
-                en:
-                    'We work slightly differently depending on which country your project is based in, to meet local needs and the regulations that apply there.',
+                en: `We work slightly differently depending on which country your project is based in, to meet local needs and the regulations that apply there.`,
                 cy: ''
             }),
             type: 'radio',
-            options: values(countries),
+            options: [
+                { value: 'england', label: localise({ en: 'England', cy: '' }) },
+                { value: 'northern-ireland', label: localise({ en: 'Northern Ireland', cy: '' }) },
+                { value: 'scotland', label: localise({ en: 'Scotland', cy: '' }) },
+                { value: 'wales', label: localise({ en: 'Wales', cy: '' }) }
+            ],
             isRequired: true,
             get schema() {
                 return Joi.string()
@@ -658,7 +613,52 @@ module.exports = function({ locale, data = {} }) {
                 cy: '(WELSH) What type of organisation are you?'
             }),
             type: 'radio',
-            options: values(organisationTypes),
+            options: [
+                {
+                    value: ORGANISATION_TYPES.UNREGISTERED_VCO,
+                    label: localise({ en: 'Unregistered voluntary or community organisation', cy: '' }),
+                    explanation: localise({
+                        en: `Groups that are consituted but not registered as a charity or company, for example, Scouts groups, sports clubs, community groups, residents associations`,
+                        cy: ``
+                    })
+                },
+                {
+                    value: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                    label: localise({ en: 'Registered charity (unincorporated)', cy: '' }),
+                    explanation: localise({
+                        en: `Voluntary and community organisations that are registered charities but are not also registered with Companies House as a Company`,
+                        cy: ``
+                    })
+                },
+                {
+                    value: ORGANISATION_TYPES.CIO,
+                    label: localise({ en: 'Charitable incorporated organisation (CIO)', cy: '' })
+                },
+                {
+                    value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
+                    label: localise({ en: 'Not-for-profit company', cy: '' }),
+                    explanation: localise({
+                        en: `Not for profit companies registered with Companies House including those registered as Charities`,
+                        cy: ``
+                    })
+                },
+                {
+                    value: ORGANISATION_TYPES.SCHOOL,
+                    label: localise({ en: 'School or educational body', cy: '' }),
+                    explanation: localise({
+                        en: `Only select this option if your organisation is a school or regsitered educational establishment`,
+                        cy: ``
+                    })
+                },
+                {
+                    value: ORGANISATION_TYPES.STATUTORY_BODY,
+                    label: localise({ en: 'Statutory body', cy: '' }),
+                    explanation: localise({
+                        en: 'For example, Health Body, Local Authority, Parish Council, Police',
+                        cy: ''
+                    })
+                }
+            ],
             isRequired: true,
             get schema() {
                 return Joi.string()
@@ -673,7 +673,7 @@ module.exports = function({ locale, data = {} }) {
             type: 'text',
             isRequired: true,
             schema: Joi.when('organisation-type', {
-                is: organisationTypes.notForProfitCompany.value,
+                is: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
                 then: Joi.string().required()
             }),
             messages: [{ type: 'base', message: { en: 'Enter your organisation’s Companies House number', cy: '' } }]
@@ -688,23 +688,37 @@ module.exports = function({ locale, data = {} }) {
             type: 'text',
             attributes: { size: 20 },
             isRequired: includes(
-                [
-                    organisationTypes.unincorporatedRegisteredCharity.value,
-                    organisationTypes.charitableIncorporatedOrganisation.value
-                ],
-                getOrganisationType(data)
+                [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY, ORGANISATION_TYPES.CIO],
+                orgTypeFor(data)
             ),
             schema: Joi.when('organisation-type', {
-                is: organisationTypes.unincorporatedRegisteredCharity.value,
+                is: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
                 then: Joi.number().required()
             }).when('organisation-type', {
-                is: organisationTypes.charitableIncorporatedOrganisation.value,
+                is: ORGANISATION_TYPES.CIO,
                 then: Joi.number().required()
             }),
             messages: [
                 {
                     type: 'base',
                     message: { en: 'Enter your organisation’s charity number', cy: '' }
+                }
+            ]
+        },
+        educationNumber: {
+            name: 'education-number',
+            label: localise({ en: 'Department for Education number', cy: '' }),
+            type: 'text',
+            attributes: { size: 20 },
+            isRequired: true,
+            schema: Joi.when('organisation-type', {
+                is: ORGANISATION_TYPES.SCHOOL,
+                then: Joi.string().required()
+            }),
+            messages: [
+                {
+                    type: 'base',
+                    message: { en: 'Enter your organisation’s Department for Education number', cy: '' }
                 }
             ]
         },
@@ -750,7 +764,7 @@ module.exports = function({ locale, data = {} }) {
             name: 'main-contact-address',
             label: localise({ en: 'Address', cy: '' }),
             schema: commonValidators.ukAddress().when(Joi.ref('organisation-type'), {
-                is: Joi.valid(organisationTypes.school.value, organisationTypes.statutoryBody.value),
+                is: Joi.valid(ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY),
                 then: Joi.any().optional()
             })
         }),
@@ -783,7 +797,7 @@ module.exports = function({ locale, data = {} }) {
                 cy: ''
             }),
             type: 'radio',
-            options: seniorContactRolesFor(getOrganisationType(data)),
+            options: seniorContactRolesFor(orgTypeFor(data)),
             isRequired: true,
             schema: Joi.string().required(),
             messages: [{ type: 'base', message: { en: 'Choose a role', cy: '' } }]
@@ -796,7 +810,7 @@ module.exports = function({ locale, data = {} }) {
             name: 'senior-contact-address',
             label: localise({ en: 'Address', cy: '' }),
             schema: commonValidators.ukAddress().when(Joi.ref('organisation-type'), {
-                is: Joi.valid(organisationTypes.school.value, organisationTypes.statutoryBody.value),
+                is: Joi.valid(ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY),
                 then: Joi.any().optional()
             })
         }),
@@ -875,8 +889,7 @@ module.exports = function({ locale, data = {} }) {
     );
 
     const includeAddressAndDob =
-        includes([organisationTypes.school.value, organisationTypes.statutoryBody.value], getOrganisationType(data)) ===
-        false;
+        includes([ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY], orgTypeFor(data)) === false;
 
     const sectionProject = {
         slug: 'your-project',
@@ -957,26 +970,27 @@ module.exports = function({ locale, data = {} }) {
                     {
                         legend: localise({ en: 'Registration numbers', cy: '' }),
                         get fields() {
+                            function matchesTypes(orgTypes) {
+                                return includes(orgTypes, orgTypeFor(data));
+                            }
+
                             const fields = [];
-
-                            const includeCompanyNumber =
-                                getOrganisationType(data) === organisationTypes.notForProfitCompany.value;
-
-                            if (includeCompanyNumber) {
+                            if (matchesTypes([ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY])) {
                                 fields.push(allFields.companyNumber);
                             }
 
-                            const includeCharityNumber = includes(
-                                [
-                                    organisationTypes.unincorporatedRegisteredCharity.value,
-                                    organisationTypes.charitableIncorporatedOrganisation.value,
-                                    organisationTypes.notForProfitCompany.value
-                                ],
-                                getOrganisationType(data)
-                            );
-
-                            if (includeCharityNumber) {
+                            if (
+                                matchesTypes([
+                                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                                    ORGANISATION_TYPES.CIO,
+                                    ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+                                ])
+                            ) {
                                 fields.push(allFields.charityNumber);
+                            }
+
+                            if (matchesTypes([ORGANISATION_TYPES.SCHOOL])) {
+                                fields.push(allFields.educationNumber);
                             }
 
                             return fields;
@@ -1123,7 +1137,7 @@ module.exports = function({ locale, data = {} }) {
                 ]
             },
             {
-                title: { en: 'Bank statement', cy: '' },
+                title: localise({ en: 'Bank statement', cy: '' }),
                 fieldsets: [
                     {
                         legend: localise({ en: 'Bank statement', cy: '' }),

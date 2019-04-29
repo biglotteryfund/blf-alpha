@@ -5,6 +5,9 @@ const faker = require('faker');
 const moment = require('moment');
 const Joi = require('joi');
 
+const { ORGANISATION_TYPES } = require('./constants');
+const validateModel = require('../lib/validate-model');
+
 function toDateParts(dt) {
     return {
         day: dt.date(),
@@ -36,7 +39,13 @@ function mockBudget() {
     });
 }
 
-function mockFullForm({ country, organisationType, companyNumber = null, charityNumber = null }) {
+function mockFullForm({
+    country,
+    organisationType,
+    companyNumber = null,
+    charityNumber = null,
+    educationNumber = null
+}) {
     return {
         'project-name': faker.lorem.words(5),
         'project-country': country,
@@ -52,6 +61,7 @@ function mockFullForm({ country, organisationType, companyNumber = null, charity
         'organisation-type': organisationType,
         'company-number': companyNumber,
         'charity-number': charityNumber,
+        'education-number': educationNumber,
         'accounting-year-date': { day: 1, month: 3 },
         'total-income-year': faker.random.number({ min: 10000, max: 1000000 }),
         'main-contact-first-name': faker.name.firstName(),
@@ -266,21 +276,25 @@ describe('fields', () => {
         });
     });
 
+    function assertRequiredForOrganistionTypes(field, requiredTypes) {
+        const schemaWithOrgType = {
+            'organisation-type': allFields.organisationType.schema,
+            [field.name]: field.schema
+        };
+
+        const requiredOrgTypes = requiredTypes;
+        requiredOrgTypes.forEach(type => {
+            const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
+            expect(error.message).toContain('is required');
+        });
+    }
+
     describe('companyNumber', () => {
         test('conditionally required based on organisation type', () => {
             assertValid(allFields.companyNumber, 'CE002712');
             assertValid(allFields.companyNumber, undefined);
 
-            const schemaWithOrgType = {
-                'organisation-type': allFields.organisationType.schema,
-                'company-number': allFields.companyNumber.schema
-            };
-
-            const requiredOrgTypes = ['not-for-profit-company'];
-            requiredOrgTypes.forEach(type => {
-                const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
-                expect(error.message).toContain('is required');
-            });
+            assertRequiredForOrganistionTypes(allFields.companyNumber, [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY]);
         });
     });
 
@@ -289,16 +303,19 @@ describe('fields', () => {
             assertValid(allFields.charityNumber, '1160580');
             assertValid(allFields.charityNumber, undefined);
 
-            const schemaWithOrgType = {
-                'organisation-type': allFields.organisationType.schema,
-                'charity-number': allFields.charityNumber.schema
-            };
+            assertRequiredForOrganistionTypes(allFields.charityNumber, [
+                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                ORGANISATION_TYPES.CIO
+            ]);
+        });
+    });
 
-            const requiredOrgTypes = ['unincorporated-registered-charity', 'charitable-incorporated-organisation'];
-            requiredOrgTypes.forEach(type => {
-                const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
-                expect(error.message).toContain('is required');
-            });
+    describe('educationNumber', () => {
+        test('conditionally required based on organisation type', () => {
+            assertValid(allFields.educationNumber, '1160580');
+            assertValid(allFields.educationNumber, undefined);
+
+            assertRequiredForOrganistionTypes(allFields.educationNumber, [ORGANISATION_TYPES.SCHOOL]);
         });
     });
 
@@ -348,7 +365,7 @@ describe('fields', () => {
                 [field.name]: field.schema
             };
 
-            const optionalOrgTypes = ['school', 'statutory-body'];
+            const optionalOrgTypes = [ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY];
             optionalOrgTypes.forEach(type => {
                 const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
 
@@ -385,7 +402,7 @@ describe('fields', () => {
                 [field.name]: field.schema
             };
 
-            const optionalOrgTypes = ['school', 'statutory-body'];
+            const optionalOrgTypes = [ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY];
             optionalOrgTypes.forEach(type => {
                 const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
 
@@ -531,81 +548,105 @@ describe('form model', () => {
         });
     }
 
+    test('validate model shape', () => {
+        validateModel(formBuilder({ locale: 'en' }));
+    });
+
     test('invalid empty form', () => {
         const validationResult = validate({});
         expect(validationResult.error).toBeInstanceOf(Error);
     });
 
-    test('validate full form', () => {
-        const mock = mockFullForm({
-            country: 'england',
-            organisationType: 'unregistered-vco'
-        });
-
-        const validationResult = validate(mock);
-        expect(validationResult.error).toBeNull();
-    });
-
     test('validate full form with company number', () => {
-        const mockWithoutCompanyNumber = mockFullForm({
-            country: 'england',
-            organisationType: 'not-for-profit-company'
-        });
+        expect(
+            validate(
+                mockFullForm({
+                    country: 'england',
+                    organisationType: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+                })
+            ).error
+        ).toBeInstanceOf(Error);
 
-        expect(validate(mockWithoutCompanyNumber).error).toBeInstanceOf(Error);
-
-        const mockWithCompanyNumber = mockFullForm({
-            country: 'england',
-            organisationType: 'not-for-profit-company',
-            companyNumber: '123456789'
-        });
-        expect(validate(mockWithCompanyNumber).error).toBeNull();
+        expect(
+            validate(
+                mockFullForm({
+                    country: 'england',
+                    organisationType: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
+                    companyNumber: '123456789'
+                })
+            ).error
+        ).toBeNull();
     });
 
     test('validate full form with charity number', () => {
-        const mockWithoutCharityNumber = mockFullForm({
+        expect(
+            validate(
+                mockFullForm({
+                    country: 'england',
+                    organisationType: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+                })
+            ).error
+        ).toBeInstanceOf(Error);
+
+        expect(
+            validate(
+                mockFullForm({
+                    country: 'england',
+                    organisationType: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                    charityNumber: '123456789'
+                })
+            ).error
+        ).toBeNull();
+    });
+
+    test('validate full form with department for education number', () => {
+        const invalid = mockFullForm({
             country: 'england',
-            organisationType: 'not-for-profit-company'
+            organisationType: ORGANISATION_TYPES.SCHOOL
         });
 
-        expect(validate(mockWithoutCharityNumber).error).toBeInstanceOf(Error);
+        expect(validate(invalid).error).toBeInstanceOf(Error);
 
-        const mockWithCharityNumber = mockFullForm({
+        const valid = mockFullForm({
             country: 'england',
-            organisationType: 'unincorporated-registered-charity',
-            charityNumber: '123456789'
+            organisationType: ORGANISATION_TYPES.SCHOOL,
+            educationNumber: '123456789'
         });
 
-        expect(validate(mockWithCharityNumber).error).toBeNull();
+        expect(validate(valid).error).toBeNull();
+    });
+
+    test('validate full form with no required registration numbers', () => {
+        expect(
+            validate(
+                mockFullForm({
+                    country: 'england',
+                    organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO
+                })
+            ).error
+        ).toBeNull();
     });
 
     test('return conditional role choices based on organisation type', () => {
         const mappings = {
             '': [],
-            'unregistered-vco': ['chair', 'vice-chair', 'secretary', 'treasurer'],
-            'unincorporated-registered-charity': ['trustee'],
-            'charitable-incorporated-organisation': ['trustee'],
-            'not-for-profit-company': ['company-director', 'company-secretary'],
-            'school': ['head-teacher', 'chancellor', 'vice-chancellor'],
-            'statutory-body': ['parish-clerk', 'chief-executive']
+            [ORGANISATION_TYPES.UNREGISTERED_VCO]: ['chair', 'vice-chair', 'secretary', 'treasurer'],
+            [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY]: ['trustee'],
+            [ORGANISATION_TYPES.CIO]: ['trustee'],
+            [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY]: ['company-director', 'company-secretary'],
+            [ORGANISATION_TYPES.SCHOOL]: ['head-teacher', 'chancellor', 'vice-chancellor'],
+            [ORGANISATION_TYPES.STATUTORY_BODY]: ['parish-clerk', 'chief-executive']
         };
 
         map(mappings, (expected, type) => {
-            const form = formBuilder({
-                locale: 'en',
-                data: { 'organisation-type': type }
-            });
+            const form = formBuilder({ locale: 'en', data: { 'organisation-type': type } });
             expect(form.allFields.seniorContactRole.options.map(o => o.value)).toEqual(expected);
         });
     });
 
     function fieldNamesFor(sectionSlug, stepTitle) {
         return function(data) {
-            const form = formBuilder({
-                locale: 'en',
-                data: data
-            });
-
+            const form = formBuilder({ locale: 'en', data: data });
             const section = form.sections.find(s => s.slug === sectionSlug);
             const step = section.steps.find(s => s.title === stepTitle);
             return map(flatMap(step.fieldsets, 'fields'), f => f.name);
@@ -618,9 +659,10 @@ describe('form model', () => {
         expect(fieldNamesFn({})).toEqual([]);
 
         const mappings = {
-            'unincorporated-registered-charity': ['charity-number'],
-            'charitable-incorporated-organisation': ['charity-number'],
-            'not-for-profit-company': ['company-number', 'charity-number']
+            [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY]: ['charity-number'],
+            [ORGANISATION_TYPES.CIO]: ['charity-number'],
+            [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY]: ['company-number', 'charity-number'],
+            [ORGANISATION_TYPES.SCHOOL]: ['education-number']
         };
 
         map(mappings, (expected, type) => {
@@ -651,8 +693,10 @@ describe('form model', () => {
         ];
 
         expect(mainContactFn({})).toEqual(mainContactDefaultFields);
-        expect(mainContactFn({ 'organisation-type': 'school' })).toEqual(mainContactReducedFields);
-        expect(mainContactFn({ 'organisation-type': 'statutory-body' })).toEqual(mainContactReducedFields);
+        expect(mainContactFn({ 'organisation-type': ORGANISATION_TYPES.SCHOOL })).toEqual(mainContactReducedFields);
+        expect(mainContactFn({ 'organisation-type': ORGANISATION_TYPES.STATUTORY_BODY })).toEqual(
+            mainContactReducedFields
+        );
 
         const seniorContactFn = fieldNamesFor('senior-contact', 'Senior contact');
 
@@ -677,7 +721,9 @@ describe('form model', () => {
         ];
 
         expect(seniorContactFn({})).toEqual(seniorContactDefaultFields);
-        expect(seniorContactFn({ 'organisation-type': 'school' })).toEqual(seniorContactReducedFields);
-        expect(seniorContactFn({ 'organisation-type': 'statutory-body' })).toEqual(seniorContactReducedFields);
+        expect(seniorContactFn({ 'organisation-type': ORGANISATION_TYPES.SCHOOL })).toEqual(seniorContactReducedFields);
+        expect(seniorContactFn({ 'organisation-type': ORGANISATION_TYPES.STATUTORY_BODY })).toEqual(
+            seniorContactReducedFields
+        );
     });
 });
