@@ -21,34 +21,24 @@
     {% endif %}
 {% endmacro %}
 
-{% macro fieldHelpText(field, fieldCopy) %}
-    {% set lengthHint = fieldCopy.lengthHint or field.lengthHint %}
-    {% if lengthHint %}
-        <small class="ff-length-hint">{{ lengthHint }}</small>
-    {% endif %}
-    {# @TODO: Merge helpText and explanation #}
-    {% set explanation = fieldCopy.explanation or field.explanation %}
-    {% if explanation %}
-        <div class="ff-help s-prose">{{ explanation | safe }}</div>
-    {% endif %}
-    {% set helpText = fieldCopy.helpText or field.helpText %}
-    {% if helpText %}
-        <div class="ff-help s-prose">{{ helpText | safe }}</div>
+{% macro explanationFor(field) %}
+    {% if field.explanation %}
+        <div class="ff-help s-prose">{{ field.explanation | safe }}</div>
     {% endif %}
 {% endmacro %}
 
-{% macro fieldLabelText(field, fieldCopy) -%}
-    {{ fieldCopy.label or field.label }}
-    {% if not field.isRequired %}
+{% macro labelFor(field) -%}
+    {{ field.label }}
+    {% if field.isRequired === false %}
         <span class="ff-label-note">{{ __('global.misc.optional') }}</span>
     {% endif %}
 {%- endmacro %}
 
-{% macro inputText(field, fieldCopy) %}
+{% macro inputText(field) %}
     <label class="ff-label" for="field-{{ field.name }}">
-        {{ fieldLabelText(field, fieldCopy) }}
+        {{ labelFor(field) }}
     </label>
-    {{ fieldHelpText(field, fieldCopy) }}
+    {{ explanationFor(field) }}
     <input
         class="ff-text"
         type="{{ field.type }}"
@@ -56,7 +46,7 @@
         name="{{ field.name }}"
         {% if field.value %}value="{{ field.value }}"{% endif %}
         {% if field.isRequired %}required aria-required="true"{% endif %}
-        {% if field.autocompleteName %}autocomplete="{{ field.autocompleteName }}"{% endif %}
+        {# @TODO: Remove in favour of always setting explicit size #}
         {% if not field.attributes.size %}size="{{ field.size | default(40, true) }}"{% endif %}
         {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
     />
@@ -67,7 +57,7 @@
         <legend class="ff-label ff-date__legend">
             {{ field.label }}
         </legend>
-        {{ fieldHelpText(field, fieldCopy) }}
+        {{ explanationFor(field) }}
 
         <label class="ff-date__field">
             <span class="ff-label">{{ __('global.misc.day') }}</span>
@@ -111,11 +101,11 @@
     </fieldset>
 {% endmacro %}
 
-{% macro inputCurrency(field, fieldCopy) %}
+{% macro inputCurrency(field) %}
     <label class="ff-label" for="field-{{ field.name }}">
-        {{ fieldLabelText(field, fieldCopy) }}
+        {{ labelFor(field) }}
     </label>
-    {{ fieldHelpText(field, fieldCopy) }}
+    {{ explanationFor(field) }}
     <div class="ff-currency ff-currency--constrained">
         <div class="ff-currency__pre">£</div>
         <input class="ff-currency__input"
@@ -129,19 +119,17 @@
     </div>
 {% endmacro %}
 
-{% macro inputTextarea(field, fieldCopy) %}
+{% macro inputTextarea(field) %}
     {% set settings = field.settings %}
     {% if settings.showWordCount %}<div class="js-word-count">{% endif %}
     <label class="ff-label" for="field-{{ field.name }}">
-        {{ fieldLabelText(field, fieldCopy) }}
+        {{ labelFor(field) }}
     </label>
-    {{ fieldHelpText(field, fieldCopy) }}
+    {{ explanationFor(field) }}
     <textarea class="ff-textarea"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
         {% if field.isRequired %}required aria-required="true"{% endif %}
-        {# @TODO: Remove field.rows in favour of field.attributes #}
-        {% if field.rows %}rows="{{ field.rows }}"{% endif %} 
         {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
         {% if settings.showWordCount %} @input="onInput" ref="textarea"{% endif %}
     >{{ field.value }}</textarea>
@@ -158,34 +146,32 @@
     {% if settings.showWordCount %}</div>{% endif %}
 {% endmacro %}
 
-{% macro inputSelect(field, fieldCopy) %}
+{% macro inputSelect(field) %}
     <label class="ff-label" for="field-{{ field.name }}">
-        {{ fieldLabelText(field, fieldCopy) }}
+        {{ labelFor(field) }}
     </label>
-    {{ fieldHelpText(field) }}
+    {{ explanationFor(field) }}
     <select
         class="ff-select"
         id="field-{{ field.name }}"
         name="{{ field.name }}">
         {% for option in field.options %}
-            {% set optionCopy = fieldCopy.options[loop.index0] %}
             <option
                 value="{{ option.value }}"{% if option.selected === true or field.value === option.value %} selected{% endif %}>
-                {{ optionCopy.label or option.label }}
+                {{ option.label }}
             </option>
         {% endfor %}
     </select>
 {% endmacro %}
 
-{% macro inputChoice(field, fieldCopy) %}
+{% macro inputChoice(field) %}
     <fieldset class="ff-choice">
         <legend class="ff-label" for="field-{{ field.name }}">
-            {{ fieldLabelText(field, fieldCopy) }}
+            {{ labelFor(field) }}
         </legend>
-        {{ fieldHelpText(field, fieldCopy) }}
+        {{ explanationFor(field) }}
         <ul class="ff-choice__list">
             {% for option in field.options %}
-                {% set optionCopy = fieldCopy.options[loop.index0] %}
                 <li class="ff-choice__option">
                     <div class="ff-choice__input">
                         {% if field.type === 'checkbox' %}
@@ -208,10 +194,9 @@
                         {% endif %}
                     </div>
                     <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
-                        {{ optionCopy.label or option.label }}
-                        {% set explanation = optionCopy.explanation or option.explanation %}
-                        {% if explanation %}
-                            <small class="ff-choice__caption">{{ explanation }}</small>
+                        {{ option.label }}
+                        {% if option.explanation %}
+                            <small class="ff-choice__caption">{{ option.explanation }}</small>
                         {% endif %}
                     </label>
                 </li>
@@ -223,10 +208,10 @@
 {% macro inputAddress(field) %}
     <fieldset class="ff-address" id="field-{{ field.name }}">
         <legend class="ff-address__legend t2 t--underline">
-            {{ fieldLabelText(field) }}
+            {{ labelFor(field) }}
         </legend>
 
-        {{ fieldHelpText(field, fieldCopy) }}
+        {{ explanationFor(field) }}
 
         <div class="ff-address__field">
             {{ inputText({
@@ -271,12 +256,12 @@
     </fieldset>
 {% endmacro %}
 
-{% macro inputBudget(field, fieldCopy) %}
+{% macro inputBudget(field) %}
     <fieldset>
         <legend class="ff-label">
-            {{ fieldLabelText(field) }}
+            {{ labelFor(field) }}
         </legend>
-        {{ fieldHelpText(field, fieldCopy) }}
+        {{ explanationFor(field) }}
 
         <div id="js-budget-input">
             <budget-input
@@ -336,8 +321,7 @@
     </li>
 {% endmacro %}
 
-
-{% macro formField(field, fieldCopy = {}, errors = []) %}
+{% macro formField(field, errors = []) %}
     {% set fieldErrors = errors | filter('param', field.name) %}
     <div
         id="form-field-{{ field.name }}"
@@ -345,23 +329,23 @@
         <div class="form-field__main">
             <div class="form-field__body">
                 {% if field.type === 'textarea' %}
-                    {{ inputTextarea(field, fieldCopy) }}
+                    {{ inputTextarea(field) }}
                 {% elseif field.type === 'select' %}
-                    {{ inputSelect(field, fieldCopy) }}
+                    {{ inputSelect(field) }}
                 {% elseif field.type === 'checkbox' or field.type === 'radio' %}
-                    {{ inputChoice(field, fieldCopy) }}
+                    {{ inputChoice(field) }}
                 {% elseif field.type === 'date' %}
                     {{ inputDate(field) }}
                 {% elseif field.type === 'day-month' %}
                     {{ inputDate(field, includeYear = false) }}
                 {% elseif field.type === 'currency' %}
-                    {{ inputCurrency(field, fieldCopy) }}
+                    {{ inputCurrency(field) }}
                 {% elseif field.type === 'address' %}
                     {{ inputAddress(field) }}
                 {% elseif field.type === 'budget' %}
-                    {{ inputBudget(field, fieldCopy) }}
+                    {{ inputBudget(field) }}
                 {% else %}
-                    {{ inputText(field, fieldCopy) }}
+                    {{ inputText(field) }}
                 {% endif %}
             </div>
             {% if fieldErrors.length > 0 %}
@@ -372,18 +356,5 @@
                 </ol>
             {% endif %}
         </div>
-    </div>
-{% endmacro %}
-
-{% macro facetGroup(legend) %}
-    <div class="facet-group is-open">
-        <fieldset class="facet-group__fieldset">
-            <legend class="facet-group__legend">
-                {{ legend }}
-            </legend>
-            <div class="facet-group__body">
-                {{ caller() }}
-            </div>
-        </fieldset>
     </div>
 {% endmacro %}
