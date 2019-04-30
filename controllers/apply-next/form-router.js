@@ -3,10 +3,6 @@ const { get, set, unset, concat, findIndex, flatMap, head, isEmpty, omit } = req
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
-const nunjucks = require('nunjucks');
-const pdf = require('html-pdf');
-const config = require('config');
-const fs = require('fs');
 
 const applicationsService = require('../../services/applications');
 const cached = require('../../middleware/cached');
@@ -78,78 +74,8 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
 
     /**
      * Show a list of questions, accessible to anyone.
-     * Optionally allows downloading as a PDF file (cached on disk)
      */
-    router.get('/questions/:pdf?', (req, res) => {
-        const form = formBuilder({
-            locale: req.i18n.getLocale()
-        });
-
-        const output = {
-            templates: {
-                html: path.resolve(__dirname, './views/questions-html.njk'),
-                pdf: path.resolve(__dirname, './views/questions-pdf.njk')
-            },
-            context: {
-                title: form.title,
-                form: form
-            }
-        };
-
-        if (req.params.pdf) {
-            const fileName = `${id}.pdf`;
-            const fileLocation = `documents/application-questions/${fileName}`;
-
-            const filePath = path.resolve(__dirname, '../../public/', fileLocation);
-
-            // First check to see if this file has already been rendered and saved in the app directory
-            fs.access(filePath, fs.constants.F_OK, accessError => {
-                if (!accessError) {
-                    // The file exists so just redirect the user there
-                    return res.redirect(`/assets/${fileLocation}`);
-                }
-
-                // Otherwise it hasn't been rendered before, so we create it from scratch and save the file
-
-                // Repopulate existing global context so templates render properly
-                const context = { ...res.locals, ...req.app.locals, ...output.context };
-
-                // Render the HTML template to a string
-                nunjucks.render(output.templates.pdf, context, (renderErr, html) => {
-                    if (renderErr) {
-                        Raven.captureException(renderErr);
-                        res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
-                    } else {
-                        // Turn HTML into a PDF
-                        pdf.create(html, {
-                            format: 'A4',
-                            base: config.get('domains.base'),
-                            border: '40px',
-                            zoomFactor: '0.7'
-                        }).toBuffer((pdfError, buffer) => {
-                            if (pdfError) {
-                                Raven.captureException(pdfError);
-                                return res.status(400).json({ error: 'ERR-PDF-BUFFER-ERROR' });
-                            }
-
-                            // Write the file locally so we can look it up next time instead of rendering
-                            fs.writeFile(filePath, buffer, writeError => {
-                                if (writeError) {
-                                    Raven.captureException(writeError);
-                                    return res.status(400).json({ error: 'ERR-PDF-WRITE-ERROR' });
-                                }
-                                // Give the user the file directly
-                                return res.download(filePath, fileName);
-                            });
-                        });
-                    }
-                });
-            });
-        } else {
-            // Render a standard HTML page otherwise
-            return res.render(output.templates.html, output.context);
-        }
-    });
+    router.use('/questions', require('./questions-router')(formBuilder));
 
     /**
      * Route: Eligibility checker, accessible to anyone.
@@ -198,7 +124,7 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
      * New application
      * Create a new blank application and redirect to first step
      */
-    router.get('/new', async function(req, res) {
+    router.get('/new', async function(req, res, next) {
         const form = formBuilder({
             locale: req.i18n.getLocale()
         });
@@ -215,8 +141,7 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
                 res.redirect(`${req.baseUrl}/${firstSection.slug}`);
             });
         } catch (error) {
-            Raven.captureException(error);
-            renderError(error, req, res);
+            next(error);
         }
     });
 
@@ -261,13 +186,13 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
                 res.redirect(req.baseUrl);
             }
         })
-        .post(async (req, res) => {
+        .post(async (req, res, next) => {
             try {
                 await applicationsService.deleteApplication(req.params.applicationId, req.user.userData.id);
                 // @TODO show a success message on the subsequent (dashboard?) screen
                 res.redirect(req.baseUrl);
             } catch (error) {
-                renderError(error, req, res);
+                next(error);
             }
         });
 
@@ -352,7 +277,7 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
                 csrfToken: req.csrfToken()
             });
         })
-        .post(async (req, res) => {
+        .post(async (req, res, next) => {
             try {
                 await processor({
                     form: res.locals.form,
@@ -361,8 +286,7 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
                 await applicationsService.changeApplicationState(res.locals.currentlyEditingId, 'complete');
                 res.redirect(`${req.baseUrl}/success`);
             } catch (error) {
-                Raven.captureException(error);
-                renderError(error, req, res);
+                next(error);
             }
         });
 
@@ -440,7 +364,7 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
             const renderStep = renderStepFor(req.params.section, req.params.step);
             renderStep(req, res, res.locals.currentApplicationData);
         })
-        .post(async (req, res) => {
+        .post(async (req, res, next) => {
             const { currentlyEditingId, currentApplicationData } = res.locals;
             const data = { ...currentApplicationData, ...req.body };
 
@@ -489,19 +413,9 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
                     res.redirect(nextUrl);
                 }
             } catch (error) {
-                renderError(error, req, res);
+                next(error);
             }
         });
-
-    function renderError(error, req, res) {
-        const errorCopy = req.i18n.__('apply.error');
-        res.render(path.resolve(__dirname, './views/error'), {
-            error: error,
-            title: errorCopy.title,
-            errorCopy: errorCopy,
-            returnUrl: `${req.baseUrl}/summary`
-        });
-    }
 
     return router;
 }
