@@ -148,6 +148,64 @@ module.exports = function({ locale, data = {} }) {
         return { ...defaultProps, ...props };
     }
 
+    function addressHistoryField(props) {
+        const defaultProps = {
+            type: 'address-history',
+            isRequired: true,
+            schema: Joi.object({
+                'current-address-meets-minimum': Joi.string()
+                    .valid(['yes', 'no'])
+                    .required(),
+                'previous-address': Joi.when(Joi.ref('current-address-meets-minimum'), {
+                    is: 'no',
+                    then: commonValidators.ukAddress().required(),
+                    otherwise: Joi.any()
+                })
+            }).when(Joi.ref('organisation-type'), {
+                is: Joi.valid(ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY),
+                then: Joi.any().optional()
+            }),
+            messages: [
+                {
+                    type: 'base',
+                    message: { en: 'Enter a full UK address', cy: '' }
+                },
+                {
+                    type: 'any.required',
+                    key: 'current-address-meets-minimum',
+                    message: { en: 'Choose from one of the options provided', cy: '' }
+                },
+                {
+                    type: 'any.empty',
+                    key: 'building-street',
+                    message: { en: 'Enter a building and street', cy: '' }
+                },
+                {
+                    type: 'any.empty',
+                    key: 'town-city',
+                    message: { en: 'Enter a town or city', cy: '' }
+                },
+                {
+                    type: 'any.empty',
+                    key: 'county',
+                    message: { en: 'Enter a county', cy: '' }
+                },
+                {
+                    type: 'any.empty',
+                    key: 'postcode',
+                    message: { en: 'Enter a postcode', cy: '' }
+                },
+                {
+                    type: 'string.regex.base',
+                    key: 'postcode',
+                    message: { en: 'Enter a real postcode', cy: '' }
+                }
+            ]
+        };
+
+        return { ...defaultProps, ...props };
+    }
+
     function firstNameField(props) {
         const defaultProps = {
             type: 'text',
@@ -762,11 +820,15 @@ module.exports = function({ locale, data = {} }) {
         }),
         mainContactAddress: addressField({
             name: 'main-contact-address',
-            label: localise({ en: 'Address', cy: '' }),
+            label: localise({ en: 'Current address', cy: '' }),
             schema: commonValidators.ukAddress().when(Joi.ref('organisation-type'), {
                 is: Joi.valid(ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY),
                 then: Joi.any().optional()
             })
+        }),
+        mainContactAddressHistory: addressHistoryField({
+            name: 'main-contact-address-history',
+            label: localise({ en: 'Have they lived at this address for the last three years?', cy: '' })
         }),
         mainContactEmail: emailField({
             name: 'main-contact-email',
@@ -808,11 +870,15 @@ module.exports = function({ locale, data = {} }) {
         }),
         seniorContactAddress: addressField({
             name: 'senior-contact-address',
-            label: localise({ en: 'Address', cy: '' }),
+            label: localise({ en: 'Current address', cy: '' }),
             schema: commonValidators.ukAddress().when(Joi.ref('organisation-type'), {
                 is: Joi.valid(ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY),
                 then: Joi.any().optional()
             })
+        }),
+        seniorContactAddressHistory: addressHistoryField({
+            name: 'senior-contact-address-history',
+            label: localise({ en: 'Have you lived at your last address for at least three years?', cy: '' })
         }),
         seniorContactEmail: emailField({
             name: 'senior-contact-email',
@@ -1042,6 +1108,7 @@ module.exports = function({ locale, data = {} }) {
                                     allFields.mainContactLastName,
                                     allFields.mainContactDob,
                                     allFields.mainContactAddress,
+                                    allFields.mainContactAddressHistory,
                                     allFields.mainContactEmail,
                                     allFields.mainContactPhone,
                                     allFields.mainContactCommunicationNeeds
@@ -1088,6 +1155,7 @@ module.exports = function({ locale, data = {} }) {
                                     allFields.seniorContactRole,
                                     allFields.seniorContactDob,
                                     allFields.seniorContactAddress,
+                                    allFields.seniorContactAddressHistory,
                                     allFields.seniorContactEmail,
                                     allFields.seniorContactPhone,
                                     allFields.seniorContactCommunicationNeeds

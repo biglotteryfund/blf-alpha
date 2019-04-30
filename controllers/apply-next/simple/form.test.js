@@ -68,6 +68,10 @@ function mockFullForm({
         'main-contact-last-name': faker.name.lastName(),
         'main-contact-dob': mockDateOfBirth(),
         'main-contact-address': mockAddress(),
+        'main-contact-address-history': {
+            'current-address-meets-minimum': 'no',
+            'previous-address': mockAddress()
+        },
         'main-contact-email': faker.internet.exampleEmail(),
         'main-contact-phone': '0345 4 10 20 30',
         'senior-contact-first-name': faker.name.firstName(),
@@ -75,6 +79,9 @@ function mockFullForm({
         'senior-contact-role': faker.lorem.words(5),
         'senior-contact-dob': mockDateOfBirth(),
         'senior-contact-address': mockAddress(),
+        'senior-contact-address-history': {
+            'current-address-meets-minimum': 'yes'
+        },
         'senior-contact-email': faker.internet.exampleEmail(),
         'senior-contact-phone': '020 7211 1888',
         'bank-account-name': faker.company.companyName(),
@@ -405,8 +412,59 @@ describe('fields', () => {
             const optionalOrgTypes = [ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY];
             optionalOrgTypes.forEach(type => {
                 const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
-
                 expect(error).toBeNull();
+            });
+        });
+    }
+
+    function testContactAddressHistory(field) {
+        test('require address history if less than three years at current address', () => {
+            assertValid(field, {
+                'current-address-meets-minimum': 'yes'
+            });
+
+            assertErrorContains(
+                field,
+                { 'current-address-meets-minimum': null },
+                '"current-address-meets-minimum" must be a string'
+            );
+
+            assertErrorContains(
+                field,
+                { 'current-address-meets-minimum': 'not-a-valid-choice' },
+                '"current-address-meets-minimum" must be one of [yes, no]'
+            );
+
+            const partialAddress = {
+                'building-street': faker.address.streetAddress(),
+                'town-city': faker.address.city()
+            };
+
+            assertErrorContains(
+                field,
+                {
+                    'current-address-meets-minimum': 'no',
+                    'previous-address': partialAddress
+                },
+                '"postcode" is required'
+            );
+
+            assertValid(field, {
+                'current-address-meets-minimum': 'no',
+                'previous-address': mockAddress()
+            });
+        });
+
+        test('optional if organisation-type is a school or statutory-body', () => {
+            const schemaWithOrgType = {
+                'organisation-type': allFields.organisationType.schema,
+                [field.name]: field.schema
+            };
+
+            const optionalOrgTypes = [ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY];
+            optionalOrgTypes.forEach(type => {
+                const validationResultA = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
+                expect(validationResultA.error).toBeNull();
             });
         });
     }
@@ -453,6 +511,10 @@ describe('fields', () => {
         testContactAddress(allFields.mainContactAddress);
     });
 
+    describe('mainContactAddressHistory', () => {
+        testContactAddressHistory(allFields.mainContactAddressHistory);
+    });
+
     describe('mainContactEmail', () => {
         testContactEmail(allFields.mainContactEmail);
     });
@@ -484,6 +546,10 @@ describe('fields', () => {
 
     describe('seniorContactAddress', () => {
         testContactAddress(allFields.seniorContactAddress);
+    });
+
+    describe('seniorContactAddressHistory', () => {
+        testContactAddressHistory(allFields.seniorContactAddressHistory);
     });
 
     describe('seniorContactEmail', () => {
@@ -679,6 +745,7 @@ describe('form model', () => {
             'main-contact-last-name',
             'main-contact-dob',
             'main-contact-address',
+            'main-contact-address-history',
             'main-contact-email',
             'main-contact-phone',
             'main-contact-communication-needs'
@@ -706,6 +773,7 @@ describe('form model', () => {
             'senior-contact-role',
             'senior-contact-dob',
             'senior-contact-address',
+            'senior-contact-address-history',
             'senior-contact-email',
             'senior-contact-phone',
             'senior-contact-communication-needs'

@@ -205,7 +205,7 @@
 
 {% macro inputAddress(field) %}
     <fieldset class="ff-address" id="field-{{ field.name }}">
-        <legend class="ff-address__legend t2 t--underline">
+        <legend class="ff-label ff-address__legend">
             {{ labelFor(field) }}
         </legend>
 
@@ -237,7 +237,7 @@
                 name: field.name + '[county]',
                 value: field.value['county'],
                 type: 'text',
-                isRequired: field.isRequired,
+                isRequired: false,
                 attributes: { size: 30 }
             }) }}
         </div>
@@ -252,6 +252,50 @@
             }) }}
         </div>
     </fieldset>
+{% endmacro %}
+
+{% macro inputAddressHistory(field) %}
+    <div class="js-conditional-radios">
+        <fieldset class="ff-choice ff-choice--inline">
+            <legend class="ff-label" for="field-{{ field.name }}">
+                {{ labelFor(field) }}
+            </legend>
+            {{ explanationFor(field) }}
+            {% set options = [{
+                label: __('global.misc.yes'),
+                value: 'yes'
+            }, {
+                label: __('global.misc.no'),
+                value: 'no',
+                conditionalId: 'address-history-conditonal-no'
+            }] %}
+            <ul class="ff-choice__list">
+                {% for option in options  %}
+                    <li class="ff-choice__option">
+                        {% set optionId = 'option-' + field.name + '-' + option.value %}
+                        <div class="ff-choice__input">
+                            <input
+                                type="radio"
+                                id="{{ optionId }}"
+                                name="{{ field.name }}[current-address-meets-minimum]"
+                                value="{{ option.value }}"
+                                {% if field.value['current-address-meets-minimum'] === option.value %}checked{% endif %}
+                                {% if option.conditionalId %}data-aria-controls="{{ option.conditionalId }}"{% endif %}
+                            />
+                        </div>
+                        <label class="ff-choice__label" for="{{ optionId }}">{{ option.label }}</label>
+                    </li>
+                {% endfor %}
+            </ul>
+        </fieldset>
+
+        <div class="u-margin-top" id="address-history-conditonal-no">
+            {{ inputAddress({
+                name: field.name + '[previous-address]',
+                label: 'Previous address'
+            }) }}
+        </div>
+    </div>
 {% endmacro %}
 
 {% macro inputBudget(field) %}
@@ -340,6 +384,8 @@
                     {{ inputCurrency(field) }}
                 {% elseif field.type === 'address' %}
                     {{ inputAddress(field) }}
+                {% elseif field.type === 'address-history' %}
+                    {{ inputAddressHistory(field) }}
                 {% elseif field.type === 'budget' %}
                     {{ inputBudget(field) }}
                 {% else %}

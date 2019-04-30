@@ -30,8 +30,10 @@ function ukAddress() {
     return Joi.object({
         'building-street': Joi.string().required(),
         'town-city': Joi.string().required(),
-        'county': Joi.string().required(),
-        'postcode': postcode()
+        'county': Joi.string()
+            .allow('')
+            .optional(),
+        'postcode': postcode().required()
     });
 }
 
