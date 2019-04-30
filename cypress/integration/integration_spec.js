@@ -360,6 +360,7 @@ describe('awards for all', function() {
             cy.getByLabelText('Month').type('11');
             cy.getByLabelText('Year').type('1926');
             fillAddress();
+            cy.getByLabelText('Yes').click();
             cy.getByLabelText('Email', { exact: false }).type(faker.internet.exampleEmail());
             cy.getByLabelText('Telephone number', { exact: false }).type(faker.phone.phoneNumber());
         }
