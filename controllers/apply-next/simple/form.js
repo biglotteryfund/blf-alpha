@@ -820,7 +820,7 @@ module.exports = function({ locale, data = {} }) {
         }),
         mainContactAddress: addressField({
             name: 'main-contact-address',
-            label: localise({ en: 'Address', cy: '' }),
+            label: localise({ en: 'Current address', cy: '' }),
             schema: commonValidators.ukAddress().when(Joi.ref('organisation-type'), {
                 is: Joi.valid(ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY),
                 then: Joi.any().optional()
@@ -828,7 +828,7 @@ module.exports = function({ locale, data = {} }) {
         }),
         mainContactAddressHistory: addressHistoryField({
             name: 'main-contact-address-history',
-            label: localise({ en: 'Have you lived at your last address for at least three years?', cy: '' })
+            label: localise({ en: 'Have they lived at this address for the last three years?', cy: '' })
         }),
         mainContactEmail: emailField({
             name: 'main-contact-email',
@@ -870,7 +870,7 @@ module.exports = function({ locale, data = {} }) {
         }),
         seniorContactAddress: addressField({
             name: 'senior-contact-address',
-            label: localise({ en: 'Address', cy: '' }),
+            label: localise({ en: 'Current address', cy: '' }),
             schema: commonValidators.ukAddress().when(Joi.ref('organisation-type'), {
                 is: Joi.valid(ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY),
                 then: Joi.any().optional()
