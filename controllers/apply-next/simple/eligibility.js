@@ -102,7 +102,7 @@ module.exports = function({ locale }) {
             cy: ``
         }),
         explanation: localise({
-            en: `By annual accounts, we mean a reason of your financial activity. If you are a small organisation, this may be produced by your board and doesn't have to be done by an accountant.`,
+            en: `By annual accounts, we mean a summary of your financial activity. If you are a small organisation, this may be produced by your board and doesn't have to be done by an accountant.`,
             cy: ``
         }),
         ineligible: {
