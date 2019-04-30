@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import forEach from 'lodash/forEach';
 import { trackEvent } from '../helpers/metrics';
 
 function handleBeforeUnload(e) {
@@ -81,6 +82,45 @@ function handleExpandingDetails() {
     });
 }
 
+function handleConditionalRadios() {
+    forEach(document.querySelectorAll('.js-conditional-radios'), el => {
+        function setAttributes(radioEl) {
+            var inputIsChecked = radioEl.checked;
+            var conditionalEl = el.querySelector(`#${radioEl.getAttribute('aria-controls')}`);
+            if (conditionalEl) {
+                conditionalEl.setAttribute('aria-expanded', inputIsChecked);
+
+                if (inputIsChecked) {
+                    conditionalEl.removeAttribute('hidden');
+                } else {
+                    conditionalEl.setAttribute('hidden', 'hidden');
+                }
+            }
+        }
+
+        const radioEls = el.querySelectorAll('input[type="radio"]');
+        forEach(radioEls, radioEl => {
+            const controls = radioEl.getAttribute('data-aria-controls');
+            if (controls) {
+                radioEl.setAttribute('aria-controls', controls);
+                radioEl.removeAttribute('data-aria-controls');
+                setAttributes(radioEl);
+            }
+        });
+
+        el.addEventListener('click', function() {
+            forEach(radioEls, radioEl => {
+                // If a radio with aria-controls, handle click
+                var isRadio = radioEl.getAttribute('type') === 'radio';
+                var hasAriaControls = radioEl.getAttribute('aria-controls');
+                if (isRadio && hasAriaControls) {
+                    setAttributes(radioEl);
+                }
+            });
+        });
+    });
+}
+
 function init() {
     /**
      * Review–step–specific logic
@@ -90,6 +130,7 @@ function init() {
         handleAbandonmentMessage(formReviewEl);
         toggleReviewAnswers();
     }
+    handleConditionalRadios();
     handleExpandingDetails();
     warnOnUnsavedChanges();
 }
