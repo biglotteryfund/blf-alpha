@@ -446,7 +446,7 @@ describe('fields', () => {
                     'current-address-meets-minimum': 'no',
                     'previous-address': partialAddress
                 },
-                '"county" is required'
+                '"postcode" is required'
             );
 
             assertValid(field, {
