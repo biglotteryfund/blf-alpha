@@ -572,11 +572,9 @@ module.exports = function({ locale, data = {} }) {
                 cy: ''
             }),
             explanation: localise({
-                en: `
-<p>You should use budget headings, rather than a detailed list of items.</p>
-<p>For example, if you're applying for pens, pencils, paper and envelopes, using 'office supplies' is fine.</p>
-            `,
-                cy: 'TODO'
+                en: `<p>You should use budget headings, rather than a detailed list of items. For example, if you're applying for pens, pencils, paper and envelopes, using 'office supplies' is fine.</p>
+                <p>Please note you can only have a maximum of 10 rows</p>`,
+                cy: ''
             }),
             type: 'budget',
             attributes: {
