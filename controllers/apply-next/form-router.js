@@ -124,7 +124,7 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
      * New application
      * Create a new blank application and redirect to first step
      */
-    router.get('/new', async function(req, res) {
+    router.get('/new', async function(req, res, next) {
         const form = formBuilder({
             locale: req.i18n.getLocale()
         });
@@ -141,8 +141,7 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
                 res.redirect(`${req.baseUrl}/${firstSection.slug}`);
             });
         } catch (error) {
-            Raven.captureException(error);
-            renderError(error, req, res);
+            next(error);
         }
     });
 
@@ -187,13 +186,13 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
                 res.redirect(req.baseUrl);
             }
         })
-        .post(async (req, res) => {
+        .post(async (req, res, next) => {
             try {
                 await applicationsService.deleteApplication(req.params.applicationId, req.user.userData.id);
                 // @TODO show a success message on the subsequent (dashboard?) screen
                 res.redirect(req.baseUrl);
             } catch (error) {
-                renderError(error, req, res);
+                next(error);
             }
         });
 
@@ -278,7 +277,7 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
                 csrfToken: req.csrfToken()
             });
         })
-        .post(async (req, res) => {
+        .post(async (req, res, next) => {
             try {
                 await processor({
                     form: res.locals.form,
@@ -287,8 +286,7 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
                 await applicationsService.changeApplicationState(res.locals.currentlyEditingId, 'complete');
                 res.redirect(`${req.baseUrl}/success`);
             } catch (error) {
-                Raven.captureException(error);
-                renderError(error, req, res);
+                next(error);
             }
         });
 
@@ -366,7 +364,7 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
             const renderStep = renderStepFor(req.params.section, req.params.step);
             renderStep(req, res, res.locals.currentApplicationData);
         })
-        .post(async (req, res) => {
+        .post(async (req, res, next) => {
             const { currentlyEditingId, currentApplicationData } = res.locals;
             const data = { ...currentApplicationData, ...req.body };
 
@@ -415,19 +413,9 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
                     res.redirect(nextUrl);
                 }
             } catch (error) {
-                renderError(error, req, res);
+                next(error);
             }
         });
-
-    function renderError(error, req, res) {
-        const errorCopy = req.i18n.__('apply.error');
-        res.render(path.resolve(__dirname, './views/error'), {
-            error: error,
-            title: errorCopy.title,
-            errorCopy: errorCopy,
-            returnUrl: `${req.baseUrl}/summary`
-        });
-    }
 
     return router;
 }
