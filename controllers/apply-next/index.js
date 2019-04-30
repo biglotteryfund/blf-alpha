@@ -5,6 +5,7 @@ const appData = require('../../modules/appData');
 const { initFormRouter } = require('./form-router');
 
 const formBuilder = require('./simple/form');
+const eligibilityBuilder = require('./simple/eligibility');
 const processor = require('./simple/processor');
 
 const router = express.Router();
@@ -16,6 +17,7 @@ if (appData.isNotProduction) {
         '/simple',
         initFormRouter({
             id: 'awards-for-all',
+            eligibilityBuilder: eligibilityBuilder,
             formBuilder: formBuilder,
             processor: processor
         })

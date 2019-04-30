@@ -43,7 +43,7 @@ function validateDataFor(form, data) {
     });
 }
 
-function initFormRouter({ id, formBuilder, processor }) {
+function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor }) {
     const router = express.Router();
 
     function sessionPrefix() {
@@ -152,59 +152,9 @@ function initFormRouter({ id, formBuilder, processor }) {
     });
 
     /**
-     * Route: Eligibility checker
+     * Route: Eligibility checker, accessible to anyone.
      */
-    router
-        .route('/eligibility/:step?')
-        .all(function(req, res, next) {
-            const form = formBuilder({
-                locale: req.i18n.getLocale()
-            });
-
-            res.locals.eligibilityQuestions = form.eligibilityQuestions;
-
-            const currentStepNumber = parseInt(req.params.step);
-            const currentStep = form.eligibilityQuestions[currentStepNumber - 1];
-
-            if (currentStep) {
-                res.locals.currentStep = currentStep;
-                res.locals.currentStepNumber = currentStepNumber;
-                next();
-            } else {
-                return res.redirect(`${req.baseUrl}/eligibility/1`);
-            }
-        })
-        .get(function(req, res) {
-            const { currentStep, currentStepNumber, eligibilityQuestions } = res.locals;
-
-            res.render(path.resolve(__dirname, './views/eligibility'), {
-                eligibility: 'pending',
-                csrfToken: req.csrfToken(),
-                currentStep: currentStep,
-                currentStepNumber: currentStepNumber,
-                eligibilityQuestions: eligibilityQuestions,
-                totalQuestions: eligibilityQuestions.length
-            });
-        })
-        .post(async (req, res) => {
-            const { currentStepNumber, eligibilityQuestions } = res.locals;
-
-            if (req.body.eligibility === 'yes') {
-                const isComplete = currentStepNumber === eligibilityQuestions.length;
-                const nextStepNumber = currentStepNumber + 1;
-                if (isComplete) {
-                    res.render(path.resolve(__dirname, './views/eligibility'), {
-                        eligibility: 'eligible'
-                    });
-                } else {
-                    res.redirect(`${req.baseUrl}/eligibility/${nextStepNumber}`);
-                }
-            } else {
-                res.render(path.resolve(__dirname, './views/eligibility'), {
-                    eligibility: 'ineligible'
-                });
-            }
-        });
+    router.use('/eligibility', require('./eligibility-router')(eligibilityBuilder));
 
     /**
      * Require login, redirect back here once authenticated.
