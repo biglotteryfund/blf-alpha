@@ -3,7 +3,7 @@
 {% from "components/icons.njk" import iconArrowDown, iconTick, iconBin %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
+{% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
 
 {% block title %}Terms & Conditions | {{ formTitle }} | {% endblock %}
 
@@ -17,7 +17,7 @@
                 title = "Terms & Conditions"
             ) }}
 
-            {{ formErrors(errors = errors) }}
+            {{ formErrors( __('global.misc.errorTitle'), errors) }}
 
             <form method="post" action="" class="u-constrained-content-wide">
 

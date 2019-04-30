@@ -1221,17 +1221,17 @@ module.exports = function({ locale, data = {} }) {
             },
             {
                 name: 'terms-person-name',
-                autocompleteName: 'name',
-                type: 'text',
                 label: localise({ en: 'Full name of person completing this form', cy: '' }),
-                isRequired: true
+                type: 'text',
+                isRequired: true,
+                attributes: { autocomplete: 'name' }
             },
             {
                 name: 'terms-person-position',
-                autocompleteName: 'position',
-                type: 'text',
                 label: localise({ en: 'Position in organisation', cy: '' }),
-                isRequired: true
+                type: 'text',
+                isRequired: true,
+                attributes: { autocomplete: 'position' }
             }
         ],
         eligibilityQuestions: [

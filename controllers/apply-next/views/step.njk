@@ -2,7 +2,7 @@
 {% from "components/hero.njk" import hero with context %}
 {% from "components/icons.njk" import iconTick %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
-{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
+{% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
 {% from "components/language/macros.njk" import languageServiceMessage with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
@@ -11,7 +11,6 @@
         <div class="content-box u-inner-wide-only">
             <form action="" method="POST" class="js-form-warn-unsaved">
                 {{ breadcrumbTrail(breadcrumbs) }}
-
 
                 {% set formHeaderTitle = currentApplicationTitle if currentApplicationTitle else formTitle %}
                 {% set formHeaderSuffix = formTitle if currentApplicationTitle %}
@@ -32,7 +31,7 @@
 
                 {# {{ languageServiceMessage(currentLocale = locale) }} #}
 
-                {{ formErrors(errors = errors) }}
+                {{ formErrors(__('global.misc.errorTitle'), errors) }}
 
                 {% for fieldset in step.fieldsets %}
                     <fieldset class="form-fieldset u-constrained-wide">
