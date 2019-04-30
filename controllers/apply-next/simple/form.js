@@ -1,6 +1,6 @@
 'use strict';
 const { get } = require('lodash/fp');
-const { includes, reduce } = require('lodash');
+const { includes, kebabCase, reduce } = require('lodash');
 const moment = require('moment');
 
 const { Joi, ...commonValidators } = require('../lib/validators');
@@ -9,7 +9,8 @@ const {
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     MAX_BUDGET_TOTAL_GBP,
-    ORGANISATION_TYPES
+    ORGANISATION_TYPES,
+    LOCAL_AUTHORITIES
 } = require('./constants');
 
 module.exports = function({ locale, data = {} }) {
@@ -637,6 +638,83 @@ module.exports = function({ locale, data = {} }) {
                 }
             ]
         },
+        beneficiariesNumberOfPeople: {
+            name: 'beneficiaries-number-of-people',
+            label: localise({
+                en: 'How many people will benefit from your project?',
+                cy: ''
+            }),
+            explanation: localise({
+                en: `Please enter the exact figure, or the closest estimate.`,
+                cy: ``
+            }),
+            type: 'number',
+            isRequired: true,
+            schema: Joi.number()
+                .min(1)
+                .required(),
+            messages: [{ type: 'base', message: { en: 'Enter a number', cy: '' } }]
+        },
+        beneficiariesLocationCheck: {
+            name: 'beneficiaries-location-check',
+            label: localise({
+                en: 'Do the people who will benefit from your project live in a specific local authority?',
+                cy: ''
+            }),
+            type: 'radio',
+            options: [
+                { value: 'yes', label: localise({ en: 'Yes', cy: '' }) },
+                { value: 'no', label: localise({ en: 'No', cy: '' }) }
+            ],
+            isRequired: true,
+            get schema() {
+                return Joi.string()
+                    .valid(this.options.map(option => option.value))
+                    .required();
+            },
+            messages: [{ type: 'base', message: { en: 'Choose an option', cy: '' } }]
+        },
+        beneficiariesLocalAuthority: {
+            name: 'beneficiaries-local-authority',
+            label: localise({
+                en: 'Which local authority will your project benefit?',
+                cy: ''
+            }),
+            type: 'select',
+            defaultOption: localise({ en: 'Select a local authority', cy: '' }),
+            options: LOCAL_AUTHORITIES.map(localAuthority => ({
+                label: localAuthority,
+                value: kebabCase(localAuthority)
+            })),
+            isRequired: true,
+            get schema() {
+                return Joi.when('beneficiaries-location-check', {
+                    is: 'yes',
+                    then: Joi.string()
+                        .valid(this.options.map(option => option.value))
+                        .required()
+                });
+            },
+            messages: [{ type: 'base', message: { en: 'Choose an option', cy: '' } }]
+        },
+        beneficiariesLocationDescription: {
+            name: 'beneficiaries-location-description',
+            label: localise({
+                en: 'Tell us the town(s), village(s) or ward(s) where your beneficaries live.',
+                cy: ''
+            }),
+            explanation: localise({
+                en: `You can write more than one area.`,
+                cy: ``
+            }),
+            type: 'text',
+            isRequired: true,
+            schema: Joi.when('beneficiaries-location-check', {
+                is: 'yes',
+                then: Joi.string().required()
+            }),
+            messages: [{ type: 'base', message: { en: 'Enter a description', cy: '' } }]
+        },
         organisationLegalName: {
             name: 'organisation-legal-name',
             label: localise({
@@ -970,11 +1048,11 @@ module.exports = function({ locale, data = {} }) {
         title: localise({ en: 'Your Project', cy: '(WELSH) Your Project' }),
         introduction: localise({
             en: `Please tell us about your project in this section. This is the most important section when it comes to making a decision about whether you will receive funding.`,
-            cy: `(WELSH) Please tell us about your project in this section. This is the most important section when it comes to making a decision about whether you will receive funding.`
+            cy: ``
         }),
         steps: [
             {
-                title: localise({ en: 'Project details', cy: '(cy) Project details' }),
+                title: localise({ en: 'Project details', cy: '' }),
                 fieldsets: [
                     {
                         legend: localise({ en: 'Project details', cy: '' }),
@@ -988,24 +1066,73 @@ module.exports = function({ locale, data = {} }) {
                 ]
             },
             {
-                title: localise({ en: 'Your idea', cy: '(WELSH) Your idea' }),
+                title: localise({ en: 'Your idea', cy: '' }),
                 fieldsets: [
                     {
-                        legend: localise({ en: 'Your idea', cy: '(WELSH) Your idea' }),
+                        legend: localise({ en: 'Your idea', cy: '' }),
                         fields: [allFields.yourIdeaProject, allFields.yourIdeaPriorities, allFields.yourIdeaCommunity]
                     }
                 ]
             },
             {
-                title: localise({ en: 'Project costs', cy: '(WELSH) Project costs' }),
+                title: localise({ en: 'Project costs', cy: '' }),
                 fieldsets: [
                     {
-                        legend: localise({ en: 'Project costs', cy: '(WELSH) Project costs' }),
+                        legend: localise({ en: 'Project costs', cy: '' }),
                         fields: [allFields.projectBudget, allFields.projectTotalCosts]
                     }
                 ]
             }
         ]
+    };
+
+    const sectionBeneficiaries = {
+        slug: 'beneficiaries',
+        title: localise({ en: 'Beneficiaries', cy: '' }),
+        introduction: localise({
+            en: `We want to hear more about the people who will benefit from your project.`,
+            cy: ``
+        }),
+        get steps() {
+            return [
+                {
+                    title: localise({ en: 'Number of people', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({ en: 'Number of people', cy: '' }),
+                            fields: [allFields.beneficiariesNumberOfPeople]
+                        }
+                    ]
+                },
+                {
+                    title: localise({ en: 'Local authority', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({ en: 'Local authority', cy: '' }),
+                            fields: [allFields.beneficiariesLocationCheck]
+                        }
+                    ]
+                },
+                {
+                    title: localise({ en: 'Location', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({ en: 'Location', cy: '' }),
+                            get fields() {
+                                let fields = [];
+                                if (get(allFields.beneficiariesLocationCheck.name)(data) === 'yes') {
+                                    fields = [
+                                        allFields.beneficiariesLocalAuthority,
+                                        allFields.beneficiariesLocationDescription
+                                    ];
+                                }
+                                return fields;
+                            }
+                        }
+                    ]
+                }
+            ];
+        }
     };
 
     const sectionOrganisation = {
@@ -1312,7 +1439,14 @@ module.exports = function({ locale, data = {} }) {
         isBilingual: true,
         schema: schema,
         allFields: allFields,
-        sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionSeniorContact, sectionBankDetails],
+        sections: [
+            sectionProject,
+            sectionBeneficiaries,
+            sectionOrganisation,
+            sectionMainContact,
+            sectionSeniorContact,
+            sectionBankDetails
+        ],
         termsFields: termsFields
     };
 
