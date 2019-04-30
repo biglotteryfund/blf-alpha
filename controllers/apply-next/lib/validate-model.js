@@ -9,6 +9,7 @@ module.exports = function validateModel(formModel) {
         type: Joi.string()
             .valid([
                 'address',
+                'address-history',
                 'budget',
                 'checkbox',
                 'currency',

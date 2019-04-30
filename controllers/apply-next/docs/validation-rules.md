@@ -132,9 +132,9 @@ _Does your organisation use a different name in your day-to-day work?_
 
 Address field group, consists of:
 
--   Address line 1
--   Address line 2 (optional)
+-   Building and street
 -   Town or city
+-   County (optional)
 -   Postcode
 
 | Rule                   | Message                     |
@@ -247,9 +247,9 @@ Address field group, consists of:
 
 Address field group, consists of:
 
--   Address line 1
--   Address line 2 (optional)
+-   Building and street
 -   Town or city
+-   County (optional)
 -   Postcode
 
 | Rule                   | Message                     |
@@ -260,6 +260,32 @@ Address field group, consists of:
 | No county              | Enter a county              |
 | No postcode            | Enter a postcode            |
 | Valid postcode         | Enter a real postcode       |
+
+#### Conditions
+
+-   If the **organisation type** is either **school / educational body** or **statutory body** then this field will not be shown.
+
+### Main contact address history
+
+**Type**: address-history
+
+Address history field group, consists of:
+
+-   Have you lived at your last address for at least three years?
+-   Building and street
+-   Town or city
+-   County (optional)
+-   Postcode
+
+| Rule                   | Message                                 |
+| ---------------------- | --------------------------------------- |
+| Required field         | Enter a full UK address                 |
+| Invalid choice         | Choose from one of the options provided |
+| No building and street | Enter a building and street             |
+| No town or city        | Enter a town or city                    |
+| No county              | Enter a county                          |
+| No postcode            | Enter a postcode                        |
+| Valid postcode         | Enter a real postcode                   |
 
 #### Conditions
 
@@ -353,9 +379,9 @@ The senior contact role shows the following choices depending on the organisatio
 
 Address field group, consists of:
 
--   Address line 1
--   Address line 2 (optional)
+-   Building and street
 -   Town or city
+-   County (optional)
 -   Postcode
 
 | Rule                   | Message                     |
@@ -366,6 +392,32 @@ Address field group, consists of:
 | No county              | Enter a county              |
 | No postcode            | Enter a postcode            |
 | Valid postcode         | Enter a real postcode       |
+
+### Senior contact address history
+
+**Type**: address-history
+
+Address history field group, consists of:
+
+-   Have you lived at your last address for at least three years?
+-   Building and street
+-   Town or city
+-   County (optional)
+-   Postcode
+
+| Rule                   | Message                                 |
+| ---------------------- | --------------------------------------- |
+| Required field         | Enter a full UK address                 |
+| Invalid choice         | Choose from one of the options provided |
+| No building and street | Enter a building and street             |
+| No town or city        | Enter a town or city                    |
+| No county              | Enter a county                          |
+| No postcode            | Enter a postcode                        |
+| Valid postcode         | Enter a real postcode                   |
+
+#### Conditions
+
+-   If the **organisation type** is either **school / educational body** or **statutory body** then this field will not be shown.
 
 #### Conditions
 
