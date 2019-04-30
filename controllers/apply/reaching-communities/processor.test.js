@@ -9,14 +9,20 @@ const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
 const { flattenFormData, stepsWithValues } = require('../helpers');
+const form = require('./form-model');
+const processor = require('./processor');
 
-function createMockForm() {
-    return {
+function mockProcessor() {
+    const langData = fs.readFileSync(path.resolve(__dirname, '../../../config/locales/en.yml'), 'utf-8');
+    const enCopy = yaml.safeLoad(langData);
+    const formCopy = get(enCopy, form.lang);
+
+    const mockFormData = {
         'step-1': {
             'your-idea': 'Test idea'
         },
         'step-2': {
-            location: 'South West',
+            'location': 'South West',
             'project-location': 'London'
         },
         'step-3': {
@@ -26,32 +32,28 @@ function createMockForm() {
         'step-4': {
             'first-name': 'Example',
             'last-name': 'Person',
-            email: 'example@example.com',
+            'email': 'example@example.com',
             'phone-number': '03454102030'
         }
     };
-}
-
-describe('reaching communities processor', async () => {
-    const form = require('../reaching-communities/form-model');
-    const processor = require('../reaching-communities/processor');
-
-    const langData = fs.readFileSync(path.resolve(__dirname, '../../../config/locales/en.yml'), 'utf-8');
-    const enCopy = yaml.safeLoad(langData);
-    const formCopy = get(enCopy, form.lang);
 
     const mockTransport = nodemailer.createTransport({
         jsonTransport: true
     });
 
-    const mockProcessorData = {
-        data: flattenFormData(createMockForm()),
+    const processorOptions = {
+        data: flattenFormData(mockFormData),
         copy: formCopy,
-        stepsWithValues: stepsWithValues(form.steps, createMockForm())
+        stepsWithValues: stepsWithValues(form.steps, mockFormData)
     };
 
+    return processor(processorOptions, mockTransport);
+}
+
+describe('reaching communities processor', () => {
     test('customer email', async () => {
-        const result = await processor(mockProcessorData, mockTransport);
+        const result = await mockProcessor();
+
         const customerEmail = result[0];
         const customerEmailMessage = JSON.parse(customerEmail.message);
         expect(customerEmailMessage.text).toMatchSnapshot();
@@ -91,7 +93,8 @@ describe('reaching communities processor', async () => {
     });
 
     test('internal email', async () => {
-        const result = await processor(mockProcessorData, mockTransport);
+        const result = await mockProcessor();
+
         const internalEmail = result[1];
         const internalEmailMessage = JSON.parse(internalEmail.message);
         expect(internalEmailMessage.text).toMatchSnapshot();
