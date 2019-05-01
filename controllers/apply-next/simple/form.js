@@ -69,11 +69,14 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: { en: 'Enter an email address', cy: '' }
+                    message: localise({ en: 'Enter an email address', cy: '' })
                 },
                 {
                     type: 'string.email',
-                    message: { en: 'Email address must be in the correct format, like name@example.com', cy: '' }
+                    message: localise({
+                        en: 'Email address must be in the correct format, like name@example.com',
+                        cy: ''
+                    })
                 }
             ]
         };
@@ -95,11 +98,11 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: { en: 'Enter a UK telephone number', cy: '' }
+                    message: localise({ en: 'Enter a UK telephone number', cy: '' })
                 },
                 {
                     type: 'string.phonenumber',
-                    message: { en: 'Enter a real UK telephone number', cy: '' }
+                    message: localise({ en: 'Enter a real UK telephone number', cy: '' })
                 }
             ]
         };
@@ -115,32 +118,32 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: { en: 'Enter a full UK address', cy: '' }
+                    message: localise({ en: 'Enter a full UK address', cy: '' })
                 },
                 {
                     type: 'any.empty',
                     key: 'building-street',
-                    message: { en: 'Enter a building and street', cy: '' }
+                    message: localise({ en: 'Enter a building and street', cy: '' })
                 },
                 {
                     type: 'any.empty',
                     key: 'town-city',
-                    message: { en: 'Enter a town or city', cy: '' }
+                    message: localise({ en: 'Enter a town or city', cy: '' })
                 },
                 {
                     type: 'any.empty',
                     key: 'county',
-                    message: { en: 'Enter a county', cy: '' }
+                    message: localise({ en: 'Enter a county', cy: '' })
                 },
                 {
                     type: 'any.empty',
                     key: 'postcode',
-                    message: { en: 'Enter a postcode', cy: '' }
+                    message: localise({ en: 'Enter a postcode', cy: '' })
                 },
                 {
                     type: 'string.regex.base',
                     key: 'postcode',
-                    message: { en: 'Enter a real postcode', cy: '' }
+                    message: localise({ en: 'Enter a real postcode', cy: '' })
                 }
             ]
         };
@@ -168,37 +171,37 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: { en: 'Enter a full UK address', cy: '' }
+                    message: localise({ en: 'Enter a full UK address', cy: '' })
                 },
                 {
                     type: 'any.required',
                     key: 'current-address-meets-minimum',
-                    message: { en: 'Choose from one of the options provided', cy: '' }
+                    message: localise({ en: 'Choose from one of the options provided', cy: '' })
                 },
                 {
                     type: 'any.empty',
                     key: 'building-street',
-                    message: { en: 'Enter a building and street', cy: '' }
+                    message: localise({ en: 'Enter a building and street', cy: '' })
                 },
                 {
                     type: 'any.empty',
                     key: 'town-city',
-                    message: { en: 'Enter a town or city', cy: '' }
+                    message: localise({ en: 'Enter a town or city', cy: '' })
                 },
                 {
                     type: 'any.empty',
                     key: 'county',
-                    message: { en: 'Enter a county', cy: '' }
+                    message: localise({ en: 'Enter a county', cy: '' })
                 },
                 {
                     type: 'any.empty',
                     key: 'postcode',
-                    message: { en: 'Enter a postcode', cy: '' }
+                    message: localise({ en: 'Enter a postcode', cy: '' })
                 },
                 {
                     type: 'string.regex.base',
                     key: 'postcode',
-                    message: { en: 'Enter a real postcode', cy: '' }
+                    message: localise({ en: 'Enter a real postcode', cy: '' })
                 }
             ]
         };
@@ -215,7 +218,7 @@ module.exports = function({ locale, data = {} }) {
             },
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: { en: 'Enter first name', cy: '' } }]
+            messages: [{ type: 'base', message: localise({ en: 'Enter first name', cy: '' }) }]
         };
 
         return { ...defaultProps, ...props };
@@ -230,7 +233,7 @@ module.exports = function({ locale, data = {} }) {
             },
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: { en: 'Enter last name', cy: '' } }]
+            messages: [{ type: 'base', message: localise({ en: 'Enter last name', cy: '' }) }]
         };
 
         return { ...defaultProps, ...props };
@@ -259,15 +262,15 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: { en: 'Enter a date of birth', cy: '' }
+                    message: localise({ en: 'Enter a date of birth', cy: '' })
                 },
                 {
                     type: 'any.invalid',
-                    message: { en: 'Enter a real date', cy: '' }
+                    message: localise({ en: 'Enter a real date', cy: '' })
                 },
                 {
                     type: 'dateParts.dob',
-                    message: { en: `Must be at least ${minAge} years old`, cy: '' }
+                    message: localise({ en: `Must be at least ${minAge} years old`, cy: '' })
                 }
             ]
         };
@@ -296,7 +299,7 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'any.allowOnly',
-                    message: { en: 'Choose from one of the options provided', cy: '' }
+                    message: localise({ en: 'Choose from one of the options provided', cy: '' })
                 }
             ]
         };
@@ -312,7 +315,7 @@ module.exports = function({ locale, data = {} }) {
             type: 'text',
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: { en: 'Enter a project name', cy: '' } }]
+            messages: [{ type: 'base', message: localise({ en: 'Enter a project name', cy: '' }) }]
         },
         projectCountry: {
             name: 'project-country',
@@ -334,7 +337,7 @@ module.exports = function({ locale, data = {} }) {
                     .valid(this.options.map(option => option.value))
                     .required();
             },
-            messages: [{ type: 'base', message: { en: 'Choose a country', cy: '' } }]
+            messages: [{ type: 'base', message: localise({ en: 'Choose a country', cy: '' }) }]
         },
         projectStartDate: {
             name: 'project-start-date',
@@ -367,18 +370,18 @@ module.exports = function({ locale, data = {} }) {
                 return [
                     {
                         type: 'base',
-                        message: { en: 'Enter a date', cy: '' }
+                        message: localise({ en: 'Enter a date', cy: '' })
                     },
                     {
                         type: 'any.invalid',
-                        message: { en: 'Enter a real date', cy: '' }
+                        message: localise({ en: 'Enter a real date', cy: '' })
                     },
                     {
                         type: 'dateParts.futureDate',
-                        message: {
+                        message: localise({
                             en: `Date you start the project must be after ${this.settings.fromDateExample}`,
                             cy: ''
-                        }
+                        })
                     }
                 ];
             }
@@ -400,7 +403,7 @@ module.exports = function({ locale, data = {} }) {
             },
             isRequired: true,
             schema: commonValidators.postcode().required(),
-            messages: [{ type: 'base', message: { en: 'Enter a real postcode', cy: '' } }]
+            messages: [{ type: 'base', message: localise({ en: 'Enter a real postcode', cy: '' }) }]
         },
         yourIdeaProject: {
             name: 'your-idea-project',
@@ -441,15 +444,15 @@ module.exports = function({ locale, data = {} }) {
                 return [
                     {
                         type: 'base',
-                        message: { en: 'Tell us about your project', cy: '' }
+                        message: localise({ en: 'Tell us about your project', cy: '' })
                     },
                     {
                         type: 'string.minWords',
-                        message: { en: `Answer must be at least ${this.settings.minWords} words`, cy: '' }
+                        message: localise({ en: `Answer must be at least ${this.settings.minWords} words`, cy: '' })
                     },
                     {
                         type: 'string.maxWords',
-                        message: { en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' }
+                        message: localise({ en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' })
                     }
                 ];
             }
@@ -492,15 +495,18 @@ module.exports = function({ locale, data = {} }) {
                 return [
                     {
                         type: 'base',
-                        message: { en: 'Tell us how your project meet at least one of our funding priorities', cy: '' }
+                        message: localise({
+                            en: 'Tell us how your project meet at least one of our funding priorities',
+                            cy: ''
+                        })
                     },
                     {
                         type: 'string.minWords',
-                        message: { en: `Answer must be at least ${this.settings.minWords} words`, cy: '' }
+                        message: localise({ en: `Answer must be at least ${this.settings.minWords} words`, cy: '' })
                     },
                     {
                         type: 'string.maxWords',
-                        message: { en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' }
+                        message: localise({ en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' })
                     }
                 ];
             }
@@ -552,15 +558,15 @@ module.exports = function({ locale, data = {} }) {
                 return [
                     {
                         type: 'base',
-                        message: { en: 'Tell us how your project involves your community', cy: '' }
+                        message: localise({ en: 'Tell us how your project involves your community', cy: '' })
                     },
                     {
                         type: 'string.minWords',
-                        message: { en: `Answer must be at least ${this.settings.minWords} words`, cy: '' }
+                        message: localise({ en: `Answer must be at least ${this.settings.minWords} words`, cy: '' })
                     },
                     {
                         type: 'string.maxWords',
-                        message: { en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' }
+                        message: localise({ en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' })
                     }
                 ];
             }
@@ -584,15 +590,15 @@ module.exports = function({ locale, data = {} }) {
             isRequired: true,
             schema: commonValidators.budgetField(MAX_BUDGET_TOTAL_GBP),
             messages: [
-                { type: 'base', message: { en: 'Enter a project budget', cy: '' } },
-                { type: 'any.empty', key: 'item', message: { en: 'Enter an item or activity', cy: '' } },
-                { type: 'number.base', key: 'cost', message: { en: 'Enter an amount', cy: '' } },
+                { type: 'base', message: localise({ en: 'Enter a project budget', cy: '' }) },
+                { type: 'any.empty', key: 'item', message: localise({ en: 'Enter an item or activity', cy: '' }) },
+                { type: 'number.base', key: 'cost', message: localise({ en: 'Enter an amount', cy: '' }) },
                 {
                     type: 'budgetItems.overBudget',
-                    message: {
+                    message: localise({
                         en: `Total project costs must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
                         cy: ``
-                    }
+                    })
                 }
             ]
         },
@@ -616,18 +622,18 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: { en: 'Enter a total cost for your project', cy: '' }
+                    message: localise({ en: 'Enter a total cost for your project', cy: '' })
                 },
                 {
                     type: 'number.base',
-                    message: { en: 'Total cost must be a real number', cy: '' }
+                    message: localise({ en: 'Total cost must be a real number', cy: '' })
                 },
                 {
                     type: 'budgetTotalCosts.underBudget',
-                    message: {
+                    message: localise({
                         en: 'Total cost must be the same as or higher than the amount you’re asking us to fund',
                         cy: ''
-                    }
+                    })
                 }
             ]
         },
@@ -646,7 +652,9 @@ module.exports = function({ locale, data = {} }) {
             type: 'text',
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: { en: 'Enter the full legal name of the organisation', cy: '' } }]
+            messages: [
+                { type: 'base', message: localise({ en: 'Enter the full legal name of the organisation', cy: '' }) }
+            ]
         },
         organisationAlias: {
             name: 'organisation-alias',
@@ -721,7 +729,7 @@ module.exports = function({ locale, data = {} }) {
                     .valid(this.options.map(option => option.value))
                     .required();
             },
-            messages: [{ type: 'base', message: { en: 'Choose a type of organisation', cy: '' } }]
+            messages: [{ type: 'base', message: localise({ en: 'Choose a type of organisation', cy: '' }) }]
         },
         companyNumber: {
             name: 'company-number',
@@ -732,7 +740,9 @@ module.exports = function({ locale, data = {} }) {
                 is: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
                 then: Joi.string().required()
             }),
-            messages: [{ type: 'base', message: { en: 'Enter your organisation’s Companies House number', cy: '' } }]
+            messages: [
+                { type: 'base', message: localise({ en: 'Enter your organisation’s Companies House number', cy: '' }) }
+            ]
         },
         charityNumber: {
             name: 'charity-number',
@@ -757,7 +767,7 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: { en: 'Enter your organisation’s charity number', cy: '' }
+                    message: localise({ en: 'Enter your organisation’s charity number', cy: '' })
                 }
             ]
         },
@@ -774,7 +784,7 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: { en: 'Enter your organisation’s Department for Education number', cy: '' }
+                    message: localise({ en: 'Enter your organisation’s Department for Education number', cy: '' })
                 }
             ]
         },
@@ -789,8 +799,8 @@ module.exports = function({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.dayMonth().required(),
             messages: [
-                { type: 'base', message: { en: 'Enter a day and month', cy: '' } },
-                { type: 'any.invalid', message: { en: 'Enter a real day and month', cy: '' } }
+                { type: 'base', message: localise({ en: 'Enter a day and month', cy: '' }) },
+                { type: 'any.invalid', message: localise({ en: 'Enter a real day and month', cy: '' }) }
             ]
         },
         totalIncomeYear: {
@@ -800,8 +810,8 @@ module.exports = function({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.number().required(),
             messages: [
-                { type: 'base', message: { en: 'Enter a total income for the year', cy: '' } },
-                { type: 'any.invalid', message: { en: 'Total income must be a real number', cy: '' } }
+                { type: 'base', message: localise({ en: 'Enter a total income for the year', cy: '' }) },
+                { type: 'any.invalid', message: localise({ en: 'Total income must be a real number', cy: '' }) }
             ]
         },
         mainContactFirstName: firstNameField({
@@ -860,7 +870,7 @@ module.exports = function({ locale, data = {} }) {
             options: seniorContactRolesFor(orgTypeFor(data)),
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: { en: 'Choose a role', cy: '' } }]
+            messages: [{ type: 'base', message: localise({ en: 'Choose a role', cy: '' }) }]
         },
         seniorContactDob: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
             name: 'senior-contact-dob',
@@ -898,7 +908,7 @@ module.exports = function({ locale, data = {} }) {
             type: 'text',
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: { en: 'Enter the name on the bank account', cy: '' } }]
+            messages: [{ type: 'base', message: localise({ en: 'Enter the name on the bank account', cy: '' }) }]
         },
         bankSortCode: {
             name: 'bank-sort-code',
@@ -907,7 +917,7 @@ module.exports = function({ locale, data = {} }) {
             attributes: { size: 20 },
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: { en: 'Enter a sort-code', cy: '' } }]
+            messages: [{ type: 'base', message: localise({ en: 'Enter a sort-code', cy: '' }) }]
         },
         bankAccountNumber: {
             name: 'bank-account-number',
@@ -915,7 +925,7 @@ module.exports = function({ locale, data = {} }) {
             type: 'text',
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: { en: 'Enter an account number', cy: '' } }]
+            messages: [{ type: 'base', message: localise({ en: 'Enter an account number', cy: '' }) }]
         },
         bankBuildingSocietyNumber: {
             name: 'bank-building-society-number',
@@ -937,7 +947,7 @@ module.exports = function({ locale, data = {} }) {
             type: 'file',
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: { en: 'Provide a bank statement', cy: '' } }]
+            messages: [{ type: 'base', message: localise({ en: 'Provide a bank statement', cy: '' }) }]
         }
     };
 

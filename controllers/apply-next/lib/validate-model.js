@@ -33,7 +33,7 @@ module.exports = function validateModel(formModel) {
             Joi.object({
                 type: Joi.string().required(),
                 key: Joi.string().optional(),
-                message: Joi.any().required()
+                message: Joi.string().required()
             })
         )
     });

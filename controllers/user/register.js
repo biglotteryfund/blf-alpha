@@ -8,7 +8,7 @@ const userService = require('../../services/user');
 const { csrfProtection } = require('../../middleware/cached');
 const { requireUnauthed, redirectUrlWithFallback } = require('../../middleware/authed');
 const { localify } = require('../../modules/urls');
-const { normaliseErrors } = require('../../modules/errors');
+const normaliseErrors = require('./lib/normalise-errors');
 
 const { sendActivationEmail } = require('./helpers');
 const { accountSchema, errorMessages } = require('./schema');
