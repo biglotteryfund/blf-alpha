@@ -5,7 +5,7 @@ const faker = require('faker');
 const moment = require('moment');
 const Joi = require('joi');
 
-const { ORGANISATION_TYPES } = require('./constants');
+const { ORGANISATION_TYPES, BENEFICIARY_GROUPS } = require('./constants');
 const validateModel = require('../lib/validate-model');
 
 function toDateParts(dt) {
@@ -60,6 +60,7 @@ function mockFullForm({
         'beneficiaries-location-check': 'yes',
         'beneficiaries-local-authority': 'aberdeenshire',
         'beneficiaries-location-description': faker.address.city(),
+        'beneficiaries-groups': [BENEFICIARY_GROUPS.AGE],
         'organisation-legal-name': faker.company.companyName(),
         'organisation-address': mockAddress(),
         'organisation-type': organisationType,
@@ -728,13 +729,13 @@ describe('form model', () => {
     function validate(mock) {
         const form = formBuilder({ locale: 'en' });
         return form.schema.validate(mock, {
-            abortEarly: false,
-            stripUnknown: true
+            abortEarly: false
         });
     }
 
     test('validate model shape', () => {
-        validateModel(formBuilder({ locale: 'en' }));
+        const form = formBuilder({ locale: 'en' });
+        validateModel(form);
     });
 
     test('invalid empty form', () => {

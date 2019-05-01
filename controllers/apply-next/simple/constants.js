@@ -412,10 +412,21 @@ const LOCAL_AUTHORITIES = [
     'York'
 ];
 
+const BENEFICIARY_GROUPS = {
+    EVERYONE: 'everyone',
+    ETHNIC_BACKGROUND: 'ethnic-background',
+    GENDER: 'gender',
+    AGE: 'age',
+    DISABILITY: 'disability',
+    FAITH: 'faith',
+    LGBTQ: 'lgbtq'
+};
+
 module.exports = {
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     MAX_BUDGET_TOTAL_GBP,
     ORGANISATION_TYPES,
-    LOCAL_AUTHORITIES
+    LOCAL_AUTHORITIES,
+    BENEFICIARY_GROUPS
 };

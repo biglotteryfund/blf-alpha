@@ -17,6 +17,13 @@ function budgetField(maxBudget) {
         .required();
 }
 
+function multiCheckbox(options) {
+    return Joi.array()
+        .items(Joi.string().valid(options.map(option => option.value)))
+        .single()
+        .required();
+}
+
 function postcode() {
     // via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
     const POSTCODE_PATTERN = '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
@@ -43,5 +50,6 @@ module.exports = {
     dateOfBirth,
     futureDate,
     postcode,
+    multiCheckbox,
     ukAddress
 };
