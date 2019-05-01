@@ -7,10 +7,10 @@ const Joi = require('joi');
 
 const { getAbsoluteUrl } = require('../../modules/urls');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
-const { normaliseErrors } = require('../../modules/errors');
 const { requireUnauthed } = require('../../middleware/authed');
 const { sendEmail } = require('../../services/mail');
 const userService = require('../../services/user');
+const normaliseErrors = require('./lib/normalise-errors');
 const schema = require('./schema');
 
 const router = express.Router();

@@ -1,5 +1,5 @@
 'use strict';
-const { concat, has, head, flatMap, includes } = require('lodash');
+const { concat, has, head, flatMap } = require('lodash');
 const { filter, get, getOr, uniqBy } = require('lodash/fp');
 
 /**
@@ -26,20 +26,15 @@ function messagesForError(detail, messages) {
  * - Determines the appropriate translated error message to use based on current error type.
  *
  * @param {Object} options
+ * @param {String} options.locale
  * @param {Object} options.validationError
  * @param {Object} options.errorMessages
- * @param {String} options.locale
- * @param {Array<String>} [options.fieldNames]
  */
-function normaliseErrors({ validationError, errorMessages, locale, fieldNames = [] }) {
-    const errors = getOr([], 'details')(validationError);
-
-    const errorDetails =
-        fieldNames.length > 0 ? errors.filter(detail => includes(fieldNames, head(detail.path))) : errors;
-
+module.exports = function normaliseErrors({ locale, validationError, errorMessages }) {
+    const errorDetails = getOr([], 'details')(validationError);
     const uniqueErrorsDetails = uniqBy(detail => head(detail.path))(errorDetails);
 
-    const suitableErrors = flatMap(uniqueErrorsDetails, detail => {
+    return flatMap(uniqueErrorsDetails, detail => {
         const name = head(detail.path);
         const fieldMessages = getOr([], name)(errorMessages);
         const matchingMessages = messagesForError(detail, fieldMessages);
@@ -51,10 +46,4 @@ function normaliseErrors({ validationError, errorMessages, locale, fieldNames = 
             };
         });
     });
-
-    return suitableErrors;
-}
-
-module.exports = {
-    normaliseErrors
 };

@@ -1,8 +1,7 @@
 /* eslint-env jest */
 'use strict';
-
 const Joi = require('joi');
-const { normaliseErrors } = require('../errors');
+const normaliseErrors = require('./normalise-errors');
 
 const mockSchema = Joi.object({
     a: Joi.string()
@@ -68,25 +67,5 @@ describe('normaliseErrors', () => {
             { param: 'b', msg: 'Please enter B' },
             { param: 'a', msg: 'A must not be the same as B' }
         ]);
-    });
-
-    test('can filter errors by name', () => {
-        const validationResult = mockSchema.validate({ c: 'here' }, { abortEarly: false });
-
-        const normalised = normaliseErrors({
-            validationError: validationResult.error,
-            errorMessages: mockErrorMessages,
-            locale: 'en'
-        });
-
-        const normalisedFiltered = normaliseErrors({
-            validationError: validationResult.error,
-            errorMessages: mockErrorMessages,
-            locale: 'en',
-            fieldNames: ['a']
-        });
-
-        expect(normalised).toEqual([{ param: 'b', msg: 'Please enter B' }, { param: 'a', msg: 'Please enter A' }]);
-        expect(normalisedFiltered).toEqual([{ param: 'a', msg: 'Please enter A' }]);
     });
 });

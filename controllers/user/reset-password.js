@@ -8,7 +8,7 @@ const { requireUnauthed } = require('../../middleware/authed');
 const userService = require('../../services/user');
 
 const { localify } = require('../../modules/urls');
-const { normaliseErrors } = require('../../modules/errors');
+const normaliseErrors = require('./lib/normalise-errors');
 const { accountSchema, errorMessages } = require('./schema');
 
 const router = express.Router();

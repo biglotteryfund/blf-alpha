@@ -1,5 +1,5 @@
 'use strict';
-const { get, set, unset, concat, findIndex, flatMap, head, isEmpty, omit } = require('lodash');
+const { get, includes, set, unset, concat, findIndex, flatMap, head, isEmpty, omit } = require('lodash');
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
@@ -7,22 +7,10 @@ const Raven = require('raven');
 const applicationsService = require('../../services/applications');
 const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
-const { normaliseErrors } = require('../../modules/errors');
 
 const { nextAndPrevious } = require('./lib/pagination');
 const { FORM_STATES, calculateFormProgress } = require('./lib/progress');
-
-function fieldsForStep(step) {
-    const fields = flatMap(step.fieldsets, 'fields');
-    return {
-        fields: fields,
-        names: fields.map(field => field.name),
-        messages: fields.reduce((obj, field) => {
-            obj[field.name] = field.messages;
-            return obj;
-        }, {})
-    };
-}
+const normaliseErrors = require('./lib/normalise-errors');
 
 /**
  * Validate data against the form schema
@@ -373,27 +361,31 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
                 data: data
             });
 
-            const currentSectionIndex = findIndex(form.sections, section => section.slug === req.params.section);
-            const currentSection = form.sections[currentSectionIndex];
+            const sectionIndex = findIndex(form.sections, section => section.slug === req.params.section);
+            const currentSection = form.sections[sectionIndex];
 
-            const currentStepIndex = parseInt(req.params.step, 10) - 1;
-            const currentStep = currentSection.steps[currentStepIndex];
-
-            const stepFields = fieldsForStep(currentStep);
+            const stepIndex = parseInt(req.params.step, 10) - 1;
+            const step = currentSection.steps[stepIndex];
+            const fields = flatMap(step.fieldsets, 'fields');
 
             const validationResult = validateDataFor(form, data);
 
-            const normalisedErrors = normaliseErrors({
-                validationError: validationResult.error,
-                errorMessages: stepFields.messages,
-                fieldNames: stepFields.names,
-                locale: req.i18n.getLocale()
-            });
+            const errorDetailsForStep = get(validationResult.error, 'details', []).filter(detail =>
+                includes(fields.map(field => field.name), head(detail.path))
+            );
 
             try {
                 // Exclude any values in the current submission which have errors
-                const dataToStore = omit(validationResult.value, normalisedErrors.map(err => err.param));
+                const dataToStore = omit(validationResult.value, errorDetailsForStep.map(detail => head(detail.path)));
                 await applicationsService.updateApplication(currentlyEditingId, dataToStore);
+
+                const normalisedErrors = normaliseErrors({
+                    errorDetails: errorDetailsForStep,
+                    errorMessages: fields.reduce((obj, field) => {
+                        obj[field.name] = field.messages;
+                        return obj;
+                    }, {})
+                });
 
                 /**
                  * If there are errors re-render the step with errors
@@ -407,8 +399,8 @@ function initFormRouter({ id, eligibilityBuilder = null, formBuilder, processor 
                     const { nextUrl } = nextAndPrevious({
                         baseUrl: req.baseUrl,
                         sections: form.sections,
-                        currentSectionIndex: currentSectionIndex,
-                        currentStepIndex: currentStepIndex
+                        currentSectionIndex: sectionIndex,
+                        currentStepIndex: stepIndex
                     });
                     res.redirect(nextUrl);
                 }
