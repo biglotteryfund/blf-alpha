@@ -193,7 +193,10 @@ describe('fields', () => {
         });
 
         test('total amount requested must not exceed £10,000', () => {
-            const budget = times(10, () => ({ item: faker.lorem.words(5), cost: 1100 }));
+            const budget = times(10, () => ({
+                item: faker.lorem.words(5),
+                cost: 1100
+            }));
             assertErrorContains(allFields.projectBudget, budget, 'over maximum budget');
         });
 
@@ -216,7 +219,10 @@ describe('fields', () => {
                 'project-total-costs': allFields.projectTotalCosts.schema
             });
 
-            const budget = times(2, () => ({ item: faker.lorem.words(5), cost: 1100 }));
+            const budget = times(2, () => ({
+                item: faker.lorem.words(5),
+                cost: 1100
+            }));
 
             const validationResultValid = Joi.validate(
                 { 'project-budget': budget, 'project-total-costs': 2200 },
@@ -538,6 +544,64 @@ describe('fields', () => {
             assertErrorContains(allFields.seniorContactRole, undefined, 'is required');
             assertErrorContains(allFields.seniorContactRole, Infinity, 'must be a string');
         });
+
+        test('include all roles if no organisation type is provided', () => {
+            const {
+                allFields: { seniorContactRole }
+            } = formBuilder({ locale: 'en' });
+
+            expect(seniorContactRole.options.map(option => option.value)).toEqual([
+                'trustee',
+                'chair',
+                'vice-chair',
+                'secretary',
+                'treasurer',
+                'company-director',
+                'company-secretary',
+                'chief-executive',
+                'chief-executive-officer',
+                'parish-clerk',
+                'head-teacher',
+                'chancellor',
+                'vice-chancellor'
+            ]);
+        });
+
+        test('include roles based on organisation type', () => {
+            function assertRolesForType(type, expected) {
+                const {
+                    allFields: { seniorContactRole }
+                } = formBuilder({
+                    locale: 'en',
+                    data: { 'organisation-type': type }
+                });
+
+                expect(seniorContactRole.options.map(option => option.value)).toEqual(expected);
+            }
+
+            assertRolesForType(ORGANISATION_TYPES.UNREGISTERED_VCO, ['chair', 'vice-chair', 'secretary', 'treasurer']);
+
+            assertRolesForType(ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY, [
+                'trustee',
+                'chair',
+                'vice-chair',
+                'treasurer'
+            ]);
+
+            assertRolesForType(ORGANISATION_TYPES.CIO, [
+                'trustee',
+                'chair',
+                'vice-chair',
+                'treasurer',
+                'chief-executive-officer'
+            ]);
+
+            assertRolesForType(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY, ['company-director', 'company-secretary']);
+
+            assertRolesForType(ORGANISATION_TYPES.SCHOOL, ['head-teacher', 'chancellor', 'vice-chancellor']);
+
+            assertRolesForType(ORGANISATION_TYPES.STATUTORY_BODY, ['parish-clerk', 'chief-executive']);
+        });
     });
 
     describe('seniorContactDob', () => {
@@ -693,23 +757,6 @@ describe('form model', () => {
         ).toBeNull();
     });
 
-    test('return conditional role choices based on organisation type', () => {
-        const mappings = {
-            '': [],
-            [ORGANISATION_TYPES.UNREGISTERED_VCO]: ['chair', 'vice-chair', 'secretary', 'treasurer'],
-            [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY]: ['trustee'],
-            [ORGANISATION_TYPES.CIO]: ['trustee'],
-            [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY]: ['company-director', 'company-secretary'],
-            [ORGANISATION_TYPES.SCHOOL]: ['head-teacher', 'chancellor', 'vice-chancellor'],
-            [ORGANISATION_TYPES.STATUTORY_BODY]: ['parish-clerk', 'chief-executive']
-        };
-
-        map(mappings, (expected, type) => {
-            const form = formBuilder({ locale: 'en', data: { 'organisation-type': type } });
-            expect(form.allFields.seniorContactRole.options.map(o => o.value)).toEqual(expected);
-        });
-    });
-
     function fieldNamesFor(sectionSlug, stepTitle) {
         return function(data) {
             const form = formBuilder({ locale: 'en', data: data });
@@ -761,9 +808,11 @@ describe('form model', () => {
 
         expect(mainContactFn({})).toEqual(mainContactDefaultFields);
         expect(mainContactFn({ 'organisation-type': ORGANISATION_TYPES.SCHOOL })).toEqual(mainContactReducedFields);
-        expect(mainContactFn({ 'organisation-type': ORGANISATION_TYPES.STATUTORY_BODY })).toEqual(
-            mainContactReducedFields
-        );
+        expect(
+            mainContactFn({
+                'organisation-type': ORGANISATION_TYPES.STATUTORY_BODY
+            })
+        ).toEqual(mainContactReducedFields);
 
         const seniorContactFn = fieldNamesFor('senior-contact', 'Senior contact');
 
@@ -790,8 +839,10 @@ describe('form model', () => {
 
         expect(seniorContactFn({})).toEqual(seniorContactDefaultFields);
         expect(seniorContactFn({ 'organisation-type': ORGANISATION_TYPES.SCHOOL })).toEqual(seniorContactReducedFields);
-        expect(seniorContactFn({ 'organisation-type': ORGANISATION_TYPES.STATUTORY_BODY })).toEqual(
-            seniorContactReducedFields
-        );
+        expect(
+            seniorContactFn({
+                'organisation-type': ORGANISATION_TYPES.STATUTORY_BODY
+            })
+        ).toEqual(seniorContactReducedFields);
     });
 });
