@@ -413,6 +413,14 @@ describe('awards for all', function() {
             cy.getByLabelText('Position in organisation', { exact: false }).type(faker.name.jobDescriptor());
         }
 
+        function fillBeneficiaryGroups() {
+            cy.getByLabelText('Gender').click();
+        }
+
+        function fillBeneficiaryGroupsGender() {
+            cy.getByLabelText('Non-binary').click();
+        }
+
         function submitStep() {
             cy.getByText('Continue').click();
         }
@@ -436,6 +444,12 @@ describe('awards for all', function() {
             submitStep();
 
             fillBeneficiaryLocation();
+            submitStep();
+
+            fillBeneficiaryGroups();
+            submitStep();
+
+            fillBeneficiaryGroupsGender();
             submitStep();
 
             fillOrganisationDetails();
