@@ -44,7 +44,8 @@ function findPreviousMatchingUrl({ baseUrl, sections, currentSectionIndex, curre
         );
         return `${baseUrl}/${currentSection.slug}/${targetStepIndex + 1}`;
     } else if (previousSection) {
-        return `${baseUrl}/${previousSection.slug}/${previousSection.steps.length}`;
+        const targetStepIndex = findLastIndex(previousSection.steps, step => step.isRequired === true);
+        return `${baseUrl}/${previousSection.slug}/${targetStepIndex + 1}`;
     } else {
         return baseUrl;
     }
