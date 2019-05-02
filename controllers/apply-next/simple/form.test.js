@@ -238,6 +238,122 @@ describe('fields', () => {
         });
     });
 
+    describe('beneficiariesNumberOfPeople', () => {
+        test('validate number of people', () => {
+            assertValid(allFields.beneficiariesNumberOfPeople, faker.random.number({ min: 1, max: 10000 }));
+            assertErrorContains(allFields.beneficiariesNumberOfPeople, undefined, 'is required');
+            assertErrorContains(allFields.beneficiariesNumberOfPeople, Infinity, 'contains an invalid value');
+        });
+    });
+
+    describe('beneficiariesLocationCheck', () => {
+        test('validate yes/no choice', () => {
+            assertValid(allFields.beneficiariesLocationCheck, 'yes');
+            assertValid(allFields.beneficiariesLocationCheck, 'no');
+            assertErrorContains(allFields.beneficiariesLocationCheck, 'not-a-real-choice', 'must be one of [yes, no]');
+            assertErrorContains(allFields.beneficiariesLocationCheck, undefined, 'is required');
+        });
+    });
+
+    describe('beneficiariesLocalAuthority', () => {
+        const schemaWithCheck = {
+            [allFields.beneficiariesLocationCheck.name]: allFields.beneficiariesLocationCheck.schema,
+            [allFields.beneficiariesLocalAuthority.name]: allFields.beneficiariesLocalAuthority.schema
+        };
+
+        test('not required if beneficiariesLocationCheck is no', () => {
+            assertValid(allFields.beneficiariesLocalAuthority, 'aberdeenshire');
+            assertValid(allFields.beneficiariesLocalAuthority, undefined);
+
+            const { error } = Joi.validate({ [allFields.beneficiariesLocationCheck.name]: 'no' }, schemaWithCheck);
+            expect(error).toBeNull();
+        });
+
+        test('required if beneficiariesLocationCheck is yes', () => {
+            const validationResultA = Joi.validate(
+                { [allFields.beneficiariesLocationCheck.name]: 'yes' },
+                schemaWithCheck
+            );
+
+            expect(validationResultA.error.message).toContain('"beneficiaries-local-authority" is required');
+
+            const validationResultB = Joi.validate(
+                {
+                    [allFields.beneficiariesLocationCheck.name]: 'yes',
+                    [allFields.beneficiariesLocalAuthority.name]: 'aberdeenshire'
+                },
+                schemaWithCheck
+            );
+            expect(validationResultB.error).toBeNull();
+        });
+    });
+
+    describe('beneficiariesLocalAuthority', () => {
+        const schemaWithCheck = {
+            [allFields.beneficiariesLocationCheck.name]: allFields.beneficiariesLocationCheck.schema,
+            [allFields.beneficiariesLocalAuthority.name]: allFields.beneficiariesLocalAuthority.schema
+        };
+
+        test('not required if beneficiariesLocationCheck is no', () => {
+            assertValid(allFields.beneficiariesLocalAuthority, 'aberdeenshire');
+            assertValid(allFields.beneficiariesLocalAuthority, undefined);
+
+            const { error } = Joi.validate({ [allFields.beneficiariesLocationCheck.name]: 'no' }, schemaWithCheck);
+            expect(error).toBeNull();
+        });
+
+        test('required if beneficiariesLocationCheck is yes', () => {
+            const validationResultA = Joi.validate(
+                { [allFields.beneficiariesLocationCheck.name]: 'yes' },
+                schemaWithCheck
+            );
+
+            expect(validationResultA.error.message).toContain('"beneficiaries-local-authority" is required');
+
+            const validationResultB = Joi.validate(
+                {
+                    [allFields.beneficiariesLocationCheck.name]: 'yes',
+                    [allFields.beneficiariesLocalAuthority.name]: 'aberdeenshire'
+                },
+                schemaWithCheck
+            );
+            expect(validationResultB.error).toBeNull();
+        });
+    });
+
+    describe('beneficiariesLocationDescription', () => {
+        const schemaWithCheck = {
+            [allFields.beneficiariesLocationCheck.name]: allFields.beneficiariesLocationCheck.schema,
+            [allFields.beneficiariesLocationDescription.name]: allFields.beneficiariesLocationDescription.schema
+        };
+
+        test('not required if beneficiariesLocationCheck is no', () => {
+            assertValid(allFields.beneficiariesLocationDescription, faker.lorem.words(25));
+            assertValid(allFields.beneficiariesLocationDescription, undefined);
+
+            const { error } = Joi.validate({ [allFields.beneficiariesLocationCheck.name]: 'no' }, schemaWithCheck);
+            expect(error).toBeNull();
+        });
+
+        test('required if beneficiariesLocationCheck is yes', () => {
+            const validationResultA = Joi.validate(
+                { [allFields.beneficiariesLocationCheck.name]: 'yes' },
+                schemaWithCheck
+            );
+
+            expect(validationResultA.error.message).toContain('"beneficiaries-location-description" is required');
+
+            const validationResultB = Joi.validate(
+                {
+                    [allFields.beneficiariesLocationCheck.name]: 'yes',
+                    [allFields.beneficiariesLocationDescription.name]: faker.lorem.words(25)
+                },
+                schemaWithCheck
+            );
+            expect(validationResultB.error).toBeNull();
+        });
+    });
+
     describe('organisationLegalName', () => {
         test('validate organisation legal name', () => {
             assertValid(allFields.organisationLegalName, faker.company.companyName());
@@ -765,6 +881,19 @@ describe('form model', () => {
             return map(flatMap(step.fieldsets, 'fields'), f => f.name);
         };
     }
+
+    test('conditional beneficiary location questions', () => {
+        const fieldNamesFn = fieldNamesFor('beneficiaries', 'Location');
+
+        expect(fieldNamesFn({})).toEqual([]);
+
+        expect(fieldNamesFn({ 'beneficiaries-location-check': 'no' })).toEqual([]);
+
+        expect(fieldNamesFn({ 'beneficiaries-location-check': 'yes' })).toEqual([
+            'beneficiaries-local-authority',
+            'beneficiaries-location-description'
+        ]);
+    });
 
     test('registration numbers shown based on organisation type', () => {
         const fieldNamesFn = fieldNamesFor('organisation', 'Registration numbers');
