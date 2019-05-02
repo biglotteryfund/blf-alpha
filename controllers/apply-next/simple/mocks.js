@@ -64,7 +64,7 @@ function mockFullForm({
         'total-income-year': faker.random.number({ min: 10000, max: 1000000 }),
         'main-contact-first-name': faker.name.firstName(),
         'main-contact-last-name': faker.name.lastName(),
-        'main-contact-dob': mockDateOfBirth(),
+        'main-contact-dob': mockDateOfBirth(16),
         'main-contact-address': mockAddress(),
         'main-contact-address-history': {
             'current-address-meets-minimum': 'no',
@@ -75,7 +75,7 @@ function mockFullForm({
         'senior-contact-first-name': faker.name.firstName(),
         'senior-contact-last-name': faker.name.lastName(),
         'senior-contact-role': faker.lorem.words(5),
-        'senior-contact-dob': mockDateOfBirth(),
+        'senior-contact-dob': mockDateOfBirth(18),
         'senior-contact-address': mockAddress(),
         'senior-contact-address-history': {
             'current-address-meets-minimum': 'yes'
