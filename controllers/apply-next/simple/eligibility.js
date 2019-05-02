@@ -45,7 +45,7 @@ module.exports = function({ locale }) {
                 en: `<p>This isn't the end! Here are a couple of ideas about what you can do:</p>
                 <ul>
                     <li>consider asking us to fund part of your project through National Lottery Awards for All, and find out if there are other sources of funding that can cover the rest of your project</li>
-                    <li><a href="https://www.tnlcommunityfund.org.uk/funding/over10k">look at our other funding programmes</a> to see if they cover the amount of funding you want to apply for and the length of time you want to run your project for, and consider applying to us for a grant worth over £10,000</li>
+                    <li><a href="/funding/over10k">look at our other funding programmes</a> to see if they cover the amount of funding you want to apply for and the length of time you want to run your project for, and consider applying to us for a grant worth over £10,000</li>
                 </ul>`,
                 cy: ``
             })
