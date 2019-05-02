@@ -332,6 +332,31 @@ describe('awards for all', function() {
             cy.getByLabelText('Tell us the total cost of your project', { exact: false }).type('5000');
         }
 
+        function fillBeneficiaryNumbers() {
+            cy.getByLabelText('How many people will benefit from your project?').type(
+                faker.random.number({ min: 100, max: 10000 })
+            );
+        }
+
+        function fillBeneficiaryLocalAuthorityCheck() {
+            cy.getByLabelText('Yes').click();
+        }
+
+        function fillBeneficiaryLocation() {
+            cy.getByLabelText('Which local authority will your project benefit?').select('Maldon');
+            cy.getByLabelText('Tell us the town(s), village(s) or ward(s) where your beneficaries live.').type(
+                faker.lorem.words(5)
+            );
+        }
+
+        function fillBeneficiaryGroups() {
+            cy.getByLabelText('Gender').click();
+        }
+
+        function fillBeneficiaryGroupsGender() {
+            cy.getByLabelText('Non-binary').click();
+        }
+
         function fillOrganisationDetails() {
             cy.getByLabelText('What is the full legal name of your organisation?', { exact: false }).type(
                 faker.company.companyName()
@@ -398,41 +423,60 @@ describe('awards for all', function() {
             cy.getByLabelText('Position in organisation', { exact: false }).type(faker.name.jobDescriptor());
         }
 
+        function submitStep() {
+            cy.getByText('Continue').click();
+        }
+
         cy.seedAndLogin().then(() => {
             cy.visit('/apply-next/simple/new');
 
             fillProjectDetails();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillYourIdea();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillProjectCosts();
-            cy.getByText('Continue').click();
+            submitStep();
+
+            fillBeneficiaryNumbers();
+            submitStep();
+
+            fillBeneficiaryLocalAuthorityCheck();
+            submitStep();
+
+            fillBeneficiaryLocation();
+            submitStep();
+
+            fillBeneficiaryGroups();
+            submitStep();
+
+            fillBeneficiaryGroupsGender();
+            submitStep();
 
             fillOrganisationDetails();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillOrganisationType();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillRegistrationNumbers();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillOrganisationFinances();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillMainContact();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillSeniorContact();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillBankDetails();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillBankStatement();
-            cy.getByText('Continue').click();
+            submitStep();
 
             cy.get('h2').should('contain', 'Summary');
             cy.getByText('Submit').click();
