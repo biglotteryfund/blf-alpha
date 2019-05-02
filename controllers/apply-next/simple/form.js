@@ -1,6 +1,6 @@
 'use strict';
 const { get } = require('lodash/fp');
-const { includes, reduce } = require('lodash');
+const { includes, reduce, values } = require('lodash');
 const moment = require('moment');
 
 const { Joi, ...commonValidators } = require('../lib/validators');
@@ -14,43 +14,92 @@ const {
 
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
-    const orgTypeFor = get('organisation-type');
+    const currentOrganisationType = get('organisation-type')(data);
 
     function seniorContactRolesFor(organisationType) {
+        const ROLES = {
+            TRUSTEE: {
+                value: 'trustee',
+                label: localise({ en: 'Trustee', cy: '' })
+            },
+            CHAIR: {
+                value: 'chair',
+                label: localise({ en: 'Chair', cy: '' })
+            },
+            VICE_CHAIR: {
+                value: 'vice-chair',
+                label: localise({ en: 'Vice-chair', cy: '' })
+            },
+            SECRETARY: {
+                value: 'secretary',
+                label: localise({ en: 'Secretary', cy: '' })
+            },
+            TREASURER: {
+                value: 'treasurer',
+                label: localise({ en: 'Treasurer', cy: '' })
+            },
+            COMPANY_DIRECTOR: {
+                value: 'company-director',
+                label: localise({ en: 'Company Director', cy: '' })
+            },
+            COMPANY_SECRETARY: {
+                value: 'company-secretary',
+                label: localise({ en: 'Company Secretary', cy: '' })
+            },
+            CHIEF_EXECUTIVE: {
+                value: 'chief-executive',
+                label: localise({ en: 'Chief Executive', cy: '' })
+            },
+            CHIEF_EXECUTIVE_OFFICER: {
+                value: 'chief-executive-officer',
+                label: localise({ en: 'Chief Executive Officer', cy: '' })
+            },
+            PARISH_CLERK: {
+                value: 'parish-clerk',
+                label: localise({ en: 'Parish Clerk', cy: '' })
+            },
+            HEAD_TEACHER: {
+                value: 'head-teacher',
+                label: localise({ en: 'Head Teacher', cy: '' })
+            },
+            CHANCELLOR: {
+                value: 'chancellor',
+                label: localise({ en: 'Chancellor', cy: '' })
+            },
+            VICE_CHANCELLOR: {
+                value: 'vice-chancellor',
+                label: localise({ en: 'Vice-chancellor', cy: '' })
+            }
+        };
+
         let options = [];
         switch (organisationType) {
             case ORGANISATION_TYPES.UNREGISTERED_VCO:
-                options = [
-                    { value: 'chair', label: localise({ en: 'Chair', cy: '' }) },
-                    { value: 'vice-chair', label: localise({ en: 'Vice-chair', cy: '' }) },
-                    { value: 'secretary', label: localise({ en: 'Secretary', cy: '' }) },
-                    { value: 'treasurer', label: localise({ en: 'Treasurer', cy: '' }) }
-                ];
+                options = [ROLES.CHAIR, ROLES.VICE_CHAIR, ROLES.SECRETARY, ROLES.TREASURER];
                 break;
             case ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY:
+                options = [ROLES.TRUSTEE, ROLES.CHAIR, ROLES.VICE_CHAIR, ROLES.TREASURER];
+                break;
             case ORGANISATION_TYPES.CIO:
-                options = [{ value: 'trustee', label: localise({ en: 'Trustee', cy: '' }) }];
+                options = [
+                    ROLES.TRUSTEE,
+                    ROLES.CHAIR,
+                    ROLES.VICE_CHAIR,
+                    ROLES.TREASURER,
+                    ROLES.CHIEF_EXECUTIVE_OFFICER
+                ];
                 break;
             case ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY:
-                options = [
-                    { value: 'company-director', label: localise({ en: 'Company Director', cy: '' }) },
-                    { value: 'company-secretary', label: localise({ en: 'Company Secretary', cy: '' }) }
-                ];
+                options = [ROLES.COMPANY_DIRECTOR, ROLES.COMPANY_SECRETARY];
                 break;
             case ORGANISATION_TYPES.SCHOOL:
-                options = [
-                    { value: 'head-teacher', label: localise({ en: 'Head Teacher', cy: '' }) },
-                    { value: 'chancellor', label: localise({ en: 'Chancellor', cy: '' }) },
-                    { value: 'vice-chancellor', label: localise({ en: 'Vice-chancellor', cy: '' }) }
-                ];
+                options = [ROLES.HEAD_TEACHER, ROLES.CHANCELLOR, ROLES.VICE_CHANCELLOR];
                 break;
             case ORGANISATION_TYPES.STATUTORY_BODY:
-                options = [
-                    { value: 'parish-clerk', label: localise({ en: 'Parish Clerk', cy: '' }) },
-                    { value: 'chief-executive', label: localise({ en: 'Chief Executive', cy: '' }) }
-                ];
+                options = [ROLES.PARISH_CLERK, ROLES.CHIEF_EXECUTIVE];
                 break;
             default:
+                options = values(ROLES);
                 break;
         }
 
@@ -98,11 +147,17 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a UK telephone number', cy: '' })
+                    message: localise({
+                        en: 'Enter a UK telephone number',
+                        cy: ''
+                    })
                 },
                 {
                     type: 'string.phonenumber',
-                    message: localise({ en: 'Enter a real UK telephone number', cy: '' })
+                    message: localise({
+                        en: 'Enter a real UK telephone number',
+                        cy: ''
+                    })
                 }
             ]
         };
@@ -123,7 +178,10 @@ module.exports = function({ locale, data = {} }) {
                 {
                     type: 'any.empty',
                     key: 'building-street',
-                    message: localise({ en: 'Enter a building and street', cy: '' })
+                    message: localise({
+                        en: 'Enter a building and street',
+                        cy: ''
+                    })
                 },
                 {
                     type: 'any.empty',
@@ -176,12 +234,18 @@ module.exports = function({ locale, data = {} }) {
                 {
                     type: 'any.required',
                     key: 'current-address-meets-minimum',
-                    message: localise({ en: 'Choose from one of the options provided', cy: '' })
+                    message: localise({
+                        en: 'Choose from one of the options provided',
+                        cy: ''
+                    })
                 },
                 {
                     type: 'any.empty',
                     key: 'building-street',
-                    message: localise({ en: 'Enter a building and street', cy: '' })
+                    message: localise({
+                        en: 'Enter a building and street',
+                        cy: ''
+                    })
                 },
                 {
                     type: 'any.empty',
@@ -218,7 +282,12 @@ module.exports = function({ locale, data = {} }) {
             },
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: localise({ en: 'Enter first name', cy: '' }) }]
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Enter first name', cy: '' })
+                }
+            ]
         };
 
         return { ...defaultProps, ...props };
@@ -233,7 +302,12 @@ module.exports = function({ locale, data = {} }) {
             },
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: localise({ en: 'Enter last name', cy: '' }) }]
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Enter last name', cy: '' })
+                }
+            ]
         };
 
         return { ...defaultProps, ...props };
@@ -270,7 +344,10 @@ module.exports = function({ locale, data = {} }) {
                 },
                 {
                     type: 'dateParts.dob',
-                    message: localise({ en: `Must be at least ${minAge} years old`, cy: '' })
+                    message: localise({
+                        en: `Must be at least ${minAge} years old`,
+                        cy: ''
+                    })
                 }
             ]
         };
@@ -282,13 +359,28 @@ module.exports = function({ locale, data = {} }) {
         const defaultProps = {
             type: 'radio',
             options: [
-                { value: 'audiotape', label: localise({ en: 'Audiotape', cy: '' }) },
-                { value: 'braille', label: localise({ en: 'Braille', cy: '' }) },
+                {
+                    value: 'audiotape',
+                    label: localise({ en: 'Audiotape', cy: '' })
+                },
+                {
+                    value: 'braille',
+                    label: localise({ en: 'Braille', cy: '' })
+                },
                 { value: 'disk', label: localise({ en: 'Disk', cy: '' }) },
-                { value: 'large-print', label: localise({ en: 'Large print', cy: '' }) },
+                {
+                    value: 'large-print',
+                    label: localise({ en: 'Large print', cy: '' })
+                },
                 { value: 'letter', label: localise({ en: 'Letter', cy: '' }) },
-                { value: 'sign-language', label: localise({ en: 'Sign language', cy: '' }) },
-                { value: 'text-relay', label: localise({ en: 'Text relay', cy: '' }) }
+                {
+                    value: 'sign-language',
+                    label: localise({ en: 'Sign language', cy: '' })
+                },
+                {
+                    value: 'text-relay',
+                    label: localise({ en: 'Text relay', cy: '' })
+                }
             ],
             get schema() {
                 return Joi.array()
@@ -299,7 +391,10 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'any.allowOnly',
-                    message: localise({ en: 'Choose from one of the options provided', cy: '' })
+                    message: localise({
+                        en: 'Choose from one of the options provided',
+                        cy: ''
+                    })
                 }
             ]
         };
@@ -310,25 +405,48 @@ module.exports = function({ locale, data = {} }) {
     const allFields = {
         projectName: {
             name: 'project-name',
-            label: localise({ en: 'What is the name of your project?', cy: '' }),
-            explanation: localise({ en: 'The project name should be simple and to the point', cy: '' }),
+            label: localise({
+                en: 'What is the name of your project?',
+                cy: ''
+            }),
+            explanation: localise({
+                en: 'The project name should be simple and to the point',
+                cy: ''
+            }),
             type: 'text',
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: localise({ en: 'Enter a project name', cy: '' }) }]
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Enter a project name', cy: '' })
+                }
+            ]
         },
         projectCountry: {
             name: 'project-country',
-            label: localise({ en: 'What country will your project be based in?', cy: '' }),
+            label: localise({
+                en: 'What country will your project be based in?',
+                cy: ''
+            }),
             explanation: localise({
                 en: `We work slightly differently depending on which country your project is based in, to meet local needs and the regulations that apply there.`,
                 cy: ''
             }),
             type: 'radio',
             options: [
-                { value: 'england', label: localise({ en: 'England', cy: '' }) },
-                { value: 'northern-ireland', label: localise({ en: 'Northern Ireland', cy: '' }) },
-                { value: 'scotland', label: localise({ en: 'Scotland', cy: '' }) },
+                {
+                    value: 'england',
+                    label: localise({ en: 'England', cy: '' })
+                },
+                {
+                    value: 'northern-ireland',
+                    label: localise({ en: 'Northern Ireland', cy: '' })
+                },
+                {
+                    value: 'scotland',
+                    label: localise({ en: 'Scotland', cy: '' })
+                },
                 { value: 'wales', label: localise({ en: 'Wales', cy: '' }) }
             ],
             isRequired: true,
@@ -337,7 +455,12 @@ module.exports = function({ locale, data = {} }) {
                     .valid(this.options.map(option => option.value))
                     .required();
             },
-            messages: [{ type: 'base', message: localise({ en: 'Choose a country', cy: '' }) }]
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose a country', cy: '' })
+                }
+            ]
         },
         projectStartDate: {
             name: 'project-start-date',
@@ -403,7 +526,12 @@ module.exports = function({ locale, data = {} }) {
             },
             isRequired: true,
             schema: commonValidators.postcode().required(),
-            messages: [{ type: 'base', message: localise({ en: 'Enter a real postcode', cy: '' }) }]
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Enter a real postcode', cy: '' })
+                }
+            ]
         },
         yourIdeaProject: {
             name: 'your-idea-project',
@@ -444,15 +572,24 @@ module.exports = function({ locale, data = {} }) {
                 return [
                     {
                         type: 'base',
-                        message: localise({ en: 'Tell us about your project', cy: '' })
+                        message: localise({
+                            en: 'Tell us about your project',
+                            cy: ''
+                        })
                     },
                     {
                         type: 'string.minWords',
-                        message: localise({ en: `Answer must be at least ${this.settings.minWords} words`, cy: '' })
+                        message: localise({
+                            en: `Answer must be at least ${this.settings.minWords} words`,
+                            cy: ''
+                        })
                     },
                     {
                         type: 'string.maxWords',
-                        message: localise({ en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' })
+                        message: localise({
+                            en: `Answer must be no more than ${this.settings.maxWords} words`,
+                            cy: ''
+                        })
                     }
                 ];
             }
@@ -502,11 +639,17 @@ module.exports = function({ locale, data = {} }) {
                     },
                     {
                         type: 'string.minWords',
-                        message: localise({ en: `Answer must be at least ${this.settings.minWords} words`, cy: '' })
+                        message: localise({
+                            en: `Answer must be at least ${this.settings.minWords} words`,
+                            cy: ''
+                        })
                     },
                     {
                         type: 'string.maxWords',
-                        message: localise({ en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' })
+                        message: localise({
+                            en: `Answer must be no more than ${this.settings.maxWords} words`,
+                            cy: ''
+                        })
                     }
                 ];
             }
@@ -558,15 +701,24 @@ module.exports = function({ locale, data = {} }) {
                 return [
                     {
                         type: 'base',
-                        message: localise({ en: 'Tell us how your project involves your community', cy: '' })
+                        message: localise({
+                            en: 'Tell us how your project involves your community',
+                            cy: ''
+                        })
                     },
                     {
                         type: 'string.minWords',
-                        message: localise({ en: `Answer must be at least ${this.settings.minWords} words`, cy: '' })
+                        message: localise({
+                            en: `Answer must be at least ${this.settings.minWords} words`,
+                            cy: ''
+                        })
                     },
                     {
                         type: 'string.maxWords',
-                        message: localise({ en: `Answer must be no more than ${this.settings.maxWords} words`, cy: '' })
+                        message: localise({
+                            en: `Answer must be no more than ${this.settings.maxWords} words`,
+                            cy: ''
+                        })
                     }
                 ];
             }
@@ -590,9 +742,23 @@ module.exports = function({ locale, data = {} }) {
             isRequired: true,
             schema: commonValidators.budgetField(MAX_BUDGET_TOTAL_GBP),
             messages: [
-                { type: 'base', message: localise({ en: 'Enter a project budget', cy: '' }) },
-                { type: 'any.empty', key: 'item', message: localise({ en: 'Enter an item or activity', cy: '' }) },
-                { type: 'number.base', key: 'cost', message: localise({ en: 'Enter an amount', cy: '' }) },
+                {
+                    type: 'base',
+                    message: localise({ en: 'Enter a project budget', cy: '' })
+                },
+                {
+                    type: 'any.empty',
+                    key: 'item',
+                    message: localise({
+                        en: 'Enter an item or activity',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'number.base',
+                    key: 'cost',
+                    message: localise({ en: 'Enter an amount', cy: '' })
+                },
                 {
                     type: 'budgetItems.overBudget',
                     message: localise({
@@ -622,11 +788,17 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a total cost for your project', cy: '' })
+                    message: localise({
+                        en: 'Enter a total cost for your project',
+                        cy: ''
+                    })
                 },
                 {
                     type: 'number.base',
-                    message: localise({ en: 'Total cost must be a real number', cy: '' })
+                    message: localise({
+                        en: 'Total cost must be a real number',
+                        cy: ''
+                    })
                 },
                 {
                     type: 'budgetTotalCosts.underBudget',
@@ -653,12 +825,21 @@ module.exports = function({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.string().required(),
             messages: [
-                { type: 'base', message: localise({ en: 'Enter the full legal name of the organisation', cy: '' }) }
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter the full legal name of the organisation',
+                        cy: ''
+                    })
+                }
             ]
         },
         organisationAlias: {
             name: 'organisation-alias',
-            label: localise({ en: 'Does your organisation use a different name in your day-to-day work?', cy: '' }),
+            label: localise({
+                en: 'Does your organisation use a different name in your day-to-day work?',
+                cy: ''
+            }),
             type: 'text',
             isRequired: false,
             schema: Joi.string()
@@ -668,7 +849,10 @@ module.exports = function({ locale, data = {} }) {
         },
         organisationAddress: addressField({
             name: 'organisation-address',
-            label: localise({ en: 'What is the main or registered address of your organisation?', cy: '' })
+            label: localise({
+                en: 'What is the main or registered address of your organisation?',
+                cy: ''
+            })
         }),
         organisationType: {
             name: 'organisation-type',
@@ -680,7 +864,10 @@ module.exports = function({ locale, data = {} }) {
             options: [
                 {
                     value: ORGANISATION_TYPES.UNREGISTERED_VCO,
-                    label: localise({ en: 'Unregistered voluntary or community organisation', cy: '' }),
+                    label: localise({
+                        en: 'Unregistered voluntary or community organisation',
+                        cy: ''
+                    }),
                     explanation: localise({
                         en: `Groups that are consituted but not registered as a charity or company, for example, Scouts groups, sports clubs, community groups, residents associations`,
                         cy: ``
@@ -688,7 +875,10 @@ module.exports = function({ locale, data = {} }) {
                 },
                 {
                     value: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                    label: localise({ en: 'Registered charity (unincorporated)', cy: '' }),
+                    label: localise({
+                        en: 'Registered charity (unincorporated)',
+                        cy: ''
+                    }),
                     explanation: localise({
                         en: `Voluntary and community organisations that are registered charities but are not also registered with Companies House as a Company`,
                         cy: ``
@@ -696,7 +886,10 @@ module.exports = function({ locale, data = {} }) {
                 },
                 {
                     value: ORGANISATION_TYPES.CIO,
-                    label: localise({ en: 'Charitable incorporated organisation (CIO)', cy: '' })
+                    label: localise({
+                        en: 'Charitable incorporated organisation (CIO)',
+                        cy: ''
+                    })
                 },
                 {
                     value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
@@ -708,7 +901,10 @@ module.exports = function({ locale, data = {} }) {
                 },
                 {
                     value: ORGANISATION_TYPES.SCHOOL,
-                    label: localise({ en: 'School or educational body', cy: '' }),
+                    label: localise({
+                        en: 'School or educational body',
+                        cy: ''
+                    }),
                     explanation: localise({
                         en: `Only select this option if your organisation is a school or regsitered educational establishment`,
                         cy: ``
@@ -729,7 +925,15 @@ module.exports = function({ locale, data = {} }) {
                     .valid(this.options.map(option => option.value))
                     .required();
             },
-            messages: [{ type: 'base', message: localise({ en: 'Choose a type of organisation', cy: '' }) }]
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Choose a type of organisation',
+                        cy: ''
+                    })
+                }
+            ]
         },
         companyNumber: {
             name: 'company-number',
@@ -741,7 +945,13 @@ module.exports = function({ locale, data = {} }) {
                 then: Joi.string().required()
             }),
             messages: [
-                { type: 'base', message: localise({ en: 'Enter your organisation’s Companies House number', cy: '' }) }
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter your organisation’s Companies House number',
+                        cy: ''
+                    })
+                }
             ]
         },
         charityNumber: {
@@ -755,7 +965,7 @@ module.exports = function({ locale, data = {} }) {
             attributes: { size: 20 },
             isRequired: includes(
                 [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY, ORGANISATION_TYPES.CIO],
-                orgTypeFor(data)
+                currentOrganisationType
             ),
             schema: Joi.when('organisation-type', {
                 is: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
@@ -767,7 +977,10 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter your organisation’s charity number', cy: '' })
+                    message: localise({
+                        en: 'Enter your organisation’s charity number',
+                        cy: ''
+                    })
                 }
             ]
         },
@@ -784,13 +997,19 @@ module.exports = function({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter your organisation’s Department for Education number', cy: '' })
+                    message: localise({
+                        en: 'Enter your organisation’s Department for Education number',
+                        cy: ''
+                    })
                 }
             ]
         },
         accountingYearDate: {
             name: 'accounting-year-date',
-            label: localise({ en: 'What is your accounting year end date?', cy: '' }),
+            label: localise({
+                en: 'What is your accounting year end date?',
+                cy: ''
+            }),
             explanation: localise({
                 en: `<p><strong>For example: 31 03</strong></p>`,
                 cy: ''
@@ -799,19 +1018,43 @@ module.exports = function({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.dayMonth().required(),
             messages: [
-                { type: 'base', message: localise({ en: 'Enter a day and month', cy: '' }) },
-                { type: 'any.invalid', message: localise({ en: 'Enter a real day and month', cy: '' }) }
+                {
+                    type: 'base',
+                    message: localise({ en: 'Enter a day and month', cy: '' })
+                },
+                {
+                    type: 'any.invalid',
+                    message: localise({
+                        en: 'Enter a real day and month',
+                        cy: ''
+                    })
+                }
             ]
         },
         totalIncomeYear: {
             name: 'total-income-year',
-            label: localise({ en: 'What is your total income for the year?', cy: '' }),
+            label: localise({
+                en: 'What is your total income for the year?',
+                cy: ''
+            }),
             type: 'currency',
             isRequired: true,
             schema: Joi.number().required(),
             messages: [
-                { type: 'base', message: localise({ en: 'Enter a total income for the year', cy: '' }) },
-                { type: 'any.invalid', message: localise({ en: 'Total income must be a real number', cy: '' }) }
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a total income for the year',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'any.invalid',
+                    message: localise({
+                        en: 'Total income must be a real number',
+                        cy: ''
+                    })
+                }
             ]
         },
         mainContactFirstName: firstNameField({
@@ -836,12 +1079,18 @@ module.exports = function({ locale, data = {} }) {
         }),
         mainContactAddressHistory: addressHistoryField({
             name: 'main-contact-address-history',
-            label: localise({ en: 'Have they lived at this address for the last three years?', cy: '' })
+            label: localise({
+                en: 'Have they lived at this address for the last three years?',
+                cy: ''
+            })
         }),
         mainContactEmail: emailField({
             name: 'main-contact-email',
             label: localise({ en: 'Email', cy: '' }),
-            explanation: localise({ en: 'We’ll use this whenever we get in touch about the project', cy: '' })
+            explanation: localise({
+                en: 'We’ll use this whenever we get in touch about the project',
+                cy: ''
+            })
         }),
         mainContactPhone: phoneField({
             name: 'main-contact-phone',
@@ -849,7 +1098,10 @@ module.exports = function({ locale, data = {} }) {
         }),
         mainContactCommunicationNeeds: communicationNeedsField({
             name: 'main-contact-communication-needs',
-            label: localise({ en: 'Please tell us about any particular communication needs this contact has.', cy: '' })
+            label: localise({
+                en: 'Please tell us about any particular communication needs this contact has.',
+                cy: ''
+            })
         }),
         seniorContactFirstName: firstNameField({
             name: 'senior-contact-first-name',
@@ -862,15 +1114,39 @@ module.exports = function({ locale, data = {} }) {
         seniorContactRole: {
             name: 'senior-contact-role',
             label: localise({ en: 'Role', cy: '' }),
-            explanation: localise({
-                en: `The position held by the senior contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.`,
-                cy: ''
-            }),
+            get explanation() {
+                let text = localise({
+                    en: `<p>The position held by the senior contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.<p>`,
+                    cy: ''
+                });
+
+                if (currentOrganisationType === ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY) {
+                    text += localise({
+                        en: `<p><strong>
+                            As a registered charity, your senior contact must be one of your organisation's trustees. This can include trustees taking on the role of Chair, Vice Chair or Treasurer.
+                        </strong></p>`
+                    });
+                } else if (currentOrganisationType === ORGANISATION_TYPES.CIO) {
+                    text += localise({
+                        en: `<p><strong>
+                            As a charity, your senior contact can be one of your organisation's trustees.
+                            This can include trustees taking on the role of Chair, Vice Chair or Treasurer.
+                        </strong></p>`
+                    });
+                }
+
+                return text;
+            },
             type: 'radio',
-            options: seniorContactRolesFor(orgTypeFor(data)),
+            options: seniorContactRolesFor(currentOrganisationType),
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: localise({ en: 'Choose a role', cy: '' }) }]
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose a role', cy: '' })
+                }
+            ]
         },
         seniorContactDob: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
             name: 'senior-contact-dob',
@@ -886,12 +1162,18 @@ module.exports = function({ locale, data = {} }) {
         }),
         seniorContactAddressHistory: addressHistoryField({
             name: 'senior-contact-address-history',
-            label: localise({ en: 'Have you lived at your last address for at least three years?', cy: '' })
+            label: localise({
+                en: 'Have you lived at your last address for at least three years?',
+                cy: ''
+            })
         }),
         seniorContactEmail: emailField({
             name: 'senior-contact-email',
             label: localise({ en: 'Email', cy: '' }),
-            explanation: localise({ en: 'We’ll use this whenever we get in touch about the project', cy: '' })
+            explanation: localise({
+                en: 'We’ll use this whenever we get in touch about the project',
+                cy: ''
+            })
         }),
         seniorContactPhone: phoneField({
             name: 'senior-contact-phone',
@@ -899,16 +1181,30 @@ module.exports = function({ locale, data = {} }) {
         }),
         seniorContactCommunicationNeeds: communicationNeedsField({
             name: 'senior-contact-communication-needs',
-            label: localise({ en: 'Please tell us about any particular communication needs this contact has.', cy: '' })
+            label: localise({
+                en: 'Please tell us about any particular communication needs this contact has.',
+                cy: ''
+            })
         }),
         bankAccountName: {
             name: 'bank-account-name',
             label: localise({ en: 'Name on the bank account', cy: '' }),
-            explanation: localise({ en: 'Name of your organisation as it appears on your bank statement', cy: '' }),
+            explanation: localise({
+                en: 'Name of your organisation as it appears on your bank statement',
+                cy: ''
+            }),
             type: 'text',
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: localise({ en: 'Enter the name on the bank account', cy: '' }) }]
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter the name on the bank account',
+                        cy: ''
+                    })
+                }
+            ]
         },
         bankSortCode: {
             name: 'bank-sort-code',
@@ -917,7 +1213,12 @@ module.exports = function({ locale, data = {} }) {
             attributes: { size: 20 },
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: localise({ en: 'Enter a sort-code', cy: '' }) }]
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Enter a sort-code', cy: '' })
+                }
+            ]
         },
         bankAccountNumber: {
             name: 'bank-account-number',
@@ -925,11 +1226,19 @@ module.exports = function({ locale, data = {} }) {
             type: 'text',
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: localise({ en: 'Enter an account number', cy: '' }) }]
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Enter an account number', cy: '' })
+                }
+            ]
         },
         bankBuildingSocietyNumber: {
             name: 'bank-building-society-number',
-            label: localise({ en: 'Building society number (if applicable)', cy: '' }),
+            label: localise({
+                en: 'Building society number (if applicable)',
+                cy: ''
+            }),
             type: 'text',
             explanation: localise({
                 en: 'This is only applicable if your organisation’s account is with a building society.',
@@ -947,7 +1256,15 @@ module.exports = function({ locale, data = {} }) {
             type: 'file',
             isRequired: true,
             schema: Joi.string().required(),
-            messages: [{ type: 'base', message: localise({ en: 'Provide a bank statement', cy: '' }) }]
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Provide a bank statement',
+                        cy: ''
+                    })
+                }
+            ]
         }
     };
 
@@ -963,7 +1280,7 @@ module.exports = function({ locale, data = {} }) {
     );
 
     const includeAddressAndDob =
-        includes([ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY], orgTypeFor(data)) === false;
+        includes([ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY], currentOrganisationType) === false;
 
     const sectionProject = {
         slug: 'your-project',
@@ -974,7 +1291,10 @@ module.exports = function({ locale, data = {} }) {
         }),
         steps: [
             {
-                title: localise({ en: 'Project details', cy: '(cy) Project details' }),
+                title: localise({
+                    en: 'Project details',
+                    cy: '(cy) Project details'
+                }),
                 fieldsets: [
                     {
                         legend: localise({ en: 'Project details', cy: '' }),
@@ -991,16 +1311,25 @@ module.exports = function({ locale, data = {} }) {
                 title: localise({ en: 'Your idea', cy: '(WELSH) Your idea' }),
                 fieldsets: [
                     {
-                        legend: localise({ en: 'Your idea', cy: '(WELSH) Your idea' }),
+                        legend: localise({
+                            en: 'Your idea',
+                            cy: '(WELSH) Your idea'
+                        }),
                         fields: [allFields.yourIdeaProject, allFields.yourIdeaPriorities, allFields.yourIdeaCommunity]
                     }
                 ]
             },
             {
-                title: localise({ en: 'Project costs', cy: '(WELSH) Project costs' }),
+                title: localise({
+                    en: 'Project costs',
+                    cy: '(WELSH) Project costs'
+                }),
                 fieldsets: [
                     {
-                        legend: localise({ en: 'Project costs', cy: '(WELSH) Project costs' }),
+                        legend: localise({
+                            en: 'Project costs',
+                            cy: '(WELSH) Project costs'
+                        }),
                         fields: [allFields.projectBudget, allFields.projectTotalCosts]
                     }
                 ]
@@ -1020,7 +1349,10 @@ module.exports = function({ locale, data = {} }) {
                 title: localise({ en: 'Organisation details', cy: '' }),
                 fieldsets: [
                     {
-                        legend: localise({ en: 'Organisation details', cy: '' }),
+                        legend: localise({
+                            en: 'Organisation details',
+                            cy: ''
+                        }),
                         fields: [
                             allFields.organisationLegalName,
                             allFields.organisationAlias,
@@ -1042,10 +1374,13 @@ module.exports = function({ locale, data = {} }) {
                 title: localise({ en: 'Registration numbers', cy: '' }),
                 fieldsets: [
                     {
-                        legend: localise({ en: 'Registration numbers', cy: '' }),
+                        legend: localise({
+                            en: 'Registration numbers',
+                            cy: ''
+                        }),
                         get fields() {
                             function matchesTypes(orgTypes) {
-                                return includes(orgTypes, orgTypeFor(data));
+                                return includes(orgTypes, currentOrganisationType);
                             }
 
                             const fields = [];
@@ -1076,7 +1411,10 @@ module.exports = function({ locale, data = {} }) {
                 title: localise({ en: 'Organisation finances', cy: '' }),
                 fieldsets: [
                     {
-                        legend: localise({ en: 'Organisation finances', cy: '' }),
+                        legend: localise({
+                            en: 'Organisation finances',
+                            cy: ''
+                        }),
                         fields: [allFields.accountingYearDate, allFields.totalIncomeYear]
                     }
                 ]
@@ -1096,7 +1434,10 @@ module.exports = function({ locale, data = {} }) {
                 title: localise({ en: 'Main contact', cy: '' }),
                 fieldsets: [
                     {
-                        legend: localise({ en: 'Who is your main contact?', cy: '' }),
+                        legend: localise({
+                            en: 'Who is your main contact?',
+                            cy: ''
+                        }),
                         introduction: localise({
                             en: `<p>
                                 The main contact is the person we can get in touch with if we have any questions about your project.
@@ -1149,7 +1490,10 @@ module.exports = function({ locale, data = {} }) {
                 title: localise({ en: 'Senior contact', cy: '' }),
                 fieldsets: [
                     {
-                        legend: localise({ en: 'Who is your senior contact?', cy: '' }),
+                        legend: localise({
+                            en: 'Who is your senior contact?',
+                            cy: ''
+                        }),
                         introduction: localise({
                             en: `<p>Please give us the contact details of a senior member of your organisation.</p>
                             <p>Your senior contact must be at least 18 years old and is legally responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.</p>`,
@@ -1197,7 +1541,10 @@ module.exports = function({ locale, data = {} }) {
                 title: localise({ en: 'Bank account', cy: '' }),
                 fieldsets: [
                     {
-                        legend: localise({ en: 'What are your bank account details?', cy: '' }),
+                        legend: localise({
+                            en: 'What are your bank account details?',
+                            cy: ''
+                        }),
                         introduction: localise({
                             en:
                                 'This should be the legal name of your organisation as it appears on your bank statement, not the name of your bank. This will usually be the same as your organisation’s name on your governing document.',
@@ -1292,7 +1639,10 @@ module.exports = function({ locale, data = {} }) {
         },
         {
             name: 'terms-person-name',
-            label: localise({ en: 'Full name of person completing this form', cy: '' }),
+            label: localise({
+                en: 'Full name of person completing this form',
+                cy: ''
+            }),
             type: 'text',
             isRequired: true,
             attributes: { autocomplete: 'name' }
