@@ -340,7 +340,7 @@ describe('awards for all', function() {
         }
 
         function fillOrganisationType() {
-            cy.getByLabelText('Registered charity', { exact: false }).click();
+            cy.getByLabelText('Registered charity (unincorporated)', { exact: false }).click();
         }
 
         function fillRegistrationNumbers() {
