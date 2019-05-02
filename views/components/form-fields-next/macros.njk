@@ -194,7 +194,7 @@
                     <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
                         {{ option.label }}
                         {% if option.explanation %}
-                            <small class="ff-choice__caption">{{ option.explanation }}</small>
+                            <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
                         {% endif %}
                     </label>
                 </li>

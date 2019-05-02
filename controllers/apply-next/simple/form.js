@@ -16,94 +16,12 @@ module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
     const currentOrganisationType = get('organisation-type')(data);
 
-    function seniorContactRolesFor(organisationType) {
-        const ROLES = {
-            TRUSTEE: {
-                value: 'trustee',
-                label: localise({ en: 'Trustee', cy: '' })
-            },
-            CHAIR: {
-                value: 'chair',
-                label: localise({ en: 'Chair', cy: '' })
-            },
-            VICE_CHAIR: {
-                value: 'vice-chair',
-                label: localise({ en: 'Vice-chair', cy: '' })
-            },
-            SECRETARY: {
-                value: 'secretary',
-                label: localise({ en: 'Secretary', cy: '' })
-            },
-            TREASURER: {
-                value: 'treasurer',
-                label: localise({ en: 'Treasurer', cy: '' })
-            },
-            COMPANY_DIRECTOR: {
-                value: 'company-director',
-                label: localise({ en: 'Company Director', cy: '' })
-            },
-            COMPANY_SECRETARY: {
-                value: 'company-secretary',
-                label: localise({ en: 'Company Secretary', cy: '' })
-            },
-            CHIEF_EXECUTIVE: {
-                value: 'chief-executive',
-                label: localise({ en: 'Chief Executive', cy: '' })
-            },
-            CHIEF_EXECUTIVE_OFFICER: {
-                value: 'chief-executive-officer',
-                label: localise({ en: 'Chief Executive Officer', cy: '' })
-            },
-            PARISH_CLERK: {
-                value: 'parish-clerk',
-                label: localise({ en: 'Parish Clerk', cy: '' })
-            },
-            HEAD_TEACHER: {
-                value: 'head-teacher',
-                label: localise({ en: 'Head Teacher', cy: '' })
-            },
-            CHANCELLOR: {
-                value: 'chancellor',
-                label: localise({ en: 'Chancellor', cy: '' })
-            },
-            VICE_CHANCELLOR: {
-                value: 'vice-chancellor',
-                label: localise({ en: 'Vice-chancellor', cy: '' })
-            }
-        };
+    function matchesOrganisationType(type) {
+        return currentOrganisationType === type;
+    }
 
-        let options = [];
-        switch (organisationType) {
-            case ORGANISATION_TYPES.UNREGISTERED_VCO:
-                options = [ROLES.CHAIR, ROLES.VICE_CHAIR, ROLES.SECRETARY, ROLES.TREASURER];
-                break;
-            case ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY:
-                options = [ROLES.TRUSTEE, ROLES.CHAIR, ROLES.VICE_CHAIR, ROLES.TREASURER];
-                break;
-            case ORGANISATION_TYPES.CIO:
-                options = [
-                    ROLES.TRUSTEE,
-                    ROLES.CHAIR,
-                    ROLES.VICE_CHAIR,
-                    ROLES.TREASURER,
-                    ROLES.CHIEF_EXECUTIVE_OFFICER
-                ];
-                break;
-            case ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY:
-                options = [ROLES.COMPANY_DIRECTOR, ROLES.COMPANY_SECRETARY];
-                break;
-            case ORGANISATION_TYPES.SCHOOL:
-                options = [ROLES.HEAD_TEACHER, ROLES.CHANCELLOR, ROLES.VICE_CHANCELLOR];
-                break;
-            case ORGANISATION_TYPES.STATUTORY_BODY:
-                options = [ROLES.PARISH_CLERK, ROLES.CHIEF_EXECUTIVE];
-                break;
-            default:
-                options = values(ROLES);
-                break;
-        }
-
-        return options;
+    function matchesOrganisationTypes(types) {
+        return includes(types, currentOrganisationType);
     }
 
     function emailField(props) {
@@ -400,6 +318,224 @@ module.exports = function({ locale, data = {} }) {
         };
 
         return { ...defaultProps, ...props };
+    }
+
+    function organisationTypeField() {
+        return {
+            name: 'organisation-type',
+            label: localise({
+                en: 'What type of organisation are you?',
+                cy: ''
+            }),
+            type: 'radio',
+            options: [
+                {
+                    value: ORGANISATION_TYPES.UNREGISTERED_VCO,
+                    label: localise({
+                        en: 'Unregistered voluntary or community organisation',
+                        cy: ''
+                    }),
+                    explanation: localise({
+                        en: `<p>My organisation has been set up with a governing document such as a constitution but <strong>is not</strong> a registered charity or company, such as a Scouts group, sports club, community group or residents association</p>`,
+                        cy: ``
+                    })
+                },
+                {
+                    value: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                    label: localise({
+                        en: 'Registered charity (unincorporated)',
+                        cy: ''
+                    }),
+                    explanation: localise({
+                        en: `<p>My organisation is a voluntary or community organisaton and is a registered charity, but <strong>is not</strong> a company registered with Companies House</p>`,
+                        cy: ``
+                    })
+                },
+                {
+                    value: ORGANISATION_TYPES.CIO,
+                    label: localise({
+                        en: 'Charitable incorporated organisation (CIO)',
+                        cy: ''
+                    }),
+                    explanation: localise({
+                        en: `<p>My organisation is a registered charity with limited liability, but <strong>is not</strong> a company registered with Companies House</p>`,
+                        cy: ``
+                    })
+                },
+                {
+                    value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
+                    label: localise({ en: 'Not-for-profit company', cy: '' }),
+                    explanation: localise({
+                        en: `<p>My organisation is a not-for-profit company registered with Companies House, and <strong>may also</strong> be regisered as a charity</p>`,
+                        cy: ``
+                    })
+                },
+                {
+                    value: ORGANISATION_TYPES.SCHOOL,
+                    label: localise({
+                        en: 'School or educational body',
+                        cy: ''
+                    }),
+                    explanation: localise({
+                        en: `<p>My organisation is a school, college, university, or other registered educational establishment</p>`,
+                        cy: ``
+                    })
+                },
+                {
+                    value: ORGANISATION_TYPES.STATUTORY_BODY,
+                    label: localise({ en: 'Statutory body', cy: '' }),
+                    explanation: localise({
+                        en: `<p>My organsation is a public body, such as a local authority, parsih council, or police or health authority</p>`,
+                        cy: ''
+                    })
+                }
+            ],
+            isRequired: true,
+            get schema() {
+                return Joi.string()
+                    .valid(this.options.map(option => option.value))
+                    .required();
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Choose a type of organisation',
+                        cy: ''
+                    })
+                }
+            ]
+        };
+    }
+
+    function seniorContactRoleField() {
+        function rolesFor(organisationType) {
+            const ROLES = {
+                TRUSTEE: {
+                    value: 'trustee',
+                    label: localise({ en: 'Trustee', cy: '' })
+                },
+                CHAIR: {
+                    value: 'chair',
+                    label: localise({ en: 'Chair', cy: '' })
+                },
+                VICE_CHAIR: {
+                    value: 'vice-chair',
+                    label: localise({ en: 'Vice-chair', cy: '' })
+                },
+                SECRETARY: {
+                    value: 'secretary',
+                    label: localise({ en: 'Secretary', cy: '' })
+                },
+                TREASURER: {
+                    value: 'treasurer',
+                    label: localise({ en: 'Treasurer', cy: '' })
+                },
+                COMPANY_DIRECTOR: {
+                    value: 'company-director',
+                    label: localise({ en: 'Company Director', cy: '' })
+                },
+                COMPANY_SECRETARY: {
+                    value: 'company-secretary',
+                    label: localise({ en: 'Company Secretary', cy: '' })
+                },
+                CHIEF_EXECUTIVE: {
+                    value: 'chief-executive',
+                    label: localise({ en: 'Chief Executive', cy: '' })
+                },
+                CHIEF_EXECUTIVE_OFFICER: {
+                    value: 'chief-executive-officer',
+                    label: localise({ en: 'Chief Executive Officer', cy: '' })
+                },
+                PARISH_CLERK: {
+                    value: 'parish-clerk',
+                    label: localise({ en: 'Parish Clerk', cy: '' })
+                },
+                HEAD_TEACHER: {
+                    value: 'head-teacher',
+                    label: localise({ en: 'Head Teacher', cy: '' })
+                },
+                CHANCELLOR: {
+                    value: 'chancellor',
+                    label: localise({ en: 'Chancellor', cy: '' })
+                },
+                VICE_CHANCELLOR: {
+                    value: 'vice-chancellor',
+                    label: localise({ en: 'Vice-chancellor', cy: '' })
+                }
+            };
+
+            let options = [];
+            switch (organisationType) {
+                case ORGANISATION_TYPES.UNREGISTERED_VCO:
+                    options = [ROLES.CHAIR, ROLES.VICE_CHAIR, ROLES.SECRETARY, ROLES.TREASURER];
+                    break;
+                case ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY:
+                    options = [ROLES.TRUSTEE, ROLES.CHAIR, ROLES.VICE_CHAIR, ROLES.TREASURER];
+                    break;
+                case ORGANISATION_TYPES.CIO:
+                    options = [
+                        ROLES.TRUSTEE,
+                        ROLES.CHAIR,
+                        ROLES.VICE_CHAIR,
+                        ROLES.TREASURER,
+                        ROLES.CHIEF_EXECUTIVE_OFFICER
+                    ];
+                    break;
+                case ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY:
+                    options = [ROLES.COMPANY_DIRECTOR, ROLES.COMPANY_SECRETARY];
+                    break;
+                case ORGANISATION_TYPES.SCHOOL:
+                    options = [ROLES.HEAD_TEACHER, ROLES.CHANCELLOR, ROLES.VICE_CHANCELLOR];
+                    break;
+                case ORGANISATION_TYPES.STATUTORY_BODY:
+                    options = [ROLES.PARISH_CLERK, ROLES.CHIEF_EXECUTIVE];
+                    break;
+                default:
+                    options = values(ROLES);
+                    break;
+            }
+
+            return options;
+        }
+
+        return {
+            name: 'senior-contact-role',
+            label: localise({ en: 'Role', cy: '' }),
+            get explanation() {
+                let text = localise({
+                    en: `<p>The position held by the senior contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.<p>`,
+                    cy: ''
+                });
+
+                if (matchesOrganisationType(ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY)) {
+                    text += localise({
+                        en: `<p><strong>
+                            As a registered charity, your senior contact must be one of your organisation's trustees. This can include trustees taking on the role of Chair, Vice Chair or Treasurer.
+                        </strong></p>`
+                    });
+                } else if (matchesOrganisationType(ORGANISATION_TYPES.CIO)) {
+                    text += localise({
+                        en: `<p><strong>
+                            As a charity, your senior contact can be one of your organisation's trustees.
+                            This can include trustees taking on the role of Chair, Vice Chair or Treasurer.
+                        </strong></p>`
+                    });
+                }
+
+                return text;
+            },
+            type: 'radio',
+            options: rolesFor(currentOrganisationType),
+            isRequired: true,
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose a role', cy: '' })
+                }
+            ]
+        };
     }
 
     const allFields = {
@@ -854,87 +990,7 @@ module.exports = function({ locale, data = {} }) {
                 cy: ''
             })
         }),
-        organisationType: {
-            name: 'organisation-type',
-            label: localise({
-                en: 'What type of organisation are you?',
-                cy: '(WELSH) What type of organisation are you?'
-            }),
-            type: 'radio',
-            options: [
-                {
-                    value: ORGANISATION_TYPES.UNREGISTERED_VCO,
-                    label: localise({
-                        en: 'Unregistered voluntary or community organisation',
-                        cy: ''
-                    }),
-                    explanation: localise({
-                        en: `Groups that are consituted but not registered as a charity or company, for example, Scouts groups, sports clubs, community groups, residents associations`,
-                        cy: ``
-                    })
-                },
-                {
-                    value: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                    label: localise({
-                        en: 'Registered charity (unincorporated)',
-                        cy: ''
-                    }),
-                    explanation: localise({
-                        en: `Voluntary and community organisations that are registered charities but are not also registered with Companies House as a Company`,
-                        cy: ``
-                    })
-                },
-                {
-                    value: ORGANISATION_TYPES.CIO,
-                    label: localise({
-                        en: 'Charitable incorporated organisation (CIO)',
-                        cy: ''
-                    })
-                },
-                {
-                    value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
-                    label: localise({ en: 'Not-for-profit company', cy: '' }),
-                    explanation: localise({
-                        en: `Not for profit companies registered with Companies House including those registered as Charities`,
-                        cy: ``
-                    })
-                },
-                {
-                    value: ORGANISATION_TYPES.SCHOOL,
-                    label: localise({
-                        en: 'School or educational body',
-                        cy: ''
-                    }),
-                    explanation: localise({
-                        en: `Only select this option if your organisation is a school or regsitered educational establishment`,
-                        cy: ``
-                    })
-                },
-                {
-                    value: ORGANISATION_TYPES.STATUTORY_BODY,
-                    label: localise({ en: 'Statutory body', cy: '' }),
-                    explanation: localise({
-                        en: 'For example, Health Body, Local Authority, Parish Council, Police',
-                        cy: ''
-                    })
-                }
-            ],
-            isRequired: true,
-            get schema() {
-                return Joi.string()
-                    .valid(this.options.map(option => option.value))
-                    .required();
-            },
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Choose a type of organisation',
-                        cy: ''
-                    })
-                }
-            ]
-        },
+        organisationType: organisationTypeField(),
         companyNumber: {
             name: 'company-number',
             label: localise({ en: 'Companies house number', cy: '' }),
@@ -1111,43 +1167,7 @@ module.exports = function({ locale, data = {} }) {
             name: 'senior-contact-last-name',
             label: localise({ en: 'Last name', cy: '' })
         }),
-        seniorContactRole: {
-            name: 'senior-contact-role',
-            label: localise({ en: 'Role', cy: '' }),
-            get explanation() {
-                let text = localise({
-                    en: `<p>The position held by the senior contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.<p>`,
-                    cy: ''
-                });
-
-                if (currentOrganisationType === ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY) {
-                    text += localise({
-                        en: `<p><strong>
-                            As a registered charity, your senior contact must be one of your organisation's trustees. This can include trustees taking on the role of Chair, Vice Chair or Treasurer.
-                        </strong></p>`
-                    });
-                } else if (currentOrganisationType === ORGANISATION_TYPES.CIO) {
-                    text += localise({
-                        en: `<p><strong>
-                            As a charity, your senior contact can be one of your organisation's trustees.
-                            This can include trustees taking on the role of Chair, Vice Chair or Treasurer.
-                        </strong></p>`
-                    });
-                }
-
-                return text;
-            },
-            type: 'radio',
-            options: seniorContactRolesFor(currentOrganisationType),
-            isRequired: true,
-            schema: Joi.string().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Choose a role', cy: '' })
-                }
-            ]
-        },
+        seniorContactRole: seniorContactRoleField(),
         seniorContactDob: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
             name: 'senior-contact-dob',
             label: localise({ en: 'Date of birth', cy: '' })
@@ -1268,19 +1288,10 @@ module.exports = function({ locale, data = {} }) {
         }
     };
 
-    const schema = Joi.object(
-        reduce(
-            allFields,
-            function(acc, field) {
-                acc[field.name] = field.schema;
-                return acc;
-            },
-            {}
-        )
-    );
-
-    const includeAddressAndDob =
-        includes([ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY], currentOrganisationType) === false;
+    const includeAddressAndDob = !matchesOrganisationTypes([
+        ORGANISATION_TYPES.SCHOOL,
+        ORGANISATION_TYPES.STATUTORY_BODY
+    ]);
 
     const sectionProject = {
         slug: 'your-project',
@@ -1379,17 +1390,13 @@ module.exports = function({ locale, data = {} }) {
                             cy: ''
                         }),
                         get fields() {
-                            function matchesTypes(orgTypes) {
-                                return includes(orgTypes, currentOrganisationType);
-                            }
-
                             const fields = [];
-                            if (matchesTypes([ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY])) {
+                            if (matchesOrganisationType(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY)) {
                                 fields.push(allFields.companyNumber);
                             }
 
                             if (
-                                matchesTypes([
+                                matchesOrganisationTypes([
                                     ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
                                     ORGANISATION_TYPES.CIO,
                                     ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
@@ -1398,7 +1405,7 @@ module.exports = function({ locale, data = {} }) {
                                 fields.push(allFields.charityNumber);
                             }
 
-                            if (matchesTypes([ORGANISATION_TYPES.SCHOOL])) {
+                            if (matchesOrganisationType(ORGANISATION_TYPES.SCHOOL)) {
                                 fields.push(allFields.educationNumber);
                             }
 
@@ -1656,6 +1663,17 @@ module.exports = function({ locale, data = {} }) {
         }
     ];
 
+    const schema = Joi.object(
+        reduce(
+            allFields,
+            function(acc, field) {
+                acc[field.name] = field.schema;
+                return acc;
+            },
+            {}
+        )
+    );
+
     const form = {
         id: 'awards-for-all',
         title: localise({ en: 'National Lottery Awards for All', cy: '' }),
@@ -1666,6 +1684,5 @@ module.exports = function({ locale, data = {} }) {
         termsFields: termsFields
     };
 
-    // @TODO: Minimise transformations in enrich-form
     return enrichForm(form, data);
 };
