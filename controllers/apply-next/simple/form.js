@@ -14,7 +14,7 @@ const {
 
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
-    const orgTypeFor = get('organisation-type');
+    const currentOrganisationType = get('organisation-type')(data);
 
     function seniorContactRolesFor(organisationType) {
         const ROLES = {
@@ -965,7 +965,7 @@ module.exports = function({ locale, data = {} }) {
             attributes: { size: 20 },
             isRequired: includes(
                 [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY, ORGANISATION_TYPES.CIO],
-                orgTypeFor(data)
+                currentOrganisationType
             ),
             schema: Joi.when('organisation-type', {
                 is: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
@@ -1114,12 +1114,31 @@ module.exports = function({ locale, data = {} }) {
         seniorContactRole: {
             name: 'senior-contact-role',
             label: localise({ en: 'Role', cy: '' }),
-            explanation: localise({
-                en: `The position held by the senior contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.`,
-                cy: ''
-            }),
+            get explanation() {
+                let text = localise({
+                    en: `<p>The position held by the senior contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.<p>`,
+                    cy: ''
+                });
+
+                if (currentOrganisationType === ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY) {
+                    text += localise({
+                        en: `<p><strong>
+                            As a registered charity, your senior contact must be one of your organisation's trustees. This can include trustees taking on the role of Chair, Vice Chair or Treasurer.
+                        </strong></p>`
+                    });
+                } else if (currentOrganisationType === ORGANISATION_TYPES.CIO) {
+                    text += localise({
+                        en: `<p><strong>
+                            As a charity, your senior contact can be one of your organisation's trustees.
+                            This can include trustees taking on the role of Chair, Vice Chair or Treasurer.
+                        </strong></p>`
+                    });
+                }
+
+                return text;
+            },
             type: 'radio',
-            options: seniorContactRolesFor(orgTypeFor(data)),
+            options: seniorContactRolesFor(currentOrganisationType),
             isRequired: true,
             schema: Joi.string().required(),
             messages: [
@@ -1261,7 +1280,7 @@ module.exports = function({ locale, data = {} }) {
     );
 
     const includeAddressAndDob =
-        includes([ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY], orgTypeFor(data)) === false;
+        includes([ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY], currentOrganisationType) === false;
 
     const sectionProject = {
         slug: 'your-project',
@@ -1361,7 +1380,7 @@ module.exports = function({ locale, data = {} }) {
                         }),
                         get fields() {
                             function matchesTypes(orgTypes) {
-                                return includes(orgTypes, orgTypeFor(data));
+                                return includes(orgTypes, currentOrganisationType);
                             }
 
                             const fields = [];
