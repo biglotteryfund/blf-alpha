@@ -15,7 +15,7 @@ module.exports = function({ locale }) {
         }),
         ineligible: {
             reason: localise({
-                en: `This is because you declared that your organisation does not have at least two unconnected people on the board or committee`,
+                en: `This is because you told us that your organisation does not have at least two unconnected people on the board or committee`,
                 cy: ``
             }),
             detail: localise({
@@ -42,10 +42,10 @@ module.exports = function({ locale }) {
                 cy: ``
             }),
             detail: localise({
-                en: `<p>This isn't the end! Here are a few ideas about what you can do:</p>
+                en: `<p>This isn't the end! Here are a couple of ideas about what you can do:</p>
                 <ul>
                     <li>consider asking us to fund part of your project through National Lottery Awards for All, and find out if there are other sources of funding that can cover the rest of your project</li>
-                    <li>look at our other funding programmes to see if they cover the amount of funding you want to apply for and the length of time you want to run your project for, and consider applying to us for a grant worth over £10,000</li>
+                    <li><a href="https://www.tnlcommunityfund.org.uk/funding/over10k">look at our other funding programmes</a> to see if they cover the amount of funding you want to apply for and the length of time you want to run your project for, and consider applying to us for a grant worth over £10,000</li>
                 </ul>`,
                 cy: ``
             })
@@ -67,8 +67,8 @@ module.exports = function({ locale }) {
                 cy: ``
             }),
             detail: localise({
-                en: `<p>We don't want to miss out on funding a great idea that will help to transform communities.</p>
-                <p>Have a think and see if it's possible to start your project at least 12 weeks from now. We need this time to consider your application, carry out checks and, if successful, give you funding. If it is possible, continue with your application.</p>`,
+                en: `<p>We don't want to miss out on funding a great idea that will help communities to thrive.</p>
+                <p>Have a think and see if it's possible to start your project at least 12 weeks from now. We need this time to consider your application, carry out checks and, if successful, pay your grant. If it is possible, continue with your application.</p>`,
                 cy: ``
             })
         }
