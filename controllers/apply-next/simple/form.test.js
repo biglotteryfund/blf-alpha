@@ -5,7 +5,7 @@ const faker = require('faker');
 const moment = require('moment');
 const Joi = require('joi');
 
-const { ORGANISATION_TYPES } = require('./constants');
+const { ORGANISATION_TYPES, BENEFICIARY_GROUPS } = require('./constants');
 const validateModel = require('../lib/validate-model');
 
 function toDateParts(dt) {
@@ -56,6 +56,11 @@ function mockFullForm({
         'your-idea-community': faker.lorem.words(150),
         'project-budget': mockBudget(),
         'project-total-costs': faker.random.number({ min: 5000, max: 10000 }),
+        'beneficiaries-number-of-people': faker.random.number({ min: 500, max: 100000 }),
+        'beneficiaries-location-check': 'yes',
+        'beneficiaries-local-authority': 'aberdeenshire',
+        'beneficiaries-location-description': faker.address.city(),
+        'beneficiaries-groups': [BENEFICIARY_GROUPS.AGE],
         'organisation-legal-name': faker.company.companyName(),
         'organisation-address': mockAddress(),
         'organisation-type': organisationType,

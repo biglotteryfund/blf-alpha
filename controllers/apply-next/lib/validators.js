@@ -2,6 +2,13 @@
 const moment = require('moment');
 const Joi = require('./joi-extensions');
 
+function multiCheckbox(options) {
+    return Joi.array()
+        .items(Joi.string().valid(options.map(option => option.value)))
+        .single()
+        .required();
+}
+
 function futureDate({ amount = null, unit = null } = {}) {
     const minDate = amount && unit ? moment().add(amount, unit) : moment();
     return Joi.dateParts().futureDate(minDate.format('YYYY-MM-DD'));
@@ -42,6 +49,7 @@ module.exports = {
     budgetField,
     dateOfBirth,
     futureDate,
+    multiCheckbox,
     postcode,
     ukAddress
 };
