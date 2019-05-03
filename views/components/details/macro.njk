@@ -1,0 +1,6 @@
+{% macro details(title, isOpen = false, extraClasses) %}
+    <details class="o-details u-margin-bottom-s {% if extraClasses %}{{ extraClasses }}{% endif %}"{% if isOpen %} open{% endif %}>
+        <summary class="o-details__summary">{{ title }}</summary>
+        <div class="o-details__content">{{ caller() }}<div>
+    </details>
+{% endmacro %}
