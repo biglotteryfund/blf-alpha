@@ -32,7 +32,10 @@ function determineStatus(data, errors = []) {
  * @param {Object} data
  */
 function calculateFormProgress(form, data) {
-    const validationResult = form.schema.validate(data, { abortEarly: false, stripUnknown: true });
+    const validationResult = form.schema.validate(data, {
+        abortEarly: false,
+        stripUnknown: true
+    });
 
     const errors = get(validationResult, 'error.details', []);
 
@@ -40,13 +43,20 @@ function calculateFormProgress(form, data) {
         all: determineStatus(validationResult.value, errors),
         sections: form.sections.reduce((obj, section) => {
             const fieldNames = flatMapDeep(section.steps, step => {
-                return step.fieldsets.map(fieldset => fieldset.fields.map(field => field.name));
+                return step.fieldsets.map(fieldset =>
+                    fieldset.fields.map(field => field.name)
+                );
             });
 
             const dataForSection = pick(validationResult.value, fieldNames);
-            const errorsForSection = errors.filter(detail => includes(fieldNames, detail.path[0]));
+            const errorsForSection = errors.filter(detail =>
+                includes(fieldNames, detail.path[0])
+            );
 
-            obj[section.slug] = determineStatus(dataForSection, errorsForSection);
+            obj[section.slug] = determineStatus(
+                dataForSection,
+                errorsForSection
+            );
 
             return obj;
         }, {})

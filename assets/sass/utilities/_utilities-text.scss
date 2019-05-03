@@ -110,3 +110,21 @@
         text-decoration: none;
     }
 }
+
+.u-edit-link {
+    font-size: 16px;
+    font-family: font-stack('body');
+    font-weight: font-weight('body', 'normal');
+    text-decoration: none;
+
+    &:before {
+        content: '[';
+    }
+    &:after {
+        content: ']';
+    }
+
+    @include on-interact {
+        text-decoration: underline;
+    }
+}

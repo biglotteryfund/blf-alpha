@@ -1290,3 +1290,26 @@ apply:
       title: 'Thank you for getting in touch'
       emailConfirmation: We have emailed your a copy of your submission
       whatToExpect: If your request is successful, your local funding officer will arrange a phone call or visit and give you a full application form to fill out and return to us.
+applyNext:
+  summary:
+    title: Summary
+    introduction: >
+      <p>Here's a summary of your application progress. You may complete the sections in any order.</p>
+    incompleteMessage: >
+      <p>Your form isn't complete yet — you can submit it here when it's ready.</p>
+    terms: >
+      <p><strong>Please note</strong>: in order to submit your application you will need to agree to our <a href="#">terms and conditions</a>.</p>
+    expandAll: Expand all sections
+    collapseAll: Collapse all sections
+    showQuestions: Show questions
+    notRequired: Not required for your application
+  sectionPrefix: Section
+  statusNotStarted: Not started
+  statusInProgress: In progress
+  statusInvalid: Invalid
+  statusComplete: Complete
+  change: Change
+  continue: Continue
+  edit: Edit
+  submit: Submit application
+  delete: Delete application
