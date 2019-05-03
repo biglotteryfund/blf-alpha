@@ -1,7 +1,17 @@
 'use strict';
 const { Op } = require('sequelize');
-const { countBy, map, minBy, maxBy, partition, orderBy } = require('lodash');
 const moment = require('moment');
+const faker = require('faker');
+const {
+    countBy,
+    map,
+    maxBy,
+    minBy,
+    orderBy,
+    partition,
+    random,
+    times
+} = require('lodash');
 
 const { SurveyAnswer } = require('../models');
 const { purifyUserInput } = require('../modules/validators');
@@ -23,7 +33,9 @@ function summariseVotes(responses) {
 
     const oldestResponseDate = moment(minBy(responses, 'createdAt').createdAt);
     const newestResponseDate = moment(maxBy(responses, 'createdAt').createdAt);
-    const daysInRange = newestResponseDate.startOf('day').diff(oldestResponseDate.startOf('day'), 'days');
+    const daysInRange = newestResponseDate
+        .startOf('day')
+        .diff(oldestResponseDate.startOf('day'), 'days');
 
     // Fill in the gaps based on the complete range
     const voteData = [];
@@ -49,7 +61,10 @@ async function getAllResponses({ path = null } = {}) {
 
         const responses = await SurveyAnswer.findAll(query);
 
-        const [yesResponses, noResponses] = partition(responses, ['choice', 'yes']);
+        const [yesResponses, noResponses] = partition(responses, [
+            'choice',
+            'yes'
+        ]);
 
         const yes = {
             responses: yesResponses,
@@ -61,7 +76,8 @@ async function getAllResponses({ path = null } = {}) {
             voteData: summariseVotes(noResponses)
         };
 
-        const toPercentage = count => Math.round((count / responses.length) * 100);
+        const toPercentage = count =>
+            Math.round((count / responses.length) * 100);
         const totals = {
             totalResponses: responses.length,
             percentageYes: toPercentage(yesResponses.length),
@@ -97,6 +113,22 @@ function createResponse({ choice, path, message }) {
     });
 }
 
+function mockResponses(count = 50) {
+    const promises = times(count, function() {
+        const choice = Math.random() > 0.05 ? 'yes' : 'no';
+        return SurveyAnswer.create({
+            choice: choice,
+            path: faker.random.arrayElement(['/', '/funding', '/about']),
+            message: choice === 'no' ? faker.lorem.paragraphs(1) : null,
+            createdAt: moment()
+                .subtract(random(0, 90), 'days')
+                .toISOString()
+        });
+    });
+
+    return Promise.all(promises);
+}
+
 function cleanupOldData() {
     return SurveyAnswer.destroy({
         where: {
@@ -111,5 +143,6 @@ function cleanupOldData() {
 
 module.exports = {
     createResponse,
+    mockResponses,
     getAllResponses
 };
