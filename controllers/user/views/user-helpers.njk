@@ -1,17 +1,3 @@
-{% macro listErrors(errors) %}
-    {% if errors and errors.length > 0 %}
-        <div class="alert alert-danger" role="alert">
-            {% set numErrs = errors.length %}
-            <p><strong>There w{{ numErrs | pluralise("as", "ere") }} {{ numErrs }} error{{ numErrs | pluralise("", "s") }}:</strong></p>
-            <ul>
-                {% for e in errors %}
-                    <li>{{ e.msg | safe }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-    {% endif %}
-{% endmacro %}
-
 {% macro userInfoPanel(user) %}
     {% if user %}
         <div class="u-tone-background-tint u-padded u-margin-bottom">
