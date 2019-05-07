@@ -1,144 +1,209 @@
+/* =========================================================================
+   Applications
+   ========================================================================= */
+
 $statuses: (
     'complete': #55ac3b,
     'incomplete': #fd992b,
     'empty': #7b7b7b
 );
 
-$statusColumnWidth: 160px;
+/* =========================================================================
+   Section progress bar
+   e.g. summary screen section headers
+   ========================================================================= */
 
-.application-summary {
-    // Grid of buttons at the top of the summary
-    .application-summary__actions {
-        display: flex;
-    }
+.section-progress-bar {
+    font-weight: font-weight('body', 'semibold');
+    background-color: get-color('background', 'light-neutral');
+    margin-bottom: 3px;
 
-    // The header at the top of each section showing that section's title and completion status
-    .application-summary__status {
+    @include mq('medium') {
         display: flex;
-        justify-content: space-between;
-        border-left: 3px solid get-color('background', 'light-neutral');
+        align-items: center;
+        border-left: 3px solid map-get($statuses, 'empty');
         padding-left: $spacingUnit / 2;
+    }
 
-        &.application-summary__status--mini {
-            align-items: center;
-            margin-bottom: 3px;
-            font-size: 13px;
-            font-weight: bold;
+    @include mq('medium', 'max') {
+        border-top: 3px solid map-get($statuses, 'empty');
+    }
 
-            .application-status-label {
-                min-width: 100px;
-                font-size: 12px;
-            }
-        }
+    .section-progress-bar__title {
+        margin: 0;
 
-        &.application-summary__status--complete {
-            $colour: map-get($statuses, 'complete');
-            border-left-color: $colour;
-        }
-
-        &.application-summary__status--incomplete {
-            $colour: map-get($statuses, 'incomplete');
-            border-left-color: $colour;
-        }
-
-        &.application-summary__status--empty {
-            $colour: map-get($statuses, 'empty');
-            border-left-color: $colour;
-        }
-
-        .application-status-label {
-            margin-left: $spacingUnit;
-            color: #ffffff;
-            font-size: 14px;
-            text-align: center;
-            min-width: $statusColumnWidth;
-
-            &.application-status-label--complete {
-                background-color: map-get($statuses, 'complete');
-            }
-
-            &.application-status-label--incomplete {
-                background-color: map-get($statuses, 'incomplete');
-            }
-
-            &.application-status-label--empty {
-                background-color: map-get($statuses, 'empty');
-            }
-
-            svg {
-                margin-right: 5px;
-                vertical-align: middle;
-            }
+        @include mq('medium') {
+            flex: 1 1 auto;
         }
     }
 
-    // A link wrapped in square brackets to indicate form editing
-    .application-summary__edit-link {
-        font-family: font-stack('body');
-        font-size: 16px;
-        font-weight: normal !important;
-        text-decoration: none;
-        margin-left: $spacingUnit;
-        &:before {
-            content: '[';
-        }
-        &:after {
-            content: ']';
-        }
-    }
-
-    // The contents of each application summary section
-    .application-summary__status__content {
+    .section-progress-bar__marker {
+        color: white;
+        text-align: center;
+        font-size: 14px;
+        font-weight: font-weight('body', 'semibold');
         padding: $spacingUnit / 2;
+        background-color: map-get($statuses, 'empty');
+        display: block;
 
-        p {
-            margin-right: $statusColumnWidth;
-            font-size: 18px;
+        @include mq('medium') {
+            flex: 0 0 160px;
         }
 
-        summary {
-            font-weight: bold;
-            font-size: 16px;
-            color: get-color('links', 'base');
-            // the default underline styling doesn't appear here for some reason
-            text-decoration: none;
-            border-bottom: 1px solid get-color('links', 'base');
-            display: inline-block;
+        svg {
+            margin-right: 2px;
+            vertical-align: middle;
+            position: relative;
+            top: -1px;
         }
     }
 
-    .application-summary__step-title {
+    .section-progress-bar__edit {
+        margin-left: $spacingUnit / 2;
+    }
+
+    &.section-progress-bar--complete {
+        border-left-color: map-get($statuses, 'complete');
+
+        .section-progress-bar__marker {
+            background-color: map-get($statuses, 'complete');
+        }
+    }
+
+    &.section-progress-bar--incomplete {
+        border-left-color: map-get($statuses, 'incomplete');
+
+        .section-progress-bar__marker {
+            background-color: map-get($statuses, 'incomplete');
+        }
+    }
+}
+
+/* =========================================================================
+   Section Progress Mini
+   e.g. within application cards on dashboard screen
+   ========================================================================= */
+.section-progress-mini {
+    display: flex;
+    align-items: center;
+
+    font-size: 13px;
+    font-weight: font-weight('body', 'semibold');
+    background-color: get-color('background', 'light-neutral');
+    border-left: 3px solid map-get($statuses, 'empty');
+    margin-bottom: 3px;
+    padding-left: $spacingUnit / 2;
+
+    .section-progress-mini__title {
+        flex: 1 1 auto;
+        margin: 0;
+    }
+
+    .section-progress-mini__marker {
+        font-size: 12px;
+        flex: 0 0 100px;
+    }
+
+    .section-progress-mini__marker {
+        flex: 0 0 100px;
+
+        color: white;
+        text-align: center;
+        font-size: 12px;
+        font-weight: font-weight('body', 'semibold');
+        padding: $spacingUnit / 2;
+        background-color: map-get($statuses, 'empty');
+
+        svg {
+            margin-right: 2px;
+            vertical-align: middle;
+            position: relative;
+            top: -1px;
+        }
+    }
+
+    &.section-progress-mini--complete {
+        border-left-color: map-get($statuses, 'complete');
+
+        .section-progress-mini__marker {
+            background-color: map-get($statuses, 'complete');
+        }
+    }
+
+    &.section-progress-mini--incomplete {
+        border-left-color: map-get($statuses, 'incomplete');
+
+        .section-progress-mini__marker {
+            background-color: map-get($statuses, 'incomplete');
+        }
+    }
+}
+
+/* =========================================================================
+   Step Summary
+   ========================================================================= */
+
+.step-summary {
+    margin-bottom: $spacingUnit;
+
+    .step-summary__title {
+        font-size: 18px;
         margin: $spacingUnit 0;
     }
 
-    // The (mock) table of the user's form responses
-    .application-summary__data {
+    .step-summary__data {
         font-size: 18px;
-        display: flex;
-        justify-content: start;
         border-top: 1px solid get-color('border', 'base');
+        margin-top: $spacingUnit / 2;
 
-        .application-summary__data__question,
-        .application-summary__data__answer,
-        .application-summary__data__link {
-            padding: $spacingUnit / 2;
-        }
-
-        .application-summary__data__question {
-            flex-basis: 260px;
+        .step-summary__data__question {
             font-weight: bold;
-            border-right: 1px solid get-color('border', 'base');
-        }
-
-        .application-summary__data__link {
-            flex-shrink: 1;
-            margin-left: auto;
         }
     }
 
-    .application-summary__toggle {
-        font-size: 14px;
-        font-weight: bold;
+    .step-summary__data:not(.is-stacked) {
+        .step-summary__data__question,
+        .step-summary__data__answer,
+        .step-summary__data__link {
+            padding: $spacingUnit / 2 0;
+        }
+
+        @include mq('medium') {
+            display: flex;
+            justify-content: start;
+
+            .step-summary__data__question,
+            .step-summary__data__answer,
+            .step-summary__data__link {
+                padding: $spacingUnit / 2;
+            }
+
+            .step-summary__data__question {
+                flex-basis: 260px;
+                padding-left: 0;
+                border-right: 1px solid get-color('border', 'base');
+            }
+
+            .step-summary__data__link {
+                padding-right: 0;
+                flex-shrink: 1;
+                margin-left: auto;
+            }
+        }
+    }
+
+    .step-summary__data.is-stacked {
+        display: flex;
+        flex-direction: column;
+        padding: $spacingUnit / 2 0 $spacingUnit;
+
+        .step-summary__data__question {
+            margin-bottom: 0.5em;
+        }
+
+        .step-summary__data__answer {
+            margin-bottom: 1em;
+        }
     }
 }
 
@@ -199,8 +264,11 @@ $statusColumnWidth: 160px;
     color: lighten(get-color('text', 'base'), 50%);
 }
 
-.application-questions {
+/* =========================================================================
+   Application Questions
+   ========================================================================= */
 
+.application-questions {
     .application-questions__header {
         background-color: get-color('background', 'light-neutral');
         padding: $spacingUnit;
@@ -235,6 +303,4 @@ $statusColumnWidth: 160px;
     .application-questions__help {
         font-size: font-scale('display', 't6');
     }
-
-
 }

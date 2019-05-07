@@ -23,7 +23,7 @@ module.exports = function enrichForm(baseForm, data = {}) {
     };
 
     clonedForm.sections = clonedForm.sections.map(section => {
-        section.steps = section.steps.map(function(step) {
+        section.steps = section.steps.map(function(step, stepIndex) {
             /**
              * Enrich fieldset and filter out any fieldsets with no fields
              * i.e. to account for cases where a fieldset is conditional
@@ -42,6 +42,8 @@ module.exports = function enrichForm(baseForm, data = {}) {
              */
             const stepFields = flatMap(step.fieldsets, 'fields');
             step.isRequired = stepFields.length > 0;
+
+            step.slug = `${section.slug}/${stepIndex + 1}`;
 
             return step;
         });

@@ -217,6 +217,7 @@ $buttonColor: get-color('brand', 'primary');
     transition: color 0.1s ease-in-out;
     margin: 0;
     padding: 0;
+    font-weight: font-weight('body', 'semibold');
     text-decoration: underline;
     border: none;
     border-radius: 0;

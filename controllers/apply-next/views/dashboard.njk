@@ -1,7 +1,134 @@
-{% from "components/application-card/macro.njk" import applicationCard with context %}
-{% from "components/content-box/macro.njk" import contentBox %}
-
 {% extends "layouts/main.njk" %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/icons.njk" import iconTick, iconBin %}
+
+{% macro statusMessage(status) %}
+    {% if status === 'ineligible' %}
+        Ineligible
+    {% elseif status === 'complete' %}
+        Submitted for consideration
+    {% else %}
+        Not submitted
+    {% endif %}
+{% endmacro %}
+
+{% macro applicationOverview(application) %}
+    <dl class="o-definition-list o-definition-list--compact u-margin-top">
+        <dt>Proposed start date</dt>
+        <dd>
+            {% set dateParts = application.application_data['project-start-date'] %}
+            {% if dateParts.day and dateParts.month and dateParts.year %}
+                {{ dateParts.day }}/{{ dateParts.month }}/{{ dateParts.year }}
+            {% else %}
+                <span class="application-data-missing">not yet completed</span>
+            {% endif %}
+        </dd>
+        <dt>Grant amount</dt>
+        <dd>
+            {% if application.grantAmount %}
+                £{{ application.grantAmount }}
+            {% else %}
+                <span class="application-data-missing">not yet completed</span>
+            {% endif %}
+        </dd>
+        <dt>Organisation</dt>
+        <dd>
+            {% if application.application_data['organisation-legal-name'] %}
+                {{ application.application_data['organisation-legal-name'] }}
+            {% else %}
+                <span class="application-data-missing">not yet completed</span>
+            {% endif %}
+        </dd>
+        <dt>Project location</dt>
+        <dd>
+            {% if application.application_data['project-postcode'] %}
+                {{ application.application_data['project-postcode'] }}
+            {% else %}
+                <span class="application-data-missing">not yet completed</span>
+            {% endif %}
+        </dd>
+    </dl>
+{% endmacro %}
+
+{% macro applicationCard(application) %}
+    {% set inProgress = application.status !== 'complete' %}
+    {# @TODO: Can action URLs come from router? #}
+    {% set editAction = formBaseUrl + "/edit/" + application.id %}
+    {% set deleteAction =  formBaseUrl + "/delete/" + application.id %}
+    <article class="application-card">
+        <div class="application-card__summary">
+            <p class="application-card__minor-title">{{ formTitle }}</p>
+            <h3 class="t3 t--underline u-tone-brand-primary">
+                {% if inProgress %}<a href="{{ editAction }}" class="u-link-unstyled">{% endif %}
+                {{ application.application_title }}
+                {% if inProgress %}</a>{% endif %}
+            </h3>
+
+            {{ applicationOverview(application) }}
+
+            {% if inProgress %}
+                <div class="o-button-group u-margin-bottom">
+                    <a class="btn btn--medium" href="{{ editAction }}">Continue with this application</a>
+                    <a class="btn btn--small btn--outline" href="{{ deleteAction }}">
+                        <span class="btn__icon btn__icon-left">{{ iconBin() }}</span>
+                        Delete
+                    </a>
+                </div>
+            {% else %}
+                {# @TODO: Where does view application go? Needs to be read-only #}
+                <div class="o-button-group u-margin-bottom">
+                    <a class="btn btn--small btn--outline" href="#">
+                        View this application
+                    </a>
+                </div>
+            {% endif %}
+
+            <aside class="application-summary__links">
+                <h4 class="application-card__minor-title">Guidance for this programme:</h4>
+                <p><a href="{{ form.programmePage }}">{{ formTitle }} guidance</a><br /></p>
+            </aside>
+        </div>
+
+        <div class="application-card__progress">
+            <div class="application-card__progress__status s-prose">
+                <p class="application-card__minor-title">Application status:</p>
+                <h4>{{ statusMessage(application.status) }}</h4>
+
+                {% if inProgress %}
+                    <p>You started your application on {{ formatDate(application.createdAt.toISOString(), DATE_FORMATS.numeric) }}.
+                    <strong>It must be completed by {{ formatDate(application.expiryDate, DATE_FORMATS.numeric) }}</strong></p>
+                    <p><a href="#">Need help with your application?</a></p>
+                {% else %}
+                    {# TODO: Submitted on date #}
+                    <p>We aim to let you know our decision in about 14 weeks. If you have any questions,
+                    <a href="#">contact a member of our advice team</a>.</p>
+                {% endif %}
+            </div>
+        
+            {% if inProgress %}
+                <ol class="u-list-unstyled">
+                    {% for section in form.sections %}
+                        {% set sectionProgress = application.progress.sections[section.slug] %}
+                        <li class="section-progress-mini section-progress-mini--{{ sectionProgress }}">
+                            <span class="section-progress-mini__title">{{ loop.index }}: {{ section.title }}</span>
+                            <span class="section-progress-mini__marker">
+                                {% if sectionProgress === FORM_STATES.complete %}
+                                    {{ iconTick() }} {{ copy.statusComplete }}
+                                {% elseif sectionProgress === FORM_STATES.incomplete %}
+                                    {{ copy.statusInProgress }}
+                                {% elseif sectionProgress === FORM_STATES.invald %}
+                                    {{ copy.statusInvalid }}
+                                {% else %}
+                                    {{ copy.statusNotStarted }}
+                                {% endif %}
+                            </span>
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+        </div>
+    </article>
+{% endmacro %}
 
 {% block content %}
     <main role="main" id="content">
@@ -27,6 +154,5 @@
             <p>You can create a new funding application for {{ formTitle }} here after completing our eligibility checks.</p>
             <p><a href="{{ formBaseUrl }}/start" class="btn btn--outline">Start new application</a></p>
         {% endcall %}
-
     </main>
 {% endblock %}
