@@ -1,120 +1,131 @@
 {% extends "layouts/main.njk" %}
-{% from "components/hero.njk" import hero with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/callout/macro.njk" import callout %}
 {% from "components/documents-card/macro.njk" import documentsCard with context %}
+{% from "components/hero.njk" import hero with context %}
+{% from "components/page-title/macro.njk" import pageTitle %}
 {% from "components/print-button/macro.njk" import printButton %}
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 
+{% if not pageHero %}{% set bodyClass = 'has-static-header' %}{% endif %}
+
 {% block content %}
     <main role="main">
-        {{ hero(title, pageHero.image) }}
+            {% if pageHero %}
+            {{ hero(title, pageHero.image) }}
+        {% endif %}
 
-        <div class="nudge-up">
-            {# Intro #}
-            <section class="content-box u-inner-wide-only">
-                {{ breadcrumbTrail(breadcrumbs) }}
+        {% if pageHero %}<div class="nudge-up">{% endif %}
 
-                <div class="content-sidebar">
-                    <div class="content-sidebar__primary">
-                        <div class="s-prose u-text-medium">
-                            {{ entry.introduction | safe }}
-                            <p>{{ printButton(label = __('global.misc.printThisPage')) }}</p>
-                        </div>
+        {% if not pageHero %}
+            {{ pageTitle(title) }}
+        {% endif %}
 
-                        {{ segmentLinks(
-                            prefix = entry.sectionsPrefix,
-                            segments = entry.sections
-                        ) }}
+        {# Intro #}
+        <section class="content-box u-inner-wide-only">
+            {{ breadcrumbTrail(breadcrumbs) }}
 
-                        <div class="content-meta">
-                            <dl class="o-definition-list o-definition-list--compact">
-                                <dt>{{ extraCopy.datePublished }}</dt>
-                                <dd>{{ formatDate(entry.postDate.date, DATE_FORMATS.month) }}</dd>
-                                {% if entry.researchPartners %}
-                                    <dt>{{ extraCopy.partners }}</dt>
-                                    <dd>{{ entry.researchPartners }}</dd>
-                                {% endif %}
-                                {% if entry.contactEmail %}
-                                    <dt>{{ extraCopy.contact }}</dt>
-                                    <dd>{{ entry.contactEmail | mailto | safe }}</dd>
-                                {% endif %}
-                            </dl>
-                        </div>
+            <div class="content-sidebar">
+                <div class="content-sidebar__primary">
+                    <div class="s-prose u-text-medium">
+                        {{ entry.introduction | safe }}
+                        <p>{{ printButton(label = __('global.misc.printThisPage')) }}</p>
                     </div>
-                    <div class="content-sidebar__secondary">
-                        {% if entry.documents %}
-                            {{ documentsCard(
-                                title = extraCopy.documents,
-                                documents = entry.documents
-                            ) }}
-                        {% endif %}
 
-                        {% if entry.relatedFundingProgrammes.length > 0 %}
-                            <aside class="card">
-                                <header class="card__header">
-                                    <h3 class="card__title">{{ extraCopy.relatedProgrammes }}</h3>
-                                    <div class="card__body">
-                                        {% for programme in entry.relatedFundingProgrammes %}
-                                            <a href="{{ programme.linkUrl }}" class="related-programme">
-                                                {% if programme.thumbnail %}
-                                                    <span class="related-programme__media">
-                                                        <img src="{{ programme.thumbnail }}"
-                                                            alt="{{ programme.title }}" />
-                                                    </span>
-                                                {% endif %}
-                                                <span class="related-programme__label">{{ programme.title }}</span>
-                                            </a>
-                                        {% endfor %}
-                                    </div>
-                                </header>
-                            </aside>
+                    {{ segmentLinks(
+                        prefix = entry.sectionsPrefix,
+                        segments = entry.sections
+                    ) }}
+
+                    <div class="content-meta">
+                        <dl class="o-definition-list o-definition-list--compact">
+                            <dt>{{ extraCopy.datePublished }}</dt>
+                            <dd>{{ formatDate(entry.postDate.date, DATE_FORMATS.month) }}</dd>
+                            {% if entry.researchPartners %}
+                                <dt>{{ extraCopy.partners }}</dt>
+                                <dd>{{ entry.researchPartners }}</dd>
+                            {% endif %}
+                            {% if entry.contactEmail %}
+                                <dt>{{ extraCopy.contact }}</dt>
+                                <dd>{{ entry.contactEmail | mailto | safe }}</dd>
+                            {% endif %}
+                        </dl>
+                    </div>
+                </div>
+                <div class="content-sidebar__secondary">
+                    {% if entry.documents %}
+                        {{ documentsCard(
+                            title = extraCopy.documents,
+                            documents = entry.documents
+                        ) }}
+                    {% endif %}
+
+                    {% if entry.relatedFundingProgrammes.length > 0 %}
+                        <aside class="card">
+                            <header class="card__header">
+                                <h3 class="card__title">{{ extraCopy.relatedProgrammes }}</h3>
+                                <div class="card__body">
+                                    {% for programme in entry.relatedFundingProgrammes %}
+                                        <a href="{{ programme.linkUrl }}" class="related-programme">
+                                            {% if programme.thumbnail %}
+                                                <span class="related-programme__media">
+                                                    <img src="{{ programme.thumbnail }}"
+                                                        alt="{{ programme.title }}" />
+                                                </span>
+                                            {% endif %}
+                                            <span class="related-programme__label">{{ programme.title }}</span>
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </header>
+                        </aside>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        {# Content #}
+        {% for section in entry.sections %}
+            <section class="content-box u-inner-wide-only" id="segment-{{ loop.index }}">
+                {% if section.prefix %}<p class="u-prefix">{{ section.prefix }}</p>{% endif %}
+                <h2 class="t--underline">{{ section.title }}</h2>
+
+                <div class="research-sections">
+                    {% for part in section.parts %}
+                        {% if part.type === 'contentArea' %}
+                            <div class="research-sections__content s-prose">
+                                <p><strong>{{ part.title }}</strong></p>
+                                {{ part.content | safe }}
+                            </div>
+                        {% elseif part.type === 'callout' %}
+                            <div class="research-sections__callout">
+                                {{ callout(
+                                    content = part.content,
+                                    citation = part.credit,
+                                    isQuote = part.isQuote
+                                ) }}
+                            </div>
                         {% endif %}
+                    {% endfor %}
+
+                    <div class="research-sections__meta content-meta">
+                        {% if entry.documentsPrefix %}
+                            <p><strong>{{ entry.documentsPrefix }}</strong></p>
+                        {% endif %}
+                        {% for document in entry.documents %}
+                            <p><a class="btn btn--medium btn--outline" href="{{ document.url }}">
+                                {{ document.title }}
+                                {% if document.filetype or document.filesize %}
+                                    <small>({{ document.filetype | upper }} {{ document.filesize }})</small>
+                                {% endif %}
+                            </a></p>
+                        {% endfor %}
+                        <p><a href="#content">↑ {{ __('global.misc.backToTop') }}</a>
                     </div>
                 </div>
             </section>
+        {% endfor %}
 
-            {# Content #}
-            {% for section in entry.sections %}
-                <section class="content-box u-inner-wide-only" id="segment-{{ loop.index }}">
-                    {% if section.prefix %}<p class="u-prefix">{{ section.prefix }}</p>{% endif %}
-                    <h2 class="t--underline">{{ section.title }}</h2>
-
-                    <div class="research-sections">
-                        {% for part in section.parts %}
-                            {% if part.type === 'contentArea' %}
-                                <div class="research-sections__content s-prose">
-                                    <p><strong>{{ part.title }}</strong></p>
-                                    {{ part.content | safe }}
-                                </div>
-                            {% elseif part.type === 'callout' %}
-                                <div class="research-sections__callout">
-                                    {{ callout(
-                                        content = part.content,
-                                        citation = part.credit,
-                                        isQuote = part.isQuote
-                                    ) }}
-                                </div>
-                            {% endif %}
-                        {% endfor %}
-
-                        <div class="research-sections__meta content-meta">
-                            {% if entry.documentsPrefix %}
-                                <p><strong>{{ entry.documentsPrefix }}</strong></p>
-                            {% endif %}
-                            {% for document in entry.documents %}
-                                <p><a class="btn btn--medium btn--outline" href="{{ document.url }}">
-                                    {{ document.title }}
-                                    {% if document.filetype or document.filesize %}
-                                        <small>({{ document.filetype | upper }} {{ document.filesize }})</small>
-                                    {% endif %}
-                                </a></p>
-                            {% endfor %}
-                            <p><a href="#content">↑ {{ __('global.misc.backToTop') }}</a>
-                        </div>
-                    </div>
-                </section>
-            {% endfor %}
-        </div>
+        {% if pageHero %}</div>{% endif %}
     </main>
 {% endblock %}
