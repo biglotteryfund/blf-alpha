@@ -1,10 +1,7 @@
 {% extends "layouts/main.njk" %}
 {% from "components/content-box/macro.njk" import contentBox %}
-<<<<<<< HEAD
 {% from "components/icons.njk" import iconTick, iconBin %}
-=======
 {% from "components/user-status/macro.njk" import userStatus with context %}
->>>>>>> Clean up copy and breadcrumb logic
 
 {% macro statusMessage(status) %}
     {% if status === 'ineligible' %}
