@@ -61,6 +61,14 @@ async function updateNewPassword({ newPassword, id }) {
     }
 }
 
+async function updateNewEmail({ newEmail, id }) {
+    try {
+        return Users.update({ username: newEmail, is_active: false }, { where: { id: { [Op.eq]: id } } });
+    } catch (error) {
+        throw error;
+    }
+}
+
 function updateActivateUser({ id }) {
     return Users.update(
         { is_active: true },
@@ -82,5 +90,6 @@ module.exports = {
     isValidPassword,
     updateActivateUser,
     updateIsInPasswordReset,
-    updateNewPassword
+    updateNewPassword,
+    updateNewEmail
 };

@@ -3,6 +3,7 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const Raven = require('raven');
 const path = require('path');
+const { concat } = require('lodash');
 
 const { requireUserAuth } = require('../../middleware/authed');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
@@ -48,9 +49,12 @@ router.route('/').get(requireUserAuth, async (req, res) => {
     if (token) {
         try {
             await activate(token, user);
-            res.redirect('/user');
+            res.redirect('/user?s=activationComplete');
         } catch (error) {
             Raven.captureException(error);
+            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+                label: 'Activate account'
+            });
             res.render(path.resolve(__dirname, './views/activate-error'));
         }
     } else {

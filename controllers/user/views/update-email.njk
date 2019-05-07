@@ -1,13 +1,19 @@
 {% extends "layouts/main.njk" %}
+{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
+{% from "components/user-status/macro.njk" import userStatus with context %}
 
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
             {{ breadcrumbTrail(breadcrumbs) }}
+            {{ userStatus(user) }}
 
             <h1 class="t--underline">{{ title }}</h1>
+
+            <div class="s-prose u-constrained-wide">
+                {{ copy.introduction | safe }}
+            </div>
 
             {% if alertMessage %}
                 <div class="message" role="alert">
@@ -30,17 +36,8 @@
                     value: formValues['username']
                 }, errors = errors) }}
 
-                {{ formField({
-                    type: 'password',
-                    name: 'password',
-                    label: 'Password',
-                    explanation: __('user.common.passwordRequirements'),
-                    isRequired: true
-                }, errors = errors) }}
-
                 <div class="form-actions">
-                    <input type="submit" class="btn" value="Register" />
-                    or <a href="/user/login">log in</a>
+                    <input type="submit" class="btn" value="Update email address" />
                 </div>
             </form>
         </div>

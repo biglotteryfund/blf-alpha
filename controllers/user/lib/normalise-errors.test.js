@@ -18,51 +18,55 @@ const mockErrorMessages = {
     a: [
         {
             type: 'base',
-            message: { en: 'Please enter A', cy: '(cy) Please enter A' }
+            message: 'Please enter A'
         },
         {
             type: 'string.min',
-            message: { en: 'A must be at least 10 characters', cy: '(cy) A must be at least 10 characters' }
+            message: 'A must be at least 10 characters'
         },
         {
             type: 'any.invalid',
-            message: { en: 'A must not be the same as B', cy: '(cy) A must not be the same as B' }
+            message: 'A must not be the same as B'
         }
     ],
     b: [
         {
             type: 'base',
-            message: { en: 'Please enter B', cy: '(cy) Please enter B' }
+            message: 'Please enter B'
         }
     ]
 };
 
 describe('normaliseErrors', () => {
     test('normalise errors', () => {
-        const validationResult = mockSchema.validate({ a: 'tooshort', c: 'here' }, { abortEarly: false });
+        const { error } = mockSchema.validate(
+            { a: 'tooshort', c: 'here' },
+            { abortEarly: false }
+        );
 
         const normalised = normaliseErrors({
-            validationError: validationResult.error,
-            errorMessages: mockErrorMessages,
-            locale: 'cy'
+            errorDetails: error.details,
+            errorMessages: mockErrorMessages
         });
 
         expect(normalised).toEqual([
-            { param: 'b', msg: '(cy) Please enter B' },
-            { param: 'a', msg: '(cy) A must be at least 10 characters' }
+            { param: 'b', msg: 'Please enter B' },
+            { param: 'a', msg: 'A must be at least 10 characters' }
         ]);
     });
 
     test('returns first error per field', () => {
-        const validationResult = mockSchema.validate({ a: 'same', b: 'same', c: 'here' }, { abortEarly: false });
+        const { error } = mockSchema.validate(
+            { a: 'same', b: 'same', c: 'here' },
+            { abortEarly: false }
+        );
 
         const normalised = normaliseErrors({
-            validationError: validationResult.error,
-            errorMessages: mockErrorMessages,
-            locale: 'en'
+            errorDetails: error.details,
+            errorMessages: mockErrorMessages
         });
 
-        expect(validationResult.error.details.length).toBe(3);
+        expect(error.details.length).toBe(3);
         expect(normalised).toEqual([
             { param: 'b', msg: 'Please enter B' },
             { param: 'a', msg: 'A must not be the same as B' }

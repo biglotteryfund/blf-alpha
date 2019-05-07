@@ -1,6 +1,6 @@
 'use strict';
 const { concat, has, head, flatMap } = require('lodash');
-const { filter, get, getOr, uniqBy } = require('lodash/fp');
+const { filter, getOr, uniqBy } = require('lodash/fp');
 
 /**
  * Find suitable errors
@@ -10,11 +10,24 @@ const { filter, get, getOr, uniqBy } = require('lodash/fp');
  *    Allows us to show a generic message for any unmatched error type e.g. "Please enter your name"
  */
 function messagesForError(detail, messages) {
-    const filterKeyAndType = filter(message => message.key === detail.context.key && message.type === detail.type);
-    const filterTypeOnly = filter(message => !has(message, 'key') && message.type === detail.type);
-    const filterBase = filter(message => !has(message, 'key') && message.type === 'base');
+    const filterKeyAndType = filter(function(message) {
+        return (
+            message.key === detail.context.key && message.type === detail.type
+        );
+    });
 
-    const matches = concat(filterKeyAndType(messages), filterTypeOnly(messages));
+    const filterTypeOnly = filter(function(message) {
+        return has(message, 'key') === false && message.type === detail.type;
+    });
+
+    const filterBase = filter(function(message) {
+        return has(message, 'key') === false && message.type === 'base';
+    });
+
+    const matches = concat(
+        filterKeyAndType(messages),
+        filterTypeOnly(messages)
+    );
 
     return matches.length ? matches : filterBase(messages);
 }
@@ -26,23 +39,23 @@ function messagesForError(detail, messages) {
  * - Determines the appropriate translated error message to use based on current error type.
  *
  * @param {Object} options
- * @param {String} options.locale
- * @param {Object} options.validationError
+ * @param {Object} options.errorDetails
  * @param {Object} options.errorMessages
  */
-module.exports = function normaliseErrors({ locale, validationError, errorMessages }) {
-    const errorDetails = getOr([], 'details')(validationError);
-    const uniqueErrorsDetails = uniqBy(detail => head(detail.path))(errorDetails);
+module.exports = function normaliseErrors({ errorDetails, errorMessages }) {
+    const uniqueErrorsDetails = uniqBy(detail => head(detail.path))(
+        errorDetails
+    );
 
-    return flatMap(uniqueErrorsDetails, detail => {
+    return flatMap(uniqueErrorsDetails, function(detail) {
         const name = head(detail.path);
         const fieldMessages = getOr([], name)(errorMessages);
         const matchingMessages = messagesForError(detail, fieldMessages);
 
-        return matchingMessages.map(match => {
+        return matchingMessages.map(function(match) {
             return {
                 param: name,
-                msg: get(`message.${locale}`)(match)
+                msg: match.message
             };
         });
     });

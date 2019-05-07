@@ -105,3 +105,19 @@ exports[`sendEmail create a html email response to be sent 2`] = `
 </p>
 
 `;
+
+exports[`sendHTMLEmail create an html email response and send it 1`] = `
+"TEST EMAIL
+Example data"
+`;
+
+exports[`sendHTMLEmail create an html email response and send it 2`] = `
+
+<h1>
+  Test email
+</h1>
+<p>
+  Example data
+</p>
+
+`;

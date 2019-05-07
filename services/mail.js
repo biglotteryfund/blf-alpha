@@ -47,7 +47,10 @@ function generateHtmlEmail({ template, templateData }) {
                 const publicRoot = path.resolve(__dirname, '../public');
                 juice.juiceResources(
                     html,
-                    { removeStyleTags: false, webResources: { relativeTo: publicRoot } },
+                    {
+                        removeStyleTags: false,
+                        webResources: { relativeTo: publicRoot, images: 10 }
+                    },
                     function(juiceErr, newHtml) {
                         /* istanbul ignore if */
                         if (juiceErr) {
@@ -63,6 +66,39 @@ function generateHtmlEmail({ template, templateData }) {
 }
 
 /**
+ * Utility function to generate an HTML email and send it.
+ *
+ *
+ * @param {object} options
+ * @param {string} options.template
+ * @param {object} options.templateData
+ * @param {object} mailParams
+ * @param {object} mailTransport
+ * @return {object}
+ */
+async function sendHtmlEmail(
+    { template, templateData },
+    mailParams,
+    mailTransport = null
+) {
+    const emailHtml = await generateHtmlEmail({ template, templateData });
+
+    const mailConfig = {
+        ...mailParams,
+        ...{
+            type: 'html',
+            content: emailHtml
+        }
+    };
+
+    return sendEmail({
+        name: mailParams.name,
+        mailConfig: mailConfig,
+        mailTransport: mailTransport
+    });
+}
+
+/**
  * Get send from address
  *
  * If we are sending to a biglotteryfund domain use the blf.digital,
@@ -74,7 +110,11 @@ function generateHtmlEmail({ template, templateData }) {
 function getSendAddress(recipients) {
     const addresses = recipients.map(recipient => recipient.address);
     if (
-        addresses.some(address => /@biglotteryfund.org.uk$/.test(address) || /@tnlcommunityfund.org.uk$/.test(address))
+        addresses.some(
+            address =>
+                /@biglotteryfund.org.uk$/.test(address) ||
+                /@tnlcommunityfund.org.uk$/.test(address)
+        )
     ) {
         return 'noreply@blf.digital';
     } else {
@@ -106,7 +146,13 @@ function normaliseSendTo(sendTo) {
  * @param {MailConfig} mailConfig
  * @return {nodemailer.SendMailOptions}
  */
-function buildMailOptions({ subject, type = 'text', content, sendTo, sendMode = 'to' }) {
+function buildMailOptions({
+    subject,
+    type = 'text',
+    content,
+    sendTo,
+    sendMode = 'to'
+}) {
     const normalisedSendTo = normaliseSendTo(sendTo);
     const sendFrom = getSendAddress(normalisedSendTo);
 
@@ -196,5 +242,6 @@ module.exports = {
     generateHtmlEmail,
     getSendAddress,
     normaliseSendTo,
-    sendEmail
+    sendEmail,
+    sendHtmlEmail
 };

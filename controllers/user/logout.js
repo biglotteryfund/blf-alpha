@@ -6,7 +6,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
     req.logout();
     req.session.save(() => {
-        res.redirect('/user/login');
+        res.redirect('/user/login?s=loggedOut');
     });
 });
 

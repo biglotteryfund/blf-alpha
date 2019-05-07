@@ -1,0 +1,22 @@
+{% macro userStatus(user) %}
+    {% if user %}
+        <div class="user-status">
+            <div class="user-status__current">
+                {% if user.userType === 'staff' %}
+                    <span class="o-badge o-badge--primary u-margin-right-s">Staff</span>
+                {% endif %}
+                {% set displayName = user.userData.fullName if user.userType === 'staff' else user.userData.username %}
+                Logged in as <strong>{{ displayName }}</strong>
+            </div>
+            <div class="user-status__actions">
+                <a href="{{ localify('/user/logout') }}" data-testid="logout-button">Log out</a>
+            </div>
+        </div>
+        {% if user.userType === 'user' and not user.userData.is_active %}
+            <div class="message" role="alert">
+                <p>You haven't activated your account yet.</p>
+                <p>Would you like to <a href="{{ localify('/user/activate') }}">re-send your activation link</a>?</p>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endmacro %}

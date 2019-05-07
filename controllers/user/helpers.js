@@ -1,35 +1,41 @@
 'use strict';
-const jsonwebtoken = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+const path = require('path');
 
-const { sendEmail } = require('../../services/mail');
+const { sendHtmlEmail } = require('../../services/mail');
 const { getAbsoluteUrl } = require('../../modules/urls');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 
-async function sendActivationEmail(req, user) {
+async function sendActivationEmail(req, user, isExisting = false) {
     const payload = { data: { userId: user.id, reason: 'activate' } };
-    const token = jsonwebtoken.sign(payload, JWT_SIGNING_TOKEN, {
+
+    const token = jwt.sign(payload, JWT_SIGNING_TOKEN, {
         expiresIn: '7d' // allow a week to activate
     });
 
-    const activateUrl = getAbsoluteUrl(req, `/user/activate/?token=${token}`);
-
-    const mailConfig = {
+    const mailParams = {
         name: 'user_activate_account',
-        subject: 'Activate your The National Lottery Community Fund website account',
-        type: 'text',
-        content: `Please click the following link to activate your account: ${activateUrl}`,
-        sendTo: user.username
+        sendTo: user.username,
+        subject: 'Activate your The National Lottery Community Fund website account'
     };
 
-    // @TODO should we alert users to errors here?
-    await sendEmail({
-        name: 'user_activate_account',
-        mailConfig: mailConfig
-    });
+    const email = await sendHtmlEmail(
+        {
+            template: path.resolve(__dirname, './views/emails/activate-account.njk'),
+            templateData: {
+                locale: req.i18n.getLocale(),
+                activateUrl: getAbsoluteUrl(req, `/user/activate?token=${token}`),
+                email: user.username,
+                isExisting: isExisting
+            }
+        },
+        mailParams
+    );
 
     return {
-        email: mailConfig,
-        token: token
+        email: email,
+        token: token,
+        mailParams: mailParams
     };
 }
 

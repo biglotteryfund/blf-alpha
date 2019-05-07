@@ -1,35 +1,25 @@
 {% extends "layouts/main.njk" %}
-
-{% set title = 'Your account' %}
-{% set bodyClass = 'has-static-header' %}
+{% from "components/section-links/macro.njk" import sectionLinks %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/user-status/macro.njk" import userStatus with context %}
 
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
-            <h1>{{ title }}</h1>
+            {{ breadcrumbTrail(breadcrumbs) }}
+            {{ userStatus(user) }}
 
-            {% if user.userType === 'user' %}
-                {% if not user.userData.is_active %}
-                    <div class="message" role="alert">
-                        <p>You haven't activated your account yet.</p>
-                        {% if activationSent %}
-                            <p><strong>We just sent an email to {{ user.userData.username }} with a link to activate your account.</strong></p>
-                        {% endif %}
-                        <p>Would you like to <a href="/user/activate">re-send your activation link</a>?</p>
-                    </div>
-                {% endif %}
+            <h1 class="t--underline">{{ title }}</h1>
+
+            {% if alertMessage %}
+                <div class="message" role="alert">
+                    {{ alertMessage }}
+                </div>
             {% endif %}
 
-            {% if user %}
-                {% if user.userType === 'user' %}
-                    <p>Logged in as <strong>{{ user.userData.username }}</strong>
-                {% elseif user.userType === 'staff' %}
-                    <p>Staff: logged in as <strong>{{ user.userData.fullName }}</strong>
-                {% endif %}
-                <p><a class="btn btn--small" href="/user/logout" data-testid="logout-button">Log out?</a></p>
-            {% else %}
-                <p><a class="btn btn--small" href="/user/login">Log in</a></p>
-            {% endif %}
+            <div class="u-margin-bottom">
+                {{ sectionLinks(copy.sectionLinks) }}
+            </div>
         </div>
     </main>
 {% endblock %}
