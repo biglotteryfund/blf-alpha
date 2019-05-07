@@ -47,7 +47,10 @@ function generateHtmlEmail({ template, templateData }) {
                 const publicRoot = path.resolve(__dirname, '../public');
                 juice.juiceResources(
                     html,
-                    { removeStyleTags: false, webResources: { relativeTo: publicRoot } },
+                    {
+                        removeStyleTags: false,
+                        webResources: { relativeTo: publicRoot, images: 10 }
+                    },
                     function(juiceErr, newHtml) {
                         /* istanbul ignore if */
                         if (juiceErr) {
@@ -73,7 +76,11 @@ function generateHtmlEmail({ template, templateData }) {
  * @param {object} mailTransport
  * @return {object}
  */
-async function sendHtmlEmail({ template, templateData }, mailParams, mailTransport = null) {
+async function sendHtmlEmail(
+    { template, templateData },
+    mailParams,
+    mailTransport = null
+) {
     const emailHtml = await generateHtmlEmail({ template, templateData });
 
     const mailConfig = {
@@ -103,7 +110,11 @@ async function sendHtmlEmail({ template, templateData }, mailParams, mailTranspo
 function getSendAddress(recipients) {
     const addresses = recipients.map(recipient => recipient.address);
     if (
-        addresses.some(address => /@biglotteryfund.org.uk$/.test(address) || /@tnlcommunityfund.org.uk$/.test(address))
+        addresses.some(
+            address =>
+                /@biglotteryfund.org.uk$/.test(address) ||
+                /@tnlcommunityfund.org.uk$/.test(address)
+        )
     ) {
         return 'noreply@blf.digital';
     } else {
@@ -135,7 +146,13 @@ function normaliseSendTo(sendTo) {
  * @param {MailConfig} mailConfig
  * @return {nodemailer.SendMailOptions}
  */
-function buildMailOptions({ subject, type = 'text', content, sendTo, sendMode = 'to' }) {
+function buildMailOptions({
+    subject,
+    type = 'text',
+    content,
+    sendTo,
+    sendMode = 'to'
+}) {
     const normalisedSendTo = normaliseSendTo(sendTo);
     const sendFrom = getSendAddress(normalisedSendTo);
 
