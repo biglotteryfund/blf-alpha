@@ -1067,11 +1067,11 @@ user:
   dashboard:
     title: Your account
     sectionLinks:
-    - label: Change your password,
+    - label: Change your password
       href: /user/password/reset
-    - label: Change your email address,
+    - label: Change your email address
       href: /user/update-email
-    - label: View your funding applications,
+    - label: View your funding applications
       href: /apply-next/simple
   login:
     title: Log in
@@ -1079,6 +1079,16 @@ user:
       <p>If you already have an account for The National Lottery Community Fund's website, you can log into it here.</p>
   register:
     title: Register
+  forgottenPassword:
+    title: Forgotten your password?
+  resetPassword:
+    title: Reset your password
+    introduction: >
+      <p>Please choose a new password for your account by entering it below. Ensure you choose a strong password.</p>
+  updateEmail:
+    title: Update email address
+    introduction: >
+      <p>You can modify your registered email address here. Please bear in mind you will need to confirm your account again once you have done this.</p>
 apply:
   error:
     title: There was a problem with your submission

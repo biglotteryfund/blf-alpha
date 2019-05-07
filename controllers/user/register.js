@@ -3,11 +3,14 @@ const express = require('express');
 const passport = require('passport');
 const path = require('path');
 const Raven = require('raven');
-const { concat } = require('lodash');
 
 const userService = require('../../services/user');
 const { csrfProtection } = require('../../middleware/cached');
 const { localify } = require('../../modules/urls');
+const {
+    injectCopy,
+    injectBreadcrumbs
+} = require('../../middleware/inject-content');
 const {
     requireUnauthed,
     redirectUrlWithFallback
@@ -20,9 +23,6 @@ const { sendActivationEmail } = require('./helpers');
 const router = express.Router();
 
 function renderForm(req, res, data = null, errors = []) {
-    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-        label: 'Register'
-    });
     res.render(path.resolve(__dirname, './views/register'), {
         csrfToken: req.csrfToken(),
         formValues: data,
@@ -32,7 +32,12 @@ function renderForm(req, res, data = null, errors = []) {
 
 router
     .route('/')
-    .all(requireUnauthed, csrfProtection)
+    .all(
+        requireUnauthed,
+        csrfProtection,
+        injectCopy('user.login'),
+        injectBreadcrumbs
+    )
     .get(renderForm)
     .post(async function handleRegister(req, res, next) {
         const validationResult = schema.accountSchema.validate(req.body, {

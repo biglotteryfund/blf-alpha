@@ -9,6 +9,11 @@ const { concat, get, head } = require('lodash');
 const { localify, getAbsoluteUrl } = require('../../modules/urls');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 const { requireUnauthed } = require('../../middleware/authed');
+const {
+    injectCopy,
+    injectBreadcrumbs
+} = require('../../middleware/inject-content');
+
 const { sendHtmlEmail } = require('../../services/mail');
 const userService = require('../../services/user');
 
@@ -117,9 +122,6 @@ function redirectToLogin(req, res) {
 }
 
 function renderForgotForm(req, res, data = null, errors = []) {
-    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-        label: 'Forgotten password'
-    });
     res.render(path.resolve(__dirname, './views/forgotten-password'), {
         formValues: data,
         errors: errors
@@ -127,9 +129,6 @@ function renderForgotForm(req, res, data = null, errors = []) {
 }
 
 function renderResetForm(req, res, errors = []) {
-    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-        label: 'Reset password'
-    });
     res.render(path.resolve(__dirname, './views/reset-password'), {
         errors: errors
     });
@@ -147,7 +146,11 @@ function renderResetFormExpired(req, res) {
  */
 router
     .route('/forgot')
-    .all(requireUnauthed)
+    .all(
+        requireUnauthed,
+        injectCopy('user.forgottenPassword'),
+        injectBreadcrumbs
+    )
     .get(renderForgotForm)
     .post(async function(req, res) {
         const validationResult = Joi.object({
@@ -189,24 +192,29 @@ router
  */
 router
     .route('/reset')
+    .all(injectCopy('user.resetPassword'), injectBreadcrumbs)
     .get(async (req, res) => {
-        // If we have a logged-in user, simply let them change their password
-        if (req.user) {
-            return renderResetForm(req, res);
+        function token() {
+            return req.query.token ? req.query.token : res.locals.token;
         }
 
-        // Otherwise handle an unauthorised user and verify their query token is valid
-        let token = req.query.token ? req.query.token : res.locals.token;
-        if (!token) {
-            return redirectToLogin(req, res);
-        } else {
+        /**
+         * 1. If we have a logged-in user, simply let them change their password
+         * 2. Otherwise handle an unauthorised user and verify their query token is valid
+         * 3. Redirect to login
+         */
+        if (req.user) {
+            renderResetForm(req, res);
+        } else if (token()) {
             try {
-                await verifyToken(token);
-                res.locals.token = token;
-                return renderResetForm(req, res);
+                await verifyToken(token());
+                res.locals.token = token();
+                renderResetForm(req, res);
             } catch (error) {
-                return renderResetFormExpired(req, res);
+                renderResetFormExpired(req, res);
             }
+        } else {
+            redirectToLogin(req, res);
         }
     })
     .post(async (req, res) => {

@@ -1,6 +1,10 @@
 {% extends "layouts/main.njk" %}
 {% from "components/content-box/macro.njk" import contentBox %}
+<<<<<<< HEAD
 {% from "components/icons.njk" import iconTick, iconBin %}
+=======
+{% from "components/user-status/macro.njk" import userStatus with context %}
+>>>>>>> Clean up copy and breadcrumb logic
 
 {% macro statusMessage(status) %}
     {% if status === 'ineligible' %}
@@ -133,6 +137,8 @@
 {% block content %}
     <main role="main" id="content">
         <section class="content-box u-inner-wide-only">
+            {{ userStatus(user) }}
+
             <div class="s-prose">
                 <h1 class="t--underline">Your applications</h1>
                 <p>

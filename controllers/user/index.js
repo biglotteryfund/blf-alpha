@@ -7,12 +7,8 @@ const { noindex } = require('../../middleware/robots');
 
 router.use(noCache, noindex, (req, res, next) => {
     res.locals.bodyClass = 'has-static-header'; // No hero images on user pages
-    res.locals.breadcrumbs = [
-        {
-            label: req.i18n.__('user.common.yourAccount'),
-            url: req.baseUrl
-        }
-    ];
+    res.locals.sectionTitle = req.i18n.__('user.common.yourAccount');
+    res.locals.sectionUrl = req.baseUrl;
 
     if (req.user) {
         res.locals.user = req.user;
@@ -23,8 +19,8 @@ router.use(noCache, noindex, (req, res, next) => {
 
 router.use('/', require('./dashboard'));
 router.use('/login', require('./login'));
-router.use('/logout', require('./logout'));
 router.use('/register', require('./register'));
+router.use('/logout', require('./logout'));
 router.use('/activate', require('./activate'));
 router.use('/password', require('./password'));
 router.use('/staff', require('./staff'));

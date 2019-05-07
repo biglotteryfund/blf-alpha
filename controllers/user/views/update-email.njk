@@ -3,8 +3,6 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/user-status/macro.njk" import userStatus with context %}
 
-{% set title = 'Update email address' %}
-
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
@@ -13,7 +11,9 @@
 
             <h1 class="t--underline">{{ title }}</h1>
 
-            <p>You can modify your registered email address here. Please bear in mind you will need to confirm your account again once you have done this.</p>
+            <div class="s-prose u-constrained-wide">
+                {{ copy.introduction | safe }}
+            </div>
 
             {% if alertMessage %}
                 <div class="message" role="alert">

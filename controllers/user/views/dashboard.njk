@@ -3,13 +3,10 @@
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/user-status/macro.njk" import userStatus with context %}
 
-{% set title = 'Your account' %}
-
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
             {{ breadcrumbTrail(breadcrumbs) }}
-
             {{ userStatus(user) }}
 
             <h1 class="t--underline">{{ title }}</h1>
