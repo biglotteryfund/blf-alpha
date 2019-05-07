@@ -8,9 +8,9 @@
 
 {% macro stepSummary(step, stepNumber, totalSteps) %}
     <div class="step-summary">
-        <h4 class="step-summary__title">
+        <h3 class="step-summary__title">
             {{ __('global.misc.stepProgress', stepNumber, totalSteps) }} &ndash; {{ step.title }}
-        </h4>
+        </h3>
 
         {% if step.isRequired %}
             {% for fieldset in step.fieldsets %}
@@ -45,14 +45,14 @@
     <section class="section-summary section-summary--{{ sectionProgress }}">
 
         <header class="section-progress-bar section-progress-bar--{{ sectionProgress }}">
-            <h3 class="section-progress-bar__title">
+            <h2 class="section-progress-bar__title">
                 <a href="{{ formBaseUrl }}/{{ section.slug }}" class="u-link-unstyled">
                     {{ copy.sectionPrefix }} {{ sectionNumber }}: {{ section.title }}
                 </a>
 
                 {% set editWord = copy.continue if sectionProgress === FORM_STATES.incomplete else copy.edit %}
                 <a class="section-progress-bar__edit u-edit-link" href="{{ formBaseUrl }}/{{ section.slug }}">{{ editWord }}</a>
-            </h3>
+            </h2>
 
             <a class="section-progress-bar__marker u-link-unstyled" href="{{ formBaseUrl }}/{{ section.slug }}">
                 {% if sectionProgress === FORM_STATES.complete %}
@@ -127,7 +127,7 @@
 
             <div class="form-actions">
                 {% if progress.all === FORM_STATES.complete %}
-                    <a href="{{ formBaseUrl }}/terms" class="btn">{{ copy.submit }}</a>
+                    <p><a href="{{ formBaseUrl }}/terms" class="btn">{{ copy.submit }}</a></p>
                 {% else %}
                     <div class="s-prose">{{ copy.summary.incompleteMessage | safe }}</div>
                 {% endif %}
