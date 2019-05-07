@@ -1,20 +1,17 @@
+{% extends "layouts/main.njk" %}
 {% from "components/form-fields/macros.njk" import formErrors, formField with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "./user-helpers.njk" import userInfoPanel %}
-
-{% extends "layouts/main.njk" %}
+{% from "components/user-status/macro.njk" import userStatus with context %}
 
 {% set title = 'Update email address' %}
-{% set bodyClass = 'has-static-header' %}
 
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
             {{ breadcrumbTrail(breadcrumbs) }}
+            {{ userStatus(user) }}
 
-            <h1>{{ title }}</h1>
-
-            {{ userInfoPanel(user) }}
+            <h1 class="t--underline">{{ title }}</h1>
 
             <p>You can modify your registered email address here. Please bear in mind you will need to confirm your account again once you have done this.</p>
 

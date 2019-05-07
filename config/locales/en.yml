@@ -1058,6 +1058,27 @@ materials:
     <p>There are lots of other ways to celebrate your funding. You can find more resources and top tips on how to promote your grant on our website: <a href="https://www.tnlcommunityfund.org.uk/welcome">www.tnlcommunityfund.org.uk/welcome</a>.</p>
 
     <p>If you have any questions about your order, get in touch at <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.</p>
+user:
+  common:
+    yourAccount: Your account
+    passwordRequirements: >
+      <p>Must be at least 10 characters long <br>
+      Must not be the same as your email address</p>
+  dashboard:
+    title: Your account
+    sectionLinks:
+    - label: Change your password,
+      href: /user/password/reset
+    - label: Change your email address,
+      href: /user/update-email
+    - label: View your funding applications,
+      href: /apply-next/simple
+  login:
+    title: Log in
+    introduction: >
+      <p>If you already have an account for The National Lottery Community Fund's website, you can log into it here.</p>
+  register:
+    title: Register
 apply:
   error:
     title: There was a problem with your submission

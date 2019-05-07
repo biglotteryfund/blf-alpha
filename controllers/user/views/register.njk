@@ -1,8 +1,6 @@
 {% extends "layouts/main.njk" %}
-{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-
-{% set title = 'Register' %}
+{% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
 
 {% block content %}
     <main role="main" id="content">
@@ -36,7 +34,7 @@
                     type: 'password',
                     name: 'password',
                     label: 'Password',
-                    explanation: 'Must be at least 10 characters long',
+                    explanation: __('user.common.passwordRequirements'),
                     isRequired: true
                 }, errors = errors) }}
 

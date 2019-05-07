@@ -6,10 +6,14 @@ const { concat } = require('lodash');
 
 const router = express.Router();
 
-const { csrfProtection } = require('../../middleware/cached');
-const { requireUnauthed, redirectUrlWithFallback } = require('../../middleware/authed');
-const { addAlertMessage } = require('../../middleware/user');
 const { localify } = require('../../modules/urls');
+const { injectCopy } = require('../../middleware/inject-content');
+const { csrfProtection } = require('../../middleware/cached');
+const { addAlertMessage } = require('../../middleware/user');
+const {
+    requireUnauthed,
+    redirectUrlWithFallback
+} = require('../../middleware/authed');
 
 function renderForm(req, res) {
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
@@ -22,10 +26,9 @@ function renderForm(req, res) {
 
 router
     .route('/')
-    .all(csrfProtection, requireUnauthed)
+    .all(csrfProtection, requireUnauthed, injectCopy('user.login'))
     .get(addAlertMessage, renderForm)
     .post((req, res, next) => {
-        // @TODO consider rate limiting?
         passport.authenticate('local', (err, user, info) => {
             if (!user) {
                 // User not valid, send them to login again
@@ -41,7 +44,9 @@ router
                     if (loginErr) {
                         next(loginErr);
                     } else {
-                        const fallbackUrl = localify(req.i18n.getLocale())('/user');
+                        const fallbackUrl = localify(req.i18n.getLocale())(
+                            '/user'
+                        );
                         redirectUrlWithFallback(fallbackUrl, req, res);
                     }
                 });

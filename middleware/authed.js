@@ -1,8 +1,9 @@
 'use strict';
 const { get } = require('lodash');
+const { localify } = require('../modules/urls');
 
 /**
- * Require unauthed
+ * Require authenticated
  * Only allow non-authenticated users
  */
 function requireUnauthed(req, res, next) {
@@ -23,7 +24,7 @@ function requireUserAuth(req, res, next) {
     } else {
         req.session.redirectUrl = req.originalUrl;
         req.session.save(() => {
-            res.redirect('/user/login');
+            res.redirect(localify(req.i18n.getLocale())('/user/login'));
         });
     }
 }

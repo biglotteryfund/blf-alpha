@@ -6,11 +6,10 @@ const { noCache } = require('../../middleware/cached');
 const { noindex } = require('../../middleware/robots');
 
 router.use(noCache, noindex, (req, res, next) => {
-    res.locals.isBilingual = false;
     res.locals.bodyClass = 'has-static-header'; // No hero images on user pages
     res.locals.breadcrumbs = [
         {
-            label: 'Your account',
+            label: req.i18n.__('user.common.yourAccount'),
             url: req.baseUrl
         }
     ];

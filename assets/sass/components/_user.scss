@@ -1,0 +1,27 @@
+/* =========================================================================
+   User status
+   ========================================================================= */
+
+.user-status {
+    font-size: 17px;
+    border-bottom: 1px solid get-color('border', 'base');
+    padding-bottom: $spacingUnit / 2;
+    margin-bottom: $spacingUnit;
+
+    strong {
+        font-weight: font-weight('body', 'semibold');
+    }
+
+    @include mq('medium') {
+        display: flex;
+        align-items: center;
+
+        .user-status__current {
+            flex: 1 1 auto;
+        }
+
+        .user-status__actions {
+            flex: 0 0 auto;
+        }
+    }
+}

@@ -1,45 +1,28 @@
+{% extends "layouts/main.njk" %}
 {% from "components/section-links/macro.njk" import sectionLinks %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "./user-helpers.njk" import userInfoPanel %}
-
-{% extends "layouts/main.njk" %}
+{% from "components/user-status/macro.njk" import userStatus with context %}
 
 {% set title = 'Your account' %}
-{% set bodyClass = 'has-static-header' %}
 
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
             {{ breadcrumbTrail(breadcrumbs) }}
 
-            <h1>{{ title }}</h1>
+            {{ userStatus(user) }}
 
-            {{ userInfoPanel(user) }}
+            <h1 class="t--underline">{{ title }}</h1>
 
-            {% if user.userType === 'staff' %}
-                <p>Staff: logged in as <strong>{{ user.userData.fullName }}</strong></p>
-                <p><a class="btn btn--small" href="/user/logout" data-testid="logout-button">Log out?</a></p>
-            {% else %}
-                {% if alertMessage %}
-                    <div class="message" role="alert">
-                        {{ alertMessage }}
-                    </div>
-                {% endif %}
-
-                <div class="u-margin-bottom">
-                    {{ sectionLinks([{
-                        "label": "Change your password",
-                        "href": "/user/password/reset"
-                    }, {
-                        "label": "Change your email address",
-                        "href": "/user/update-email"
-                    }, {
-                        "label": "View your funding applications",
-                        "href": "/apply-next/simple"
-                    }]) }}
+            {% if alertMessage %}
+                <div class="message" role="alert">
+                    {{ alertMessage }}
                 </div>
-
             {% endif %}
+
+            <div class="u-margin-bottom">
+                {{ sectionLinks(copy.sectionLinks) }}
+            </div>
         </div>
     </main>
 {% endblock %}
