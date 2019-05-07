@@ -1,17 +1,37 @@
 'use strict';
 const moment = require('moment');
-const { castArray, filter, includes, isArray, sumBy } = require('lodash');
+const { get, castArray, filter, includes, isArray, sumBy } = require('lodash');
 
 function formatOptions(options) {
     return function(value) {
         const choices = castArray(value);
-        const matches = filter(options, option => includes(choices, option.value));
-        return matches.length > 0 ? matches.map(match => match.label).join(', ') : choices.join(', ');
+        const matches = filter(options, option =>
+            includes(choices, option.value)
+        );
+        return matches.length > 0
+            ? matches.map(match => match.label).join(', ')
+            : choices.join(', ');
     };
 }
 
 function formatAddress(value) {
-    return [value['building-street'], value['town-city'], value['county'], value['postcode']].join(',\n');
+    return [
+        value['building-street'],
+        value['town-city'],
+        value['county'],
+        value['postcode']
+    ].join(',\n');
+}
+
+function formatAddressHistory(value) {
+    const meetsMinimium = get(value, 'current-address-meets-minimum');
+    const previousAddress = get(value, 'previous-address');
+
+    if (previousAddress && meetsMinimium === 'no') {
+        return formatAddress(previousAddress);
+    } else {
+        return 'yes';
+    }
 }
 
 function formatDate(value) {
@@ -44,7 +64,9 @@ function formatBudget(value) {
     } else {
         const total = sumBy(value, item => parseInt(item.cost || 0));
         return [
-            value.map(line => `${line.item} – £${line.cost.toLocaleString()}`).join('\n'),
+            value
+                .map(line => `${line.item} – £${line.cost.toLocaleString()}`)
+                .join('\n'),
             `Total: £${total.toLocaleString()}`
         ].join('\n');
     }
@@ -63,6 +85,9 @@ function formatterFor(field) {
             break;
         case 'address':
             formatter = formatAddress;
+            break;
+        case 'address-history':
+            formatter = formatAddressHistory;
             break;
         case 'date':
             formatter = formatDate;
