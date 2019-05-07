@@ -1,18 +1,15 @@
+{% extends "layouts/main.njk" %}
 {% from "components/form-fields/macros.njk" import formErrors, formField with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
-{% extends "layouts/main.njk" %}
-
 {% set title = 'Register' %}
-{% set bodyClass = 'has-static-header' %}
 
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
             {{ breadcrumbTrail(breadcrumbs) }}
 
-            <h1>{{ title }}</h1>
-            <p>You can create an account for use on The National Lottery Community Fund's website here.</p>
+            <h1 class="t--underline">{{ title }}</h1>
 
             {% if alertMessage %}
                 <div class="message" role="alert">
@@ -39,6 +36,7 @@
                     type: 'password',
                     name: 'password',
                     label: 'Password',
+                    explanation: 'Must be at least 10 characters long',
                     isRequired: true
                 }, errors = errors) }}
 

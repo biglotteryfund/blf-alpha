@@ -5,13 +5,14 @@ const router = express.Router();
 const { concat } = require('lodash');
 const Raven = require('raven');
 
-const { sendActivationEmail } = require('./helpers');
-const { emailSchema, errorMessages } = require('./schema');
 const userService = require('../../services/user');
 const { csrfProtection } = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
 const { addAlertMessage } = require('../../middleware/user');
-const { normaliseErrors } = require('../../modules/errors');
+
+const normaliseErrors = require('./lib/normalise-errors');
+const schema = require('./schema');
+const { sendActivationEmail } = require('./helpers');
 
 function renderUpdateEmailForm(req, res, data = null, errors = []) {
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
@@ -27,7 +28,7 @@ function renderUpdateEmailForm(req, res, data = null, errors = []) {
 /**
  * Route: Generic user dashboard
  */
-router.get('/', addAlertMessage, (req, res) => {
+router.get('/', requireUserAuth, addAlertMessage, (req, res) => {
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
         label: 'Dashboard'
     });
@@ -44,16 +45,14 @@ router
     .all(requireUserAuth, csrfProtection)
     .get(renderUpdateEmailForm)
     .post(async (req, res) => {
-        const validationResult = emailSchema.validate(req.body, {
+        const validationResult = schema.emailSchema.validate(req.body, {
             abortEarly: false,
             stripUnknown: true
         });
 
         const errors = normaliseErrors({
-            validationError: validationResult.error,
-            errorMessages: errorMessages,
-            locale: req.i18n.getLocale(),
-            fieldNames: ['username']
+            errorDetails: validationResult.error.details,
+            errorMessages: schema.errorMessages(req.i18n.getLocale())
         });
 
         if (errors.length > 0) {
@@ -63,7 +62,9 @@ router
                 const { username } = validationResult.value;
                 const existingUser = await userService.findByUsername(username);
                 if (existingUser) {
-                    throw new Error('A user tried to update their email address to an existing email address');
+                    throw new Error(
+                        `A user tried to update their email address to an existing email address`
+                    );
                 } else {
                     const userId = req.user.userData.id;
                     await userService.updateNewEmail({
@@ -76,8 +77,17 @@ router
                 }
             } catch (error) {
                 Raven.captureException(error);
-                res.locals.alertMessage = 'There was an error updating your details - please try again';
-                renderUpdateEmailForm(req, res, validationResult.value);
+                const genericErrors = [
+                    {
+                        msg: `There was an error updating your details - please try again`
+                    }
+                ];
+                renderUpdateEmailForm(
+                    req,
+                    res,
+                    validationResult.value,
+                    genericErrors
+                );
             }
         }
     });

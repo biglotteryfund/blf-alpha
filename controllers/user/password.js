@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const express = require('express');
 const Raven = require('raven');
 const Joi = require('joi');
-const { concat } = require('lodash');
+const { concat, get, head } = require('lodash');
 
 const { localify, getAbsoluteUrl } = require('../../modules/urls');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
@@ -52,12 +52,14 @@ async function processResetRequest(req, user) {
 }
 
 function sendPasswordResetNotification(req, email) {
+    const template = path.resolve(
+        __dirname,
+        './views/emails/password-reset.njk'
+    );
+
     return sendHtmlEmail(
         {
-            template: path.resolve(
-                __dirname,
-                './views/emails/password-reset.njk'
-            ),
+            template: template,
             templateData: {
                 locale: req.i18n.getLocale(),
                 email: email
@@ -66,8 +68,7 @@ function sendPasswordResetNotification(req, email) {
         {
             name: 'user_password_reset_success',
             sendTo: email,
-            subject:
-                'Your National Lottery Community Fund account password was successfully reset'
+            subject: `Your National Lottery Community Fund account password was successfully reset`
         }
     );
 }
@@ -99,10 +100,13 @@ function validatePasswordChangeRequest(username, password, locale) {
         { abortEarly: false, stripUnknown: true }
     );
 
+    const errorDetails = get(validationResult.error, 'details', []).filter(
+        detail => head(detail.path) === 'password'
+    );
+
     const errors = normaliseErrors({
-        validationError: validationResult.error,
-        errorMessages: schema.errorMessages,
-        locale: locale
+        errorDetails: errorDetails,
+        errorMessages: schema.errorMessages(locale)
     });
 
     return { validationResult, errors };
@@ -122,12 +126,12 @@ function renderForgotForm(req, res, data = null, errors = []) {
     });
 }
 
-function renderResetForm(req, res) {
+function renderResetForm(req, res, errors = []) {
     res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
         label: 'Reset password'
     });
     res.render(path.resolve(__dirname, './views/reset-password'), {
-        errors: res.locals.errors || []
+        errors: errors
     });
 }
 
@@ -154,9 +158,8 @@ router
         });
 
         const errors = normaliseErrors({
-            validationError: validationResult.error,
-            errorMessages: schema.errorMessages,
-            locale: req.i18n.getLocale()
+            errorDetails: validationResult,
+            errorMessages: schema.errorMessages(req.i18n.getLocale())
         });
 
         if (errors.length > 0) {
@@ -192,7 +195,7 @@ router
             return renderResetForm(req, res);
         }
 
-        // Otherwise handle an unauthed user and verify their query token is valid
+        // Otherwise handle an unauthorised user and verify their query token is valid
         let token = req.query.token ? req.query.token : res.locals.token;
         if (!token) {
             return redirectToLogin(req, res);
@@ -227,9 +230,8 @@ router
                 );
 
                 if (errors.length > 0) {
-                    res.locals.errors = errors;
                     res.locals.formValues = validationResult.value;
-                    return renderResetForm(req, res);
+                    return renderResetForm(req, res, errors);
                 } else {
                     try {
                         await userService.updateNewPassword({
@@ -242,19 +244,26 @@ router
                         );
                         res.redirect('/user?s=passwordUpdated');
                     } catch (error) {
-                        res.locals.alertMessage =
-                            'There was a problem updating your password - please try again';
-                        renderResetForm(req, res);
+                        const updatingErrors = [
+                            {
+                                msg: `There was a problem updating your password`
+                            }
+                        ];
+
+                        renderResetForm(req, res, updatingErrors);
                     }
                 }
             } else {
-                // Show an error for invalid old password
-                res.locals.alertMessage =
-                    'Your old password was not correct - please try again';
-                renderResetForm(req, res);
+                const errors = [
+                    {
+                        param: 'password-old',
+                        msg: 'Your old password was not correct'
+                    }
+                ];
+                renderResetForm(req, res, errors);
             }
         } else {
-            // Handle an unauthed user who submitted the form with a JWT
+            // Handle an unauthorised user who submitted the form with a token
             const { token } = req.body;
 
             if (!token) {

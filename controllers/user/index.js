@@ -7,20 +7,18 @@ const { noindex } = require('../../middleware/robots');
 
 router.use(noCache, noindex, (req, res, next) => {
     res.locals.isBilingual = false;
-    next();
-});
-
-router.use((req, res, next) => {
-    let crumbs = [
+    res.locals.bodyClass = 'has-static-header'; // No hero images on user pages
+    res.locals.breadcrumbs = [
         {
             label: 'Your account',
             url: req.baseUrl
         }
     ];
-    res.locals.breadcrumbs = crumbs;
+
     if (req.user) {
         res.locals.user = req.user;
     }
+
     next();
 });
 

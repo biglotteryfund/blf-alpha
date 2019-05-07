@@ -16,42 +16,29 @@
 
             {{ userInfoPanel(user) }}
 
-            {% if user %}
-
-                {% if user.userType === 'user' %}
-
-                    {% if alertMessage %}
-                        <div class="message" role="alert">
-                            {{ alertMessage }}
-                        </div>
-                    {% endif %}
-
-                    <div class="u-margin-bottom">
-                        {{ sectionLinks([
-                            {
-                                "label": "Change your password",
-                                "href": "/user/password/reset"
-                            },
-                            {
-                                "label": "Change your email address",
-                                "href": "/user/update-email"
-                            },
-                            {
-                                "label": "View your funding applications",
-                                "href": "/apply-next/simple"
-                            }
-                        ]) }}
+            {% if user.userType === 'staff' %}
+                <p>Staff: logged in as <strong>{{ user.userData.fullName }}</strong></p>
+                <p><a class="btn btn--small" href="/user/logout" data-testid="logout-button">Log out?</a></p>
+            {% else %}
+                {% if alertMessage %}
+                    <div class="message" role="alert">
+                        {{ alertMessage }}
                     </div>
-
-
-                {% elseif user.userType === 'staff' %}
-                    <p>Staff: logged in as <strong>{{ user.userData.fullName }}</strong></p>
-                    <p><a class="btn btn--small" href="/user/logout" data-testid="logout-button">Log out?</a></p>
                 {% endif %}
 
-            {% else %}
-                <p>You don't have a user account yet &ndash; please <a href="{{ localify('/user/register') }}">create one</a>, or log in to an existing account below.</p>
-                <p><a class="btn btn--small" href="{{ localify('/user/login') }}">Log in</a></p>
+                <div class="u-margin-bottom">
+                    {{ sectionLinks([{
+                        "label": "Change your password",
+                        "href": "/user/password/reset"
+                    }, {
+                        "label": "Change your email address",
+                        "href": "/user/update-email"
+                    }, {
+                        "label": "View your funding applications",
+                        "href": "/apply-next/simple"
+                    }]) }}
+                </div>
+
             {% endif %}
         </div>
     </main>
