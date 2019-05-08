@@ -1,17 +1,27 @@
-{% extends "./layout.njk" %}
+{% extends "layouts/main.njk" %}
+{% from "components/section-links/macro.njk" import sectionLinks %}
+{% from "components/user-status/macro.njk" import staffStatus with context %}
 
-{% block title %}Tools{% endblock %}
+{% set title = 'Staff tools' %}
+{% set bodyClass = 'has-static-header' %}
 
 {% block content %}
-    <h1 class="border-bottom pb-2 mb-4">What would you like to do?</h1>
-    <p class="navbar-text">Logged in as <strong>{{ user.userData.fullName }}</strong>
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only">
+            {{ staffStatus(user) }}
 
-    <div class="list-group">
-        {% for link in links %}
-            <a href="{{ link.href }}" class="list-group-item list-group-item-action">
-                <strong>{{ link.label }}</strong><br/>
-                {{ link.description }}
-            </a>
-        {% endfor %}
-    </div>
+            <h1 class="t--underline">{{ title }}</h1>
+
+            {{ sectionLinks([{
+                href: '/tools/survey-results',
+                label: 'Site satisfaction survey results'
+            }, {
+                href: '/tools/feedback-results',
+                label: 'Page feedback survey responses'
+            }, {
+                href: '/tools/order-stats',
+                label: 'Statistics on recent material orders'
+            }]) }}
+        </div>
+    </main>
 {% endblock %}

@@ -12,10 +12,18 @@ function withDefaultDirectives(directives) {
         defaultSrc: defaultSrc,
         baseUri: ["'self'"],
         childSrc: concat(defaultSrc, directive('childSrc')),
-        styleSrc: concat(defaultSrc, ["'unsafe-inline'"], directive('styleSrc')),
+        styleSrc: concat(
+            defaultSrc,
+            ["'unsafe-inline'"],
+            directive('styleSrc')
+        ),
         connectSrc: concat(defaultSrc, directive('connectSrc')),
         imgSrc: concat(defaultSrc, ['data:', 'localhost'], directive('imgSrc')),
-        scriptSrc: concat(defaultSrc, ["'unsafe-eval'", "'unsafe-inline'"], directive('scriptSrc')),
+        scriptSrc: concat(
+            defaultSrc,
+            ["'unsafe-eval'", "'unsafe-inline'"],
+            directive('scriptSrc')
+        ),
         fontSrc: concat(defaultSrc, ['data:'], directive('fontSrc'))
     };
 
@@ -55,6 +63,9 @@ function defaultSecurityHeaders() {
         '*.vimeo.com',
         'cdn.polyfill.io',
         'cdn.syndication.twimg.com',
+        'maxcdn.bootstrapcdn.com',
+        'ajax.googleapis.com',
+        'cdnjs.cloudflare.com',
         'platform.twitter.com',
         'sentry.io',
         'syndication.twitter.com',
@@ -66,12 +77,17 @@ function defaultSecurityHeaders() {
         defaultSrc: defaultSecurityDomains,
         childSrc: ['www.google.com'],
         styleSrc: ['*.typekit.net'],
-        imgSrc: ['stats.g.doubleclick.net', 'via.placeholder.com', 'biglotteryfund-assets.imgix.net'],
+        imgSrc: [
+            'stats.g.doubleclick.net',
+            'via.placeholder.com',
+            'biglotteryfund-assets.imgix.net'
+        ],
         connectSrc: [],
         scriptSrc: [],
         frameSrc: [],
         fontSrc: ['use.typekit.net'],
-        reportUri: 'https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c'
+        reportUri:
+            'https://sentry.io/api/226416/csp-report/?sentry_key=53aa5923a25c43cd9a645d9207ae5b6c'
     };
 
     /**
@@ -97,9 +113,16 @@ function defaultSecurityHeaders() {
             'https://vc.hotjar.io:*',
             'wss://*.hotjar.com'
         ]);
-        directives.frameSrc = directives.frameSrc.concat(['https://vars.hotjar.com']);
-        directives.childSrc = directives.childSrc.concat(['https://vars.hotjar.com']);
-        directives.fontSrc = directives.fontSrc.concat(['http://static.hotjar.com', 'https://static.hotjar.com']);
+        directives.frameSrc = directives.frameSrc.concat([
+            'https://vars.hotjar.com'
+        ]);
+        directives.childSrc = directives.childSrc.concat([
+            'https://vars.hotjar.com'
+        ]);
+        directives.fontSrc = directives.fontSrc.concat([
+            'http://static.hotjar.com',
+            'https://static.hotjar.com'
+        ]);
     }
 
     /**
@@ -107,7 +130,10 @@ function defaultSecurityHeaders() {
      * This allows us to test out local images without publishing them
      */
     if (appData.isNotProduction) {
-        directives.imgSrc = directives.imgSrc.concat(['http://localhost', 'http://127.0.0.1:*']);
+        directives.imgSrc = directives.imgSrc.concat([
+            'http://localhost',
+            'http://127.0.0.1:*'
+        ]);
     }
 
     /**
@@ -115,7 +141,10 @@ function defaultSecurityHeaders() {
      * Used primarily for browser-sync to be able to poll and reload assets
      */
     if (appData.isDev) {
-        directives.defaultSrc = directives.defaultSrc.concat(['http://localhost:*', 'ws://localhost:*']);
+        directives.defaultSrc = directives.defaultSrc.concat([
+            'http://localhost:*',
+            'ws://localhost:*'
+        ]);
     }
 
     return buildSecurityMiddleware(directives);
