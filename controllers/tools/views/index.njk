@@ -1,6 +1,6 @@
 {% extends "layouts/main.njk" %}
 {% from "components/section-links/macro.njk" import sectionLinks %}
-{% from "components/user-status/macro.njk" import userStatus with context %}
+{% from "components/user-status/macro.njk" import staffStatus with context %}
 
 {% set title = 'Staff tools' %}
 {% set bodyClass = 'has-static-header' %}
@@ -8,7 +8,7 @@
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
-            {{ userStatus(user) }}
+            {{ staffStatus(user) }}
 
             <h1 class="t--underline">{{ title }}</h1>
 
