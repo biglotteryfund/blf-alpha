@@ -7,9 +7,9 @@ const { noindex } = require('../../middleware/robots');
 
 const router = express.Router();
 
-router.use('/staff', require('./staff'));
-
 router.use(noCache, noindex);
+
+router.use('/staff', require('./staff'));
 
 function isStaff(user) {
     return get(user, 'userType', false) === 'staff';

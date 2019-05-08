@@ -2,6 +2,14 @@
 const { get } = require('lodash');
 const { localify } = require('../modules/urls');
 
+function isStaff(user) {
+    return get(user, 'userType', false) === 'staff';
+}
+
+function isRegularUser(user) {
+    return get(user, 'userType', false) === 'user';
+}
+
 /**
  * Require authenticated
  * Only allow non-authenticated users
@@ -19,8 +27,8 @@ function requireUnauthed(req, res, next) {
  * Middleware to require that the visitor is logged in as a public user
  */
 function requireUserAuth(req, res, next) {
-    if (req.isAuthenticated() && get(req, 'user.userType', false) === 'user') {
-        return next();
+    if (req.isAuthenticated() && isRegularUser(req.user)) {
+        next();
     } else {
         req.session.redirectUrl = req.originalUrl;
         req.session.save(() => {
@@ -34,7 +42,9 @@ function requireUserAuth(req, res, next) {
  * Middleware to require that the visitor is logged in as a staff user
  */
 function requireStaffAuth(req, res, next) {
-    if (req.isAuthenticated() && get(req, 'user.userType', false) === 'staff') {
+    if (req.isAuthenticated() && isRegularUser(req.user)) {
+        res.redirect('/user');
+    } else if (req.isAuthenticated() && isStaff(req.user)) {
         return next();
     } else {
         res.redirect(`/user/staff/login?redirectUrl=${req.originalUrl}`);
