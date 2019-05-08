@@ -6,12 +6,8 @@ const path = require('path');
 const router = express.Router();
 
 router.get('/interstitial', (req, res) => {
-    let redirectUrl = '/user';
-    if (req.query.redirectUrl) {
-        redirectUrl = req.query.redirectUrl;
-    }
     res.render(path.resolve(__dirname, 'views/interstitial'), {
-        redirectUrl: redirectUrl
+        redirectUrl: req.query.redirectUrl ? req.query.redirectUrl : '/tools'
     });
 });
 
@@ -25,6 +21,7 @@ router.get('/interstitial', (req, res) => {
 router.get('/login', function(req, res, next) {
     passport.authenticate('azuread-openidconnect', {
         failureRedirect: '/user/staff/error',
+        // @ts-ignore
         customState: req.query.redirectUrl
     })(req, res, next);
 });
@@ -40,27 +37,25 @@ router.post('/auth/openid/return', function(req, res, next) {
         function(authError, user) {
             if (authError) {
                 return next(authError);
-            }
+            } else if (user) {
+                req.login(user, loginErr => {
+                    if (loginErr) {
+                        return next(loginErr);
+                    }
 
-            if (!user) {
+                    /**
+                     * There's a long-running Passport/session bug where redirects
+                     * fire before session is created so we have a temporary holding
+                     * page which allows the request to resolve
+                     * @see https://github.com/jaredhanson/passport/pull/680
+                     */
+                    return res.redirect(
+                        `/user/staff/interstitial?redirectUrl=${req.body.state}`
+                    );
+                });
+            } else {
                 return res.redirect('/user/login');
             }
-
-            req.login(user, loginErr => {
-                if (loginErr) {
-                    return next(loginErr);
-                }
-
-                /**
-                 * There's a long-running Passport/session bug where redirects
-                 * fire before session is created so we have a temporary holding
-                 * page which allows the request to resolve
-                 * @see https://github.com/jaredhanson/passport/pull/680
-                 */
-                return res.redirect(
-                    `/user/staff/interstitial?redirectUrl=${req.body.state}`
-                );
-            });
         }
     )(req, res, next);
 });

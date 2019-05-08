@@ -16,6 +16,10 @@ function isStaff(user) {
 }
 
 router.use(function(req, res, next) {
+    /**
+     * Block access to common /user routes if staff
+     * only allow access to staff routes.
+     */
     if (req.isAuthenticated() && isStaff(req.user)) {
         res.redirect('/tools');
     } else {
