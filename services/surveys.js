@@ -4,11 +4,11 @@ const moment = require('moment');
 const faker = require('faker');
 const {
     countBy,
+    groupBy,
     map,
     maxBy,
     minBy,
     orderBy,
-    partition,
     random,
     times
 } = require('lodash');
@@ -16,38 +16,43 @@ const {
 const { SurveyAnswer } = require('../models');
 const { purifyUserInput } = require('../modules/validators');
 
-function summariseVotes(responses) {
+function satisfactionSummary(responses) {
     if (responses.length === 0) {
         return [];
     }
 
-    // Group votes by day to aid in graphing
-    const counts = responses.reduce((acc, response) => {
-        let normalisedDate = moment(response.createdAt).format('YYYY-MM-DD');
-        if (!acc[normalisedDate]) {
-            acc[normalisedDate] = 0;
-        }
-        acc[normalisedDate] = acc[normalisedDate] + 1;
-        return acc;
-    }, {});
-
     const oldestResponseDate = moment(minBy(responses, 'createdAt').createdAt);
     const newestResponseDate = moment(maxBy(responses, 'createdAt').createdAt);
+
     const daysInRange = newestResponseDate
         .startOf('day')
         .diff(oldestResponseDate.startOf('day'), 'days');
 
-    // Fill in the gaps based on the complete range
-    const voteData = [];
-    let day = oldestResponseDate;
-    for (let i = 0; i <= daysInRange; i++) {
-        let formatted = day.format('YYYY-MM-DD');
-        voteData.push({
-            x: formatted,
-            y: counts[formatted] || 0
+    const grouped = groupBy(responses, function(response) {
+        return moment(response.createdAt).format('YYYY-MM-DD');
+    });
+
+    const voteData = times(daysInRange, function(n) {
+        const key = oldestResponseDate
+            .clone()
+            .add(n, 'days')
+            .format('YYYY-MM-DD');
+
+        const responsesForDay = grouped[key] || [];
+
+        const yesResponsesForDay = responsesForDay.filter(function(response) {
+            return response.choice === 'yes';
         });
-        day = day.add(1, 'days');
-    }
+
+        const yesPercentageForDay = Math.round(
+            (yesResponsesForDay.length / responsesForDay.length) * 100
+        );
+
+        return {
+            x: key,
+            y: yesPercentageForDay
+        };
+    });
 
     return voteData;
 }
@@ -61,28 +66,9 @@ async function getAllResponses({ path = null } = {}) {
 
         const responses = await SurveyAnswer.findAll(query);
 
-        const [yesResponses, noResponses] = partition(responses, [
-            'choice',
-            'yes'
-        ]);
-
-        const yes = {
-            responses: yesResponses,
-            voteData: summariseVotes(yesResponses)
-        };
-
-        const no = {
-            responses: noResponses,
-            voteData: summariseVotes(noResponses)
-        };
-
-        const toPercentage = count =>
-            Math.round((count / responses.length) * 100);
-        const totals = {
-            totalResponses: responses.length,
-            percentageYes: toPercentage(yesResponses.length),
-            percentageNo: toPercentage(noResponses.length)
-        };
+        const noResponses = responses.filter(function(response) {
+            return response.choice === 'no';
+        });
 
         const pageCounts = orderBy(
             map(countBy(responses, 'path'), (val, key) => ({
@@ -94,10 +80,10 @@ async function getAllResponses({ path = null } = {}) {
         );
 
         return {
-            totals,
-            yes,
-            no,
-            pageCounts
+            totalResponses: responses.length,
+            voteData: satisfactionSummary(responses),
+            pageCounts: pageCounts,
+            noResponses: noResponses
         };
     } catch (error) {
         return error;

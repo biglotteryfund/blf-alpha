@@ -1,6 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
+const { concat } = require('lodash');
 
 const appData = require('../../modules/appData');
 const surveysService = require('../../services/surveys');
@@ -14,7 +15,13 @@ router.get('/', async (req, res, next) => {
             path: pathQuery
         });
 
+        const title = 'Surveys';
+        res.locals.breadcrumbs = concat(res.locals.breadcrumbs, [
+            { label: title }
+        ]);
+
         res.render(path.resolve(__dirname, './views/survey'), {
+            title,
             survey,
             pathQuery
         });
