@@ -35,7 +35,7 @@ router
     .all(
         requireUnauthed,
         csrfProtection,
-        injectCopy('user.login'),
+        injectCopy('user.register'),
         injectBreadcrumbs
     )
     .get(renderForm)
