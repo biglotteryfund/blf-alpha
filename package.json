@@ -47,7 +47,9 @@
       "^.+\\.js$": "babel-jest",
       ".*\\.vue$": "vue-jest"
     },
-    "snapshotSerializers": ["jest-serializer-html"]
+    "snapshotSerializers": [
+      "jest-serializer-html"
+    ]
   },
   "prettier": {
     "singleQuote": true,
@@ -89,6 +91,7 @@
     "express-cache-controller": "^1.0.1",
     "express-session": "^1.15.5",
     "express-validator": "^5.0.0",
+    "faker": "4.1.0",
     "fitvids": "^2.0.0",
     "fontfaceobserver": "^2.0.13",
     "globby": "^8.0.1",
@@ -155,7 +158,6 @@
     "eslint-plugin-compat": "2.6.3",
     "eslint-plugin-no-only-tests": "2.1.0",
     "eslint-plugin-vue": "5.1.0",
-    "faker": "4.1.0",
     "husky": "1.3.1",
     "jest": "24.1.0",
     "jest-serializer-html": "6.0.0",
