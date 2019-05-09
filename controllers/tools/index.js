@@ -20,18 +20,12 @@ router.use('/seed', require('./seed'));
  * Staff Tools
  **************************************/
 
-router.use(requireStaffAuth, function(req, res, next) {
-    res.locals.isBilingual = false;
-    res.locals.enablePrompt = false; // Disable prompts on tools pages
-    res.locals.bodyClass = 'has-static-header'; // No hero images on tools pages
-    res.locals.user = req.user;
-    res.locals.breadcrumbs = [{ label: 'Tools', url: req.baseUrl }];
-    next();
-});
+// Staff only routes
+router.use(requireStaffAuth);
 
 router.route('/').get((req, res) => {
     res.render(path.resolve(__dirname, './views/index'), {
-        title: 'Staff tools'
+        user: req.user
     });
 });
 

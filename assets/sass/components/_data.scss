@@ -31,19 +31,29 @@
             flex: 0 0 33.3%;
             border-top: 1px solid get-color('border', 'base');
             border-right: 1px solid get-color('border', 'base');
-            padding: $spacingUnit;
+            padding: $spacingUnit * 2 $spacingUnit;
 
             &:nth-child(-n + 3) {
                 border-top: none;
             }
 
-            &:nth-child(3n - 2) {
-                padding-left: 0;
+            &:nth-child(3n) {
+                border-right: none;
             }
 
-            &:nth-child(3n) {
-                padding-right: 0;
-                border-right: 0;
+            &:nth-child(3n + 1) {
+                position: relative;
+                &:after {
+                    position: absolute;
+                    display: block;
+                    content: '';
+                    left: -$spacingUnit;
+                    bottom: $spacingUnit;
+                    top: $spacingUnit;
+                    border-left-style: solid;
+                    border-left-width: 4px;
+                    border-color: get-color('brand', 'primary');
+                }
             }
         }
     }

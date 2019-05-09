@@ -12,6 +12,7 @@
     background-color: get-color('background', 'light-neutral');
     font-weight: font-weight('body', 'semibold');
     margin-bottom: $spacingUnit;
+    max-width: 35em;
 
     &.message--error {
         border-color: get-color('message', 'warning');
