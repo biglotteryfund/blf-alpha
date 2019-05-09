@@ -4,11 +4,13 @@ const moment = require('moment');
 const faker = require('faker');
 const {
     countBy,
+    filter,
     groupBy,
     map,
     maxBy,
     minBy,
     orderBy,
+    partition,
     random,
     times
 } = require('lodash');
@@ -16,21 +18,22 @@ const {
 const { SurveyAnswer } = require('../models');
 const { purifyUserInput } = require('../modules/validators');
 
-function satisfactionSummary(responses) {
+function voteDataFor(responses) {
     if (responses.length === 0) {
         return [];
     }
 
-    const oldestResponseDate = moment(minBy(responses, 'createdAt').createdAt);
-    const newestResponseDate = moment(maxBy(responses, 'createdAt').createdAt);
-
-    const daysInRange = newestResponseDate
-        .startOf('day')
-        .diff(oldestResponseDate.startOf('day'), 'days');
-
     const grouped = groupBy(responses, function(response) {
         return moment(response.createdAt).format('YYYY-MM-DD');
     });
+
+    const newestResponse = maxBy(responses, response => response.createdAt);
+    const oldestResponse = minBy(responses, response => response.createdAt);
+    const oldestResponseDate = moment(oldestResponse.createdAt);
+
+    const daysInRange = moment(newestResponse.createdAt)
+        .startOf('day')
+        .diff(oldestResponseDate.startOf('day'), 'days');
 
     const voteData = times(daysInRange, function(n) {
         const key = oldestResponseDate
@@ -57,37 +60,49 @@ function satisfactionSummary(responses) {
     return voteData;
 }
 
-async function getAllResponses({ path = null } = {}) {
-    try {
-        const query = { order: [['updatedAt', 'DESC']] };
-        if (path) {
-            query.where = { path: { [Op.eq]: purifyUserInput(path) } };
-        }
+function recentStatsFor(responses) {
+    const recentResponses = responses.filter(response => {
+        const startDt = moment().subtract('30', 'days');
+        return moment(response.createdAt).isSameOrAfter(startDt, 'day');
+    });
 
-        const responses = await SurveyAnswer.findAll(query);
+    const [monthYes, monthNo] = partition(recentResponses, ['choice', 'yes']);
 
-        const noResponses = responses.filter(function(response) {
-            return response.choice === 'no';
-        });
+    return {
+        yesCount: monthYes.length,
+        noCount: monthNo.length,
+        percentage: Math.round((monthYes.length / recentResponses.length) * 100)
+    };
+}
 
-        const pageCounts = orderBy(
-            map(countBy(responses, 'path'), (val, key) => ({
-                path: key,
-                count: val
-            })),
-            'count',
-            'desc'
-        );
+function pageCountsFor(responses) {
+    return orderBy(
+        map(countBy(responses, 'path'), (val, key) => ({
+            path: key,
+            count: val
+        })),
+        'count',
+        'desc'
+    );
+}
 
-        return {
-            totalResponses: responses.length,
-            voteData: satisfactionSummary(responses),
-            pageCounts: pageCounts,
-            noResponses: noResponses
-        };
-    } catch (error) {
-        return error;
+async function summarise(path = null) {
+    const query = { order: [['updatedAt', 'DESC']] };
+    if (path) {
+        query.where = { path: { [Op.eq]: purifyUserInput(path) } };
     }
+
+    const responses = await SurveyAnswer.findAll(query);
+
+    const noResponses = filter(responses, ['choice', 'no']);
+
+    return {
+        totalResponses: responses.length,
+        voteData: voteDataFor(responses),
+        recentStats: recentStatsFor(responses),
+        pageCounts: pageCountsFor(responses),
+        noResponses: noResponses
+    };
 }
 
 function createResponse({ choice, path, message }) {
@@ -130,5 +145,5 @@ function cleanupOldData() {
 module.exports = {
     createResponse,
     mockResponses,
-    getAllResponses
+    summarise
 };

@@ -1,5 +1,7 @@
 {% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/data.njk" import statsGrid %}
 {% from "components/user-status/macro.njk" import staffStatus with context %}
 
 {% block extraHead %}
@@ -12,50 +14,70 @@
             {{ breadcrumbTrail(breadcrumbs) }}
             {{ staffStatus(user) }}
 
-            <h1>“Did you find what you were looking for?”</h1>
-            {% if pathQuery %}<p>Showing results for path: <code>{{ pathQuery }}</code></p>{% endif %}
-
-            <section class="u-margin-bottom-l">
-                <p class="u-margin-bottom">Percentage who said yes based on <strong>{{ survey.totalResponses | numberWithCommas }}</strong> total responses for the last <strong>3 months</strong>.</p>
-
-                <div class="u-margin-bottom-s">
-                    <canvas id="js-chart" height="150"></canvas>
-                </div>
-            </section>
+            <h1 class="t--underline">“Did you find what you were looking for?”</h1>
             
-
-            {% if not pathQuery %}
-                <section class="u-margin-bottom-l s-prose">
-                    <h2>Most popular pages with feedback</h2>
-                    <ol>
-                        {% for item in survey.pageCounts | take(10) %}
-                            <li>
-                                <a href="?path={{ item.path }}">{{ item.path }}
-                                with {{ item.count | numberWithCommas }} responses</a>
-                            </li>
-                        {% endfor %}
-                    </ol>
-                </section>
+            {% if pathQuery %}
+                <p>
+                    Showing results for <code>{{ pathQuery }}</code>,
+                    <a href="?">clear selection?</a>
+                </p>
             {% endif %}
 
-            <section class="u-margin-bottom u-text-medium s-prose">
+            <div class="u-margin-bottom-l">
+                <h2 class="u-no-margin">In the last 30 days:</h2>
+                {{ statsGrid([{
+                    value: survey.recentStats.percentage + '%',
+                    title: 'of respondents said “yes”',
+                    showNumberBeforeTitle: true
+                }, {
+                    value: survey.recentStats.yesCount | numberWithCommas,
+                    title: 'total “yes” responses',
+                    showNumberBeforeTitle: true
+                }, {
+                    value: survey.recentStats.noCount | numberWithCommas,
+                    title: 'total “no” responses',
+                    showNumberBeforeTitle: true
+                }]) }}
+            </div>
+
+            <div class="u-margin-bottom-l">
+                <h2>In the last 3 months:</h2>
+
+                <p><small>Percentage who said “yes” based on <strong>{{ survey.totalResponses | numberWithCommas }} responses</strong> in the last 3 months.</small></p>
+
+                <div class="u-margin-bottom">
+                    <canvas id="js-chart" height="150"></canvas>
+                </div>
+
+                {% if not pathQuery %}
+                    <h2>Most popular pages with feedback</h2>
+                    <div class="s-prose">
+                        <ol>
+                            {% for item in survey.pageCounts | take(10) %}
+                                <li><a href="?path={{ item.path }}">{{ item.path }}
+                                with {{ item.count | numberWithCommas }} responses</a></li>
+                            {% endfor %}
+                        </ol>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if survey.noResponses.length > 0 %}
+            {% call contentBox() %}
                 <h2>How can we improve this page?</h2>
-                {% if survey.noResponses.length > 0 %}
-                    {% for response in survey.noResponses %}
-                    <div id="msg-{{ response.id }}">
+                {% for response in survey.noResponses %}
+                    <artible id="msg-{{ response.id }}">
                         <a href="?path={{ response.path }}">{{ response.path }}</a>
                         <a class="u-link-minimal" href="#msg-{{ response.id }}" title="{{ response.createdAt }}">
                             {{ timeFromNow(response.createdAt) }}
                         </a>
                         <p>{{ response.message }}</p>
-                    </div>
-                    {% endfor %}
-                {% else %}
-                    <p>No responses</p>
-                {% endif %}
-            </section>
+                    </artible>
+                {% endfor %}
+            {% endcall %}
+        {% endif %}
 
-        </div>
     </main>
 
     <script>
