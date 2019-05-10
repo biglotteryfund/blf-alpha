@@ -58,7 +58,8 @@ describe('form model', () => {
             validate(
                 mockFullForm({
                     country: 'england',
-                    organisationType: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                    organisationType:
+                        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
                     charityNumber: '123456789'
                 })
             ).error
@@ -103,14 +104,22 @@ describe('form model', () => {
     }
 
     test('registration numbers shown based on organisation type', () => {
-        const fieldNamesFn = fieldNamesFor('organisation', 'Registration numbers');
+        const fieldNamesFn = fieldNamesFor(
+            'organisation',
+            'Registration numbers'
+        );
 
         expect(fieldNamesFn({})).toEqual([]);
 
         const mappings = {
-            [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY]: ['charity-number'],
+            [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY]: [
+                'charity-number'
+            ],
             [ORGANISATION_TYPES.CIO]: ['charity-number'],
-            [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY]: ['company-number', 'charity-number'],
+            [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY]: [
+                'company-number',
+                'charity-number'
+            ],
             [ORGANISATION_TYPES.SCHOOL]: ['education-number']
         };
 
@@ -143,14 +152,19 @@ describe('form model', () => {
         ];
 
         expect(mainContactFn({})).toEqual(mainContactDefaultFields);
-        expect(mainContactFn({ 'organisation-type': ORGANISATION_TYPES.SCHOOL })).toEqual(mainContactReducedFields);
+        expect(
+            mainContactFn({ 'organisation-type': ORGANISATION_TYPES.SCHOOL })
+        ).toEqual(mainContactReducedFields);
         expect(
             mainContactFn({
                 'organisation-type': ORGANISATION_TYPES.STATUTORY_BODY
             })
         ).toEqual(mainContactReducedFields);
 
-        const seniorContactFn = fieldNamesFor('senior-contact', 'Senior contact');
+        const seniorContactFn = fieldNamesFor(
+            'senior-contact',
+            'Senior contact'
+        );
 
         const seniorContactDefaultFields = [
             'senior-contact-first-name',
@@ -174,7 +188,9 @@ describe('form model', () => {
         ];
 
         expect(seniorContactFn({})).toEqual(seniorContactDefaultFields);
-        expect(seniorContactFn({ 'organisation-type': ORGANISATION_TYPES.SCHOOL })).toEqual(seniorContactReducedFields);
+        expect(
+            seniorContactFn({ 'organisation-type': ORGANISATION_TYPES.SCHOOL })
+        ).toEqual(seniorContactReducedFields);
         expect(
             seniorContactFn({
                 'organisation-type': ORGANISATION_TYPES.STATUTORY_BODY

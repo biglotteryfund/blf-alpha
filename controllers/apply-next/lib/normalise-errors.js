@@ -10,11 +10,21 @@ const { filter, getOr, uniqBy } = require('lodash/fp');
  *    Allows us to show a generic message for any unmatched error type e.g. "Please enter your name"
  */
 function messagesForError(detail, messages) {
-    const filterKeyAndType = filter(message => message.key === detail.context.key && message.type === detail.type);
-    const filterTypeOnly = filter(message => !has(message, 'key') && message.type === detail.type);
-    const filterBase = filter(message => !has(message, 'key') && message.type === 'base');
+    const filterKeyAndType = filter(
+        message =>
+            message.key === detail.context.key && message.type === detail.type
+    );
+    const filterTypeOnly = filter(
+        message => !has(message, 'key') && message.type === detail.type
+    );
+    const filterBase = filter(
+        message => !has(message, 'key') && message.type === 'base'
+    );
 
-    const matches = concat(filterKeyAndType(messages), filterTypeOnly(messages));
+    const matches = concat(
+        filterKeyAndType(messages),
+        filterTypeOnly(messages)
+    );
 
     return matches.length ? matches : filterBase(messages);
 }
@@ -30,7 +40,9 @@ function messagesForError(detail, messages) {
  * @param {Object} options.errorMessages
  */
 module.exports = function normaliseErrors({ errorDetails, errorMessages }) {
-    const uniqueErrorsDetails = uniqBy(detail => head(detail.path))(errorDetails);
+    const uniqueErrorsDetails = uniqBy(detail => head(detail.path))(
+        errorDetails
+    );
 
     return flatMap(uniqueErrorsDetails, detail => {
         const name = head(detail.path);

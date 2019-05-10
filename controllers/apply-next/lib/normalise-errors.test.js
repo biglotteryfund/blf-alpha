@@ -26,7 +26,10 @@ const mockErrorMessages = {
 
 describe('normaliseErrors', () => {
     test('normalise errors', () => {
-        const { error } = mockSchema.validate({ a: 'tooshort', c: 'here' }, { abortEarly: false });
+        const { error } = mockSchema.validate(
+            { a: 'tooshort', c: 'here' },
+            { abortEarly: false }
+        );
 
         const normalised = normaliseErrors({
             errorDetails: error.details,
@@ -40,7 +43,10 @@ describe('normaliseErrors', () => {
     });
 
     test('returns first error per field', () => {
-        const { error } = mockSchema.validate({ a: 'same', b: 'same', c: 'here' }, { abortEarly: false });
+        const { error } = mockSchema.validate(
+            { a: 'same', b: 'same', c: 'here' },
+            { abortEarly: false }
+        );
 
         const normalised = normaliseErrors({
             errorDetails: error.details,

@@ -59,7 +59,11 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Your idea',
                             cy: '(WELSH) Your idea'
                         }),
-                        fields: [allFields.yourIdeaProject, allFields.yourIdeaPriorities, allFields.yourIdeaCommunity]
+                        fields: [
+                            allFields.yourIdeaProject,
+                            allFields.yourIdeaPriorities,
+                            allFields.yourIdeaCommunity
+                        ]
                     }
                 ]
             },
@@ -74,7 +78,10 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Project costs',
                             cy: '(WELSH) Project costs'
                         }),
-                        fields: [allFields.projectBudget, allFields.projectTotalCosts]
+                        fields: [
+                            allFields.projectBudget,
+                            allFields.projectTotalCosts
+                        ]
                     }
                 ]
             }
@@ -124,7 +131,11 @@ module.exports = function({ locale, data = {} }) {
                         }),
                         get fields() {
                             const fields = [];
-                            if (matchesOrganisationType(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY)) {
+                            if (
+                                matchesOrganisationType(
+                                    ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+                                )
+                            ) {
                                 fields.push(allFields.companyNumber);
                             }
 
@@ -138,7 +149,11 @@ module.exports = function({ locale, data = {} }) {
                                 fields.push(allFields.charityNumber);
                             }
 
-                            if (matchesOrganisationType(ORGANISATION_TYPES.SCHOOL)) {
+                            if (
+                                matchesOrganisationType(
+                                    ORGANISATION_TYPES.SCHOOL
+                                )
+                            ) {
                                 fields.push(allFields.educationNumber);
                             }
 
@@ -155,7 +170,10 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Organisation finances',
                             cy: ''
                         }),
-                        fields: [allFields.accountingYearDate, allFields.totalIncomeYear]
+                        fields: [
+                            allFields.accountingYearDate,
+                            allFields.totalIncomeYear
+                        ]
                     }
                 ]
             }
@@ -341,7 +359,9 @@ module.exports = function({ locale, data = {} }) {
                     'You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.',
                 cy: ''
             }),
-            options: [{ value: 'yes', label: localise({ en: 'I agree', cy: '' }) }],
+            options: [
+                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
+            ],
             isRequired: true
         },
         {
@@ -352,7 +372,9 @@ module.exports = function({ locale, data = {} }) {
                     'All the information you have provided in your application is accurate and complete; and you will notify us of any changes.',
                 cy: ''
             }),
-            options: [{ value: 'yes', label: localise({ en: 'I agree', cy: '' }) }],
+            options: [
+                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
+            ],
             isRequired: true
         },
         {
@@ -363,7 +385,9 @@ module.exports = function({ locale, data = {} }) {
                     'You understand that we will use any personal information you have provided for the purposes described under the Data Protection Statement.',
                 cy: ''
             }),
-            options: [{ value: 'yes', label: localise({ en: 'I agree', cy: '' }) }],
+            options: [
+                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
+            ],
             isRequired: true
         },
         {
@@ -374,7 +398,9 @@ module.exports = function({ locale, data = {} }) {
                     'If information about this application is requested under the Freedom of Information Act, we will release it in line with our Freedom of Information policy.',
                 cy: ''
             }),
-            options: [{ value: 'yes', label: localise({ en: 'I agree', cy: '' }) }],
+            options: [
+                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
+            ],
             isRequired: true
         },
         {
@@ -413,7 +439,13 @@ module.exports = function({ locale, data = {} }) {
         isBilingual: true,
         schema: schema,
         allFields: allFields,
-        sections: [sectionProject, sectionOrganisation, sectionMainContact, sectionSeniorContact, sectionBankDetails],
+        sections: [
+            sectionProject,
+            sectionOrganisation,
+            sectionMainContact,
+            sectionSeniorContact,
+            sectionBankDetails
+        ],
         termsFields: termsFields
     };
 

@@ -15,7 +15,10 @@ function mockStartDate(weeks) {
 }
 
 function mockDateOfBirth(minAge, maxAge = 75) {
-    const dt = moment().subtract(faker.random.number({ min: minAge, max: maxAge }), 'years');
+    const dt = moment().subtract(
+        faker.random.number({ min: minAge, max: maxAge }),
+        'years'
+    );
     return toDateParts(dt);
 }
 

@@ -5,7 +5,12 @@ const faker = require('faker');
 const Joi = require('joi');
 
 const { ORGANISATION_TYPES } = require('./constants');
-const { mockStartDate, mockDateOfBirth, mockAddress, mockBudget } = require('./mocks');
+const {
+    mockStartDate,
+    mockDateOfBirth,
+    mockAddress,
+    mockBudget
+} = require('./mocks');
 
 const fieldsFor = require('./fields');
 const fields = fieldsFor({ locale: 'en' });
@@ -24,7 +29,11 @@ describe('fields', () => {
     describe('projectName', () => {
         test('valididate project name', () => {
             assertValid(fields.projectName, faker.lorem.words(5));
-            assertErrorContains(fields.projectName, '', 'not allowed to be empty');
+            assertErrorContains(
+                fields.projectName,
+                '',
+                'not allowed to be empty'
+            );
         });
     });
 
@@ -32,7 +41,12 @@ describe('fields', () => {
         test('valididate project country', () => {
             assertValid(
                 fields.projectCountry,
-                faker.random.arrayElement(['england', 'northern-ireland', 'scotland', 'wales'])
+                faker.random.arrayElement([
+                    'england',
+                    'northern-ireland',
+                    'scotland',
+                    'wales'
+                ])
             );
             assertErrorContains(
                 fields.projectCountry,
@@ -45,7 +59,11 @@ describe('fields', () => {
     describe('projectStartDate', () => {
         test('must be a valid date', () => {
             assertValid(fields.projectStartDate, mockStartDate(12));
-            assertErrorContains(fields.projectStartDate, null, 'must be an object');
+            assertErrorContains(
+                fields.projectStartDate,
+                null,
+                'must be an object'
+            );
             assertErrorContains(
                 fields.projectStartDate,
                 { day: 31, month: 2, year: 2030 },
@@ -54,7 +72,9 @@ describe('fields', () => {
         });
 
         test('must be at least 12 weeks in the future', () => {
-            const { error } = fields.projectStartDate.schema.validate(mockStartDate(6));
+            const { error } = fields.projectStartDate.schema.validate(
+                mockStartDate(6)
+            );
             expect(error.message).toContain('Date must be at least');
         });
     });
@@ -62,8 +82,16 @@ describe('fields', () => {
     describe('projectPostcode', () => {
         test('must be a valid UK postcode', () => {
             assertValid(fields.projectPostcode, 'B15 1TR');
-            assertErrorContains(fields.projectPostcode, null, 'must be a string');
-            assertErrorContains(fields.projectPostcode, 'not a postcode', 'fails to match the required pattern');
+            assertErrorContains(
+                fields.projectPostcode,
+                null,
+                'must be a string'
+            );
+            assertErrorContains(
+                fields.projectPostcode,
+                'not a postcode',
+                'fails to match the required pattern'
+            );
         });
     });
 
@@ -75,8 +103,16 @@ describe('fields', () => {
             assertValid(field, faker.lorem.words(wordCount));
         });
 
-        assertErrorContains(field, faker.lorem.words(49), `must have at least ${min} words`);
-        assertErrorContains(field, faker.lorem.words(301), `must have less than ${max} words`);
+        assertErrorContains(
+            field,
+            faker.lorem.words(49),
+            `must have at least ${min} words`
+        );
+        assertErrorContains(
+            field,
+            faker.lorem.words(301),
+            `must have less than ${max} words`
+        );
     }
 
     describe('yourIdeaProject', () => {
@@ -103,7 +139,11 @@ describe('fields', () => {
         });
 
         test('must have at least one budget item', () => {
-            assertErrorContains(fields.projectBudget, [], 'must contain at least 1 items');
+            assertErrorContains(
+                fields.projectBudget,
+                [],
+                'must contain at least 1 items'
+            );
         });
 
         test('total amount requested must not exceed £10,000', () => {
@@ -111,20 +151,36 @@ describe('fields', () => {
                 item: faker.lorem.words(5),
                 cost: 1100
             }));
-            assertErrorContains(fields.projectBudget, budget, 'over maximum budget');
+            assertErrorContains(
+                fields.projectBudget,
+                budget,
+                'over maximum budget'
+            );
         });
 
         test('all items must contain both a description and a cost', () => {
             const budget = times(5, () => ({ item: faker.lorem.words(5) }));
-            assertErrorContains(fields.projectBudget, budget, '"cost" is required');
+            assertErrorContains(
+                fields.projectBudget,
+                budget,
+                '"cost" is required'
+            );
         });
     });
 
     describe('projectTotalCosts', () => {
         test('validate project total costs', () => {
             assertValid(fields.projectTotalCosts, 1000);
-            assertErrorContains(fields.projectTotalCosts, undefined, 'is required');
-            assertErrorContains(fields.projectTotalCosts, Infinity, 'contains an invalid value');
+            assertErrorContains(
+                fields.projectTotalCosts,
+                undefined,
+                'is required'
+            );
+            assertErrorContains(
+                fields.projectTotalCosts,
+                Infinity,
+                'contains an invalid value'
+            );
         });
 
         test('must be at least value of project budget', () => {
@@ -148,15 +204,28 @@ describe('fields', () => {
                 { 'project-budget': budget, 'project-total-costs': 1000 },
                 schemaWithProjectBudget
             );
-            expect(validationResultInvalid.error.message).toContain('under project budget total');
+            expect(validationResultInvalid.error.message).toContain(
+                'under project budget total'
+            );
         });
     });
 
     describe('organisationLegalName', () => {
         test('validate organisation legal name', () => {
-            assertValid(fields.organisationLegalName, faker.company.companyName());
-            assertErrorContains(fields.organisationLegalName, undefined, 'is required');
-            assertErrorContains(fields.organisationLegalName, Infinity, 'must be a string');
+            assertValid(
+                fields.organisationLegalName,
+                faker.company.companyName()
+            );
+            assertErrorContains(
+                fields.organisationLegalName,
+                undefined,
+                'is required'
+            );
+            assertErrorContains(
+                fields.organisationLegalName,
+                Infinity,
+                'must be a string'
+            );
         });
     });
 
@@ -164,14 +233,22 @@ describe('fields', () => {
         test('optional field', () => {
             assertValid(fields.organisationAlias, undefined);
             assertValid(fields.organisationAlias, faker.company.companyName());
-            assertErrorContains(fields.organisationAlias, Infinity, 'must be a string');
+            assertErrorContains(
+                fields.organisationAlias,
+                Infinity,
+                'must be a string'
+            );
         });
     });
 
     describe('organisationAddress', () => {
         test('must be a full valid address', () => {
             assertValid(fields.organisationAddress, mockAddress());
-            assertErrorContains(fields.organisationAddress, undefined, 'is required');
+            assertErrorContains(
+                fields.organisationAddress,
+                undefined,
+                'is required'
+            );
 
             assertErrorContains(
                 fields.organisationAddress,
@@ -194,7 +271,11 @@ describe('fields', () => {
     describe('organisationType', () => {
         test('must be a valid organisation type', () => {
             assertValid(fields.organisationType, 'unregistered-vco');
-            assertErrorContains(fields.organisationType, undefined, 'is required');
+            assertErrorContains(
+                fields.organisationType,
+                undefined,
+                'is required'
+            );
             assertErrorContains(
                 fields.organisationType,
                 'not-an-option',
@@ -211,7 +292,10 @@ describe('fields', () => {
 
         const requiredOrgTypes = requiredTypes;
         requiredOrgTypes.forEach(type => {
-            const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
+            const { error } = Joi.validate(
+                { 'organisation-type': type },
+                schemaWithOrgType
+            );
             expect(error.message).toContain('is required');
         });
     }
@@ -221,7 +305,9 @@ describe('fields', () => {
             assertValid(fields.companyNumber, 'CE002712');
             assertValid(fields.companyNumber, undefined);
 
-            assertRequiredForOrganistionTypes(fields.companyNumber, [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY]);
+            assertRequiredForOrganistionTypes(fields.companyNumber, [
+                ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+            ]);
         });
     });
 
@@ -242,23 +328,41 @@ describe('fields', () => {
             assertValid(fields.educationNumber, '1160580');
             assertValid(fields.educationNumber, undefined);
 
-            assertRequiredForOrganistionTypes(fields.educationNumber, [ORGANISATION_TYPES.SCHOOL]);
+            assertRequiredForOrganistionTypes(fields.educationNumber, [
+                ORGANISATION_TYPES.SCHOOL
+            ]);
         });
     });
 
     describe('accountingYearDate', () => {
         test('must be a valid day and month', () => {
             assertValid(fields.accountingYearDate, { day: 12, month: 2 });
-            assertErrorContains(fields.accountingYearDate, null, 'must be an object');
-            assertErrorContains(fields.accountingYearDate, { day: 31, month: 2 }, 'contains an invalid value');
+            assertErrorContains(
+                fields.accountingYearDate,
+                null,
+                'must be an object'
+            );
+            assertErrorContains(
+                fields.accountingYearDate,
+                { day: 31, month: 2 },
+                'contains an invalid value'
+            );
         });
     });
 
     describe('totalIncomeYear', () => {
         test('must be a valid number', () => {
             assertValid(fields.totalIncomeYear, 1000);
-            assertErrorContains(fields.totalIncomeYear, undefined, 'is required');
-            assertErrorContains(fields.totalIncomeYear, Infinity, 'contains an invalid value');
+            assertErrorContains(
+                fields.totalIncomeYear,
+                undefined,
+                'is required'
+            );
+            assertErrorContains(
+                fields.totalIncomeYear,
+                Infinity,
+                'contains an invalid value'
+            );
         });
     });
 
@@ -273,7 +377,11 @@ describe('fields', () => {
     function testContactDateOfBirth(field, minAge) {
         test(`must be at least ${minAge} years old`, () => {
             assertValid(field, mockDateOfBirth(minAge));
-            assertErrorContains(field, mockDateOfBirth(0, minAge - 1), `Must be at least ${minAge} years old`);
+            assertErrorContains(
+                field,
+                mockDateOfBirth(0, minAge - 1),
+                `Must be at least ${minAge} years old`
+            );
         });
 
         test('optional if organisation-type is a school or statutory-body', () => {
@@ -282,9 +390,15 @@ describe('fields', () => {
                 [field.name]: field.schema
             };
 
-            const optionalOrgTypes = [ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY];
+            const optionalOrgTypes = [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.STATUTORY_BODY
+            ];
             optionalOrgTypes.forEach(type => {
-                const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
+                const { error } = Joi.validate(
+                    { 'organisation-type': type },
+                    schemaWithOrgType
+                );
 
                 expect(error).toBeNull();
             });
@@ -319,9 +433,15 @@ describe('fields', () => {
                 [field.name]: field.schema
             };
 
-            const optionalOrgTypes = [ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY];
+            const optionalOrgTypes = [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.STATUTORY_BODY
+            ];
             optionalOrgTypes.forEach(type => {
-                const { error } = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
+                const { error } = Joi.validate(
+                    { 'organisation-type': type },
+                    schemaWithOrgType
+                );
                 expect(error).toBeNull();
             });
         });
@@ -371,9 +491,15 @@ describe('fields', () => {
                 [field.name]: field.schema
             };
 
-            const optionalOrgTypes = [ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY];
+            const optionalOrgTypes = [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.STATUTORY_BODY
+            ];
             optionalOrgTypes.forEach(type => {
-                const validationResultA = Joi.validate({ 'organisation-type': type }, schemaWithOrgType);
+                const validationResultA = Joi.validate(
+                    { 'organisation-type': type },
+                    schemaWithOrgType
+                );
                 expect(validationResultA.error).toBeNull();
             });
         });
@@ -392,7 +518,11 @@ describe('fields', () => {
             assertValid(field, '0345 4 10 20 30');
             assertErrorContains(field, undefined, 'is required');
             assertErrorContains(field, NaN, 'must be a string');
-            assertErrorContains(field, 'not a phone number', 'did not seem to be a phone number');
+            assertErrorContains(
+                field,
+                'not a phone number',
+                'did not seem to be a phone number'
+            );
         });
     }
 
@@ -445,14 +575,24 @@ describe('fields', () => {
     describe('seniorContactRole', () => {
         test('must be a valid role', () => {
             assertValid(fields.seniorContactRole, 'chair');
-            assertErrorContains(fields.seniorContactRole, undefined, 'is required');
-            assertErrorContains(fields.seniorContactRole, Infinity, 'must be a string');
+            assertErrorContains(
+                fields.seniorContactRole,
+                undefined,
+                'is required'
+            );
+            assertErrorContains(
+                fields.seniorContactRole,
+                Infinity,
+                'must be a string'
+            );
         });
 
         test('include all roles if no organisation type is provided', () => {
             const { seniorContactRole } = fieldsFor({ locale: 'en' });
 
-            expect(seniorContactRole.options.map(option => option.value)).toEqual([
+            expect(
+                seniorContactRole.options.map(option => option.value)
+            ).toEqual([
                 'trustee',
                 'chair',
                 'vice-chair',
@@ -476,17 +616,22 @@ describe('fields', () => {
                     data: { 'organisation-type': type }
                 });
 
-                expect(seniorContactRole.options.map(option => option.value)).toEqual(expected);
+                expect(
+                    seniorContactRole.options.map(option => option.value)
+                ).toEqual(expected);
             }
 
-            assertRolesForType(ORGANISATION_TYPES.UNREGISTERED_VCO, ['chair', 'vice-chair', 'secretary', 'treasurer']);
-
-            assertRolesForType(ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY, [
-                'trustee',
+            assertRolesForType(ORGANISATION_TYPES.UNREGISTERED_VCO, [
                 'chair',
                 'vice-chair',
+                'secretary',
                 'treasurer'
             ]);
+
+            assertRolesForType(
+                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                ['trustee', 'chair', 'vice-chair', 'treasurer']
+            );
 
             assertRolesForType(ORGANISATION_TYPES.CIO, [
                 'trustee',
@@ -496,11 +641,21 @@ describe('fields', () => {
                 'chief-executive-officer'
             ]);
 
-            assertRolesForType(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY, ['company-director', 'company-secretary']);
+            assertRolesForType(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY, [
+                'company-director',
+                'company-secretary'
+            ]);
 
-            assertRolesForType(ORGANISATION_TYPES.SCHOOL, ['head-teacher', 'chancellor', 'vice-chancellor']);
+            assertRolesForType(ORGANISATION_TYPES.SCHOOL, [
+                'head-teacher',
+                'chancellor',
+                'vice-chancellor'
+            ]);
 
-            assertRolesForType(ORGANISATION_TYPES.STATUTORY_BODY, ['parish-clerk', 'chief-executive']);
+            assertRolesForType(ORGANISATION_TYPES.STATUTORY_BODY, [
+                'parish-clerk',
+                'chief-executive'
+            ]);
         });
     });
 
@@ -531,8 +686,16 @@ describe('fields', () => {
     describe('bankAccountName', () => {
         test('valid account name', () => {
             assertValid(fields.bankAccountName, faker.company.companyName());
-            assertErrorContains(fields.bankAccountName, undefined, 'is required');
-            assertErrorContains(fields.bankAccountName, Infinity, 'must be a string');
+            assertErrorContains(
+                fields.bankAccountName,
+                undefined,
+                'is required'
+            );
+            assertErrorContains(
+                fields.bankAccountName,
+                Infinity,
+                'must be a string'
+            );
         });
     });
 
@@ -540,22 +703,38 @@ describe('fields', () => {
         test('valid sort code', () => {
             assertValid(fields.bankSortCode, '108800');
             assertErrorContains(fields.bankSortCode, undefined, 'is required');
-            assertErrorContains(fields.bankSortCode, Infinity, 'must be a string');
+            assertErrorContains(
+                fields.bankSortCode,
+                Infinity,
+                'must be a string'
+            );
         });
     });
 
     describe('bankAccountNumber', () => {
         test('valid account number', () => {
             assertValid(fields.bankAccountNumber, '00012345');
-            assertErrorContains(fields.bankAccountNumber, undefined, 'is required');
-            assertErrorContains(fields.bankAccountNumber, Infinity, 'must be a string');
+            assertErrorContains(
+                fields.bankAccountNumber,
+                undefined,
+                'is required'
+            );
+            assertErrorContains(
+                fields.bankAccountNumber,
+                Infinity,
+                'must be a string'
+            );
         });
     });
 
     describe('bankBuildingSocietyNumber', () => {
         test('optional field', () => {
             assertValid(fields.bankBuildingSocietyNumber);
-            assertErrorContains(fields.bankBuildingSocietyNumber, Infinity, 'must be a string');
+            assertErrorContains(
+                fields.bankBuildingSocietyNumber,
+                Infinity,
+                'must be a string'
+            );
             assertValid(fields.bankBuildingSocietyNumber, '1234566');
         });
     });
@@ -564,7 +743,11 @@ describe('fields', () => {
         test('valid bank statement upload', () => {
             assertValid(fields.bankStatement, 'example.pdf');
             assertErrorContains(fields.bankStatement, undefined, 'is required');
-            assertErrorContains(fields.bankStatement, Infinity, 'must be a string');
+            assertErrorContains(
+                fields.bankStatement,
+                Infinity,
+                'must be a string'
+            );
         });
     });
 });
