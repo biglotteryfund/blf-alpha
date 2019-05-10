@@ -320,7 +320,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         const defaultProps = {
             type: 'radio',
             options: options,
-            schema: multiChoice(options).required(),
+            schema: multiChoice(options).optional(),
             messages: [
                 {
                     type: 'any.allowOnly',
