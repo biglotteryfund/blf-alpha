@@ -56,6 +56,7 @@ module.exports = function validateModel(formModel) {
     const sectionSchema = Joi.object({
         slug: Joi.string().required(),
         title: Joi.string().required(),
+        shortTitle: Joi.string().optional(),
         introduction: Joi.string().optional(),
         steps: Joi.array()
             .items(stepSchema)

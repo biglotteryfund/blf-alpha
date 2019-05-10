@@ -249,10 +249,6 @@ function initFormRouter({
                         application,
                         'status'
                     );
-                    res.locals.currentApplicationTitle = get(
-                        currentApplicationData,
-                        'project-name'
-                    );
 
                     res.locals.form = formBuilder({
                         locale: req.i18n.getLocale(),
@@ -277,13 +273,21 @@ function initFormRouter({
      * Route: Summary
      */
     router.route('/summary').get(function(req, res) {
-        const { form, currentApplicationData } = res.locals;
-        res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-            label: 'Summary'
+        const { copy, currentApplicationData } = res.locals;
+
+        const form = formBuilder({
+            locale: req.i18n.getLocale(),
+            data: currentApplicationData
         });
+
+        const title = copy.summary.title;
+
         res.render(path.resolve(__dirname, './views/summary'), {
+            csrfToken: req.csrfToken(),
+            title: title,
+            breadcrumbs: concat(res.locals.breadcrumbs, { label: title }),
             progress: calculateFormProgress(form, currentApplicationData),
-            csrfToken: req.csrfToken()
+            currentApplicationTitle: get(currentApplicationData, 'project-name')
         });
     });
 
@@ -376,19 +380,6 @@ function initFormRouter({
                 const step = section.steps[stepIndex];
 
                 if (step) {
-                    res.locals.breadcrumbs = concat(
-                        res.locals.breadcrumbs,
-                        {
-                            label: section.title,
-                            url: `${req.baseUrl}/${section.slug}`
-                        },
-                        {
-                            label: `${step.title} (Step ${stepNumber} of ${
-                                section.steps.length
-                            })`
-                        }
-                    );
-
                     const { nextUrl, previousUrl } = nextAndPrevious({
                         baseUrl: req.baseUrl,
                         sections: form.sections,
@@ -397,12 +388,33 @@ function initFormRouter({
                     });
 
                     if (step.isRequired) {
+                        const sectionShortTitle = section.shortTitle
+                            ? section.shortTitle
+                            : section.title;
+
+                        const breadcrumbs = concat(
+                            res.locals.breadcrumbs,
+                            {
+                                label: sectionShortTitle,
+                                url: `${req.baseUrl}/${section.slug}`
+                            },
+                            { label: step.title }
+                        );
+
+                        const title = `${step.title} | ${sectionShortTitle} | ${
+                            form.title
+                        }`;
+
                         res.render(path.resolve(__dirname, './views/step'), {
-                            previousUrl,
-                            nextUrl,
-                            title: `${step.title} | ${form.title}`,
                             csrfToken: req.csrfToken(),
+                            title: title,
+                            breadcrumbs: breadcrumbs,
+                            section: section,
                             step: step,
+                            stepNumber: stepNumber,
+                            totalSteps: section.steps.length,
+                            previousUrl: previousUrl,
+                            nextUrl: nextUrl,
                             errors: errors
                         });
                     } else {

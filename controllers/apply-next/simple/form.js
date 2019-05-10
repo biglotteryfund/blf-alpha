@@ -91,7 +91,11 @@ module.exports = function({ locale, data = {} }) {
     function sectionBeneficiaries() {
         return {
             slug: 'beneficiaries',
-            title: localise({ en: 'Beneficiaries', cy: '' }),
+            title: localise({
+                en: 'Who will benefit from your project',
+                cy: ''
+            }),
+            shortTitle: localise({ en: 'Beneficiaries', cy: '' }),
             introduction: localise({
                 en: `We want to hear more about the people who will benefit from your project.`,
                 cy: ``

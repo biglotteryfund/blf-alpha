@@ -12,8 +12,6 @@
             <form action="" method="POST" class="js-form-warn-unsaved">
                 {{ breadcrumbTrail(breadcrumbs) }}
 
-                {% set formHeaderTitle = currentApplicationTitle if currentApplicationTitle else formTitle %}
-                {% set formHeaderSuffix = formTitle if currentApplicationTitle %}
                 <div class="form-header">
                     <div class="form-header__actions">
                         {% if previousUrl %}
@@ -23,30 +21,30 @@
                             <a href="{{ nextUrl }}">Next →</a>
                         {% endif %}
                     </div>
-                    <h1 class="form-header__title">{{ formHeaderTitle }}</h1>
-                    {% if formHeaderSuffix %}
-                        <p class="form-header__suffix">{{ formHeaderSuffix }}</p>
-                    {% endif %}
+                    <p class="form-header__prefix">{{ formTitle }}</p>
+                    <h1 class="form-header__title">{{ step.title }}</h1>
+                    <p class="form-header__suffix">
+                        {{ section.title }} ({{ __('global.misc.stepProgress', stepNumber, totalSteps) }})
+                    </p>
                 </div>
 
                 {# {{ languageServiceMessage(currentLocale = locale) }} #}
 
                 {{ formErrors(__('global.misc.errorTitle'), errors) }}
-
+            
+                {% set singleFieldset = step.fieldsets.length === 1 %}
                 {% for fieldset in step.fieldsets %}
                     <fieldset class="form-fieldset u-constrained-wide">
-                        <legend class="form-fieldset__legend t2 t--underline">
+                        <legend class="form-fieldset__legend t2 t--underline{% if singleFieldset %} u-visually-hidden{% endif %}">
                             {{ fieldset.legend }}
                         </legend>
 
-                        {% set introduction = fieldsetCopy.introduction or fieldset.introduction %}
-                        {% if introduction %}
-                            <div class="form-fieldset__intro s-prose">{{ introduction | safe }}</div>
+                        {% if fieldset.introduction %}
+                            <div class="form-fieldset__intro s-prose">{{ fieldset.introduction | safe }}</div>
                         {% endif %}
 
                         <div class="form-fieldset__fields">
                             {% for field in fieldset.fields %}
-                                {% set fieldCopy = copy.fields[field.name] %}
                                 {{ formField(field, errors = errors) }}
                             {% endfor %}
                         </div>

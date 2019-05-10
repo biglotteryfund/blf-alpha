@@ -4,7 +4,7 @@
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/icons.njk" import iconTick, iconBin %}
 
-{% block title %}{{ copy.summary.title }} | {{ formTitle }} | {% endblock %}
+{% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
 {% macro stepSummary(step, stepNumber, totalSteps) %}
     <div class="step-summary">
