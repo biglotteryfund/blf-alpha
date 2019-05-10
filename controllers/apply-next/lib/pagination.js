@@ -13,13 +13,25 @@ const { findIndex, findLastIndex } = require('lodash');
  * Find next matching URL
  * @param {MatchOptions} options
  */
-function findNextMatchingUrl({ baseUrl, sections, currentSectionIndex, currentStepIndex }) {
+function findNextMatchingUrl({
+    baseUrl,
+    sections,
+    currentSectionIndex,
+    currentStepIndex
+}) {
     const currentSection = sections[currentSectionIndex];
     const nextSection = sections[currentSectionIndex + 1];
 
-    const targetStepIndex = findIndex(currentSection.steps, step => step.isRequired === true, currentStepIndex + 1);
+    const targetStepIndex = findIndex(
+        currentSection.steps,
+        step => step.isRequired === true,
+        currentStepIndex + 1
+    );
 
-    if (targetStepIndex !== -1 && targetStepIndex <= currentSection.steps.length) {
+    if (
+        targetStepIndex !== -1 &&
+        targetStepIndex <= currentSection.steps.length
+    ) {
         return `${baseUrl}/${currentSection.slug}/${targetStepIndex + 1}`;
     } else if (nextSection) {
         return `${baseUrl}/${nextSection.slug}`;
@@ -32,7 +44,12 @@ function findNextMatchingUrl({ baseUrl, sections, currentSectionIndex, currentSt
  * Find previous matching URL
  * @param {MatchOptions} options
  */
-function findPreviousMatchingUrl({ baseUrl, sections, currentSectionIndex, currentStepIndex }) {
+function findPreviousMatchingUrl({
+    baseUrl,
+    sections,
+    currentSectionIndex,
+    currentStepIndex
+}) {
     const currentSection = sections[currentSectionIndex];
     const previousSection = sections[currentSectionIndex - 1];
 
@@ -44,7 +61,11 @@ function findPreviousMatchingUrl({ baseUrl, sections, currentSectionIndex, curre
         );
         return `${baseUrl}/${currentSection.slug}/${targetStepIndex + 1}`;
     } else if (previousSection) {
-        return `${baseUrl}/${previousSection.slug}/${previousSection.steps.length}`;
+        const targetStepIndex = findLastIndex(
+            previousSection.steps,
+            step => step.isRequired === true
+        );
+        return `${baseUrl}/${previousSection.slug}/${targetStepIndex + 1}`;
     } else {
         return baseUrl;
     }
