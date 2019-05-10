@@ -1,7 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`form field macros inputCurrency 1`] = `
-
 <label class="ff-label"
        for="field-example"
 >
@@ -19,11 +18,9 @@ exports[`form field macros inputCurrency 1`] = `
          aria-required="true"
   >
 </div>
-
 `;
 
 exports[`form field macros inputText 1`] = `
-
 <label class="ff-label"
        for="field-example"
 >
@@ -37,5 +34,4 @@ exports[`form field macros inputText 1`] = `
        aria-required="true"
        size="40"
 >
-
 `;
