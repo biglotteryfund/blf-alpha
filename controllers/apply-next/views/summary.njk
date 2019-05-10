@@ -68,9 +68,7 @@
         </header>
         
         <article class="section-summary__content u-padded-s">
-            {% if section.introduction %}
-                <p class="u-constrained-wide">{{ section.introduction }}</p>
-            {% endif %}
+            <p class="u-constrained-wide">{{ section.summary }}</p>
 
             {% call details(
                 title = copy.summary.showQuestions,

@@ -84,9 +84,7 @@
             {% set count = loop.index %}
 
             {% call header('Section ' + count + ': ' + section.title) %}
-                {% if section.introduction %}
-                    <p class="u-no-margin u-text-x-small">{{ section.introduction }}</p>
-                {% endif %}
+                <p class="u-no-margin u-text-x-small">{{ section.summary }}</p>
             {% endcall %}
 
             {% for step in section.steps %}

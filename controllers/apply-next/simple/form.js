@@ -29,7 +29,7 @@ module.exports = function({ locale, data = {} }) {
     const sectionProject = {
         slug: 'your-project',
         title: localise({ en: 'Your Project', cy: '(WELSH) Your Project' }),
-        introduction: localise({
+        summary: localise({
             en: `Please tell us about your project in this section. This is the most important section when it comes to making a decision about whether you will receive funding.`,
             cy: `(WELSH) Please tell us about your project in this section. This is the most important section when it comes to making a decision about whether you will receive funding.`
         }),
@@ -96,8 +96,16 @@ module.exports = function({ locale, data = {} }) {
                 cy: ''
             }),
             shortTitle: localise({ en: 'Beneficiaries', cy: '' }),
-            introduction: localise({
+            summary: localise({
                 en: `We want to hear more about the people who will benefit from your project.`,
+                cy: ``
+            }),
+            introduction: localise({
+                en: `<p>We want to hear more about the people who will benefit from your project.</p>
+
+                <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
+
+                <p>However, the information you provide here is not assessed and will not be used to decide whether you will be awarded funding for your project.</p>`,
                 cy: ``
             }),
             steps: [
@@ -120,7 +128,7 @@ module.exports = function({ locale, data = {} }) {
     const sectionOrganisation = {
         slug: 'organisation',
         title: localise({ en: 'Your organisation', cy: '' }),
-        introduction: localise({
+        summary: localise({
             en: `Please tell us about your organisation, including legal name, registered address and income. This helps us understand the type of organisation you are.`,
             cy: ''
         }),
@@ -212,7 +220,7 @@ module.exports = function({ locale, data = {} }) {
     const sectionMainContact = {
         slug: 'main-contact',
         title: localise({ en: 'Main contact', cy: '' }),
-        introduction: localise({
+        summary: localise({
             en: `Please provide details for your main contact. This will be the first person we contact if we need to discuss your project.`,
             cy: ``
         }),
@@ -268,7 +276,7 @@ module.exports = function({ locale, data = {} }) {
     const sectionSeniorContact = {
         slug: 'senior-contact',
         title: localise({ en: 'Senior contact', cy: '' }),
-        introduction: localise({
+        summary: localise({
             en: `Please provide details for your senior contact. This person will be legally responsible for the funding and must be unconnected to the main contact.`,
             cy: ``
         }),
@@ -319,7 +327,7 @@ module.exports = function({ locale, data = {} }) {
     const sectionBankDetails = {
         slug: 'bank-details',
         title: localise({ en: 'Bank details', cy: '' }),
-        introduction: localise({
+        summary: localise({
             en: `Please provide your bank details. Before you submit your application you will need to attach a copy of a bank statement that is less than two months old.`,
             cy: ''
         }),
