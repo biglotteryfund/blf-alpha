@@ -3,7 +3,18 @@ const { get } = require('lodash/fp');
 const { includes, values } = require('lodash');
 const moment = require('moment');
 
-const { Joi, ...commonValidators } = require('../lib/validators');
+const {
+    Joi,
+    budgetItems,
+    dateOfBirth,
+    futureDate,
+    multiChoice,
+    postcode,
+    singleChoice,
+    ukAddress,
+    ukPhoneNumber
+} = require('../lib/validators');
+
 const {
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
@@ -54,9 +65,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 autocomplete: 'tel'
             },
             isRequired: true,
-            schema: Joi.string()
-                .phoneNumber({ defaultCountry: 'GB', format: 'national' })
-                .required(),
+            schema: ukPhoneNumber().required(),
             messages: [
                 {
                     type: 'base',
@@ -82,7 +91,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         const defaultProps = {
             type: 'address',
             isRequired: true,
-            schema: commonValidators.ukAddress().required(),
+            schema: ukAddress().required(),
             messages: [
                 {
                     type: 'base',
@@ -134,7 +143,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     Joi.ref('current-address-meets-minimum'),
                     {
                         is: 'no',
-                        then: commonValidators.ukAddress().required(),
+                        then: ukAddress().required(),
                         otherwise: Joi.any()
                     }
                 )
@@ -245,8 +254,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     .format('YYYY-MM-DD')
             },
             isRequired: true,
-            schema: commonValidators
-                .dateOfBirth(minAge)
+            schema: dateOfBirth(minAge)
                 .required()
                 .when(Joi.ref('organisation-type'), {
                     is: Joi.valid(
@@ -278,53 +286,46 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function communicationNeedsField(props) {
+        const options = [
+            {
+                value: 'audiotape',
+                label: localise({ en: 'Audiotape', cy: '' })
+            },
+            {
+                value: 'braille',
+                label: localise({ en: 'Braille', cy: '' })
+            },
+            {
+                value: 'disk',
+                label: localise({ en: 'Disk', cy: '' })
+            },
+            {
+                value: 'large-print',
+                label: localise({ en: 'Large print', cy: '' })
+            },
+            {
+                value: 'letter',
+                label: localise({ en: 'Letter', cy: '' })
+            },
+            {
+                value: 'sign-language',
+                label: localise({ en: 'Sign language', cy: '' })
+            },
+            {
+                value: 'text-relay',
+                label: localise({ en: 'Text relay', cy: '' })
+            }
+        ];
+
         const defaultProps = {
             type: 'radio',
-            options: [
-                {
-                    value: 'audiotape',
-                    label: localise({ en: 'Audiotape', cy: '' })
-                },
-                {
-                    value: 'braille',
-                    label: localise({ en: 'Braille', cy: '' })
-                },
-                {
-                    value: 'disk',
-                    label: localise({ en: 'Disk', cy: '' })
-                },
-                {
-                    value: 'large-print',
-                    label: localise({ en: 'Large print', cy: '' })
-                },
-                {
-                    value: 'letter',
-                    label: localise({ en: 'Letter', cy: '' })
-                },
-                {
-                    value: 'sign-language',
-                    label: localise({ en: 'Sign language', cy: '' })
-                },
-                {
-                    value: 'text-relay',
-                    label: localise({ en: 'Text relay', cy: '' })
-                }
-            ],
-            get schema() {
-                return Joi.array()
-                    .items(
-                        Joi.string().valid(
-                            this.options.map(option => option.value)
-                        )
-                    )
-                    .single()
-                    .optional();
-            },
+            options: options,
+            schema: multiChoice(options).required(),
             messages: [
                 {
                     type: 'any.allowOnly',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: 'Choose from the options provided',
                         cy: ''
                     })
                 }
@@ -335,6 +336,69 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function organisationTypeField() {
+        const options = [
+            {
+                value: ORGANISATION_TYPES.UNREGISTERED_VCO,
+                label: localise({
+                    en: 'Unregistered voluntary or community organisation',
+                    cy: ''
+                }),
+                explanation: localise({
+                    en: `<p>My organisation has been set up with a governing document such as a constitution but <strong>is not</strong> a registered charity or company, such as a Scouts group, sports club, community group or residents association</p>`,
+                    cy: ``
+                })
+            },
+            {
+                value: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                label: localise({
+                    en: 'Registered charity (unincorporated)',
+                    cy: ''
+                }),
+                explanation: localise({
+                    en: `<p>My organisation is a voluntary or community organisaton and is a registered charity, but <strong>is not</strong> a company registered with Companies House</p>`,
+                    cy: ``
+                })
+            },
+            {
+                value: ORGANISATION_TYPES.CIO,
+                label: localise({
+                    en: 'Charitable incorporated organisation (CIO)',
+                    cy: ''
+                }),
+                explanation: localise({
+                    en: `<p>My organisation is a registered charity with limited liability, but <strong>is not</strong> a company registered with Companies House</p>`,
+                    cy: ``
+                })
+            },
+            {
+                value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
+                label: localise({ en: 'Not-for-profit company', cy: '' }),
+                explanation: localise({
+                    en: `<p>My organisation is a not-for-profit company registered with Companies House, and <strong>may also</strong> be regisered as a charity</p>`,
+                    cy: ``
+                })
+            },
+            {
+                value: ORGANISATION_TYPES.SCHOOL,
+                label: localise({
+                    en: 'School or educational body',
+                    cy: ''
+                }),
+                explanation: localise({
+                    en: `<p>My organisation is a school, college, university, or other registered educational establishment</p>`,
+                    cy: ``
+                })
+            },
+            {
+                value: ORGANISATION_TYPES.STATUTORY_BODY,
+                label: localise({ en: 'Statutory body', cy: '' }),
+                explanation: localise({
+                    en: `<p>My organsation is a public body, such as a local authority, parsih council, or police or health authority</p>`,
+                    cy: ''
+                })
+            }
+        ];
+
         return {
             name: 'organisation-type',
             label: localise({
@@ -342,74 +406,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             }),
             type: 'radio',
-            options: [
-                {
-                    value: ORGANISATION_TYPES.UNREGISTERED_VCO,
-                    label: localise({
-                        en: 'Unregistered voluntary or community organisation',
-                        cy: ''
-                    }),
-                    explanation: localise({
-                        en: `<p>My organisation has been set up with a governing document such as a constitution but <strong>is not</strong> a registered charity or company, such as a Scouts group, sports club, community group or residents association</p>`,
-                        cy: ``
-                    })
-                },
-                {
-                    value: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                    label: localise({
-                        en: 'Registered charity (unincorporated)',
-                        cy: ''
-                    }),
-                    explanation: localise({
-                        en: `<p>My organisation is a voluntary or community organisaton and is a registered charity, but <strong>is not</strong> a company registered with Companies House</p>`,
-                        cy: ``
-                    })
-                },
-                {
-                    value: ORGANISATION_TYPES.CIO,
-                    label: localise({
-                        en: 'Charitable incorporated organisation (CIO)',
-                        cy: ''
-                    }),
-                    explanation: localise({
-                        en: `<p>My organisation is a registered charity with limited liability, but <strong>is not</strong> a company registered with Companies House</p>`,
-                        cy: ``
-                    })
-                },
-                {
-                    value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
-                    label: localise({ en: 'Not-for-profit company', cy: '' }),
-                    explanation: localise({
-                        en: `<p>My organisation is a not-for-profit company registered with Companies House, and <strong>may also</strong> be regisered as a charity</p>`,
-                        cy: ``
-                    })
-                },
-                {
-                    value: ORGANISATION_TYPES.SCHOOL,
-                    label: localise({
-                        en: 'School or educational body',
-                        cy: ''
-                    }),
-                    explanation: localise({
-                        en: `<p>My organisation is a school, college, university, or other registered educational establishment</p>`,
-                        cy: ``
-                    })
-                },
-                {
-                    value: ORGANISATION_TYPES.STATUTORY_BODY,
-                    label: localise({ en: 'Statutory body', cy: '' }),
-                    explanation: localise({
-                        en: `<p>My organsation is a public body, such as a local authority, parsih council, or police or health authority</p>`,
-                        cy: ''
-                    })
-                }
-            ],
+            options: options,
             isRequired: true,
-            get schema() {
-                return Joi.string()
-                    .valid(this.options.map(option => option.value))
-                    .required();
-            },
+            schema: singleChoice(options).required(),
             messages: [
                 {
                     type: 'base',
@@ -657,7 +656,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             },
             type: 'date',
             isRequired: true,
-            schema: commonValidators.futureDate({
+            schema: futureDate({
                 amount: '12',
                 unit: 'weeks'
             }),
@@ -699,7 +698,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 autocomplete: 'postal-code'
             },
             isRequired: true,
-            schema: commonValidators.postcode().required(),
+            schema: postcode().required(),
             messages: [
                 {
                     type: 'base',
@@ -921,7 +920,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 rowLimit: 10
             },
             isRequired: true,
-            schema: commonValidators.budgetField(MAX_BUDGET_TOTAL_GBP),
+            schema: budgetItems(MAX_BUDGET_TOTAL_GBP),
             messages: [
                 {
                     type: 'base',
@@ -1172,15 +1171,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         mainContactAddress: addressField({
             name: 'main-contact-address',
             label: localise({ en: 'Current address', cy: '' }),
-            schema: commonValidators
-                .ukAddress()
-                .when(Joi.ref('organisation-type'), {
-                    is: Joi.valid(
-                        ORGANISATION_TYPES.SCHOOL,
-                        ORGANISATION_TYPES.STATUTORY_BODY
-                    ),
-                    then: Joi.any().optional()
-                })
+            schema: ukAddress().when(Joi.ref('organisation-type'), {
+                is: Joi.valid(
+                    ORGANISATION_TYPES.SCHOOL,
+                    ORGANISATION_TYPES.STATUTORY_BODY
+                ),
+                then: Joi.any().optional()
+            })
         }),
         mainContactAddressHistory: addressHistoryField({
             name: 'main-contact-address-history',
@@ -1224,15 +1221,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         seniorContactAddress: addressField({
             name: 'senior-contact-address',
             label: localise({ en: 'Current address', cy: '' }),
-            schema: commonValidators
-                .ukAddress()
-                .when(Joi.ref('organisation-type'), {
-                    is: Joi.valid(
-                        ORGANISATION_TYPES.SCHOOL,
-                        ORGANISATION_TYPES.STATUTORY_BODY
-                    ),
-                    then: Joi.any().optional()
-                })
+            schema: ukAddress().when(Joi.ref('organisation-type'), {
+                is: Joi.valid(
+                    ORGANISATION_TYPES.SCHOOL,
+                    ORGANISATION_TYPES.STATUTORY_BODY
+                ),
+                then: Joi.any().optional()
+            })
         }),
         seniorContactAddressHistory: addressHistoryField({
             name: 'senior-contact-address-history',
