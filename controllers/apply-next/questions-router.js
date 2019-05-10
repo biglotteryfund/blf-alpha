@@ -29,7 +29,11 @@ module.exports = function(formBuilder) {
             const fileName = `${form.id}.pdf`;
             const fileLocation = `documents/application-questions/${fileName}`;
 
-            const filePath = path.resolve(__dirname, '../../public/', fileLocation);
+            const filePath = path.resolve(
+                __dirname,
+                '../../public/',
+                fileLocation
+            );
 
             // First check to see if this file has already been rendered and saved in the app directory
             fs.access(filePath, fs.constants.F_OK, accessError => {
@@ -41,35 +45,43 @@ module.exports = function(formBuilder) {
                 // Otherwise it hasn't been rendered before, so we create it from scratch and save the file
 
                 // Repopulate existing global context so templates render properly
-                const context = { ...res.locals, ...req.app.locals, ...output.context };
+                const context = {
+                    ...res.locals,
+                    ...req.app.locals,
+                    ...output.context
+                };
 
                 // Render the HTML template to a string
-                nunjucks.render(output.templates.pdf, context, (renderErr, html) => {
-                    if (renderErr) {
-                        next(renderErr);
-                    } else {
-                        // Turn HTML into a PDF
-                        pdf.create(html, {
-                            format: 'A4',
-                            base: config.get('domains.base'),
-                            border: '40px',
-                            zoomFactor: '0.7'
-                        }).toBuffer((pdfError, buffer) => {
-                            if (pdfError) {
-                                next(pdfError);
-                            }
-
-                            // Write the file locally so we can look it up next time instead of rendering
-                            fs.writeFile(filePath, buffer, writeError => {
-                                if (writeError) {
-                                    next(writeError);
+                nunjucks.render(
+                    output.templates.pdf,
+                    context,
+                    (renderErr, html) => {
+                        if (renderErr) {
+                            next(renderErr);
+                        } else {
+                            // Turn HTML into a PDF
+                            pdf.create(html, {
+                                format: 'A4',
+                                base: config.get('domains.base'),
+                                border: '40px',
+                                zoomFactor: '0.7'
+                            }).toBuffer((pdfError, buffer) => {
+                                if (pdfError) {
+                                    next(pdfError);
                                 }
-                                // Give the user the file directly
-                                return res.download(filePath, fileName);
+
+                                // Write the file locally so we can look it up next time instead of rendering
+                                fs.writeFile(filePath, buffer, writeError => {
+                                    if (writeError) {
+                                        next(writeError);
+                                    }
+                                    // Give the user the file directly
+                                    return res.download(filePath, fileName);
+                                });
                             });
-                        });
+                        }
                     }
-                });
+                );
             });
         } else {
             // Render a standard HTML page otherwise

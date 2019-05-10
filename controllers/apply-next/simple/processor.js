@@ -10,9 +10,14 @@ const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
  * @param {object} options.data
  * @param {any} mailTransport
  */
-module.exports = async function processor({ form, data }, mailTransport = null) {
+module.exports = async function processor(
+    { form, data },
+    mailTransport = null
+) {
     const customerSendTo = {
-        name: `${data['main-contact-first-name']} ${data['main-contact-last-name']}`,
+        name: `${data['main-contact-first-name']} ${
+            data['main-contact-last-name']
+        }`,
         address: data['main-contact-email']
     };
 
@@ -30,7 +35,8 @@ module.exports = async function processor({ form, data }, mailTransport = null) 
             name: 'simple_prototype_customer',
             mailConfig: {
                 sendTo: customerSendTo,
-                subject: 'Thank you for getting in touch with The National Lottery Community Fund!',
+                subject:
+                    'Thank you for getting in touch with The National Lottery Community Fund!',
                 type: 'html',
                 content: customerHtml
             },

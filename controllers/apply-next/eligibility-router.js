@@ -34,7 +34,10 @@ module.exports = function(eligibilityBuilder) {
             res.render(templatePath, {
                 csrfToken: req.csrfToken(),
                 eligibilityStatus: 'pending',
-                backUrl: currentStepNumber === 1 ? formBaseUrl : `${req.baseUrl}/${currentStepNumber - 1}`
+                backUrl:
+                    currentStepNumber === 1
+                        ? formBaseUrl
+                        : `${req.baseUrl}/${currentStepNumber - 1}`
             });
         })
         .post(async (req, res) => {

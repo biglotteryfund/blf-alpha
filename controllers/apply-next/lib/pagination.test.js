@@ -23,7 +23,10 @@ describe('nextAndPrevious', () => {
         },
         {
             slug: 'section-c',
-            steps: [{ title: 'Step 1', isRequired: true }, { title: 'Step 2', isRequired: true }]
+            steps: [
+                { title: 'Step 1', isRequired: true },
+                { title: 'Step 2', isRequired: true }
+            ]
         }
     ];
 

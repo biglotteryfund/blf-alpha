@@ -54,7 +54,8 @@ module.exports = function({ locale }) {
 
     const question3 = {
         question: localise({
-            en: 'Does your project start at least 12 weeks from when you plan to submit your application?',
+            en:
+                'Does your project start at least 12 weeks from when you plan to submit your application?',
             cy: ``
         }),
         explanation: localise({

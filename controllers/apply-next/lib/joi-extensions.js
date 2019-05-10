@@ -48,7 +48,12 @@ const wordCount = joi => {
                 },
                 validate(params, value, state, options) {
                     if (countWords(value) > params.max) {
-                        return this.createError('string.maxWords', { max: params.max }, state, options);
+                        return this.createError(
+                            'string.maxWords',
+                            { max: params.max },
+                            state,
+                            options
+                        );
                     } else {
                         return value;
                     }
@@ -65,7 +70,12 @@ const wordCount = joi => {
                 },
                 validate(params, value, state, options) {
                     if (countWords(value) < params.min) {
-                        return this.createError('string.minWords', { min: params.min }, state, options);
+                        return this.createError(
+                            'string.minWords',
+                            { min: params.min },
+                            state,
+                            options
+                        );
                     } else {
                         return value;
                     }
@@ -101,7 +111,12 @@ const dateParts = joi => {
             if (date.isValid()) {
                 return value;
             } else {
-                return this.createError('any.invalid', { v: value }, state, options);
+                return this.createError(
+                    'any.invalid',
+                    { v: value },
+                    state,
+                    options
+                );
             }
         },
         rules: [
@@ -115,7 +130,12 @@ const dateParts = joi => {
                     if (date.isValid() && date.isSameOrAfter(params.min)) {
                         return value;
                     } else {
-                        return this.createError('dateParts.futureDate', { v: value, min: params.min }, state, options);
+                        return this.createError(
+                            'dateParts.futureDate',
+                            { v: value, min: params.min },
+                            state,
+                            options
+                        );
                     }
                 }
             },
@@ -130,7 +150,12 @@ const dateParts = joi => {
                     if (date.isValid() && date.isSameOrBefore(maxDate)) {
                         return value;
                     } else {
-                        return this.createError('dateParts.dob', { v: value, minAge: params.minAge }, state, options);
+                        return this.createError(
+                            'dateParts.dob',
+                            { v: value, minAge: params.minAge },
+                            state,
+                            options
+                        );
                     }
                 }
             }
@@ -161,7 +186,12 @@ const dayMonth = joi => {
             if (date.isValid()) {
                 return value;
             } else {
-                return this.createError('any.invalid', { v: value }, state, options);
+                return this.createError(
+                    'any.invalid',
+                    { v: value },
+                    state,
+                    options
+                );
             }
         }
     };
@@ -194,7 +224,10 @@ const budgetItems = joi => {
             if (isArray(value)) {
                 // Strip out anything that doesn't have an item name and a cost
                 // (eg. validate things that are half-supplied, but not empty)
-                return reject(value, line => isEmpty(line.item) && isEmpty(line.cost));
+                return reject(
+                    value,
+                    line => isEmpty(line.item) && isEmpty(line.cost)
+                );
             } else {
                 return value;
             }
@@ -236,7 +269,12 @@ const budgetTotalCosts = joi => {
             if (projectBudget) {
                 const total = sumBy(projectBudget, item => item.cost);
                 if (value < total) {
-                    return this.createError('budgetTotalCosts.underBudget', { v: value }, state, options);
+                    return this.createError(
+                        'budgetTotalCosts.underBudget',
+                        { v: value },
+                        state,
+                        options
+                    );
                 }
             }
             return value;
@@ -244,4 +282,11 @@ const budgetTotalCosts = joi => {
     };
 };
 
-module.exports = baseJoi.extend([phoneNumber, wordCount, dateParts, dayMonth, budgetItems, budgetTotalCosts]);
+module.exports = baseJoi.extend([
+    phoneNumber,
+    wordCount,
+    dateParts,
+    dayMonth,
+    budgetItems,
+    budgetTotalCosts
+]);

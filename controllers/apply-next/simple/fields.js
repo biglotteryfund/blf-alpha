@@ -36,8 +36,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'string.email',
                     message: localise({
-                        en: 'Email address must be in the correct format, like name@example.com',
-                        cy: ''
+                        en: `Email address must be in the correct format, like name@example.com`,
+                        cy: ``
                     })
                 }
             ]
@@ -130,13 +130,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 'current-address-meets-minimum': Joi.string()
                     .valid(['yes', 'no'])
                     .required(),
-                'previous-address': Joi.when(Joi.ref('current-address-meets-minimum'), {
-                    is: 'no',
-                    then: commonValidators.ukAddress().required(),
-                    otherwise: Joi.any()
-                })
+                'previous-address': Joi.when(
+                    Joi.ref('current-address-meets-minimum'),
+                    {
+                        is: 'no',
+                        then: commonValidators.ukAddress().required(),
+                        otherwise: Joi.any()
+                    }
+                )
             }).when(Joi.ref('organisation-type'), {
-                is: Joi.valid(ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY),
+                is: Joi.valid(
+                    ORGANISATION_TYPES.SCHOOL,
+                    ORGANISATION_TYPES.STATUTORY_BODY
+                ),
                 then: Joi.any().optional()
             }),
             messages: [
@@ -243,7 +249,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .dateOfBirth(minAge)
                 .required()
                 .when(Joi.ref('organisation-type'), {
-                    is: Joi.valid(ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY),
+                    is: Joi.valid(
+                        ORGANISATION_TYPES.SCHOOL,
+                        ORGANISATION_TYPES.STATUTORY_BODY
+                    ),
                     then: Joi.any().optional()
                 }),
             messages: [
@@ -280,12 +289,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     value: 'braille',
                     label: localise({ en: 'Braille', cy: '' })
                 },
-                { value: 'disk', label: localise({ en: 'Disk', cy: '' }) },
+                {
+                    value: 'disk',
+                    label: localise({ en: 'Disk', cy: '' })
+                },
                 {
                     value: 'large-print',
                     label: localise({ en: 'Large print', cy: '' })
                 },
-                { value: 'letter', label: localise({ en: 'Letter', cy: '' }) },
+                {
+                    value: 'letter',
+                    label: localise({ en: 'Letter', cy: '' })
+                },
                 {
                     value: 'sign-language',
                     label: localise({ en: 'Sign language', cy: '' })
@@ -297,7 +312,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ],
             get schema() {
                 return Joi.array()
-                    .items(Joi.string().valid(this.options.map(option => option.value)))
+                    .items(
+                        Joi.string().valid(
+                            this.options.map(option => option.value)
+                        )
+                    )
                     .single()
                     .optional();
             },
@@ -463,10 +482,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             let options = [];
             switch (organisationType) {
                 case ORGANISATION_TYPES.UNREGISTERED_VCO:
-                    options = [ROLES.CHAIR, ROLES.VICE_CHAIR, ROLES.SECRETARY, ROLES.TREASURER];
+                    options = [
+                        ROLES.CHAIR,
+                        ROLES.VICE_CHAIR,
+                        ROLES.SECRETARY,
+                        ROLES.TREASURER
+                    ];
                     break;
                 case ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY:
-                    options = [ROLES.TRUSTEE, ROLES.CHAIR, ROLES.VICE_CHAIR, ROLES.TREASURER];
+                    options = [
+                        ROLES.TRUSTEE,
+                        ROLES.CHAIR,
+                        ROLES.VICE_CHAIR,
+                        ROLES.TREASURER
+                    ];
                     break;
                 case ORGANISATION_TYPES.CIO:
                     options = [
@@ -481,7 +510,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     options = [ROLES.COMPANY_DIRECTOR, ROLES.COMPANY_SECRETARY];
                     break;
                 case ORGANISATION_TYPES.SCHOOL:
-                    options = [ROLES.HEAD_TEACHER, ROLES.CHANCELLOR, ROLES.VICE_CHANCELLOR];
+                    options = [
+                        ROLES.HEAD_TEACHER,
+                        ROLES.CHANCELLOR,
+                        ROLES.VICE_CHANCELLOR
+                    ];
                     break;
                 case ORGANISATION_TYPES.STATUTORY_BODY:
                     options = [ROLES.PARISH_CLERK, ROLES.CHIEF_EXECUTIVE];
@@ -503,7 +536,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     cy: ''
                 });
 
-                if (matchesOrganisationType(ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY)) {
+                if (
+                    matchesOrganisationType(
+                        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY
+                    )
+                ) {
                     text += localise({
                         en: `<p><strong>
                             As a registered charity, your senior contact must be one of your organisation's trustees. This can include trustees taking on the role of Chair, Vice Chair or Treasurer.
@@ -596,21 +633,25 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         projectStartDate: {
             name: 'project-start-date',
             label: localise({
-                en: 'When is the planned (or estimated) start date of your project?',
-                cy: '(WELSH) When is the planned (or estimated) start date of your project?'
+                en: `When is the planned (or estimated) start date of your project?`,
+                cy: ``
             }),
             get settings() {
                 const dt = moment().add(12, 'weeks');
                 return {
                     minDateExample: dt.format('DD MM YYYY'),
-                    fromDateExample: dt.subtract(1, 'days').format('D MMMM YYYY'),
+                    fromDateExample: dt
+                        .subtract(1, 'days')
+                        .format('D MMMM YYYY'),
                     minYear: dt.format('YYYY')
                 };
             },
             get explanation() {
                 return localise({
                     en: `<p>This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
-                <p><strong>For example: ${this.settings.minDateExample}</strong></p>`,
+                <p><strong>For example: ${
+                    this.settings.minDateExample
+                }</strong></p>`,
                     cy: ''
                 });
             },
@@ -633,7 +674,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'dateParts.futureDate',
                         message: localise({
-                            en: `Date you start the project must be after ${this.settings.fromDateExample}`,
+                            en: `Date you start the project must be after ${
+                                this.settings.fromDateExample
+                            }`,
                             cy: ''
                         })
                     }
@@ -643,12 +686,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         projectPostcode: {
             name: 'project-postcode',
             label: localise({
-                en: 'What is the postcode of the location where your project will take place?',
-                cy: ''
+                en: `What is the postcode of the location where your project will take place?`,
+                cy: ``
             }),
             explanation: localise({
                 en: `If your project will take place across different locations, please use the postcode where most of the project will take place.`,
-                cy: ''
+                cy: ``
             }),
             type: 'text',
             attributes: {
@@ -671,18 +714,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             }),
             explanation: localise({
-                en: `
-            <p><strong>Here are some ideas of what to tell us about your project:</strong></p>
-            <ul>
-                <li>What you would like to do</li>
-                <li>What difference your project will make</li>
-                <li>Who will benefit from it</li>
-                <li>How long you expect to run it for. This can be an estimate</li>
-                <li>How you will make sure people know about it and will benefit from it</li>
-                <li>How you plan to learn from it and use this learning to shape future projects</li>
-                <li>Is it something new, or are you continuing something that has worked well previously? We want to fund both types of projects</li>
-            </ul>`,
-                cy: 'TODO'
+                en: `<p><strong>Here are some ideas of what to tell us about your project:</strong></p>
+                <ul>
+                    <li>What you would like to do</li>
+                    <li>What difference your project will make</li>
+                    <li>Who will benefit from it</li>
+                    <li>How long you expect to run it for. This can be an estimate</li>
+                    <li>How you will make sure people know about it and will benefit from it</li>
+                    <li>How you plan to learn from it and use this learning to shape future projects</li>
+                    <li>Is it something new, or are you continuing something that has worked well previously? We want to fund both types of projects</li>
+                </ul>`,
+                cy: ''
             }),
             type: 'textarea',
             settings: {
@@ -711,14 +753,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'string.minWords',
                         message: localise({
-                            en: `Answer must be at least ${this.settings.minWords} words`,
+                            en: `Answer must be at least ${
+                                this.settings.minWords
+                            } words`,
                             cy: ''
                         })
                     },
                     {
                         type: 'string.maxWords',
                         message: localise({
-                            en: `Answer must be no more than ${this.settings.maxWords} words`,
+                            en: `Answer must be no more than ${
+                                this.settings.maxWords
+                            } words`,
                             cy: ''
                         })
                     }
@@ -728,19 +774,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         yourIdeaPriorities: {
             name: 'your-idea-priorities',
             label: localise({
-                en: 'How does your project meet at least one of our funding priorities?',
-                cy: ''
+                en: `How does your project meet at least one of our funding priorities?`,
+                cy: ``
             }),
             explanation: localise({
-                en: `
-            <p>National Lottery Awards for All has three funding priorities, please tell us how your project will <strong>meet at least one of these:</strong></p>
-            <ol>
-                <li>bring people together and build strong relationships in and across communities</li>
-                <li>improve the places and spaces that matter to communities</li>
-                <li>help more people to reach their potential, by supporting them at the earliest possible stage</li>
-            </ol>
-            <p>You can tell us if your project meets more than one priority, but don't worry if it doesn't.</p>`,
-                cy: ''
+                en: `<p>National Lottery Awards for All has three funding priorities, please tell us how your project will <strong>meet at least one of these:</strong></p>
+                <ol>
+                    <li>bring people together and build strong relationships in and across communities</li>
+                    <li>improve the places and spaces that matter to communities</li>
+                    <li>help more people to reach their potential, by supporting them at the earliest possible stage</li>
+                </ol>
+                <p>You can tell us if your project meets more than one priority, but don't worry if it doesn't.</p>`,
+                cy: ``
             }),
             type: 'textarea',
             settings: {
@@ -764,21 +809,25 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'base',
                         message: localise({
-                            en: 'Tell us how your project meet at least one of our funding priorities',
-                            cy: ''
+                            en: `Tell us how your project meet at least one of our funding priorities`,
+                            cy: ``
                         })
                     },
                     {
                         type: 'string.minWords',
                         message: localise({
-                            en: `Answer must be at least ${this.settings.minWords} words`,
+                            en: `Answer must be at least ${
+                                this.settings.minWords
+                            } words`,
                             cy: ''
                         })
                     },
                     {
                         type: 'string.maxWords',
                         message: localise({
-                            en: `Answer must be no more than ${this.settings.maxWords} words`,
+                            en: `Answer must be no more than ${
+                                this.settings.maxWords
+                            } words`,
                             cy: ''
                         })
                     }
@@ -792,25 +841,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             }),
             explanation: localise({
-                en: `
-            <details>
-                <summary>What do we mean by 'community'?</summary>
+                en: `<p><strong>What do we mean by 'community'?</strong></p>
                 <ol>
                     <li>People living in the same area</li>
                     <li>People who have similar interests or life experiences, but might not live in the same area</li>
                     <li>We don't think of a school or club as a community, but will fund a project run by one of these organisations that also benefits the communities around it</li>
                 </ol>
-            </details>
 
-            <p>We believe that people understand what's needed in their communities better than anyone. Tell us how your community came up with the idea for your project, and how they will be involved in the development and delivery of the project you're planning.</p>
-            <p><strong>Here are some examples of how you could be involving your community:</strong></p>
-            <ul>
-                <li>Having regular chats with community members, in person or on social media</li>
-                <li>Including community members on your board or committee</li>
-                <li>Regular surveys</li>
-                <li>Setting up steering groups</li>
-                <li>Running open days</li>
-            </ul>`,
+                <p>We believe that people understand what's needed in their communities better than anyone. Tell us how your community came up with the idea for your project, and how they will be involved in the development and delivery of the project you're planning.</p>
+                <p><strong>Here are some examples of how you could be involving your community:</strong></p>
+                <ul>
+                    <li>Having regular chats with community members, in person or on social media</li>
+                    <li>Including community members on your board or committee</li>
+                    <li>Regular surveys</li>
+                    <li>Setting up steering groups</li>
+                    <li>Running open days</li>
+                </ul>`,
                 cy: ''
             }),
             type: 'textarea',
@@ -833,21 +879,25 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'base',
                         message: localise({
-                            en: 'Tell us how your project involves your community',
-                            cy: ''
+                            en: `Tell us how your project involves your community`,
+                            cy: ``
                         })
                     },
                     {
                         type: 'string.minWords',
                         message: localise({
-                            en: `Answer must be at least ${this.settings.minWords} words`,
+                            en: `Answer must be at least ${
+                                this.settings.minWords
+                            } words`,
                             cy: ''
                         })
                     },
                     {
                         type: 'string.maxWords',
                         message: localise({
-                            en: `Answer must be no more than ${this.settings.maxWords} words`,
+                            en: `Answer must be no more than ${
+                                this.settings.maxWords
+                            } words`,
                             cy: ''
                         })
                     }
@@ -906,12 +956,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: '(WELSH) Tell us the total cost of your project.'
             }),
             explanation: localise({
-                en: `
-            <p>This is the cost of everything related to your project, even things you aren't asking us to fund.</p>
+                en: `<p>This is the cost of everything related to your project, even things you aren't asking us to fund.</p>
 
-            <p>For example, if you are asking us for £8,000 and you are getting £10,000 from another funder to cover additional costs, then your total project cost is £18,000. If you are asking us for £8,000 and there are no other costs then your total project cost is £8,000.</p>
-            `,
-                cy: 'TODO'
+                <p>For example, if you are asking us for £8,000 and you are getting £10,000 from another funder to cover additional costs, then your total project cost is £18,000. If you are asking us for £8,000 and there are no other costs then your total project cost is £8,000.</p>`,
+                cy: ``
             }),
             type: 'currency',
             isRequired: true,
@@ -934,8 +982,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'budgetTotalCosts.underBudget',
                     message: localise({
-                        en: 'Total cost must be the same as or higher than the amount you’re asking us to fund',
-                        cy: ''
+                        en: `Total cost must be the same as or higher than the amount you’re asking us to fund`,
+                        cy: ``
                     })
                 }
             ]
@@ -943,14 +991,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         organisationLegalName: {
             name: 'organisation-legal-name',
             label: localise({
-                en: 'What is the full legal name of your organisation?',
-                cy: '(WELSH) What is the full legal name of your organisation, as shown on your governing document?'
+                en: `What is the full legal name of your organisation?`,
+                cy: ``
             }),
             explanation: localise({
-                en: `
-            <p>This must be as shown on your <strong>governing document</strong>. Your governing document could be called one of several things, depending on the type of organisation you're applying on behalf of. It may be called a constitution, trust deed, memorandum and articles of association, or something else entirely.</p>
-            `,
-                cy: ''
+                en: `<p>This must be as shown on your <strong>governing document</strong>. Your governing document could be called one of several things, depending on the type of organisation you're applying on behalf of. It may be called a constitution, trust deed, memorandum and articles of association, or something else entirely.</p>`,
+                cy: ``
             }),
             type: 'text',
             isRequired: true,
@@ -968,8 +1014,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         organisationAlias: {
             name: 'organisation-alias',
             label: localise({
-                en: 'Does your organisation use a different name in your day-to-day work?',
-                cy: ''
+                en: `Does your organisation use a different name in your day-to-day work?`,
+                cy: ``
             }),
             type: 'text',
             isRequired: false,
@@ -981,8 +1027,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         organisationAddress: addressField({
             name: 'organisation-address',
             label: localise({
-                en: 'What is the main or registered address of your organisation?',
-                cy: ''
+                en: `What is the main or registered address of your organisation?`,
+                cy: ``
             })
         }),
         organisationType: organisationTypeField(),
@@ -1015,7 +1061,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'text',
             attributes: { size: 20 },
             isRequired: includes(
-                [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY, ORGANISATION_TYPES.CIO],
+                [
+                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                    ORGANISATION_TYPES.CIO
+                ],
                 currentOrganisationType
             ),
             schema: Joi.when('organisation-type', {
@@ -1049,7 +1098,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Enter your organisation’s Department for Education number',
+                        en: `Enter your organisation’s Department for Education number`,
                         cy: ''
                     })
                 }
@@ -1123,10 +1172,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         mainContactAddress: addressField({
             name: 'main-contact-address',
             label: localise({ en: 'Current address', cy: '' }),
-            schema: commonValidators.ukAddress().when(Joi.ref('organisation-type'), {
-                is: Joi.valid(ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY),
-                then: Joi.any().optional()
-            })
+            schema: commonValidators
+                .ukAddress()
+                .when(Joi.ref('organisation-type'), {
+                    is: Joi.valid(
+                        ORGANISATION_TYPES.SCHOOL,
+                        ORGANISATION_TYPES.STATUTORY_BODY
+                    ),
+                    then: Joi.any().optional()
+                })
         }),
         mainContactAddressHistory: addressHistoryField({
             name: 'main-contact-address-history',
@@ -1150,8 +1204,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         mainContactCommunicationNeeds: communicationNeedsField({
             name: 'main-contact-communication-needs',
             label: localise({
-                en: 'Please tell us about any particular communication needs this contact has.',
-                cy: ''
+                en: `Please tell us about any particular communication needs this contact has.`,
+                cy: ``
             })
         }),
         seniorContactFirstName: firstNameField({
@@ -1170,16 +1224,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         seniorContactAddress: addressField({
             name: 'senior-contact-address',
             label: localise({ en: 'Current address', cy: '' }),
-            schema: commonValidators.ukAddress().when(Joi.ref('organisation-type'), {
-                is: Joi.valid(ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY),
-                then: Joi.any().optional()
-            })
+            schema: commonValidators
+                .ukAddress()
+                .when(Joi.ref('organisation-type'), {
+                    is: Joi.valid(
+                        ORGANISATION_TYPES.SCHOOL,
+                        ORGANISATION_TYPES.STATUTORY_BODY
+                    ),
+                    then: Joi.any().optional()
+                })
         }),
         seniorContactAddressHistory: addressHistoryField({
             name: 'senior-contact-address-history',
             label: localise({
-                en: 'Have you lived at your last address for at least three years?',
-                cy: ''
+                en: `Have you lived at your last address for at least three years?`,
+                cy: ``
             })
         }),
         seniorContactEmail: emailField({
@@ -1197,16 +1256,16 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         seniorContactCommunicationNeeds: communicationNeedsField({
             name: 'senior-contact-communication-needs',
             label: localise({
-                en: 'Please tell us about any particular communication needs this contact has.',
-                cy: ''
+                en: `Please tell us about any particular communication needs this contact has.`,
+                cy: ``
             })
         }),
         bankAccountName: {
             name: 'bank-account-name',
             label: localise({ en: 'Name on the bank account', cy: '' }),
             explanation: localise({
-                en: 'Name of your organisation as it appears on your bank statement',
-                cy: ''
+                en: `Name of your organisation as it appears on your bank statement`,
+                cy: ``
             }),
             type: 'text',
             isRequired: true,
@@ -1256,8 +1315,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'text',
             explanation: localise({
-                en: 'This is only applicable if your organisation’s account is with a building society.',
-                cy: ''
+                en: `This is only applicable if your organisation’s account is with a building society.`,
+                cy: ``
             }),
             isRequired: false,
             schema: Joi.string()
