@@ -88,6 +88,31 @@ module.exports = function({ locale, data = {} }) {
         ]
     };
 
+    function sectionBeneficiaries() {
+        return {
+            slug: 'beneficiaries',
+            title: localise({ en: 'Beneficiaries', cy: '' }),
+            introduction: localise({
+                en: `We want to hear more about the people who will benefit from your project.`,
+                cy: ``
+            }),
+            steps: [
+                {
+                    title: localise({ en: 'Number of people', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: 'Number of people',
+                                cy: ''
+                            }),
+                            fields: [allFields.beneficiariesNumberOfPeople]
+                        }
+                    ]
+                }
+            ]
+        };
+    }
+
     const sectionOrganisation = {
         slug: 'organisation',
         title: localise({ en: 'Your organisation', cy: '' }),
@@ -441,6 +466,7 @@ module.exports = function({ locale, data = {} }) {
         allFields: allFields,
         sections: [
             sectionProject,
+            sectionBeneficiaries(),
             sectionOrganisation,
             sectionMainContact,
             sectionSeniorContact,

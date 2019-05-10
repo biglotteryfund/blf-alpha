@@ -57,6 +57,10 @@ function mockFullForm({
         'your-idea-community': faker.lorem.words(150),
         'project-budget': mockBudget(),
         'project-total-costs': faker.random.number({ min: 5000, max: 10000 }),
+        'beneficiaries-number-of-people': faker.random.number({
+            min: 500,
+            max: 100000
+        }),
         'organisation-legal-name': faker.company.companyName(),
         'organisation-address': mockAddress(),
         'organisation-type': organisationType,
