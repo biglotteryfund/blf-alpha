@@ -120,6 +120,38 @@ module.exports = function({ locale, data = {} }) {
                             fields: [allFields.beneficiariesNumberOfPeople]
                         }
                     ]
+                },
+                {
+                    title: localise({ en: 'Local authority', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({ en: 'Local authority', cy: '' }),
+                            fields: [allFields.beneficiariesLocationCheck]
+                        }
+                    ]
+                },
+                {
+                    title: localise({ en: 'Location', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({ en: 'Location', cy: '' }),
+                            get fields() {
+                                const checkQuestion = get(
+                                    allFields.beneficiariesLocationCheck.name
+                                )(data);
+                                console.log({ checkQuestion });
+
+                                if (checkQuestion === 'yes') {
+                                    return [
+                                        allFields.beneficiariesLocalAuthority,
+                                        allFields.beneficiariesLocationDescription
+                                    ];
+                                } else {
+                                    return [];
+                                }
+                            }
+                        }
+                    ]
                 }
             ]
         };

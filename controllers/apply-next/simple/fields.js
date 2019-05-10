@@ -1,6 +1,6 @@
 'use strict';
 const { get } = require('lodash/fp');
-const { includes, values } = require('lodash');
+const { includes, kebabCase, values } = require('lodash');
 const moment = require('moment');
 
 const {
@@ -16,9 +16,10 @@ const {
 } = require('../lib/validators');
 
 const {
+    LOCAL_AUTHORITIES,
+    MAX_BUDGET_TOTAL_GBP,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
-    MAX_BUDGET_TOTAL_GBP,
     ORGANISATION_TYPES
 } = require('./constants');
 
@@ -1006,6 +1007,77 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({ en: 'Enter a number', cy: '' })
+                }
+            ]
+        },
+        beneficiariesLocationCheck: {
+            name: 'beneficiaries-location-check',
+            label: localise({
+                en: `Do the people who will benefit from your project live in a specific local authority?`,
+                cy: ``
+            }),
+            type: 'radio',
+            options: [
+                { value: 'yes', label: localise({ en: 'Yes', cy: '' }) },
+                { value: 'no', label: localise({ en: 'No', cy: '' }) }
+            ],
+            isRequired: true,
+            get schema() {
+                return singleChoice(this.options).required();
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose an option', cy: '' })
+                }
+            ]
+        },
+        beneficiariesLocalAuthority: {
+            name: 'beneficiaries-local-authority',
+            label: localise({
+                en: 'Which local authority will your project benefit?',
+                cy: ''
+            }),
+            type: 'select',
+            defaultOption: localise({ en: 'Select a local authority', cy: '' }),
+            options: LOCAL_AUTHORITIES.map(localAuthority => ({
+                label: localAuthority,
+                value: kebabCase(localAuthority)
+            })),
+            isRequired: true,
+            get schema() {
+                return Joi.when('beneficiaries-location-check', {
+                    is: 'yes',
+                    then: singleChoice(this.options).required()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose an option', cy: '' })
+                }
+            ]
+        },
+        beneficiariesLocationDescription: {
+            name: 'beneficiaries-location-description',
+            label: localise({
+                en: `In your own words describe the areas your beneficaries live in.`,
+                cy: ''
+            }),
+            explanation: localise({
+                en: `You can write more than one area.`,
+                cy: ``
+            }),
+            type: 'text',
+            isRequired: true,
+            schema: Joi.when('beneficiaries-location-check', {
+                is: 'yes',
+                then: Joi.string().required()
+            }),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Enter a description', cy: '' })
                 }
             ]
         },
