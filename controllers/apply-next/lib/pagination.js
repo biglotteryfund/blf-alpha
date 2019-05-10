@@ -6,7 +6,7 @@ const { findIndex, findLastIndex } = require('lodash');
  * @property {String} baseUrl
  * @property {Array} sections
  * @property {Number} currentSectionIndex
- * @property {Number} currentStepIndex
+ * @property {Number} [currentStepIndex]
  */
 
 /**
@@ -17,26 +17,30 @@ function findNextMatchingUrl({
     baseUrl,
     sections,
     currentSectionIndex,
-    currentStepIndex
+    currentStepIndex = null
 }) {
     const currentSection = sections[currentSectionIndex];
     const nextSection = sections[currentSectionIndex + 1];
 
-    const targetStepIndex = findIndex(
-        currentSection.steps,
-        step => step.isRequired === true,
-        currentStepIndex + 1
-    );
-
-    if (
-        targetStepIndex !== -1 &&
-        targetStepIndex <= currentSection.steps.length
-    ) {
-        return `${baseUrl}/${currentSection.slug}/${targetStepIndex + 1}`;
-    } else if (nextSection) {
-        return `${baseUrl}/${nextSection.slug}`;
+    if (currentStepIndex === null && currentSection.introduction) {
+        return `${baseUrl}/${currentSection.slug}/1`;
     } else {
-        return `${baseUrl}/summary`;
+        const targetStepIndex = findIndex(
+            currentSection.steps,
+            step => step.isRequired === true,
+            currentStepIndex + 1
+        );
+
+        if (
+            targetStepIndex !== -1 &&
+            targetStepIndex <= currentSection.steps.length
+        ) {
+            return `${baseUrl}/${currentSection.slug}/${targetStepIndex + 1}`;
+        } else if (nextSection) {
+            return `${baseUrl}/${nextSection.slug}`;
+        } else {
+            return `${baseUrl}/summary`;
+        }
     }
 }
 
@@ -48,18 +52,20 @@ function findPreviousMatchingUrl({
     baseUrl,
     sections,
     currentSectionIndex,
-    currentStepIndex
+    currentStepIndex = null
 }) {
     const currentSection = sections[currentSectionIndex];
     const previousSection = sections[currentSectionIndex - 1];
 
-    if (currentStepIndex !== 0) {
+    if (currentStepIndex > 0) {
         const targetStepIndex = findLastIndex(
             currentSection.steps,
             step => step.isRequired === true,
             currentStepIndex - 1
         );
         return `${baseUrl}/${currentSection.slug}/${targetStepIndex + 1}`;
+    } else if (currentStepIndex === 0 && currentSection.introduction) {
+        return `${baseUrl}/${currentSection.slug}`;
     } else if (previousSection) {
         const targetStepIndex = findLastIndex(
             previousSection.steps,

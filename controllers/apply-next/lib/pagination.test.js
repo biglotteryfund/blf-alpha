@@ -15,6 +15,7 @@ describe('nextAndPrevious', () => {
         },
         {
             slug: 'section-b',
+            introduction: 'This step has an introduction screen',
             steps: [
                 { title: 'Step 1', isRequired: true },
                 { title: 'Step 2', isRequired: false },
@@ -82,6 +83,6 @@ describe('nextAndPrevious', () => {
             currentStepIndex: 0
         });
         expect(nextUrl).toBe('/example/section-b/3');
-        expect(previousUrl).toBe('/example/section-a/4');
+        expect(previousUrl).toBe('/example/section-b');
     });
 });

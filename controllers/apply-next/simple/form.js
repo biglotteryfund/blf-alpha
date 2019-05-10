@@ -92,7 +92,7 @@ module.exports = function({ locale, data = {} }) {
         return {
             slug: 'beneficiaries',
             title: localise({
-                en: 'Who will benefit from your project',
+                en: 'Who will benefit from your project?',
                 cy: ''
             }),
             shortTitle: localise({ en: 'Beneficiaries', cy: '' }),
@@ -105,7 +105,7 @@ module.exports = function({ locale, data = {} }) {
 
                 <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
 
-                <p>However, the information you provide here is not assessed and will not be used to decide whether you will be awarded funding for your project.</p>`,
+                <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
                 cy: ``
             }),
             steps: [

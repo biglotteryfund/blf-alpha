@@ -1,0 +1,31 @@
+{% extends "layouts/main.njk" %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+
+{% block title %}{{ section.shortTitle or section.title }} | {{ formTitle }}{% endblock %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only">
+            <form action="" method="POST" class="js-form-warn-unsaved">
+                {{ breadcrumbTrail(breadcrumbs) }}
+
+                <div class="form-header">
+                    {% if previousUrl %}
+                        <div class="form-header__actions">
+                            <a href="{{ previousUrl }}">← Previous</a>
+                            <a href="{{ nextUrl }}">Next →</a>
+                        </div>
+                    {% endif %}
+                    <p class="form-header__prefix">{{ formTitle }}</p>
+                    <h1 class="form-header__title">{{ section.title }}</h1>
+                </div>
+
+                <div class="s-prose u-constrained-wide">{{ section.introduction | safe }}</div>
+
+                <div class="form-actions">
+                    <a class="btn" href="{{ formBaseUrl }}/{{ section.slug }}/1">Continue</a>
+                </div>
+            </form>
+        </div>
+    </main>
+{% endblock %}

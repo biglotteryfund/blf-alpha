@@ -1,10 +1,8 @@
 {% extends "layouts/main.njk" %}
-{% from "components/hero.njk" import hero with context %}
-{% from "components/icons.njk" import iconTick %}
-{% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
-{% from "components/language/macros.njk" import languageServiceMessage with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+
+{% block title %}{{ step.title }} | {{ section.shortTitle or section.title }} | {{ formTitle }}{% endblock %}
 
 {% block content %}
     <main role="main" id="content">
@@ -27,8 +25,6 @@
                         {{ section.title }} ({{ __('global.misc.stepProgress', stepNumber, totalSteps) }})
                     </p>
                 </div>
-
-                {# {{ languageServiceMessage(currentLocale = locale) }} #}
 
                 {{ formErrors(__('global.misc.errorTitle'), errors) }}
             

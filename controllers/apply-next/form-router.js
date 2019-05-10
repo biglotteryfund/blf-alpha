@@ -376,52 +376,77 @@ function initFormRouter({
             const section = form.sections[sectionIndex];
 
             if (section) {
-                const stepIndex = parseInt(stepNumber, 10) - 1;
-                const step = section.steps[stepIndex];
+                const sectionShortTitle = section.shortTitle
+                    ? section.shortTitle
+                    : section.title;
 
-                if (step) {
+                const sectionUrl = `${req.baseUrl}/${section.slug}`;
+
+                if (stepNumber) {
+                    const stepIndex = parseInt(stepNumber, 10) - 1;
+                    const step = section.steps[stepIndex];
+
+                    if (step) {
+                        const { nextUrl, previousUrl } = nextAndPrevious({
+                            baseUrl: req.baseUrl,
+                            sections: form.sections,
+                            currentSectionIndex: sectionIndex,
+                            currentStepIndex: stepIndex
+                        });
+
+                        if (step.isRequired) {
+                            const viewData = {
+                                csrfToken: req.csrfToken(),
+                                breadcrumbs: concat(
+                                    res.locals.breadcrumbs,
+                                    {
+                                        label: sectionShortTitle,
+                                        url: sectionUrl
+                                    },
+                                    { label: step.title }
+                                ),
+                                section: section,
+                                step: step,
+                                stepNumber: stepNumber,
+                                totalSteps: section.steps.length,
+                                previousUrl: previousUrl,
+                                nextUrl: nextUrl,
+                                errors: errors
+                            };
+
+                            res.render(
+                                path.resolve(__dirname, './views/step'),
+                                viewData
+                            );
+                        } else {
+                            res.redirect(nextUrl);
+                        }
+                    } else {
+                        res.redirect(req.baseUrl);
+                    }
+                } else if (section.introduction) {
                     const { nextUrl, previousUrl } = nextAndPrevious({
                         baseUrl: req.baseUrl,
                         sections: form.sections,
-                        currentSectionIndex: sectionIndex,
-                        currentStepIndex: stepIndex
+                        currentSectionIndex: sectionIndex
                     });
 
-                    if (step.isRequired) {
-                        const sectionShortTitle = section.shortTitle
-                            ? section.shortTitle
-                            : section.title;
+                    const viewData = {
+                        section: section,
+                        breadcrumbs: concat(res.locals.breadcrumbs, {
+                            label: sectionShortTitle,
+                            url: sectionUrl
+                        }),
+                        nextUrl: nextUrl,
+                        previousUrl: previousUrl
+                    };
 
-                        const breadcrumbs = concat(
-                            res.locals.breadcrumbs,
-                            {
-                                label: sectionShortTitle,
-                                url: `${req.baseUrl}/${section.slug}`
-                            },
-                            { label: step.title }
-                        );
-
-                        const title = `${step.title} | ${sectionShortTitle} | ${
-                            form.title
-                        }`;
-
-                        res.render(path.resolve(__dirname, './views/step'), {
-                            csrfToken: req.csrfToken(),
-                            title: title,
-                            breadcrumbs: breadcrumbs,
-                            section: section,
-                            step: step,
-                            stepNumber: stepNumber,
-                            totalSteps: section.steps.length,
-                            previousUrl: previousUrl,
-                            nextUrl: nextUrl,
-                            errors: errors
-                        });
-                    } else {
-                        res.redirect(nextUrl);
-                    }
+                    res.render(
+                        path.resolve(__dirname, './views/section-introduction'),
+                        viewData
+                    );
                 } else {
-                    res.redirect(`${req.baseUrl}/${section.slug}/1`);
+                    res.redirect(`${sectionUrl}/1`);
                 }
             } else {
                 res.redirect(req.baseUrl);
