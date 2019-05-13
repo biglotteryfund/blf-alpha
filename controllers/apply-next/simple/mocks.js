@@ -57,7 +57,6 @@ function mockFullForm({
         'your-idea-community': faker.lorem.words(150),
         'project-budget': mockBudget(),
         'project-total-costs': faker.random.number({ min: 5000, max: 10000 }),
-        'beneficiaries-location-check': 'yes',
         'beneficiaries-local-authority': 'Wigan',
         'beneficiaries-location-description': faker.lorem.sentence(),
         'beneficiaries-groups-check': 'no',

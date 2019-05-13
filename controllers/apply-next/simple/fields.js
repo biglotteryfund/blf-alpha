@@ -986,26 +986,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        beneficiariesLocationCheck: {
-            name: 'beneficiaries-location-check',
-            label: localise({
-                en: `Do the people who will benefit live in a specific local authority?`,
-                cy: ``
-            }),
-            type: 'radio',
-            options: [
-                { value: 'yes', label: localise({ en: 'Yes', cy: '' }) },
-                { value: 'no', label: localise({ en: 'No', cy: '' }) }
-            ],
-            isRequired: true,
-            schema: yesOrNo(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Choose an option', cy: '' })
-                }
-            ]
-        },
         beneficiariesLocalAuthority: {
             name: 'beneficiaries-local-authority',
             label: localise({
@@ -1023,10 +1003,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             },
             isRequired: true,
             get schema() {
-                return Joi.when('beneficiaries-location-check', {
-                    is: 'yes',
-                    then: singleChoice(this.options).required()
-                });
+                return singleChoice(this.options).required();
             },
             messages: [
                 {
@@ -1047,10 +1024,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'text',
             isRequired: true,
-            schema: Joi.when('beneficiaries-location-check', {
-                is: 'yes',
-                then: Joi.string().required()
-            }),
+            schema: Joi.string().required(),
             messages: [
                 {
                     type: 'base',

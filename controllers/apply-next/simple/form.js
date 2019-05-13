@@ -105,7 +105,6 @@ module.exports = function({ locale, data = {} }) {
     };
 
     function sectionBeneficiaries() {
-        const locationCheck = get('beneficiaries-location-check')(data);
         const groupsCheck = get('beneficiaries-groups-check')(data);
         const groupChoices = get('beneficiaries-groups')(data);
 
@@ -156,25 +155,14 @@ module.exports = function({ locale, data = {} }) {
             }),
             steps: [
                 {
-                    title: localise({ en: 'Local authority', cy: '' }),
-                    fieldsets: [
-                        {
-                            legend: localise({ en: 'Local authority', cy: '' }),
-                            fields: [fields.beneficiariesLocationCheck]
-                        }
-                    ]
-                },
-                {
                     title: localise({ en: 'Location', cy: '' }),
                     fieldsets: [
                         {
                             legend: localise({ en: 'Location', cy: '' }),
-                            fields: compact([
-                                locationCheck === 'yes' &&
-                                    fields.beneficiariesLocalAuthority,
-                                locationCheck === 'yes' &&
-                                    fields.beneficiariesLocationDescription
-                            ])
+                            fields: [
+                                fields.beneficiariesLocalAuthority,
+                                fields.beneficiariesLocationDescription
+                            ]
                         }
                     ]
                 },
