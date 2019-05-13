@@ -77,7 +77,7 @@ module.exports = function({ locale, data = {} }) {
                     {
                         legend: localise({ en: 'Project location', cy: '' }),
                         fields: [
-                            fields.projectLocalAuthority,
+                            fields.projectLocation,
                             fields.projectLocationDescription,
                             fields.projectPostcode
                         ]
@@ -179,7 +179,7 @@ module.exports = function({ locale, data = {} }) {
                                 <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
                                 cy: ``
                             }),
-                            fields: [fields.beneficariesGroupsCheck]
+                            fields: [fields.beneficiariesGroupsCheck]
                         }
                     ]
                 },
@@ -196,7 +196,7 @@ module.exports = function({ locale, data = {} }) {
                             }),
                             fields: compact([
                                 groupsCheck === 'yes' &&
-                                    fields.beneficariesGroups,
+                                    fields.beneficiariesGroups,
                                 groupsCheck === 'yes' &&
                                     fields.beneficiariesGroupsOther
                             ])

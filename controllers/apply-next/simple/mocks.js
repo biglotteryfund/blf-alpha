@@ -51,7 +51,7 @@ function mockFullForm({
         'project-name': faker.lorem.words(5),
         'project-country': country,
         'project-start-date': toDateParts(moment().add(12, 'weeks')),
-        'project-local-authority': 'Wigan',
+        'project-location': 'Wigan',
         'project-location-description': faker.lorem.sentence(),
         'project-postcode': 'B15 1TR',
         'your-idea-project': faker.lorem.words(250),

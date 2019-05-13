@@ -16,7 +16,7 @@ const {
     yesOrNo
 } = require('../lib/validators');
 
-const localAuthoritiesFor = require('../lib/local-authorities');
+const locationsFor = require('../lib/locations');
 
 const {
     BENEFICIARY_GROUPS,
@@ -681,29 +681,24 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 ];
             }
         },
-        projectLocalAuthority: {
-            name: 'project-local-authority',
+        projectLocation: {
+            name: 'project-location',
             label: localise({
-                en: 'Which local authority will your project benefit?',
+                en: 'Where will your project take place?',
                 cy: ''
             }),
             explanation: localise({
-                en: `If your project covers more than one local authority please choose the primary location`,
+                en: `If your project covers more than one area please choose the primary location`,
                 cy: ''
             }),
             type: 'select',
-            defaultOption: localise({ en: 'Select a local authority', cy: '' }),
-            get options() {
+            defaultOption: localise({ en: 'Select a location', cy: '' }),
+            get optgroups() {
                 const country = get('project-country')(data);
-                return localAuthoritiesFor(country).map(item => ({
-                    label: item,
-                    value: item
-                }));
+                return locationsFor(country);
             },
             isRequired: true,
-            get schema() {
-                return singleChoice(this.options).required();
-            },
+            schema: Joi.string().required(),
             messages: [
                 {
                     type: 'base',
@@ -714,11 +709,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         projectLocationDescription: {
             name: 'project-location-description',
             label: localise({
-                en: `Tell us the town(s), village(s) or ward(s) where your beneficaries live`,
-                cy: ''
-            }),
-            explanation: localise({
-                en: `You can write more than one area.`,
+                en: `Tell us the towns, villages or wards where your beneficiaries live`,
                 cy: ``
             }),
             type: 'text',
@@ -1036,7 +1027,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        beneficariesGroupsCheck: {
+        beneficiariesGroupsCheck: {
             name: 'beneficiaries-groups-check',
             label: localise({
                 en: `Is your project aimed at specific groups of people?`,
@@ -1062,7 +1053,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        beneficariesGroups: {
+        beneficiariesGroups: {
             name: 'beneficiaries-groups',
             label: localise({
                 en: `What specific groups of people is your project aimed at?`,
