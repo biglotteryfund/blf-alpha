@@ -6,11 +6,15 @@ const sample = require('lodash/sample');
 describe('common', function() {
     it('should have common headers', () => {
         cy.request('/').then(response => {
-            expect(response.headers['cache-control']).to.eq('max-age=30,s-maxage=300');
+            expect(response.headers['cache-control']).to.eq(
+                'max-age=30,s-maxage=300'
+            );
         });
 
         cy.request('/apply/your-idea/1').then(response => {
-            expect(response.headers['cache-control']).to.eq('no-store,no-cache,max-age=0');
+            expect(response.headers['cache-control']).to.eq(
+                'no-store,no-cache,max-age=0'
+            );
         });
     });
 
@@ -27,14 +31,16 @@ describe('common', function() {
     it('should redirect search queries to a google site search', () => {
         cy.checkRedirect({
             from: '/search?q=This is my search query',
-            to: 'https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query',
+            to:
+                'https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query',
             isRelative: false,
             status: 302
         });
     });
 
     it('should redirect archived pages to the national archives', () => {
-        const urlPath = '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
+        const urlPath =
+            '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
         cy.request(urlPath).then(response => {
             expect(response.body).to.include(
                 `http://webarchive.nationalarchives.gov.uk/20171011152352/https://www.biglotteryfund.org.uk${urlPath}`
@@ -45,20 +51,27 @@ describe('common', function() {
     it('should redirect legacy funding programmes', () => {
         const sampleRedirect = sample([
             {
-                originalPath: '/global-content/programmes/england/acitve-england',
+                originalPath:
+                    '/global-content/programmes/england/acitve-england',
                 redirectedPath: '/funding/programmes/acitve-england'
             },
             {
-                originalPath: '/global-content/programmes/uk-wide/green-spaces-and-sustainable-communities',
-                redirectedPath: '/funding/programmes/green-spaces-and-sustainable-communities'
+                originalPath:
+                    '/global-content/programmes/uk-wide/green-spaces-and-sustainable-communities',
+                redirectedPath:
+                    '/funding/programmes/green-spaces-and-sustainable-communities'
             },
             {
-                originalPath: '/global-content/programmes/northern-ireland/young-peoples-fund-change-ur-future',
-                redirectedPath: '/funding/programmes/young-peoples-fund-change-ur-future'
+                originalPath:
+                    '/global-content/programmes/northern-ireland/young-peoples-fund-change-ur-future',
+                redirectedPath:
+                    '/funding/programmes/young-peoples-fund-change-ur-future'
             },
             {
-                originalPath: '/welsh/global-content/programmes/wales/young-peoples-fund-bridging-the-gap',
-                redirectedPath: '/welsh/funding/programmes/young-peoples-fund-bridging-the-gap'
+                originalPath:
+                    '/welsh/global-content/programmes/wales/young-peoples-fund-bridging-the-gap',
+                redirectedPath:
+                    '/welsh/funding/programmes/young-peoples-fund-bridging-the-gap'
             }
         ]);
 
@@ -70,8 +83,10 @@ describe('common', function() {
 
     it('should protect access to staff-only tools', () => {
         cy.checkRedirect({
-            from: '/funding/programmes/national-lottery-awards-for-all-england?draft=42',
-            to: '/user/staff/login?redirectUrl=/funding/programmes/national-lottery-awards-for-all-england?draft=42',
+            from:
+                '/funding/programmes/national-lottery-awards-for-all-england?draft=42',
+            to:
+                '/user/staff/login?redirectUrl=/funding/programmes/national-lottery-awards-for-all-england?draft=42',
             status: 302
         });
 
@@ -216,14 +231,18 @@ describe('user', () => {
     it('should not allow unknown users to login', () => {
         cy.visit('/user/login');
         submitForm('person@example.com', 'examplepassword');
-        cy.getByText('Your username and password combination is invalid').should('exist');
+        cy.getByText(
+            'Your username and password combination is invalid'
+        ).should('exist');
         cy.checkA11y();
     });
 
     it('should prevent registrations with invalid passwords', () => {
         cy.visit('/user/register');
         submitForm('person@example.com', 'tooshort');
-        cy.getByText('Password must be at least 10 characters long').should('exist');
+        cy.getByText('Password must be at least 10 characters long').should(
+            'exist'
+        );
     });
 
     it('should be able to register, log in, and reset password', () => {
@@ -241,7 +260,9 @@ describe('user', () => {
 
         // Attempt to log in with new user with an incorrect password and then correct it
         submitForm(username, 'invalidpassword');
-        cy.getByText('Your username and password combination is invalid').should('exist');
+        cy.getByText(
+            'Your username and password combination is invalid'
+        ).should('exist');
         submitForm(username, password);
         cy.getByText('Your account').should('be.visible');
     });
@@ -255,7 +276,9 @@ describe('user', () => {
             returnToken: true
         }).then(res => {
             // via https://github.com/auth0/node-jsonwebtoken/issues/162
-            expect(res.body.token).to.match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/);
+            expect(res.body.token).to.match(
+                /^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/
+            );
             expect(res.body.mailParams.sendTo).to.equal(username);
             expect(res.body.mailParams.subject).to.equal(
                 'Activate your The National Lottery Community Fund website account'
@@ -280,6 +303,7 @@ describe('awards for all', function() {
         }
 
         function fillProjectDetails() {
+            cy.checkA11y();
             cy.getByLabelText('What is the name of your project?', {
                 exact: false
             }).type('My application');
@@ -355,7 +379,30 @@ describe('awards for all', function() {
             }).type('5000');
         }
 
+        function fillBeneficiaryNumbers() {
+            cy.checkA11y();
+            cy.getByLabelText(
+                'How many people will benefit from your project?'
+            ).type(faker.random.number({ min: 1, max: 100000 }));
+        }
+
+        function fillBeneficiaryLocationCheck() {
+            cy.checkA11y();
+            cy.getByLabelText('Yes').click();
+        }
+
+        function fillBeneficiaryLocation() {
+            cy.checkA11y();
+            cy.getByLabelText(
+                'Which local authority will your project benefit?'
+            ).select('Maldon');
+            cy.getByLabelText(
+                'Tell us the town(s), village(s) or ward(s) where your beneficaries live'
+            ).type(faker.lorem.sentence());
+        }
+
         function fillOrganisationDetails() {
+            cy.checkA11y();
             cy.getByLabelText(
                 'What is the full legal name of your organisation?',
                 { exact: false }
@@ -364,18 +411,21 @@ describe('awards for all', function() {
         }
 
         function fillOrganisationType() {
+            cy.checkA11y();
             cy.getByLabelText('Registered charity (unincorporated)', {
                 exact: false
             }).click();
         }
 
         function fillRegistrationNumbers() {
+            cy.checkA11y();
             cy.getByLabelText('Charity registration number', {
                 exact: false
             }).type(12345678);
         }
 
         function fillOrganisationFinances() {
+            cy.checkA11y();
             cy.getByLabelText('Day').type(31);
             cy.getByLabelText('Month').type(3);
             cy.getByLabelText('What is your total income for the year?', {
@@ -384,6 +434,7 @@ describe('awards for all', function() {
         }
 
         function fillContact() {
+            cy.checkA11y();
             cy.getByLabelText('First name', { exact: false }).type(
                 faker.name.firstName()
             );
@@ -413,6 +464,7 @@ describe('awards for all', function() {
         }
 
         function fillBankDetails() {
+            cy.checkA11y();
             cy.getByLabelText('Name on the bank account', {
                 exact: false
             }).type(faker.company.companyName());
@@ -423,6 +475,7 @@ describe('awards for all', function() {
         }
 
         function fillBankStatement() {
+            cy.checkA11y();
             cy.fixture('example.pdf', 'base64').then(fileContent => {
                 cy.getByLabelText('Upload a bank statement', {
                     exact: false
@@ -438,6 +491,7 @@ describe('awards for all', function() {
         }
 
         function fillTerms() {
+            cy.checkA11y();
             cy.getAllByLabelText('I agree').each($el => {
                 cy.wrap($el).click();
             });
@@ -450,41 +504,60 @@ describe('awards for all', function() {
             }).type(faker.name.jobDescriptor());
         }
 
+        function submitStep() {
+            cy.getByText('Continue').click();
+        }
+
         cy.seedAndLogin().then(() => {
             cy.visit('/apply-next/simple/new');
 
             fillProjectDetails();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillYourIdea();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillProjectCosts();
-            cy.getByText('Continue').click();
+            submitStep();
+
+            cy.get('h1').should(
+                'contain',
+                'Who will benefit from your project'
+            );
+            submitStep();
+
+            fillBeneficiaryNumbers();
+            submitStep();
+
+            fillBeneficiaryLocationCheck();
+            submitStep();
+
+            fillBeneficiaryLocation();
+            submitStep();
 
             fillOrganisationDetails();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillOrganisationType();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillRegistrationNumbers();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillOrganisationFinances();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillMainContact();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillSeniorContact();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillBankDetails();
-            cy.getByText('Continue').click();
+            submitStep();
 
             fillBankStatement();
-            cy.getByText('Continue').click();
+            submitStep();
 
             cy.checkA11y();
             cy.get('h1').should('contain', 'Summary');

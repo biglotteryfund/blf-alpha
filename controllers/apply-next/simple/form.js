@@ -1,6 +1,6 @@
 'use strict';
 const { get } = require('lodash/fp');
-const { includes, reduce } = require('lodash');
+const { compact, includes, reduce } = require('lodash');
 
 const { Joi } = require('../lib/validators');
 const enrichForm = require('../lib/enrich-form');
@@ -11,20 +11,38 @@ module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
     const currentOrganisationType = get('organisation-type')(data);
 
-    function matchesOrganisationType(type) {
-        return currentOrganisationType === type;
+    const fields = fieldsFor({ locale, data });
+
+    function includeAddressAndDob() {
+        return (
+            includes(
+                [ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY],
+                currentOrganisationType
+            ) === false
+        );
     }
 
-    function matchesOrganisationTypes(types) {
-        return includes(types, currentOrganisationType);
+    function includeCompanyNumber() {
+        return (
+            currentOrganisationType ===
+            ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+        );
     }
 
-    const allFields = fieldsFor({ locale, data });
+    function includeCharityNumber() {
+        return includes(
+            [
+                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                ORGANISATION_TYPES.CIO,
+                ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+            ],
+            currentOrganisationType
+        );
+    }
 
-    const includeAddressAndDob = !matchesOrganisationTypes([
-        ORGANISATION_TYPES.SCHOOL,
-        ORGANISATION_TYPES.STATUTORY_BODY
-    ]);
+    function includeEducationNumber() {
+        return currentOrganisationType === ORGANISATION_TYPES.SCHOOL;
+    }
 
     const sectionProject = {
         slug: 'your-project',
@@ -43,10 +61,10 @@ module.exports = function({ locale, data = {} }) {
                     {
                         legend: localise({ en: 'Project details', cy: '' }),
                         fields: [
-                            allFields.projectName,
-                            allFields.projectStartDate,
-                            allFields.projectCountry,
-                            allFields.projectPostcode
+                            fields.projectName,
+                            fields.projectStartDate,
+                            fields.projectCountry,
+                            fields.projectPostcode
                         ]
                     }
                 ]
@@ -60,9 +78,9 @@ module.exports = function({ locale, data = {} }) {
                             cy: '(WELSH) Your idea'
                         }),
                         fields: [
-                            allFields.yourIdeaProject,
-                            allFields.yourIdeaPriorities,
-                            allFields.yourIdeaCommunity
+                            fields.yourIdeaProject,
+                            fields.yourIdeaPriorities,
+                            fields.yourIdeaCommunity
                         ]
                     }
                 ]
@@ -78,10 +96,7 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Project costs',
                             cy: '(WELSH) Project costs'
                         }),
-                        fields: [
-                            allFields.projectBudget,
-                            allFields.projectTotalCosts
-                        ]
+                        fields: [fields.projectBudget, fields.projectTotalCosts]
                     }
                 ]
             }
@@ -89,6 +104,8 @@ module.exports = function({ locale, data = {} }) {
     };
 
     function sectionBeneficiaries() {
+        const locationCheck = get('beneficiaries-location-check')(data);
+
         return {
             slug: 'beneficiaries',
             title: localise({
@@ -117,7 +134,7 @@ module.exports = function({ locale, data = {} }) {
                                 en: 'Number of people',
                                 cy: ''
                             }),
-                            fields: [allFields.beneficiariesNumberOfPeople]
+                            fields: [fields.beneficiariesNumberOfPeople]
                         }
                     ]
                 },
@@ -126,7 +143,7 @@ module.exports = function({ locale, data = {} }) {
                     fieldsets: [
                         {
                             legend: localise({ en: 'Local authority', cy: '' }),
-                            fields: [allFields.beneficiariesLocationCheck]
+                            fields: [fields.beneficiariesLocationCheck]
                         }
                     ]
                 },
@@ -135,21 +152,12 @@ module.exports = function({ locale, data = {} }) {
                     fieldsets: [
                         {
                             legend: localise({ en: 'Location', cy: '' }),
-                            get fields() {
-                                const checkQuestion = get(
-                                    allFields.beneficiariesLocationCheck.name
-                                )(data);
-                                console.log({ checkQuestion });
-
-                                if (checkQuestion === 'yes') {
-                                    return [
-                                        allFields.beneficiariesLocalAuthority,
-                                        allFields.beneficiariesLocationDescription
-                                    ];
-                                } else {
-                                    return [];
-                                }
-                            }
+                            fields: compact([
+                                locationCheck === 'yes' &&
+                                    fields.beneficiariesLocalAuthority,
+                                locationCheck === 'yes' &&
+                                    fields.beneficiariesLocationDescription
+                            ])
                         }
                     ]
                 }
@@ -174,9 +182,9 @@ module.exports = function({ locale, data = {} }) {
                             cy: ''
                         }),
                         fields: [
-                            allFields.organisationLegalName,
-                            allFields.organisationAlias,
-                            allFields.organisationAddress
+                            fields.organisationLegalName,
+                            fields.organisationAlias,
+                            fields.organisationAddress
                         ]
                     }
                 ]
@@ -186,7 +194,7 @@ module.exports = function({ locale, data = {} }) {
                 fieldsets: [
                     {
                         legend: localise({ en: 'Organisation type', cy: '' }),
-                        fields: [allFields.organisationType]
+                        fields: [fields.organisationType]
                     }
                 ]
             },
@@ -198,36 +206,11 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Registration numbers',
                             cy: ''
                         }),
-                        get fields() {
-                            const fields = [];
-                            if (
-                                matchesOrganisationType(
-                                    ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-                                )
-                            ) {
-                                fields.push(allFields.companyNumber);
-                            }
-
-                            if (
-                                matchesOrganisationTypes([
-                                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                                    ORGANISATION_TYPES.CIO,
-                                    ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-                                ])
-                            ) {
-                                fields.push(allFields.charityNumber);
-                            }
-
-                            if (
-                                matchesOrganisationType(
-                                    ORGANISATION_TYPES.SCHOOL
-                                )
-                            ) {
-                                fields.push(allFields.educationNumber);
-                            }
-
-                            return fields;
-                        }
+                        fields: compact([
+                            includeCompanyNumber() && fields.companyNumber,
+                            includeCharityNumber() && fields.charityNumber,
+                            includeEducationNumber() && fields.educationNumber
+                        ])
                     }
                 ]
             },
@@ -240,8 +223,8 @@ module.exports = function({ locale, data = {} }) {
                             cy: ''
                         }),
                         fields: [
-                            allFields.accountingYearDate,
-                            allFields.totalIncomeYear
+                            fields.accountingYearDate,
+                            fields.totalIncomeYear
                         ]
                     }
                 ]
@@ -277,28 +260,17 @@ module.exports = function({ locale, data = {} }) {
                             </p>`,
                             cy: ''
                         }),
-                        get fields() {
-                            if (includeAddressAndDob) {
-                                return [
-                                    allFields.mainContactFirstName,
-                                    allFields.mainContactLastName,
-                                    allFields.mainContactDob,
-                                    allFields.mainContactAddress,
-                                    allFields.mainContactAddressHistory,
-                                    allFields.mainContactEmail,
-                                    allFields.mainContactPhone,
-                                    allFields.mainContactCommunicationNeeds
-                                ];
-                            } else {
-                                return [
-                                    allFields.mainContactFirstName,
-                                    allFields.mainContactLastName,
-                                    allFields.mainContactEmail,
-                                    allFields.mainContactPhone,
-                                    allFields.mainContactCommunicationNeeds
-                                ];
-                            }
-                        }
+                        fields: compact([
+                            fields.mainContactFirstName,
+                            fields.mainContactLastName,
+                            includeAddressAndDob() && fields.mainContactDob,
+                            includeAddressAndDob() && fields.mainContactAddress,
+                            includeAddressAndDob() &&
+                                fields.mainContactAddressHistory,
+                            fields.mainContactEmail,
+                            fields.mainContactPhone,
+                            fields.mainContactCommunicationNeeds
+                        ])
                     }
                 ]
             }
@@ -326,30 +298,19 @@ module.exports = function({ locale, data = {} }) {
                             <p>Your senior contact must be at least 18 years old and is legally responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.</p>`,
                             cy: ``
                         }),
-                        get fields() {
-                            if (includeAddressAndDob) {
-                                return [
-                                    allFields.seniorContactFirstName,
-                                    allFields.seniorContactLastName,
-                                    allFields.seniorContactRole,
-                                    allFields.seniorContactDob,
-                                    allFields.seniorContactAddress,
-                                    allFields.seniorContactAddressHistory,
-                                    allFields.seniorContactEmail,
-                                    allFields.seniorContactPhone,
-                                    allFields.seniorContactCommunicationNeeds
-                                ];
-                            } else {
-                                return [
-                                    allFields.seniorContactFirstName,
-                                    allFields.seniorContactLastName,
-                                    allFields.seniorContactRole,
-                                    allFields.seniorContactEmail,
-                                    allFields.seniorContactPhone,
-                                    allFields.seniorContactCommunicationNeeds
-                                ];
-                            }
-                        }
+                        fields: compact([
+                            fields.seniorContactFirstName,
+                            fields.seniorContactLastName,
+                            fields.seniorContactRole,
+                            includeAddressAndDob() && fields.seniorContactDob,
+                            includeAddressAndDob() &&
+                                fields.seniorContactAddress,
+                            includeAddressAndDob() &&
+                                fields.seniorContactAddressHistory,
+                            fields.seniorContactEmail,
+                            fields.seniorContactPhone,
+                            fields.seniorContactCommunicationNeeds
+                        ])
                     }
                 ]
             }
@@ -378,10 +339,10 @@ module.exports = function({ locale, data = {} }) {
                             cy: ''
                         }),
                         fields: [
-                            allFields.bankAccountName,
-                            allFields.bankSortCode,
-                            allFields.bankAccountNumber,
-                            allFields.bankBuildingSocietyNumber
+                            fields.bankAccountName,
+                            fields.bankSortCode,
+                            fields.bankAccountNumber,
+                            fields.bankBuildingSocietyNumber
                         ]
                     }
                 ]
@@ -412,7 +373,7 @@ module.exports = function({ locale, data = {} }) {
                         `,
                             cy: ''
                         }),
-                        fields: [allFields.bankStatement]
+                        fields: [fields.bankStatement]
                     }
                 ]
             }
@@ -486,14 +447,13 @@ module.exports = function({ locale, data = {} }) {
             name: 'terms-person-position',
             label: localise({ en: 'Position in organisation', cy: '' }),
             type: 'text',
-            isRequired: true,
-            attributes: { autocomplete: 'position' }
+            isRequired: true
         }
     ];
 
     const schema = Joi.object(
         reduce(
-            allFields,
+            fields,
             function(acc, field) {
                 acc[field.name] = field.schema;
                 return acc;
@@ -507,7 +467,6 @@ module.exports = function({ locale, data = {} }) {
         title: localise({ en: 'National Lottery Awards for All', cy: '' }),
         isBilingual: true,
         schema: schema,
-        allFields: allFields,
         sections: [
             sectionProject,
             sectionBeneficiaries(),

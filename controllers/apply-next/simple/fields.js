@@ -226,7 +226,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         const defaultProps = {
             type: 'text',
             attributes: {
-                autocomplete: 'familiy-name',
+                autocomplete: 'family-name',
                 spellcheck: 'false'
             },
             isRequired: true,
@@ -1061,7 +1061,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         beneficiariesLocationDescription: {
             name: 'beneficiaries-location-description',
             label: localise({
-                en: `In your own words describe the areas your beneficaries live in.`,
+                en: `Tell us the town(s), village(s) or ward(s) where your beneficaries live`,
                 cy: ''
             }),
             explanation: localise({
