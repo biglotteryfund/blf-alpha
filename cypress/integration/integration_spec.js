@@ -401,6 +401,38 @@ describe('awards for all', function() {
             ).type(faker.lorem.sentence());
         }
 
+        function fillBeneficiaryGroupsCheck() {
+            cy.checkA11y();
+            cy.getByLabelText('Yes').click();
+        }
+
+        function fillBeneficiaryGroups() {
+            cy.checkA11y();
+            cy.getByLabelText('Ethnic background').click();
+            cy.getByLabelText('Gender').click();
+            cy.getByLabelText('Age').click();
+            cy.getByLabelText('Disabled people').click();
+            cy.getByLabelText('Lesbians, gay or bisexual people').click();
+        }
+
+        function fillBeneficiaryGender() {
+            cy.checkA11y();
+            cy.getByLabelText('Non-binary').click();
+        }
+
+        function fillBeneficiaryAge() {
+            cy.checkA11y();
+            cy.getByLabelText('25-64').click();
+        }
+
+        function fillBeneficiaryDisability() {
+            cy.checkA11y();
+            cy.getByLabelText(
+                'Disabled people with learning or mental difficulties',
+                { exact: false }
+            ).click();
+        }
+
         function fillOrganisationDetails() {
             cy.checkA11y();
             cy.getByLabelText(
@@ -533,6 +565,21 @@ describe('awards for all', function() {
             submitStep();
 
             fillBeneficiaryLocation();
+            submitStep();
+
+            fillBeneficiaryGroupsCheck();
+            submitStep();
+
+            fillBeneficiaryGroups();
+            submitStep();
+
+            fillBeneficiaryGender();
+            submitStep();
+
+            fillBeneficiaryAge();
+            submitStep();
+
+            fillBeneficiaryDisability();
             submitStep();
 
             fillOrganisationDetails();
