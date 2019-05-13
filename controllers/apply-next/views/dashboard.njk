@@ -111,7 +111,9 @@
                     {% for section in form.sections %}
                         {% set sectionProgress = application.progress.sections[section.slug] %}
                         <li class="section-progress-mini section-progress-mini--{{ sectionProgress }}">
-                            <span class="section-progress-mini__title">{{ loop.index }}: {{ section.title }}</span>
+                            <span class="section-progress-mini__title">
+                                {{ loop.index }}: {{ section.shortTitle or section.title }}
+                            </span>
                             <span class="section-progress-mini__marker">
                                 {% if sectionProgress === FORM_STATES.complete %}
                                     {{ iconTick() }} {{ copy.statusComplete }}

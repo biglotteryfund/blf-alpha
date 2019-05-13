@@ -1,35 +1,53 @@
 'use strict';
 const { get } = require('lodash/fp');
-const { includes, reduce } = require('lodash');
+const { compact, includes, reduce } = require('lodash');
 
 const { Joi } = require('../lib/validators');
 const enrichForm = require('../lib/enrich-form');
-const { ORGANISATION_TYPES } = require('./constants');
+const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
 const fieldsFor = require('./fields');
 
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
     const currentOrganisationType = get('organisation-type')(data);
 
-    function matchesOrganisationType(type) {
-        return currentOrganisationType === type;
+    const fields = fieldsFor({ locale, data });
+
+    function includeAddressAndDob() {
+        return (
+            includes(
+                [ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY],
+                currentOrganisationType
+            ) === false
+        );
     }
 
-    function matchesOrganisationTypes(types) {
-        return includes(types, currentOrganisationType);
+    function includeCompanyNumber() {
+        return (
+            currentOrganisationType ===
+            ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+        );
     }
 
-    const allFields = fieldsFor({ locale, data });
+    function includeCharityNumber() {
+        return includes(
+            [
+                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                ORGANISATION_TYPES.CIO,
+                ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+            ],
+            currentOrganisationType
+        );
+    }
 
-    const includeAddressAndDob = !matchesOrganisationTypes([
-        ORGANISATION_TYPES.SCHOOL,
-        ORGANISATION_TYPES.STATUTORY_BODY
-    ]);
+    function includeEducationNumber() {
+        return currentOrganisationType === ORGANISATION_TYPES.SCHOOL;
+    }
 
     const sectionProject = {
         slug: 'your-project',
         title: localise({ en: 'Your Project', cy: '(WELSH) Your Project' }),
-        introduction: localise({
+        summary: localise({
             en: `Please tell us about your project in this section. This is the most important section when it comes to making a decision about whether you will receive funding.`,
             cy: `(WELSH) Please tell us about your project in this section. This is the most important section when it comes to making a decision about whether you will receive funding.`
         }),
@@ -43,10 +61,10 @@ module.exports = function({ locale, data = {} }) {
                     {
                         legend: localise({ en: 'Project details', cy: '' }),
                         fields: [
-                            allFields.projectName,
-                            allFields.projectStartDate,
-                            allFields.projectCountry,
-                            allFields.projectPostcode
+                            fields.projectName,
+                            fields.projectStartDate,
+                            fields.projectCountry,
+                            fields.projectPostcode
                         ]
                     }
                 ]
@@ -60,9 +78,9 @@ module.exports = function({ locale, data = {} }) {
                             cy: '(WELSH) Your idea'
                         }),
                         fields: [
-                            allFields.yourIdeaProject,
-                            allFields.yourIdeaPriorities,
-                            allFields.yourIdeaCommunity
+                            fields.yourIdeaProject,
+                            fields.yourIdeaPriorities,
+                            fields.yourIdeaCommunity
                         ]
                     }
                 ]
@@ -78,20 +96,183 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Project costs',
                             cy: '(WELSH) Project costs'
                         }),
-                        fields: [
-                            allFields.projectBudget,
-                            allFields.projectTotalCosts
-                        ]
+                        fields: [fields.projectBudget, fields.projectTotalCosts]
                     }
                 ]
             }
         ]
     };
 
+    function sectionBeneficiaries() {
+        const locationCheck = get('beneficiaries-location-check')(data);
+        const groupsCheck = get('beneficiaries-groups-check')(data);
+        const groupChoices = get('beneficiaries-groups')(data);
+
+        function fieldsForGroup(type) {
+            let result;
+            switch (type) {
+                case BENEFICIARY_GROUPS.GENDER:
+                    result = [fields.beneficiariesGroupsGender];
+                    break;
+                case BENEFICIARY_GROUPS.AGE:
+                    result = [fields.beneficiariesGroupsAge];
+                    break;
+                case BENEFICIARY_GROUPS.DISABILITY:
+                    result = [fields.beneficiariesGroupsDisability];
+                    break;
+                case BENEFICIARY_GROUPS.FAITH:
+                    result = [
+                        fields.beneficiariesGroupsFaith,
+                        fields.beneficiariesGroupsFaithOther
+                    ];
+                    break;
+                default:
+                    result = [];
+                    break;
+            }
+
+            return includes(groupChoices, type) ? result : [];
+        }
+
+        return {
+            slug: 'beneficiaries',
+            title: localise({
+                en: 'Who will benefit from your project?',
+                cy: ''
+            }),
+            shortTitle: localise({ en: 'Beneficiaries', cy: '' }),
+            summary: localise({
+                en: `We want to hear more about the people who will benefit from your project.`,
+                cy: ``
+            }),
+            introduction: localise({
+                en: `<p>We want to hear more about the people who will benefit from your project.</p>
+
+                <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
+
+                <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
+                cy: ``
+            }),
+            steps: [
+                {
+                    title: localise({ en: 'Number of people', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: 'Number of people',
+                                cy: ''
+                            }),
+                            fields: [fields.beneficiariesNumberOfPeople]
+                        }
+                    ]
+                },
+                {
+                    title: localise({ en: 'Local authority', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({ en: 'Local authority', cy: '' }),
+                            fields: [fields.beneficiariesLocationCheck]
+                        }
+                    ]
+                },
+                {
+                    title: localise({ en: 'Location', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({ en: 'Location', cy: '' }),
+                            fields: compact([
+                                locationCheck === 'yes' &&
+                                    fields.beneficiariesLocalAuthority,
+                                locationCheck === 'yes' &&
+                                    fields.beneficiariesLocationDescription
+                            ])
+                        }
+                    ]
+                },
+                {
+                    title: localise({
+                        en: `Specific groups of people`,
+                        cy: ``
+                    }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: `Specific groups of people`,
+                                cy: ``
+                            }),
+                            fields: [fields.beneficariesGroupsCheck]
+                        }
+                    ]
+                },
+                {
+                    title: localise({
+                        en: 'Specific groups of people',
+                        cy: ''
+                    }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: 'Specific groups of people',
+                                cy: ''
+                            }),
+                            fields: compact([
+                                groupsCheck === 'yes' &&
+                                    fields.beneficariesGroups,
+                                groupsCheck === 'yes' &&
+                                    fields.beneficiariesGroupsOther
+                            ])
+                        }
+                    ]
+                },
+                {
+                    title: localise({ en: 'Gender', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({ en: 'Gender', cy: '' }),
+                            fields: fieldsForGroup(BENEFICIARY_GROUPS.GENDER)
+                        }
+                    ]
+                },
+                {
+                    title: localise({ en: 'Age', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({ en: 'Age', cy: '' }),
+                            fields: fieldsForGroup(BENEFICIARY_GROUPS.AGE)
+                        }
+                    ]
+                },
+                {
+                    title: localise({ en: 'Disability', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({ en: 'Disability', cy: '' }),
+                            fields: fieldsForGroup(
+                                BENEFICIARY_GROUPS.DISABILITY
+                            )
+                        }
+                    ]
+                },
+                {
+                    title: localise({ en: 'Religion or belief', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: 'Religion or belief',
+                                cy: ''
+                            }),
+                            fields: fieldsForGroup(BENEFICIARY_GROUPS.FAITH)
+                        }
+                    ]
+                }
+            ]
+        };
+    }
+
     const sectionOrganisation = {
         slug: 'organisation',
         title: localise({ en: 'Your organisation', cy: '' }),
-        introduction: localise({
+        summary: localise({
             en: `Please tell us about your organisation, including legal name, registered address and income. This helps us understand the type of organisation you are.`,
             cy: ''
         }),
@@ -105,9 +286,9 @@ module.exports = function({ locale, data = {} }) {
                             cy: ''
                         }),
                         fields: [
-                            allFields.organisationLegalName,
-                            allFields.organisationAlias,
-                            allFields.organisationAddress
+                            fields.organisationLegalName,
+                            fields.organisationAlias,
+                            fields.organisationAddress
                         ]
                     }
                 ]
@@ -117,7 +298,7 @@ module.exports = function({ locale, data = {} }) {
                 fieldsets: [
                     {
                         legend: localise({ en: 'Organisation type', cy: '' }),
-                        fields: [allFields.organisationType]
+                        fields: [fields.organisationType]
                     }
                 ]
             },
@@ -129,36 +310,11 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Registration numbers',
                             cy: ''
                         }),
-                        get fields() {
-                            const fields = [];
-                            if (
-                                matchesOrganisationType(
-                                    ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-                                )
-                            ) {
-                                fields.push(allFields.companyNumber);
-                            }
-
-                            if (
-                                matchesOrganisationTypes([
-                                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                                    ORGANISATION_TYPES.CIO,
-                                    ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-                                ])
-                            ) {
-                                fields.push(allFields.charityNumber);
-                            }
-
-                            if (
-                                matchesOrganisationType(
-                                    ORGANISATION_TYPES.SCHOOL
-                                )
-                            ) {
-                                fields.push(allFields.educationNumber);
-                            }
-
-                            return fields;
-                        }
+                        fields: compact([
+                            includeCompanyNumber() && fields.companyNumber,
+                            includeCharityNumber() && fields.charityNumber,
+                            includeEducationNumber() && fields.educationNumber
+                        ])
                     }
                 ]
             },
@@ -171,8 +327,8 @@ module.exports = function({ locale, data = {} }) {
                             cy: ''
                         }),
                         fields: [
-                            allFields.accountingYearDate,
-                            allFields.totalIncomeYear
+                            fields.accountingYearDate,
+                            fields.totalIncomeYear
                         ]
                     }
                 ]
@@ -183,7 +339,7 @@ module.exports = function({ locale, data = {} }) {
     const sectionMainContact = {
         slug: 'main-contact',
         title: localise({ en: 'Main contact', cy: '' }),
-        introduction: localise({
+        summary: localise({
             en: `Please provide details for your main contact. This will be the first person we contact if we need to discuss your project.`,
             cy: ``
         }),
@@ -208,28 +364,17 @@ module.exports = function({ locale, data = {} }) {
                             </p>`,
                             cy: ''
                         }),
-                        get fields() {
-                            if (includeAddressAndDob) {
-                                return [
-                                    allFields.mainContactFirstName,
-                                    allFields.mainContactLastName,
-                                    allFields.mainContactDob,
-                                    allFields.mainContactAddress,
-                                    allFields.mainContactAddressHistory,
-                                    allFields.mainContactEmail,
-                                    allFields.mainContactPhone,
-                                    allFields.mainContactCommunicationNeeds
-                                ];
-                            } else {
-                                return [
-                                    allFields.mainContactFirstName,
-                                    allFields.mainContactLastName,
-                                    allFields.mainContactEmail,
-                                    allFields.mainContactPhone,
-                                    allFields.mainContactCommunicationNeeds
-                                ];
-                            }
-                        }
+                        fields: compact([
+                            fields.mainContactFirstName,
+                            fields.mainContactLastName,
+                            includeAddressAndDob() && fields.mainContactDob,
+                            includeAddressAndDob() && fields.mainContactAddress,
+                            includeAddressAndDob() &&
+                                fields.mainContactAddressHistory,
+                            fields.mainContactEmail,
+                            fields.mainContactPhone,
+                            fields.mainContactCommunicationNeeds
+                        ])
                     }
                 ]
             }
@@ -239,7 +384,7 @@ module.exports = function({ locale, data = {} }) {
     const sectionSeniorContact = {
         slug: 'senior-contact',
         title: localise({ en: 'Senior contact', cy: '' }),
-        introduction: localise({
+        summary: localise({
             en: `Please provide details for your senior contact. This person will be legally responsible for the funding and must be unconnected to the main contact.`,
             cy: ``
         }),
@@ -257,30 +402,19 @@ module.exports = function({ locale, data = {} }) {
                             <p>Your senior contact must be at least 18 years old and is legally responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.</p>`,
                             cy: ``
                         }),
-                        get fields() {
-                            if (includeAddressAndDob) {
-                                return [
-                                    allFields.seniorContactFirstName,
-                                    allFields.seniorContactLastName,
-                                    allFields.seniorContactRole,
-                                    allFields.seniorContactDob,
-                                    allFields.seniorContactAddress,
-                                    allFields.seniorContactAddressHistory,
-                                    allFields.seniorContactEmail,
-                                    allFields.seniorContactPhone,
-                                    allFields.seniorContactCommunicationNeeds
-                                ];
-                            } else {
-                                return [
-                                    allFields.seniorContactFirstName,
-                                    allFields.seniorContactLastName,
-                                    allFields.seniorContactRole,
-                                    allFields.seniorContactEmail,
-                                    allFields.seniorContactPhone,
-                                    allFields.seniorContactCommunicationNeeds
-                                ];
-                            }
-                        }
+                        fields: compact([
+                            fields.seniorContactFirstName,
+                            fields.seniorContactLastName,
+                            fields.seniorContactRole,
+                            includeAddressAndDob() && fields.seniorContactDob,
+                            includeAddressAndDob() &&
+                                fields.seniorContactAddress,
+                            includeAddressAndDob() &&
+                                fields.seniorContactAddressHistory,
+                            fields.seniorContactEmail,
+                            fields.seniorContactPhone,
+                            fields.seniorContactCommunicationNeeds
+                        ])
                     }
                 ]
             }
@@ -290,7 +424,7 @@ module.exports = function({ locale, data = {} }) {
     const sectionBankDetails = {
         slug: 'bank-details',
         title: localise({ en: 'Bank details', cy: '' }),
-        introduction: localise({
+        summary: localise({
             en: `Please provide your bank details. Before you submit your application you will need to attach a copy of a bank statement that is less than two months old.`,
             cy: ''
         }),
@@ -309,10 +443,10 @@ module.exports = function({ locale, data = {} }) {
                             cy: ''
                         }),
                         fields: [
-                            allFields.bankAccountName,
-                            allFields.bankSortCode,
-                            allFields.bankAccountNumber,
-                            allFields.bankBuildingSocietyNumber
+                            fields.bankAccountName,
+                            fields.bankSortCode,
+                            fields.bankAccountNumber,
+                            fields.bankBuildingSocietyNumber
                         ]
                     }
                 ]
@@ -343,7 +477,7 @@ module.exports = function({ locale, data = {} }) {
                         `,
                             cy: ''
                         }),
-                        fields: [allFields.bankStatement]
+                        fields: [fields.bankStatement]
                     }
                 ]
             }
@@ -417,14 +551,13 @@ module.exports = function({ locale, data = {} }) {
             name: 'terms-person-position',
             label: localise({ en: 'Position in organisation', cy: '' }),
             type: 'text',
-            isRequired: true,
-            attributes: { autocomplete: 'position' }
+            isRequired: true
         }
     ];
 
     const schema = Joi.object(
         reduce(
-            allFields,
+            fields,
             function(acc, field) {
                 acc[field.name] = field.schema;
                 return acc;
@@ -438,9 +571,9 @@ module.exports = function({ locale, data = {} }) {
         title: localise({ en: 'National Lottery Awards for All', cy: '' }),
         isBilingual: true,
         schema: schema,
-        allFields: allFields,
         sections: [
             sectionProject,
+            sectionBeneficiaries(),
             sectionOrganisation,
             sectionMainContact,
             sectionSeniorContact,

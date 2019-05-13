@@ -249,10 +249,6 @@ function initFormRouter({
                         application,
                         'status'
                     );
-                    res.locals.currentApplicationTitle = get(
-                        currentApplicationData,
-                        'project-name'
-                    );
 
                     res.locals.form = formBuilder({
                         locale: req.i18n.getLocale(),
@@ -277,13 +273,21 @@ function initFormRouter({
      * Route: Summary
      */
     router.route('/summary').get(function(req, res) {
-        const { form, currentApplicationData } = res.locals;
-        res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-            label: 'Summary'
+        const { copy, currentApplicationData } = res.locals;
+
+        const form = formBuilder({
+            locale: req.i18n.getLocale(),
+            data: currentApplicationData
         });
+
+        const title = copy.summary.title;
+
         res.render(path.resolve(__dirname, './views/summary'), {
+            csrfToken: req.csrfToken(),
+            title: title,
+            breadcrumbs: concat(res.locals.breadcrumbs, { label: title }),
             progress: calculateFormProgress(form, currentApplicationData),
-            csrfToken: req.csrfToken()
+            currentApplicationTitle: get(currentApplicationData, 'project-name')
         });
     });
 
@@ -372,44 +376,77 @@ function initFormRouter({
             const section = form.sections[sectionIndex];
 
             if (section) {
-                const stepIndex = parseInt(stepNumber, 10) - 1;
-                const step = section.steps[stepIndex];
+                const sectionShortTitle = section.shortTitle
+                    ? section.shortTitle
+                    : section.title;
 
-                if (step) {
-                    res.locals.breadcrumbs = concat(
-                        res.locals.breadcrumbs,
-                        {
-                            label: section.title,
-                            url: `${req.baseUrl}/${section.slug}`
-                        },
-                        {
-                            label: `${step.title} (Step ${stepNumber} of ${
-                                section.steps.length
-                            })`
+                const sectionUrl = `${req.baseUrl}/${section.slug}`;
+
+                if (stepNumber) {
+                    const stepIndex = parseInt(stepNumber, 10) - 1;
+                    const step = section.steps[stepIndex];
+
+                    if (step) {
+                        const { nextUrl, previousUrl } = nextAndPrevious({
+                            baseUrl: req.baseUrl,
+                            sections: form.sections,
+                            currentSectionIndex: sectionIndex,
+                            currentStepIndex: stepIndex
+                        });
+
+                        if (step.isRequired) {
+                            const viewData = {
+                                csrfToken: req.csrfToken(),
+                                breadcrumbs: concat(
+                                    res.locals.breadcrumbs,
+                                    {
+                                        label: sectionShortTitle,
+                                        url: sectionUrl
+                                    },
+                                    { label: step.title }
+                                ),
+                                section: section,
+                                step: step,
+                                stepNumber: stepNumber,
+                                totalSteps: section.steps.length,
+                                previousUrl: previousUrl,
+                                nextUrl: nextUrl,
+                                errors: errors
+                            };
+
+                            res.render(
+                                path.resolve(__dirname, './views/step'),
+                                viewData
+                            );
+                        } else {
+                            res.redirect(nextUrl);
                         }
-                    );
-
+                    } else {
+                        res.redirect(req.baseUrl);
+                    }
+                } else if (section.introduction) {
                     const { nextUrl, previousUrl } = nextAndPrevious({
                         baseUrl: req.baseUrl,
                         sections: form.sections,
-                        currentSectionIndex: sectionIndex,
-                        currentStepIndex: stepIndex
+                        currentSectionIndex: sectionIndex
                     });
 
-                    if (step.isRequired) {
-                        res.render(path.resolve(__dirname, './views/step'), {
-                            previousUrl,
-                            nextUrl,
-                            title: `${step.title} | ${form.title}`,
-                            csrfToken: req.csrfToken(),
-                            step: step,
-                            errors: errors
-                        });
-                    } else {
-                        res.redirect(nextUrl);
-                    }
+                    const viewData = {
+                        section: section,
+                        breadcrumbs: concat(res.locals.breadcrumbs, {
+                            label: sectionShortTitle,
+                            url: sectionUrl
+                        }),
+                        nextUrl: nextUrl,
+                        previousUrl: previousUrl
+                    };
+
+                    res.render(
+                        path.resolve(__dirname, './views/section-introduction'),
+                        viewData
+                    );
                 } else {
-                    res.redirect(`${req.baseUrl}/${section.slug}/1`);
+                    res.redirect(`${sectionUrl}/1`);
                 }
             } else {
                 res.redirect(req.baseUrl);

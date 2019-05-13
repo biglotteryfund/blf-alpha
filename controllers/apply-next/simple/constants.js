@@ -13,9 +13,19 @@ const ORGANISATION_TYPES = {
     STATUTORY_BODY: 'statutory-body'
 };
 
+const BENEFICIARY_GROUPS = {
+    ETHNIC_BACKGROUND: 'ethnic-background',
+    GENDER: 'gender',
+    AGE: 'age',
+    DISABILITY: 'disability',
+    FAITH: 'faith',
+    LGBTQ: 'lgbtq'
+};
+
 module.exports = {
+    BENEFICIARY_GROUPS,
+    MAX_BUDGET_TOTAL_GBP,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
-    MAX_BUDGET_TOTAL_GBP,
     ORGANISATION_TYPES
 };

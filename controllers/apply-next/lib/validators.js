@@ -2,6 +2,22 @@
 const moment = require('moment');
 const Joi = require('./joi-extensions');
 
+function yesOrNo() {
+    return Joi.string()
+        .valid(['yes', 'no'])
+        .required();
+}
+
+function singleChoice(options) {
+    return Joi.string().valid(options.map(option => option.value));
+}
+
+function multiChoice(options) {
+    return Joi.array()
+        .items(Joi.string().valid(options.map(option => option.value)))
+        .single();
+}
+
 function futureDate({ amount = null, unit = null } = {}) {
     const minDate = amount && unit ? moment().add(amount, unit) : moment();
     return Joi.dateParts().futureDate(minDate.format('YYYY-MM-DD'));
@@ -11,20 +27,24 @@ function dateOfBirth(minAge) {
     return Joi.dateParts().dob(minAge);
 }
 
-function budgetField(maxBudget) {
+function budgetItems(maxBudget) {
     return Joi.budgetItems()
         .maxBudget(maxBudget)
         .required();
 }
 
+/**
+ * @see https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
+ */
 function postcode() {
-    // via https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
-    const POSTCODE_PATTERN =
-        '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)';
-
     return Joi.string()
         .trim()
-        .regex(new RegExp(POSTCODE_PATTERN, 'i'));
+        .regex(
+            new RegExp(
+                '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)',
+                'i'
+            )
+        );
 }
 
 function ukAddress() {
@@ -38,11 +58,22 @@ function ukAddress() {
     });
 }
 
+function ukPhoneNumber() {
+    return Joi.string().phoneNumber({
+        defaultCountry: 'GB',
+        format: 'national'
+    });
+}
+
 module.exports = {
     Joi,
-    budgetField,
+    budgetItems,
     dateOfBirth,
     futureDate,
+    multiChoice,
     postcode,
-    ukAddress
+    singleChoice,
+    ukAddress,
+    ukPhoneNumber,
+    yesOrNo
 };
