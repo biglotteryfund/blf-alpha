@@ -61,6 +61,9 @@ function mockFullForm({
             min: 500,
             max: 100000
         }),
+        'beneficiaries-location-check': 'yes',
+        'beneficiaries-local-authority': 'wigan',
+        'beneficiaries-location-description': faker.lorem.sentence(),
         'organisation-legal-name': faker.company.companyName(),
         'organisation-address': mockAddress(),
         'organisation-type': organisationType,
