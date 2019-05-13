@@ -149,15 +149,29 @@
         {{ labelFor(field) }}
     </label>
     {{ explanationFor(field) }}
+
     <select class="ff-select" id="field-{{ field.name }}" name="{{ field.name }}">
         {% if field.defaultOption %}
             <option disabled value{% if not field.value %} selected{% endif %}>{{ field.defaultOption }}</option>
         {% endif %}
-        {% for option in field.options %}
-            <option value="{{ option.value }}"{% if field.value === option.value %} selected{% endif %}>
-                {{ option.label }}
-            </option>
-        {% endfor %}
+
+        {% if field.optgroups %}
+            {% for optgroup in field.optgroups %}
+                <optgroup label="{{ optgroup.label }}">
+                    {% for option in optgroup.options %}
+                        <option value="{{ option.value }}"{% if field.value === option.value %} selected{% endif %}>
+                            {{ option.label }}
+                        </option>
+                    {% endfor %}
+                </optgroup>
+            {% endfor %}
+        {% else %}
+            {% for option in field.options %}
+                <option value="{{ option.value }}"{% if field.value === option.value %} selected{% endif %}>
+                    {{ option.label }}
+                </option>
+            {% endfor %}
+        {% endif %}
     </select>
 {% endmacro %}
 

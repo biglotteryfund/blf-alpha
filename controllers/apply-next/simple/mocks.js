@@ -51,19 +51,14 @@ function mockFullForm({
         'project-name': faker.lorem.words(5),
         'project-country': country,
         'project-start-date': toDateParts(moment().add(12, 'weeks')),
+        'project-location': 'Wigan',
+        'project-location-description': faker.lorem.sentence(),
         'project-postcode': 'B15 1TR',
         'your-idea-project': faker.lorem.words(250),
         'your-idea-priorities': faker.lorem.words(100),
         'your-idea-community': faker.lorem.words(150),
         'project-budget': mockBudget(),
         'project-total-costs': faker.random.number({ min: 5000, max: 10000 }),
-        'beneficiaries-number-of-people': faker.random.number({
-            min: 500,
-            max: 100000
-        }),
-        'beneficiaries-location-check': 'yes',
-        'beneficiaries-local-authority': 'Wigan',
-        'beneficiaries-location-description': faker.lorem.sentence(),
         'beneficiaries-groups-check': 'no',
         'beneficiaries-groups': [],
         'organisation-legal-name': faker.company.companyName(),
@@ -90,7 +85,8 @@ function mockFullForm({
         'senior-contact-dob': mockDateOfBirth(18),
         'senior-contact-address': mockAddress(),
         'senior-contact-address-history': {
-            'current-address-meets-minimum': 'yes'
+            'current-address-meets-minimum': 'yes',
+            'previous-address': null
         },
         'senior-contact-email': faker.internet.exampleEmail(),
         'senior-contact-phone': '020 7211 1888',

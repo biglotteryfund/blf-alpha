@@ -16,7 +16,7 @@ const {
     yesOrNo
 } = require('../lib/validators');
 
-const localAuthoritiesFor = require('../lib/local-authorities');
+const locationsFor = require('../lib/locations');
 
 const {
     BENEFICIARY_GROUPS,
@@ -681,6 +681,47 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 ];
             }
         },
+        projectLocation: {
+            name: 'project-location',
+            label: localise({
+                en: 'Where will your project take place?',
+                cy: ''
+            }),
+            explanation: localise({
+                en: `If your project covers more than one area please choose the primary location`,
+                cy: ''
+            }),
+            type: 'select',
+            defaultOption: localise({ en: 'Select a location', cy: '' }),
+            get optgroups() {
+                const country = get('project-country')(data);
+                return locationsFor(country);
+            },
+            isRequired: true,
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose an option', cy: '' })
+                }
+            ]
+        },
+        projectLocationDescription: {
+            name: 'project-location-description',
+            label: localise({
+                en: `Tell us the towns, villages or wards where your beneficiaries live`,
+                cy: ``
+            }),
+            type: 'text',
+            isRequired: true,
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Enter a description', cy: '' })
+                }
+            ]
+        },
         projectPostcode: {
             name: 'project-postcode',
             label: localise({
@@ -986,101 +1027,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        beneficiariesNumberOfPeople: {
-            name: 'beneficiaries-number-of-people',
-            label: localise({
-                en: 'How many people will benefit from your project?',
-                cy: ''
-            }),
-            explanation: localise({
-                en: `Please enter the exact figure, or the closest estimate.`,
-                cy: ``
-            }),
-            type: 'number',
-            isRequired: true,
-            schema: Joi.number()
-                .min(1)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter a number', cy: '' })
-                }
-            ]
-        },
-        beneficiariesLocationCheck: {
-            name: 'beneficiaries-location-check',
-            label: localise({
-                en: `Do the people who will benefit live in a specific local authority?`,
-                cy: ``
-            }),
-            type: 'radio',
-            options: [
-                { value: 'yes', label: localise({ en: 'Yes', cy: '' }) },
-                { value: 'no', label: localise({ en: 'No', cy: '' }) }
-            ],
-            isRequired: true,
-            schema: yesOrNo(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Choose an option', cy: '' })
-                }
-            ]
-        },
-        beneficiariesLocalAuthority: {
-            name: 'beneficiaries-local-authority',
-            label: localise({
-                en: 'Which local authority will your project benefit?',
-                cy: ''
-            }),
-            type: 'select',
-            defaultOption: localise({ en: 'Select a local authority', cy: '' }),
-            get options() {
-                const country = get('project-country')(data);
-                return localAuthoritiesFor(country).map(item => ({
-                    label: item,
-                    value: item
-                }));
-            },
-            isRequired: true,
-            get schema() {
-                return Joi.when('beneficiaries-location-check', {
-                    is: 'yes',
-                    then: singleChoice(this.options).required()
-                });
-            },
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Choose an option', cy: '' })
-                }
-            ]
-        },
-        beneficiariesLocationDescription: {
-            name: 'beneficiaries-location-description',
-            label: localise({
-                en: `Tell us the town(s), village(s) or ward(s) where your beneficaries live`,
-                cy: ''
-            }),
-            explanation: localise({
-                en: `You can write more than one area.`,
-                cy: ``
-            }),
-            type: 'text',
-            isRequired: true,
-            schema: Joi.when('beneficiaries-location-check', {
-                is: 'yes',
-                then: Joi.string().required()
-            }),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter a description', cy: '' })
-                }
-            ]
-        },
-        beneficariesGroupsCheck: {
+        beneficiariesGroupsCheck: {
             name: 'beneficiaries-groups-check',
             label: localise({
                 en: `Is your project aimed at specific groups of people?`,
@@ -1106,7 +1053,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        beneficariesGroups: {
+        beneficiariesGroups: {
             name: 'beneficiaries-groups',
             label: localise({
                 en: `What specific groups of people is your project aimed at?`,

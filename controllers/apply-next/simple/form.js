@@ -54,17 +54,31 @@ module.exports = function({ locale, data = {} }) {
         }),
         steps: [
             {
-                title: localise({
-                    en: 'Project details',
-                    cy: '(cy) Project details'
-                }),
+                title: localise({ en: 'Project details', cy: '' }),
                 fieldsets: [
                     {
                         legend: localise({ en: 'Project details', cy: '' }),
+                        fields: [fields.projectName, fields.projectStartDate]
+                    }
+                ]
+            },
+            {
+                title: localise({ en: 'Project country', cy: '' }),
+                fieldsets: [
+                    {
+                        legend: localise({ en: 'Project country', cy: '' }),
+                        fields: [fields.projectCountry]
+                    }
+                ]
+            },
+            {
+                title: localise({ en: 'Project location', cy: '' }),
+                fieldsets: [
+                    {
+                        legend: localise({ en: 'Project location', cy: '' }),
                         fields: [
-                            fields.projectName,
-                            fields.projectStartDate,
-                            fields.projectCountry,
+                            fields.projectLocation,
+                            fields.projectLocationDescription,
                             fields.projectPostcode
                         ]
                     }
@@ -105,7 +119,6 @@ module.exports = function({ locale, data = {} }) {
     };
 
     function sectionBeneficiaries() {
-        const locationCheck = get('beneficiaries-location-check')(data);
         const groupsCheck = get('beneficiaries-groups-check')(data);
         const groupChoices = get('beneficiaries-groups')(data);
 
@@ -146,50 +159,7 @@ module.exports = function({ locale, data = {} }) {
                 en: `We want to hear more about the people who will benefit from your project.`,
                 cy: ``
             }),
-            introduction: localise({
-                en: `<p>We want to hear more about the people who will benefit from your project.</p>
-
-                <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
-
-                <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
-                cy: ``
-            }),
             steps: [
-                {
-                    title: localise({ en: 'Number of people', cy: '' }),
-                    fieldsets: [
-                        {
-                            legend: localise({
-                                en: 'Number of people',
-                                cy: ''
-                            }),
-                            fields: [fields.beneficiariesNumberOfPeople]
-                        }
-                    ]
-                },
-                {
-                    title: localise({ en: 'Local authority', cy: '' }),
-                    fieldsets: [
-                        {
-                            legend: localise({ en: 'Local authority', cy: '' }),
-                            fields: [fields.beneficiariesLocationCheck]
-                        }
-                    ]
-                },
-                {
-                    title: localise({ en: 'Location', cy: '' }),
-                    fieldsets: [
-                        {
-                            legend: localise({ en: 'Location', cy: '' }),
-                            fields: compact([
-                                locationCheck === 'yes' &&
-                                    fields.beneficiariesLocalAuthority,
-                                locationCheck === 'yes' &&
-                                    fields.beneficiariesLocationDescription
-                            ])
-                        }
-                    ]
-                },
                 {
                     title: localise({
                         en: `Specific groups of people`,
@@ -201,7 +171,15 @@ module.exports = function({ locale, data = {} }) {
                                 en: `Specific groups of people`,
                                 cy: ``
                             }),
-                            fields: [fields.beneficariesGroupsCheck]
+                            introduction: localise({
+                                en: `<p>We want to hear more about the people who will benefit from your project.</p>
+                
+                                <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
+                
+                                <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
+                                cy: ``
+                            }),
+                            fields: [fields.beneficiariesGroupsCheck]
                         }
                     ]
                 },
@@ -218,7 +196,7 @@ module.exports = function({ locale, data = {} }) {
                             }),
                             fields: compact([
                                 groupsCheck === 'yes' &&
-                                    fields.beneficariesGroups,
+                                    fields.beneficiariesGroups,
                                 groupsCheck === 'yes' &&
                                     fields.beneficiariesGroupsOther
                             ])

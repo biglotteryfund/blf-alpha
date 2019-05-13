@@ -289,6 +289,13 @@ describe('user', () => {
 
 describe('awards for all', function() {
     it('should submit full awards for all application', () => {
+        const randomCountry = faker.random.arrayElement([
+            'England',
+            'Scotland',
+            'Northern Ireland',
+            'Wales'
+        ]);
+
         function fillAddress() {
             cy.getByLabelText('Building and street', { exact: false }).type(
                 faker.address.streetAddress()
@@ -307,14 +314,44 @@ describe('awards for all', function() {
             cy.getByLabelText('What is the name of your project?', {
                 exact: false
             }).type('My application');
-            cy.getByLabelText('England').click();
             cy.getByLabelText('Day').type('12');
             cy.getByLabelText('Month').type('12');
             cy.getByLabelText('Year').type('2020');
+            cy.checkA11y();
+        }
+
+        function fillProjectCountry() {
+            cy.getByLabelText(randomCountry).click();
+        }
+
+        function fillProjectLocation() {
+            let locationOption;
+            switch (randomCountry) {
+                case 'Northern Ireland':
+                    locationOption = 'Derry and Strabane';
+                    break;
+                case 'Scotland':
+                    locationOption = 'Perth & Kinross';
+                    break;
+                case 'Wales':
+                    locationOption = 'Caerphilly';
+                    break;
+                default:
+                    locationOption = 'Bath and North East Somerset';
+                    break;
+            }
+
+            cy.getByLabelText('Where will your project take place?').select(
+                locationOption
+            );
+
+            cy.getByLabelText(
+                'Tell us the towns, villages or wards where your beneficiaries live'
+            ).type(faker.lorem.sentence());
+
             cy.getByLabelText('What is the postcode', { exact: false }).type(
                 'B15 1TR'
             );
-            cy.checkA11y();
         }
 
         function fillYourIdea() {
@@ -328,9 +365,7 @@ describe('awards for all', function() {
 
             cy.getByLabelText(
                 'How does your project meet at least one of our funding priorities?',
-                {
-                    exact: false
-                }
+                { exact: false }
             )
                 .invoke('val', faker.lorem.words(100))
                 .trigger('change');
@@ -377,28 +412,6 @@ describe('awards for all', function() {
             cy.getByLabelText('Tell us the total cost of your project', {
                 exact: false
             }).type('5000');
-        }
-
-        function fillBeneficiaryNumbers() {
-            cy.checkA11y();
-            cy.getByLabelText(
-                'How many people will benefit from your project?'
-            ).type(faker.random.number({ min: 1, max: 100000 }));
-        }
-
-        function fillBeneficiaryLocationCheck() {
-            cy.checkA11y();
-            cy.getByLabelText('Yes').click();
-        }
-
-        function fillBeneficiaryLocation() {
-            cy.checkA11y();
-            cy.getByLabelText(
-                'Which local authority will your project benefit?'
-            ).select('Maldon');
-            cy.getByLabelText(
-                'Tell us the town(s), village(s) or ward(s) where your beneficaries live'
-            ).type(faker.lorem.sentence());
         }
 
         function fillBeneficiaryGroupsCheck() {
@@ -546,25 +559,16 @@ describe('awards for all', function() {
             fillProjectDetails();
             submitStep();
 
+            fillProjectCountry();
+            submitStep();
+
+            fillProjectLocation();
+            submitStep();
+
             fillYourIdea();
             submitStep();
 
             fillProjectCosts();
-            submitStep();
-
-            cy.get('h1').should(
-                'contain',
-                'Who will benefit from your project'
-            );
-            submitStep();
-
-            fillBeneficiaryNumbers();
-            submitStep();
-
-            fillBeneficiaryLocationCheck();
-            submitStep();
-
-            fillBeneficiaryLocation();
             submitStep();
 
             fillBeneficiaryGroupsCheck();
