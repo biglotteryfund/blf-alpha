@@ -1,9 +1,10 @@
 'use strict';
-const { get } = require('lodash/fp');
-const { compact, includes, reduce } = require('lodash');
+const { get, getOr } = require('lodash/fp');
+const { compact, includes, reduce, sumBy } = require('lodash');
 
 const { Joi } = require('../lib/validators');
 const enrichForm = require('../lib/enrich-form');
+const { formatDate } = require('../lib/formatters');
 const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
 const fieldsFor = require('./fields');
 
@@ -555,22 +556,49 @@ module.exports = function({ locale, data = {} }) {
         }
     ];
 
-    const schema = Joi.object(
-        reduce(
-            fields,
-            function(acc, field) {
-                acc[field.name] = field.schema;
-                return acc;
+    function schema() {
+        const computed = Joi.object(
+            reduce(
+                fields,
+                function(acc, field) {
+                    acc[field.name] = field.schema;
+                    return acc;
+                },
+                {}
+            )
+        );
+
+        return computed;
+    }
+
+    function summary() {
+        const startDate = get('project-start-date')(data);
+        const organisation = get('organisation-legal-name')(data);
+        const budget = getOr([], 'project-budget')(data);
+        const budgetSum = sumBy(budget, item => parseInt(item.cost || 0));
+
+        return [
+            {
+                label: localise({ en: 'Organisation', cy: '' }),
+                value: organisation
             },
-            {}
-        )
-    );
+            {
+                label: localise({ en: 'Proposed start date', cy: '' }),
+                value: startDate && formatDate(startDate)
+            },
+            {
+                label: localise({ en: 'Requested amount', cy: '' }),
+                value: budget.length > 0 && `£${budgetSum.toLocaleString()}`
+            }
+        ];
+    }
 
     const form = {
         id: 'awards-for-all',
         title: localise({ en: 'National Lottery Awards for All', cy: '' }),
         isBilingual: true,
-        schema: schema,
+        schema: schema(),
+        summary: summary(),
         sections: [
             sectionProject,
             sectionBeneficiaries(),

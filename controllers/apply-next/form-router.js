@@ -106,29 +106,35 @@ function initFormRouter({
     /**
      * Route: Dashboard
      */
-    router.route('/').get(async function(req, res) {
-        const applications = await applicationsService.getApplicationsForUser({
-            formId: id,
-            userId: req.user.userData.id
-        });
+    router.route('/').get(async function(req, res, next) {
+        function enrichApplication(application) {
+            const data = get(application, 'application_data');
 
-        const form = formBuilder({
-            locale: req.i18n.getLocale()
-        });
+            const form = formBuilder({
+                locale: req.i18n.getLocale(),
+                data: data
+            });
 
-        const applicationsWithProgress = applications.map(application => {
-            application.progress = calculateFormProgress(
-                form,
-                get(application, 'application_data')
-            );
+            application.sections = form.sections;
+            application.summary = form.summary;
+            application.progress = calculateFormProgress(form, data);
+
             return application;
-        });
+        }
 
-        res.render(path.resolve(__dirname, './views/dashboard'), {
-            title: res.locals.formTitle,
-            applications: applicationsWithProgress,
-            form: form
-        });
+        try {
+            const applications = await applicationsService.getByForm({
+                userId: req.user.userData.id,
+                formId: id
+            });
+
+            res.render(path.resolve(__dirname, './views/dashboard'), {
+                title: res.locals.formTitle,
+                applications: applications.map(enrichApplication)
+            });
+        } catch (error) {
+            next(error);
+        }
     });
 
     /**
