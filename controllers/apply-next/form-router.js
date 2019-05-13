@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
+const moment = require('moment');
 const {
     concat,
     findIndex,
@@ -11,6 +12,7 @@ const {
     includes,
     isEmpty,
     omit,
+    partition,
     set,
     unset
 } = require('lodash');
@@ -115,9 +117,22 @@ function initFormRouter({
                 data: data
             });
 
-            application.sections = form.sections;
             application.summary = form.summary;
-            application.progress = calculateFormProgress(form, data);
+
+            const formProgress = calculateFormProgress(form, data);
+            // @TODO: Lift this up to the form model?
+            application.progress = form.sections.map(function(section, idx) {
+                return {
+                    label: `${idx + 1}: ${section.shortTitle || section.title}`,
+                    status: get(formProgress.sections, section.slug)
+                };
+            });
+
+            application.createdAtFormatted = moment(
+                application.createdAt.toISOString()
+            )
+                .locale(req.i18n.getLocale())
+                .format('D MMMM, YYYY');
 
             return application;
         }
@@ -128,9 +143,19 @@ function initFormRouter({
                 formId: id
             });
 
+            const [submittedApplications, inProgressApplications] = partition(
+                applications,
+                application => application.status === 'complete'
+            );
+
             res.render(path.resolve(__dirname, './views/dashboard'), {
                 title: res.locals.formTitle,
-                applications: applications.map(enrichApplication)
+                inProgressApplications: inProgressApplications.map(
+                    enrichApplication
+                ),
+                submittedApplications: submittedApplications.map(
+                    enrichApplication
+                )
             });
         } catch (error) {
             next(error);

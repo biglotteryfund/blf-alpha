@@ -3,60 +3,34 @@
 {% from "components/icons.njk" import iconTick, iconBin %}
 {% from "components/user-status/macro.njk" import userStatus with context %}
 
-{% macro statusMessage(status) %}
-    {% if status === 'ineligible' %}
-        Ineligible
-    {% elseif status === 'complete' %}
-        Submitted for consideration
-    {% else %}
-        Not submitted
-    {% endif %}
-{% endmacro %}
-
+{% block title %}{{ copy.dashboard.title }} | {{ formTitle }} | {% endblock %}
 
 {% macro applicationCard(application) %}
-    {% set inProgress = application.status !== 'complete' %}
-    {# @TODO: Can action URLs come from router? #}
     {% set editAction = formBaseUrl + "/edit/" + application.id %}
     {% set deleteAction =  formBaseUrl + "/delete/" + application.id %}
     <article class="application-card">
         <div class="application-card__summary">
             <p class="application-card__minor-title">{{ formTitle }}</p>
-            <h3 class="t3 t--underline u-tone-brand-primary">
-                {% if inProgress %}<a href="{{ editAction }}" class="u-link-unstyled">{% endif %}
-                {{ application.application_data['project-name'] }}
-                {% if inProgress %}</a>{% endif %}
+            <h3 class="t--underline u-tone-brand-primary">
+                <a href="{{ editAction }}" class="u-link-unstyled">
+                    {{ application.application_data['project-name'] }}
+                </a>
             </h3>
 
             <dl class="o-definition-list o-definition-list--compact u-margin-top">
                 {% for part in application.summary %}
                     <dt>{{ part.label }}</dt>
-                    <dd>
-                        {%- if part.value -%}
-                            {{ part.value }}
-                        {%- else -%}
-                            <span class="application-data-missing">not yet completed</span>
-                        {%- endif -%}
-                    </dd>
+                    <dd>{%- if part.value -%}{{ part.value }}{%- else -%}<span class="application-data-missing">not yet completed</span>{%- endif -%}</dd>
                 {% endfor %}
             </dl>
 
-            {% if inProgress %}
-                <div class="o-button-group u-margin-bottom">
-                    <a class="btn btn--medium" href="{{ editAction }}">Continue with this application</a>
-                    <a class="btn btn--small btn--outline" href="{{ deleteAction }}">
-                        <span class="btn__icon btn__icon-left">{{ iconBin() }}</span>
-                        Delete
-                    </a>
-                </div>
-            {% else %}
-                {# @TODO: Where does view application go? Needs to be read-only #}
-                <div class="o-button-group u-margin-bottom">
-                    <a class="btn btn--small btn--outline" href="#">
-                        View this application
-                    </a>
-                </div>
-            {% endif %}
+            <div class="o-button-group u-margin-bottom">
+                <a class="btn btn--medium" href="{{ editAction }}">Continue with this application</a>
+                <a class="btn btn--small btn--outline" href="{{ deleteAction }}">
+                    <span class="btn__icon btn__icon-left">{{ iconBin() }}</span>
+                    Delete
+                </a>
+            </div>
 
             <aside class="application-summary__links">
                 <h4 class="application-card__minor-title">Guidance for this programme:</h4>
@@ -67,44 +41,69 @@
         <div class="application-card__progress">
             <div class="application-card__progress__status">
                 <p class="application-card__minor-title">Application status:</p>
-                <h4>{{ statusMessage(application.status) }}</h4>
+                <h4>Not submitted</h4>
+                <p>You started your application on <strong>{{ application.createdAtFormatted }}</strong>.
+                {# @TODO: Expiry date #}
+            </div>
+
+            <ol class="u-list-unstyled">
+                {% for item in application.progress %}
+                    <li class="section-progress-mini section-progress-mini--{{ sectionProgress }}">
+                        <span class="section-progress-mini__title">
+                            {{ item.label }}
+                        </span>
+                        <span class="section-progress-mini__marker">
+                            {% if item.status === FORM_STATES.complete %}
+                                {{ iconTick() }} {{ copy.statusComplete }}
+                            {% elseif item.status === FORM_STATES.incomplete %}
+                                {{ copy.statusInProgress }}
+                            {% elseif item.status === FORM_STATES.invald %}
+                                {{ copy.statusInvalid }}
+                            {% else %}
+                                {{ copy.statusNotStarted }}
+                            {% endif %}
+                        </span>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </article>
+{% endmacro %}
+
+{% macro submittedApplicationCard(application) %}
+    <article class="application-card">
+        <div class="application-card__summary">
+            <p class="application-card__minor-title">{{ formTitle }}</p>
+            <h3 class="t--underline u-tone-brand-primary">
+                {{ application.application_data['project-name'] }}
+            </h3>
+
+            <dl class="o-definition-list o-definition-list--compact u-margin-top">
+                {% for part in application.summary %}
+                    <dt>{{ part.label }}</dt>
+                    <dd>{%- if part.value -%}{{ part.value }}{%- else -%}<span class="application-data-missing">not yet completed</span>{%- endif -%}</dd>
+                {% endfor %}
+            </dl>
+
+            {# @TODO: Where does view application go? Needs to be read-only #}
+            <div class="o-button-group u-margin-bottom">
+                <a class="btn btn--small btn--outline" href="#">
+                    View this application
+                </a>
+            </div>
+        </div>
+
+        <div class="application-card__progress">
+            <div class="application-card__progress__status">
+                <p class="application-card__minor-title">Application status:</p>
+                <h4>Submitted</h4>
 
                 <div class="s-prose">
-                    {% if inProgress %}
-                        <p>You started your application on {{ formatDate(application.createdAt.toISOString(), DATE_FORMATS.short) }}.
-                        {# @TODO: Expiry date #}
-                    {% else %}
-                        {# @TODO: Submitted on date #}
-                        <p>We aim to let you know our decision in about 14 weeks. If you have any questions,
-                        <a href="#">contact a member of our advice team</a>.</p>
-                    {% endif %}
+                    {# @TODO: Submitted on date #}
+                    <p>We aim to let you know our decision in about 12 weeks. If you have any questions,
+                    <a href="#">contact a member of our advice team</a>.</p>
                 </div>
-
             </div>
-        
-            {% if inProgress %}
-                <ol class="u-list-unstyled">
-                    {% for section in application.sections %}
-                        {% set sectionProgress = application.progress.sections[section.slug] %}
-                        <li class="section-progress-mini section-progress-mini--{{ sectionProgress }}">
-                            <span class="section-progress-mini__title">
-                                {{ loop.index }}: {{ section.shortTitle or section.title }}
-                            </span>
-                            <span class="section-progress-mini__marker">
-                                {% if sectionProgress === FORM_STATES.complete %}
-                                    {{ iconTick() }} {{ copy.statusComplete }}
-                                {% elseif sectionProgress === FORM_STATES.incomplete %}
-                                    {{ copy.statusInProgress }}
-                                {% elseif sectionProgress === FORM_STATES.invald %}
-                                    {{ copy.statusInvalid }}
-                                {% else %}
-                                    {{ copy.statusNotStarted }}
-                                {% endif %}
-                            </span>
-                        </li>
-                    {% endfor %}
-                </ol>
-            {% endif %}
         </div>
     </article>
 {% endmacro %}
@@ -115,17 +114,21 @@
             {{ userStatus(user) }}
 
             <div class="s-prose">
-                <h1 class="t--underline">Your applications</h1>
-                <p>
-                    Here you can check the status of an online application in progress.
-                    You can also <a href="#new">start a brand new application</a> and see any applications you've previously submitted online.
-                </p>
+                <h1 class="t--underline">{{ copy.dashboard.title }}</h1>
+                {{ __(copy.dashboard.introduction, '#new') | safe }}
             </div>
 
-            {% if applications.length > 0 %}
+            {% if inProgressApplications.length > 0 %}
                 <h2 class="t--underline">In progress</h2>
-                {% for application in applications %}
+                {% for application in inProgressApplications %}
                     {{ applicationCard(application) }}
+                {% endfor %}
+            {% endif %}
+
+            {% if submittedApplications.length > 0 %}
+                <h2 class="t--underline">{{ copy.dashboard.submittedTitle }}</h2>
+                {% for application in submittedApplications %}
+                    {{ submittedApplicationCard(application) }}
                 {% endfor %}
             {% endif %}
         </section>
