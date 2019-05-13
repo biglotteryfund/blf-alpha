@@ -156,18 +156,6 @@ module.exports = function({ locale, data = {} }) {
             }),
             steps: [
                 {
-                    title: localise({ en: 'Number of people', cy: '' }),
-                    fieldsets: [
-                        {
-                            legend: localise({
-                                en: 'Number of people',
-                                cy: ''
-                            }),
-                            fields: [fields.beneficiariesNumberOfPeople]
-                        }
-                    ]
-                },
-                {
                     title: localise({ en: 'Local authority', cy: '' }),
                     fieldsets: [
                         {

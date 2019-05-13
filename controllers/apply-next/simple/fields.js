@@ -986,28 +986,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        beneficiariesNumberOfPeople: {
-            name: 'beneficiaries-number-of-people',
-            label: localise({
-                en: 'How many people will benefit from your project?',
-                cy: ''
-            }),
-            explanation: localise({
-                en: `Please enter the exact figure, or the closest estimate.`,
-                cy: ``
-            }),
-            type: 'number',
-            isRequired: true,
-            schema: Joi.number()
-                .min(1)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter a number', cy: '' })
-                }
-            ]
-        },
         beneficiariesLocationCheck: {
             name: 'beneficiaries-location-check',
             label: localise({
