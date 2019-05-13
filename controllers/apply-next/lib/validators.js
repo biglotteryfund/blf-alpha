@@ -2,6 +2,12 @@
 const moment = require('moment');
 const Joi = require('./joi-extensions');
 
+function yesOrNo() {
+    return Joi.string()
+        .valid(['yes', 'no'])
+        .required();
+}
+
 function singleChoice(options) {
     return Joi.string().valid(options.map(option => option.value));
 }
@@ -68,5 +74,6 @@ module.exports = {
     postcode,
     singleChoice,
     ukAddress,
-    ukPhoneNumber
+    ukPhoneNumber,
+    yesOrNo
 };

@@ -4,7 +4,7 @@ const { compact, includes, reduce } = require('lodash');
 
 const { Joi } = require('../lib/validators');
 const enrichForm = require('../lib/enrich-form');
-const { ORGANISATION_TYPES } = require('./constants');
+const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
 const fieldsFor = require('./fields');
 
 module.exports = function({ locale, data = {} }) {
@@ -105,6 +105,34 @@ module.exports = function({ locale, data = {} }) {
 
     function sectionBeneficiaries() {
         const locationCheck = get('beneficiaries-location-check')(data);
+        const groupsCheck = get('beneficiaries-groups-check')(data);
+        const groupChoices = get('beneficiaries-groups')(data);
+
+        function fieldsForGroup(type) {
+            let result;
+            switch (type) {
+                case BENEFICIARY_GROUPS.GENDER:
+                    result = [fields.beneficiariesGroupsGender];
+                    break;
+                case BENEFICIARY_GROUPS.AGE:
+                    result = [fields.beneficiariesGroupsAge];
+                    break;
+                case BENEFICIARY_GROUPS.DISABILITY:
+                    result = [fields.beneficiariesGroupsDisability];
+                    break;
+                case BENEFICIARY_GROUPS.FAITH:
+                    result = [
+                        fields.beneficiariesGroupsFaith,
+                        fields.beneficiariesGroupsFaithOther
+                    ];
+                    break;
+                default:
+                    result = [];
+                    break;
+            }
+
+            return includes(groupChoices, type) ? result : [];
+        }
 
         return {
             slug: 'beneficiaries',
@@ -158,6 +186,82 @@ module.exports = function({ locale, data = {} }) {
                                 locationCheck === 'yes' &&
                                     fields.beneficiariesLocationDescription
                             ])
+                        }
+                    ]
+                },
+                {
+                    title: localise({
+                        en: `Specific groups of people`,
+                        cy: ``
+                    }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: `Specific groups of people`,
+                                cy: ``
+                            }),
+                            fields: [fields.beneficariesGroupsCheck]
+                        }
+                    ]
+                },
+                {
+                    title: localise({
+                        en: 'Specific groups of people',
+                        cy: ''
+                    }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: 'Specific groups of people',
+                                cy: ''
+                            }),
+                            fields: compact([
+                                groupsCheck === 'yes' &&
+                                    fields.beneficariesGroups,
+                                groupsCheck === 'yes' &&
+                                    fields.beneficiariesGroupsOther
+                            ])
+                        }
+                    ]
+                },
+                {
+                    title: localise({ en: 'Gender', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({ en: 'Gender', cy: '' }),
+                            fields: fieldsForGroup(BENEFICIARY_GROUPS.GENDER)
+                        }
+                    ]
+                },
+                {
+                    title: localise({ en: 'Age', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({ en: 'Age', cy: '' }),
+                            fields: fieldsForGroup(BENEFICIARY_GROUPS.AGE)
+                        }
+                    ]
+                },
+                {
+                    title: localise({ en: 'Disability', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({ en: 'Disability', cy: '' }),
+                            fields: fieldsForGroup(
+                                BENEFICIARY_GROUPS.DISABILITY
+                            )
+                        }
+                    ]
+                },
+                {
+                    title: localise({ en: 'Religion or belief', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: 'Religion or belief',
+                                cy: ''
+                            }),
+                            fields: fieldsForGroup(BENEFICIARY_GROUPS.FAITH)
                         }
                     ]
                 }

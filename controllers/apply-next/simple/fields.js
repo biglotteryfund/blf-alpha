@@ -1,6 +1,6 @@
 'use strict';
 const { get } = require('lodash/fp');
-const { includes, kebabCase, values } = require('lodash');
+const { includes, values } = require('lodash');
 const moment = require('moment');
 
 const {
@@ -12,11 +12,14 @@ const {
     postcode,
     singleChoice,
     ukAddress,
-    ukPhoneNumber
+    ukPhoneNumber,
+    yesOrNo
 } = require('../lib/validators');
 
+const localAuthoritiesFor = require('../lib/local-authorities');
+
 const {
-    LOCAL_AUTHORITIES,
+    BENEFICIARY_GROUPS,
     MAX_BUDGET_TOTAL_GBP,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
@@ -61,10 +64,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function phoneField(props) {
         const defaultProps = {
             type: 'tel',
-            attributes: {
-                size: 30,
-                autocomplete: 'tel'
-            },
+            attributes: { size: 30, autocomplete: 'tel' },
             isRequired: true,
             schema: ukPhoneNumber().required(),
             messages: [
@@ -137,9 +137,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'address-history',
             isRequired: true,
             schema: Joi.object({
-                'current-address-meets-minimum': Joi.string()
-                    .valid(['yes', 'no'])
-                    .required(),
+                'current-address-meets-minimum': yesOrNo(),
                 'previous-address': Joi.when(
                     Joi.ref('current-address-meets-minimum'),
                     {
@@ -1013,7 +1011,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         beneficiariesLocationCheck: {
             name: 'beneficiaries-location-check',
             label: localise({
-                en: `Do the people who will benefit from your project live in a specific local authority?`,
+                en: `Do the people who will benefit live in a specific local authority?`,
                 cy: ``
             }),
             type: 'radio',
@@ -1022,9 +1020,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 { value: 'no', label: localise({ en: 'No', cy: '' }) }
             ],
             isRequired: true,
-            get schema() {
-                return singleChoice(this.options).required();
-            },
+            schema: yesOrNo(),
             messages: [
                 {
                     type: 'base',
@@ -1040,10 +1036,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'select',
             defaultOption: localise({ en: 'Select a local authority', cy: '' }),
-            options: LOCAL_AUTHORITIES.map(localAuthority => ({
-                label: localAuthority,
-                value: kebabCase(localAuthority)
-            })),
+            get options() {
+                const country = get('project-country')(data);
+                return localAuthoritiesFor(country).map(item => ({
+                    label: item,
+                    value: item
+                }));
+            },
             isRequired: true,
             get schema() {
                 return Joi.when('beneficiaries-location-check', {
@@ -1080,6 +1079,272 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({ en: 'Enter a description', cy: '' })
                 }
             ]
+        },
+        beneficariesGroupsCheck: {
+            name: 'beneficiaries-groups-check',
+            label: localise({
+                en: `Is your project aimed at specific groups of people?`,
+                cy: ``
+            }),
+            type: 'radio',
+            options: [
+                {
+                    value: 'yes',
+                    label: localise({ en: 'Yes', cy: '' })
+                },
+                {
+                    value: 'no',
+                    label: localise({ en: 'No', cy: '' })
+                }
+            ],
+            isRequired: true,
+            schema: yesOrNo(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose an option', cy: '' })
+                }
+            ]
+        },
+        beneficariesGroups: {
+            name: 'beneficiaries-groups',
+            label: localise({
+                en: `What specific groups of people is your project aimed at?`,
+                cy: ``
+            }),
+            type: 'checkbox',
+            options: [
+                {
+                    value: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
+                    label: localise({ en: 'Ethnic background', cy: '' })
+                },
+                {
+                    value: BENEFICIARY_GROUPS.GENDER,
+                    label: localise({ en: 'Gender', cy: '' })
+                },
+                {
+                    value: BENEFICIARY_GROUPS.AGE,
+                    label: localise({ en: 'Age', cy: '' })
+                },
+                {
+                    value: BENEFICIARY_GROUPS.DISABILITY,
+                    label: localise({ en: 'Disabled people', cy: '' })
+                },
+                {
+                    value: BENEFICIARY_GROUPS.FAITH,
+                    label: localise({ en: 'Religion or belief', cy: '' })
+                },
+                {
+                    value: BENEFICIARY_GROUPS.LGBTQ,
+                    label: localise({
+                        en: 'Lesbians, gay or bisexual people',
+                        cy: ''
+                    })
+                }
+            ],
+            get schema() {
+                return Joi.when('beneficiaries-groups-check', {
+                    is: 'yes',
+                    then: multiChoice(this.options).required()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Choose from one of the options provided',
+                        cy: ''
+                    })
+                }
+            ]
+        },
+        beneficiariesGroupsOther: {
+            name: 'beneficiaries-groups-other',
+            label: localise({ en: 'Other', cy: '' }),
+            type: 'text',
+            isRequired: false,
+            schema: Joi.string()
+                .allow('')
+                .optional(),
+            messages: []
+        },
+        beneficiariesGroupsGender: {
+            name: 'beneficiaries-groups-gender',
+            label: localise({
+                en: `You have indicated that your project mostly benefits people of a particular gender, please select from the following`,
+                cy: ''
+            }),
+            type: 'checkbox',
+            options: [
+                { value: 'male', label: localise({ en: 'Male', cy: '' }) },
+                { value: 'female', label: localise({ en: 'Female', cy: '' }) },
+                { value: 'trans', label: localise({ en: 'Trans', cy: '' }) },
+                {
+                    value: 'non-binary',
+                    label: localise({ en: 'Non-binary', cy: '' })
+                },
+                {
+                    value: 'intersex',
+                    label: localise({ en: 'Intersex', cy: '' })
+                }
+            ],
+            get schema() {
+                return Joi.when('beneficiaries-groups', {
+                    is: Joi.valid(BENEFICIARY_GROUPS.GENDER),
+                    then: multiChoice(this.options).required()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Choose from one of the options provided',
+                        cy: ''
+                    })
+                }
+            ]
+        },
+        beneficiariesGroupsAge: {
+            name: 'beneficiaries-groups-age',
+            label: localise({
+                en: `You have indicated that your project mostly benefits people from particular age groups, please select from the following`,
+                cy: ''
+            }),
+            type: 'checkbox',
+            options: [
+                { value: '0-12', label: localise({ en: '0–12', cy: '' }) },
+                { value: '13-24', label: localise({ en: '13-24', cy: '' }) },
+                { value: '25-64', label: localise({ en: '25-64', cy: '' }) },
+                { value: '65-plus', label: localise({ en: '65+', cy: '' }) }
+            ],
+            get schema() {
+                return Joi.when('beneficiaries-groups', {
+                    is: Joi.valid(BENEFICIARY_GROUPS.AGE),
+                    then: multiChoice(this.options).required()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Choose from one of the options provided',
+                        cy: ''
+                    })
+                }
+            ]
+        },
+        beneficiariesGroupsDisability: {
+            name: 'beneficiaries-groups-disability',
+            label: localise({
+                en: `You have indicated that your project mostly benefits disabled people, please select from the following`,
+                cy: ''
+            }),
+            explanation: localise({
+                en: `We use the definition from the Equality Act 2010, which defines a disabled person as someone who has a mental or physical impairment that has a substantial and long-term adverse effect on their ability to carry out normal day to day activity.`,
+                cy: ``
+            }),
+
+            type: 'checkbox',
+            options: [
+                {
+                    value: 'sensory',
+                    label: localise({
+                        en: 'Disabled people with sensory impairments',
+                        cy: ''
+                    }),
+                    explanation: localise({
+                        en: 'e.g. visual and hearing impairments',
+                        cy: ''
+                    })
+                },
+                {
+                    value: 'physical',
+                    label: localise({
+                        en: `Disabled people with physical impairments`,
+                        cy: ``
+                    }),
+                    explanation: localise({
+                        en: `e.g. neuromotor impairments, such as epilepsy and cerebral palsy, or muscular/skeletal conditions, such as missing limbs and arthritis`,
+                        cy: ''
+                    })
+                },
+                {
+                    value: 'learning',
+                    label: localise({
+                        en: `Disabled people with learning or mental difficulties`,
+                        cy: ''
+                    }),
+                    explanation: localise({
+                        en: `e.g. reduced intellectual ability and difficulty with everyday activities or conditions such as autism`,
+                        cy: ''
+                    })
+                }
+            ],
+            get schema() {
+                return Joi.when('beneficiaries-groups', {
+                    is: Joi.valid(BENEFICIARY_GROUPS.DISABILITY),
+                    then: multiChoice(this.options).required()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Choose from one of the options provided',
+                        cy: ''
+                    })
+                }
+            ]
+        },
+        beneficiariesGroupsFaith: {
+            name: 'beneficiaries-groups-faith',
+            label: localise({
+                en: `You have indicated that your project mostly benefits people of a particular religion or belief, please select from the following`,
+                cy: ''
+            }),
+            type: 'checkbox',
+            options: [
+                {
+                    value: 'buddhist',
+                    label: localise({ en: 'Buddhist', cy: '' })
+                },
+                {
+                    value: 'christian',
+                    label: localise({ en: 'Christian', cy: '' })
+                },
+                { value: 'jewish', label: localise({ en: 'Jewish', cy: '' }) },
+                { value: 'muslim', label: localise({ en: 'Muslim', cy: '' }) },
+                { value: 'sikh', label: localise({ en: 'Sikh', cy: '' }) },
+                {
+                    value: 'no-religion',
+                    label: localise({ en: 'No religion', cy: '' })
+                }
+            ],
+            get schema() {
+                return Joi.when('beneficiaries-groups', {
+                    is: Joi.valid(BENEFICIARY_GROUPS.FAITH),
+                    then: multiChoice(this.options).required()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Choose from one of the options provided',
+                        cy: ''
+                    })
+                }
+            ]
+        },
+        beneficiariesGroupsFaithOther: {
+            name: 'beneficiaries-groups-faith-other',
+            label: localise({ en: 'Other', cy: '' }),
+            type: 'text',
+            isRequired: false,
+            schema: Joi.string()
+                .allow('')
+                .optional(),
+            messages: []
         },
         organisationLegalName: {
             name: 'organisation-legal-name',
