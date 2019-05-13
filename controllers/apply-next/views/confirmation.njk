@@ -1,0 +1,26 @@
+{% extends "layouts/main.njk" %}
+{% from "components/feedback.njk" import inlineFeedback with context %}
+{% from "components/content-box/macro.njk" import contentBox %}
+
+{% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
+
+{% block content %}
+    <main role="main" id="content">
+        {% call contentBox() %}
+            <div class="form-header">
+                <p class="form-header__prefix">{{ formTitle }}</p>
+                <h1 class="form-header__title">{{ title }}</h1>
+            </div>
+
+            {{ confirmation.body | safe }}
+            
+            {{ inlineFeedback(
+                description = formTitle,
+                promptLabel = "Can you spare a minute to give us some feedback?",
+                fieldLabel = "How was your experience of submitting an application?",
+                helpText = "This is completely anonymous and doesn't form part of your submission. Don't include any details about your idea, just tell us how you found the experience.",
+                isToggleable = false
+            )  }}
+        {% endcall %}
+    </main>
+{% endblock %}

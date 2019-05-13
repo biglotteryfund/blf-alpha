@@ -619,7 +619,7 @@ describe('awards for all', function() {
 
             cy.get('h1').should(
                 'contain',
-                'Thank you for submitting your idea'
+                'Your application has been submitted. Good luck!'
             );
         });
     });
