@@ -76,7 +76,11 @@ module.exports = function({ locale, data = {} }) {
                 fieldsets: [
                     {
                         legend: localise({ en: 'Project location', cy: '' }),
-                        fields: [fields.projectPostcode]
+                        fields: [
+                            fields.projectLocalAuthority,
+                            fields.projectLocationDescription,
+                            fields.projectPostcode
+                        ]
                     }
                 ]
             },
@@ -155,27 +159,7 @@ module.exports = function({ locale, data = {} }) {
                 en: `We want to hear more about the people who will benefit from your project.`,
                 cy: ``
             }),
-            introduction: localise({
-                en: `<p>We want to hear more about the people who will benefit from your project.</p>
-
-                <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
-
-                <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
-                cy: ``
-            }),
             steps: [
-                {
-                    title: localise({ en: 'Location', cy: '' }),
-                    fieldsets: [
-                        {
-                            legend: localise({ en: 'Location', cy: '' }),
-                            fields: [
-                                fields.beneficiariesLocalAuthority,
-                                fields.beneficiariesLocationDescription
-                            ]
-                        }
-                    ]
-                },
                 {
                     title: localise({
                         en: `Specific groups of people`,
@@ -185,6 +169,14 @@ module.exports = function({ locale, data = {} }) {
                         {
                             legend: localise({
                                 en: `Specific groups of people`,
+                                cy: ``
+                            }),
+                            introduction: localise({
+                                en: `<p>We want to hear more about the people who will benefit from your project.</p>
+                
+                                <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
+                
+                                <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
                                 cy: ``
                             }),
                             fields: [fields.beneficariesGroupsCheck]

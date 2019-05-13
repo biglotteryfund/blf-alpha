@@ -681,6 +681,56 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 ];
             }
         },
+        projectLocalAuthority: {
+            name: 'project-local-authority',
+            label: localise({
+                en: 'Which local authority will your project benefit?',
+                cy: ''
+            }),
+            explanation: localise({
+                en: `If your project covers more than one local authority please choose the primary location`,
+                cy: ''
+            }),
+            type: 'select',
+            defaultOption: localise({ en: 'Select a local authority', cy: '' }),
+            get options() {
+                const country = get('project-country')(data);
+                return localAuthoritiesFor(country).map(item => ({
+                    label: item,
+                    value: item
+                }));
+            },
+            isRequired: true,
+            get schema() {
+                return singleChoice(this.options).required();
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose an option', cy: '' })
+                }
+            ]
+        },
+        projectLocationDescription: {
+            name: 'project-location-description',
+            label: localise({
+                en: `Tell us the town(s), village(s) or ward(s) where your beneficaries live`,
+                cy: ''
+            }),
+            explanation: localise({
+                en: `You can write more than one area.`,
+                cy: ``
+            }),
+            type: 'text',
+            isRequired: true,
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Enter a description', cy: '' })
+                }
+            ]
+        },
         projectPostcode: {
             name: 'project-postcode',
             label: localise({
@@ -983,52 +1033,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         en: `Total cost must be the same as or higher than the amount you’re asking us to fund`,
                         cy: ``
                     })
-                }
-            ]
-        },
-        beneficiariesLocalAuthority: {
-            name: 'beneficiaries-local-authority',
-            label: localise({
-                en: 'Which local authority will your project benefit?',
-                cy: ''
-            }),
-            type: 'select',
-            defaultOption: localise({ en: 'Select a local authority', cy: '' }),
-            get options() {
-                const country = get('project-country')(data);
-                return localAuthoritiesFor(country).map(item => ({
-                    label: item,
-                    value: item
-                }));
-            },
-            isRequired: true,
-            get schema() {
-                return singleChoice(this.options).required();
-            },
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Choose an option', cy: '' })
-                }
-            ]
-        },
-        beneficiariesLocationDescription: {
-            name: 'beneficiaries-location-description',
-            label: localise({
-                en: `Tell us the town(s), village(s) or ward(s) where your beneficaries live`,
-                cy: ''
-            }),
-            explanation: localise({
-                en: `You can write more than one area.`,
-                cy: ``
-            }),
-            type: 'text',
-            isRequired: true,
-            schema: Joi.string().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter a description', cy: '' })
                 }
             ]
         },
