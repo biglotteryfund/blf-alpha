@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
+const moment = require('moment');
 const {
     concat,
     findIndex,
@@ -11,6 +12,7 @@ const {
     includes,
     isEmpty,
     omit,
+    partition,
     set,
     unset
 } = require('lodash');
@@ -106,29 +108,58 @@ function initFormRouter({
     /**
      * Route: Dashboard
      */
-    router.route('/').get(async function(req, res) {
-        const applications = await applicationsService.getApplicationsForUser({
-            formId: id,
-            userId: req.user.userData.id
-        });
+    router.route('/').get(async function(req, res, next) {
+        function enrichApplication(application) {
+            const data = get(application, 'application_data');
 
-        const form = formBuilder({
-            locale: req.i18n.getLocale()
-        });
+            const form = formBuilder({
+                locale: req.i18n.getLocale(),
+                data: data
+            });
 
-        const applicationsWithProgress = applications.map(application => {
-            application.progress = calculateFormProgress(
-                form,
-                get(application, 'application_data')
-            );
+            application.summary = form.summary;
+
+            const formProgress = calculateFormProgress(form, data);
+            // @TODO: Lift this up to the form model?
+            application.progress = form.sections.map(function(section, idx) {
+                return {
+                    label: `${idx + 1}: ${section.shortTitle || section.title}`,
+                    status: get(formProgress.sections, section.slug)
+                };
+            });
+
+            application.createdAtFormatted = moment(
+                application.createdAt.toISOString()
+            )
+                .locale(req.i18n.getLocale())
+                .format('D MMMM, YYYY');
+
             return application;
-        });
+        }
 
-        res.render(path.resolve(__dirname, './views/dashboard'), {
-            title: res.locals.formTitle,
-            applications: applicationsWithProgress,
-            form: form
-        });
+        try {
+            const applications = await applicationsService.getByForm({
+                userId: req.user.userData.id,
+                formId: id
+            });
+
+            const [submittedApplications, inProgressApplications] = partition(
+                applications,
+                application => application.status === 'complete'
+            );
+
+            res.render(path.resolve(__dirname, './views/dashboard'), {
+                title: res.locals.formTitle,
+                inProgressApplications: inProgressApplications.map(
+                    enrichApplication
+                ),
+                submittedApplications: submittedApplications.map(
+                    enrichApplication
+                )
+            });
+        } catch (error) {
+            next(error);
+        }
     });
 
     /**
