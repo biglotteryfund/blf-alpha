@@ -54,19 +54,29 @@ module.exports = function({ locale, data = {} }) {
         }),
         steps: [
             {
-                title: localise({
-                    en: 'Project details',
-                    cy: '(cy) Project details'
-                }),
+                title: localise({ en: 'Project details', cy: '' }),
                 fieldsets: [
                     {
                         legend: localise({ en: 'Project details', cy: '' }),
-                        fields: [
-                            fields.projectName,
-                            fields.projectStartDate,
-                            fields.projectCountry,
-                            fields.projectPostcode
-                        ]
+                        fields: [fields.projectName, fields.projectStartDate]
+                    }
+                ]
+            },
+            {
+                title: localise({ en: 'Project country', cy: '' }),
+                fieldsets: [
+                    {
+                        legend: localise({ en: 'Project country', cy: '' }),
+                        fields: [fields.projectCountry]
+                    }
+                ]
+            },
+            {
+                title: localise({ en: 'Project location', cy: '' }),
+                fieldsets: [
+                    {
+                        legend: localise({ en: 'Project location', cy: '' }),
+                        fields: [fields.projectPostcode]
                     }
                 ]
             },
