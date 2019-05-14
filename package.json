@@ -167,7 +167,7 @@
     "nodemon": "1.19.0",
     "postcss-cli": "6.0.1",
     "postcss-fout-with-a-class": "1.1.0",
-    "prettier": "1.17.0",
+    "prettier": "1.17.1",
     "prompt": "1.0.0",
     "sane": "4.1.0",
     "vue-jest": "3.0.4",
