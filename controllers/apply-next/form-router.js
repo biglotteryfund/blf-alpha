@@ -45,6 +45,7 @@ function initFormRouter({
     id,
     eligibilityBuilder = null,
     formBuilder,
+    confirmationBuilder,
     processor
 }) {
     const router = express.Router();
@@ -368,27 +369,42 @@ function initFormRouter({
                     res.locals.currentlyEditingId,
                     'complete'
                 );
-                res.redirect(`${req.baseUrl}/success`);
+                res.redirect(`${req.baseUrl}/confirmation`);
             } catch (error) {
                 next(error);
             }
         });
 
     /**
-     * Route: Success
+     * Route: Confirmation
      */
-    router.get('/success', function(req, res) {
-        if (isEmpty(res.locals.currentApplicationData)) {
-            res.redirect(req.baseUrl);
-        } else {
-            // Clear the submission from the session on success
+    router.get('/confirmation', function(req, res) {
+        const { currentApplicationData, currentApplicationStatus } = res.locals;
+
+        if (
+            isEmpty(currentApplicationData) === false &&
+            currentApplicationStatus === 'complete'
+        ) {
+            const form = formBuilder({
+                locale: 'en',
+                data: currentApplicationData
+            });
+
+            const confirmation = confirmationBuilder({
+                locale: 'en',
+                data: currentApplicationData
+            });
+
             unset(req.session, sessionPrefix());
             req.session.save(() => {
-                res.render(path.resolve(__dirname, './views/success'), {
-                    form: res.locals.form,
-                    title: 'Success'
+                res.render(path.resolve(__dirname, './views/confirmation'), {
+                    title: confirmation.title,
+                    confirmation: confirmation,
+                    form: form
                 });
             });
+        } else {
+            res.redirect(req.baseUrl);
         }
     });
 
