@@ -1,11 +1,12 @@
 'use strict';
 const { get } = require('lodash/fp');
-const { includes, values } = require('lodash');
+const { flatMap, includes, values } = require('lodash');
 const moment = require('moment');
 
 const {
     Joi,
     budgetItems,
+    conditionalOnMultiChoice,
     dateOfBirth,
     futureDate,
     multiChoice,
@@ -1078,7 +1079,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     label: localise({ en: 'Disabled people', cy: '' })
                 },
                 {
-                    value: BENEFICIARY_GROUPS.FAITH,
+                    value: BENEFICIARY_GROUPS.RELIGION,
                     label: localise({ en: 'Religion or belief', cy: '' })
                 },
                 {
@@ -1115,6 +1116,158 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
+        beneficiariesEthnicBakground: {
+            name: 'beneficiaries-ethnic-background',
+            label: localise({ en: `Ethnic background`, cy: '' }),
+            explanation: localise({
+                en: `You have indicated that your project mostly benefits people from a particular ethnic background, please select which one(s).`,
+                cy: ``
+            }),
+            type: 'checkbox',
+            optgroups: [
+                {
+                    label: localise({
+                        en: 'White',
+                        cy: ''
+                    }),
+                    options: [
+                        {
+                            value: 'white-british',
+                            label: localise({
+                                en: `English / Welsh / Scottish / Northern Irish / British`,
+                                cy: ''
+                            })
+                        },
+                        {
+                            value: 'irish',
+                            label: localise({ en: 'Irish', cy: '' })
+                        },
+                        {
+                            value: 'gypsy-irish-traveller',
+                            label: localise({
+                                en: 'Gypsy or Irish Traveller',
+                                cy: ''
+                            })
+                        },
+                        {
+                            value: 'white-other',
+                            label: localise({
+                                en: 'Any other White background',
+                                cy: ''
+                            })
+                        }
+                    ]
+                },
+                {
+                    label: localise({
+                        en: 'Mixed / Multiple ethnic groups',
+                        cy: ''
+                    }),
+                    options: [
+                        {
+                            value: 'mixed-background',
+                            label: localise({
+                                en: 'Mixed ethnic background',
+                                cy: ''
+                            }),
+                            explanation: localise({
+                                en: `this refers to people whose parents are of a different ethnic background to each other`,
+                                cy: ``
+                            })
+                        }
+                    ]
+                },
+                {
+                    label: localise({
+                        en: 'Asian / Asian British',
+                        cy: ''
+                    }),
+                    options: [
+                        {
+                            value: 'indian',
+                            label: localise({ en: 'Indian', cy: '' })
+                        },
+                        {
+                            value: 'pakistani',
+                            label: localise({ en: 'Pakistani', cy: '' })
+                        },
+                        {
+                            value: 'bangladeshi',
+                            label: localise({ en: 'Bangladeshi', cy: '' })
+                        },
+                        {
+                            value: 'chinese',
+                            label: localise({ en: 'Chinese', cy: '' })
+                        },
+                        {
+                            value: 'asian-other',
+                            label: localise({
+                                en: 'Any other Asian background',
+                                cy: ''
+                            })
+                        }
+                    ]
+                },
+                {
+                    label: localise({
+                        en: 'Black / African / Caribbean / Black British',
+                        cy: ''
+                    }),
+                    options: [
+                        {
+                            value: 'caribbean',
+                            label: localise({ en: 'Caribbean', cy: '' })
+                        },
+                        {
+                            value: 'african',
+                            label: localise({ en: 'African', cy: '' })
+                        },
+                        {
+                            value: 'black-other',
+                            label: localise({
+                                en: `Any other Black / African / Caribbean background`,
+                                cy: ''
+                            })
+                        }
+                    ]
+                },
+                {
+                    label: localise({
+                        en: 'Other ethnic group',
+                        cy: ''
+                    }),
+                    options: [
+                        {
+                            value: 'arab',
+                            label: localise({ en: 'Arab', cy: '' })
+                        },
+
+                        {
+                            value: 'other',
+                            label: localise({ en: 'Any other', cy: '' })
+                        }
+                    ]
+                }
+            ],
+            get schema() {
+                return conditionalOnMultiChoice({
+                    ref: 'beneficiaries-groups',
+                    match: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
+                    schema: multiChoice(
+                        flatMap(this.optgroups, o => o.options)
+                    ).required()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Choose from one of the options provided',
+                        cy: ''
+                    })
+                }
+            ]
+        },
         beneficiariesGroupsGender: {
             name: 'beneficiaries-groups-gender',
             label: localise({
@@ -1136,9 +1289,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             get schema() {
-                return Joi.when('beneficiaries-groups', {
-                    is: Joi.valid(BENEFICIARY_GROUPS.GENDER),
-                    then: multiChoice(this.options).required()
+                return conditionalOnMultiChoice({
+                    ref: 'beneficiaries-groups',
+                    match: BENEFICIARY_GROUPS.GENDER,
+                    schema: multiChoice(this.options).required()
                 });
             },
             messages: [
@@ -1165,9 +1319,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 { value: '65-plus', label: localise({ en: '65+', cy: '' }) }
             ],
             get schema() {
-                return Joi.when('beneficiaries-groups', {
-                    is: Joi.valid(BENEFICIARY_GROUPS.AGE),
-                    then: multiChoice(this.options).required()
+                return conditionalOnMultiChoice({
+                    ref: 'beneficiaries-groups',
+                    match: BENEFICIARY_GROUPS.AGE,
+                    schema: multiChoice(this.options).required()
                 });
             },
             messages: [
@@ -1228,9 +1383,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             get schema() {
-                return Joi.when('beneficiaries-groups', {
-                    is: Joi.valid(BENEFICIARY_GROUPS.DISABILITY),
-                    then: multiChoice(this.options).required()
+                return conditionalOnMultiChoice({
+                    ref: 'beneficiaries-groups',
+                    match: BENEFICIARY_GROUPS.DISABILITY,
+                    schema: multiChoice(this.options).required()
                 });
             },
             messages: [
@@ -1243,8 +1399,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        beneficiariesGroupsFaith: {
-            name: 'beneficiaries-groups-faith',
+        beneficiariesGroupsReligion: {
+            name: 'beneficiaries-groups-religion',
             label: localise({
                 en: `You have indicated that your project mostly benefits people of a particular religion or belief, please select from the following`,
                 cy: ''
@@ -1268,9 +1424,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             get schema() {
-                return Joi.when('beneficiaries-groups', {
-                    is: Joi.valid(BENEFICIARY_GROUPS.FAITH),
-                    then: multiChoice(this.options).required()
+                return conditionalOnMultiChoice({
+                    ref: 'beneficiaries-groups',
+                    match: BENEFICIARY_GROUPS.RELIGION,
+                    schema: multiChoice(this.options).required()
                 });
             },
             messages: [
@@ -1283,8 +1440,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        beneficiariesGroupsFaithOther: {
-            name: 'beneficiaries-groups-faith-other',
+        beneficiariesGroupsReligionOther: {
+            name: 'beneficiaries-groups-religion-other',
             label: localise({ en: 'Other', cy: '' }),
             type: 'text',
             isRequired: false,

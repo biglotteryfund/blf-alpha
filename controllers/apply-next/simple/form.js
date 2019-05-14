@@ -125,6 +125,9 @@ module.exports = function({ locale, data = {} }) {
         function fieldsForGroup(type) {
             let result;
             switch (type) {
+                case BENEFICIARY_GROUPS.ETHNIC_BACKGROUND:
+                    result = [fields.beneficiariesEthnicBakground];
+                    break;
                 case BENEFICIARY_GROUPS.GENDER:
                     result = [fields.beneficiariesGroupsGender];
                     break;
@@ -134,10 +137,10 @@ module.exports = function({ locale, data = {} }) {
                 case BENEFICIARY_GROUPS.DISABILITY:
                     result = [fields.beneficiariesGroupsDisability];
                     break;
-                case BENEFICIARY_GROUPS.FAITH:
+                case BENEFICIARY_GROUPS.RELIGION:
                     result = [
-                        fields.beneficiariesGroupsFaith,
-                        fields.beneficiariesGroupsFaithOther
+                        fields.beneficiariesGroupsReligion,
+                        fields.beneficiariesGroupsReligionOther
                     ];
                     break;
                 default:
@@ -204,6 +207,20 @@ module.exports = function({ locale, data = {} }) {
                     ]
                 },
                 {
+                    title: localise({ en: 'Ethnic background', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: 'Ethnic background',
+                                cy: ''
+                            }),
+                            fields: fieldsForGroup(
+                                BENEFICIARY_GROUPS.ETHNIC_BACKGROUND
+                            )
+                        }
+                    ]
+                },
+                {
                     title: localise({ en: 'Gender', cy: '' }),
                     fieldsets: [
                         {
@@ -240,7 +257,7 @@ module.exports = function({ locale, data = {} }) {
                                 en: 'Religion or belief',
                                 cy: ''
                             }),
-                            fields: fieldsForGroup(BENEFICIARY_GROUPS.FAITH)
+                            fields: fieldsForGroup(BENEFICIARY_GROUPS.RELIGION)
                         }
                     ]
                 }
