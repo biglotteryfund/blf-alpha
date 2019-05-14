@@ -175,7 +175,67 @@
     </select>
 {% endmacro %}
 
-{% macro inputChoice(field) %}
+{% macro inputCheckbox(field) %}
+    <fieldset class="ff-choice">
+        <legend class="ff-label">{{ labelFor(field) }}</legend>
+        {{ explanationFor(field) }}
+
+        {% if field.optgroups  %}
+            {% for optgroup in field.optgroups %}
+                {% set optgroupIdx = loop.index %}
+                <fieldset>
+                    <legend class="ff-label">{{ optgroup.label }}</legend>
+                    <ul class="ff-choice__list">
+                        {% for option in optgroup.options %}
+                            {% set fieldId = 'field-' + field.name + '-' + optgroupIdx + '-' + loop.index %}
+                            <li class="ff-choice__option">
+                                <div class="ff-choice__input">
+                                    <input
+                                        type="checkbox"
+                                        id="{{ fieldId }}"
+                                        name="{{ field.name }}"
+                                        value="{{ option.value }}"
+                                        {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
+                                    />
+                                </div>
+                                <label class="ff-choice__label" for="{{ fieldId }}">
+                                    {{ option.label }}
+                                    {% if option.explanation %}
+                                        <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
+                                    {% endif %}
+                                </label>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </fieldset>
+            {% endfor %}
+        {% else %}
+            <ul class="ff-choice__list">
+                {% for option in field.options %}
+                    <li class="ff-choice__option">
+                        <div class="ff-choice__input">
+                            <input
+                                type="checkbox"
+                                id="field-{{ field.name }}-{{ loop.index }}"
+                                name="{{ field.name }}"
+                                value="{{ option.value }}"
+                                {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
+                            />
+                        </div>
+                        <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
+                            {{ option.label }}
+                            {% if option.explanation %}
+                                <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
+                            {% endif %}
+                        </label>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </fieldset>
+{% endmacro %}
+
+{% macro inputRadio(field) %}
     <fieldset class="ff-choice">
         <legend class="ff-label" for="field-{{ field.name }}">
             {{ labelFor(field) }}
@@ -185,24 +245,14 @@
             {% for option in field.options %}
                 <li class="ff-choice__option">
                     <div class="ff-choice__input">
-                        {% if field.type === 'checkbox' %}
-                            <input
-                                type="checkbox"
-                                id="field-{{ field.name }}-{{ loop.index }}"
-                                name="{{ field.name }}"
-                                value="{{ option.value }}"
-                                {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
-                            />
-                        {% else %}
-                            <input
-                                type="radio"
-                                id="field-{{ field.name }}-{{ loop.index }}"
-                                name="{{ field.name }}"
-                                value="{{ option.value }}"
-                                {% if field.isRequired %}required aria-required="true"{% endif %}
-                                {% if field.value[0] === option.value or field.value === option.value %}checked{% endif %}
-                            />
-                        {% endif %}
+                        <input
+                            type="radio"
+                            id="field-{{ field.name }}-{{ loop.index }}"
+                            name="{{ field.name }}"
+                            value="{{ option.value }}"
+                            {% if field.isRequired %}required aria-required="true"{% endif %}
+                            {% if field.value[0] === option.value or field.value === option.value %}checked{% endif %}
+                        />
                     </div>
                     <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
                         {{ option.label }}
@@ -387,8 +437,10 @@
                     {{ inputTextarea(field) }}
                 {% elseif field.type === 'select' %}
                     {{ inputSelect(field) }}
-                {% elseif field.type === 'checkbox' or field.type === 'radio' %}
-                    {{ inputChoice(field) }}
+                {% elseif field.type === 'checkbox' %}
+                    {{ inputCheckbox(field) }}
+                {% elseif field.type === 'radio' %}
+                    {{ inputRadio(field) }}
                 {% elseif field.type === 'date' %}
                     {{ inputDate(field) }}
                 {% elseif field.type === 'day-month' %}
