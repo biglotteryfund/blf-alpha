@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import CookieConsent from './components/cookie-consent.vue';
 import Feedback from './components/feedback.vue';
-import Prompt from './components/prompt.vue';
 import Survey from './components/survey.vue';
 
 function initCookieConsent() {
@@ -24,16 +23,6 @@ function initSurvey() {
     }
 }
 
-function initPrompts() {
-    const el = document.getElementById('js-active-prompt');
-    if (el) {
-        new Vue({
-            el: el,
-            components: { prompt: Prompt }
-        });
-    }
-}
-
 function initInlineFeedback() {
     const el = document.getElementById('js-feedback');
     if (el) {
@@ -47,7 +36,6 @@ function initInlineFeedback() {
 function init() {
     initCookieConsent();
     initSurvey();
-    initPrompts();
     initInlineFeedback();
 }
 
