@@ -1335,14 +1335,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        beneficiariesGroupsDisability: {
-            name: 'beneficiaries-groups-disability',
-            label: localise({
-                en: `You have indicated that your project mostly benefits disabled people, please select from the following`,
-                cy: ''
-            }),
+        beneficiariesGroupsDisabledPeople: {
+            name: 'beneficiaries-groups-disabled-people',
+            label: localise({ en: `Disabled people`, cy: '' }),
             explanation: localise({
-                en: `We use the definition from the Equality Act 2010, which defines a disabled person as someone who has a mental or physical impairment that has a substantial and long-term adverse effect on their ability to carry out normal day to day activity.`,
+                en: `<p>You have indicated that your project mostly benefit disabled people, please select which one(s).</p>
+                <p>We use the definition from the Equality Act 2010, which defines a disabled person as someone who has a mental or physical impairment that has a substantial and long-term adverse effect on their ability to carry out normal day to day activity.</p>`,
                 cy: ``
             }),
 

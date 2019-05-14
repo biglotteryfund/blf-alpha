@@ -135,7 +135,7 @@ module.exports = function({ locale, data = {} }) {
                     result = [fields.beneficiariesGroupsAge];
                     break;
                 case BENEFICIARY_GROUPS.DISABILITY:
-                    result = [fields.beneficiariesGroupsDisability];
+                    result = [fields.beneficiariesGroupsDisabledPeople];
                     break;
                 case BENEFICIARY_GROUPS.RELIGION:
                     result = [
@@ -148,7 +148,9 @@ module.exports = function({ locale, data = {} }) {
                     break;
             }
 
-            return includes(groupChoices, type) ? result : [];
+            return groupsCheck === 'yes' && includes(groupChoices, type)
+                ? result
+                : [];
         }
 
         return {
@@ -239,10 +241,10 @@ module.exports = function({ locale, data = {} }) {
                     ]
                 },
                 {
-                    title: localise({ en: 'Disability', cy: '' }),
+                    title: localise({ en: 'Disabled people', cy: '' }),
                     fieldsets: [
                         {
-                            legend: localise({ en: 'Disability', cy: '' }),
+                            legend: localise({ en: 'Disabled people', cy: '' }),
                             fields: fieldsForGroup(
                                 BENEFICIARY_GROUPS.DISABILITY
                             )
