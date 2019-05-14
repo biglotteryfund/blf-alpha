@@ -39,9 +39,8 @@
     "enableHotjar": false,
     "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
-    "enablePrompt": false,
     "enableRelatedGrants": false,
-    "enableSurvey": true
+    "enableSiteSurvey": true
   },
   "cookies": {
     "session": "blf-alpha-session"
