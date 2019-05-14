@@ -48,7 +48,7 @@
 
             <ol class="u-list-unstyled">
                 {% for item in application.progress %}
-                    <li class="section-progress-mini section-progress-mini--{{ sectionProgress }}">
+                    <li class="section-progress-mini section-progress-mini--{{ item.status }}">
                         <span class="section-progress-mini__title">
                             {{ item.label }}
                         </span>
