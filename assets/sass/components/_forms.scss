@@ -165,7 +165,9 @@ $inputOutline: 3px solid get-color('border', 'outline');
    ========================================================================= */
 
 .ff-choice {
-    margin-bottom: 3px;
+    .ff-choice__list {
+        margin-bottom: 0.75em;
+    }
 
     .ff-choice__option {
         display: table;

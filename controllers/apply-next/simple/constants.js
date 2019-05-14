@@ -18,7 +18,7 @@ const BENEFICIARY_GROUPS = {
     GENDER: 'gender',
     AGE: 'age',
     DISABILITY: 'disability',
-    FAITH: 'faith',
+    RELIGION: 'religion',
     LGBTQ: 'lgbtq'
 };
 
