@@ -22,7 +22,7 @@ router.use('/seed', require('./seed'));
 
 router.use(requireStaffAuth, function(req, res, next) {
     res.locals.isBilingual = false;
-    res.locals.enablePrompt = false; // Disable prompts on tools pages
+    res.locals.enableSiteSurvey = false;
     res.locals.bodyClass = 'has-static-header'; // No hero images on tools pages
     res.locals.user = req.user;
     res.locals.breadcrumbs = [{ label: 'Tools', url: req.baseUrl }];

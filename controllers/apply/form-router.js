@@ -55,7 +55,7 @@ function initFormRouter(form) {
         res.locals.copy = copy;
         res.locals.formTitle = copy.title;
         res.locals.isBilingual = form.isBilingual;
-        res.locals.enablePrompt = false; // Disable prompts on apply pages
+        res.locals.enableSiteSurvey = false;
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
         next();
     });

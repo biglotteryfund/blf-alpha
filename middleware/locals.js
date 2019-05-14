@@ -18,8 +18,7 @@ module.exports = function(req, res, next) {
     /**
      * Feature flags
      */
-    res.locals.enablePrompt = features.enablePrompt;
-    res.locals.enableSurvey = features.enableSurvey;
+    res.locals.enableSiteSurvey = features.enableSiteSurvey;
     res.locals.enableNameChangeMessage = features.enableNameChangeMessage;
 
     /**
