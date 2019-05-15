@@ -1,7 +1,7 @@
 // @ts-nocheck
 const uuid = require('uuid/v4');
 const faker = require('faker');
-const sample = require('lodash/sample');
+const { includes, sample, sampleSize } = require('lodash');
 const moment = require('moment');
 
 describe('common', function() {
@@ -474,41 +474,55 @@ describe('awards for all', function() {
             submitStep();
         }
 
-        function stepBeneficiaryGroupsCheck() {
+        function stepBeneficiaryGroups() {
             cy.checkA11y();
             cy.getByLabelText('Yes').click();
             submitStep();
-        }
 
-        function stepBeneficiaryGroups() {
-            cy.checkA11y();
-            cy.getByLabelText('Ethnic background').click();
-            cy.getByLabelText('Gender').click();
-            cy.getByLabelText('Age').click();
-            cy.getByLabelText('Disabled people').click();
-            cy.getByLabelText('Lesbians, gay or bisexual people').click();
-            submitStep();
-        }
+            const randomBeneficiaryGroups = sampleSize(
+                [
+                    'Ethnic background',
+                    'Gender',
+                    'Age',
+                    'Disabled people',
+                    'Lesbians, gay or bisexual people'
+                ],
+                2
+            );
 
-        function stepBeneficiaryGender() {
             cy.checkA11y();
-            cy.getByLabelText('Non-binary').click();
+            randomBeneficiaryGroups.forEach(label => {
+                cy.getByLabelText(label).click();
+            });
             submitStep();
-        }
 
-        function stepBeneficiaryAge() {
-            cy.checkA11y();
-            cy.getByLabelText('25-64').click();
-            submitStep();
-        }
+            if (includes(randomBeneficiaryGroups, 'Ethnic background')) {
+                cy.checkA11y();
+                cy.getByLabelText('Caribbean').click();
+                cy.getByLabelText('African').click();
+                submitStep();
+            }
 
-        function stepBeneficiaryDisability() {
-            cy.checkA11y();
-            cy.getByLabelText(
-                'Disabled people with learning or mental difficulties',
-                { exact: false }
-            ).click();
-            submitStep();
+            if (includes(randomBeneficiaryGroups, 'Gender')) {
+                cy.checkA11y();
+                cy.getByLabelText('Non-binary').click();
+                submitStep();
+            }
+
+            if (includes(randomBeneficiaryGroups, 'Age')) {
+                cy.checkA11y();
+                cy.getByLabelText('25-64').click();
+                submitStep();
+            }
+
+            if (includes(randomBeneficiaryGroups, 'Disabled people')) {
+                cy.checkA11y();
+                cy.getByLabelText(
+                    'Disabled people with learning or mental difficulties',
+                    { exact: false }
+                ).click();
+                submitStep();
+            }
         }
 
         function stepOrganisationDetails() {
@@ -658,11 +672,7 @@ describe('awards for all', function() {
             stepProjectLocation();
             stepYourIdea();
             stepProjectCosts();
-            stepBeneficiaryGroupsCheck();
             stepBeneficiaryGroups();
-            stepBeneficiaryGender();
-            stepBeneficiaryAge();
-            stepBeneficiaryDisability();
             stepOrganisationDetails();
             stepOrganisationType();
             stepRegistrationNumbers();

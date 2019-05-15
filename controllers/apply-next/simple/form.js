@@ -125,6 +125,9 @@ module.exports = function({ locale, data = {} }) {
         function fieldsForGroup(type) {
             let result;
             switch (type) {
+                case BENEFICIARY_GROUPS.ETHNIC_BACKGROUND:
+                    result = [fields.beneficiariesEthnicBakground];
+                    break;
                 case BENEFICIARY_GROUPS.GENDER:
                     result = [fields.beneficiariesGroupsGender];
                     break;
@@ -132,12 +135,12 @@ module.exports = function({ locale, data = {} }) {
                     result = [fields.beneficiariesGroupsAge];
                     break;
                 case BENEFICIARY_GROUPS.DISABILITY:
-                    result = [fields.beneficiariesGroupsDisability];
+                    result = [fields.beneficiariesGroupsDisabledPeople];
                     break;
-                case BENEFICIARY_GROUPS.FAITH:
+                case BENEFICIARY_GROUPS.RELIGION:
                     result = [
-                        fields.beneficiariesGroupsFaith,
-                        fields.beneficiariesGroupsFaithOther
+                        fields.beneficiariesGroupsReligion,
+                        fields.beneficiariesGroupsReligionOther
                     ];
                     break;
                 default:
@@ -145,7 +148,9 @@ module.exports = function({ locale, data = {} }) {
                     break;
             }
 
-            return includes(groupChoices, type) ? result : [];
+            return groupsCheck === 'yes' && includes(groupChoices, type)
+                ? result
+                : [];
         }
 
         return {
@@ -204,6 +209,20 @@ module.exports = function({ locale, data = {} }) {
                     ]
                 },
                 {
+                    title: localise({ en: 'Ethnic background', cy: '' }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: 'Ethnic background',
+                                cy: ''
+                            }),
+                            fields: fieldsForGroup(
+                                BENEFICIARY_GROUPS.ETHNIC_BACKGROUND
+                            )
+                        }
+                    ]
+                },
+                {
                     title: localise({ en: 'Gender', cy: '' }),
                     fieldsets: [
                         {
@@ -222,10 +241,10 @@ module.exports = function({ locale, data = {} }) {
                     ]
                 },
                 {
-                    title: localise({ en: 'Disability', cy: '' }),
+                    title: localise({ en: 'Disabled people', cy: '' }),
                     fieldsets: [
                         {
-                            legend: localise({ en: 'Disability', cy: '' }),
+                            legend: localise({ en: 'Disabled people', cy: '' }),
                             fields: fieldsForGroup(
                                 BENEFICIARY_GROUPS.DISABILITY
                             )
@@ -240,7 +259,7 @@ module.exports = function({ locale, data = {} }) {
                                 en: 'Religion or belief',
                                 cy: ''
                             }),
-                            fields: fieldsForGroup(BENEFICIARY_GROUPS.FAITH)
+                            fields: fieldsForGroup(BENEFICIARY_GROUPS.RELIGION)
                         }
                     ]
                 }
