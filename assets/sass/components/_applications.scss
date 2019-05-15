@@ -226,8 +226,6 @@ $statuses: (
     .application-card__summary {
         padding: $spacingUnit;
         margin-right: $spacingUnit;
-        flex-shrink: 0;
-        flex-basis: 60%;
     }
 
     .application-card__progress {
@@ -242,14 +240,21 @@ $statuses: (
 
     @include mq('medium') {
         display: flex;
-        justify-content: space-between;
+
+        .application-card__summary {
+            flex: 1 1 auto;
+        }
+
+        .application-card__progress {
+            flex: 0 0 40%;
+        }
 
         .application-card__progress {
             display: flex;
             flex-direction: column;
         }
         .application-card__progress__status {
-            flex: 1 1 0;
+            flex: 1 1 auto;
         }
     }
 }
