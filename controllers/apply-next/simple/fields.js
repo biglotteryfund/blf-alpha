@@ -6,7 +6,6 @@ const moment = require('moment');
 const {
     Joi,
     budgetItems,
-    conditionalOnMultiChoice,
     dateOfBirth,
     futureDate,
     multiChoice,
@@ -567,6 +566,24 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         };
+    }
+
+    function conditionalBeneficiaryChoice({ match, schema }) {
+        return Joi.when(Joi.ref('beneficiaries-groups-check'), {
+            is: 'yes',
+            // Conditional based on array
+            // https://github.com/hapijs/joi/issues/622
+            then: Joi.when(Joi.ref('beneficiaries-groups'), {
+                is: Joi.array().items(
+                    Joi.string()
+                        .only(match)
+                        .required(),
+                    Joi.any()
+                ),
+                then: schema,
+                otherwise: Joi.any().optional()
+            })
+        });
     }
 
     return {
@@ -1250,8 +1267,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             get schema() {
-                return conditionalOnMultiChoice({
-                    ref: 'beneficiaries-groups',
+                return conditionalBeneficiaryChoice({
                     match: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
                     schema: multiChoice(
                         flatMap(this.optgroups, o => o.options)
@@ -1289,8 +1305,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             get schema() {
-                return conditionalOnMultiChoice({
-                    ref: 'beneficiaries-groups',
+                return conditionalBeneficiaryChoice({
                     match: BENEFICIARY_GROUPS.GENDER,
                     schema: multiChoice(this.options).required()
                 });
@@ -1319,8 +1334,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 { value: '65-plus', label: localise({ en: '65+', cy: '' }) }
             ],
             get schema() {
-                return conditionalOnMultiChoice({
-                    ref: 'beneficiaries-groups',
+                return conditionalBeneficiaryChoice({
                     match: BENEFICIARY_GROUPS.AGE,
                     schema: multiChoice(this.options).required()
                 });
@@ -1381,8 +1395,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             get schema() {
-                return conditionalOnMultiChoice({
-                    ref: 'beneficiaries-groups',
+                return conditionalBeneficiaryChoice({
                     match: BENEFICIARY_GROUPS.DISABILITY,
                     schema: multiChoice(this.options).required()
                 });
@@ -1422,8 +1435,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             get schema() {
-                return conditionalOnMultiChoice({
-                    ref: 'beneficiaries-groups',
+                return conditionalBeneficiaryChoice({
                     match: BENEFICIARY_GROUPS.RELIGION,
                     schema: multiChoice(this.options).required()
                 });

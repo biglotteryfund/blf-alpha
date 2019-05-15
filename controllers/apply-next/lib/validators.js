@@ -18,21 +18,6 @@ function multiChoice(options) {
         .single();
 }
 
-/**
- * @see https://github.com/hapijs/joi/issues/622
- */
-function conditionalOnMultiChoice({ ref, match, schema }) {
-    return Joi.any().when(ref, {
-        is: Joi.array().items(
-            Joi.string()
-                .only(match)
-                .required(),
-            Joi.any()
-        ),
-        then: schema
-    });
-}
-
 function futureDate({ amount = null, unit = null } = {}) {
     const minDate = amount && unit ? moment().add(amount, unit) : moment();
     return Joi.dateParts().futureDate(minDate.format('YYYY-MM-DD'));
@@ -83,7 +68,6 @@ function ukPhoneNumber() {
 module.exports = {
     Joi,
     budgetItems,
-    conditionalOnMultiChoice,
     dateOfBirth,
     futureDate,
     multiChoice,
