@@ -827,7 +827,7 @@ describe('past grants', function() {
 
         // Search query
         const testQuery = 'cake';
-        const textQueryCount = 79;
+        const textQueryCount = 78;
 
         cy.get('#js-past-grants')
             .find('#search-query')
