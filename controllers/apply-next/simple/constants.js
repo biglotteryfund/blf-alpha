@@ -19,7 +19,8 @@ const BENEFICIARY_GROUPS = {
     AGE: 'age',
     DISABILITY: 'disability',
     RELIGION: 'religion',
-    LGBTQ: 'lgbtq'
+    LGBTQ: 'lgbtq',
+    CARING: 'caring-responsibilities'
 };
 
 module.exports = {
