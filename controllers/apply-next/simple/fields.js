@@ -1315,8 +1315,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         beneficiariesGroupsGender: {
             name: 'beneficiaries-groups-gender',
             label: localise({
-                en: `You told us that your project mostly benefits people of a particular gender. Please tell us which one(s).`,
+                en: `Gender`,
                 cy: ''
+            }),
+            explanation: localise({
+                en: `You told us that your project mostly benefits people of a particular gender. Please tell us which one(s).`,
+                cy: ``
             }),
             type: 'checkbox',
             options: [
@@ -1351,6 +1355,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         beneficiariesGroupsAge: {
             name: 'beneficiaries-groups-age',
             label: localise({
+                en: `Age`,
+                cy: ''
+            }),
+            explanation: localise({
                 en: `You told us that your project mostly benefits people from particular age groups. Please tell us which one(s).`,
                 cy: ''
             }),
@@ -1441,6 +1449,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         beneficiariesGroupsReligion: {
             name: 'beneficiaries-groups-religion',
             label: localise({
+                en: `Religion or belief`,
+                cy: ``
+            }),
+            explanation: localise({
                 en: `You have indicated that your project mostly benefits people of a particular religion or belief, please select from the following`,
                 cy: ''
             }),
