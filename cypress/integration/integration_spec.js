@@ -481,11 +481,11 @@ describe('awards for all', function() {
 
             const randomBeneficiaryGroups = sampleSize(
                 [
-                    'Ethnic background',
-                    'Gender',
-                    'Age',
+                    'People from a particular ethnic background',
+                    'People of a particular gender',
+                    'People of a particular age',
                     'Disabled people',
-                    'Lesbians, gay or bisexual people'
+                    'Lesbian, gay, or bisexual people'
                 ],
                 2
             );
@@ -496,20 +496,32 @@ describe('awards for all', function() {
             });
             submitStep();
 
-            if (includes(randomBeneficiaryGroups, 'Ethnic background')) {
+            if (
+                includes(
+                    randomBeneficiaryGroups,
+                    'People from a particular ethnic background'
+                )
+            ) {
                 cy.checkA11y();
                 cy.getByLabelText('Caribbean').click();
                 cy.getByLabelText('African').click();
                 submitStep();
             }
 
-            if (includes(randomBeneficiaryGroups, 'Gender')) {
+            if (
+                includes(
+                    randomBeneficiaryGroups,
+                    'People of a particular gender'
+                )
+            ) {
                 cy.checkA11y();
                 cy.getByLabelText('Non-binary').click();
                 submitStep();
             }
 
-            if (includes(randomBeneficiaryGroups, 'Age')) {
+            if (
+                includes(randomBeneficiaryGroups, 'People of a particular age')
+            ) {
                 cy.checkA11y();
                 cy.getByLabelText('25-64').click();
                 submitStep();
@@ -844,7 +856,7 @@ describe('past grants', function() {
 
         // Search query
         const testQuery = 'cake';
-        const textQueryCount = 79;
+        const textQueryCount = 78;
 
         cy.get('#js-past-grants')
             .find('#search-query')
