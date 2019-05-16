@@ -1,6 +1,5 @@
 {% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/feedback.njk" import inlineFeedback with context %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/card/macro.njk" import card %}
@@ -190,16 +189,5 @@
                 />
             </div>
         {% endif %}
-
-        <div class="u-inner">
-            <div id="feedback">
-                {{ inlineFeedback(
-                    description = "past_grants_new",
-                    promptLabel = copy.survey.prompt,
-                    fieldLabel = copy.survey.label,
-                    isToggleable = false
-                )  }}
-            </div>
-        </div>
     </main>
 {% endblock %}
