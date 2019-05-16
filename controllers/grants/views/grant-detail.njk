@@ -106,22 +106,12 @@
 
                                 {% if org.charityNumber %}
                                     <dt>{{ copy.grantDetail.fields.charityNumber }}</dt>
-                                    <dd>
-                                        {{ org.charityNumber }} &mdash;
-                                        <a href="http://beta.charitycommission.gov.uk/charity-search/?q={{ org.charityNumber }}">
-                                            {{ copy.grantDetail.viewCharityCommission }}
-                                        </a>
-                                    </dd>
+                                    <dd>{{ org.charityNumber }}</dd>
                                 {% endif %}
 
                                 {% if org.companyNumber %}
                                     <dt>{{ copy.grantDetail.fields.companyNumber }}</dt>
-                                    <dd>
-                                        {{ org.companyNumber }} &mdash;
-                                        <a href="https://beta.companieshouse.gov.uk/search/companies?q={{ org.companyNumber }}">
-                                            {{ copy.grantDetail.viewCompaniesHouse }}
-                                        </a>
-                                    </dd>
+                                    <dd>{{ org.companyNumber }}</dd>
                                 {% endif %}
 
                                 {% if grant.beneficiaryLocation %}
