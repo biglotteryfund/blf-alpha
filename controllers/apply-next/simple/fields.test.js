@@ -13,7 +13,7 @@ const {
 } = require('./mocks');
 
 const fieldsFor = require('./fields');
-const fields = fieldsFor({ locale: 'en' });
+const { fields } = fieldsFor({ locale: 'en' });
 
 describe('fields', () => {
     function assertValid(field, value) {
@@ -588,10 +588,8 @@ describe('fields', () => {
         });
 
         test('include all roles if no organisation type is provided', () => {
-            const { seniorContactRole } = fieldsFor({ locale: 'en' });
-
             expect(
-                seniorContactRole.options.map(option => option.value)
+                fields.seniorContactRole.options.map(option => option.value)
             ).toEqual([
                 'trustee',
                 'chair',
@@ -611,13 +609,15 @@ describe('fields', () => {
 
         test('include roles based on organisation type', () => {
             function assertRolesForType(type, expected) {
-                const { seniorContactRole } = fieldsFor({
+                const { fields: _fields } = fieldsFor({
                     locale: 'en',
                     data: { 'organisation-type': type }
                 });
 
                 expect(
-                    seniorContactRole.options.map(option => option.value)
+                    _fields.seniorContactRole.options.map(
+                        option => option.value
+                    )
                 ).toEqual(expected);
             }
 
