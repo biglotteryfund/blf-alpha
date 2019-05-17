@@ -25,8 +25,8 @@ function formatAddress(value) {
 }
 
 function formatAddressHistory(value) {
-    const meetsMinimium = get(value, 'current-address-meets-minimum');
-    const previousAddress = get(value, 'previous-address');
+    const meetsMinimium = get(value, 'currentAddressMeetsMinimum');
+    const previousAddress = get(value, 'previousAddress');
 
     if (previousAddress && meetsMinimium === 'no') {
         return formatAddress(previousAddress);

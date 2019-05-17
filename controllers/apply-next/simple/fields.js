@@ -16,7 +16,7 @@ const {
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
 
-    const currentOrganisationType = get('organisation-type')(data);
+    const currentOrganisationType = get('organisationType')(data);
 
     function matchesOrganisationType(type) {
         return currentOrganisationType === type;
@@ -133,18 +133,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'address-history',
             isRequired: true,
             schema: Joi.object({
-                'current-address-meets-minimum': Joi.string()
+                currentAddressMeetsMinimum: Joi.string()
                     .valid(['yes', 'no'])
                     .required(),
-                'previous-address': Joi.when(
-                    Joi.ref('current-address-meets-minimum'),
+                previousAddress: Joi.when(
+                    Joi.ref('currentAddressMeetsMinimum'),
                     {
                         is: 'no',
                         then: Joi.ukAddress().required(),
                         otherwise: Joi.any()
                     }
                 )
-            }).when(Joi.ref('organisation-type'), {
+            }).when(Joi.ref('organisationType'), {
                 is: Joi.valid(
                     ORGANISATION_TYPES.SCHOOL,
                     ORGANISATION_TYPES.STATUTORY_BODY
@@ -158,7 +158,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 },
                 {
                     type: 'any.required',
-                    key: 'current-address-meets-minimum',
+                    key: 'currentAddressMeetsMinimum',
                     message: localise({
                         en: 'Choose from one of the options provided',
                         cy: ''
@@ -254,7 +254,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             schema: Joi.dateParts()
                 .dob(minAge)
                 .required()
-                .when(Joi.ref('organisation-type'), {
+                .when(Joi.ref('organisationType'), {
                     is: Joi.valid(
                         ORGANISATION_TYPES.SCHOOL,
                         ORGANISATION_TYPES.STATUTORY_BODY
@@ -316,7 +316,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         ];
 
         const defaultProps = {
-            type: 'radio',
+            type: 'checkbox',
             options: options,
             schema: multiChoice(options).optional(),
             messages: [
@@ -398,7 +398,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         ];
 
         return {
-            name: 'organisation-type',
+            name: 'organisationType',
             label: localise({
                 en: 'What type of organisation are you?',
                 cy: ''
@@ -527,7 +527,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         }
 
         return {
-            name: 'senior-contact-role',
+            name: 'seniorContactRole',
             label: localise({ en: 'Role', cy: '' }),
             get explanation() {
                 let text = localise({
@@ -570,11 +570,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function conditionalBeneficiaryChoice({ match, schema }) {
-        return Joi.when(Joi.ref('beneficiaries-groups-check'), {
+        return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
             is: 'yes',
             // Conditional based on array
             // https://github.com/hapijs/joi/issues/622
-            then: Joi.when(Joi.ref('beneficiaries-groups'), {
+            then: Joi.when(Joi.ref('beneficiariesGroups'), {
                 is: Joi.array().items(
                     Joi.string()
                         .only(match)
@@ -590,7 +590,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     const fields = {
         projectName: {
-            name: 'project-name',
+            name: 'projectName',
             label: localise({
                 en: 'What is the name of your project?',
                 cy: ''
@@ -610,7 +610,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         projectCountry: {
-            name: 'project-country',
+            name: 'projectCountry',
             label: localise({
                 en: 'What country will your project be based in?',
                 cy: ''
@@ -649,7 +649,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         projectStartDate: {
-            name: 'project-start-date',
+            name: 'projectStartDate',
             label: localise({
                 en: `When is the planned (or estimated) start date of your project?`,
                 cy: ``
@@ -702,7 +702,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }
         },
         projectLocation: {
-            name: 'project-location',
+            name: 'projectLocation',
             label: localise({
                 en: 'Where will your project take place?',
                 cy: ''
@@ -714,7 +714,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'select',
             defaultOption: localise({ en: 'Select a location', cy: '' }),
             get optgroups() {
-                const country = get('project-country')(data);
+                const country = get('projectCountry')(data);
                 return locationsFor(country);
             },
             isRequired: true,
@@ -727,7 +727,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         projectLocationDescription: {
-            name: 'project-location-description',
+            name: 'projectLocationDescription',
             label: localise({
                 en: `Tell us the towns, villages or wards where your beneficiaries live`,
                 cy: ``
@@ -743,7 +743,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         projectPostcode: {
-            name: 'project-postcode',
+            name: 'projectPostcode',
             label: localise({
                 en: `What is the postcode of the location where your project will take place?`,
                 cy: ``
@@ -769,7 +769,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         yourIdeaProject: {
-            name: 'your-idea-project',
+            name: 'yourIdeaProject',
             label: localise({
                 en: 'What would you like to do?',
                 cy: ''
@@ -833,7 +833,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }
         },
         yourIdeaPriorities: {
-            name: 'your-idea-priorities',
+            name: 'yourIdeaPriorities',
             label: localise({
                 en: `How does your project meet at least one of our funding priorities?`,
                 cy: ``
@@ -896,7 +896,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }
         },
         yourIdeaCommunity: {
-            name: 'your-idea-community',
+            name: 'yourIdeaCommunity',
             label: localise({
                 en: 'How does your project involve your community?',
                 cy: ''
@@ -966,7 +966,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }
         },
         projectBudget: {
-            name: 'project-budget',
+            name: 'projectBudget',
             label: localise({
                 en: 'List the costs you would like us to fund',
                 cy: ''
@@ -1013,7 +1013,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         projectTotalCosts: {
-            name: 'project-total-costs',
+            name: 'projectTotalCosts',
             label: localise({
                 en: 'Tell us the total cost of your project.',
                 cy: '(WELSH) Tell us the total cost of your project.'
@@ -1052,7 +1052,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         beneficiariesGroupsCheck: {
-            name: 'beneficiaries-groups-check',
+            name: 'beneficiariesGroupsCheck',
             label: localise({
                 en: `Is your project aimed at one of the following groups of people?`,
                 cy: ``
@@ -1089,7 +1089,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         beneficiariesGroups: {
-            name: 'beneficiaries-groups',
+            name: 'beneficiariesGroups',
             label: localise({
                 en: `What specific groups of people is your project aimed at?`,
                 cy: ``
@@ -1144,7 +1144,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             get schema() {
-                return Joi.when('beneficiaries-groups-check', {
+                return Joi.when('beneficiariesGroupsCheck', {
                     is: 'yes',
                     then: multiChoice(this.options).required(),
                     otherwise: Joi.any().strip()
@@ -1161,7 +1161,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         beneficiariesGroupsOther: {
-            name: 'beneficiaries-groups-other',
+            name: 'beneficiariesGroupsOther',
             label: localise({ en: 'Other', cy: '' }),
             type: 'text',
             isRequired: false,
@@ -1171,7 +1171,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: []
         },
         beneficiariesEthnicBakground: {
-            name: 'beneficiaries-ethnic-background',
+            name: 'beneficiariesGroupsEthnicBackground',
             label: localise({ en: `Ethnic background`, cy: '' }),
             explanation: localise({
                 en: `You told us that your project mostly benefits people from a particular ethnic background. Please tell us which one(s).`,
@@ -1322,7 +1322,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         beneficiariesGroupsGender: {
-            name: 'beneficiaries-groups-gender',
+            name: 'beneficiariesGroupsGender',
             label: localise({
                 en: `Gender`,
                 cy: ''
@@ -1362,7 +1362,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         beneficiariesGroupsAge: {
-            name: 'beneficiaries-groups-age',
+            name: 'beneficiariesGroupsAge',
             label: localise({
                 en: `Age`,
                 cy: ''
@@ -1395,7 +1395,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         beneficiariesGroupsDisabledPeople: {
-            name: 'beneficiaries-groups-disabled-people',
+            name: 'beneficiariesGroupsDisabledPeople',
             label: localise({ en: `Disabled people`, cy: '' }),
             explanation: localise({
                 en: `<p>You told us that your project mostly benefits disabled people. Please tell us which one(s).</p>
@@ -1456,7 +1456,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         beneficiariesGroupsReligion: {
-            name: 'beneficiaries-groups-religion',
+            name: 'beneficiariesGroupsReligion',
             label: localise({
                 en: `Religion or belief`,
                 cy: ``
@@ -1500,7 +1500,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         beneficiariesGroupsReligionOther: {
-            name: 'beneficiaries-groups-religion-other',
+            name: 'beneficiariesGroupsReligionOther',
             label: localise({ en: 'Other', cy: '' }),
             type: 'text',
             isRequired: false,
@@ -1510,7 +1510,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: []
         },
         organisationLegalName: {
-            name: 'organisation-legal-name',
+            name: 'organisationLegalName',
             label: localise({
                 en: `What is the full legal name of your organisation?`,
                 cy: ``
@@ -1533,7 +1533,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         organisationTradingName: {
-            name: 'organisation-trading-name',
+            name: 'organisationTradingName',
             label: localise({
                 en: `Does your organisation use a different name in your day-to-day work?`,
                 cy: ``
@@ -1546,7 +1546,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: []
         },
         organisationAddress: addressField({
-            name: 'organisation-address',
+            name: 'organisationAddress',
             label: localise({
                 en: `What is the main or registered address of your organisation?`,
                 cy: ``
@@ -1554,11 +1554,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         }),
         organisationType: organisationTypeField(),
         companyNumber: {
-            name: 'company-number',
+            name: 'companyNumber',
             label: localise({ en: 'Companies house number', cy: '' }),
             type: 'text',
             isRequired: true,
-            schema: Joi.when('organisation-type', {
+            schema: Joi.when('organisationType', {
                 is: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
                 then: Joi.string().required()
             }),
@@ -1573,7 +1573,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         charityNumber: {
-            name: 'charity-number',
+            name: 'charityNumber',
             label: localise({ en: 'Charity registration number', cy: '' }),
             explanation: localise({
                 en: `If you are registered with OSCR, you only need to provide the last five digits of your registration number.`,
@@ -1588,10 +1588,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 ],
                 currentOrganisationType
             ),
-            schema: Joi.when('organisation-type', {
+            schema: Joi.when('organisationType', {
                 is: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
                 then: Joi.number().required()
-            }).when('organisation-type', {
+            }).when('organisationType', {
                 is: ORGANISATION_TYPES.CIO,
                 then: Joi.number().required()
             }),
@@ -1606,12 +1606,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         educationNumber: {
-            name: 'education-number',
+            name: 'educationNumber',
             label: localise({ en: 'Department for Education number', cy: '' }),
             type: 'text',
             attributes: { size: 20 },
             isRequired: true,
-            schema: Joi.when('organisation-type', {
+            schema: Joi.when('organisationType', {
                 is: ORGANISATION_TYPES.SCHOOL,
                 then: Joi.string().required()
             }),
@@ -1626,7 +1626,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         accountingYearDate: {
-            name: 'accounting-year-date',
+            name: 'accountingYearDate',
             label: localise({
                 en: 'What is your accounting year end date?',
                 cy: ''
@@ -1653,7 +1653,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         totalIncomeYear: {
-            name: 'total-income-year',
+            name: 'totalIncomeYear',
             label: localise({
                 en: 'What is your total income for the year?',
                 cy: ''
@@ -1679,21 +1679,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         mainContactFirstName: firstNameField({
-            name: 'main-contact-first-name',
+            name: 'mainContactFirstName',
             label: localise({ en: 'First name', cy: '' })
         }),
         mainContactLastName: lastNameField({
-            name: 'main-contact-last-name',
+            name: 'mainContactLastName',
             label: localise({ en: 'Last name', cy: '' })
         }),
         mainContactDob: dateOfBirthField(MIN_AGE_MAIN_CONTACT, {
-            name: 'main-contact-dob',
+            name: 'mainContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })
         }),
         mainContactAddress: addressField({
-            name: 'main-contact-address',
+            name: 'mainContactAddress',
             label: localise({ en: 'Current address', cy: '' }),
-            schema: Joi.ukAddress().when(Joi.ref('organisation-type'), {
+            schema: Joi.ukAddress().when(Joi.ref('organisationType'), {
                 is: Joi.valid(
                     ORGANISATION_TYPES.SCHOOL,
                     ORGANISATION_TYPES.STATUTORY_BODY
@@ -1702,14 +1702,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             })
         }),
         mainContactAddressHistory: addressHistoryField({
-            name: 'main-contact-address-history',
+            name: 'mainContactAddressHistory',
             label: localise({
                 en: 'Have they lived at this address for the last three years?',
                 cy: ''
             })
         }),
         mainContactEmail: emailField({
-            name: 'main-contact-email',
+            name: 'mainContactEmail',
             label: localise({ en: 'Email', cy: '' }),
             explanation: localise({
                 en: 'We’ll use this whenever we get in touch about the project',
@@ -1717,33 +1717,33 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             })
         }),
         mainContactPhone: phoneField({
-            name: 'main-contact-phone',
+            name: 'mainContactPhone',
             label: localise({ en: 'Telephone number', cy: '' })
         }),
         mainContactCommunicationNeeds: communicationNeedsField({
-            name: 'main-contact-communication-needs',
+            name: 'mainContactCommunicationNeeds',
             label: localise({
                 en: `Please tell us about any particular communication needs this contact has.`,
                 cy: ``
             })
         }),
         seniorContactFirstName: firstNameField({
-            name: 'senior-contact-first-name',
+            name: 'seniorContactFirstName',
             label: localise({ en: 'First name', cy: '' })
         }),
         seniorContactLastName: lastNameField({
-            name: 'senior-contact-last-name',
+            name: 'seniorContactLastName',
             label: localise({ en: 'Last name', cy: '' })
         }),
         seniorContactRole: seniorContactRoleField(),
         seniorContactDob: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
-            name: 'senior-contact-dob',
+            name: 'seniorContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })
         }),
         seniorContactAddress: addressField({
-            name: 'senior-contact-address',
+            name: 'seniorContactAddress',
             label: localise({ en: 'Current address', cy: '' }),
-            schema: Joi.ukAddress().when(Joi.ref('organisation-type'), {
+            schema: Joi.ukAddress().when(Joi.ref('organisationType'), {
                 is: Joi.valid(
                     ORGANISATION_TYPES.SCHOOL,
                     ORGANISATION_TYPES.STATUTORY_BODY
@@ -1752,14 +1752,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             })
         }),
         seniorContactAddressHistory: addressHistoryField({
-            name: 'senior-contact-address-history',
+            name: 'seniorContactAddressHistory',
             label: localise({
                 en: `Have you lived at your last address for at least three years?`,
                 cy: ``
             })
         }),
         seniorContactEmail: emailField({
-            name: 'senior-contact-email',
+            name: 'seniorContactEmail',
             label: localise({ en: 'Email', cy: '' }),
             explanation: localise({
                 en: 'We’ll use this whenever we get in touch about the project',
@@ -1767,18 +1767,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             })
         }),
         seniorContactPhone: phoneField({
-            name: 'senior-contact-phone',
+            name: 'seniorContactPhone',
             label: localise({ en: 'Telephone number', cy: '' })
         }),
         seniorContactCommunicationNeeds: communicationNeedsField({
-            name: 'senior-contact-communication-needs',
+            name: 'seniorContactCommunicationNeeds',
             label: localise({
                 en: `Please tell us about any particular communication needs this contact has.`,
                 cy: ``
             })
         }),
         bankAccountName: {
-            name: 'bank-account-name',
+            name: 'bankAccountName',
             label: localise({ en: 'Name on the bank account', cy: '' }),
             explanation: localise({
                 en: `Name of your organisation as it appears on your bank statement`,
@@ -1798,7 +1798,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         bankSortCode: {
-            name: 'bank-sort-code',
+            name: 'bankSortCode',
             label: localise({ en: 'Sort code', cy: '' }),
             type: 'text',
             attributes: { size: 20 },
@@ -1812,7 +1812,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         bankAccountNumber: {
-            name: 'bank-account-number',
+            name: 'bankAccountNumber',
             label: localise({ en: 'Account number', cy: '' }),
             type: 'text',
             isRequired: true,
@@ -1824,8 +1824,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        bankBuildingSocietyNumber: {
-            name: 'bank-building-society-number',
+        buildingSocietyNumber: {
+            name: 'buildingSocietyNumber',
             label: localise({
                 en: 'Building society number (if applicable)',
                 cy: ''
@@ -1842,7 +1842,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: []
         },
         bankStatement: {
-            name: 'bank-statement',
+            name: 'bankStatement',
             label: localise({ en: 'Upload a bank statement', cy: '' }),
             type: 'file',
             isRequired: true,

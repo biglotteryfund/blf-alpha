@@ -64,28 +64,28 @@ describe('formatters', () => {
 
         expect(
             formatter({
-                'current-address-meets-minimum': 'yes'
+                currentAddressMeetsMinimum: 'yes'
             })
         ).toBe('yes');
 
         expect(
             formatter({
-                'current-address-meets-minimum': 'yes',
-                'previous-address': address
+                'currentAddressMeetsMinimum': 'yes',
+                'previousAddress': address
             })
         ).toBe('yes');
 
         expect(
             formatter({
-                'current-address-meets-minimum': 'yes',
-                'previous-address': emptyAddress
+                'currentAddressMeetsMinimum': 'yes',
+                'previousAddress': emptyAddress
             })
         ).toBe('yes');
 
         expect(
             formatter({
-                'current-address-meets-minimum': 'no',
-                'previous-address': address
+                'currentAddressMeetsMinimum': 'no',
+                'previousAddress': address
             })
         ).toBe(
             'Apex House, 3 Embassy Drive,\nBirmingham,\nWest Midlands,\nB15 1TR'

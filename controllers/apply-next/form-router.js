@@ -319,7 +319,7 @@ function initFormRouter({
             title: title,
             breadcrumbs: concat(res.locals.breadcrumbs, { label: title }),
             progress: calculateFormProgress(form, currentApplicationData),
-            currentApplicationTitle: get(currentApplicationData, 'project-name')
+            currentProjectName: get(currentApplicationData, 'projectName')
         });
     });
 
