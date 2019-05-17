@@ -1,15 +1,6 @@
 'use strict';
-const { toInteger } = require('lodash');
 const moment = require('moment');
-
-function dateFromParts(parts) {
-    return moment({
-        year: toInteger(parts.year),
-        // month is 0 indexed when constructing a date object
-        month: toInteger(parts.month) - 1,
-        day: toInteger(parts.day)
-    });
-}
+const { fromDateParts } = require('../../../modules/dates');
 
 module.exports = function dateParts(joi) {
     return {
@@ -33,8 +24,8 @@ module.exports = function dateParts(joi) {
             dob: 'Must be at least {{minAge}} years old'
         },
         pre(value, state, options) {
-            const date = dateFromParts(value);
-            if (date.isValid()) {
+            const dt = fromDateParts(value);
+            if (dt.isValid()) {
                 return value;
             } else {
                 return this.createError(
@@ -52,7 +43,7 @@ module.exports = function dateParts(joi) {
                     min: joi.string().required()
                 },
                 validate(params, value, state, options) {
-                    const date = dateFromParts(value);
+                    const date = fromDateParts(value);
                     if (date.isValid() && date.isSameOrAfter(params.min)) {
                         return value;
                     } else {
@@ -71,7 +62,7 @@ module.exports = function dateParts(joi) {
                     minAge: joi.number().required()
                 },
                 validate(params, value, state, options) {
-                    const date = dateFromParts(value);
+                    const date = fromDateParts(value);
                     const maxDate = moment().subtract(params.minAge, 'years');
                     if (date.isValid() && date.isSameOrBefore(maxDate)) {
                         return value;

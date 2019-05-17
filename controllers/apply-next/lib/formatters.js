@@ -1,6 +1,7 @@
 'use strict';
 const moment = require('moment');
 const { get, castArray, filter, includes, isArray, sumBy } = require('lodash');
+const { fromDateParts } = require('../../../modules/dates');
 
 function formatOptions(options) {
     return function(value) {
@@ -35,12 +36,7 @@ function formatAddressHistory(value) {
 }
 
 function formatDate(value) {
-    const dt = moment({
-        year: value.year,
-        month: value.month - 1,
-        day: value.day
-    });
-
+    const dt = fromDateParts(value);
     return dt.isValid() ? dt.format('D MMMM, YYYY') : '';
 }
 
