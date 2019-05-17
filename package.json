@@ -101,7 +101,7 @@
     "html-pdf": "2.2.0",
     "html-to-text": "4.0.0",
     "i18n-2": "^0.7.2",
-    "joi-phone-number": "2.1.1",
+    "joi-phone-number": "3.0.0",
     "jquery": "^3.2.1",
     "js-yaml": "3.13.0",
     "jsdom": "^11.5.1",
