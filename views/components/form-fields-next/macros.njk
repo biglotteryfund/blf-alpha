@@ -19,16 +19,26 @@
     {% endif %}
 {% endmacro %}
 
+{% macro labelFor(field) -%}
+    {{ field.label }}
+    {% if field.isRequired === false %}
+        <span class="ff-label-note">{{ __('global.misc.optional') }}</span>
+    {% endif %}
+{%- endmacro %}
+
 {% macro explanationFor(field) %}
     {% if field.explanation %}
         <div class="ff-help s-prose">{{ field.explanation | safe }}</div>
     {% endif %}
 {% endmacro %}
 
-{% macro labelFor(field) -%}
-    {{ field.label }}
-    {% if field.isRequired === false %}
-        <span class="ff-label-note">{{ __('global.misc.optional') }}</span>
+{% macro errorsFor(fieldErrors) -%}
+    {% if fieldErrors.length > 0 %}
+        <ol class="ff-errors">
+            {% for error in fieldErrors %}
+                <li>{{ error.msg }}</li>
+            {% endfor %}
+        </ol>
     {% endif %}
 {%- endmacro %}
 
@@ -37,6 +47,7 @@
         {{ labelFor(field) }}
     </label>
     {{ explanationFor(field) }}
+    {{ errorsFor(fieldErrors) }}
     <input
         class="ff-text"
         type="{{ field.type }}"
@@ -50,12 +61,13 @@
     />
 {% endmacro %}
 
-{% macro inputDate(field, includeYear = true) %}
+{% macro inputDate(field, fieldErrors, includeYear = true) %}
     <fieldset class="ff-date" id="field-{{ field.name }}">
         <legend class="ff-label ff-date__legend">
             {{ field.label }}
         </legend>
         {{ explanationFor(field) }}
+        {{ errorsFor(fieldErrors) }}
 
         <label class="ff-date__field">
             <span class="ff-label">{{ __('global.misc.day') }}</span>
@@ -99,11 +111,12 @@
     </fieldset>
 {% endmacro %}
 
-{% macro inputCurrency(field) %}
+{% macro inputCurrency(field, fieldErrors) %}
     <label class="ff-label" for="field-{{ field.name }}">
         {{ labelFor(field) }}
     </label>
     {{ explanationFor(field) }}
+    {{ errorsFor(fieldErrors) }}
     <div class="ff-currency ff-currency--constrained">
         <div class="ff-currency__pre">£</div>
         <input class="ff-currency__input"
@@ -117,13 +130,14 @@
     </div>
 {% endmacro %}
 
-{% macro inputTextarea(field) %}
+{% macro inputTextarea(field, fieldErrors) %}
     {% set settings = field.settings %}
     {% if settings.showWordCount %}<div class="js-word-count">{% endif %}
     <label class="ff-label" for="field-{{ field.name }}">
         {{ labelFor(field) }}
     </label>
     {{ explanationFor(field) }}
+    {{ errorsFor(fieldErrors) }}
     <textarea class="ff-textarea"
         id="field-{{ field.name }}"
         name="{{ field.name }}"
@@ -144,11 +158,12 @@
     {% if settings.showWordCount %}</div>{% endif %}
 {% endmacro %}
 
-{% macro inputSelect(field) %}
+{% macro inputSelect(field, fieldErrors) %}
     <label class="ff-label" for="field-{{ field.name }}">
         {{ labelFor(field) }}
     </label>
     {{ explanationFor(field) }}
+    {{ errorsFor(fieldErrors) }}
 
     <select class="ff-select" id="field-{{ field.name }}" name="{{ field.name }}">
         {% if field.defaultOption %}
@@ -175,10 +190,11 @@
     </select>
 {% endmacro %}
 
-{% macro inputCheckbox(field) %}
+{% macro inputCheckbox(field, fieldErrors) %}
     <fieldset class="ff-choice">
         <legend class="ff-label">{{ labelFor(field) }}</legend>
         {{ explanationFor(field) }}
+        {{ errorsFor(fieldErrors) }}
 
         {% if field.optgroups  %}
             {% for optgroup in field.optgroups %}
@@ -235,12 +251,13 @@
     </fieldset>
 {% endmacro %}
 
-{% macro inputRadio(field) %}
+{% macro inputRadio(field, fieldErrors) %}
     <fieldset class="ff-choice">
         <legend class="ff-label" for="field-{{ field.name }}">
             {{ labelFor(field) }}
         </legend>
         {{ explanationFor(field) }}
+        {{ errorsFor(fieldErrors) }}
         <ul class="ff-choice__list">
             {% for option in field.options %}
                 <li class="ff-choice__option">
@@ -266,13 +283,14 @@
     </fieldset>
 {% endmacro %}
 
-{% macro inputAddress(field) %}
+{% macro inputAddress(field, fieldErrors) %}
     <fieldset class="ff-address" id="field-{{ field.name }}">
         <legend class="ff-label ff-address__legend">
             {{ labelFor(field) }}
         </legend>
 
         {{ explanationFor(field) }}
+        {{ errorsFor(fieldErrors) }}
 
         <div class="ff-address__field">
             {{ inputText({
@@ -328,13 +346,15 @@
     </fieldset>
 {% endmacro %}
 
-{% macro inputAddressHistory(field) %}
+{% macro inputAddressHistory(field, fieldErrors) %}
     <div class="js-conditional-radios">
         <fieldset class="ff-choice ff-choice--inline">
             <legend class="ff-label" for="field-{{ field.name }}">
                 {{ labelFor(field) }}
             </legend>
             {{ explanationFor(field) }}
+            {{ errorsFor(fieldErrors) }}
+
             {% set options = [{
                 label: __('global.misc.yes'),
                 value: 'yes'
@@ -343,6 +363,7 @@
                 value: 'no',
                 conditionalId: 'address-history-conditonal-no'
             }] %}
+
             <ul class="ff-choice__list">
                 {% for option in options  %}
                     <li class="ff-choice__option">
@@ -372,12 +393,13 @@
     </div>
 {% endmacro %}
 
-{% macro inputBudget(field) %}
+{% macro inputBudget(field, fieldErrors) %}
     <fieldset>
         <legend class="ff-label">
             {{ labelFor(field) }}
         </legend>
         {{ explanationFor(field) }}
+        {{ errorsFor(fieldErrors) }}
 
         <div id="js-budget-input">
             <budget-input
@@ -439,41 +461,30 @@
 
 {% macro formField(field, errors = []) %}
     {% set fieldErrors = errors | filter('param', field.name) %}
-    <div
-        id="form-field-{{ field.name }}"
-        class="form-field form-field--{{ field.name }} form-field--type-{{ field.type }}{% if fieldErrors | length > 0 %} has-errors{% endif %}">
-        <div class="form-field__main">
-            <div class="form-field__body">
-                {% if field.type === 'textarea' %}
-                    {{ inputTextarea(field) }}
-                {% elseif field.type === 'select' %}
-                    {{ inputSelect(field) }}
-                {% elseif field.type === 'checkbox' %}
-                    {{ inputCheckbox(field) }}
-                {% elseif field.type === 'radio' %}
-                    {{ inputRadio(field) }}
-                {% elseif field.type === 'date' %}
-                    {{ inputDate(field) }}
-                {% elseif field.type === 'day-month' %}
-                    {{ inputDate(field, includeYear = false) }}
-                {% elseif field.type === 'currency' %}
-                    {{ inputCurrency(field) }}
-                {% elseif field.type === 'address' %}
-                    {{ inputAddress(field) }}
-                {% elseif field.type === 'address-history' %}
-                    {{ inputAddressHistory(field) }}
-                {% elseif field.type === 'budget' %}
-                    {{ inputBudget(field) }}
-                {% else %}
-                    {{ inputText(field) }}
-                {% endif %}
-            </div>
-            {% if fieldErrors.length > 0 %}
-                <ol class="form-field__errors">
-                    {% for error in fieldErrors %}
-                        <li>{{ error.msg }}</li>
-                    {% endfor %}
-                </ol>
+    <div id="form-field-{{ field.name }}" class="form-field{% if fieldErrors | length > 0 %} has-errors{% endif %}">
+        <div class="form-field__body">
+            {% if field.type === 'textarea' %}
+                {{ inputTextarea(field, fieldErrors) }}
+            {% elseif field.type === 'select' %}
+                {{ inputSelect(field, fieldErrors) }}
+            {% elseif field.type === 'checkbox' %}
+                {{ inputCheckbox(field, fieldErrors) }}
+            {% elseif field.type === 'radio' %}
+                {{ inputRadio(field, fieldErrors) }}
+            {% elseif field.type === 'date' %}
+                {{ inputDate(field, fieldErrors) }}
+            {% elseif field.type === 'day-month' %}
+                {{ inputDate(field, fieldErrors, includeYear = false) }}
+            {% elseif field.type === 'currency' %}
+                {{ inputCurrency(field, fieldErrors) }}
+            {% elseif field.type === 'address' %}
+                {{ inputAddress(field, fieldErrors) }}
+            {% elseif field.type === 'address-history' %}
+                {{ inputAddressHistory(field, fieldErrors) }}
+            {% elseif field.type === 'budget' %}
+                {{ inputBudget(field, fieldErrors) }}
+            {% else %}
+                {{ inputText(field, fieldErrors) }}
             {% endif %}
         </div>
     </div>
