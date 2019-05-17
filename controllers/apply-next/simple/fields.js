@@ -96,7 +96,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 },
                 {
                     type: 'any.empty',
-                    key: 'building-street',
+                    key: 'line1',
                     message: localise({
                         en: 'Enter a building and street',
                         cy: ''
@@ -104,7 +104,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 },
                 {
                     type: 'any.empty',
-                    key: 'town-city',
+                    key: 'townCity',
                     message: localise({ en: 'Enter a town or city', cy: '' })
                 },
                 {
@@ -166,7 +166,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 },
                 {
                     type: 'any.empty',
-                    key: 'building-street',
+                    key: 'line1',
                     message: localise({
                         en: 'Enter a building and street',
                         cy: ''
@@ -174,7 +174,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 },
                 {
                     type: 'any.empty',
-                    key: 'town-city',
+                    key: 'townCity',
                     message: localise({ en: 'Enter a town or city', cy: '' })
                 },
                 {

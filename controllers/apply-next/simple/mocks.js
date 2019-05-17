@@ -20,10 +20,10 @@ function mockDateOfBirth(minAge, maxAge = 75) {
 
 function mockAddress() {
     return {
-        'building-street': faker.address.streetAddress(),
-        'town-city': faker.address.city(),
-        'county': faker.address.county(),
-        'postcode': 'B15 1TR'
+        line1: faker.address.streetAddress(),
+        townCity: faker.address.city(),
+        county: faker.address.county(),
+        postcode: 'B15 1TR'
     };
 }
 

@@ -2,6 +2,7 @@
 const moment = require('moment');
 const {
     castArray,
+    compact,
     filter,
     flatMap,
     get,
@@ -45,12 +46,12 @@ function formatCheckbox(field) {
 }
 
 function formatAddress(value) {
-    return [
-        value['building-street'],
-        value['town-city'],
-        value['county'],
-        value['postcode']
-    ].join(',\n');
+    return compact([
+        value.line1,
+        value.townCity,
+        value.county,
+        value.postcode
+    ]).join(',\n');
 }
 
 function formatAddressHistory(value) {

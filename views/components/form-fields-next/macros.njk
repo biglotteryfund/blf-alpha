@@ -33,7 +33,7 @@
 {%- endmacro %}
 
 {% macro inputText(field) %}
-    <label class="ff-label" for="field-{{ field.name }}">
+    <label class="ff-label{% if field.settings.hideLabel %} u-visually-hidden{% endif %}" for="field-{{ field.name }}">
         {{ labelFor(field) }}
     </label>
     {{ explanationFor(field) }}
@@ -277,8 +277,8 @@
         <div class="ff-address__field">
             {{ inputText({
                 label: 'Building and street',
-                name: field.name + '[building-street]',
-                value: field.value['building-street'],
+                name: field.name + '[line1]',
+                value: field.value['line1'],
                 type: 'text',
                 isRequired: field.isRequired,
                 attributes: { size: 40 }
@@ -286,9 +286,20 @@
         </div>
         <div class="ff-address__field">
             {{ inputText({
+                label: 'Address line 2',
+                name: field.name + '[line2]',
+                value: field.value['line2'],
+                type: 'text',
+                isRequired: false,
+                settings: { hideLabel: true },
+                attributes: { size: 40 }
+            }) }}
+        </div>
+        <div class="ff-address__field">
+            {{ inputText({
                 label: 'Town or city',
-                name: field.name + '[town-city]',
-                value: field.value['town-city'],
+                name: field.name + '[townCity]',
+                value: field.value['townCity'],
                 type: 'text',
                 isRequired: field.isRequired,
                 attributes: { size: 30 }
@@ -340,9 +351,9 @@
                             <input
                                 type="radio"
                                 id="{{ optionId }}"
-                                name="{{ field.name }}[current-address-meets-minimum]"
+                                name="{{ field.name }}[currentAddressMeetsMinimum]"
                                 value="{{ option.value }}"
-                                {% if field.value['current-address-meets-minimum'] === option.value %}checked{% endif %}
+                                {% if field.value['currentAddressMeetsMinimum'] === option.value %}checked{% endif %}
                                 {% if option.conditionalId %}data-aria-controls="{{ option.conditionalId }}"{% endif %}
                             />
                         </div>
@@ -354,7 +365,7 @@
 
         <div class="u-margin-top" id="address-history-conditonal-no">
             {{ inputAddress({
-                name: field.name + '[previous-address]',
+                name: field.name + '[previousAddress]',
                 label: 'Previous address'
             }) }}
         </div>
