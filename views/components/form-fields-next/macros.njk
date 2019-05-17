@@ -461,31 +461,29 @@
 
 {% macro formField(field, errors = []) %}
     {% set fieldErrors = errors | filter('param', field.name) %}
-    <div id="form-field-{{ field.name }}" class="form-field{% if fieldErrors | length > 0 %} has-errors{% endif %}">
-        <div class="form-field__body">
-            {% if field.type === 'textarea' %}
-                {{ inputTextarea(field, fieldErrors) }}
-            {% elseif field.type === 'select' %}
-                {{ inputSelect(field, fieldErrors) }}
-            {% elseif field.type === 'checkbox' %}
-                {{ inputCheckbox(field, fieldErrors) }}
-            {% elseif field.type === 'radio' %}
-                {{ inputRadio(field, fieldErrors) }}
-            {% elseif field.type === 'date' %}
-                {{ inputDate(field, fieldErrors) }}
-            {% elseif field.type === 'day-month' %}
-                {{ inputDate(field, fieldErrors, includeYear = false) }}
-            {% elseif field.type === 'currency' %}
-                {{ inputCurrency(field, fieldErrors) }}
-            {% elseif field.type === 'address' %}
-                {{ inputAddress(field, fieldErrors) }}
-            {% elseif field.type === 'address-history' %}
-                {{ inputAddressHistory(field, fieldErrors) }}
-            {% elseif field.type === 'budget' %}
-                {{ inputBudget(field, fieldErrors) }}
-            {% else %}
-                {{ inputText(field, fieldErrors) }}
-            {% endif %}
-        </div>
+    <div class="form-field{% if fieldErrors | length > 0 %} has-errors{% endif %}" id="form-field-{{ field.name }}">
+        {% if field.type === 'textarea' %}
+            {{ inputTextarea(field, fieldErrors) }}
+        {% elseif field.type === 'select' %}
+            {{ inputSelect(field, fieldErrors) }}
+        {% elseif field.type === 'checkbox' %}
+            {{ inputCheckbox(field, fieldErrors) }}
+        {% elseif field.type === 'radio' %}
+            {{ inputRadio(field, fieldErrors) }}
+        {% elseif field.type === 'date' %}
+            {{ inputDate(field, fieldErrors) }}
+        {% elseif field.type === 'day-month' %}
+            {{ inputDate(field, fieldErrors, includeYear = false) }}
+        {% elseif field.type === 'currency' %}
+            {{ inputCurrency(field, fieldErrors) }}
+        {% elseif field.type === 'address' %}
+            {{ inputAddress(field, fieldErrors) }}
+        {% elseif field.type === 'address-history' %}
+            {{ inputAddressHistory(field, fieldErrors) }}
+        {% elseif field.type === 'budget' %}
+            {{ inputBudget(field, fieldErrors) }}
+        {% else %}
+            {{ inputText(field, fieldErrors) }}
+        {% endif %}
     </div>
 {% endmacro %}
