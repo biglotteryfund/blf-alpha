@@ -1,6 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const normaliseErrors = require('./normalise-errors');
 
 const mockSchema = Joi.object({

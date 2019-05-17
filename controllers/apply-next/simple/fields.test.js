@@ -2,7 +2,7 @@
 'use strict';
 const { range, times } = require('lodash');
 const faker = require('faker');
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 
 const { ORGANISATION_TYPES } = require('./constants');
 const {

@@ -1,5 +1,5 @@
 'use strict';
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const { get } = require('lodash/fp');
 
 const username = Joi.string()

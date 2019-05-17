@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const request = require('request-promise-native');
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const Raven = require('raven');
 
 const feedbackService = require('../../services/feedback');

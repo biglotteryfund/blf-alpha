@@ -1,7 +1,7 @@
 'use strict';
 const { get, isEmpty, isArray, reject, toInteger, sumBy } = require('lodash');
 const moment = require('moment');
-const baseJoi = require('joi');
+const baseJoi = require('@hapi/joi');
 const phoneNumber = require('joi-phone-number');
 
 /**
