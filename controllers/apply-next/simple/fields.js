@@ -3,16 +3,7 @@ const moment = require('moment');
 const { get } = require('lodash/fp');
 const { flatMap, includes, reduce, values } = require('lodash');
 
-const {
-    Joi,
-    budgetItems,
-    futureDate,
-    multiChoice,
-    singleChoice,
-    ukAddress,
-    ukPhoneNumber,
-    yesOrNo
-} = require('../lib/validators');
+const { Joi, ukAddress } = require('../lib/validators');
 
 const locationsFor = require('../lib/locations');
 
@@ -30,6 +21,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function matchesOrganisationType(type) {
         return currentOrganisationType === type;
+    }
+
+    function multiChoice(options) {
+        return Joi.array()
+            .items(Joi.string().valid(options.map(option => option.value)))
+            .single();
     }
 
     function emailField(props) {
@@ -64,7 +61,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'tel',
             attributes: { size: 30, autocomplete: 'tel' },
             isRequired: true,
-            schema: ukPhoneNumber().required(),
+            schema: Joi.string()
+                .phoneNumber({ defaultCountry: 'GB', format: 'national' })
+                .required(),
             messages: [
                 {
                     type: 'base',
@@ -135,7 +134,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'address-history',
             isRequired: true,
             schema: Joi.object({
-                'current-address-meets-minimum': yesOrNo(),
+                'current-address-meets-minimum': Joi.string()
+                    .valid(['yes', 'no'])
+                    .required(),
                 'previous-address': Joi.when(
                     Joi.ref('current-address-meets-minimum'),
                     {
@@ -406,7 +407,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'radio',
             options: options,
             isRequired: true,
-            schema: singleChoice(options).required(),
+            schema: Joi.string()
+                .valid(options.map(option => option.value))
+                .required(),
             messages: [
                 {
                     type: 'base',
@@ -672,10 +675,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             },
             type: 'date',
             isRequired: true,
-            schema: futureDate({
-                amount: '12',
-                unit: 'weeks'
-            }),
+            get schema() {
+                const minDate = moment().add('12', 'weeks');
+                return Joi.dateParts().futureDate(minDate.format('YYYY-MM-DD'));
+            },
             get messages() {
                 return [
                     {
@@ -979,7 +982,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 rowLimit: 10
             },
             isRequired: true,
-            schema: budgetItems(MAX_BUDGET_TOTAL_GBP),
+            schema: Joi.budgetItems()
+                .maxBudget(MAX_BUDGET_TOTAL_GBP)
+                .required(),
             messages: [
                 {
                     type: 'base',
@@ -1073,7 +1078,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             isRequired: true,
-            schema: yesOrNo(),
+            schema: Joi.string()
+                .valid(['yes', 'no'])
+                .required(),
             messages: [
                 {
                     type: 'base',
