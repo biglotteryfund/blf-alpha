@@ -133,7 +133,7 @@ module.exports = function({ locale, data = {} }) {
                 case BENEFICIARY_GROUPS.AGE:
                     result = [fields.beneficiariesGroupsAge];
                     break;
-                case BENEFICIARY_GROUPS.DISABILITY:
+                case BENEFICIARY_GROUPS.DISABLED_PEOPLE:
                     result = [fields.beneficiariesGroupsDisabledPeople];
                     break;
                 case BENEFICIARY_GROUPS.RELIGION:
@@ -284,7 +284,7 @@ module.exports = function({ locale, data = {} }) {
                         }),
                         fields: [
                             fields.organisationLegalName,
-                            fields.organisationAlias,
+                            fields.organisationTradingName,
                             fields.organisationAddress
                         ]
                     }
