@@ -3,10 +3,8 @@ const moment = require('moment');
 const { get } = require('lodash/fp');
 const { flatMap, includes, reduce, values } = require('lodash');
 
-const { Joi, ukAddress } = require('../lib/validators');
-
+const Joi = require('../joi-extensions');
 const locationsFor = require('../lib/locations');
-
 const {
     BENEFICIARY_GROUPS,
     MAX_BUDGET_TOTAL_GBP,
@@ -17,6 +15,7 @@ const {
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
+
     const currentOrganisationType = get('organisation-type')(data);
 
     function matchesOrganisationType(type) {
@@ -89,7 +88,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         const defaultProps = {
             type: 'address',
             isRequired: true,
-            schema: ukAddress().required(),
+            schema: Joi.ukAddress().required(),
             messages: [
                 {
                     type: 'base',
@@ -141,7 +140,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     Joi.ref('current-address-meets-minimum'),
                     {
                         is: 'no',
-                        then: ukAddress().required(),
+                        then: Joi.ukAddress().required(),
                         otherwise: Joi.any()
                     }
                 )
@@ -1692,7 +1691,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         mainContactAddress: addressField({
             name: 'main-contact-address',
             label: localise({ en: 'Current address', cy: '' }),
-            schema: ukAddress().when(Joi.ref('organisation-type'), {
+            schema: Joi.ukAddress().when(Joi.ref('organisation-type'), {
                 is: Joi.valid(
                     ORGANISATION_TYPES.SCHOOL,
                     ORGANISATION_TYPES.STATUTORY_BODY
@@ -1742,7 +1741,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         seniorContactAddress: addressField({
             name: 'senior-contact-address',
             label: localise({ en: 'Current address', cy: '' }),
-            schema: ukAddress().when(Joi.ref('organisation-type'), {
+            schema: Joi.ukAddress().when(Joi.ref('organisation-type'), {
                 is: Joi.valid(
                     ORGANISATION_TYPES.SCHOOL,
                     ORGANISATION_TYPES.STATUTORY_BODY
