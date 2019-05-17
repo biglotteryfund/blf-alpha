@@ -26,7 +26,7 @@ describe('formatters', () => {
             }
         });
 
-        expect(formatter(['b', 'c'])).toBe('B, C');
+        expect(formatter(['b', 'c'])).toBe('B,\nC');
     });
 
     test('address', () => {
