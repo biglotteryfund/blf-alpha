@@ -34,7 +34,7 @@ module.exports = function({ locale, data = {} }) {
     }
 
     function enConfirmationBody() {
-        const country = get('project-country')(data);
+        const country = get('projectCountry')(data);
         const { email, phone } = contactDetailsFor(country);
 
         return `<p>Thank you for submitting your application to National Lottery Awards for All.</p>

@@ -15,10 +15,8 @@ module.exports = async function processor(
     mailTransport = null
 ) {
     const customerSendTo = {
-        name: `${data['main-contact-first-name']} ${
-            data['main-contact-last-name']
-        }`,
-        address: data['main-contact-email']
+        name: `${data['mainContactFirstName']} ${data['mainContactLastName']}`,
+        address: data['mainContactEmail']
     };
 
     const customerHtml = await generateHtmlEmail({

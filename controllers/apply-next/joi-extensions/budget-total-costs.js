@@ -11,7 +11,7 @@ module.exports = function budgetTotalCosts(joi) {
         },
         /* eslint-disable-next-line no-unused-vars */
         pre(value, state, options) {
-            const projectBudget = get(state.parent, 'project-budget');
+            const projectBudget = get(state.parent, 'projectBudget');
             if (projectBudget) {
                 const total = sumBy(projectBudget, item => item.cost);
                 if (value < total) {

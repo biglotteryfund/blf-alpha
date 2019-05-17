@@ -9,7 +9,7 @@ const fieldsFor = require('./fields');
 
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
-    const currentOrganisationType = get('organisation-type')(data);
+    const currentOrganisationType = get('organisationType')(data);
 
     const { fields, schema } = fieldsFor({ locale, data });
 
@@ -118,8 +118,8 @@ module.exports = function({ locale, data = {} }) {
     };
 
     function sectionBeneficiaries() {
-        const groupsCheck = get('beneficiaries-groups-check')(data);
-        const groupChoices = get('beneficiaries-groups')(data);
+        const groupsCheck = get('beneficiariesGroupsCheck')(data);
+        const groupChoices = get('beneficiariesGroups')(data);
 
         function fieldsForGroup(type) {
             let result;
@@ -443,7 +443,7 @@ module.exports = function({ locale, data = {} }) {
                             fields.bankAccountName,
                             fields.bankSortCode,
                             fields.bankAccountNumber,
-                            fields.bankBuildingSocietyNumber
+                            fields.buildingSocietyNumber
                         ]
                     }
                 ]
@@ -553,9 +553,9 @@ module.exports = function({ locale, data = {} }) {
     ];
 
     function summary() {
-        const startDate = get('project-start-date')(data);
-        const organisation = get('organisation-legal-name')(data);
-        const budget = getOr([], 'project-budget')(data);
+        const startDate = get('projectStartDate')(data);
+        const organisation = get('organisationLegalName')(data);
+        const budget = getOr([], 'projectBudget')(data);
         const budgetSum = sumBy(budget, item => parseInt(item.cost || 0));
 
         return [
