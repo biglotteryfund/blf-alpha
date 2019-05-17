@@ -3,13 +3,17 @@
 module.exports = function ukAddress(joi) {
     return {
         base: joi.object({
-            'building-street': joi.string().required(),
-            'town-city': joi.string().required(),
-            'county': joi
+            line1: joi.string().required(),
+            line2: joi
                 .string()
                 .allow('')
                 .optional(),
-            'postcode': joi
+            townCity: joi.string().required(),
+            county: joi
+                .string()
+                .allow('')
+                .optional(),
+            postcode: joi
                 .string()
                 .postcode()
                 .required()

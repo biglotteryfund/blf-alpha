@@ -256,11 +256,11 @@ describe('fields', () => {
             assertErrorContains(
                 fields.organisationAddress,
                 {
-                    'building-street': '3 Embassy Drive',
-                    'county': 'West Midlands',
-                    'postcode': 'B15 1TR'
+                    line1: '3 Embassy Drive',
+                    county: 'West Midlands',
+                    postcode: 'B15 1TR'
                 },
-                'child "town-city" fails because ["town-city" is required]'
+                'child "townCity" fails because ["townCity" is required]'
             );
 
             assertErrorContains(
@@ -416,11 +416,11 @@ describe('fields', () => {
             assertErrorContains(
                 field,
                 {
-                    'building-street': '3 Embassy Drive',
-                    'county': 'West Midlands',
-                    'postcode': 'B15 1TR'
+                    line1: '3 Embassy Drive',
+                    county: 'West Midlands',
+                    postcode: 'B15 1TR'
                 },
-                'child "town-city" fails because ["town-city" is required]'
+                'child "townCity" fails because ["townCity" is required]'
             );
 
             assertErrorContains(
@@ -469,22 +469,22 @@ describe('fields', () => {
             );
 
             const partialAddress = {
-                'building-street': faker.address.streetAddress(),
-                'town-city': faker.address.city()
+                line1: faker.address.streetAddress(),
+                townCity: faker.address.city()
             };
 
             assertErrorContains(
                 field,
                 {
-                    'currentAddressMeetsMinimum': 'no',
-                    'previousAddress': partialAddress
+                    currentAddressMeetsMinimum: 'no',
+                    previousAddress: partialAddress
                 },
                 '"postcode" is required'
             );
 
             assertValid(field, {
-                'currentAddressMeetsMinimum': 'no',
-                'previousAddress': mockAddress()
+                currentAddressMeetsMinimum: 'no',
+                previousAddress: mockAddress()
             });
         });
 

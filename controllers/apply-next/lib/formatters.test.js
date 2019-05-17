@@ -33,10 +33,10 @@ describe('formatters', () => {
         const formatter = formatterFor({ type: 'address' });
 
         const result = formatter({
-            'building-street': 'Apex House, 3 Embassy Drive',
-            'town-city': 'Birmingham',
-            'county': 'West Midlands',
-            'postcode': 'B15 1TR'
+            line1: 'Apex House, 3 Embassy Drive',
+            townCity: 'Birmingham',
+            county: 'West Midlands',
+            postcode: 'B15 1TR'
         });
 
         const expected =
@@ -49,17 +49,17 @@ describe('formatters', () => {
         const formatter = formatterFor({ type: 'address-history' });
 
         const emptyAddress = {
-            'county': '',
-            'postcode': '',
-            'town-city': '',
-            'building-street': ''
+            line1: '',
+            townCity: '',
+            county: '',
+            postcode: ''
         };
 
         const address = {
-            'building-street': 'Apex House, 3 Embassy Drive',
-            'town-city': 'Birmingham',
-            'county': 'West Midlands',
-            'postcode': 'B15 1TR'
+            line1: 'Apex House, 3 Embassy Drive',
+            townCity: 'Birmingham',
+            county: 'West Midlands',
+            postcode: 'B15 1TR'
         };
 
         expect(
@@ -70,22 +70,22 @@ describe('formatters', () => {
 
         expect(
             formatter({
-                'currentAddressMeetsMinimum': 'yes',
-                'previousAddress': address
+                currentAddressMeetsMinimum: 'yes',
+                previousAddress: address
             })
         ).toBe('yes');
 
         expect(
             formatter({
-                'currentAddressMeetsMinimum': 'yes',
-                'previousAddress': emptyAddress
+                currentAddressMeetsMinimum: 'yes',
+                previousAddress: emptyAddress
             })
         ).toBe('yes');
 
         expect(
             formatter({
-                'currentAddressMeetsMinimum': 'no',
-                'previousAddress': address
+                currentAddressMeetsMinimum: 'no',
+                previousAddress: address
             })
         ).toBe(
             'Apex House, 3 Embassy Drive,\nBirmingham,\nWest Midlands,\nB15 1TR'

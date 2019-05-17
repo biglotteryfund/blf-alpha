@@ -1,6 +1,14 @@
 'use strict';
 const moment = require('moment');
-const { get, castArray, filter, includes, isArray, sumBy } = require('lodash');
+const {
+    castArray,
+    compact,
+    filter,
+    get,
+    includes,
+    isArray,
+    sumBy
+} = require('lodash');
 const { fromDateParts } = require('../../../modules/dates');
 
 function formatOptions(options) {
@@ -16,12 +24,12 @@ function formatOptions(options) {
 }
 
 function formatAddress(value) {
-    return [
-        value['building-street'],
-        value['town-city'],
-        value['county'],
-        value['postcode']
-    ].join(',\n');
+    return compact([
+        value.line1,
+        value.townCity,
+        value.county,
+        value.postcode
+    ]).join(',\n');
 }
 
 function formatAddressHistory(value) {
