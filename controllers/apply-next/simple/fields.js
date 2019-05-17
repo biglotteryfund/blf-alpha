@@ -6,7 +6,6 @@ const moment = require('moment');
 const {
     Joi,
     budgetItems,
-    dateOfBirth,
     futureDate,
     multiChoice,
     singleChoice,
@@ -252,7 +251,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     .format('YYYY-MM-DD')
             },
             isRequired: true,
-            schema: dateOfBirth(minAge)
+            schema: Joi.dateParts()
+                .dob(minAge)
                 .required()
                 .when(Joi.ref('organisation-type'), {
                     is: Joi.valid(

@@ -23,10 +23,6 @@ function futureDate({ amount = null, unit = null } = {}) {
     return Joi.dateParts().futureDate(minDate.format('YYYY-MM-DD'));
 }
 
-function dateOfBirth(minAge) {
-    return Joi.dateParts().dob(minAge);
-}
-
 function budgetItems(maxBudget) {
     return Joi.budgetItems()
         .maxBudget(maxBudget)
@@ -56,7 +52,6 @@ function ukPhoneNumber() {
 module.exports = {
     Joi,
     budgetItems,
-    dateOfBirth,
     futureDate,
     multiChoice,
     singleChoice,
