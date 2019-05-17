@@ -1,8 +1,7 @@
 'use strict';
 const { get, getOr } = require('lodash/fp');
-const { compact, includes, reduce, sumBy } = require('lodash');
+const { compact, includes, sumBy } = require('lodash');
 
-const { Joi } = require('../lib/validators');
 const enrichForm = require('../lib/enrich-form');
 const { formatDate } = require('../lib/formatters');
 const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
@@ -12,7 +11,7 @@ module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
     const currentOrganisationType = get('organisation-type')(data);
 
-    const fields = fieldsFor({ locale, data });
+    const { fields, schema } = fieldsFor({ locale, data });
 
     function includeAddressAndDob() {
         return (
@@ -553,21 +552,6 @@ module.exports = function({ locale, data = {} }) {
         }
     ];
 
-    function schema() {
-        const computed = Joi.object(
-            reduce(
-                fields,
-                function(acc, field) {
-                    acc[field.name] = field.schema;
-                    return acc;
-                },
-                {}
-            )
-        );
-
-        return computed;
-    }
-
     function summary() {
         const startDate = get('project-start-date')(data);
         const organisation = get('organisation-legal-name')(data);
@@ -594,7 +578,8 @@ module.exports = function({ locale, data = {} }) {
         id: 'awards-for-all',
         title: localise({ en: 'National Lottery Awards for All', cy: '' }),
         isBilingual: true,
-        schema: schema(),
+        fields: fields,
+        schema: schema,
         summary: summary(),
         sections: [
             sectionProject,

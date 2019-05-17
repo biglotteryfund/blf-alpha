@@ -1,7 +1,7 @@
 'use strict';
-const { get } = require('lodash/fp');
-const { flatMap, includes, values } = require('lodash');
 const moment = require('moment');
+const { get } = require('lodash/fp');
+const { flatMap, includes, reduce, values } = require('lodash');
 
 const {
     Joi,
@@ -585,7 +585,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
-    return {
+    const fields = {
         projectName: {
             name: 'project-name',
             label: localise({
@@ -1849,5 +1849,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         }
+    };
+
+    const schema = Joi.object(
+        reduce(
+            fields,
+            function(acc, field) {
+                acc[field.name] = field.schema;
+                return acc;
+            },
+            {}
+        )
+    );
+
+    return {
+        fields,
+        schema
     };
 };
