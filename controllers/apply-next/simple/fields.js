@@ -582,8 +582,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     Joi.any()
                 ),
                 then: schema,
-                otherwise: Joi.any().optional()
-            })
+                otherwise: Joi.any().strip()
+            }),
+            otherwise: Joi.any().strip()
         });
     }
 
@@ -1145,7 +1146,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             get schema() {
                 return Joi.when('beneficiaries-groups-check', {
                     is: 'yes',
-                    then: multiChoice(this.options).required()
+                    then: multiChoice(this.options).required(),
+                    otherwise: Joi.any().strip()
                 });
             },
             messages: [
