@@ -432,11 +432,21 @@ $inputOutline: 3px solid get-color('border', 'outline');
    Form field container
    ========================================================================= */
 
+@keyframes fadeBackground {
+    0% {
+        background-color: rgba(255, 255, 0, 0.5);
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
 .form-field {
     margin-bottom: 2em;
 
     &:target {
-        background-color: rgba(255, 255, 0, 0.5);
+        animation-duration: 5s;
+        animation-name: fadeBackground;
     }
 
     .form-field__errors {
@@ -449,10 +459,8 @@ $inputOutline: 3px solid get-color('border', 'outline');
     }
 
     &.has-errors {
-        .form-field__main {
-            border-left: 3px solid get-color('message', 'warning');
-            padding-left: $spacingUnit / 2;
-        }
+        border-left: 3px solid get-color('message', 'warning');
+        padding-left: $spacingUnit / 2;
     }
 }
 
