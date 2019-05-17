@@ -1,7 +1,9 @@
 /* eslint-env jest */
+// @ts-nocheck
 'use strict';
 const moment = require('moment');
-const { Joi } = require('./validators');
+const baseJoi = require('@hapi/joi');
+const Joi = baseJoi.extend(require('./date-parts'));
 
 describe('dateParts', () => {
     test('valid date', () => {
