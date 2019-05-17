@@ -229,12 +229,15 @@ describe('fields', () => {
         });
     });
 
-    describe('organisationAlias', () => {
+    describe('organisationTradingName', () => {
         test('optional field', () => {
-            assertValid(fields.organisationAlias, undefined);
-            assertValid(fields.organisationAlias, faker.company.companyName());
+            assertValid(fields.organisationTradingName, undefined);
+            assertValid(
+                fields.organisationTradingName,
+                faker.company.companyName()
+            );
             assertErrorContains(
-                fields.organisationAlias,
+                fields.organisationTradingName,
                 Infinity,
                 'must be a string'
             );

@@ -1118,7 +1118,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
-                    value: BENEFICIARY_GROUPS.DISABILITY,
+                    value: BENEFICIARY_GROUPS.DISABLED_PEOPLE,
                     label: localise({ en: 'Disabled people', cy: '' })
                 },
                 {
@@ -1129,7 +1129,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
-                    value: BENEFICIARY_GROUPS.LGBTQ,
+                    value: BENEFICIARY_GROUPS.LGBT,
                     label: localise({
                         en: 'Lesbian, gay, or bisexual people',
                         cy: ''
@@ -1376,7 +1376,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 { value: '0-12', label: localise({ en: '0–12', cy: '' }) },
                 { value: '13-24', label: localise({ en: '13-24', cy: '' }) },
                 { value: '25-64', label: localise({ en: '25-64', cy: '' }) },
-                { value: '65-plus', label: localise({ en: '65+', cy: '' }) }
+                { value: '65+', label: localise({ en: '65+', cy: '' }) }
             ],
             get schema() {
                 return conditionalBeneficiaryChoice({
@@ -1441,7 +1441,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ],
             get schema() {
                 return conditionalBeneficiaryChoice({
-                    match: BENEFICIARY_GROUPS.DISABILITY,
+                    match: BENEFICIARY_GROUPS.DISABLED_PEOPLE,
                     schema: multiChoice(this.options).required()
                 });
             },
@@ -1532,8 +1532,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        organisationAlias: {
-            name: 'organisation-alias',
+        organisationTradingName: {
+            name: 'organisation-trading-name',
             label: localise({
                 en: `Does your organisation use a different name in your day-to-day work?`,
                 cy: ``
