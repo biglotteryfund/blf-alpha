@@ -86,6 +86,19 @@ $inputOutline: 3px solid get-color('border', 'outline');
     }
 }
 
+/**
+ * Inline field errors
+ */
+.ff-errors {
+    margin-bottom: $spacingUnit / 2;
+
+    li,
+    li a {
+        color: get-color('message', 'warning');
+        font-weight: font-weight('body', 'bold');
+    }
+}
+
 .ff-error {
     font-weight: font-weight('body', 'bold');
     color: get-color('message', 'warning');
