@@ -10,6 +10,8 @@ const {
     sumBy
 } = require('lodash');
 
+const { fromDateParts } = require('../../../modules/dates');
+
 function formatRadio(field) {
     return function(value) {
         const choices = castArray(value);
@@ -63,12 +65,7 @@ function formatAddressHistory(value) {
 }
 
 function formatDate(value) {
-    const dt = moment({
-        year: value.year,
-        month: value.month - 1,
-        day: value.day
-    });
-
+    const dt = fromDateParts(value);
     return dt.isValid() ? dt.format('D MMMM, YYYY') : '';
 }
 

@@ -1,14 +1,10 @@
 'use strict';
+const { values } = require('lodash');
 const moment = require('moment');
 const faker = require('faker');
 
-function toDateParts(dt) {
-    return {
-        day: dt.date(),
-        month: dt.month() + 1,
-        year: dt.year()
-    };
-}
+const { BENEFICIARY_GROUPS } = require('./constants');
+const { toDateParts } = require('../../../modules/dates');
 
 function mockStartDate(weeks) {
     return toDateParts(moment().add(weeks, 'weeks'));
