@@ -33,20 +33,6 @@ function budgetItems(maxBudget) {
         .required();
 }
 
-/**
- * @see https://github.com/chriso/validator.js/blob/master/lib/isPostalCode.js#L54
- */
-function postcode() {
-    return Joi.string()
-        .trim()
-        .regex(
-            new RegExp(
-                '(gir\\s?0aa|[a-zA-Z]{1,2}\\d[\\da-zA-Z]?\\s?(\\d[a-zA-Z]{2})?)',
-                'i'
-            )
-        );
-}
-
 function ukAddress() {
     return Joi.object({
         'building-street': Joi.string().required(),
@@ -54,7 +40,9 @@ function ukAddress() {
         'county': Joi.string()
             .allow('')
             .optional(),
-        'postcode': postcode().required()
+        'postcode': Joi.string()
+            .postcode()
+            .required()
     });
 }
 
@@ -71,7 +59,6 @@ module.exports = {
     dateOfBirth,
     futureDate,
     multiChoice,
-    postcode,
     singleChoice,
     ukAddress,
     ukPhoneNumber,

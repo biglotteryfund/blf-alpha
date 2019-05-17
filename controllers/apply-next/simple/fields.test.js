@@ -90,7 +90,7 @@ describe('fields', () => {
             assertErrorContains(
                 fields.projectPostcode,
                 'not a postcode',
-                'fails to match the required pattern'
+                'did not seem to be a valid postcode'
             );
         });
     });
@@ -263,7 +263,7 @@ describe('fields', () => {
             assertErrorContains(
                 fields.organisationAddress,
                 { ...mockAddress(), ...{ postcode: 'not a postcode' } },
-                'fails to match the required pattern'
+                'did not seem to be a valid postcode'
             );
         });
     });
@@ -423,7 +423,7 @@ describe('fields', () => {
             assertErrorContains(
                 field,
                 { ...mockAddress(), ...{ postcode: 'not a postcode' } },
-                'fails to match the required pattern'
+                'did not seem to be a valid postcode'
             );
         });
 

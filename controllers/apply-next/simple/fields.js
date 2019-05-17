@@ -9,7 +9,6 @@ const {
     dateOfBirth,
     futureDate,
     multiChoice,
-    postcode,
     singleChoice,
     ukAddress,
     ukPhoneNumber,
@@ -122,7 +121,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({ en: 'Enter a postcode', cy: '' })
                 },
                 {
-                    type: 'string.regex.base',
+                    type: 'string.postcode',
                     key: 'postcode',
                     message: localise({ en: 'Enter a real postcode', cy: '' })
                 }
@@ -190,7 +189,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({ en: 'Enter a postcode', cy: '' })
                 },
                 {
-                    type: 'string.regex.base',
+                    type: 'string.postcode',
                     key: 'postcode',
                     message: localise({ en: 'Enter a real postcode', cy: '' })
                 }
@@ -756,7 +755,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 autocomplete: 'postal-code'
             },
             isRequired: true,
-            schema: postcode().required(),
+            schema: Joi.string()
+                .postcode()
+                .required(),
             messages: [
                 {
                     type: 'base',

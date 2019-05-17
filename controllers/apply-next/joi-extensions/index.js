@@ -5,13 +5,15 @@ const budgetItems = require('./budget-items');
 const budgetTotalCosts = require('./budget-total-costs');
 const dateParts = require('./date-parts');
 const dayMonth = require('./day-month');
+const postcode = require('./postcode');
 const wordCount = require('./word-count');
 
 module.exports = baseJoi.extend([
-    phoneNumber,
-    wordCount,
+    budgetItems,
+    budgetTotalCosts,
     dateParts,
     dayMonth,
-    budgetItems,
-    budgetTotalCosts
+    phoneNumber,
+    postcode,
+    wordCount
 ]);
