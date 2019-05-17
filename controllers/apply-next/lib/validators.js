@@ -1,6 +1,6 @@
 'use strict';
 const moment = require('moment');
-const Joi = require('./joi-extensions');
+const Joi = require('../joi-extensions');
 
 function yesOrNo() {
     return Joi.string()
