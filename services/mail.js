@@ -206,7 +206,7 @@ function sendEmail({ name, mailConfig, mailTransport = null }) {
     /**
      * Skip sending mail in test environments
      */
-    if (!!process.env.CI === true) {
+    if (!!process.env.TEST_SERVER === true) {
         const reason = `skipped sending mail ${name}`;
         debug(reason);
         return Promise.resolve(reason);

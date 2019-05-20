@@ -52,7 +52,7 @@ async function submitToSalesforce(submission) {
     /**
      * Skip sending mail in test environments
      */
-    if (!!process.env.CI === true) {
+    if (!!process.env.TEST_SERVER === true) {
         debug(`skipped salesforce submission for ${submission.meta.form}`);
         return Promise.resolve(submission);
     } else {
