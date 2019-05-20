@@ -2,6 +2,7 @@
 const moment = require('moment');
 const {
     castArray,
+    compact,
     filter,
     flatMap,
     get,
@@ -9,6 +10,8 @@ const {
     isArray,
     sumBy
 } = require('lodash');
+
+const { fromDateParts } = require('../../../modules/dates');
 
 function formatRadio(field) {
     return function(value) {
@@ -43,17 +46,17 @@ function formatCheckbox(field) {
 }
 
 function formatAddress(value) {
-    return [
-        value['building-street'],
-        value['town-city'],
-        value['county'],
-        value['postcode']
-    ].join(',\n');
+    return compact([
+        value.line1,
+        value.townCity,
+        value.county,
+        value.postcode
+    ]).join(',\n');
 }
 
 function formatAddressHistory(value) {
-    const meetsMinimium = get(value, 'current-address-meets-minimum');
-    const previousAddress = get(value, 'previous-address');
+    const meetsMinimium = get(value, 'currentAddressMeetsMinimum');
+    const previousAddress = get(value, 'previousAddress');
 
     if (previousAddress && meetsMinimium === 'no') {
         return formatAddress(previousAddress);
@@ -63,12 +66,7 @@ function formatAddressHistory(value) {
 }
 
 function formatDate(value) {
-    const dt = moment({
-        year: value.year,
-        month: value.month - 1,
-        day: value.day
-    });
-
+    const dt = fromDateParts(value);
     return dt.isValid() ? dt.format('D MMMM, YYYY') : '';
 }
 

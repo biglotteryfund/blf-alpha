@@ -17,6 +17,7 @@ const {
     unset
 } = require('lodash');
 
+const appData = require('../../modules/appData');
 const applicationsService = require('../../services/applications');
 const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
@@ -262,7 +263,7 @@ function initFormRouter({
             res.locals.currentlyEditingId = currentEditingId;
 
             try {
-                const application = await applicationsService.getApplicationById(
+                const currentApplication = await applicationsService.getApplicationById(
                     {
                         formId: id,
                         applicationId: currentEditingId,
@@ -270,22 +271,21 @@ function initFormRouter({
                     }
                 );
 
-                if (application) {
+                if (currentApplication) {
                     const currentApplicationData = get(
-                        application,
+                        currentApplication,
                         'application_data',
                         {}
                     );
+
+                    res.locals.currentApplication = currentApplication;
                     res.locals.currentApplicationData = currentApplicationData;
+
                     res.locals.currentApplicationStatus = get(
-                        application,
+                        currentApplication,
                         'status'
                     );
 
-                    res.locals.form = formBuilder({
-                        locale: req.i18n.getLocale(),
-                        data: currentApplicationData
-                    });
                     next();
                 } else {
                     res.redirect(req.baseUrl);
@@ -317,9 +317,10 @@ function initFormRouter({
         res.render(path.resolve(__dirname, './views/summary'), {
             csrfToken: req.csrfToken(),
             title: title,
+            form: form,
             breadcrumbs: concat(res.locals.breadcrumbs, { label: title }),
             progress: calculateFormProgress(form, currentApplicationData),
-            currentApplicationTitle: get(currentApplicationData, 'project-name')
+            currentProjectName: get(currentApplicationData, 'projectName')
         });
     });
 
@@ -360,15 +361,34 @@ function initFormRouter({
             });
         })
         .post(async (req, res, next) => {
+            const { currentApplication, currentApplicationData } = res.locals;
+
+            const form = formBuilder({
+                locale: req.i18n.getLocale(),
+                data: currentApplicationData
+            });
+
+            const validationResult = validateDataFor(
+                form,
+                currentApplicationData
+            );
+
             try {
                 await processor({
-                    form: res.locals.form,
-                    data: res.locals.currentApplicationData
+                    form: form,
+                    application: validationResult.value,
+                    meta: {
+                        form: form.id,
+                        commitId: appData.commitId,
+                        startedAt: currentApplication.createdAt.toISOString()
+                    }
                 });
+
                 await applicationsService.changeApplicationState(
                     res.locals.currentlyEditingId,
                     'complete'
                 );
+
                 res.redirect(`${req.baseUrl}/confirmation`);
             } catch (error) {
                 next(error);

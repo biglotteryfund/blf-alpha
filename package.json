@@ -75,6 +75,7 @@
     "ext": "js,json,yml"
   },
   "dependencies": {
+    "@hapi/joi": "15.0.3",
     "aws-sdk": "2.295.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
@@ -100,8 +101,7 @@
     "html-pdf": "2.2.0",
     "html-to-text": "4.0.0",
     "i18n-2": "^0.7.2",
-    "joi": "14.3.1",
-    "joi-phone-number": "2.1.1",
+    "joi-phone-number": "3.0.0",
     "jquery": "^3.2.1",
     "js-yaml": "3.13.0",
     "jsdom": "^11.5.1",
@@ -118,6 +118,7 @@
     "passport": "^0.4.0",
     "passport-azure-ad": "4.0.0",
     "passport-local": "^1.0.0",
+    "postcode": "2.0.0",
     "query-string": "^5.0.1",
     "raven": "2.6.4",
     "raven-js": "3.27.0",

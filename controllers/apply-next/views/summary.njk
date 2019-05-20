@@ -66,7 +66,7 @@
                 {% endif %}
             </a>
         </header>
-        
+
         <article class="section-summary__content u-padded-s">
             <p class="u-constrained-wide">{{ section.summary }}</p>
 
@@ -94,7 +94,7 @@
             {{ formHeader(
                 prefix = formTitle,
                 title = copy.summary.title,
-                suffix = currentApplicationTitle
+                suffix = currentProjectName
             ) }}
 
             <div class="s-prose">{{ copy.summary.introduction | safe }}</div>
@@ -105,7 +105,7 @@
                     {{ copy.delete }}
                 </a>
             <p>
-            
+
             <p class="u-align-right">
                 <button type="button"
                     class="btn-link u-text-small js-toggle-all-details js-only"

@@ -3,7 +3,7 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const Raven = require('raven');
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 const { concat, get, head } = require('lodash');
 
 const { localify, getAbsoluteUrl } = require('../../modules/urls');

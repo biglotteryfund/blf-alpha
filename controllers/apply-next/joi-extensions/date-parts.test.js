@@ -1,46 +1,9 @@
 /* eslint-env jest */
+// @ts-nocheck
 'use strict';
 const moment = require('moment');
-const { Joi, postcode } = require('./validators');
-
-describe('postcode', () => {
-    const valid = [
-        'B15',
-        'EC4A 1DE',
-        'TW8 9GS',
-        'BS98 1TL',
-        'DE99 3GG',
-        'DE55 4SW',
-        'DH98 1BT',
-        'DH99 1NS',
-        'GIR0aa',
-        'SA99',
-        'W1N 4DJ',
-        'AA9A 9AA',
-        'AA99 9AA',
-        'BS98 1TL',
-        'DE993GG'
-    ];
-
-    const invalid = ['London', 'Birmingham', 'not a postcode'];
-
-    test('valid postcodes', () => {
-        valid.forEach(example => {
-            const schema = postcode();
-            expect(Joi.attempt(example, schema)).toEqual(example);
-        });
-    });
-
-    test('invalid postcodes', () => {
-        invalid.forEach(example => {
-            const schema = postcode();
-            const invalidPostcode = schema.validate(example);
-            expect(invalidPostcode.error.message).toContain(
-                'fails to match the required pattern'
-            );
-        });
-    });
-});
+const baseJoi = require('@hapi/joi');
+const Joi = baseJoi.extend(require('./date-parts'));
 
 describe('dateParts', () => {
     test('valid date', () => {

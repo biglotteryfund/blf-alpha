@@ -2,7 +2,7 @@
 'use strict';
 const { range, times } = require('lodash');
 const faker = require('faker');
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 
 const { ORGANISATION_TYPES } = require('./constants');
 const {
@@ -13,7 +13,7 @@ const {
 } = require('./mocks');
 
 const fieldsFor = require('./fields');
-const fields = fieldsFor({ locale: 'en' });
+const { fields } = fieldsFor({ locale: 'en' });
 
 describe('fields', () => {
     function assertValid(field, value) {
@@ -90,7 +90,7 @@ describe('fields', () => {
             assertErrorContains(
                 fields.projectPostcode,
                 'not a postcode',
-                'fails to match the required pattern'
+                'did not seem to be a valid postcode'
             );
         });
     });
@@ -185,8 +185,8 @@ describe('fields', () => {
 
         test('must be at least value of project budget', () => {
             const schemaWithProjectBudget = Joi.object({
-                'project-budget': fields.projectBudget.schema,
-                'project-total-costs': fields.projectTotalCosts.schema
+                projectBudget: fields.projectBudget.schema,
+                projectTotalCosts: fields.projectTotalCosts.schema
             });
 
             const budget = times(2, () => ({
@@ -195,13 +195,13 @@ describe('fields', () => {
             }));
 
             const validationResultValid = Joi.validate(
-                { 'project-budget': budget, 'project-total-costs': 2200 },
+                { projectBudget: budget, projectTotalCosts: 2200 },
                 schemaWithProjectBudget
             );
             expect(validationResultValid.error).toBeNull();
 
             const validationResultInvalid = Joi.validate(
-                { 'project-budget': budget, 'project-total-costs': 1000 },
+                { projectBudget: budget, projectTotalCosts: 1000 },
                 schemaWithProjectBudget
             );
             expect(validationResultInvalid.error.message).toContain(
@@ -229,12 +229,15 @@ describe('fields', () => {
         });
     });
 
-    describe('organisationAlias', () => {
+    describe('organisationTradingName', () => {
         test('optional field', () => {
-            assertValid(fields.organisationAlias, undefined);
-            assertValid(fields.organisationAlias, faker.company.companyName());
+            assertValid(fields.organisationTradingName, undefined);
+            assertValid(
+                fields.organisationTradingName,
+                faker.company.companyName()
+            );
             assertErrorContains(
-                fields.organisationAlias,
+                fields.organisationTradingName,
                 Infinity,
                 'must be a string'
             );
@@ -253,17 +256,17 @@ describe('fields', () => {
             assertErrorContains(
                 fields.organisationAddress,
                 {
-                    'building-street': '3 Embassy Drive',
-                    'county': 'West Midlands',
-                    'postcode': 'B15 1TR'
+                    line1: '3 Embassy Drive',
+                    county: 'West Midlands',
+                    postcode: 'B15 1TR'
                 },
-                'child "town-city" fails because ["town-city" is required]'
+                'child "townCity" fails because ["townCity" is required]'
             );
 
             assertErrorContains(
                 fields.organisationAddress,
                 { ...mockAddress(), ...{ postcode: 'not a postcode' } },
-                'fails to match the required pattern'
+                'did not seem to be a valid postcode'
             );
         });
     });
@@ -286,14 +289,14 @@ describe('fields', () => {
 
     function assertRequiredForOrganistionTypes(field, requiredTypes) {
         const schemaWithOrgType = {
-            'organisation-type': fields.organisationType.schema,
+            'organisationType': fields.organisationType.schema,
             [field.name]: field.schema
         };
 
         const requiredOrgTypes = requiredTypes;
         requiredOrgTypes.forEach(type => {
             const { error } = Joi.validate(
-                { 'organisation-type': type },
+                { organisationType: type },
                 schemaWithOrgType
             );
             expect(error.message).toContain('is required');
@@ -384,9 +387,9 @@ describe('fields', () => {
             );
         });
 
-        test('optional if organisation-type is a school or statutory-body', () => {
+        test('optional if organisationType is a school or statutory-body', () => {
             const schemaWithOrgType = {
-                'organisation-type': fields.organisationType.schema,
+                'organisationType': fields.organisationType.schema,
                 [field.name]: field.schema
             };
 
@@ -396,7 +399,7 @@ describe('fields', () => {
             ];
             optionalOrgTypes.forEach(type => {
                 const { error } = Joi.validate(
-                    { 'organisation-type': type },
+                    { organisationType: type },
                     schemaWithOrgType
                 );
 
@@ -413,23 +416,23 @@ describe('fields', () => {
             assertErrorContains(
                 field,
                 {
-                    'building-street': '3 Embassy Drive',
-                    'county': 'West Midlands',
-                    'postcode': 'B15 1TR'
+                    line1: '3 Embassy Drive',
+                    county: 'West Midlands',
+                    postcode: 'B15 1TR'
                 },
-                'child "town-city" fails because ["town-city" is required]'
+                'child "townCity" fails because ["townCity" is required]'
             );
 
             assertErrorContains(
                 field,
                 { ...mockAddress(), ...{ postcode: 'not a postcode' } },
-                'fails to match the required pattern'
+                'did not seem to be a valid postcode'
             );
         });
 
-        test('optional if organisation-type is a school or statutory-body', () => {
+        test('optional if organisationType is a school or statutory-body', () => {
             const schemaWithOrgType = {
-                'organisation-type': fields.organisationType.schema,
+                'organisationType': fields.organisationType.schema,
                 [field.name]: field.schema
             };
 
@@ -439,7 +442,7 @@ describe('fields', () => {
             ];
             optionalOrgTypes.forEach(type => {
                 const { error } = Joi.validate(
-                    { 'organisation-type': type },
+                    { organisationType: type },
                     schemaWithOrgType
                 );
                 expect(error).toBeNull();
@@ -450,44 +453,44 @@ describe('fields', () => {
     function testContactAddressHistory(field) {
         test('require address history if less than three years at current address', () => {
             assertValid(field, {
-                'current-address-meets-minimum': 'yes'
+                currentAddressMeetsMinimum: 'yes'
             });
 
             assertErrorContains(
                 field,
-                { 'current-address-meets-minimum': null },
-                '"current-address-meets-minimum" must be a string'
+                { currentAddressMeetsMinimum: null },
+                '"currentAddressMeetsMinimum" must be a string'
             );
 
             assertErrorContains(
                 field,
-                { 'current-address-meets-minimum': 'not-a-valid-choice' },
-                '"current-address-meets-minimum" must be one of [yes, no]'
+                { currentAddressMeetsMinimum: 'not-a-valid-choice' },
+                '"currentAddressMeetsMinimum" must be one of [yes, no]'
             );
 
             const partialAddress = {
-                'building-street': faker.address.streetAddress(),
-                'town-city': faker.address.city()
+                line1: faker.address.streetAddress(),
+                townCity: faker.address.city()
             };
 
             assertErrorContains(
                 field,
                 {
-                    'current-address-meets-minimum': 'no',
-                    'previous-address': partialAddress
+                    currentAddressMeetsMinimum: 'no',
+                    previousAddress: partialAddress
                 },
                 '"postcode" is required'
             );
 
             assertValid(field, {
-                'current-address-meets-minimum': 'no',
-                'previous-address': mockAddress()
+                currentAddressMeetsMinimum: 'no',
+                previousAddress: mockAddress()
             });
         });
 
-        test('optional if organisation-type is a school or statutory-body', () => {
+        test('optional if organisationType is a school or statutory-body', () => {
             const schemaWithOrgType = {
-                'organisation-type': fields.organisationType.schema,
+                'organisationType': fields.organisationType.schema,
                 [field.name]: field.schema
             };
 
@@ -497,7 +500,7 @@ describe('fields', () => {
             ];
             optionalOrgTypes.forEach(type => {
                 const validationResultA = Joi.validate(
-                    { 'organisation-type': type },
+                    { organisationType: type },
                     schemaWithOrgType
                 );
                 expect(validationResultA.error).toBeNull();
@@ -588,10 +591,8 @@ describe('fields', () => {
         });
 
         test('include all roles if no organisation type is provided', () => {
-            const { seniorContactRole } = fieldsFor({ locale: 'en' });
-
             expect(
-                seniorContactRole.options.map(option => option.value)
+                fields.seniorContactRole.options.map(option => option.value)
             ).toEqual([
                 'trustee',
                 'chair',
@@ -611,13 +612,15 @@ describe('fields', () => {
 
         test('include roles based on organisation type', () => {
             function assertRolesForType(type, expected) {
-                const { seniorContactRole } = fieldsFor({
+                const { fields: _fields } = fieldsFor({
                     locale: 'en',
-                    data: { 'organisation-type': type }
+                    data: { organisationType: type }
                 });
 
                 expect(
-                    seniorContactRole.options.map(option => option.value)
+                    _fields.seniorContactRole.options.map(
+                        option => option.value
+                    )
                 ).toEqual(expected);
             }
 
@@ -727,15 +730,15 @@ describe('fields', () => {
         });
     });
 
-    describe('bankBuildingSocietyNumber', () => {
+    describe('buildingSocietyNumber', () => {
         test('optional field', () => {
-            assertValid(fields.bankBuildingSocietyNumber);
+            assertValid(fields.buildingSocietyNumber);
             assertErrorContains(
-                fields.bankBuildingSocietyNumber,
+                fields.buildingSocietyNumber,
                 Infinity,
                 'must be a string'
             );
-            assertValid(fields.bankBuildingSocietyNumber, '1234566');
+            assertValid(fields.buildingSocietyNumber, '1234566');
         });
     });
 
