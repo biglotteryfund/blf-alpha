@@ -2,6 +2,7 @@
 const path = require('path');
 const clone = require('lodash/clone');
 
+const salesforceService = require('../../../services/salesforce');
 const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
 const { fromDateParts } = require('../../../modules/dates');
 
@@ -22,6 +23,31 @@ function salesforceApplication(application) {
     return enriched;
 }
 
+async function buildCustomerMailConfig(form, application) {
+    const sendTo = {
+        name: `${application['mainContactFirstName']} ${
+            application['mainContactLastName']
+        }`,
+        address: application['mainContactEmail']
+    };
+
+    const html = await generateHtmlEmail({
+        template: path.resolve(__dirname, './customer-email.njk'),
+        templateData: {
+            form: form,
+            isArray: xs => Array.isArray(xs),
+            showDataProtectionStatement: true
+        }
+    });
+
+    return {
+        sendTo: sendTo,
+        subject: `Thank you for getting in touch with The National Lottery Community Fund!`,
+        type: 'html',
+        content: html
+    };
+}
+
 /**
  * Process form submissions
  * @param {object} options
@@ -31,38 +57,17 @@ function salesforceApplication(application) {
  * @param {any} mailTransport
  */
 async function processor({ form, application, meta }, mailTransport = null) {
-    const forSalesforce = {
-        meta: meta,
-        application: salesforceApplication(application)
-    };
-
-    const customerSendTo = {
-        name: `${application['mainContactFirstName']} ${
-            application['mainContactLastName']
-        }`,
-        address: application['mainContactEmail']
-    };
-
-    const customerHtml = await generateHtmlEmail({
-        template: path.resolve(__dirname, './customer-email.njk'),
-        templateData: {
-            form: form,
-            isArray: xs => Array.isArray(xs),
-            showDataProtectionStatement: true
-        }
-    });
+    const salesforce = await salesforceService.authorise();
+    const customerMailConfig = await buildCustomerMailConfig(form, application);
 
     return Promise.all([
-        forSalesforce,
+        salesforce.submitFormData({
+            meta: meta,
+            application: salesforceApplication(application)
+        }),
         sendEmail({
             name: 'simple_prototype_customer',
-            mailConfig: {
-                sendTo: customerSendTo,
-                subject:
-                    'Thank you for getting in touch with The National Lottery Community Fund!',
-                type: 'html',
-                content: customerHtml
-            },
+            mailConfig: customerMailConfig,
             mailTransport: mailTransport
         })
     ]);
