@@ -17,6 +17,7 @@ const {
     unset
 } = require('lodash');
 
+const appData = require('../../modules/appData');
 const applicationsService = require('../../services/applications');
 const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
@@ -378,6 +379,7 @@ function initFormRouter({
                     application: validationResult.value,
                     meta: {
                         form: form.id,
+                        commitId: appData.commitId,
                         startedAt: currentApplication.createdAt.toISOString()
                     }
                 });
