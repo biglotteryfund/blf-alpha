@@ -245,7 +245,7 @@ module.exports = function({ locale, data = {} }) {
                         {
                             legend: localise({ en: 'Disabled people', cy: '' }),
                             fields: fieldsForGroup(
-                                BENEFICIARY_GROUPS.DISABILITY
+                                BENEFICIARY_GROUPS.DISABLED_PEOPLE
                             )
                         }
                     ]
