@@ -280,7 +280,7 @@
 
         {{ explanationFor(field) }}
 
-        <details open :open="showFallbackFields" class="u-margin-top">
+        <details open :open="showFallbackFields" @click.self="showFallbackFields = !showFallbackFields" class="u-margin-top">
             <summary>Enter address manually</summary>
             <div class="ff-address__fields">
                 <div class="ff-address__field">
@@ -321,7 +321,7 @@
                         value: field.value['county'],
                         type: 'text',
                         isRequired: false,
-                        attributes: { size: 30, ref: 'country' }
+                        attributes: { size: 30, ref: 'county' }
                     }) }}
                 </div>
                 <div class="ff-address__field">
