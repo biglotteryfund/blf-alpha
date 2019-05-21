@@ -5,37 +5,34 @@ const passport = require('passport');
 
 const router = express.Router();
 
-const { csrfProtection } = require('../../middleware/cached');
-const { requireUnauthed, redirectUrlWithFallback } = require('../../middleware/authed');
 const { localify } = require('../../modules/urls');
+const { csrfProtection } = require('../../middleware/cached');
+const { addAlertMessage } = require('../../middleware/user');
+const {
+    injectCopy,
+    injectBreadcrumbs
+} = require('../../middleware/inject-content');
+const {
+    requireUnauthed,
+    redirectUrlWithFallback
+} = require('../../middleware/authed');
 
 function renderForm(req, res) {
-    let alertMessage;
-    switch (req.query.s) {
-        case 'loggedOut':
-            alertMessage = 'You were successfully logged out.';
-            break;
-        case 'passwordUpdated':
-            alertMessage = 'Your password was successfully updated! Please log in below.';
-            break;
-        case 'passwordResetRequest':
-            alertMessage =
-                'Password reset requested. If the email address entered is correct, you will receive further instructions via email.';
-            break;
-    }
-
     res.render(path.resolve(__dirname, './views/login'), {
-        csrfToken: req.csrfToken(),
-        alertMessage: alertMessage
+        csrfToken: req.csrfToken()
     });
 }
 
 router
     .route('/')
-    .all(csrfProtection, requireUnauthed)
-    .get(renderForm)
+    .all(
+        csrfProtection,
+        requireUnauthed,
+        injectCopy('user.login'),
+        injectBreadcrumbs
+    )
+    .get(addAlertMessage, renderForm)
     .post((req, res, next) => {
-        // @TODO consider rate limiting?
         passport.authenticate('local', (err, user, info) => {
             if (!user) {
                 // User not valid, send them to login again
@@ -51,8 +48,11 @@ router
                     if (loginErr) {
                         next(loginErr);
                     } else {
-                        const fallbackUrl = localify(req.i18n.getLocale())('/user');
-                        redirectUrlWithFallback(fallbackUrl, req, res);
+                        redirectUrlWithFallback(
+                            localify(req.i18n.getLocale())('/user'),
+                            req,
+                            res
+                        );
                     }
                 });
             }

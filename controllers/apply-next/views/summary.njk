@@ -1,115 +1,136 @@
 {% extends "layouts/main.njk" %}
-{% from "components/hero.njk" import hero with context %}
-{% from "components/icons.njk" import iconArrowDown, iconTick, iconBin %}
-{% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/progress-marker/macro.njk" import progressMarker with context %}
+{% from "components/details/macro.njk" import details %}
+{% from "components/form-header/macro.njk" import formHeader with context %}
+{% from "components/icons.njk" import iconTick, iconBin %}
 
-{% block title %}Summary | {{ formTitle }} | {% endblock %}
+{% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
+
+{% macro stepSummary(step, stepNumber, totalSteps) %}
+    <div class="step-summary">
+        <h3 class="step-summary__title">
+            {{ __('global.misc.stepProgress', stepNumber, totalSteps) }} &ndash; {{ step.title }}
+        </h3>
+
+        {% if step.isRequired %}
+            {% for fieldset in step.fieldsets %}
+                {% for field in fieldset.fields %}
+                    <div class="step-summary__data {% if field.type === 'textarea' %} is-stacked{% endif %}">
+                        <div class="step-summary__data__question">{{ field.label }}</div>
+                        <div class="step-summary__data__answer s-prose">
+                            {% if field.displayValue %}
+                                {% set cleanValue = field.displayValue | striptags(true) | escape | nl2br %}
+                                {{ cleanValue }}
+                            {% else %}
+                                &ndash;
+                            {% endif %}
+                        </div>
+                        <div class="step-summary__data__link">
+                            <a href="{{ formBaseUrl }}/{{ step.slug }}#form-field-{{ field.name }}" class="u-edit-link">
+                                {{ copy.change }}
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            <div class="step-summary__data">
+                <p class="u-margin-top-s">{{ copy.summary.notRequired }}</p>
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro sectionSummary(section, sectionNumber, sectionProgress) %}
+    <section class="section-summary section-summary--{{ sectionProgress }}">
+
+        <header class="section-progress-bar section-progress-bar--{{ sectionProgress }}">
+            <h2 class="section-progress-bar__title">
+                <a href="{{ formBaseUrl }}/{{ section.slug }}" class="u-link-unstyled">
+                    {{ copy.sectionPrefix }} {{ sectionNumber }}: {{ section.title }}
+                </a>
+
+                {% set editWord = copy.continue if sectionProgress === FORM_STATES.incomplete else copy.edit %}
+                <a class="section-progress-bar__edit u-edit-link" href="{{ formBaseUrl }}/{{ section.slug }}">{{ editWord }}</a>
+            </h2>
+
+            <a class="section-progress-bar__marker u-link-unstyled" href="{{ formBaseUrl }}/{{ section.slug }}">
+                {% if sectionProgress === FORM_STATES.complete %}
+                    {{ iconTick() }} {{ copy.statusComplete }}
+                {% elseif sectionProgress === FORM_STATES.incomplete %}
+                    {{ copy.statusInProgress }}
+                {% elseif sectionProgress === FORM_STATES.invald %}
+                    {{ copy.statusInvalid }}
+                {% else %}
+                    {{ copy.statusNotStarted }}
+                {% endif %}
+            </a>
+        </header>
+
+        <article class="section-summary__content u-padded-s">
+            <p class="u-constrained-wide">{{ section.summary }}</p>
+
+            {% call details(
+                title = copy.summary.showQuestions,
+                extraClasses = 'js-toggleable'
+            ) %}
+                {% for step in section.steps %}
+                    {{ stepSummary(
+                        step = step,
+                        stepNumber = loop.index,
+                        totalSteps = section.steps.length
+                    )}}
+                {% endfor %}
+            {% endcall %}
+        </article>
+    </section>
+{% endmacro %}
 
 {% block content %}
     <main role="main" id="content">
-        <div class="content-box u-inner-wide-only application-summary">
+        <div class="content-box u-inner-wide-only">
             {{ breadcrumbTrail(breadcrumbs) }}
 
             {{ formHeader(
                 prefix = formTitle,
-                title = currentApplicationTitle
+                title = copy.summary.title,
+                suffix = currentProjectName
             ) }}
 
-            <div class="s-prose">
-                <h2>Summary</h2>
+            <div class="s-prose">{{ copy.summary.introduction | safe }}</div>
 
-                <p>
-                    Here's a summary of your application progress. You may complete the sections in any order <br />
-                    <strong>Please note</strong>: in order to submit your application you will need to agree to our <a href="#">terms and conditions</a>.
-                </p>
-            </div>
-
-            <div class="u-margin-bottom-l application-summary__actions">
+            <p class="u-margin-bottom-s">
                 <a class="btn btn--small btn--outline" href="{{ formBaseUrl }}/delete/{{ currentlyEditingId }}">
-                    <span class="btn__icon btn__icon-left">
-                        {{ iconBin() }}
-                    </span>
-                    Delete application
+                    <span class="btn__icon btn__icon-left">{{ iconBin() }}</span>
+                    {{ copy.delete }}
                 </a>
-            </div>
+            <p>
 
             <p class="u-align-right">
                 <button type="button"
-                    class="application-summary__toggle btn-link js-toggle-all-details u-hidden"
-                    data-label-open="Collapse all sections"
-                    data-label-closed="Expand all sections">
+                    class="btn-link u-text-small js-toggle-all-details js-only"
+                    data-label-open="{{ copy.summary.collapseAll }}"
+                    data-label-closed="{{ copy.summary.expandAll }}">
                 </button>
             </p>
 
             {% for section in form.sections %}
                 {% set sectionProgress = progress.sections[section.slug] %}
-
-                <section>
-                    <header class="application-summary__status application-summary__status--{{ sectionProgress }} u-tone-background-tint">
-                        <h3 class="u-padded-vertical-s u-no-margin">
-                            Section {{ loop.index }}: {{ section.title }}
-
-                            <span class="application-summary__edit-link">
-                                {% set editWord = 'Continue' if sectionProgress === FORM_STATES.incomplete else 'Edit' %}
-                                <a href="{{ formBaseUrl }}/{{ section.slug }}">{{ editWord }}</a>
-                            </span>
-                        </h3>
-                        {{ progressMarker(sectionProgress) }}
-                    </header>
-                    <article class="application-summary__status__content">
-                        {% if section.introduction %}
-                            <p>{{ section.introduction }}</p>
-                        {% endif %}
-                        <details class="js-toggleable u-margin-bottom-s">
-                            <summary>Show questions</summary>
-                            <div>
-                                {% for step in section.steps %}
-                                    {% set stepNumber = loop.index %}
-                                    <h4 class="application-summary__step-title">
-                                        Step {{ stepNumber }} of {{ section.steps.length }} &ndash; {{ step.title }}
-                                    </h4>
-
-                                    {% if step.isRequired %}
-                                        {% for fieldset in step.fieldsets %}
-                                            {% for field in fieldset.fields %}
-                                                <div class="application-summary__data">
-                                                    <div class="application-summary__data__question">
-                                                        {{ field.label }}
-                                                    </div>
-                                                    <div class="application-summary__data__answer s-prose">
-                                                        {% if field.displayValue %}
-                                                            {% set cleanValue = field.displayValue | striptags(true) | escape | nl2br %}
-                                                            {{ cleanValue }}
-                                                        {% else %}
-                                                            &ndash;
-                                                        {% endif %}
-                                                    </div>
-                                                    <div class="application-summary__data__link">
-                                                        <a href="{{ formBaseUrl }}/{{ section.slug }}/{{ stepNumber }}#form-field-{{ field.name }}" class="application-summary__edit-link">
-                                                            Change
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-                                        {% endfor %}
-                                    {% else %}
-                                        <p>Not required for your application.</p>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </details>
-                    </article>
-                </section>
+                {{ sectionSummary(
+                    section = section,
+                    sectionNumber = loop.index,
+                    sectionProgress =sectionProgress
+                ) }}
             {% endfor %}
 
             <div class="form-actions">
                 {% if progress.all === FORM_STATES.complete %}
-                    <a href="{{ formBaseUrl }}/terms" class="btn">Submit</a>
+                    <p><a href="{{ formBaseUrl }}/terms" class="btn">{{ copy.submit }}</a></p>
                 {% else %}
-                    <p>Your form isn't complete yet – you can submit it here when it's ready.</p>
+                    <div class="s-prose">{{ copy.summary.incompleteMessage | safe }}</div>
                 {% endif %}
+
+                <div class="s-prose">{{ copy.summary.terms | safe }}</div>
             </div>
         </div>
     </main>

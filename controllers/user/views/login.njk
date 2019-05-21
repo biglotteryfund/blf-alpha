@@ -1,21 +1,25 @@
 {% extends "layouts/main.njk" %}
-{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
-
-{% set title = 'Log in' %}
-{% set bodyClass = 'has-static-header' %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
 
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
-            <h1>{{ title }}</h1>
+            {{ breadcrumbTrail(breadcrumbs) }}
 
+            <h1 class="t--underline">{{ title }}</h1>
+     
             {% if alertMessage %}
                 <div class="message" role="alert">
                     {{ alertMessage }}
                 </div>
             {% endif %}
-
+     
             <form action="" method="post" autocomplete="off">
+                <div class="s-prose u-constrained-wide">
+                    {{ copy.introduction | safe }}
+                </div>
+
                 {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
 
                 {% if csrfToken %}
@@ -42,7 +46,7 @@
                     or <a href="/user/register">register</a>
                 </div>
 
-                <p><small><a href="/user/forgotten-password">Forgotten your password?</a></small></p>
+                <p><small><a href="/user/password/forgot">Forgotten your password?</a></small></p>
             </form>
         </div>
     </main>

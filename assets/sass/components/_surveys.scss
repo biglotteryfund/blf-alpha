@@ -1,0 +1,38 @@
+/* =========================================================================
+   Surveys
+   ========================================================================= */
+
+.survey {
+    background-color: get-color('background', 'light-neutral');
+    padding: $spacingUnit 0;
+    font-size: 18px;
+}
+.survey__choices-question {
+    margin-bottom: 3px;
+    font-weight: font-weight('body', 'bold');
+
+    @include mq('medium') {
+        margin-bottom: 0;
+        margin-right: $spacingUnit;
+    }
+}
+.survey__choices {
+    @include mq('medium') {
+        display: flex;
+        align-items: center;
+    }
+}
+.survey__choice {
+    margin-right: 6px;
+}
+.survey__response {
+    margin-bottom: 0;
+}
+.survey__form-fields {
+    margin-bottom: $spacingUnit;
+}
+.survey__form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

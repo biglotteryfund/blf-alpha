@@ -1,26 +1,72 @@
 'use strict';
 const moment = require('moment');
-const { castArray, filter, includes, isArray, sumBy } = require('lodash');
+const {
+    castArray,
+    compact,
+    filter,
+    flatMap,
+    get,
+    includes,
+    isArray,
+    sumBy
+} = require('lodash');
 
-function formatOptions(options) {
+const { fromDateParts } = require('../../../modules/dates');
+
+function formatRadio(field) {
     return function(value) {
         const choices = castArray(value);
-        const matches = filter(options, option => includes(choices, option.value));
-        return matches.length > 0 ? matches.map(match => match.label).join(', ') : choices.join(', ');
+
+        const matches = filter(field.options, option =>
+            includes(choices, option.value)
+        );
+
+        return matches.length > 0
+            ? matches.map(match => match.label).join(',\n')
+            : choices.join(', ');
+    };
+}
+
+function formatCheckbox(field) {
+    const options = field.optgroups
+        ? flatMap(field.optgroups, o => o.options)
+        : field.options;
+
+    return function(value) {
+        const choices = castArray(value);
+
+        const matches = filter(options, option =>
+            includes(choices, option.value)
+        );
+
+        return matches.length > 0
+            ? matches.map(match => match.label).join(',\n')
+            : choices.join(',\n');
     };
 }
 
 function formatAddress(value) {
-    return [value['address-line-1'], value['town-city'], value['postcode']].join(',\n');
+    return compact([
+        value.line1,
+        value.townCity,
+        value.county,
+        value.postcode
+    ]).join(',\n');
+}
+
+function formatAddressHistory(value) {
+    const meetsMinimium = get(value, 'currentAddressMeetsMinimum');
+    const previousAddress = get(value, 'previousAddress');
+
+    if (previousAddress && meetsMinimium === 'no') {
+        return formatAddress(previousAddress);
+    } else {
+        return 'yes';
+    }
 }
 
 function formatDate(value) {
-    const dt = moment({
-        year: value.year,
-        month: value.month - 1,
-        day: value.day
-    });
-
+    const dt = fromDateParts(value);
     return dt.isValid() ? dt.format('D MMMM, YYYY') : '';
 }
 
@@ -44,7 +90,9 @@ function formatBudget(value) {
     } else {
         const total = sumBy(value, item => parseInt(item.cost || 0));
         return [
-            value.map(line => `${line.item} – £${line.cost.toLocaleString()}`).join('\n'),
+            value
+                .map(line => `${line.item} – £${line.cost.toLocaleString()}`)
+                .join('\n'),
             `Total: £${total.toLocaleString()}`
         ].join('\n');
     }
@@ -58,11 +106,16 @@ function formatterFor(field) {
     let formatter;
     switch (field.type) {
         case 'radio':
+            formatter = formatRadio(field);
+            break;
         case 'checkbox':
-            formatter = formatOptions(field.options);
+            formatter = formatCheckbox(field);
             break;
         case 'address':
             formatter = formatAddress;
+            break;
+        case 'address-history':
+            formatter = formatAddressHistory;
             break;
         case 'date':
             formatter = formatDate;
@@ -86,7 +139,8 @@ function formatterFor(field) {
 
 module.exports = {
     formatterFor,
-    formatOptions,
+    formatCheckbox,
+    formatRadio,
     formatAddress,
     formatDate,
     formatDayMonth,

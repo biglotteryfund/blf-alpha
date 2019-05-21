@@ -11,7 +11,7 @@ const { injectBreadcrumbs, injectCopy, injectHeroImage, setHeroLocals } = requir
 const { sMaxAge } = require('../../middleware/cached');
 const contentApi = require('../../services/content-api');
 const grantsService = require('../../services/grants');
-const checkSpelling = require('./check-spelling');
+const checkSpelling = require('../../modules/check-spelling');
 
 const router = express.Router();
 

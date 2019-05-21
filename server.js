@@ -9,7 +9,7 @@ const path = require('path');
 const Raven = require('raven');
 const slashes = require('connect-slashes');
 const yaml = require('js-yaml');
-const debug = require('debug')('biglotteryfund:server');
+const debug = require('debug')('tnlcf:server');
 
 const app = express();
 module.exports = app;
@@ -21,7 +21,11 @@ if (appData.isDev) {
 }
 
 const { isWelsh, makeWelsh, removeWelsh, localify } = require('./modules/urls');
-const { renderError, renderNotFound, renderUnauthorised } = require('./controllers/errors');
+const {
+    renderError,
+    renderNotFound,
+    renderUnauthorised
+} = require('./controllers/errors');
 const { SENTRY_DSN } = require('./modules/secrets');
 const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
@@ -120,7 +124,8 @@ function initAppLocals() {
     /**
      * Hotjar ID
      */
-    app.locals.hotjarId = config.get('features.enableHotjar') && config.get('hotjarId');
+    app.locals.hotjarId =
+        config.get('features.enableHotjar') && config.get('hotjarId');
 }
 
 initAppLocals();
@@ -180,7 +185,6 @@ app.use(portalMiddleware);
  * Mount utility routes
  */
 app.use('/api', require('./controllers/api'));
-app.use('/user', require('./controllers/user'));
 app.use('/tools', require('./controllers/tools'));
 app.use('/patterns', require('./controllers/pattern-library'));
 
@@ -235,9 +239,15 @@ forEach(routes.sections, function(section, sectionId) {
      * Apply page level middleware and mount router if we have one
      */
     section.pages.forEach(function(page) {
-        router.route(page.path).all(injectCopy(page.lang), injectHeroImage(page.heroSlug), (req, res, next) => {
-            next();
-        });
+        router
+            .route(page.path)
+            .all(
+                injectCopy(page.lang),
+                injectHeroImage(page.heroSlug),
+                (req, res, next) => {
+                    next();
+                }
+            );
 
         const shouldServe = appData.isNotProduction ? true : !page.isDraft;
         if (shouldServe && page.router) {

@@ -1,6 +1,15 @@
 'use strict';
 
-const { compose, concat, filter, flatMap, map, sortBy, uniqBy } = require('lodash/fp');
+const {
+    compose,
+    concat,
+    filter,
+    flatMap,
+    map,
+    reject,
+    sortBy,
+    uniqBy
+} = require('lodash/fp');
 
 const contentApi = require('../services/content-api');
 const routes = require('../controllers/routes');
@@ -16,7 +25,11 @@ const sortedUniqByPath = compose(
  */
 async function getCanonicalRoutes() {
     const routerCanonicalUrls = flatMap(section => {
-        const withoutWildcards = filter(_ => _.path.indexOf('*') === -1);
+        const withoutWildcards = filter(page => page.path.indexOf('*') === -1);
+        const withoutExcludes = reject(
+            page => page.excludeFromSitemap === true
+        );
+
         const mapSummary = map(page => {
             return {
                 path: section.path + page.path,
@@ -26,7 +39,8 @@ async function getCanonicalRoutes() {
 
         return compose(
             mapSummary,
-            withoutWildcards
+            withoutWildcards,
+            withoutExcludes
         )(section.pages);
     })(routes.sections);
 

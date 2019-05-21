@@ -1,0 +1,15 @@
+/* =========================================================================
+   Details
+   ========================================================================= */
+
+.o-details {
+    .o-details__summary {
+        font-weight: bold;
+        font-size: 16px;
+        color: get-color('links', 'base');
+        // the default underline styling doesn't apply to <summary>
+        text-decoration: none;
+        border-bottom: 1px solid get-color('links', 'base');
+        display: inline-block;
+    }
+}

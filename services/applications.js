@@ -11,7 +11,7 @@ function createApplication({ userId, formId, data = null }) {
     });
 }
 
-function getApplicationsForUser({ userId, formId }) {
+function getByForm({ userId, formId }) {
     return Application.findAll({
         where: {
             user_id: {
@@ -86,7 +86,7 @@ function changeApplicationState(id, newState) {
 
 module.exports = {
     createApplication,
-    getApplicationsForUser,
+    getByForm,
     getApplicationById,
     updateApplication,
     deleteApplication,

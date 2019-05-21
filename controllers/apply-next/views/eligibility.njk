@@ -1,5 +1,5 @@
 {% extends "layouts/main.njk" %}
-{% from "components/form-fields/macros.njk" import formField with context %}
+{% from "components/form-fields-next/macros.njk" import formField with context %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 
 {% block title %}Eligibility | {{ formTitle }} | {% endblock %}
@@ -7,19 +7,32 @@
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner u-inner-wide-only">
-            {% if eligibility === 'pending' %}
-                {% set prefix -%}
-                    Step {{ currentStepNumber }} of {{ totalQuestions }}
-                {%- endset %}
-            {% endif %}
-
+            {% set prefix = __('global.misc.stepProgress', currentStepNumber, totalSteps) %}
             {{ formHeader(
-                backUrl = formBaseUrl,
+                backUrl = backUrl,
                 title = 'Eligibility Checker',
-                prefix = prefix
+                prefix = prefix if eligibilityStatus !== 'eligible' 
             )}}
-
-            {% if eligibility === 'pending' %}
+ 
+            {% if eligibilityStatus === 'eligible' %}
+                <div class="s-prose u-constrained-wide">
+                    <h2>Great! You're eligible to apply to {{ formTitle }}</h2>
+                    {{ eligibility.successMessage | safe }}
+                    <p class="class="form-actions"">
+                        <a class="btn" href="{{ formBaseUrl }}/new">Start your application</a>
+                    </p>
+                </div>
+            {% elseif eligibilityStatus === 'ineligible' %}
+                <div class="s-prose u-constrained-wide">
+                    <h2>Sorry, you're not eligible to apply at this time</h2>
+                    <p>{{ currentStep.ineligible.reason }}</p>
+                    <h3>What now?</h3>
+                    {{ currentStep.ineligible.detail | safe }}
+                    <p class="class="form-actions"">
+                        <a class="btn" href="{{ formBaseUrl }}">Exit</a>
+                    </p>
+                </div>
+            {% else %}
                 <form method="post" class="u-constrained-wide u-constrained-content">
                     {% if csrfToken %}
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
@@ -32,36 +45,19 @@
                         explanation: currentStep.explanation,
                         value: queryParams.amount,
                         isRequired: true,
-                        options: [
-                            {
-                                label: "Yes",
-                                value: "yes"
-                            },
-                            {
-                                label: "No",
-                                value: "no"
-                            }
-                        ]
+                        options: [{
+                            label: __('global.misc.yes'),
+                            value: "yes"
+                        }, {
+                            label: __('global.misc.no'),
+                            value: "no"
+                        }]
                     }) }}
 
                     <div class="form-actions">
                         <input class="btn" type="submit" value="Continue" />
                     </div>
                 </form>
-            {% elseif eligibility === 'ineligible' %}
-                <h2 class="t2 t--underline">Sorry, you're not eligible to apply at this time</h2>
-                <p>{{ currentStep.ineligibleReason }}</p>
-                <h2 class="t2 t--underline">What now?</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar sic tempor. Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus pronin sapien nunc accuan eget.</p>
-
-                <p><a class="btn" href="{{ formBaseUrl }}">Start a new application</a></p>
-
-            {% elseif eligibility === 'eligible' %}
-                <h2 class="t2 t--underline">Great! You're eligible to apply to {{ formTitle }}</h2>
-                <p>We're excited to hear more about your project and invite you to fill in our application form.</p>
-                <p>
-                    <a class="btn" href="{{ formBaseUrl }}/new">Start your application</a>
-                </p>
             {% endif %}
         </div>
     </main>

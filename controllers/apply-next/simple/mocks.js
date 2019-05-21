@@ -1,32 +1,29 @@
 'use strict';
-const faker = require('faker');
+const { values } = require('lodash');
 const moment = require('moment');
+const faker = require('faker');
 
-function toDateParts(dt) {
-    return {
-        day: dt.date(),
-        month: dt.month() + 1,
-        year: dt.year()
-    };
+const { BENEFICIARY_GROUPS } = require('./constants');
+const { toDateParts } = require('../../../modules/dates');
+
+function mockStartDate(weeks) {
+    return toDateParts(moment().add(weeks, 'weeks'));
 }
 
-function mockDateOfBirth() {
-    return toDateParts(
-        moment().subtract(
-            faker.random.number({
-                min: 18,
-                max: 75
-            }),
-            'years'
-        )
+function mockDateOfBirth(minAge, maxAge = 75) {
+    const dt = moment().subtract(
+        faker.random.number({ min: minAge, max: maxAge }),
+        'years'
     );
+    return toDateParts(dt);
 }
 
 function mockAddress() {
     return {
-        'address-line-1': faker.address.streetAddress(),
-        'town-city': faker.address.city(),
-        'postcode': 'B15 1TR'
+        line1: faker.address.streetAddress(),
+        townCity: faker.address.city(),
+        county: faker.address.county(),
+        postcode: 'B15 1TR'
     };
 }
 
@@ -39,48 +36,78 @@ function mockBudget() {
     });
 }
 
-function mockFullForm({ country, organisationType, companyNumber = null, charityNumber = null }) {
+function mockFullForm({
+    country,
+    organisationType,
+    companyNumber = null,
+    charityNumber = null,
+    educationNumber = null
+}) {
     return {
-        'application-title': faker.lorem.words(5),
-        'application-country': country,
-        'project-start-date': toDateParts(moment().add(12, 'weeks')),
-        'project-postcode': 'B15 1TR',
-        'your-idea-project': faker.lorem.words(250),
-        'your-idea-priorities': faker.lorem.words(100),
-        'your-idea-community': faker.lorem.words(150),
-        'project-budget': mockBudget(),
-        'project-total-costs': faker.random.number({ min: 5000, max: 10000 }),
-        'organisation-legal-name': faker.company.companyName(),
-        'organisation-address': mockAddress(),
-        'organisation-type': organisationType,
-        'company-number': companyNumber,
-        'charity-number': charityNumber,
-        'accounting-year-date': { day: 1, month: 3 },
-        'total-income-year': faker.random.number({ min: 10000, max: 1000000 }),
-        'main-contact-first-name': faker.name.firstName(),
-        'main-contact-last-name': faker.name.lastName(),
-        'main-contact-dob': mockDateOfBirth(),
-        'main-contact-address': mockAddress(),
-        'main-contact-email': faker.internet.exampleEmail(),
-        'main-contact-phone': '0345 4 10 20 30',
-        'legal-contact-first-name': faker.name.firstName(),
-        'legal-contact-last-name': faker.name.lastName(),
-        'legal-contact-role': faker.lorem.words(5),
-        'legal-contact-dob': mockDateOfBirth(),
-        'legal-contact-address': mockAddress(),
-        'legal-contact-email': faker.internet.exampleEmail(),
-        'legal-contact-phone': '020 7211 1888',
-        'bank-account-name': faker.company.companyName(),
-        'bank-sort-code': '108800',
-        'bank-account-number': '00012345',
-        'bank-building-society-number': '108800',
-        'bank-statement': faker.system.fileName()
+        projectName: faker.lorem.words(5),
+        projectCountry: country,
+        projectStartDate: mockStartDate(12),
+        projectLocation: 'West Midlands',
+        projectLocationDescription: faker.lorem.sentence(),
+        projectPostcode: 'B15 1TR',
+        yourIdeaProject: faker.lorem.words(250),
+        yourIdeaPriorities: faker.lorem.words(100),
+        yourIdeaCommunity: faker.lorem.words(150),
+        projectBudget: mockBudget(),
+        projectTotalCosts: 20000,
+        beneficiariesGroupsCheck: 'yes',
+        beneficiariesGroups: values(BENEFICIARY_GROUPS),
+        beneficiariesGroupsOther: undefined,
+        beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
+        beneficiariesGroupsGender: ['non-binary'],
+        beneficiariesGroupsAge: ['0-12', '13-24'],
+        beneficiariesGroupsDisabledPeople: ['sensory'],
+        beneficiariesGroupsReligion: ['sikh'],
+        beneficiariesGroupsReligionOther: undefined,
+        organisationLegalName: faker.company.companyName(),
+        organisationTradingName: faker.company.companyName(),
+        organisationAddress: mockAddress(),
+        organisationType: organisationType,
+        companyNumber: companyNumber,
+        charityNumber: charityNumber,
+        educationNumber: educationNumber,
+        accountingYearDate: { day: 1, month: 3 },
+        totalIncomeYear: faker.random.number({ min: 10000, max: 1000000 }),
+        mainContactFirstName: faker.name.firstName(),
+        mainContactLastName: faker.name.lastName(),
+        mainContactDateOfBirth: mockDateOfBirth(16),
+        mainContactAddress: mockAddress(),
+        mainContactAddressHistory: {
+            currentAddressMeetsMinimum: 'no',
+            previousAddress: mockAddress()
+        },
+        mainContactEmail: faker.internet.exampleEmail(),
+        mainContactPhone: '0345 4 10 20 30',
+        mainContactCommunicationNeeds: [],
+        seniorContactFirstName: faker.name.firstName(),
+        seniorContactLastName: faker.name.lastName(),
+        seniorContactRole: 'trustee',
+        seniorContactDateOfBirth: mockDateOfBirth(18),
+        seniorContactAddress: mockAddress(),
+        seniorContactAddressHistory: {
+            currentAddressMeetsMinimum: 'yes',
+            previousAddress: null
+        },
+        seniorContactEmail: faker.internet.exampleEmail(),
+        seniorContactPhone: '020 7211 1888',
+        seniorContactCommunicationNeeds: [],
+        bankAccountName: faker.company.companyName(),
+        bankSortCode: '108800',
+        bankAccountNumber: '00012345',
+        buildingSocietyNumber: undefined,
+        bankStatement: 'example.pdf'
     };
 }
 
 module.exports = {
-    mockDateOfBirth,
     mockAddress,
     mockBudget,
-    mockFullForm
+    mockDateOfBirth,
+    mockFullForm,
+    mockStartDate
 };

@@ -27,6 +27,7 @@
 @import 'scaffolding/content';
 @import 'scaffolding/lists';
 @import 'scaffolding/media';
+@import 'scaffolding/details';
 
 // =========================================================================
 // Scoped Contexts
@@ -59,10 +60,11 @@
 @import 'components/materials';
 @import 'components/overlay-text';
 @import 'components/heroes';
-@import 'components/prompts';
+@import 'components/surveys';
 @import 'components/news';
 @import 'components/logos';
 @import 'components/social';
+@import 'components/user';
 @import 'components/global-header';
 @import 'components/global-footer';
 

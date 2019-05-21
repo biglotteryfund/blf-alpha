@@ -161,7 +161,9 @@ $inputOutline: 3px solid get-color('border', 'outline');
    ========================================================================= */
 
 .ff-choice {
-    margin-bottom: 3px;
+    .ff-choice__list {
+        margin-bottom: 0.75em;
+    }
 
     .ff-choice__option {
         display: table;
@@ -197,6 +199,27 @@ $inputOutline: 3px solid get-color('border', 'outline');
             margin-bottom: 3px;
         }
     }
+
+    &.ff-choice--inline {
+        .ff-choice__option,
+        .ff-choice__input,
+        .ff-choice__label {
+            display: inline-block;
+        }
+
+        .ff-choice__option {
+            input[type='radio'],
+            input[type='checkbox'] {
+                @include mq('medium-minor') {
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        .ff-choice__option:not(:last-of-type) {
+            margin-right: $spacingUnit;
+        }
+    }
 }
 
 /* =========================================================================
@@ -207,6 +230,10 @@ $inputOutline: 3px solid get-color('border', 'outline');
     .ff-date__field {
         display: inline-block;
         margin-right: $spacingUnit / 2;
+    }
+
+    .ff-date__field .ff-label {
+        font-weight: font-weight('body', 'semibold');
     }
 
     /**
@@ -225,8 +252,12 @@ $inputOutline: 3px solid get-color('border', 'outline');
 
 .ff-address {
     .ff-address__legend,
-    .ff-address__field {
-        margin-bottom: $spacingUnit;
+    .ff-address__field:not(:last-of-type) {
+        margin-bottom: $spacingUnit / 2;
+    }
+
+    .ff-address__field .ff-label {
+        font-weight: font-weight('body', 'semibold');
     }
 }
 

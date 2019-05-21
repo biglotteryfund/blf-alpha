@@ -26,19 +26,70 @@ describe('formatters', () => {
             }
         });
 
-        expect(formatter(['b', 'c'])).toBe('B, C');
+        expect(formatter(['b', 'c'])).toBe('B,\nC');
     });
 
     test('address', () => {
         const formatter = formatterFor({ type: 'address' });
 
+        const result = formatter({
+            line1: 'Apex House, 3 Embassy Drive',
+            townCity: 'Birmingham',
+            county: 'West Midlands',
+            postcode: 'B15 1TR'
+        });
+
+        const expected =
+            'Apex House, 3 Embassy Drive,\nBirmingham,\nWest Midlands,\nB15 1TR';
+
+        expect(result).toBe(expected);
+    });
+
+    test('addressHistory', () => {
+        const formatter = formatterFor({ type: 'address-history' });
+
+        const emptyAddress = {
+            line1: '',
+            townCity: '',
+            county: '',
+            postcode: ''
+        };
+
+        const address = {
+            line1: 'Apex House, 3 Embassy Drive',
+            townCity: 'Birmingham',
+            county: 'West Midlands',
+            postcode: 'B15 1TR'
+        };
+
         expect(
             formatter({
-                'address-line-1': 'Apex House, 3 Embassy Drive',
-                'town-city': 'Birmingham',
-                'postcode': 'B15 1TR'
+                currentAddressMeetsMinimum: 'yes'
             })
-        ).toBe('Apex House, 3 Embassy Drive,\nBirmingham,\nB15 1TR');
+        ).toBe('yes');
+
+        expect(
+            formatter({
+                currentAddressMeetsMinimum: 'yes',
+                previousAddress: address
+            })
+        ).toBe('yes');
+
+        expect(
+            formatter({
+                currentAddressMeetsMinimum: 'yes',
+                previousAddress: emptyAddress
+            })
+        ).toBe('yes');
+
+        expect(
+            formatter({
+                currentAddressMeetsMinimum: 'no',
+                previousAddress: address
+            })
+        ).toBe(
+            'Apex House, 3 Embassy Drive,\nBirmingham,\nWest Midlands,\nB15 1TR'
+        );
     });
 
     test('date', () => {
@@ -72,13 +123,21 @@ describe('formatters', () => {
 
     test('budget', () => {
         const formatter = formatterFor({ type: 'budget' });
-        expect(
-            formatter([
-                { item: 'Example A', cost: 100 },
-                { item: 'Example B', cost: 1200 },
-                { item: 'Example C', cost: 525 }
-            ])
-        ).toBe('Example A – £100\nExample B – £1,200\nExample C – £525\nTotal: £1,825');
+
+        const result = formatter([
+            { item: 'Example A', cost: 100 },
+            { item: 'Example B', cost: 1200 },
+            { item: 'Example C', cost: 525 }
+        ]);
+
+        const expected = [
+            'Example A – £100',
+            'Example B – £1,200',
+            'Example C – £525',
+            'Total: £1,825'
+        ].join('\n');
+
+        expect(formatter(result)).toBe(expected);
     });
 
     test('default', () => {

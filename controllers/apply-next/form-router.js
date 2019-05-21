@@ -1,208 +1,106 @@
 'use strict';
-const { get, set, unset, concat, flatMap, head, isEmpty, omit } = require('lodash');
 const express = require('express');
 const path = require('path');
 const Raven = require('raven');
-const nunjucks = require('nunjucks');
-const pdf = require('html-pdf');
-const config = require('config');
-const fs = require('fs');
+const moment = require('moment');
+const {
+    concat,
+    findIndex,
+    flatMap,
+    get,
+    head,
+    includes,
+    isEmpty,
+    omit,
+    partition,
+    set,
+    unset
+} = require('lodash');
 
+const appData = require('../../modules/appData');
 const applicationsService = require('../../services/applications');
 const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
-const { normaliseErrors } = require('../../modules/errors');
+const { injectCopy } = require('../../middleware/inject-content');
 
-const enhanceForm = require('./lib/enhance-form');
 const { nextAndPrevious } = require('./lib/pagination');
 const { FORM_STATES, calculateFormProgress } = require('./lib/progress');
+const normaliseErrors = require('./lib/normalise-errors');
 
-function fieldsForStep(step) {
-    const fields = flatMap(step.fieldsets, 'fields');
-    return {
-        fields: fields,
-        names: fields.map(field => field.name),
-        messages: fields.reduce((obj, field) => {
-            obj[field.name] = field.messages;
-            return obj;
-        }, {})
-    };
+/**
+ * Validate data against the form schema
+ * Validating against the whole form ensures that
+ * conditional validations are taken into account
+ */
+function validateDataFor(form, data) {
+    return form.schema.validate(data, {
+        // Return all errors not just the first one
+        abortEarly: false,
+        // Strip unknown properties.
+        // Notably to allow us to ignore request forgery tokens as part of POST bodies
+        stripUnknown: true
+    });
 }
 
-function sessionPrefixFor(formModel) {
-    return `forms.${formModel.id}`;
-}
-
-function initFormRouter(formModel) {
+function initFormRouter({
+    id,
+    eligibilityBuilder = null,
+    formBuilder,
+    confirmationBuilder,
+    processor
+}) {
     const router = express.Router();
 
-    /**
-     * Validate data against the form scehema
-     * Validating against the whole form ensures that
-     * conditional validations are taken into account
-     */
-    function validateData(data) {
-        return formModel.schema.validate(data, {
-            // Return all errors not just the first one
-            abortEarly: false,
-            // Strip unknown properties.
-            // Notably to allow us to ignore request forgery tokens as part of POST bodies
-            stripUnknown: true
-        });
+    function sessionPrefix() {
+        return `forms.${id}`;
     }
 
     function getCurrentlyEditingId(req) {
-        return get(req.session, `${sessionPrefixFor(formModel)}.currentEditingId`);
+        return get(req.session, `${sessionPrefix()}.currentEditingId`);
     }
 
     function setCurrentlyEditingId(req, applicationId) {
-        return set(req.session, `${sessionPrefixFor(formModel)}.currentEditingId`, applicationId);
+        return set(
+            req.session,
+            `${sessionPrefix()}.currentEditingId`,
+            applicationId
+        );
     }
 
-    router.use(cached.csrfProtection, async (req, res, next) => {
-        const form = enhanceForm({
-            baseForm: formModel,
-            locale: req.i18n.getLocale()
-        });
+    router.use(
+        cached.csrfProtection,
+        injectCopy('applyNext'),
+        async (req, res, next) => {
+            const form = formBuilder({
+                locale: req.i18n.getLocale()
+            });
 
-        res.locals.formTitle = form.title;
-        res.locals.formBaseUrl = req.baseUrl;
-        res.locals.FORM_STATES = FORM_STATES;
-        res.locals.breadcrumbs = [{ label: form.title, url: req.baseUrl }];
+            res.locals.formTitle = form.title;
+            res.locals.formBaseUrl = req.baseUrl;
+            res.locals.FORM_STATES = FORM_STATES;
+            res.locals.breadcrumbs = [{ label: form.title, url: req.baseUrl }];
 
-        res.locals.user = req.user;
-        res.locals.isBilingual = form.isBilingual;
-        res.locals.enablePrompt = false; // Disable prompts on apply pages
-        res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
+            res.locals.user = req.user;
+            res.locals.isBilingual = form.isBilingual;
+            res.locals.enableSiteSurvey = false;
+            res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
 
-        next();
-    });
+            next();
+        }
+    );
 
     /**
      * Show a list of questions, accessible to anyone.
-     * Optionally allows downloading as a PDF file (cached on disk)
      */
-    router.get('/questions/:pdf?', (req, res) => {
-        const form = enhanceForm({
-            locale: req.i18n.getLocale(),
-            baseForm: formModel
-        });
-
-        const output = {
-            templates: {
-                html: path.resolve(__dirname, './views/questions-html.njk'),
-                pdf: path.resolve(__dirname, './views/questions-pdf.njk')
-            },
-            context: {
-                title: form.title,
-                form: form
-            }
-        };
-
-        if (req.params.pdf) {
-            const fileLocation = `documents/application-questions/${formModel.id}.pdf`;
-
-            const filePath = path.resolve(__dirname, '../../public/', fileLocation);
-
-            // First check to see if this file has already been rendered and saved in the app directory
-            fs.access(filePath, fs.constants.F_OK, accessError => {
-                if (!accessError) {
-                    // The file exists so just redirect the user there
-                    return res.redirect(`/assets/${fileLocation}`);
-                }
-
-                // Otherwise it hasn't been rendered before, so we create it from scratch and save the file
-
-                // Repopulate existing global context so templates render properly
-                const context = { ...res.locals, ...req.app.locals, ...output.context };
-
-                // Render the HTML template to a string
-                nunjucks.render(output.templates.pdf, context, (renderErr, html) => {
-                    if (renderErr) {
-                        Raven.captureException(renderErr);
-                        res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
-                    } else {
-                        // Turn HTML into a PDF
-                        pdf.create(html, {
-                            format: 'A4',
-                            base: config.get('domains.base'),
-                            border: '40px',
-                            zoomFactor: '0.7'
-                        }).toBuffer((pdfError, buffer) => {
-                            if (pdfError) {
-                                Raven.captureException(pdfError);
-                                return res.status(400).json({ error: 'ERR-PDF-BUFFER-ERROR' });
-                            }
-
-                            // Write the file locally so we can look it up next time instead of rendering
-                            fs.writeFile(filePath, buffer, writeError => {
-                                if (writeError) {
-                                    Raven.captureException(writeError);
-                                    return res.status(400).json({ error: 'ERR-PDF-WRITE-ERROR' });
-                                }
-                                // Give the user the file directly
-                                return res.download(filePath, `${formModel.id}.pdf`);
-                            });
-                        });
-                    }
-                });
-            });
-        } else {
-            // Render a standard HTML page otherwise
-            return res.render(output.templates.html, output.context);
-        }
-    });
+    router.use('/questions', require('./questions-router')(formBuilder));
 
     /**
-     * Route: Eligibility checker
+     * Route: Eligibility checker, accessible to anyone.
      */
-    router
-        .route('/eligibility/:step?')
-        .all(function(req, res, next) {
-            const { eligibilityQuestions } = formModel;
-            const currentStepNumber = parseInt(req.params.step);
-            const currentStep = eligibilityQuestions[currentStepNumber - 1];
-            if (currentStep) {
-                res.locals.currentStep = currentStep;
-                res.locals.currentStepNumber = currentStepNumber;
-                next();
-            } else {
-                return res.redirect(`${req.baseUrl}/eligibility/1`);
-            }
-        })
-        .get(function(req, res) {
-            const { eligibilityQuestions } = formModel;
-            const { currentStep, currentStepNumber } = res.locals;
-
-            res.render(path.resolve(__dirname, './views/eligibility'), {
-                eligibility: 'pending',
-                csrfToken: req.csrfToken(),
-                currentStep: currentStep,
-                currentStepNumber: currentStepNumber,
-                eligibilityQuestions: eligibilityQuestions,
-                totalQuestions: eligibilityQuestions.length
-            });
-        })
-        .post(async (req, res) => {
-            const { eligibilityQuestions } = formModel;
-            const { currentStepNumber } = res.locals;
-
-            if (req.body.eligibility === 'yes') {
-                const isComplete = currentStepNumber === eligibilityQuestions.length;
-                const nextStepNumber = currentStepNumber + 1;
-                if (isComplete) {
-                    res.render(path.resolve(__dirname, './views/eligibility'), {
-                        eligibility: 'eligible'
-                    });
-                } else {
-                    res.redirect(`${req.baseUrl}/eligibility/${nextStepNumber}`);
-                }
-            } else {
-                res.render(path.resolve(__dirname, './views/eligibility'), {
-                    eligibility: 'ineligible'
-                });
-            }
-        });
+    router.use(
+        '/eligibility',
+        require('./eligibility-router')(eligibilityBuilder)
+    );
 
     /**
      * Require login, redirect back here once authenticated.
@@ -212,27 +110,58 @@ function initFormRouter(formModel) {
     /**
      * Route: Dashboard
      */
-    router.route('/').get(async function(req, res) {
-        const applications = await applicationsService.getApplicationsForUser({
-            userId: req.user.userData.id,
-            formId: formModel.id
-        });
+    router.route('/').get(async function(req, res, next) {
+        function enrichApplication(application) {
+            const data = get(application, 'application_data');
 
-        const form = enhanceForm({
-            locale: req.i18n.getLocale(),
-            baseForm: formModel
-        });
+            const form = formBuilder({
+                locale: req.i18n.getLocale(),
+                data: data
+            });
 
-        const applicationsWithProgress = applications.map(application => {
-            application.progress = calculateFormProgress(form, get(application, 'application_data'));
+            application.summary = form.summary;
+
+            const formProgress = calculateFormProgress(form, data);
+            // @TODO: Lift this up to the form model?
+            application.progress = form.sections.map(function(section, idx) {
+                return {
+                    label: `${idx + 1}: ${section.shortTitle || section.title}`,
+                    status: get(formProgress.sections, section.slug)
+                };
+            });
+
+            application.createdAtFormatted = moment(
+                application.createdAt.toISOString()
+            )
+                .locale(req.i18n.getLocale())
+                .format('D MMMM, YYYY');
+
             return application;
-        });
+        }
 
-        res.render(path.resolve(__dirname, './views/dashboard'), {
-            title: res.locals.formTitle,
-            applications: applicationsWithProgress,
-            form: form
-        });
+        try {
+            const applications = await applicationsService.getByForm({
+                userId: req.user.userData.id,
+                formId: id
+            });
+
+            const [submittedApplications, inProgressApplications] = partition(
+                applications,
+                application => application.status === 'complete'
+            );
+
+            res.render(path.resolve(__dirname, './views/dashboard'), {
+                title: res.locals.formTitle,
+                inProgressApplications: inProgressApplications.map(
+                    enrichApplication
+                ),
+                submittedApplications: submittedApplications.map(
+                    enrichApplication
+                )
+            });
+        } catch (error) {
+            next(error);
+        }
     });
 
     /**
@@ -247,21 +176,24 @@ function initFormRouter(formModel) {
      * New application
      * Create a new blank application and redirect to first step
      */
-    router.get('/new', async function(req, res) {
+    router.get('/new', async function(req, res, next) {
+        const form = formBuilder({
+            locale: req.i18n.getLocale()
+        });
+
         try {
             const application = await applicationsService.createApplication({
-                userId: req.user.userData.id,
-                formId: formModel.id
+                formId: id,
+                userId: req.user.userData.id
             });
 
             setCurrentlyEditingId(req, application.id);
             req.session.save(() => {
-                const firstSection = head(formModel.sections);
+                const firstSection = head(form.sections);
                 res.redirect(`${req.baseUrl}/${firstSection.slug}`);
             });
         } catch (error) {
-            Raven.captureException(error);
-            renderError(error, req, res);
+            next(error);
         }
     });
 
@@ -288,11 +220,13 @@ function initFormRouter(formModel) {
         .route('/delete/:applicationId')
         .get(async (req, res) => {
             if (req.params.applicationId && req.user.userData.id) {
-                const application = await applicationsService.getApplicationById({
-                    formId: formModel.id,
-                    applicationId: req.params.applicationId,
-                    userId: req.user.userData.id
-                });
+                const application = await applicationsService.getApplicationById(
+                    {
+                        formId: id,
+                        applicationId: req.params.applicationId,
+                        userId: req.user.userData.id
+                    }
+                );
 
                 if (!application) {
                     return res.redirect(req.baseUrl);
@@ -306,13 +240,16 @@ function initFormRouter(formModel) {
                 res.redirect(req.baseUrl);
             }
         })
-        .post(async (req, res) => {
+        .post(async (req, res, next) => {
             try {
-                await applicationsService.deleteApplication(req.params.applicationId, req.user.userData.id);
+                await applicationsService.deleteApplication(
+                    req.params.applicationId,
+                    req.user.userData.id
+                );
                 // @TODO show a success message on the subsequent (dashboard?) screen
                 res.redirect(req.baseUrl);
             } catch (error) {
-                renderError(error, req, res);
+                next(error);
             }
         });
 
@@ -326,29 +263,37 @@ function initFormRouter(formModel) {
             res.locals.currentlyEditingId = currentEditingId;
 
             try {
-                const application = await applicationsService.getApplicationById({
-                    formId: formModel.id,
-                    applicationId: currentEditingId,
-                    userId: req.user.userData.id
-                });
+                const currentApplication = await applicationsService.getApplicationById(
+                    {
+                        formId: id,
+                        applicationId: currentEditingId,
+                        userId: req.user.userData.id
+                    }
+                );
 
-                if (application) {
-                    const currentApplicationData = get(application, 'application_data');
+                if (currentApplication) {
+                    const currentApplicationData = get(
+                        currentApplication,
+                        'application_data',
+                        {}
+                    );
+
+                    res.locals.currentApplication = currentApplication;
                     res.locals.currentApplicationData = currentApplicationData;
-                    res.locals.currentApplicationStatus = get(application, 'status');
-                    res.locals.currentApplicationTitle = get(currentApplicationData, 'application-title');
 
-                    res.locals.form = enhanceForm({
-                        locale: req.i18n.getLocale(),
-                        baseForm: formModel,
-                        data: currentApplicationData
-                    });
+                    res.locals.currentApplicationStatus = get(
+                        currentApplication,
+                        'status'
+                    );
+
                     next();
                 } else {
                     res.redirect(req.baseUrl);
                 }
             } catch (error) {
-                Raven.captureException(new Error(`Unable to find application ${currentEditingId}`));
+                Raven.captureException(
+                    new Error(`Unable to find application ${currentEditingId}`)
+                );
                 res.redirect(req.baseUrl);
             }
         } else {
@@ -357,138 +302,25 @@ function initFormRouter(formModel) {
     });
 
     /**
-     * Routes: Form sections
-     */
-    formModel.sections.forEach((currentSection, currentSectionIndex) => {
-        router.get(`/${currentSection.slug}`, (req, res) => {
-            res.redirect(`${req.baseUrl}/${currentSection.slug}/1`);
-        });
-
-        /**
-         * Route: Section steps
-         */
-        currentSection.steps.forEach((currentStep, currentStepIndex) => {
-            const currentStepNumber = currentStepIndex + 1;
-            const numSteps = currentSection.steps.length;
-
-            function renderStep(req, res, data, errors = []) {
-                const form = enhanceForm({
-                    locale: req.i18n.getLocale(),
-                    baseForm: formModel,
-                    data: data
-                });
-
-                const sectionLocalised = form.sections.find(s => s.slug === currentSection.slug);
-                const stepLocalised = sectionLocalised.steps[currentStepIndex];
-
-                res.locals.breadcrumbs = concat(
-                    res.locals.breadcrumbs,
-                    { label: sectionLocalised.title, url: `${req.baseUrl}/${currentSection.slug}` },
-                    { label: `${stepLocalised.title} (Step ${currentStepNumber} of ${numSteps})` }
-                );
-
-                const { nextUrl, previousUrl } = nextAndPrevious({
-                    baseUrl: req.baseUrl,
-                    sections: form.sections,
-                    currentSectionIndex: currentSectionIndex,
-                    currentStepIndex: currentStepIndex
-                });
-
-                if (stepLocalised.isRequired) {
-                    res.render(path.resolve(__dirname, './views/step'), {
-                        previousUrl,
-                        nextUrl,
-                        title: `${stepLocalised.title} | ${form.title}`,
-                        csrfToken: req.csrfToken(),
-                        step: stepLocalised,
-                        errors: errors
-                    });
-                } else {
-                    res.redirect(nextUrl);
-                }
-            }
-
-            router
-                .route(`/${currentSection.slug}/${currentStepNumber}`)
-                .get((req, res) => {
-                    const data = get(res.locals, 'currentApplicationData', {});
-                    renderStep(req, res, data);
-                })
-                .post(async function(req, res) {
-                    const { currentlyEditingId, currentApplicationData } = res.locals;
-                    const stepFields = fieldsForStep(currentStep);
-
-                    const dataToValidate = { ...currentApplicationData, ...req.body };
-                    const validationResult = validateData(dataToValidate);
-
-                    /**
-                     * Get the errors for the current step
-                     * We validate against the whole form schema so need to limit the errors to the current step
-                     */
-                    const errors = normaliseErrors({
-                        validationError: validationResult.error,
-                        errorMessages: stepFields.messages,
-                        fieldNames: stepFields.names,
-                        locale: req.i18n.getLocale()
-                    });
-
-                    /**
-                     * Prepare data for storage
-                     * Exclude any values in the current submission which have errors
-                     */
-                    const newFormData = omit(validationResult.value, errors.map(err => err.param));
-
-                    try {
-                        await applicationsService.updateApplication(currentlyEditingId, newFormData);
-
-                        const form = enhanceForm({
-                            locale: req.i18n.getLocale(),
-                            baseForm: formModel,
-                            data: newFormData
-                        });
-
-                        /**
-                         * If there are errors re-render the step with errors
-                         * - Pass the full data object from validationResult to the view. Including invalid values.
-                         * Otherwise, find the next suitable step and redirect there.
-                         */
-                        if (errors.length > 0) {
-                            renderStep(req, res, validationResult.value, errors);
-                        } else {
-                            const { nextUrl } = nextAndPrevious({
-                                baseUrl: req.baseUrl,
-                                sections: form.sections,
-                                currentSectionIndex: currentSectionIndex,
-                                currentStepIndex: currentStepIndex
-                            });
-                            res.redirect(nextUrl);
-                        }
-                    } catch (error) {
-                        renderError(error, req, res);
-                    }
-                });
-        });
-    });
-
-    function renderError(error, req, res) {
-        const errorCopy = req.i18n.__('apply.error');
-        res.render(path.resolve(__dirname, './views/error'), {
-            error: error,
-            title: errorCopy.title,
-            errorCopy: errorCopy,
-            returnUrl: `${req.baseUrl}/summary`
-        });
-    }
-
-    /**
      * Route: Summary
      */
     router.route('/summary').get(function(req, res) {
-        const { form, currentApplicationData } = res.locals;
-        res.locals.breadcrumbs = concat(res.locals.breadcrumbs, { label: 'Summary' });
+        const { copy, currentApplicationData } = res.locals;
+
+        const form = formBuilder({
+            locale: req.i18n.getLocale(),
+            data: currentApplicationData
+        });
+
+        const title = copy.summary.title;
+
         res.render(path.resolve(__dirname, './views/summary'), {
+            csrfToken: req.csrfToken(),
+            title: title,
+            form: form,
+            breadcrumbs: concat(res.locals.breadcrumbs, { label: title }),
             progress: calculateFormProgress(form, currentApplicationData),
-            csrfToken: req.csrfToken()
+            currentProjectName: get(currentApplicationData, 'projectName')
         });
     });
 
@@ -499,15 +331,22 @@ function initFormRouter(formModel) {
         .route('/terms')
         .all((req, res, next) => {
             const { currentApplicationData } = res.locals;
-            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, { label: 'Terms & Conditions' });
+            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+                label: 'Terms & Conditions'
+            });
 
-            res.locals.form = enhanceForm({
+            const form = formBuilder({
                 locale: req.i18n.getLocale(),
-                baseForm: formModel,
                 data: currentApplicationData
             });
 
-            const validationResult = validateData(currentApplicationData);
+            res.locals.form = form;
+
+            const validationResult = validateDataFor(
+                form,
+                currentApplicationData
+            );
+
             const errors = get(validationResult, 'error.details', []);
 
             if (errors.length > 0) {
@@ -521,38 +360,256 @@ function initFormRouter(formModel) {
                 csrfToken: req.csrfToken()
             });
         })
-        .post(async (req, res) => {
-            // @TODO: Validate fields on terms screen?
+        .post(async (req, res, next) => {
+            const { currentApplication, currentApplicationData } = res.locals;
+
+            const form = formBuilder({
+                locale: req.i18n.getLocale(),
+                data: currentApplicationData
+            });
+
+            const validationResult = validateDataFor(
+                form,
+                currentApplicationData
+            );
+
             try {
-                await formModel.processor({
-                    form: res.locals.form,
-                    data: res.locals.currentApplicationData
+                await processor({
+                    form: form,
+                    application: validationResult.value,
+                    meta: {
+                        form: form.id,
+                        commitId: appData.commitId,
+                        startedAt: currentApplication.createdAt.toISOString()
+                    }
                 });
-                await applicationsService.changeApplicationState(res.locals.currentlyEditingId, 'complete');
-                res.redirect(`${req.baseUrl}/success`);
+
+                await applicationsService.changeApplicationState(
+                    res.locals.currentlyEditingId,
+                    'complete'
+                );
+
+                res.redirect(`${req.baseUrl}/confirmation`);
             } catch (error) {
-                Raven.captureException(error);
-                renderError(error, req, res);
+                next(error);
             }
         });
 
     /**
-     * Route: Success
+     * Route: Confirmation
      */
-    router.get('/success', function(req, res) {
-        if (isEmpty(res.locals.currentApplicationData)) {
-            res.redirect(req.baseUrl);
-        } else {
-            // Clear the submission from the session on success
-            unset(req.session, sessionPrefixFor(formModel));
+    router.get('/confirmation', function(req, res) {
+        const { currentApplicationData, currentApplicationStatus } = res.locals;
+
+        if (
+            isEmpty(currentApplicationData) === false &&
+            currentApplicationStatus === 'complete'
+        ) {
+            const form = formBuilder({
+                locale: 'en',
+                data: currentApplicationData
+            });
+
+            const confirmation = confirmationBuilder({
+                locale: 'en',
+                data: currentApplicationData
+            });
+
+            unset(req.session, sessionPrefix());
             req.session.save(() => {
-                res.render(path.resolve(__dirname, './views/success'), {
-                    form: res.locals.form,
-                    title: 'Success'
+                res.render(path.resolve(__dirname, './views/confirmation'), {
+                    title: confirmation.title,
+                    confirmation: confirmation,
+                    form: form
                 });
             });
+        } else {
+            res.redirect(req.baseUrl);
         }
     });
+
+    function renderStepFor(sectionSlug, stepNumber) {
+        return function(req, res, data, errors = []) {
+            const form = formBuilder({
+                locale: req.i18n.getLocale(),
+                data: data
+            });
+
+            const sectionIndex = findIndex(
+                form.sections,
+                s => s.slug === sectionSlug
+            );
+
+            const section = form.sections[sectionIndex];
+
+            if (section) {
+                const sectionShortTitle = section.shortTitle
+                    ? section.shortTitle
+                    : section.title;
+
+                const sectionUrl = `${req.baseUrl}/${section.slug}`;
+
+                if (stepNumber) {
+                    const stepIndex = parseInt(stepNumber, 10) - 1;
+                    const step = section.steps[stepIndex];
+
+                    if (step) {
+                        const { nextUrl, previousUrl } = nextAndPrevious({
+                            baseUrl: req.baseUrl,
+                            sections: form.sections,
+                            currentSectionIndex: sectionIndex,
+                            currentStepIndex: stepIndex
+                        });
+
+                        if (step.isRequired) {
+                            const viewData = {
+                                csrfToken: req.csrfToken(),
+                                breadcrumbs: concat(
+                                    res.locals.breadcrumbs,
+                                    {
+                                        label: sectionShortTitle,
+                                        url: sectionUrl
+                                    },
+                                    { label: step.title }
+                                ),
+                                section: section,
+                                step: step,
+                                stepNumber: stepNumber,
+                                totalSteps: section.steps.length,
+                                previousUrl: previousUrl,
+                                nextUrl: nextUrl,
+                                errors: errors
+                            };
+
+                            res.render(
+                                path.resolve(__dirname, './views/step'),
+                                viewData
+                            );
+                        } else {
+                            res.redirect(nextUrl);
+                        }
+                    } else {
+                        res.redirect(req.baseUrl);
+                    }
+                } else if (section.introduction) {
+                    const { nextUrl, previousUrl } = nextAndPrevious({
+                        baseUrl: req.baseUrl,
+                        sections: form.sections,
+                        currentSectionIndex: sectionIndex
+                    });
+
+                    const viewData = {
+                        section: section,
+                        breadcrumbs: concat(res.locals.breadcrumbs, {
+                            label: sectionShortTitle,
+                            url: sectionUrl
+                        }),
+                        nextUrl: nextUrl,
+                        previousUrl: previousUrl
+                    };
+
+                    res.render(
+                        path.resolve(__dirname, './views/section-introduction'),
+                        viewData
+                    );
+                } else {
+                    res.redirect(`${sectionUrl}/1`);
+                }
+            } else {
+                res.redirect(req.baseUrl);
+            }
+        };
+    }
+
+    /**
+     * Routes: Form sections
+     */
+    router
+        .route('/:section/:step?')
+        .get((req, res) => {
+            const renderStep = renderStepFor(
+                req.params.section,
+                req.params.step
+            );
+            renderStep(req, res, res.locals.currentApplicationData);
+        })
+        .post(async (req, res, next) => {
+            const { currentlyEditingId, currentApplicationData } = res.locals;
+            const data = { ...currentApplicationData, ...req.body };
+
+            const form = formBuilder({
+                locale: req.i18n.getLocale(),
+                data: data
+            });
+
+            const sectionIndex = findIndex(
+                form.sections,
+                section => section.slug === req.params.section
+            );
+            const currentSection = form.sections[sectionIndex];
+
+            const stepIndex = parseInt(req.params.step, 10) - 1;
+            const step = currentSection.steps[stepIndex];
+            const fields = flatMap(step.fieldsets, 'fields');
+
+            const validationResult = validateDataFor(form, data);
+
+            const errorDetailsForStep = get(
+                validationResult.error,
+                'details',
+                []
+            ).filter(detail =>
+                includes(fields.map(field => field.name), head(detail.path))
+            );
+
+            try {
+                // Exclude any values in the current submission which have errors
+                const dataToStore = omit(
+                    validationResult.value,
+                    errorDetailsForStep.map(detail => head(detail.path))
+                );
+                await applicationsService.updateApplication(
+                    currentlyEditingId,
+                    dataToStore
+                );
+
+                const normalisedErrors = normaliseErrors({
+                    errorDetails: errorDetailsForStep,
+                    errorMessages: fields.reduce((obj, field) => {
+                        obj[field.name] = field.messages;
+                        return obj;
+                    }, {})
+                });
+
+                /**
+                 * If there are errors re-render the step with errors
+                 * - Pass the full data object from validationResult to the view. Including invalid values.
+                 * Otherwise, find the next suitable step and redirect there.
+                 */
+                if (normalisedErrors.length > 0) {
+                    const renderStep = renderStepFor(
+                        req.params.section,
+                        req.params.step
+                    );
+                    renderStep(
+                        req,
+                        res,
+                        validationResult.value,
+                        normalisedErrors
+                    );
+                } else {
+                    const { nextUrl } = nextAndPrevious({
+                        baseUrl: req.baseUrl,
+                        sections: form.sections,
+                        currentSectionIndex: sectionIndex,
+                        currentStepIndex: stepIndex
+                    });
+                    res.redirect(nextUrl);
+                }
+            } catch (error) {
+                next(error);
+            }
+        });
 
     return router;
 }

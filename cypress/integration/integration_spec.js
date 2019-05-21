@@ -1,16 +1,21 @@
 // @ts-nocheck
 const uuid = require('uuid/v4');
 const faker = require('faker');
-const sample = require('lodash/sample');
+const { includes, sample, sampleSize } = require('lodash');
+const moment = require('moment');
 
 describe('common', function() {
     it('should have common headers', () => {
         cy.request('/').then(response => {
-            expect(response.headers['cache-control']).to.eq('max-age=30,s-maxage=300');
+            expect(response.headers['cache-control']).to.eq(
+                'max-age=30,s-maxage=300'
+            );
         });
 
         cy.request('/apply/your-idea/1').then(response => {
-            expect(response.headers['cache-control']).to.eq('no-store,no-cache,max-age=0');
+            expect(response.headers['cache-control']).to.eq(
+                'no-store,no-cache,max-age=0'
+            );
         });
     });
 
@@ -27,14 +32,16 @@ describe('common', function() {
     it('should redirect search queries to a google site search', () => {
         cy.checkRedirect({
             from: '/search?q=This is my search query',
-            to: 'https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query',
+            to:
+                'https://www.google.co.uk/search?q=site%3Awww.tnlcommunityfund.org.uk+This%20is%20my%20search%20query',
             isRelative: false,
             status: 302
         });
     });
 
     it('should redirect archived pages to the national archives', () => {
-        const urlPath = '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
+        const urlPath =
+            '/funding/funding-guidance/applying-for-funding/aims-and-outcomes';
         cy.request(urlPath).then(response => {
             expect(response.body).to.include(
                 `http://webarchive.nationalarchives.gov.uk/20171011152352/https://www.biglotteryfund.org.uk${urlPath}`
@@ -45,20 +52,27 @@ describe('common', function() {
     it('should redirect legacy funding programmes', () => {
         const sampleRedirect = sample([
             {
-                originalPath: '/global-content/programmes/england/acitve-england',
+                originalPath:
+                    '/global-content/programmes/england/acitve-england',
                 redirectedPath: '/funding/programmes/acitve-england'
             },
             {
-                originalPath: '/global-content/programmes/uk-wide/green-spaces-and-sustainable-communities',
-                redirectedPath: '/funding/programmes/green-spaces-and-sustainable-communities'
+                originalPath:
+                    '/global-content/programmes/uk-wide/green-spaces-and-sustainable-communities',
+                redirectedPath:
+                    '/funding/programmes/green-spaces-and-sustainable-communities'
             },
             {
-                originalPath: '/global-content/programmes/northern-ireland/young-peoples-fund-change-ur-future',
-                redirectedPath: '/funding/programmes/young-peoples-fund-change-ur-future'
+                originalPath:
+                    '/global-content/programmes/northern-ireland/young-peoples-fund-change-ur-future',
+                redirectedPath:
+                    '/funding/programmes/young-peoples-fund-change-ur-future'
             },
             {
-                originalPath: '/welsh/global-content/programmes/wales/young-peoples-fund-bridging-the-gap',
-                redirectedPath: '/welsh/funding/programmes/young-peoples-fund-bridging-the-gap'
+                originalPath:
+                    '/welsh/global-content/programmes/wales/young-peoples-fund-bridging-the-gap',
+                redirectedPath:
+                    '/welsh/funding/programmes/young-peoples-fund-bridging-the-gap'
             }
         ]);
 
@@ -70,8 +84,10 @@ describe('common', function() {
 
     it('should protect access to staff-only tools', () => {
         cy.checkRedirect({
-            from: '/funding/programmes/national-lottery-awards-for-all-england?draft=42',
-            to: '/user/staff/login?redirectUrl=/funding/programmes/national-lottery-awards-for-all-england?draft=42',
+            from:
+                '/funding/programmes/national-lottery-awards-for-all-england?draft=42',
+            to:
+                '/user/staff/login?redirectUrl=/funding/programmes/national-lottery-awards-for-all-england?draft=42',
             status: 302
         });
 
@@ -216,14 +232,18 @@ describe('user', () => {
     it('should not allow unknown users to login', () => {
         cy.visit('/user/login');
         submitForm('person@example.com', 'examplepassword');
-        cy.getByText('Your username and password combination is invalid').should('exist');
+        cy.getByText(
+            'Your username and password combination is invalid'
+        ).should('exist');
         cy.checkA11y();
     });
 
     it('should prevent registrations with invalid passwords', () => {
         cy.visit('/user/register');
         submitForm('person@example.com', 'tooshort');
-        cy.getByText('Password must be at least 10 characters long').should('exist');
+        cy.getByText('Password must be at least 10 characters long').should(
+            'exist'
+        );
     });
 
     it('should be able to register, log in, and reset password', () => {
@@ -241,7 +261,9 @@ describe('user', () => {
 
         // Attempt to log in with new user with an incorrect password and then correct it
         submitForm(username, 'invalidpassword');
-        cy.getByText('Your username and password combination is invalid').should('exist');
+        cy.getByText(
+            'Your username and password combination is invalid'
+        ).should('exist');
         submitForm(username, password);
         cy.getByText('Your account').should('be.visible');
     });
@@ -255,9 +277,11 @@ describe('user', () => {
             returnToken: true
         }).then(res => {
             // via https://github.com/auth0/node-jsonwebtoken/issues/162
-            expect(res.body.token).to.match(/^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/);
-            expect(res.body.email.sendTo).to.equal(username);
-            expect(res.body.email.subject).to.equal(
+            expect(res.body.token).to.match(
+                /^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/
+            );
+            expect(res.body.mailParams.sendTo).to.equal(username);
+            expect(res.body.mailParams.subject).to.equal(
                 'Activate your The National Lottery Community Fund website account'
             );
         });
@@ -266,180 +290,404 @@ describe('user', () => {
 
 describe('awards for all', function() {
     it('should submit full awards for all application', () => {
+        const randomCountry = faker.random.arrayElement([
+            'England',
+            'Scotland',
+            'Northern Ireland',
+            'Wales'
+        ]);
+
+        function shouldDisplayErrors(errorDescriptions = []) {
+            errorDescriptions.forEach(description => {
+                cy.getByTestId('form-errors').should('contain', description);
+            });
+        }
+
+        function submitStep() {
+            cy.getByText('Continue').click();
+        }
+
+        function fillDateParts(momentInstance) {
+            cy.getByLabelText('Day')
+                .clear()
+                .type(momentInstance.date());
+            cy.getByLabelText('Month')
+                .clear()
+                .type(momentInstance.month() + 1);
+            cy.getByLabelText('Year')
+                .clear()
+                .type(momentInstance.year());
+        }
+
         function fillAddress() {
-            cy.getByLabelText('Building and street', { exact: false }).type(faker.address.streetAddress());
-            cy.getByLabelText('Town or city', { exact: false }).type(faker.address.city());
-            cy.getByLabelText('County', { exact: false }).type(faker.address.county());
+            cy.getByLabelText('Building and street', { exact: false }).type(
+                faker.address.streetAddress()
+            );
+            cy.getByLabelText('Town or city', { exact: false }).type(
+                faker.address.city()
+            );
+            cy.getByLabelText('County', { exact: false }).type(
+                faker.address.county()
+            );
             cy.getByLabelText('Postcode', { exact: false }).type('B15 1TR');
         }
 
-        function fillProjectDetails() {
-            cy.getByLabelText('What is the name of your project?', { exact: false }).type('My application');
-            cy.getByLabelText('England').click();
-            cy.getByLabelText('Day').type('12');
-            cy.getByLabelText('Month').type('12');
-            cy.getByLabelText('Year').type('2020');
-            cy.getByLabelText('What is the postcode', { exact: false }).type('B15 1TR');
+        function stepProjectDetails() {
             cy.checkA11y();
+            cy.getByLabelText('What is the name of your project?', {
+                exact: false
+            }).type('My application');
+
+            const invalidDate = moment();
+            fillDateParts(invalidDate);
+
+            submitStep();
+
+            shouldDisplayErrors(['Date you start the project must be after']);
+            cy.checkA11y();
+
+            const validDate = moment().add('12', 'weeks');
+            fillDateParts(validDate);
+
+            submitStep();
         }
 
-        function fillYourIdea() {
+        function stepProjectCountry() {
+            cy.getByLabelText(randomCountry).click();
+            submitStep();
+        }
+
+        function stepProjectLocation() {
+            let locationOption;
+            switch (randomCountry) {
+                case 'Northern Ireland':
+                    locationOption = 'Derry and Strabane';
+                    break;
+                case 'Scotland':
+                    locationOption = 'Perth & Kinross';
+                    break;
+                case 'Wales':
+                    locationOption = 'Caerphilly';
+                    break;
+                default:
+                    locationOption = 'Bath and North East Somerset';
+                    break;
+            }
+
+            cy.getByLabelText('Where will your project take place?').select(
+                locationOption
+            );
+
+            cy.getByLabelText(
+                'Tell us the towns, villages or wards where your beneficiaries live'
+            ).type(faker.lorem.sentence());
+
+            cy.getByLabelText('What is the postcode', { exact: false }).type(
+                'B15 1TR'
+            );
+
+            submitStep();
+        }
+
+        function stepYourIdea() {
             cy.checkA11y();
 
             cy.getByLabelText('What would you like to do?', { exact: false })
-                .invoke('val', faker.lorem.paragraphs(5))
+                .invoke('val', faker.lorem.words(150))
                 .trigger('change');
 
-            cy.checkA11y();
-
-            cy.getByLabelText('How does your project meet at least one of our funding priorities?', {
-                exact: false
-            })
+            cy.getByLabelText(
+                'How does your project meet at least one of our funding priorities?',
+                { exact: false }
+            )
                 .invoke('val', faker.lorem.words(100))
                 .trigger('change');
 
-            cy.getByLabelText('How does your project involve your community?', { exact: false })
-                .invoke('val', faker.lorem.words(200))
+            const maybeTooShort = faker.random.number({ min: 10, max: 200 });
+
+            cy.getByLabelText('How does your project involve your community?')
+                .invoke('val', faker.lorem.words(maybeTooShort))
                 .trigger('change');
+
+            submitStep();
+
+            if (maybeTooShort < 50) {
+                shouldDisplayErrors(['Answer must be at least 50 words']);
+                cy.checkA11y();
+
+                cy.getByLabelText(
+                    'How does your project involve your community?'
+                )
+                    .invoke('val', faker.lorem.words(200))
+                    .trigger('change');
+
+                submitStep();
+            }
         }
 
-        function fillProjectCosts() {
-            cy.getByTestId('budget-row').within(() => {
-                cy.getByLabelText('Item or activity').type('Example budget item');
-                cy.getByLabelText('Amount').type('1200');
+        function stepProjectCosts() {
+            const amounts = [250, 1000, 2500, 5000, 2500];
+            amounts.forEach(amount => {
+                cy.getAllByTestId('budget-row')
+                    .last()
+                    .within(() => {
+                        cy.getByLabelText('Item or activity').type(
+                            faker.lorem.words(5)
+                        );
+                        cy.getByLabelText('Amount').type(amount);
+                    });
             });
-            cy.getAllByTestId('budget-row')
-                .last()
-                .within(() => {
-                    cy.getByLabelText('Item or activity').type('Example budget item 2');
-                    cy.getByLabelText('Amount').type('1200');
-                });
-            cy.getAllByTestId('budget-row')
-                .last()
-                .within(() => {
-                    cy.getByLabelText('Item or activity').type('Example budget item 3');
-                    cy.getByLabelText('Amount').type('500');
-                });
-            cy.getAllByTestId('budget-row').should('have.length', 4);
-            cy.getAllByTestId('budget-total').should('contain', '£2,900');
+
+            cy.getAllByTestId('budget-errors').should(
+                'contain',
+                'Total project costs must be less than £10,000'
+            );
+
+            cy.getAllByTestId('budget-total').should('contain', '£11,250');
             cy.checkA11y();
+
+            cy.getByLabelText('Tell us the total cost of your project.').type(
+                '10000'
+            );
+
+            submitStep();
+
+            shouldDisplayErrors([
+                'Total project costs must be less than £10,000',
+                'Total cost must be the same as or higher than the amount you’re asking us to fund'
+            ]);
+            cy.checkA11y();
+
             cy.getAllByText('Delete row', { exact: false })
                 .last()
                 .click();
-            cy.getAllByTestId('budget-total').should('contain', '£2,400');
-            cy.getAllByTestId('budget-row').should('have.length', 3);
 
-            cy.getByLabelText('Tell us the total cost of your project', { exact: false }).type('5000');
+            // @TODO: Why does this need to be clicked twice?
+            cy.getAllByText('Delete row', { exact: false })
+                .last()
+                .click();
+
+            cy.getAllByTestId('budget-total').should('contain', '£8,750');
+
+            submitStep();
         }
 
-        function fillOrganisationDetails() {
-            cy.getByLabelText('What is the full legal name of your organisation?', { exact: false }).type(
-                faker.company.companyName()
+        function stepBeneficiaryGroups() {
+            cy.checkA11y();
+            cy.getByLabelText('Yes').click();
+            submitStep();
+
+            const randomBeneficiaryGroups = sampleSize(
+                [
+                    'People from a particular ethnic background',
+                    'People of a particular gender',
+                    'People of a particular age',
+                    'Disabled people',
+                    'Lesbian, gay, or bisexual people'
+                ],
+                2
             );
+
+            cy.checkA11y();
+            randomBeneficiaryGroups.forEach(label => {
+                cy.getByLabelText(label).click();
+            });
+            submitStep();
+
+            if (
+                includes(
+                    randomBeneficiaryGroups,
+                    'People from a particular ethnic background'
+                )
+            ) {
+                cy.checkA11y();
+                cy.getByLabelText('Caribbean').click();
+                cy.getByLabelText('African').click();
+                submitStep();
+            }
+
+            if (
+                includes(
+                    randomBeneficiaryGroups,
+                    'People of a particular gender'
+                )
+            ) {
+                cy.checkA11y();
+                cy.getByLabelText('Non-binary').click();
+                submitStep();
+            }
+
+            if (
+                includes(randomBeneficiaryGroups, 'People of a particular age')
+            ) {
+                cy.checkA11y();
+                cy.getByLabelText('25-64').click();
+                submitStep();
+            }
+
+            if (includes(randomBeneficiaryGroups, 'Disabled people')) {
+                cy.checkA11y();
+                cy.getByLabelText(
+                    'Disabled people with learning or mental difficulties',
+                    { exact: false }
+                ).click();
+                submitStep();
+            }
+        }
+
+        function stepOrganisationDetails() {
+            cy.checkA11y();
+            cy.getByLabelText(
+                'What is the full legal name of your organisation?',
+                { exact: false }
+            ).type(faker.company.companyName());
             fillAddress();
+            submitStep();
         }
 
-        function fillOrganisationType() {
-            cy.getByLabelText('Registered charity', { exact: false }).click();
+        function stepOrganisationType() {
+            cy.checkA11y();
+            cy.getByLabelText('Registered charity (unincorporated)', {
+                exact: false
+            }).click();
+            submitStep();
         }
 
-        function fillRegistrationNumbers() {
-            cy.getByLabelText('Charity registration number', { exact: false }).type(12345678);
+        function stepRegistrationNumbers() {
+            cy.checkA11y();
+            cy.getByLabelText('Charity registration number', {
+                exact: false
+            }).type(12345678);
+            submitStep();
         }
 
-        function fillOrganisationFinances() {
+        function stepOrganisationFinances() {
+            cy.checkA11y();
             cy.getByLabelText('Day').type(31);
             cy.getByLabelText('Month').type(3);
-            cy.getByLabelText('What is your total income for the year?', { exact: false }).type('150000');
+            cy.getByLabelText('What is your total income for the year?', {
+                exact: false
+            }).type('150000');
+            submitStep();
         }
 
-        function fillContact() {
-            cy.getByLabelText('First name', { exact: false }).type(faker.name.firstName());
-            cy.getByLabelText('Last name', { exact: false }).type(faker.name.lastName());
+        function stepMainContact() {
+            cy.checkA11y();
+            cy.getByLabelText('First name', { exact: false }).type(
+                faker.name.firstName()
+            );
+            cy.getByLabelText('Last name', { exact: false }).type(
+                faker.name.lastName()
+            );
             cy.getByLabelText('Day').type('5');
             cy.getByLabelText('Month').type('11');
             cy.getByLabelText('Year').type('1926');
             fillAddress();
-            cy.getByLabelText('Email', { exact: false }).type(faker.internet.exampleEmail());
-            cy.getByLabelText('UK telephone number', { exact: false }).type(faker.phone.phoneNumber());
+            cy.getByLabelText('Yes').click();
+            cy.getByLabelText('Email', { exact: false }).type(
+                faker.internet.exampleEmail()
+            );
+            cy.getByLabelText('Telephone number', { exact: false }).type(
+                faker.phone.phoneNumber()
+            );
+            submitStep();
         }
 
-        function fillMainContact() {
-            fillContact();
-        }
-
-        function fillSeniorContact() {
-            fillContact();
+        function stepSeniorContact() {
+            cy.checkA11y();
+            cy.getByLabelText('First name', { exact: false }).type(
+                faker.name.firstName()
+            );
+            cy.getByLabelText('Last name', { exact: false }).type(
+                faker.name.lastName()
+            );
             cy.getByLabelText('Trustee').click();
+            cy.getByLabelText('Day').type('5');
+            cy.getByLabelText('Month').type('11');
+            cy.getByLabelText('Year').type('1926');
+            fillAddress();
+            cy.getByLabelText('Yes').click();
+            cy.getByLabelText('Email', { exact: false }).type(
+                faker.internet.exampleEmail()
+            );
+            cy.getByLabelText('Telephone number', { exact: false }).type(
+                faker.phone.phoneNumber()
+            );
+            submitStep();
         }
 
-        function fillBankDetails() {
-            cy.getByLabelText('Name on the bank account', { exact: false }).type(faker.company.companyName());
-            cy.getByLabelText('Account number', { exact: false }).type('00012345');
+        function stepBankDetails() {
+            cy.checkA11y();
+            cy.getByLabelText('Name on the bank account', {
+                exact: false
+            }).type(faker.company.companyName());
+            cy.getByLabelText('Account number', { exact: false }).type(
+                '00012345'
+            );
             cy.getByLabelText('Sort code', { exact: false }).type('108800');
+            submitStep();
         }
 
-        function fillBankStatement() {
+        function stepBankStatement() {
+            cy.checkA11y();
             cy.fixture('example.pdf', 'base64').then(fileContent => {
-                cy.getByLabelText('Upload a bank statement', { exact: false }).upload(
-                    { fileContent, fileName: 'example.pdf', mimeType: 'application/pdf' },
+                cy.getByLabelText('Upload a bank statement', {
+                    exact: false
+                }).upload(
+                    {
+                        fileContent,
+                        fileName: 'example.pdf',
+                        mimeType: 'application/pdf'
+                    },
                     { subjectType: 'input' }
                 );
             });
+            submitStep();
         }
 
         function fillTerms() {
+            cy.checkA11y();
             cy.getAllByLabelText('I agree').each($el => {
                 cy.wrap($el).click();
             });
 
-            cy.getByLabelText('Full name of person completing this form', { exact: false }).type(faker.name.findName());
-            cy.getByLabelText('Position in organisation', { exact: false }).type(faker.name.jobDescriptor());
+            cy.getByLabelText('Full name of person completing this form', {
+                exact: false
+            }).type(faker.name.findName());
+            cy.getByLabelText('Position in organisation', {
+                exact: false
+            }).type(faker.name.jobDescriptor());
         }
 
         cy.seedAndLogin().then(() => {
             cy.visit('/apply-next/simple/new');
 
-            fillProjectDetails();
-            cy.getByText('Continue').click();
+            stepProjectDetails();
+            stepProjectCountry();
+            stepProjectLocation();
+            stepYourIdea();
+            stepProjectCosts();
+            stepBeneficiaryGroups();
+            stepOrganisationDetails();
+            stepOrganisationType();
+            stepRegistrationNumbers();
+            stepOrganisationFinances();
+            stepMainContact();
+            stepSeniorContact();
+            stepBankDetails();
+            stepBankStatement();
 
-            fillYourIdea();
-            cy.getByText('Continue').click();
-
-            fillProjectCosts();
-            cy.getByText('Continue').click();
-
-            fillOrganisationDetails();
-            cy.getByText('Continue').click();
-
-            fillOrganisationType();
-            cy.getByText('Continue').click();
-
-            fillRegistrationNumbers();
-            cy.getByText('Continue').click();
-
-            fillOrganisationFinances();
-            cy.getByText('Continue').click();
-
-            fillMainContact();
-            cy.getByText('Continue').click();
-
-            fillSeniorContact();
-            cy.getByText('Continue').click();
-
-            fillBankDetails();
-            cy.getByText('Continue').click();
-
-            fillBankStatement();
-            cy.getByText('Continue').click();
-
-            cy.get('h2').should('contain', 'Summary');
-            cy.getByText('Submit').click();
+            cy.checkA11y();
+            cy.get('h1').should('contain', 'Summary');
+            cy.getByText('Submit application').click();
 
             fillTerms();
             cy.getByText('Submit application').click();
 
-            cy.get('h1').should('contain', 'Thank you for submitting your idea');
+            cy.get('h1').should(
+                'contain',
+                'Your application has been submitted. Good luck!'
+            );
         });
     });
 });
@@ -447,7 +695,10 @@ describe('awards for all', function() {
 describe('reaching communities', function() {
     it('should allow applications for reaching communities', () => {
         function fillIdea() {
-            cy.getByLabelText('Briefly explain your idea and why it’ll make a difference', { exact: false })
+            cy.getByLabelText(
+                'Briefly explain your idea and why it’ll make a difference',
+                { exact: false }
+            )
                 .invoke('val', faker.lorem.paragraphs(3))
                 .trigger('change');
         }
@@ -455,19 +706,39 @@ describe('reaching communities', function() {
         function fillLocation() {
             cy.checkA11y();
             cy.getByLabelText('North East & Cumbria', { exact: false }).check();
-            cy.getByLabelText('Yorkshire and the Humber', { exact: false }).check();
-            cy.getByLabelText('Project location', { exact: false }).type('Example', { delay: 0 });
+            cy.getByLabelText('Yorkshire and the Humber', {
+                exact: false
+            }).check();
+            cy.getByLabelText('Project location', { exact: false }).type(
+                'Example',
+                { delay: 0 }
+            );
         }
 
         function fillOrganisation() {
-            cy.getByLabelText('Legal name', { exact: false }).type('Test Organisation', { delay: 0 });
+            cy.getByLabelText('Legal name', { exact: false }).type(
+                'Test Organisation',
+                { delay: 0 }
+            );
         }
 
         function fillYourDetails() {
-            cy.getByLabelText('First name', { exact: false }).type(faker.name.firstName(), { delay: 0 });
-            cy.getByLabelText('Last name', { exact: false }).type(faker.name.lastName(), { delay: 0 });
-            cy.getByLabelText('Email address', { exact: false }).type(faker.internet.exampleEmail(), { delay: 0 });
-            cy.getByLabelText('Phone number', { exact: false }).type('0123456789', { delay: 0 });
+            cy.getByLabelText('First name', { exact: false }).type(
+                faker.name.firstName(),
+                { delay: 0 }
+            );
+            cy.getByLabelText('Last name', { exact: false }).type(
+                faker.name.lastName(),
+                { delay: 0 }
+            );
+            cy.getByLabelText('Email address', { exact: false }).type(
+                faker.internet.exampleEmail(),
+                { delay: 0 }
+            );
+            cy.getByLabelText('Phone number', { exact: false }).type(
+                '0123456789',
+                { delay: 0 }
+            );
         }
 
         function interactWithAnswerToggle() {
@@ -511,7 +782,9 @@ describe('reaching communities', function() {
 
 describe('free materials', function() {
     it('should submit materials order', () => {
-        cy.visit('/funding/funding-guidance/managing-your-funding/ordering-free-materials');
+        cy.visit(
+            '/funding/funding-guidance/managing-your-funding/ordering-free-materials'
+        );
         cy.get('a[href="#monolingual"]').click();
 
         // Select items
@@ -566,7 +839,7 @@ describe('past grants', function() {
 
         // Search query
         const testQuery = 'cake';
-        const textQueryCount = 79;
+        const textQueryCount = 78;
 
         cy.get('#js-past-grants')
             .find('#search-query')

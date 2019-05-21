@@ -47,6 +47,9 @@
         padding: $spacingUnit;
     }
 }
+.u-padded-s {
+    padding: $spacingUnit / 2;
+}
 .u-padded-vertical {
     padding-top: $spacingUnit;
     padding-bottom: $spacingUnit;

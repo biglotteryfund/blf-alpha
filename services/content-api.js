@@ -1,7 +1,7 @@
 'use strict';
 const { find, filter, get, head, map, sortBy } = require('lodash/fp');
 const request = require('request-promise-native');
-const debug = require('debug')('biglotteryfund:content-api');
+const debug = require('debug')('tnlcf:content-api');
 const querystring = require('querystring');
 
 const getAttrs = response => get('data.attributes')(response);
@@ -130,14 +130,25 @@ function getUpdates({ locale, type = null, date = null, slug = null, query = {},
     }
 }
 
-function getFundingProgrammes({ locale, page = 1, pageLimit = 100, showAll = false, newestFirst = false }) {
+function getFundingProgrammes({ locale, page = 1, pageLimit = 100, showAll = false }) {
     return fetchAllLocales(reqLocale => `/v2/${reqLocale}/funding-programmes`, {
-        qs: { page: page, 'page-limit': pageLimit, all: showAll === true, newest: newestFirst === true }
+        qs: { 'page': page, 'page-limit': pageLimit, 'all': showAll === true }
     }).then(responses => {
         const [enResults, cyResults] = responses.map(mapAttrs);
         return {
             meta: head(responses).meta,
             result: mergeWelshBy('slug')(locale, enResults, cyResults)
+        };
+    });
+}
+
+function getRecentFundingProgrammes({ locale, limit = 3 }) {
+    return fetch(`/v2/${locale}/funding-programmes`, {
+        qs: { 'page': 1, 'page-limit': limit, 'newest': true }
+    }).then(response => {
+        return {
+            meta: response.meta,
+            result: mapAttrs(response)
         };
     });
 }
@@ -182,7 +193,7 @@ function getStrategicProgrammes({ locale, slug = null, previewMode = null, query
     }
 }
 
-function getListingPage({ locale, path, previewMode, query = {} }) {
+function getListingPage({ locale, path, previewMode = null, query = {} }) {
     const sanitisedPath = sanitiseUrlPath(path);
     return fetch(`/v1/${locale}/listing`, {
         qs: addPreviewParams(previewMode, { ...query, ...{ path: sanitisedPath } })
@@ -244,6 +255,7 @@ module.exports = {
     getFlexibleContent,
     getFundingProgramme,
     getFundingProgrammes,
+    getRecentFundingProgrammes,
     getHeroImage,
     getHomepage,
     getListingPage,

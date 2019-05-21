@@ -1,0 +1,491 @@
+{% from "components/icons.njk" import iconBin %}
+
+{% macro formErrors(title, errors) %}
+    {% if errors | length > 0 %}
+        <div class="form-errors" data-testid="form-errors">
+            <h2 class="form-errors__title">{{ title }}</h2>
+            {% if errors.length > 0 %}
+                <ol class="form-errors__list">
+                    {% for error in errors %}
+                        <li>
+                            {% if error.param %}<a href="#form-field-{{ error.param }}">{% endif %}
+                            {{ error.msg }}
+                            {% if error.param %}</a>{% endif %}
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro explanationFor(field) %}
+    {% if field.explanation %}
+        <div class="ff-help s-prose">{{ field.explanation | safe }}</div>
+    {% endif %}
+{% endmacro %}
+
+{% macro labelFor(field) -%}
+    {{ field.label }}
+    {% if field.isRequired === false %}
+        <span class="ff-label-note">{{ __('global.misc.optional') }}</span>
+    {% endif %}
+{%- endmacro %}
+
+{% macro inputText(field) %}
+    <label class="ff-label{% if field.settings.hideLabel %} u-visually-hidden{% endif %}" for="field-{{ field.name }}">
+        {{ labelFor(field) }}
+    </label>
+    {{ explanationFor(field) }}
+    <input
+        class="ff-text"
+        type="{{ field.type }}"
+        id="field-{{ field.name }}"
+        name="{{ field.name }}"
+        {% if field.value %}value="{{ field.value }}"{% endif %}
+        {% if field.isRequired %}required aria-required="true"{% endif %}
+        {# @TODO: Remove in favour of always setting explicit size #}
+        {% if not field.attributes.size %}size="{{ field.size | default(40, true) }}"{% endif %}
+        {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
+    />
+{% endmacro %}
+
+{% macro inputDate(field, includeYear = true) %}
+    <fieldset class="ff-date" id="field-{{ field.name }}">
+        <legend class="ff-label ff-date__legend">
+            {{ field.label }}
+        </legend>
+        {{ explanationFor(field) }}
+
+        <label class="ff-date__field">
+            <span class="ff-label">{{ __('global.misc.day') }}</span>
+            <input
+                class="ff-text ff-width-2"
+                name="{{ field.name }}[day]"
+                type="number"
+                pattern="[0-9]*"  min="1"
+                autocomplete="off"
+                {% if field.isRequired %}required aria-required="true"{% endif %}
+                value="{{ field.value.day }}"
+            />
+        </label>
+        <label class="ff-date__field">
+            <span class="ff-label">{{ __('global.misc.month') }}</span>
+            <input
+                class="ff-text ff-width-2"
+                name="{{ field.name }}[month]"
+                type="number"
+                pattern="[0-9]*"  min="1"
+                autocomplete="off"
+                {% if field.isRequired %}required aria-required="true"{% endif %}
+                value="{{ field.value.month }}"
+            />
+        </label>
+        {% if includeYear %}
+            <label class="ff-date__field">
+                <span class="ff-label">{{ __('global.misc.year') }}</span>
+                <input
+                    class="ff-text ff-width-4"
+                    name="{{ field.name }}[year]"
+                    type="number"
+                    pattern="[0-9]*" min="{{ field.settings.minYear | default(1900) }}"
+                    autocomplete="off"
+                    size="20"
+                    {% if field.isRequired %}required aria-required="true"{% endif %}
+                    value="{{ field.value.year }}"
+                />
+            </label>
+        {% endif %}
+    </fieldset>
+{% endmacro %}
+
+{% macro inputCurrency(field) %}
+    <label class="ff-label" for="field-{{ field.name }}">
+        {{ labelFor(field) }}
+    </label>
+    {{ explanationFor(field) }}
+    <div class="ff-currency ff-currency--constrained">
+        <div class="ff-currency__pre">£</div>
+        <input class="ff-currency__input"
+            type="number"
+            id="field-{{ field.name }}"
+            name="{{ field.name }}"
+            {% if field.value %}value="{{ field.value }}"{% endif %}
+            {% if field.isRequired %}required aria-required="true"{% endif %}
+            {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
+        />
+    </div>
+{% endmacro %}
+
+{% macro inputTextarea(field) %}
+    {% set settings = field.settings %}
+    {% if settings.showWordCount %}<div class="js-word-count">{% endif %}
+    <label class="ff-label" for="field-{{ field.name }}">
+        {{ labelFor(field) }}
+    </label>
+    {{ explanationFor(field) }}
+    <textarea class="ff-textarea"
+        id="field-{{ field.name }}"
+        name="{{ field.name }}"
+        {% if field.isRequired %}required aria-required="true"{% endif %}
+        {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
+        {% if settings.showWordCount %} @input="onInput" ref="textarea"{% endif %}
+    >{{ field.value }}</textarea>
+    {% if settings.showWordCount %}
+        <word-count
+            :current-text="text"
+            locale="{{ locale }}"
+            field-id="field-{{ field.name }}"
+            :min-words={{ settings.minWords }}
+            :max-words={{ settings.maxWords }}
+            :recommended-words={{ settings.recommendedWords }}
+        ></word-count>
+    {% endif %}
+    {% if settings.showWordCount %}</div>{% endif %}
+{% endmacro %}
+
+{% macro inputSelect(field) %}
+    <label class="ff-label" for="field-{{ field.name }}">
+        {{ labelFor(field) }}
+    </label>
+    {{ explanationFor(field) }}
+
+    <select class="ff-select" id="field-{{ field.name }}" name="{{ field.name }}">
+        {% if field.defaultOption %}
+            <option disabled value{% if not field.value %} selected{% endif %}>{{ field.defaultOption }}</option>
+        {% endif %}
+
+        {% if field.optgroups %}
+            {% for optgroup in field.optgroups %}
+                <optgroup label="{{ optgroup.label }}">
+                    {% for option in optgroup.options %}
+                        <option value="{{ option.value }}"{% if field.value === option.value %} selected{% endif %}>
+                            {{ option.label }}
+                        </option>
+                    {% endfor %}
+                </optgroup>
+            {% endfor %}
+        {% else %}
+            {% for option in field.options %}
+                <option value="{{ option.value }}"{% if field.value === option.value %} selected{% endif %}>
+                    {{ option.label }}
+                </option>
+            {% endfor %}
+        {% endif %}
+    </select>
+{% endmacro %}
+
+{% macro inputCheckbox(field) %}
+    <fieldset class="ff-choice">
+        <legend class="ff-label">{{ labelFor(field) }}</legend>
+        {{ explanationFor(field) }}
+
+        {% if field.optgroups  %}
+            {% for optgroup in field.optgroups %}
+                {% set optgroupIdx = loop.index %}
+                <fieldset>
+                    <legend class="ff-label">{{ optgroup.label }}</legend>
+                    <ul class="ff-choice__list">
+                        {% for option in optgroup.options %}
+                            {% set fieldId = 'field-' + field.name + '-' + optgroupIdx + '-' + loop.index %}
+                            <li class="ff-choice__option">
+                                <div class="ff-choice__input">
+                                    <input
+                                        type="checkbox"
+                                        id="{{ fieldId }}"
+                                        name="{{ field.name }}"
+                                        value="{{ option.value }}"
+                                        {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
+                                    />
+                                </div>
+                                <label class="ff-choice__label" for="{{ fieldId }}">
+                                    {{ option.label }}
+                                    {% if option.explanation %}
+                                        <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
+                                    {% endif %}
+                                </label>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </fieldset>
+            {% endfor %}
+        {% else %}
+            <ul class="ff-choice__list">
+                {% for option in field.options %}
+                    <li class="ff-choice__option">
+                        <div class="ff-choice__input">
+                            <input
+                                type="checkbox"
+                                id="field-{{ field.name }}-{{ loop.index }}"
+                                name="{{ field.name }}"
+                                value="{{ option.value }}"
+                                {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
+                            />
+                        </div>
+                        <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
+                            {{ option.label }}
+                            {% if option.explanation %}
+                                <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
+                            {% endif %}
+                        </label>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </fieldset>
+{% endmacro %}
+
+{% macro inputRadio(field) %}
+    <fieldset class="ff-choice">
+        <legend class="ff-label" for="field-{{ field.name }}">
+            {{ labelFor(field) }}
+        </legend>
+        {{ explanationFor(field) }}
+        <ul class="ff-choice__list">
+            {% for option in field.options %}
+                <li class="ff-choice__option">
+                    <div class="ff-choice__input">
+                        <input
+                            type="radio"
+                            id="field-{{ field.name }}-{{ loop.index }}"
+                            name="{{ field.name }}"
+                            value="{{ option.value }}"
+                            {% if field.isRequired %}required aria-required="true"{% endif %}
+                            {% if field.value[0] === option.value or field.value === option.value %}checked{% endif %}
+                        />
+                    </div>
+                    <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
+                        {{ option.label }}
+                        {% if option.explanation %}
+                            <small class="ff-choice__caption">{{ option.explanation | safe }}</small>
+                        {% endif %}
+                    </label>
+                </li>
+            {% endfor %}
+        </ul>
+    </fieldset>
+{% endmacro %}
+
+{% macro inputAddress(field) %}
+    <fieldset class="ff-address js-address-lookup" id="field-{{ field.name }}">
+        <legend class="ff-label ff-address__legend">
+            {{ labelFor(field) }}
+        </legend>
+
+        <address-lookup
+            locale="{{ locale }}"
+            @full-address="handleAddress"
+            @show-fallback="handleFallback"
+        ></address-lookup>
+
+        {{ explanationFor(field) }}
+
+        <details open :open="showFallbackFields" @click="showFallbackFields = !showFallbackFields" class="u-margin-top">
+            <summary>Enter address manually</summary>
+            <div class="ff-address__fields">
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'Building and street',
+                        name: field.name + '[line1]',
+                        value: field.value['line1'],
+                        type: 'text',
+                        isRequired: field.isRequired,
+                        attributes: { size: 40, ref: 'addressLine1' }
+                    }) }}
+                </div>
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'Address line 2',
+                        name: field.name + '[line2]',
+                        value: field.value['line2'],
+                        type: 'text',
+                        isRequired: false,
+                        settings: { hideLabel: true },
+                        attributes: { size: 40, ref: 'addressLine2' }
+                    }) }}
+                </div>
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'Town or city',
+                        name: field.name + '[townCity]',
+                        value: field.value['townCity'],
+                        type: 'text',
+                        isRequired: field.isRequired,
+                        attributes: { size: 30, ref: 'townCity' }
+                    }) }}
+                </div>
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'County',
+                        name: field.name + '[county]',
+                        value: field.value['county'],
+                        type: 'text',
+                        isRequired: false,
+                        attributes: { size: 30, ref: 'country' }
+                    }) }}
+                </div>
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'Postcode',
+                        name: field.name + '[postcode]',
+                        value: field.value['postcode'],
+                        type: 'text',
+                        isRequired: field.isRequired,
+                        attributes: { size: 10, ref: 'postcode' }
+                    }) }}
+                </div>
+            </div>
+        </details>
+    </fieldset>
+{% endmacro %}
+
+{% macro inputAddressHistory(field) %}
+    <div class="js-conditional-radios">
+        <fieldset class="ff-choice ff-choice--inline">
+            <legend class="ff-label" for="field-{{ field.name }}">
+                {{ labelFor(field) }}
+            </legend>
+            {{ explanationFor(field) }}
+            {% set options = [{
+                label: __('global.misc.yes'),
+                value: 'yes'
+            }, {
+                label: __('global.misc.no'),
+                value: 'no',
+                conditionalId: 'address-history-conditional-no'
+            }] %}
+            <ul class="ff-choice__list">
+                {% for option in options  %}
+                    <li class="ff-choice__option">
+                        {% set optionId = 'option-' + field.name + '-' + option.value %}
+                        <div class="ff-choice__input">
+                            <input
+                                type="radio"
+                                id="{{ optionId }}"
+                                name="{{ field.name }}[currentAddressMeetsMinimum]"
+                                value="{{ option.value }}"
+                                {% if field.value['currentAddressMeetsMinimum'] === option.value %}checked{% endif %}
+                                {% if option.conditionalId %}data-aria-controls="{{ option.conditionalId }}"{% endif %}
+                            />
+                        </div>
+                        <label class="ff-choice__label" for="{{ optionId }}">{{ option.label }}</label>
+                    </li>
+                {% endfor %}
+            </ul>
+        </fieldset>
+
+        <div class="u-margin-top" id="address-history-conditional-no">
+            {{ inputAddress({
+                name: field.name + '[previousAddress]',
+                label: 'Previous address'
+            }) }}
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro inputBudget(field) %}
+    <fieldset>
+        <legend class="ff-label">
+            {{ labelFor(field) }}
+        </legend>
+        {{ explanationFor(field) }}
+
+        <div id="js-budget-input">
+            <budget-input
+                field-name="{{ field.name }}"
+                :max-budget="{{ field.attributes.max }}"
+                :max-items="{{ field.attributes.rowLimit }}"
+                {% if field.value %}:budget-data="{{ field.value | dump }}"{% endif %}>
+            </budget-input>
+
+            {# Non-JS version (*not* <noscript> because we still need it if JS fails #}
+            {# (this will be removed by our Vue component when mounted) #}
+            <div class="js-fallback-only ff-budget">
+                <ol class="ff-budget__list">
+                    {% for lineItem in field.value %}
+                        {{ budgetRow(field, loop.index0, lineItem) }}
+                    {% endfor %}
+                    {% for i in range(0 + field.value | length, field.attributes.rowLimit) %}
+                        {{ budgetRow(field, i) }}
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </fieldset>
+{% endmacro %}
+
+{# If we update this we should change the Vue component too #}
+{% macro budgetRow(field, counter, lineItem = false) %}
+    <li class="ff-budget__row">
+        <div class="ff-budget__row-item">
+            <label class="ff-label" for="ff-{{ field.name }}-{{ counter }}-item">
+                Item or activity
+            </label>
+            <input type="text"
+                id="ff-{{ field.name }}-{{ counter }}-item"
+                autocomplete="off"
+                name="{{ field.name }}[{{ counter }}][item]"
+                {% if lineItem %}value="{{ lineItem.item }}"{% endif %}
+                class="ff-text u-block-full"
+            />
+        </div>
+        <div class="ff-budget__row-amount">
+            <label class="ff-label" for="ff-{{ field.name }}-{{ counter }}-cost">
+                Amount
+            </label>
+            <div class="ff-currency">
+                <div class="ff-currency__pre">£</div>
+                <input
+                    type="number"
+                    id="ff-{{ field.name }}-{{ counter }}-cost"
+                    name="{{ field.name }}[{{ counter }}][cost]"
+                    min="1" max="{{ field.attributes.max }}"
+                    {% if lineItem %}value="{{ lineItem.cost }}"{% endif %}
+                    class="ff-currency__input"
+                />
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro formField(field, errors = []) %}
+    {% set fieldErrors = errors | filter('param', field.name) %}
+    <div
+        id="form-field-{{ field.name }}"
+        class="form-field form-field--{{ field.name }} form-field--type-{{ field.type }}{% if fieldErrors | length > 0 %} has-errors{% endif %}">
+        <div class="form-field__main">
+            <div class="form-field__body">
+                {% if field.type === 'textarea' %}
+                    {{ inputTextarea(field) }}
+                {% elseif field.type === 'select' %}
+                    {{ inputSelect(field) }}
+                {% elseif field.type === 'checkbox' %}
+                    {{ inputCheckbox(field) }}
+                {% elseif field.type === 'radio' %}
+                    {{ inputRadio(field) }}
+                {% elseif field.type === 'date' %}
+                    {{ inputDate(field) }}
+                {% elseif field.type === 'day-month' %}
+                    {{ inputDate(field, includeYear = false) }}
+                {% elseif field.type === 'currency' %}
+                    {{ inputCurrency(field) }}
+                {% elseif field.type === 'address' %}
+                    {{ inputAddress(field) }}
+                {% elseif field.type === 'address-history' %}
+                    {{ inputAddressHistory(field) }}
+                {% elseif field.type === 'budget' %}
+                    {{ inputBudget(field) }}
+                {% else %}
+                    {{ inputText(field) }}
+                {% endif %}
+            </div>
+            {% if fieldErrors.length > 0 %}
+                <ol class="form-field__errors">
+                    {% for error in fieldErrors %}
+                        <li>{{ error.msg }}</li>
+                    {% endfor %}
+                </ol>
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}

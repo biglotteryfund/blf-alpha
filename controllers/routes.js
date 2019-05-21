@@ -9,6 +9,7 @@ const { basicContent, flexibleContent, staticPage } = require('./common');
  * @property {string} [heroSlug]
  * @property {function} [router]
  * @property {boolean} [isDraft]
+ * @property {boolean} [excludeFromSitemap]
  */
 
 /**
@@ -63,6 +64,11 @@ const toplevel = {
         {
             path: '/search',
             router: require('./search')
+        },
+        {
+            path: '/user',
+            router: require('./user'),
+            excludeFromSitemap: true
         },
         {
             path: '/apply',
@@ -125,14 +131,16 @@ const funding = {
             router: require('./grants')
         },
         {
-            path: '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+            path:
+                '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
             lang: 'funding.guidance.logos',
             router: basicContent({
                 customTemplate: 'static-pages/logos'
             })
         },
         {
-            path: '/funding-guidance/managing-your-funding/ordering-free-materials',
+            path:
+                '/funding-guidance/managing-your-funding/ordering-free-materials',
             router: require('./materials')
         },
         {

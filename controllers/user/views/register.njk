@@ -1,13 +1,13 @@
 {% extends "layouts/main.njk" %}
-{% from "components/form-fields/macros.njk" import formErrors, formField with context %}
-
-{% set title = 'Register' %}
-{% set bodyClass = 'has-static-header' %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
 
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
-            <h1>{{ title }}</h1>
+            {{ breadcrumbTrail(breadcrumbs) }}
+
+            <h1 class="t--underline">{{ title }}</h1>
 
             {% if alertMessage %}
                 <div class="message" role="alert">
@@ -34,6 +34,7 @@
                     type: 'password',
                     name: 'password',
                     label: 'Password',
+                    explanation: __('user.common.passwordRequirements'),
                     isRequired: true
                 }, errors = errors) }}
 

@@ -117,10 +117,10 @@ export default {
         <div class="ff-budget__errors" aria-live="polite" aria-atomic="true" data-testid="budget-errors">
             <!-- @TODO localise -->
             <p v-if="error.TOO_MANY_ITEMS">
-                You have added the maximum number of budget rows available ({{ maxItems }}).
+                You must use {{ maxItems }} budget headings or fewer to tell us your costs
             </p>
             <p v-if="error.OVER_BUDGET">
-                You have exceeded the budget limit for this application of £{{ maxBudget.toLocaleString() }}.
+                Total project costs must be less than £{{ maxBudget.toLocaleString() }}.
             </p>
         </div>
 
