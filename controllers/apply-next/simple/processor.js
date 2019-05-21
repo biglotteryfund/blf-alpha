@@ -2,6 +2,7 @@
 const path = require('path');
 const clone = require('lodash/clone');
 const debug = require('debug')('tnlcf:awards-for-all');
+const features = require('config').get('features');
 
 const salesforceService = require('../../../services/salesforce');
 const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
@@ -52,12 +53,15 @@ async function submitToSalesforce(submission) {
     /**
      * Skip sending mail in test environments
      */
-    if (!!process.env.TEST_SERVER === true) {
-        debug(`skipped salesforce submission for ${submission.meta.form}`);
-        return Promise.resolve(submission);
-    } else {
+    if (
+        features.enableSalesforceConnector === true &&
+        !!process.env.TEST_SERVER === false
+    ) {
         const salesforce = await salesforceService.authorise();
         return salesforce.submitFormData(submission);
+    } else {
+        debug(`skipped salesforce submission for ${submission.meta.form}`);
+        return Promise.resolve(submission);
     }
 }
 

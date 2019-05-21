@@ -1,5 +1,8 @@
 {
   "domains": {
     "base": "http://localhost:3000"
+  },
+  "features": {
+    "enableSalesforceConnector": true
   }
 }
