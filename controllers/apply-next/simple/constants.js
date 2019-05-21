@@ -17,9 +17,10 @@ const BENEFICIARY_GROUPS = {
     ETHNIC_BACKGROUND: 'ethnic-background',
     GENDER: 'gender',
     AGE: 'age',
-    DISABILITY: 'disability',
+    DISABLED_PEOPLE: 'disabled-people',
     RELIGION: 'religion',
-    LGBTQ: 'lgbtq'
+    LGBT: 'lgbt',
+    CARING: 'caring-responsibilities'
 };
 
 module.exports = {

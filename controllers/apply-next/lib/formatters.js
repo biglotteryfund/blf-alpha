@@ -1,31 +1,62 @@
 'use strict';
 const moment = require('moment');
-const { get, castArray, filter, includes, isArray, sumBy } = require('lodash');
+const {
+    castArray,
+    compact,
+    filter,
+    flatMap,
+    get,
+    includes,
+    isArray,
+    sumBy
+} = require('lodash');
 
-function formatOptions(options) {
+const { fromDateParts } = require('../../../modules/dates');
+
+function formatRadio(field) {
     return function(value) {
         const choices = castArray(value);
-        const matches = filter(options, option =>
+
+        const matches = filter(field.options, option =>
             includes(choices, option.value)
         );
+
         return matches.length > 0
-            ? matches.map(match => match.label).join(', ')
+            ? matches.map(match => match.label).join(',\n')
             : choices.join(', ');
     };
 }
 
+function formatCheckbox(field) {
+    const options = field.optgroups
+        ? flatMap(field.optgroups, o => o.options)
+        : field.options;
+
+    return function(value) {
+        const choices = castArray(value);
+
+        const matches = filter(options, option =>
+            includes(choices, option.value)
+        );
+
+        return matches.length > 0
+            ? matches.map(match => match.label).join(',\n')
+            : choices.join(',\n');
+    };
+}
+
 function formatAddress(value) {
-    return [
-        value['building-street'],
-        value['town-city'],
-        value['county'],
-        value['postcode']
-    ].join(',\n');
+    return compact([
+        value.line1,
+        value.townCity,
+        value.county,
+        value.postcode
+    ]).join(',\n');
 }
 
 function formatAddressHistory(value) {
-    const meetsMinimium = get(value, 'current-address-meets-minimum');
-    const previousAddress = get(value, 'previous-address');
+    const meetsMinimium = get(value, 'currentAddressMeetsMinimum');
+    const previousAddress = get(value, 'previousAddress');
 
     if (previousAddress && meetsMinimium === 'no') {
         return formatAddress(previousAddress);
@@ -35,12 +66,7 @@ function formatAddressHistory(value) {
 }
 
 function formatDate(value) {
-    const dt = moment({
-        year: value.year,
-        month: value.month - 1,
-        day: value.day
-    });
-
+    const dt = fromDateParts(value);
     return dt.isValid() ? dt.format('D MMMM, YYYY') : '';
 }
 
@@ -80,8 +106,10 @@ function formatterFor(field) {
     let formatter;
     switch (field.type) {
         case 'radio':
+            formatter = formatRadio(field);
+            break;
         case 'checkbox':
-            formatter = formatOptions(field.options);
+            formatter = formatCheckbox(field);
             break;
         case 'address':
             formatter = formatAddress;
@@ -111,7 +139,8 @@ function formatterFor(field) {
 
 module.exports = {
     formatterFor,
-    formatOptions,
+    formatCheckbox,
+    formatRadio,
     formatAddress,
     formatDate,
     formatDayMonth,

@@ -113,18 +113,18 @@ describe('form model', () => {
 
         const mappings = {
             [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY]: [
-                'charity-number'
+                'charityNumber'
             ],
-            [ORGANISATION_TYPES.CIO]: ['charity-number'],
+            [ORGANISATION_TYPES.CIO]: ['charityNumber'],
             [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY]: [
-                'company-number',
-                'charity-number'
+                'companyNumber',
+                'charityNumber'
             ],
-            [ORGANISATION_TYPES.SCHOOL]: ['education-number']
+            [ORGANISATION_TYPES.SCHOOL]: ['educationNumber']
         };
 
         map(mappings, (expected, type) => {
-            const result = fieldNamesFn({ 'organisation-type': type });
+            const result = fieldNamesFn({ organisationType: type });
             expect(result).toEqual(expected);
         });
     });
@@ -133,31 +133,31 @@ describe('form model', () => {
         const mainContactFn = fieldNamesFor('main-contact', 'Main contact');
 
         const mainContactDefaultFields = [
-            'main-contact-first-name',
-            'main-contact-last-name',
-            'main-contact-dob',
-            'main-contact-address',
-            'main-contact-address-history',
-            'main-contact-email',
-            'main-contact-phone',
-            'main-contact-communication-needs'
+            'mainContactFirstName',
+            'mainContactLastName',
+            'mainContactDateOfBirth',
+            'mainContactAddress',
+            'mainContactAddressHistory',
+            'mainContactEmail',
+            'mainContactPhone',
+            'mainContactCommunicationNeeds'
         ];
 
         const mainContactReducedFields = [
-            'main-contact-first-name',
-            'main-contact-last-name',
-            'main-contact-email',
-            'main-contact-phone',
-            'main-contact-communication-needs'
+            'mainContactFirstName',
+            'mainContactLastName',
+            'mainContactEmail',
+            'mainContactPhone',
+            'mainContactCommunicationNeeds'
         ];
 
         expect(mainContactFn({})).toEqual(mainContactDefaultFields);
         expect(
-            mainContactFn({ 'organisation-type': ORGANISATION_TYPES.SCHOOL })
+            mainContactFn({ organisationType: ORGANISATION_TYPES.SCHOOL })
         ).toEqual(mainContactReducedFields);
         expect(
             mainContactFn({
-                'organisation-type': ORGANISATION_TYPES.STATUTORY_BODY
+                organisationType: ORGANISATION_TYPES.STATUTORY_BODY
             })
         ).toEqual(mainContactReducedFields);
 
@@ -167,33 +167,33 @@ describe('form model', () => {
         );
 
         const seniorContactDefaultFields = [
-            'senior-contact-first-name',
-            'senior-contact-last-name',
-            'senior-contact-role',
-            'senior-contact-dob',
-            'senior-contact-address',
-            'senior-contact-address-history',
-            'senior-contact-email',
-            'senior-contact-phone',
-            'senior-contact-communication-needs'
+            'seniorContactFirstName',
+            'seniorContactLastName',
+            'seniorContactRole',
+            'seniorContactDateOfBirth',
+            'seniorContactAddress',
+            'seniorContactAddressHistory',
+            'seniorContactEmail',
+            'seniorContactPhone',
+            'seniorContactCommunicationNeeds'
         ];
 
         const seniorContactReducedFields = [
-            'senior-contact-first-name',
-            'senior-contact-last-name',
-            'senior-contact-role',
-            'senior-contact-email',
-            'senior-contact-phone',
-            'senior-contact-communication-needs'
+            'seniorContactFirstName',
+            'seniorContactLastName',
+            'seniorContactRole',
+            'seniorContactEmail',
+            'seniorContactPhone',
+            'seniorContactCommunicationNeeds'
         ];
 
         expect(seniorContactFn({})).toEqual(seniorContactDefaultFields);
         expect(
-            seniorContactFn({ 'organisation-type': ORGANISATION_TYPES.SCHOOL })
+            seniorContactFn({ organisationType: ORGANISATION_TYPES.SCHOOL })
         ).toEqual(seniorContactReducedFields);
         expect(
             seniorContactFn({
-                'organisation-type': ORGANISATION_TYPES.STATUTORY_BODY
+                organisationType: ORGANISATION_TYPES.STATUTORY_BODY
             })
         ).toEqual(seniorContactReducedFields);
     });

@@ -1,5 +1,5 @@
 'use strict';
-const Joi = require('joi');
+const Joi = require('@hapi/joi');
 
 module.exports = function validateModel(formModel) {
     const fieldSchema = Joi.object({

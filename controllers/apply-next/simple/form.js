@@ -1,8 +1,7 @@
 'use strict';
 const { get, getOr } = require('lodash/fp');
-const { compact, includes, reduce, sumBy } = require('lodash');
+const { compact, includes, sumBy } = require('lodash');
 
-const { Joi } = require('../lib/validators');
 const enrichForm = require('../lib/enrich-form');
 const { formatDate } = require('../lib/formatters');
 const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
@@ -10,9 +9,9 @@ const fieldsFor = require('./fields');
 
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
-    const currentOrganisationType = get('organisation-type')(data);
+    const currentOrganisationType = get('organisationType')(data);
 
-    const fields = fieldsFor({ locale, data });
+    const { fields, schema } = fieldsFor({ locale, data });
 
     function includeAddressAndDob() {
         return (
@@ -119,8 +118,8 @@ module.exports = function({ locale, data = {} }) {
     };
 
     function sectionBeneficiaries() {
-        const groupsCheck = get('beneficiaries-groups-check')(data);
-        const groupChoices = get('beneficiaries-groups')(data);
+        const groupsCheck = get('beneficiariesGroupsCheck')(data);
+        const groupChoices = get('beneficiariesGroups')(data);
 
         function fieldsForGroup(type) {
             let result;
@@ -134,7 +133,7 @@ module.exports = function({ locale, data = {} }) {
                 case BENEFICIARY_GROUPS.AGE:
                     result = [fields.beneficiariesGroupsAge];
                     break;
-                case BENEFICIARY_GROUPS.DISABILITY:
+                case BENEFICIARY_GROUPS.DISABLED_PEOPLE:
                     result = [fields.beneficiariesGroupsDisabledPeople];
                     break;
                 case BENEFICIARY_GROUPS.RELIGION:
@@ -246,7 +245,7 @@ module.exports = function({ locale, data = {} }) {
                         {
                             legend: localise({ en: 'Disabled people', cy: '' }),
                             fields: fieldsForGroup(
-                                BENEFICIARY_GROUPS.DISABILITY
+                                BENEFICIARY_GROUPS.DISABLED_PEOPLE
                             )
                         }
                     ]
@@ -285,7 +284,7 @@ module.exports = function({ locale, data = {} }) {
                         }),
                         fields: [
                             fields.organisationLegalName,
-                            fields.organisationAlias,
+                            fields.organisationTradingName,
                             fields.organisationAddress
                         ]
                     }
@@ -444,7 +443,7 @@ module.exports = function({ locale, data = {} }) {
                             fields.bankAccountName,
                             fields.bankSortCode,
                             fields.bankAccountNumber,
-                            fields.bankBuildingSocietyNumber
+                            fields.buildingSocietyNumber
                         ]
                     }
                 ]
@@ -553,25 +552,10 @@ module.exports = function({ locale, data = {} }) {
         }
     ];
 
-    function schema() {
-        const computed = Joi.object(
-            reduce(
-                fields,
-                function(acc, field) {
-                    acc[field.name] = field.schema;
-                    return acc;
-                },
-                {}
-            )
-        );
-
-        return computed;
-    }
-
     function summary() {
-        const startDate = get('project-start-date')(data);
-        const organisation = get('organisation-legal-name')(data);
-        const budget = getOr([], 'project-budget')(data);
+        const startDate = get('projectStartDate')(data);
+        const organisation = get('organisationLegalName')(data);
+        const budget = getOr([], 'projectBudget')(data);
         const budgetSum = sumBy(budget, item => parseInt(item.cost || 0));
 
         return [
@@ -594,7 +578,8 @@ module.exports = function({ locale, data = {} }) {
         id: 'awards-for-all',
         title: localise({ en: 'National Lottery Awards for All', cy: '' }),
         isBilingual: true,
-        schema: schema(),
+        fields: fields,
+        schema: schema,
         summary: summary(),
         sections: [
             sectionProject,
