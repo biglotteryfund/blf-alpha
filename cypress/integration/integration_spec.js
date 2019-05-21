@@ -320,7 +320,7 @@ describe('awards for all', function() {
         }
 
         function fillAddress() {
-            cy.get('.js-enter-manual-address').click();
+            cy.getByText('Enter address manually').click();
             cy.getByLabelText('Building and street', { exact: false }).type(
                 faker.address.streetAddress()
             );
@@ -330,7 +330,7 @@ describe('awards for all', function() {
             cy.getByLabelText('County', { exact: false }).type(
                 faker.address.county()
             );
-            cy.getByLabelText('Postcode', { exact: false }).type('B15 1TR');
+            cy.getByLabelText('Postcode', { exact: true }).type('B15 1TR');
         }
 
         function stepProjectDetails() {
