@@ -40,7 +40,8 @@
     "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
     "enableRelatedGrants": false,
-    "enableSiteSurvey": true
+    "enableSiteSurvey": true,
+    "enableSalesforceConnector": false
   },
   "cookies": {
     "session": "blf-alpha-session"

@@ -1,9 +1,36 @@
 'use strict';
 const path = require('path');
 const clone = require('lodash/clone');
+const debug = require('debug')('tnlcf:awards-for-all');
+const features = require('config').get('features');
 
+const salesforceService = require('../../../services/salesforce');
 const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
 const { fromDateParts } = require('../../../modules/dates');
+
+async function buildCustomerMailConfig(form, application) {
+    const sendTo = {
+        name: `${application.mainContactFirstName} ${
+            application.mainContactLastName
+        }`,
+        address: application.mainContactEmail
+    };
+
+    const html = await generateHtmlEmail({
+        template: path.resolve(__dirname, './customer-email.njk'),
+        templateData: {
+            form: form,
+            showDataProtectionStatement: true
+        }
+    });
+
+    return {
+        sendTo: sendTo,
+        subject: `Thank you for getting in touch with The National Lottery Community Fund!`,
+        type: 'html',
+        content: html
+    };
+}
 
 function salesforceApplication(application) {
     function dateFormat(dt) {
@@ -22,6 +49,22 @@ function salesforceApplication(application) {
     return enriched;
 }
 
+async function submitToSalesforce(submission) {
+    /**
+     * Skip sending mail in test environments
+     */
+    if (
+        features.enableSalesforceConnector === true &&
+        !!process.env.TEST_SERVER === false
+    ) {
+        const salesforce = await salesforceService.authorise();
+        return salesforce.submitFormData(submission);
+    } else {
+        debug(`skipped salesforce submission for ${submission.meta.form}`);
+        return Promise.resolve(submission);
+    }
+}
+
 /**
  * Process form submissions
  * @param {object} options
@@ -31,38 +74,14 @@ function salesforceApplication(application) {
  * @param {any} mailTransport
  */
 async function processor({ form, application, meta }, mailTransport = null) {
-    const forSalesforce = {
-        meta: meta,
-        application: salesforceApplication(application)
-    };
-
-    const customerSendTo = {
-        name: `${application['mainContactFirstName']} ${
-            application['mainContactLastName']
-        }`,
-        address: application['mainContactEmail']
-    };
-
-    const customerHtml = await generateHtmlEmail({
-        template: path.resolve(__dirname, './customer-email.njk'),
-        templateData: {
-            form: form,
-            isArray: xs => Array.isArray(xs),
-            showDataProtectionStatement: true
-        }
-    });
-
     return Promise.all([
-        forSalesforce,
+        submitToSalesforce({
+            meta: meta,
+            application: salesforceApplication(application)
+        }),
         sendEmail({
-            name: 'simple_prototype_customer',
-            mailConfig: {
-                sendTo: customerSendTo,
-                subject:
-                    'Thank you for getting in touch with The National Lottery Community Fund!',
-                type: 'html',
-                content: customerHtml
-            },
+            name: `${form.id}-customer-email`,
+            mailConfig: await buildCustomerMailConfig(form, application),
             mailTransport: mailTransport
         })
     ]);
