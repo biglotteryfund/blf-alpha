@@ -461,8 +461,7 @@ funding:
       intro: >
         Diolch am ddewis defnyddio ein gwasanaeth "chwilio grantiau a ddyfarnwyd" newydd. Rydym yn gweithio i wella'r gwasanaeth a gynigiwn i chi, bydd eich adborth yn ein helpu gwneud hynny. Gallwch roi cynnig ar ein gwasanaeth newydd mewn Beta nawr neu <a href="%s">pori ein data gyda GrantNav</a>.
       helpText: e.e. allweddair fel "unigrwydd", lleoliad, mudiad neu faes gwaith
-      dateRange: >
-        Ar hyn o bryd mae ein data grantiau'n cwmpasu <strong>%s - %s</strong>. Rydym yn diweddaru'r data hwn bob mis.
+      dateRange: Ar hyn o bryd mae ein data grantiau'n cwmpasu <strong>%s - %s</strong>.
       submit: Chwilio
       pleaseWait: Wrthi'n chwilio, arhoswch...
       resultsCount: o brosiectau gwerth

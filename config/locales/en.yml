@@ -554,8 +554,7 @@ funding:
       intro: >
         Thank you for choosing to use our new “search awarded grants” service. We are working to improve the service we currently offer, your feedback will help us do that. You can try our new service in Beta now or <a href="%s">explore our data with GrantNav</a>.
       helpText: e.g. a keyword such as “loneliness”, a location, an organisation, or an area of work
-      dateRange: >
-        Our grants data currently runs from <strong>%s - %s</strong>. We update this data on a monthly basis.
+      dateRange: Our grants data currently runs from <strong>%s - %s</strong>.
       submit: Search
       pleaseWait: Searching, please wait...
       resultsCount: projects found

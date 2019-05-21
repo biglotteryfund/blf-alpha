@@ -272,7 +272,6 @@ function init(STORAGE_KEY) {
                         } else if (textStatus === 'abort') {
                             // Request cancelled because the query was changed or filters were cleared mid-request
                             // we can fail silently here and allow the next request to take precedence
-                            this.trackUi('Search error', 'Request cancelled');
                         } else {
                             // @ts-ignore
                             const errMsg = errorThrown.responseJSON.error;

@@ -1,6 +1,5 @@
 {% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
-{% from "components/feedback.njk" import inlineFeedback with context %}
 {% from "components/hero.njk" import hero with context %}
 {% from "components/promo-card/macro.njk" import promoCard %}
 {% from "components/card/macro.njk" import card %}
@@ -107,22 +106,12 @@
 
                                 {% if org.charityNumber %}
                                     <dt>{{ copy.grantDetail.fields.charityNumber }}</dt>
-                                    <dd>
-                                        {{ org.charityNumber }} &mdash;
-                                        <a href="http://beta.charitycommission.gov.uk/charity-search/?q={{ org.charityNumber }}">
-                                            {{ copy.grantDetail.viewCharityCommission }}
-                                        </a>
-                                    </dd>
+                                    <dd>{{ org.charityNumber }}</dd>
                                 {% endif %}
 
                                 {% if org.companyNumber %}
                                     <dt>{{ copy.grantDetail.fields.companyNumber }}</dt>
-                                    <dd>
-                                        {{ org.companyNumber }} &mdash;
-                                        <a href="https://beta.companieshouse.gov.uk/search/companies?q={{ org.companyNumber }}">
-                                            {{ copy.grantDetail.viewCompaniesHouse }}
-                                        </a>
-                                    </dd>
+                                    <dd>{{ org.companyNumber }}</dd>
                                 {% endif %}
 
                                 {% if grant.beneficiaryLocation %}
@@ -190,16 +179,5 @@
                 />
             </div>
         {% endif %}
-
-        <div class="u-inner">
-            <div id="feedback">
-                {{ inlineFeedback(
-                    description = "past_grants_new",
-                    promptLabel = copy.survey.prompt,
-                    fieldLabel = copy.survey.label,
-                    isToggleable = false
-                )  }}
-            </div>
-        </div>
     </main>
 {% endblock %}

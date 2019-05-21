@@ -7,7 +7,8 @@ const { getSecret } = require('./parameter-store');
  * Primary session secret
  * We allow overriding through an environment variable for CI
  */
-const SESSION_SECRET = process.env.SESSION_SECRET || getSecret('session.secret', true);
+const SESSION_SECRET =
+    process.env.SESSION_SECRET || getSecret('session.secret', true);
 
 /**
  * Database connection uri
@@ -25,20 +26,23 @@ const DB_CONNECTION_URI = appData.isDev
  * We allow overriding through an environment variable for CI and to allow
  * switching to a local instance of the CMS in development
  */
-const CONTENT_API_URL = process.env.CONTENT_API_URL || getSecret('content-api.url', true);
+const CONTENT_API_URL =
+    process.env.CONTENT_API_URL || getSecret('content-api.url', true);
 
 /**
  * Past grants API
  * We allow overriding through an environment variable for CI and to allow
  * switching to a local instance of the API in development
  */
-const PAST_GRANTS_API_URI = process.env.PAST_GRANTS_API_URI || getSecret('pastgrants.api.uri', true);
+const PAST_GRANTS_API_URI =
+    process.env.PAST_GRANTS_API_URI || getSecret('pastgrants.api.uri', true);
 
 /**
  * JWT signing token, used for user authentication
  * We allow overriding through an environment variable for CI
  */
-const JWT_SIGNING_TOKEN = process.env.JWT_SIGNING_TOKEN || getSecret('user.jwt.secret', true);
+const JWT_SIGNING_TOKEN =
+    process.env.JWT_SIGNING_TOKEN || getSecret('user.jwt.secret', true);
 
 /**
  * Sentry DSN for error reporting
@@ -51,23 +55,39 @@ const SENTRY_DSN = getSecret('sentry.dsn');
 const AZURE_AUTH = {
     MS_CLIENT_ID: getSecret('ms.auth.tnlcf.clientId'),
     MS_CLIENT_SECRET: getSecret('ms.auth.tnlcf.clientSecret'),
-    MS_REDIRECT_URL: process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl')
+    MS_REDIRECT_URL:
+        process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl')
+};
+
+/**
+ * Salesforce authentication
+ */
+const SALESFORCE_AUTH = {
+    API_URL: process.env.SALESFORCE_API_URL,
+    CONSUMER_KEY: process.env.SALESFORCE_CONSUMER_KEY,
+    CONSUMER_SECRET: process.env.SALESFORCE_CONSUMER_SECRET,
+    USERNAME: process.env.SALESFORCE_USERNAME,
+    PASSWORD: process.env.SALESFORCE_PASSWORD,
+    TOKEN: process.env.SALESFORCE_TOKEN
 };
 
 /**
  * Material supplier email
  * Used for sending order emails when placing and order for free materials
  */
-const MATERIAL_SUPPLIER = process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier');
+const MATERIAL_SUPPLIER =
+    process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier');
 
 /**
  * Digital fund email
  * Email address used to send expressions of interest from digital fund application forms
  */
-const DIGITAL_FUND_EMAIL = process.env.DIGITAL_FUND_EMAIL || getSecret('emails.digitalfund.demo');
+const DIGITAL_FUND_EMAIL =
+    process.env.DIGITAL_FUND_EMAIL || getSecret('emails.digitalfund.demo');
 
 module.exports = {
     AZURE_AUTH,
+    SALESFORCE_AUTH,
     CONTENT_API_URL,
     DB_CONNECTION_URI,
     DIGITAL_FUND_EMAIL,
