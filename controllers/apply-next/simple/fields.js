@@ -609,45 +609,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        projectCountry: {
-            name: 'projectCountry',
-            label: localise({
-                en: 'What country will your project be based in?',
-                cy: ''
-            }),
-            explanation: localise({
-                en: `We work slightly differently depending on which country your project is based in, to meet local needs and the regulations that apply there.`,
-                cy: ''
-            }),
-            type: 'radio',
-            options: [
-                {
-                    value: 'england',
-                    label: localise({ en: 'England', cy: '' })
-                },
-                {
-                    value: 'northern-ireland',
-                    label: localise({ en: 'Northern Ireland', cy: '' })
-                },
-                {
-                    value: 'scotland',
-                    label: localise({ en: 'Scotland', cy: '' })
-                },
-                { value: 'wales', label: localise({ en: 'Wales', cy: '' }) }
-            ],
-            isRequired: true,
-            get schema() {
-                return Joi.string()
-                    .valid(this.options.map(option => option.value))
-                    .required();
-            },
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Choose a country', cy: '' })
-                }
-            ]
-        },
         projectStartDate: {
             name: 'projectStartDate',
             label: localise({
@@ -701,6 +662,45 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 ];
             }
         },
+        projectCountry: {
+            name: 'projectCountry',
+            label: localise({
+                en: 'What country will your project be based in?',
+                cy: ''
+            }),
+            explanation: localise({
+                en: `We work slightly differently depending on which country your project is based in, to meet local needs and the regulations that apply there.`,
+                cy: ''
+            }),
+            type: 'radio',
+            options: [
+                {
+                    value: 'england',
+                    label: localise({ en: 'England', cy: '' })
+                },
+                {
+                    value: 'northern-ireland',
+                    label: localise({ en: 'Northern Ireland', cy: '' })
+                },
+                {
+                    value: 'scotland',
+                    label: localise({ en: 'Scotland', cy: '' })
+                },
+                { value: 'wales', label: localise({ en: 'Wales', cy: '' }) }
+            ],
+            isRequired: true,
+            get schema() {
+                return Joi.string()
+                    .valid(this.options.map(option => option.value))
+                    .required();
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose a country', cy: '' })
+                }
+            ]
+        },
         projectLocation: {
             name: 'projectLocation',
             label: localise({
@@ -722,7 +722,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Choose an option', cy: '' })
+                    message: localise({ en: 'Choose a location', cy: '' })
                 }
             ]
         },
@@ -1084,7 +1084,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Choose an option', cy: '' })
+                    message: localise({ en: 'Answer yes or no', cy: '' })
                 }
             ]
         },
@@ -1197,7 +1197,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                             label: localise({ en: 'Irish', cy: '' })
                         },
                         {
-                            value: 'gypsy-irish-traveller',
+                            value: 'gypsy-or-irish-traveller',
                             label: localise({
                                 en: 'Gypsy or Irish Traveller',
                                 cy: ''
