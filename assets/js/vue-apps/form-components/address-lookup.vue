@@ -27,7 +27,12 @@ export default {
     methods: {
         formatAddress(result) {
             return {
-                addressLine1: [result.Flat_No, result.Building_No, result.Building_Name, result.Street_Name].join(' '),
+                addressLine1: [
+                    result.Flat_No,
+                    result.Building_No,
+                    result.Building_Name,
+                    result.Street_Name
+                ].join(' '),
                 townCity: result.Town_City,
                 postcode: result.PostCode
             };
@@ -73,7 +78,7 @@ export default {
             if (this.currentState === this.states.Loading) {
                 return 'Looking up address…';
             } else {
-                return 'Find address';   
+                return 'Find address';
             }
         },
         addressHtml() {
@@ -81,16 +86,18 @@ export default {
                 this.fullAddress.addressLine1,
                 this.fullAddress.townCity,
                 this.fullAddress.postcode
-            ]).join('<br />')
+            ]).join('<br />');
         }
-    },
+    }
 };
 </script>
 
 <template>
     <div>
         <div class="address-lookup">
-            <label for="postcode-lookup" class="ff-label">Find address by postcode</label>
+            <label for="postcode-lookup" class="ff-label"
+                >Find address by postcode</label
+            >
             <div class="address-lookup__field">
                 <input
                     type="text"
@@ -112,16 +119,27 @@ export default {
                 </button>
             </div>
 
-            <div class="address-lookup__candidates" v-if="candidates.length > 0">
-                <label for="address-selection" class="ff-label">Select an address</label>
+            <div
+                class="address-lookup__candidates"
+                v-if="candidates.length > 0"
+            >
+                <label for="address-selection" class="ff-label"
+                    >Select an address</label
+                >
                 <select
                     v-model="selectedAddressId"
                     name="address-selection"
                     id="address-selection"
                     :disabled="currentState === states.Loading"
                 >
-                    <option disabled value="">{{ candidates.length }} addresses found</option>
-                    <option v-for="option in candidates" :value="option.value" :key="option.value">
+                    <option disabled value=""
+                        >{{ candidates.length }} addresses found</option
+                    >
+                    <option
+                        v-for="option in candidates"
+                        :value="option.value"
+                        :key="option.value"
+                    >
                         {{ option.label }}
                     </option>
                 </select>
@@ -130,9 +148,14 @@ export default {
 
         <div class="selected-address" v-if="fullAddress && showAddressPreview">
             <h3 class="selected-address__title">Selected address</h3>
-            <address class="selected-address__address" v-html="addressHtml"></address>
+            <address
+                class="selected-address__address"
+                v-html="addressHtml"
+            ></address>
             <div class="selected-address__actions">
-                <button type="button" class="btn-link" @click="handleFallback">Edit</button>
+                <button type="button" class="btn-link" @click="handleFallback">
+                    Edit
+                </button>
             </div>
         </div>
     </div>

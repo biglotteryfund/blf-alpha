@@ -22,6 +22,7 @@ function init() {
                     this.$refs.addressLine1.value = data.addressLine1;
                     this.$refs.addressLine2.value = data.addressLine2 || '';
                     this.$refs.townCity.value = data.townCity;
+                    this.$refs.county.value = data.county;
                     this.$refs.postcode.value = data.postcode;
                 },
                 handleFallback() {

@@ -15,14 +15,16 @@ if (appData.isNotProduction) {
      * API: UK address lookup proxy
      * @TODO: Connect direct to service rather than via legacy domain
      */
-    const addressLookupEndpoint = 'https://apply.tnlcommunityfund.org.uk/AddressFinder.ashx';
+    const addressLookupEndpoint =
+        'https://apply.tnlcommunityfund.org.uk/AddressFinder.ashx';
     router.get('/address-lookup', async (req, res) => {
         if (req.query.q) {
             try {
                 const data = await request({
                     url: addressLookupEndpoint,
                     json: true,
-                    qs: { Query: req.query.q }
+                    qs: { Query: req.query.q },
+                    strictSSL: false
                 });
                 res.json({ data });
             } catch (error) {
@@ -36,8 +38,8 @@ if (appData.isNotProduction) {
                 errors: [
                     {
                         status: '400',
-                        title: 'Invalid query parmater',
-                        detail: 'Must include q paramter',
+                        title: 'Invalid query parameter',
+                        detail: 'Must include q parameter',
                         source: { parameter: 'q' }
                     }
                 ]
@@ -50,7 +52,8 @@ if (appData.isNotProduction) {
             const [data] = await request({
                 url: addressLookupEndpoint,
                 json: true,
-                qs: { GetAddress: 1, Moniker: req.params.moniker }
+                qs: { GetAddress: 1, Moniker: req.params.moniker },
+                strictSSL: false
             });
 
             res.json({ data });
