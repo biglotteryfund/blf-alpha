@@ -34,6 +34,7 @@ export default {
                     result.Street_Name
                 ].join(' '),
                 townCity: result.Town_City,
+                county: result.County,
                 postcode: result.PostCode
             };
         },
@@ -87,6 +88,14 @@ export default {
                 this.fullAddress.townCity,
                 this.fullAddress.postcode
             ]).join('<br />');
+        },
+        id() {
+            return Math.random()
+                .toString(36)
+                .substr(2, 9);
+        },
+        ariaId() {
+            return `postcode-lookup-${this.id}`;
         }
     }
 };
@@ -95,13 +104,13 @@ export default {
 <template>
     <div>
         <div class="address-lookup">
-            <label for="postcode-lookup" class="ff-label"
+            <label :for="ariaId" class="ff-label"
                 >Find address by postcode</label
             >
             <div class="address-lookup__field">
                 <input
                     type="text"
-                    id="postcode-lookup"
+                    :id="ariaId"
                     name="postcode-lookup"
                     size="20"
                     class="ff-text"
