@@ -320,6 +320,7 @@ describe('awards for all', function() {
         }
 
         function fillAddress() {
+            cy.get('.js-enter-manual-address').click();
             cy.getByLabelText('Building and street', { exact: false }).type(
                 faker.address.streetAddress()
             );
