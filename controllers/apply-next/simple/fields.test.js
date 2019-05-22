@@ -5,12 +5,7 @@ const faker = require('faker');
 const Joi = require('@hapi/joi');
 
 const { ORGANISATION_TYPES } = require('./constants');
-const {
-    mockStartDate,
-    mockDateOfBirth,
-    mockAddress,
-    mockBudget
-} = require('./mocks');
+const { mockDateOfBirth, mockAddress, mockBudget } = require('./mocks');
 
 const fieldsFor = require('./fields');
 const { fields } = fieldsFor({ locale: 'en' });
@@ -25,17 +20,6 @@ describe('fields', () => {
         const { error } = field.schema.validate(value);
         expect(error.message).toContain(messagePart);
     }
-
-    describe('projectName', () => {
-        test('valididate project name', () => {
-            assertValid(fields.projectName, faker.lorem.words(5));
-            assertErrorContains(
-                fields.projectName,
-                '',
-                'not allowed to be empty'
-            );
-        });
-    });
 
     describe('projectCountry', () => {
         test('valididate project country', () => {
@@ -53,29 +37,6 @@ describe('fields', () => {
                 'not-a-country',
                 'must be one of [england, northern-ireland, scotland, wales]'
             );
-        });
-    });
-
-    describe('projectStartDate', () => {
-        test('must be a valid date', () => {
-            assertValid(fields.projectStartDate, mockStartDate(12));
-            assertErrorContains(
-                fields.projectStartDate,
-                null,
-                'must be an object'
-            );
-            assertErrorContains(
-                fields.projectStartDate,
-                { day: 31, month: 2, year: 2030 },
-                'contains an invalid value'
-            );
-        });
-
-        test('must be at least 12 weeks in the future', () => {
-            const { error } = fields.projectStartDate.schema.validate(
-                mockStartDate(6)
-            );
-            expect(error.message).toContain('Date must be at least');
         });
     });
 
