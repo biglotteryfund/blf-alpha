@@ -26,7 +26,7 @@
 {% endmacro %}
 
 {% macro labelFor(field) -%}
-    {{ field.label }}
+    {{ field.label | safe }}
     {% if field.isRequired === false %}
         <span class="ff-label-note">{{ __('global.misc.optional') }}</span>
     {% endif %}
