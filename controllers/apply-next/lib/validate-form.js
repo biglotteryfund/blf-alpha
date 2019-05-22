@@ -3,23 +3,26 @@ const { concat, has, head, flatMap } = require('lodash');
 const { filter, getOr, uniqBy } = require('lodash/fp');
 
 /**
- * Find suitable errors
+ * Messages for error
  * 1. Find messages which either have a key **and** type or **only** a type
- *    Allows us to scope errors messages to specific keys in groups of fields (e.g. addresses, dates of birth)
+ *    Allows us to scope errors messages to specific keys in groups of fields
  * 2. If no matching messages are found then look for a type of 'base'
  *    Allows us to show a generic message for any unmatched error type e.g. "Please enter your name"
  */
-function messagesForError(detail, messages) {
-    const filterKeyAndType = filter(
-        message =>
+function messagesForError(messages, detail) {
+    const filterKeyAndType = filter(function(message) {
+        return (
             message.key === detail.context.key && message.type === detail.type
-    );
-    const filterTypeOnly = filter(
-        message => !has(message, 'key') && message.type === detail.type
-    );
-    const filterBase = filter(
-        message => !has(message, 'key') && message.type === 'base'
-    );
+        );
+    });
+
+    const filterTypeOnly = filter(function(message) {
+        return !has(message, 'key') && message.type === detail.type;
+    });
+
+    const filterBase = filter(function(message) {
+        return !has(message, 'key') && message.type === 'base';
+    });
 
     const matches = concat(
         filterKeyAndType(messages),
@@ -36,10 +39,11 @@ function messagesForError(detail, messages) {
  * - Determines the appropriate translated error message to use based on current error type.
  *
  * @param {Object} options
- * @param {Object} options.errorDetails
+ * @param {Object} options.validationError
  * @param {Object} options.errorMessages
  */
-module.exports = function normaliseErrors({ errorDetails, errorMessages }) {
+function normaliseErrors({ validationError, errorMessages }) {
+    const errorDetails = getOr([], 'details')(validationError);
     const uniqueErrorsDetails = uniqBy(detail => head(detail.path))(
         errorDetails
     );
@@ -47,7 +51,7 @@ module.exports = function normaliseErrors({ errorDetails, errorMessages }) {
     return flatMap(uniqueErrorsDetails, detail => {
         const name = head(detail.path);
         const fieldMessages = getOr([], name)(errorMessages);
-        const matchingMessages = messagesForError(detail, fieldMessages);
+        const matchingMessages = messagesForError(fieldMessages, detail);
 
         return matchingMessages.map(match => {
             return {
@@ -56,4 +60,29 @@ module.exports = function normaliseErrors({ errorDetails, errorMessages }) {
             };
         });
     });
+}
+
+/**
+ * Validate data against the form schema
+ *
+ * Validating against the whole form ensures that
+ * conditional validations are taken into account
+ */
+module.exports = function validateForm(form, data = {}) {
+    const { value, error } = form.schema.validate(data, {
+        abortEarly: false,
+        stripUnknown: true
+    });
+
+    const messages = normaliseErrors({
+        validationError: error,
+        errorMessages: form.messages
+    });
+
+    return {
+        value: value,
+        error: error,
+        isValid: error === null && messages.length === 0,
+        messages: messages
+    };
 };

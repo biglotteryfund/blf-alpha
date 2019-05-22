@@ -11,7 +11,10 @@ module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
     const currentOrganisationType = get('organisationType')(data);
 
-    const { fields, schema } = fieldsFor({ locale, data });
+    const { fields, schema, messages } = fieldsFor({
+        locale: locale,
+        data: data
+    });
 
     function includeAddressAndDob() {
         return (
@@ -583,6 +586,7 @@ module.exports = function({ locale, data = {} }) {
         isBilingual: true,
         fields: fields,
         schema: schema,
+        messages: messages,
         summary: summary(),
         sections: [
             sectionProject,
