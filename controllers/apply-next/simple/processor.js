@@ -1,6 +1,6 @@
 'use strict';
 const path = require('path');
-const clone = require('lodash/clone');
+const { clone, has } = require('lodash');
 const debug = require('debug')('tnlcf:awards-for-all');
 const features = require('config').get('features');
 
@@ -39,12 +39,18 @@ function salesforceApplication(application) {
 
     const enriched = clone(application);
     enriched.projectStartDate = dateFormat(enriched.projectStartDate);
-    enriched.mainContactDateOfBirth = dateFormat(
-        enriched.mainContactDateOfBirth
-    );
-    enriched.seniorContactDateOfBirth = dateFormat(
-        enriched.seniorContactDateOfBirth
-    );
+
+    if (has(enriched, 'mainContactDateOfBirth')) {
+        enriched.mainContactDateOfBirth = dateFormat(
+            enriched.mainContactDateOfBirth
+        );
+    }
+
+    if (has(enriched, 'seniorContactDateOfBirth')) {
+        enriched.seniorContactDateOfBirth = dateFormat(
+            enriched.seniorContactDateOfBirth
+        );
+    }
 
     return enriched;
 }
