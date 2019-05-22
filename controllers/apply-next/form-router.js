@@ -379,6 +379,7 @@ function initFormRouter({
                     application: validationResult.value,
                     meta: {
                         form: form.id,
+                        environment: appData.environment,
                         commitId: appData.commitId,
                         startedAt: currentApplication.createdAt.toISOString()
                     }
