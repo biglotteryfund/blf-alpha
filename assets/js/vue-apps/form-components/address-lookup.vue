@@ -18,6 +18,7 @@ export default {
             states: states,
             currentState: states.NotAsked,
             postcode: null,
+            addressData: [],
             candidates: [],
             selectedAddressId: '',
             showAddressPreview: false,
@@ -25,18 +26,17 @@ export default {
         };
     },
     methods: {
-        formatAddress(result) {
-            return {
-                addressLine1: [
-                    result.Flat_No,
-                    result.Building_No,
-                    result.Building_Name,
-                    result.Street_Name
-                ].join(' '),
-                townCity: result.Town_City,
-                county: result.County,
-                postcode: result.PostCode
-            };
+        formatAddress(udprn) {
+            const address = this.addressData.find(_ => _.udprn === udprn);
+            if (address) {
+                return {
+                    addressLine1: address.line_1,
+                    addressLine2: address.line_2,
+                    townCity: address.post_town,
+                    county: address.county,
+                    postcode: address.postcode
+                };
+            }
         },
         handleLookup() {
             this.currentState = this.states.Loading;
@@ -46,9 +46,17 @@ export default {
                 dataType: 'json',
                 data: { q: this.postcode }
             }).then(response => {
+                this.addressData = response.addresses;
                 this.currentState = this.states.Success;
-                this.candidates = response.data.map(result => {
-                    return { value: result.Moniker, label: result.Text };
+                this.candidates = this.addressData.map(result => {
+                    const label = compact([
+                        result['line_1'],
+                        result['line_2'],
+                        result['line_3'],
+                        result['district'],
+                        result['county']
+                    ]).join(', ');
+                    return { value: result.udprn, label: label };
                 });
             });
         },
@@ -60,17 +68,13 @@ export default {
     watch: {
         selectedAddressId() {
             if (this.selectedAddressId) {
-                $.ajax({
-                    url: `/api/address-lookup/${this.selectedAddressId}`,
-                    dataType: 'json',
-                    data: { q: this.postcode }
-                }).then(response => {
-                    this.currentState = this.states.Success;
-                    const fullAddress = this.formatAddress(response.data);
+                this.currentState = this.states.Success;
+                const fullAddress = this.formatAddress(this.selectedAddressId);
+                if (fullAddress) {
                     this.$emit('full-address', fullAddress);
                     this.showAddressPreview = true;
                     this.fullAddress = fullAddress;
-                });
+                }
             }
         }
     },
@@ -85,6 +89,7 @@ export default {
         addressHtml() {
             return compact([
                 this.fullAddress.addressLine1,
+                this.fullAddress.addressLine2,
                 this.fullAddress.townCity,
                 this.fullAddress.postcode
             ]).join('<br />');

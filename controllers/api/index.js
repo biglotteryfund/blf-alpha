@@ -7,32 +7,29 @@ const Raven = require('raven');
 const feedbackService = require('../../services/feedback');
 const surveyService = require('../../services/surveys');
 const appData = require('../../modules/appData');
+const { POSTCODES_API_KEY } = require('../../modules/secrets');
+
+const idealPostcodes = require('ideal-postcodes')(POSTCODES_API_KEY);
 
 const router = express.Router();
 
 if (appData.isNotProduction) {
     /**
      * API: UK address lookup proxy
-     * @TODO: Connect direct to service rather than via legacy domain
      */
-    const addressLookupEndpoint =
-        'https://apply.tnlcommunityfund.org.uk/AddressFinder.ashx';
     router.get('/address-lookup', async (req, res) => {
-        if (req.query.q) {
-            try {
-                const data = await request({
-                    url: addressLookupEndpoint,
-                    json: true,
-                    qs: { Query: req.query.q },
-                    strictSSL: false
-                });
-                res.json({ data });
-            } catch (error) {
-                Raven.captureException(error);
-                res.status(400).json({
-                    errors: [{ status: '400', title: 'Connection error' }]
-                });
-            }
+        const query = req.query.q;
+        if (query) {
+            idealPostcodes.lookupPostcode(query, (error, addresses) => {
+                if (error) {
+                    Raven.captureException(error);
+                    res.status(400).json({
+                        errors: [{ status: '400', title: 'Connection error' }]
+                    });
+                } else {
+                    res.json({ addresses });
+                }
+            });
         } else {
             res.status(400).json({
                 errors: [
@@ -43,24 +40,6 @@ if (appData.isNotProduction) {
                         source: { parameter: 'q' }
                     }
                 ]
-            });
-        }
-    });
-
-    router.get('/address-lookup/:moniker', async (req, res) => {
-        try {
-            const [data] = await request({
-                url: addressLookupEndpoint,
-                json: true,
-                qs: { GetAddress: 1, Moniker: req.params.moniker },
-                strictSSL: false
-            });
-
-            res.json({ data });
-        } catch (error) {
-            Raven.captureException(error);
-            res.status(400).json({
-                errors: [{ status: '400', title: 'Connection error' }]
             });
         }
     });
