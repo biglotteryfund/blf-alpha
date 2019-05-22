@@ -69,17 +69,20 @@ function normaliseErrors({ validationError, errorMessages }) {
  * conditional validations are taken into account
  */
 module.exports = function validate({ form, data = {} }) {
-    const validationResult = form.schema.validate(data, {
+    const { value, error } = form.schema.validate(data, {
         abortEarly: false,
         stripUnknown: true
     });
 
+    const messages = normaliseErrors({
+        validationError: error,
+        errorMessages: form.messages
+    });
+
     return {
-        value: validationResult.value,
-        error: validationResult.error,
-        messages: normaliseErrors({
-            validationError: validationResult.error,
-            errorMessages: form.messages
-        })
+        value: value,
+        error: error,
+        isValid: error === null && messages.length === 0,
+        messages: messages
     };
 };

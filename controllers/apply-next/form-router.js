@@ -331,10 +331,10 @@ function initFormRouter({
                 data: currentApplicationData
             });
 
-            if (validationResult.messages.length > 0) {
-                res.redirect(`${req.baseUrl}/summary`);
-            } else {
+            if (validationResult.isValid) {
                 next();
+            } else {
+                res.redirect(`${req.baseUrl}/summary`);
             }
         })
         .get(function(req, res) {

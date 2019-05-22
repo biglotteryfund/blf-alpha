@@ -43,6 +43,7 @@ describe('validateForm', () => {
             data: data
         });
 
+        expect(validationResult.isValid).toBeTruthy();
         expect(validationResult.value).toEqual(data);
         expect(validationResult.error).toBeNull();
     });
@@ -58,6 +59,7 @@ describe('validateForm', () => {
             data: data
         });
 
+        expect(validationResult.isValid).toBeFalsy();
         expect(validationResult.value).toEqual(data);
         expect(validationResult.messages).toEqual([
             { param: 'b', msg: 'Please enter B' },
@@ -77,6 +79,7 @@ describe('validateForm', () => {
             data: data
         });
 
+        expect(validationResult.isValid).toBeFalsy();
         expect(validationResult.error.details.length).toBe(3);
         expect(validationResult.messages).toEqual([
             { param: 'b', msg: 'Please enter B' },
