@@ -391,7 +391,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 value: ORGANISATION_TYPES.STATUTORY_BODY,
                 label: localise({ en: 'Statutory body', cy: '' }),
                 explanation: localise({
-                    en: `<p>My organsation is a public body, such as a local authority, parsih council, or police or health authority</p>`,
+                    en: `<p>My organisation is a public body, such as a local authority, parish council, or police or health authority</p>`,
                     cy: ''
                 })
             }

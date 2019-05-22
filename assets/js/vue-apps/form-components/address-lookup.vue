@@ -116,6 +116,7 @@ export default {
                 <input
                     type="text"
                     :id="ariaId"
+                    v-on:keydown.enter.prevent="handleLookup"
                     name="postcode-lookup"
                     size="20"
                     class="ff-text"
