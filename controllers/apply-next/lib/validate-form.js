@@ -3,23 +3,26 @@ const { concat, has, head, flatMap } = require('lodash');
 const { filter, getOr, uniqBy } = require('lodash/fp');
 
 /**
- * Find suitable errors
+ * Messages for error
  * 1. Find messages which either have a key **and** type or **only** a type
- *    Allows us to scope errors messages to specific keys in groups of fields (e.g. addresses, dates of birth)
+ *    Allows us to scope errors messages to specific keys in groups of fields
  * 2. If no matching messages are found then look for a type of 'base'
  *    Allows us to show a generic message for any unmatched error type e.g. "Please enter your name"
  */
-function messagesForError(detail, messages) {
-    const filterKeyAndType = filter(
-        message =>
+function messagesForError(messages, detail) {
+    const filterKeyAndType = filter(function(message) {
+        return (
             message.key === detail.context.key && message.type === detail.type
-    );
-    const filterTypeOnly = filter(
-        message => !has(message, 'key') && message.type === detail.type
-    );
-    const filterBase = filter(
-        message => !has(message, 'key') && message.type === 'base'
-    );
+        );
+    });
+
+    const filterTypeOnly = filter(function(message) {
+        return !has(message, 'key') && message.type === detail.type;
+    });
+
+    const filterBase = filter(function(message) {
+        return !has(message, 'key') && message.type === 'base';
+    });
 
     const matches = concat(
         filterKeyAndType(messages),
@@ -48,7 +51,7 @@ function normaliseErrors({ validationError, errorMessages }) {
     return flatMap(uniqueErrorsDetails, detail => {
         const name = head(detail.path);
         const fieldMessages = getOr([], name)(errorMessages);
-        const matchingMessages = messagesForError(detail, fieldMessages);
+        const matchingMessages = messagesForError(fieldMessages, detail);
 
         return matchingMessages.map(match => {
             return {
