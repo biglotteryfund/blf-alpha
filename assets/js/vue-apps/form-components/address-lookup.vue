@@ -38,6 +38,11 @@ export default {
                 };
             }
         },
+        handleFailure() {
+            // Handle case of no results for search
+            this.currentState = this.states.Failure;
+            this.handleFallback();
+        },
         handleLookup() {
             this.currentState = this.states.Loading;
             this.fullAddress = null;
@@ -45,22 +50,33 @@ export default {
                 url: '/api/address-lookup',
                 dataType: 'json',
                 data: { q: this.postcode }
-            }).then(response => {
-                this.addressData = response.addresses;
-                this.currentState = this.states.Success;
-                this.candidates = this.addressData.map(result => {
-                    const label = compact([
-                        result['line_1'],
-                        result['line_2'],
-                        result['line_3'],
-                        result['district'],
-                        result['county']
-                    ]).join(', ');
-                    return { value: result.udprn, label: label };
+            })
+                .then(response => {
+                    if (response.addresses.length > 0) {
+                        this.currentState = this.states.Success;
+                        this.addressData = response.addresses;
+                        this.candidates = this.addressData.map(result => {
+                            const label = compact([
+                                result['line_1'],
+                                result['line_2'],
+                                result['line_3'],
+                                result['district'],
+                                result['county']
+                            ]).join(', ');
+                            return { value: result.udprn, label: label };
+                        });
+                    } else {
+                        this.handleFailure();
+                    }
+                })
+                .fail(err => {
+                    this.handleFailure();
                 });
-            });
         },
         handleFallback() {
+            this.candidates = [];
+            this.addressData = [];
+            this.fullAddress = null;
             this.showAddressPreview = false;
             this.$emit('show-fallback');
         }
@@ -159,6 +175,14 @@ export default {
                     </option>
                 </select>
             </div>
+            <label
+                for="address-selection"
+                class="ff-label"
+                v-if="currentState === states.Failure"
+            >
+                There was an error finding your address - please provide it
+                below.
+            </label>
         </div>
 
         <div class="selected-address" v-if="fullAddress && showAddressPreview">
