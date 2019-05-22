@@ -1,5 +1,5 @@
 'use strict';
-const { get, getOr } = require('lodash/fp');
+const { has, get, getOr } = require('lodash/fp');
 const { compact, includes, sumBy } = require('lodash');
 
 const enrichForm = require('../lib/enrich-form');
@@ -75,11 +75,14 @@ module.exports = function({ locale, data = {} }) {
                 fieldsets: [
                     {
                         legend: localise({ en: 'Project location', cy: '' }),
-                        fields: [
-                            fields.projectLocation,
-                            fields.projectLocationDescription,
-                            fields.projectPostcode
-                        ]
+                        get fields() {
+                            const hasCountry = has('projectCountry')(data);
+                            return compact([
+                                hasCountry && fields.projectLocation,
+                                hasCountry && fields.projectLocationDescription,
+                                hasCountry && fields.projectPostcode
+                            ]);
+                        }
                     }
                 ]
             },
