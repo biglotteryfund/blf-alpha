@@ -492,8 +492,7 @@ module.exports = function({ locale, data = {} }) {
             name: 'terms-agreement-1',
             type: 'checkbox',
             label: localise({
-                en:
-                    'You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.',
+                en: `You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.`,
                 cy: ''
             }),
             options: [
@@ -505,8 +504,7 @@ module.exports = function({ locale, data = {} }) {
             name: 'terms-agreement-2',
             type: 'checkbox',
             label: localise({
-                en:
-                    'All the information you have provided in your application is accurate and complete; and you will notify us of any changes.',
+                en: `All the information you have provided in your application is accurate and complete; and you will notify us of any changes.`,
                 cy: ''
             }),
             options: [
@@ -518,8 +516,7 @@ module.exports = function({ locale, data = {} }) {
             name: 'terms-agreement-3',
             type: 'checkbox',
             label: localise({
-                en:
-                    'You understand that we will use any personal information you have provided for the purposes described under the Data Protection Statement.',
+                en: `You understand that we will use any personal information you have provided for the purposes described under the <a href="/about/customer-service/data-protection">Data Protection Statement</a>.`,
                 cy: ''
             }),
             options: [
@@ -531,8 +528,7 @@ module.exports = function({ locale, data = {} }) {
             name: 'terms-agreement-4',
             type: 'checkbox',
             label: localise({
-                en:
-                    'If information about this application is requested under the Freedom of Information Act, we will release it in line with our Freedom of Information policy.',
+                en: `If information about this application is requested under the Freedom of Information Act, we will release it in line with our <a href="/about/customer-service/freedom-of-information">Freedom of Information policy.</a>`,
                 cy: ''
             }),
             options: [
