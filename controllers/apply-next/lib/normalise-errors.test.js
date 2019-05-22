@@ -32,7 +32,7 @@ describe('normaliseErrors', () => {
         );
 
         const normalised = normaliseErrors({
-            errorDetails: error.details,
+            validationError: error,
             errorMessages: mockErrorMessages
         });
 
@@ -49,7 +49,7 @@ describe('normaliseErrors', () => {
         );
 
         const normalised = normaliseErrors({
-            errorDetails: error.details,
+            validationError: error,
             errorMessages: mockErrorMessages
         });
 

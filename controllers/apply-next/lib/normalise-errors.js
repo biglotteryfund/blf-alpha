@@ -36,10 +36,11 @@ function messagesForError(detail, messages) {
  * - Determines the appropriate translated error message to use based on current error type.
  *
  * @param {Object} options
- * @param {Object} options.errorDetails
+ * @param {Object} options.validationError
  * @param {Object} options.errorMessages
  */
-module.exports = function normaliseErrors({ errorDetails, errorMessages }) {
+module.exports = function normaliseErrors({ validationError, errorMessages }) {
+    const errorDetails = getOr([], 'details')(validationError);
     const uniqueErrorsDetails = uniqBy(detail => head(detail.path))(
         errorDetails
     );

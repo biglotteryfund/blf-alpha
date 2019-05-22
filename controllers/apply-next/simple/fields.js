@@ -1870,8 +1870,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         )
     );
 
+    const messages = reduce(
+        fields,
+        function(acc, field) {
+            acc[field.name] = field.messages;
+            return acc;
+        },
+        {}
+    );
+
     return {
         fields,
-        schema
+        schema,
+        messages
     };
 };

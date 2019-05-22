@@ -11,7 +11,6 @@ const {
     head,
     includes,
     isEmpty,
-    omit,
     partition,
     set,
     unset
@@ -25,22 +24,7 @@ const { injectCopy } = require('../../middleware/inject-content');
 
 const { nextAndPrevious } = require('./lib/pagination');
 const { FORM_STATES, calculateFormProgress } = require('./lib/progress');
-const normaliseErrors = require('./lib/normalise-errors');
-
-/**
- * Validate data against the form schema
- * Validating against the whole form ensures that
- * conditional validations are taken into account
- */
-function validateDataFor(form, data) {
-    return form.schema.validate(data, {
-        // Return all errors not just the first one
-        abortEarly: false,
-        // Strip unknown properties.
-        // Notably to allow us to ignore request forgery tokens as part of POST bodies
-        stripUnknown: true
-    });
-}
+const validateForm = require('./lib/validate-form');
 
 function initFormRouter({
     id,
@@ -342,14 +326,12 @@ function initFormRouter({
 
             res.locals.form = form;
 
-            const validationResult = validateDataFor(
-                form,
-                currentApplicationData
-            );
+            const validationResult = validateForm({
+                form: form,
+                data: currentApplicationData
+            });
 
-            const errors = get(validationResult, 'error.details', []);
-
-            if (errors.length > 0) {
+            if (validationResult.messages.length > 0) {
                 res.redirect(`${req.baseUrl}/summary`);
             } else {
                 next();
@@ -368,10 +350,10 @@ function initFormRouter({
                 data: currentApplicationData
             });
 
-            const validationResult = validateDataFor(
-                form,
-                currentApplicationData
-            );
+            const validationResult = validateForm({
+                form: form,
+                data: currentApplicationData
+            });
 
             try {
                 await processor({
@@ -551,17 +533,11 @@ function initFormRouter({
 
             const stepIndex = parseInt(req.params.step, 10) - 1;
             const step = currentSection.steps[stepIndex];
-            const fields = flatMap(step.fieldsets, 'fields');
 
-            const validationResult = validateDataFor(form, data);
-
-            const errorDetailsForStep = get(
-                validationResult.error,
-                'details',
-                []
-            ).filter(detail =>
-                includes(fields.map(field => field.name), head(detail.path))
-            );
+            const validationResult = validateForm({
+                form: form,
+                data: data
+            });
 
             try {
                 await applicationsService.updateApplication(
@@ -569,30 +545,25 @@ function initFormRouter({
                     validationResult.value
                 );
 
-                const normalisedErrors = normaliseErrors({
-                    errorDetails: errorDetailsForStep,
-                    errorMessages: fields.reduce((obj, field) => {
-                        obj[field.name] = field.messages;
-                        return obj;
-                    }, {})
-                });
+                const fieldNamesForStep = flatMap(step.fieldsets, 'fields').map(
+                    field => field.name
+                );
+
+                const errorsForStep = validationResult.messages.filter(item =>
+                    includes(fieldNamesForStep, item.param)
+                );
 
                 /**
                  * If there are errors re-render the step with errors
                  * - Pass the full data object from validationResult to the view. Including invalid values.
                  * Otherwise, find the next suitable step and redirect there.
                  */
-                if (normalisedErrors.length > 0) {
+                if (errorsForStep.length > 0) {
                     const renderStep = renderStepFor(
                         req.params.section,
                         req.params.step
                     );
-                    renderStep(
-                        req,
-                        res,
-                        validationResult.value,
-                        normalisedErrors
-                    );
+                    renderStep(req, res, validationResult.value, errorsForStep);
                 } else {
                     const { nextUrl } = nextAndPrevious({
                         baseUrl: req.baseUrl,
