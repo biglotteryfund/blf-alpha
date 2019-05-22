@@ -38,10 +38,7 @@ describe('validateForm', () => {
             c: 'and so is this'
         };
 
-        const validationResult = validateForm({
-            form: mockForm(),
-            data: data
-        });
+        const validationResult = validateForm(mockForm(), data);
 
         expect(validationResult.isValid).toBeTruthy();
         expect(validationResult.value).toEqual(data);
@@ -54,10 +51,7 @@ describe('validateForm', () => {
             c: 'this is valid'
         };
 
-        const validationResult = validateForm({
-            form: mockForm(),
-            data: data
-        });
+        const validationResult = validateForm(mockForm(), data);
 
         expect(validationResult.isValid).toBeFalsy();
         expect(validationResult.value).toEqual(data);
@@ -74,10 +68,7 @@ describe('validateForm', () => {
             c: 'this is valid'
         };
 
-        const validationResult = validateForm({
-            form: mockForm(),
-            data: data
-        });
+        const validationResult = validateForm(mockForm(), data);
 
         expect(validationResult.isValid).toBeFalsy();
         expect(validationResult.error.details.length).toBe(3);

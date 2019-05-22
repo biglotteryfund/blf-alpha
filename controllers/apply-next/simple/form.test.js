@@ -12,12 +12,13 @@ const { ORGANISATION_TYPES } = require('./constants');
 const formBuilder = require('./form');
 
 function testValidate(data = {}) {
-    const result = validateForm({
-        form: formBuilder({ locale: 'en', data: data }),
-        data: data
-    });
-
-    return result;
+    return validateForm(
+        formBuilder({
+            locale: 'en',
+            data: data
+        }),
+        data
+    );
 }
 
 function messagesFor(validationResult) {

@@ -326,10 +326,7 @@ function initFormRouter({
 
             res.locals.form = form;
 
-            const validationResult = validateForm({
-                form: form,
-                data: currentApplicationData
-            });
+            const validationResult = validateForm(form, currentApplicationData);
 
             if (validationResult.isValid) {
                 next();
@@ -350,10 +347,7 @@ function initFormRouter({
                 data: currentApplicationData
             });
 
-            const validationResult = validateForm({
-                form: form,
-                data: currentApplicationData
-            });
+            const validationResult = validateForm(form, currentApplicationData);
 
             try {
                 await processor({
@@ -534,10 +528,7 @@ function initFormRouter({
             const stepIndex = parseInt(req.params.step, 10) - 1;
             const step = currentSection.steps[stepIndex];
 
-            const validationResult = validateForm({
-                form: form,
-                data: data
-            });
+            const validationResult = validateForm(form, data);
 
             try {
                 await applicationsService.updateApplication(

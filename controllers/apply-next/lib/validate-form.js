@@ -68,7 +68,7 @@ function normaliseErrors({ validationError, errorMessages }) {
  * Validating against the whole form ensures that
  * conditional validations are taken into account
  */
-module.exports = function validate({ form, data = {} }) {
+module.exports = function validateForm(form, data = {}) {
     const { value, error } = form.schema.validate(data, {
         abortEarly: false,
         stripUnknown: true
