@@ -564,14 +564,9 @@ function initFormRouter({
             );
 
             try {
-                // Exclude any values in the current submission which have errors
-                const dataToStore = omit(
-                    validationResult.value,
-                    errorDetailsForStep.map(detail => head(detail.path))
-                );
                 await applicationsService.updateApplication(
                     currentlyEditingId,
-                    dataToStore
+                    validationResult.value
                 );
 
                 const normalisedErrors = normaliseErrors({
