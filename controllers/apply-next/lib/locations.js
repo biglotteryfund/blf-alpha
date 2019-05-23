@@ -174,8 +174,8 @@ module.exports = function locationsFor(country) {
             label: 'Eastern',
             options: [
                 option('Antrim and Newtownabbey'),
-                option('Ards and North Down '),
-                option('Belfast ')
+                option('Ards and North Down'),
+                option('Belfast')
             ]
         },
         {

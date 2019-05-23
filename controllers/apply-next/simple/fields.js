@@ -718,7 +718,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 return locationsFor(country);
             },
             isRequired: true,
-            schema: Joi.string().required(),
+            get schema() {
+                const options = flatMap(this.optgroups, group => group.options);
+                return Joi.string()
+                    .valid(options.map(option => option.value))
+                    .required();
+            },
             messages: [
                 {
                     type: 'base',

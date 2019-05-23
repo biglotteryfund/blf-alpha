@@ -37,7 +37,7 @@ function mockBudget() {
 }
 
 function mockFullForm({
-    country,
+    country = 'england',
     organisationType,
     companyNumber = null,
     charityNumber = null,
