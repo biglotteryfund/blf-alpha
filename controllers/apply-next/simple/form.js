@@ -288,6 +288,23 @@ module.exports = function({ locale, data = {} }) {
                                 : []
                         }
                     ]
+                },
+                {
+                    title: localise({
+                        en: `Community`,
+                        cy: ``
+                    }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: `Community`,
+                                cy: ``
+                            }),
+                            fields: selectedCountry('northern-ireland')
+                                ? [fields.beneficiariesNorthernIrelandCommunity]
+                                : []
+                        }
+                    ]
                 }
             ]
         };

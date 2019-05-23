@@ -135,6 +135,20 @@ describe('form model', () => {
         assertMessagesByKey(value('wales', 'not-a-valid-choice'), [
             'Choose an option'
         ]);
+
+        const fieldNamesFn = fieldNamesFor(
+            'beneficiaries',
+            'People who speak Welsh'
+        );
+
+        expect(fieldNamesFn({ projectCountry: 'england' })).toEqual([]);
+        expect(fieldNamesFn({ projectCountry: 'scotland' })).toEqual([]);
+        expect(fieldNamesFn({ projectCountry: 'northern-ireland' })).toEqual(
+            []
+        );
+        expect(fieldNamesFn({ projectCountry: 'wales' })).toEqual([
+            'beneficiariesWelshLanguage'
+        ]);
     });
 
     test('additional community question in Northern Ireland', () => {
@@ -153,6 +167,15 @@ describe('form model', () => {
         assertMessagesByKey(value('northern-ireland'), ['Choose an option']);
         assertMessagesByKey(value('northern-ireland', 'not-a-valid-choice'), [
             'Choose an option'
+        ]);
+
+        const fieldNamesFn = fieldNamesFor('beneficiaries', 'Community');
+
+        expect(fieldNamesFn({ projectCountry: 'england' })).toEqual([]);
+        expect(fieldNamesFn({ projectCountry: 'scotland' })).toEqual([]);
+        expect(fieldNamesFn({ projectCountry: 'wales' })).toEqual([]);
+        expect(fieldNamesFn({ projectCountry: 'northern-ireland' })).toEqual([
+            'beneficiariesNorthernIrelandCommunity'
         ]);
     });
 
