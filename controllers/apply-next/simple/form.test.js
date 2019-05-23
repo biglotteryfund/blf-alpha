@@ -48,15 +48,19 @@ function assertValidByKey(data) {
     expect(messagesByKey).toHaveLength(0);
 }
 
+function fieldNamesFor(sectionSlug, stepTitle) {
+    return function(data) {
+        const form = formBuilder({ locale: 'en', data: data });
+        const section = form.sections.find(s => s.slug === sectionSlug);
+        const step = section.steps.find(s => s.title === stepTitle);
+        return map(flatMap(step.fieldsets, 'fields'), f => f.name);
+    };
+}
+
 describe('form model', () => {
     test('validate model shape', () => {
         validateModel(formBuilder({ locale: 'en' }));
     });
-
-    function validate(mock) {
-        const form = formBuilder({ locale: 'en' });
-        return form.schema.validate(mock);
-    }
 
     test('invalid when empty', () => {
         assertAllErrors({}, [
@@ -133,85 +137,75 @@ describe('form model', () => {
         ]);
     });
 
-    test('validate full form with company number', () => {
-        expect(
-            validate(
-                mockFullForm({
-                    country: 'england',
-                    organisationType: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-                })
-            ).error
-        ).toBeInstanceOf(Error);
+    test('company number required if not for profit company', () => {
+        function value(type, val) {
+            return {
+                organisationType: type,
+                companyNumber: val
+            };
+        }
 
-        expect(
-            validate(
-                mockFullForm({
-                    country: 'england',
-                    organisationType: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
-                    companyNumber: '123456789'
-                })
-            ).error
-        ).toBeNull();
+        assertValidByKey(value(ORGANISATION_TYPES.CIO));
+        assertValidByKey(
+            value(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY, 'CE002712')
+        );
+        assertMessagesByKey(value(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY), [
+            'Enter your organisation’s Companies House number'
+        ]);
     });
 
-    test('validate full form with charity number', () => {
-        expect(
-            validate(
-                mockFullForm({
-                    country: 'england',
-                    organisationType: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-                })
-            ).error
-        ).toBeInstanceOf(Error);
+    test('charity number required if CIO or registered charity', () => {
+        function value(type, val) {
+            return {
+                organisationType: type,
+                charityNumber: val
+            };
+        }
 
-        expect(
-            validate(
-                mockFullForm({
-                    country: 'england',
-                    organisationType:
-                        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                    charityNumber: '123456789'
-                })
-            ).error
-        ).toBeNull();
+        assertMessagesByKey(value(ORGANISATION_TYPES.CIO), [
+            'Enter your organisation’s charity number'
+        ]);
+
+        assertMessagesByKey(
+            value(ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY),
+            ['Enter your organisation’s charity number']
+        );
+
+        assertValidByKey(value(ORGANISATION_TYPES.CIO, '1160580'));
+        assertValidByKey(
+            value(
+                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                '1160580'
+            )
+        );
+        assertValidByKey(value(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY));
     });
 
-    test('validate full form with department for education number', () => {
-        const invalid = mockFullForm({
-            country: 'england',
-            organisationType: ORGANISATION_TYPES.SCHOOL
-        });
+    test('education number required if school', () => {
+        function value(type, val) {
+            return {
+                organisationType: type,
+                educationNumber: val
+            };
+        }
 
-        expect(validate(invalid).error).toBeInstanceOf(Error);
-
-        const valid = mockFullForm({
-            country: 'england',
-            organisationType: ORGANISATION_TYPES.SCHOOL,
-            educationNumber: '123456789'
-        });
-
-        expect(validate(valid).error).toBeNull();
+        assertMessagesByKey(value(ORGANISATION_TYPES.SCHOOL), [
+            'Enter your organisation’s Department for Education number'
+        ]);
+        assertValidByKey(value(ORGANISATION_TYPES.SCHOOL, '1160580'));
+        assertValidByKey(value(ORGANISATION_TYPES.CIO));
     });
 
-    test('validate full form with no required registration numbers', () => {
+    test('no registration numbers required if unregistered VCO', () => {
         expect(
-            validate(
+            testValidate(
                 mockFullForm({
                     country: 'england',
                     organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO
                 })
-            ).error
-        ).toBeNull();
+            ).isValid
+        ).toBeTruthy();
     });
-
-    function fieldNamesFor(sectionSlug, stepTitle) {
-        return function(data) {
-            const form = formBuilder({ locale: 'en', data: data });
-            const section = form.sections.find(s => s.slug === sectionSlug);
-            const step = section.steps.find(s => s.title === stepTitle);
-            return map(flatMap(step.fieldsets, 'fields'), f => f.name);
-        };
-    }
 
     test('registration numbers shown based on organisation type', () => {
         const fieldNamesFn = fieldNamesFor(
