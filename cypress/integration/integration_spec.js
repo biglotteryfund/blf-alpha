@@ -232,17 +232,19 @@ describe('user', () => {
     it('should not allow unknown users to login', () => {
         cy.visit('/user/login');
         submitForm('person@example.com', 'examplepassword');
-        cy.getByText(
+        cy.getByTestId('form-errors').should(
+            'contain',
             'Your username and password combination is invalid'
-        ).should('exist');
+        );
         cy.checkA11y();
     });
 
     it('should prevent registrations with invalid passwords', () => {
         cy.visit('/user/register');
         submitForm('person@example.com', 'tooshort');
-        cy.getByText('Password must be at least 10 characters long').should(
-            'exist'
+        cy.getByTestId('form-errors').should(
+            'contain',
+            'Password must be at least 10 characters long'
         );
     });
 
@@ -541,7 +543,13 @@ describe('awards for all', function() {
                 'What is the full legal name of your organisation?',
                 { exact: false }
             ).type(faker.company.companyName());
-            fillAddress();
+            cy.getByText(
+                'What is the main or registered address of your organisation?'
+            )
+                .parent()
+                .within(() => {
+                    fillAddress();
+                });
             submitStep();
         }
 
@@ -582,7 +590,11 @@ describe('awards for all', function() {
             cy.getByLabelText('Day').type('5');
             cy.getByLabelText('Month').type('11');
             cy.getByLabelText('Year').type('1926');
-            fillAddress();
+            cy.getByText('Current address')
+                .parent()
+                .within(() => {
+                    fillAddress();
+                });
             cy.getByLabelText('Yes').click();
             cy.getByLabelText('Email', { exact: false }).type(
                 faker.internet.exampleEmail()
@@ -605,7 +617,11 @@ describe('awards for all', function() {
             cy.getByLabelText('Day').type('5');
             cy.getByLabelText('Month').type('11');
             cy.getByLabelText('Year').type('1926');
-            fillAddress();
+            cy.getByText('Current address')
+                .parent()
+                .within(() => {
+                    fillAddress();
+                });
             cy.getByLabelText('Yes').click();
             cy.getByLabelText('Email', { exact: false }).type(
                 faker.internet.exampleEmail()
@@ -755,7 +771,7 @@ describe('reaching communities', function() {
         }
 
         cy.visit('/apply/your-idea');
-        cy.getByText('Start', { exact: false }).click();
+        cy.getByText('Start').click();
 
         fillIdea();
         cy.getByText('Next').click();
