@@ -609,10 +609,63 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        projectStartDate: {
-            name: 'projectStartDate',
+        // projectStartDate: {
+        //     name: 'projectStartDate',
+        //     label: localise({
+        //         en: `When is the planned (or estimated) start date of your project?`,
+        //         cy: ``
+        //     }),
+        //     get settings() {
+        //         const dt = moment().add(12, 'weeks');
+        //         return {
+        //             minDateExample: dt.format('DD MM YYYY'),
+        //             fromDateExample: dt
+        //                 .subtract(1, 'days')
+        //                 .format('D MMMM YYYY'),
+        //             minYear: dt.format('YYYY')
+        //         };
+        //     },
+        //     get explanation() {
+        //         return localise({
+        //             en: `<p>This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
+        //         <p><strong>For example: ${
+        //             this.settings.minDateExample
+        //         }</strong></p>`,
+        //             cy: ''
+        //         });
+        //     },
+        //     type: 'date',
+        //     isRequired: true,
+        //     get schema() {
+        //         const minDate = moment().add('12', 'weeks');
+        //         return Joi.dateParts().futureDate(minDate.format('YYYY-MM-DD'));
+        //     },
+        //     get messages() {
+        //         return [
+        //             {
+        //                 type: 'base',
+        //                 message: localise({ en: 'Enter a date', cy: '' })
+        //             },
+        //             {
+        //                 type: 'any.invalid',
+        //                 message: localise({ en: 'Enter a real date', cy: '' })
+        //             },
+        //             {
+        //                 type: 'dateParts.futureDate',
+        //                 message: localise({
+        //                     en: `Date you start the project must be after ${
+        //                         this.settings.fromDateExample
+        //                     }`,
+        //                     cy: ''
+        //                 })
+        //             }
+        //         ];
+        //     }
+        // },
+        projectDateRange: {
+            name: 'projectDateRange',
             label: localise({
-                en: `When is the planned (or estimated) start date of your project?`,
+                en: `When is the planned (or estimated) start and end date of your project?`,
                 cy: ``
             }),
             get settings() {
@@ -622,23 +675,39 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     fromDateExample: dt
                         .subtract(1, 'days')
                         .format('D MMMM YYYY'),
-                    minYear: dt.format('YYYY')
+                    minYear: dt.format('YYYY'),
+                    // @TODO should there be a human readable version of this
+                    // (eg. "one year") for labels/explanations?
+                    maxDurationFromStart: {
+                        amount: 1,
+                        units: 'years'
+                    }
                 };
             },
             get explanation() {
                 return localise({
-                    en: `<p>This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
-                <p><strong>For example: ${
-                    this.settings.minDateExample
-                }</strong></p>`,
+                    en: `<p>The start date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
+                    <p><strong>For example: ${
+                        this.settings.minDateExample
+                    }</strong>. The project end date must be within ${
+                        this.settings.maxDurationFromStart.amount
+                    } ${
+                        this.settings.maxDurationFromStart.units
+                    } of the start date.</p>`,
                     cy: ''
                 });
             },
-            type: 'date',
+            type: 'dateRange',
             isRequired: true,
             get schema() {
                 const minDate = moment().add('12', 'weeks');
-                return Joi.dateParts().futureDate(minDate.format('YYYY-MM-DD'));
+                return Joi.dateRange()
+                    .minDate(minDate.format('YYYY-MM-DD'))
+                    .futureEndDate()
+                    .endDateLimit(
+                        this.settings.maxDurationFromStart.amount,
+                        this.settings.maxDurationFromStart.units
+                    );
             },
             get messages() {
                 return [
@@ -647,15 +716,50 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         message: localise({ en: 'Enter a date', cy: '' })
                     },
                     {
-                        type: 'any.invalid',
-                        message: localise({ en: 'Enter a real date', cy: '' })
+                        type: 'dates.both.invalid',
+                        message: localise({
+                            en: 'Enter a valid start and end date',
+                            cy: ''
+                        })
                     },
                     {
-                        type: 'dateParts.futureDate',
+                        type: 'dates.start.invalid',
                         message: localise({
-                            en: `Date you start the project must be after ${
+                            en: 'Enter a valid start date',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dates.end.invalid',
+                        message: localise({
+                            en: 'Enter a valid end date',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dates.minDate.invalid',
+                        message: localise({
+                            en: `Date you start or end the project must be after ${
                                 this.settings.fromDateExample
                             }`,
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dates.endDate.beforeStartDate',
+                        message: localise({
+                            en: `End date must be after start date`,
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dates.endDate.outsideLimit',
+                        message: localise({
+                            en: `End date must be within ${
+                                this.settings.maxDurationFromStart.amount
+                            } ${
+                                this.settings.maxDurationFromStart.units
+                            } of the start date.`,
                             cy: ''
                         })
                     }

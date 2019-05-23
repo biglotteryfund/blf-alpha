@@ -60,7 +60,7 @@ module.exports = function({ locale, data = {} }) {
                 fieldsets: [
                     {
                         legend: localise({ en: 'Project details', cy: '' }),
-                        fields: [fields.projectName, fields.projectStartDate]
+                        fields: [fields.projectName, fields.projectDateRange]
                     }
                 ]
             },
