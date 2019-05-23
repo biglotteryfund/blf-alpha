@@ -1560,7 +1560,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.when('organisationType', {
                 is: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
-                then: Joi.string().required()
+                then: Joi.string().required(),
+                otherwise: Joi.any().strip()
             }),
             messages: [
                 {
