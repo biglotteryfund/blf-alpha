@@ -1556,6 +1556,60 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
+        beneficiariesNorthernIrelandCommunity: {
+            name: 'beneficiariesNorthernIrelandCommunity',
+            label: localise({
+                en: `Which community do the people who will benefit from your project belong to?`,
+                cy: ``
+            }),
+            type: 'radio',
+            options: [
+                {
+                    value: 'both-catholic-and-protestant',
+                    label: localise({
+                        en: 'Both Catholic and Protestant',
+                        cy: ''
+                    })
+                },
+                {
+                    value: 'mainly-protestant',
+                    label: localise({
+                        en: `Mainly Protestant (more than 60 per cent)`,
+                        cy: ''
+                    })
+                },
+                {
+                    value: 'mainly-catholic',
+                    label: localise({
+                        en: 'Mainly Catholic (more than 60 per cent)',
+                        cy: ''
+                    })
+                },
+                {
+                    value: 'neither-catholic-or-protestant',
+                    label: localise({
+                        en: 'Neither Catholic or Protestant',
+                        cy: ''
+                    })
+                }
+            ],
+            isRequired: true,
+            get schema() {
+                return Joi.when('projectCountry', {
+                    is: 'northern-ireland',
+                    then: Joi.string()
+                        .valid(this.options.map(option => option.value))
+                        .required(),
+                    otherwise: Joi.any().strip()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose an option', cy: '' })
+                }
+            ]
+        },
         organisationLegalName: {
             name: 'organisationLegalName',
             label: localise({

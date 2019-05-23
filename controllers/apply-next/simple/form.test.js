@@ -147,9 +147,11 @@ describe('form model', () => {
 
         assertValidByKey(value('england'));
         assertValidByKey(value('scotland'));
-        assertValidByKey(value('wales', 'both-catholic-protestant'));
-        assertMessagesByKey(value('wales'), ['Choose an option']);
-        assertMessagesByKey(value('wales', 'not-a-valid-choice'), [
+        assertValidByKey(value('wales'));
+        assertValidByKey(value('northern-ireland', 'mainly-catholic'));
+        assertValidByKey(value('northern-ireland', 'mainly-protestant'));
+        assertMessagesByKey(value('northern-ireland'), ['Choose an option']);
+        assertMessagesByKey(value('northern-ireland', 'not-a-valid-choice'), [
             'Choose an option'
         ]);
     });
