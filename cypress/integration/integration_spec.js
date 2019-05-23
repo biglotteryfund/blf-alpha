@@ -677,6 +677,7 @@ describe('awards for all', function() {
 
         cy.seedAndLogin().then(() => {
             cy.visit('/apply-next/simple');
+            cy.percySnapshot('a4a-dashboard');
             cy.getByText('Start new application').click();
             times(5, function() {
                 cy.getByLabelText('Yes').click();
@@ -701,6 +702,7 @@ describe('awards for all', function() {
 
             cy.checkA11y();
             cy.get('h1').should('contain', 'Summary');
+            cy.percySnapshot('a4a-summary');
             cy.getByText('Submit application').click();
 
             fillTerms();
