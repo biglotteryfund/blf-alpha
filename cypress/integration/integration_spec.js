@@ -547,6 +547,14 @@ describe('awards for all', function() {
                 cy.getByLabelText('More than half').click();
                 submitStep();
             }
+
+            if (randomCountry === 'Northern Ireland') {
+                cy.getByText(
+                    'Which community do the people who will benefit from your project belong to?'
+                ).should('exist');
+                cy.getByLabelText('Both Catholic and Protestant').click();
+                submitStep();
+            }
         }
 
         function stepOrganisationDetails() {
