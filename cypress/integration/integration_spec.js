@@ -1,7 +1,7 @@
 // @ts-nocheck
 const uuid = require('uuid/v4');
 const faker = require('faker');
-const { includes, sample, sampleSize } = require('lodash');
+const { includes, sample, sampleSize, times } = require('lodash');
 const moment = require('moment');
 
 describe('common', function() {
@@ -232,17 +232,19 @@ describe('user', () => {
     it('should not allow unknown users to login', () => {
         cy.visit('/user/login');
         submitForm('person@example.com', 'examplepassword');
-        cy.getByText(
+        cy.getByTestId('form-errors').should(
+            'contain',
             'Your username and password combination is invalid'
-        ).should('exist');
+        );
         cy.checkA11y();
     });
 
     it('should prevent registrations with invalid passwords', () => {
         cy.visit('/user/register');
         submitForm('person@example.com', 'tooshort');
-        cy.getByText('Password must be at least 10 characters long').should(
-            'exist'
+        cy.getByTestId('form-errors').should(
+            'contain',
+            'Password must be at least 10 characters long'
         );
     });
 
@@ -541,7 +543,13 @@ describe('awards for all', function() {
                 'What is the full legal name of your organisation?',
                 { exact: false }
             ).type(faker.company.companyName());
-            fillAddress();
+            cy.getByText(
+                'What is the main or registered address of your organisation?'
+            )
+                .parent()
+                .within(() => {
+                    fillAddress();
+                });
             submitStep();
         }
 
@@ -582,7 +590,11 @@ describe('awards for all', function() {
             cy.getByLabelText('Day').type('5');
             cy.getByLabelText('Month').type('11');
             cy.getByLabelText('Year').type('1926');
-            fillAddress();
+            cy.getByText('Current address')
+                .parent()
+                .within(() => {
+                    fillAddress();
+                });
             cy.getByLabelText('Yes').click();
             cy.getByLabelText('Email', { exact: false }).type(
                 faker.internet.exampleEmail()
@@ -605,7 +617,11 @@ describe('awards for all', function() {
             cy.getByLabelText('Day').type('5');
             cy.getByLabelText('Month').type('11');
             cy.getByLabelText('Year').type('1926');
-            fillAddress();
+            cy.getByText('Current address')
+                .parent()
+                .within(() => {
+                    fillAddress();
+                });
             cy.getByLabelText('Yes').click();
             cy.getByLabelText('Email', { exact: false }).type(
                 faker.internet.exampleEmail()
@@ -660,7 +676,14 @@ describe('awards for all', function() {
         }
 
         cy.seedAndLogin().then(() => {
-            cy.visit('/apply-next/simple/new');
+            cy.visit('/apply-next/simple');
+            cy.percySnapshot('a4a-dashboard');
+            cy.getByText('Start new application').click();
+            times(5, function() {
+                cy.getByLabelText('Yes').click();
+                cy.getByText('Continue').click();
+            });
+            cy.getByText('Start your application').click();
 
             stepProjectDetails();
             stepProjectCountry();
@@ -679,6 +702,7 @@ describe('awards for all', function() {
 
             cy.checkA11y();
             cy.get('h1').should('contain', 'Summary');
+            cy.percySnapshot('a4a-summary');
             cy.getByText('Submit application').click();
 
             fillTerms();
@@ -755,7 +779,7 @@ describe('reaching communities', function() {
         }
 
         cy.visit('/apply/your-idea');
-        cy.getByText('Start', { exact: false }).click();
+        cy.getByText('Start').click();
 
         fillIdea();
         cy.getByText('Next').click();
