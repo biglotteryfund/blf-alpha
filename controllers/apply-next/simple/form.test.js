@@ -137,6 +137,23 @@ describe('form model', () => {
         ]);
     });
 
+    test('additional community question in Northern Ireland', () => {
+        function value(country, val) {
+            return {
+                projectCountry: country,
+                beneficiariesNorthernIrelandCommunity: val
+            };
+        }
+
+        assertValidByKey(value('england'));
+        assertValidByKey(value('scotland'));
+        assertValidByKey(value('wales', 'both-catholic-protestant'));
+        assertMessagesByKey(value('wales'), ['Choose an option']);
+        assertMessagesByKey(value('wales', 'not-a-valid-choice'), [
+            'Choose an option'
+        ]);
+    });
+
     test('company number required if not for profit company', () => {
         function value(type, val) {
             return {
