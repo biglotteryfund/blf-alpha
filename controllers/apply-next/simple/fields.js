@@ -353,7 +353,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     cy: ''
                 }),
                 explanation: localise({
-                    en: `<p>My organisation is a voluntary or community organisaton and is a registered charity, but <strong>is not</strong> a company registered with Companies House</p>`,
+                    en: `<p>My organisation is a voluntary or community organisation and is a registered charity, but <strong>is not</strong> a company registered with Companies House</p>`,
                     cy: ``
                 })
             },
@@ -372,7 +372,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
                 label: localise({ en: 'Not-for-profit company', cy: '' }),
                 explanation: localise({
-                    en: `<p>My organisation is a not-for-profit company registered with Companies House, and <strong>may also</strong> be regisered as a charity</p>`,
+                    en: `<p>My organisation is a not-for-profit company registered with Companies House, and <strong>may also</strong> be registered as a charity</p>`,
                     cy: ``
                 })
             },
@@ -391,7 +391,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 value: ORGANISATION_TYPES.STATUTORY_BODY,
                 label: localise({ en: 'Statutory body', cy: '' }),
                 explanation: localise({
-                    en: `<p>My organsation is a public body, such as a local authority, parsih council, or police or health authority</p>`,
+                    en: `<p>My organisation is a public body, such as a local authority, parish council, or police or health authority</p>`,
                     cy: ''
                 })
             }
@@ -1062,7 +1062,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     <li>people of a particular ethnic background, gender, age or religious belief</li>
                     <li>disabled people</li>
                     <li>lesbian, gay or bisexual people</li>
-                    <li>people with caring responsibilties</li>
+                    <li>people with caring responsibilities</li>
                 </ul>`,
                 cy: ``
             }),
@@ -1170,7 +1170,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
-        beneficiariesEthnicBakground: {
+        beneficiariesEthnicBackground: {
             name: 'beneficiariesGroupsEthnicBackground',
             label: localise({ en: `Ethnic background`, cy: '' }),
             explanation: localise({

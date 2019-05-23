@@ -131,7 +131,7 @@ module.exports = function({ locale, data = {} }) {
             let result;
             switch (type) {
                 case BENEFICIARY_GROUPS.ETHNIC_BACKGROUND:
-                    result = [fields.beneficiariesEthnicBakground];
+                    result = [fields.beneficiariesEthnicBackground];
                     break;
                 case BENEFICIARY_GROUPS.GENDER:
                     result = [fields.beneficiariesGroupsGender];
