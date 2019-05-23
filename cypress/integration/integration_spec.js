@@ -299,6 +299,8 @@ describe('awards for all', function() {
             'Wales'
         ]);
 
+        cy.log(`Country: ${randomCountry}`);
+
         function shouldDisplayErrors(errorDescriptions = []) {
             errorDescriptions.forEach(description => {
                 cy.getByTestId('form-errors').should('contain', description);
@@ -474,7 +476,7 @@ describe('awards for all', function() {
             submitStep();
         }
 
-        function stepBeneficiaryGroups() {
+        function stepBeneficiaries() {
             cy.checkA11y();
             cy.getByLabelText('Yes').click();
             submitStep();
@@ -489,6 +491,8 @@ describe('awards for all', function() {
                 ],
                 2
             );
+
+            cy.log(`Beneficiary groups: ${randomBeneficiaryGroups.join(', ')}`);
 
             cy.checkA11y();
             randomBeneficiaryGroups.forEach(label => {
@@ -533,6 +537,14 @@ describe('awards for all', function() {
                     'Disabled people with learning or mental difficulties',
                     { exact: false }
                 ).click();
+                submitStep();
+            }
+
+            if (randomCountry === 'Wales') {
+                cy.getByText(
+                    'How many of the people who will benefit from your project speak Welsh?'
+                ).should('exist');
+                cy.getByLabelText('More than half').click();
                 submitStep();
             }
         }
@@ -690,7 +702,7 @@ describe('awards for all', function() {
             stepProjectLocation();
             stepYourIdea();
             stepProjectCosts();
-            stepBeneficiaryGroups();
+            stepBeneficiaries();
             stepOrganisationDetails();
             stepOrganisationType();
             stepRegistrationNumbers();
