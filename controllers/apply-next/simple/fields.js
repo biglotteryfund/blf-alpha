@@ -1509,6 +1509,48 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
+        beneficiariesWelshLanguage: {
+            name: 'beneficiariesWelshLanguage',
+            label: localise({
+                en: `How many of the people who will benefit from your project speak Welsh?`,
+                cy: ``
+            }),
+            type: 'radio',
+            options: [
+                {
+                    value: 'all',
+                    label: localise({ en: 'All', cy: '' })
+                },
+                {
+                    value: 'more-than-half',
+                    label: localise({ en: 'More than half', cy: '' })
+                },
+                {
+                    value: 'less-than-half',
+                    label: localise({ en: 'Less than half', cy: '' })
+                },
+                {
+                    value: 'none',
+                    label: localise({ en: 'None', cy: '' })
+                }
+            ],
+            isRequired: true,
+            get schema() {
+                return Joi.when('projectCountry', {
+                    is: 'wales',
+                    then: Joi.string()
+                        .valid(this.options.map(option => option.value))
+                        .required(),
+                    otherwise: Joi.any().strip()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose an option', cy: '' })
+                }
+            ]
+        },
         organisationLegalName: {
             name: 'organisationLegalName',
             label: localise({
