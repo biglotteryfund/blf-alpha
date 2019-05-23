@@ -1,7 +1,7 @@
 // @ts-nocheck
 const uuid = require('uuid/v4');
 const faker = require('faker');
-const { includes, sample, sampleSize } = require('lodash');
+const { includes, sample, sampleSize, times } = require('lodash');
 const moment = require('moment');
 
 describe('common', function() {
@@ -676,7 +676,13 @@ describe('awards for all', function() {
         }
 
         cy.seedAndLogin().then(() => {
-            cy.visit('/apply-next/simple/new');
+            cy.visit('/apply-next/simple');
+            cy.getByText('Start new application').click();
+            times(5, function() {
+                cy.getByLabelText('Yes').click();
+                cy.getByText('Continue').click();
+            });
+            cy.getByText('Start your application').click();
 
             stepProjectDetails();
             stepProjectCountry();
