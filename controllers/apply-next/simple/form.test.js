@@ -116,6 +116,23 @@ describe('form model', () => {
         ]);
     });
 
+    test('welsh language question required for applicants in Wales', () => {
+        function value(country, val) {
+            return {
+                projectCountry: country,
+                beneficiariesWelshLanguage: val
+            };
+        }
+
+        assertValidByKey(value('england'));
+        assertValidByKey(value('scotland'));
+        assertValidByKey(value('wales', 'all'));
+        assertMessagesByKey(value('wales'), ['Choose an option']);
+        assertMessagesByKey(value('wales', 'not-a-valid-choice'), [
+            'Choose an option'
+        ]);
+    });
+
     test('validate full form with company number', () => {
         expect(
             validate(
