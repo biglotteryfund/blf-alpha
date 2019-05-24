@@ -17,7 +17,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "projectName": "My project name",
         "projectCountry": "england",
         "projectStartDate": "2020-12-12",
-        "projectLocation": "West Midlands",
+        "projectLocation": "west-midlands",
         "projectLocationDescription": "Additional description of location",
         "projectPostcode": "B15 1TR",
         "yourIdeaProject": "Free text…",
@@ -160,36 +160,36 @@ type: `string`
 
 #### England
 
--   **North East & Cumbria**: `Northumberland`, `County Durham`, `Tyne and Wear`, `Middlesbrough`, `Darlington`, `Stockton on Tees`, `Cleveland`, `Cumbria`
--   **North West**: `Greater Manchester`,`Lancashire`,`Cheshire`,`Merseyside`
--   **Yorkshire and the Humber**: `North Yorkshire`, `South Yorkshire`, `West Yorkshire`, `East Riding of Yorkshire`, `North Lincolnshire`, `North East Lincolnshire`
--   **South West**: `Gloucestershire`, `South Gloucestershire`, `Bristol`, `Bath and North East Somerset`, `North Somerset`, `Somerset`, `Wiltshire`, `Swindon`, `Dorset`, `Bournemouth`, `Poole`, `Devon`, `Rorbay`, `Plymouth`, `Cornwall`, `Isles of Scilly`
--   **London, South East and East of England**: `Greater London`, `Berkshire`, `Buckinghamshire`, `East Sussex`, `West Sussex`, `Hampshire`, `the Isle of Wight`, `Kent`, `Oxfordshire`, `Surrey`, `Bedfordshire`, `Peterborough`, `Cambridgeshire`, `Essex`, `Hertfordshire`, `Norfolk`, `Suffolk`
--   **East and West Midlands**: `Derbyshire`, `Leicestershire`, `Lincolnshire (except North and North East Lincolnshire)`, `Northamptonshire`, `Nottinghamshire`, `Rutland`, `Herefordshire`, `Shropshire`, `Staffordshire`, `Warwickshire`, `West Midlands`, `Worcestershire`
+-   **North East & Cumbria**: `northumberland`, `county-durham`, `tyne-and-wear`, `middlesbrough`, `darlington`, `stockton-on-tees`, `cleveland`, `cumbria`
+-   **North West**: `greater-manchester`, `lancashire`, `cheshire`, `merseyside`
+-   **Yorkshire and the Humber**: `north-yorkshire`, `south-yorkshire`, `west-yorkshire`, `east-riding-of-yorkshire`, `north-lincolnshire`, `north-east-lincolnshire`
+-   **South West**: `gloucestershire`, `south-gloucestershire`, `bristol`, `bath-and-north-east-somerset`, `north-somerset`, `somerset`, `wiltshire`, `swindon`, `dorset`, `bournemouth`, `poole`, `devon`, `rorbay`, `plymouth`, `cornwall`, `isles-of-scilly`
+-   **London, South East and East of England**: `greater-london`, `berkshire`, `buckinghamshire`, `east-sussex`, `west-sussex`, `hampshire`, `the-isle-of-wight`, `kent`, `oxfordshire`, `surrey`, `bedfordshire`, `peterborough`, `cambridgeshire`, `essex`, `hertfordshire`, `norfolk`, `suffolk`
+-   **East and West Midlands**: `derbyshire`, `leicestershire`, `lincolnshire`, `northamptonshire`, `nottinghamshire`, `rutland`, `herefordshire`, `shropshire`, `staffordshire`, `warwickshire`, `west-midlands`, `worcestershire`
 
 #### Scotland
 
--   **Lanarkshire**: `North Lanarkshire`, `South Lanarkshire`
--   **Glasgow**: `Glasgow`
--   **Highlands & Islands**: `Argyll & Bute`, `Highlands`, `Western Isles`, `Orkney`, `Shetland`
--   **Lothians**: `Edinburgh`, `East Lothian`, `West Lothian`, `Midlothian`
--   **Central Scotland**: `Clackmannanshire`, `Fife`, `Perth & Kinross`, `Stirling`, `Falkirk`
--   **North East Scotland**: `Aberdeen City`, `Aberdeenshire`, `Angus`, `Dundee`, `Moray`
--   **South Scotland**: `East Ayrshire`, `North Ayrshire`, `South Ayrshire`, `Dumfries & Galloway`, `The Scottish Borders`
--   **West of Scotland**: `East Dumbartonshire`, `West Dumbartonshire`, `Inverclyde`, `Renfrewshire`, `East Renfrewshire`
+-   **Lanarkshire**: `north-lanarkshire`, `south-lanarkshire`
+-   **Glasgow**: `glasgow`
+-   **Highlands & Islands**: `argyll-and-bute`, `highlands`, `western-isles`, `orkney`, `shetland`
+-   **Lothians**: `edinburgh`, `east-lothian`, `west-lothian`, `midlothian`
+-   **Central Scotland**: `clackmannanshire`, `fife`, `perth-and-kinross`, `stirling`, `falkirk`
+-   **North East Scotland**: `aberdeen-city`, `aberdeenshire`, `angus`, `dundee`, `moray`
+-   **South Scotland**: `east-ayrshire`, `north-ayrshire`, `south-ayrshire`, `dumfries-and-galloway`, `the-scottish-borders`
+-   **West of Scotland**: `east-dumbartonshire`, `west-dumbartonshire`, `inverclyde`, `renfrewshire`, `east-renfrewshire`
 
 #### Northern Ireland
 
--   **Eastern**: `Antrim and Newtownabbey`, `Ards and North Down`, `Belfast`
--   **Western**: `Fermanagh and Omagh`, `Mid Ulster`
--   **Northern**: `Derry and Strabane`, `Causeway, Coast and Glens`, `Mid and East Antrim`
--   **Southern**: `Lisburn and Castlereagh`, `Newry, Mourne and Down`
+-   **Eastern**: `antrim-and-newtownabbey`, `ards-and-north-down`, `belfast`
+-   **Western**: `fermanagh-and-omagh`, `mid-ulster`
+-   **Northern**: `derry-and-strabane`, `causeway-coast-and-glens`, `mid-and-east-antrim`
+-   **Southern**: `lisburn-and-castlereagh`, `newry-mourne-and-down`
 
 #### Wales
 
--   **North Wales**: `Conwy`, `Denbighshire`, `Flintshire`, `Gwynedd`, `Isle of Anglesey`, `Wrexham`
--   **Mid & West Wales**: `Bridgend`, `Carmarthenshire`, `Ceredigion`, `Neath Port Talbot`, `Pembrokeshire`, `Powys`, `Swansea`
--   **South East & Central Wales**: `Blaenau Gwent`, `Caerphilly`, `Cardiff`, `Merthyr Tydfil`, `Monmouthshire`, `Newport`, `Rhondda Cynon Taf (RCT)`, `The Vale of Glamorgan`, `Torfaen`
+-   **North Wales**: `conwy`, `denbighshire`, `flintshire`, `gwynedd`, `isle-of-anglesey`, `wrexham`
+-   **Mid & West Wales**: `bridgend`, `carmarthenshire`, `ceredigion`, `neath-port-talbot`, `pembrokeshire`, `powys`, `swansea`
+-   **South East & Central Wales**: `blaenau-gwent`, `caerphilly`, `cardiff`, `merthyr-tydfil`, `monmouthshire`, `newport`, `rhondda-cynon-taf`, `the-vale-of-glamorgan`, `torfaen`
 
 ### projectLocationDescription
 
