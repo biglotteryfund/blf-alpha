@@ -71,11 +71,14 @@ function formatDate(value) {
 }
 
 function formatDateRange(value) {
+    if (!value.start || !value.end) {
+        return '';
+    }
     const dates = {
         start: fromDateParts(value.start),
         end: fromDateParts(value.end)
     };
-    if (!dates.start.isValid() && !dates.end.isValid()) {
+    if (!dates.start.isValid() || !dates.end.isValid()) {
         return '';
     }
     return `${dates.start.format('D MMMM, YYYY')} – ${dates.end.format(
