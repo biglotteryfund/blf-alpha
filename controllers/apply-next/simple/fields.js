@@ -253,13 +253,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.dateParts()
                 .dob(minAge)
-                .required()
                 .when(Joi.ref('organisationType'), {
                     is: Joi.valid(
                         ORGANISATION_TYPES.SCHOOL,
                         ORGANISATION_TYPES.STATUTORY_BODY
                     ),
-                    then: Joi.any().optional()
+                    then: Joi.any().strip(),
+                    otherwise: Joi.required()
                 }),
             messages: [
                 {
@@ -1800,7 +1800,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ORGANISATION_TYPES.SCHOOL,
                     ORGANISATION_TYPES.STATUTORY_BODY
                 ),
-                then: Joi.any().optional()
+                then: Joi.any().strip()
             })
         }),
         mainContactAddressHistory: addressHistoryField({
@@ -1850,7 +1850,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ORGANISATION_TYPES.SCHOOL,
                     ORGANISATION_TYPES.STATUTORY_BODY
                 ),
-                then: Joi.any().optional()
+                then: Joi.any().strip()
             })
         }),
         seniorContactAddressHistory: addressHistoryField({
