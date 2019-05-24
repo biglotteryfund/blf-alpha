@@ -38,7 +38,10 @@ function salesforceApplication(application) {
     }
 
     const enriched = clone(application);
-    enriched.projectStartDate = dateFormat(enriched.projectStartDate);
+    enriched.projectDateRange = {
+        start: dateFormat(enriched.projectDateRange.start),
+        end: dateFormat(enriched.projectDateRange.end)
+    };
 
     if (has(enriched, 'mainContactDateOfBirth')) {
         enriched.mainContactDateOfBirth = dateFormat(

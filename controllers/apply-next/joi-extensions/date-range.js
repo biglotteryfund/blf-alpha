@@ -1,5 +1,4 @@
 'use strict';
-const moment = require('moment');
 const { fromDateParts } = require('../../../modules/dates');
 
 module.exports = function dateParts(joi) {
@@ -140,7 +139,7 @@ module.exports = function dateParts(joi) {
                     if (
                         dates.start.isValid() &&
                         dates.end.isValid() &&
-                        dates.end.isBefore(maximumEndDate)
+                        dates.end.isSameOrBefore(maximumEndDate)
                     ) {
                         return value;
                     } else {

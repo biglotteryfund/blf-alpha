@@ -14,6 +14,7 @@ module.exports = function validateModel(formModel) {
                 'checkbox',
                 'currency',
                 'date',
+                'dateRange',
                 'day-month',
                 'email',
                 'file',

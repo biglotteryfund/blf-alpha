@@ -555,7 +555,7 @@ module.exports = function({ locale, data = {} }) {
     ];
 
     function summary() {
-        const startDate = get('projectStartDate')(data);
+        const startDate = get('projectDateRange.start')(data);
         const organisation = get('organisationLegalName')(data);
         const budget = getOr([], 'projectBudget')(data);
         const budgetSum = sumBy(budget, item => parseInt(item.cost || 0));
