@@ -11,23 +11,8 @@ const { mockStartDate, mockFullForm } = require('./mocks');
 const { ORGANISATION_TYPES } = require('./constants');
 const formBuilder = require('./form');
 
-function testValidate(data = {}) {
-    return validateForm(
-        formBuilder({
-            locale: 'en',
-            data: data
-        }),
-        data
-    );
-}
-
-function messagesFor(validationResult) {
-    return map(validationResult.messages, 'msg');
-}
-
-function assertAllErrors(data, messages) {
-    expect(testValidate(data).error).toBeInstanceOf(Error);
-    expect(messagesFor(testValidate(data))).toEqual(messages);
+function testValidate(data) {
+    return validateForm(formBuilder({ locale: 'en', data }), data);
 }
 
 function assertMessagesByKey(data, messages) {
@@ -37,6 +22,11 @@ function assertMessagesByKey(data, messages) {
     });
 
     expect(map(messagesByKey, 'msg')).toEqual(messages);
+}
+
+function assertValid(data) {
+    const validationResult = testValidate(data);
+    expect(validationResult.isValid).toBeTruthy();
 }
 
 function assertValidByKey(data) {
@@ -60,40 +50,6 @@ function fieldNamesFor(sectionSlug, stepTitle) {
 describe('form model', () => {
     test('validate model shape', () => {
         validateModel(formBuilder({ locale: 'en' }));
-    });
-
-    test('invalid when empty', () => {
-        assertAllErrors({}, [
-            'Enter a project name',
-            'Choose a country',
-            'Choose a location',
-            'Enter a description',
-            'Enter a real postcode',
-            'Tell us about your project',
-            'Tell us how your project meet at least one of our funding priorities',
-            'Tell us how your project involves your community',
-            'Enter a project budget',
-            'Enter a total cost for your project',
-            'Answer yes or no',
-            'Enter the full legal name of the organisation',
-            'Enter a full UK address',
-            'Choose a type of organisation',
-            'Enter a day and month',
-            'Enter a total income for the year',
-            'Enter first name',
-            'Enter last name',
-            'Enter an email address',
-            'Enter a UK telephone number',
-            'Enter first name',
-            'Enter last name',
-            'Choose a role',
-            'Enter an email address',
-            'Enter a UK telephone number',
-            'Enter the name on the bank account',
-            'Enter a sort-code',
-            'Enter an account number',
-            'Provide a bank statement'
-        ]);
     });
 
     test('project name is required', () => {
@@ -239,14 +195,11 @@ describe('form model', () => {
     });
 
     test('no registration numbers required if unregistered VCO', () => {
-        expect(
-            testValidate(
-                mockFullForm({
-                    country: 'england',
-                    organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO
-                })
-            ).isValid
-        ).toBeTruthy();
+        const mock = mockFullForm({
+            country: 'england',
+            organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO
+        });
+        assertValid(mock);
     });
 
     test('registration numbers shown based on organisation type', () => {
