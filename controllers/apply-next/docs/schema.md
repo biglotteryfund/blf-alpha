@@ -61,6 +61,8 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "beneficiariesGroupsAge": ["0-12", "13-24"],
         "beneficiariesGroupsDisabledPeople": ["sensory"],
         "beneficiariesGroupsReligion": ["sikh"],
+        "beneficiariesWelshLanguage": null,
+        "beneficiariesNorthernIrelandCommunity": null,
         "organisationLegalName": "Mitchell, Koelpin and Nikolaus",
         "organisationTradingName": "Dickinson, Pfannerstill and McKenzie",
         "organisationAddress": {
@@ -278,11 +280,15 @@ type: `string` or `null`
 
 Optional field. Required if `projectCountry` is `wales`
 
+Allowed values: `all`, `more-than-half`, `less-than-half`, `none`
+
 ### beneficiariesNorthernIrelandCommunity
 
 type: `string` or `null`
 
 Optional field. Required if `projectCountry` is `northern-ireland`
+
+Allowed values: `both-catholic-and-protestant`, `mainly-protestant`, `mainly-catholic`, `neither-catholic-or-protestant`
 
 ### organisationLegalName
 
