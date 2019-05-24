@@ -609,59 +609,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        // projectStartDate: {
-        //     name: 'projectStartDate',
-        //     label: localise({
-        //         en: `When is the planned (or estimated) start date of your project?`,
-        //         cy: ``
-        //     }),
-        //     get settings() {
-        //         const dt = moment().add(12, 'weeks');
-        //         return {
-        //             minDateExample: dt.format('DD MM YYYY'),
-        //             fromDateExample: dt
-        //                 .subtract(1, 'days')
-        //                 .format('D MMMM YYYY'),
-        //             minYear: dt.format('YYYY')
-        //         };
-        //     },
-        //     get explanation() {
-        //         return localise({
-        //             en: `<p>This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
-        //         <p><strong>For example: ${
-        //             this.settings.minDateExample
-        //         }</strong></p>`,
-        //             cy: ''
-        //         });
-        //     },
-        //     type: 'date',
-        //     isRequired: true,
-        //     get schema() {
-        //         const minDate = moment().add('12', 'weeks');
-        //         return Joi.dateParts().futureDate(minDate.format('YYYY-MM-DD'));
-        //     },
-        //     get messages() {
-        //         return [
-        //             {
-        //                 type: 'base',
-        //                 message: localise({ en: 'Enter a date', cy: '' })
-        //             },
-        //             {
-        //                 type: 'any.invalid',
-        //                 message: localise({ en: 'Enter a real date', cy: '' })
-        //             },
-        //             {
-        //                 type: 'dateParts.futureDate',
-        //                 message: localise({
-        //                     en: `Date you start the project must be after ${
-        //                         this.settings.fromDateExample
-        //                     }`,
-        //                     cy: ''
-        //                 })
-        //             }
-        //         ];
-        //     }
-        // },
         projectDateRange: {
             name: 'projectDateRange',
             label: localise({
