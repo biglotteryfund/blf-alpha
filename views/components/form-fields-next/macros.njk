@@ -113,14 +113,22 @@
 {% endmacro %}
 
 {% macro inputDateRange(field) %}
-    <fieldset class="ff-date ff-date--range" id="field-{{ field.name }}">
+    <fieldset class="ff-date ff-date--range" id="field-{{ field.name }}-legend">
         <legend class="ff-label ff-date__legend">
             {{ field.label }}
         </legend>
         {{ explanationFor(field) }}
-        START
+    </fieldset>
+    <fieldset class="ff-date ff-date--range" id="field-{{ field.name }}-start">
+        <legend class="ff-label ff-date__legend">
+            Start date
+        </legend>
         {{ dayMonthYearInputs(field, rangePeriod = 'start') }}
-        END
+    </fieldset>
+    <fieldset class="ff-date ff-date--range u-margin-top" id="field-{{ field.name }}-end">
+        <legend class="ff-label ff-date__legend">
+            End date
+        </legend>
         {{ dayMonthYearInputs(field, rangePeriod = 'end') }}
     </fieldset>
 {% endmacro %}
@@ -480,7 +488,7 @@
                     {{ inputRadio(field) }}
                 {% elseif field.type === 'date' %}
                     {{ inputDate(field) }}
-                {% elseif field.type === 'dateRange' %}
+                {% elseif field.type === 'date-range' %}
                     {{ inputDateRange(field) }}
                 {% elseif field.type === 'day-month' %}
                     {{ inputDate(field, includeYear = false) }}

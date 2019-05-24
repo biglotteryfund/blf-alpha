@@ -2,37 +2,25 @@
 const { fromDateParts } = require('../../../modules/dates');
 
 module.exports = function dateParts(joi) {
+    const dateParts = {
+        day: joi
+            .number()
+            .integer()
+            .required(),
+        month: joi
+            .number()
+            .integer()
+            .required(),
+        year: joi
+            .number()
+            .integer()
+            .required()
+    };
     return {
         name: 'dateRange',
         base: joi.object({
-            start: {
-                day: joi
-                    .number()
-                    .integer()
-                    .required(),
-                month: joi
-                    .number()
-                    .integer()
-                    .required(),
-                year: joi
-                    .number()
-                    .integer()
-                    .required()
-            },
-            end: {
-                day: joi
-                    .number()
-                    .integer()
-                    .required(),
-                month: joi
-                    .number()
-                    .integer()
-                    .required(),
-                year: joi
-                    .number()
-                    .integer()
-                    .required()
-            }
+            start: dateParts,
+            end: dateParts
         }),
         language: {
             futureDate: 'Date must be at least {{min}}',

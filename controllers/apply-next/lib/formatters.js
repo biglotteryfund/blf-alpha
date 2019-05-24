@@ -81,7 +81,7 @@ function formatDateRange(value) {
     if (!dates.start.isValid() || !dates.end.isValid()) {
         return '';
     }
-    return `${dates.start.format('D MMMM, YYYY')} – ${dates.end.format(
+    return `${dates.start.format('D MMMM, YYYY')}–${dates.end.format(
         'D MMMM, YYYY'
     )}`;
 }
@@ -136,7 +136,7 @@ function formatterFor(field) {
         case 'date':
             formatter = formatDate;
             break;
-        case 'dateRange':
+        case 'date-range':
             formatter = formatDateRange;
             break;
         case 'day-month':

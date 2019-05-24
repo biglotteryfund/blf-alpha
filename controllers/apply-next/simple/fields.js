@@ -616,35 +616,46 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             }),
             get settings() {
-                const dt = moment().add(12, 'weeks');
+                const minStart = {
+                    amount: 12,
+                    units: 'weeks'
+                };
+                const minStartDate = moment().add(
+                    minStart.amount,
+                    minStart.units
+                );
                 return {
-                    minDateExample: dt.format('DD MM YYYY'),
-                    fromDateExample: dt
+                    minStart: minStart,
+                    minDateExample: minStartDate.format('DD MM YYYY'),
+                    fromDateExample: minStartDate
                         .subtract(1, 'days')
                         .format('D MMMM YYYY'),
-                    minYear: dt.format('YYYY'),
-                    // @TODO should there be a human readable version of this
-                    // (eg. "one year") for labels/explanations?
+                    minYear: minStartDate.format('YYYY'),
                     maxDurationFromStart: {
                         amount: 1,
-                        units: 'years'
+                        units: 'years',
+                        label: 'one year'
                     }
                 };
             },
             get explanation() {
                 return localise({
-                    en: `<p>The start date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
+                    en: `<p>The start date needs to be at least ${
+                        this.settings.minStart.amount
+                    } ${
+                        this.settings.minStart.units
+                    } from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
                     <p><strong>For example: ${
                         this.settings.minDateExample
-                    }</strong>. The project end date must be within ${
-                        this.settings.maxDurationFromStart.amount
-                    } ${
-                        this.settings.maxDurationFromStart.units
-                    } of the start date.</p>`,
+                    }</strong>.</p>
+                    <p>The project end date must be within ${
+                        this.settings.maxDurationFromStart.label
+                    }
+                     of the start date.</p>`,
                     cy: ''
                 });
             },
-            type: 'dateRange',
+            type: 'date-range',
             isRequired: true,
             get schema() {
                 const minDate = moment().add('12', 'weeks');
@@ -703,9 +714,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         type: 'dates.endDate.outsideLimit',
                         message: localise({
                             en: `End date must be within ${
-                                this.settings.maxDurationFromStart.amount
-                            } ${
-                                this.settings.maxDurationFromStart.units
+                                this.settings.maxDurationFromStart.label
                             } of the start date.`,
                             cy: ''
                         })
