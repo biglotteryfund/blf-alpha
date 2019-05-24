@@ -1,9 +1,18 @@
 'use strict';
 const moment = require('moment');
-const { Op } = require('sequelize');
-const { Order, OrderItem } = require('../models');
-const { take, countBy, meanBy, sortBy, flatMap, map, reverse } = require('lodash');
 const { filter } = require('lodash/fp');
+const {
+    countBy,
+    flatMap,
+    map,
+    meanBy,
+    reverse,
+    sortBy,
+    take
+} = require('lodash');
+const { Op } = require('sequelize');
+
+const { Order, OrderItem } = require('../db/models');
 
 function getAllOrders(dateRange = {}) {
     let whereClause = {};

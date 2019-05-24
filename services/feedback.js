@@ -2,7 +2,7 @@
 const moment = require('moment');
 const { Op } = require('sequelize');
 const { groupBy } = require('lodash/fp');
-const { Feedback } = require('../models');
+const { Feedback } = require('../db/models');
 const { purifyUserInput } = require('../modules/validators');
 
 function cleanupOldData() {

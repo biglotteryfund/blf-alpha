@@ -1,6 +1,6 @@
 'use strict';
 const { Op } = require('sequelize');
-const { Staff } = require('../models');
+const { Staff } = require('../db/models');
 
 function findById(id) {
     return Staff.findById(id);

@@ -1,30 +1,13 @@
 'use strict';
-const { startsWith } = require('lodash');
 const Sequelize = require('sequelize');
 const debug = require('debug')('tnlcf:models');
+const appData = require('../../modules/appData');
 
-const { DB_CONNECTION_URI } = require('../modules/secrets');
-const appData = require('../modules/appData');
+const env = process.env.NODE_ENV || 'development';
+const databaseConfig = require('../database-config')[env];
+debug(`Using ${databaseConfig.dialect} database`);
 
-const dialect = startsWith(DB_CONNECTION_URI, 'sqlite://') ? 'sqlite' : 'mysql';
-debug(`Using ${dialect} database`);
-
-const sequelize = new Sequelize(DB_CONNECTION_URI, {
-    logging: false,
-    dialect: dialect,
-    define: {
-        charset: 'utf8mb4',
-        dialectOptions: {
-            collate: 'utf8mb4_general_ci'
-        }
-    },
-    operatorsAliases: false,
-    pool: {
-        max: 5,
-        min: 1,
-        idle: 10000
-    }
-});
+const sequelize = new Sequelize(databaseConfig.url, databaseConfig);
 
 sequelize
     .authenticate()
@@ -49,8 +32,8 @@ if (appData.isNotProduction) {
 
 db.SurveyAnswer = sequelize.import('./survey');
 
-db.Order = sequelize.import('./materials/order');
-db.OrderItem = sequelize.import('./materials/orderItem');
+db.Order = sequelize.import('./order');
+db.OrderItem = sequelize.import('./order-item');
 
 Object.keys(db).forEach(modelName => {
     if ('associate' in db[modelName]) {
@@ -58,9 +41,6 @@ Object.keys(db).forEach(modelName => {
     }
 });
 
-/**
- * Allow access to DB instance and sequelize API
- */
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

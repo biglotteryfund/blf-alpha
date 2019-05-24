@@ -6,7 +6,7 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const { SESSION_SECRET } = require('../modules/secrets');
 const appData = require('../modules/appData');
-const models = require('../models');
+const models = require('../db/models');
 
 module.exports = function(app) {
     if (!appData.isDev) {
