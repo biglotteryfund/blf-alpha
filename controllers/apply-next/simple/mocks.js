@@ -37,7 +37,7 @@ function mockBudget() {
 }
 
 function mockFullForm({
-    country,
+    country = 'england',
     organisationType,
     companyNumber = null,
     charityNumber = null,
@@ -47,7 +47,7 @@ function mockFullForm({
         projectName: faker.lorem.words(5),
         projectCountry: country,
         projectStartDate: mockStartDate(12),
-        projectLocation: 'West Midlands',
+        projectLocation: 'west-midlands',
         projectLocationDescription: faker.lorem.sentence(),
         projectPostcode: 'B15 1TR',
         yourIdeaProject: faker.lorem.words(250),

@@ -253,13 +253,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.dateParts()
                 .dob(minAge)
-                .required()
                 .when(Joi.ref('organisationType'), {
                     is: Joi.valid(
                         ORGANISATION_TYPES.SCHOOL,
                         ORGANISATION_TYPES.STATUTORY_BODY
                     ),
-                    then: Joi.any().optional()
+                    then: Joi.any().strip(),
+                    otherwise: Joi.required()
                 }),
             messages: [
                 {
@@ -718,7 +718,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 return locationsFor(country);
             },
             isRequired: true,
-            schema: Joi.string().required(),
+            get schema() {
+                const options = flatMap(this.optgroups, group => group.options);
+                return Joi.string()
+                    .valid(options.map(option => option.value))
+                    .required();
+            },
             messages: [
                 {
                     type: 'base',
@@ -1509,6 +1514,102 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
+        beneficiariesWelshLanguage: {
+            name: 'beneficiariesWelshLanguage',
+            label: localise({
+                en: `How many of the people who will benefit from your project speak Welsh?`,
+                cy: ``
+            }),
+            type: 'radio',
+            options: [
+                {
+                    value: 'all',
+                    label: localise({ en: 'All', cy: '' })
+                },
+                {
+                    value: 'more-than-half',
+                    label: localise({ en: 'More than half', cy: '' })
+                },
+                {
+                    value: 'less-than-half',
+                    label: localise({ en: 'Less than half', cy: '' })
+                },
+                {
+                    value: 'none',
+                    label: localise({ en: 'None', cy: '' })
+                }
+            ],
+            isRequired: true,
+            get schema() {
+                return Joi.when('projectCountry', {
+                    is: 'wales',
+                    then: Joi.string()
+                        .valid(this.options.map(option => option.value))
+                        .required(),
+                    otherwise: Joi.any().strip()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose an option', cy: '' })
+                }
+            ]
+        },
+        beneficiariesNorthernIrelandCommunity: {
+            name: 'beneficiariesNorthernIrelandCommunity',
+            label: localise({
+                en: `Which community do the people who will benefit from your project belong to?`,
+                cy: ``
+            }),
+            type: 'radio',
+            options: [
+                {
+                    value: 'both-catholic-and-protestant',
+                    label: localise({
+                        en: 'Both Catholic and Protestant',
+                        cy: ''
+                    })
+                },
+                {
+                    value: 'mainly-protestant',
+                    label: localise({
+                        en: `Mainly Protestant (more than 60 per cent)`,
+                        cy: ''
+                    })
+                },
+                {
+                    value: 'mainly-catholic',
+                    label: localise({
+                        en: 'Mainly Catholic (more than 60 per cent)',
+                        cy: ''
+                    })
+                },
+                {
+                    value: 'neither-catholic-or-protestant',
+                    label: localise({
+                        en: 'Neither Catholic or Protestant',
+                        cy: ''
+                    })
+                }
+            ],
+            isRequired: true,
+            get schema() {
+                return Joi.when('projectCountry', {
+                    is: 'northern-ireland',
+                    then: Joi.string()
+                        .valid(this.options.map(option => option.value))
+                        .required(),
+                    otherwise: Joi.any().strip()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose an option', cy: '' })
+                }
+            ]
+        },
         organisationLegalName: {
             name: 'organisationLegalName',
             label: localise({
@@ -1699,7 +1800,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ORGANISATION_TYPES.SCHOOL,
                     ORGANISATION_TYPES.STATUTORY_BODY
                 ),
-                then: Joi.any().optional()
+                then: Joi.any().strip()
             })
         }),
         mainContactAddressHistory: addressHistoryField({
@@ -1749,7 +1850,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ORGANISATION_TYPES.SCHOOL,
                     ORGANISATION_TYPES.STATUTORY_BODY
                 ),
-                then: Joi.any().optional()
+                then: Joi.any().strip()
             })
         }),
         seniorContactAddressHistory: addressHistoryField({
