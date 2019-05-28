@@ -1,7 +1,7 @@
 import forEach from 'lodash/forEach';
 import fitvids from 'fitvids';
-import tabs from './modules/tabs';
-import forms from './modules/forms';
+import tabs from './tabs';
+import forms from './forms';
 
 /**
  * Common modules that are run across the site.
