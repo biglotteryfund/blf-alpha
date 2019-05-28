@@ -10,6 +10,10 @@ describe('common', function() {
             expect(response.headers['cache-control']).to.eq(
                 'max-age=30,s-maxage=300'
             );
+
+            expect(response.headers['content-security-policy']).to.contain(
+                "default-src 'self'"
+            );
         });
 
         cy.request('/apply/your-idea/1').then(response => {
@@ -697,7 +701,6 @@ describe('awards for all', function() {
 
         cy.seedAndLogin().then(() => {
             cy.visit('/apply-next/simple');
-            cy.percySnapshot('a4a-dashboard');
             cy.getByText('Start new application').click();
             times(5, function() {
                 cy.getByLabelText('Yes').click();
@@ -722,7 +725,6 @@ describe('awards for all', function() {
 
             cy.checkA11y();
             cy.get('h1').should('contain', 'Summary');
-            cy.percySnapshot('a4a-summary');
             cy.getByText('Submit application').click();
 
             fillTerms();
