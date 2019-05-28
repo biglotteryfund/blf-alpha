@@ -6,7 +6,8 @@ function createFeature(config) {
         override = window.localStorage.getItem(`app.features.${config.id}`);
     } catch (e) {} // eslint-disable-line no-empty
 
-    const isEnabled = override !== null ? override === 'true' : config.isEnabled;
+    const isEnabled =
+        override !== null ? override === 'true' : config.isEnabled;
 
     return {
         id: config.id,
@@ -16,13 +17,25 @@ function createFeature(config) {
 }
 
 export const isDoNotTrack =
-    window.doNotTrack === '1' || window.navigator.doNotTrack === '1' || window.navigator.msDoNotTrack === '1';
+    window.doNotTrack === '1' ||
+    window.navigator.doNotTrack === '1' ||
+    window.navigator.msDoNotTrack === '1';
+
+/* Disable analytics outside of the real domain to avoid polluting data. */
+function shouldBlockAnalytics() {
+    return (
+        window.AppConfig.environment === 'production' &&
+        ['www.biglotteryfund.org.uk', 'www.tnlcommunityfund.org.uk'].indexOf(
+            window.location.hostname
+        ) === -1
+    );
+}
 
 export const FEATURES = [
     createFeature({
         id: 'analytics',
         description: 'Enable Google Analytics',
-        isEnabled: !window.AppConfig.blockAnalytics && !isDoNotTrack
+        isEnabled: !shouldBlockAnalytics() && !isDoNotTrack
     })
 ];
 

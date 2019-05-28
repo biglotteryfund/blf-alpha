@@ -1,7 +1,7 @@
-/* global ga, cxApi */
+/* global ga */
 
 import forEach from 'lodash/forEach';
-import { trackEvent } from '../helpers/metrics';
+import { trackEvent } from './helpers/metrics';
 
 function trackDocumentDownloads() {
     const links = document.querySelectorAll('a[href]');
@@ -15,7 +15,9 @@ function trackDocumentDownloads() {
 }
 
 function trackSearchTerms() {
-    forEach(document.querySelectorAll('.js-global-search-form'), function(form) {
+    forEach(document.querySelectorAll('.js-global-search-form'), function(
+        form
+    ) {
         const searchInput = form.querySelector('input[type=search]');
         form.addEventListener('submit', function() {
             trackEvent('Search', 'Term', searchInput.value);
@@ -74,16 +76,6 @@ export const init = () => {
     ga('require', 'eventTracker', {
         attributePrefix: 'data-ga-'
     });
-
-    /**
-     * A/B Tests
-     * If we're in a test variant, record it
-     */
-    if (CONFIG.abId && CONFIG.abVariant) {
-        ga('set', 'expId', CONFIG.abId);
-        ga('set', 'expVar', CONFIG.abVariant);
-        cxApi.setChosenVariation(CONFIG.abVariant, CONFIG.abId);
-    }
 
     /**
      * Track pageviews
