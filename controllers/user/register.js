@@ -2,7 +2,7 @@
 const express = require('express');
 const passport = require('passport');
 const path = require('path');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 
 const userService = require('../../services/user');
 const { csrfProtection } = require('../../middleware/cached');
@@ -107,7 +107,7 @@ router
                     }
                 }
             } catch (error) {
-                Raven.captureException(error);
+                Sentry.captureException(error);
                 res.locals.alertMessage = `There was an error creating your account - please try again`;
                 renderForm(req, res, validationResult.value);
             }

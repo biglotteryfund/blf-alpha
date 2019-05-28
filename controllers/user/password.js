@@ -2,7 +2,7 @@
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const express = require('express');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 const Joi = require('@hapi/joi');
 const { concat, get, head } = require('lodash');
 
@@ -181,7 +181,7 @@ router
 
                 renderForgotForm(req, res);
             } catch (error) {
-                Raven.captureException(error);
+                Sentry.captureException(error);
                 renderForgotForm(req, res);
             }
         }

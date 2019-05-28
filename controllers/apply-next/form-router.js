@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const path = require('path');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 const moment = require('moment');
 const {
     concat,
@@ -275,7 +275,7 @@ function initFormRouter({
                     res.redirect(req.baseUrl);
                 }
             } catch (error) {
-                Raven.captureException(
+                Sentry.captureException(
                     new Error(`Unable to find application ${currentEditingId}`)
                 );
                 res.redirect(req.baseUrl);

@@ -6,7 +6,7 @@ const favicon = require('serve-favicon');
 const i18n = require('i18n-2');
 const nunjucks = require('nunjucks');
 const path = require('path');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 const slashes = require('connect-slashes');
 const yaml = require('js-yaml');
 const debug = require('debug')('tnlcf:server');
@@ -47,24 +47,24 @@ const vanityMiddleware = require('./middleware/vanity');
 
 /**
  * Configure Sentry client
- * @see https://docs.sentry.io/clients/node/config/
+ * @see https://docs.sentry.io/platforms/node/express/
  */
-Raven.config(SENTRY_DSN, {
+Sentry.init({
+    dsn: SENTRY_DSN,
     logger: 'server',
     environment: appData.environment,
-    release: appData.commitId,
-    autoBreadcrumbs: true,
-    dataCallback(data) {
-        // Clear installed node_modules
-        delete data.modules;
-        // Clear POST data
-        delete data.request.data;
-
-        return data;
+    release: `tnlcf-web-${appData.commitId}`,
+    beforeSend: function(event) {
+        // Clear all POST data
+        delete event.request.data;
+        return event;
     }
-}).install();
+});
 
-app.use(Raven.requestHandler());
+/**
+ * The Sentry request handler must be the first middleware
+ */
+app.use(Sentry.Handlers.requestHandler());
 
 /**
  * Set up internationalisation
@@ -298,7 +298,7 @@ app.use(renderNotFound);
 /**
  * Global error handler
  */
-app.use(Raven.errorHandler(), (err, req, res, next) => {
+app.use(Sentry.Handlers.errorHandler(), function(err, req, res, next) {
     if (res.headersSent) {
         return next(err);
     }

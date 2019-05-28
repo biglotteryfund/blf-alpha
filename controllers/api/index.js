@@ -2,7 +2,7 @@
 const express = require('express');
 const request = require('request-promise-native');
 const Joi = require('@hapi/joi');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 
 const feedbackService = require('../../services/feedback');
 const surveyService = require('../../services/surveys');
@@ -26,7 +26,7 @@ if (appData.isNotProduction) {
                 });
                 res.json({ data });
             } catch (error) {
-                Raven.captureException(error);
+                Sentry.captureException(error);
                 res.status(400).json({
                     errors: [{ status: '400', title: 'Connection error' }]
                 });
@@ -55,7 +55,7 @@ if (appData.isNotProduction) {
 
             res.json({ data });
         } catch (error) {
-            Raven.captureException(error);
+            Sentry.captureException(error);
             res.status(400).json({
                 errors: [{ status: '400', title: 'Connection error' }]
             });

@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 
 const userService = require('../../services/user');
 const { csrfProtection } = require('../../middleware/cached');
@@ -85,7 +85,7 @@ router
                     res.redirect('/user?s=emailUpdated');
                 }
             } catch (error) {
-                Raven.captureException(error);
+                Sentry.captureException(error);
                 const genericErrors = [
                     {
                         msg: `There was an error updating your details - please try again`

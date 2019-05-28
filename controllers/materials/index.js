@@ -6,7 +6,7 @@ const { validationResult } = require('express-validator/check');
 const express = require('express');
 const moment = require('moment');
 const path = require('path');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 
 const router = express.Router();
 
@@ -226,7 +226,7 @@ router
                         });
                     })
                     .catch(err => {
-                        Raven.captureException(err);
+                        Sentry.captureException(err);
                         renderForm(req, res, FORM_STATES.SUBMISSION_ERROR);
                     });
             } else {
