@@ -312,22 +312,26 @@ describe('awards for all', function() {
         }
 
         function fillDateParts(momentInstance) {
-            cy.getAllByLabelText('Day').each($el => {
-                cy.wrap($el)
-                    .clear()
-                    .type(momentInstance.date());
-            });
+            cy.getByLabelText('Day')
+                .clear()
+                .type(momentInstance.date());
 
-            cy.getAllByLabelText('Month').each($el => {
-                cy.wrap($el)
-                    .clear()
-                    .type(momentInstance.month() + 1);
-            });
+            cy.getByLabelText('Month')
+                .clear()
+                .type(momentInstance.month() + 1);
 
-            cy.getAllByLabelText('Year').each($el => {
-                cy.wrap($el)
-                    .clear()
-                    .type(momentInstance.year());
+            cy.getByLabelText('Year')
+                .clear()
+                .type(momentInstance.year());
+        }
+
+        function fillAllDateFields(momentInstance) {
+            ['Start date', 'End date'].forEach(dateFieldName => {
+                cy.getByText(dateFieldName)
+                    .parent()
+                    .within(() => {
+                        fillDateParts(momentInstance);
+                    });
             });
         }
 
@@ -351,7 +355,7 @@ describe('awards for all', function() {
             }).type('My application');
 
             const invalidDate = moment();
-            fillDateParts(invalidDate);
+            fillAllDateFields(invalidDate);
 
             submitStep();
 
@@ -361,7 +365,7 @@ describe('awards for all', function() {
             cy.checkA11y();
 
             const validDate = moment().add('12', 'weeks');
-            fillDateParts(validDate);
+            fillAllDateFields(validDate);
 
             submitStep();
         }

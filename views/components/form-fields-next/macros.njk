@@ -113,12 +113,12 @@
 {% endmacro %}
 
 {% macro inputDateRange(field) %}
-    <fieldset class="ff-date ff-date--range" id="field-{{ field.name }}-legend">
-        <legend class="ff-label ff-date__legend">
+    <div class="ff-date ff-date--range" id="field-{{ field.name }}-legend">
+        <h3 class="ff-label ff-date__legend">
             {{ field.label }}
-        </legend>
+        </h3>
         {{ explanationFor(field) }}
-    </fieldset>
+    </div>
     <fieldset class="ff-date ff-date--range" id="field-{{ field.name }}-start">
         <legend class="ff-label ff-date__legend">
             Start date

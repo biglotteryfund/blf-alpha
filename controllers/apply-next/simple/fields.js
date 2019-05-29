@@ -634,7 +634,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     maxDurationFromStart: {
                         amount: 1,
                         units: 'years',
-                        label: 'one year'
+                        label: localise({
+                            en: `one year`,
+                            cy: ``
+                        })
                     }
                 };
             },
