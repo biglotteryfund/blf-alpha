@@ -2,7 +2,7 @@
 const path = require('path');
 
 const appData = require('../../../modules/appData');
-const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
+const { generateHtmlEmail, sendEmail } = require('../../../modules/mail');
 const { DIGITAL_FUND_EMAIL } = require('../../../modules/secrets');
 
 /**

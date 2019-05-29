@@ -15,7 +15,7 @@ const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
 const { materialFields, makeOrderText, postcodeArea, normaliseUserInput } = require('./helpers');
 const appData = require('../../modules/appData');
 const cached = require('../../middleware/cached');
-const { generateHtmlEmail, sendEmail } = require('../../services/mail');
+const { generateHtmlEmail, sendEmail } = require('../../modules/mail');
 const ordersService = require('../../services/orders');
 
 const FORM_STATES = {

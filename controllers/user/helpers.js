@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
-const { sendHtmlEmail } = require('../../services/mail');
+const { sendHtmlEmail } = require('../../modules/mail');
 const { getAbsoluteUrl } = require('../../modules/urls');
 const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
 

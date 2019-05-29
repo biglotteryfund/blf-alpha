@@ -11,7 +11,7 @@ const {
     normaliseSendTo,
     sendEmail,
     sendHtmlEmail
-} = require('../mail');
+} = require('./mail');
 
 const exampleEmail = 'example@biglotteryfund.org.uk';
 const exampleEmailNew = 'example@tnlcommunityfund.org.uk';
@@ -28,7 +28,7 @@ function sendMockEmail(mailConfig) {
 
 function createMockHtml() {
     return generateHtmlEmail({
-        template: path.resolve(__dirname, 'test-email.njk'),
+        template: path.resolve(__dirname, './mocks/test-email.njk'),
         templateData: { example: 'Example data' }
     });
 }
@@ -36,7 +36,7 @@ function createMockHtml() {
 function createAndSendMockHtmlEmail(mailConfig) {
     return sendHtmlEmail(
         {
-            template: path.resolve(__dirname, 'test-email.njk'),
+            template: path.resolve(__dirname, './mocks/test-email.njk'),
             templateData: { example: 'Example data' }
         },
         mailConfig,

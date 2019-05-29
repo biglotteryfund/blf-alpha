@@ -8,7 +8,7 @@ const path = require('path');
 
 const { DIGITAL_FUND_EMAIL } = require('../../modules/secrets');
 const { errorTranslator } = require('../../modules/validators');
-const { sendEmail } = require('../../services/mail');
+const { sendEmail } = require('../../modules/mail');
 const appData = require('../../modules/appData');
 
 const router = express.Router();

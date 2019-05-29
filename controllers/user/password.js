@@ -14,7 +14,7 @@ const {
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
 
-const { sendHtmlEmail } = require('../../services/mail');
+const { sendHtmlEmail } = require('../../modules/mail');
 const userService = require('../../services/user');
 
 const normaliseErrors = require('./lib/normalise-errors');

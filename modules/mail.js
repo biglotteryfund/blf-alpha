@@ -9,7 +9,7 @@ const htmlToText = require('html-to-text');
 const debug = require('debug')('tnlcf:mail');
 const { isString, isArray } = require('lodash');
 
-const metrics = require('../modules/metrics');
+const metrics = require('./metrics');
 
 /**
  * @typedef {object} MailAddress
