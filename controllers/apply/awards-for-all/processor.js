@@ -3,8 +3,8 @@ const { clone, has } = require('lodash');
 const debug = require('debug')('tnlcf:a4a');
 const features = require('config').get('features');
 
-const { fromDateParts } = require('../../../common/dates');
-const salesforceService = require('../lib/salesforce');
+const { fromDateParts } = require('../form-router-next/lib/date-parts');
+const salesforceService = require('../form-router-next/lib/salesforce');
 
 function salesforceApplication(application) {
     function dateFormat(dt) {

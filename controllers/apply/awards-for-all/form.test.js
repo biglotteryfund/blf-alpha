@@ -4,8 +4,8 @@
 const { includes, flatMap, map } = require('lodash');
 const faker = require('faker');
 
-const validateModel = require('../lib/validate-model');
-const validateForm = require('../lib/validate-form');
+const validateModel = require('../form-router-next/lib/validate-model');
+const validateForm = require('../form-router-next/lib/validate-form');
 
 const { mockStartDate, mockFullForm } = require('./mocks');
 const { ORGANISATION_TYPES } = require('./constants');

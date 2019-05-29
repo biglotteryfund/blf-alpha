@@ -2,8 +2,8 @@
 const { has, get, getOr } = require('lodash/fp');
 const { compact, includes, sumBy } = require('lodash');
 
-const enrichForm = require('../lib/enrich-form');
-const { formatDate } = require('../lib/formatters');
+const enrichForm = require('../form-router-next/lib/enrich-form');
+const { formatDate } = require('../form-router-next/lib/formatters');
 const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
 const fieldsFor = require('./fields');
 

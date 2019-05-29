@@ -1,5 +1,5 @@
 'use strict';
-const { initFormRouter } = require('../form-router');
+const { initFormRouter } = require('../form-router-next');
 
 const formBuilder = require('./form');
 const eligibilityBuilder = require('./eligibility');

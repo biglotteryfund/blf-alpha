@@ -4,7 +4,7 @@ const moment = require('moment');
 const faker = require('faker');
 
 const { BENEFICIARY_GROUPS } = require('./constants');
-const { toDateParts } = require('../../../common/dates');
+const { toDateParts } = require('../form-router-next/lib/date-parts');
 
 function mockStartDate(weeks) {
     return toDateParts(moment().add(weeks, 'weeks'));

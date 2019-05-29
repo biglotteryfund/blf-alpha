@@ -1071,7 +1071,7 @@ user:
     - label: Change your email address
       href: /user/update-email
     - label: View your funding applications
-      href: /apply-next/simple
+      href: /apply/awards-for-all
   login:
     title: Log in
     introduction: >

@@ -177,6 +177,8 @@ const aliases = {
     '/contact-us': '/contact',
     '/news-and-events': '/news',
     '/research/open-data': '/data#open-data',
+    // A4a prototype redirect
+    '/apply-next/simple': '/apply/awards-for-all'
 };
 
 /**
@@ -184,7 +186,13 @@ const aliases = {
  * @type {Array<{ from: string, to: string }>}
  */
 module.exports = flatMap(aliases, (to, from) => {
-    const prefixes = ['', '/england', '/scotland', '/northernireland', '/wales'];
+    const prefixes = [
+        '',
+        '/england',
+        '/scotland',
+        '/northernireland',
+        '/wales'
+    ];
     return flatMap(prefixes, prefix => {
         const withPrefix = `${prefix}${from}`;
         const enRedirect = { from: withPrefix, to: to };

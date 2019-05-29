@@ -1,10 +1,10 @@
 'use strict';
-const moment = require('moment');
+const moment = require('moment/moment');
 const { get } = require('lodash/fp');
 const { flatMap, includes, reduce, values } = require('lodash');
 
-const Joi = require('../joi-extensions');
-const locationsFor = require('../lib/locations');
+const Joi = require('../form-router-next/joi-extensions');
+const locationsFor = require('../form-router-next/lib/locations');
 const {
     BENEFICIARY_GROUPS,
     MAX_BUDGET_TOTAL_GBP,
