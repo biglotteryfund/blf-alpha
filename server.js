@@ -35,7 +35,7 @@ const {
     defaultCacheControl,
     noCache
 } = require('./middleware/cached');
-const { injectCopy, injectHeroImage } = require('./middleware/inject-content');
+const { injectHeroImage } = require('./middleware/inject-content');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const domainRedirectMiddleware = require('./middleware/domain-redirect');
 const i18nMiddleware = require('./middleware/i18n');
@@ -271,9 +271,8 @@ forEach(routes, function(section, sectionId) {
      * Used for determining top-level section for navigation and breadcrumbs
      */
     router.use(function(req, res, next) {
-        const locale = req.i18n.getLocale();
         res.locals.sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
-        res.locals.sectionUrl = localify(locale)(req.baseUrl);
+        res.locals.sectionUrl = localify(req.i18n.getLocale())(req.baseUrl);
         next();
     });
 
@@ -282,9 +281,7 @@ forEach(routes, function(section, sectionId) {
      * Apply page level middleware and mount router if we have one
      */
     section.pages.forEach(function(page) {
-        router
-            .route(page.path)
-            .all(injectCopy(page.lang), injectHeroImage(page.heroSlug));
+        router.route(page.path).all(injectHeroImage(page.heroSlug));
 
         if (page.router) {
             router.use(page.path, page.router);

@@ -5,7 +5,6 @@ const { basicContent, flexibleContent, staticPage } = require('./common');
 /**
  * @typedef {object} Route
  * @property {string} path
- * @property {string} [lang]
  * @property {string} [heroSlug]
  * @property {function} [router]
  */
