@@ -1,4 +1,3 @@
-/* global AppConfig */
 // @ts-nocheck
 import 'details-element-polyfill';
 import FontFaceObserver from 'fontfaceobserver/fontfaceobserver.js';
@@ -7,7 +6,10 @@ import FontFaceObserver from 'fontfaceobserver/fontfaceobserver.js';
     const docEl = document.documentElement;
     docEl.className = docEl.className.replace('no-js', 'js-on');
 
-    if (AppConfig.isOldIE) {
+    if (
+        navigator.userAgent.indexOf('MSIE') !== -1 ||
+        navigator.appVersion.indexOf('Trident/') > 0
+    ) {
         docEl.className += ' ' + 'is-ie';
     }
 

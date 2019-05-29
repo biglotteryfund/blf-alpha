@@ -47,7 +47,7 @@ const JWT_SIGNING_TOKEN =
 /**
  * Sentry DSN for error reporting
  */
-const SENTRY_DSN = getSecret('sentry.dsn');
+const SENTRY_DSN = getSecret('sentry.publicDsn');
 
 /**
  * Azure authentication secrets (optional, used for tools sign-in)

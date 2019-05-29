@@ -1,7 +1,7 @@
 'use strict';
 const { flatten, get, getOr } = require('lodash/fp');
 const moment = require('moment');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 
 const { localify } = require('../modules/urls');
 const contentApi = require('../services/content-api');
@@ -66,7 +66,7 @@ function injectHeroImage(heroSlug) {
                 res.locals.socialImage = image;
                 next();
             } catch (error) {
-                Raven.captureException(error);
+                Sentry.captureException(error);
                 next();
             }
         } else {

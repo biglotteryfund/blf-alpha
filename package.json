@@ -76,6 +76,9 @@
   },
   "dependencies": {
     "@hapi/joi": "15.0.3",
+    "@sentry/browser": "5.3.0",
+    "@sentry/integrations": "5.3.1",
+    "@sentry/node": "5.3.0",
     "aws-sdk": "2.295.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
@@ -120,7 +123,6 @@
     "passport-local": "^1.0.0",
     "postcode": "2.0.0",
     "query-string": "^5.0.1",
-    "raven": "2.6.4",
     "raven-js": "3.27.0",
     "request": "^2.84.0",
     "request-promise-native": "^1.0.5",
