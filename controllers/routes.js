@@ -25,7 +25,6 @@ const toplevel = {
     pages: [
         {
             path: '/',
-            lang: 'toplevel.home',
             router: require('./home')
         },
         {
