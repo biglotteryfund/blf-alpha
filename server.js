@@ -263,7 +263,7 @@ app.use('/', require('./controllers/archived'));
  * - Apply section specific controller logic
  * - Add common routing (for static/fully-CMS powered pages)
  */
-forEach(routes.sections, function(section, sectionId) {
+forEach(routes, function(section, sectionId) {
     const router = express.Router();
 
     /**
@@ -272,7 +272,6 @@ forEach(routes.sections, function(section, sectionId) {
      */
     router.use(function(req, res, next) {
         const locale = req.i18n.getLocale();
-        res.locals.sectionId = sectionId;
         res.locals.sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
         res.locals.sectionUrl = localify(locale)(req.baseUrl);
         next();
@@ -285,16 +284,9 @@ forEach(routes.sections, function(section, sectionId) {
     section.pages.forEach(function(page) {
         router
             .route(page.path)
-            .all(
-                injectCopy(page.lang),
-                injectHeroImage(page.heroSlug),
-                (req, res, next) => {
-                    next();
-                }
-            );
+            .all(injectCopy(page.lang), injectHeroImage(page.heroSlug));
 
-        const shouldServe = appData.isNotProduction ? true : !page.isDraft;
-        if (shouldServe && page.router) {
+        if (page.router) {
             router.use(page.path, page.router);
         }
     });

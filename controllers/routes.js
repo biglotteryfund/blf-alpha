@@ -8,15 +8,11 @@ const { basicContent, flexibleContent, staticPage } = require('./common');
  * @property {string} [lang]
  * @property {string} [heroSlug]
  * @property {function} [router]
- * @property {boolean} [isDraft]
- * @property {boolean} [excludeFromSitemap]
  */
 
 /**
  * @typedef {object} Section
  * @property {string} path
- * @property {boolean} showInNavigation
- * @property {string} [langTitlePath]
  * @property {Array<Route>} pages
  */
 
@@ -26,8 +22,6 @@ const { basicContent, flexibleContent, staticPage } = require('./common');
  */
 const toplevel = {
     path: '',
-    showInNavigation: true,
-    langTitlePath: 'global.nav.home',
     pages: [
         {
             path: '/',
@@ -67,8 +61,7 @@ const toplevel = {
         },
         {
             path: '/user',
-            router: require('./user'),
-            excludeFromSitemap: true
+            router: require('./user')
         },
         {
             path: '/apply',
@@ -83,8 +76,6 @@ const toplevel = {
  */
 const funding = {
     path: '/funding',
-    showInNavigation: true,
-    langTitlePath: 'global.nav.funding',
     pages: [
         {
             path: '/',
@@ -126,16 +117,14 @@ const funding = {
             router: require('./grants')
         },
         {
-            path:
-                '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
+            path: `/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos`,
             lang: 'funding.guidance.logos',
             router: basicContent({
                 customTemplate: 'static-pages/logos'
             })
         },
         {
-            path:
-                '/funding-guidance/managing-your-funding/ordering-free-materials',
+            path: `/funding-guidance/managing-your-funding/ordering-free-materials`,
             router: require('./materials')
         },
         {
@@ -151,8 +140,6 @@ const funding = {
  */
 const insights = {
     path: '/insights',
-    showInNavigation: true,
-    langTitlePath: 'global.nav.insights',
     pages: [
         {
             path: '/',
@@ -167,7 +154,6 @@ const insights = {
  */
 const talk = {
     path: '/contact',
-    showInNavigation: false,
     pages: [
         {
             path: '/',
@@ -182,8 +168,6 @@ const talk = {
  */
 const about = {
     path: '/about',
-    showInNavigation: true,
-    langTitlePath: 'global.nav.about',
     pages: [
         {
             path: '/',
@@ -207,8 +191,6 @@ const about = {
  */
 const updates = {
     path: '/news',
-    showInNavigation: false,
-    langTitlePath: 'global.nav.updates',
     pages: [
         {
             path: '/',
@@ -217,19 +199,11 @@ const updates = {
     ]
 };
 
-/**
- * Sections
- * The order here defines the order of the navigation
- */
-const sections = {
+module.exports = {
     toplevel: toplevel,
     funding: funding,
     insights: insights,
     talk: talk,
     about: about,
     updates: updates
-};
-
-module.exports = {
-    sections
 };
