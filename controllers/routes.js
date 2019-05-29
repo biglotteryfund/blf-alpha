@@ -115,8 +115,8 @@ const funding = {
         },
         {
             path: `/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos`,
-            lang: 'funding.guidance.logos',
             router: basicContent({
+                lang: 'funding.guidance.logos',
                 customTemplate: 'static-pages/logos'
             })
         },

@@ -58,11 +58,12 @@ function staticPage({
     return router;
 }
 
-function basicContent({ customTemplate = null } = {}) {
+function basicContent({ lang = null, customTemplate = null } = {}) {
     const router = express.Router();
 
     router.get(
         '/',
+        injectCopy(lang),
         injectListingContent,
         injectBreadcrumbs,
         (req, res, next) => {
