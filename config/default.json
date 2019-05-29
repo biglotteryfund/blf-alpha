@@ -35,6 +35,7 @@
     }
   },
   "features": {
+    "enableAwardsForAllApplications": false,
     "enableDigitalFundApplications": false,
     "enableHotjar": false,
     "enableMailSendMetrics": false,

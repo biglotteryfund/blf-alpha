@@ -16,11 +16,11 @@ const {
     unset
 } = require('lodash');
 
-const appData = require('../../common/appData');
-const applicationsService = require('../../services/applications');
-const cached = require('../../middleware/cached');
-const { requireUserAuth } = require('../../middleware/authed');
-const { injectCopy } = require('../../middleware/inject-content');
+const appData = require('../../../common/appData');
+const applicationsService = require('../../../services/applications');
+const cached = require('../../../middleware/cached');
+const { requireUserAuth } = require('../../../middleware/authed');
+const { injectCopy } = require('../../../middleware/inject-content');
 
 const { nextAndPrevious } = require('./lib/pagination');
 const { FORM_STATES, calculateFormProgress } = require('./lib/progress');

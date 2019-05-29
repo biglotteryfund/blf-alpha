@@ -3,6 +3,7 @@
     "base": "http://localhost:3000"
   },
   "features": {
+    "enableAwardsForAllApplications": true,
     "enableSeeders": true,
     "enableSalesforceConnector": true
   }
