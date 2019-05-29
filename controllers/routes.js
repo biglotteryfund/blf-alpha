@@ -77,7 +77,6 @@ const funding = {
     pages: [
         {
             path: '/',
-            lang: 'toplevel.funding',
             router: require('./funding')
         },
         {
