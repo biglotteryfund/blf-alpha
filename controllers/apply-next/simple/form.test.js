@@ -1,107 +1,216 @@
 /* eslint-env jest */
+// @ts-nocheck
 'use strict';
-const { flatMap, map } = require('lodash');
+const { includes, flatMap, map } = require('lodash');
+const faker = require('faker');
 
 const validateModel = require('../lib/validate-model');
+const validateForm = require('../lib/validate-form');
 
-const { mockFullForm } = require('./mocks');
+const { mockStartDate, mockFullForm } = require('./mocks');
 const { ORGANISATION_TYPES } = require('./constants');
 const formBuilder = require('./form');
+
+function testValidate(data) {
+    return validateForm(formBuilder({ locale: 'en', data }), data);
+}
+
+function assertMessagesByKey(data, messages) {
+    const validation = testValidate(data);
+    const messagesByKey = validation.messages.filter(message => {
+        return includes(Object.keys(data), message.param);
+    });
+
+    expect(map(messagesByKey, 'msg')).toEqual(messages);
+}
+
+function assertValid(data) {
+    const validationResult = testValidate(data);
+    expect(validationResult.isValid).toBeTruthy();
+}
+
+function assertValidByKey(data) {
+    const validation = testValidate(data);
+    const messagesByKey = validation.messages.filter(message => {
+        return includes(Object.keys(data), message.param);
+    });
+
+    expect(messagesByKey).toHaveLength(0);
+}
+
+function fieldNamesFor(sectionSlug, stepTitle) {
+    return function(data) {
+        const form = formBuilder({ locale: 'en', data: data });
+        const section = form.sections.find(s => s.slug === sectionSlug);
+        const step = section.steps.find(s => s.title === stepTitle);
+        return map(flatMap(step.fieldsets, 'fields'), f => f.name);
+    };
+}
 
 describe('form model', () => {
     test('validate model shape', () => {
         validateModel(formBuilder({ locale: 'en' }));
     });
 
-    function validate(mock) {
-        const form = formBuilder({ locale: 'en' });
-        return form.schema.validate(mock);
-    }
+    test('project name is required', () => {
+        function value(val) {
+            return { projectName: val };
+        }
 
-    test('invalid empty form', () => {
-        const validationResult = validate({});
-        expect(validationResult.error).toBeInstanceOf(Error);
+        assertMessagesByKey(value(null), ['Enter a project name']);
+        assertValidByKey(value(faker.lorem.words()));
     });
 
-    test('validate full form with company number', () => {
-        expect(
-            validate(
-                mockFullForm({
-                    country: 'england',
-                    organisationType: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-                })
-            ).error
-        ).toBeInstanceOf(Error);
+    test('project start date must be at least 12 weeks in the future', () => {
+        function value(start, end) {
+            return {
+                projectDateRange: { start, end }
+            };
+        }
 
-        expect(
-            validate(
-                mockFullForm({
-                    country: 'england',
-                    organisationType: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
-                    companyNumber: '123456789'
-                })
-            ).error
-        ).toBeNull();
+        assertValidByKey(value(mockStartDate(12), mockStartDate(30)));
+        assertMessagesByKey(value(null, null), ['Enter a date']);
+        assertMessagesByKey(
+            value(
+                { day: 31, month: 2, year: 2030 },
+                { day: 31, month: 24, year: 2030 }
+            ),
+            ['Enter a valid start and end date']
+        );
+        assertMessagesByKey(
+            value(
+                { day: 1, month: 1, year: 2020 },
+                { day: 1, month: 1, year: 2030 }
+            ),
+            [expect.stringMatching(/End date must be within/)]
+        );
     });
 
-    test('validate full form with charity number', () => {
-        expect(
-            validate(
-                mockFullForm({
-                    country: 'england',
-                    organisationType: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-                })
-            ).error
-        ).toBeInstanceOf(Error);
+    test('welsh language question required for applicants in Wales', () => {
+        function value(country, val) {
+            return {
+                projectCountry: country,
+                beneficiariesWelshLanguage: val
+            };
+        }
 
-        expect(
-            validate(
-                mockFullForm({
-                    country: 'england',
-                    organisationType:
-                        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                    charityNumber: '123456789'
-                })
-            ).error
-        ).toBeNull();
+        assertValidByKey(value('england'));
+        assertValidByKey(value('scotland'));
+        assertValidByKey(value('wales', 'all'));
+        assertMessagesByKey(value('wales'), ['Choose an option']);
+        assertMessagesByKey(value('wales', 'not-a-valid-choice'), [
+            'Choose an option'
+        ]);
+
+        const fieldNamesFn = fieldNamesFor(
+            'beneficiaries',
+            'People who speak Welsh'
+        );
+
+        expect(fieldNamesFn({ projectCountry: 'england' })).toEqual([]);
+        expect(fieldNamesFn({ projectCountry: 'scotland' })).toEqual([]);
+        expect(fieldNamesFn({ projectCountry: 'northern-ireland' })).toEqual(
+            []
+        );
+        expect(fieldNamesFn({ projectCountry: 'wales' })).toEqual([
+            'beneficiariesWelshLanguage'
+        ]);
     });
 
-    test('validate full form with department for education number', () => {
-        const invalid = mockFullForm({
+    test('additional community question in Northern Ireland', () => {
+        function value(country, val) {
+            return {
+                projectCountry: country,
+                beneficiariesNorthernIrelandCommunity: val
+            };
+        }
+
+        assertValidByKey(value('england'));
+        assertValidByKey(value('scotland'));
+        assertValidByKey(value('wales'));
+        assertValidByKey(value('northern-ireland', 'mainly-catholic'));
+        assertValidByKey(value('northern-ireland', 'mainly-protestant'));
+        assertMessagesByKey(value('northern-ireland'), ['Choose an option']);
+        assertMessagesByKey(value('northern-ireland', 'not-a-valid-choice'), [
+            'Choose an option'
+        ]);
+
+        const fieldNamesFn = fieldNamesFor('beneficiaries', 'Community');
+
+        expect(fieldNamesFn({ projectCountry: 'england' })).toEqual([]);
+        expect(fieldNamesFn({ projectCountry: 'scotland' })).toEqual([]);
+        expect(fieldNamesFn({ projectCountry: 'wales' })).toEqual([]);
+        expect(fieldNamesFn({ projectCountry: 'northern-ireland' })).toEqual([
+            'beneficiariesNorthernIrelandCommunity'
+        ]);
+    });
+
+    test('company number required if not for profit company', () => {
+        function value(type, val) {
+            return {
+                organisationType: type,
+                companyNumber: val
+            };
+        }
+
+        assertValidByKey(value(ORGANISATION_TYPES.CIO));
+        assertValidByKey(
+            value(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY, 'CE002712')
+        );
+        assertMessagesByKey(value(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY), [
+            'Enter your organisation’s Companies House number'
+        ]);
+    });
+
+    test('charity number required if CIO or registered charity', () => {
+        function value(type, val) {
+            return {
+                organisationType: type,
+                charityNumber: val
+            };
+        }
+
+        assertMessagesByKey(value(ORGANISATION_TYPES.CIO), [
+            'Enter your organisation’s charity number'
+        ]);
+
+        assertMessagesByKey(
+            value(ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY),
+            ['Enter your organisation’s charity number']
+        );
+
+        assertValidByKey(value(ORGANISATION_TYPES.CIO, '1160580'));
+        assertValidByKey(
+            value(
+                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                '1160580'
+            )
+        );
+        assertValidByKey(value(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY));
+    });
+
+    test('education number required if school', () => {
+        function value(type, val) {
+            return {
+                organisationType: type,
+                educationNumber: val
+            };
+        }
+
+        assertMessagesByKey(value(ORGANISATION_TYPES.SCHOOL), [
+            'Enter your organisation’s Department for Education number'
+        ]);
+        assertValidByKey(value(ORGANISATION_TYPES.SCHOOL, '1160580'));
+        assertValidByKey(value(ORGANISATION_TYPES.CIO));
+    });
+
+    test('no registration numbers required if unregistered VCO', () => {
+        const mock = mockFullForm({
             country: 'england',
-            organisationType: ORGANISATION_TYPES.SCHOOL
+            organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO
         });
-
-        expect(validate(invalid).error).toBeInstanceOf(Error);
-
-        const valid = mockFullForm({
-            country: 'england',
-            organisationType: ORGANISATION_TYPES.SCHOOL,
-            educationNumber: '123456789'
-        });
-
-        expect(validate(valid).error).toBeNull();
+        assertValid(mock);
     });
-
-    test('validate full form with no required registration numbers', () => {
-        expect(
-            validate(
-                mockFullForm({
-                    country: 'england',
-                    organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO
-                })
-            ).error
-        ).toBeNull();
-    });
-
-    function fieldNamesFor(sectionSlug, stepTitle) {
-        return function(data) {
-            const form = formBuilder({ locale: 'en', data: data });
-            const section = form.sections.find(s => s.slug === sectionSlug);
-            const step = section.steps.find(s => s.title === stepTitle);
-            return map(flatMap(step.fieldsets, 'fields'), f => f.name);
-        };
-    }
 
     test('registration numbers shown based on organisation type', () => {
         const fieldNamesFn = fieldNamesFor(

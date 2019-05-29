@@ -2,6 +2,7 @@
   "features": {
     "enableDigitalFundApplications": false,
     "enableHotjar": true,
-    "enableMailSendMetrics": true
+    "enableMailSendMetrics": true,
+    "enableSalesforceConnector": true
   }
 }

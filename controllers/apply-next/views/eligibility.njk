@@ -11,14 +11,14 @@
             {{ formHeader(
                 backUrl = backUrl,
                 title = 'Eligibility Checker',
-                prefix = prefix if eligibilityStatus !== 'eligible' 
+                prefix = prefix if eligibilityStatus !== 'eligible'
             )}}
- 
+
             {% if eligibilityStatus === 'eligible' %}
                 <div class="s-prose u-constrained-wide">
                     <h2>Great! You're eligible to apply to {{ formTitle }}</h2>
                     {{ eligibility.successMessage | safe }}
-                    <p class="class="form-actions"">
+                    <p class="form-actions">
                         <a class="btn" href="{{ formBaseUrl }}/new">Start your application</a>
                     </p>
                 </div>
@@ -28,7 +28,7 @@
                     <p>{{ currentStep.ineligible.reason }}</p>
                     <h3>What now?</h3>
                     {{ currentStep.ineligible.detail | safe }}
-                    <p class="class="form-actions"">
+                    <p class="form-actions">
                         <a class="btn" href="{{ formBaseUrl }}">Exit</a>
                     </p>
                 </div>

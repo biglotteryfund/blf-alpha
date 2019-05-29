@@ -253,13 +253,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.dateParts()
                 .dob(minAge)
-                .required()
                 .when(Joi.ref('organisationType'), {
                     is: Joi.valid(
                         ORGANISATION_TYPES.SCHOOL,
                         ORGANISATION_TYPES.STATUTORY_BODY
                     ),
-                    then: Joi.any().optional()
+                    then: Joi.any().strip(),
+                    otherwise: Joi.required()
                 }),
             messages: [
                 {
@@ -353,7 +353,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     cy: ''
                 }),
                 explanation: localise({
-                    en: `<p>My organisation is a voluntary or community organisaton and is a registered charity, but <strong>is not</strong> a company registered with Companies House</p>`,
+                    en: `<p>My organisation is a voluntary or community organisation and is a registered charity, but <strong>is not</strong> a company registered with Companies House</p>`,
                     cy: ``
                 })
             },
@@ -372,7 +372,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
                 label: localise({ en: 'Not-for-profit company', cy: '' }),
                 explanation: localise({
-                    en: `<p>My organisation is a not-for-profit company registered with Companies House, and <strong>may also</strong> be regisered as a charity</p>`,
+                    en: `<p>My organisation is a not-for-profit company registered with Companies House, and <strong>may also</strong> be registered as a charity</p>`,
                     cy: ``
                 })
             },
@@ -609,36 +609,66 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        projectStartDate: {
-            name: 'projectStartDate',
+        projectDateRange: {
+            name: 'projectDateRange',
             label: localise({
-                en: `When is the planned (or estimated) start date of your project?`,
+                en: `When is the planned (or estimated) start and end date of your project?`,
                 cy: ``
             }),
             get settings() {
-                const dt = moment().add(12, 'weeks');
+                const minStart = {
+                    amount: 12,
+                    units: 'weeks'
+                };
+                const minStartDate = moment().add(
+                    minStart.amount,
+                    minStart.units
+                );
                 return {
-                    minDateExample: dt.format('DD MM YYYY'),
-                    fromDateExample: dt
+                    minStart: minStart,
+                    minDateExample: minStartDate.format('DD MM YYYY'),
+                    fromDateExample: minStartDate
                         .subtract(1, 'days')
                         .format('D MMMM YYYY'),
-                    minYear: dt.format('YYYY')
+                    minYear: minStartDate.format('YYYY'),
+                    maxDurationFromStart: {
+                        amount: 1,
+                        units: 'years',
+                        label: localise({
+                            en: `one year`,
+                            cy: ``
+                        })
+                    }
                 };
             },
             get explanation() {
                 return localise({
-                    en: `<p>This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
-                <p><strong>For example: ${
-                    this.settings.minDateExample
-                }</strong></p>`,
+                    en: `<p>The start date needs to be at least ${
+                        this.settings.minStart.amount
+                    } ${
+                        this.settings.minStart.units
+                    } from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
+                    <p><strong>For example: ${
+                        this.settings.minDateExample
+                    }</strong>.</p>
+                    <p>The project end date must be within ${
+                        this.settings.maxDurationFromStart.label
+                    }
+                     of the start date.</p>`,
                     cy: ''
                 });
             },
-            type: 'date',
+            type: 'date-range',
             isRequired: true,
             get schema() {
                 const minDate = moment().add('12', 'weeks');
-                return Joi.dateParts().futureDate(minDate.format('YYYY-MM-DD'));
+                return Joi.dateRange()
+                    .minDate(minDate.format('YYYY-MM-DD'))
+                    .futureEndDate()
+                    .endDateLimit(
+                        this.settings.maxDurationFromStart.amount,
+                        this.settings.maxDurationFromStart.units
+                    );
             },
             get messages() {
                 return [
@@ -647,15 +677,48 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         message: localise({ en: 'Enter a date', cy: '' })
                     },
                     {
-                        type: 'any.invalid',
-                        message: localise({ en: 'Enter a real date', cy: '' })
+                        type: 'dates.both.invalid',
+                        message: localise({
+                            en: 'Enter a valid start and end date',
+                            cy: ''
+                        })
                     },
                     {
-                        type: 'dateParts.futureDate',
+                        type: 'dates.start.invalid',
                         message: localise({
-                            en: `Date you start the project must be after ${
+                            en: 'Enter a valid start date',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dates.end.invalid',
+                        message: localise({
+                            en: 'Enter a valid end date',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dates.minDate.invalid',
+                        message: localise({
+                            en: `Date you start or end the project must be after ${
                                 this.settings.fromDateExample
                             }`,
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dates.endDate.beforeStartDate',
+                        message: localise({
+                            en: `End date must be after start date`,
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dates.endDate.outsideLimit',
+                        message: localise({
+                            en: `End date must be within ${
+                                this.settings.maxDurationFromStart.label
+                            } of the start date.`,
                             cy: ''
                         })
                     }
@@ -718,7 +781,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 return locationsFor(country);
             },
             isRequired: true,
-            schema: Joi.string().required(),
+            get schema() {
+                const options = flatMap(this.optgroups, group => group.options);
+                return Joi.string()
+                    .valid(options.map(option => option.value))
+                    .required();
+            },
             messages: [
                 {
                     type: 'base',
@@ -1062,7 +1130,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     <li>people of a particular ethnic background, gender, age or religious belief</li>
                     <li>disabled people</li>
                     <li>lesbian, gay or bisexual people</li>
-                    <li>people with caring responsibilties</li>
+                    <li>people with caring responsibilities</li>
                 </ul>`,
                 cy: ``
             }),
@@ -1170,7 +1238,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
-        beneficiariesEthnicBakground: {
+        beneficiariesEthnicBackground: {
             name: 'beneficiariesGroupsEthnicBackground',
             label: localise({ en: `Ethnic background`, cy: '' }),
             explanation: localise({
@@ -1509,6 +1577,102 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
+        beneficiariesWelshLanguage: {
+            name: 'beneficiariesWelshLanguage',
+            label: localise({
+                en: `How many of the people who will benefit from your project speak Welsh?`,
+                cy: ``
+            }),
+            type: 'radio',
+            options: [
+                {
+                    value: 'all',
+                    label: localise({ en: 'All', cy: '' })
+                },
+                {
+                    value: 'more-than-half',
+                    label: localise({ en: 'More than half', cy: '' })
+                },
+                {
+                    value: 'less-than-half',
+                    label: localise({ en: 'Less than half', cy: '' })
+                },
+                {
+                    value: 'none',
+                    label: localise({ en: 'None', cy: '' })
+                }
+            ],
+            isRequired: true,
+            get schema() {
+                return Joi.when('projectCountry', {
+                    is: 'wales',
+                    then: Joi.string()
+                        .valid(this.options.map(option => option.value))
+                        .required(),
+                    otherwise: Joi.any().strip()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose an option', cy: '' })
+                }
+            ]
+        },
+        beneficiariesNorthernIrelandCommunity: {
+            name: 'beneficiariesNorthernIrelandCommunity',
+            label: localise({
+                en: `Which community do the people who will benefit from your project belong to?`,
+                cy: ``
+            }),
+            type: 'radio',
+            options: [
+                {
+                    value: 'both-catholic-and-protestant',
+                    label: localise({
+                        en: 'Both Catholic and Protestant',
+                        cy: ''
+                    })
+                },
+                {
+                    value: 'mainly-protestant',
+                    label: localise({
+                        en: `Mainly Protestant (more than 60 per cent)`,
+                        cy: ''
+                    })
+                },
+                {
+                    value: 'mainly-catholic',
+                    label: localise({
+                        en: 'Mainly Catholic (more than 60 per cent)',
+                        cy: ''
+                    })
+                },
+                {
+                    value: 'neither-catholic-or-protestant',
+                    label: localise({
+                        en: 'Neither Catholic or Protestant',
+                        cy: ''
+                    })
+                }
+            ],
+            isRequired: true,
+            get schema() {
+                return Joi.when('projectCountry', {
+                    is: 'northern-ireland',
+                    then: Joi.string()
+                        .valid(this.options.map(option => option.value))
+                        .required(),
+                    otherwise: Joi.any().strip()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Choose an option', cy: '' })
+                }
+            ]
+        },
         organisationLegalName: {
             name: 'organisationLegalName',
             label: localise({
@@ -1560,7 +1724,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.when('organisationType', {
                 is: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
-                then: Joi.string().required()
+                then: Joi.string().required(),
+                otherwise: Joi.any().strip()
             }),
             messages: [
                 {
@@ -1698,7 +1863,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ORGANISATION_TYPES.SCHOOL,
                     ORGANISATION_TYPES.STATUTORY_BODY
                 ),
-                then: Joi.any().optional()
+                then: Joi.any().strip()
             })
         }),
         mainContactAddressHistory: addressHistoryField({
@@ -1748,7 +1913,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ORGANISATION_TYPES.SCHOOL,
                     ORGANISATION_TYPES.STATUTORY_BODY
                 ),
-                then: Joi.any().optional()
+                then: Joi.any().strip()
             })
         }),
         seniorContactAddressHistory: addressHistoryField({
@@ -1870,8 +2035,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         )
     );
 
+    const messages = reduce(
+        fields,
+        function(acc, field) {
+            acc[field.name] = field.messages;
+            return acc;
+        },
+        {}
+    );
+
     return {
         fields,
-        schema
+        schema,
+        messages
     };
 };

@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 const path = require('path');
 const { concat } = require('lodash');
 
@@ -51,7 +51,7 @@ router.route('/').get(requireUserAuth, async (req, res) => {
             await activate(token, user);
             res.redirect('/user?s=activationComplete');
         } catch (error) {
-            Raven.captureException(error);
+            Sentry.captureException(error);
             res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
                 label: 'Activate account'
             });

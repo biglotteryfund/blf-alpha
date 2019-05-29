@@ -1,7 +1,7 @@
 {% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
-{% block title %}{{ section.shortTitle or section.title }} | {{ formTitle }}{% endblock %}
+{% block title %}{{ section.shortTitle or section.title }} | {{ formTitle }} | {% endblock %}
 
 {% block content %}
     <main role="main" id="content">

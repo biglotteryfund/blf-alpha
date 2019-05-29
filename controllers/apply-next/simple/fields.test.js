@@ -5,12 +5,7 @@ const faker = require('faker');
 const Joi = require('@hapi/joi');
 
 const { ORGANISATION_TYPES } = require('./constants');
-const {
-    mockStartDate,
-    mockDateOfBirth,
-    mockAddress,
-    mockBudget
-} = require('./mocks');
+const { mockDateOfBirth, mockAddress, mockBudget } = require('./mocks');
 
 const fieldsFor = require('./fields');
 const { fields } = fieldsFor({ locale: 'en' });
@@ -25,17 +20,6 @@ describe('fields', () => {
         const { error } = field.schema.validate(value);
         expect(error.message).toContain(messagePart);
     }
-
-    describe('projectName', () => {
-        test('valididate project name', () => {
-            assertValid(fields.projectName, faker.lorem.words(5));
-            assertErrorContains(
-                fields.projectName,
-                '',
-                'not allowed to be empty'
-            );
-        });
-    });
 
     describe('projectCountry', () => {
         test('valididate project country', () => {
@@ -53,29 +37,6 @@ describe('fields', () => {
                 'not-a-country',
                 'must be one of [england, northern-ireland, scotland, wales]'
             );
-        });
-    });
-
-    describe('projectStartDate', () => {
-        test('must be a valid date', () => {
-            assertValid(fields.projectStartDate, mockStartDate(12));
-            assertErrorContains(
-                fields.projectStartDate,
-                null,
-                'must be an object'
-            );
-            assertErrorContains(
-                fields.projectStartDate,
-                { day: 31, month: 2, year: 2030 },
-                'contains an invalid value'
-            );
-        });
-
-        test('must be at least 12 weeks in the future', () => {
-            const { error } = fields.projectStartDate.schema.validate(
-                mockStartDate(6)
-            );
-            expect(error.message).toContain('Date must be at least');
         });
     });
 
@@ -284,56 +245,6 @@ describe('fields', () => {
                 'not-an-option',
                 'must be one of [unregistered-vco, unincorporated-registered-charity, charitable-incorporated-organisation, not-for-profit-company, school, statutory-body]'
             );
-        });
-    });
-
-    function assertRequiredForOrganistionTypes(field, requiredTypes) {
-        const schemaWithOrgType = {
-            'organisationType': fields.organisationType.schema,
-            [field.name]: field.schema
-        };
-
-        const requiredOrgTypes = requiredTypes;
-        requiredOrgTypes.forEach(type => {
-            const { error } = Joi.validate(
-                { organisationType: type },
-                schemaWithOrgType
-            );
-            expect(error.message).toContain('is required');
-        });
-    }
-
-    describe('companyNumber', () => {
-        test('conditionally required based on organisation type', () => {
-            assertValid(fields.companyNumber, 'CE002712');
-            assertValid(fields.companyNumber, undefined);
-
-            assertRequiredForOrganistionTypes(fields.companyNumber, [
-                ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-            ]);
-        });
-    });
-
-    describe('charityNumber', () => {
-        test('conditionally required based on organisation type', () => {
-            assertValid(fields.charityNumber, '1160580');
-            assertValid(fields.charityNumber, undefined);
-
-            assertRequiredForOrganistionTypes(fields.charityNumber, [
-                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                ORGANISATION_TYPES.CIO
-            ]);
-        });
-    });
-
-    describe('educationNumber', () => {
-        test('conditionally required based on organisation type', () => {
-            assertValid(fields.educationNumber, '1160580');
-            assertValid(fields.educationNumber, undefined);
-
-            assertRequiredForOrganistionTypes(fields.educationNumber, [
-                ORGANISATION_TYPES.SCHOOL
-            ]);
         });
     });
 

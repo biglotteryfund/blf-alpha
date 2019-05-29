@@ -2,12 +2,17 @@
 const { concat, clone, pick, isEmpty, get } = require('lodash');
 const path = require('path');
 const config = require('config');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 const express = require('express');
 const nunjucks = require('nunjucks');
 const querystring = require('querystring');
 
-const { injectBreadcrumbs, injectCopy, injectHeroImage, setHeroLocals } = require('../../middleware/inject-content');
+const {
+    injectBreadcrumbs,
+    injectCopy,
+    injectHeroImage,
+    setHeroLocals
+} = require('../../middleware/inject-content');
 const { sMaxAge } = require('../../middleware/cached');
 const contentApi = require('../../services/content-api');
 const grantsService = require('../../services/grants');
@@ -31,12 +36,22 @@ function buildPagination(req, paginationMeta, currentQuery = {}) {
         const totalPages = paginationMeta.totalPages;
 
         const prevLink = {
-            url: '?' + querystring.stringify({ ...currentQuery, ...{ page: currentPage - 1 } }),
+            url:
+                '?' +
+                querystring.stringify({
+                    ...currentQuery,
+                    ...{ page: currentPage - 1 }
+                }),
             label: labels.prev
         };
 
         const nextLink = {
-            url: '?' + querystring.stringify({ ...currentQuery, ...{ page: currentPage + 1 } }),
+            url:
+                '?' +
+                querystring.stringify({
+                    ...currentQuery,
+                    ...{ page: currentPage + 1 }
+                }),
             label: labels.next
         };
 
@@ -79,7 +94,10 @@ router.get(
                 'limit'
             ]);
 
-            const queryWithPage = { ...facetParams, ...{ page: req.query.page || 1, locale } };
+            const queryWithPage = {
+                ...facetParams,
+                ...{ page: req.query.page || 1, locale }
+            };
             const data = await grantsService.query(queryWithPage);
 
             let searchSuggestions = false;
@@ -101,7 +119,11 @@ router.get(
                         meta: data.meta,
                         grantDataDates: data.meta.grantDates,
                         searchSuggestions: searchSuggestions,
-                        pagination: buildPagination(req, data.meta.pagination, queryWithPage)
+                        pagination: buildPagination(
+                            req,
+                            data.meta.pagination,
+                            queryWithPage
+                        )
                     });
                 },
 
@@ -113,24 +135,38 @@ router.get(
                      */
                     const extraContext = {
                         grants: data.results,
-                        pagination: buildPagination(req, data.meta.pagination, queryWithPage)
+                        pagination: buildPagination(
+                            req,
+                            data.meta.pagination,
+                            queryWithPage
+                        )
                     };
 
-                    const context = { ...res.locals, ...req.app.locals, ...extraContext };
+                    const context = {
+                        ...res.locals,
+                        ...req.app.locals,
+                        ...extraContext
+                    };
 
-                    nunjucks.render(path.resolve(__dirname, './views/ajax-results.njk'), context, (renderErr, html) => {
-                        if (renderErr) {
-                            Raven.captureException(renderErr);
-                            res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
-                        } else {
-                            res.json({
-                                meta: data.meta,
-                                facets: data.facets,
-                                searchSuggestions: searchSuggestions,
-                                resultsHtml: html
-                            });
+                    nunjucks.render(
+                        path.resolve(__dirname, './views/ajax-results.njk'),
+                        context,
+                        (renderErr, html) => {
+                            if (renderErr) {
+                                Sentry.captureException(renderErr);
+                                res.status(400).json({
+                                    error: 'ERR-TEMPLATE-ERROR'
+                                });
+                            } else {
+                                res.json({
+                                    meta: data.meta,
+                                    facets: data.facets,
+                                    searchSuggestions: searchSuggestions,
+                                    resultsHtml: html
+                                });
+                            }
                         }
-                    });
+                    );
                 }
             });
         } catch (errorResponse) {
@@ -139,7 +175,7 @@ router.get(
                     next(errorResponse.error);
                 },
                 'application/json': () => {
-                    Raven.captureMessage(errorResponse);
+                    Sentry.captureMessage(errorResponse);
                     res.status(errorResponse.error.error.status || 400).json({
                         error: errorResponse.error.error
                     });
@@ -150,122 +186,160 @@ router.get(
 );
 
 if (config.get('features.enableRelatedGrants')) {
-    router.get('/related', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
-        try {
-            if (isEmpty(req.query)) {
-                return next();
-            }
-
-            const apiQuery = clone(req.query);
-            apiQuery.locale = res.locals.locale;
-            const data = await grantsService.query(apiQuery);
-
-            /**
-             * Repopulate existing app globals so Nunjucks
-             * can read them outside of Express's view engine context
-             */
-            const extraContext = { grants: data.results };
-            const context = { ...res.locals, ...req.app.locals, ...extraContext };
-
-            nunjucks.render(path.resolve(__dirname, './views/ajax-related.njk'), context, (renderErr, html) => {
-                if (renderErr) {
-                    Raven.captureException(renderErr);
-                    res.status(400).json({ error: 'ERR-TEMPLATE-ERROR' });
-                } else {
-                    res.json({
-                        meta: data.meta,
-                        resultsHtml: html
-                    });
+    router.get(
+        '/related',
+        injectCopy('funding.pastGrants.search'),
+        async (req, res, next) => {
+            try {
+                if (isEmpty(req.query)) {
+                    return next();
                 }
-            });
-        } catch (rawError) {
-            const errorResponse = rawError.error.error;
-            return res.status(errorResponse.status || 400).json({
-                error: errorResponse
-            });
+
+                const apiQuery = clone(req.query);
+                apiQuery.locale = res.locals.locale;
+                const data = await grantsService.query(apiQuery);
+
+                /**
+                 * Repopulate existing app globals so Nunjucks
+                 * can read them outside of Express's view engine context
+                 */
+                const extraContext = { grants: data.results };
+                const context = {
+                    ...res.locals,
+                    ...req.app.locals,
+                    ...extraContext
+                };
+
+                nunjucks.render(
+                    path.resolve(__dirname, './views/ajax-related.njk'),
+                    context,
+                    (renderErr, html) => {
+                        if (renderErr) {
+                            Sentry.captureException(renderErr);
+                            res.status(400).json({
+                                error: 'ERR-TEMPLATE-ERROR'
+                            });
+                        } else {
+                            res.json({
+                                meta: data.meta,
+                                resultsHtml: html
+                            });
+                        }
+                    }
+                );
+            } catch (rawError) {
+                const errorResponse = rawError.error.error;
+                return res.status(errorResponse.status || 400).json({
+                    error: errorResponse
+                });
+            }
         }
-    });
+    );
 }
 
-router.get('/recipients/:id', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
-    try {
-        const data = await grantsService.getRecipientById({
-            id: req.params.id,
-            locale: req.i18n.getLocale(),
-            page: req.query.page
-        });
-
-        const organisation = get(data, 'results[0].recipientOrganization[0]');
-
-        if (organisation) {
-            res.render(path.resolve(__dirname, './views/recipient-detail'), {
-                title: organisation.name,
-                organisation: organisation,
-                recipientGrants: data.results,
-                recipientProgrammes: data.facets.grantProgramme,
-                recipientLocalAuthorities: data.facets.localAuthorities,
-                totalAwarded: data.meta.totalAwarded.toLocaleString(),
-                totalResults: data.meta.totalResults.toLocaleString(),
-                breadcrumbs: concat(res.locals.breadcrumbs, { label: organisation.name }),
-                pagination: buildPagination(req, data.meta.pagination)
-            });
-        } else {
-            next();
-        }
-    } catch (error) {
-        next(error);
-    }
-});
-
-router.get('/:id', injectCopy('funding.pastGrants.search'), async (req, res, next) => {
-    try {
-        const data = await grantsService.getGrantById({
-            id: req.params.id,
-            locale: req.i18n.getLocale()
-        });
-
-        let projectStory;
+router.get(
+    '/recipients/:id',
+    injectCopy('funding.pastGrants.search'),
+    async (req, res, next) => {
         try {
-            let query = {};
-            if (req.query.social) {
-                query.social = req.query.social;
-            }
-            projectStory = await contentApi.getProjectStory({
+            const data = await grantsService.getRecipientById({
+                id: req.params.id,
                 locale: req.i18n.getLocale(),
-                grantId: req.params.id,
-                previewMode: res.locals.PREVIEW_MODE || false,
-                query: query
+                page: req.query.page
             });
-            setHeroLocals({ res, entry: projectStory });
-        } catch (e) {} // eslint-disable-line no-empty
 
-        if (data && data.result) {
-            let fundingProgramme;
-            const grant = data.result;
-            res.locals.openGraph = get(projectStory, 'openGraph', false);
-            const grantProgramme = get(grant, 'grantProgramme[0]', false);
-            if (grantProgramme && grantProgramme.url && grantProgramme.url.indexOf('/') === -1) {
-                try {
-                    fundingProgramme = await contentApi.getFundingProgramme({
-                        slug: grantProgramme.url,
-                        locale: req.i18n.getLocale()
-                    });
-                } catch (e) {} // eslint-disable-line no-empty
+            const organisation = get(
+                data,
+                'results[0].recipientOrganization[0]'
+            );
+
+            if (organisation) {
+                res.render(
+                    path.resolve(__dirname, './views/recipient-detail'),
+                    {
+                        title: organisation.name,
+                        organisation: organisation,
+                        recipientGrants: data.results,
+                        recipientProgrammes: data.facets.grantProgramme,
+                        recipientLocalAuthorities: data.facets.localAuthorities,
+                        totalAwarded: data.meta.totalAwarded.toLocaleString(),
+                        totalResults: data.meta.totalResults.toLocaleString(),
+                        breadcrumbs: concat(res.locals.breadcrumbs, {
+                            label: organisation.name
+                        }),
+                        pagination: buildPagination(req, data.meta.pagination)
+                    }
+                );
+            } else {
+                next();
             }
-
-            res.render(path.resolve(__dirname, './views/grant-detail'), {
-                title: data.result.title,
-                grant: grant,
-                projectStory: projectStory,
-                fundingProgramme: fundingProgramme,
-                breadcrumbs: concat(res.locals.breadcrumbs, { label: data.result.title })
-            });
-        } else {
-            next();
+        } catch (error) {
+            next(error);
         }
-    } catch (error) {
-        next(error);
     }
-});
+);
+
+router.get(
+    '/:id',
+    injectCopy('funding.pastGrants.search'),
+    async (req, res, next) => {
+        try {
+            const data = await grantsService.getGrantById({
+                id: req.params.id,
+                locale: req.i18n.getLocale()
+            });
+
+            let projectStory;
+            try {
+                let query = {};
+                if (req.query.social) {
+                    query.social = req.query.social;
+                }
+                projectStory = await contentApi.getProjectStory({
+                    locale: req.i18n.getLocale(),
+                    grantId: req.params.id,
+                    previewMode: res.locals.PREVIEW_MODE || false,
+                    query: query
+                });
+                setHeroLocals({ res, entry: projectStory });
+            } catch (e) {} // eslint-disable-line no-empty
+
+            if (data && data.result) {
+                let fundingProgramme;
+                const grant = data.result;
+                res.locals.openGraph = get(projectStory, 'openGraph', false);
+                const grantProgramme = get(grant, 'grantProgramme[0]', false);
+                if (
+                    grantProgramme &&
+                    grantProgramme.url &&
+                    grantProgramme.url.indexOf('/') === -1
+                ) {
+                    try {
+                        fundingProgramme = await contentApi.getFundingProgramme(
+                            {
+                                slug: grantProgramme.url,
+                                locale: req.i18n.getLocale()
+                            }
+                        );
+                    } catch (e) {} // eslint-disable-line no-empty
+                }
+
+                res.render(path.resolve(__dirname, './views/grant-detail'), {
+                    title: data.result.title,
+                    grant: grant,
+                    projectStory: projectStory,
+                    fundingProgramme: fundingProgramme,
+                    breadcrumbs: concat(res.locals.breadcrumbs, {
+                        label: data.result.title
+                    })
+                });
+            } else {
+                next();
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
+);
 
 module.exports = router;

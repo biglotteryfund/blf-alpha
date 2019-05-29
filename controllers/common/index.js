@@ -2,7 +2,7 @@
 const express = require('express');
 const { isEmpty } = require('lodash');
 const path = require('path');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 
 const { injectBreadcrumbs, injectFlexibleContent, injectListingContent } = require('../../middleware/inject-content');
 const { isWelsh } = require('../../modules/urls');
@@ -27,7 +27,7 @@ function staticPage({ template = null, projectStorySlugs = [], disableLanguageLi
                         slugs: projectStorySlugs
                     });
                 } catch (error) {
-                    Raven.captureException(error);
+                    Sentry.captureException(error);
                 }
             }
 

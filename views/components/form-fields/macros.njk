@@ -2,7 +2,7 @@
 
 {% macro formErrors(errors, title) %}
     {% if errors | length > 0 %}
-        <div class="form-errors">
+        <div class="form-errors" data-testid="form-errors">
             <h2 class="form-errors__title">
                 {% if title -%}{{ title }}{%- else -%}{{ __('global.misc.errorTitle') }}{%- endif %}
             </h2>

@@ -1,7 +1,7 @@
 // @ts-nocheck
 const uuid = require('uuid/v4');
 const faker = require('faker');
-const { includes, sample, sampleSize } = require('lodash');
+const { includes, sample, sampleSize, times } = require('lodash');
 const moment = require('moment');
 
 describe('common', function() {
@@ -9,6 +9,10 @@ describe('common', function() {
         cy.request('/').then(response => {
             expect(response.headers['cache-control']).to.eq(
                 'max-age=30,s-maxage=300'
+            );
+
+            expect(response.headers['content-security-policy']).to.contain(
+                "default-src 'self'"
             );
         });
 
@@ -232,17 +236,19 @@ describe('user', () => {
     it('should not allow unknown users to login', () => {
         cy.visit('/user/login');
         submitForm('person@example.com', 'examplepassword');
-        cy.getByText(
+        cy.getByTestId('form-errors').should(
+            'contain',
             'Your username and password combination is invalid'
-        ).should('exist');
+        );
         cy.checkA11y();
     });
 
     it('should prevent registrations with invalid passwords', () => {
         cy.visit('/user/register');
         submitForm('person@example.com', 'tooshort');
-        cy.getByText('Password must be at least 10 characters long').should(
-            'exist'
+        cy.getByTestId('form-errors').should(
+            'contain',
+            'Password must be at least 10 characters long'
         );
     });
 
@@ -297,6 +303,8 @@ describe('awards for all', function() {
             'Wales'
         ]);
 
+        cy.log(`Country: ${randomCountry}`);
+
         function shouldDisplayErrors(errorDescriptions = []) {
             errorDescriptions.forEach(description => {
                 cy.getByTestId('form-errors').should('contain', description);
@@ -311,12 +319,24 @@ describe('awards for all', function() {
             cy.getByLabelText('Day')
                 .clear()
                 .type(momentInstance.date());
+
             cy.getByLabelText('Month')
                 .clear()
                 .type(momentInstance.month() + 1);
+
             cy.getByLabelText('Year')
                 .clear()
                 .type(momentInstance.year());
+        }
+
+        function fillAllDateFields(momentInstance) {
+            ['Start date', 'End date'].forEach(dateFieldName => {
+                cy.getByText(dateFieldName)
+                    .parent()
+                    .within(() => {
+                        fillDateParts(momentInstance);
+                    });
+            });
         }
 
         function fillAddress() {
@@ -340,15 +360,17 @@ describe('awards for all', function() {
             }).type('My application');
 
             const invalidDate = moment();
-            fillDateParts(invalidDate);
+            fillAllDateFields(invalidDate);
 
             submitStep();
 
-            shouldDisplayErrors(['Date you start the project must be after']);
+            shouldDisplayErrors([
+                'Date you start or end the project must be after'
+            ]);
             cy.checkA11y();
 
             const validDate = moment().add('12', 'weeks');
-            fillDateParts(validDate);
+            fillAllDateFields(validDate);
 
             submitStep();
         }
@@ -473,7 +495,7 @@ describe('awards for all', function() {
             submitStep();
         }
 
-        function stepBeneficiaryGroups() {
+        function stepBeneficiaries() {
             cy.checkA11y();
             cy.getByLabelText('Yes').click();
             submitStep();
@@ -488,6 +510,8 @@ describe('awards for all', function() {
                 ],
                 2
             );
+
+            cy.log(`Beneficiary groups: ${randomBeneficiaryGroups.join(', ')}`);
 
             cy.checkA11y();
             randomBeneficiaryGroups.forEach(label => {
@@ -534,6 +558,22 @@ describe('awards for all', function() {
                 ).click();
                 submitStep();
             }
+
+            if (randomCountry === 'Wales') {
+                cy.getByText(
+                    'How many of the people who will benefit from your project speak Welsh?'
+                ).should('exist');
+                cy.getByLabelText('More than half').click();
+                submitStep();
+            }
+
+            if (randomCountry === 'Northern Ireland') {
+                cy.getByText(
+                    'Which community do the people who will benefit from your project belong to?'
+                ).should('exist');
+                cy.getByLabelText('Both Catholic and Protestant').click();
+                submitStep();
+            }
         }
 
         function stepOrganisationDetails() {
@@ -542,7 +582,13 @@ describe('awards for all', function() {
                 'What is the full legal name of your organisation?',
                 { exact: false }
             ).type(faker.company.companyName());
-            fillAddress();
+            cy.getByText(
+                'What is the main or registered address of your organisation?'
+            )
+                .parent()
+                .within(() => {
+                    fillAddress();
+                });
             submitStep();
         }
 
@@ -583,7 +629,11 @@ describe('awards for all', function() {
             cy.getByLabelText('Day').type('5');
             cy.getByLabelText('Month').type('11');
             cy.getByLabelText('Year').type('1926');
-            fillAddress();
+            cy.getByText('Current address')
+                .parent()
+                .within(() => {
+                    fillAddress();
+                });
             cy.getByLabelText('Yes').click();
             cy.getByLabelText('Email', { exact: false }).type(
                 faker.internet.exampleEmail()
@@ -606,7 +656,11 @@ describe('awards for all', function() {
             cy.getByLabelText('Day').type('5');
             cy.getByLabelText('Month').type('11');
             cy.getByLabelText('Year').type('1926');
-            fillAddress();
+            cy.getByText('Current address')
+                .parent()
+                .within(() => {
+                    fillAddress();
+                });
             cy.getByLabelText('Yes').click();
             cy.getByLabelText('Email', { exact: false }).type(
                 faker.internet.exampleEmail()
@@ -661,14 +715,20 @@ describe('awards for all', function() {
         }
 
         cy.seedAndLogin().then(() => {
-            cy.visit('/apply-next/simple/new');
+            cy.visit('/apply-next/simple');
+            cy.getByText('Start new application').click();
+            times(5, function() {
+                cy.getByLabelText('Yes').click();
+                cy.getByText('Continue').click();
+            });
+            cy.getByText('Start your application').click();
 
             stepProjectDetails();
             stepProjectCountry();
             stepProjectLocation();
             stepYourIdea();
             stepProjectCosts();
-            stepBeneficiaryGroups();
+            stepBeneficiaries();
             stepOrganisationDetails();
             stepOrganisationType();
             stepRegistrationNumbers();
@@ -756,7 +816,7 @@ describe('reaching communities', function() {
         }
 
         cy.visit('/apply/your-idea');
-        cy.getByText('Start', { exact: false }).click();
+        cy.getByText('Start').click();
 
         fillIdea();
         cy.getByText('Next').click();

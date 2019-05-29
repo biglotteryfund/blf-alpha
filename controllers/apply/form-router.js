@@ -4,7 +4,7 @@ const { matchedData } = require('express-validator/filter');
 const { check, validationResult } = require('express-validator/check');
 const express = require('express');
 const path = require('path');
-const Raven = require('raven');
+const Sentry = require('@sentry/node');
 
 const cached = require('../../middleware/cached');
 const { localify } = require('../../modules/urls');
@@ -224,7 +224,7 @@ function initFormRouter(form) {
                     });
                     res.redirect(`${req.baseUrl}/success`);
                 } catch (error) {
-                    Raven.captureException(error);
+                    Sentry.captureException(error);
                     renderError(error, req, res);
                 }
             }

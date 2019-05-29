@@ -47,7 +47,7 @@ const JWT_SIGNING_TOKEN =
 /**
  * Sentry DSN for error reporting
  */
-const SENTRY_DSN = getSecret('sentry.dsn');
+const SENTRY_DSN = getSecret('sentry.publicDsn');
 
 /**
  * Azure authentication secrets (optional, used for tools sign-in)
@@ -63,12 +63,18 @@ const AZURE_AUTH = {
  * Salesforce authentication
  */
 const SALESFORCE_AUTH = {
-    API_URL: process.env.SALESFORCE_API_URL,
-    CONSUMER_KEY: process.env.SALESFORCE_CONSUMER_KEY,
-    CONSUMER_SECRET: process.env.SALESFORCE_CONSUMER_SECRET,
-    USERNAME: process.env.SALESFORCE_USERNAME,
-    PASSWORD: process.env.SALESFORCE_PASSWORD,
-    TOKEN: process.env.SALESFORCE_TOKEN
+    API_URL: process.env.SALESFORCE_API_URL || getSecret('salesforce.apiUrl'),
+    CONSUMER_KEY:
+        process.env.SALESFORCE_CONSUMER_KEY ||
+        getSecret('salesforce.consumerKey'),
+    CONSUMER_SECRET:
+        process.env.SALESFORCE_CONSUMER_SECRET ||
+        getSecret('salesforce.consumerSecret'),
+    USERNAME:
+        process.env.SALESFORCE_USERNAME || getSecret('salesforce.username'),
+    PASSWORD:
+        process.env.SALESFORCE_PASSWORD || getSecret('salesforce.password'),
+    TOKEN: process.env.SALESFORCE_TOKEN || getSecret('salesforce.token')
 };
 
 /**

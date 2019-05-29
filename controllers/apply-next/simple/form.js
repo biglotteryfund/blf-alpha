@@ -1,5 +1,5 @@
 'use strict';
-const { get, getOr } = require('lodash/fp');
+const { has, get, getOr } = require('lodash/fp');
 const { compact, includes, sumBy } = require('lodash');
 
 const enrichForm = require('../lib/enrich-form');
@@ -11,7 +11,14 @@ module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
     const currentOrganisationType = get('organisationType')(data);
 
-    const { fields, schema } = fieldsFor({ locale, data });
+    const { fields, schema, messages } = fieldsFor({
+        locale: locale,
+        data: data
+    });
+
+    function selectedCountry(country) {
+        return get('projectCountry')(data) === country;
+    }
 
     function includeAddressAndDob() {
         return (
@@ -57,7 +64,7 @@ module.exports = function({ locale, data = {} }) {
                 fieldsets: [
                     {
                         legend: localise({ en: 'Project details', cy: '' }),
-                        fields: [fields.projectName, fields.projectStartDate]
+                        fields: [fields.projectName, fields.projectDateRange]
                     }
                 ]
             },
@@ -75,11 +82,14 @@ module.exports = function({ locale, data = {} }) {
                 fieldsets: [
                     {
                         legend: localise({ en: 'Project location', cy: '' }),
-                        fields: [
-                            fields.projectLocation,
-                            fields.projectLocationDescription,
-                            fields.projectPostcode
-                        ]
+                        get fields() {
+                            const hasCountry = has('projectCountry')(data);
+                            return compact([
+                                hasCountry && fields.projectLocation,
+                                hasCountry && fields.projectLocationDescription,
+                                hasCountry && fields.projectPostcode
+                            ]);
+                        }
                     }
                 ]
             },
@@ -125,7 +135,7 @@ module.exports = function({ locale, data = {} }) {
             let result;
             switch (type) {
                 case BENEFICIARY_GROUPS.ETHNIC_BACKGROUND:
-                    result = [fields.beneficiariesEthnicBakground];
+                    result = [fields.beneficiariesEthnicBackground];
                     break;
                 case BENEFICIARY_GROUPS.GENDER:
                     result = [fields.beneficiariesGroupsGender];
@@ -177,9 +187,9 @@ module.exports = function({ locale, data = {} }) {
                             }),
                             introduction: localise({
                                 en: `<p>We want to hear more about the people who will benefit from your project.</p>
-                
+
                                 <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
-                
+
                                 <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
                                 cy: ``
                             }),
@@ -259,6 +269,40 @@ module.exports = function({ locale, data = {} }) {
                                 cy: ''
                             }),
                             fields: fieldsForGroup(BENEFICIARY_GROUPS.RELIGION)
+                        }
+                    ]
+                },
+                {
+                    title: localise({
+                        en: `People who speak Welsh`,
+                        cy: ``
+                    }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: `People who speak Welsh`,
+                                cy: ``
+                            }),
+                            fields: selectedCountry('wales')
+                                ? [fields.beneficiariesWelshLanguage]
+                                : []
+                        }
+                    ]
+                },
+                {
+                    title: localise({
+                        en: `Community`,
+                        cy: ``
+                    }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: `Community`,
+                                cy: ``
+                            }),
+                            fields: selectedCountry('northern-ireland')
+                                ? [fields.beneficiariesNorthernIrelandCommunity]
+                                : []
                         }
                     ]
                 }
@@ -470,7 +514,7 @@ module.exports = function({ locale, data = {} }) {
 
     <p>Your statement needs to be less than three months old. For bank accounts opened within the last three months, we can accept a bank welcome letter. This must confirm the date your account was opened, account name, account number and sort code.</p>
 
-    <p>If you are a school who uses a local authority bank account, please attach a letter from the local authority that confirms your school name, the bank account name and number and sort code. The letter must be on local authority headed paper and dated. Other statutory bodies can attach a letter from their finance department that confirms the details of the bank account funding would be paid into.</p>                 
+    <p>If you are a school who uses a local authority bank account, please attach a letter from the local authority that confirms your school name, the bank account name and number and sort code. The letter must be on local authority headed paper and dated. Other statutory bodies can attach a letter from their finance department that confirms the details of the bank account funding would be paid into.</p>
                         `,
                             cy: ''
                         }),
@@ -486,8 +530,7 @@ module.exports = function({ locale, data = {} }) {
             name: 'terms-agreement-1',
             type: 'checkbox',
             label: localise({
-                en:
-                    'You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.',
+                en: `You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.`,
                 cy: ''
             }),
             options: [
@@ -499,8 +542,7 @@ module.exports = function({ locale, data = {} }) {
             name: 'terms-agreement-2',
             type: 'checkbox',
             label: localise({
-                en:
-                    'All the information you have provided in your application is accurate and complete; and you will notify us of any changes.',
+                en: `All the information you have provided in your application is accurate and complete; and you will notify us of any changes.`,
                 cy: ''
             }),
             options: [
@@ -512,8 +554,7 @@ module.exports = function({ locale, data = {} }) {
             name: 'terms-agreement-3',
             type: 'checkbox',
             label: localise({
-                en:
-                    'You understand that we will use any personal information you have provided for the purposes described under the Data Protection Statement.',
+                en: `You understand that we will use any personal information you have provided for the purposes described under the <a href="/about/customer-service/data-protection">Data Protection Statement</a>.`,
                 cy: ''
             }),
             options: [
@@ -525,8 +566,7 @@ module.exports = function({ locale, data = {} }) {
             name: 'terms-agreement-4',
             type: 'checkbox',
             label: localise({
-                en:
-                    'If information about this application is requested under the Freedom of Information Act, we will release it in line with our Freedom of Information policy.',
+                en: `If information about this application is requested under the Freedom of Information Act, we will release it in line with our <a href="/about/customer-service/freedom-of-information">Freedom of Information policy.</a>`,
                 cy: ''
             }),
             options: [
@@ -553,7 +593,7 @@ module.exports = function({ locale, data = {} }) {
     ];
 
     function summary() {
-        const startDate = get('projectStartDate')(data);
+        const startDate = get('projectDateRange.start')(data);
         const organisation = get('organisationLegalName')(data);
         const budget = getOr([], 'projectBudget')(data);
         const budgetSum = sumBy(budget, item => parseInt(item.cost || 0));
@@ -580,6 +620,7 @@ module.exports = function({ locale, data = {} }) {
         isBilingual: true,
         fields: fields,
         schema: schema,
+        messages: messages,
         summary: summary(),
         sections: [
             sectionProject,

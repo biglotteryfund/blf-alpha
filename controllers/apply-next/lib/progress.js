@@ -1,5 +1,6 @@
 'use strict';
 const { flatMapDeep, get, includes, isEmpty, pick } = require('lodash');
+const validateForm = require('./validate-form');
 
 const FORM_STATES = {
     empty: 'empty',
@@ -32,10 +33,7 @@ function determineStatus(data, errors = []) {
  * @param {Object} data
  */
 function calculateFormProgress(form, data) {
-    const validationResult = form.schema.validate(data, {
-        abortEarly: false,
-        stripUnknown: true
-    });
+    const validationResult = validateForm(form, data);
 
     const errors = get(validationResult, 'error.details', []);
 
