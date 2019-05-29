@@ -1,6 +1,6 @@
 'use strict';
 const request = require('request-promise-native');
-const { PAST_GRANTS_API_URI } = require('../modules/secrets');
+const { PAST_GRANTS_API_URI } = require('../../../modules/secrets');
 
 module.exports = {
     query(params) {
