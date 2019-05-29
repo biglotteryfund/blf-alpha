@@ -174,7 +174,6 @@ const about = {
         },
         {
             path: '/our-people',
-            lang: 'about.ourPeople',
             router: require('./our-people')
         },
         {
