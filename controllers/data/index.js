@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const { get } = require('lodash');
 
-const contentApi = require('../../services/content-api');
+const contentApi = require('../../modules/content-api');
 
 const router = express.Router();
 

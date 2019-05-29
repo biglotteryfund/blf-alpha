@@ -7,7 +7,7 @@ const { buildPagination } = require('../../modules/pagination');
 const { buildArchiveUrl } = require('../../modules/archived');
 const { localify } = require('../../modules/urls');
 const { injectBreadcrumbs, injectCopy, injectHeroImage } = require('../../middleware/inject-content');
-const contentApi = require('../../services/content-api');
+const contentApi = require('../../modules/content-api');
 
 const router = express.Router();
 

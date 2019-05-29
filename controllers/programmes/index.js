@@ -14,7 +14,7 @@ const { basicContent } = require('../common');
 const { buildArchiveUrl } = require('../../modules/archived');
 const { getValidLocation, programmeFilters } = require('./helpers');
 const { sMaxAge } = require('../../middleware/cached');
-const contentApi = require('../../services/content-api');
+const contentApi = require('../../modules/content-api');
 
 const router = express.Router();
 

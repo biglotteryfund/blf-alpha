@@ -4,7 +4,7 @@ const moment = require('moment');
 const Sentry = require('@sentry/node');
 
 const { localify } = require('../modules/urls');
-const contentApi = require('../services/content-api');
+const contentApi = require('../modules/content-api');
 
 /*
  * Populate hero image (with social image URLs too)

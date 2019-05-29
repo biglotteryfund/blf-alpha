@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const { pick, clone } = require('lodash');
 
-const contentApi = require('../../services/content-api');
+const contentApi = require('../../modules/content-api');
 
 const {
     injectBreadcrumbs,
