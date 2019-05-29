@@ -1,15 +1,17 @@
 'use strict';
 const { forEach } = require('lodash');
 const config = require('config');
-const express = require('express');
-const favicon = require('serve-favicon');
-const i18n = require('i18n-2');
-const nunjucks = require('nunjucks');
 const path = require('path');
-const Sentry = require('@sentry/node');
-const slashes = require('connect-slashes');
+const express = require('express');
+const i18n = require('i18n-2');
 const yaml = require('js-yaml');
+const nunjucks = require('nunjucks');
+const favicon = require('serve-favicon');
+const helmet = require('helmet');
+const slashes = require('connect-slashes');
+const Sentry = require('@sentry/node');
 const debug = require('debug')('tnlcf:server');
+const features = config.get('features');
 
 const app = express();
 module.exports = app;
@@ -21,17 +23,12 @@ if (appData.isDev) {
 }
 
 const { isWelsh, makeWelsh, removeWelsh, localify } = require('./common/urls');
-const {
-    renderError,
-    renderNotFound,
-    renderUnauthorised
-} = require('./controllers/errors');
 const { SENTRY_DSN } = require('./common/secrets');
 const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
 const viewFilters = require('./common/filters');
+const cspDirectives = require('./common/csp-directives');
 
-const { defaultSecurityHeaders } = require('./middleware/securityHeaders');
 const { injectCopy, injectHeroImage } = require('./middleware/inject-content');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const cached = require('./middleware/cached');
@@ -44,6 +41,12 @@ const portalMiddleware = require('./middleware/portal');
 const previewMiddleware = require('./middleware/preview');
 const sessionMiddleware = require('./middleware/session');
 const vanityMiddleware = require('./middleware/vanity');
+
+const {
+    renderError,
+    renderNotFound,
+    renderUnauthorised
+} = require('./controllers/errors');
 
 /**
  * Configure Sentry client
@@ -124,8 +127,7 @@ function initAppLocals() {
     /**
      * Hotjar ID
      */
-    app.locals.hotjarId =
-        config.get('features.enableHotjar') && config.get('hotjarId');
+    app.locals.hotjarId = features.enableHotjar && config.get('hotjarId');
 }
 
 initAppLocals();
@@ -173,7 +175,19 @@ app.use(i18nMiddleware);
 app.use(cached.defaultVary);
 app.use(cached.defaultCacheControl);
 app.use(loggerMiddleware);
-app.use(defaultSecurityHeaders());
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: cspDirectives({
+                enableHotjar: features.enableHojtar,
+                allowLocalhost: features.enableAllowLocalhost
+            }),
+            browserSniff: false
+        },
+        dnsPrefetchControl: { allow: true },
+        frameguard: { action: 'sameorigin' }
+    })
+);
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
