@@ -8,6 +8,7 @@ const {
     injectBreadcrumbs,
     injectCopy,
     injectFlexibleContent,
+    injectHeroImage,
     injectListingContent
 } = require('../../middleware/inject-content');
 const { isWelsh } = require('../../common/urls');
@@ -16,44 +17,49 @@ const contentApi = require('../../common/content-api');
 function staticPage({
     lang = null,
     template = null,
+    heroSlug = null,
     projectStorySlugs = [],
     disableLanguageLink = false
 } = {}) {
     const router = express.Router();
 
-    router.get('/', injectCopy(lang), injectBreadcrumbs, async function(
-        req,
-        res,
-        next
-    ) {
-        const { copy } = res.locals;
-        const shouldRedirectLang =
-            (disableLanguageLink === true || isEmpty(copy)) &&
-            isWelsh(req.originalUrl);
-        if (shouldRedirectLang) {
-            next();
-        } else {
-            /**
-             * Inject project stories if we've been provided any slugs to fetch
-             */
-            if (projectStorySlugs.length > 0) {
-                try {
-                    res.locals.stories = await contentApi.getProjectStories({
-                        locale: req.i18n.getLocale(),
-                        slugs: projectStorySlugs
-                    });
-                } catch (error) {
-                    Sentry.captureException(error);
+    router.get(
+        '/',
+        injectHeroImage(heroSlug),
+        injectCopy(lang),
+        injectBreadcrumbs,
+        async function(req, res, next) {
+            const { copy } = res.locals;
+            const shouldRedirectLang =
+                (disableLanguageLink === true || isEmpty(copy)) &&
+                isWelsh(req.originalUrl);
+            if (shouldRedirectLang) {
+                next();
+            } else {
+                /**
+                 * Inject project stories if we've been provided any slugs to fetch
+                 */
+                if (projectStorySlugs.length > 0) {
+                    try {
+                        res.locals.stories = await contentApi.getProjectStories(
+                            {
+                                locale: req.i18n.getLocale(),
+                                slugs: projectStorySlugs
+                            }
+                        );
+                    } catch (error) {
+                        Sentry.captureException(error);
+                    }
                 }
-            }
 
-            res.render(template, {
-                title: copy.title,
-                description: copy.description || false,
-                isBilingual: disableLanguageLink === false
-            });
+                res.render(template, {
+                    title: copy.title,
+                    description: copy.description || false,
+                    isBilingual: disableLanguageLink === false
+                });
+            }
         }
-    });
+    );
 
     return router;
 }
