@@ -312,15 +312,23 @@ describe('awards for all', function() {
         }
 
         function fillDateParts(momentInstance) {
-            cy.getByLabelText('Day')
-                .clear()
-                .type(momentInstance.date());
-            cy.getByLabelText('Month')
-                .clear()
-                .type(momentInstance.month() + 1);
-            cy.getByLabelText('Year')
-                .clear()
-                .type(momentInstance.year());
+            cy.getAllByLabelText('Day').each($el => {
+                cy.wrap($el)
+                    .clear()
+                    .type(momentInstance.date());
+            });
+
+            cy.getAllByLabelText('Month').each($el => {
+                cy.wrap($el)
+                    .clear()
+                    .type(momentInstance.month() + 1);
+            });
+
+            cy.getAllByLabelText('Year').each($el => {
+                cy.wrap($el)
+                    .clear()
+                    .type(momentInstance.year());
+            });
         }
 
         function fillAddress() {
@@ -347,7 +355,9 @@ describe('awards for all', function() {
 
             submitStep();
 
-            shouldDisplayErrors(['Date you start the project must be after']);
+            shouldDisplayErrors([
+                'Date you start or end the project must be after'
+            ]);
             cy.checkA11y();
 
             const validDate = moment().add('12', 'weeks');
