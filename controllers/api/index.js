@@ -4,9 +4,8 @@ const request = require('request-promise-native');
 const Joi = require('@hapi/joi');
 const Sentry = require('@sentry/node');
 
-const feedbackService = require('../../services/feedback');
 const { purifyUserInput } = require('../../modules/validators');
-const { SurveyAnswer } = require('../../db/models');
+const { Feedback, SurveyAnswer } = require('../../db/models');
 const appData = require('../../modules/appData');
 
 const router = express.Router();
@@ -90,9 +89,9 @@ router.post('/feedback', async (req, res) => {
         });
     } else {
         try {
-            const result = await feedbackService.storeFeedback({
+            const result = await Feedback.storeFeedback({
                 description: validationResult.value.description,
-                message: validationResult.value.message
+                message: purifyUserInput(validationResult.value.message)
             });
 
             res.json({
