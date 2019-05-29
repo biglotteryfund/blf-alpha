@@ -115,11 +115,14 @@ app.get('/status', noCache, (req, res) => {
 });
 
 /**
- * Robots
- * status endpoint, sitemap, robots.txt
- * Mount early to avoid being processed by any middleware
+ * Robots.txt
  */
-app.use('/', require('./controllers/robots'));
+app.use('/robots.txt', require('./controllers/robots'));
+
+/**
+ * Site-map
+ */
+app.use('/sitemap.xml', require('./controllers/sitemap'));
 
 /**
  * Static asset paths
