@@ -3,7 +3,7 @@ const path = require('path');
 
 const processor = require('./processor');
 const { PROJECT_LOCATIONS } = require('./helpers');
-const { validateIsEmail } = require('../helpers');
+const { validateIsEmail } = require('../form-router/helpers');
 
 const formLang = 'apply.reachingCommunities';
 

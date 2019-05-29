@@ -8,7 +8,7 @@ const { get, map } = require('lodash');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-const { flattenFormData, stepsWithValues } = require('../helpers');
+const { flattenFormData, stepsWithValues } = require('../form-router/helpers');
 const form = require('./form-model');
 const processor = require('./processor');
 

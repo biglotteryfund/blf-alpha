@@ -1,0 +1,21 @@
+{% macro emailSummary(stepsCopy, fieldsCopy, summary) %}
+    <div class="summary">
+        {% for step in summary -%}
+            {% set stepCopy = stepsCopy[loop.index0] %}
+            <h4>{{ stepCopy.name or step.name }}</h4>
+            {% for fieldset in step.fieldsets -%}
+                {% for field in fieldset.fields %}
+                    {% set fieldCopy = fieldsCopy[field.name] %}
+                    {% if field.value %}
+                        <h5>{{ fieldCopy.label }}</h5>
+                        {% if field.type === 'textarea' %}
+                            <p>{{ field.value | striptags(true) | escape | nl2br }}</p>
+                        {% else %}
+                            <p>{{ field.value }}</p>
+                        {% endif %}
+                    {% endif %}
+                {%- endfor %}
+            {%- endfor %}
+        {% endfor %}
+    </div>
+{% endmacro %}
