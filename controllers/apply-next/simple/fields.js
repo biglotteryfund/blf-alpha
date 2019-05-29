@@ -353,7 +353,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     cy: ''
                 }),
                 explanation: localise({
-                    en: `<p>My organisation is a voluntary or community organisaton and is a registered charity, but <strong>is not</strong> a company registered with Companies House</p>`,
+                    en: `<p>My organisation is a voluntary or community organisation and is a registered charity, but <strong>is not</strong> a company registered with Companies House</p>`,
                     cy: ``
                 })
             },
@@ -372,7 +372,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
                 label: localise({ en: 'Not-for-profit company', cy: '' }),
                 explanation: localise({
-                    en: `<p>My organisation is a not-for-profit company registered with Companies House, and <strong>may also</strong> be regisered as a charity</p>`,
+                    en: `<p>My organisation is a not-for-profit company registered with Companies House, and <strong>may also</strong> be registered as a charity</p>`,
                     cy: ``
                 })
             },
@@ -391,7 +391,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 value: ORGANISATION_TYPES.STATUTORY_BODY,
                 label: localise({ en: 'Statutory body', cy: '' }),
                 explanation: localise({
-                    en: `<p>My organsation is a public body, such as a local authority, parsih council, or police or health authority</p>`,
+                    en: `<p>My organisation is a public body, such as a local authority, parish council, or police or health authority</p>`,
                     cy: ''
                 })
             }
@@ -609,36 +609,66 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        projectStartDate: {
-            name: 'projectStartDate',
+        projectDateRange: {
+            name: 'projectDateRange',
             label: localise({
-                en: `When is the planned (or estimated) start date of your project?`,
+                en: `When is the planned (or estimated) start and end date of your project?`,
                 cy: ``
             }),
             get settings() {
-                const dt = moment().add(12, 'weeks');
+                const minStart = {
+                    amount: 12,
+                    units: 'weeks'
+                };
+                const minStartDate = moment().add(
+                    minStart.amount,
+                    minStart.units
+                );
                 return {
-                    minDateExample: dt.format('DD MM YYYY'),
-                    fromDateExample: dt
+                    minStart: minStart,
+                    minDateExample: minStartDate.format('DD MM YYYY'),
+                    fromDateExample: minStartDate
                         .subtract(1, 'days')
                         .format('D MMMM YYYY'),
-                    minYear: dt.format('YYYY')
+                    minYear: minStartDate.format('YYYY'),
+                    maxDurationFromStart: {
+                        amount: 1,
+                        units: 'years',
+                        label: localise({
+                            en: `one year`,
+                            cy: ``
+                        })
+                    }
                 };
             },
             get explanation() {
                 return localise({
-                    en: `<p>This date needs to be at least 12 weeks from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
-                <p><strong>For example: ${
-                    this.settings.minDateExample
-                }</strong></p>`,
+                    en: `<p>The start date needs to be at least ${
+                        this.settings.minStart.amount
+                    } ${
+                        this.settings.minStart.units
+                    } from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
+                    <p><strong>For example: ${
+                        this.settings.minDateExample
+                    }</strong>.</p>
+                    <p>The project end date must be within ${
+                        this.settings.maxDurationFromStart.label
+                    }
+                     of the start date.</p>`,
                     cy: ''
                 });
             },
-            type: 'date',
+            type: 'date-range',
             isRequired: true,
             get schema() {
                 const minDate = moment().add('12', 'weeks');
-                return Joi.dateParts().futureDate(minDate.format('YYYY-MM-DD'));
+                return Joi.dateRange()
+                    .minDate(minDate.format('YYYY-MM-DD'))
+                    .futureEndDate()
+                    .endDateLimit(
+                        this.settings.maxDurationFromStart.amount,
+                        this.settings.maxDurationFromStart.units
+                    );
             },
             get messages() {
                 return [
@@ -647,15 +677,48 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         message: localise({ en: 'Enter a date', cy: '' })
                     },
                     {
-                        type: 'any.invalid',
-                        message: localise({ en: 'Enter a real date', cy: '' })
+                        type: 'dates.both.invalid',
+                        message: localise({
+                            en: 'Enter a valid start and end date',
+                            cy: ''
+                        })
                     },
                     {
-                        type: 'dateParts.futureDate',
+                        type: 'dates.start.invalid',
                         message: localise({
-                            en: `Date you start the project must be after ${
+                            en: 'Enter a valid start date',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dates.end.invalid',
+                        message: localise({
+                            en: 'Enter a valid end date',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dates.minDate.invalid',
+                        message: localise({
+                            en: `Date you start or end the project must be after ${
                                 this.settings.fromDateExample
                             }`,
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dates.endDate.beforeStartDate',
+                        message: localise({
+                            en: `End date must be after start date`,
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dates.endDate.outsideLimit',
+                        message: localise({
+                            en: `End date must be within ${
+                                this.settings.maxDurationFromStart.label
+                            } of the start date.`,
                             cy: ''
                         })
                     }
@@ -1067,7 +1130,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     <li>people of a particular ethnic background, gender, age or religious belief</li>
                     <li>disabled people</li>
                     <li>lesbian, gay or bisexual people</li>
-                    <li>people with caring responsibilties</li>
+                    <li>people with caring responsibilities</li>
                 </ul>`,
                 cy: ``
             }),
@@ -1175,7 +1238,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
-        beneficiariesEthnicBakground: {
+        beneficiariesEthnicBackground: {
             name: 'beneficiariesGroupsEthnicBackground',
             label: localise({ en: `Ethnic background`, cy: '' }),
             explanation: localise({

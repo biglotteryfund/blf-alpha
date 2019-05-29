@@ -319,12 +319,24 @@ describe('awards for all', function() {
             cy.getByLabelText('Day')
                 .clear()
                 .type(momentInstance.date());
+
             cy.getByLabelText('Month')
                 .clear()
                 .type(momentInstance.month() + 1);
+
             cy.getByLabelText('Year')
                 .clear()
                 .type(momentInstance.year());
+        }
+
+        function fillAllDateFields(momentInstance) {
+            ['Start date', 'End date'].forEach(dateFieldName => {
+                cy.getByText(dateFieldName)
+                    .parent()
+                    .within(() => {
+                        fillDateParts(momentInstance);
+                    });
+            });
         }
 
         function fillAddress() {
@@ -347,15 +359,17 @@ describe('awards for all', function() {
             }).type('My application');
 
             const invalidDate = moment();
-            fillDateParts(invalidDate);
+            fillAllDateFields(invalidDate);
 
             submitStep();
 
-            shouldDisplayErrors(['Date you start the project must be after']);
+            shouldDisplayErrors([
+                'Date you start or end the project must be after'
+            ]);
             cy.checkA11y();
 
             const validDate = moment().add('12', 'weeks');
-            fillDateParts(validDate);
+            fillAllDateFields(validDate);
 
             submitStep();
         }

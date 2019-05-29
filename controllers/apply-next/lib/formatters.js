@@ -70,6 +70,22 @@ function formatDate(value) {
     return dt.isValid() ? dt.format('D MMMM, YYYY') : '';
 }
 
+function formatDateRange(value) {
+    if (!value.start || !value.end) {
+        return '';
+    }
+    const dates = {
+        start: fromDateParts(value.start),
+        end: fromDateParts(value.end)
+    };
+    if (!dates.start.isValid() || !dates.end.isValid()) {
+        return '';
+    }
+    return `${dates.start.format('D MMMM, YYYY')}–${dates.end.format(
+        'D MMMM, YYYY'
+    )}`;
+}
+
 function formatDayMonth(value) {
     const dt = moment({
         year: moment().year(),
@@ -119,6 +135,9 @@ function formatterFor(field) {
             break;
         case 'date':
             formatter = formatDate;
+            break;
+        case 'date-range':
+            formatter = formatDateRange;
             break;
         case 'day-month':
             formatter = formatDayMonth;

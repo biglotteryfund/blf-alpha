@@ -248,22 +248,6 @@ describe('fields', () => {
         });
     });
 
-    function assertRequiredForOrganistionTypes(field, requiredTypes) {
-        const schemaWithOrgType = {
-            'organisationType': fields.organisationType.schema,
-            [field.name]: field.schema
-        };
-
-        const requiredOrgTypes = requiredTypes;
-        requiredOrgTypes.forEach(type => {
-            const { error } = Joi.validate(
-                { organisationType: type },
-                schemaWithOrgType
-            );
-            expect(error.message).toContain('is required');
-        });
-    }
-
     describe('accountingYearDate', () => {
         test('must be a valid day and month', () => {
             assertValid(fields.accountingYearDate, { day: 12, month: 2 });

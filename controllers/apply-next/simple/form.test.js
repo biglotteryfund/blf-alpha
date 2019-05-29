@@ -62,18 +62,28 @@ describe('form model', () => {
     });
 
     test('project start date must be at least 12 weeks in the future', () => {
-        function value(val) {
-            return { projectStartDate: val };
+        function value(start, end) {
+            return {
+                projectDateRange: { start, end }
+            };
         }
 
-        assertValidByKey(value(mockStartDate(12)));
-        assertMessagesByKey(value(null), ['Enter a date']);
-        assertMessagesByKey(value({ day: 31, month: 2, year: 2030 }), [
-            'Enter a real date'
-        ]);
-        assertMessagesByKey(value(mockStartDate(6)), [
-            expect.stringMatching(/Date you start the project must be after/)
-        ]);
+        assertValidByKey(value(mockStartDate(12), mockStartDate(30)));
+        assertMessagesByKey(value(null, null), ['Enter a date']);
+        assertMessagesByKey(
+            value(
+                { day: 31, month: 2, year: 2030 },
+                { day: 31, month: 24, year: 2030 }
+            ),
+            ['Enter a valid start and end date']
+        );
+        assertMessagesByKey(
+            value(
+                { day: 1, month: 1, year: 2020 },
+                { day: 1, month: 1, year: 2030 }
+            ),
+            [expect.stringMatching(/End date must be within/)]
+        );
     });
 
     test('welsh language question required for applicants in Wales', () => {

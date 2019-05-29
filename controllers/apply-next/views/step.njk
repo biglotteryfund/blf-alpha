@@ -2,7 +2,7 @@
 {% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
-{% block title %}{{ step.title }} | {{ section.shortTitle or section.title }} | {{ formTitle }}{% endblock %}
+{% block title %}{{ step.title }} | {{ section.shortTitle or section.title }} | {{ formTitle }} | {% endblock %}
 
 {% block content %}
     <main role="main" id="content">

@@ -46,7 +46,10 @@ function mockFullForm({
     return {
         projectName: faker.lorem.words(5),
         projectCountry: country,
-        projectStartDate: mockStartDate(12),
+        projectDateRange: {
+            start: mockStartDate(12),
+            end: mockStartDate(30)
+        },
         projectLocation: 'west-midlands',
         projectLocationDescription: faker.lorem.sentence(),
         projectPostcode: 'B15 1TR',

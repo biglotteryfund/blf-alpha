@@ -64,7 +64,7 @@ module.exports = function({ locale, data = {} }) {
                 fieldsets: [
                     {
                         legend: localise({ en: 'Project details', cy: '' }),
-                        fields: [fields.projectName, fields.projectStartDate]
+                        fields: [fields.projectName, fields.projectDateRange]
                     }
                 ]
             },
@@ -135,7 +135,7 @@ module.exports = function({ locale, data = {} }) {
             let result;
             switch (type) {
                 case BENEFICIARY_GROUPS.ETHNIC_BACKGROUND:
-                    result = [fields.beneficiariesEthnicBakground];
+                    result = [fields.beneficiariesEthnicBackground];
                     break;
                 case BENEFICIARY_GROUPS.GENDER:
                     result = [fields.beneficiariesGroupsGender];
@@ -593,7 +593,7 @@ module.exports = function({ locale, data = {} }) {
     ];
 
     function summary() {
-        const startDate = get('projectStartDate')(data);
+        const startDate = get('projectDateRange.start')(data);
         const organisation = get('organisationLegalName')(data);
         const budget = getOr([], 'projectBudget')(data);
         const budgetSum = sumBy(budget, item => parseInt(item.cost || 0));
