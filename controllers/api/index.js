@@ -89,7 +89,7 @@ router.post('/feedback', async (req, res) => {
         });
     } else {
         try {
-            const result = await Feedback.storeFeedback({
+            const [result] = await Feedback.storeFeedback({
                 description: validationResult.value.description,
                 message: purifyUserInput(validationResult.value.message)
             });
@@ -133,7 +133,7 @@ router.post('/survey', async (req, res) => {
         });
     } else {
         try {
-            const result = await SurveyAnswer.createResponse({
+            const [result] = await SurveyAnswer.createResponse({
                 choice: validationResult.value.choice,
                 path: validationResult.value.path,
                 message: purifyUserInput(validationResult.value.message)

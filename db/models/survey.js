@@ -30,17 +30,15 @@ class SurveyAnswer extends Model {
             .subtract(3, 'months')
             .toDate();
 
-        /**
-         * Clean up old responses before submission
-         */
         return Promise.all([
-            this.destroy({
-                where: { createdAt: { [Op.lte]: expiryDate } }
-            }),
             this.create({
                 choice: choice,
                 path: path,
                 message: message
+            }),
+            // Clean up old responses
+            this.destroy({
+                where: { createdAt: { [Op.lte]: expiryDate } }
             })
         ]);
     }

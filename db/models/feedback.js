@@ -22,19 +22,20 @@ class Feedback extends Model {
         });
     }
     static storeFeedback({ description, message }) {
+        const expiryDate = moment()
+            .subtract(3, 'months')
+            .toDate();
+
         return Promise.all([
-            this.destroy({
-                where: {
-                    createdAt: {
-                        [Op.lte]: moment()
-                            .subtract(3, 'months')
-                            .toDate()
-                    }
-                }
-            }),
             this.create({
                 description,
                 message
+            }),
+            // Clean up old responses
+            this.destroy({
+                where: {
+                    createdAt: { [Op.lte]: expiryDate }
+                }
             })
         ]);
     }
