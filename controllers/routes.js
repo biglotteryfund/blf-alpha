@@ -29,18 +29,18 @@ const toplevel = {
         },
         {
             path: '/northern-ireland',
-            lang: 'toplevel.northernIreland',
             heroSlug: 'cruse-bereavement-care-new',
             router: staticPage({
+                lang: 'toplevel.northernIreland',
                 disableLanguageLink: true,
                 template: 'static-pages/region'
             })
         },
         {
             path: '/wales',
-            lang: 'toplevel.wales',
             heroSlug: 'the-outdoor-partnership-new',
             router: staticPage({
+                lang: 'toplevel.wales',
                 template: 'static-pages/region'
             })
         },
@@ -83,18 +83,18 @@ const funding = {
         },
         {
             path: '/under10k',
-            lang: 'funding.under10k',
             heroSlug: 'funding-under-10k-new',
             router: staticPage({
+                lang: 'funding.under10k',
                 template: 'static-pages/under10k',
                 projectStorySlugs: ['hapani', 'niid', 'new-routes']
             })
         },
         {
             path: '/over10k',
-            lang: 'funding.over10k',
             heroSlug: 'headway-new',
             router: staticPage({
+                lang: 'funding.over10k',
                 template: 'static-pages/over10k',
                 projectStorySlugs: ['kvin', 'shettleston', 'rosies-trust']
             })
