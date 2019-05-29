@@ -3,21 +3,13 @@
 const { basicContent, flexibleContent, staticPage } = require('./common');
 
 /**
- * @typedef {object} Route
- * @property {string} path
- * @property {string} [heroSlug]
- * @property {function} [router]
- */
-
-/**
  * @typedef {object} Section
  * @property {string} path
- * @property {Array<Route>} pages
+ * @property {Array<{ path: string, router: function }>} pages
  */
 
 /**
  * Home and top-level routes
- * @type {Section}
  */
 const toplevel = {
     path: '',
@@ -135,12 +127,7 @@ const funding = {
  */
 const insights = {
     path: '/insights',
-    pages: [
-        {
-            path: '/',
-            router: require('./insights')
-        }
-    ]
+    pages: [{ path: '/', router: require('./insights') }]
 };
 
 /**
@@ -149,12 +136,7 @@ const insights = {
  */
 const talk = {
     path: '/contact',
-    pages: [
-        {
-            path: '/',
-            router: basicContent()
-        }
-    ]
+    pages: [{ path: '/', router: basicContent() }]
 };
 
 /**
@@ -164,18 +146,9 @@ const talk = {
 const about = {
     path: '/about',
     pages: [
-        {
-            path: '/',
-            router: flexibleContent()
-        },
-        {
-            path: '/our-people',
-            router: require('./our-people')
-        },
-        {
-            path: '/*',
-            router: basicContent()
-        }
+        { path: '/', router: flexibleContent() },
+        { path: '/our-people', router: require('./our-people') },
+        { path: '/*', router: basicContent() }
     ]
 };
 
@@ -185,12 +158,7 @@ const about = {
  */
 const updates = {
     path: '/news',
-    pages: [
-        {
-            path: '/',
-            router: require('./updates')
-        }
-    ]
+    pages: [{ path: '/', router: require('./updates') }]
 };
 
 module.exports = {

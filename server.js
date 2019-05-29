@@ -35,7 +35,6 @@ const {
     defaultCacheControl,
     noCache
 } = require('./middleware/cached');
-const { injectHeroImage } = require('./middleware/inject-content');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const domainRedirectMiddleware = require('./middleware/domain-redirect');
 const i18nMiddleware = require('./middleware/i18n');
@@ -277,15 +276,10 @@ forEach(routes, function(section, sectionId) {
     });
 
     /**
-     * Page-level logic
-     * Apply page level middleware and mount router if we have one
+     * Mount page router
      */
     section.pages.forEach(function(page) {
-        router.route(page.path).all(injectHeroImage(page.heroSlug));
-
-        if (page.router) {
-            router.use(page.path, page.router);
-        }
+        router.use(page.path, page.router);
     });
 
     /**
