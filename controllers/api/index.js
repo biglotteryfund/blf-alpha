@@ -5,7 +5,8 @@ const Joi = require('@hapi/joi');
 const Sentry = require('@sentry/node');
 
 const feedbackService = require('../../services/feedback');
-const surveyService = require('../../services/surveys');
+const { purifyUserInput } = require('../../modules/validators');
+const { SurveyAnswer } = require('../../db/models');
 const appData = require('../../modules/appData');
 
 const router = express.Router();
@@ -15,7 +16,8 @@ if (appData.isNotProduction) {
      * API: UK address lookup proxy
      * @TODO: Connect direct to service rather than via legacy domain
      */
-    const addressLookupEndpoint = 'https://apply.tnlcommunityfund.org.uk/AddressFinder.ashx';
+    const addressLookupEndpoint =
+        'https://apply.tnlcommunityfund.org.uk/AddressFinder.ashx';
     router.get('/address-lookup', async (req, res) => {
         if (req.query.q) {
             try {
@@ -132,10 +134,10 @@ router.post('/survey', async (req, res) => {
         });
     } else {
         try {
-            const result = await surveyService.createResponse({
+            const result = await SurveyAnswer.createResponse({
                 choice: validationResult.value.choice,
                 path: validationResult.value.path,
-                message: validationResult.value.message
+                message: purifyUserInput(validationResult.value.message)
             });
 
             res.json({

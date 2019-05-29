@@ -5,6 +5,9 @@ const appData = require('../../modules/appData');
 
 const env = process.env.NODE_ENV || 'development';
 const databaseConfig = require('../database-config')[env];
+
+const SurveyAnswer = require('./survey');
+
 debug(`Using ${databaseConfig.dialect} database`);
 
 const sequelize = new Sequelize(databaseConfig.url, databaseConfig);
@@ -21,19 +24,18 @@ sequelize
 /**
  * Register models and associations
  */
-const db = {};
-db.Users = sequelize.import('./user');
-db.Staff = sequelize.import('./staff');
-db.Feedback = sequelize.import('./feedback');
+const db = {
+    Users: sequelize.import('./user'),
+    Staff: sequelize.import('./staff'),
+    Feedback: sequelize.import('./feedback'),
+    SurveyAnswer: SurveyAnswer.init(sequelize, Sequelize),
+    Order: sequelize.import('./order'),
+    OrderItem: sequelize.import('./order-item')
+};
 
 if (appData.isNotProduction) {
     db.Application = sequelize.import('./application');
 }
-
-db.SurveyAnswer = sequelize.import('./survey');
-
-db.Order = sequelize.import('./order');
-db.OrderItem = sequelize.import('./order-item');
 
 Object.keys(db).forEach(modelName => {
     if ('associate' in db[modelName]) {

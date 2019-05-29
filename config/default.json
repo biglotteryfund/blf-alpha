@@ -40,6 +40,7 @@
     "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
     "enableRelatedGrants": false,
+    "enableSeeders": false,
     "enableSiteSurvey": true,
     "enableSalesforceConnector": false
   },
