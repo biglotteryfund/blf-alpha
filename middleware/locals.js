@@ -3,7 +3,7 @@ const config = require('config');
 const moment = require('moment');
 const { isString } = require('lodash');
 
-const { getCurrentUrl, getAbsoluteUrl, localify } = require('../modules/urls');
+const { getCurrentUrl, getAbsoluteUrl, localify } = require('../common/urls');
 
 const features = config.get('features');
 

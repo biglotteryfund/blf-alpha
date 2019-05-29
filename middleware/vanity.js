@@ -1,6 +1,6 @@
 'use strict';
 const { find } = require('lodash/fp');
-const contentApi = require('../modules/content-api');
+const contentApi = require('../common/content-api');
 
 /**
  * Vanity URL lookup

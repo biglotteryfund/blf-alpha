@@ -3,11 +3,11 @@ const path = require('path');
 const express = require('express');
 const { concat, isArray, pick, get } = require('lodash');
 
-const { buildPagination } = require('../../modules/pagination');
-const { buildArchiveUrl } = require('../../modules/archived');
-const { localify } = require('../../modules/urls');
+const { buildPagination } = require('../../common/pagination');
+const { buildArchiveUrl } = require('../../common/archived');
+const { localify } = require('../../common/urls');
 const { injectBreadcrumbs, injectCopy, injectHeroImage } = require('../../middleware/inject-content');
-const contentApi = require('../../modules/content-api');
+const contentApi = require('../../common/content-api');
 
 const router = express.Router();
 

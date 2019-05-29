@@ -2,9 +2,9 @@
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
-const { sendHtmlEmail } = require('../../modules/mail');
-const { getAbsoluteUrl } = require('../../modules/urls');
-const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
+const { sendHtmlEmail } = require('../../common/mail');
+const { getAbsoluteUrl } = require('../../common/urls');
+const { JWT_SIGNING_TOKEN } = require('../../common/secrets');
 
 async function sendActivationEmail(req, user, isExisting = false) {
     const payload = { data: { userId: user.id, reason: 'activate' } };

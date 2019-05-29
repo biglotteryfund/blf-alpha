@@ -1,9 +1,9 @@
 'use strict';
 const path = require('path');
 
-const appData = require('../../../modules/appData');
-const { generateHtmlEmail, sendEmail } = require('../../../modules/mail');
-const { DIGITAL_FUND_EMAIL } = require('../../../modules/secrets');
+const appData = require('../../../common/appData');
+const { generateHtmlEmail, sendEmail } = require('../../../common/mail');
+const { DIGITAL_FUND_EMAIL } = require('../../../common/secrets');
 
 /**
  * Process form submissions

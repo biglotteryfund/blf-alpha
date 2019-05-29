@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const { pick, clone } = require('lodash');
 
-const contentApi = require('../../modules/content-api');
+const contentApi = require('../../common/content-api');
 
 const {
     injectBreadcrumbs,
@@ -12,9 +12,9 @@ const {
     injectResearch,
     injectResearchEntry
 } = require('../../middleware/inject-content');
-const { buildArchiveUrl } = require('../../modules/archived');
-const { localify } = require('../../modules/urls');
-const { buildPagination } = require('../../modules/pagination');
+const { buildArchiveUrl } = require('../../common/archived');
+const { localify } = require('../../common/urls');
+const { buildPagination } = require('../../common/pagination');
 
 const router = express.Router();
 

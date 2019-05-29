@@ -3,8 +3,8 @@ const { flatten, get, getOr } = require('lodash/fp');
 const moment = require('moment');
 const Sentry = require('@sentry/node');
 
-const { localify } = require('../modules/urls');
-const contentApi = require('../modules/content-api');
+const { localify } = require('../common/urls');
+const contentApi = require('../common/content-api');
 
 /*
  * Populate hero image (with social image URLs too)

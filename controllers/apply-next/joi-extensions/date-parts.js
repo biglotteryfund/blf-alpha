@@ -1,6 +1,6 @@
 'use strict';
 const moment = require('moment');
-const { fromDateParts } = require('../../../modules/dates');
+const { fromDateParts } = require('../../../common/dates');
 
 module.exports = function dateParts(joi) {
     return {

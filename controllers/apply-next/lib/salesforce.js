@@ -1,6 +1,6 @@
 'use strict';
 const request = require('request-promise-native');
-const { SALESFORCE_AUTH } = require('../../../modules/secrets');
+const { SALESFORCE_AUTH } = require('../../../common/secrets');
 
 class Salesforce {
     constructor(url, token) {

@@ -3,7 +3,7 @@ const { clone, has } = require('lodash');
 const debug = require('debug')('tnlcf:a4a');
 const features = require('config').get('features');
 
-const { fromDateParts } = require('../../../modules/dates');
+const { fromDateParts } = require('../../../common/dates');
 const salesforceService = require('../lib/salesforce');
 
 function salesforceApplication(application) {

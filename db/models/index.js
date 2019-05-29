@@ -1,7 +1,7 @@
 'use strict';
 const Sequelize = require('sequelize');
 const debug = require('debug')('tnlcf:models');
-const appData = require('../../modules/appData');
+const appData = require('../../common/appData');
 
 const env = process.env.NODE_ENV || 'development';
 const databaseConfig = require('../database-config')[env];

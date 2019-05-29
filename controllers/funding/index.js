@@ -4,7 +4,7 @@ const express = require('express');
 
 const { injectHeroImage } = require('../../middleware/inject-content');
 const { sMaxAge } = require('../../middleware/cached');
-const contentApi = require('../../modules/content-api');
+const contentApi = require('../../common/content-api');
 
 const router = express.Router();
 

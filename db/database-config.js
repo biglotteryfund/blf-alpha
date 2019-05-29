@@ -1,6 +1,6 @@
 'use strict';
 const { startsWith } = require('lodash');
-const { DB_CONNECTION_URI } = require('../modules/secrets');
+const { DB_CONNECTION_URI } = require('../common/secrets');
 
 const commonConfig = {
     dialect: 'mysql',

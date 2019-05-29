@@ -11,7 +11,7 @@ const {
     sumBy
 } = require('lodash');
 
-const { fromDateParts } = require('../../../modules/dates');
+const { fromDateParts } = require('../../../common/dates');
 
 function formatRadio(field) {
     return function(value) {

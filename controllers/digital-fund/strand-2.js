@@ -4,7 +4,7 @@ const config = require('config');
 const express = require('express');
 const { concat } = require('lodash');
 
-const { localify } = require('../../modules/urls');
+const { localify } = require('../../common/urls');
 
 const features = config.get('features');
 

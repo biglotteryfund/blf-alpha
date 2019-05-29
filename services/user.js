@@ -2,7 +2,7 @@
 const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize');
 const { Users } = require('../db/models');
-const { purifyUserInput } = require('../modules/validators');
+const { purifyUserInput } = require('../common/validators');
 
 function encryptPassword(password) {
     const rounds = 12;

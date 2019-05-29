@@ -14,7 +14,7 @@ const {
     setHeroLocals
 } = require('../../middleware/inject-content');
 const { sMaxAge } = require('../../middleware/cached');
-const contentApi = require('../../modules/content-api');
+const contentApi = require('../../common/content-api');
 
 const grantsService = require('./lib/grants-service');
 const checkSpelling = require('./lib/check-spelling');

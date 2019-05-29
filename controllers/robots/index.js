@@ -5,11 +5,11 @@ const sitemap = require('sitemap');
 const domains = require('config').get('domains');
 const { includes, concat } = require('lodash');
 
-const { getBaseUrl, getAbsoluteUrl } = require('../../modules/urls');
-const { getCanonicalRoutes } = require('../../modules/route-helpers');
-const { legacyPagePaths, legacyFilesPath } = require('../../modules/archived');
+const { getBaseUrl, getAbsoluteUrl } = require('../../common/urls');
+const { getCanonicalRoutes } = require('../../common/route-helpers');
+const { legacyPagePaths, legacyFilesPath } = require('../../common/archived');
 const { noCache, sMaxAge } = require('../../middleware/cached');
-const appData = require('../../modules/appData');
+const appData = require('../../common/appData');
 
 const router = express.Router();
 

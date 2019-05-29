@@ -1,7 +1,7 @@
 'use strict';
 const express = require('express');
 
-const appData = require('../../modules/appData');
+const appData = require('../../common/appData');
 
 const router = express.Router();
 

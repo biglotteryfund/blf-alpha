@@ -4,9 +4,9 @@ const request = require('request-promise-native');
 const Joi = require('@hapi/joi');
 const Sentry = require('@sentry/node');
 
-const { purifyUserInput } = require('../../modules/validators');
+const { purifyUserInput } = require('../../common/validators');
 const { Feedback, SurveyAnswer } = require('../../db/models');
-const appData = require('../../modules/appData');
+const appData = require('../../common/appData');
 
 const router = express.Router();
 

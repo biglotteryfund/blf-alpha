@@ -16,7 +16,7 @@ const {
     unset
 } = require('lodash');
 
-const appData = require('../../modules/appData');
+const appData = require('../../common/appData');
 const applicationsService = require('../../services/applications');
 const cached = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');

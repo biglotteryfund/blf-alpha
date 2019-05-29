@@ -7,7 +7,7 @@ const path = require('path');
 const Sentry = require('@sentry/node');
 
 const cached = require('../../middleware/cached');
-const { localify } = require('../../modules/urls');
+const { localify } = require('../../common/urls');
 const { flattenFormData, stepWithValues, stepsWithValues } = require('./helpers');
 
 function initFormRouter(form) {

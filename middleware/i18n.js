@@ -1,6 +1,6 @@
 'use strict';
 const config = require('config');
-const { isWelsh } = require('../modules/urls');
+const { isWelsh } = require('../common/urls');
 
 module.exports = function(req, res, next) {
     let localePrefix = '';

@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const contentApi = require('../../modules/content-api');
+const contentApi = require('../../common/content-api');
 
 const router = express.Router();
 
