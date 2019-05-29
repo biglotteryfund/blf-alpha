@@ -46,7 +46,6 @@ const toplevel = {
         },
         {
             path: '/data',
-            lang: 'toplevel.data',
             heroSlug: 'fsn-new',
             router: require('./data')
         },

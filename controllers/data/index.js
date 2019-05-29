@@ -4,10 +4,11 @@ const express = require('express');
 const { get } = require('lodash');
 
 const contentApi = require('../../common/content-api');
+const { injectCopy } = require('../../middleware/inject-content');
 
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get('/', injectCopy('toplevel.data'), async (req, res, next) => {
     const locale = req.i18n.getLocale();
 
     try {
@@ -23,7 +24,10 @@ router.get('/', async (req, res, next) => {
 
         res.locals.openGraph = get(dataStats, 'openGraph', false);
 
-        res.render(path.resolve(__dirname, './views/data'), { title: dataStats.title, dataStats });
+        res.render(path.resolve(__dirname, './views/data'), {
+            title: dataStats.title,
+            dataStats
+        });
     } catch (error) {
         next(error);
     }
