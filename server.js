@@ -3,6 +3,7 @@ const { forEach } = require('lodash');
 const config = require('config');
 const path = require('path');
 const express = require('express');
+const moment = require('moment');
 const i18n = require('i18n-2');
 const yaml = require('js-yaml');
 const nunjucks = require('nunjucks');
@@ -29,9 +30,13 @@ const routes = require('./controllers/routes');
 const viewFilters = require('./common/filters');
 const cspDirectives = require('./common/csp-directives');
 
+const {
+    defaultVary,
+    defaultCacheControl,
+    noCache
+} = require('./middleware/cached');
 const { injectCopy, injectHeroImage } = require('./middleware/inject-content');
 const bodyParserMiddleware = require('./middleware/bodyParser');
-const cached = require('./middleware/cached');
 const domainRedirectMiddleware = require('./middleware/domain-redirect');
 const i18nMiddleware = require('./middleware/i18n');
 const localsMiddleware = require('./middleware/locals');
@@ -86,6 +91,28 @@ i18n.expressBind(app, {
  * Redirect requests from www.biglotteryfund.org.uk
  */
 app.use(domainRedirectMiddleware);
+
+/**
+ * Status endpoint
+ * Mount first
+ */
+const LAUNCH_DATE = moment();
+app.get('/status', noCache, (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
+    );
+
+    res.json({
+        APP_ENV: appData.environment,
+        DEPLOY_ID: appData.deployId,
+        COMMIT_ID: appData.commitId,
+        BUILD_NUMBER: appData.buildNumber,
+        START_DATE: LAUNCH_DATE.format('dddd, MMMM Do YYYY, h:mm:ss a'),
+        UPTIME: LAUNCH_DATE.toNow(true)
+    });
+});
 
 /**
  * Robots
@@ -172,8 +199,8 @@ initViewEngine();
  */
 app.use(slashes(false));
 app.use(i18nMiddleware);
-app.use(cached.defaultVary);
-app.use(cached.defaultCacheControl);
+app.use(defaultVary);
+app.use(defaultCacheControl);
 app.use(loggerMiddleware);
 app.use(
     helmet({
