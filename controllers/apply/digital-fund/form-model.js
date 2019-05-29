@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
 
-const { validateIsEmail } = require('../helpers');
+const { validateIsEmail } = require('../form-router/helpers');
 const processor = require('./processor');
 
 function buildStrand(strandNumber) {

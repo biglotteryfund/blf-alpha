@@ -1,5 +1,5 @@
 {% extends "views/layouts/emails.njk" %}
-{% from "../views/view-helpers.njk" import emailSummary %}
+{% from "../form-router/views/view-helpers.njk" import emailSummary %}
 
 {% block content %}
     <h1>A customer has submitted an idea from the {{ title }} web form.</h1>

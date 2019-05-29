@@ -1,6 +1,6 @@
 'use strict';
 const { cloneDeep, find, flatMap } = require('lodash');
-const { check } = require('express-validator/check');
+const { check } = require('express-validator/check/index');
 
 function flattenFormData(formData) {
     return Object.assign({}, ...flatMap(formData));

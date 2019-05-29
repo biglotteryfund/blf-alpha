@@ -6,9 +6,14 @@ const express = require('express');
 const path = require('path');
 const Sentry = require('@sentry/node');
 
-const cached = require('../../middleware/cached');
-const { localify } = require('../../common/urls');
-const { flattenFormData, stepWithValues, stepsWithValues } = require('./helpers');
+const cached = require('../../../middleware/cached');
+const { localify } = require('../../../common/urls');
+
+const {
+    flattenFormData,
+    stepWithValues,
+    stepsWithValues
+} = require('./helpers');
 
 function initFormRouter(form) {
     const router = express.Router();
@@ -27,11 +32,20 @@ function initFormRouter(form) {
                     .not()
                     .isEmpty()
                     .withMessage((value, { req }) => {
-                        const formCopy = form.lang ? req.i18n.__(form.lang) : {};
-                        const errorMessage = get(formCopy, `fields.${field.name}.errorMessage`);
+                        const formCopy = form.lang
+                            ? req.i18n.__(form.lang)
+                            : {};
+                        const errorMessage = get(
+                            formCopy,
+                            `fields.${field.name}.errorMessage`
+                        );
                         // @TODO: Translate fallback error message;
-                        const fallbackErrorMessage = `${field.label} must be provided`;
-                        return req.i18n.__(errorMessage || fallbackErrorMessage);
+                        const fallbackErrorMessage = `${
+                            field.label
+                        } must be provided`;
+                        return req.i18n.__(
+                            errorMessage || fallbackErrorMessage
+                        );
                     });
             } else {
                 return check(field.name)
@@ -68,7 +82,10 @@ function initFormRouter(form) {
 
     function getStepProgress({ baseUrl, currentStepNumber }) {
         return {
-            prevStepUrl: currentStepNumber > 1 ? `${baseUrl}/${currentStepNumber - 1}` : baseUrl,
+            prevStepUrl:
+                currentStepNumber > 1
+                    ? `${baseUrl}/${currentStepNumber - 1}`
+                    : baseUrl,
             currentStepNumber: currentStepNumber,
             totalSteps: totalSteps
         };
@@ -113,13 +130,19 @@ function initFormRouter(form) {
                 form: form,
                 stepCopy: stepCopy,
                 step: stepWithValues(step, stepData),
-                stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber }),
+                stepProgress: getStepProgress({
+                    baseUrl: req.baseUrl,
+                    currentStepNumber
+                }),
                 errors: errors
             });
         }
 
         function renderStepIfAllowed(req, res) {
-            if (currentStepNumber > 1 && isEmpty(getFormSession(req, currentStepNumber - 1))) {
+            if (
+                currentStepNumber > 1 &&
+                isEmpty(getFormSession(req, currentStepNumber - 1))
+            ) {
                 res.redirect(req.baseUrl);
             } else {
                 renderStep(req, res);
@@ -131,15 +154,24 @@ function initFormRouter(form) {
                 const sessionProp = getSessionProp(currentStepNumber);
                 const stepData = get(req.session, sessionProp, {});
                 const bodyData = matchedData(req, { locations: ['body'] });
-                set(req.session, sessionProp, Object.assign(stepData, bodyData));
+                set(
+                    req.session,
+                    sessionProp,
+                    Object.assign(stepData, bodyData)
+                );
 
                 req.session.save(() => {
                     const errors = validationResult(req);
                     if (errors.isEmpty()) {
-                        if (isEditing === true || currentStepNumber === form.steps.length) {
+                        if (
+                            isEditing === true ||
+                            currentStepNumber === form.steps.length
+                        ) {
                             res.redirect(`${req.baseUrl}/review`);
                         } else {
-                            res.redirect(`${req.baseUrl}/${currentStepNumber + 1}`);
+                            res.redirect(
+                                `${req.baseUrl}/${currentStepNumber + 1}`
+                            );
                         }
                     } else {
                         renderStep(req, res, errors.array());
@@ -165,7 +197,9 @@ function initFormRouter(form) {
             .all(cached.csrfProtection)
             .get(function(req, res) {
                 const formSession = getFormSession(req);
-                const completedSteps = Object.keys(formSession).filter(key => /^step-/.test(key)).length;
+                const completedSteps = Object.keys(formSession).filter(key =>
+                    /^step-/.test(key)
+                ).length;
                 if (completedSteps < totalSteps - 1) {
                     res.redirect(req.originalUrl.replace('/edit', ''));
                 } else {
@@ -201,7 +235,10 @@ function initFormRouter(form) {
                     form: form,
                     title: stepCopy.title,
                     stepCopy: stepCopy,
-                    stepProgress: getStepProgress({ baseUrl: req.baseUrl, currentStepNumber: totalSteps }),
+                    stepProgress: getStepProgress({
+                        baseUrl: req.baseUrl,
+                        currentStepNumber: totalSteps
+                    }),
                     summary: stepsWithValues(form.steps, formData),
                     baseUrl: req.baseUrl,
                     csrfToken: req.csrfToken()
