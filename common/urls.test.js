@@ -9,7 +9,7 @@ const {
     localify,
     sanitiseUrlPath,
     stripTrailingSlashes
-} = require('../urls');
+} = require('./urls');
 
 const httpMocks = require('node-mocks-http');
 
@@ -20,7 +20,7 @@ describe('URL Helpers', () => {
                 method: 'GET',
                 url: '/some/example/url/',
                 headers: {
-                    Host: 'example.com',
+                    'Host': 'example.com',
                     'X-Forwarded-Proto': 'https'
                 }
             });
@@ -33,7 +33,7 @@ describe('URL Helpers', () => {
                 method: 'GET',
                 url: '/welsh/some/example/url/',
                 headers: {
-                    Host: 'example.com',
+                    'Host': 'example.com',
                     'X-Forwarded-Proto': 'https'
                 }
             });
@@ -48,18 +48,26 @@ describe('URL Helpers', () => {
                     method: 'GET',
                     url: `/some/example/url?${query}`,
                     headers: {
-                        Host: 'example.com',
+                        'Host': 'example.com',
                         'X-Forwarded-Proto': 'https'
                     }
                 });
             }
-            expect(getCurrentUrl(withQuery('version=123'))).toBe('/some/example/url');
-            expect(getCurrentUrl(withQuery('draft=123'))).toBe('/some/example/url');
-            expect(getCurrentUrl(withQuery('version=123&something=else'))).toBe('/some/example/url?something=else');
-            expect(getCurrentUrl(withQuery('draft=2&something=else'))).toBe('/some/example/url?something=else');
-            expect(getCurrentUrl(withQuery('version=123&draft=2&something=else'))).toBe(
+            expect(getCurrentUrl(withQuery('version=123'))).toBe(
+                '/some/example/url'
+            );
+            expect(getCurrentUrl(withQuery('draft=123'))).toBe(
+                '/some/example/url'
+            );
+            expect(getCurrentUrl(withQuery('version=123&something=else'))).toBe(
                 '/some/example/url?something=else'
             );
+            expect(getCurrentUrl(withQuery('draft=2&something=else'))).toBe(
+                '/some/example/url?something=else'
+            );
+            expect(
+                getCurrentUrl(withQuery('version=123&draft=2&something=else'))
+            ).toBe('/some/example/url?something=else');
         });
     });
 
@@ -80,10 +88,18 @@ describe('URL Helpers', () => {
 
     describe('#localify', () => {
         it('should return correct url for a given locale', () => {
-            expect(localify('en')('/funding/programmes')).toBe('/funding/programmes');
-            expect(localify('cy')('/funding/programmes')).toBe('/welsh/funding/programmes');
-            expect(localify('en')('/welsh/funding/programmes')).toBe('/funding/programmes');
-            expect(localify('cy')('/welsh/funding/programmes')).toBe('/welsh/funding/programmes');
+            expect(localify('en')('/funding/programmes')).toBe(
+                '/funding/programmes'
+            );
+            expect(localify('cy')('/funding/programmes')).toBe(
+                '/welsh/funding/programmes'
+            );
+            expect(localify('en')('/welsh/funding/programmes')).toBe(
+                '/funding/programmes'
+            );
+            expect(localify('cy')('/welsh/funding/programmes')).toBe(
+                '/welsh/funding/programmes'
+            );
         });
     });
 
@@ -107,7 +123,7 @@ describe('URL Helpers', () => {
                         method: 'GET',
                         protocol: 'http',
                         headers: {
-                            Host: 'example.org.uk',
+                            'Host': 'example.org.uk',
                             'X-Forwarded-Proto': 'https'
                         }
                     })
@@ -121,7 +137,9 @@ describe('URL Helpers', () => {
             expect(hasTrailingSlash('/foo/')).toBe(true);
             expect(hasTrailingSlash('/welsh/')).toBe(true);
             expect(hasTrailingSlash('/path/to/longer/url/')).toBe(true);
-            expect(hasTrailingSlash('/path/without/trailing/slash')).toBe(false);
+            expect(hasTrailingSlash('/path/without/trailing/slash')).toBe(
+                false
+            );
         });
 
         it('should not consider homepage as having a trailing slash', () => {
@@ -143,7 +161,9 @@ describe('URL Helpers', () => {
     describe('#sanitiseUrlPath', () => {
         it('should sanitise url path', () => {
             expect(sanitiseUrlPath('/about/')).toBe('about');
-            expect(sanitiseUrlPath('/welsh/path/to/something/')).toBe('path/to/something');
+            expect(sanitiseUrlPath('/welsh/path/to/something/')).toBe(
+                'path/to/something'
+            );
         });
     });
 });
