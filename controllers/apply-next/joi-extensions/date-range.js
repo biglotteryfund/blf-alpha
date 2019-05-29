@@ -2,7 +2,7 @@
 const { fromDateParts } = require('../../../modules/dates');
 
 module.exports = function dateParts(joi) {
-    const dateParts = {
+    const datePartsConfig = {
         day: joi
             .number()
             .integer()
@@ -19,8 +19,8 @@ module.exports = function dateParts(joi) {
     return {
         name: 'dateRange',
         base: joi.object({
-            start: dateParts,
-            end: dateParts
+            start: datePartsConfig,
+            end: datePartsConfig
         }),
         language: {
             futureDate: 'Date must be at least {{min}}',

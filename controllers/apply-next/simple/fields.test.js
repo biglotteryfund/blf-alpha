@@ -248,7 +248,7 @@ describe('fields', () => {
         });
     });
 
-    function assertRequiredForOrganistionTypes(field, requiredTypes) {
+    function assertRequiredForOrganisationTypes(field, requiredTypes) {
         const schemaWithOrgType = {
             'organisationType': fields.organisationType.schema,
             [field.name]: field.schema
