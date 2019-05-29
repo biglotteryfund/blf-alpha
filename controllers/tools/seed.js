@@ -3,7 +3,7 @@ const { startsWith } = require('lodash');
 const express = require('express');
 const uuidv4 = require('uuid/v4');
 
-const { DB_CONNECTION_URI } = require('../../modules/secrets');
+const { DB_CONNECTION_URI } = require('../../common/secrets');
 const userService = require('../../services/user');
 
 const router = express.Router();

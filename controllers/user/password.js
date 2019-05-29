@@ -6,15 +6,15 @@ const Sentry = require('@sentry/node');
 const Joi = require('@hapi/joi');
 const { concat, get, head } = require('lodash');
 
-const { localify, getAbsoluteUrl } = require('../../modules/urls');
-const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
+const { localify, getAbsoluteUrl } = require('../../common/urls');
+const { JWT_SIGNING_TOKEN } = require('../../common/secrets');
 const { requireUnauthed } = require('../../middleware/authed');
 const {
     injectCopy,
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
 
-const { sendHtmlEmail } = require('../../services/mail');
+const { sendHtmlEmail } = require('../../common/mail');
 const userService = require('../../services/user');
 
 const normaliseErrors = require('./lib/normalise-errors');

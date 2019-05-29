@@ -1,6 +1,6 @@
 'use strict';
 const { get } = require('lodash');
-const { localify } = require('../modules/urls');
+const { localify } = require('../common/urls');
 
 function isStaff(user) {
     return get(user, 'userType', false) === 'staff';

@@ -6,7 +6,7 @@ const Sentry = require('@sentry/node');
 
 const userService = require('../../services/user');
 const { csrfProtection } = require('../../middleware/cached');
-const { localify } = require('../../modules/urls');
+const { localify } = require('../../common/urls');
 const {
     injectCopy,
     injectBreadcrumbs

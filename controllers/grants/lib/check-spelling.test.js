@@ -1,6 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const checkSpelling = require('../check-spelling');
+const checkSpelling = require('./check-spelling');
 
 describe('checkSpelling', () => {
     test('check spelling', async () => {

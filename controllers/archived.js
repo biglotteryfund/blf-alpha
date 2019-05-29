@@ -6,7 +6,7 @@ const {
     buildArchiveUrl,
     legacyPagePaths,
     legacyFilesPath
-} = require('../modules/archived');
+} = require('../common/archived');
 
 const { noCache } = require('../middleware/cached');
 

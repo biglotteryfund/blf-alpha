@@ -1,6 +1,6 @@
 'use strict';
 const { flatMap } = require('lodash');
-const { makeWelsh } = require('../modules/urls');
+const { makeWelsh } = require('../common/urls');
 
 /**
  * Aliases

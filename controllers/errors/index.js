@@ -1,6 +1,6 @@
 'use strict';
 const path = require('path');
-const appData = require('../../modules/appData');
+const appData = require('../../common/appData');
 
 function renderNotFound(req, res) {
     res.cacheControl = { noStore: true };

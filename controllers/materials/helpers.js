@@ -2,7 +2,7 @@
 const { reduce } = require('lodash');
 const { check } = require('express-validator/check');
 
-const { errorTranslator } = require('../../modules/validators');
+const { errorTranslator } = require('../../common/validators');
 
 const translateError = errorTranslator('global.forms');
 const translationLabelBase = 'funding.guidance.order-free-materials.formFields.';

@@ -1,8 +1,8 @@
 'use strict';
 const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize');
-const { Users } = require('../models');
-const { purifyUserInput } = require('../modules/validators');
+const { Users } = require('../db/models');
+const { purifyUserInput } = require('../common/validators');
 
 function encryptPassword(password) {
     const rounds = 12;

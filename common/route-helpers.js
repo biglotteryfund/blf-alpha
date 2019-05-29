@@ -11,7 +11,7 @@ const {
     uniqBy
 } = require('lodash/fp');
 
-const contentApi = require('../services/content-api');
+const contentApi = require('./content-api');
 const routes = require('../controllers/routes');
 
 const sortedUniqByPath = compose(

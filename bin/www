@@ -5,7 +5,7 @@ const config = require('config');
 const debug = require('debug')('tnlcf:www');
 
 const app = require('../server');
-const models = require('../models');
+const models = require('../db/models');
 
 debug(`App environment: ${config.util.getEnv('NODE_ENV')}`);
 

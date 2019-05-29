@@ -1,6 +1,4 @@
 'use strict';
-const appData = require('./appData');
-
 const { getSecret } = require('./parameter-store');
 
 /**
@@ -12,14 +10,11 @@ const SESSION_SECRET =
 
 /**
  * Database connection uri
- * In development we default to an in-memory sqlite database as the
- * databases defined in parameter store can't be accessed outside of a VPC.
- * We allow overriding through an environment variable for CI and to allow
- * using a local MySQL database locally as an option.
+ * Note: Our RDS databases are not accessible outside of a VPC.
+ * We allow overriding through an environment variable for CI and local environments.
  */
-const DB_CONNECTION_URI = appData.isDev
-    ? process.env.DB_CONNECTION_URI || 'sqlite://:memory'
-    : process.env.DB_CONNECTION_URI || getSecret('db.connection-uri', true);
+const DB_CONNECTION_URI =
+    process.env.DB_CONNECTION_URI || getSecret('db.connection-uri', true);
 
 /**
  * Content API url

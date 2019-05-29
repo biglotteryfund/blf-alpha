@@ -5,7 +5,7 @@ const passport = require('passport');
 
 const router = express.Router();
 
-const { localify } = require('../../modules/urls');
+const { localify } = require('../../common/urls');
 const { csrfProtection } = require('../../middleware/cached');
 const { addAlertMessage } = require('../../middleware/user');
 const {

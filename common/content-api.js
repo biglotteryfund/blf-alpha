@@ -7,8 +7,8 @@ const querystring = require('querystring');
 const getAttrs = response => get('data.attributes')(response);
 const mapAttrs = response => map('attributes')(response.data);
 
-const { sanitiseUrlPath } = require('../modules/urls');
-let { CONTENT_API_URL } = require('../modules/secrets');
+const { sanitiseUrlPath } = require('./urls');
+let { CONTENT_API_URL } = require('./secrets');
 
 function fetch(urlPath, options) {
     debug(

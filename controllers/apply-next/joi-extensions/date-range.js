@@ -1,5 +1,5 @@
 'use strict';
-const { fromDateParts } = require('../../../modules/dates');
+const { fromDateParts } = require('../../../common/dates');
 
 module.exports = function dateParts(joi) {
     const datePartsConfig = {

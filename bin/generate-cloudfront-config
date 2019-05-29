@@ -8,7 +8,7 @@ const path = require('path');
 const util = require('util');
 const writeFile = util.promisify(fs.writeFile);
 
-const { generateBehaviours } = require('../modules/cloudfront');
+const { generateBehaviours } = require('../common/cloudfront');
 
 const cloudfrontDistributions = config.get('aws.cloudfrontDistributions');
 

@@ -3,8 +3,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 
-const { AZURE_AUTH } = require('../modules/secrets');
-const appData = require('../modules/appData');
+const { AZURE_AUTH } = require('../common/secrets');
+const appData = require('../common/appData');
 const staffService = require('../services/staff');
 const userService = require('../services/user');
 
