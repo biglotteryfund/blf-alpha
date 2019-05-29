@@ -16,6 +16,10 @@ module.exports = function({ locale, data = {} }) {
         data: data
     });
 
+    function selectedCountry(country) {
+        return get('projectCountry')(data) === country;
+    }
+
     function includeAddressAndDob() {
         return (
             includes(
@@ -183,9 +187,9 @@ module.exports = function({ locale, data = {} }) {
                             }),
                             introduction: localise({
                                 en: `<p>We want to hear more about the people who will benefit from your project.</p>
-                
+
                                 <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
-                
+
                                 <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
                                 cy: ``
                             }),
@@ -265,6 +269,40 @@ module.exports = function({ locale, data = {} }) {
                                 cy: ''
                             }),
                             fields: fieldsForGroup(BENEFICIARY_GROUPS.RELIGION)
+                        }
+                    ]
+                },
+                {
+                    title: localise({
+                        en: `People who speak Welsh`,
+                        cy: ``
+                    }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: `People who speak Welsh`,
+                                cy: ``
+                            }),
+                            fields: selectedCountry('wales')
+                                ? [fields.beneficiariesWelshLanguage]
+                                : []
+                        }
+                    ]
+                },
+                {
+                    title: localise({
+                        en: `Community`,
+                        cy: ``
+                    }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: `Community`,
+                                cy: ``
+                            }),
+                            fields: selectedCountry('northern-ireland')
+                                ? [fields.beneficiariesNorthernIrelandCommunity]
+                                : []
                         }
                     ]
                 }
@@ -476,7 +514,7 @@ module.exports = function({ locale, data = {} }) {
 
     <p>Your statement needs to be less than three months old. For bank accounts opened within the last three months, we can accept a bank welcome letter. This must confirm the date your account was opened, account name, account number and sort code.</p>
 
-    <p>If you are a school who uses a local authority bank account, please attach a letter from the local authority that confirms your school name, the bank account name and number and sort code. The letter must be on local authority headed paper and dated. Other statutory bodies can attach a letter from their finance department that confirms the details of the bank account funding would be paid into.</p>                 
+    <p>If you are a school who uses a local authority bank account, please attach a letter from the local authority that confirms your school name, the bank account name and number and sort code. The letter must be on local authority headed paper and dated. Other statutory bodies can attach a letter from their finance department that confirms the details of the bank account funding would be paid into.</p>
                         `,
                             cy: ''
                         }),

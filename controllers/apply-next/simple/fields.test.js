@@ -264,40 +264,6 @@ describe('fields', () => {
         });
     }
 
-    describe('companyNumber', () => {
-        test('conditionally required based on organisation type', () => {
-            assertValid(fields.companyNumber, 'CE002712');
-            assertValid(fields.companyNumber, undefined);
-
-            assertRequiredForOrganistionTypes(fields.companyNumber, [
-                ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-            ]);
-        });
-    });
-
-    describe('charityNumber', () => {
-        test('conditionally required based on organisation type', () => {
-            assertValid(fields.charityNumber, '1160580');
-            assertValid(fields.charityNumber, undefined);
-
-            assertRequiredForOrganistionTypes(fields.charityNumber, [
-                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                ORGANISATION_TYPES.CIO
-            ]);
-        });
-    });
-
-    describe('educationNumber', () => {
-        test('conditionally required based on organisation type', () => {
-            assertValid(fields.educationNumber, '1160580');
-            assertValid(fields.educationNumber, undefined);
-
-            assertRequiredForOrganistionTypes(fields.educationNumber, [
-                ORGANISATION_TYPES.SCHOOL
-            ]);
-        });
-    });
-
     describe('accountingYearDate', () => {
         test('must be a valid day and month', () => {
             assertValid(fields.accountingYearDate, { day: 12, month: 2 });

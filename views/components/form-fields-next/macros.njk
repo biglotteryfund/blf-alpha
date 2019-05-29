@@ -186,7 +186,7 @@
 
     <select class="ff-select" id="field-{{ field.name }}" name="{{ field.name }}">
         {% if field.defaultOption %}
-            <option disabled value{% if not field.value %} selected{% endif %}>{{ field.defaultOption }}</option>
+            <option value="">{{ field.defaultOption }}</option>
         {% endif %}
 
         {% if field.optgroups %}
