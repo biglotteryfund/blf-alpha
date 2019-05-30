@@ -73,9 +73,15 @@ export default {
             }
             this.currentState = this.states.Loading;
             this.fullAddress = null;
+
+            const token = document.querySelector('input[name="_csrf"]').value;
             $.ajax({
+                type: 'post',
                 url: '/api/address-lookup',
                 dataType: 'json',
+                headers: {
+                    'CSRF-Token': token
+                },
                 data: { q: this.postcode }
             })
                 .then(response => {
