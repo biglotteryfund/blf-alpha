@@ -300,8 +300,8 @@
     </fieldset>
 {% endmacro %}
 
-{% macro inputAddress(field) %}
-    <fieldset class="ff-address js-address-lookup" id="field-{{ field.name }}">
+{% macro inputAddress(field, isNested = false) %}
+    <fieldset class="ff-address{% if isNested %} ff-address--nested{% endif %} js-address-lookup" id="field-{{ field.name }}">
         <legend class="ff-label ff-address__legend">
             {{ labelFor(field) }}
         </legend>
@@ -412,12 +412,15 @@
             </ul>
         </fieldset>
 
-        <div class="u-margin-top" id="address-history-conditional-no">
-            {{ inputAddress({
-                name: field.name + '[previousAddress]',
-                label: 'Previous address',
-                value: field.value.previousAddress
-            }) }}
+        <div id="address-history-conditional-no">
+            {{ inputAddress(
+                {
+                    name: field.name + '[previousAddress]',
+                    label: 'Previous address',
+                    value: field.value.previousAddress
+                },
+                isNested = true
+            ) }}
         </div>
     </div>
 {% endmacro %}

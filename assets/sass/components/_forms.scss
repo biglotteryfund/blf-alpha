@@ -259,6 +259,12 @@ $inputOutline: 3px solid get-color('border', 'outline');
     .ff-address__field .ff-label {
         font-weight: font-weight('body', 'semibold');
     }
+
+    &.ff-address--nested {
+        margin-left: $spacingUnit;
+        padding-left: $spacingUnit;
+        border-left: 5px solid get-color('background', 'light-neutral');
+    }
 }
 
 /* =========================================================================
