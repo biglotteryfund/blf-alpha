@@ -72,7 +72,11 @@ export default {
                 return;
             }
             this.currentState = this.states.Loading;
+
             this.fullAddress = null;
+            this.candidates = [];
+            this.addressData = [];
+            this.selectedAddressId = null;
 
             const token = document.querySelector('input[name="_csrf"]').value;
             $.ajax({

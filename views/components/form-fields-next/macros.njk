@@ -318,7 +318,7 @@
 
         <details open
                  :open="showFallbackFields"
-                 @click="showFallbackFields = !showFallbackFields"
+                 @click.self="showFallbackFields = !showFallbackFields"
                  class="o-details u-margin-top">
             <summary class="js-only o-details__summary" v-show="showSummaryLabel">
                 Enter address manually
