@@ -31,7 +31,7 @@ function init() {
                     this.$refs.townCity.value = null;
                     this.$refs.county.value = null;
                     this.$refs.postcode.value = null;
-                    this.handleFallback();
+                    this.showFallbackFields = false;
                 },
                 handleFallback() {
                     this.showFallbackFields = true;

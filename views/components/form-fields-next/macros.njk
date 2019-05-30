@@ -316,9 +316,6 @@
             @show-fallback="handleFallback"
         ></address-lookup>
 
-        {{ field.name }}
-        <pre>{{ field.value | dump }}</pre>
-
         <details open :open="showFallbackFields" class="o-details u-margin-top">
             <summary class="js-only o-details__summary" v-show="!showFallbackFields">
                 Enter address manually
