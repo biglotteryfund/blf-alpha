@@ -110,9 +110,12 @@ export default {
             this.$emit('clear-address');
         },
         handleFallback() {
-            this.currentState = this.states.Editing;
             this.clearState();
             this.$emit('show-fallback');
+        },
+        startEditing() {
+            this.currentState = this.states.Editing;
+            this.handleFallback();
         },
         updateAddressPreview(fullAddress) {
             if (fullAddress) {
@@ -186,6 +189,7 @@ export default {
                     size="20"
                     class="ff-text"
                     v-model="postcode"
+                    required
                 />
                 <button
                     type="button"
@@ -211,6 +215,7 @@ export default {
                     name="address-selection"
                     id="address-selection"
                     :disabled="currentState === states.Loading"
+                    required
                 >
                     <option disabled value=""
                         >{{ candidates.length }} addresses found</option
@@ -240,7 +245,7 @@ export default {
                 v-html="addressHtml"
             ></address>
             <div class="selected-address__actions">
-                <button type="button" class="btn-link" @click="handleFallback">
+                <button type="button" class="btn-link" @click="startEditing">
                     Edit
                 </button>
                 <button
