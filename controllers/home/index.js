@@ -2,14 +2,17 @@
 const path = require('path');
 const express = require('express');
 const contentApi = require('../../common/content-api');
+const { injectCopy } = require('../../middleware/inject-content');
 
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get('/', injectCopy('toplevel.home'), async (req, res, next) => {
     try {
-        const { featuredLinks, promotedUpdates } = await contentApi.getHomepage({
-            locale: req.i18n.getLocale()
-        });
+        const { featuredLinks, promotedUpdates } = await contentApi.getHomepage(
+            {
+                locale: req.i18n.getLocale()
+            }
+        );
 
         res.render(path.resolve(__dirname, './views/home'), {
             featuredLinks,

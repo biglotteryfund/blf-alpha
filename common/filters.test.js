@@ -10,7 +10,7 @@ const {
     pluralise,
     slugify,
     widont
-} = require('../filters');
+} = require('./filters');
 
 describe('appendUuid', () => {
     it('should append a uuid', () => {
@@ -21,18 +21,24 @@ describe('appendUuid', () => {
 describe('getCachebustedPath', () => {
     it('should get local url path cachebusted asset', () => {
         const result = getCachebustedPath('stylesheets/style.css', false);
-        expect(result).toMatch(/^\/assets\/build\/\w+\/stylesheets\/style.css$/);
+        expect(result).toMatch(
+            /^\/assets\/build\/\w+\/stylesheets\/style.css$/
+        );
     });
 
     it('should get external url for cachebusted asset', () => {
         const result = getCachebustedPath('stylesheets/style.css', true);
-        expect(result).toMatch(/^\/assets\/build\/\w+\/stylesheets\/style.css$/);
+        expect(result).toMatch(
+            /^\/assets\/build\/\w+\/stylesheets\/style.css$/
+        );
     });
 });
 
 describe('mailto', () => {
     it('should create a mailto link', () => {
-        expect(mailto('example@example.com')).toBe('<a href="mailto:example@example.com">example@example.com</a>');
+        expect(mailto('example@example.com')).toBe(
+            '<a href="mailto:example@example.com">example@example.com</a>'
+        );
     });
 });
 
@@ -67,6 +73,8 @@ describe('isArray', () => {
 describe('widont', () => {
     it('should add a non-breaking-space to the last word of a string to prevent typographic widows', () => {
         expect(widont('A string')).toBe('A&nbsp;string');
-        expect(widont('A slightly longer string')).toBe('A slightly longer&nbsp;string');
+        expect(widont('A slightly longer string')).toBe(
+            'A slightly longer&nbsp;string'
+        );
     });
 });

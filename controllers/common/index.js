@@ -4,84 +4,125 @@ const { isEmpty } = require('lodash');
 const path = require('path');
 const Sentry = require('@sentry/node');
 
-const { injectBreadcrumbs, injectFlexibleContent, injectListingContent } = require('../../middleware/inject-content');
+const {
+    injectBreadcrumbs,
+    injectCopy,
+    injectFlexibleContent,
+    injectHeroImage,
+    injectListingContent
+} = require('../../middleware/inject-content');
 const { isWelsh } = require('../../common/urls');
 const contentApi = require('../../common/content-api');
 
-function staticPage({ template = null, projectStorySlugs = [], disableLanguageLink = false } = {}) {
+function staticPage({
+    lang = null,
+    template = null,
+    heroSlug = null,
+    projectStorySlugs = [],
+    disableLanguageLink = false
+} = {}) {
     const router = express.Router();
 
-    router.get('/', injectBreadcrumbs, async function(req, res, next) {
-        const { copy } = res.locals;
-        const shouldRedirectLang = (disableLanguageLink === true || isEmpty(copy)) && isWelsh(req.originalUrl);
-        if (shouldRedirectLang) {
-            next();
-        } else {
-            /**
-             * Inject project stories if we've been provided any slugs to fetch
-             */
-            if (projectStorySlugs.length > 0) {
-                try {
-                    res.locals.stories = await contentApi.getProjectStories({
-                        locale: req.i18n.getLocale(),
-                        slugs: projectStorySlugs
-                    });
-                } catch (error) {
-                    Sentry.captureException(error);
+    router.get(
+        '/',
+        injectHeroImage(heroSlug),
+        injectCopy(lang),
+        injectBreadcrumbs,
+        async function(req, res, next) {
+            const { copy } = res.locals;
+            const shouldRedirectLang =
+                (disableLanguageLink === true || isEmpty(copy)) &&
+                isWelsh(req.originalUrl);
+            if (shouldRedirectLang) {
+                next();
+            } else {
+                /**
+                 * Inject project stories if we've been provided any slugs to fetch
+                 */
+                if (projectStorySlugs.length > 0) {
+                    try {
+                        res.locals.stories = await contentApi.getProjectStories(
+                            {
+                                locale: req.i18n.getLocale(),
+                                slugs: projectStorySlugs
+                            }
+                        );
+                    } catch (error) {
+                        Sentry.captureException(error);
+                    }
                 }
-            }
 
-            res.render(template, {
-                title: copy.title,
-                description: copy.description || false,
-                isBilingual: disableLanguageLink === false
-            });
+                res.render(template, {
+                    title: copy.title,
+                    description: copy.description || false,
+                    isBilingual: disableLanguageLink === false
+                });
+            }
         }
-    });
+    );
 
     return router;
 }
 
-function basicContent({ customTemplate = null } = {}) {
+function basicContent({ lang = null, customTemplate = null } = {}) {
     const router = express.Router();
 
-    router.get('/', injectListingContent, injectBreadcrumbs, (req, res, next) => {
-        const { content } = res.locals;
+    router.get(
+        '/',
+        injectCopy(lang),
+        injectListingContent,
+        injectBreadcrumbs,
+        (req, res, next) => {
+            const { content } = res.locals;
 
-        if (content) {
-            /**
-             * Determine template to render:
-             * 1. If using a custom template defer to that
-             * 2. If the response has child pages then render a listing page
-             * 3. Otherwise, render an information page
-             */
-            if (customTemplate) {
-                res.render(customTemplate);
-            } else if (content.children) {
-                // What layout mode should we use? (eg. do all of the children have an image?)
-                const missingTrailImages = content.children.some(page => !page.trailImage);
-                const childrenLayoutMode = missingTrailImages ? 'plain' : 'heroes';
-                if (missingTrailImages) {
-                    content.children = content.children.map(page => {
-                        return {
-                            href: page.linkUrl,
-                            label: page.trailText || page.title
-                        };
-                    });
+            if (content) {
+                /**
+                 * Determine template to render:
+                 * 1. If using a custom template defer to that
+                 * 2. If the response has child pages then render a listing page
+                 * 3. Otherwise, render an information page
+                 */
+                if (customTemplate) {
+                    res.render(customTemplate);
+                } else if (content.children) {
+                    // What layout mode should we use? (eg. do all of the children have an image?)
+                    const missingTrailImages = content.children.some(
+                        page => !page.trailImage
+                    );
+                    const childrenLayoutMode = missingTrailImages
+                        ? 'plain'
+                        : 'heroes';
+                    if (missingTrailImages) {
+                        content.children = content.children.map(page => {
+                            return {
+                                href: page.linkUrl,
+                                label: page.trailText || page.title
+                            };
+                        });
+                    }
+                    res.render(
+                        path.resolve(__dirname, './views/listing-page'),
+                        {
+                            childrenLayoutMode: childrenLayoutMode
+                        }
+                    );
+                } else if (
+                    content.introduction ||
+                    content.segments.length > 0 ||
+                    content.flexibleContent.length > 0
+                ) {
+                    // ↑ information pages must have at least an introduction or some content segments
+                    res.render(
+                        path.resolve(__dirname, './views/information-page')
+                    );
+                } else {
+                    next();
                 }
-                res.render(path.resolve(__dirname, './views/listing-page'), {
-                    childrenLayoutMode: childrenLayoutMode
-                });
-            } else if (content.introduction || content.segments.length > 0 || content.flexibleContent.length > 0) {
-                // ↑ information pages must have at least an introduction or some content segments
-                res.render(path.resolve(__dirname, './views/information-page'));
             } else {
                 next();
             }
-        } else {
-            next();
         }
-    });
+    );
 
     return router;
 }
@@ -89,13 +130,18 @@ function basicContent({ customTemplate = null } = {}) {
 function flexibleContent() {
     const router = express.Router();
 
-    router.get('/', injectFlexibleContent, injectBreadcrumbs, (req, res, next) => {
-        if (res.locals.content) {
-            res.render(path.resolve(__dirname, './views/flexible-content'));
-        } else {
-            next();
+    router.get(
+        '/',
+        injectFlexibleContent,
+        injectBreadcrumbs,
+        (req, res, next) => {
+            if (res.locals.content) {
+                res.render(path.resolve(__dirname, './views/flexible-content'));
+            } else {
+                next();
+            }
         }
-    });
+    );
 
     return router;
 }

@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 
-const { _buildCountMetricData } = require('../metrics');
+const { _buildCountMetricData } = require('./metrics');
 
 describe('_buildCountMetricData', () => {
     it('should build count metric data', () => {
