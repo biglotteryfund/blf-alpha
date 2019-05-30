@@ -35,14 +35,14 @@ export default {
                 const addressParts = JSON.parse(this.address);
                 if (addressParts) {
                     this.currentAddress = addressParts;
-                    this.fullAddress = {
+                    const fullAddress = {
                         line1: this.currentAddress.line1,
                         line2: this.currentAddress.line2,
                         townCity: this.currentAddress.townCity,
                         county: this.currentAddress.county,
                         postcode: this.currentAddress.postcode
                     };
-                    this.currentState = this.states.AlreadyAnswered;
+                    this.updateAddressPreview(fullAddress);
                 }
             } catch (e) {} // eslint-disable-line no-empty
         }
@@ -92,8 +92,7 @@ export default {
                             const label = compact([
                                 result['line_1'],
                                 result['line_2'],
-                                result['line_3'],
-                                result['district'],
+                                result['post_town'],
                                 result['county']
                             ]).join(', ');
                             return { value: result.udprn, label: label };

@@ -316,8 +316,11 @@
             @show-fallback="handleFallback"
         ></address-lookup>
 
-        <details open :open="showFallbackFields" class="o-details u-margin-top">
-            <summary class="js-only o-details__summary" v-show="!showFallbackFields">
+        <details open
+                 :open="showFallbackFields"
+                 @click="showFallbackFields = !showFallbackFields"
+                 class="o-details u-margin-top">
+            <summary class="js-only o-details__summary" v-show="showSummaryLabel">
                 Enter address manually
             </summary>
             <div class="o-details__content ff-address__fields">

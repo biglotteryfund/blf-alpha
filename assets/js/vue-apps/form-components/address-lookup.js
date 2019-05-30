@@ -13,12 +13,14 @@ function init() {
             },
             data() {
                 return {
-                    showFallbackFields: false
+                    showFallbackFields: false,
+                    showSummaryLabel: true
                 };
             },
             methods: {
                 handleAddress(data) {
                     this.showFallbackFields = false;
+                    this.showSummaryLabel = false;
                     this.$refs.addressLine1.value = data.line1;
                     this.$refs.addressLine2.value = data.line2 || '';
                     this.$refs.townCity.value = data.townCity;
@@ -32,9 +34,11 @@ function init() {
                     this.$refs.county.value = null;
                     this.$refs.postcode.value = null;
                     this.showFallbackFields = false;
+                    this.showSummaryLabel = true;
                 },
                 handleFallback() {
                     this.showFallbackFields = true;
+                    this.showSummaryLabel = false;
                 }
             }
         });
