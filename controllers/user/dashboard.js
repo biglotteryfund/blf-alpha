@@ -6,12 +6,12 @@ const Sentry = require('@sentry/node');
 const userService = require('../../services/user');
 const { csrfProtection } = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
-const { addAlertMessage } = require('../../middleware/user');
 const {
     injectCopy,
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
 
+const alertMessage = require('./lib/alert-message');
 const normaliseErrors = require('./lib/normalise-errors');
 const schema = require('./schema');
 const { sendActivationEmail } = require('./helpers');
@@ -29,17 +29,16 @@ function renderUpdateEmailForm(req, res, data = null, errors = []) {
 /**
  * Route: Generic user dashboard
  */
-router.get(
-    '/',
-    requireUserAuth,
-    injectCopy('user.dashboard'),
-    addAlertMessage,
-    (req, res) => {
-        res.render(path.resolve(__dirname, './views/dashboard'), {
-            errors: res.locals.errors || []
-        });
-    }
-);
+router.get('/', requireUserAuth, injectCopy('user.dashboard'), (req, res) => {
+    res.render(path.resolve(__dirname, './views/dashboard'), {
+        alertMessage: alertMessage({
+            locale: req.i18n.getLocale(),
+            status: req.query.s,
+            user: req.user.userData.username
+        }),
+        errors: res.locals.errors || []
+    });
+});
 
 /**
  * Route: Update email address
