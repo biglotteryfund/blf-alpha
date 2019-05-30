@@ -288,37 +288,6 @@ describe('fields', () => {
         });
     }
 
-    function testContactDateOfBirth(field, minAge) {
-        test(`must be at least ${minAge} years old`, () => {
-            assertValid(field, mockDateOfBirth(minAge));
-            assertErrorContains(
-                field,
-                mockDateOfBirth(0, minAge - 1),
-                `Must be at least ${minAge} years old`
-            );
-        });
-
-        test('optional if organisationType is a school or statutory-body', () => {
-            const schemaWithOrgType = {
-                'organisationType': fields.organisationType.schema,
-                [field.name]: field.schema
-            };
-
-            const optionalOrgTypes = [
-                ORGANISATION_TYPES.SCHOOL,
-                ORGANISATION_TYPES.STATUTORY_BODY
-            ];
-            optionalOrgTypes.forEach(type => {
-                const { error } = Joi.validate(
-                    { organisationType: type },
-                    schemaWithOrgType
-                );
-
-                expect(error).toBeNull();
-            });
-        });
-    }
-
     function testContactAddress(field) {
         test('must be a full valid address', () => {
             assertValid(field, mockAddress());
@@ -457,10 +426,6 @@ describe('fields', () => {
         testContactNamePart(fields.mainContactLastName);
     });
 
-    describe('mainContactDob', () => {
-        testContactDateOfBirth(fields.mainContactDob, 16);
-    });
-
     describe('mainContactAddress', () => {
         testContactAddress(fields.mainContactAddress);
     });
@@ -571,10 +536,6 @@ describe('fields', () => {
                 'chief-executive'
             ]);
         });
-    });
-
-    describe('seniorContactDob', () => {
-        testContactDateOfBirth(fields.seniorContactDob, 18);
     });
 
     describe('seniorContactAddress', () => {
