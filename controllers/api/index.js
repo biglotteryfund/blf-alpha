@@ -1,13 +1,12 @@
 'use strict';
 const express = require('express');
-const request = require('request-promise-native');
 const Joi = require('@hapi/joi');
 const Sentry = require('@sentry/node');
 
 const { purifyUserInput } = require('../../common/validators');
 const { Feedback, SurveyAnswer } = require('../../db/models');
 const appData = require('../../common/appData');
-const { POSTCODES_API_KEY } = require('../../modules/secrets');
+const { POSTCODES_API_KEY } = require('../../common/secrets');
 
 const idealPostcodes = require('ideal-postcodes')(POSTCODES_API_KEY);
 
