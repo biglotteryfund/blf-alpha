@@ -409,10 +409,8 @@ insights:
   documents:
     title: "Insights from our funding: documents"
     intro:  >
-      Over the last 25 years we've funded many evaluations and learning reports on our grants and investments.
-      This library offers a new way to access this evidence and insight through a tagged and searchable library, making
-      it much easier to find what you need. We're starting with our most recent reports from 2018, and will be adding to
-      these over the coming weeks.
+      <p>Over the last 25 years we've funded thousands of evaluations and learning reports on our grants and investments. This library offers a new way to access this evidence through a tagged and searchable library, making it much easier to find what you need. We're starting with our most recent reports, and will be adding to these over the coming weeks.</p>
+      <p>If you’re a grant holder and would like to submit a report for consideration or give us suggestions and feedback, please email <a href="mailto:knowledge@tnlcommunityfund.org.uk">knowledge@tnlcommunityfund.org.uk</a></p>
     search:
       cta: Search our documents
       submit: Search

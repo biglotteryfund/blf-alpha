@@ -733,8 +733,8 @@ describe('awards for all', function() {
             stepOrganisationType();
             stepRegistrationNumbers();
             stepOrganisationFinances();
-            stepMainContact();
             stepSeniorContact();
+            stepMainContact();
             stepBankDetails();
             stepBankStatement();
 

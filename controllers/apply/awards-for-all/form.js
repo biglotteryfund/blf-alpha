@@ -377,6 +377,46 @@ module.exports = function({ locale, data = {} }) {
         ]
     };
 
+    const sectionSeniorContact = {
+        slug: 'senior-contact',
+        title: localise({ en: 'Senior contact', cy: '' }),
+        summary: localise({
+            en: `Please provide details for your senior contact. This person will be legally responsible for the funding and must be unconnected to the main contact.`,
+            cy: ``
+        }),
+        steps: [
+            {
+                title: localise({ en: 'Senior contact', cy: '' }),
+                fieldsets: [
+                    {
+                        legend: localise({
+                            en: 'Who is your senior contact?',
+                            cy: ''
+                        }),
+                        introduction: localise({
+                            en: `<p>Please give us the contact details of a senior member of your organisation.</p>
+                            <p>Your senior contact must be at least 18 years old and is legally responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.</p>`,
+                            cy: ``
+                        }),
+                        fields: compact([
+                            fields.seniorContactFirstName,
+                            fields.seniorContactLastName,
+                            fields.seniorContactRole,
+                            includeAddressAndDob() && fields.seniorContactDob,
+                            includeAddressAndDob() &&
+                                fields.seniorContactAddress,
+                            includeAddressAndDob() &&
+                                fields.seniorContactAddressHistory,
+                            fields.seniorContactEmail,
+                            fields.seniorContactPhone,
+                            fields.seniorContactCommunicationNeeds
+                        ])
+                    }
+                ]
+            }
+        ]
+    };
+
     const sectionMainContact = {
         slug: 'main-contact',
         title: localise({ en: 'Main contact', cy: '' }),
@@ -415,46 +455,6 @@ module.exports = function({ locale, data = {} }) {
                             fields.mainContactEmail,
                             fields.mainContactPhone,
                             fields.mainContactCommunicationNeeds
-                        ])
-                    }
-                ]
-            }
-        ]
-    };
-
-    const sectionSeniorContact = {
-        slug: 'senior-contact',
-        title: localise({ en: 'Senior contact', cy: '' }),
-        summary: localise({
-            en: `Please provide details for your senior contact. This person will be legally responsible for the funding and must be unconnected to the main contact.`,
-            cy: ``
-        }),
-        steps: [
-            {
-                title: localise({ en: 'Senior contact', cy: '' }),
-                fieldsets: [
-                    {
-                        legend: localise({
-                            en: 'Who is your senior contact?',
-                            cy: ''
-                        }),
-                        introduction: localise({
-                            en: `<p>Please give us the contact details of a senior member of your organisation.</p>
-                            <p>Your senior contact must be at least 18 years old and is legally responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.</p>`,
-                            cy: ``
-                        }),
-                        fields: compact([
-                            fields.seniorContactFirstName,
-                            fields.seniorContactLastName,
-                            fields.seniorContactRole,
-                            includeAddressAndDob() && fields.seniorContactDob,
-                            includeAddressAndDob() &&
-                                fields.seniorContactAddress,
-                            includeAddressAndDob() &&
-                                fields.seniorContactAddressHistory,
-                            fields.seniorContactEmail,
-                            fields.seniorContactPhone,
-                            fields.seniorContactCommunicationNeeds
                         ])
                     }
                 ]
@@ -626,8 +626,8 @@ module.exports = function({ locale, data = {} }) {
             sectionProject,
             sectionBeneficiaries(),
             sectionOrganisation,
-            sectionMainContact,
             sectionSeniorContact,
+            sectionMainContact,
             sectionBankDetails
         ],
         termsFields: termsFields
