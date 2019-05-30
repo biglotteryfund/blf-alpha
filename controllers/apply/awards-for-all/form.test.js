@@ -243,6 +243,62 @@ describe('form model', () => {
         });
     });
 
+    function testDateOfBirthField(fieldName, minAge) {
+        test(`date of birth must be at least ${minAge}`, () => {
+            function value(val) {
+                return {
+                    [fieldName]: val
+                };
+            }
+
+            assertMessagesByKey(value(null), ['Enter a date of birth']);
+            assertMessagesByKey(value({ year: 2000, month: 2, day: 31 }), [
+                'Enter a real date'
+            ]);
+            assertMessagesByKey(value(mockDateOfBirth(0, minAge - 1)), [
+                `Must be at least ${minAge} years old`
+            ]);
+            assertValidByKey(value(mockDateOfBirth(minAge, 90)));
+        });
+
+        test('date of birth is included if there is no organisation type', () => {
+            const dobWithoutOrgType = {
+                [fieldName]: mockDateOfBirth(minAge, 90)
+            };
+            expect(testValidate(dobWithoutOrgType).value).toEqual(
+                dobWithoutOrgType
+            );
+        });
+
+        test('date of birth is included when there is a required organisation type', () => {
+            const dobWithOrgType = {
+                organisationType: ORGANISATION_TYPES.CIO,
+                [fieldName]: mockDateOfBirth(minAge, 90)
+            };
+            expect(testValidate(dobWithOrgType).value).toEqual(dobWithOrgType);
+        });
+
+        test('date of birth value stripped for schools and statutory bodies', () => {
+            [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.STATUTORY_BODY
+            ].forEach(orgType => {
+                const dobWithSchool = {
+                    organisationType: orgType,
+                    [fieldName]: mockDateOfBirth(minAge, 90)
+                };
+
+                expect(testValidate(dobWithSchool).value).toEqual({
+                    organisationType: orgType
+                });
+
+                assertValidByKey({
+                    organisationType: orgType
+                });
+            });
+        });
+    }
+
     function testAddressField(fieldName) {
         test('address is valid', () => {
             function value(val) {
@@ -308,59 +364,7 @@ describe('form model', () => {
     }
 
     describe('senior contact', () => {
-        test('date of birth must be at least 18', () => {
-            function value(val) {
-                return {
-                    seniorContactDateOfBirth: val
-                };
-            }
-
-            assertMessagesByKey(value(null), ['Enter a date of birth']);
-            assertMessagesByKey(value({ year: 2000, month: 2, day: 31 }), [
-                'Enter a real date'
-            ]);
-            assertMessagesByKey(value(mockDateOfBirth(0, 17)), [
-                'Must be at least 18 years old'
-            ]);
-            assertValidByKey(value(mockDateOfBirth(18, 90)));
-        });
-
-        test('date of birth is included if there is no organisation type', () => {
-            const dobWithoutOrgType = {
-                seniorContactDateOfBirth: mockDateOfBirth(18, 90)
-            };
-            expect(testValidate(dobWithoutOrgType).value).toEqual(
-                dobWithoutOrgType
-            );
-        });
-
-        test('date of birth is included when there is a required organisation type', () => {
-            const dobWithOrgType = {
-                organisationType: ORGANISATION_TYPES.CIO,
-                seniorContactDateOfBirth: mockDateOfBirth(18, 90)
-            };
-            expect(testValidate(dobWithOrgType).value).toEqual(dobWithOrgType);
-        });
-
-        test('date of birth value stripped for schools and statutory bodies', () => {
-            [
-                ORGANISATION_TYPES.SCHOOL,
-                ORGANISATION_TYPES.STATUTORY_BODY
-            ].forEach(orgType => {
-                expect(
-                    testValidate({
-                        organisationType: orgType,
-                        seniorContactDateOfBirth: mockDateOfBirth(18, 90)
-                    }).value
-                ).toEqual({
-                    organisationType: orgType
-                });
-
-                assertValidByKey({
-                    organisationType: orgType
-                });
-            });
-        });
+        testDateOfBirthField('seniorContactDateOfBirth', 18);
 
         testAddressField('seniorContactAddress');
 
@@ -399,59 +403,7 @@ describe('form model', () => {
     });
 
     describe('main contact', () => {
-        test('date of birth must be at least 16', () => {
-            function value(val) {
-                return {
-                    mainContactDateOfBirth: val
-                };
-            }
-
-            assertMessagesByKey(value(null), ['Enter a date of birth']);
-            assertMessagesByKey(value({ year: 2000, month: 2, day: 31 }), [
-                'Enter a real date'
-            ]);
-            assertMessagesByKey(value(mockDateOfBirth(0, 15)), [
-                'Must be at least 16 years old'
-            ]);
-            assertValidByKey(value(mockDateOfBirth(16, 90)));
-        });
-
-        test('date of birth is included if there is no organisation type', () => {
-            const dobWithoutOrgType = {
-                mainContactDateOfBirth: mockDateOfBirth(16, 90)
-            };
-            expect(testValidate(dobWithoutOrgType).value).toEqual(
-                dobWithoutOrgType
-            );
-        });
-
-        test('date of birth is included when there is a required organisation type', () => {
-            const dobWithOrgType = {
-                organisationType: ORGANISATION_TYPES.CIO,
-                mainContactDateOfBirth: mockDateOfBirth(16, 90)
-            };
-            expect(testValidate(dobWithOrgType).value).toEqual(dobWithOrgType);
-        });
-
-        test('date of birth value stripped for schools and statutory bodies', () => {
-            [
-                ORGANISATION_TYPES.SCHOOL,
-                ORGANISATION_TYPES.STATUTORY_BODY
-            ].forEach(orgType => {
-                const dobWithSchool = {
-                    organisationType: orgType,
-                    mainContactDateOfBirth: mockDateOfBirth(18, 90)
-                };
-
-                expect(testValidate(dobWithSchool).value).toEqual({
-                    organisationType: orgType
-                });
-
-                assertValidByKey({
-                    organisationType: orgType
-                });
-            });
-        });
+        testDateOfBirthField('mainContactDateOfBirth', 16);
 
         testAddressField('mainContactAddress');
 
