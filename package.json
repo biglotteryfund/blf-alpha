@@ -18,7 +18,7 @@
     "format": "prettier --write **/*.{js,scss,vue}",
     "test-unit": "jest --maxWorkers=4",
     "test-watch": "jest --watch",
-    "test": "npm audit || true && npm run lint && npm run test-unit",
+    "test": "npm run lint && npm run test-unit",
     "test-integration": "npm run start-test & wait-on http://localhost:8090 && percy exec -- cypress run",
     "test-ci": "concurrently --raw npm:test-unit npm:test-integration",
     "clean": "del-cli $npm_package_config_dist_root/* ./config/assets.json",
@@ -105,8 +105,8 @@
     "html-to-text": "4.0.0",
     "i18n-2": "^0.7.2",
     "joi-phone-number": "3.0.0",
-    "jquery": "^3.2.1",
-    "js-yaml": "3.13.0",
+    "jquery": "^3.4.0",
+    "js-yaml": "3.13.1",
     "jsdom": "^11.5.1",
     "jsonwebtoken": "^8.3.0",
     "juice": "^4.2.2",
@@ -134,7 +134,7 @@
     "uuid": "^3.2.1",
     "vary": "^1.1.1",
     "vue": "2.5.17",
-    "yargs": "^11.0.0"
+    "yargs": "^12.0.2"
   },
   "devDependencies": {
     "@babel/core": "7.1.5",
