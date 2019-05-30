@@ -11,10 +11,10 @@ const {
     setCommonLocals
 } = require('../../middleware/inject-content');
 const { basicContent } = require('../common');
-const { buildArchiveUrl } = require('../../modules/archived');
+const { buildArchiveUrl } = require('../../common/archived');
 const { getValidLocation, programmeFilters } = require('./helpers');
 const { sMaxAge } = require('../../middleware/cached');
-const contentApi = require('../../services/content-api');
+const contentApi = require('../../common/content-api');
 
 const router = express.Router();
 

@@ -14,9 +14,10 @@ const {
     setHeroLocals
 } = require('../../middleware/inject-content');
 const { sMaxAge } = require('../../middleware/cached');
-const contentApi = require('../../services/content-api');
-const grantsService = require('../../services/grants');
-const checkSpelling = require('../../modules/check-spelling');
+const contentApi = require('../../common/content-api');
+
+const grantsService = require('./lib/grants-service');
+const checkSpelling = require('./lib/check-spelling');
 
 const router = express.Router();
 

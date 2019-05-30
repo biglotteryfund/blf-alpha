@@ -1,6 +1,6 @@
 'use strict';
 const { Op } = require('sequelize');
-const { Application } = require('../models');
+const { Application } = require('../db/models');
 
 function createApplication({ userId, formId, data = null }) {
     return Application.create({

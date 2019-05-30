@@ -1,6 +1,6 @@
 'use strict';
 const { map, reduce, some } = require('lodash');
-const { purify } = require('../../modules/validators');
+const { purify } = require('../../common/validators');
 const { sanitizeBody } = require('express-validator/filter');
 const { validationResult } = require('express-validator/check');
 const express = require('express');
@@ -11,11 +11,11 @@ const Sentry = require('@sentry/node');
 const router = express.Router();
 
 const { injectBreadcrumbs, injectListingContent, injectMerchandise } = require('../../middleware/inject-content');
-const { MATERIAL_SUPPLIER } = require('../../modules/secrets');
+const { MATERIAL_SUPPLIER } = require('../../common/secrets');
 const { materialFields, makeOrderText, postcodeArea, normaliseUserInput } = require('./helpers');
-const appData = require('../../modules/appData');
+const appData = require('../../common/appData');
 const cached = require('../../middleware/cached');
-const { generateHtmlEmail, sendEmail } = require('../../services/mail');
+const { generateHtmlEmail, sendEmail } = require('../../common/mail');
 const ordersService = require('../../services/orders');
 
 const FORM_STATES = {

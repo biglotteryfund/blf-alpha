@@ -5,8 +5,8 @@ const path = require('path');
 const Sentry = require('@sentry/node');
 
 const { injectBreadcrumbs, injectFlexibleContent, injectListingContent } = require('../../middleware/inject-content');
-const { isWelsh } = require('../../modules/urls');
-const contentApi = require('../../services/content-api');
+const { isWelsh } = require('../../common/urls');
+const contentApi = require('../../common/content-api');
 
 function staticPage({ template = null, projectStorySlugs = [], disableLanguageLink = false } = {}) {
     const router = express.Router();

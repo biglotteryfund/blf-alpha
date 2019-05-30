@@ -6,7 +6,7 @@ const path = require('path');
 const { concat } = require('lodash');
 
 const { requireUserAuth } = require('../../middleware/authed');
-const { JWT_SIGNING_TOKEN } = require('../../modules/secrets');
+const { JWT_SIGNING_TOKEN } = require('../../common/secrets');
 const userService = require('../../services/user');
 
 const { sendActivationEmail } = require('./helpers');

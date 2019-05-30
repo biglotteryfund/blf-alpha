@@ -4,9 +4,9 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-const { SESSION_SECRET } = require('../modules/secrets');
-const appData = require('../modules/appData');
-const models = require('../models');
+const { SESSION_SECRET } = require('../common/secrets');
+const appData = require('../common/appData');
+const models = require('../db/models');
 
 module.exports = function(app) {
     if (!appData.isDev) {

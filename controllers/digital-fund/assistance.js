@@ -6,10 +6,10 @@ const express = require('express');
 const moment = require('moment');
 const path = require('path');
 
-const { DIGITAL_FUND_EMAIL } = require('../../modules/secrets');
-const { errorTranslator } = require('../../modules/validators');
-const { sendEmail } = require('../../services/mail');
-const appData = require('../../modules/appData');
+const { DIGITAL_FUND_EMAIL } = require('../../common/secrets');
+const { errorTranslator } = require('../../common/validators');
+const { sendEmail } = require('../../common/mail');
+const appData = require('../../common/appData');
 
 const router = express.Router();
 

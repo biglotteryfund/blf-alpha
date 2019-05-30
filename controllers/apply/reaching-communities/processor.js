@@ -1,8 +1,8 @@
 'use strict';
 const path = require('path');
 
-const { generateHtmlEmail, sendEmail } = require('../../../services/mail');
-const appData = require('../../../modules/appData');
+const { generateHtmlEmail, sendEmail } = require('../../../common/mail');
+const appData = require('../../../common/appData');
 
 const { determineInternalSendTo } = require('./helpers');
 

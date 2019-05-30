@@ -14,22 +14,22 @@ const debug = require('debug')('tnlcf:server');
 const app = express();
 module.exports = app;
 
-const appData = require('./modules/appData');
+const appData = require('./common/appData');
 
 if (appData.isDev) {
     require('dotenv').config();
 }
 
-const { isWelsh, makeWelsh, removeWelsh, localify } = require('./modules/urls');
+const { isWelsh, makeWelsh, removeWelsh, localify } = require('./common/urls');
 const {
     renderError,
     renderNotFound,
     renderUnauthorised
 } = require('./controllers/errors');
-const { SENTRY_DSN } = require('./modules/secrets');
+const { SENTRY_DSN } = require('./common/secrets');
 const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
-const viewFilters = require('./modules/filters');
+const viewFilters = require('./common/filters');
 
 const { defaultSecurityHeaders } = require('./middleware/securityHeaders');
 const { injectCopy, injectHeroImage } = require('./middleware/inject-content');

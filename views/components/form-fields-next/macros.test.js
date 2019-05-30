@@ -1,6 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const { renderComponentMacro } = require('../../../modules/test-renderers');
+const { renderComponentMacro } = require('../../../common/test-renderers');
 
 describe.only('form field macros', () => {
     test('inputText', async () => {

@@ -2,7 +2,7 @@
 const config = require('config');
 const helmet = require('helmet');
 const { concat, get } = require('lodash');
-const appData = require('../modules/appData');
+const appData = require('../common/appData');
 
 function withDefaultDirectives(directives) {
     const { defaultSrc } = directives;

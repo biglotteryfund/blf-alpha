@@ -4,9 +4,9 @@ const request = require('request-promise-native');
 const Joi = require('@hapi/joi');
 const Sentry = require('@sentry/node');
 
-const feedbackService = require('../../services/feedback');
-const surveyService = require('../../services/surveys');
-const appData = require('../../modules/appData');
+const { purifyUserInput } = require('../../common/validators');
+const { Feedback, SurveyAnswer } = require('../../db/models');
+const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../modules/secrets');
 
 const idealPostcodes = require('ideal-postcodes')(POSTCODES_API_KEY);
@@ -70,9 +70,9 @@ router.post('/feedback', async (req, res) => {
         });
     } else {
         try {
-            const result = await feedbackService.storeFeedback({
+            const [result] = await Feedback.storeFeedback({
                 description: validationResult.value.description,
-                message: validationResult.value.message
+                message: purifyUserInput(validationResult.value.message)
             });
 
             res.json({
@@ -114,10 +114,10 @@ router.post('/survey', async (req, res) => {
         });
     } else {
         try {
-            const result = await surveyService.createResponse({
+            const [result] = await SurveyAnswer.createResponse({
                 choice: validationResult.value.choice,
                 path: validationResult.value.path,
-                message: validationResult.value.message
+                message: purifyUserInput(validationResult.value.message)
             });
 
             res.json({
