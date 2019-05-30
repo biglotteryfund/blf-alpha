@@ -2,7 +2,7 @@
 'use strict';
 const config = require('config');
 const cloudfrontDistributions = config.get('aws.cloudfrontDistributions');
-const { makeBehaviourItem, generateBehaviours } = require('../cloudfront');
+const { makeBehaviourItem, generateBehaviours } = require('./cloudfront');
 
 describe('#makeBehaviourItem', () => {
     it('should return cloudfront behaviour for route', () => {

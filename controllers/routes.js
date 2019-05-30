@@ -3,58 +3,40 @@
 const { basicContent, flexibleContent, staticPage } = require('./common');
 
 /**
- * @typedef {object} Route
- * @property {string} path
- * @property {string} [lang]
- * @property {string} [heroSlug]
- * @property {function} [router]
- * @property {boolean} [isDraft]
- * @property {boolean} [excludeFromSitemap]
- */
-
-/**
  * @typedef {object} Section
  * @property {string} path
- * @property {boolean} showInNavigation
- * @property {string} [langTitlePath]
- * @property {Array<Route>} pages
+ * @property {Array<{ path: string, router: function }>} pages
  */
 
 /**
  * Home and top-level routes
- * @type {Section}
  */
 const toplevel = {
     path: '',
-    showInNavigation: true,
-    langTitlePath: 'global.nav.home',
     pages: [
         {
             path: '/',
-            lang: 'toplevel.home',
             router: require('./home')
         },
         {
             path: '/northern-ireland',
-            lang: 'toplevel.northernIreland',
-            heroSlug: 'cruse-bereavement-care-new',
             router: staticPage({
+                lang: 'toplevel.northernIreland',
                 disableLanguageLink: true,
+                heroSlug: 'cruse-bereavement-care-new',
                 template: 'static-pages/region'
             })
         },
         {
             path: '/wales',
-            lang: 'toplevel.wales',
-            heroSlug: 'the-outdoor-partnership-new',
             router: staticPage({
+                lang: 'toplevel.wales',
+                heroSlug: 'the-outdoor-partnership-new',
                 template: 'static-pages/region'
             })
         },
         {
             path: '/data',
-            lang: 'toplevel.data',
-            heroSlug: 'fsn-new',
             router: require('./data')
         },
         {
@@ -67,8 +49,7 @@ const toplevel = {
         },
         {
             path: '/user',
-            router: require('./user'),
-            excludeFromSitemap: true
+            router: require('./user')
         },
         {
             path: '/apply',
@@ -83,29 +64,26 @@ const toplevel = {
  */
 const funding = {
     path: '/funding',
-    showInNavigation: true,
-    langTitlePath: 'global.nav.funding',
     pages: [
         {
             path: '/',
-            lang: 'toplevel.funding',
             router: require('./funding')
         },
         {
             path: '/under10k',
-            lang: 'funding.under10k',
-            heroSlug: 'funding-under-10k-new',
             router: staticPage({
+                lang: 'funding.under10k',
                 template: 'static-pages/under10k',
+                heroSlug: 'funding-under-10k-new',
                 projectStorySlugs: ['hapani', 'niid', 'new-routes']
             })
         },
         {
             path: '/over10k',
-            lang: 'funding.over10k',
-            heroSlug: 'headway-new',
             router: staticPage({
+                lang: 'funding.over10k',
                 template: 'static-pages/over10k',
+                heroSlug: 'headway-new',
                 projectStorySlugs: ['kvin', 'shettleston', 'rosies-trust']
             })
         },
@@ -126,16 +104,14 @@ const funding = {
             router: require('./grants')
         },
         {
-            path:
-                '/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos',
-            lang: 'funding.guidance.logos',
+            path: `/funding-guidance/managing-your-funding/grant-acknowledgement-and-logos`,
             router: basicContent({
+                lang: 'funding.guidance.logos',
                 customTemplate: 'static-pages/logos'
             })
         },
         {
-            path:
-                '/funding-guidance/managing-your-funding/ordering-free-materials',
+            path: `/funding-guidance/managing-your-funding/ordering-free-materials`,
             router: require('./materials')
         },
         {
@@ -151,14 +127,7 @@ const funding = {
  */
 const insights = {
     path: '/insights',
-    showInNavigation: true,
-    langTitlePath: 'global.nav.insights',
-    pages: [
-        {
-            path: '/',
-            router: require('./insights')
-        }
-    ]
+    pages: [{ path: '/', router: require('./insights') }]
 };
 
 /**
@@ -167,13 +136,7 @@ const insights = {
  */
 const talk = {
     path: '/contact',
-    showInNavigation: false,
-    pages: [
-        {
-            path: '/',
-            router: basicContent()
-        }
-    ]
+    pages: [{ path: '/', router: basicContent() }]
 };
 
 /**
@@ -182,22 +145,10 @@ const talk = {
  */
 const about = {
     path: '/about',
-    showInNavigation: true,
-    langTitlePath: 'global.nav.about',
     pages: [
-        {
-            path: '/',
-            router: flexibleContent()
-        },
-        {
-            path: '/our-people',
-            lang: 'about.ourPeople',
-            router: require('./our-people')
-        },
-        {
-            path: '/*',
-            router: basicContent()
-        }
+        { path: '/', router: flexibleContent() },
+        { path: '/our-people', router: require('./our-people') },
+        { path: '/*', router: basicContent() }
     ]
 };
 
@@ -207,29 +158,14 @@ const about = {
  */
 const updates = {
     path: '/news',
-    showInNavigation: false,
-    langTitlePath: 'global.nav.updates',
-    pages: [
-        {
-            path: '/',
-            router: require('./updates')
-        }
-    ]
+    pages: [{ path: '/', router: require('./updates') }]
 };
 
-/**
- * Sections
- * The order here defines the order of the navigation
- */
-const sections = {
+module.exports = {
     toplevel: toplevel,
     funding: funding,
     insights: insights,
     talk: talk,
     about: about,
     updates: updates
-};
-
-module.exports = {
-    sections
 };
