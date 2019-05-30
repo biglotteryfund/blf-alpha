@@ -243,6 +243,70 @@ describe('form model', () => {
         });
     });
 
+    function testAddressField(fieldName) {
+        test('address is valid', () => {
+            function value(val) {
+                return {
+                    [fieldName]: val
+                };
+            }
+
+            assertValidByKey(value(mockAddress()));
+            assertMessagesByKey(value(null), ['Enter a full UK address']);
+            assertMessagesByKey(
+                value({
+                    line1: '3 Embassy Drive',
+                    county: 'West Midlands',
+                    postcode: 'B15 1TR'
+                }),
+                ['Enter a full UK address']
+            );
+            assertMessagesByKey(
+                value({ ...mockAddress(), ...{ postcode: 'not a postcode' } }),
+                ['Enter a real postcode']
+            );
+        });
+
+        test('address is included when there is a required organisation type', () => {
+            const valueWithOrgType = {
+                organisationType: ORGANISATION_TYPES.CIO,
+                [fieldName]: mockAddress()
+            };
+            expect(testValidate(valueWithOrgType).value).toEqual(
+                valueWithOrgType
+            );
+        });
+
+        test('address is included when there is no organisation type', () => {
+            const valueWithoutOrgType = {
+                [fieldName]: mockAddress()
+            };
+            expect(testValidate(valueWithoutOrgType).value).toEqual(
+                valueWithoutOrgType
+            );
+        });
+
+        test('address value stripped for schools and statutory bodies', () => {
+            [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.STATUTORY_BODY
+            ].forEach(orgType => {
+                expect(
+                    testValidate({
+                        organisationType: orgType,
+                        [fieldName]: mockAddress()
+                    }).value
+                ).toEqual({
+                    organisationType: orgType
+                });
+
+                assertValidByKey({
+                    organisationType: orgType
+                });
+            });
+        });
+    }
+
     describe('senior contact', () => {
         test('date of birth must be at least 18', () => {
             function value(val) {
@@ -298,67 +362,7 @@ describe('form model', () => {
             });
         });
 
-        test('address is valid', () => {
-            function value(val) {
-                return {
-                    seniorContactAddress: val
-                };
-            }
-
-            assertValidByKey(value(mockAddress()));
-            assertMessagesByKey(value(null), ['Enter a full UK address']);
-            assertMessagesByKey(
-                value({
-                    line1: '3 Embassy Drive',
-                    county: 'West Midlands',
-                    postcode: 'B15 1TR'
-                }),
-                ['Enter a full UK address']
-            );
-            assertMessagesByKey(
-                value({ ...mockAddress(), ...{ postcode: 'not a postcode' } }),
-                ['Enter a real postcode']
-            );
-        });
-
-        test('address is included when there is a required organisation type', () => {
-            const valueWithOrgType = {
-                organisationType: ORGANISATION_TYPES.CIO,
-                seniorContactAddress: mockAddress()
-            };
-            expect(testValidate(valueWithOrgType).value).toEqual(
-                valueWithOrgType
-            );
-        });
-
-        test('address is included when there is no organisation type', () => {
-            const valueWithoutOrgType = {
-                seniorContactAddress: mockAddress()
-            };
-            expect(testValidate(valueWithoutOrgType).value).toEqual(
-                valueWithoutOrgType
-            );
-        });
-
-        test('address value stripped for schools and statutory bodies', () => {
-            [
-                ORGANISATION_TYPES.SCHOOL,
-                ORGANISATION_TYPES.STATUTORY_BODY
-            ].forEach(orgType => {
-                expect(
-                    testValidate({
-                        organisationType: orgType,
-                        seniorContactAddress: mockAddress()
-                    }).value
-                ).toEqual({
-                    organisationType: orgType
-                });
-
-                assertValidByKey({
-                    organisationType: orgType
-                });
-            });
-        });
+        testAddressField('seniorContactAddress');
 
         test('contact fields not included for schools and statutory bodies', () => {
             const seniorContactFn = fieldNamesFor(
@@ -449,67 +453,7 @@ describe('form model', () => {
             });
         });
 
-        test('address is valid', () => {
-            function value(val) {
-                return {
-                    mainContactAddress: val
-                };
-            }
-
-            assertValidByKey(value(mockAddress()));
-            assertMessagesByKey(value(null), ['Enter a full UK address']);
-            assertMessagesByKey(
-                value({
-                    line1: '3 Embassy Drive',
-                    county: 'West Midlands',
-                    postcode: 'B15 1TR'
-                }),
-                ['Enter a full UK address']
-            );
-            assertMessagesByKey(
-                value({ ...mockAddress(), ...{ postcode: 'not a postcode' } }),
-                ['Enter a real postcode']
-            );
-        });
-
-        test('address is included when there is a required organisation type', () => {
-            const valueWithOrgType = {
-                organisationType: ORGANISATION_TYPES.CIO,
-                mainContactAddress: mockAddress()
-            };
-            expect(testValidate(valueWithOrgType).value).toEqual(
-                valueWithOrgType
-            );
-        });
-
-        test('address is included when there is no organisation type', () => {
-            const valueWithoutOrgType = {
-                mainContactAddress: mockAddress()
-            };
-            expect(testValidate(valueWithoutOrgType).value).toEqual(
-                valueWithoutOrgType
-            );
-        });
-
-        test('address value stripped for schools and statutory bodies', () => {
-            [
-                ORGANISATION_TYPES.SCHOOL,
-                ORGANISATION_TYPES.STATUTORY_BODY
-            ].forEach(orgType => {
-                expect(
-                    testValidate({
-                        organisationType: orgType,
-                        mainContactAddress: mockAddress()
-                    }).value
-                ).toEqual({
-                    organisationType: orgType
-                });
-
-                assertValidByKey({
-                    organisationType: orgType
-                });
-            });
-        });
+        testAddressField('mainContactAddress');
 
         test('contact fields not included for schools and statutory bodies', () => {
             const mainContactFn = fieldNamesFor('main-contact', 'Main contact');
