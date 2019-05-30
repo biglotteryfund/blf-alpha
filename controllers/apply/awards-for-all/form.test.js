@@ -7,7 +7,12 @@ const faker = require('faker');
 const validateModel = require('../form-router-next/lib/validate-model');
 const validateForm = require('../form-router-next/lib/validate-form');
 
-const { mockStartDate, mockFullForm } = require('./mocks');
+const {
+    mockAddress,
+    mockDateOfBirth,
+    mockStartDate,
+    mockFullForm
+} = require('./mocks');
 const { ORGANISATION_TYPES } = require('./constants');
 const formBuilder = require('./form');
 
@@ -238,72 +243,196 @@ describe('form model', () => {
         });
     });
 
-    test('exclude address and date of birth for schools or statutory bodies', () => {
-        const mainContactFn = fieldNamesFor('main-contact', 'Main contact');
+    function testDateOfBirthField(fieldName, minAge) {
+        test(`date of birth must be at least ${minAge}`, () => {
+            function value(val) {
+                return {
+                    [fieldName]: val
+                };
+            }
 
-        const mainContactDefaultFields = [
-            'mainContactFirstName',
-            'mainContactLastName',
-            'mainContactDateOfBirth',
-            'mainContactAddress',
-            'mainContactAddressHistory',
-            'mainContactEmail',
-            'mainContactPhone',
-            'mainContactCommunicationNeeds'
-        ];
+            assertMessagesByKey(value(null), ['Enter a date of birth']);
+            assertMessagesByKey(value({ year: 2000, month: 2, day: 31 }), [
+                'Enter a real date'
+            ]);
+            assertMessagesByKey(value(mockDateOfBirth(0, minAge - 1)), [
+                `Must be at least ${minAge} years old`
+            ]);
+            assertValidByKey(value(mockDateOfBirth(minAge, 90)));
+        });
 
-        const mainContactReducedFields = [
-            'mainContactFirstName',
-            'mainContactLastName',
-            'mainContactEmail',
-            'mainContactPhone',
-            'mainContactCommunicationNeeds'
-        ];
+        test('date of birth is included if there is no organisation type', () => {
+            const dobWithoutOrgType = {
+                [fieldName]: mockDateOfBirth(minAge, 90)
+            };
+            expect(testValidate(dobWithoutOrgType).value).toEqual(
+                dobWithoutOrgType
+            );
+        });
 
-        expect(mainContactFn({})).toEqual(mainContactDefaultFields);
-        expect(
-            mainContactFn({ organisationType: ORGANISATION_TYPES.SCHOOL })
-        ).toEqual(mainContactReducedFields);
-        expect(
-            mainContactFn({
-                organisationType: ORGANISATION_TYPES.STATUTORY_BODY
-            })
-        ).toEqual(mainContactReducedFields);
+        test('date of birth is included when there is a required organisation type', () => {
+            const dobWithOrgType = {
+                organisationType: ORGANISATION_TYPES.CIO,
+                [fieldName]: mockDateOfBirth(minAge, 90)
+            };
+            expect(testValidate(dobWithOrgType).value).toEqual(dobWithOrgType);
+        });
 
-        const seniorContactFn = fieldNamesFor(
-            'senior-contact',
-            'Senior contact'
-        );
+        test('date of birth value stripped for schools and statutory bodies', () => {
+            [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.STATUTORY_BODY
+            ].forEach(orgType => {
+                const dobWithSchool = {
+                    organisationType: orgType,
+                    [fieldName]: mockDateOfBirth(minAge, 90)
+                };
 
-        const seniorContactDefaultFields = [
-            'seniorContactFirstName',
-            'seniorContactLastName',
-            'seniorContactRole',
-            'seniorContactDateOfBirth',
-            'seniorContactAddress',
-            'seniorContactAddressHistory',
-            'seniorContactEmail',
-            'seniorContactPhone',
-            'seniorContactCommunicationNeeds'
-        ];
+                expect(testValidate(dobWithSchool).value).toEqual({
+                    organisationType: orgType
+                });
 
-        const seniorContactReducedFields = [
-            'seniorContactFirstName',
-            'seniorContactLastName',
-            'seniorContactRole',
-            'seniorContactEmail',
-            'seniorContactPhone',
-            'seniorContactCommunicationNeeds'
-        ];
+                assertValidByKey({
+                    organisationType: orgType
+                });
+            });
+        });
+    }
 
-        expect(seniorContactFn({})).toEqual(seniorContactDefaultFields);
-        expect(
-            seniorContactFn({ organisationType: ORGANISATION_TYPES.SCHOOL })
-        ).toEqual(seniorContactReducedFields);
-        expect(
-            seniorContactFn({
-                organisationType: ORGANISATION_TYPES.STATUTORY_BODY
-            })
-        ).toEqual(seniorContactReducedFields);
+    function testAddressField(fieldName) {
+        test('address is valid', () => {
+            function value(val) {
+                return {
+                    [fieldName]: val
+                };
+            }
+
+            assertValidByKey(value(mockAddress()));
+            assertMessagesByKey(value(null), ['Enter a full UK address']);
+            assertMessagesByKey(
+                value({
+                    line1: '3 Embassy Drive',
+                    county: 'West Midlands',
+                    postcode: 'B15 1TR'
+                }),
+                ['Enter a full UK address']
+            );
+            assertMessagesByKey(
+                value({ ...mockAddress(), ...{ postcode: 'not a postcode' } }),
+                ['Enter a real postcode']
+            );
+        });
+
+        test('address is included when there is a required organisation type', () => {
+            const valueWithOrgType = {
+                organisationType: ORGANISATION_TYPES.CIO,
+                [fieldName]: mockAddress()
+            };
+            expect(testValidate(valueWithOrgType).value).toEqual(
+                valueWithOrgType
+            );
+        });
+
+        test('address is included when there is no organisation type', () => {
+            const valueWithoutOrgType = {
+                [fieldName]: mockAddress()
+            };
+            expect(testValidate(valueWithoutOrgType).value).toEqual(
+                valueWithoutOrgType
+            );
+        });
+
+        test('address value stripped for schools and statutory bodies', () => {
+            [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.STATUTORY_BODY
+            ].forEach(orgType => {
+                expect(
+                    testValidate({
+                        organisationType: orgType,
+                        [fieldName]: mockAddress()
+                    }).value
+                ).toEqual({
+                    organisationType: orgType
+                });
+
+                assertValidByKey({
+                    organisationType: orgType
+                });
+            });
+        });
+    }
+
+    describe('senior contact', () => {
+        testDateOfBirthField('seniorContactDateOfBirth', 18);
+
+        testAddressField('seniorContactAddress');
+
+        test('contact fields not included for schools and statutory bodies', () => {
+            const seniorContactFn = fieldNamesFor(
+                'senior-contact',
+                'Senior contact'
+            );
+
+            expect(seniorContactFn({})).toEqual([
+                'seniorContactFirstName',
+                'seniorContactLastName',
+                'seniorContactRole',
+                'seniorContactDateOfBirth',
+                'seniorContactAddress',
+                'seniorContactAddressHistory',
+                'seniorContactEmail',
+                'seniorContactPhone',
+                'seniorContactCommunicationNeeds'
+            ]);
+
+            [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.STATUTORY_BODY
+            ].forEach(orgType => {
+                expect(seniorContactFn({ organisationType: orgType })).toEqual([
+                    'seniorContactFirstName',
+                    'seniorContactLastName',
+                    'seniorContactRole',
+                    'seniorContactEmail',
+                    'seniorContactPhone',
+                    'seniorContactCommunicationNeeds'
+                ]);
+            });
+        });
+    });
+
+    describe('main contact', () => {
+        testDateOfBirthField('mainContactDateOfBirth', 16);
+
+        testAddressField('mainContactAddress');
+
+        test('contact fields not included for schools and statutory bodies', () => {
+            const mainContactFn = fieldNamesFor('main-contact', 'Main contact');
+
+            expect(mainContactFn({})).toEqual([
+                'mainContactFirstName',
+                'mainContactLastName',
+                'mainContactDateOfBirth',
+                'mainContactAddress',
+                'mainContactAddressHistory',
+                'mainContactEmail',
+                'mainContactPhone',
+                'mainContactCommunicationNeeds'
+            ]);
+
+            [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.STATUTORY_BODY
+            ].forEach(orgType => {
+                expect(mainContactFn({ organisationType: orgType })).toEqual([
+                    'mainContactFirstName',
+                    'mainContactLastName',
+                    'mainContactEmail',
+                    'mainContactPhone',
+                    'mainContactCommunicationNeeds'
+                ]);
+            });
+        });
     });
 });
