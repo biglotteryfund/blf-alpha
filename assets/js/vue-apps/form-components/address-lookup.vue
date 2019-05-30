@@ -4,6 +4,9 @@ import compact from 'lodash/compact';
 
 const states = {
     NotAsked: 'NotAsked',
+    AlreadyAnswered: 'AlreadyAnswered',
+    Editing: 'Editing',
+    Asking: 'Asking',
     Loading: 'Loading',
     Failure: 'Failure',
     Success: 'Success'
@@ -11,27 +14,49 @@ const states = {
 
 export default {
     props: {
-        locale: { type: String, default: 'en' }
+        locale: { type: String, default: 'en' },
+        address: { type: String, default: null }
     },
     data() {
         return {
-            states: states,
-            currentState: states.NotAsked,
+            currentAddress: null,
             postcode: null,
+            currentState: states.NotAsked,
+            states: states,
+            fullAddress: null,
             addressData: [],
             candidates: [],
-            selectedAddressId: '',
-            showAddressPreview: false,
-            fullAddress: null
+            selectedAddressId: ''
+            // showAddressPreview: false,
         };
     },
+    mounted() {
+        if (this.address) {
+            try {
+                const addressParts = JSON.parse(this.address);
+                if (addressParts) {
+                    this.currentAddress = addressParts;
+                    this.fullAddress = {
+                        line1: this.currentAddress.line1,
+                        line2: this.currentAddress.line2,
+                        townCity: this.currentAddress.townCity,
+                        county: this.currentAddress.county,
+                        postcode: this.currentAddress.postcode
+                    };
+                    this.currentState = this.states.AlreadyAnswered;
+                }
+            } catch (e) {} // eslint-disable-line no-empty
+        }
+    },
     methods: {
-        formatAddress(udprn) {
-            const address = this.addressData.find(_ => _.udprn === udprn);
+        getAddressFromId(udprn) {
+            return this.addressData.find(_ => _.udprn === udprn);
+        },
+        formatAddress(address) {
             if (address) {
                 return {
-                    addressLine1: address.line_1,
-                    addressLine2: address.line_2,
+                    line1: address.line_1,
+                    line2: address.line_2,
                     townCity: address.post_town,
                     county: address.county,
                     postcode: address.postcode
@@ -73,23 +98,37 @@ export default {
                     this.handleFailure();
                 });
         },
-        handleFallback() {
+        clearState() {
+            this.postcode = null;
             this.candidates = [];
             this.addressData = [];
             this.fullAddress = null;
-            this.showAddressPreview = false;
+        },
+        removeAddress() {
+            this.currentState = this.states.Asking;
+            this.clearState();
+            this.$emit('clear-address');
+        },
+        handleFallback() {
+            this.currentState = this.states.Editing;
+            this.clearState();
             this.$emit('show-fallback');
+        },
+        updateAddressPreview(fullAddress) {
+            if (fullAddress) {
+                this.$emit('full-address', fullAddress);
+                this.currentState = this.states.AlreadyAnswered;
+                this.fullAddress = fullAddress;
+            }
         }
     },
     watch: {
         selectedAddressId() {
             if (this.selectedAddressId) {
                 this.currentState = this.states.Success;
-                const fullAddress = this.formatAddress(this.selectedAddressId);
-                if (fullAddress) {
-                    this.$emit('full-address', fullAddress);
-                    this.showAddressPreview = true;
-                    this.fullAddress = fullAddress;
+                const address = this.getAddressFromId(this.selectedAddressId);
+                if (address) {
+                    this.updateAddressPreview(this.formatAddress(address));
                 }
             }
         }
@@ -103,12 +142,14 @@ export default {
             }
         },
         addressHtml() {
-            return compact([
-                this.fullAddress.addressLine1,
-                this.fullAddress.addressLine2,
-                this.fullAddress.townCity,
-                this.fullAddress.postcode
-            ]).join('<br />');
+            return this.fullAddress
+                ? compact([
+                      this.fullAddress.line1,
+                      this.fullAddress.line2,
+                      this.fullAddress.townCity,
+                      this.fullAddress.postcode
+                  ]).join('<br />')
+                : '';
         },
         id() {
             return Math.random()
@@ -124,7 +165,15 @@ export default {
 
 <template>
     <div>
-        <div class="address-lookup">
+        <div
+            v-if="
+                currentState === states.Asking ||
+                    currentState === states.NotAsked ||
+                    currentState === states.Success ||
+                    currentState === states.Loading
+            "
+            class="address-lookup"
+        >
             <label :for="ariaId" class="ff-label"
                 >Find address by postcode</label
             >
@@ -140,7 +189,7 @@ export default {
                 />
                 <button
                     type="button"
-                    class="btn btn--small"
+                    class="btn btn--small u-margin-left-s"
                     @click="handleLookup"
                     :disabled="currentState === states.Loading"
                     aria-live="assertive"
@@ -175,17 +224,16 @@ export default {
                     </option>
                 </select>
             </div>
-            <label
-                for="address-selection"
-                class="ff-label"
-                v-if="currentState === states.Failure"
-            >
-                There was an error finding your address - please provide it
-                below.
-            </label>
         </div>
 
-        <div class="selected-address" v-if="fullAddress && showAddressPreview">
+        <p class="ff-error" v-if="currentState === states.Failure">
+            There was an error finding your address - please provide it below.
+        </p>
+
+        <div
+            v-if="currentState === states.AlreadyAnswered"
+            class="selected-address"
+        >
             <h3 class="selected-address__title">Selected address</h3>
             <address
                 class="selected-address__address"
@@ -194,6 +242,13 @@ export default {
             <div class="selected-address__actions">
                 <button type="button" class="btn-link" @click="handleFallback">
                     Edit
+                </button>
+                <button
+                    type="button"
+                    class="btn-link u-margin-left-s"
+                    @click="removeAddress"
+                >
+                    Remove
                 </button>
             </div>
         </div>

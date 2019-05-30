@@ -18,12 +18,21 @@ function init() {
             },
             methods: {
                 handleAddress(data) {
+                    console.log('got data', data);
                     this.showFallbackFields = false;
-                    this.$refs.addressLine1.value = data.addressLine1;
-                    this.$refs.addressLine2.value = data.addressLine2 || '';
+                    this.$refs.addressLine1.value = data.line1;
+                    this.$refs.addressLine2.value = data.line2 || '';
                     this.$refs.townCity.value = data.townCity;
                     this.$refs.county.value = data.county;
                     this.$refs.postcode.value = data.postcode;
+                },
+                clearAddress() {
+                    this.$refs.addressLine1.value = null;
+                    this.$refs.addressLine2.value = null;
+                    this.$refs.townCity.value = null;
+                    this.$refs.county.value = null;
+                    this.$refs.postcode.value = null;
+                    this.handleFallback();
                 },
                 handleFallback() {
                     this.showFallbackFields = true;

@@ -65,7 +65,7 @@
             class="ff-text ff-width-2"
             name="{{ dateInputName(field, 'day', rangePeriod) }}"
             type="number"
-            pattern="[0-9]*"  min="1"
+            pattern="[0-9]*" min="1" max="31"
             autocomplete="off"
             {% if field.isRequired %}required aria-required="true"{% endif %}
             value="{{ field.value[rangePeriod].day if rangePeriod else field.value.day }}"
@@ -77,7 +77,7 @@
             class="ff-text ff-width-2"
             name="{{ dateInputName(field, 'month', rangePeriod) }}"
             type="number"
-            pattern="[0-9]*"  min="1"
+            pattern="[0-9]*" min="1" max="12"
             autocomplete="off"
             {% if field.isRequired %}required aria-required="true"{% endif %}
             value="{{ field.value[rangePeriod].month if rangePeriod else field.value.month }}"
@@ -306,17 +306,24 @@
             {{ labelFor(field) }}
         </legend>
 
+        {{ explanationFor(field) }}
+
         <address-lookup
             locale="{{ locale }}"
+            address="{{ field.value | dump }}"
             @full-address="handleAddress"
+            @clear-address="clearAddress"
             @show-fallback="handleFallback"
         ></address-lookup>
 
-        {{ explanationFor(field) }}
+        {{ field.name }}
+        <pre>{{ field.value | dump }}</pre>
 
-        <details open :open="showFallbackFields" class="u-margin-top">
-            <summary>Enter address manually</summary>
-            <div class="ff-address__fields">
+        <details open :open="showFallbackFields" class="o-details u-margin-top">
+            <summary class="js-only o-details__summary" v-show="!showFallbackFields">
+                Enter address manually
+            </summary>
+            <div class="o-details__content ff-address__fields">
                 <div class="ff-address__field">
                     {{ inputText({
                         label: 'Building and street',
@@ -411,7 +418,8 @@
         <div class="u-margin-top" id="address-history-conditional-no">
             {{ inputAddress({
                 name: field.name + '[previousAddress]',
-                label: 'Previous address'
+                label: 'Previous address',
+                value: field.value.previousAddress
             }) }}
         </div>
     </div>
