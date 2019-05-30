@@ -27,7 +27,6 @@ export default {
             addressData: [],
             candidates: [],
             selectedAddressId: ''
-            // showAddressPreview: false,
         };
     },
     mounted() {
@@ -69,6 +68,9 @@ export default {
             this.handleFallback();
         },
         handleLookup() {
+            if (!this.formIsValid) {
+                return;
+            }
             this.currentState = this.states.Loading;
             this.fullAddress = null;
             $.ajax({
@@ -137,6 +139,12 @@ export default {
         }
     },
     computed: {
+        formIsValid() {
+            const VALIDATION_REGEX = /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/i;
+            return (
+                this.postcode && this.postcode.match(VALIDATION_REGEX) !== null
+            );
+        },
         lookupLabel() {
             if (this.currentState === this.states.Loading) {
                 return 'Looking up address…';
@@ -195,7 +203,7 @@ export default {
                     type="button"
                     class="btn btn--small u-margin-left-s"
                     @click="handleLookup"
-                    :disabled="currentState === states.Loading"
+                    :disabled="currentState === states.Loading || !formIsValid"
                     aria-live="assertive"
                     aria-atomic="true"
                 >
