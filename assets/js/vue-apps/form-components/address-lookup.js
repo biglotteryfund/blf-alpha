@@ -18,7 +18,6 @@ function init() {
             },
             methods: {
                 handleAddress(data) {
-                    console.log('got data', data);
                     this.showFallbackFields = false;
                     this.$refs.addressLine1.value = data.line1;
                     this.$refs.addressLine2.value = data.line2 || '';
