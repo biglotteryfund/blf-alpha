@@ -16,7 +16,10 @@
             {% endif %}
 
             <form action="" method="post" autocomplete="off">
-                {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
+                {{ formErrors(
+                    title = __('global.misc.errorTitle'),
+                    errors = errors
+                ) }}
 
                 {% if csrfToken %}
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
@@ -25,7 +28,7 @@
                 {{ formField({
                     type: 'email',
                     name: 'username',
-                    label: 'Email address',
+                    label: __('user.common.emailAddress'),
                     isRequired: true,
                     value: formValues['username']
                 }, errors = errors) }}
@@ -33,14 +36,15 @@
                 {{ formField({
                     type: 'password',
                     name: 'password',
-                    label: 'Password',
+                    label: __('user.common.password'),
                     explanation: __('user.common.passwordRequirements'),
                     isRequired: true
                 }, errors = errors) }}
 
                 <div class="form-actions">
-                    <input type="submit" class="btn" value="Register" />
-                    or <a href="/user/login">log in</a>
+                    <input type="submit" class="btn" value="{{ copy.actionLabel }}" />
+                    {{ __('global.misc.or') }}
+                    <a href="{{ localify('/user/login') }}">{{ copy.loginLabel }}</a>
                 </div>
             </form>
         </div>

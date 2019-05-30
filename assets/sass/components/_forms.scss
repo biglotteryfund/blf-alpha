@@ -494,7 +494,7 @@ $inputOutline: 3px solid get-color('border', 'outline');
     > .btn {
         display: inline-block;
         vertical-align: middle;
-        margin-right: $spacingUnit * 2;
+        margin-right: $spacingUnit;
     }
 
     > .btn-link {
