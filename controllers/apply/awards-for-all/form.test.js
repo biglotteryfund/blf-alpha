@@ -7,7 +7,12 @@ const faker = require('faker');
 const validateModel = require('../form-router-next/lib/validate-model');
 const validateForm = require('../form-router-next/lib/validate-form');
 
-const { mockDateOfBirth, mockStartDate, mockFullForm } = require('./mocks');
+const {
+    mockAddress,
+    mockDateOfBirth,
+    mockStartDate,
+    mockFullForm
+} = require('./mocks');
 const { ORGANISATION_TYPES } = require('./constants');
 const formBuilder = require('./form');
 
@@ -278,12 +283,12 @@ describe('form model', () => {
                 ORGANISATION_TYPES.SCHOOL,
                 ORGANISATION_TYPES.STATUTORY_BODY
             ].forEach(orgType => {
-                const dobWithSchool = {
-                    organisationType: orgType,
-                    seniorContactDateOfBirth: mockDateOfBirth(18, 90)
-                };
-
-                expect(testValidate(dobWithSchool).value).toEqual({
+                expect(
+                    testValidate({
+                        organisationType: orgType,
+                        seniorContactDateOfBirth: mockDateOfBirth(18, 90)
+                    }).value
+                ).toEqual({
                     organisationType: orgType
                 });
 
@@ -293,13 +298,75 @@ describe('form model', () => {
             });
         });
 
-        test('date of birth fields not included for schools and statutory bodies', () => {
+        test('address is valid', () => {
+            function value(val) {
+                return {
+                    seniorContactAddress: val
+                };
+            }
+
+            assertValidByKey(value(mockAddress()));
+            assertMessagesByKey(value(null), ['Enter a full UK address']);
+            assertMessagesByKey(
+                value({
+                    line1: '3 Embassy Drive',
+                    county: 'West Midlands',
+                    postcode: 'B15 1TR'
+                }),
+                ['Enter a full UK address']
+            );
+            assertMessagesByKey(
+                value({ ...mockAddress(), ...{ postcode: 'not a postcode' } }),
+                ['Enter a real postcode']
+            );
+        });
+
+        test('address is included when there is a required organisation type', () => {
+            const valueWithOrgType = {
+                organisationType: ORGANISATION_TYPES.CIO,
+                seniorContactAddress: mockAddress()
+            };
+            expect(testValidate(valueWithOrgType).value).toEqual(
+                valueWithOrgType
+            );
+        });
+
+        test('address is included when there is no organisation type', () => {
+            const valueWithoutOrgType = {
+                seniorContactAddress: mockAddress()
+            };
+            expect(testValidate(valueWithoutOrgType).value).toEqual(
+                valueWithoutOrgType
+            );
+        });
+
+        test('address value stripped for schools and statutory bodies', () => {
+            [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.STATUTORY_BODY
+            ].forEach(orgType => {
+                expect(
+                    testValidate({
+                        organisationType: orgType,
+                        seniorContactAddress: mockAddress()
+                    }).value
+                ).toEqual({
+                    organisationType: orgType
+                });
+
+                assertValidByKey({
+                    organisationType: orgType
+                });
+            });
+        });
+
+        test('contact fields not included for schools and statutory bodies', () => {
             const seniorContactFn = fieldNamesFor(
                 'senior-contact',
                 'Senior contact'
             );
 
-            const seniorContactDefaultFields = [
+            expect(seniorContactFn({})).toEqual([
                 'seniorContactFirstName',
                 'seniorContactLastName',
                 'seniorContactRole',
@@ -309,26 +376,21 @@ describe('form model', () => {
                 'seniorContactEmail',
                 'seniorContactPhone',
                 'seniorContactCommunicationNeeds'
-            ];
+            ]);
 
-            const seniorContactReducedFields = [
-                'seniorContactFirstName',
-                'seniorContactLastName',
-                'seniorContactRole',
-                'seniorContactEmail',
-                'seniorContactPhone',
-                'seniorContactCommunicationNeeds'
-            ];
-
-            expect(seniorContactFn({})).toEqual(seniorContactDefaultFields);
-            expect(
-                seniorContactFn({ organisationType: ORGANISATION_TYPES.SCHOOL })
-            ).toEqual(seniorContactReducedFields);
-            expect(
-                seniorContactFn({
-                    organisationType: ORGANISATION_TYPES.STATUTORY_BODY
-                })
-            ).toEqual(seniorContactReducedFields);
+            [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.STATUTORY_BODY
+            ].forEach(orgType => {
+                expect(seniorContactFn({ organisationType: orgType })).toEqual([
+                    'seniorContactFirstName',
+                    'seniorContactLastName',
+                    'seniorContactRole',
+                    'seniorContactEmail',
+                    'seniorContactPhone',
+                    'seniorContactCommunicationNeeds'
+                ]);
+            });
         });
     });
 
@@ -387,10 +449,72 @@ describe('form model', () => {
             });
         });
 
-        test('date of birth fields not included for schools and statutory bodies', () => {
+        test('address is valid', () => {
+            function value(val) {
+                return {
+                    mainContactAddress: val
+                };
+            }
+
+            assertValidByKey(value(mockAddress()));
+            assertMessagesByKey(value(null), ['Enter a full UK address']);
+            assertMessagesByKey(
+                value({
+                    line1: '3 Embassy Drive',
+                    county: 'West Midlands',
+                    postcode: 'B15 1TR'
+                }),
+                ['Enter a full UK address']
+            );
+            assertMessagesByKey(
+                value({ ...mockAddress(), ...{ postcode: 'not a postcode' } }),
+                ['Enter a real postcode']
+            );
+        });
+
+        test('address is included when there is a required organisation type', () => {
+            const valueWithOrgType = {
+                organisationType: ORGANISATION_TYPES.CIO,
+                mainContactAddress: mockAddress()
+            };
+            expect(testValidate(valueWithOrgType).value).toEqual(
+                valueWithOrgType
+            );
+        });
+
+        test('address is included when there is no organisation type', () => {
+            const valueWithoutOrgType = {
+                mainContactAddress: mockAddress()
+            };
+            expect(testValidate(valueWithoutOrgType).value).toEqual(
+                valueWithoutOrgType
+            );
+        });
+
+        test('address value stripped for schools and statutory bodies', () => {
+            [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.STATUTORY_BODY
+            ].forEach(orgType => {
+                expect(
+                    testValidate({
+                        organisationType: orgType,
+                        mainContactAddress: mockAddress()
+                    }).value
+                ).toEqual({
+                    organisationType: orgType
+                });
+
+                assertValidByKey({
+                    organisationType: orgType
+                });
+            });
+        });
+
+        test('contact fields not included for schools and statutory bodies', () => {
             const mainContactFn = fieldNamesFor('main-contact', 'Main contact');
 
-            const mainContactDefaultFields = [
+            expect(mainContactFn({})).toEqual([
                 'mainContactFirstName',
                 'mainContactLastName',
                 'mainContactDateOfBirth',
@@ -399,25 +523,20 @@ describe('form model', () => {
                 'mainContactEmail',
                 'mainContactPhone',
                 'mainContactCommunicationNeeds'
-            ];
+            ]);
 
-            const mainContactReducedFields = [
-                'mainContactFirstName',
-                'mainContactLastName',
-                'mainContactEmail',
-                'mainContactPhone',
-                'mainContactCommunicationNeeds'
-            ];
-
-            expect(mainContactFn({})).toEqual(mainContactDefaultFields);
-            expect(
-                mainContactFn({ organisationType: ORGANISATION_TYPES.SCHOOL })
-            ).toEqual(mainContactReducedFields);
-            expect(
-                mainContactFn({
-                    organisationType: ORGANISATION_TYPES.STATUTORY_BODY
-                })
-            ).toEqual(mainContactReducedFields);
+            [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.STATUTORY_BODY
+            ].forEach(orgType => {
+                expect(mainContactFn({ organisationType: orgType })).toEqual([
+                    'mainContactFirstName',
+                    'mainContactLastName',
+                    'mainContactEmail',
+                    'mainContactPhone',
+                    'mainContactCommunicationNeeds'
+                ]);
+            });
         });
     });
 });

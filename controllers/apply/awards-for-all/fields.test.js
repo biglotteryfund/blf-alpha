@@ -288,48 +288,6 @@ describe('fields', () => {
         });
     }
 
-    function testContactAddress(field) {
-        test('must be a full valid address', () => {
-            assertValid(field, mockAddress());
-            assertErrorContains(field, null, 'must be an object');
-
-            assertErrorContains(
-                field,
-                {
-                    line1: '3 Embassy Drive',
-                    county: 'West Midlands',
-                    postcode: 'B15 1TR'
-                },
-                'child "townCity" fails because ["townCity" is required]'
-            );
-
-            assertErrorContains(
-                field,
-                { ...mockAddress(), ...{ postcode: 'not a postcode' } },
-                'did not seem to be a valid postcode'
-            );
-        });
-
-        test('optional if organisationType is a school or statutory-body', () => {
-            const schemaWithOrgType = {
-                'organisationType': fields.organisationType.schema,
-                [field.name]: field.schema
-            };
-
-            const optionalOrgTypes = [
-                ORGANISATION_TYPES.SCHOOL,
-                ORGANISATION_TYPES.STATUTORY_BODY
-            ];
-            optionalOrgTypes.forEach(type => {
-                const { error } = Joi.validate(
-                    { organisationType: type },
-                    schemaWithOrgType
-                );
-                expect(error).toBeNull();
-            });
-        });
-    }
-
     function testContactAddressHistory(field) {
         test('require address history if less than three years at current address', () => {
             assertValid(field, {
@@ -424,10 +382,6 @@ describe('fields', () => {
     describe('mainContactName', () => {
         testContactNamePart(fields.mainContactFirstName);
         testContactNamePart(fields.mainContactLastName);
-    });
-
-    describe('mainContactAddress', () => {
-        testContactAddress(fields.mainContactAddress);
     });
 
     describe('mainContactAddressHistory', () => {
@@ -536,10 +490,6 @@ describe('fields', () => {
                 'chief-executive'
             ]);
         });
-    });
-
-    describe('seniorContactAddress', () => {
-        testContactAddress(fields.seniorContactAddress);
     });
 
     describe('seniorContactAddressHistory', () => {
