@@ -254,7 +254,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             schema: Joi.dateParts()
                 .dob(minAge)
                 .when(Joi.ref('organisationType'), {
-                    is: Joi.valid(
+                    is: Joi.exist().valid(
                         ORGANISATION_TYPES.SCHOOL,
                         ORGANISATION_TYPES.STATUTORY_BODY
                     ),
