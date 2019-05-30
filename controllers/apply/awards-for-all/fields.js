@@ -1859,7 +1859,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'mainContactAddress',
             label: localise({ en: 'Current address', cy: '' }),
             schema: Joi.ukAddress().when(Joi.ref('organisationType'), {
-                is: Joi.valid(
+                is: Joi.exist().valid(
                     ORGANISATION_TYPES.SCHOOL,
                     ORGANISATION_TYPES.STATUTORY_BODY
                 ),
@@ -1909,7 +1909,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'seniorContactAddress',
             label: localise({ en: 'Current address', cy: '' }),
             schema: Joi.ukAddress().when(Joi.ref('organisationType'), {
-                is: Joi.valid(
+                is: Joi.exist().valid(
                     ORGANISATION_TYPES.SCHOOL,
                     ORGANISATION_TYPES.STATUTORY_BODY
                 ),
