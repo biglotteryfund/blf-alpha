@@ -314,13 +314,14 @@
             @full-address="handleAddress"
             @clear-address="clearAddress"
             @show-fallback="handleFallback"
+            ref="addressLookup"
         ></address-lookup>
 
-        <details open
-                 :open="showFallbackFields"
-                 @click.self="showFallbackFields = !showFallbackFields"
-                 class="o-details u-margin-top">
-            <summary class="js-only o-details__summary" v-show="showSummaryLabel">
+        <details class="o-details u-margin-top"
+                 open :open="showFallbackFields">
+            <summary class="js-only o-details__summary"
+                     v-show="showSummaryLabel"
+                     @click.self="showFallbackFields = !showFallbackFields">
                 Enter address manually
             </summary>
             <div class="o-details__content ff-address__fields">

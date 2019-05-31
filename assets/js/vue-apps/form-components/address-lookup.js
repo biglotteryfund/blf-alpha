@@ -40,6 +40,15 @@ function init() {
                     this.showFallbackFields = true;
                     this.showSummaryLabel = false;
                 }
+            },
+            watch: {
+                showFallbackFields() {
+                    // Inform the address component when the fallback is toggled
+                    // so we can toggle the postcode's required status
+                    this.$refs.addressLookup.trackFallbackState(
+                        this.showFallbackFields
+                    );
+                }
             }
         });
     });

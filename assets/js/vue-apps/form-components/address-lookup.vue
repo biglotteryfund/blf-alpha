@@ -26,14 +26,16 @@ export default {
             fullAddress: null,
             addressData: [],
             candidates: [],
-            selectedAddressId: ''
+            selectedAddressId: '',
+            fallbackVisible: null
         };
     },
     mounted() {
         if (this.address) {
             try {
                 const addressParts = JSON.parse(this.address);
-                if (addressParts) {
+                // Ensure a blank address doesn't trigger AlreadyAsked state
+                if (addressParts && addressParts.postcode) {
                     this.currentAddress = addressParts;
                     const fullAddress = {
                         line1: this.currentAddress.line1,
@@ -134,6 +136,9 @@ export default {
                 this.currentState = this.states.AlreadyAnswered;
                 this.fullAddress = fullAddress;
             }
+        },
+        trackFallbackState(fallbackVisibleState) {
+            this.fallbackVisible = fallbackVisibleState;
         }
     },
     watch: {
@@ -206,7 +211,8 @@ export default {
                     size="20"
                     class="ff-text"
                     v-model="postcode"
-                    required
+                    autocomplete="off"
+                    :required="!fallbackVisible"
                 />
                 <button
                     type="button"
