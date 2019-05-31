@@ -1,8 +1,14 @@
 'use strict';
-const { has, get, getOr } = require('lodash/fp');
-const { compact, includes, sumBy } = require('lodash');
+const clone = require('lodash/clone');
+const compact = require('lodash/compact');
+const get = require('lodash/fp/get');
+const getOr = require('lodash/fp/getOr');
+const has = require('lodash/fp/has');
+const includes = require('lodash/includes');
+const sumBy = require('lodash/sumBy');
 
 const enrichForm = require('../form-router-next/lib/enrich-form');
+const { fromDateParts } = require('../form-router-next/lib/date-parts');
 const { formatDate } = require('../form-router-next/lib/formatters');
 const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
 const fieldsFor = require('./fields');
@@ -614,6 +620,32 @@ module.exports = function({ locale, data = {} }) {
         ];
     }
 
+    function forSalesforce() {
+        function dateFormat(dt) {
+            return fromDateParts(dt).format('YYYY-MM-DD');
+        }
+
+        const enriched = clone(data);
+        enriched.projectDateRange = {
+            start: dateFormat(enriched.projectDateRange.start),
+            end: dateFormat(enriched.projectDateRange.end)
+        };
+
+        if (has('mainContactDateOfBirth')(enriched)) {
+            enriched.mainContactDateOfBirth = dateFormat(
+                enriched.mainContactDateOfBirth
+            );
+        }
+
+        if (has('seniorContactDateOfBirth')(enriched)) {
+            enriched.seniorContactDateOfBirth = dateFormat(
+                enriched.seniorContactDateOfBirth
+            );
+        }
+
+        return enriched;
+    }
+
     const form = {
         id: 'awards-for-all',
         title: localise({ en: 'National Lottery Awards for All', cy: '' }),
@@ -622,6 +654,7 @@ module.exports = function({ locale, data = {} }) {
         schema: schema,
         messages: messages,
         summary: summary(),
+        forSalesforce: forSalesforce,
         sections: [
             sectionProject,
             sectionBeneficiaries(),
