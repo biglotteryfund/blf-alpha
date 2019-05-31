@@ -15,7 +15,8 @@ const states = {
 export default {
     props: {
         locale: { type: String, default: 'en' },
-        address: { type: String, default: null }
+        address: { type: String, default: null },
+        isNested: { type: String, default: null }
     },
     data() {
         return {
@@ -27,10 +28,14 @@ export default {
             addressData: [],
             candidates: [],
             selectedAddressId: '',
-            fallbackVisible: null
+            fallbackVisible: null,
+            componentIsNested: false
         };
     },
     mounted() {
+        if (this.isNested === 'true') {
+            this.componentIsNested = true;
+        }
         if (this.address) {
             try {
                 const addressParts = JSON.parse(this.address);
@@ -218,7 +223,7 @@ export default {
                     :required="
                         !this.fallbackVisible &&
                             shouldShowPostcodeLookup &&
-                            !elementIsHidden
+                            !componentIsNested
                     "
                 />
                 <button

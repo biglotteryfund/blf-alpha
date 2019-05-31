@@ -309,6 +309,7 @@
         {{ explanationFor(field) }}
 
         <address-lookup
+            is-nested="{{ isNested }}"
             locale="{{ locale }}"
             address="{{ field.value | dump }}"
             @full-address="handleAddress"
