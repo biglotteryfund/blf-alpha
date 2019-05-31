@@ -67,9 +67,9 @@ describe('form model', () => {
     });
 
     test('project start date must be at least 12 weeks in the future', () => {
-        function value(start, end) {
+        function value(startDate, endDate) {
             return {
-                projectDateRange: { start, end }
+                projectDateRange: { startDate, endDate }
             };
         }
 

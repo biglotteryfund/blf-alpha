@@ -1,9 +1,15 @@
 'use strict';
-const { has, get, getOr } = require('lodash/fp');
-const { compact, includes, sumBy } = require('lodash');
+const clone = require('lodash/clone');
+const compact = require('lodash/compact');
+const get = require('lodash/fp/get');
+const getOr = require('lodash/fp/getOr');
+const has = require('lodash/fp/has');
+const includes = require('lodash/includes');
+const sumBy = require('lodash/sumBy');
 
 const enrichForm = require('../form-router-next/lib/enrich-form');
-const { formatDate } = require('../form-router-next/lib/formatters');
+const { fromDateParts } = require('../form-router-next/lib/date-parts');
+const { formatDateRange } = require('../form-router-next/lib/formatters');
 const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
 const fieldsFor = require('./fields');
 
@@ -593,7 +599,7 @@ module.exports = function({ locale, data = {} }) {
     ];
 
     function summary() {
-        const startDate = get('projectDateRange.start')(data);
+        const projectDateRange = get('projectDateRange')(data);
         const organisation = get('organisationLegalName')(data);
         const budget = getOr([], 'projectBudget')(data);
         const budgetSum = sumBy(budget, item => parseInt(item.cost || 0));
@@ -604,8 +610,8 @@ module.exports = function({ locale, data = {} }) {
                 value: organisation
             },
             {
-                label: localise({ en: 'Proposed start date', cy: '' }),
-                value: startDate && formatDate(startDate)
+                label: localise({ en: 'Project dates', cy: '' }),
+                value: projectDateRange && formatDateRange(projectDateRange)
             },
             {
                 label: localise({ en: 'Requested amount', cy: '' }),
@@ -614,14 +620,45 @@ module.exports = function({ locale, data = {} }) {
         ];
     }
 
+    function forSalesforce() {
+        function dateFormat(dt) {
+            return fromDateParts(dt).format('YYYY-MM-DD');
+        }
+
+        const enriched = clone(data);
+
+        enriched.projectDateRange = {
+            startDate: dateFormat(enriched.projectDateRange.startDate),
+            endDate: dateFormat(enriched.projectDateRange.endDate)
+        };
+
+        if (has('mainContactDateOfBirth')(enriched)) {
+            enriched.mainContactDateOfBirth = dateFormat(
+                enriched.mainContactDateOfBirth
+            );
+        }
+
+        if (has('seniorContactDateOfBirth')(enriched)) {
+            enriched.seniorContactDateOfBirth = dateFormat(
+                enriched.seniorContactDateOfBirth
+            );
+        }
+
+        return enriched;
+    }
+
     const form = {
         id: 'awards-for-all',
-        title: localise({ en: 'National Lottery Awards for All', cy: '' }),
+        title: localise({
+            en: 'National Lottery Awards for All',
+            cy: ''
+        }),
         isBilingual: true,
         fields: fields,
         schema: schema,
         messages: messages,
         summary: summary(),
+        forSalesforce: forSalesforce,
         sections: [
             sectionProject,
             sectionBeneficiaries(),

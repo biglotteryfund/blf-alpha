@@ -29,6 +29,19 @@ describe('formatters', () => {
         expect(formatter(['b', 'c'])).toBe('B,\nC');
     });
 
+    test('select', () => {
+        const formatter = formatterFor({
+            type: 'select',
+            options: {
+                a: { value: 'a', label: 'A' },
+                b: { value: 'b', label: 'B' },
+                c: { value: 'c', label: 'C' }
+            }
+        });
+
+        expect(formatter(['b', 'c'])).toBe('B,\nC');
+    });
+
     test('address', () => {
         const formatter = formatterFor({ type: 'address' });
 
@@ -102,6 +115,17 @@ describe('formatters', () => {
                 year: 2100
             })
         ).toBe('31 July, 2100');
+    });
+
+    test('date-range', () => {
+        const formatter = formatterFor({ type: 'date-range' });
+
+        expect(
+            formatter({
+                startDate: { day: 31, month: 7, year: 2100 },
+                endDate: { day: 31, month: 7, year: 2101 }
+            })
+        ).toBe('31 July, 2100–31 July, 2101');
     });
 
     test('day-month', () => {

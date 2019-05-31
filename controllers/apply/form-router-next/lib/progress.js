@@ -36,8 +36,10 @@ function calculateFormProgress(form, data) {
     const validationResult = validateForm(form, data);
 
     const errors = get(validationResult, 'error.details', []);
+    const allStatus = determineStatus(validationResult.value, errors);
 
     return {
+        isComplete: allStatus === FORM_STATES.complete,
         all: determineStatus(validationResult.value, errors),
         sections: form.sections.reduce((obj, section) => {
             const fieldNames = flatMapDeep(section.steps, step => {
