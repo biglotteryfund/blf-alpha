@@ -2,6 +2,14 @@
 import $ from 'jquery';
 import compact from 'lodash/compact';
 
+/* @TODO UX/UI snags/edge-cases
+ *
+ * - Find a way to return to the postcode lookup UI after editing a looked-up address
+ * - Make the postcode field required when visible after enabling a nested address field
+ * - Make it clearer a postcode must be *submitted* after being typed, otherwise form submission fails silently
+ *
+ * */
+
 const states = {
     NotAsked: 'NotAsked',
     AlreadyAnswered: 'AlreadyAnswered',
