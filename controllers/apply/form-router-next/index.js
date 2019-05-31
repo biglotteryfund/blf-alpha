@@ -3,18 +3,17 @@ const express = require('express');
 const path = require('path');
 const Sentry = require('@sentry/node');
 const moment = require('moment');
-const {
-    concat,
-    findIndex,
-    flatMap,
-    get,
-    head,
-    includes,
-    isEmpty,
-    partition,
-    set,
-    unset
-} = require('lodash');
+const concat = require('lodash/concat');
+const findIndex = require('lodash/findIndex');
+const flatMap = require('lodash/flatMap');
+const get = require('lodash/get');
+const head = require('lodash/head');
+const isEmpty = require('lodash/isEmpty');
+const partition = require('lodash/partition');
+const set = require('lodash/set');
+const unset = require('lodash/unset');
+const debug = require('debug')('tnlcf:form-router');
+const features = require('config').get('features');
 
 const appData = require('../../../common/appData');
 const applicationsService = require('../../../services/applications');
@@ -22,16 +21,16 @@ const cached = require('../../../middleware/cached');
 const { requireUserAuth } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
-const { nextAndPrevious } = require('./lib/pagination');
 const { FORM_STATES, calculateFormProgress } = require('./lib/progress');
+const { nextAndPrevious } = require('./lib/pagination');
 const validateForm = require('./lib/validate-form');
+const salesforceService = require('./lib/salesforce');
 
 function initFormRouter({
     id,
     eligibilityBuilder = null,
     formBuilder,
-    confirmationBuilder,
-    processor
+    confirmationBuilder
 }) {
     const router = express.Router();
 
@@ -347,19 +346,27 @@ function initFormRouter({
                 data: currentApplicationData
             });
 
-            const validationResult = validateForm(form, currentApplicationData);
+            // @TODO: Re-validate once more? Send applicants to summary screen if errors.
+            // const validationResult = validateForm(form, currentApplicationData);
 
             try {
-                await processor({
-                    form: form,
-                    application: validationResult.value,
-                    meta: {
-                        form: form.id,
-                        environment: appData.environment,
-                        commitId: appData.commitId,
-                        startedAt: currentApplication.createdAt.toISOString()
-                    }
-                });
+                const shouldSend =
+                    features.enableSalesforceConnector === true &&
+                    !!process.env.TEST_SERVER === false;
+                if (shouldSend) {
+                    const salesforce = await salesforceService.authorise();
+                    await salesforce.submitFormData({
+                        meta: {
+                            form: form.id,
+                            environment: appData.environment,
+                            commitId: appData.commitId,
+                            startedAt: currentApplication.createdAt.toISOString()
+                        },
+                        application: form.forSalesforce()
+                    });
+                } else {
+                    debug(`skipped salesforce submission for ${form.id}`);
+                }
 
                 await applicationsService.changeApplicationState(
                     res.locals.currentlyEditingId,
@@ -541,7 +548,7 @@ function initFormRouter({
                 );
 
                 const errorsForStep = validationResult.messages.filter(item =>
-                    includes(fieldNamesForStep, item.param)
+                    fieldNamesForStep.includes(item.param)
                 );
 
                 /**

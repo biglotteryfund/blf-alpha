@@ -648,7 +648,10 @@ module.exports = function({ locale, data = {} }) {
 
     const form = {
         id: 'awards-for-all',
-        title: localise({ en: 'National Lottery Awards for All', cy: '' }),
+        title: localise({
+            en: 'National Lottery Awards for All',
+            cy: ''
+        }),
         isBilingual: true,
         fields: fields,
         schema: schema,
