@@ -123,13 +123,13 @@
         <legend class="ff-label ff-date__legend">
             Start date
         </legend>
-        {{ dayMonthYearInputs(field, rangePeriod = 'start') }}
+        {{ dayMonthYearInputs(field, rangePeriod = 'startDate') }}
     </fieldset>
     <fieldset class="ff-date ff-date--range u-margin-top" id="field-{{ field.name }}-end">
         <legend class="ff-label ff-date__legend">
             End date
         </legend>
-        {{ dayMonthYearInputs(field, rangePeriod = 'end') }}
+        {{ dayMonthYearInputs(field, rangePeriod = 'endDate') }}
     </fieldset>
 {% endmacro %}
 

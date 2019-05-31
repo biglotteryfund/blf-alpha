@@ -677,28 +677,28 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         message: localise({ en: 'Enter a date', cy: '' })
                     },
                     {
-                        type: 'dates.both.invalid',
+                        type: 'dateRange.both.invalid',
                         message: localise({
                             en: 'Enter a valid start and end date',
                             cy: ''
                         })
                     },
                     {
-                        type: 'dates.start.invalid',
+                        type: 'datesRange.startDate.invalid',
                         message: localise({
                             en: 'Enter a valid start date',
                             cy: ''
                         })
                     },
                     {
-                        type: 'dates.end.invalid',
+                        type: 'dateRange.endDate.invalid',
                         message: localise({
                             en: 'Enter a valid end date',
                             cy: ''
                         })
                     },
                     {
-                        type: 'dates.minDate.invalid',
+                        type: 'dateRange.minDate.invalid',
                         message: localise({
                             en: `Date you start or end the project must be after ${
                                 this.settings.fromDateExample
@@ -707,14 +707,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         })
                     },
                     {
-                        type: 'dates.endDate.beforeStartDate',
+                        type: 'dateRange.endDate.beforeStartDate',
                         message: localise({
                             en: `End date must be after start date`,
                             cy: ''
                         })
                     },
                     {
-                        type: 'dates.endDate.outsideLimit',
+                        type: 'dateRange.endDate.outsideLimit',
                         message: localise({
                             en: `End date must be within ${
                                 this.settings.maxDurationFromStart.label

@@ -104,6 +104,17 @@ describe('formatters', () => {
         ).toBe('31 July, 2100');
     });
 
+    test('date-range', () => {
+        const formatter = formatterFor({ type: 'date-range' });
+
+        expect(
+            formatter({
+                startDate: { day: 31, month: 7, year: 2100 },
+                endDate: { day: 31, month: 7, year: 2101 }
+            })
+        ).toBe('31 July, 2100–31 July, 2101');
+    });
+
     test('day-month', () => {
         const formatter = formatterFor({ type: 'day-month' });
 

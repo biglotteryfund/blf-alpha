@@ -9,7 +9,7 @@ const sumBy = require('lodash/sumBy');
 
 const enrichForm = require('../form-router-next/lib/enrich-form');
 const { fromDateParts } = require('../form-router-next/lib/date-parts');
-const { formatDate } = require('../form-router-next/lib/formatters');
+const { formatDateRange } = require('../form-router-next/lib/formatters');
 const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
 const fieldsFor = require('./fields');
 
@@ -599,7 +599,7 @@ module.exports = function({ locale, data = {} }) {
     ];
 
     function summary() {
-        const startDate = get('projectDateRange.start')(data);
+        const projectDateRange = get('projectDateRange')(data);
         const organisation = get('organisationLegalName')(data);
         const budget = getOr([], 'projectBudget')(data);
         const budgetSum = sumBy(budget, item => parseInt(item.cost || 0));
@@ -610,8 +610,8 @@ module.exports = function({ locale, data = {} }) {
                 value: organisation
             },
             {
-                label: localise({ en: 'Proposed start date', cy: '' }),
-                value: startDate && formatDate(startDate)
+                label: localise({ en: 'Project dates', cy: '' }),
+                value: projectDateRange && formatDateRange(projectDateRange)
             },
             {
                 label: localise({ en: 'Requested amount', cy: '' }),
@@ -626,9 +626,10 @@ module.exports = function({ locale, data = {} }) {
         }
 
         const enriched = clone(data);
+
         enriched.projectDateRange = {
-            start: dateFormat(enriched.projectDateRange.start),
-            end: dateFormat(enriched.projectDateRange.end)
+            startDate: dateFormat(enriched.projectDateRange.startDate),
+            endDate: dateFormat(enriched.projectDateRange.endDate)
         };
 
         if (has('mainContactDateOfBirth')(enriched)) {

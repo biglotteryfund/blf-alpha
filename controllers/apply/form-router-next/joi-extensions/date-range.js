@@ -16,39 +16,40 @@ module.exports = function dateParts(joi) {
             .integer()
             .required()
     };
+
+    function toRange(value) {
+        return {
+            startDate: fromDateParts(value.startDate),
+            endDate: fromDateParts(value.endDate)
+        };
+    }
+
     return {
         name: 'dateRange',
         base: joi.object({
-            start: datePartsConfig,
-            end: datePartsConfig
+            startDate: datePartsConfig,
+            endDate: datePartsConfig
         }),
-        language: {
-            futureDate: 'Date must be at least {{min}}',
-            dob: 'Must be at least {{minAge}} years old'
-        },
         pre(value, state, options) {
-            const dates = {
-                start: fromDateParts(value.start),
-                end: fromDateParts(value.end)
-            };
+            const dates = toRange(value);
 
-            if (!dates.start.isValid() && !dates.end.isValid()) {
+            if (!dates.startDate.isValid() && !dates.endDate.isValid()) {
                 return this.createError(
-                    'dates.both.invalid',
+                    'dateRange.both.invalid',
                     { v: value },
                     state,
                     options
                 );
-            } else if (!dates.start.isValid()) {
+            } else if (!dates.startDate.isValid()) {
                 return this.createError(
-                    'dates.start.invalid',
+                    'dateRange.startDate.invalid',
                     { v: value },
                     state,
                     options
                 );
-            } else if (!dates.end.isValid()) {
+            } else if (!dates.endDate.isValid()) {
                 return this.createError(
-                    'dates.end.invalid',
+                    'dateRange.endDate.invalid',
                     { v: value },
                     state,
                     options
@@ -64,20 +65,18 @@ module.exports = function dateParts(joi) {
                     min: joi.string().required()
                 },
                 validate(params, value, state, options) {
-                    const dates = {
-                        start: fromDateParts(value.start),
-                        end: fromDateParts(value.end)
-                    };
+                    const dates = toRange(value);
+
                     if (
-                        dates.start.isValid() &&
-                        dates.end.isValid() &&
-                        dates.start.isSameOrAfter(params.min) &&
-                        dates.end.isSameOrAfter(params.min)
+                        dates.startDate.isValid() &&
+                        dates.endDate.isValid() &&
+                        dates.startDate.isSameOrAfter(params.min) &&
+                        dates.endDate.isSameOrAfter(params.min)
                     ) {
                         return value;
                     } else {
                         return this.createError(
-                            'dates.minDate.invalid',
+                            'dateRange.minDate.invalid',
                             { v: value, min: params.min },
                             state,
                             options
@@ -88,19 +87,17 @@ module.exports = function dateParts(joi) {
             {
                 name: 'futureEndDate',
                 validate(params, value, state, options) {
-                    const dates = {
-                        start: fromDateParts(value.start),
-                        end: fromDateParts(value.end)
-                    };
+                    const dates = toRange(value);
+
                     if (
-                        dates.start.isValid() &&
-                        dates.end.isValid() &&
-                        dates.end.isSameOrAfter(dates.start)
+                        dates.startDate.isValid() &&
+                        dates.endDate.isValid() &&
+                        dates.endDate.isSameOrAfter(dates.startDate)
                     ) {
                         return value;
                     } else {
                         return this.createError(
-                            'dates.endDate.beforeStartDate',
+                            'dateRange.endDate.beforeStartDate',
                             { v: value, min: params.min },
                             state,
                             options
@@ -115,24 +112,21 @@ module.exports = function dateParts(joi) {
                     units: joi.string().required()
                 },
                 validate(params, value, state, options) {
-                    const dates = {
-                        start: fromDateParts(value.start),
-                        end: fromDateParts(value.end)
-                    };
+                    const dates = toRange(value);
 
-                    const maximumEndDate = dates.start.add(
+                    const maximumEndDate = dates.startDate.add(
                         params.amount,
                         params.units
                     );
                     if (
-                        dates.start.isValid() &&
-                        dates.end.isValid() &&
-                        dates.end.isSameOrBefore(maximumEndDate)
+                        dates.startDate.isValid() &&
+                        dates.endDate.isValid() &&
+                        dates.endDate.isSameOrBefore(maximumEndDate)
                     ) {
                         return value;
                     } else {
                         return this.createError(
-                            'dates.endDate.outsideLimit',
+                            'dateRange.endDate.outsideLimit',
                             { v: value, min: params.min },
                             state,
                             options
