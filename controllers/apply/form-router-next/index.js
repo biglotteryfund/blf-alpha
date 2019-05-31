@@ -346,24 +346,32 @@ function initFormRouter({
                 data: currentApplicationData
             });
 
-            // @TODO: Re-validate once more? Send applicants to summary screen if errors.
-            // const validationResult = validateForm(form, currentApplicationData);
-
+            // @TODO: Should we re-validate once more before submission?
             try {
                 const shouldSend =
                     features.enableSalesforceConnector === true &&
                     !!process.env.TEST_SERVER === false;
                 if (shouldSend) {
                     const salesforce = await salesforceService.authorise();
-                    await salesforce.submitFormData({
-                        meta: {
-                            form: form.id,
-                            environment: appData.environment,
-                            commitId: appData.commitId,
-                            startedAt: currentApplication.createdAt.toISOString()
-                        },
-                        application: form.forSalesforce()
+                    await salesforce.submitFormData(form.forSalesforce(), {
+                        form: form.id,
+                        environment: appData.environment,
+                        commitId: appData.commitId,
+                        startedAt: currentApplication.createdAt.toISOString()
                     });
+
+                    /**
+                     * @TODO: Determine file uploads to attach to record after submission
+                     * recordId is the value returned by submitFormData on success
+                     */
+                    /*
+                        await salesforce.contentVersion({
+                          recordId: recordId,
+                          // Some standard name for the file, not the original filename
+                          attachmentName: 'bank-statement.pdf',
+                          file: fileStream
+                        });
+                    */
                 } else {
                     debug(`skipped salesforce submission for ${form.id}`);
                 }
