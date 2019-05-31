@@ -27,7 +27,7 @@ function formatRadio(field) {
     };
 }
 
-function formatCheckbox(field) {
+function formatMultiChoice(field) {
     const options = field.optgroups
         ? flatMap(field.optgroups, o => o.options)
         : field.options;
@@ -126,7 +126,10 @@ function formatterFor(field) {
             formatter = formatRadio(field);
             break;
         case 'checkbox':
-            formatter = formatCheckbox(field);
+            formatter = formatMultiChoice(field);
+            break;
+        case 'select':
+            formatter = formatMultiChoice(field);
             break;
         case 'address':
             formatter = formatAddress;
@@ -159,12 +162,6 @@ function formatterFor(field) {
 
 module.exports = {
     formatterFor,
-    formatCheckbox,
-    formatRadio,
-    formatAddress,
     formatDate,
-    formatDateRange,
-    formatDayMonth,
-    formatCurrency,
-    formatBudget
+    formatDateRange
 };

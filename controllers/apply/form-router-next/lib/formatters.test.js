@@ -29,6 +29,19 @@ describe('formatters', () => {
         expect(formatter(['b', 'c'])).toBe('B,\nC');
     });
 
+    test('select', () => {
+        const formatter = formatterFor({
+            type: 'select',
+            options: {
+                a: { value: 'a', label: 'A' },
+                b: { value: 'b', label: 'B' },
+                c: { value: 'c', label: 'C' }
+            }
+        });
+
+        expect(formatter(['b', 'c'])).toBe('B,\nC');
+    });
+
     test('address', () => {
         const formatter = formatterFor({ type: 'address' });
 
