@@ -153,6 +153,17 @@ export default {
         }
     },
     computed: {
+        elementIsHidden() {
+            return this.$el && this.$el.offsetParent === null;
+        },
+        shouldShowPostcodeLookup() {
+            return (
+                this.currentState === this.states.Asking ||
+                this.currentState === this.states.NotAsked ||
+                this.currentState === this.states.Success ||
+                this.currentState === this.states.Loading
+            );
+        },
         formIsValid() {
             const VALIDATION_REGEX = /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/i;
             return (
@@ -190,15 +201,7 @@ export default {
 
 <template>
     <div>
-        <div
-            v-if="
-                currentState === states.Asking ||
-                    currentState === states.NotAsked ||
-                    currentState === states.Success ||
-                    currentState === states.Loading
-            "
-            class="address-lookup"
-        >
+        <div v-if="shouldShowPostcodeLookup" class="address-lookup">
             <label :for="ariaId" class="ff-label"
                 >Find address by postcode</label
             >
@@ -212,7 +215,11 @@ export default {
                     class="ff-text"
                     v-model="postcode"
                     autocomplete="off"
-                    :required="!fallbackVisible"
+                    :required="
+                        !this.fallbackVisible &&
+                            shouldShowPostcodeLookup &&
+                            !elementIsHidden
+                    "
                 />
                 <button
                     type="button"
@@ -230,9 +237,9 @@ export default {
                 class="address-lookup__candidates"
                 v-if="candidates.length > 0"
             >
-                <label for="address-selection" class="ff-label"
-                    >Select an address</label
-                >
+                <label for="address-selection" class="ff-label">
+                    Select an address
+                </label>
                 <select
                     v-model="selectedAddressId"
                     name="address-selection"
@@ -240,9 +247,9 @@ export default {
                     :disabled="currentState === states.Loading"
                     required
                 >
-                    <option disabled value=""
-                        >{{ candidates.length }} addresses found</option
-                    >
+                    <option disabled value="">
+                        {{ candidates.length }} addresses found
+                    </option>
                     <option
                         v-for="option in candidates"
                         :value="option.value"
