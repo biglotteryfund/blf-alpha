@@ -72,7 +72,8 @@
 
             {% call details(
                 title = copy.summary.showQuestions,
-                extraClasses = 'js-toggleable'
+                extraClasses = 'js-toggleable',
+                isOpen = progress.isComplete
             ) %}
                 {% for step in section.steps %}
                     {{ stepSummary(
@@ -124,7 +125,7 @@
             {% endfor %}
 
             <div class="form-actions">
-                {% if progress.all === FORM_STATES.complete %}
+                {% if progress.isComplete %}
                     <p><a href="{{ formBaseUrl }}/terms" class="btn">{{ copy.submit }}</a></p>
                 {% else %}
                     <div class="s-prose">{{ copy.summary.incompleteMessage | safe }}</div>

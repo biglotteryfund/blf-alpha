@@ -1058,6 +1058,8 @@ materials:
 user:
   common:
     yourAccount: Your account
+    emailAddress: Email address
+    password: Password
     passwordRequirements: >
       <p>Must be at least 10 characters long <br>
       Must not be the same as your email address</p>
@@ -1074,8 +1076,13 @@ user:
     title: Log in
     introduction: >
       <p>If you already have an account for The National Lottery Community Fund's website, you can log into it here.</p>
+    actionLabel: Log in
+    registerLabel: create an account
+    forgottenPasswordPrompt: Forgotten your password?
   register:
-    title: Register
+    title: Create an account
+    actionLabel: Create an account
+    loginLabel: log in
   forgottenPassword:
     title: Forgotten your password?
   resetPassword:

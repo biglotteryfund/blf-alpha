@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 
-const { buildPagination } = require('../pagination');
+const { buildPagination } = require('./pagination');
 
 describe('buildPagination', () => {
     it('should transform API pagination meta into object for views', () => {

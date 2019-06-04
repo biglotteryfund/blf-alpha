@@ -1,15 +1,18 @@
 'use strict';
 const { forEach } = require('lodash');
 const config = require('config');
-const express = require('express');
-const favicon = require('serve-favicon');
-const i18n = require('i18n-2');
-const nunjucks = require('nunjucks');
 const path = require('path');
-const Sentry = require('@sentry/node');
-const slashes = require('connect-slashes');
+const express = require('express');
+const moment = require('moment');
+const i18n = require('i18n-2');
 const yaml = require('js-yaml');
+const nunjucks = require('nunjucks');
+const favicon = require('serve-favicon');
+const helmet = require('helmet');
+const slashes = require('connect-slashes');
+const Sentry = require('@sentry/node');
 const debug = require('debug')('tnlcf:server');
+const features = config.get('features');
 
 const app = express();
 module.exports = app;
@@ -21,20 +24,18 @@ if (appData.isDev) {
 }
 
 const { isWelsh, makeWelsh, removeWelsh, localify } = require('./common/urls');
-const {
-    renderError,
-    renderNotFound,
-    renderUnauthorised
-} = require('./controllers/errors');
 const { SENTRY_DSN } = require('./common/secrets');
 const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
 const viewFilters = require('./common/filters');
+const cspDirectives = require('./common/csp-directives');
 
-const { defaultSecurityHeaders } = require('./middleware/securityHeaders');
-const { injectCopy, injectHeroImage } = require('./middleware/inject-content');
+const {
+    defaultVary,
+    defaultCacheControl,
+    noCache
+} = require('./middleware/cached');
 const bodyParserMiddleware = require('./middleware/bodyParser');
-const cached = require('./middleware/cached');
 const domainRedirectMiddleware = require('./middleware/domain-redirect');
 const i18nMiddleware = require('./middleware/i18n');
 const localsMiddleware = require('./middleware/locals');
@@ -44,6 +45,12 @@ const portalMiddleware = require('./middleware/portal');
 const previewMiddleware = require('./middleware/preview');
 const sessionMiddleware = require('./middleware/session');
 const vanityMiddleware = require('./middleware/vanity');
+
+const {
+    renderError,
+    renderNotFound,
+    renderUnauthorised
+} = require('./controllers/errors');
 
 /**
  * Configure Sentry client
@@ -85,11 +92,36 @@ i18n.expressBind(app, {
 app.use(domainRedirectMiddleware);
 
 /**
- * Robots
- * status endpoint, sitemap, robots.txt
- * Mount early to avoid being processed by any middleware
+ * Status endpoint
+ * Mount first
  */
-app.use('/', require('./controllers/robots'));
+const LAUNCH_DATE = moment();
+app.get('/status', noCache, (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
+    );
+
+    res.json({
+        APP_ENV: appData.environment,
+        DEPLOY_ID: appData.deployId,
+        COMMIT_ID: appData.commitId,
+        BUILD_NUMBER: appData.buildNumber,
+        START_DATE: LAUNCH_DATE.format('dddd, MMMM Do YYYY, h:mm:ss a'),
+        UPTIME: LAUNCH_DATE.toNow(true)
+    });
+});
+
+/**
+ * Robots.txt
+ */
+app.use('/robots.txt', require('./controllers/robots'));
+
+/**
+ * Site-map
+ */
+app.use('/sitemap.xml', require('./controllers/sitemap'));
 
 /**
  * Static asset paths
@@ -124,8 +156,7 @@ function initAppLocals() {
     /**
      * Hotjar ID
      */
-    app.locals.hotjarId =
-        config.get('features.enableHotjar') && config.get('hotjarId');
+    app.locals.hotjarId = features.enableHotjar && config.get('hotjarId');
 }
 
 initAppLocals();
@@ -170,10 +201,22 @@ initViewEngine();
  */
 app.use(slashes(false));
 app.use(i18nMiddleware);
-app.use(cached.defaultVary);
-app.use(cached.defaultCacheControl);
+app.use(defaultVary);
+app.use(defaultCacheControl);
 app.use(loggerMiddleware);
-app.use(defaultSecurityHeaders());
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: cspDirectives({
+                enableHotjar: features.enableHojtar,
+                allowLocalhost: features.enableAllowLocalhost
+            }),
+            browserSniff: false
+        },
+        dnsPrefetchControl: { allow: true },
+        frameguard: { action: 'sameorigin' }
+    })
+);
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
@@ -219,7 +262,7 @@ app.use('/', require('./controllers/archived'));
  * - Apply section specific controller logic
  * - Add common routing (for static/fully-CMS powered pages)
  */
-forEach(routes.sections, function(section, sectionId) {
+forEach(routes, function(section, sectionId) {
     const router = express.Router();
 
     /**
@@ -227,32 +270,16 @@ forEach(routes.sections, function(section, sectionId) {
      * Used for determining top-level section for navigation and breadcrumbs
      */
     router.use(function(req, res, next) {
-        const locale = req.i18n.getLocale();
-        res.locals.sectionId = sectionId;
         res.locals.sectionTitle = req.i18n.__(`global.nav.${sectionId}`);
-        res.locals.sectionUrl = localify(locale)(req.baseUrl);
+        res.locals.sectionUrl = localify(req.i18n.getLocale())(req.baseUrl);
         next();
     });
 
     /**
-     * Page-level logic
-     * Apply page level middleware and mount router if we have one
+     * Mount page router
      */
     section.pages.forEach(function(page) {
-        router
-            .route(page.path)
-            .all(
-                injectCopy(page.lang),
-                injectHeroImage(page.heroSlug),
-                (req, res, next) => {
-                    next();
-                }
-            );
-
-        const shouldServe = appData.isNotProduction ? true : !page.isDraft;
-        if (shouldServe && page.router) {
-            router.use(page.path, page.router);
-        }
+        router.use(page.path, page.router);
     });
 
     /**

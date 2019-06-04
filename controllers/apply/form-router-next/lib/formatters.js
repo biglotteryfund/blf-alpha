@@ -27,7 +27,7 @@ function formatRadio(field) {
     };
 }
 
-function formatCheckbox(field) {
+function formatMultiChoice(field) {
     const options = field.optgroups
         ? flatMap(field.optgroups, o => o.options)
         : field.options;
@@ -71,19 +71,20 @@ function formatDate(value) {
 }
 
 function formatDateRange(value) {
-    if (!value.start || !value.end) {
+    if (!value.startDate || !value.endDate) {
         return '';
+    } else {
+        const startDate = fromDateParts(value.startDate);
+        const endDate = fromDateParts(value.endDate);
+
+        if (!startDate.isValid() || !endDate.isValid()) {
+            return '';
+        } else {
+            return `${startDate.format('D MMMM, YYYY')}–${endDate.format(
+                'D MMMM, YYYY'
+            )}`;
+        }
     }
-    const dates = {
-        start: fromDateParts(value.start),
-        end: fromDateParts(value.end)
-    };
-    if (!dates.start.isValid() || !dates.end.isValid()) {
-        return '';
-    }
-    return `${dates.start.format('D MMMM, YYYY')}–${dates.end.format(
-        'D MMMM, YYYY'
-    )}`;
 }
 
 function formatDayMonth(value) {
@@ -125,7 +126,10 @@ function formatterFor(field) {
             formatter = formatRadio(field);
             break;
         case 'checkbox':
-            formatter = formatCheckbox(field);
+            formatter = formatMultiChoice(field);
+            break;
+        case 'select':
+            formatter = formatMultiChoice(field);
             break;
         case 'address':
             formatter = formatAddress;
@@ -158,11 +162,6 @@ function formatterFor(field) {
 
 module.exports = {
     formatterFor,
-    formatCheckbox,
-    formatRadio,
-    formatAddress,
     formatDate,
-    formatDayMonth,
-    formatCurrency,
-    formatBudget
+    formatDateRange
 };

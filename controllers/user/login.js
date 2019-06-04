@@ -3,11 +3,8 @@ const path = require('path');
 const express = require('express');
 const passport = require('passport');
 
-const router = express.Router();
-
 const { localify } = require('../../common/urls');
 const { csrfProtection } = require('../../middleware/cached');
-const { addAlertMessage } = require('../../middleware/user');
 const {
     injectCopy,
     injectBreadcrumbs
@@ -17,9 +14,17 @@ const {
     redirectUrlWithFallback
 } = require('../../middleware/authed');
 
+const alertMessage = require('./lib/alert-message');
+
+const router = express.Router();
+
 function renderForm(req, res) {
     res.render(path.resolve(__dirname, './views/login'), {
-        csrfToken: req.csrfToken()
+        csrfToken: req.csrfToken(),
+        alertMessage: alertMessage({
+            locale: req.i18n.getLocale(),
+            status: req.query.s
+        })
     });
 }
 
@@ -31,7 +36,7 @@ router
         injectCopy('user.login'),
         injectBreadcrumbs
     )
-    .get(addAlertMessage, renderForm)
+    .get(renderForm)
     .post((req, res, next) => {
         passport.authenticate('local', (err, user, info) => {
             if (!user) {

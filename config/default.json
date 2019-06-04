@@ -35,6 +35,7 @@
     }
   },
   "features": {
+    "enableAllowLocalhost": false,
     "enableAwardsForAllApplications": false,
     "enableDigitalFundApplications": false,
     "enableHotjar": false,
