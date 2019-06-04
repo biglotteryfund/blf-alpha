@@ -2,15 +2,26 @@
 <link rel="stylesheet" href="https://use.typekit.net/yyc1dgh.css">
 
 <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=HTMLPictureElement,Promise,Object.assign,Number.isNaN,String.prototype.includes,Array.prototype.find,Element.prototype.closest"></script>
-<script id="script-config">
+<script id="script-head">
 (function() {
     window.AppConfig = {
         environment: '{{ appData.environment }}',
         locale: '{{ locale }}',
         localePrefix: '{{ localePrefix }}',
     };
+
+    var docEl = document.documentElement;
+    docEl.className = docEl.className.replace('no-js', 'js-on');
+
+    if (
+        navigator.userAgent.indexOf('MSIE') !== -1 ||
+        navigator.appVersion.indexOf('Trident/') > 0
+    ) {
+        docEl.className += ' ' + 'is-ie';
+    }
+
+    if (sessionStorage.fontsLoaded) {
+        docEl.className += ' ' + 'fonts-loaded';
+    }
 })();
-</script>
-<script id="script-head">
-    {% include "includes/head.js" %}
 </script>

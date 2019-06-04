@@ -2,6 +2,9 @@ import './config';
 import * as Sentry from '@sentry/browser';
 import { Vue as SentryVue } from '@sentry/integrations';
 import Vue from 'vue';
+import FontFaceObserver from 'fontfaceobserver/fontfaceobserver.js';
+import 'details-element-polyfill';
+
 import { featureIsEnabled } from './helpers/features';
 
 Sentry.init({
@@ -22,6 +25,24 @@ Sentry.init({
         return integrations;
     }
 });
+
+if (!sessionStorage.fontsLoaded) {
+    Promise.all([
+        new FontFaceObserver('caecilia').load(),
+        new FontFaceObserver('caecilia-sans-text').load()
+    ])
+        .then(function() {
+            document.documentElement.className += ' ' + 'fonts-loaded';
+            sessionStorage.fontsLoaded = true;
+        })
+        .catch(error => {
+            Sentry.withScope(scope => {
+                scope.setLevel('info');
+                scope.setContext('message', error);
+                Sentry.captureMessage('Fonts failed to load');
+            });
+        });
+}
 
 import(/* webpackChunkName: "common" */ './common/index').then(common => {
     common.init();
