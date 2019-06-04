@@ -180,7 +180,8 @@ export default {
         formIsValid() {
             const VALIDATION_REGEX = /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/i;
             return (
-                this.postcode && this.postcode.match(VALIDATION_REGEX) !== null
+                this.postcode &&
+                this.postcode.trim().match(VALIDATION_REGEX) !== null
             );
         },
         lookupLabel() {
