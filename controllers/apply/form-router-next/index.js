@@ -17,7 +17,7 @@ const features = require('config').get('features');
 
 const appData = require('../../../common/appData');
 const applicationsService = require('../../../services/applications');
-const cached = require('../../../middleware/cached');
+const { csrfProtection } = require('../../../middleware/cached');
 const { requireUserAuth } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
@@ -50,43 +50,34 @@ function initFormRouter({
         );
     }
 
-    router.use(
-        cached.csrfProtection,
-        injectCopy('applyNext'),
-        async (req, res, next) => {
-            const form = formBuilder({
-                locale: req.i18n.getLocale()
-            });
+    function setCommonLocals(req, res, next) {
+        const form = formBuilder({
+            locale: req.i18n.getLocale()
+        });
 
-            res.locals.formTitle = form.title;
-            res.locals.formBaseUrl = req.baseUrl;
-            res.locals.FORM_STATES = FORM_STATES;
-            res.locals.breadcrumbs = [{ label: form.title, url: req.baseUrl }];
+        res.locals.formTitle = form.title;
+        res.locals.formBaseUrl = req.baseUrl;
+        res.locals.FORM_STATES = FORM_STATES;
+        res.locals.breadcrumbs = [{ label: form.title, url: req.baseUrl }];
 
-            res.locals.user = req.user;
-            res.locals.isBilingual = form.isBilingual;
-            res.locals.enableSiteSurvey = false;
-            res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
+        res.locals.user = req.user;
+        res.locals.isBilingual = form.isBilingual;
+        res.locals.enableSiteSurvey = false;
+        res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
 
-            next();
-        }
-    );
+        next();
+    }
+
+    router.use(csrfProtection, injectCopy('applyNext'), setCommonLocals);
 
     /**
-     * Show a list of questions, accessible to anyone.
+     * Publicly accessible routes .
      */
-    router.use('/questions', require('./questions-router')(formBuilder));
+    router.use('/questions', require('./questions')(formBuilder));
+    router.use('/eligibility', require('./eligibility')(eligibilityBuilder));
 
     /**
-     * Route: Eligibility checker, accessible to anyone.
-     */
-    router.use(
-        '/eligibility',
-        require('./eligibility-router')(eligibilityBuilder)
-    );
-
-    /**
-     * Require login, redirect back here once authenticated.
+     * Require authentication past this point
      */
     router.use(requireUserAuth);
 
