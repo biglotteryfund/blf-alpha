@@ -6,7 +6,7 @@ const nunjucks = require('nunjucks');
 const path = require('path');
 const pdf = require('html-pdf');
 
-module.exports = function(formBuilder) {
+module.exports = function(formId, formBuilder) {
     const router = express.Router();
 
     router.get('/:pdf?', (req, res, next) => {
@@ -26,12 +26,12 @@ module.exports = function(formBuilder) {
         };
 
         if (req.params.pdf) {
-            const fileName = `${form.id}.pdf`;
+            const fileName = `${formId}.pdf`;
             const fileLocation = `documents/application-questions/${fileName}`;
 
             const filePath = path.resolve(
                 __dirname,
-                '../../public/',
+                '../../../public/',
                 fileLocation
             );
 

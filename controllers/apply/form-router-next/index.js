@@ -74,7 +74,7 @@ function initFormRouter({
     /**
      * Publicly accessible routes .
      */
-    router.use('/questions', require('./questions')(formBuilder));
+    router.use('/questions', require('./questions')(formId, formBuilder));
     router.use('/eligibility', require('./eligibility')(eligibilityBuilder));
 
     /**

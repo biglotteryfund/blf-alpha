@@ -652,7 +652,6 @@ module.exports = function({ locale, data = {} }) {
     }
 
     const form = {
-        id: 'awards-for-all', // @TODO: Remove in favour of initFormRouter formId
         title: localise({
             en: 'National Lottery Awards for All',
             cy: ''
