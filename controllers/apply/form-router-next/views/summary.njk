@@ -50,17 +50,15 @@
                     {{ copy.sectionPrefix }} {{ sectionNumber }}: {{ section.title }}
                 </a>
 
-                {% set editWord = copy.continue if sectionProgress === FORM_STATES.incomplete else copy.edit %}
+                {% set editWord = copy.continue if sectionProgress === 'incomplete' else copy.edit %}
                 <a class="section-progress-bar__edit u-edit-link" href="{{ formBaseUrl }}/{{ section.slug }}">{{ editWord }}</a>
             </h2>
 
             <a class="section-progress-bar__marker u-link-unstyled" href="{{ formBaseUrl }}/{{ section.slug }}">
-                {% if sectionProgress === FORM_STATES.complete %}
+                {% if sectionProgress === 'complete' %}
                     {{ iconTick() }} {{ copy.statusComplete }}
-                {% elseif sectionProgress === FORM_STATES.incomplete %}
+                {% elseif sectionProgress === 'incomplete' %}
                     {{ copy.statusInProgress }}
-                {% elseif sectionProgress === FORM_STATES.invald %}
-                    {{ copy.statusInvalid }}
                 {% else %}
                     {{ copy.statusNotStarted }}
                 {% endif %}
