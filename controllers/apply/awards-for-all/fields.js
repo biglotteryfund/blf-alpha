@@ -1714,6 +1714,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             label: localise({
                 en: `What is the main or registered address of your organisation?`,
                 cy: ``
+            }),
+            explanation: localise({
+                en: `<p>Enter the postcode and search for the address. It's important to make sure that the home address is correct, as errors will fail our authenticity checks and delay your application.</p>`,
+                cy: ``
             })
         }),
         organisationType: organisationTypeField(),

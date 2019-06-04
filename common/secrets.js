@@ -86,15 +86,19 @@ const MATERIAL_SUPPLIER =
 const DIGITAL_FUND_EMAIL =
     process.env.DIGITAL_FUND_EMAIL || getSecret('emails.digitalfund.demo');
 
+const POSTCODES_API_KEY =
+    process.env.POSTCODES_API_KEY || getSecret('postcodes.api.key');
+
 module.exports = {
     AZURE_AUTH,
-    SALESFORCE_AUTH,
     CONTENT_API_URL,
     DB_CONNECTION_URI,
     DIGITAL_FUND_EMAIL,
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
+    POSTCODES_API_KEY,
+    SALESFORCE_AUTH,
     SENTRY_DSN,
     SESSION_SECRET
 };

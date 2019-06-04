@@ -1,66 +1,57 @@
 'use strict';
 const express = require('express');
-const request = require('request-promise-native');
 const Joi = require('@hapi/joi');
 const Sentry = require('@sentry/node');
 
 const { purifyUserInput } = require('../../common/validators');
 const { Feedback, SurveyAnswer } = require('../../db/models');
 const appData = require('../../common/appData');
+const { POSTCODES_API_KEY } = require('../../common/secrets');
+const { csrfProtection } = require('../../middleware/cached');
+
+const idealPostcodes = require('ideal-postcodes')(POSTCODES_API_KEY);
 
 const router = express.Router();
 
 if (appData.isNotProduction) {
     /**
      * API: UK address lookup proxy
-     * @TODO: Connect direct to service rather than via legacy domain
      */
-    const addressLookupEndpoint =
-        'https://apply.tnlcommunityfund.org.uk/AddressFinder.ashx';
-    router.get('/address-lookup', async (req, res) => {
-        if (req.query.q) {
-            try {
-                const data = await request({
-                    url: addressLookupEndpoint,
-                    json: true,
-                    qs: { Query: req.query.q }
-                });
-                res.json({ data });
-            } catch (error) {
-                Sentry.captureException(error);
-                res.status(400).json({
-                    errors: [{ status: '400', title: 'Connection error' }]
-                });
-            }
-        } else {
-            res.status(400).json({
+    router.post('/address-lookup', csrfProtection, async (req, res) => {
+        const makeError = (title, detail, source = null) => {
+            return res.status(400).json({
                 errors: [
                     {
-                        status: '400',
-                        title: 'Invalid query parmater',
-                        detail: 'Must include q paramter',
-                        source: { parameter: 'q' }
+                        status: 400,
+                        title,
+                        detail,
+                        source
                     }
                 ]
             });
-        }
-    });
+        };
 
-    router.get('/address-lookup/:moniker', async (req, res) => {
-        try {
-            const [data] = await request({
-                url: addressLookupEndpoint,
-                json: true,
-                qs: { GetAddress: 1, Moniker: req.params.moniker }
-            });
+        const query = req.body.q;
 
-            res.json({ data });
-        } catch (error) {
-            Sentry.captureException(error);
-            res.status(400).json({
-                errors: [{ status: '400', title: 'Connection error' }]
+        if (!query) {
+            return makeError({
+                title: 'Invalid query parameter',
+                detail: 'Must include q parameter',
+                source: { parameter: 'q' }
             });
         }
+
+        idealPostcodes.lookupPostcode(query, (error, addresses) => {
+            if (error) {
+                Sentry.captureException(error);
+                return makeError({
+                    title: 'Connection error',
+                    detail: 'Failed to get data from API'
+                });
+            } else {
+                return res.json({ addresses });
+            }
+        });
     });
 }
 

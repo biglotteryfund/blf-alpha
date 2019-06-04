@@ -3,7 +3,7 @@
  */
 /* eslint-env jest */
 import { shallowMount } from '@vue/test-utils';
-import WordCount from '../word-count.vue';
+import WordCount from './word-count.vue';
 import faker from 'faker';
 
 describe('WordCount', () => {

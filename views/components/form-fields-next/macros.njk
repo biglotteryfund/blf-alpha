@@ -65,7 +65,7 @@
             class="ff-text ff-width-2"
             name="{{ dateInputName(field, 'day', rangePeriod) }}"
             type="number"
-            pattern="[0-9]*"  min="1"
+            pattern="[0-9]*" min="1" max="31"
             autocomplete="off"
             {% if field.isRequired %}required aria-required="true"{% endif %}
             value="{{ field.value[rangePeriod].day if rangePeriod else field.value.day }}"
@@ -77,7 +77,7 @@
             class="ff-text ff-width-2"
             name="{{ dateInputName(field, 'month', rangePeriod) }}"
             type="number"
-            pattern="[0-9]*"  min="1"
+            pattern="[0-9]*" min="1" max="12"
             autocomplete="off"
             {% if field.isRequired %}required aria-required="true"{% endif %}
             value="{{ field.value[rangePeriod].month if rangePeriod else field.value.month }}"
@@ -300,65 +300,85 @@
     </fieldset>
 {% endmacro %}
 
-{% macro inputAddress(field) %}
-    <fieldset class="ff-address" id="field-{{ field.name }}">
+{% macro inputAddress(field, isNested = false) %}
+    <fieldset class="ff-address{% if isNested %} ff-address--nested{% endif %} js-address-lookup" id="field-{{ field.name }}">
         <legend class="ff-label ff-address__legend">
             {{ labelFor(field) }}
         </legend>
 
         {{ explanationFor(field) }}
 
-        <div class="ff-address__field">
-            {{ inputText({
-                label: 'Building and street',
-                name: field.name + '[line1]',
-                value: field.value['line1'],
-                type: 'text',
-                isRequired: field.isRequired,
-                attributes: { size: 40 }
-            }) }}
-        </div>
-        <div class="ff-address__field">
-            {{ inputText({
-                label: 'Address line 2',
-                name: field.name + '[line2]',
-                value: field.value['line2'],
-                type: 'text',
-                isRequired: false,
-                settings: { hideLabel: true },
-                attributes: { size: 40 }
-            }) }}
-        </div>
-        <div class="ff-address__field">
-            {{ inputText({
-                label: 'Town or city',
-                name: field.name + '[townCity]',
-                value: field.value['townCity'],
-                type: 'text',
-                isRequired: field.isRequired,
-                attributes: { size: 30 }
-            }) }}
-        </div>
-        <div class="ff-address__field">
-            {{ inputText({
-                label: 'County',
-                name: field.name + '[county]',
-                value: field.value['county'],
-                type: 'text',
-                isRequired: false,
-                attributes: { size: 30 }
-            }) }}
-        </div>
-        <div class="ff-address__field">
-            {{ inputText({
-                label: 'Postcode',
-                name: field.name + '[postcode]',
-                value: field.value['postcode'],
-                type: 'text',
-                isRequired: field.isRequired,
-                attributes: { size: 10 }
-            }) }}
-        </div>
+        <address-lookup
+            is-nested="{{ isNested }}"
+            locale="{{ locale }}"
+            address="{{ field.value | dump }}"
+            @full-address="handleAddress"
+            @clear-address="clearAddress"
+            @show-fallback="handleFallback"
+            ref="addressLookup"
+        ></address-lookup>
+
+        <details class="o-details u-margin-top"
+                 open :open="showFallbackFields">
+            <summary class="js-only o-details__summary"
+                     v-show="showSummaryLabel"
+                     @click.self="showFallbackFields = !showFallbackFields">
+                Enter address manually
+            </summary>
+            <div class="o-details__content ff-address__fields">
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'Building and street',
+                        name: field.name + '[line1]',
+                        value: field.value['line1'],
+                        type: 'text',
+                        isRequired: field.isRequired,
+                        attributes: { size: 40, ref: 'addressLine1' }
+                    }) }}
+                </div>
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'Address line 2',
+                        name: field.name + '[line2]',
+                        value: field.value['line2'],
+                        type: 'text',
+                        isRequired: false,
+                        settings: { hideLabel: true },
+                        attributes: { size: 40, ref: 'addressLine2' }
+                    }) }}
+                </div>
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'Town or city',
+                        name: field.name + '[townCity]',
+                        value: field.value['townCity'],
+                        type: 'text',
+                        isRequired: field.isRequired,
+                        attributes: { size: 30, ref: 'townCity' }
+                    }) }}
+                </div>
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'County',
+                        name: field.name + '[county]',
+                        value: field.value['county'],
+                        type: 'text',
+                        isRequired: false,
+                        attributes: { size: 30, ref: 'county' }
+                    }) }}
+                </div>
+                <div class="ff-address__field">
+                    {{ inputText({
+                        label: 'Postcode',
+                        name: field.name + '[postcode]',
+                        value: field.value['postcode'],
+                        type: 'text',
+                        isRequired: field.isRequired,
+                        attributes: { size: 10, ref: 'postcode' }
+                    }) }}
+                </div>
+            </div>
+        </details>
     </fieldset>
 {% endmacro %}
 
@@ -375,7 +395,7 @@
             }, {
                 label: __('global.misc.no'),
                 value: 'no',
-                conditionalId: 'address-history-conditonal-no'
+                conditionalId: 'address-history-conditional-no'
             }] %}
             <ul class="ff-choice__list">
                 {% for option in options  %}
@@ -397,11 +417,15 @@
             </ul>
         </fieldset>
 
-        <div class="u-margin-top" id="address-history-conditonal-no">
-            {{ inputAddress({
-                name: field.name + '[previousAddress]',
-                label: 'Previous address'
-            }) }}
+        <div id="address-history-conditional-no">
+            {{ inputAddress(
+                {
+                    name: field.name + '[previousAddress]',
+                    label: 'Previous address',
+                    value: field.value.previousAddress
+                },
+                isNested = true
+            ) }}
         </div>
     </div>
 {% endmacro %}
