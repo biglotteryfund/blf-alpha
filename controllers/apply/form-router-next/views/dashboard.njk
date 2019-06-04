@@ -63,15 +63,15 @@
             </div>
 
             <ol class="u-list-unstyled">
-                {% for item in application.progressSummary %}
-                    <li class="section-progress-mini section-progress-mini--{{ item.status }}">
+                {% for section in application.progress.sections %}
+                    <li class="section-progress-mini section-progress-mini--{{ section.status }}">
                         <span class="section-progress-mini__title">
-                            {{ item.label }}
+                            {{ section.label }}
                         </span>
                         <span class="section-progress-mini__marker">
-                            {% if item.status === 'complete' %}
+                            {% if section.status === 'complete' %}
                                 {{ iconTick() }} {{ copy.statusComplete }}
-                            {% elseif item.status === 'incomplete' %}
+                            {% elseif section.status === 'incomplete' %}
                                 {{ copy.statusInProgress }}
                             {% else %}
                                 {{ copy.statusNotStarted }}

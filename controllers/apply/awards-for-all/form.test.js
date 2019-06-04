@@ -96,6 +96,48 @@ describe('form model', () => {
             ]
         });
 
+        const partialForm = formBuilder({
+            locale: 'en',
+            data: mockFullForm({ country: 'england' })
+        });
+
+        expect(partialForm.progress).toEqual({
+            all: 'incomplete',
+            isComplete: false,
+            sections: [
+                {
+                    label: '1: Your Project',
+                    slug: 'your-project',
+                    status: 'complete'
+                },
+                {
+                    label: '2: Beneficiaries',
+                    slug: 'beneficiaries',
+                    status: 'complete'
+                },
+                {
+                    label: '3: Your organisation',
+                    slug: 'organisation',
+                    status: 'incomplete'
+                },
+                {
+                    label: '4: Senior contact',
+                    slug: 'senior-contact',
+                    status: 'complete'
+                },
+                {
+                    label: '5: Main contact',
+                    slug: 'main-contact',
+                    status: 'complete'
+                },
+                {
+                    label: '6: Bank details',
+                    slug: 'bank-details',
+                    status: 'complete'
+                }
+            ]
+        });
+
         const completeForm = formBuilder({
             locale: 'en',
             data: mockFullForm({
