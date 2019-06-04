@@ -73,7 +73,7 @@
             {% call details(
                 title = copy.summary.showQuestions,
                 extraClasses = 'js-toggleable',
-                isOpen = progress.isComplete
+                isOpen = form.progress.isComplete
             ) %}
                 {% for step in section.steps %}
                     {{ stepSummary(
@@ -116,7 +116,7 @@
             </p>
 
             {% for section in form.sections %}
-                {% set sectionProgress = progress.sections[section.slug] %}
+                {% set sectionProgress = form.progress.sections[section.slug] %}
                 {{ sectionSummary(
                     section = section,
                     sectionNumber = loop.index,
@@ -125,7 +125,7 @@
             {% endfor %}
 
             <div class="form-actions">
-                {% if progress.isComplete %}
+                {% if form.progress.isComplete %}
                     <p><a href="{{ formBaseUrl }}/terms" class="btn">{{ copy.submit }}</a></p>
                 {% else %}
                     <div class="s-prose">{{ copy.summary.incompleteMessage | safe }}</div>

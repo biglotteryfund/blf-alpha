@@ -5,7 +5,7 @@ const faker = require('faker');
 const Joi = require('@hapi/joi');
 
 const { ORGANISATION_TYPES } = require('./constants');
-const { mockDateOfBirth, mockAddress, mockBudget } = require('./mocks');
+const { mockAddress, mockBudget } = require('./mocks');
 
 const fieldsFor = require('./fields');
 const { fields } = fieldsFor({ locale: 'en' });
@@ -22,7 +22,7 @@ describe('fields', () => {
     }
 
     describe('projectCountry', () => {
-        test('valididate project country', () => {
+        test('validate project country', () => {
             assertValid(
                 fields.projectCountry,
                 faker.random.arrayElement([

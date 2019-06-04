@@ -2,26 +2,26 @@
 const express = require('express');
 const path = require('path');
 const Sentry = require('@sentry/node');
-const moment = require('moment');
 const concat = require('lodash/concat');
 const findIndex = require('lodash/findIndex');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/get');
-const head = require('lodash/head');
 const isEmpty = require('lodash/isEmpty');
-const partition = require('lodash/partition');
 const set = require('lodash/set');
 const unset = require('lodash/unset');
 const debug = require('debug')('tnlcf:form-router');
 const features = require('config').get('features');
 
+const {
+    PendingApplication,
+    SubmittedApplication
+} = require('../../../db/models');
+
 const appData = require('../../../common/appData');
-const applicationsService = require('../../../services/applications');
 const { csrfProtection } = require('../../../middleware/cached');
 const { requireUserAuth } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
-const { FORM_STATES, calculateFormProgress } = require('./lib/progress');
 const { nextAndPrevious } = require('./lib/pagination');
 const validateForm = require('./lib/validate-form');
 const salesforceService = require('./lib/salesforce');
@@ -50,6 +50,11 @@ function initFormRouter({
         );
     }
 
+    function unsetCurrentlyEditingId(req, callbackFn) {
+        unset(req.session, `${sessionPrefix()}.currentEditingId`);
+        req.session.save(callbackFn);
+    }
+
     function setCommonLocals(req, res, next) {
         const form = formBuilder({
             locale: req.i18n.getLocale()
@@ -57,7 +62,6 @@ function initFormRouter({
 
         res.locals.formTitle = form.title;
         res.locals.formBaseUrl = req.baseUrl;
-        res.locals.FORM_STATES = FORM_STATES;
         res.locals.breadcrumbs = [{ label: form.title, url: req.baseUrl }];
 
         res.locals.user = req.user;
@@ -84,59 +88,7 @@ function initFormRouter({
     /**
      * Route: Dashboard
      */
-    router.route('/').get(async function(req, res, next) {
-        function enrichApplication(application) {
-            const data = get(application, 'application_data');
-
-            const form = formBuilder({
-                locale: req.i18n.getLocale(),
-                data: data
-            });
-
-            application.summary = form.summary;
-
-            const formProgress = calculateFormProgress(form, data);
-            // @TODO: Lift this up to the form model?
-            application.progress = form.sections.map(function(section, idx) {
-                return {
-                    label: `${idx + 1}: ${section.shortTitle || section.title}`,
-                    status: get(formProgress.sections, section.slug)
-                };
-            });
-
-            application.createdAtFormatted = moment(
-                application.createdAt.toISOString()
-            )
-                .locale(req.i18n.getLocale())
-                .format('D MMMM, YYYY');
-
-            return application;
-        }
-
-        try {
-            const applications = await applicationsService.getByForm({
-                userId: req.user.userData.id,
-                formId: id
-            });
-
-            const [submittedApplications, inProgressApplications] = partition(
-                applications,
-                application => application.status === 'complete'
-            );
-
-            res.render(path.resolve(__dirname, './views/dashboard'), {
-                title: res.locals.formTitle,
-                inProgressApplications: inProgressApplications.map(
-                    enrichApplication
-                ),
-                submittedApplications: submittedApplications.map(
-                    enrichApplication
-                )
-            });
-        } catch (error) {
-            next(error);
-        }
-    });
+    router.use('/', require('./dashboard')(formId, formBuilder));
 
     /**
      * Start application
@@ -151,20 +103,18 @@ function initFormRouter({
      * Create a new blank application and redirect to first step
      */
     router.get('/new', async function(req, res, next) {
-        const form = formBuilder({
-            locale: req.i18n.getLocale()
-        });
-
         try {
-            const application = await applicationsService.createApplication({
+            const application = await PendingApplication.createNewApplication({
                 formId: formId,
                 userId: req.user.userData.id
             });
 
             setCurrentlyEditingId(req, application.id);
             req.session.save(() => {
-                const firstSection = head(form.sections);
-                res.redirect(`${req.baseUrl}/${firstSection.slug}`);
+                const form = formBuilder({
+                    locale: req.i18n.getLocale()
+                });
+                res.redirect(`${req.baseUrl}/${form.sections[0].slug}`);
             });
         } catch (error) {
             next(error);
@@ -188,44 +138,8 @@ function initFormRouter({
 
     /**
      * Route: Delete application
-     * Allow an application owned by this user to be deleted
      */
-    router
-        .route('/delete/:applicationId')
-        .get(async (req, res) => {
-            if (req.params.applicationId && req.user.userData.id) {
-                const application = await applicationsService.getApplicationById(
-                    {
-                        formId: formId,
-                        applicationId: req.params.applicationId,
-                        userId: req.user.userData.id
-                    }
-                );
-
-                if (!application) {
-                    return res.redirect(req.baseUrl);
-                }
-
-                res.render(path.resolve(__dirname, './views/delete'), {
-                    title: res.locals.formTitle,
-                    csrfToken: req.csrfToken()
-                });
-            } else {
-                res.redirect(req.baseUrl);
-            }
-        })
-        .post(async (req, res, next) => {
-            try {
-                await applicationsService.deleteApplication(
-                    req.params.applicationId,
-                    req.user.userData.id
-                );
-                // @TODO show a success message on the subsequent (dashboard?) screen
-                res.redirect(req.baseUrl);
-            } catch (error) {
-                next(error);
-            }
-        });
+    router.use('/delete', require('./delete')(formId));
 
     /**
      * Require application
@@ -237,7 +151,7 @@ function initFormRouter({
             res.locals.currentlyEditingId = currentEditingId;
 
             try {
-                const currentApplication = await applicationsService.getApplicationById(
+                const currentApplication = await PendingApplication.findApplicationForForm(
                     {
                         formId: formId,
                         applicationId: currentEditingId,
@@ -248,7 +162,7 @@ function initFormRouter({
                 if (currentApplication) {
                     const currentApplicationData = get(
                         currentApplication,
-                        'application_data',
+                        'applicationData',
                         {}
                     );
 
@@ -293,7 +207,6 @@ function initFormRouter({
             title: title,
             form: form,
             breadcrumbs: concat(res.locals.breadcrumbs, { label: title }),
-            progress: calculateFormProgress(form, currentApplicationData),
             currentProjectName: get(currentApplicationData, 'projectName')
         });
     });
@@ -301,55 +214,84 @@ function initFormRouter({
     /**
      * Route: Terms and Conditions
      */
-    router
-        .route('/terms')
-        .all((req, res, next) => {
-            const { currentApplicationData } = res.locals;
-            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-                label: 'Terms & Conditions'
-            });
+    router.route('/terms').get(function(req, res) {
+        const form = formBuilder({
+            locale: req.i18n.getLocale(),
+            data: res.locals.currentApplicationData
+        });
 
-            const form = formBuilder({
-                locale: req.i18n.getLocale(),
-                data: currentApplicationData
-            });
+        const validationResult = validateForm(
+            form,
+            res.locals.currentApplicationData
+        );
 
-            res.locals.form = form;
-
-            const validationResult = validateForm(form, currentApplicationData);
-
-            if (validationResult.isValid) {
-                next();
-            } else {
-                res.redirect(`${req.baseUrl}/summary`);
-            }
-        })
-        .get(function(req, res) {
+        if (validationResult.isValid) {
             res.render(path.resolve(__dirname, './views/terms'), {
-                csrfToken: req.csrfToken()
+                csrfToken: req.csrfToken(),
+                breadcrumbs: res.locals.breadcrumbs.concat({
+                    label: 'Terms & Conditions'
+                }),
+                form: form
             });
-        })
-        .post(async (req, res, next) => {
-            const { currentApplication, currentApplicationData } = res.locals;
+        } else {
+            res.redirect(`${req.baseUrl}/summary`);
+        }
+    });
 
+    /**
+     * Route: Submission
+     */
+    router.post('/submission', async (req, res, next) => {
+        const { currentApplication, currentApplicationData } = res.locals;
+
+        function canSubmit() {
+            return isEmpty(currentApplication) === false;
+        }
+
+        function canSubmitToSalesforce() {
+            return (
+                features.enableSalesforceConnector === true &&
+                !!process.env.TEST_SERVER === false
+            );
+        }
+
+        if (canSubmit() === true) {
             const form = formBuilder({
                 locale: req.i18n.getLocale(),
                 data: currentApplicationData
             });
 
-            // @TODO: Should we re-validate once more before submission?
             try {
-                const shouldSend =
-                    features.enableSalesforceConnector === true &&
-                    !!process.env.TEST_SERVER === false;
-                if (shouldSend) {
-                    const salesforce = await salesforceService.authorise();
-                    await salesforce.submitFormData(form.forSalesforce(), {
+                /**
+                 * Increment submission attempts
+                 * Allows us to report on failed submission attempts.
+                 */
+                await currentApplication.increment('submissionAttempts');
+
+                /**
+                 * Construct salesforce submission data
+                 * We also attach this to the SubmittedApplication record
+                 */
+                let salesforceId = null;
+                const salesforceFormData = {
+                    application: form.forSalesforce(),
+                    meta: {
                         form: formId,
                         environment: appData.environment,
                         commitId: appData.commitId,
+                        applicationId: currentApplication.id,
                         startedAt: currentApplication.createdAt.toISOString()
-                    });
+                    }
+                };
+
+                /**
+                 * Store submission in salesforce if enabled
+                 */
+                if (canSubmitToSalesforce() === true) {
+                    const salesforce = await salesforceService.authorise();
+                    salesforceId = await salesforce.submitFormData(
+                        salesforceFormData
+                    );
 
                     /**
                      * @TODO: Determine file uploads to attach to record after submission
@@ -367,45 +309,53 @@ function initFormRouter({
                     debug(`skipped salesforce submission for ${formId}`);
                 }
 
-                await applicationsService.changeApplicationState(
-                    res.locals.currentlyEditingId,
-                    'complete'
+                /**
+                 * Create a submitted application from pending state
+                 * SubmittedApplication holds a snapshot at the time of submission,
+                 * allowing submissions to be rendered separate to form model changes.
+                 */
+                await SubmittedApplication.createFromPendingApplication({
+                    pendingApplication: currentApplication,
+                    form: form,
+                    userId: req.user.userData.id,
+                    formId: formId,
+                    salesforceRecord: {
+                        id: salesforceId,
+                        submission: salesforceFormData
+                    }
+                });
+
+                /**
+                 * Delete the pending application once the
+                 * SubmittedApplication has been created.
+                 */
+                await PendingApplication.deleteApplication(
+                    currentApplication.id,
+                    req.user.id
                 );
 
-                res.redirect(`${req.baseUrl}/confirmation`);
+                /**
+                 * Render confirmation
+                 */
+                unsetCurrentlyEditingId(req, function() {
+                    const confirmation = confirmationBuilder({
+                        locale: 'en',
+                        data: currentApplicationData
+                    });
+
+                    res.render(
+                        path.resolve(__dirname, './views/confirmation'),
+                        {
+                            title: confirmation.title,
+                            confirmation: confirmation,
+                            form: form
+                        }
+                    );
+                });
             } catch (error) {
+                // @TODO: Redirect to custom /error rather than passing to default handler?
                 next(error);
             }
-        });
-
-    /**
-     * Route: Confirmation
-     */
-    router.get('/confirmation', function(req, res) {
-        const { currentApplicationData, currentApplicationStatus } = res.locals;
-
-        if (
-            isEmpty(currentApplicationData) === false &&
-            currentApplicationStatus === 'complete'
-        ) {
-            const form = formBuilder({
-                locale: 'en',
-                data: currentApplicationData
-            });
-
-            const confirmation = confirmationBuilder({
-                locale: 'en',
-                data: currentApplicationData
-            });
-
-            unset(req.session, sessionPrefix());
-            req.session.save(() => {
-                res.render(path.resolve(__dirname, './views/confirmation'), {
-                    title: confirmation.title,
-                    confirmation: confirmation,
-                    form: form
-                });
-            });
         } else {
             res.redirect(req.baseUrl);
         }
@@ -537,7 +487,7 @@ function initFormRouter({
             const validationResult = validateForm(form, data);
 
             try {
-                await applicationsService.updateApplication(
+                await PendingApplication.saveApplicationState(
                     currentlyEditingId,
                     validationResult.value
                 );

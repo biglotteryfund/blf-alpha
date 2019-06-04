@@ -1,6 +1,12 @@
 'use strict';
-const { cloneDeep, find, flatMap, reject } = require('lodash');
+const cloneDeep = require('lodash/cloneDeep');
+const flatMap = require('lodash/flatMap');
+const get = require('lodash/get');
+const find = require('lodash/find');
+const reject = require('lodash/reject');
+
 const { formatterFor } = require('./formatters');
+const progress = require('./progress');
 
 /**
  * Enriches a form object
@@ -11,7 +17,7 @@ const { formatterFor } = require('./formatters');
 module.exports = function enrichForm(baseForm, data = {}) {
     const clonedForm = cloneDeep(baseForm);
 
-    const enrichField = field => {
+    function enrichField(field) {
         // Assign value to field if present
         const fieldValue = find(data, (value, name) => name === field.name);
         if (fieldValue) {
@@ -20,7 +26,7 @@ module.exports = function enrichForm(baseForm, data = {}) {
         }
 
         return field;
-    };
+    }
 
     clonedForm.sections = clonedForm.sections.map(section => {
         section.steps = section.steps.map(function(step, stepIndex) {
@@ -53,6 +59,33 @@ module.exports = function enrichForm(baseForm, data = {}) {
     if (clonedForm.termsFields) {
         clonedForm.termsFields = clonedForm.termsFields.map(enrichField);
     }
+
+    const formProgress = progress(clonedForm, data);
+    clonedForm.progress = formProgress;
+
+    clonedForm.progressSummary = clonedForm.sections.map(function(
+        section,
+        idx
+    ) {
+        return {
+            label: `${idx + 1}: ${section.shortTitle || section.title}`,
+            status: get(formProgress.sections, section.slug)
+        };
+    });
+
+    clonedForm.fullSummary = function() {
+        const steps = flatMap(clonedForm.sections, 'steps');
+        const fieldsets = flatMap(steps, 'fieldsets');
+        const fields = flatMap(fieldsets, 'fields');
+        return fields
+            .filter(field => field.displayValue)
+            .map(field => {
+                return {
+                    label: field.label,
+                    value: field.displayValue
+                };
+            });
+    };
 
     return clonedForm;
 };

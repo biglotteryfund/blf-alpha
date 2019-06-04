@@ -64,7 +64,7 @@ class PendingApplication extends Model {
             sequelize
         });
     }
-    static getAllByForm({ userId, formId }) {
+    static findAllByForm({ userId, formId }) {
         return this.findAll({
             where: {
                 userId: { [Op.eq]: userId },
@@ -73,7 +73,7 @@ class PendingApplication extends Model {
             order: [['updatedAt', 'DESC']]
         });
     }
-    static getApplicationForForm({ formId, applicationId, userId }) {
+    static findApplicationForForm({ formId, applicationId, userId }) {
         return this.findOne({
             where: {
                 id: { [Op.eq]: applicationId },
@@ -95,7 +95,7 @@ class PendingApplication extends Model {
             expiresAt: expiresAt
         });
     }
-    static saveApplicationData(id, data) {
+    static saveApplicationState(id, data) {
         return this.update(
             { applicationData: data },
             { where: { id: { [Op.eq]: id } } }
@@ -142,6 +142,14 @@ class SubmittedApplication extends Model {
              * Application title
              */
             applicationTitle: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+
+            /**
+             * Application country
+             */
+            applicationCountry: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
@@ -196,13 +204,33 @@ class SubmittedApplication extends Model {
             sequelize
         });
     }
-    static getAllByForm({ userId, formId }) {
+    static findAllByForm({ userId, formId }) {
         return this.findAll({
             where: {
                 userId: { [Op.eq]: userId },
                 formId: { [Op.eq]: formId }
             },
             order: [['updatedAt', 'DESC']]
+        });
+    }
+    static createFromPendingApplication({
+        pendingApplication,
+        form,
+        userId,
+        formId,
+        salesforceRecord = {}
+    }) {
+        return this.create({
+            id: pendingApplication.id,
+            userId: userId,
+            formId: formId,
+            applicationTitle: form.summary.title,
+            applicationCountry: form.summary.country,
+            applicationOverview: form.summary.overview,
+            applicationSummary: form.fullSummary(),
+            salesforceId: salesforceRecord.id,
+            salesforceSubmission: salesforceRecord.submission,
+            startedAt: pendingApplication.createdAt
         });
     }
 }

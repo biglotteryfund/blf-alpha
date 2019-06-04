@@ -5,7 +5,6 @@ const validateForm = require('./validate-form');
 const FORM_STATES = {
     empty: 'empty',
     invalid: 'invalid',
-    incomplete: 'incomplete',
     complete: 'complete'
 };
 
@@ -32,7 +31,7 @@ function determineStatus(data, errors = []) {
  * @param {Object} form
  * @param {Object} data
  */
-function calculateFormProgress(form, data) {
+module.exports = function progress(form, data) {
     const validationResult = validateForm(form, data);
 
     const errors = get(validationResult, 'error.details', []);
@@ -61,9 +60,4 @@ function calculateFormProgress(form, data) {
             return obj;
         }, {})
     };
-}
-
-module.exports = {
-    FORM_STATES,
-    calculateFormProgress
 };

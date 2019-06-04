@@ -5,28 +5,36 @@
 
 {% block title %}{{ copy.dashboard.title }} | {{ formTitle }} | {% endblock %}
 
-{% macro applicationCard(application) %}
-    {% set editAction = formBaseUrl + "/edit/" + application.id %}
-    {% set deleteAction =  formBaseUrl + "/delete/" + application.id %}
+{%  macro applicationOverview(overviewParts) %}
+    <dl class="o-definition-list o-definition-list--compact u-margin-top">
+        {% for part in overviewParts %}
+            <dt>{{ part.label }}</dt>
+            <dd>
+                {%- if part.value -%}
+                    {{ part.value }}
+                {%- else -%}
+                    <span class="application-data-missing">not yet completed</span>
+                {%- endif -%}
+            </dd>
+        {% endfor %}
+    </dl>
+{%  endmacro %}
+
+{% macro pendingApplicationCard(application) %}
     <article class="application-card">
         <div class="application-card__summary">
             <p class="application-card__minor-title">{{ formTitle }}</p>
             <h3 class="t--underline u-tone-brand-primary">
-                <a href="{{ editAction }}" class="u-link-unstyled">
-                    {{ application.application_data.projectName }}
+                <a href="{{ application.editUrl }}" class="u-link-unstyled">
+                    {{ application.summary.title }}
                 </a>
             </h3>
 
-            <dl class="o-definition-list o-definition-list--compact u-margin-top">
-                {% for part in application.summary %}
-                    <dt>{{ part.label }}</dt>
-                    <dd>{%- if part.value -%}{{ part.value }}{%- else -%}<span class="application-data-missing">not yet completed</span>{%- endif -%}</dd>
-                {% endfor %}
-            </dl>
+            {{ applicationOverview(application.summary.overview) }}
 
             <div class="o-button-group u-margin-bottom">
-                <a class="btn btn--medium" href="{{ editAction }}">Continue with this application</a>
-                <a class="btn btn--small btn--outline" href="{{ deleteAction }}">
+                <a class="btn btn--medium" href="{{ application.editUrl }}">Continue with this application</a>
+                <a class="btn btn--small btn--outline" href="{{ application.deleteUrl }}">
                     <span class="btn__icon btn__icon-left">{{ iconBin() }}</span>
                     Delete
                 </a>
@@ -34,6 +42,7 @@
 
             <aside class="application-summary__links">
                 <h4 class="application-card__minor-title">Guidance for this programme:</h4>
+                {# @TODO: Where should this go? #}
                 <p><a href="#">{{ formTitle }} guidance</a><br /></p>
             </aside>
         </div>
@@ -42,23 +51,28 @@
             <div class="application-card__progress__status">
                 <p class="application-card__minor-title">Application status:</p>
                 <h4>Not submitted</h4>
-                <p>You started your application on <strong>{{ application.createdAtFormatted }}</strong>.
-                {# @TODO: Expiry date #}
+                <p>
+                    You started your application on
+                    <strong>{{ formatDate(application.createdAt.toISOString(), DATE_FORMATS.short) }}</strong>.
+                </p>
+                <p>
+                    You have until
+                    <strong>{{ formatDate(application.expiresAt.toISOString(), DATE_FORMATS.short) }}</strong>
+                    to complete your application.
+                </p>
             </div>
 
             <ol class="u-list-unstyled">
-                {% for item in application.progress %}
+                {% for item in application.progressSummary %}
                     <li class="section-progress-mini section-progress-mini--{{ item.status }}">
                         <span class="section-progress-mini__title">
                             {{ item.label }}
                         </span>
                         <span class="section-progress-mini__marker">
-                            {% if item.status === FORM_STATES.complete %}
+                            {% if item.status === 'complete' %}
                                 {{ iconTick() }} {{ copy.statusComplete }}
-                            {% elseif item.status === FORM_STATES.incomplete %}
+                            {% elseif item.status === 'incomplete' %}
                                 {{ copy.statusInProgress }}
-                            {% elseif item.status === FORM_STATES.invald %}
-                                {{ copy.statusInvalid }}
                             {% else %}
                                 {{ copy.statusNotStarted }}
                             {% endif %}
@@ -75,15 +89,10 @@
         <div class="application-card__summary">
             <p class="application-card__minor-title">{{ formTitle }}</p>
             <h3 class="t--underline u-tone-brand-primary">
-                {{ application.application_data.projectName }}
+                {{ application.applicationTitle }}
             </h3>
 
-            <dl class="o-definition-list o-definition-list--compact u-margin-top">
-                {% for part in application.summary %}
-                    <dt>{{ part.label }}</dt>
-                    <dd>{%- if part.value -%}{{ part.value }}{%- else -%}<span class="application-data-missing">not yet completed</span>{%- endif -%}</dd>
-                {% endfor %}
-            </dl>
+            {{ applicationOverview(application.applicationOverview) }}
 
             {# @TODO: Where does view application go? Needs to be read-only #}
             <div class="o-button-group u-margin-bottom">
@@ -96,12 +105,11 @@
         <div class="application-card__progress">
             <div class="application-card__progress__status">
                 <p class="application-card__minor-title">Application status:</p>
-                <h4>Submitted</h4>
-
+                <h4>Submitted {{ formatDate(application.createdAt.toISOString(), DATE_FORMATS.short) }}</h4>
                 <div class="s-prose">
-                    {# @TODO: Submitted on date #}
                     <p>We aim to let you know our decision in about 12 weeks. If you have any questions,
-                    <a href="#">contact a member of our advice team</a>.</p>
+                    {# @TODO: Where should this go? #}
+                    <a href="{{ localify('/contact') }}">contact a member of our advice team</a>.</p>
                 </div>
             </div>
         </div>
@@ -118,10 +126,10 @@
                 {{ __(copy.dashboard.introduction, '#new') | safe }}
             </div>
 
-            {% if inProgressApplications.length > 0 %}
+            {% if pendingApplications.length > 0 %}
                 <h2 class="t--underline">In progress</h2>
-                {% for application in inProgressApplications %}
-                    {{ applicationCard(application) }}
+                {% for application in pendingApplications %}
+                    {{ pendingApplicationCard(application) }}
                 {% endfor %}
             {% endif %}
 
