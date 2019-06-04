@@ -27,7 +27,7 @@ const validateForm = require('./lib/validate-form');
 const salesforceService = require('./lib/salesforce');
 
 function initFormRouter({
-    id,
+    formId,
     eligibilityBuilder = null,
     formBuilder,
     confirmationBuilder
@@ -35,7 +35,7 @@ function initFormRouter({
     const router = express.Router();
 
     function sessionPrefix() {
-        return `forms.${id}`;
+        return `forms.${formId}`;
     }
 
     function getCurrentlyEditingId(req) {
@@ -157,7 +157,7 @@ function initFormRouter({
 
         try {
             const application = await applicationsService.createApplication({
-                formId: id,
+                formId: formId,
                 userId: req.user.userData.id
             });
 
@@ -196,7 +196,7 @@ function initFormRouter({
             if (req.params.applicationId && req.user.userData.id) {
                 const application = await applicationsService.getApplicationById(
                     {
-                        formId: id,
+                        formId: formId,
                         applicationId: req.params.applicationId,
                         userId: req.user.userData.id
                     }
@@ -239,7 +239,7 @@ function initFormRouter({
             try {
                 const currentApplication = await applicationsService.getApplicationById(
                     {
-                        formId: id,
+                        formId: formId,
                         applicationId: currentEditingId,
                         userId: req.user.userData.id
                     }
@@ -345,7 +345,7 @@ function initFormRouter({
                 if (shouldSend) {
                     const salesforce = await salesforceService.authorise();
                     await salesforce.submitFormData(form.forSalesforce(), {
-                        form: form.id,
+                        form: formId,
                         environment: appData.environment,
                         commitId: appData.commitId,
                         startedAt: currentApplication.createdAt.toISOString()
@@ -364,7 +364,7 @@ function initFormRouter({
                         });
                     */
                 } else {
-                    debug(`skipped salesforce submission for ${form.id}`);
+                    debug(`skipped salesforce submission for ${formId}`);
                 }
 
                 await applicationsService.changeApplicationState(
