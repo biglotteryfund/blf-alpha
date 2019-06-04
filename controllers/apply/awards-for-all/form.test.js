@@ -57,6 +57,91 @@ describe('form model', () => {
         validateModel(formBuilder({ locale: 'en' }));
     });
 
+    test('progress', () => {
+        const emptyForm = formBuilder({ locale: 'en' });
+        expect(emptyForm.progress).toEqual({
+            all: 'empty',
+            isComplete: false,
+            sections: [
+                {
+                    label: '1: Your Project',
+                    slug: 'your-project',
+                    status: 'empty'
+                },
+                {
+                    label: '2: Beneficiaries',
+                    slug: 'beneficiaries',
+                    status: 'empty'
+                },
+                {
+                    label: '3: Your organisation',
+                    slug: 'organisation',
+                    status: 'empty'
+                },
+                {
+                    label: '4: Senior contact',
+                    slug: 'senior-contact',
+                    status: 'empty'
+                },
+                {
+                    label: '5: Main contact',
+                    slug: 'main-contact',
+                    status: 'empty'
+                },
+                {
+                    label: '6: Bank details',
+                    slug: 'bank-details',
+                    status: 'empty'
+                }
+            ]
+        });
+
+        const completeForm = formBuilder({
+            locale: 'en',
+            data: mockFullForm({
+                country: 'england',
+                organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO
+            })
+        });
+
+        expect(completeForm.progress).toEqual({
+            all: 'complete',
+            isComplete: true,
+            sections: [
+                {
+                    label: '1: Your Project',
+                    slug: 'your-project',
+                    status: 'complete'
+                },
+                {
+                    label: '2: Beneficiaries',
+                    slug: 'beneficiaries',
+                    status: 'complete'
+                },
+                {
+                    label: '3: Your organisation',
+                    slug: 'organisation',
+                    status: 'complete'
+                },
+                {
+                    label: '4: Senior contact',
+                    slug: 'senior-contact',
+                    status: 'complete'
+                },
+                {
+                    label: '5: Main contact',
+                    slug: 'main-contact',
+                    status: 'complete'
+                },
+                {
+                    label: '6: Bank details',
+                    slug: 'bank-details',
+                    status: 'complete'
+                }
+            ]
+        });
+    });
+
     test('project name is required', () => {
         function value(val) {
             return { projectName: val };
