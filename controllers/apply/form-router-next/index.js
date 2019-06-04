@@ -14,6 +14,8 @@ const set = require('lodash/set');
 const unset = require('lodash/unset');
 const debug = require('debug')('tnlcf:form-router');
 const features = require('config').get('features');
+const multer = require('multer');
+const fileUpload = multer();
 
 const appData = require('../../../common/appData');
 const applicationsService = require('../../../services/applications');
@@ -51,6 +53,7 @@ function initFormRouter({
     }
 
     router.use(
+        fileUpload.single('bankStatement'),
         cached.csrfProtection,
         injectCopy('applyNext'),
         async (req, res, next) => {
@@ -526,6 +529,9 @@ function initFormRouter({
             renderStep(req, res, res.locals.currentApplicationData);
         })
         .post(async (req, res, next) => {
+            console.log('posting section');
+            console.log(req.body);
+            console.log(req.file);
             const { currentlyEditingId, currentApplicationData } = res.locals;
             const data = { ...currentApplicationData, ...req.body };
 
