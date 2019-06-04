@@ -23,7 +23,7 @@ module.exports = function(formId, formBuilder) {
             });
 
             application.summary = form.summary;
-            application.progress = form.progress;
+            application.progressSummary = form.progressSummary;
 
             application.editUrl = actionUrl(application, 'edit');
             application.deleteUrl = actionUrl(application, 'delete');

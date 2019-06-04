@@ -3,8 +3,6 @@ const express = require('express');
 const path = require('path');
 const Sentry = require('@sentry/node');
 const concat = require('lodash/concat');
-const findIndex = require('lodash/findIndex');
-const flatMap = require('lodash/flatMap');
 const get = require('lodash/get');
 const isEmpty = require('lodash/isEmpty');
 const set = require('lodash/set');
@@ -22,7 +20,6 @@ const { csrfProtection } = require('../../../middleware/cached');
 const { requireUserAuth } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
-const { nextAndPrevious } = require('./lib/pagination');
 const validateForm = require('./lib/validate-form');
 const salesforceService = require('./lib/salesforce');
 
@@ -361,169 +358,10 @@ function initFormRouter({
         }
     });
 
-    function renderStepFor(sectionSlug, stepNumber) {
-        return function(req, res, data, errors = []) {
-            const form = formBuilder({
-                locale: req.i18n.getLocale(),
-                data: data
-            });
-
-            const sectionIndex = findIndex(
-                form.sections,
-                s => s.slug === sectionSlug
-            );
-
-            const section = form.sections[sectionIndex];
-
-            if (section) {
-                const sectionShortTitle = section.shortTitle
-                    ? section.shortTitle
-                    : section.title;
-
-                const sectionUrl = `${req.baseUrl}/${section.slug}`;
-
-                if (stepNumber) {
-                    const stepIndex = parseInt(stepNumber, 10) - 1;
-                    const step = section.steps[stepIndex];
-
-                    if (step) {
-                        const { nextUrl, previousUrl } = nextAndPrevious({
-                            baseUrl: req.baseUrl,
-                            sections: form.sections,
-                            currentSectionIndex: sectionIndex,
-                            currentStepIndex: stepIndex
-                        });
-
-                        if (step.isRequired) {
-                            const viewData = {
-                                csrfToken: req.csrfToken(),
-                                breadcrumbs: concat(
-                                    res.locals.breadcrumbs,
-                                    {
-                                        label: sectionShortTitle,
-                                        url: sectionUrl
-                                    },
-                                    { label: step.title }
-                                ),
-                                section: section,
-                                step: step,
-                                stepNumber: stepNumber,
-                                totalSteps: section.steps.length,
-                                previousUrl: previousUrl,
-                                nextUrl: nextUrl,
-                                errors: errors
-                            };
-
-                            res.render(
-                                path.resolve(__dirname, './views/step'),
-                                viewData
-                            );
-                        } else {
-                            res.redirect(nextUrl);
-                        }
-                    } else {
-                        res.redirect(req.baseUrl);
-                    }
-                } else if (section.introduction) {
-                    const { nextUrl, previousUrl } = nextAndPrevious({
-                        baseUrl: req.baseUrl,
-                        sections: form.sections,
-                        currentSectionIndex: sectionIndex
-                    });
-
-                    const viewData = {
-                        section: section,
-                        breadcrumbs: concat(res.locals.breadcrumbs, {
-                            label: sectionShortTitle,
-                            url: sectionUrl
-                        }),
-                        nextUrl: nextUrl,
-                        previousUrl: previousUrl
-                    };
-
-                    res.render(
-                        path.resolve(__dirname, './views/section-introduction'),
-                        viewData
-                    );
-                } else {
-                    res.redirect(`${sectionUrl}/1`);
-                }
-            } else {
-                res.redirect(req.baseUrl);
-            }
-        };
-    }
-
     /**
-     * Routes: Form sections
+     * Routes: Form steps
      */
-    router
-        .route('/:section/:step?')
-        .get((req, res) => {
-            const renderStep = renderStepFor(
-                req.params.section,
-                req.params.step
-            );
-            renderStep(req, res, res.locals.currentApplicationData);
-        })
-        .post(async (req, res, next) => {
-            const { currentlyEditingId, currentApplicationData } = res.locals;
-            const data = { ...currentApplicationData, ...req.body };
-
-            const form = formBuilder({
-                locale: req.i18n.getLocale(),
-                data: data
-            });
-
-            const sectionIndex = findIndex(
-                form.sections,
-                section => section.slug === req.params.section
-            );
-            const currentSection = form.sections[sectionIndex];
-
-            const stepIndex = parseInt(req.params.step, 10) - 1;
-            const step = currentSection.steps[stepIndex];
-
-            const validationResult = validateForm(form, data);
-
-            try {
-                await PendingApplication.saveApplicationState(
-                    currentlyEditingId,
-                    validationResult.value
-                );
-
-                const fieldNamesForStep = flatMap(step.fieldsets, 'fields').map(
-                    field => field.name
-                );
-
-                const errorsForStep = validationResult.messages.filter(item =>
-                    fieldNamesForStep.includes(item.param)
-                );
-
-                /**
-                 * If there are errors re-render the step with errors
-                 * - Pass the full data object from validationResult to the view. Including invalid values.
-                 * Otherwise, find the next suitable step and redirect there.
-                 */
-                if (errorsForStep.length > 0) {
-                    const renderStep = renderStepFor(
-                        req.params.section,
-                        req.params.step
-                    );
-                    renderStep(req, res, validationResult.value, errorsForStep);
-                } else {
-                    const { nextUrl } = nextAndPrevious({
-                        baseUrl: req.baseUrl,
-                        sections: form.sections,
-                        currentSectionIndex: sectionIndex,
-                        currentStepIndex: stepIndex
-                    });
-                    res.redirect(nextUrl);
-                }
-            } catch (error) {
-                next(error);
-            }
-        });
+    router.use('/', require('./steps')(formBuilder));
 
     return router;
 }
