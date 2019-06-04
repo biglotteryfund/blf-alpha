@@ -7,7 +7,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 const pkg = require('./package.json');
 const pkgConfig = pkg.config;
 
-const commonConfig = {
+module.exports = {
     mode: isProduction ? 'production' : 'development',
     performance: {
         hints: isProduction ? 'error' : false
@@ -24,34 +24,20 @@ const commonConfig = {
                 loader: 'vue-loader'
             }
         ]
-    }
-};
-
-module.exports = [
-    Object.assign({}, commonConfig, {
-        entry: {
-            head: './assets/js/head.js'
-        },
-        output: {
-            filename: '[name].js',
-            path: path.resolve(__dirname, './views/includes/')
+    },
+    entry: {
+        app: './assets/js/main.js'
+    },
+    output: {
+        filename: '[name].js',
+        chunkFilename: '[name].bundle.js',
+        path: path.resolve(__dirname, pkgConfig.dist.js)
+    },
+    devtool: isProduction ? 'source-map' : 'eval-source-map',
+    resolve: {
+        alias: {
+            vue$: 'vue/dist/vue.esm.js'
         }
-    }),
-    Object.assign({}, commonConfig, {
-        entry: {
-            app: './assets/js/main.js'
-        },
-        output: {
-            filename: '[name].js',
-            chunkFilename: '[name].bundle.js',
-            path: path.resolve(__dirname, pkgConfig.dist.js)
-        },
-        devtool: isProduction ? 'source-map' : 'eval-source-map',
-        resolve: {
-            alias: {
-                vue$: 'vue/dist/vue.esm.js'
-            }
-        },
-        plugins: [new VueLoaderPlugin()]
-    })
-];
+    },
+    plugins: [new VueLoaderPlugin()]
+};

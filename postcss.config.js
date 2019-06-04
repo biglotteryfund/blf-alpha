@@ -7,7 +7,7 @@ module.exports = {
     plugins: [
         autoprefixer(),
         foutWithAClass({
-            families: ['Poppins', 'Roboto', 'caecilia', 'caecilia-sans-text'],
+            families: ['caecilia', 'caecilia-sans-text'],
             className: 'fonts-loaded'
         }),
         cssnano()
