@@ -40,7 +40,7 @@ module.exports = function(formId, formBuilder) {
                     userId: req.user.userData.id,
                     formId: formId
                 }),
-                await SubmittedApplication.findAllByForm({
+                SubmittedApplication.findAllByForm({
                     userId: req.user.userData.id,
                     formId: formId
                 })
