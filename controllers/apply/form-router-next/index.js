@@ -594,31 +594,43 @@ function initFormRouter({
                     field => field.name
                 );
 
-                const errorsForStep = validationResult.messages.filter(item =>
+                let errorsForStep = validationResult.messages.filter(item =>
                     fieldNamesForStep.includes(item.param)
                 );
 
                 // Check if any files were included and handle them (if valid)
-                filesToUpload.forEach(file => {
-                    const isInvalidFile = errorsForStep.find(
-                        _ => _.param === file.fieldName
-                    );
-                    if (isInvalidFile) {
-                        // Remove the (invalid) file information from form data
-                        delete validationResult.value[file.fieldName];
-                    } else {
-                        // The file passed validation, so upload it to remote storage
-                        console.log('this file was okay, uploading it now....');
-                        s3.uploadFile(file.fieldName, file.fileData)
-                            .then(uploadData => {
-                                console.log('file uploaded');
-                                console.log(uploadData);
-                            })
-                            .catch(err => {
-                                // @TODO we need to show a validation error here
-                            });
-                    }
-                });
+                await Promise.all(
+                    filesToUpload.map(async file => {
+                        const isInvalidFile = errorsForStep.find(
+                            _ => _.param === file.fieldName
+                        );
+                        if (isInvalidFile) {
+                            // Remove the (invalid) file information from form data
+                            delete validationResult.value[file.fieldName];
+                        } else {
+                            // The file passed validation, so upload it to remote storage
+
+                            const filePathParts = [
+                                form.id,
+                                currentlyEditingId,
+                                file.fileData.name
+                            ];
+
+                            const uploadData = await s3
+                                .uploadFile(filePathParts, file.fileData)
+                                .catch(uploadError => {
+                                    Sentry.captureException(uploadError);
+                                    // Manually create a form error and send the user back to the form
+                                    errorsForStep = concat(errorsForStep, {
+                                        // @TODO i18n
+                                        msg:
+                                            'There was an error uploading your file - please try again',
+                                        param: file.fieldName
+                                    });
+                                });
+                        }
+                    })
+                );
 
                 // Store the form's current state (errors and all) in the database
                 await applicationsService.updateApplication(

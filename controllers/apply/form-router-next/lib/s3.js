@@ -1,57 +1,48 @@
 'use strict';
 const AWS = require('aws-sdk');
 const fs = require('fs');
-const mime = require('mime-types');
+const config = require('config');
+const { S3_KMS_KEY_ID } = require('../../../../common/secrets');
 
+// @TODO
 AWS.config.credentials = new AWS.SharedIniFileCredentials({
     profile: 'default'
 });
 
-const s3 = new AWS.S3({ signatureVersion: 'v4', region: 'eu-west-1' });
+const s3 = new AWS.S3({ signatureVersion: 'v4', region: 'eu-west-2' });
+const bucket = config.get('aws.s3.formUploadBucket');
 
-const rand = () =>
-    Math.random()
-        .toString(36)
-        .substring(2, 15) +
-    Math.random()
-        .toString(36)
-        .substring(2, 15);
-
-const uploadFile = (filename, fileData) => {
+const uploadFile = (filePathParts, fileData) => {
     return new Promise((resolve, reject) => {
         const fileStream = fs.createReadStream(fileData.path);
 
-        fileStream.on('error', function(err) {
-            if (err) {
-                reject(new Error(err));
+        fileStream.on('error', fileReadError => {
+            if (fileReadError) {
+                return reject(fileReadError);
             }
         });
 
-        const extension = mime.extension(fileData.type);
-        const uploadKey =
-            'build/test/upload/' + rand() + '/' + filename + '.' + extension;
+        const uploadKey = filePathParts.join('/');
 
         fileStream.on('open', async () => {
-            // @TODO create a secure bucket and key (in secrets)
-            // store this file in a named folder for the app ID
-            // confirm behaviour when overwriting?
             const params = {
                 Body: fileStream,
-                Bucket: 'blf-assets',
+                Bucket: bucket,
                 Key: uploadKey,
                 ContentLength: fileData.size,
                 ContentType: fileData.type,
                 ServerSideEncryption: 'aws:kms',
-                SSEKMSKeyId: 'TBC'
+                SSEKMSKeyId: S3_KMS_KEY_ID
             };
-            s3.putObject(params, function(err, data) {
-                if (err) {
-                    reject(new Error(err));
+            s3.putObject(params, (uploadErr, data) => {
+                if (uploadErr) {
+                    return reject(uploadErr);
+                } else {
+                    return resolve({
+                        data: data,
+                        key: uploadKey
+                    });
                 }
-                resolve({
-                    data: data,
-                    key: uploadKey
-                });
             });
         });
     });

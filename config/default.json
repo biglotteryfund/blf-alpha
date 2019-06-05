@@ -16,6 +16,9 @@
           "s3Assets": "S3-blf-assets"
         }
       }
+    },
+    "s3": {
+      "formUploadBucket": "tnlcf-uploads-dev"
     }
   },
   "domains": {
