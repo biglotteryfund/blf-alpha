@@ -48,4 +48,11 @@ const uploadFile = (filePathParts, fileData) => {
     });
 };
 
-module.exports = { uploadFile };
+const getFile = filePathParts => {
+    return s3.getObject({
+        Bucket: bucket,
+        Key: filePathParts.join('/')
+    });
+};
+
+module.exports = { uploadFile, getFile };

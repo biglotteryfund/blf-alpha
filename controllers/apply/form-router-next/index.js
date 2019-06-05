@@ -7,6 +7,7 @@ const concat = require('lodash/concat');
 const findIndex = require('lodash/findIndex');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/get');
+const pick = require('lodash/pick');
 const head = require('lodash/head');
 const isEmpty = require('lodash/isEmpty');
 const partition = require('lodash/partition');
@@ -530,6 +531,53 @@ function initFormRouter({
     }
 
     /**
+     * Routes: Download a proxied file from S3 (if authorised)
+     */
+    router.route('/download/:fieldName/:filename').get((req, res, next) => {
+        const { currentlyEditingId, currentApplicationData } = res.locals;
+        const form = formBuilder({
+            locale: req.i18n.getLocale()
+        });
+
+        // Check that this application has data for the requested field name
+        const fileData = currentApplicationData[req.params.fieldName];
+
+        // Confirm that the requested filename matches this field's file
+        if (fileData && fileData.filename === req.params.filename) {
+            const filePathParts = [
+                form.id,
+                currentlyEditingId,
+                req.params.filename
+            ];
+
+            // Retrieve this file from S3
+            const streamFile = s3.getFile(filePathParts);
+
+            // Stream the file's headers and serve it directly as a response
+            // (via https://stackoverflow.com/a/43356401)
+            streamFile
+                .on('httpHeaders', (code, headers) => {
+                    res.status(code);
+                    if (code < 300) {
+                        res.set(
+                            pick(
+                                headers,
+                                'content-type',
+                                'content-length',
+                                'last-modified'
+                            )
+                        );
+                    }
+                })
+                .createReadStream()
+                .on('error', next)
+                .pipe(res);
+        } else {
+            next();
+        }
+    });
+
+    /**
      * Routes: Form sections
      */
     router
@@ -610,6 +658,7 @@ function initFormRouter({
                         } else {
                             // The file passed validation, so upload it to remote storage
 
+                            // @TODO make this a function?
                             const filePathParts = [
                                 form.id,
                                 currentlyEditingId,

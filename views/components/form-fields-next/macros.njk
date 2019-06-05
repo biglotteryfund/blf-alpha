@@ -496,10 +496,23 @@
 {% endmacro %}
 
 {% macro inputFile(field) %}
+
+    {% if field.value and field.displayValue %}
+        <div class="selected-address u-margin-bottom">
+            <h3>Existing file</h3>
+            <p>{{ field.displayValue }}</p>
+            <p class="u-no-margin">
+                <a href="../download/{{ field.name }}/{{ field.value.filename }}">Download this file</a>
+            </p>
+        </div>
+    {% endif %}
+
     <label class="ff-label{% if field.settings.hideLabel %} u-visually-hidden{% endif %}" for="field-{{ field.name }}">
         {{ labelFor(field) }}
     </label>
+
     {{ explanationFor(field) }}
+
     <input
         class="ff-text"
         type="file"
@@ -508,9 +521,6 @@
         {% if field.isRequired %}required aria-required="true"{% endif %}
         {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
     />
-    {% if field.value and field.displayValue %}
-        <p><strong>Existing file:</strong> {{ field.displayValue }}</p>
-    {% endif %}
 {% endmacro %}
 
 {% macro formField(field, errors = []) %}
