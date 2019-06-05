@@ -10,7 +10,8 @@ const {
     MAX_BUDGET_TOTAL_GBP,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
-    ORGANISATION_TYPES
+    ORGANISATION_TYPES,
+    FILE_LIMITS
 } = require('./constants');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
@@ -2016,12 +2017,38 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'file',
             attributes: { accept: 'image/png,image/jpeg,.pdf' },
             isRequired: true,
-            schema: Joi.string().required(),
+            schema: Joi.object({
+                filename: Joi.string().required(),
+                size: Joi.number()
+                    .max(FILE_LIMITS.SIZE.value)
+                    .required(),
+                type: Joi.string()
+                    .valid(FILE_LIMITS.TYPES.map(type => type.mime))
+                    .required()
+            }),
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: 'Provide a bank statement',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'any.allowOnly',
+                    message: localise({
+                        en: `Please upload a file in one of these formats: ${FILE_LIMITS.TYPES.map(
+                            type => type.label
+                        ).join(', ')}`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'number.max',
+                    message: localise({
+                        en: `Please upload a file below ${
+                            FILE_LIMITS.SIZE.label
+                        }`,
                         cy: ''
                     })
                 }

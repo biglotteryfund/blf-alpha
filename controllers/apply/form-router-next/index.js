@@ -26,6 +26,7 @@ const { FORM_STATES, calculateFormProgress } = require('./lib/progress');
 const { nextAndPrevious } = require('./lib/pagination');
 const validateForm = require('./lib/validate-form');
 const salesforceService = require('./lib/salesforce');
+const s3 = require('./lib/s3');
 
 function initFormRouter({
     id,
@@ -542,9 +543,9 @@ function initFormRouter({
         })
         .post(async (req, res, next) => {
             const { currentlyEditingId, currentApplicationData } = res.locals;
-            const data = { ...currentApplicationData, ...req.body };
 
-            const form = formBuilder({
+            let data = { ...currentApplicationData, ...req.body };
+            let form = formBuilder({
                 locale: req.i18n.getLocale(),
                 data: data
             });
@@ -557,21 +558,72 @@ function initFormRouter({
 
             const stepIndex = parseInt(req.params.step, 10) - 1;
             const step = currentSection.steps[stepIndex];
+            const stepFields = flatMap(step.fieldsets, 'fields');
 
-            const validationResult = validateForm(form, data);
+            // Check if this step expected any file inputs
+            const fileFields = stepFields
+                .filter(f => f.type === 'file')
+                .map(f => f.name);
+
+            let filesToUpload = [];
+
+            // If we expected files, check whether they were sent
+            fileFields.forEach(fieldName => {
+                // Retrieve the file from Formidable's parsed data
+                const uploadedFile = get(req.files, fieldName);
+                if (uploadedFile) {
+                    // Append the file data to the overall form data for validation
+                    data[fieldName] = {
+                        filename: uploadedFile.name,
+                        size: uploadedFile.size,
+                        type: uploadedFile.type
+                    };
+
+                    // Log this file as a potential upload
+                    filesToUpload.push({
+                        fieldName: fieldName,
+                        fileData: uploadedFile
+                    });
+                }
+            });
+
+            let validationResult = validateForm(form, data);
 
             try {
-                await applicationsService.updateApplication(
-                    currentlyEditingId,
-                    validationResult.value
-                );
-
                 const fieldNamesForStep = flatMap(step.fieldsets, 'fields').map(
                     field => field.name
                 );
 
                 const errorsForStep = validationResult.messages.filter(item =>
                     fieldNamesForStep.includes(item.param)
+                );
+
+                // Check if any files were included and handle them (if valid)
+                filesToUpload.forEach(file => {
+                    const isInvalidFile = errorsForStep.find(
+                        _ => _.param === file.fieldName
+                    );
+                    if (isInvalidFile) {
+                        // Remove the (invalid) file information from form data
+                        delete validationResult.value[file.fieldName];
+                    } else {
+                        // The file passed validation, so upload it to remote storage
+                        console.log('this file was okay, uploading it now....');
+                        s3.uploadFile(file.fieldName, file.fileData)
+                            .then(uploadData => {
+                                console.log('file uploaded');
+                                console.log(uploadData);
+                            })
+                            .catch(err => {
+                                // @TODO we need to show a validation error here
+                            });
+                    }
+                });
+
+                // Store the form's current state (errors and all) in the database
+                await applicationsService.updateApplication(
+                    currentlyEditingId,
+                    validationResult.value
                 );
 
                 /**
