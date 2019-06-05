@@ -6,6 +6,6 @@
     "enableAllowLocalhost": false,
     "enableAwardsForAllApplications": true,
     "enableSeeders": true,
-    "enableSalesforceConnector": false
+    "enableSalesforceConnector": true
   }
 }
