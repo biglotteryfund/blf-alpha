@@ -508,8 +508,8 @@
         {% if field.isRequired %}required aria-required="true"{% endif %}
         {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
     />
-    {% if field.value %}
-        <p><strong>Existing file:</strong> {{ field.value | dump }}</p>
+    {% if field.value and field.displayValue %}
+        <p><strong>Existing file:</strong> {{ field.displayValue }}</p>
     {% endif %}
 {% endmacro %}
 
