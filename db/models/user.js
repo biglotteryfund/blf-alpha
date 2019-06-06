@@ -1,6 +1,8 @@
 'use strict';
 const { Model } = require('sequelize');
 
+const bcrypt = require('bcryptjs');
+
 class User extends Model {
     static init(sequelize, DataTypes) {
         const schema = {
@@ -28,6 +30,10 @@ class User extends Model {
             modelName: 'user',
             sequelize
         });
+    }
+
+    static hasValidPassword(storedHash, typedPass) {
+        return bcrypt.compare(typedPass, storedHash);
     }
 }
 

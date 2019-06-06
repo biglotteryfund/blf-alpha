@@ -11,7 +11,6 @@ const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const features = require('config').get('features');
 
 const { AZURE_AUTH } = require('../common/secrets');
-const userService = require('../services/user');
 const { Users, Staff } = require('../db/models');
 
 /**
@@ -20,9 +19,9 @@ const { Users, Staff } = require('../db/models');
 function localAuthStrategy() {
     return new LocalStrategy(async function(username, password, done) {
         try {
-            const user = await userService.findByUsername(username);
+            const user = await Users.findByUsername(username);
             if (user) {
-                const isValid = await userService.isValidPassword(
+                const isValid = await Users.hasValidPassword(
                     user.password,
                     password
                 );

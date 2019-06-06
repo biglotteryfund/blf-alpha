@@ -26,7 +26,9 @@ function findWithActivePasswordReset({ id }) {
 
 async function createUser({ username, password }) {
     try {
-        const encryptedPassword = await encryptPassword(purifyUserInput(password));
+        const encryptedPassword = await encryptPassword(
+            purifyUserInput(password)
+        );
         return Users.create({
             username: purifyUserInput(username),
             password: encryptedPassword
@@ -47,7 +49,9 @@ function updateIsInPasswordReset({ id }) {
 
 async function updateNewPassword({ newPassword, id }) {
     try {
-        const newEncryptedPassword = await encryptPassword(purifyUserInput(newPassword));
+        const newEncryptedPassword = await encryptPassword(
+            purifyUserInput(newPassword)
+        );
         return Users.update(
             { password: newEncryptedPassword, is_password_reset: false },
             { where: { id: { [Op.eq]: id } } }
@@ -59,7 +63,10 @@ async function updateNewPassword({ newPassword, id }) {
 
 async function updateNewEmail({ newEmail, id }) {
     try {
-        return Users.update({ username: newEmail, is_active: false }, { where: { id: { [Op.eq]: id } } });
+        return Users.update(
+            { username: newEmail, is_active: false },
+            { where: { id: { [Op.eq]: id } } }
+        );
     } catch (error) {
         throw error;
     }
@@ -74,15 +81,10 @@ function updateActivateUser({ id }) {
     );
 }
 
-function isValidPassword(storedHash, typedPass) {
-    return bcrypt.compare(typedPass, storedHash);
-}
-
 module.exports = {
     createUser,
     findByUsername,
     findWithActivePasswordReset,
-    isValidPassword,
     updateActivateUser,
     updateIsInPasswordReset,
     updateNewPassword,
