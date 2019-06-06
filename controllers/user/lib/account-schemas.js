@@ -1,16 +1,29 @@
 'use strict';
+const fs = require('fs');
+const path = require('path');
+const get = require('lodash/fp/get');
 const Joi = require('@hapi/joi');
-const { get } = require('lodash/fp');
+
+/**
+ * List of the most commonly used passwords. Specifically to 10k, filtered by min-length
+ * awk 'length($0)>9' full-list.txt > common-passwords.txt
+ * @see https://github.com/danielmiessler/SecLists/tree/master/Passwords/Common-Credentials
+ */
+const commonPasswords = fs
+    .readFileSync(path.resolve(__dirname, './common-passwords.txt'), 'utf8')
+    .toString()
+    .split('\n');
+
+const MIN_PASSWORD_LENGTH = 10;
 
 const username = Joi.string()
     .email()
     .required();
 
-const MIN_PASSWORD_LENGTH = 12;
-
 const passwordSchema = Joi.string()
     .min(MIN_PASSWORD_LENGTH) // Min characters
-    // .invalid(Joi.ref('username')) // Must not equal username
+    .invalid(Joi.ref('username')) // Must not equal username
+    .invalid(commonPasswords) // Must not be in common passwords list
     .required();
 
 const passwordConfirmationSchema = Joi.string()
@@ -18,24 +31,63 @@ const passwordConfirmationSchema = Joi.string()
     .required();
 
 const MESSAGES = {
-    validEmail(locale) {
+    emailInvalid(locale) {
         return get(locale)({
             en: 'Enter a valid email address',
             cy: ''
         });
     },
-    requiredPassword(locale) {
+    oldPasswordRequired(locale) {
         return get(locale)({
-            en: `Password is invalid, check it is not the same as your username`,
+            en: 'Enter your current password',
             cy: ''
+        });
+    },
+    passwordRequired(locale) {
+        return get(locale)({
+            en: `Enter a password`,
+            cy: ''
+        });
+    },
+    passwordInvalid(locale) {
+        return get(locale)({
+            en: [
+                'Password is invalid.',
+                'This may be because your password was deemed',
+                'to be too common or is the same as your username.',
+                'Check your password and try again.'
+            ].join(' '),
+            cy: ''
+        });
+    },
+    passwordLength(locale) {
+        return get(locale)({
+            en: `Password must be at least ${MIN_PASSWORD_LENGTH} characters long`,
+            cy: ''
+        });
+    },
+    passwordConfirmation(locale) {
+        return get(locale)({
+            en: 'Passwords must match'
         });
     }
 };
 
 module.exports = {
-    username,
+    emailOnly(locale) {
+        return {
+            schema: Joi.object({
+                username: username
+            }),
+            messages: {
+                username: [
+                    { type: 'base', message: MESSAGES.emailInvalid(locale) }
+                ]
+            }
+        };
+    },
+
     newAccounts(locale) {
-        const localise = get(locale);
         return {
             schema: Joi.object({
                 username: username,
@@ -44,78 +96,71 @@ module.exports = {
             }),
             messages: {
                 username: [
-                    { type: 'base', message: MESSAGES.validEmail(locale) }
+                    { type: 'base', message: MESSAGES.emailInvalid(locale) }
                 ],
                 password: [
                     {
                         type: 'base',
-                        message: MESSAGES.requiredPassword(locale)
+                        message: MESSAGES.passwordRequired(locale)
                     },
                     {
                         type: 'any.invalid',
-                        message: localise({
-                            en: `Password is invalid, check it is not the same as your username`,
-                            cy: ''
-                        })
+                        message: MESSAGES.passwordInvalid(locale)
                     },
                     {
                         type: 'string.min',
-                        message: localise({
-                            en: `Password must be at least ${MIN_PASSWORD_LENGTH} characters long`,
-                            cy: ''
-                        })
+                        message: MESSAGES.passwordLength(locale)
                     }
                 ],
                 passwordConfirmation: [
                     {
                         type: 'base',
-                        message: localise({
-                            en: 'Passwords must match'
-                        })
+                        message: MESSAGES.passwordConfirmation(locale)
                     }
                 ]
             }
         };
     },
-    accountSchema: Joi.object({
-        username: username,
-        password: passwordSchema
-    }),
-    emailSchema: Joi.object({
-        username: username
-    }),
-    errorMessages(locale) {
-        const localise = get(locale);
+
+    passwordReset(locale) {
         return {
-            username: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a valid email address',
-                        cy: ''
-                    })
-                }
-            ],
-            password: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter a password', cy: '' })
-                },
-                {
-                    type: 'any.invalid',
-                    message: localise({
-                        en: `Password is invalid, check it is not the same as your username`,
-                        cy: ''
-                    })
-                },
-                {
-                    type: 'string.min',
-                    message: localise({
-                        en: 'Password must be at least 10 characters long',
-                        cy: ''
-                    })
-                }
-            ]
+            schema: Joi.object({
+                oldPassword: Joi.when(Joi.ref('token'), {
+                    is: Joi.exist(),
+                    then: Joi.any().strip(),
+                    otherwise: Joi.string().required()
+                }),
+                password: passwordSchema,
+                passwordConfirmation: passwordConfirmationSchema
+            }),
+            messages: {
+                oldPassword: [
+                    {
+                        type: 'base',
+                        message: MESSAGES.oldPasswordRequired(locale)
+                    }
+                ],
+                password: [
+                    {
+                        type: 'base',
+                        message: MESSAGES.passwordRequired(locale)
+                    },
+                    {
+                        type: 'any.invalid',
+                        message: MESSAGES.passwordInvalid(locale)
+                    },
+                    {
+                        type: 'string.min',
+                        message: MESSAGES.passwordLength(locale)
+                    }
+                ],
+                passwordConfirmation: [
+                    {
+                        type: 'base',
+                        message: MESSAGES.passwordConfirmation(locale)
+                    }
+                ]
+            }
         };
     }
 };

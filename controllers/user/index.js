@@ -2,6 +2,7 @@
 const express = require('express');
 const { get } = require('lodash');
 
+const { redirectForLocale } = require('../../common/urls');
 const { noCache } = require('../../middleware/cached');
 const { noindex } = require('../../middleware/robots');
 
@@ -38,8 +39,15 @@ router.use(function(req, res, next) {
 router.use('/', require('./dashboard'));
 router.use('/login', require('./login'));
 router.use('/register', require('./register'));
-router.use('/logout', require('./logout'));
 router.use('/activate', require('./activate'));
 router.use('/password', require('./password'));
+router.use('/update-email', require('./update-email'));
+
+router.get('/logout', function(req) {
+    req.logout();
+    req.session.save(() => {
+        redirectForLocale(req, res, '/user/login?s=loggedOut');
+    });
+});
 
 module.exports = router;

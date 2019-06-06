@@ -67,6 +67,12 @@ function normaliseErrors({ validationError, errorMessages }) {
     });
 }
 
+/**
+ * This is structurally the same as validate-form.js in form-router-next.
+ * If we reach a point where we're happy with the abstraction and the use-cases
+ * don't diverge we could merge these together.
+ * @TODO: Merge with validate-form?
+ */
 module.exports = function validateSchema({ schema, messages }, data = {}) {
     const { value, error } = schema.validate(data, {
         abortEarly: false,
@@ -77,8 +83,6 @@ module.exports = function validateSchema({ schema, messages }, data = {}) {
         validationError: error,
         errorMessages: messages
     });
-
-    console.log(normalisedErrors);
 
     return {
         value: value,

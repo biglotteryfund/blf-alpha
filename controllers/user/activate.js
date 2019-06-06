@@ -1,46 +1,16 @@
 'use strict';
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const Sentry = require('@sentry/node');
 const path = require('path');
-const { concat } = require('lodash');
+const express = require('express');
+const concat = require('lodash/concat');
+const Sentry = require('@sentry/node');
 
 const { requireUserAuth } = require('../../middleware/authed');
-const { JWT_SIGNING_TOKEN } = require('../../common/secrets');
 const userService = require('../../services/user');
 
-const { sendActivationEmail } = require('./helpers');
+const { verifyTokenActivate } = require('./lib/jwt');
+const sendActivationEmail = require('./lib/activation-email');
 
 const router = express.Router();
-
-function activate(token, user) {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, JWT_SIGNING_TOKEN, async (jwtError, decoded) => {
-            if (jwtError) {
-                reject(jwtError);
-            } else {
-                if (user.is_active) {
-                    resolve(user);
-                }
-
-                // Was the token valid for this user?
-                if (decoded.data.reason === 'activate' && decoded.data.userId === user.id) {
-                    try {
-                        const updatedUser = await userService.updateActivateUser({
-                            id: decoded.data.userId
-                        });
-
-                        resolve(updatedUser);
-                    } catch (activateError) {
-                        reject(activateError);
-                    }
-                } else {
-                    reject(new Error('invalid token'));
-                }
-            }
-        });
-    });
-}
 
 router.route('/').get(requireUserAuth, async (req, res) => {
     const token = req.query.token;
@@ -48,7 +18,10 @@ router.route('/').get(requireUserAuth, async (req, res) => {
 
     if (token) {
         try {
-            await activate(token, user);
+            await verifyTokenActivate(req.query.token, req.user.id);
+            await userService.updateActivateUser({
+                id: req.user.id
+            });
             res.redirect('/user?s=activationComplete');
         } catch (error) {
             Sentry.captureException(error);
