@@ -1,45 +1,57 @@
 'use strict';
+const path = require('path');
 const express = require('express');
 const Sentry = require('@sentry/node');
-const path = require('path');
-const { concat } = require('lodash');
 
 const { Users } = require('../../db/models');
-const { localify } = require('../../common/urls');
-const { requireUserAuth } = require('../../middleware/authed');
+const {
+    requireUserAuth,
+    redirectUrlWithFallback
+} = require('../../middleware/authed');
+const {
+    injectCopy,
+    injectBreadcrumbs
+} = require('../../middleware/inject-content');
 
-const sendActivationEmail = require('./lib/activation-email');
 const { verifyTokenActivate } = require('./lib/jwt');
+const sendActivationEmail = require('./lib/activation-email');
 
 const router = express.Router();
 
-router.route('/').get(requireUserAuth, async (req, res, next) => {
-    const userUrl = localify(req.i18n.getLocale())('/user');
-    if (req.user.is_active) {
-        res.redirect(userUrl);
-    } else if (req.query.token) {
-        try {
-            await verifyTokenActivate(req.query.token, req.user.id);
-            await Users.activateUser(req.user.id);
-            req.session.save(() => {
-                res.redirect(`${userUrl}?s=activationComplete`);
-            });
-        } catch (error) {
-            Sentry.captureException(error);
-            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-                label: 'Activate account'
-            });
-            res.render(path.resolve(__dirname, './views/activate-error'));
+router.get(
+    '/',
+    requireUserAuth,
+    injectCopy('user.activate'),
+    injectBreadcrumbs,
+    async function(req, res) {
+        const template = path.resolve(__dirname, './views/activate');
+
+        if (req.user.is_active) {
+            redirectUrlWithFallback(req, res, '/user');
+        } else if (req.query.token) {
+            try {
+                await verifyTokenActivate(req.query.token, req.user.id);
+                await Users.activateUser(req.user.id);
+                redirectUrlWithFallback(req, res, '/user?s=activationComplete');
+            } catch (error) {
+                Sentry.withScope(scope => {
+                    scope.setLevel('warning');
+                    Sentry.captureException(error);
+                });
+                res.render(template, { tokenError: true });
+            }
+        } else {
+            res.render(template);
         }
-    } else {
-        try {
-            await sendActivationEmail(req, req.user);
-            req.session.save(() => {
-                res.redirect(`${userUrl}?s=activationSent`);
-            });
-        } catch (err) {
-            next(err);
-        }
+    }
+);
+
+router.get('/resend', async function(req, res, next) {
+    try {
+        await sendActivationEmail(req, req.user);
+        res.redirect(req.baseUrl);
+    } catch (err) {
+        next(err);
     }
 });
 

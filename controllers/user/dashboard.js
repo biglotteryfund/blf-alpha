@@ -12,8 +12,7 @@ router.get('/', requireUserAuth, injectCopy('user.dashboard'), (req, res) => {
     res.render(path.resolve(__dirname, './views/dashboard'), {
         alertMessage: alertMessage({
             locale: req.i18n.getLocale(),
-            status: req.query.s,
-            username: req.user.username
+            status: req.query.s
         })
     });
 });

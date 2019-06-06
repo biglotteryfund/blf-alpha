@@ -18,7 +18,7 @@ const features = require('config').get('features');
 const appData = require('../../../common/appData');
 const applicationsService = require('../../../services/applications');
 const cached = require('../../../middleware/cached');
-const { requireUserAuth } = require('../../../middleware/authed');
+const { requireActiveUser } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
 const { FORM_STATES, calculateFormProgress } = require('./lib/progress');
@@ -86,9 +86,9 @@ function initFormRouter({
     );
 
     /**
-     * Require login, redirect back here once authenticated.
+     * Require active user
      */
-    router.use(requireUserAuth);
+    router.use(requireActiveUser);
 
     /**
      * Route: Dashboard

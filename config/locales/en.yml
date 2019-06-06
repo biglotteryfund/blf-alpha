@@ -1096,6 +1096,26 @@ user:
     title: Update email address
     introduction: >
       <p>You can modify your registered email address here. Please bear in mind you will need to confirm your account again once you have done this.</p>
+  activate:
+    title: Activate your account
+    message: >
+      A email has been sent to <strong>%s</strong>. To activate your account, please click on the link in the email.
+    errorMessage: Your activation link was invalid or has expired.
+    resendLabel: Re-send activation link
+    notReceived:
+      title: Not received anything?
+      body: >
+        <p>The activation email make take a few minutes to arrive, if you've not received one:</p>
+        <ul>
+            <li>Check your spam mail box</li>
+            <li>
+                Check your email address is correct, if not <a href="%s">update your email address</a>
+            </li>
+        </ul>
+    contact:
+      title: Still not working?
+      body: >
+        <p>Contact us on <strong>0345 4 10 20 30</strong></p>
 apply:
   error:
     title: There was a problem with your submission

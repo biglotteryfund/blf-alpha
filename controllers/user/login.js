@@ -3,16 +3,15 @@ const path = require('path');
 const express = require('express');
 const passport = require('passport');
 
-const { localify } = require('../../common/urls');
-const { csrfProtection } = require('../../middleware/cached');
 const {
     injectCopy,
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
 const {
-    requireUnauthed,
+    requireNoAuth,
     redirectUrlWithFallback
 } = require('../../middleware/authed');
+const { csrfProtection } = require('../../middleware/cached');
 
 const alertMessage = require('./lib/alert-message');
 
@@ -34,7 +33,7 @@ router
     .route('/')
     .all(
         csrfProtection,
-        requireUnauthed,
+        requireNoAuth,
         injectCopy('user.login'),
         injectBreadcrumbs
     )
@@ -48,8 +47,7 @@ router
                     if (loginErr) {
                         next(loginErr);
                     } else {
-                        const url = localify(req.i18n.getLocale())('/user');
-                        redirectUrlWithFallback(url, req, res);
+                        redirectUrlWithFallback(req, res, '/user');
                     }
                 });
             } else {

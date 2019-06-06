@@ -1,20 +1,43 @@
 'use strict';
 const hasIn = require('lodash/hasIn');
-const { localify } = require('../common/urls');
+const { localify, redirectForLocale } = require('../common/urls');
 
 function isStaff(user) {
     return hasIn(user, 'oid') === true;
+}
+
+function redirectWithReturnUrl(req, res, urlPath) {
+    req.session.redirectUrl = req.originalUrl;
+    req.session.save(() => {
+        redirectForLocale(req, res, urlPath);
+    });
+}
+
+function redirectUrlWithFallback(req, res, urlPath) {
+    let redirectUrl = localify(req.i18n.getLocale())(urlPath);
+    if (req.query.redirectUrl) {
+        redirectUrl = req.query.redirectUrl;
+    } else if (req.body.redirectUrl) {
+        redirectUrl = req.body.redirectUrl;
+    } else if (req.session.redirectUrl) {
+        redirectUrl = req.session.redirectUrl;
+        delete req.session.redirectUrl;
+    }
+
+    req.session.save(() => {
+        res.redirect(redirectUrl);
+    });
 }
 
 /**
  * Require authenticated
  * Only allow non-authenticated users
  */
-function requireUnauthed(req, res, next) {
-    if (!req.user) {
-        return next();
+function requireNoAuth(req, res, next) {
+    if (req.user) {
+        redirectForLocale(req, res, '/user');
     } else {
-        res.redirect('/user');
+        next();
     }
 }
 
@@ -26,10 +49,19 @@ function requireUserAuth(req, res, next) {
     if (req.isAuthenticated() && isStaff(req.user) === false) {
         next();
     } else {
-        req.session.redirectUrl = req.originalUrl;
-        req.session.save(() => {
-            res.redirect(localify(req.i18n.getLocale())('/user/login'));
-        });
+        redirectWithReturnUrl(req, res, '/user/login');
+    }
+}
+
+function requireActiveUser(req, res, next) {
+    if (req.isAuthenticated() && isStaff(req.user) === false) {
+        if (req.user.is_active) {
+            next();
+        } else {
+            redirectWithReturnUrl(req, res, '/user/activate');
+        }
+    } else {
+        redirectWithReturnUrl(req, res, '/user');
     }
 }
 
@@ -61,25 +93,10 @@ function requireNotStaffAuth(req, res, next) {
     }
 }
 
-function redirectUrlWithFallback(fallbackUrl, req, res) {
-    let redirectUrl = fallbackUrl;
-    if (req.query.redirectUrl) {
-        redirectUrl = req.query.redirectUrl;
-    } else if (req.body.redirectUrl) {
-        redirectUrl = req.body.redirectUrl;
-    } else if (req.session.redirectUrl) {
-        redirectUrl = req.session.redirectUrl;
-        delete req.session.redirectUrl;
-    }
-
-    req.session.save(() => {
-        res.redirect(redirectUrl);
-    });
-}
-
 module.exports = {
-    requireUnauthed,
+    requireNoAuth,
     requireUserAuth,
+    requireActiveUser,
     requireStaffAuth,
     requireNotStaffAuth,
     redirectUrlWithFallback

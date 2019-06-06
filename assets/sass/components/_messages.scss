@@ -10,11 +10,15 @@
     padding: 0.75em $spacingUnit;
     border-left: 5px solid get-color('message', 'base');
     background-color: get-color('background', 'light-neutral');
-    font-weight: font-weight('body', 'semibold');
+    font-weight: font-weight('body', 'normal');
     margin-bottom: $spacingUnit;
 
     &.message--error {
         border-color: get-color('message', 'warning');
+    }
+
+    a {
+        font-weight: font-weight('body', 'bold');
     }
 
     > p {

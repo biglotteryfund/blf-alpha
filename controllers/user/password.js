@@ -14,7 +14,7 @@ const {
     injectCopy,
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
-const { requireUnauthed } = require('../../middleware/authed');
+const { requireNoAuth } = require('../../middleware/authed');
 
 const schemas = require('./lib/account-schemas');
 const normaliseErrors = require('./lib/normalise-errors');
@@ -130,11 +130,7 @@ function renderResetFormExpired(req, res) {
  */
 router
     .route('/forgot')
-    .all(
-        requireUnauthed,
-        injectCopy('user.forgottenPassword'),
-        injectBreadcrumbs
-    )
+    .all(requireNoAuth, injectCopy('user.forgottenPassword'), injectBreadcrumbs)
     .get(renderForgotForm)
     .post(async function(req, res) {
         const validationResult = Joi.object({

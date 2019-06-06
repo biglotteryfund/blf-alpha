@@ -13,7 +13,7 @@ const {
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
 const {
-    requireUnauthed,
+    requireNoAuth,
     redirectUrlWithFallback
 } = require('../../middleware/authed');
 
@@ -34,11 +34,7 @@ function logIn(req, res, next) {
                 if (loginErr) {
                     next(loginErr);
                 } else {
-                    const fallbackUrl = localify(req.i18n.getLocale())(
-                        '/user?s=activationSent'
-                    );
-
-                    redirectUrlWithFallback(fallbackUrl, req, res);
+                    redirectUrlWithFallback(req, res, '/user');
                 }
             });
         }
@@ -56,7 +52,7 @@ function renderForm(req, res, data = null, errors = []) {
 router
     .route('/')
     .all(
-        requireUnauthed,
+        requireNoAuth,
         csrfProtection,
         injectCopy('user.register'),
         injectBreadcrumbs

@@ -53,11 +53,6 @@ function getBaseUrl(req) {
     return `${protocol}://${req.get('host')}`;
 }
 
-function getFullUrl(req) {
-    const baseUrl = getBaseUrl(req);
-    return `${baseUrl}${req.originalUrl}`;
-}
-
 function getAbsoluteUrl(req, urlPath) {
     if (urlPath.indexOf('://') === -1) {
         const baseUrl = getBaseUrl(req);
@@ -133,14 +128,20 @@ function getCurrentUrl(req, requestedLocale) {
 
     // Reconstruct clean URL
     const newCleanQuery = querystring.stringify(originalQuery);
-    return newCleanQuery.length > 0 ? `${parsedPathname}?${newCleanQuery}` : parsedPathname;
+    return newCleanQuery.length > 0
+        ? `${parsedPathname}?${newCleanQuery}`
+        : parsedPathname;
+}
+
+function redirectForLocale(req, res, urlPath) {
+    const url = localify(req.i18n.getLocale())(urlPath);
+    res.redirect(url);
 }
 
 module.exports = {
     getAbsoluteUrl,
     getBaseUrl,
     getCurrentUrl,
-    getFullUrl,
     hasTrailingSlash,
     isWelsh,
     localify,
@@ -148,5 +149,5 @@ module.exports = {
     removeWelsh,
     sanitiseUrlPath,
     stripTrailingSlashes,
-    WELSH_REGEX
+    redirectForLocale
 };
