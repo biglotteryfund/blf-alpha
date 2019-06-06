@@ -2,13 +2,13 @@
     {% if user %}
         <div class="user-status">
             <div class="user-status__current">
-                Logged in as <strong>{{ user.userData.username }}</strong>
+                Logged in as <strong>{{ user.username }}</strong>
             </div>
             <div class="user-status__actions">
                 <a href="{{ localify('/user/logout') }}" data-testid="logout-button">Log out</a>
             </div>
         </div>
-        {% if user.userType === 'user' and not user.userData.is_active %}
+        {% if not user.is_active %}
             <div class="message" role="alert">
                 <p>You haven't activated your account yet.</p>
                 <p>Would you like to <a href="{{ localify('/user/activate') }}">re-send your activation link</a>?</p>
@@ -22,7 +22,7 @@
         <div class="user-status">
             <div class="user-status__current">
                 <span class="o-badge o-badge--primary u-margin-right-s">Staff</span>
-                Logged in as <strong>{{ user.userData.fullName }}</strong>
+                Logged in as <strong>{{ user.fullName }}</strong>
             </div>
             <div class="user-status__actions">
                 <a href="{{ localify('/user/staff/logout') }}">Log out</a>

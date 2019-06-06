@@ -124,7 +124,7 @@ function initFormRouter({
 
         try {
             const applications = await applicationsService.getByForm({
-                userId: req.user.userData.id,
+                userId: req.user.id,
                 formId: id
             });
 
@@ -167,7 +167,7 @@ function initFormRouter({
         try {
             const application = await applicationsService.createApplication({
                 formId: id,
-                userId: req.user.userData.id
+                userId: req.user.id
             });
 
             setCurrentlyEditingId(req, application.id);
@@ -202,12 +202,12 @@ function initFormRouter({
     router
         .route('/delete/:applicationId')
         .get(async (req, res) => {
-            if (req.params.applicationId && req.user.userData.id) {
+            if (req.params.applicationId && req.user.id) {
                 const application = await applicationsService.getApplicationById(
                     {
                         formId: id,
                         applicationId: req.params.applicationId,
-                        userId: req.user.userData.id
+                        userId: req.user.id
                     }
                 );
 
@@ -227,7 +227,7 @@ function initFormRouter({
             try {
                 await applicationsService.deleteApplication(
                     req.params.applicationId,
-                    req.user.userData.id
+                    req.user.id
                 );
                 // @TODO show a success message on the subsequent (dashboard?) screen
                 res.redirect(req.baseUrl);
@@ -250,7 +250,7 @@ function initFormRouter({
                     {
                         formId: id,
                         applicationId: currentEditingId,
-                        userId: req.user.userData.id
+                        userId: req.user.id
                     }
                 );
 

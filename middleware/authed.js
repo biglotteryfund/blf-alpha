@@ -1,13 +1,9 @@
 'use strict';
-const { get } = require('lodash');
+const hasIn = require('lodash/hasIn');
 const { localify } = require('../common/urls');
 
 function isStaff(user) {
-    return get(user, 'userType', false) === 'staff';
-}
-
-function isRegularUser(user) {
-    return get(user, 'userType', false) === 'user';
+    return hasIn(user, 'oid') === true;
 }
 
 /**
@@ -27,7 +23,7 @@ function requireUnauthed(req, res, next) {
  * Middleware to require that the visitor is logged in as a public user
  */
 function requireUserAuth(req, res, next) {
-    if (req.isAuthenticated() && isRegularUser(req.user)) {
+    if (req.isAuthenticated() && isStaff(req.user) === false) {
         next();
     } else {
         req.session.redirectUrl = req.originalUrl;
@@ -42,12 +38,26 @@ function requireUserAuth(req, res, next) {
  * Middleware to require that the visitor is logged in as a staff user
  */
 function requireStaffAuth(req, res, next) {
-    if (req.isAuthenticated() && isRegularUser(req.user)) {
-        res.redirect('/user');
-    } else if (req.isAuthenticated() && isStaff(req.user)) {
-        return next();
+    if (req.isAuthenticated()) {
+        if (isStaff(req.user)) {
+            next();
+        } else {
+            res.redirect('/user');
+        }
     } else {
         res.redirect(`/user/staff/login?redirectUrl=${req.originalUrl}`);
+    }
+}
+
+/*
+ * Required note staff auth
+ * Middleware to require that the visitor is NOT logged in as a staff user
+ */
+function requireNotStaffAuth(req, res, next) {
+    if (req.isAuthenticated() && req.user.getType() === 'staff') {
+        res.redirect('/tools');
+    } else {
+        next();
     }
 }
 
@@ -71,5 +81,6 @@ module.exports = {
     requireUnauthed,
     requireUserAuth,
     requireStaffAuth,
+    requireNotStaffAuth,
     redirectUrlWithFallback
 };

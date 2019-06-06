@@ -35,7 +35,7 @@ router.get('/', requireUserAuth, injectCopy('user.dashboard'), (req, res) => {
         alertMessage: alertMessage({
             locale: req.i18n.getLocale(),
             status: req.query.s,
-            username: req.user.userData.username
+            username: req.user.username
         }),
         errors: res.locals.errors || []
     });
@@ -75,12 +75,11 @@ router
                         `A user tried to update their email address to an existing email address`
                     );
                 } else {
-                    const userId = req.user.userData.id;
                     await userService.updateNewEmail({
                         newEmail: username,
-                        id: userId
+                        id: req.user.id
                     });
-                    const updatedUser = await userService.findById(userId);
+                    const updatedUser = await userService.findById(req.user.id);
                     await sendActivationEmail(req, updatedUser, true);
                     res.redirect('/user?s=emailUpdated');
                 }

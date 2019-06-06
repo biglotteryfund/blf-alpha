@@ -4,6 +4,7 @@
  * Note: we return null after callbacks in this file to avoid this warning:
  * @see https://github.com/jaredhanson/passport/pull/461
  */
+const has = require('lodash/has');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
@@ -45,13 +46,15 @@ function localAuthStrategy() {
 }
 
 /**
- * Staff sign-in strategy (eg. internal authentication)
+ * Staff sign-in strategy
+ * Uses Azure Active Directory
  */
 function azureAuthStrategy() {
     return new OIDCStrategy(
         {
             identityMetadata: AZURE_AUTH.metadataUrl,
             clientID: AZURE_AUTH.clientId,
+            // Allowed in development environments
             allowHttpForRedirectUrl: features.enableAllowHttpAuthRedirect,
             redirectUrl: AZURE_AUTH.redirectUrl,
             clientSecret: AZURE_AUTH.clientSecret,
@@ -71,7 +74,7 @@ function azureAuthStrategy() {
         async function(iss, sub, profile, accessToken, refreshToken, done) {
             if (profile.oid) {
                 try {
-                    const user = Staff.findOrCreateProfile(profile);
+                    const user = await Staff.findOrCreateProfile(profile);
                     done(null, user);
                     return null;
                 } catch (err) {
@@ -93,23 +96,16 @@ module.exports = function() {
         passport.use(azureAuthStrategy());
     }
 
-    function makeUserObject(user) {
-        return {
-            userType: user.constructor.name,
-            userData: user
-        };
-    }
-
-    passport.serializeUser((user, cb) => {
-        cb(null, makeUserObject(user));
+    passport.serializeUser(function(user, done) {
+        done(null, user);
         return null;
     });
 
-    passport.deserializeUser(async function(user, done) {
+    passport.deserializeUser(async function(serializedUsed, done) {
         try {
-            const model = user.userType === 'staff' ? Staff : Users;
-            const match = await model.findById(user.userData.id);
-            done(null, match ? makeUserObject(match) : null);
+            const model = has(serializedUsed, 'oid') ? Staff : Users;
+            const user = await model.findById(serializedUsed.id);
+            done(null, user);
             return null;
         } catch (err) {
             done(err, null);

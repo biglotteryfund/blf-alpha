@@ -24,11 +24,16 @@ function activate(token, user) {
                 }
 
                 // Was the token valid for this user?
-                if (decoded.data.reason === 'activate' && decoded.data.userId === user.id) {
+                if (
+                    decoded.data.reason === 'activate' &&
+                    decoded.data.userId === user.id
+                ) {
                     try {
-                        const updatedUser = await userService.updateActivateUser({
-                            id: decoded.data.userId
-                        });
+                        const updatedUser = await userService.updateActivateUser(
+                            {
+                                id: decoded.data.userId
+                            }
+                        );
 
                         resolve(updatedUser);
                     } catch (activateError) {
@@ -43,12 +48,9 @@ function activate(token, user) {
 }
 
 router.route('/').get(requireUserAuth, async (req, res) => {
-    const token = req.query.token;
-    const user = req.user.userData;
-
-    if (token) {
+    if (req.query.token) {
         try {
-            await activate(token, user);
+            await activate(req.query.token, req.user);
             res.redirect('/user?s=activationComplete');
         } catch (error) {
             Sentry.captureException(error);
@@ -59,8 +61,8 @@ router.route('/').get(requireUserAuth, async (req, res) => {
         }
     } else {
         // no token, so send them an activation email
-        if (!user.is_active) {
-            await sendActivationEmail(req, user);
+        if (!req.user.is_active) {
+            await sendActivationEmail(req, req.user);
         }
 
         req.session.save(() => {

@@ -222,7 +222,7 @@ router
         if (req.user) {
             // Confirm the typed password matches the currently-stored one
             const passwordMatches = await userService.isValidPassword(
-                req.user.userData.password,
+                req.user.password,
                 req.body['password-old']
             );
 
@@ -232,7 +232,7 @@ router
                     validationResult,
                     errors
                 } = validatePasswordChangeRequest(
-                    req.user.userData.id,
+                    req.user.id,
                     req.body.password,
                     req.i18n.getLocale()
                 );
@@ -248,7 +248,7 @@ router
                         });
                         await sendPasswordResetNotification(
                             req,
-                            req.user.userData.username
+                            req.user.username
                         );
                         res.redirect('/user?s=passwordUpdated');
                     } catch (error) {
