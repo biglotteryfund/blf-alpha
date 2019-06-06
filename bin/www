@@ -1,75 +1,72 @@
 #!/usr/bin/env node
 'use strict';
+/* eslint-disable no-console */
 const http = require('http');
 const config = require('config');
 const debug = require('debug')('tnlcf:www');
 
 const app = require('../server');
-const models = require('../db/models');
+const { sequelize } = require('../db/models');
 
 debug(`App environment: ${config.util.getEnv('NODE_ENV')}`);
 
 /**
  * Get port from environment and store in Express.
  */
-var port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
-var server = http.createServer(app);
+const server = http.createServer(app);
 
-var startServer = function() {
-    /**
-     * Listen on provided port, on all network interfaces.
-     */
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+function startServer() {
     server.listen(port);
     server.on('error', onError);
     server.on('listening', onListening);
-};
+}
 
-// sync database models
-try {
-    models.sequelize.sync().then(function() {
+/**
+ * Sync database models and start application
+ */
+sequelize
+    .sync()
+    .then(function() {
         debug('Database sync complete');
         startServer();
+    })
+    .catch(function(e) {
+        debug('Database sync failed', e);
+        startServer();
     });
-} catch (e) {
-    debug('Database sync failed');
-    startServer();
-}
 
 /**
  * Normalize a port into a number, string, or false.
  */
-
 function normalizePort(val) {
-    var parsedPort = parseInt(val, 10);
-
+    const parsedPort = parseInt(val, 10);
     if (isNaN(parsedPort)) {
-        // named pipe
         return val;
-    }
-
-    if (parsedPort >= 0) {
-        // port number
+    } else if (parsedPort >= 0) {
         return parsedPort;
+    } else {
+        return false;
     }
-
-    return false;
 }
 
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
     if (error.syscall !== 'listen') {
         throw error;
     }
 
-    var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+    const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
@@ -92,7 +89,8 @@ function onError(error) {
 
 function onListening() {
     const addr = server.address();
-    const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+    const bind =
+        typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     debug(`App now running on ${bind}`);
 
     if (process.env.ENABLE_BROWSER_SYNC === 'true') {

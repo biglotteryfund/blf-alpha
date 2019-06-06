@@ -30,11 +30,7 @@ const routes = require('./controllers/routes');
 const viewFilters = require('./common/filters');
 const cspDirectives = require('./common/csp-directives');
 
-const {
-    defaultVary,
-    defaultCacheControl,
-    noCache
-} = require('./middleware/cached');
+const { defaultVary, defaultCacheControl } = require('./middleware/cached');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const domainRedirectMiddleware = require('./middleware/domain-redirect');
 const i18nMiddleware = require('./middleware/i18n');
@@ -96,12 +92,13 @@ app.use(domainRedirectMiddleware);
  * Mount first
  */
 const LAUNCH_DATE = moment();
-app.get('/status', noCache, (req, res) => {
+app.get('/status', (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader(
         'Access-Control-Allow-Headers',
         'Origin, X-Requested-With, Content-Type, Accept'
     );
+    res.setHeader('Cache-Control', 'no-store,no-cache,max-age=0');
 
     res.json({
         APP_ENV: appData.environment,
@@ -208,7 +205,7 @@ app.use(
     helmet({
         contentSecurityPolicy: {
             directives: cspDirectives({
-                enableHotjar: features.enableHojtar,
+                enableHotjar: features.enableHotjar,
                 allowLocalhost: features.enableAllowLocalhost
             }),
             browserSniff: false

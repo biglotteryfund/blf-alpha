@@ -110,6 +110,7 @@ function formatBudget(value) {
         const total = sumBy(value, item => parseInt(item.cost || 0));
         return [
             value
+                .filter(line => line.item && line.cost)
                 .map(line => `${line.item} – £${line.cost.toLocaleString()}`)
                 .join('\n'),
             `Total: £${total.toLocaleString()}`

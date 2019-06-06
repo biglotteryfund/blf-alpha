@@ -81,15 +81,9 @@ function findPreviousMatchingUrl({
  * Find next and previous matching URLs
  * @param {MatchOptions} options
  */
-function nextAndPrevious(options) {
+module.exports = function pagination(options) {
     return {
         nextUrl: findNextMatchingUrl(options),
         previousUrl: findPreviousMatchingUrl(options)
     };
-}
-
-module.exports = {
-    findNextMatchingUrl,
-    findPreviousMatchingUrl,
-    nextAndPrevious
 };

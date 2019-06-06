@@ -605,20 +605,24 @@ module.exports = function({ locale, data = {} }) {
         const budget = getOr([], 'projectBudget')(data);
         const budgetSum = sumBy(budget, item => parseInt(item.cost || 0));
 
-        return [
-            {
-                label: localise({ en: 'Organisation', cy: '' }),
-                value: organisation
-            },
-            {
-                label: localise({ en: 'Project dates', cy: '' }),
-                value: projectDateRange && formatDateRange(projectDateRange)
-            },
-            {
-                label: localise({ en: 'Requested amount', cy: '' }),
-                value: budget.length > 0 && `£${budgetSum.toLocaleString()}`
-            }
-        ];
+        return {
+            title: get('projectName')(data),
+            country: get('projectCountry')(data),
+            overview: [
+                {
+                    label: localise({ en: 'Organisation', cy: '' }),
+                    value: organisation
+                },
+                {
+                    label: localise({ en: 'Project dates', cy: '' }),
+                    value: projectDateRange && formatDateRange(projectDateRange)
+                },
+                {
+                    label: localise({ en: 'Requested amount', cy: '' }),
+                    value: budget.length > 0 && `£${budgetSum.toLocaleString()}`
+                }
+            ]
+        };
     }
 
     function forSalesforce() {
@@ -649,7 +653,6 @@ module.exports = function({ locale, data = {} }) {
     }
 
     const form = {
-        id: 'awards-for-all',
         title: localise({
             en: 'National Lottery Awards for All',
             cy: ''

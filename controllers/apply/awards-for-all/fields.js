@@ -133,25 +133,30 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         const defaultProps = {
             type: 'address-history',
             isRequired: true,
-            schema: Joi.object({
-                currentAddressMeetsMinimum: Joi.string()
-                    .valid(['yes', 'no'])
-                    .required(),
-                previousAddress: Joi.when(
-                    Joi.ref('currentAddressMeetsMinimum'),
-                    {
-                        is: 'no',
-                        then: Joi.ukAddress().required(),
-                        otherwise: Joi.any()
-                    }
-                )
-            }).when(Joi.ref('organisationType'), {
-                is: Joi.valid(
-                    ORGANISATION_TYPES.SCHOOL,
-                    ORGANISATION_TYPES.STATUTORY_BODY
-                ),
-                then: Joi.any().optional()
-            }),
+            get schema() {
+                const addressHistorySchema = Joi.object({
+                    currentAddressMeetsMinimum: Joi.string()
+                        .valid(['yes', 'no'])
+                        .required(),
+                    previousAddress: Joi.when(
+                        Joi.ref('currentAddressMeetsMinimum'),
+                        {
+                            is: 'no',
+                            then: Joi.ukAddress().required(),
+                            otherwise: Joi.any()
+                        }
+                    )
+                });
+
+                return Joi.when(Joi.ref('organisationType'), {
+                    is: Joi.exist().valid(
+                        ORGANISATION_TYPES.SCHOOL,
+                        ORGANISATION_TYPES.STATUTORY_BODY
+                    ),
+                    then: Joi.any().strip(),
+                    otherwise: addressHistorySchema.required()
+                });
+            },
             messages: [
                 {
                     type: 'base',
@@ -560,7 +565,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'radio',
             options: rolesFor(currentOrganisationType),
             isRequired: true,
-            schema: Joi.string().required(),
+            get schema() {
+                return Joi.string()
+                    .valid(this.options.map(option => option.value))
+                    .required();
+            },
             messages: [
                 {
                     type: 'base',

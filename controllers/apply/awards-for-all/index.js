@@ -6,7 +6,7 @@ const eligibilityBuilder = require('./eligibility');
 const confirmationBuilder = require('./confirmation');
 
 module.exports = initFormRouter({
-    id: 'awards-for-all',
+    formId: 'awards-for-all',
     eligibilityBuilder: eligibilityBuilder,
     formBuilder: formBuilder,
     confirmationBuilder: confirmationBuilder

@@ -39,6 +39,7 @@ function mockBudget() {
 function mockFullForm({
     country = 'england',
     organisationType,
+    seniorContactRole,
     companyNumber = null,
     charityNumber = null,
     educationNumber = null
@@ -89,7 +90,7 @@ function mockFullForm({
         mainContactCommunicationNeeds: [],
         seniorContactFirstName: faker.name.firstName(),
         seniorContactLastName: faker.name.lastName(),
-        seniorContactRole: 'trustee',
+        seniorContactRole: seniorContactRole,
         seniorContactDateOfBirth: mockDateOfBirth(18),
         seniorContactAddress: mockAddress(),
         seniorContactAddressHistory: {
