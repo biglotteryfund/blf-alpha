@@ -8,6 +8,7 @@ const databaseConfig = require('../database-config')[env];
 
 const Feedback = require('./feedback');
 const SurveyAnswer = require('./survey');
+const { PendingApplication, SubmittedApplication } = require('./applications');
 
 debug(`Using ${databaseConfig.dialect} database`);
 
@@ -35,7 +36,8 @@ const db = {
 };
 
 if (appData.isNotProduction) {
-    db.Application = sequelize.import('./application');
+    db.PendingApplication = PendingApplication.init(sequelize, Sequelize);
+    db.SubmittedApplication = SubmittedApplication.init(sequelize, Sequelize);
 }
 
 Object.keys(db).forEach(modelName => {

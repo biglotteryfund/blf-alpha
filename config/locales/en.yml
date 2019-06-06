@@ -1346,6 +1346,14 @@ applyNext:
     collapseAll: Collapse all sections
     showQuestions: Show questions
     notRequired: Not required for your application
+  delete:
+    title: Are you sure you want to delete your application?
+    message: >
+      <p>
+        <strong>This can't be undone</strong>.
+        If you're sure you want to delete your application, then you can proceed below.
+      </p>
+
   sectionPrefix: Section
   statusNotStarted: Not started
   statusInProgress: In progress
@@ -1355,4 +1363,6 @@ applyNext:
   continue: Continue
   edit: Edit
   submit: Submit application
-  delete: Delete application
+  #  @TODO: Move other common text to common:
+  common:
+    delete: Delete application

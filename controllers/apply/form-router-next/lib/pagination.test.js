@@ -1,8 +1,8 @@
 /* eslint-env jest */
 'use strict';
-const { nextAndPrevious } = require('./pagination');
+const pagination = require('./pagination');
 
-describe('nextAndPrevious', () => {
+describe('pagination', () => {
     const mockSections = [
         {
             slug: 'section-a',
@@ -32,7 +32,7 @@ describe('nextAndPrevious', () => {
     ];
 
     test('first step', () => {
-        const { nextUrl, previousUrl } = nextAndPrevious({
+        const { nextUrl, previousUrl } = pagination({
             baseUrl: '/example',
             sections: mockSections,
             currentSectionIndex: 0,
@@ -43,7 +43,7 @@ describe('nextAndPrevious', () => {
     });
 
     test('next section', () => {
-        const { nextUrl, previousUrl } = nextAndPrevious({
+        const { nextUrl, previousUrl } = pagination({
             baseUrl: '/example',
             sections: mockSections,
             currentSectionIndex: 0,
@@ -54,7 +54,7 @@ describe('nextAndPrevious', () => {
     });
 
     test('previous section', () => {
-        const { nextUrl, previousUrl } = nextAndPrevious({
+        const { nextUrl, previousUrl } = pagination({
             baseUrl: '/example',
             sections: mockSections,
             currentSectionIndex: 2,
@@ -65,7 +65,7 @@ describe('nextAndPrevious', () => {
     });
 
     test('last step', () => {
-        const { nextUrl, previousUrl } = nextAndPrevious({
+        const { nextUrl, previousUrl } = pagination({
             baseUrl: '/example',
             sections: mockSections,
             currentSectionIndex: 2,
@@ -76,7 +76,7 @@ describe('nextAndPrevious', () => {
     });
 
     test('skips conditional steps', () => {
-        const { nextUrl, previousUrl } = nextAndPrevious({
+        const { nextUrl, previousUrl } = pagination({
             baseUrl: '/example',
             sections: mockSections,
             currentSectionIndex: 1,
