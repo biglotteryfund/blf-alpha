@@ -8,7 +8,7 @@ const {
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
 const {
-    requireUnauthed,
+    requireNoAuth,
     redirectUrlWithFallback
 } = require('../../middleware/authed');
 const { csrfProtection } = require('../../middleware/cached');
@@ -33,7 +33,7 @@ router
     .route('/')
     .all(
         csrfProtection,
-        requireUnauthed,
+        requireNoAuth,
         injectCopy('user.login'),
         injectBreadcrumbs
     )

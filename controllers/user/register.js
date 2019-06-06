@@ -13,7 +13,7 @@ const {
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
 const {
-    requireUnauthed,
+    requireNoAuth,
     redirectUrlWithFallback
 } = require('../../middleware/authed');
 
@@ -54,7 +54,7 @@ function renderForm(req, res, data = null, errors = []) {
 router
     .route('/')
     .all(
-        requireUnauthed,
+        requireNoAuth,
         csrfProtection,
         injectCopy('user.register'),
         injectBreadcrumbs

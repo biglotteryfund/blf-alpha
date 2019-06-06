@@ -1,58 +1,19 @@
 'use strict';
-const { get } = require('lodash');
-const { localify } = require('../common/urls');
+const { localify, redirectForLocale } = require('../common/urls');
 
 function isStaff(user) {
-    return get(user, 'userType', false) === 'staff';
+    return user.userType === 'staff';
 }
 
-function isRegularUser(user) {
-    return get(user, 'userType', false) === 'user';
+function redirectWithReturnUrl(req, res, urlPath) {
+    req.session.redirectUrl = req.originalUrl;
+    req.session.save(() => {
+        redirectForLocale(req, res, urlPath);
+    });
 }
 
-/**
- * Require authenticated
- * Only allow non-authenticated users
- */
-function requireUnauthed(req, res, next) {
-    if (!req.user) {
-        return next();
-    } else {
-        res.redirect('/user');
-    }
-}
-
-/**
- * Required user auth
- * Middleware to require that the visitor is logged in as a public user
- */
-function requireUserAuth(req, res, next) {
-    if (req.isAuthenticated() && isRegularUser(req.user)) {
-        next();
-    } else {
-        req.session.redirectUrl = req.originalUrl;
-        req.session.save(() => {
-            res.redirect(localify(req.i18n.getLocale())('/user/login'));
-        });
-    }
-}
-
-/**
- * Required staff auth
- * Middleware to require that the visitor is logged in as a staff user
- */
-function requireStaffAuth(req, res, next) {
-    if (req.isAuthenticated() && isRegularUser(req.user)) {
-        res.redirect('/user');
-    } else if (req.isAuthenticated() && isStaff(req.user)) {
-        return next();
-    } else {
-        res.redirect(`/user/staff/login?redirectUrl=${req.originalUrl}`);
-    }
-}
-
-function redirectUrlWithFallback(fallbackUrl, req, res) {
-    let redirectUrl = fallbackUrl;
+function redirectUrlWithFallback(req, res, urlPath) {
+    let redirectUrl = localify(req.i18n.getLocale())(urlPath);
     if (req.query.redirectUrl) {
         redirectUrl = req.query.redirectUrl;
     } else if (req.body.redirectUrl) {
@@ -67,9 +28,75 @@ function redirectUrlWithFallback(fallbackUrl, req, res) {
     });
 }
 
+/**
+ * Require authenticated
+ * Only allow non-authenticated users
+ */
+function requireNoAuth(req, res, next) {
+    if (req.user) {
+        redirectForLocale(req, res, '/user');
+    } else {
+        next();
+    }
+}
+
+/**
+ * Required user auth
+ * Middleware to require that the visitor is logged in as a public user
+ */
+function requireUserAuth(req, res, next) {
+    if (req.isAuthenticated() && isStaff(req.user) === false) {
+        next();
+    } else {
+        redirectWithReturnUrl(req, res, '/user/login');
+    }
+}
+
+function requireActiveUser(req, res, next) {
+    if (req.isAuthenticated() && isStaff(req.user) === false) {
+        if (req.user.is_active) {
+            next();
+        } else {
+            redirectWithReturnUrl(req, res, '/user/activate');
+        }
+    } else {
+        redirectWithReturnUrl(req, res, '/user');
+    }
+}
+
+/**
+ * Required staff auth
+ * Middleware to require that the visitor is logged in as a staff user
+ */
+function requireStaffAuth(req, res, next) {
+    if (req.isAuthenticated()) {
+        if (isStaff(req.user)) {
+            next();
+        } else {
+            res.redirect('/user');
+        }
+    } else {
+        res.redirect(`/user/staff/login?redirectUrl=${req.originalUrl}`);
+    }
+}
+
+/*
+ * Required note staff auth
+ * Middleware to require that the visitor is NOT logged in as a staff user
+ */
+function requireNotStaffAuth(req, res, next) {
+    if (req.isAuthenticated() && isStaff(req.user)) {
+        res.redirect('/tools');
+    } else {
+        next();
+    }
+}
+
 module.exports = {
-    requireUnauthed,
+    requireNoAuth,
     requireUserAuth,
+    requireActiveUser,
     requireStaffAuth,
+    requireNotStaffAuth,
     redirectUrlWithFallback
 };

@@ -8,7 +8,7 @@ const { Users } = require('../../db/models');
 const sanitise = require('../../common/sanitise');
 const { sendHtmlEmail } = require('../../common/mail');
 const { getAbsoluteUrl, redirectForLocale } = require('../../common/urls');
-const { requireUnauthed } = require('../../middleware/authed');
+const { requireNoAuth } = require('../../middleware/authed');
 const {
     injectCopy,
     injectBreadcrumbs
@@ -97,11 +97,7 @@ function renderResetFormExpired(req, res) {
  */
 router
     .route('/forgot')
-    .all(
-        requireUnauthed,
-        injectCopy('user.forgottenPassword'),
-        injectBreadcrumbs
-    )
+    .all(requireNoAuth, injectCopy('user.forgottenPassword'), injectBreadcrumbs)
     .get(renderForgotForm)
     .post(async function(req, res) {
         const validationResult = validateSchema(
