@@ -18,13 +18,15 @@ const alertMessage = require('./lib/alert-message');
 
 const router = express.Router();
 
-function renderForm(req, res) {
+function renderForm(req, res, formValues = null, errors = []) {
     res.render(path.resolve(__dirname, './views/login'), {
         csrfToken: req.csrfToken(),
         alertMessage: alertMessage({
             locale: req.i18n.getLocale(),
             status: req.query.s
-        })
+        }),
+        formValues: formValues,
+        errors: errors
     });
 }
 
@@ -38,32 +40,26 @@ router
     )
     .get(renderForm)
     .post((req, res, next) => {
-        passport.authenticate('local', (err, user, info) => {
-            if (!user) {
-                /**
-                 * User is invalid
-                 * Show a generic error message here to avoid exposing state
-                 */
-                const genericError = `Your username and password combination is invalid`;
-                res.locals.errors = [{ msg: genericError }];
-                res.locals.formValues = req.body;
-                return renderForm(req, res);
-            }
-
+        passport.authenticate('local', function(err, user) {
             if (err) {
                 next(err);
-            } else {
-                req.logIn(user, loginErr => {
+            } else if (user) {
+                req.logIn(user, function(loginErr) {
                     if (loginErr) {
                         next(loginErr);
                     } else {
-                        redirectUrlWithFallback(
-                            localify(req.i18n.getLocale())('/user'),
-                            req,
-                            res
-                        );
+                        const url = localify(req.i18n.getLocale())('/user');
+                        redirectUrlWithFallback(url, req, res);
                     }
                 });
+            } else {
+                /**
+                 * User is invalid
+                 * Show a generic error message here to avoid exposing account state
+                 */
+                return renderForm(req, res, req.body, [
+                    { msg: `Your username and password combination is invalid` }
+                ]);
             }
         })(req, res, next);
     });
