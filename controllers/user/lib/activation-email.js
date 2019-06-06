@@ -1,21 +1,17 @@
 'use strict';
-const jwt = require('jsonwebtoken');
 const path = require('path');
 
-const { JWT_SIGNING_TOKEN } = require('../../../common/secrets');
 const { sendHtmlEmail } = require('../../../common/mail');
 const { getAbsoluteUrl } = require('../../../common/urls');
+
+const { signTokenActivate } = require('./jwt');
 
 module.exports = async function sendActivationEmail(
     req,
     user,
     isExisting = false
 ) {
-    const payload = { data: { userId: user.id, reason: 'activate' } };
-
-    const token = jwt.sign(payload, JWT_SIGNING_TOKEN, {
-        expiresIn: '7d' // allow a week to activate
-    });
+    const token = signTokenActivate(user.id);
 
     const mailParams = {
         name: 'user_activate_account',
@@ -27,7 +23,7 @@ module.exports = async function sendActivationEmail(
         {
             template: path.resolve(
                 __dirname,
-                './views/emails/activate-account.njk'
+                '../views/emails/activate-account.njk'
             ),
             templateData: {
                 locale: req.i18n.getLocale(),

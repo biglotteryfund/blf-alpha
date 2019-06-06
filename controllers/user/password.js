@@ -1,13 +1,11 @@
 'use strict';
 const path = require('path');
-const jwt = require('jsonwebtoken');
 const express = require('express');
 const Sentry = require('@sentry/node');
 const Joi = require('@hapi/joi');
 const { concat, get, head } = require('lodash');
 
 const { Users } = require('../../db/models');
-const { JWT_SIGNING_TOKEN } = require('../../common/secrets');
 const { localify, getAbsoluteUrl } = require('../../common/urls');
 const { sendHtmlEmail } = require('../../common/mail');
 const { sanitise } = require('../../common/validators');
@@ -18,16 +16,17 @@ const {
 } = require('../../middleware/inject-content');
 const { requireUnauthed } = require('../../middleware/authed');
 
-const normaliseErrors = require('./lib/normalise-errors');
 const schemas = require('./lib/account-schemas');
+const normaliseErrors = require('./lib/normalise-errors');
+const {
+    signTokenPasswordReset,
+    verifyTokenPasswordReset
+} = require('./lib/jwt');
 
 const router = express.Router();
 
 async function processResetRequest(req, user) {
-    const payload = { data: { userId: user.id, reason: 'resetpassword' } };
-    const token = jwt.sign(payload, JWT_SIGNING_TOKEN, {
-        expiresIn: '1h' // Short-lived token
-    });
+    const token = signTokenPasswordReset(user.id);
 
     await sendHtmlEmail(
         {
@@ -77,22 +76,6 @@ function sendPasswordResetNotification(req, email) {
             subject: `Your National Lottery Community Fund account password was successfully reset`
         }
     );
-}
-
-function verifyToken(token) {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, JWT_SIGNING_TOKEN, async (err, decoded) => {
-            if (err) {
-                reject(err);
-            } else {
-                if (decoded.data.reason === 'resetpassword') {
-                    resolve(decoded.data);
-                } else {
-                    reject(new Error('Invalid token reason'));
-                }
-            }
-        });
-    });
 }
 
 function validatePasswordChangeRequest(username, password, locale) {
@@ -208,7 +191,7 @@ router
             renderResetForm(req, res);
         } else if (token()) {
             try {
-                await verifyToken(token());
+                await verifyTokenPasswordReset(token());
                 res.locals.token = token();
                 renderResetForm(req, res);
             } catch (error) {
@@ -279,7 +262,7 @@ router
                 redirectToLogin(req, res);
             } else {
                 try {
-                    const decodedData = await verifyToken(token);
+                    const decodedData = await verifyTokenPasswordReset(token);
 
                     // Is this user's token valid to modify this password?
                     const {

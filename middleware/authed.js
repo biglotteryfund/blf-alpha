@@ -54,7 +54,7 @@ function requireStaffAuth(req, res, next) {
  * Middleware to require that the visitor is NOT logged in as a staff user
  */
 function requireNotStaffAuth(req, res, next) {
-    if (req.isAuthenticated() && req.user.getType() === 'staff') {
+    if (req.isAuthenticated() && isStaff(req.user)) {
         res.redirect('/tools');
     } else {
         next();
