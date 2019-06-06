@@ -18,12 +18,8 @@ module.exports = function() {
             userService
                 .findByUsername(username)
                 .then(user => {
-                    /**
-                     * Use generic error messages here to avoid exposing existing accounts
-                     */
-                    const genericError = 'Your username and password combination is invalid';
                     if (!user) {
-                        done(null, false, { message: genericError });
+                        done(null, false);
                         return null;
                     }
 
@@ -34,12 +30,12 @@ module.exports = function() {
                                 done(null, user);
                                 return null;
                             } else {
-                                done(null, false, { message: genericError });
+                                done(null, false);
                                 return null;
                             }
                         })
                         .catch(() => {
-                            done(null, false, { message: genericError });
+                            done(null, false);
                             return null;
                         });
                 })

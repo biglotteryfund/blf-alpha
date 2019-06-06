@@ -40,8 +40,12 @@ router
     .post((req, res, next) => {
         passport.authenticate('local', (err, user, info) => {
             if (!user) {
-                // User not valid, send them to login again
-                res.locals.errors = [{ msg: info.message }];
+                /**
+                 * User is invalid
+                 * Show a generic error message here to avoid exposing state
+                 */
+                const genericError = `Your username and password combination is invalid`;
+                res.locals.errors = [{ msg: genericError }];
                 res.locals.formValues = req.body;
                 return renderForm(req, res);
             }
