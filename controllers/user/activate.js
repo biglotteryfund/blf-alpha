@@ -29,10 +29,8 @@ function activate(token, user) {
                     decoded.data.userId === user.id
                 ) {
                     try {
-                        const updatedUser = await userService.updateActivateUser(
-                            {
-                                id: decoded.data.userId
-                            }
+                        const updatedUser = await Users.activateUser(
+                            decoded.data.userId
                         );
 
                         resolve(updatedUser);

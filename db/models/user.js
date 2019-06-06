@@ -81,6 +81,13 @@ class User extends Model {
             { where: { id: { [Op.eq]: id } } }
         );
     }
+
+    static activateUser(id) {
+        return this.update(
+            { is_active: true },
+            { where: { id: { [Op.eq]: id } } }
+        );
+    }
 }
 
 module.exports = User;

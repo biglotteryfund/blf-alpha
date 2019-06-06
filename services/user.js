@@ -11,16 +11,6 @@ function findWithActivePasswordReset({ id }) {
     });
 }
 
-function updateActivateUser({ id }) {
-    return Users.update(
-        { is_active: true },
-        {
-            where: { id: { [Op.eq]: id } }
-        }
-    );
-}
-
 module.exports = {
-    findWithActivePasswordReset,
-    updateActivateUser
+    findWithActivePasswordReset
 };
