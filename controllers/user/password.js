@@ -53,7 +53,7 @@ async function processResetRequest(req, user) {
         }
     );
 
-    await userService.updateIsInPasswordReset({
+    await Users.updateIsInPasswordReset({
         id: user.id
     });
 }

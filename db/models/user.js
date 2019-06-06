@@ -74,6 +74,13 @@ class User extends Model {
             { where: { id: { [Op.eq]: id } } }
         );
     }
+
+    static updateIsInPasswordReset(id) {
+        return this.update(
+            { is_password_reset: true },
+            { where: { id: { [Op.eq]: id } } }
+        );
+    }
 }
 
 module.exports = User;
