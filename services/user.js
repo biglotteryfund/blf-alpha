@@ -2,17 +2,11 @@
 const bcrypt = require('bcryptjs');
 const { Op } = require('sequelize');
 const { Users } = require('../db/models');
-const { purifyUserInput } = require('../common/validators');
+const { sanitise } = require('../common/validators');
 
 function encryptPassword(password) {
     const rounds = 12;
     return bcrypt.hash(password, rounds);
-}
-
-function findByUsername(username) {
-    return Users.findOne({
-        where: { username: { [Op.eq]: purifyUserInput(username) } }
-    });
 }
 
 function findWithActivePasswordReset({ id }) {
@@ -22,20 +16,6 @@ function findWithActivePasswordReset({ id }) {
             is_password_reset: true
         }
     });
-}
-
-async function createUser({ username, password }) {
-    try {
-        const encryptedPassword = await encryptPassword(
-            purifyUserInput(password)
-        );
-        return Users.create({
-            username: purifyUserInput(username),
-            password: encryptedPassword
-        });
-    } catch (error) {
-        throw error;
-    }
 }
 
 function updateIsInPasswordReset({ id }) {
@@ -50,7 +30,7 @@ function updateIsInPasswordReset({ id }) {
 async function updateNewPassword({ newPassword, id }) {
     try {
         const newEncryptedPassword = await encryptPassword(
-            purifyUserInput(newPassword)
+            sanitise(newPassword)
         );
         return Users.update(
             { password: newEncryptedPassword, is_password_reset: false },
@@ -82,8 +62,6 @@ function updateActivateUser({ id }) {
 }
 
 module.exports = {
-    createUser,
-    findByUsername,
     findWithActivePasswordReset,
     updateActivateUser,
     updateIsInPasswordReset,
