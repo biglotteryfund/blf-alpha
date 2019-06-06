@@ -2015,7 +2015,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'bankStatement',
             label: localise({ en: 'Upload a bank statement', cy: '' }),
             type: 'file',
-            attributes: { accept: 'image/png,image/jpeg,.pdf' },
+            attributes: {
+                accept: FILE_LIMITS.TYPES.map(type => type.mime).join(',')
+            },
             isRequired: true,
             schema: Joi.object({
                 filename: Joi.string().required(),
@@ -2025,7 +2027,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 type: Joi.string()
                     .valid(FILE_LIMITS.TYPES.map(type => type.mime))
                     .required()
-            }),
+            }).required(),
             messages: [
                 {
                     type: 'base',

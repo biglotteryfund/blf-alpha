@@ -566,7 +566,11 @@ describe('fields', () => {
 
     describe('bankStatement', () => {
         test('valid bank statement upload', () => {
-            assertValid(fields.bankStatement, 'example.pdf');
+            assertValid(fields.bankStatement, {
+                filename: 'example.pdf',
+                size: 123,
+                type: 'application/pdf'
+            });
             assertErrorContains(fields.bankStatement, undefined, 'is required');
             assertErrorContains(
                 fields.bankStatement,
