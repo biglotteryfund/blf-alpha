@@ -1,14 +1,13 @@
 'use strict';
-const { startsWith } = require('lodash');
 const express = require('express');
 const uuidv4 = require('uuid/v4');
+const features = require('config').get('features');
 
-const { DB_CONNECTION_URI } = require('../../common/secrets');
-const userService = require('../../services/user');
+const { Users } = require('../../db/models');
 
 const router = express.Router();
 
-if (process.env.NODE_ENV !== 'production' && startsWith(DB_CONNECTION_URI, 'sqlite://')) {
+if (features.enableSeeders) {
     router.post('/user', (req, res) => {
         const uuid = uuidv4();
         const newUser = {
@@ -17,7 +16,7 @@ if (process.env.NODE_ENV !== 'production' && startsWith(DB_CONNECTION_URI, 'sqli
             is_active: true
         };
 
-        userService.createUser(newUser).then(() => {
+        Users.createUser(newUser).then(() => {
             res.json(newUser);
         });
     });

@@ -4,9 +4,10 @@ const passport = require('passport');
 const path = require('path');
 const Sentry = require('@sentry/node');
 
-const userService = require('../../services/user');
-const { csrfProtection } = require('../../middleware/cached');
 const { localify } = require('../../common/urls');
+const { sanitise } = require('../../common/validators');
+
+const { csrfProtection } = require('../../middleware/cached');
 const {
     injectCopy,
     injectBreadcrumbs
@@ -15,6 +16,8 @@ const {
     requireUnauthed,
     redirectUrlWithFallback
 } = require('../../middleware/authed');
+
+const { Users } = require('../../db/models');
 
 const validateSchema = require('./lib/validate-schema');
 const { newAccounts } = require('./lib/account-schemas');
@@ -81,7 +84,9 @@ router
                 // check if this email address already exists
                 // we can't use findOrCreate here because the password changes
                 // each time we hash it, which sequelize sees as a new user
-                const existingUser = await userService.findByUsername(username);
+                const existingUser = await Users.findByUsername(
+                    sanitise(username)
+                );
 
                 if (existingUser) {
                     Sentry.withScope(scope => {
@@ -94,8 +99,8 @@ router
                     res.locals.alertMessage = genericError;
                     renderForm(req, res, validationResult.value);
                 } else {
-                    const newUser = await userService.createUser({
-                        username: username,
+                    const newUser = await Users.createUser({
+                        username: sanitise(username),
                         password: password
                     });
 

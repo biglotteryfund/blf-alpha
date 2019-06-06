@@ -6,15 +6,15 @@ const createDOMPurify = require('dompurify');
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
-function purifyUserInput(input) {
+function sanitise(input) {
     return DOMPurify.sanitize(input);
 }
 
 /**
- * Middleware wrapper around purifyUserInput
+ * Middleware wrapper around sanitise
  */
 function purify(req, res, next) {
-    req.body = mapValues(req.body, purifyUserInput);
+    req.body = mapValues(req.body, sanitise);
     next();
 }
 
@@ -23,13 +23,15 @@ function errorTranslator(prefix) {
         return function(value, { req }) {
             const t = `${prefix}.${prop}`;
             const replacements = replacementKeys.map(_ => req.i18n.__(_));
-            return replacements.length > 0 ? req.i18n.__(t, replacements) : req.i18n.__(t);
+            return replacements.length > 0
+                ? req.i18n.__(t, replacements)
+                : req.i18n.__(t);
         };
     };
 }
 
 module.exports = {
     errorTranslator,
-    purifyUserInput,
+    sanitise,
     purify
 };

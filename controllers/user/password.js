@@ -6,16 +6,18 @@ const Sentry = require('@sentry/node');
 const Joi = require('@hapi/joi');
 const { concat, get, head } = require('lodash');
 
-const { localify, getAbsoluteUrl } = require('../../common/urls');
+const userService = require('../../services/user');
+const { Users } = require('../../db/models');
 const { JWT_SIGNING_TOKEN } = require('../../common/secrets');
+const { localify, getAbsoluteUrl } = require('../../common/urls');
+const { sendHtmlEmail } = require('../../common/mail');
+const { sanitise } = require('../../common/validators');
+
 const { requireUnauthed } = require('../../middleware/authed');
 const {
     injectCopy,
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
-
-const { sendHtmlEmail } = require('../../common/mail');
-const userService = require('../../services/user');
 
 const normaliseErrors = require('./lib/normalise-errors');
 const schemas = require('./lib/account-schemas');
@@ -172,7 +174,7 @@ router
                 'Password reset requested. If the email address entered is correct you will receive instructions via email.';
             try {
                 const { username } = validationResult.value;
-                const user = await userService.findByUsername(username);
+                const user = await Users.findByUsername(sanitise(username));
 
                 if (user) {
                     await processResetRequest(req, user);

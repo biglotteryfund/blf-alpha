@@ -1,9 +1,9 @@
 'use strict';
 const path = require('path');
-const get = require('lodash/get');
 const express = require('express');
 const Sentry = require('@sentry/node');
 
+const { sanitise } = require('../../common/validators');
 const { csrfProtection } = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
 const {
@@ -70,8 +70,9 @@ router
             renderUpdateEmailForm(req, res, validationResult.value, errors);
         } else {
             try {
-                const { username } = validationResult.value;
-                const existingUser = await userService.findByUsername(username);
+                const username = sanitise(validationResult.value.username);
+                const existingUser = await Users.findByUsername(username);
+
                 if (existingUser) {
                     throw new Error(
                         `A user tried to update their email address to an existing email address`

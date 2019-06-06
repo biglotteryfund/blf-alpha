@@ -78,8 +78,6 @@ module.exports = function validateSchema({ schema, messages }, data = {}) {
         errorMessages: messages
     });
 
-    console.log(normalisedErrors);
-
     return {
         value: value,
         error: error,
