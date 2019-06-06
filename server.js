@@ -208,7 +208,7 @@ app.use(
     helmet({
         contentSecurityPolicy: {
             directives: cspDirectives({
-                enableHotjar: features.enableHojtar,
+                enableHotjar: features.enableHotjar,
                 allowLocalhost: features.enableAllowLocalhost
             }),
             browserSniff: false
