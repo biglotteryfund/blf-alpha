@@ -8,41 +8,40 @@ const appData = require('../common/appData');
 const staffService = require('../services/staff');
 const userService = require('../services/user');
 
-// Note: we return null after callbacks here to avoid this warning:
-// https://github.com/jaredhanson/passport/pull/461
-
+/**
+ * Configure passport strategies
+ * Note: we return null after callbacks here to avoid this warning:
+ * @see https://github.com/jaredhanson/passport/pull/461
+ */
 module.exports = function() {
-    // Configure standard user sign-in (eg. members of the public)
+    /**
+     * Configure standard user sign-in
+     */
     passport.use(
-        new LocalStrategy((username, password, done) => {
-            userService
-                .findByUsername(username)
-                .then(user => {
-                    if (!user) {
+        new LocalStrategy(async function(username, password, done) {
+            try {
+                const user = await userService.findByUsername(username);
+                if (user) {
+                    const isValid = await userService.isValidPassword(
+                        user.password,
+                        password
+                    );
+
+                    if (isValid) {
+                        done(null, user);
+                        return null;
+                    } else {
                         done(null, false);
                         return null;
                     }
-
-                    userService
-                        .isValidPassword(user.password, password)
-                        .then(isValid => {
-                            if (isValid) {
-                                done(null, user);
-                                return null;
-                            } else {
-                                done(null, false);
-                                return null;
-                            }
-                        })
-                        .catch(() => {
-                            done(null, false);
-                            return null;
-                        });
-                })
-                .catch(err => {
-                    done(err);
+                } else {
+                    done(null, false);
                     return null;
-                });
+                }
+            } catch (err) {
+                done(err);
+                return null;
+            }
         })
     );
 
@@ -54,8 +53,7 @@ module.exports = function() {
         passport.use(
             new OIDCStrategy(
                 {
-                    identityMetadata:
-                        'https://login.microsoftonline.com/tnlcommunityfund.onmicrosoft.com/.well-known/openid-configuration',
+                    identityMetadata: `https://login.microsoftonline.com/tnlcommunityfund.onmicrosoft.com/.well-known/openid-configuration`,
                     clientID: AZURE_AUTH.MS_CLIENT_ID,
                     allowHttpForRedirectUrl: appData.isDev,
                     redirectUrl: AZURE_AUTH.MS_REDIRECT_URL,
