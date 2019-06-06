@@ -68,7 +68,7 @@ function azureAuthStrategy() {
         clockSkew: null
     };
 
-    return new OIDCStrategy(strategyConfig, function(
+    return new OIDCStrategy(strategyConfig, async function(
         iss,
         sub,
         profile,
@@ -77,18 +77,14 @@ function azureAuthStrategy() {
         done
     ) {
         if (profile.oid) {
-            Staff.findOrCreateProfile(profile, (err, response) => {
-                if (err) {
-                    done(err);
-                    return null;
-                }
-                if (response.wasCreated) {
-                    done(null, response.user);
-                    return null;
-                }
-                done(null, response.user);
+            try {
+                const user = Staff.findOrCreateProfile(profile);
+                done(null, user);
                 return null;
-            });
+            } catch (err) {
+                done(err);
+                return null;
+            }
         } else {
             done(new Error('No oid found'), null);
             return null;

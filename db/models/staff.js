@@ -29,8 +29,12 @@ class Staff extends Model {
         });
     }
 
-    static findOrCreateProfile(profile, done) {
-        // @TODO: Can this be returned as a Promise, rather than using `done`
+    /**
+     * Find or create a new login profile.
+     * Stores a snapshot of the active directory user,
+     * and updates `updatedAt` to track last login date.
+     */
+    static findOrCreateProfile(profile) {
         return this.findOrCreate({
             where: {
                 oid: { [Op.eq]: profile.oid }
@@ -41,17 +45,10 @@ class Staff extends Model {
                 given_name: profile.name.givenName,
                 family_name: profile.name.familyName
             }
-        })
-            .spread((user, wasCreated) => {
-                // update last login date
-                user.changed('updatedAt', true);
-                return user.save().then(() => {
-                    return done(null, { user, wasCreated });
-                });
-            })
-            .catch(() => {
-                return done(null, null);
-            });
+        }).then(([user]) => {
+            user.changed('updatedAt', true);
+            return user.save();
+        });
     }
 
     get fullName() {
