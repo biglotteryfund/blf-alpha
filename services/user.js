@@ -9,10 +9,6 @@ function encryptPassword(password) {
     return bcrypt.hash(password, rounds);
 }
 
-function findById(id) {
-    return Users.findById(id);
-}
-
 function findByUsername(username) {
     return Users.findOne({
         where: { username: { [Op.eq]: purifyUserInput(username) } }
@@ -84,7 +80,6 @@ function isValidPassword(storedHash, typedPass) {
 
 module.exports = {
     createUser,
-    findById,
     findByUsername,
     findWithActivePasswordReset,
     isValidPassword,

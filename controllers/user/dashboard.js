@@ -4,13 +4,15 @@ const get = require('lodash/get');
 const express = require('express');
 const Sentry = require('@sentry/node');
 
-const userService = require('../../services/user');
 const { csrfProtection } = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
 const {
     injectCopy,
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
+
+const { Users } = require('../../db/models');
+const userService = require('../../services/user');
 
 const alertMessage = require('./lib/alert-message');
 const normaliseErrors = require('./lib/normalise-errors');
@@ -79,7 +81,7 @@ router
                         newEmail: username,
                         id: req.user.id
                     });
-                    const updatedUser = await userService.findById(req.user.id);
+                    const updatedUser = await Users.findById(req.user.id);
                     await sendActivationEmail(req, updatedUser, true);
                     res.redirect('/user?s=emailUpdated');
                 }
