@@ -10,7 +10,6 @@ const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 const features = require('config').get('features');
 
 const { AZURE_AUTH } = require('../common/secrets');
-const staffService = require('../services/staff');
 const userService = require('../services/user');
 const { Users, Staff } = require('../db/models');
 
@@ -78,7 +77,7 @@ function azureAuthStrategy() {
         done
     ) {
         if (profile.oid) {
-            staffService.findOrCreate(profile, (err, response) => {
+            Staff.findOrCreateProfile(profile, (err, response) => {
                 if (err) {
                     done(err);
                     return null;
