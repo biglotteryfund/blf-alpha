@@ -5,9 +5,9 @@ const Sentry = require('@sentry/node');
 const path = require('path');
 const { concat } = require('lodash');
 
-const { requireUserAuth } = require('../../middleware/authed');
+const { Users } = require('../../db/models');
 const { JWT_SIGNING_TOKEN } = require('../../common/secrets');
-const userService = require('../../services/user');
+const { requireUserAuth } = require('../../middleware/authed');
 
 const { sendActivationEmail } = require('./helpers');
 

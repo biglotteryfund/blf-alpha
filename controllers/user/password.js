@@ -6,7 +6,6 @@ const Sentry = require('@sentry/node');
 const Joi = require('@hapi/joi');
 const { concat, get, head } = require('lodash');
 
-const userService = require('../../services/user');
 const { Users } = require('../../db/models');
 const { JWT_SIGNING_TOKEN } = require('../../common/secrets');
 const { localify, getAbsoluteUrl } = require('../../common/urls');
@@ -223,7 +222,7 @@ router
         // If we have a logged-in user, attempt to change their password
         if (req.user) {
             // Confirm the typed password matches the currently-stored one
-            const passwordMatches = await userService.isValidPassword(
+            const passwordMatches = await Users.checkValidPassword(
                 req.user.password,
                 req.body['password-old']
             );
@@ -299,20 +298,21 @@ router
                         return renderResetForm(req, res);
                     } else {
                         try {
+                            const {
+                                username,
+                                password
+                            } = validationResult.value;
                             // Confirm the user was in password reset mode
-                            const user = await userService.findWithActivePasswordReset(
-                                {
-                                    id: validationResult.value.username
-                                }
+                            const user = await Users.findWithActivePasswordReset(
+                                username
                             );
 
                             if (user) {
                                 await Users.updateNewPassword({
-                                    id: sanitise(
-                                        validationResult.value.username
-                                    ),
-                                    newPassword: validationResult.value.password
+                                    id: sanitise(username),
+                                    newPassword: password
                                 });
+
                                 await sendPasswordResetNotification(
                                     req,
                                     user.username

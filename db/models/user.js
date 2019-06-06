@@ -1,7 +1,6 @@
 'use strict';
-const { Model, Op } = require('sequelize');
-
 const bcrypt = require('bcryptjs');
+const { Model, Op } = require('sequelize');
 
 class User extends Model {
     static init(sequelize, DataTypes) {
@@ -37,7 +36,7 @@ class User extends Model {
         return bcrypt.hash(password, rounds);
     }
 
-    static hasValidPassword(storedHash, typedPass) {
+    static checkValidPassword(storedHash, typedPass) {
         return bcrypt.compare(typedPass, storedHash);
     }
 
@@ -73,6 +72,15 @@ class User extends Model {
             { username: newEmail, is_active: false },
             { where: { id: { [Op.eq]: id } } }
         );
+    }
+
+    static findWithActivePasswordReset(id) {
+        return this.findOne({
+            where: {
+                id: { [Op.eq]: id },
+                is_password_reset: true
+            }
+        });
     }
 
     static updateIsInPasswordReset(id) {

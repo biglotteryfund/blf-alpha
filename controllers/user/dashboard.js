@@ -3,6 +3,7 @@ const path = require('path');
 const express = require('express');
 const Sentry = require('@sentry/node');
 
+const { Users } = require('../../db/models');
 const { sanitise } = require('../../common/validators');
 const { csrfProtection } = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
@@ -10,9 +11,6 @@ const {
     injectCopy,
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
-
-const { Users } = require('../../db/models');
-const userService = require('../../services/user');
 
 const alertMessage = require('./lib/alert-message');
 const normaliseErrors = require('./lib/normalise-errors');
@@ -78,7 +76,7 @@ router
                         `A user tried to update their email address to an existing email address`
                     );
                 } else {
-                    await userService.updateNewEmail({
+                    await Users.updateNewEmail({
                         newEmail: username,
                         id: req.user.id
                     });

@@ -21,7 +21,7 @@ function localAuthStrategy() {
         try {
             const user = await Users.findByUsername(username);
             if (user) {
-                const isValid = await Users.hasValidPassword(
+                const isValid = await Users.checkValidPassword(
                     user.password,
                     password
                 );
