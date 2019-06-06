@@ -1,27 +1,25 @@
 {% extends "layouts/main.njk" %}
-
-{% block title %}Are you sure you want to delete your application? | {{ formTitle }} | {% endblock %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner u-inner-wide-only">
+            {{ breadcrumbTrail(breadcrumbs) }}
+
             <div class="form-header">
-                <div class="form-header__actions">
-                    <a href="../">← Previous</a>
-                </div>
                 <p class="form-header__prefix">{{ formTitle }}</p>
-                <h1 class="form-header__title">Are you sure you want to delete your application?</h1>
+                <h1 class="form-header__title">{{  title }}</h1>
             </div>
 
             <div class="s-prose u-constrained-wide">
-                <p><strong>This can't be undone</strong>. If you're sure you want to delete your application, then you can proceed below &ndash; please note this this cannot be recovered.</p>
+                {{ copy.delete.message | safe }}
             </div>
 
             <form method="post" class="form-actions">
                 {% if csrfToken %}
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                 {% endif %}
-                <input class="btn" type="submit" value="Delete my application" />
+                <input class="btn" type="submit" value="{{ copy.common.delete }}" />
                 or <a href="../">cancel</a>
             </form>
         </div>
