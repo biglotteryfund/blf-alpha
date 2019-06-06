@@ -104,48 +104,27 @@ module.exports = function() {
         passport.use(azureAuthStrategy());
     }
 
-    const makeUserObject = user => {
-        if (!user) {
-            // We need to do this because the user object comes from
-            // userService.findById(), which returns null if the user doesn't exist.
-            // eg. this doesn't trigger any of our catch() blocks below
-            // and instead throws a 500 error for all pages for this user.
-            return null;
-        }
+    function makeUserObject(user) {
         return {
             userType: user.constructor.name,
             userData: user
         };
-    };
+    }
 
     passport.serializeUser((user, cb) => {
         cb(null, makeUserObject(user));
         return null;
     });
 
-    passport.deserializeUser((user, cb) => {
-        if (user.userType === 'user') {
-            userService
-                .findById(user.userData.id)
-                .then(userObj => {
-                    cb(null, makeUserObject(userObj));
-                    return null;
-                })
-                .catch(err => {
-                    cb(err, null);
-                    return null;
-                });
-        } else if (user.userType === 'staff') {
-            staffService
-                .findById(user.userData.id)
-                .then(staffUser => {
-                    cb(null, makeUserObject(staffUser));
-                    return null;
-                })
-                .catch(err => {
-                    cb(err, null);
-                    return null;
-                });
+    passport.deserializeUser(async function(user, done) {
+        try {
+            const model = user.userType === 'staff' ? Staff : Users;
+            const match = await model.findById(user.userData.id);
+            done(null, match ? makeUserObject(match) : null);
+            return null;
+        } catch (err) {
+            done(err, null);
+            return null;
         }
     });
 
