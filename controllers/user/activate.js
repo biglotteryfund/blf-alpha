@@ -9,7 +9,7 @@ const { Users } = require('../../db/models');
 const { JWT_SIGNING_TOKEN } = require('../../common/secrets');
 const { requireUserAuth } = require('../../middleware/authed');
 
-const { sendActivationEmail } = require('./helpers');
+const sendActivationEmail = require('./lib/activation-email');
 
 const router = express.Router();
 

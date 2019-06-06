@@ -2,11 +2,15 @@
 const jwt = require('jsonwebtoken');
 const path = require('path');
 
-const { sendHtmlEmail } = require('../../common/mail');
-const { getAbsoluteUrl } = require('../../common/urls');
-const { JWT_SIGNING_TOKEN } = require('../../common/secrets');
+const { JWT_SIGNING_TOKEN } = require('../../../common/secrets');
+const { sendHtmlEmail } = require('../../../common/mail');
+const { getAbsoluteUrl } = require('../../../common/urls');
 
-async function sendActivationEmail(req, user, isExisting = false) {
+module.exports = async function sendActivationEmail(
+    req,
+    user,
+    isExisting = false
+) {
     const payload = { data: { userId: user.id, reason: 'activate' } };
 
     const token = jwt.sign(payload, JWT_SIGNING_TOKEN, {
@@ -16,15 +20,21 @@ async function sendActivationEmail(req, user, isExisting = false) {
     const mailParams = {
         name: 'user_activate_account',
         sendTo: user.username,
-        subject: 'Activate your The National Lottery Community Fund website account'
+        subject: `Activate your The National Lottery Community Fund website account`
     };
 
     const email = await sendHtmlEmail(
         {
-            template: path.resolve(__dirname, './views/emails/activate-account.njk'),
+            template: path.resolve(
+                __dirname,
+                './views/emails/activate-account.njk'
+            ),
             templateData: {
                 locale: req.i18n.getLocale(),
-                activateUrl: getAbsoluteUrl(req, `/user/activate?token=${token}`),
+                activateUrl: getAbsoluteUrl(
+                    req,
+                    `/user/activate?token=${token}`
+                ),
                 email: user.username,
                 isExisting: isExisting
             }
@@ -37,8 +47,4 @@ async function sendActivationEmail(req, user, isExisting = false) {
         token: token,
         mailParams: mailParams
     };
-}
-
-module.exports = {
-    sendActivationEmail
 };

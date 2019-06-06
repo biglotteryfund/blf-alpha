@@ -19,9 +19,9 @@ const {
 
 const { Users } = require('../../db/models');
 
-const validateSchema = require('./lib/validate-schema');
 const { newAccounts } = require('./lib/account-schemas');
-const { sendActivationEmail } = require('./helpers');
+const validateSchema = require('./lib/validate-schema');
+const sendActivationEmail = require('./lib/activation-email');
 
 const router = express.Router();
 

@@ -15,7 +15,7 @@ const {
 const alertMessage = require('./lib/alert-message');
 const normaliseErrors = require('./lib/normalise-errors');
 const schemas = require('./lib/account-schemas');
-const { sendActivationEmail } = require('./helpers');
+const sendActivationEmail = require('./lib/activation-email');
 
 const router = express.Router();
 
