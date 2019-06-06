@@ -18,7 +18,7 @@ const { sendHtmlEmail } = require('../../common/mail');
 const userService = require('../../services/user');
 
 const normaliseErrors = require('./lib/normalise-errors');
-const schema = require('./schema');
+const schemas = require('./lib/account-schemas');
 
 const router = express.Router();
 
@@ -100,7 +100,7 @@ function validatePasswordChangeRequest(username, password, locale) {
      * Include username in password to allow us to check against conditional rules
      * e.g. password must not match username
      */
-    const validationResult = schema.accountSchema.validate(
+    const validationResult = schemas.accountSchema.validate(
         { username: username, password: password },
         { abortEarly: false, stripUnknown: true }
     );
@@ -111,7 +111,7 @@ function validatePasswordChangeRequest(username, password, locale) {
 
     const errors = normaliseErrors({
         errorDetails: errorDetails,
-        errorMessages: schema.errorMessages(locale)
+        errorMessages: schemas.errorMessages(locale)
     });
 
     return { validationResult, errors };
@@ -154,7 +154,7 @@ router
     .get(renderForgotForm)
     .post(async function(req, res) {
         const validationResult = Joi.object({
-            username: schema.username
+            username: schemas.username
         }).validate(req.body, {
             abortEarly: false,
             stripUnknown: true
@@ -162,7 +162,7 @@ router
 
         const errors = normaliseErrors({
             errorDetails: validationResult,
-            errorMessages: schema.errorMessages(req.i18n.getLocale())
+            errorMessages: schemas.errorMessages(req.i18n.getLocale())
         });
 
         if (errors.length > 0) {

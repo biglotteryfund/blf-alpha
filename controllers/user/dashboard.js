@@ -1,5 +1,6 @@
 'use strict';
 const path = require('path');
+const get = require('lodash/get');
 const express = require('express');
 const Sentry = require('@sentry/node');
 
@@ -13,7 +14,7 @@ const {
 
 const alertMessage = require('./lib/alert-message');
 const normaliseErrors = require('./lib/normalise-errors');
-const schema = require('./schema');
+const schemas = require('./lib/account-schemas');
 const { sendActivationEmail } = require('./helpers');
 
 const router = express.Router();
@@ -34,7 +35,7 @@ router.get('/', requireUserAuth, injectCopy('user.dashboard'), (req, res) => {
         alertMessage: alertMessage({
             locale: req.i18n.getLocale(),
             status: req.query.s,
-            user: req.user.userData.username
+            username: req.user.userData.username
         }),
         errors: res.locals.errors || []
     });
@@ -53,14 +54,14 @@ router
     )
     .get(renderUpdateEmailForm)
     .post(async (req, res) => {
-        const validationResult = schema.emailSchema.validate(req.body, {
+        const validationResult = schemas.emailSchema.validate(req.body, {
             abortEarly: false,
             stripUnknown: true
         });
 
         const errors = normaliseErrors({
             errorDetails: validationResult.error.details,
-            errorMessages: schema.errorMessages(req.i18n.getLocale())
+            errorMessages: schemas.errorMessages(req.i18n.getLocale())
         });
 
         if (errors.length > 0) {

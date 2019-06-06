@@ -67,27 +67,23 @@ function normaliseErrors({ validationError, errorMessages }) {
     });
 }
 
-/**
- * Validate data against the form schema
- *
- * Validating against the whole form ensures that
- * conditional validations are taken into account
- */
-module.exports = function validateForm(form, data = {}) {
-    const { value, error } = form.schema.validate(data, {
+module.exports = function validateSchema({ schema, messages }, data = {}) {
+    const { value, error } = schema.validate(data, {
         abortEarly: false,
         stripUnknown: true
     });
 
-    const messages = normaliseErrors({
+    const normalisedErrors = normaliseErrors({
         validationError: error,
-        errorMessages: form.messages
+        errorMessages: messages
     });
+
+    console.log(normalisedErrors);
 
     return {
         value: value,
         error: error,
-        isValid: error === null && messages.length === 0,
-        messages: messages
+        isValid: error === null && normalisedErrors.length === 0,
+        messages: normalisedErrors
     };
 };

@@ -1061,7 +1061,7 @@ user:
     emailAddress: Email address
     password: Password
     passwordRequirements: >
-      <p>Must be at least 10 characters long <br>
+      <p>Must be at least 12 characters long <br>
       Must not be the same as your email address</p>
   dashboard:
     title: Your account
@@ -1083,6 +1083,9 @@ user:
     title: Create an account
     actionLabel: Create an account
     loginLabel: log in
+    genericError: >
+      There was an error creating your account. If you think you already have an account try
+      <a href="%s">resetting your password</a>.
   forgottenPassword:
     title: Forgotten your password?
   resetPassword:
