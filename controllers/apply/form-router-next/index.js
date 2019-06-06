@@ -611,7 +611,6 @@ function initFormRouter({
             renderStep(req, res, res.locals.currentApplicationData);
         })
         .post(async (req, res, next) => {
-            // console.log(req.body);
             const { currentlyEditingId, currentApplicationData } = res.locals;
 
             let data = { ...currentApplicationData, ...req.body };
@@ -641,7 +640,9 @@ function initFormRouter({
             fileFields.forEach(fieldName => {
                 // Retrieve the file from Formidable's parsed data
                 const uploadedFile = get(req.files, fieldName);
-                if (uploadedFile) {
+                // Ensure a file was actually provided
+                // (eg. ignore empty file inputs when a file already exists)
+                if (uploadedFile && uploadedFile.size > 0) {
                     // Append the file data to the overall form data for validation
                     data[fieldName] = {
                         filename: uploadedFile.name,
@@ -687,7 +688,7 @@ function initFormRouter({
                                 file.fileData.name
                             ];
 
-                            const uploadData = await s3
+                            await s3
                                 .uploadFile(filePathParts, file.fileData)
                                 .catch(uploadError => {
                                     Sentry.captureException(uploadError);
