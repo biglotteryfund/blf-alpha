@@ -29,6 +29,7 @@ router.use('/login', require('./login'));
 router.use('/register', require('./register'));
 router.use('/activate', require('./activate'));
 router.use('/password', require('./password'));
+router.use('/update-email', require('./update-email'));
 
 router.get('/logout', function(req, res) {
     req.logout();

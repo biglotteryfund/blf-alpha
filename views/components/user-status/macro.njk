@@ -10,8 +10,11 @@
         </div>
         {% if not user.is_active %}
             <div class="message" role="alert">
-                <p>You haven't activated your account yet.</p>
-                <p>Would you like to <a href="{{ localify('/user/activate') }}">re-send your activation link</a>?</p>
+                <p>
+                    You haven't activated your account yet.
+                    Would you like to
+                    <a href="{{ localify('/user/activate') }}">re-send your activation link</a>?
+                </p>
             </div>
         {% endif %}
     {% endif %}
