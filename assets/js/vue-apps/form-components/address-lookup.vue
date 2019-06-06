@@ -282,14 +282,14 @@ export default {
 
         <div
             v-if="currentState === states.AlreadyAnswered"
-            class="selected-address"
+            class="existing-data"
         >
-            <h3 class="selected-address__title">Selected address</h3>
+            <h3 class="existing-data__title">Selected address</h3>
             <address
-                class="selected-address__address"
+                class="existing-data__address"
                 v-html="addressHtml"
             ></address>
-            <div class="selected-address__actions">
+            <div class="existing-data__actions">
                 <button type="button" class="btn-link" @click="startEditing">
                     Edit
                 </button>
