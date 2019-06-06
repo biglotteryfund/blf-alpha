@@ -6,6 +6,7 @@ const appData = require('../../common/appData');
 const env = process.env.NODE_ENV || 'development';
 const databaseConfig = require('../database-config')[env];
 
+const User = require('./user');
 const Feedback = require('./feedback');
 const SurveyAnswer = require('./survey');
 
@@ -13,6 +14,7 @@ debug(`Using ${databaseConfig.dialect} database`);
 
 const sequelize = new Sequelize(databaseConfig.url, databaseConfig);
 
+// @TODO: Should we remove this or move to bin/www, it's currently just a log message?
 sequelize
     .authenticate()
     .then(() => {
@@ -26,7 +28,7 @@ sequelize
  * Register models and associations
  */
 const db = {
-    Users: sequelize.import('./user'),
+    Users: User.init(sequelize, Sequelize),
     Staff: sequelize.import('./staff'),
     Feedback: Feedback.init(sequelize, Sequelize),
     SurveyAnswer: SurveyAnswer.init(sequelize, Sequelize),
