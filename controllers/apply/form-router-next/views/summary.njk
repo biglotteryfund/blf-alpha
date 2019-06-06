@@ -41,23 +41,22 @@
     </div>
 {% endmacro %}
 
-{% macro sectionSummary(section, sectionNumber, sectionProgress) %}
-    <section class="section-summary section-summary--{{ sectionProgress }}">
-
-        <header class="section-progress-bar section-progress-bar--{{ sectionProgress }}">
+{% macro sectionSummary(section, sectionNumber) %}
+    <section class="section-summary section-summary--{{ section.progress.status }}">
+        <header class="section-progress-bar section-progress-bar--{{ section.progress.status }}">
             <h2 class="section-progress-bar__title">
                 <a href="{{ formBaseUrl }}/{{ section.slug }}" class="u-link-unstyled">
                     {{ copy.sectionPrefix }} {{ sectionNumber }}: {{ section.title }}
                 </a>
 
-                {% set editWord = copy.continue if sectionProgress === 'incomplete' else copy.edit %}
+                {% set editWord = copy.continue if section.progress.status === 'incomplete' else copy.edit %}
                 <a class="section-progress-bar__edit u-edit-link" href="{{ formBaseUrl }}/{{ section.slug }}">{{ editWord }}</a>
             </h2>
 
             <a class="section-progress-bar__marker u-link-unstyled" href="{{ formBaseUrl }}/{{ section.slug }}">
-                {% if sectionProgress === 'complete' %}
+                {% if section.progress.status === 'complete' %}
                     {{ iconTick() }} {{ copy.statusComplete }}
-                {% elseif sectionProgress === 'incomplete' %}
+                {% elseif section.progress.status === 'incomplete' %}
                     {{ copy.statusInProgress }}
                 {% else %}
                     {{ copy.statusNotStarted }}
@@ -114,12 +113,7 @@
             </p>
 
             {% for section in form.sections %}
-                {% set sectionProgress = form.progress.sections[section.slug] %}
-                {{ sectionSummary(
-                    section = section,
-                    sectionNumber = loop.index,
-                    sectionProgress =sectionProgress
-                ) }}
+                {{ sectionSummary(section, loop.index) }}
             {% endfor %}
 
             <div class="form-actions">
