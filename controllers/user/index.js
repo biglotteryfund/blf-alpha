@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 
+const { localify } = require('../../common/urls');
 const { noCache } = require('../../middleware/cached');
 const { noindex } = require('../../middleware/robots');
 const { requireNotStaffAuth } = require('../../middleware/authed');
@@ -26,8 +27,15 @@ router.use(requireNotStaffAuth, function(req, res, next) {
 router.use('/', require('./dashboard'));
 router.use('/login', require('./login'));
 router.use('/register', require('./register'));
-router.use('/logout', require('./logout'));
 router.use('/activate', require('./activate'));
 router.use('/password', require('./password'));
+
+router.get('/logout', function(req, res) {
+    req.logout();
+    req.session.save(() => {
+        const loginUrl = localify(req.i18n.getLocale())('/user/login');
+        res.redirect(`${loginUrl}?s=loggedOut`);
+    });
+});
 
 module.exports = router;
