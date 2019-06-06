@@ -55,8 +55,6 @@ function initFormRouter({
 
     router.use(
         (req, res, next) => {
-            // Populate the request body using Formidable
-            // instead of body-parser (which can't handle multipart forms)
             /* @TODO
              * - handle case of not editing existing file and wiping it out
              * - confirm EC2 user can upload files
@@ -65,6 +63,8 @@ function initFormRouter({
             const isPost = req.method === 'POST';
             const contentType = req.headers['content-type'];
 
+            // Decide if we need to use body-parser or Formidable
+            // (eg. the latter for multipart forms with files)
             if (
                 isPost &&
                 contentType &&
@@ -78,6 +78,10 @@ function initFormRouter({
                         req.body = fields;
                         req.files = files;
                     }
+                    next();
+                });
+                formData.on('error', err => {
+                    Sentry.captureException(err);
                     next();
                 });
             } else {

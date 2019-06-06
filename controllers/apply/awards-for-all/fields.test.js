@@ -571,7 +571,7 @@ describe('fields', () => {
             assertErrorContains(
                 fields.bankStatement,
                 Infinity,
-                'must be a string'
+                'must be an object'
             );
         });
     });
