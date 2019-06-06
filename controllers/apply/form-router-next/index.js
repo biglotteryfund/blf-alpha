@@ -329,7 +329,7 @@ function initFormRouter({
                  */
                 await PendingApplication.deleteApplication(
                     currentApplication.id,
-                    req.user.id
+                    req.user.userData.id
                 );
 
                 /**
