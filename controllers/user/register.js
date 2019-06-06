@@ -5,8 +5,9 @@ const path = require('path');
 const Sentry = require('@sentry/node');
 
 const { Users } = require('../../db/models');
-const { csrfProtection } = require('../../middleware/cached');
 const { localify } = require('../../common/urls');
+const sanitise = require('../../common/sanitise');
+const { csrfProtection } = require('../../middleware/cached');
 const {
     injectCopy,
     injectBreadcrumbs
@@ -95,7 +96,7 @@ router
                     renderForm(req, res, validationResult.value);
                 } else {
                     const newUser = await Users.createUser({
-                        username: username,
+                        username: sanitise(username),
                         password: password
                     });
 

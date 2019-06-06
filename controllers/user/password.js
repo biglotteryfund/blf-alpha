@@ -5,6 +5,7 @@ const concat = require('lodash/concat');
 const Sentry = require('@sentry/node');
 
 const { Users } = require('../../db/models');
+const sanitise = require('../../common/sanitise');
 const { sendHtmlEmail } = require('../../common/mail');
 const { getAbsoluteUrl, redirectForLocale } = require('../../common/urls');
 const { requireUnauthed } = require('../../middleware/authed');
@@ -112,7 +113,7 @@ router
             res.locals.alertMessage = `Password reset requested. If the email address entered is correct you will receive instructions via email.`;
             try {
                 const { username } = validationResult.value;
-                const user = await Users.findByUsername(username);
+                const user = await Users.findByUsername(sanitise(username));
 
                 if (user) {
                     await processResetRequest(req, user);
@@ -190,15 +191,13 @@ router
 
                 if (validationResult.isValid) {
                     try {
+                        const { username, password } = validationResult.value;
                         await Users.updateNewPassword({
-                            id: validationResult.value.username,
-                            newPassword: validationResult.value.password
+                            id: sanitise(username),
+                            newPassword: password
                         });
-                        await sendPasswordResetNotification(
-                            req,
-                            req.user.userData.username
-                        );
-                        res.redirect('/user?s=passwordUpdated');
+                        await sendPasswordResetNotification(req, username);
+                        redirectForLocale(req, res, '/user?s=passwordUpdated');
                     } catch (error) {
                         renderResetForm(req, res, validationResult.value, [
                             {
@@ -254,11 +253,8 @@ router
                             redirectForLocale(req, res, '/user/login');
                         }
 
-                        redirectForLocale(
-                            req,
-                            res,
-                            '/user/login?s=passwordUpdated'
-                        );
+                        const urlPath = '/user/login?s=passwordUpdated';
+                        redirectForLocale(req, res, urlPath);
                     } catch (error) {
                         Sentry.captureException(error);
                         res.locals.token = token;
