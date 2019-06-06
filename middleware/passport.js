@@ -48,54 +48,48 @@ function localAuthStrategy() {
  * Staff sign-in strategy (eg. internal authentication)
  */
 function azureAuthStrategy() {
-    const strategyConfig = {
-        identityMetadata: `https://login.microsoftonline.com/tnlcommunityfund.onmicrosoft.com/.well-known/openid-configuration`,
-        clientID: AZURE_AUTH.MS_CLIENT_ID,
-        allowHttpForRedirectUrl: features.enableAllowHttpAuthRedirect,
-        redirectUrl: AZURE_AUTH.MS_REDIRECT_URL,
-        clientSecret: AZURE_AUTH.MS_CLIENT_SECRET,
-        responseType: 'code id_token',
-        responseMode: 'form_post',
-        validateIssuer: true,
-        isB2C: false,
-        issuer: null,
-        passReqToCallback: false,
-        scope: null,
-        loggingLevel: 'warn',
-        nonceLifetime: null,
-        nonceMaxAmount: 5,
-        useCookieInsteadOfSession: false,
-        clockSkew: null
-    };
-
-    return new OIDCStrategy(strategyConfig, async function(
-        iss,
-        sub,
-        profile,
-        accessToken,
-        refreshToken,
-        done
-    ) {
-        if (profile.oid) {
-            try {
-                const user = Staff.findOrCreateProfile(profile);
-                done(null, user);
-                return null;
-            } catch (err) {
-                done(err);
+    return new OIDCStrategy(
+        {
+            identityMetadata: AZURE_AUTH.metadataUrl,
+            clientID: AZURE_AUTH.clientId,
+            allowHttpForRedirectUrl: features.enableAllowHttpAuthRedirect,
+            redirectUrl: AZURE_AUTH.redirectUrl,
+            clientSecret: AZURE_AUTH.clientSecret,
+            responseType: 'code id_token',
+            responseMode: 'form_post',
+            validateIssuer: true,
+            isB2C: false,
+            issuer: null,
+            passReqToCallback: false,
+            scope: null,
+            loggingLevel: 'warn',
+            nonceLifetime: null,
+            nonceMaxAmount: 5,
+            useCookieInsteadOfSession: false,
+            clockSkew: null
+        },
+        async function(iss, sub, profile, accessToken, refreshToken, done) {
+            if (profile.oid) {
+                try {
+                    const user = Staff.findOrCreateProfile(profile);
+                    done(null, user);
+                    return null;
+                } catch (err) {
+                    done(err);
+                    return null;
+                }
+            } else {
+                done(new Error('No oid found'), null);
                 return null;
             }
-        } else {
-            done(new Error('No oid found'), null);
-            return null;
         }
-    });
+    );
 }
 
 module.exports = function() {
     passport.use(localAuthStrategy());
 
-    if (AZURE_AUTH.MS_CLIENT_ID) {
+    if (AZURE_AUTH.clientId) {
         passport.use(azureAuthStrategy());
     }
 
