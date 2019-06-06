@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 const Sentry = require('@sentry/node');
 
-const userService = require('../../services/user');
+const { Users } = require('../../db/models');
 const { redirectForLocale } = require('../../common/urls');
 const { csrfProtection } = require('../../middleware/cached');
 const { requireUserAuth } = require('../../middleware/authed');
@@ -50,7 +50,7 @@ router
         if (validationResult.isValid) {
             try {
                 const { username } = validationResult.value;
-                const existingUser = await userService.findByUsername(username);
+                const existingUser = await Users.findByUsername(username);
                 if (existingUser) {
                     Sentry.withScope(scope => {
                         scope.setLevel('info');
@@ -67,11 +67,11 @@ router
                     );
                 } else {
                     const userId = req.user.userData.id;
-                    await userService.updateNewEmail({
-                        newEmail: username,
-                        id: userId
+                    await Users.updateNewEmail({
+                        id: userId,
+                        newEmail: username
                     });
-                    const updatedUser = await userService.findById(userId);
+                    const updatedUser = await Users.findById(userId);
                     await sendActivationEmail(req, updatedUser, true);
                     redirectForLocale(req, res, '/user?s=emailUpdated');
                 }

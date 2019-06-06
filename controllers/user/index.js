@@ -43,7 +43,7 @@ router.use('/activate', require('./activate'));
 router.use('/password', require('./password'));
 router.use('/update-email', require('./update-email'));
 
-router.get('/logout', function(req) {
+router.get('/logout', function(req, res) {
     req.logout();
     req.session.save(() => {
         redirectForLocale(req, res, '/user/login?s=loggedOut');

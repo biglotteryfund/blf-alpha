@@ -4,8 +4,8 @@ const express = require('express');
 const concat = require('lodash/concat');
 const Sentry = require('@sentry/node');
 
+const { Users } = require('../../db/models');
 const { requireUserAuth } = require('../../middleware/authed');
-const userService = require('../../services/user');
 
 const { verifyTokenActivate } = require('./lib/jwt');
 const sendActivationEmail = require('./lib/activation-email');
@@ -19,9 +19,7 @@ router.route('/').get(requireUserAuth, async (req, res) => {
     if (token) {
         try {
             await verifyTokenActivate(req.query.token, req.user.id);
-            await userService.updateActivateUser({
-                id: req.user.id
-            });
+            await Users.activateUser(req.user.id);
             res.redirect('/user?s=activationComplete');
         } catch (error) {
             Sentry.captureException(error);

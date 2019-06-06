@@ -4,15 +4,14 @@ const express = require('express');
 const concat = require('lodash/concat');
 const Sentry = require('@sentry/node');
 
+const { Users } = require('../../db/models');
+const { sendHtmlEmail } = require('../../common/mail');
 const { getAbsoluteUrl, redirectForLocale } = require('../../common/urls');
 const { requireUnauthed } = require('../../middleware/authed');
 const {
     injectCopy,
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
-
-const { sendHtmlEmail } = require('../../common/mail');
-const userService = require('../../services/user');
 
 const {
     signTokenPasswordReset,
@@ -46,9 +45,7 @@ async function processResetRequest(req, user) {
         }
     );
 
-    await userService.updateIsInPasswordReset({
-        id: user.id
-    });
+    await Users.updateIsInPasswordReset(user.id);
 }
 
 function sendPasswordResetNotification(req, email) {
@@ -115,7 +112,7 @@ router
             res.locals.alertMessage = `Password reset requested. If the email address entered is correct you will receive instructions via email.`;
             try {
                 const { username } = validationResult.value;
-                const user = await userService.findByUsername(username);
+                const user = await Users.findByUsername(username);
 
                 if (user) {
                     await processResetRequest(req, user);
@@ -171,7 +168,7 @@ router
         // If we have a logged-in user, attempt to change their password
         if (req.user) {
             // Confirm the typed password matches the currently-stored one
-            const passwordMatches = await userService.isValidPassword(
+            const passwordMatches = await Users.checkValidPassword(
                 req.user.userData.password,
                 req.body.oldPassword
             );
@@ -193,7 +190,7 @@ router
 
                 if (validationResult.isValid) {
                     try {
-                        await userService.updateNewPassword({
+                        await Users.updateNewPassword({
                             id: validationResult.value.username,
                             newPassword: validationResult.value.password
                         });
@@ -240,12 +237,12 @@ router
 
                     try {
                         // Confirm the user was in password reset mode
-                        const user = await userService.findWithActivePasswordReset(
-                            { id: decodedData.userId }
+                        const user = await Users.findWithActivePasswordReset(
+                            decodedData.userId
                         );
 
                         if (user) {
-                            await userService.updateNewPassword({
+                            await Users.updateNewPassword({
                                 id: decodedData.userId,
                                 newPassword: validationResult.value.password
                             });

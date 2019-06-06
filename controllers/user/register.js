@@ -4,7 +4,7 @@ const passport = require('passport');
 const path = require('path');
 const Sentry = require('@sentry/node');
 
-const userService = require('../../services/user');
+const { Users } = require('../../db/models');
 const { csrfProtection } = require('../../middleware/cached');
 const { localify } = require('../../common/urls');
 const {
@@ -81,7 +81,7 @@ router
                 // check if this email address already exists
                 // we can't use findOrCreate here because the password changes
                 // each time we hash it, which sequelize sees as a new user
-                const existingUser = await userService.findByUsername(username);
+                const existingUser = await Users.findByUsername(username);
 
                 if (existingUser) {
                     Sentry.withScope(scope => {
@@ -94,7 +94,7 @@ router
                     res.locals.alertMessage = genericError;
                     renderForm(req, res, validationResult.value);
                 } else {
-                    const newUser = await userService.createUser({
+                    const newUser = await Users.createUser({
                         username: username,
                         password: password
                     });
