@@ -11,7 +11,7 @@
                 <h2 class="t2 t--underline">This can't be undone.</h2>
                 <p>If you're sure you want to delete your application, then you can proceed below &ndash; please note this this cannot be recovered.</p>
 
-                <form method="post" enctype="multipart/form-data">
+                <form method="post">
                     {% if csrfToken %}
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                     {% endif %}

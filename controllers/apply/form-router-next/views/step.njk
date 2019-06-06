@@ -7,7 +7,11 @@
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
-            <form action="" method="post" class="js-form-warn-unsaved" enctype="multipart/form-data">
+            <form action=""
+                  method="post"
+                  class="js-form-warn-unsaved"
+                  {% if stepIsMultipart %}enctype="multipart/form-data"{% endif %}
+            >
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="form-header">

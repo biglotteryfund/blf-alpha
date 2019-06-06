@@ -57,16 +57,32 @@ function initFormRouter({
         (req, res, next) => {
             // Populate the request body using Formidable
             // instead of body-parser (which can't handle multipart forms)
-            const formData = new formidable.IncomingForm();
-            formData.parse(req, (err, fields, files) => {
-                if (err) {
-                    Sentry.captureException(err);
-                } else {
-                    req.body = fields;
-                    req.files = files;
-                }
+            /* @TODO
+             * - handle case of not editing existing file and wiping it out
+             * - confirm EC2 user can upload files
+             * */
+
+            const isPost = req.method === 'POST';
+            const contentType = req.headers['content-type'];
+
+            if (
+                isPost &&
+                contentType &&
+                contentType.indexOf('multipart/form-data') !== -1
+            ) {
+                const formData = new formidable.IncomingForm();
+                formData.parse(req, (err, fields, files) => {
+                    if (err) {
+                        Sentry.captureException(err);
+                    } else {
+                        req.body = fields;
+                        req.files = files;
+                    }
+                    next();
+                });
+            } else {
                 next();
-            });
+            }
         },
         cached.csrfProtection,
         injectCopy('applyNext'),
@@ -483,6 +499,7 @@ function initFormRouter({
                                 ),
                                 section: section,
                                 step: step,
+                                stepIsMultipart: step.isMultipart,
                                 stepNumber: stepNumber,
                                 totalSteps: section.steps.length,
                                 previousUrl: previousUrl,
@@ -590,6 +607,7 @@ function initFormRouter({
             renderStep(req, res, res.locals.currentApplicationData);
         })
         .post(async (req, res, next) => {
+            // console.log(req.body);
             const { currentlyEditingId, currentApplicationData } = res.locals;
 
             let data = { ...currentApplicationData, ...req.body };

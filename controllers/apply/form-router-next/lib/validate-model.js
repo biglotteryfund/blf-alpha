@@ -81,6 +81,38 @@ module.exports = function validateModel(formModel) {
         allowUnknown: true
     });
 
+    const arrayFieldTypes = [
+        'budget',
+        'checkbox',
+        'date',
+        'date-range',
+        'day-month'
+    ];
+
+    // Check that we haven't used a multipart field on a step with array values
+    // because we use a custom body parser (Formidable) which doesn't handle these
+    // in the same way as body-parser (eg. using qs library). Throws an error if
+    // we attempt to add an array field to one of these steps.
+    formModel.sections = formModel.sections.map(section => {
+        section.steps = section.steps.map(step => {
+            if (step.isMultipart) {
+                step.fieldsets.some(fieldset => {
+                    fieldset.fields.some(field => {
+                        if (arrayFieldTypes.indexOf(field.type) !== -1) {
+                            throw new Error(
+                                `Error: An array field "${
+                                    field.name
+                                }" was added to this multipart step "${
+                                    step.title
+                                }", which will fail.`
+                            );
+                        }
+                    });
+                });
+            }
+        });
+    });
+
     if (validationResult.error) {
         throw validationResult.error;
     }

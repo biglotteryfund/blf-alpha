@@ -227,7 +227,7 @@
                                     <input
                                         type="checkbox"
                                         id="{{ fieldId }}"
-                                        name="{{ field.name }}"
+                                        name="{{ field.name }}[]"
                                         value="{{ option.value }}"
                                         {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
                                     />
@@ -251,7 +251,7 @@
                             <input
                                 type="checkbox"
                                 id="field-{{ field.name }}-{{ loop.index }}"
-                                name="{{ field.name }}"
+                                name="{{ field.name }}[]"
                                 value="{{ option.value }}"
                                 {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
                             />
