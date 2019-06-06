@@ -1,9 +1,9 @@
 'use strict';
+const { Model, Op } = require('sequelize');
 
-module.exports = function(sequelize, DataTypes) {
-    return sequelize.define(
-        'staff',
-        {
+class Staff extends Model {
+    static init(sequelize, DataTypes) {
+        const schema = {
             oid: {
                 type: DataTypes.STRING,
                 allowNull: false
@@ -20,14 +20,17 @@ module.exports = function(sequelize, DataTypes) {
                 type: DataTypes.STRING,
                 allowNull: true
             }
-        },
-        {
+        };
+
+        return super.init(schema, {
+            modelName: 'staff',
             freezeTableName: true,
-            getterMethods: {
-                fullName() {
-                    return `${this.given_name} ${this.family_name}`;
-                }
-            }
-        }
-    );
-};
+            sequelize
+        });
+    }
+    get fullName() {
+        return `${this.given_name} ${this.family_name}`;
+    }
+}
+
+module.exports = Staff;
