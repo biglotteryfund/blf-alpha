@@ -10,7 +10,10 @@ Each submission has two top-level keys: `meta` which contains metadata about the
 {
     "meta": {
         "form": "awards-for-all",
+        "environment": "production",
         "commitId": "b4ecf18eae01d34b296e9388f387cc42bf7c0f93",
+        "username": "example@example.com",
+        "applicationId": "e9ae2cc4-fd7b-4fe5-bd55-17317a288fd4",
         "startedAt": "2019-05-17T15:34:13.000Z"
     },
     "application": {
@@ -128,11 +131,14 @@ Each submission has two top-level keys: `meta` which contains metadata about the
 
 ## Meta
 
-| Name          | Type     | Notes                                                    |
-| ------------- | -------- | -------------------------------------------------------- |
-| **form**      | `string` | `awards-for-all`                                         |
-| **commitId**  | `string` | Git commit for website at the time of submission         |
-| **startedAt** | `string` | ISO date string for the date the application was started |
+| Name              | Type     | Notes                                                      |
+| ----------------- | -------- | ---------------------------------------------------------- |
+| **form**          | `string` | `awards-for-all`                                           |
+| **environment**   | `string` | `development`, `test`, `production`                        |
+| **commitId**      | `string` | Git commit for website at the time of submission           |
+| **username**      | `string` | Username for the logged in user                            |
+| **applicationId** | `string` | UUID reference to the application as stored by the website |
+| **startedAt**     | `string` | ISO date string for the date the application was started   |
 
 ## Application
 

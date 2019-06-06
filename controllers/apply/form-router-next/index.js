@@ -276,6 +276,7 @@ function initFormRouter({
                         form: formId,
                         environment: appData.environment,
                         commitId: appData.commitId,
+                        username: req.user.userData.username,
                         applicationId: currentApplication.id,
                         startedAt: currentApplication.createdAt.toISOString()
                     }
