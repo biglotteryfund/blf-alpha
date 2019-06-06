@@ -54,12 +54,8 @@ function initFormRouter({
     }
 
     router.use(
+        // Populate req.body for multipart forms before CSRF token is needed
         (req, res, next) => {
-            /* @TODO
-             * - handle case of not editing existing file and wiping it out
-             * - confirm EC2 user can upload files
-             * */
-
             const isPost = req.method === 'POST';
             const contentType = req.headers['content-type'];
 

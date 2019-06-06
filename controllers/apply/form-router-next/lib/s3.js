@@ -4,11 +4,6 @@ const fs = require('fs');
 const config = require('config');
 const { S3_KMS_KEY_ID } = require('../../../../common/secrets');
 
-// @TODO
-AWS.config.credentials = new AWS.SharedIniFileCredentials({
-    profile: 'default'
-});
-
 const s3 = new AWS.S3({ signatureVersion: 'v4', region: 'eu-west-2' });
 const bucket = config.get('aws.s3.formUploadBucket');
 
