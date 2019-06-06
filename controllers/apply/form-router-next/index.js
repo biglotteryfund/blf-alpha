@@ -86,19 +86,19 @@ function initFormRouter({
                 contentType.indexOf('multipart/form-data') !== -1
             ) {
                 const formData = new formidable.IncomingForm();
-                formData.parse(req, (err, fields, files) => {
-                    if (err) {
-                        Sentry.captureException(err);
-                    } else {
-                        req.body = fields;
-                        req.files = files;
-                    }
-                    next();
-                });
-                formData.on('error', err => {
-                    Sentry.captureException(err);
-                    next();
-                });
+                formData
+                    .parse(req, (err, fields, files) => {
+                        if (err) {
+                            next(err);
+                        } else {
+                            req.body = fields;
+                            req.files = files;
+                            next();
+                        }
+                    })
+                    .on('error', err => {
+                        next(err);
+                    });
             } else {
                 next();
             }
@@ -410,18 +410,14 @@ function initFormRouter({
 
         // Confirm that the requested filename matches this field's file
         if (fileData && fileData.filename === req.params.filename) {
-            const filePathParts = [
-                form.id,
-                currentlyEditingId,
-                req.params.filename
-            ];
-
             // Retrieve this file from S3
-            const streamFile = s3.getFile(filePathParts);
-
             // Stream the file's headers and serve it directly as a response
             // (via https://stackoverflow.com/a/43356401)
-            streamFile
+            s3.getFile({
+                formId: formId,
+                applicationId: currentlyEditingId,
+                filename: req.params.filename
+            })
                 .on('httpHeaders', (code, headers) => {
                     res.status(code);
                     if (code < 300) {
@@ -446,7 +442,7 @@ function initFormRouter({
     /**
      * Routes: Form steps
      */
-    router.use('/', require('./steps')(formBuilder));
+    router.use('/', require('./steps')(formId, formBuilder));
 
     return router;
 }

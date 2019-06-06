@@ -7,9 +7,9 @@ const { S3_KMS_KEY_ID } = require('../../../../common/secrets');
 const s3 = new AWS.S3({ signatureVersion: 'v4', region: 'eu-west-2' });
 const bucket = config.get('aws.s3.formUploadBucket');
 
-const uploadFile = (filePathParts, fileData) => {
+const uploadFile = ({ formId, applicationId, fileMetadata }) => {
     return new Promise((resolve, reject) => {
-        const fileStream = fs.createReadStream(fileData.path);
+        const fileStream = fs.createReadStream(fileMetadata.fileData.path);
 
         fileStream.on('error', fileReadError => {
             if (fileReadError) {
@@ -17,21 +17,28 @@ const uploadFile = (filePathParts, fileData) => {
             }
         });
 
-        const uploadKey = filePathParts.join('/');
+        const uploadKey = [
+            formId,
+            applicationId,
+            fileMetadata.fileData.name
+        ].join('/');
 
         fileStream.on('open', async () => {
             const params = {
                 Body: fileStream,
                 Bucket: bucket,
                 Key: uploadKey,
-                ContentLength: fileData.size,
-                ContentType: fileData.type,
+                ContentLength: fileMetadata.fileData.size,
+                ContentType: fileMetadata.fileData.type,
                 ServerSideEncryption: 'aws:kms',
                 SSEKMSKeyId: S3_KMS_KEY_ID
             };
             s3.putObject(params, (uploadErr, data) => {
                 if (uploadErr) {
-                    return reject(uploadErr);
+                    return reject({
+                        error: uploadErr,
+                        fieldName: fileMetadata.fieldName
+                    });
                 } else {
                     return resolve({
                         data: data,
@@ -43,10 +50,10 @@ const uploadFile = (filePathParts, fileData) => {
     });
 };
 
-const getFile = filePathParts => {
+const getFile = ({ formId, applicationId, filename }) => {
     return s3.getObject({
         Bucket: bucket,
-        Key: filePathParts.join('/')
+        Key: [formId, applicationId, filename].join('/')
     });
 };
 

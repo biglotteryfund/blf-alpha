@@ -4,6 +4,7 @@ const express = require('express');
 const concat = require('lodash/concat');
 const get = require('lodash/get');
 const findIndex = require('lodash/findIndex');
+const partition = require('lodash/partition');
 const flatMap = require('lodash/flatMap');
 const Sentry = require('@sentry/node');
 
@@ -13,7 +14,7 @@ const pagination = require('./lib/pagination');
 const validateForm = require('./lib/validate-form');
 const s3 = require('./lib/s3');
 
-module.exports = function(formBuilder) {
+module.exports = function(formId, formBuilder) {
     const router = express.Router();
 
     function renderStepFor(sectionSlug, stepNumber) {
@@ -143,27 +144,31 @@ module.exports = function(formBuilder) {
                 .filter(f => f.type === 'file')
                 .map(f => f.name);
 
-            let filesToUpload = [];
-
             // If we expected files, check whether they were sent
-            fileFields.forEach(fieldName => {
-                // Retrieve the file from Formidable's parsed data
-                const uploadedFile = get(req.files, fieldName);
-                // Ensure a file was actually provided
-                // (eg. ignore empty file inputs when a file already exists)
-                if (uploadedFile && uploadedFile.size > 0) {
-                    // Append the file data to the overall form data for validation
-                    data[fieldName] = {
-                        filename: uploadedFile.name,
-                        size: uploadedFile.size,
-                        type: uploadedFile.type
-                    };
+            const filesToUpload = fileFields
+                .filter(fieldName => {
+                    // Retrieve the file from Formidable's parsed data
+                    const uploadedFile = get(req.files, fieldName);
+                    // Ensure a file was actually provided
+                    // (eg. ignore empty file inputs when a file already exists)
+                    return uploadedFile && uploadedFile.size > 0;
+                })
+                .map(fieldName => {
                     // Log this file as a potential upload
-                    filesToUpload.push({
+                    const uploadedFile = get(req.files, fieldName);
+                    return {
                         fieldName: fieldName,
                         fileData: uploadedFile
-                    });
-                }
+                    };
+                });
+
+            // Append the file data to the overall form data for validation
+            filesToUpload.forEach(file => {
+                data[file.fieldName] = {
+                    filename: file.fileData.name,
+                    size: file.fileData.size,
+                    type: file.fileData.type
+                };
             });
 
             let validationResult = validateForm(form, data);
@@ -177,40 +182,38 @@ module.exports = function(formBuilder) {
                     fieldNamesForStep.includes(item.param)
                 );
 
-                // Check if any files were included and handle them (if valid)
-                await Promise.all(
-                    filesToUpload.map(async file => {
-                        const isInvalidFile = errorsForStep.find(
+                const [invalidFiles, validFiles] = partition(
+                    filesToUpload,
+                    file => {
+                        return errorsForStep.find(
                             _ => _.param === file.fieldName
                         );
-                        if (isInvalidFile) {
-                            // Remove the (invalid) file information from form data
-                            delete validationResult.value[file.fieldName];
-                        } else {
-                            // The file passed validation, so upload it to remote storage
-
-                            // @TODO make this a function?
-                            const filePathParts = [
-                                form.id,
-                                currentlyEditingId,
-                                file.fileData.name
-                            ];
-
-                            await s3
-                                .uploadFile(filePathParts, file.fileData)
-                                .catch(uploadError => {
-                                    Sentry.captureException(uploadError);
-                                    // Manually create a form error and send the user back to the form
-                                    errorsForStep = concat(errorsForStep, {
-                                        // @TODO i18n
-                                        msg:
-                                            'There was an error uploading your file - please try again',
-                                        param: file.fieldName
-                                    });
-                                });
-                        }
-                    })
+                    }
                 );
+
+                invalidFiles.forEach(file => {
+                    // Remove the (invalid) file information from form data
+                    delete validationResult.value[file.fieldName];
+                });
+
+                // Check if any files were included and handle them (if valid)
+                await Promise.all(
+                    validFiles.map(file =>
+                        s3.uploadFile({
+                            formId: formId,
+                            applicationId: currentlyEditingId,
+                            fileMetadata: file
+                        })
+                    )
+                ).catch(rejection => {
+                    Sentry.captureException(rejection.error);
+                    // Manually create a form error and send the user back to the form
+                    errorsForStep = concat(errorsForStep, {
+                        // @TODO i18n
+                        msg: `There was an error uploading your file - please try again`,
+                        param: rejection.fieldName
+                    });
+                });
 
                 // Store the form's current state (errors and all) in the database
                 await PendingApplication.saveApplicationState(
