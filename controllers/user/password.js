@@ -13,11 +13,11 @@ const { localify, getAbsoluteUrl } = require('../../common/urls');
 const { sendHtmlEmail } = require('../../common/mail');
 const { sanitise } = require('../../common/validators');
 
-const { requireUnauthed } = require('../../middleware/authed');
 const {
     injectCopy,
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
+const { requireUnauthed } = require('../../middleware/authed');
 
 const normaliseErrors = require('./lib/normalise-errors');
 const schemas = require('./lib/account-schemas');
@@ -244,8 +244,8 @@ router
                     return renderResetForm(req, res, errors);
                 } else {
                     try {
-                        await userService.updateNewPassword({
-                            id: validationResult.value.username,
+                        await Users.updateNewPassword({
+                            id: sanitise(validationResult.value.username),
                             newPassword: validationResult.value.password
                         });
                         await sendPasswordResetNotification(
@@ -307,8 +307,10 @@ router
                             );
 
                             if (user) {
-                                await userService.updateNewPassword({
-                                    id: validationResult.value.username,
+                                await Users.updateNewPassword({
+                                    id: sanitise(
+                                        validationResult.value.username
+                                    ),
                                     newPassword: validationResult.value.password
                                 });
                                 await sendPasswordResetNotification(

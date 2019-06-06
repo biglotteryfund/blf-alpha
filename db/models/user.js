@@ -47,16 +47,32 @@ class User extends Model {
         });
     }
 
-    static async createUser({ username, password }) {
-        try {
-            const encryptedPassword = await this.encryptPassword(password);
+    static createUser({ username, password }) {
+        return this.encryptPassword(password).then(encryptedPassword => {
             return this.create({
                 username: username,
                 password: encryptedPassword
             });
-        } catch (error) {
-            throw error;
-        }
+        });
+    }
+
+    static updateNewPassword({ id, newPassword }) {
+        return this.encryptPassword(newPassword).then(newEncryptedPassword => {
+            return this.update(
+                {
+                    password: newEncryptedPassword,
+                    is_password_reset: false
+                },
+                { where: { id: { [Op.eq]: id } } }
+            );
+        });
+    }
+
+    static updateNewEmail({ id, newEmail }) {
+        return this.update(
+            { username: newEmail, is_active: false },
+            { where: { id: { [Op.eq]: id } } }
+        );
     }
 }
 
