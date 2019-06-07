@@ -1062,7 +1062,9 @@ user:
     password: Password
     passwordRequirements: >
       <p>Must be at least 10 characters long <br>
-      Must not be the same as your email address</p>
+      Must not be the same as your email address<br>
+      A good tip for a secure password is to use
+      <a href="https://www.cyberaware.gov.uk/blog/three-random-words">three random words</a></p>
   dashboard:
     title: Your account
     sectionLinks:
