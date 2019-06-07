@@ -51,12 +51,7 @@ const MESSAGES = {
     },
     passwordInvalid(locale) {
         return get(locale)({
-            en: [
-                'Password is invalid.',
-                'This may be because your password was deemed',
-                'to be too common or is the same as your username.',
-                'Check your password and try again.'
-            ].join(' '),
+            en: `Your password could be too common, or is the same as your username.`,
             cy: ''
         });
     },

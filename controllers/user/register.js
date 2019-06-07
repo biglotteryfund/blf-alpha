@@ -32,11 +32,7 @@ function logIn(req, res, next) {
                 if (loginErr) {
                     next(loginErr);
                 } else {
-                    const fallbackUrl = localify(req.i18n.getLocale())(
-                        '/user?s=activationSent'
-                    );
-
-                    redirectUrlWithFallback(fallbackUrl, req, res);
+                    redirectUrlWithFallback(req, res, '/user?s=activationSent');
                 }
             });
         }
