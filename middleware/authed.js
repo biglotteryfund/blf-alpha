@@ -5,6 +5,10 @@ function isStaff(user) {
     return user.userType === 'staff';
 }
 
+function isActivated(user) {
+    return user.userData.is_active === true;
+}
+
 function redirectWithReturnUrl(req, res, urlPath) {
     req.session.redirectUrl = req.originalUrl;
     req.session.save(() => {
@@ -54,7 +58,7 @@ function requireUserAuth(req, res, next) {
 
 function requireActiveUser(req, res, next) {
     if (req.isAuthenticated() && isStaff(req.user) === false) {
-        if (req.user.is_active) {
+        if (isActivated(req.user) === true) {
             next();
         } else {
             redirectWithReturnUrl(req, res, '/user/activate');
