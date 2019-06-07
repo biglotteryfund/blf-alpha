@@ -1,7 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
 
-module.exports = function alertMessage({ locale, status, username }) {
+module.exports = function alertMessage({ locale, status }) {
     const localise = get(locale);
 
     let result;
@@ -9,18 +9,6 @@ module.exports = function alertMessage({ locale, status, username }) {
         case 'passwordUpdated':
             result = localise({
                 en: `Your password was successfully updated!`,
-                cy: ``
-            });
-            break;
-        case 'activationSent':
-            result = localise({
-                en: `We have sent an email to ${username} with a link to activate your account.`,
-                cy: ``
-            });
-            break;
-        case 'activationComplete':
-            result = localise({
-                en: `Your account was successfully activated!`,
                 cy: ``
             });
             break;
