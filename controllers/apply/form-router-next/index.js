@@ -300,9 +300,6 @@ function initFormRouter({
             const steps = flatMap(form.sections, 'steps');
             const fieldsets = flatMap(steps, 'fieldsets');
             const fields = flatMap(fieldsets, 'fields');
-            const fileFields = fields
-                .filter(field => field.type === 'file')
-                .map(_ => _.name);
 
             try {
                 /**
@@ -315,7 +312,7 @@ function initFormRouter({
                  * Construct salesforce submission data
                  * We also attach this to the SubmittedApplication record
                  */
-                let salesforceId = null;
+                let salesforceRecordId = null;
                 const salesforceFormData = {
                     application: form.forSalesforce(),
                     meta: {
@@ -333,39 +330,51 @@ function initFormRouter({
                  */
                 if (canSubmitToSalesforce() === true) {
                     const salesforce = await salesforceService.authorise();
-                    salesforceId = await salesforce.submitFormData(
+                    salesforceRecordId = await salesforce.submitFormData(
                         salesforceFormData
                     );
 
-                    // Upload each file field in the dataset
-                    fileFields.forEach(async fieldName => {
-                        const userFilename =
-                            salesforceFormData.application[fieldName].filename;
-                        const fileExt = userFilename.split('.').pop();
-                        const genericFilename = `${fieldName}.${fileExt}`;
-
-                        const s3Path = {
-                            formId: formId,
-                            applicationId: currentApplication.id,
-                            filename: userFilename
-                        };
-                        const headers = await s3.headObject(s3Path);
-
-                        await salesforce.contentVersion({
-                            // recordId is the value returned by submitFormData on success
-                            recordId: salesforceId,
-                            attachmentName: genericFilename,
-                            originalFilename: userFilename,
-                            versionData: {
-                                value: s3.getObject(s3Path).createReadStream(),
-                                options: {
-                                    filename: userFilename,
-                                    contentType: headers.ContentType,
-                                    knownLength: headers.ContentLength
-                                }
-                            }
-                        });
+                    /**
+                     * Upload each file in the submission to salesforce
+                     */
+                    const fileFields = fields.filter(function(field) {
+                        return field.type === 'file';
                     });
+
+                    await Promise.all(
+                        fileFields.map(function(field) {
+                            const attachmentName = `${field.name}${path.extname(
+                                field.value.filename
+                            )}`;
+
+                            const s3PathConfig = {
+                                formId: formId,
+                                applicationId: currentApplication.id,
+                                filename: field.value.filename
+                            };
+
+                            return s3
+                                .headObject(s3PathConfig)
+                                .then(function(headers) {
+                                    return salesforce.contentVersion({
+                                        recordId: salesforceRecordId,
+                                        attachmentName: attachmentName,
+                                        versionData: {
+                                            value: s3
+                                                .getObject(s3PathConfig)
+                                                .createReadStream(),
+                                            options: {
+                                                filename: s3PathConfig.filename,
+                                                contentType:
+                                                    headers.ContentType,
+                                                knownLength:
+                                                    headers.ContentLength
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    );
                 } else {
                     debug(`skipped salesforce submission for ${formId}`);
                 }
@@ -381,7 +390,7 @@ function initFormRouter({
                     userId: req.user.userData.id,
                     formId: formId,
                     salesforceRecord: {
-                        id: salesforceId,
+                        id: salesforceRecordId,
                         submission: salesforceFormData
                     }
                 });
@@ -390,10 +399,10 @@ function initFormRouter({
                  * Delete the pending application once the
                  * SubmittedApplication has been created.
                  */
-                // await PendingApplication.deleteApplication(
-                //     currentApplication.id,
-                //     req.user.userData.id
-                // );
+                await PendingApplication.deleteApplication(
+                    currentApplication.id,
+                    req.user.userData.id
+                );
 
                 /**
                  * Render confirmation
@@ -427,9 +436,6 @@ function initFormRouter({
      */
     router.route('/download/:fieldName/:filename').get((req, res, next) => {
         const { currentlyEditingId, currentApplicationData } = res.locals;
-        const form = formBuilder({
-            locale: req.i18n.getLocale()
-        });
 
         // Check that this application has data for the requested field name
         const fileData = currentApplicationData[req.params.fieldName];

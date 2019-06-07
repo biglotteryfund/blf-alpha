@@ -1,7 +1,5 @@
 'use strict';
 const request = require('request-promise-native');
-const pick = require('lodash/pick');
-
 const { SALESFORCE_AUTH } = require('../../../../common/secrets');
 
 class Salesforce {
@@ -32,26 +30,24 @@ class Salesforce {
         });
     }
     async contentVersion({ recordId, attachmentName, versionData }) {
-        const formData = {
-            entity_content: {
-                value: JSON.stringify({
-                    FirstPublishLocationId: recordId,
-                    ReasonForChange: `Application attachment ${attachmentName}`,
-                    PathOnClient: attachmentName
-                }),
-                options: {
-                    contentType: 'application/json'
-                }
-            },
-            VersionData: versionData
-        };
-
         return request.post({
             url: `${this.apiUrl}/services/data/${
                 this.apiVersion
             }/sobjects/ContentVersion`,
             headers: this.headers,
-            formData: formData
+            formData: {
+                entity_content: {
+                    value: JSON.stringify({
+                        FirstPublishLocationId: recordId,
+                        ReasonForChange: `Application attachment ${attachmentName}`,
+                        PathOnClient: attachmentName
+                    }),
+                    options: {
+                        contentType: 'application/json'
+                    }
+                },
+                VersionData: versionData
+            }
         });
     }
 }
