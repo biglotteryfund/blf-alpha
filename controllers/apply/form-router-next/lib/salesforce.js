@@ -1,6 +1,7 @@
 'use strict';
-const path = require('path');
 const request = require('request-promise-native');
+const pick = require('lodash/pick');
+
 const { SALESFORCE_AUTH } = require('../../../../common/secrets');
 
 class Salesforce {
@@ -30,14 +31,15 @@ class Salesforce {
             application: application
         });
     }
-    contentVersion({ recordId, file, attachmentName }) {
-        const originalFilename = path.basename(file.path);
-        return request.post({
-            url: `${this.apiUrl}/services/data/${
-                this.apiVersion
-            }/sobjects/ContentVersion`,
-            headers: this.headers,
-            formData: {
+    async contentVersion({ recordId, file, originalFilename, attachmentName }) {
+        await file.on('httpHeaders', (code, headers) => {
+            const headersToForward = pick(
+                headers,
+                'content-type',
+                'content-length'
+            );
+
+            const formData = {
                 entity_content: {
                     value: JSON.stringify({
                         FirstPublishLocationId: recordId,
@@ -48,8 +50,23 @@ class Salesforce {
                         contentType: 'application/json'
                     }
                 },
-                VersionData: file
-            }
+                VersionData: {
+                    value: file.createReadStream(),
+                    options: {
+                        filename: attachmentName,
+                        contentType: headersToForward['content-type'],
+                        knownLength: headersToForward['content-length']
+                    }
+                }
+            };
+
+            return request.post({
+                url: `${this.apiUrl}/services/data/${
+                    this.apiVersion
+                }/sobjects/ContentVersion`,
+                headers: this.headers,
+                formData: formData
+            });
         });
     }
 }

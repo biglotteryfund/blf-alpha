@@ -5,6 +5,7 @@ const Sentry = require('@sentry/node');
 const concat = require('lodash/concat');
 const get = require('lodash/get');
 const pick = require('lodash/pick');
+const flatMap = require('lodash/flatMap');
 const isEmpty = require('lodash/isEmpty');
 const set = require('lodash/set');
 const unset = require('lodash/unset');
@@ -295,6 +296,14 @@ function initFormRouter({
                 data: currentApplicationData
             });
 
+            // Extract the fields so we can determine which files to upload to Saleforce
+            const steps = flatMap(form.sections, 'steps');
+            const fieldsets = flatMap(steps, 'fieldsets');
+            const fields = flatMap(fieldsets, 'fields');
+            const fileFields = fields
+                .filter(field => field.type === 'file')
+                .map(_ => _.name);
+
             try {
                 /**
                  * Increment submission attempts
@@ -328,18 +337,25 @@ function initFormRouter({
                         salesforceFormData
                     );
 
-                    /**
-                     * @TODO: Determine file uploads to attach to record after submission
-                     * recordId is the value returned by submitFormData on success
-                     */
-                    /*
+                    // Upload each file field in the dataset
+                    fileFields.forEach(async fieldName => {
+                        const userFilename =
+                            salesforceFormData.application[fieldName].filename;
+                        const fileExt = userFilename.split('.').pop();
+                        const genericFilename = `${fieldName}.${fileExt}`;
+
                         await salesforce.contentVersion({
-                          recordId: recordId,
-                          // Some standard name for the file, not the original filename
-                          attachmentName: 'bank-statement.pdf',
-                          file: fileStream
+                            // recordId is the value returned by submitFormData on success
+                            recordId: salesforceId,
+                            attachmentName: genericFilename,
+                            originalFilename: userFilename,
+                            file: s3.getFile({
+                                formId: formId,
+                                applicationId: currentApplication.id,
+                                filename: userFilename
+                            })
                         });
-                    */
+                    });
                 } else {
                     debug(`skipped salesforce submission for ${formId}`);
                 }
@@ -364,10 +380,10 @@ function initFormRouter({
                  * Delete the pending application once the
                  * SubmittedApplication has been created.
                  */
-                await PendingApplication.deleteApplication(
-                    currentApplication.id,
-                    req.user.userData.id
-                );
+                // await PendingApplication.deleteApplication(
+                //     currentApplication.id,
+                //     req.user.userData.id
+                // );
 
                 /**
                  * Render confirmation
