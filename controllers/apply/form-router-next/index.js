@@ -296,7 +296,7 @@ function initFormRouter({
                 data: currentApplicationData
             });
 
-            // Extract the fields so we can determine which files to upload to Saleforce
+            // Extract the fields so we can determine which files to upload to Salesforce
             const steps = flatMap(form.sections, 'steps');
             const fieldsets = flatMap(steps, 'fieldsets');
             const fields = flatMap(fieldsets, 'fields');
@@ -344,16 +344,26 @@ function initFormRouter({
                         const fileExt = userFilename.split('.').pop();
                         const genericFilename = `${fieldName}.${fileExt}`;
 
+                        const s3Path = {
+                            formId: formId,
+                            applicationId: currentApplication.id,
+                            filename: userFilename
+                        };
+                        const headers = await s3.headObject(s3Path);
+
                         await salesforce.contentVersion({
                             // recordId is the value returned by submitFormData on success
                             recordId: salesforceId,
                             attachmentName: genericFilename,
                             originalFilename: userFilename,
-                            file: s3.getFile({
-                                formId: formId,
-                                applicationId: currentApplication.id,
-                                filename: userFilename
-                            })
+                            versionData: {
+                                value: s3.getObject(s3Path).createReadStream(),
+                                options: {
+                                    filename: userFilename,
+                                    contentType: headers.ContentType,
+                                    knownLength: headers.ContentLength
+                                }
+                            }
                         });
                     });
                 } else {
@@ -429,7 +439,7 @@ function initFormRouter({
             // Retrieve this file from S3
             // Stream the file's headers and serve it directly as a response
             // (via https://stackoverflow.com/a/43356401)
-            s3.getFile({
+            s3.getObject({
                 formId: formId,
                 applicationId: currentlyEditingId,
                 filename: req.params.filename

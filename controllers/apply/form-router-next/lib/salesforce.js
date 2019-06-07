@@ -31,42 +31,27 @@ class Salesforce {
             application: application
         });
     }
-    async contentVersion({ recordId, file, originalFilename, attachmentName }) {
-        await file.on('httpHeaders', (code, headers) => {
-            const headersToForward = pick(
-                headers,
-                'content-type',
-                'content-length'
-            );
-
-            const formData = {
-                entity_content: {
-                    value: JSON.stringify({
-                        FirstPublishLocationId: recordId,
-                        ReasonForChange: `Application attachment ${originalFilename}`,
-                        PathOnClient: attachmentName
-                    }),
-                    options: {
-                        contentType: 'application/json'
-                    }
-                },
-                VersionData: {
-                    value: file.createReadStream(),
-                    options: {
-                        filename: attachmentName,
-                        contentType: headersToForward['content-type'],
-                        knownLength: headersToForward['content-length']
-                    }
+    async contentVersion({ recordId, attachmentName, versionData }) {
+        const formData = {
+            entity_content: {
+                value: JSON.stringify({
+                    FirstPublishLocationId: recordId,
+                    ReasonForChange: `Application attachment ${attachmentName}`,
+                    PathOnClient: attachmentName
+                }),
+                options: {
+                    contentType: 'application/json'
                 }
-            };
+            },
+            VersionData: versionData
+        };
 
-            return request.post({
-                url: `${this.apiUrl}/services/data/${
-                    this.apiVersion
-                }/sobjects/ContentVersion`,
-                headers: this.headers,
-                formData: formData
-            });
+        return request.post({
+            url: `${this.apiUrl}/services/data/${
+                this.apiVersion
+            }/sobjects/ContentVersion`,
+            headers: this.headers,
+            formData: formData
         });
     }
 }

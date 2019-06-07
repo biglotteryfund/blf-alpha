@@ -57,11 +57,20 @@ const uploadFile = ({ formId, applicationId, fileMetadata }) => {
     });
 };
 
-const getFile = ({ formId, applicationId, filename }) => {
+const getObject = ({ formId, applicationId, filename }) => {
     return s3.getObject({
         Bucket: bucket,
         Key: [formId, applicationId, filename].join('/')
     });
 };
 
-module.exports = { uploadFile, getFile };
+const headObject = ({ formId, applicationId, filename }) => {
+    return s3
+        .headObject({
+            Bucket: bucket,
+            Key: [formId, applicationId, filename].join('/')
+        })
+        .promise();
+};
+
+module.exports = { uploadFile, getObject, headObject };
