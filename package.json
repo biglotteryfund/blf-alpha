@@ -167,7 +167,7 @@
     "jest-serializer-html": "7.0.0",
     "node-mocks-http": "1.7.5",
     "node-sass": "4.11.0",
-    "nodemon": "1.18.9",
+    "nodemon": "1.19.1",
     "postcss-cli": "6.0.1",
     "postcss-fout-with-a-class": "1.1.0",
     "prettier": "1.17.0",
