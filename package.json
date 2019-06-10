@@ -149,7 +149,6 @@
     "babel-jest": "24.8.0",
     "babel-loader": "8.0.4",
     "babel-plugin-lodash": "3.3.4",
-    "browser-sync": "2.26.3",
     "concurrently": "4.1.0",
     "css-loader": "2.0.0",
     "cssnano": "4.1.7",
