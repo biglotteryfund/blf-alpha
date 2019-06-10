@@ -73,37 +73,45 @@ function initFormRouter({
         next();
     }
 
-    router.use(
-        // Populate req.body for multipart forms before CSRF token is needed
-        (req, res, next) => {
-            const isPost = req.method === 'POST';
+    /**
+     * Decide if we need to handle multipart/form-data
+     * Populate req.body for multipart forms before CSRF token is needed
+     */
+    function handleMultipartFormData(req, res, next) {
+        function needsMultipart() {
             const contentType = req.headers['content-type'];
-
-            // Decide if we need to use body-parser or Formidable
-            // (eg. the latter for multipart forms with files)
-            if (
-                isPost &&
+            return (
+                req.method === 'POST' &&
                 contentType &&
-                contentType.indexOf('multipart/form-data') !== -1
-            ) {
-                const formData = new formidable.IncomingForm();
-                formData
-                    .parse(req, (err, fields, files) => {
-                        if (err) {
-                            next(err);
-                        } else {
-                            req.body = fields;
-                            req.files = files;
-                            next();
-                        }
-                    })
-                    .on('error', err => {
+                contentType.includes('multipart/form-data')
+            );
+        }
+
+        if (needsMultipart()) {
+            const formData = new formidable.IncomingForm();
+            formData
+                .parse(req, (err, fields, files) => {
+                    if (err) {
                         next(err);
-                    });
-            } else {
-                next();
-            }
-        },
+                    } else {
+                        req.body = fields;
+                        req.files = files;
+                        next();
+                    }
+                })
+                .on('error', err => {
+                    next(err);
+                });
+        } else {
+            next();
+        }
+    }
+
+    /**
+     * Common router middleware
+     */
+    router.use(
+        handleMultipartFormData,
         csrfProtection,
         injectCopy('applyNext'),
         setCommonLocals
