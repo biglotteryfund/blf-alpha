@@ -124,7 +124,6 @@
     "passport-local": "^1.0.0",
     "postcode": "2.0.0",
     "query-string": "^5.0.1",
-    "raven-js": "3.27.0",
     "request": "^2.84.0",
     "request-promise-native": "^1.0.5",
     "sequelize": "4.38.0",
