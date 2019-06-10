@@ -6,6 +6,7 @@ const appData = require('../../common/appData');
 const env = process.env.NODE_ENV || 'development';
 const databaseConfig = require('../database-config')[env];
 
+const Staff = require('./staff');
 const Feedback = require('./feedback');
 const SurveyAnswer = require('./survey');
 const { PendingApplication, SubmittedApplication } = require('./applications');
@@ -28,7 +29,7 @@ sequelize
  */
 const db = {
     Users: sequelize.import('./user'),
-    Staff: sequelize.import('./staff'),
+    Staff: Staff.init(sequelize, Sequelize),
     Feedback: Feedback.init(sequelize, Sequelize),
     SurveyAnswer: SurveyAnswer.init(sequelize, Sequelize),
     Order: sequelize.import('./order'),

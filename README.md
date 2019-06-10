@@ -81,6 +81,12 @@ Watch static assets and run an incremental build when files change.
 npm run watch
 ```
 
+If you want to run a browser-sync server locally to live reload on changes you can run the following command:
+
+```
+npx browser-sync start --no-open --proxy 'http://localhost:3000' --files 'public'
+```
+
 ## Testing
 
 ### Linting & unit tests

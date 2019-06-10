@@ -48,10 +48,10 @@ const SENTRY_DSN = getSecret('sentry.publicDsn');
  * Azure authentication secrets (optional, used for tools sign-in)
  */
 const AZURE_AUTH = {
-    MS_CLIENT_ID: getSecret('ms.auth.tnlcf.clientId'),
-    MS_CLIENT_SECRET: getSecret('ms.auth.tnlcf.clientSecret'),
-    MS_REDIRECT_URL:
-        process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl')
+    metadataUrl: `https://login.microsoftonline.com/tnlcommunityfund.onmicrosoft.com/.well-known/openid-configuration`,
+    clientId: getSecret('ms.auth.tnlcf.clientId'),
+    clientSecret: getSecret('ms.auth.tnlcf.clientSecret'),
+    redirectUrl: process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl')
 };
 
 /**

@@ -1,15 +1,60 @@
 'use strict';
+/**
+ * Passport strategies
+ * Note: we return null after callbacks in this file to avoid this warning:
+ * @see https://github.com/jaredhanson/passport/pull/461
+ */
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 
-const { AZURE_AUTH } = require('../common/secrets');
 const appData = require('../common/appData');
-const staffService = require('../services/staff');
+const { AZURE_AUTH } = require('../common/secrets');
+const { Staff } = require('../db/models');
 const userService = require('../services/user');
 
-// Note: we return null after callbacks here to avoid this warning:
-// https://github.com/jaredhanson/passport/pull/461
+/**
+ * Staff sign-in strategy
+ * Uses Azure Active Directory
+ */
+function azureAuthStrategy() {
+    return new OIDCStrategy(
+        {
+            identityMetadata: AZURE_AUTH.metadataUrl,
+            clientID: AZURE_AUTH.clientId,
+            allowHttpForRedirectUrl: appData.isDev,
+            redirectUrl: AZURE_AUTH.redirectUrl,
+            clientSecret: AZURE_AUTH.clientSecret,
+            responseType: 'code id_token',
+            responseMode: 'form_post',
+            validateIssuer: true,
+            isB2C: false,
+            issuer: null,
+            passReqToCallback: false,
+            scope: null,
+            loggingLevel: 'warn',
+            nonceLifetime: null,
+            nonceMaxAmount: 5,
+            useCookieInsteadOfSession: false,
+            clockSkew: null
+        },
+        async function(iss, sub, profile, accessToken, refreshToken, done) {
+            if (profile.oid) {
+                try {
+                    const user = await Staff.findOrCreateProfile(profile);
+                    done(null, user);
+                    return null;
+                } catch (err) {
+                    done(err);
+                    return null;
+                }
+            } else {
+                done(new Error('No oid found'), null);
+                return null;
+            }
+        }
+    );
+}
 
 module.exports = function() {
     // Configure standard user sign-in (eg. members of the public)
@@ -21,7 +66,8 @@ module.exports = function() {
                     /**
                      * Use generic error messages here to avoid exposing existing accounts
                      */
-                    const genericError = 'Your username and password combination is invalid';
+                    const genericError =
+                        'Your username and password combination is invalid';
                     if (!user) {
                         done(null, false, { message: genericError });
                         return null;
@@ -54,49 +100,8 @@ module.exports = function() {
      * Configure staff user sign-in (eg. internal authentication)
      * Only initialise this auth strategy if secrets exist (eg. not on CI)
      */
-    if (AZURE_AUTH.MS_CLIENT_ID) {
-        passport.use(
-            new OIDCStrategy(
-                {
-                    identityMetadata:
-                        'https://login.microsoftonline.com/tnlcommunityfund.onmicrosoft.com/.well-known/openid-configuration',
-                    clientID: AZURE_AUTH.MS_CLIENT_ID,
-                    allowHttpForRedirectUrl: appData.isDev,
-                    redirectUrl: AZURE_AUTH.MS_REDIRECT_URL,
-                    clientSecret: AZURE_AUTH.MS_CLIENT_SECRET,
-                    responseType: 'code id_token',
-                    responseMode: 'form_post',
-                    validateIssuer: true,
-                    isB2C: false,
-                    issuer: null,
-                    passReqToCallback: false,
-                    scope: null,
-                    loggingLevel: 'warn',
-                    nonceLifetime: null,
-                    nonceMaxAmount: 5,
-                    useCookieInsteadOfSession: false,
-                    clockSkew: null
-                },
-                (iss, sub, profile, accessToken, refreshToken, done) => {
-                    if (!profile.oid) {
-                        done(new Error('No oid found'), null);
-                        return null;
-                    }
-                    staffService.findOrCreate(profile, (err, response) => {
-                        if (err) {
-                            done(err);
-                            return null;
-                        }
-                        if (response.wasCreated) {
-                            done(null, response.user);
-                            return null;
-                        }
-                        done(null, response.user);
-                        return null;
-                    });
-                }
-            )
-        );
+    if (AZURE_AUTH.clientId) {
+        passport.use(azureAuthStrategy());
     }
 
     const makeUserObject = user => {
@@ -131,8 +136,7 @@ module.exports = function() {
                     return null;
                 });
         } else if (user.userType === 'staff') {
-            staffService
-                .findById(user.userData.id)
+            Staff.findById(user.userData.id)
                 .then(staffUser => {
                     cb(null, makeUserObject(staffUser));
                     return null;
