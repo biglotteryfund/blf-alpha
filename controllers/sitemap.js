@@ -63,7 +63,7 @@ async function getCanonicalRoutes() {
     )(filtered);
 }
 
-router.get('/', sMaxAge('30m'), async (req, res, next) => {
+router.get('/', sMaxAge(1800), async (req, res, next) => {
     try {
         const canonicalRoutes = await getCanonicalRoutes();
 

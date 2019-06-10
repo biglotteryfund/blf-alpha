@@ -1,51 +1,39 @@
 'use strict';
-const ms = require('ms');
 const csurf = require('csurf');
-const vary = require('vary');
-const cacheControl = require('express-cache-controller');
 
-const toSeconds = naturalTime => {
-    const parsedMilliseconds = typeof naturalTime === 'string' ? ms(naturalTime) : naturalTime;
-    return parsedMilliseconds / 1000;
-};
+const DEFAULT_MAX_AGE_SECONDS = 30;
+const DEFAULT_S_MAX_AGE_SECONDS = 300;
 
-const DEFAULT_MAX_AGE = toSeconds('30s');
-const DEFAULT_S_MAX_AGE = toSeconds('5m');
-
-const defaultVary = (req, res, next) => {
-    vary(res, 'Cookie');
+function defaultMaxAge(req, res, next) {
+    res.cacheControl = {
+        maxAge: DEFAULT_MAX_AGE_SECONDS,
+        sMaxAge: DEFAULT_S_MAX_AGE_SECONDS
+    };
     next();
-};
-
-const defaultCacheControl = [
-    cacheControl(),
-    (req, res, next) => {
-        res.cacheControl = { maxAge: DEFAULT_MAX_AGE, sMaxAge: DEFAULT_S_MAX_AGE };
-        next();
-    }
-];
+}
 
 /**
  * No cache / no-store middleware
  */
-const noCache = (req, res, next) => {
+function noCache(req, res, next) {
     res.cacheControl = { noStore: true };
     next();
-};
+}
 
 /**
  * s-max-age middleware
  * @description Apply a custom shared max age value
- * @param { string } sMaxAgeValue  `s-max-age` value in natural language (e.g. 30s, 10m. 1h)
+ * @param { number } sMaxAgeValue  `s-max-age` value in natural language (e.g. 30s, 10m. 1h)
  */
-const sMaxAge = sMaxAgeValue => {
+function sMaxAge(sMaxAgeValue) {
     return (req, res, next) => {
-        if (sMaxAgeValue) {
-            res.cacheControl = { maxAge: DEFAULT_MAX_AGE, sMaxAge: toSeconds(sMaxAgeValue) };
-        }
+        res.cacheControl = {
+            maxAge: DEFAULT_MAX_AGE_SECONDS,
+            sMaxAge: sMaxAgeValue
+        };
         next();
     };
-};
+}
 
 /**
  * csrfProtection
@@ -54,9 +42,7 @@ const sMaxAge = sMaxAgeValue => {
 const csrfProtection = [csurf(), noCache];
 
 module.exports = {
-    toSeconds,
-    defaultVary,
-    defaultCacheControl,
+    defaultMaxAge,
     noCache,
     sMaxAge,
     csrfProtection

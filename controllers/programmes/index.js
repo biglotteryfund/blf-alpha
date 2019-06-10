@@ -107,7 +107,7 @@ router.get(
  */
 router.get(
     '/all',
-    sMaxAge('1d'),
+    sMaxAge(86400),
     injectHeroImage('cbsa-2-letterbox-new'),
     injectCopy('funding.allProgrammes'),
     async (req, res, next) => {
