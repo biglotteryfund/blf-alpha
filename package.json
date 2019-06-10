@@ -32,11 +32,6 @@
     "watch-css": "sane 'npm run build-css' assets/sass --glob='**/*.scss'",
     "watch": "concurrently --kill-others npm:watch-js npm:watch-css"
   },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm test"
-    }
-  },
   "jest": {
     "testEnvironment": "node",
     "moduleFileExtensions": [
@@ -161,7 +156,6 @@
     "eslint-plugin-compat": "3.1.1",
     "eslint-plugin-no-only-tests": "2.3.0",
     "eslint-plugin-vue": "5.2.2",
-    "husky": "1.3.1",
     "jest": "24.8.0",
     "jest-serializer-html": "7.0.0",
     "node-mocks-http": "1.7.5",
