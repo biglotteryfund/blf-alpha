@@ -2,10 +2,11 @@
 const path = require('path');
 const express = require('express');
 const concat = require('lodash/concat');
-const get = require('lodash/get');
 const findIndex = require('lodash/findIndex');
-const partition = require('lodash/partition');
 const flatMap = require('lodash/flatMap');
+const get = require('lodash/get');
+const keyBy = require('lodash/keyBy');
+const mapValues = require('lodash/mapValues');
 const Sentry = require('@sentry/node');
 
 const { PendingApplication } = require('../../../db/models');
@@ -121,14 +122,23 @@ module.exports = function(formId, formBuilder) {
             renderStep(req, res, res.locals.currentApplicationData);
         })
         .post(async (req, res, next) => {
-            const { currentlyEditingId, currentApplicationData } = res.locals;
-            let data = { ...currentApplicationData, ...req.body };
+            const {
+                copy,
+                currentlyEditingId,
+                currentApplicationData
+            } = res.locals;
 
-            let form = formBuilder({
+            const applicationData = {
+                ...currentApplicationData,
+                ...req.body
+            };
+
+            const form = formBuilder({
                 locale: req.i18n.getLocale(),
-                data: data
+                data: applicationData
             });
 
+            // @TODO: Lift up as form.getCurrentFields()
             const sectionIndex = findIndex(
                 form.sections,
                 section => section.slug === req.params.section
@@ -139,100 +149,107 @@ module.exports = function(formId, formBuilder) {
             const step = currentSection.steps[stepIndex];
             const stepFields = flatMap(step.fieldsets, 'fields');
 
-            // Check if this step expected any file inputs
-            const fileFields = stepFields
-                .filter(f => f.type === 'file')
-                .map(f => f.name);
+            /**
+             * Determine files to upload
+             * - Retrieve the file from Formidable's parsed data
+             * - Guard against empty files (eg. ignore empty file inputs when one already exists)
+             */
+            function determineFilesToUpload(fields, files) {
+                const validFileFields = fields
+                    .filter(field => field.type === 'file')
+                    .filter(field => get(files, field.name).size > 0);
 
-            // If we expected files, check whether they were sent
-            const filesToUpload = fileFields
-                .filter(fieldName => {
-                    // Retrieve the file from Formidable's parsed data
-                    const uploadedFile = get(req.files, fieldName);
-                    // Ensure a file was actually provided
-                    // (eg. ignore empty file inputs when a file already exists)
-                    return uploadedFile && uploadedFile.size > 0;
-                })
-                .map(fieldName => {
-                    // Log this file as a potential upload
-                    const uploadedFile = get(req.files, fieldName);
+                return validFileFields.map(field => {
                     return {
-                        fieldName: fieldName,
-                        fileData: uploadedFile
+                        fieldName: field.name,
+                        fileData: get(files, field.name)
                     };
                 });
+            }
 
-            // Append the file data to the overall form data for validation
-            filesToUpload.forEach(file => {
-                data[file.fieldName] = {
-                    filename: file.fileData.name,
-                    size: file.fileData.size,
-                    type: file.fileData.type
-                };
-            });
+            const filesToUpload = determineFilesToUpload(stepFields, req.files);
 
-            let validationResult = validateForm(form, data);
+            /**
+             * Normalise file data for storage in validation object
+             * This is the metadata submitted as part of JSON data
+             * which joi validations run against.
+             */
+            function fileValues() {
+                const keyedByFieldName = keyBy(filesToUpload, 'fieldName');
 
-            try {
-                const fieldNamesForStep = flatMap(step.fieldsets, 'fields').map(
-                    field => field.name
-                );
-
-                let errorsForStep = validationResult.messages.filter(item =>
-                    fieldNamesForStep.includes(item.param)
-                );
-
-                const [invalidFiles, validFiles] = partition(
-                    filesToUpload,
-                    file => {
-                        return errorsForStep.find(
-                            _ => _.param === file.fieldName
-                        );
-                    }
-                );
-
-                invalidFiles.forEach(file => {
-                    // Remove the (invalid) file information from form data
-                    delete validationResult.value[file.fieldName];
+                return mapValues(keyedByFieldName, function({ fileData }) {
+                    return {
+                        filename: fileData.name,
+                        size: fileData.size,
+                        type: fileData.type
+                    };
                 });
+            }
 
-                // Check if any files were included and handle them (if valid)
-                await Promise.all(
-                    validFiles.map(file =>
+            /**
+             * Validate form against combined application data
+             * currentApplication data with req.body
+             * and file metadata mixed in.
+             */
+            const combinedApplicationData = {
+                ...applicationData,
+                ...fileValues()
+            };
+
+            const validationResult = validateForm(
+                form,
+                combinedApplicationData
+            );
+
+            const errorsForStep = validationResult.messages.filter(item =>
+                stepFields.map(f => f.name).includes(item.param)
+            );
+
+            /**
+             * If there are errors re-render the step with errors
+             * - Pass the full data object from validationResult to the view. Including invalid values.
+             * Otherwise, find the next suitable step and redirect there.
+             */
+            if (errorsForStep.length > 0) {
+                const renderStep = renderStepFor(
+                    req.params.section,
+                    req.params.step
+                );
+                renderStep(req, res, validationResult.value, errorsForStep);
+            } else {
+                try {
+                    const uploadPromises = filesToUpload.map(file =>
                         s3.uploadFile({
                             formId: formId,
                             applicationId: currentlyEditingId,
                             fileMetadata: file
                         })
-                    )
-                ).catch(rejection => {
+                    );
+                    await Promise.all(uploadPromises);
+                } catch (rejection) {
                     Sentry.captureException(rejection.error);
-                    // Manually create a form error and send the user back to the form
-                    errorsForStep = concat(errorsForStep, {
-                        // @TODO i18n
-                        msg: `There was an error uploading your file - please try again`,
+
+                    const uploadError = {
+                        msg: copy.common.uploadError,
                         param: rejection.fieldName
-                    });
-                });
+                    };
 
-                // Store the form's current state (errors and all) in the database
-                await PendingApplication.saveApplicationState(
-                    currentlyEditingId,
-                    validationResult.value
-                );
-
-                /**
-                 * If there are errors re-render the step with errors
-                 * - Pass the full data object from validationResult to the view. Including invalid values.
-                 * Otherwise, find the next suitable step and redirect there.
-                 */
-                if (errorsForStep.length > 0) {
                     const renderStep = renderStepFor(
                         req.params.section,
                         req.params.step
                     );
-                    renderStep(req, res, validationResult.value, errorsForStep);
-                } else {
+                    renderStep(req, res, validationResult.value, [uploadError]);
+                }
+
+                try {
+                    /**
+                     * Store the form's current state (errors and all) in the database
+                     */
+                    await PendingApplication.saveApplicationState(
+                        currentlyEditingId,
+                        validationResult.value
+                    );
+
                     const { nextUrl } = pagination({
                         baseUrl: res.locals.formBaseUrl,
                         sections: form.sections,
@@ -240,9 +257,9 @@ module.exports = function(formId, formBuilder) {
                         currentStepIndex: stepIndex
                     });
                     res.redirect(nextUrl);
+                } catch (storageError) {
+                    next(storageError);
                 }
-            } catch (error) {
-                next(error);
             }
         });
 
