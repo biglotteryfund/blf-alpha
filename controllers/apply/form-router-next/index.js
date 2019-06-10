@@ -17,7 +17,7 @@ const {
 
 const appData = require('../../../common/appData');
 const { csrfProtection } = require('../../../middleware/cached');
-const { requireUserAuth } = require('../../../middleware/authed');
+const { requireActiveUser } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
 const validateForm = require('./lib/validate-form');
@@ -78,9 +78,9 @@ function initFormRouter({
     router.use('/eligibility', require('./eligibility')(eligibilityBuilder));
 
     /**
-     * Require authentication past this point
+     * Require active user past this point
      */
-    router.use(requireUserAuth);
+    router.use(requireActiveUser);
 
     /**
      * Route: Dashboard

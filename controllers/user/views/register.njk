@@ -11,7 +11,7 @@
 
             {% if alertMessage %}
                 <div class="message" role="alert">
-                    {{ alertMessage }}
+                    {{ alertMessage | safe }}
                 </div>
             {% endif %}
 
@@ -38,7 +38,17 @@
                     name: 'password',
                     label: __('user.common.password'),
                     explanation: __('user.common.passwordRequirements'),
-                    isRequired: true
+                    isRequired: true,
+                    value: formValues['password']
+                }, errors = errors) }}
+
+                {{ formField({
+                    type: 'password',
+                    name: 'passwordConfirmation',
+                    label: 'Password confirmation',
+                    explanation: 'Re-type your password',
+                    isRequired: true,
+                    value: formValues['passwordConfirmation']
                 }, errors = errors) }}
 
                 <div class="form-actions">

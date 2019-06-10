@@ -6,6 +6,7 @@ const appData = require('../../common/appData');
 const env = process.env.NODE_ENV || 'development';
 const databaseConfig = require('../database-config')[env];
 
+const Users = require('./user');
 const Staff = require('./staff');
 const Feedback = require('./feedback');
 const SurveyAnswer = require('./survey');
@@ -28,7 +29,7 @@ sequelize
  * Register models and associations
  */
 const db = {
-    Users: sequelize.import('./user'),
+    Users: Users.init(sequelize, Sequelize),
     Staff: Staff.init(sequelize, Sequelize),
     Feedback: Feedback.init(sequelize, Sequelize),
     SurveyAnswer: SurveyAnswer.init(sequelize, Sequelize),

@@ -1,72 +1,71 @@
 'use strict';
-const express = require('express');
-const jwt = require('jsonwebtoken');
-const Sentry = require('@sentry/node');
 const path = require('path');
-const { concat } = require('lodash');
+const express = require('express');
+const Sentry = require('@sentry/node');
 
-const { requireUserAuth } = require('../../middleware/authed');
-const { JWT_SIGNING_TOKEN } = require('../../common/secrets');
-const userService = require('../../services/user');
+const { Users } = require('../../db/models');
+const {
+    requireUserAuth,
+    redirectUrlWithFallback
+} = require('../../middleware/authed');
+const {
+    injectCopy,
+    injectBreadcrumbs
+} = require('../../middleware/inject-content');
 
-const { sendActivationEmail } = require('./helpers');
+const { verifyTokenActivate } = require('./lib/jwt');
+const sendActivationEmail = require('./lib/activation-email');
 
 const router = express.Router();
 
-function activate(token, user) {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, JWT_SIGNING_TOKEN, async (jwtError, decoded) => {
-            if (jwtError) {
-                reject(jwtError);
-            } else {
-                if (user.is_active) {
-                    resolve(user);
-                }
-
-                // Was the token valid for this user?
-                if (decoded.data.reason === 'activate' && decoded.data.userId === user.id) {
-                    try {
-                        const updatedUser = await userService.updateActivateUser({
-                            id: decoded.data.userId
-                        });
-
-                        resolve(updatedUser);
-                    } catch (activateError) {
-                        reject(activateError);
-                    }
-                } else {
-                    reject(new Error('invalid token'));
-                }
-            }
-        });
-    });
+function renderTemplate(req, res) {
+    const template = path.resolve(__dirname, './views/activate');
+    res.render(template);
 }
 
-router.route('/').get(requireUserAuth, async (req, res) => {
-    const token = req.query.token;
-    const user = req.user.userData;
-
-    if (token) {
+router
+    .route('/')
+    .all(
+        requireUserAuth,
+        injectCopy('user.activate'),
+        injectBreadcrumbs,
+        function(req, res, next) {
+            if (req.user.userData.is_active) {
+                redirectUrlWithFallback(req, res, '/user');
+            } else {
+                next();
+            }
+        }
+    )
+    .get(async function(req, res) {
+        if (req.query.token) {
+            try {
+                await verifyTokenActivate(
+                    req.query.token,
+                    req.user.userData.id
+                );
+                await Users.activateUser(req.user.userData.id);
+                redirectUrlWithFallback(req, res, '/user?s=activationComplete');
+            } catch (error) {
+                Sentry.withScope(scope => {
+                    scope.setLevel('warning');
+                    Sentry.captureException(error);
+                });
+                res.locals.tokenError = true;
+                renderTemplate(req, res);
+            }
+        } else {
+            renderTemplate(req, res);
+        }
+    })
+    .post(async function(req, res, next) {
         try {
-            await activate(token, user);
-            res.redirect('/user?s=activationComplete');
-        } catch (error) {
-            Sentry.captureException(error);
-            res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-                label: 'Activate account'
-            });
-            res.render(path.resolve(__dirname, './views/activate-error'));
+            await sendActivationEmail(req, req.user.userData);
+            res.locals.resendSuccessful = true;
+            renderTemplate(req, res);
+        } catch (err) {
+            next(err);
         }
-    } else {
-        // no token, so send them an activation email
-        if (!user.is_active) {
-            await sendActivationEmail(req, user);
-        }
-
-        req.session.save(() => {
-            res.redirect('/user?s=activationSent');
-        });
-    }
-});
+    });
 
 module.exports = router;

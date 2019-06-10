@@ -1,59 +1,52 @@
 'use strict';
 const path = require('path');
-const jwt = require('jsonwebtoken');
 const express = require('express');
+const concat = require('lodash/concat');
 const Sentry = require('@sentry/node');
-const Joi = require('@hapi/joi');
-const { concat, get, head } = require('lodash');
 
-const { localify, getAbsoluteUrl } = require('../../common/urls');
-const { JWT_SIGNING_TOKEN } = require('../../common/secrets');
-const { requireUnauthed } = require('../../middleware/authed');
+const { Users } = require('../../db/models');
+const sanitise = require('../../common/sanitise');
+const { sendHtmlEmail } = require('../../common/mail');
+const { getAbsoluteUrl, redirectForLocale } = require('../../common/urls');
+const { requireNoAuth } = require('../../middleware/authed');
 const {
     injectCopy,
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
 
-const { sendHtmlEmail } = require('../../common/mail');
-const userService = require('../../services/user');
-
-const normaliseErrors = require('./lib/normalise-errors');
-const schema = require('./schema');
+const {
+    signTokenPasswordReset,
+    verifyTokenPasswordReset
+} = require('./lib/jwt');
+const schemas = require('./lib/account-schemas');
+const validateSchema = require('./lib/validate-schema');
 
 const router = express.Router();
 
 async function processResetRequest(req, user) {
-    const payload = { data: { userId: user.id, reason: 'resetpassword' } };
-    const token = jwt.sign(payload, JWT_SIGNING_TOKEN, {
-        expiresIn: '1h' // Short-lived token
-    });
+    const token = signTokenPasswordReset(user.id);
+
+    const template = path.resolve(
+        __dirname,
+        './views/emails/forgotten-password.njk'
+    );
+
+    const templateData = {
+        locale: req.i18n.getLocale(),
+        resetUrl: getAbsoluteUrl(req, `/user/password/reset?token=${token}`),
+        email: user.username
+    };
 
     await sendHtmlEmail(
-        {
-            template: path.resolve(
-                __dirname,
-                './views/emails/forgotten-password.njk'
-            ),
-            templateData: {
-                locale: req.i18n.getLocale(),
-                resetUrl: getAbsoluteUrl(
-                    req,
-                    `/user/password/reset?token=${token}`
-                ),
-                email: user.username
-            }
-        },
+        { template: template, templateData: templateData },
         {
             name: 'user_password_reset',
             sendTo: user.username,
-            subject:
-                'Reset the password for your The National Lottery Community Fund website account'
+            subject: `Reset the password for your The National Lottery Community Fund website account`
         }
     );
 
-    await userService.updateIsInPasswordReset({
-        id: user.id
-    });
+    await Users.updateIsInPasswordReset(user.id);
 }
 
 function sendPasswordResetNotification(req, email) {
@@ -78,49 +71,6 @@ function sendPasswordResetNotification(req, email) {
     );
 }
 
-function verifyToken(token) {
-    return new Promise((resolve, reject) => {
-        jwt.verify(token, JWT_SIGNING_TOKEN, async (err, decoded) => {
-            if (err) {
-                reject(err);
-            } else {
-                if (decoded.data.reason === 'resetpassword') {
-                    resolve(decoded.data);
-                } else {
-                    reject(new Error('Invalid token reason'));
-                }
-            }
-        });
-    });
-}
-
-function validatePasswordChangeRequest(username, password, locale) {
-    /**
-     * Validate new password,
-     * Include username in password to allow us to check against conditional rules
-     * e.g. password must not match username
-     */
-    const validationResult = schema.accountSchema.validate(
-        { username: username, password: password },
-        { abortEarly: false, stripUnknown: true }
-    );
-
-    const errorDetails = get(validationResult.error, 'details', []).filter(
-        detail => head(detail.path) === 'password'
-    );
-
-    const errors = normaliseErrors({
-        errorDetails: errorDetails,
-        errorMessages: schema.errorMessages(locale)
-    });
-
-    return { validationResult, errors };
-}
-
-function redirectToLogin(req, res) {
-    res.redirect(localify(req.i18n.getLocale())('/user/login'));
-}
-
 function renderForgotForm(req, res, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/forgotten-password'), {
         formValues: data,
@@ -128,8 +78,9 @@ function renderForgotForm(req, res, data = null, errors = []) {
     });
 }
 
-function renderResetForm(req, res, errors = []) {
+function renderResetForm(req, res, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/reset-password'), {
+        formValues: data,
         errors: errors
     });
 }
@@ -146,33 +97,19 @@ function renderResetFormExpired(req, res) {
  */
 router
     .route('/forgot')
-    .all(
-        requireUnauthed,
-        injectCopy('user.forgottenPassword'),
-        injectBreadcrumbs
-    )
+    .all(requireNoAuth, injectCopy('user.forgottenPassword'), injectBreadcrumbs)
     .get(renderForgotForm)
     .post(async function(req, res) {
-        const validationResult = Joi.object({
-            username: schema.username
-        }).validate(req.body, {
-            abortEarly: false,
-            stripUnknown: true
-        });
+        const validationResult = validateSchema(
+            schemas.emailOnly(req.i18n.getLocale()),
+            req.body
+        );
 
-        const errors = normaliseErrors({
-            errorDetails: validationResult,
-            errorMessages: schema.errorMessages(req.i18n.getLocale())
-        });
-
-        if (errors.length > 0) {
-            renderForgotForm(req, res, validationResult.value, errors);
-        } else {
-            res.locals.alertMessage =
-                'Password reset requested. If the email address entered is correct you will receive instructions via email.';
+        if (validationResult.isValid) {
+            res.locals.alertMessage = `Password reset requested. If the email address entered is correct you will receive instructions via email.`;
             try {
                 const { username } = validationResult.value;
-                const user = await userService.findByUsername(username);
+                const user = await Users.findByUsername(sanitise(username));
 
                 if (user) {
                     await processResetRequest(req, user);
@@ -184,6 +121,13 @@ router
                 Sentry.captureException(error);
                 renderForgotForm(req, res);
             }
+        } else {
+            renderForgotForm(
+                req,
+                res,
+                validationResult.value,
+                validationResult.messages
+            );
         }
     });
 
@@ -207,126 +151,121 @@ router
             renderResetForm(req, res);
         } else if (token()) {
             try {
-                await verifyToken(token());
+                await verifyTokenPasswordReset(token());
                 res.locals.token = token();
                 renderResetForm(req, res);
             } catch (error) {
                 renderResetFormExpired(req, res);
             }
         } else {
-            redirectToLogin(req, res);
+            redirectForLocale(req, res, '/user/login');
         }
     })
     .post(async (req, res) => {
         // If we have a logged-in user, attempt to change their password
         if (req.user) {
             // Confirm the typed password matches the currently-stored one
-            const passwordMatches = await userService.isValidPassword(
+            const passwordMatches = await Users.checkValidPassword(
                 req.user.userData.password,
-                req.body['password-old']
+                req.body.oldPassword
             );
 
-            if (passwordMatches) {
-                // Update the stored password to new one
-                const {
-                    validationResult,
-                    errors
-                } = validatePasswordChangeRequest(
-                    req.user.userData.id,
-                    req.body.password,
-                    req.i18n.getLocale()
-                );
-
-                if (errors.length > 0) {
-                    res.locals.formValues = validationResult.value;
-                    return renderResetForm(req, res, errors);
-                } else {
-                    try {
-                        await userService.updateNewPassword({
-                            id: validationResult.value.username,
-                            newPassword: validationResult.value.password
-                        });
-                        await sendPasswordResetNotification(
-                            req,
-                            req.user.userData.username
-                        );
-                        res.redirect('/user?s=passwordUpdated');
-                    } catch (error) {
-                        const updatingErrors = [
-                            {
-                                msg: `There was a problem updating your password`
-                            }
-                        ];
-
-                        renderResetForm(req, res, updatingErrors);
-                    }
-                }
-            } else {
+            if (passwordMatches === false) {
                 const errors = [
                     {
-                        param: 'password-old',
+                        param: 'oldPassword',
                         msg: 'Your old password was not correct'
                     }
                 ];
-                renderResetForm(req, res, errors);
+                renderResetForm(req, res, null, errors);
+            } else {
+                // Update the stored password to new one
+                const validationResult = validateSchema(
+                    schemas.passwordReset(req.i18n.getLocale()),
+                    req.body
+                );
+
+                if (validationResult.isValid) {
+                    try {
+                        const { username, password } = validationResult.value;
+                        await Users.updateNewPassword({
+                            id: sanitise(username),
+                            newPassword: password
+                        });
+                        await sendPasswordResetNotification(req, username);
+                        redirectForLocale(req, res, '/user?s=passwordUpdated');
+                    } catch (error) {
+                        renderResetForm(req, res, validationResult.value, [
+                            {
+                                msg: `There was a problem updating your password`
+                            }
+                        ]);
+                    }
+                } else {
+                    return renderResetForm(
+                        req,
+                        res,
+                        validationResult.value,
+                        validationResult.messages
+                    );
+                }
             }
         } else {
             // Handle an unauthorised user who submitted the form with a token
             const { token } = req.body;
-
             if (!token) {
-                redirectToLogin(req, res);
+                redirectForLocale(req, res, '/user/login');
             } else {
-                try {
-                    const decodedData = await verifyToken(token);
+                // Is this user's token valid to modify this password?
+                const validationResult = validateSchema(
+                    schemas.passwordReset(req.i18n.getLocale()),
+                    req.body
+                );
 
-                    // Is this user's token valid to modify this password?
-                    const {
-                        validationResult,
-                        errors
-                    } = validatePasswordChangeRequest(
-                        decodedData.userId,
-                        req.body.password,
-                        req.i18n.getLocale()
-                    );
-
-                    if (errors.length > 0) {
-                        res.locals.errors = errors;
-                        res.locals.token = token;
-                        res.locals.formValues = validationResult.value;
-                        return renderResetForm(req, res);
-                    } else {
-                        try {
-                            // Confirm the user was in password reset mode
-                            const user = await userService.findWithActivePasswordReset(
-                                {
-                                    id: validationResult.value.username
-                                }
-                            );
-
-                            if (user) {
-                                await userService.updateNewPassword({
-                                    id: validationResult.value.username,
-                                    newPassword: validationResult.value.password
-                                });
-                                await sendPasswordResetNotification(
-                                    req,
-                                    user.username
-                                );
-                            } else {
-                                res.redirect('/user/login');
-                            }
-
-                            res.redirect('/user/login?s=passwordUpdated');
-                        } catch (error) {
-                            res.locals.token = token;
-                            res.locals.alertMessage =
-                                'There was a problem updating your password - please try again';
-                            renderResetForm(req, res);
-                        }
+                if (validationResult.isValid) {
+                    let decodedData;
+                    try {
+                        decodedData = await verifyTokenPasswordReset(token);
+                    } catch (jwtError) {
+                        return renderResetFormExpired(req, res);
                     }
-                } catch (error) {
-                    renderResetFormExpired(req, res);
+
+                    try {
+                        // Confirm the user was in password reset mode
+                        const user = await Users.findWithActivePasswordReset(
+                            decodedData.userId
+                        );
+
+                        if (user) {
+                            await Users.updateNewPassword({
+                                id: decodedData.userId,
+                                newPassword: validationResult.value.password
+                            });
+                            await sendPasswordResetNotification(
+                                req,
+                                user.username
+                            );
+                        } else {
+                            redirectForLocale(req, res, '/user/login');
+                        }
+
+                        const urlPath = '/user/login?s=passwordUpdated';
+                        redirectForLocale(req, res, urlPath);
+                    } catch (error) {
+                        Sentry.captureException(error);
+                        res.locals.token = token;
+                        const errors = [
+                            {
+                                msg: `There was a problem updating your password - please try again`
+                            }
+                        ];
+                        return renderResetForm(
+                            req,
+                            res,
+                            validationResult.value,
+                            errors
+                        );
+                    }
                 }
             }
         }

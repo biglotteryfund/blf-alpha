@@ -1,0 +1,42 @@
+{% extends "layouts/main.njk" %}
+{% from "components/user-status/macro.njk" import userStatus with context %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+
+{% macro resendButton() %}
+    <form action="" method="POST">
+        <input type="submit" class="btn" value="{{ copy.resendLabel }}" />
+    </form>
+{% endmacro %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only">
+            {{ breadcrumbTrail(breadcrumbs) }}
+
+            <h1 class="t--underline">{{ title }}</h1>
+
+            <div class="s-prose u-constrained-wide">
+                {% if tokenError %}
+                    <p>{{ copy.errorMessage }}</p>
+                    <p>{{ resendButton() }}</p>
+                {% else %}
+
+                    {% if resendSuccessful %}
+                        <div class="message" role="alert">
+                            {{ copy.resendMessage | safe }}
+                        </div>
+                    {% endif %}
+
+                    <p>{{ __(copy.introduction, user.userData.username) | safe }}</p>
+
+                    <h2>{{ copy.notReceived.title }}</h2>
+                    {{ __(copy.notReceived.body, localify('/user/update-email')) | safe }}
+                    <p>{{ resendButton() }}</p>
+
+                    <h2>{{ copy.contact.title }}</h2>
+                    {{ copy.contact.body | safe }}
+                {% endif  %}
+            </div>
+        </div>
+    </main>
+{% endblock %}

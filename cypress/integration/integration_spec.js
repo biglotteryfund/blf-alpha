@@ -223,19 +223,21 @@ describe('interactions', () => {
 });
 
 describe('user', () => {
-    function submitForm(username, password) {
-        cy.getByLabelText('Email address', { exact: false })
+    function logIn(username, password) {
+        cy.getByLabelText('Email address')
             .clear()
             .type(username, { delay: 0 });
-        cy.getByLabelText('Password', { exact: false })
+        cy.getByLabelText('Password')
             .clear()
             .type(password, { delay: 0 });
-        cy.get('.form-actions input[type="submit"]').click();
+        cy.get('.form-actions').within(() => {
+            cy.getByText('Log in').click();
+        });
     }
 
     it('should not allow unknown users to login', () => {
         cy.visit('/user/login');
-        submitForm('person@example.com', 'examplepassword');
+        logIn('not_a_real_account@example.com', 'examplepassword');
         cy.getByTestId('form-errors').should(
             'contain',
             'Your username and password combination is invalid'
@@ -243,12 +245,42 @@ describe('user', () => {
         cy.checkA11y();
     });
 
+    function createAccount(username, password) {
+        cy.getByLabelText('Email address')
+            .clear()
+            .type(username, { delay: 0 });
+        cy.getByLabelText('Password')
+            .clear()
+            .type(password, { delay: 0 });
+        cy.getByLabelText('Password confirmation', { exact: false })
+            .clear()
+            .type(password, { delay: 0 });
+        cy.get('.form-actions').within(() => {
+            cy.getByText('Create an account').click();
+        });
+    }
+
     it('should prevent registrations with invalid passwords', () => {
+        const username = `${Date.now()}@example.com`;
+
         cy.visit('/user/register');
-        submitForm('person@example.com', 'tooshort');
+
+        createAccount(username, 'tooshort');
         cy.getByTestId('form-errors').should(
             'contain',
             'Password must be at least 10 characters long'
+        );
+
+        createAccount(username, username);
+        cy.getByTestId('form-errors').should(
+            'contain',
+            'password could be too common, or is the same as your username'
+        );
+
+        createAccount(username, '5555555555');
+        cy.getByTestId('form-errors').should(
+            'contain',
+            'password could be too common, or is the same as your username'
         );
     });
 
@@ -258,19 +290,22 @@ describe('user', () => {
 
         // Register
         cy.visit('/user/register');
-        submitForm(username, password);
+        createAccount(username, password);
         cy.checkA11y();
         cy.getByText('Your account').should('be.visible');
 
         // Log out
-        cy.getByTestId('logout-button').click();
+        cy.getByText('Log out').click();
 
         // Attempt to log in with new user with an incorrect password and then correct it
-        submitForm(username, 'invalidpassword');
-        cy.getByText(
-            'Your username and password combination is invalid'
-        ).should('exist');
-        submitForm(username, password);
+        logIn(username, 'invalidpassword');
+
+        cy.getByTestId('form-errors').should(
+            'contain',
+            'username and password combination is invalid'
+        );
+
+        logIn(username, password);
         cy.getByText('Your account').should('be.visible');
     });
 
