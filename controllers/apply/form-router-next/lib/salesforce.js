@@ -23,7 +23,7 @@ class Salesforce {
             body: body
         });
     }
-    submitFormData(application, meta) {
+    submitFormData({ application, meta }) {
         return this.postJson('/services/apexrest/FormData/', {
             meta: meta,
             application: application
