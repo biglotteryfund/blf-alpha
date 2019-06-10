@@ -21,13 +21,17 @@ const checkSpelling = require('./lib/check-spelling');
 
 const router = express.Router();
 
-router.use(sMaxAge(604800), injectBreadcrumbs, (req, res, next) => {
-    res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
-        label: req.i18n.__('funding.pastGrants.search.title'),
-        url: req.baseUrl
-    });
-    next();
-});
+router.use(
+    sMaxAge(604800 /* 7 days in seconds */),
+    injectBreadcrumbs,
+    (req, res, next) => {
+        res.locals.breadcrumbs = concat(res.locals.breadcrumbs, {
+            label: req.i18n.__('funding.pastGrants.search.title'),
+            url: req.baseUrl
+        });
+        next();
+    }
+);
 
 function buildPagination(req, paginationMeta, currentQuery = {}) {
     if (paginationMeta && paginationMeta.totalPages > 1) {
