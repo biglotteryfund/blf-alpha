@@ -3,7 +3,7 @@ const express = require('express');
 const Joi = require('@hapi/joi');
 const Sentry = require('@sentry/node');
 
-const { purifyUserInput } = require('../../common/validators');
+const sanitise = require('../../common/sanitise');
 const { Feedback, SurveyAnswer } = require('../../db/models');
 const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');
@@ -82,7 +82,7 @@ router.post('/feedback', async (req, res) => {
         try {
             const [result] = await Feedback.storeFeedback({
                 description: validationResult.value.description,
-                message: purifyUserInput(validationResult.value.message)
+                message: sanitise(validationResult.value.message)
             });
 
             res.json({
@@ -127,7 +127,7 @@ router.post('/survey', async (req, res) => {
             const [result] = await SurveyAnswer.createResponse({
                 choice: validationResult.value.choice,
                 path: validationResult.value.path,
-                message: purifyUserInput(validationResult.value.message)
+                message: sanitise(validationResult.value.message)
             });
 
             res.json({

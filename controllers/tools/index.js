@@ -8,19 +8,7 @@ const { noindex } = require('../../middleware/robots');
 
 const router = express.Router();
 
-router.use(noCache, noindex);
-
-/**************************************
- * Public Tools
- **************************************/
-
-router.use('/seed', require('./seed'));
-
-/**************************************
- * Staff Tools
- **************************************/
-
-router.use(requireStaffAuth, function(req, res, next) {
+router.use(noCache, noindex, requireStaffAuth, function(req, res, next) {
     res.locals.isBilingual = false;
     res.locals.enableSiteSurvey = false;
     res.locals.bodyClass = 'has-static-header'; // No hero images on tools pages

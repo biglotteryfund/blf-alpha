@@ -68,26 +68,26 @@ function normaliseErrors({ validationError, errorMessages }) {
 }
 
 /**
- * Validate data against the form schema
- *
- * Validating against the whole form ensures that
- * conditional validations are taken into account
+ * This is structurally the same as validate-form.js in form-router-next.
+ * If we reach a point where we're happy with the abstraction and the use-cases
+ * don't diverge we could merge these together.
+ * @TODO: Merge with validate-form?
  */
-module.exports = function validateForm(form, data = {}) {
-    const { value, error } = form.schema.validate(data, {
+module.exports = function validateSchema({ schema, messages }, data = {}) {
+    const { value, error } = schema.validate(data, {
         abortEarly: false,
         stripUnknown: true
     });
 
-    const messages = normaliseErrors({
+    const normalisedErrors = normaliseErrors({
         validationError: error,
-        errorMessages: form.messages
+        errorMessages: messages
     });
 
     return {
         value: value,
         error: error,
-        isValid: error === null && messages.length === 0,
-        messages: messages
+        isValid: error === null && normalisedErrors.length === 0,
+        messages: normalisedErrors
     };
 };
