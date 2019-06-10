@@ -11,6 +11,20 @@ const { sequelize } = require('../db/models');
 debug(`App environment: ${config.util.getEnv('NODE_ENV')}`);
 
 /**
+ * Normalize a port into a number, string, or false.
+ */
+function normalizePort(val) {
+    const parsedPort = parseInt(val, 10);
+    if (isNaN(parsedPort)) {
+        return val;
+    } else if (parsedPort >= 0) {
+        return parsedPort;
+    } else {
+        return false;
+    }
+}
+
+/**
  * Get port from environment and store in Express.
  */
 const port = normalizePort(process.env.PORT || '3000');
@@ -21,13 +35,43 @@ app.set('port', port);
  */
 const server = http.createServer(app);
 
+function describeAddressBinding(addr) {
+    return typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+}
+
+function describePortBinding() {
+    return typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+}
+
 /**
  * Listen on provided port, on all network interfaces.
+ * handle specific listen errors with friendly messages
  */
 function startServer() {
     server.listen(port);
-    server.on('error', onError);
-    server.on('listening', onListening);
+    server.on('error', function onError(error) {
+        if (error.syscall !== 'listen') {
+            throw error;
+        }
+
+        switch (error.code) {
+            case 'EACCES':
+                console.error(
+                    `${describePortBinding()} requires elevated privileges`
+                );
+                process.exit(1);
+                break;
+            case 'EADDRINUSE':
+                console.error(`${describePortBinding()} is already in use`);
+                process.exit(1);
+                break;
+            default:
+                throw error;
+        }
+    });
+    server.on('listening', function() {
+        debug(`App now running on ${describeAddressBinding(server.address())}`);
+    });
 }
 
 /**
@@ -43,66 +87,5 @@ sequelize
         debug('Database sync failed', e);
         startServer();
     });
-
-/**
- * Normalize a port into a number, string, or false.
- */
-function normalizePort(val) {
-    const parsedPort = parseInt(val, 10);
-    if (isNaN(parsedPort)) {
-        return val;
-    } else if (parsedPort >= 0) {
-        return parsedPort;
-    } else {
-        return false;
-    }
-}
-
-/**
- * Event listener for HTTP server "error" event.
- */
-function onError(error) {
-    if (error.syscall !== 'listen') {
-        throw error;
-    }
-
-    const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
-
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-        case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
-            process.exit(1);
-            break;
-        case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
-            process.exit(1);
-            break;
-        default:
-            throw error;
-    }
-}
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-
-function onListening() {
-    const addr = server.address();
-    const bind =
-        typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
-    debug(`App now running on ${bind}`);
-
-    if (process.env.ENABLE_BROWSER_SYNC === 'true') {
-        try {
-            const browserSync = require('browser-sync');
-            browserSync({
-                open: false,
-                proxy: 'http://localhost:' + port,
-                files: ['public/**/*.{js,css}']
-            });
-        } catch (error) {} // eslint-disable-line no-empty
-    }
-}
 
 module.exports = server;

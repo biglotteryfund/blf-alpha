@@ -13,7 +13,7 @@ const router = express.Router();
 
 router.get(
     '/',
-    sMaxAge('30m'),
+    sMaxAge(1800),
     injectCopy('toplevel.funding'),
     injectHeroImage('funding-letterbox-new'),
     async (req, res) => {
