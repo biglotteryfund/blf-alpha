@@ -11,7 +11,7 @@ import '@percy/cypress';
  * Cypress testing library
  * @see https://github.com/kentcdodds/cypress-testing-library
  */
-import 'cypress-testing-library/add-commands';
+import '@testing-library/cypress/add-commands';
 
 /**
  * File upload support
