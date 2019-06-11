@@ -4,7 +4,7 @@ const { get } = require('lodash/fp');
 const { flatMap, includes, values } = require('lodash');
 
 const Joi = require('../form-router-next/joi-extensions');
-const locationsFor = require('../form-router-next/lib/locations');
+const locationsFor = require('./locations');
 const {
     BENEFICIARY_GROUPS,
     MAX_BUDGET_TOTAL_GBP,
