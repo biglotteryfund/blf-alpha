@@ -28,12 +28,12 @@ const formBuilder = require('./form');
 const mapNames = mapFp('name');
 
 function testValidate(data) {
-    return validateForm(formBuilder({ locale: 'en', data }), data);
+    return formBuilder({ locale: 'en', data }).validation;
 }
 
 function assertMessagesByKey(data, messages) {
-    const validation = testValidate(data);
-    const messagesByKey = validation.messages.filter(message => {
+    const validationResult = testValidate(data);
+    const messagesByKey = validationResult.messages.filter(message => {
         return includes(Object.keys(data), message.param);
     });
 
@@ -46,8 +46,8 @@ function assertValid(data) {
 }
 
 function assertValidByKey(data) {
-    const validation = testValidate(data);
-    const messagesByKey = validation.messages.filter(message => {
+    const validationResult = testValidate(data);
+    const messagesByKey = validationResult.messages.filter(message => {
         return includes(Object.keys(data), message.param);
     });
 
@@ -840,7 +840,6 @@ describe('form shape', () => {
     test('progress', () => {
         const emptyForm = formBuilder({ locale: 'en' });
         expect(emptyForm.progress).toEqual({
-            all: 'empty',
             isComplete: false,
             sections: [
                 {
@@ -882,7 +881,6 @@ describe('form shape', () => {
         });
 
         expect(partialForm.progress).toEqual({
-            all: 'incomplete',
             isComplete: false,
             sections: [
                 {
@@ -928,7 +926,6 @@ describe('form shape', () => {
         });
 
         expect(completeForm.progress).toEqual({
-            all: 'complete',
             isComplete: true,
             sections: [
                 {
