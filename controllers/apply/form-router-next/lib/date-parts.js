@@ -11,15 +11,6 @@ function fromDateParts(parts) {
     });
 }
 
-function toDateParts(dt) {
-    return {
-        day: dt.date(),
-        month: dt.month() + 1,
-        year: dt.year()
-    };
-}
-
 module.exports = {
-    fromDateParts,
-    toDateParts
+    fromDateParts
 };
