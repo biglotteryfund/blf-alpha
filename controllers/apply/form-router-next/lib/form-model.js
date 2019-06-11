@@ -1,12 +1,15 @@
 'use strict';
 const cloneDeep = require('lodash/cloneDeep');
 const find = require('lodash/find');
+const findIndex = require('lodash/findIndex');
+const findLastIndex = require('lodash/findLastIndex');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/get');
 const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
-const reject = require('lodash/reject');
 const reduce = require('lodash/reduce');
+const reject = require('lodash/reject');
+
 const Joi = require('@hapi/joi');
 
 const { formatterFor } = require('./formatters');
@@ -163,6 +166,86 @@ class FormModel {
 
         const step = sectionMatch.steps[stepIndex];
         return flatMap(step.fieldsets, 'fields');
+    }
+
+    previousSection(sectionSlug) {
+        const currentSectionIndex = findIndex(
+            this.sections,
+            section => section.slug === sectionSlug
+        );
+
+        return this.sections[currentSectionIndex - 1];
+    }
+
+    nextSection(sectionSlug) {
+        const currentSectionIndex = findIndex(
+            this.sections,
+            section => section.slug === sectionSlug
+        );
+
+        return this.sections[currentSectionIndex + 1];
+    }
+
+    previousUrl({ baseUrl, sectionSlug, currentStepIndex = null }) {
+        const currentSection = find(this.sections, s => s.slug === sectionSlug);
+
+        const previousSection = this.previousSection(sectionSlug);
+
+        if (currentStepIndex > 0) {
+            const targetIndex = findLastIndex(
+                currentSection.steps,
+                step => step.isRequired === true,
+                currentStepIndex - 1
+            );
+            return `${baseUrl}/${currentSection.slug}/${targetIndex + 1}`;
+        } else if (currentStepIndex === 0 && currentSection.introduction) {
+            return `${baseUrl}/${currentSection.slug}`;
+        } else if (previousSection) {
+            const targetIndex = findLastIndex(
+                previousSection.steps,
+                step => step.isRequired === true
+            );
+            return `${baseUrl}/${previousSection.slug}/${targetIndex + 1}`;
+        } else {
+            return baseUrl;
+        }
+    }
+
+    nextUrl({ baseUrl, sectionSlug, currentStepIndex = null }) {
+        const currentSection = find(
+            this.sections,
+            section => section.slug === sectionSlug
+        );
+
+        const nextSection = this.nextSection(sectionSlug);
+
+        if (currentStepIndex === null && currentSection.introduction) {
+            return `${baseUrl}/${currentSection.slug}/1`;
+        } else {
+            const targetIndex = findIndex(
+                currentSection.steps,
+                step => step.isRequired === true,
+                currentStepIndex + 1
+            );
+
+            if (
+                targetIndex !== -1 &&
+                targetIndex <= currentSection.steps.length
+            ) {
+                return `${baseUrl}/${currentSection.slug}/${targetIndex + 1}`;
+            } else if (nextSection) {
+                return `${baseUrl}/${nextSection.slug}`;
+            } else {
+                return `${baseUrl}/summary`;
+            }
+        }
+    }
+
+    pagination(options) {
+        return {
+            nextUrl: this.nextUrl(options),
+            previousUrl: this.previousUrl(options)
+        };
     }
 
     fullSummary() {

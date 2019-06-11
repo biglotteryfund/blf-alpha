@@ -183,6 +183,40 @@ describe('Form validations', () => {
     });
 
     describe('Beneficiaries', () => {
+        test('skip section based on screening question', () => {
+            const formWithYes = formBuilder({
+                locale: 'en',
+                data: { beneficiariesGroupsCheck: 'yes' }
+            });
+
+            const formWithNo = formBuilder({
+                locale: 'en',
+                data: { beneficiariesGroupsCheck: 'no' }
+            });
+
+            expect(
+                formWithYes.pagination({
+                    baseUrl: '/apply/awards-for-all',
+                    sectionSlug: 'beneficiaries',
+                    currentStepIndex: 0
+                })
+            ).toEqual({
+                nextUrl: '/apply/awards-for-all/beneficiaries/2',
+                previousUrl: '/apply/awards-for-all/your-project/5'
+            });
+
+            expect(
+                formWithNo.pagination({
+                    baseUrl: '/apply/awards-for-all',
+                    sectionSlug: 'organisation',
+                    currentStepIndex: 0
+                })
+            ).toEqual({
+                nextUrl: '/apply/awards-for-all/organisation/2',
+                previousUrl: '/apply/awards-for-all/beneficiaries/1'
+            });
+        });
+
         test('welsh language question required for applicants in Wales', () => {
             function value(country, val) {
                 return {

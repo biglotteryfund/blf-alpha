@@ -6,7 +6,6 @@ const findIndex = require('lodash/findIndex');
 
 const { PendingApplication } = require('../../../db/models');
 
-const pagination = require('./lib/pagination');
 const validateForm = require('./lib/validate-form');
 
 module.exports = function(formBuilder) {
@@ -38,9 +37,8 @@ module.exports = function(formBuilder) {
                     const step = section.steps[stepIndex];
 
                     if (step) {
-                        const { nextUrl, previousUrl } = pagination({
+                        const { nextUrl, previousUrl } = form.pagination({
                             baseUrl: res.locals.formBaseUrl,
-                            sections: form.sections,
                             sectionSlug: req.params.section,
                             currentStepIndex: stepIndex
                         });
@@ -76,9 +74,8 @@ module.exports = function(formBuilder) {
                         res.redirect(res.locals.formBaseUrl);
                     }
                 } else if (section.introduction) {
-                    const { nextUrl, previousUrl } = pagination({
+                    const { nextUrl, previousUrl } = form.pagination({
                         baseUrl: res.locals.formBaseUrl,
-                        sections: form.sections,
                         sectionSlug: req.params.section
                     });
 
@@ -153,9 +150,8 @@ module.exports = function(formBuilder) {
                     );
                     renderStep(req, res, validationResult.value, errorsForStep);
                 } else {
-                    const { nextUrl } = pagination({
+                    const { nextUrl } = form.pagination({
                         baseUrl: res.locals.formBaseUrl,
-                        sections: form.sections,
                         sectionSlug: req.params.section,
                         currentStepIndex: stepIndex
                     });
