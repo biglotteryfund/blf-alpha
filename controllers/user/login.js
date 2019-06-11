@@ -20,10 +20,6 @@ const router = express.Router();
 function renderForm(req, res, formValues = null, errors = []) {
     res.render(path.resolve(__dirname, './views/login'), {
         csrfToken: req.csrfToken(),
-        alertMessage: alertMessage({
-            locale: req.i18n.getLocale(),
-            status: req.query.s
-        }),
         formValues: formValues,
         errors: errors
     });
@@ -37,7 +33,13 @@ router
         injectCopy('user.login'),
         injectBreadcrumbs
     )
-    .get(renderForm)
+    .get(function(req, res) {
+        res.locals.alertMessage = alertMessage({
+            locale: req.i18n.getLocale(),
+            status: req.query.s
+        });
+        renderForm(req, res);
+    })
     .post((req, res, next) => {
         passport.authenticate('local', function(err, user) {
             if (err) {
