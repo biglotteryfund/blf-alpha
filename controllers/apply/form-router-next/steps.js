@@ -41,7 +41,7 @@ module.exports = function(formBuilder) {
                         const { nextUrl, previousUrl } = pagination({
                             baseUrl: res.locals.formBaseUrl,
                             sections: form.sections,
-                            currentSectionIndex: sectionIndex,
+                            sectionSlug: req.params.section,
                             currentStepIndex: stepIndex
                         });
 
@@ -79,7 +79,7 @@ module.exports = function(formBuilder) {
                     const { nextUrl, previousUrl } = pagination({
                         baseUrl: res.locals.formBaseUrl,
                         sections: form.sections,
-                        currentSectionIndex: sectionIndex
+                        sectionSlug: req.params.section
                     });
 
                     const viewData = {
@@ -123,11 +123,6 @@ module.exports = function(formBuilder) {
                 data: data
             });
 
-            const sectionIndex = findIndex(
-                form.sections,
-                section => section.slug === req.params.section
-            );
-
             const stepIndex = parseInt(req.params.step, 10) - 1;
             const stepFields = form.getCurrentFieldsForStep(
                 req.params.section,
@@ -161,7 +156,7 @@ module.exports = function(formBuilder) {
                     const { nextUrl } = pagination({
                         baseUrl: res.locals.formBaseUrl,
                         sections: form.sections,
-                        currentSectionIndex: sectionIndex,
+                        sectionSlug: req.params.section,
                         currentStepIndex: stepIndex
                     });
                     res.redirect(nextUrl);

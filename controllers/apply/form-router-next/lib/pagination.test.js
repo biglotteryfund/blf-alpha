@@ -35,7 +35,7 @@ describe('pagination', () => {
         const { nextUrl, previousUrl } = pagination({
             baseUrl: '/example',
             sections: mockSections,
-            currentSectionIndex: 0,
+            sectionSlug: 'section-a',
             currentStepIndex: 0
         });
         expect(nextUrl).toBe('/example/section-a/2');
@@ -46,7 +46,7 @@ describe('pagination', () => {
         const { nextUrl, previousUrl } = pagination({
             baseUrl: '/example',
             sections: mockSections,
-            currentSectionIndex: 0,
+            sectionSlug: 'section-a',
             currentStepIndex: 3
         });
         expect(nextUrl).toBe('/example/section-b');
@@ -57,7 +57,7 @@ describe('pagination', () => {
         const { nextUrl, previousUrl } = pagination({
             baseUrl: '/example',
             sections: mockSections,
-            currentSectionIndex: 2,
+            sectionSlug: 'section-c',
             currentStepIndex: 0
         });
         expect(nextUrl).toBe('/example/section-c/2');
@@ -68,7 +68,7 @@ describe('pagination', () => {
         const { nextUrl, previousUrl } = pagination({
             baseUrl: '/example',
             sections: mockSections,
-            currentSectionIndex: 2,
+            sectionSlug: 'section-c',
             currentStepIndex: 2
         });
         expect(nextUrl).toBe('/example/summary');
@@ -79,7 +79,7 @@ describe('pagination', () => {
         const { nextUrl, previousUrl } = pagination({
             baseUrl: '/example',
             sections: mockSections,
-            currentSectionIndex: 1,
+            sectionSlug: 'section-b',
             currentStepIndex: 0
         });
         expect(nextUrl).toBe('/example/section-b/3');

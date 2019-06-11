@@ -1,5 +1,7 @@
 'use strict';
-const { findIndex, findLastIndex } = require('lodash');
+const find = require('lodash/find');
+const findIndex = require('lodash/findIndex');
+const findLastIndex = require('lodash/findLastIndex');
 
 /**
  * @typedef {object} MatchOptions
@@ -16,10 +18,19 @@ const { findIndex, findLastIndex } = require('lodash');
 function findNextMatchingUrl({
     baseUrl,
     sections,
-    currentSectionIndex,
+    sectionSlug,
     currentStepIndex = null
 }) {
-    const currentSection = sections[currentSectionIndex];
+    const currentSection = find(
+        sections,
+        section => section.slug === sectionSlug
+    );
+
+    const currentSectionIndex = findIndex(
+        sections,
+        section => section.slug === sectionSlug
+    );
+
     const nextSection = sections[currentSectionIndex + 1];
 
     if (currentStepIndex === null && currentSection.introduction) {
@@ -51,10 +62,19 @@ function findNextMatchingUrl({
 function findPreviousMatchingUrl({
     baseUrl,
     sections,
-    currentSectionIndex,
+    sectionSlug,
     currentStepIndex = null
 }) {
-    const currentSection = sections[currentSectionIndex];
+    const currentSection = find(
+        sections,
+        section => section.slug === sectionSlug
+    );
+
+    const currentSectionIndex = findIndex(
+        sections,
+        section => section.slug === sectionSlug
+    );
+
     const previousSection = sections[currentSectionIndex - 1];
 
     if (currentStepIndex > 0) {
