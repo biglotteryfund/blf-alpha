@@ -64,7 +64,7 @@ function requireActiveUser(req, res, next) {
             redirectWithReturnUrl(req, res, '/user/activate');
         }
     } else {
-        redirectWithReturnUrl(req, res, '/user');
+        redirectWithReturnUrl(req, res, '/user/login');
     }
 }
 
