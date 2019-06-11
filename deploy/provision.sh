@@ -10,7 +10,7 @@ apt-get install -y nginx-extras passenger
 
 # enable passenger
 PassengerDisabled="# include /etc/nginx/passenger.conf;"
-PassengerEnabled="include /etc/nginx/passenger.conf; \n\n\t client_max_body_size 12M;"
+PassengerEnabled="include /etc/nginx/passenger.conf; \n\n\t client_max_body_size 50M;"
 sed -i "s|$PassengerDisabled|$PassengerEnabled|g" /etc/nginx/nginx.conf
 
 # enable gzip in nginx
