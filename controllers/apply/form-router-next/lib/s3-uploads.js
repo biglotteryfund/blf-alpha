@@ -2,11 +2,16 @@
 const AWS = require('aws-sdk');
 const fs = require('fs');
 const config = require('config');
-const { S3_KMS_KEY_ID } = require('../../../../common/secrets');
 const debug = require('debug')('tnlcf:s3');
 
-const s3 = new AWS.S3({ signatureVersion: 'v4', region: 'eu-west-2' });
-const bucket = config.get('aws.s3.formUploadBucket');
+const { S3_KMS_KEY_ID } = require('../../../../common/secrets');
+
+const S3_UPLOAD_BUCKET = config.get('aws.s3.formUploadBucket');
+
+const s3 = new AWS.S3({
+    signatureVersion: 'v4',
+    region: 'eu-west-2'
+});
 
 function uploadFile({ formId, applicationId, fileMetadata }) {
     return new Promise((resolve, reject) => {
@@ -34,7 +39,7 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
                 s3.putObject(
                     {
                         Body: fileStream,
-                        Bucket: bucket,
+                        Bucket: S3_UPLOAD_BUCKET,
                         Key: uploadKey,
                         ContentLength: fileMetadata.fileData.size,
                         ContentType: fileMetadata.fileData.type,
@@ -63,7 +68,7 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
 function getObject({ formId, applicationId, filename }) {
     const keyName = [formId, applicationId, filename].join('/');
     return s3.getObject({
-        Bucket: bucket,
+        Bucket: S3_UPLOAD_BUCKET,
         Key: keyName
     });
 }
@@ -72,14 +77,30 @@ function headObject({ formId, applicationId, filename }) {
     const keyName = [formId, applicationId, filename].join('/');
     return s3
         .headObject({
-            Bucket: bucket,
+            Bucket: S3_UPLOAD_BUCKET,
             Key: keyName
         })
         .promise();
 }
 
+/**
+ * Build object needed for multipart form uploads
+ */
+function buildMultipartData(pathConfig) {
+    return headObject(pathConfig).then(function(headers) {
+        return {
+            value: getObject(pathConfig).createReadStream(),
+            options: {
+                filename: pathConfig.filename,
+                contentType: headers.ContentType,
+                knownLength: headers.ContentLength
+            }
+        };
+    });
+}
+
 module.exports = {
     uploadFile,
     getObject,
-    headObject
+    buildMultipartData
 };
