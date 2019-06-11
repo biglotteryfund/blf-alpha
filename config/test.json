@@ -1,4 +1,9 @@
 {
+  "aws": {
+    "s3": {
+      "formUploadBucket": "tnlcf-uploads"
+    }
+  },
   "features": {
     "enableAllowLocalhost": false,
     "enableAwardsForAllApplications": true,

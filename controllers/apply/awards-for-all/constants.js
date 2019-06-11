@@ -23,10 +23,23 @@ const BENEFICIARY_GROUPS = {
     CARING: 'caring-responsibilities'
 };
 
+const FILE_LIMITS = {
+    SIZE: {
+        label: '12MB',
+        value: 12 * 1048576 // eg. 12mb in bytes
+    },
+    TYPES: [
+        { mime: 'image/png', label: 'PNG' },
+        { mime: 'image/jpeg', label: 'JPEG' },
+        { mime: 'application/pdf', label: 'PDF' }
+    ]
+};
+
 module.exports = {
     BENEFICIARY_GROUPS,
     MAX_BUDGET_TOTAL_GBP,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
-    ORGANISATION_TYPES
+    ORGANISATION_TYPES,
+    FILE_LIMITS
 };

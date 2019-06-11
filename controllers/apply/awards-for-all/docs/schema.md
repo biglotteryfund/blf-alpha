@@ -124,7 +124,11 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "bankAccountName": "Kulas - Greenfelder",
         "bankSortCode": "108800",
         "bankAccountNumber": "00012345",
-        "bankStatement": "example.pdf"
+        "bankStatement": {
+            "filename": "example.pdf",
+            "size": "123",
+            "type": "application/pdf"
+        }
     }
 }
 ```

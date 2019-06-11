@@ -227,7 +227,7 @@
                                     <input
                                         type="checkbox"
                                         id="{{ fieldId }}"
-                                        name="{{ field.name }}"
+                                        name="{{ field.name }}[]"
                                         value="{{ option.value }}"
                                         {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
                                     />
@@ -251,7 +251,7 @@
                             <input
                                 type="checkbox"
                                 id="field-{{ field.name }}-{{ loop.index }}"
-                                name="{{ field.name }}"
+                                name="{{ field.name }}[]"
                                 value="{{ option.value }}"
                                 {% if field.value.length and field.value.indexOf(option.value) > -1 %}checked{% endif %}
                             />
@@ -495,6 +495,34 @@
     </li>
 {% endmacro %}
 
+{% macro inputFile(field) %}
+
+    {% if field.value and field.displayValue %}
+        <div class="existing-data u-margin-bottom">
+            <h3>Existing file</h3>
+            <p>{{ field.displayValue }}</p>
+            <p class="u-no-margin">
+                <a href="../download/{{ field.name }}/{{ field.value.filename }}">Download this file</a>
+            </p>
+        </div>
+    {% endif %}
+
+    <label class="ff-label{% if field.settings.hideLabel %} u-visually-hidden{% endif %}" for="field-{{ field.name }}">
+        {{ labelFor(field) }}
+    </label>
+
+    {{ explanationFor(field) }}
+
+    <input
+        class="ff-text"
+        type="file"
+        id="field-{{ field.name }}"
+        name="{{ field.name }}"
+        {% if field.isRequired and not field.value %}required aria-required="true"{% endif %}
+        {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
+    />
+{% endmacro %}
+
 {% macro formField(field, errors = []) %}
     {% set fieldErrors = errors | filter('param', field.name) %}
     <div
@@ -524,6 +552,8 @@
                     {{ inputAddressHistory(field) }}
                 {% elseif field.type === 'budget' %}
                     {{ inputBudget(field) }}
+                {% elseif field.type === 'file' %}
+                    {{ inputFile(field) }}
                 {% else %}
                     {{ inputText(field) }}
                 {% endif %}

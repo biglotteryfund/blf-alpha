@@ -500,6 +500,7 @@ module.exports = function({ locale, data = {} }) {
             },
             {
                 title: localise({ en: 'Bank statement', cy: '' }),
+                isMultipart: true,
                 fieldsets: [
                     {
                         legend: localise({ en: 'Bank statement', cy: '' }),

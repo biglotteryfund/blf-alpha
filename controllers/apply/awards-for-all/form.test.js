@@ -826,7 +826,13 @@ describe('Form validations', () => {
                 return { bankStatement: val };
             }
 
-            assertValidByKey(value('example.pdf'));
+            assertValidByKey(
+                value({
+                    filename: 'example.pdf',
+                    size: 123,
+                    type: 'application/pdf'
+                })
+            );
             assertMessagesByKey(value(null), ['Provide a bank statement']);
         });
     });

@@ -1393,3 +1393,4 @@ applyNext:
   #  @TODO: Move other common text to common:
   common:
     delete: Delete application
+    errorUploading: There was an error uploading your file, please try again

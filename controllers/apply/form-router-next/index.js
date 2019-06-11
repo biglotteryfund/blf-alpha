@@ -4,11 +4,14 @@ const path = require('path');
 const Sentry = require('@sentry/node');
 const concat = require('lodash/concat');
 const get = require('lodash/get');
+const pick = require('lodash/pick');
+const flatMap = require('lodash/flatMap');
 const isEmpty = require('lodash/isEmpty');
 const set = require('lodash/set');
 const unset = require('lodash/unset');
 const debug = require('debug')('tnlcf:form-router');
 const features = require('config').get('features');
+const formidable = require('formidable');
 
 const {
     PendingApplication,
@@ -22,6 +25,7 @@ const { injectCopy } = require('../../../middleware/inject-content');
 
 const validateForm = require('./lib/validate-form');
 const salesforceService = require('./lib/salesforce');
+const s3 = require('./lib/s3');
 
 function initFormRouter({
     formId,
@@ -69,10 +73,52 @@ function initFormRouter({
         next();
     }
 
-    router.use(csrfProtection, injectCopy('applyNext'), setCommonLocals);
+    /**
+     * Decide if we need to handle multipart/form-data
+     * Populate req.body for multipart forms before CSRF token is needed
+     */
+    function handleMultipartFormData(req, res, next) {
+        function needsMultipart() {
+            const contentType = req.headers['content-type'];
+            return (
+                req.method === 'POST' &&
+                contentType &&
+                contentType.includes('multipart/form-data')
+            );
+        }
+
+        if (needsMultipart()) {
+            const formData = new formidable.IncomingForm();
+            formData
+                .parse(req, (err, fields, files) => {
+                    if (err) {
+                        next(err);
+                    } else {
+                        req.body = fields;
+                        req.files = files;
+                        next();
+                    }
+                })
+                .on('error', err => {
+                    next(err);
+                });
+        } else {
+            next();
+        }
+    }
 
     /**
-     * Publicly accessible routes .
+     * Common router middleware
+     */
+    router.use(
+        handleMultipartFormData,
+        csrfProtection,
+        injectCopy('applyNext'),
+        setCommonLocals
+    );
+
+    /**
+     * Publicly accessible routes.
      */
     router.use('/questions', require('./questions')(formId, formBuilder));
     router.use('/eligibility', require('./eligibility')(eligibilityBuilder));
@@ -258,6 +304,11 @@ function initFormRouter({
                 data: currentApplicationData
             });
 
+            // Extract the fields so we can determine which files to upload to Salesforce
+            const steps = flatMap(form.sections, 'steps');
+            const fieldsets = flatMap(steps, 'fieldsets');
+            const fields = flatMap(fieldsets, 'fields');
+
             try {
                 /**
                  * Increment submission attempts
@@ -269,7 +320,7 @@ function initFormRouter({
                  * Construct salesforce submission data
                  * We also attach this to the SubmittedApplication record
                  */
-                let salesforceId = null;
+                let salesforceRecordId = null;
                 const salesforceFormData = {
                     application: form.forSalesforce(),
                     meta: {
@@ -287,22 +338,51 @@ function initFormRouter({
                  */
                 if (canSubmitToSalesforce() === true) {
                     const salesforce = await salesforceService.authorise();
-                    salesforceId = await salesforce.submitFormData(
+                    salesforceRecordId = await salesforce.submitFormData(
                         salesforceFormData
                     );
 
                     /**
-                     * @TODO: Determine file uploads to attach to record after submission
-                     * recordId is the value returned by submitFormData on success
+                     * Upload each file in the submission to salesforce
                      */
-                    /*
-                        await salesforce.contentVersion({
-                          recordId: recordId,
-                          // Some standard name for the file, not the original filename
-                          attachmentName: 'bank-statement.pdf',
-                          file: fileStream
-                        });
-                    */
+                    const fileFields = fields.filter(function(field) {
+                        return field.type === 'file';
+                    });
+
+                    await Promise.all(
+                        fileFields.map(function(field) {
+                            const attachmentName = `${field.name}${path.extname(
+                                field.value.filename
+                            )}`;
+
+                            const s3PathConfig = {
+                                formId: formId,
+                                applicationId: currentApplication.id,
+                                filename: field.value.filename
+                            };
+
+                            return s3
+                                .headObject(s3PathConfig)
+                                .then(function(headers) {
+                                    return salesforce.contentVersion({
+                                        recordId: salesforceRecordId,
+                                        attachmentName: attachmentName,
+                                        versionData: {
+                                            value: s3
+                                                .getObject(s3PathConfig)
+                                                .createReadStream(),
+                                            options: {
+                                                filename: s3PathConfig.filename,
+                                                contentType:
+                                                    headers.ContentType,
+                                                knownLength:
+                                                    headers.ContentLength
+                                            }
+                                        }
+                                    });
+                                });
+                        })
+                    );
                 } else {
                     debug(`skipped salesforce submission for ${formId}`);
                 }
@@ -318,7 +398,7 @@ function initFormRouter({
                     userId: req.user.userData.id,
                     formId: formId,
                     salesforceRecord: {
-                        id: salesforceId,
+                        id: salesforceRecordId,
                         submission: salesforceFormData
                     }
                 });
@@ -360,9 +440,49 @@ function initFormRouter({
     });
 
     /**
+     * Routes: Download a proxied file from S3 (if authorised)
+     */
+    router.route('/download/:fieldName/:filename').get((req, res, next) => {
+        const { currentlyEditingId, currentApplicationData } = res.locals;
+
+        // Check that this application has data for the requested field name
+        const fileData = currentApplicationData[req.params.fieldName];
+
+        // Confirm that the requested filename matches this field's file
+        if (fileData && fileData.filename === req.params.filename) {
+            // Retrieve this file from S3
+            // Stream the file's headers and serve it directly as a response
+            // (via https://stackoverflow.com/a/43356401)
+            s3.getObject({
+                formId: formId,
+                applicationId: currentlyEditingId,
+                filename: req.params.filename
+            })
+                .on('httpHeaders', (code, headers) => {
+                    res.status(code);
+                    if (code < 300) {
+                        res.set(
+                            pick(
+                                headers,
+                                'content-type',
+                                'content-length',
+                                'last-modified'
+                            )
+                        );
+                    }
+                })
+                .createReadStream()
+                .on('error', next)
+                .pipe(res);
+        } else {
+            next();
+        }
+    });
+
+    /**
      * Routes: Form steps
      */
-    router.use('/', require('./steps')(formBuilder));
+    router.use('/', require('./steps')(formId, formBuilder));
 
     return router;
 }

@@ -292,17 +292,17 @@ $inputOutline: 3px solid get-color('border', 'outline');
     }
 }
 
-.selected-address {
+.existing-data {
     padding: $spacingUnit;
     background-color: get-color('background', 'light-neutral');
     max-width: 30em;
 
-    .selected-address__title {
+    .existing-data__title {
         font-family: font-stack('body');
         font-weight: font-weight('body', 'semibold');
     }
 
-    .selected-address__address {
+    .existing-data__address {
         margin-bottom: $spacingUnit;
     }
 }
