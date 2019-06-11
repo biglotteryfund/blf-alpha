@@ -13,7 +13,7 @@ const { PendingApplication } = require('../../../db/models');
 
 const pagination = require('./lib/pagination');
 const validateForm = require('./lib/validate-form');
-const s3 = require('./lib/s3');
+const s3Uploads = require('./lib/s3-uploads');
 
 module.exports = function(formId, formBuilder) {
     const router = express.Router();
@@ -219,7 +219,7 @@ module.exports = function(formId, formBuilder) {
             } else {
                 try {
                     const uploadPromises = filesToUpload.map(file =>
-                        s3.uploadFile({
+                        s3Uploads.uploadFile({
                             formId: formId,
                             applicationId: currentlyEditingId,
                             fileMetadata: file
