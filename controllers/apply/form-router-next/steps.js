@@ -3,7 +3,6 @@ const path = require('path');
 const express = require('express');
 const concat = require('lodash/concat');
 const findIndex = require('lodash/findIndex');
-const flatMap = require('lodash/flatMap');
 
 const { PendingApplication } = require('../../../db/models');
 
@@ -128,10 +127,12 @@ module.exports = function(formBuilder) {
                 form.sections,
                 section => section.slug === req.params.section
             );
-            const currentSection = form.sections[sectionIndex];
 
             const stepIndex = parseInt(req.params.step, 10) - 1;
-            const step = currentSection.steps[stepIndex];
+            const stepFields = form.getCurrentFieldsForStep(
+                req.params.section,
+                stepIndex
+            );
 
             const validationResult = validateForm(form, data);
 
@@ -141,12 +142,8 @@ module.exports = function(formBuilder) {
                     validationResult.value
                 );
 
-                const fieldNamesForStep = flatMap(step.fieldsets, 'fields').map(
-                    field => field.name
-                );
-
                 const errorsForStep = validationResult.messages.filter(item =>
-                    fieldNamesForStep.includes(item.param)
+                    stepFields.map(field => field.name).includes(item.param)
                 );
 
                 /**
