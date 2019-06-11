@@ -117,7 +117,11 @@ function mockFullForm({
         bankSortCode: '108800',
         bankAccountNumber: '00012345',
         buildingSocietyNumber: undefined,
-        bankStatement: 'example.pdf'
+        bankStatement: {
+            filename: 'example.pdf',
+            size: 123,
+            type: 'application/pdf'
+        }
     };
 }
 
