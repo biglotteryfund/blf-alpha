@@ -230,7 +230,7 @@ module.exports = function(formId, formBuilder) {
                     Sentry.captureException(rejection.error);
 
                     const uploadError = {
-                        msg: copy.common.uploadError,
+                        msg: copy.common.errorUploading,
                         param: rejection.fieldName
                     };
 
@@ -238,7 +238,10 @@ module.exports = function(formId, formBuilder) {
                         req.params.section,
                         req.params.step
                     );
-                    renderStep(req, res, validationResult.value, [uploadError]);
+
+                    return renderStep(req, res, validationResult.value, [
+                        uploadError
+                    ]);
                 }
 
                 try {

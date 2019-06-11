@@ -1,7 +1,7 @@
 {
   "aws": {
     "s3": {
-      "formUploadBucket": "tnlcf-uploads"
+      "formUploadBucket": "tnlcf-uploads-test"
     }
   },
   "features": {
