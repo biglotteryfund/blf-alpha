@@ -3,8 +3,6 @@
 'use strict';
 const includes = require('lodash/includes');
 const map = require('lodash/map');
-const mapFp = require('lodash/fp/map');
-const flatMap = require('lodash/flatMap');
 const random = require('lodash/random');
 const range = require('lodash/range');
 const sample = require('lodash/sample');
@@ -12,7 +10,6 @@ const times = require('lodash/times');
 const faker = require('faker');
 
 const validateModel = require('../form-router-next/lib/validate-model');
-const validateForm = require('../form-router-next/lib/validate-form');
 
 const {
     mockAddress,
@@ -24,8 +21,6 @@ const {
 
 const { ORGANISATION_TYPES } = require('./constants');
 const formBuilder = require('./form');
-
-const mapNames = mapFp('name');
 
 function testValidate(data) {
     return formBuilder({ locale: 'en', data }).validation;
@@ -52,15 +47,6 @@ function assertValidByKey(data) {
     });
 
     expect(messagesByKey).toHaveLength(0);
-}
-
-function fieldsFor(sectionSlug, stepTitle) {
-    return function(data) {
-        const form = formBuilder({ locale: 'en', data: data });
-        const section = form.sections.find(s => s.slug === sectionSlug);
-        const step = section.steps.find(s => s.title === stepTitle);
-        return flatMap(step.fieldsets, 'fields');
-    };
 }
 
 describe('Form validations', () => {
@@ -213,23 +199,21 @@ describe('Form validations', () => {
                 'Choose an option'
             ]);
 
-            const fieldsFn = fieldsFor(
-                'beneficiaries',
-                'People who speak Welsh'
-            );
+            [
+                { country: 'england', expected: [] },
+                { country: 'scotland', expected: [] },
+                { country: 'northern-ireland', expected: [] },
+                { country: 'wales', expected: ['beneficiariesWelshLanguage'] }
+            ].forEach(item => {
+                const fieldNames = formBuilder({
+                    locale: 'en',
+                    data: { projectCountry: item.country }
+                })
+                    .getCurrentFieldsForStep('beneficiaries', 7)
+                    .map(field => field.name);
 
-            expect(mapNames(fieldsFn({ projectCountry: 'england' }))).toEqual(
-                []
-            );
-            expect(mapNames(fieldsFn({ projectCountry: 'scotland' }))).toEqual(
-                []
-            );
-            expect(
-                mapNames(fieldsFn({ projectCountry: 'northern-ireland' }))
-            ).toEqual([]);
-            expect(mapNames(fieldsFn({ projectCountry: 'wales' }))).toEqual([
-                'beneficiariesWelshLanguage'
-            ]);
+                expect(fieldNames).toEqual(item.expected);
+            });
         });
 
         test('additional community question in Northern Ireland', () => {
@@ -253,18 +237,24 @@ describe('Form validations', () => {
                 ['Choose an option']
             );
 
-            const fieldsFn = fieldsFor('beneficiaries', 'Community');
+            [
+                { country: 'england', expected: [] },
+                { country: 'scotland', expected: [] },
+                {
+                    country: 'northern-ireland',
+                    expected: ['beneficiariesNorthernIrelandCommunity']
+                },
+                { country: 'wales', expected: [] }
+            ].forEach(item => {
+                const fieldNames = formBuilder({
+                    locale: 'en',
+                    data: { projectCountry: item.country }
+                })
+                    .getCurrentFieldsForStep('beneficiaries', 8)
+                    .map(field => field.name);
 
-            expect(mapNames(fieldsFn({ projectCountry: 'england' }))).toEqual(
-                []
-            );
-            expect(mapNames(fieldsFn({ projectCountry: 'scotland' }))).toEqual(
-                []
-            );
-            expect(mapNames(fieldsFn({ projectCountry: 'wales' }))).toEqual([]);
-            expect(
-                mapNames(fieldsFn({ projectCountry: 'northern-ireland' }))
-            ).toEqual(['beneficiariesNorthernIrelandCommunity']);
+                expect(fieldNames).toEqual(item.expected);
+            });
         });
     });
 
@@ -406,9 +396,11 @@ describe('Form validations', () => {
         });
 
         test('registration numbers shown based on organisation type', () => {
-            const fieldsFn = fieldsFor('organisation', 'Registration numbers');
+            const defaultFieldNames = formBuilder({ locale: 'en' })
+                .getCurrentFieldsForStep('organisation', 2)
+                .map(field => field.name);
 
-            expect(mapNames(fieldsFn({}))).toEqual([]);
+            expect(defaultFieldNames).toEqual([]);
 
             const mappings = {
                 [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY]: [
@@ -423,8 +415,14 @@ describe('Form validations', () => {
             };
 
             map(mappings, (expected, type) => {
-                const result = mapNames(fieldsFn({ organisationType: type }));
-                expect(result).toEqual(expected);
+                const fieldNames = formBuilder({
+                    locale: 'en',
+                    data: { organisationType: type }
+                })
+                    .getCurrentFieldsForStep('organisation', 2)
+                    .map(field => field.name);
+
+                expect(fieldNames).toEqual(expected);
             });
         });
     });
@@ -639,8 +637,10 @@ describe('Form validations', () => {
         testAddressHistoryField('seniorContactAddressHistory');
 
         function rolesFor(type) {
-            const fieldsFn = fieldsFor('senior-contact', 'Senior contact');
-            const fields = fieldsFn({ organisationType: type });
+            const fields = formBuilder({
+                locale: 'en',
+                data: { organisationType: type }
+            }).getCurrentFieldsForStep('senior-contact', 0);
             const field = fields.find(f => f.name === 'seniorContactRole');
             return field.options.map(option => option.value);
         }
@@ -721,9 +721,11 @@ describe('Form validations', () => {
         });
 
         test('contact fields not included for schools and statutory bodies', () => {
-            const fieldsFn = fieldsFor('senior-contact', 'Senior contact');
+            const defaultFieldNames = formBuilder({ locale: 'en' })
+                .getCurrentFieldsForStep('senior-contact', 0)
+                .map(field => field.name);
 
-            expect(mapNames(fieldsFn({}))).toEqual([
+            expect(defaultFieldNames).toEqual([
                 'seniorContactFirstName',
                 'seniorContactLastName',
                 'seniorContactRole',
@@ -739,9 +741,14 @@ describe('Form validations', () => {
                 ORGANISATION_TYPES.SCHOOL,
                 ORGANISATION_TYPES.STATUTORY_BODY
             ].forEach(orgType => {
-                expect(
-                    mapNames(fieldsFn({ organisationType: orgType }))
-                ).toEqual([
+                const fieldNames = formBuilder({
+                    locale: 'en',
+                    data: { organisationType: orgType }
+                })
+                    .getCurrentFieldsForStep('senior-contact', 0)
+                    .map(field => field.name);
+
+                expect(fieldNames).toEqual([
                     'seniorContactFirstName',
                     'seniorContactLastName',
                     'seniorContactRole',
@@ -761,9 +768,11 @@ describe('Form validations', () => {
         testAddressHistoryField('mainContactAddressHistory');
 
         test('contact fields not included for schools and statutory bodies', () => {
-            const fieldsFn = fieldsFor('main-contact', 'Main contact');
+            const defaultFieldNames = formBuilder({ locale: 'en' })
+                .getCurrentFieldsForStep('main-contact', 0)
+                .map(field => field.name);
 
-            expect(mapNames(fieldsFn({}))).toEqual([
+            expect(defaultFieldNames).toEqual([
                 'mainContactFirstName',
                 'mainContactLastName',
                 'mainContactDateOfBirth',
@@ -778,9 +787,14 @@ describe('Form validations', () => {
                 ORGANISATION_TYPES.SCHOOL,
                 ORGANISATION_TYPES.STATUTORY_BODY
             ].forEach(orgType => {
-                expect(
-                    mapNames(fieldsFn({ organisationType: orgType }))
-                ).toEqual([
+                const fieldNames = formBuilder({
+                    locale: 'en',
+                    data: { organisationType: orgType }
+                })
+                    .getCurrentFieldsForStep('main-contact', 0)
+                    .map(field => field.name);
+
+                expect(fieldNames).toEqual([
                     'mainContactFirstName',
                     'mainContactLastName',
                     'mainContactEmail',
