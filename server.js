@@ -7,9 +7,11 @@ const moment = require('moment');
 const i18n = require('i18n-2');
 const yaml = require('js-yaml');
 const nunjucks = require('nunjucks');
+const cacheControl = require('express-cache-controller');
 const favicon = require('serve-favicon');
 const helmet = require('helmet');
 const slashes = require('connect-slashes');
+const vary = require('vary');
 const Sentry = require('@sentry/node');
 const debug = require('debug')('tnlcf:server');
 const features = config.get('features');
@@ -30,7 +32,7 @@ const routes = require('./controllers/routes');
 const viewFilters = require('./common/filters');
 const cspDirectives = require('./common/csp-directives');
 
-const { defaultVary, defaultCacheControl } = require('./middleware/cached');
+const { defaultMaxAge } = require('./middleware/cached');
 const bodyParserMiddleware = require('./middleware/bodyParser');
 const domainRedirectMiddleware = require('./middleware/domain-redirect');
 const i18nMiddleware = require('./middleware/i18n');
@@ -194,14 +196,18 @@ function initViewEngine() {
 initViewEngine();
 
 /**
- * Register global middlewares
+ * Register global middleware
  */
-app.use(slashes(false));
-app.use(i18nMiddleware);
-app.use(defaultVary);
-app.use(defaultCacheControl);
-app.use(loggerMiddleware);
-app.use(
+app.use([
+    slashes(false),
+    i18nMiddleware,
+    (req, res, next) => {
+        vary(res, 'Cookie');
+        next();
+    },
+    cacheControl(),
+    defaultMaxAge,
+    loggerMiddleware,
     helmet({
         contentSecurityPolicy: {
             directives: cspDirectives({
@@ -213,7 +219,8 @@ app.use(
         dnsPrefetchControl: { allow: true },
         frameguard: { action: 'sameorigin' }
     })
-);
+]);
+
 app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());

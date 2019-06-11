@@ -2,23 +2,31 @@
 'use strict';
 const { renderComponentMacro } = require('../../../common/test-renderers');
 
-describe.only('form field macros', () => {
+describe('form field macros', () => {
     test('inputText', async () => {
-        const result = await renderComponentMacro('components/form-fields-next/macros.njk', 'inputText', {
-            name: 'example',
-            type: 'text',
-            label: 'First name',
-            isRequired: true
-        });
+        const result = await renderComponentMacro(
+            'components/form-fields-next/macros.njk',
+            'inputText',
+            {
+                name: 'example',
+                type: 'text',
+                label: 'First name',
+                isRequired: true
+            }
+        );
         expect(result).toMatchSnapshot();
     });
 
     test('inputCurrency', async () => {
-        const result = await renderComponentMacro('components/form-fields-next/macros.njk', 'inputCurrency', {
-            name: 'example',
-            label: 'Amount',
-            isRequired: true
-        });
+        const result = await renderComponentMacro(
+            'components/form-fields-next/macros.njk',
+            'inputCurrency',
+            {
+                name: 'example',
+                label: 'Amount',
+                isRequired: true
+            }
+        );
         expect(result).toMatchSnapshot();
     });
 });

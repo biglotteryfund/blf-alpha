@@ -11,7 +11,7 @@ import '@percy/cypress';
  * Cypress testing library
  * @see https://github.com/kentcdodds/cypress-testing-library
  */
-import 'cypress-testing-library/add-commands';
+import '@testing-library/cypress/add-commands';
 
 /**
  * File upload support
@@ -20,16 +20,19 @@ import 'cypress-testing-library/add-commands';
  */
 import 'cypress-file-upload';
 
-Cypress.Commands.add('checkRedirect', ({ from, to, isRelative = true, status = 301 }) => {
-    cy.request({
-        url: from,
-        followRedirects: false
-    }).then(response => {
-        const expected = isRelative ? `http://localhost:8090${to}` : to;
-        expect(response.status).to.eq(status);
-        expect(response.redirectedToUrl).to.eq(expected);
-    });
-});
+Cypress.Commands.add(
+    'checkRedirect',
+    ({ from, to, isRelative = true, status = 301 }) => {
+        cy.request({
+            url: from,
+            followRedirects: false
+        }).then(response => {
+            const expected = isRelative ? `http://localhost:8090${to}` : to;
+            expect(response.status).to.eq(status);
+            expect(response.redirectedToUrl).to.eq(expected);
+        });
+    }
+);
 
 Cypress.Commands.add('getCsrf', () => {
     return cy
@@ -58,19 +61,27 @@ Cypress.Commands.add('loginUser', ({ username, password }) => {
 
 Cypress.Commands.add('seedAndLogin', () => {
     return cy
-        .request('POST', '/tools/seed/user')
+        .request('POST', '/user/seed')
         .its('body')
         .then(newUser => {
-            return cy.loginUser({ username: newUser.username, password: newUser.password });
+            return cy.loginUser({
+                username: newUser.username,
+                password: newUser.password
+            });
         });
 });
 
-Cypress.Commands.add('registerUser', ({ username, password, returnToken }) => {
+Cypress.Commands.add('registerUser', function({
+    username,
+    password,
+    returnToken = false
+}) {
     return cy.getCsrf().then(csrfToken => {
         const formBody = {
             _csrf: csrfToken,
             username: username,
-            password: password
+            password: password,
+            passwordConfirmation: password
         };
 
         if (returnToken) {
@@ -112,7 +123,9 @@ Cypress.Commands.add('checkA11y', () => {
                         // @TODO: Review and re-enable this
                         'color-contrast': { enabled: false },
                         // New ARIA complementary rule. Review and then re-enable
-                        'landmark-complementary-is-top-level': { enabled: false }
+                        'landmark-complementary-is-top-level': {
+                            enabled: false
+                        }
                     }
                 }
             );
@@ -124,7 +137,9 @@ Cypress.Commands.add('checkA11y', () => {
                     Cypress.log({
                         name: 'a11y error!',
                         consoleProps: () => v,
-                        message: `${v.id} on ${v.nodes.length} Node${v.nodes.length === 1 ? '' : 's'}`
+                        message: `${v.id} on ${v.nodes.length} Node${
+                            v.nodes.length === 1 ? '' : 's'
+                        }`
                     });
                 });
             }
@@ -134,9 +149,9 @@ Cypress.Commands.add('checkA11y', () => {
             assert.equal(
                 violations.length,
                 0,
-                `${violations.length} accessibility violation${violations.length === 1 ? '' : 's'} ${
-                    violations.length === 1 ? 'was' : 'were'
-                } detected`
+                `${violations.length} accessibility violation${
+                    violations.length === 1 ? '' : 's'
+                } ${violations.length === 1 ? 'was' : 'were'} detected`
             );
         });
 });

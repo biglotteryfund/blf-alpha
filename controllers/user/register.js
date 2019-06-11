@@ -4,23 +4,40 @@ const passport = require('passport');
 const path = require('path');
 const Sentry = require('@sentry/node');
 
-const userService = require('../../services/user');
-const { csrfProtection } = require('../../middleware/cached');
+const { Users } = require('../../db/models');
 const { localify } = require('../../common/urls');
+const sanitise = require('../../common/sanitise');
+const { csrfProtection } = require('../../middleware/cached');
 const {
     injectCopy,
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
 const {
-    requireUnauthed,
+    requireNoAuth,
     redirectUrlWithFallback
 } = require('../../middleware/authed');
 
-const normaliseErrors = require('./lib/normalise-errors');
-const schema = require('./schema');
-const { sendActivationEmail } = require('./helpers');
+const validateSchema = require('./lib/validate-schema');
+const { newAccounts } = require('./lib/account-schemas');
+const sendActivationEmail = require('./lib/activation-email');
 
 const router = express.Router();
+
+function logIn(req, res, next) {
+    passport.authenticate('local', function(authError, authUser) {
+        if (authError) {
+            next(authError);
+        } else {
+            req.logIn(authUser, function(loginErr) {
+                if (loginErr) {
+                    next(loginErr);
+                } else {
+                    redirectUrlWithFallback(req, res, '/user?s=activationSent');
+                }
+            });
+        }
+    })(req, res, next);
+}
 
 function renderForm(req, res, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/register'), {
@@ -33,40 +50,49 @@ function renderForm(req, res, data = null, errors = []) {
 router
     .route('/')
     .all(
-        requireUnauthed,
+        requireNoAuth,
         csrfProtection,
         injectCopy('user.register'),
         injectBreadcrumbs
     )
     .get(renderForm)
     .post(async function handleRegister(req, res, next) {
-        const validationResult = schema.accountSchema.validate(req.body, {
-            abortEarly: false,
-            stripUnknown: true
-        });
+        const validationResult = validateSchema(
+            newAccounts(req.i18n.getLocale()),
+            req.body
+        );
 
-        if (validationResult.error) {
-            const errors = normaliseErrors({
-                errorDetails: validationResult.error.details,
-                errorMessages: schema.errorMessages(req.i18n.getLocale())
-            });
+        /**
+         * Generic fallback error
+         * Shown when there is an error authenticating or attempting to register with an existing user
+         * This messages needs to be generic to avoid exposing the account state.
+         */
+        const genericError = req.i18n.__(
+            res.locals.copy.genericError,
+            localify(req.i18n.getLocale())('/user/password/forgot')
+        );
 
-            renderForm(req, res, validationResult.value, errors);
-        } else {
+        if (validationResult.isValid) {
             try {
                 const { username, password } = validationResult.value;
                 // check if this email address already exists
                 // we can't use findOrCreate here because the password changes
                 // each time we hash it, which sequelize sees as a new user
-                const existingUser = await userService.findByUsername(username);
+                const existingUser = await Users.findByUsername(username);
 
                 if (existingUser) {
-                    throw new Error(
-                        'A user tried to register with an existing email address'
-                    );
+                    Sentry.withScope(scope => {
+                        scope.setLevel('info');
+                        Sentry.captureMessage(
+                            'A user tried to register with an existing email address'
+                        );
+                    });
+
+                    res.locals.alertMessage = genericError;
+                    renderForm(req, res, validationResult.value);
                 } else {
-                    const newUser = await userService.createUser({
-                        username: username,
+                    const newUser = await Users.createUser({
+                        username: sanitise(username),
                         password: password
                     });
 
@@ -80,37 +106,21 @@ router
                         // used for tests to verify activation works
                         res.send(activationData);
                     } else {
-                        passport.authenticate('local', function(
-                            authError,
-                            authUser
-                        ) {
-                            if (authError) {
-                                next(authError);
-                            } else {
-                                req.logIn(authUser, function(loginErr) {
-                                    if (loginErr) {
-                                        next(loginErr);
-                                    } else {
-                                        const fallbackUrl = localify(
-                                            req.i18n.getLocale()
-                                        )('/user?s=activationSent');
-
-                                        redirectUrlWithFallback(
-                                            fallbackUrl,
-                                            req,
-                                            res
-                                        );
-                                    }
-                                });
-                            }
-                        })(req, res, next);
+                        logIn(req, res, next);
                     }
                 }
             } catch (error) {
                 Sentry.captureException(error);
-                res.locals.alertMessage = `There was an error creating your account - please try again`;
+                res.locals.alertMessage = genericError;
                 renderForm(req, res, validationResult.value);
             }
+        } else {
+            renderForm(
+                req,
+                res,
+                validationResult.value,
+                validationResult.messages
+            );
         }
     });
 

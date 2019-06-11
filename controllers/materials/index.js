@@ -1,6 +1,5 @@
 'use strict';
-const { map, reduce, some } = require('lodash');
-const { purify } = require('../../common/validators');
+const { map, mapValues, reduce, some } = require('lodash');
 const { sanitizeBody } = require('express-validator/filter');
 const { validationResult } = require('express-validator/check');
 const express = require('express');
@@ -10,13 +9,24 @@ const Sentry = require('@sentry/node');
 
 const router = express.Router();
 
-const { injectBreadcrumbs, injectListingContent, injectMerchandise } = require('../../middleware/inject-content');
-const { MATERIAL_SUPPLIER } = require('../../common/secrets');
-const { materialFields, makeOrderText, postcodeArea, normaliseUserInput } = require('./helpers');
 const appData = require('../../common/appData');
-const cached = require('../../middleware/cached');
+const sanitise = require('../../common/sanitise');
+const { MATERIAL_SUPPLIER } = require('../../common/secrets');
 const { generateHtmlEmail, sendEmail } = require('../../common/mail');
+const {
+    injectBreadcrumbs,
+    injectListingContent,
+    injectMerchandise
+} = require('../../middleware/inject-content');
+const cached = require('../../middleware/cached');
 const ordersService = require('../../services/orders');
+
+const {
+    materialFields,
+    makeOrderText,
+    postcodeArea,
+    normaliseUserInput
+} = require('./helpers');
 
 const FORM_STATES = {
     NOT_SUBMITTED: 'NOT_SUBMITTED',
@@ -35,7 +45,9 @@ function modifyItems(req) {
     const productId = parseInt(req.body.productId);
     const materialId = parseInt(req.body.materialId);
     const maxQuantity = parseInt(req.body.max);
-    const notAllowedWith = req.body.notAllowedWith ? req.body.notAllowedWith.split(',').map(i => parseInt(i)) : false;
+    const notAllowedWith = req.body.notAllowedWith
+        ? req.body.notAllowedWith.split(',').map(i => parseInt(i))
+        : false;
 
     const isValidAction = validActions.indexOf(action) !== -1;
 
@@ -48,10 +60,14 @@ function modifyItems(req) {
     delete req.session[sessionBlockedItemKey];
 
     if (isValidAction) {
-        let existingProduct = req.session[sessionOrderKey].find(order => order.productId === productId);
+        let existingProduct = req.session[sessionOrderKey].find(
+            order => order.productId === productId
+        );
 
         // How many of the current item do they have?
-        const currentItemQuantity = existingProduct ? existingProduct.quantity : 0;
+        const currentItemQuantity = existingProduct
+            ? existingProduct.quantity
+            : 0;
 
         // Check if their current orders contain a blocker
         // note that this only works in one direction:
@@ -63,7 +79,8 @@ function modifyItems(req) {
             if (!notAllowedWith) {
                 return;
             }
-            const itemIsBlocked = notAllowedWith.indexOf(order.materialId) !== -1;
+            const itemIsBlocked =
+                notAllowedWith.indexOf(order.materialId) !== -1;
             return itemIsBlocked && order.quantity > 0;
         });
 
@@ -84,7 +101,9 @@ function modifyItems(req) {
         }
 
         // remove any empty orders
-        req.session[sessionOrderKey] = req.session[sessionOrderKey].filter(o => o.quantity > 0);
+        req.session[sessionOrderKey] = req.session[sessionOrderKey].filter(
+            o => o.quantity > 0
+        );
     }
 }
 
@@ -153,8 +172,8 @@ router
     .post(
         injectMerchandise({ locale: 'en' }),
         map(materialFields, field => field.validator(field)),
-        purify,
         (req, res) => {
+            req.body = mapValues(req.body, sanitise);
             const errors = validationResult(req);
 
             if (errors.isEmpty()) {
@@ -162,8 +181,12 @@ router
                 const availableItems = res.locals.availableItems;
 
                 const itemsToEmail = req.session[sessionOrderKey].map(item => {
-                    const material = availableItems.find(i => i.itemId === item.materialId);
-                    const product = material.products.find(p => p.id === item.productId);
+                    const material = availableItems.find(
+                        i => i.itemId === item.materialId
+                    );
+                    const product = material.products.find(
+                        p => p.id === item.productId
+                    );
                     // prevent someone who really loves plaques from hacking the form to increase the maximum
                     if (item.quantity > material.maximum) {
                         item.quantity = material.maximum;
@@ -183,10 +206,15 @@ router
                 })
                     .then(async () => {
                         const customerSendTo = details.yourEmail;
-                        const supplierSendTo = appData.isNotProduction ? customerSendTo : MATERIAL_SUPPLIER;
+                        const supplierSendTo = appData.isNotProduction
+                            ? customerSendTo
+                            : MATERIAL_SUPPLIER;
 
                         const customerHtml = await generateHtmlEmail({
-                            template: path.resolve(__dirname, './views/order-email.njk'),
+                            template: path.resolve(
+                                __dirname,
+                                './views/order-email.njk'
+                            ),
                             templateData: {
                                 locale: req.i18n.getLocale(),
                                 copy: req.i18n.__('materials.orderEmail')
@@ -197,7 +225,8 @@ router
                             name: 'material_customer',
                             mailConfig: {
                                 sendTo: customerSendTo,
-                                subject: 'Thank you for your The National Lottery Community Fund order',
+                                subject:
+                                    'Thank you for your The National Lottery Community Fund order',
                                 type: 'html',
                                 content: customerHtml
                             }
@@ -216,14 +245,20 @@ router
                             }
                         });
 
-                        return Promise.all([customerEmail, supplierEmail]).then(() => {
-                            // Clear order details if successful
-                            delete req.session[sessionOrderKey];
-                            delete req.session[sessionBlockedItemKey];
-                            req.session.save(() => {
-                                renderForm(req, res, FORM_STATES.SUBMISSION_SUCCESS);
-                            });
-                        });
+                        return Promise.all([customerEmail, supplierEmail]).then(
+                            () => {
+                                // Clear order details if successful
+                                delete req.session[sessionOrderKey];
+                                delete req.session[sessionBlockedItemKey];
+                                req.session.save(() => {
+                                    renderForm(
+                                        req,
+                                        res,
+                                        FORM_STATES.SUBMISSION_SUCCESS
+                                    );
+                                });
+                            }
+                        );
                     })
                     .catch(err => {
                         Sentry.captureException(err);

@@ -10,6 +10,8 @@ const {
     isArray,
     sumBy
 } = require('lodash');
+const filesize = require('filesize');
+const mime = require('mime-types');
 
 const { fromDateParts } = require('./date-parts');
 
@@ -116,6 +118,16 @@ function formatBudget(value) {
     }
 }
 
+function formatFile(value) {
+    if (value) {
+        return `${value.filename} (${mime
+            .extension(value.type)
+            .toUpperCase()}, ${filesize(value.size, { round: 0 })})`;
+    } else {
+        return '';
+    }
+}
+
 function formatDefault(value) {
     return value.toString();
 }
@@ -152,6 +164,9 @@ function formatterFor(field) {
             break;
         case 'budget':
             formatter = formatBudget;
+            break;
+        case 'file':
+            formatter = formatFile;
             break;
         default:
             formatter = formatDefault;

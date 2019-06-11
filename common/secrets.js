@@ -48,10 +48,10 @@ const SENTRY_DSN = getSecret('sentry.publicDsn');
  * Azure authentication secrets (optional, used for tools sign-in)
  */
 const AZURE_AUTH = {
-    MS_CLIENT_ID: getSecret('ms.auth.tnlcf.clientId'),
-    MS_CLIENT_SECRET: getSecret('ms.auth.tnlcf.clientSecret'),
-    MS_REDIRECT_URL:
-        process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl')
+    metadataUrl: `https://login.microsoftonline.com/tnlcommunityfund.onmicrosoft.com/.well-known/openid-configuration`,
+    clientId: getSecret('ms.auth.tnlcf.clientId'),
+    clientSecret: getSecret('ms.auth.tnlcf.clientSecret'),
+    redirectUrl: process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl')
 };
 
 /**
@@ -89,6 +89,8 @@ const DIGITAL_FUND_EMAIL =
 const POSTCODES_API_KEY =
     process.env.POSTCODES_API_KEY || getSecret('postcodes.api.key');
 
+const S3_KMS_KEY_ID = process.env.S3_KMS_KEY_ID || getSecret('s3.kms.key.id');
+
 module.exports = {
     AZURE_AUTH,
     CONTENT_API_URL,
@@ -98,6 +100,7 @@ module.exports = {
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
     POSTCODES_API_KEY,
+    S3_KMS_KEY_ID,
     SALESFORCE_AUTH,
     SENTRY_DSN,
     SESSION_SECRET

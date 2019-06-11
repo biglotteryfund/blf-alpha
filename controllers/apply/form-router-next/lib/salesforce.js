@@ -1,5 +1,4 @@
 'use strict';
-const path = require('path');
 const request = require('request-promise-native');
 const { SALESFORCE_AUTH } = require('../../../../common/secrets');
 
@@ -24,14 +23,13 @@ class Salesforce {
             body: body
         });
     }
-    submitFormData(application, meta) {
+    submitFormData({ application, meta }) {
         return this.postJson('/services/apexrest/FormData/', {
             meta: meta,
             application: application
         });
     }
-    contentVersion({ recordId, file, attachmentName }) {
-        const originalFilename = path.basename(file.path);
+    async contentVersion({ recordId, attachmentName, versionData }) {
         return request.post({
             url: `${this.apiUrl}/services/data/${
                 this.apiVersion
@@ -41,14 +39,14 @@ class Salesforce {
                 entity_content: {
                     value: JSON.stringify({
                         FirstPublishLocationId: recordId,
-                        ReasonForChange: `Application attachment ${originalFilename}`,
+                        ReasonForChange: `Application attachment ${attachmentName}`,
                         PathOnClient: attachmentName
                     }),
                     options: {
                         contentType: 'application/json'
                     }
                 },
-                VersionData: file
+                VersionData: versionData
             }
         });
     }
