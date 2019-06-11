@@ -226,6 +226,26 @@ module.exports = function(formId, formBuilder) {
                         })
                     );
                     await Promise.all(uploadPromises);
+
+                    try {
+                        /**
+                         * Store the form's current state (errors and all) in the database
+                         */
+                        await PendingApplication.saveApplicationState(
+                            currentlyEditingId,
+                            validationResult.value
+                        );
+
+                        const { nextUrl } = pagination({
+                            baseUrl: res.locals.formBaseUrl,
+                            sections: form.sections,
+                            currentSectionIndex: sectionIndex,
+                            currentStepIndex: stepIndex
+                        });
+                        res.redirect(nextUrl);
+                    } catch (storageError) {
+                        next(storageError);
+                    }
                 } catch (rejection) {
                     Sentry.captureException(rejection.error);
 
@@ -238,30 +258,7 @@ module.exports = function(formId, formBuilder) {
                         req.params.section,
                         req.params.step
                     );
-
-                    return renderStep(req, res, validationResult.value, [
-                        uploadError
-                    ]);
-                }
-
-                try {
-                    /**
-                     * Store the form's current state (errors and all) in the database
-                     */
-                    await PendingApplication.saveApplicationState(
-                        currentlyEditingId,
-                        validationResult.value
-                    );
-
-                    const { nextUrl } = pagination({
-                        baseUrl: res.locals.formBaseUrl,
-                        sections: form.sections,
-                        currentSectionIndex: sectionIndex,
-                        currentStepIndex: stepIndex
-                    });
-                    res.redirect(nextUrl);
-                } catch (storageError) {
-                    next(storageError);
+                    renderStep(req, res, validationResult.value, [uploadError]);
                 }
             }
         });
