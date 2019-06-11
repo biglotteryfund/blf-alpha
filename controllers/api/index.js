@@ -9,7 +9,10 @@ const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');
 const { csrfProtection } = require('../../middleware/cached');
 
-const idealPostcodes = require('ideal-postcodes')(POSTCODES_API_KEY);
+const { Client } = require('@ideal-postcodes/core-node');
+const postcodesClient = new Client({
+    api_key: POSTCODES_API_KEY
+});
 
 const router = express.Router();
 
@@ -40,18 +43,24 @@ if (appData.isNotProduction) {
                 source: { parameter: 'q' }
             });
         }
-
-        idealPostcodes.lookupPostcode(query, (error, addresses) => {
-            if (error) {
-                Sentry.captureException(error);
-                return makeError({
-                    title: 'Connection error',
-                    detail: 'Failed to get data from API'
-                });
-            } else {
-                return res.json({ addresses });
-            }
-        });
+        try {
+            // Tag the postcode lookup with metadata
+            const tags = [
+                `ENV_${appData.environment}`,
+                `BUILD_${appData.buildNumber}`
+            ];
+            const addresses = await postcodesClient.lookupPostcode({
+                postcode: query,
+                tags: tags
+            });
+            return res.json({ addresses });
+        } catch (error) {
+            Sentry.captureException(error);
+            return makeError({
+                title: 'Connection error',
+                detail: 'Failed to get data from API'
+            });
+        }
     });
 }
 
