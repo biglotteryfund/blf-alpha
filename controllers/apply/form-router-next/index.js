@@ -20,7 +20,6 @@ const { csrfProtection } = require('../../../middleware/cached');
 const { requireUserAuth } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
-const validateForm = require('./lib/validate-form');
 const salesforceService = require('./lib/salesforce');
 
 function initFormRouter({
@@ -217,12 +216,7 @@ function initFormRouter({
             data: res.locals.currentApplicationData
         });
 
-        const validationResult = validateForm(
-            form,
-            res.locals.currentApplicationData
-        );
-
-        if (validationResult.isValid) {
+        if (form.validation.isValid) {
             res.render(path.resolve(__dirname, './views/terms'), {
                 csrfToken: req.csrfToken(),
                 breadcrumbs: res.locals.breadcrumbs.concat({

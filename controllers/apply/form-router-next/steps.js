@@ -6,8 +6,6 @@ const findIndex = require('lodash/findIndex');
 
 const { PendingApplication } = require('../../../db/models');
 
-const validateForm = require('./lib/validate-form');
-
 module.exports = function(formBuilder) {
     const router = express.Router();
 
@@ -126,7 +124,7 @@ module.exports = function(formBuilder) {
                 stepIndex
             );
 
-            const validationResult = validateForm(form, data);
+            const validationResult = form.validate(data);
 
             try {
                 await PendingApplication.saveApplicationState(
