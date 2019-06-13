@@ -23,7 +23,6 @@ const { csrfProtection } = require('../../../middleware/cached');
 const { requireActiveUser } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
-const validateForm = require('./lib/validate-form');
 const salesforceService = require('./lib/salesforce');
 const s3Uploads = require('./lib/s3-uploads');
 
@@ -263,12 +262,7 @@ function initFormRouter({
             data: res.locals.currentApplicationData
         });
 
-        const validationResult = validateForm(
-            form,
-            res.locals.currentApplicationData
-        );
-
-        if (validationResult.isValid) {
+        if (form.validation.isValid) {
             res.render(path.resolve(__dirname, './views/terms'), {
                 csrfToken: req.csrfToken(),
                 breadcrumbs: res.locals.breadcrumbs.concat({

@@ -3,37 +3,135 @@
 'use strict';
 const includes = require('lodash/includes');
 const map = require('lodash/map');
-const mapFp = require('lodash/fp/map');
-const flatMap = require('lodash/flatMap');
 const random = require('lodash/random');
 const range = require('lodash/range');
 const sample = require('lodash/sample');
 const times = require('lodash/times');
+const values = require('lodash/values');
 const faker = require('faker');
+const moment = require('moment');
 
-const validateModel = require('../form-router-next/lib/validate-model');
-const validateForm = require('../form-router-next/lib/validate-form');
-
-const {
-    mockAddress,
-    mockBudget,
-    mockDateOfBirth,
-    mockStartDate,
-    mockFullForm
-} = require('./mocks');
-
-const { ORGANISATION_TYPES } = require('./constants');
 const formBuilder = require('./form');
+const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
+const validateModel = require('../form-router-next/lib/validate-model');
 
-const mapNames = mapFp('name');
+function toDateParts(dt) {
+    return { day: dt.date(), month: dt.month() + 1, year: dt.year() };
+}
+
+function mockStartDate(weeks) {
+    return toDateParts(moment().add(weeks, 'weeks'));
+}
+
+function mockDateOfBirth(minAge, maxAge = 75) {
+    const dt = moment().subtract(
+        faker.random.number({ min: minAge, max: maxAge }),
+        'years'
+    );
+    return toDateParts(dt);
+}
+
+function mockAddress() {
+    return {
+        line1: faker.address.streetAddress(),
+        townCity: faker.address.city(),
+        county: faker.address.county(),
+        postcode: 'B15 1TR'
+    };
+}
+
+function mockBudget() {
+    return new Array(5).fill(null).map(() => {
+        return {
+            item: faker.lorem.words(5),
+            cost: faker.random.number({ min: 100, max: 1000 })
+        };
+    });
+}
+
+function mockFullForm({
+    country = 'england',
+    organisationType,
+    seniorContactRole,
+    companyNumber = null,
+    charityNumber = null,
+    educationNumber = null
+}) {
+    return {
+        projectName: faker.lorem.words(5),
+        projectCountry: country,
+        projectDateRange: {
+            startDate: mockStartDate(12),
+            endDate: mockStartDate(30)
+        },
+        projectLocation: 'west-midlands',
+        projectLocationDescription: faker.lorem.sentence(),
+        projectPostcode: 'B15 1TR',
+        yourIdeaProject: faker.lorem.words(250),
+        yourIdeaPriorities: faker.lorem.words(100),
+        yourIdeaCommunity: faker.lorem.words(150),
+        projectBudget: mockBudget(),
+        projectTotalCosts: 20000,
+        beneficiariesGroupsCheck: 'yes',
+        beneficiariesGroups: values(BENEFICIARY_GROUPS),
+        beneficiariesGroupsOther: undefined,
+        beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
+        beneficiariesGroupsGender: ['non-binary'],
+        beneficiariesGroupsAge: ['0-12', '13-24'],
+        beneficiariesGroupsDisabledPeople: ['sensory'],
+        beneficiariesGroupsReligion: ['sikh'],
+        beneficiariesGroupsReligionOther: undefined,
+        organisationLegalName: faker.company.companyName(),
+        organisationTradingName: faker.company.companyName(),
+        organisationAddress: mockAddress(),
+        organisationType: organisationType,
+        companyNumber: companyNumber,
+        charityNumber: charityNumber,
+        educationNumber: educationNumber,
+        accountingYearDate: { day: 1, month: 3 },
+        totalIncomeYear: faker.random.number({ min: 10000, max: 1000000 }),
+        mainContactFirstName: faker.name.firstName(),
+        mainContactLastName: faker.name.lastName(),
+        mainContactDateOfBirth: mockDateOfBirth(16),
+        mainContactAddress: mockAddress(),
+        mainContactAddressHistory: {
+            currentAddressMeetsMinimum: 'no',
+            previousAddress: mockAddress()
+        },
+        mainContactEmail: faker.internet.exampleEmail(),
+        mainContactPhone: '0345 4 10 20 30',
+        mainContactCommunicationNeeds: [],
+        seniorContactFirstName: faker.name.firstName(),
+        seniorContactLastName: faker.name.lastName(),
+        seniorContactRole: seniorContactRole,
+        seniorContactDateOfBirth: mockDateOfBirth(18),
+        seniorContactAddress: mockAddress(),
+        seniorContactAddressHistory: {
+            currentAddressMeetsMinimum: 'yes',
+            previousAddress: null
+        },
+        seniorContactEmail: faker.internet.exampleEmail(),
+        seniorContactPhone: '020 7211 1888',
+        seniorContactCommunicationNeeds: [],
+        bankAccountName: faker.company.companyName(),
+        bankSortCode: '108800',
+        bankAccountNumber: '00012345',
+        buildingSocietyNumber: undefined,
+        bankStatement: {
+            filename: 'example.pdf',
+            size: 123,
+            type: 'application/pdf'
+        }
+    };
+}
 
 function testValidate(data) {
-    return validateForm(formBuilder({ locale: 'en', data }), data);
+    return formBuilder({ locale: 'en', data }).validation;
 }
 
 function assertMessagesByKey(data, messages) {
-    const validation = testValidate(data);
-    const messagesByKey = validation.messages.filter(message => {
+    const validationResult = testValidate(data);
+    const messagesByKey = validationResult.messages.filter(message => {
         return includes(Object.keys(data), message.param);
     });
 
@@ -46,21 +144,12 @@ function assertValid(data) {
 }
 
 function assertValidByKey(data) {
-    const validation = testValidate(data);
-    const messagesByKey = validation.messages.filter(message => {
+    const validationResult = testValidate(data);
+    const messagesByKey = validationResult.messages.filter(message => {
         return includes(Object.keys(data), message.param);
     });
 
     expect(messagesByKey).toHaveLength(0);
-}
-
-function fieldsFor(sectionSlug, stepTitle) {
-    return function(data) {
-        const form = formBuilder({ locale: 'en', data: data });
-        const section = form.sections.find(s => s.slug === sectionSlug);
-        const step = section.steps.find(s => s.title === stepTitle);
-        return flatMap(step.fieldsets, 'fields');
-    };
 }
 
 describe('Form validations', () => {
@@ -197,6 +286,40 @@ describe('Form validations', () => {
     });
 
     describe('Beneficiaries', () => {
+        test('skip section based on screening question', () => {
+            const formWithYes = formBuilder({
+                locale: 'en',
+                data: { beneficiariesGroupsCheck: 'yes' }
+            });
+
+            const formWithNo = formBuilder({
+                locale: 'en',
+                data: { beneficiariesGroupsCheck: 'no' }
+            });
+
+            expect(
+                formWithYes.pagination({
+                    baseUrl: '/apply/awards-for-all',
+                    sectionSlug: 'beneficiaries',
+                    currentStepIndex: 0
+                })
+            ).toEqual({
+                nextUrl: '/apply/awards-for-all/beneficiaries/2',
+                previousUrl: '/apply/awards-for-all/your-project/5'
+            });
+
+            expect(
+                formWithNo.pagination({
+                    baseUrl: '/apply/awards-for-all',
+                    sectionSlug: 'organisation',
+                    currentStepIndex: 0
+                })
+            ).toEqual({
+                nextUrl: '/apply/awards-for-all/organisation/2',
+                previousUrl: '/apply/awards-for-all/beneficiaries/1'
+            });
+        });
+
         test('welsh language question required for applicants in Wales', () => {
             function value(country, val) {
                 return {
@@ -213,23 +336,21 @@ describe('Form validations', () => {
                 'Choose an option'
             ]);
 
-            const fieldsFn = fieldsFor(
-                'beneficiaries',
-                'People who speak Welsh'
-            );
+            [
+                { country: 'england', expected: [] },
+                { country: 'scotland', expected: [] },
+                { country: 'northern-ireland', expected: [] },
+                { country: 'wales', expected: ['beneficiariesWelshLanguage'] }
+            ].forEach(item => {
+                const fieldNames = formBuilder({
+                    locale: 'en',
+                    data: { projectCountry: item.country }
+                })
+                    .getCurrentFieldsForStep('beneficiaries', 7)
+                    .map(field => field.name);
 
-            expect(mapNames(fieldsFn({ projectCountry: 'england' }))).toEqual(
-                []
-            );
-            expect(mapNames(fieldsFn({ projectCountry: 'scotland' }))).toEqual(
-                []
-            );
-            expect(
-                mapNames(fieldsFn({ projectCountry: 'northern-ireland' }))
-            ).toEqual([]);
-            expect(mapNames(fieldsFn({ projectCountry: 'wales' }))).toEqual([
-                'beneficiariesWelshLanguage'
-            ]);
+                expect(fieldNames).toEqual(item.expected);
+            });
         });
 
         test('additional community question in Northern Ireland', () => {
@@ -253,18 +374,24 @@ describe('Form validations', () => {
                 ['Choose an option']
             );
 
-            const fieldsFn = fieldsFor('beneficiaries', 'Community');
+            [
+                { country: 'england', expected: [] },
+                { country: 'scotland', expected: [] },
+                {
+                    country: 'northern-ireland',
+                    expected: ['beneficiariesNorthernIrelandCommunity']
+                },
+                { country: 'wales', expected: [] }
+            ].forEach(item => {
+                const fieldNames = formBuilder({
+                    locale: 'en',
+                    data: { projectCountry: item.country }
+                })
+                    .getCurrentFieldsForStep('beneficiaries', 8)
+                    .map(field => field.name);
 
-            expect(mapNames(fieldsFn({ projectCountry: 'england' }))).toEqual(
-                []
-            );
-            expect(mapNames(fieldsFn({ projectCountry: 'scotland' }))).toEqual(
-                []
-            );
-            expect(mapNames(fieldsFn({ projectCountry: 'wales' }))).toEqual([]);
-            expect(
-                mapNames(fieldsFn({ projectCountry: 'northern-ireland' }))
-            ).toEqual(['beneficiariesNorthernIrelandCommunity']);
+                expect(fieldNames).toEqual(item.expected);
+            });
         });
     });
 
@@ -406,9 +533,11 @@ describe('Form validations', () => {
         });
 
         test('registration numbers shown based on organisation type', () => {
-            const fieldsFn = fieldsFor('organisation', 'Registration numbers');
+            const defaultFieldNames = formBuilder({ locale: 'en' })
+                .getCurrentFieldsForStep('organisation', 2)
+                .map(field => field.name);
 
-            expect(mapNames(fieldsFn({}))).toEqual([]);
+            expect(defaultFieldNames).toEqual([]);
 
             const mappings = {
                 [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY]: [
@@ -423,8 +552,14 @@ describe('Form validations', () => {
             };
 
             map(mappings, (expected, type) => {
-                const result = mapNames(fieldsFn({ organisationType: type }));
-                expect(result).toEqual(expected);
+                const fieldNames = formBuilder({
+                    locale: 'en',
+                    data: { organisationType: type }
+                })
+                    .getCurrentFieldsForStep('organisation', 2)
+                    .map(field => field.name);
+
+                expect(fieldNames).toEqual(expected);
             });
         });
     });
@@ -639,8 +774,10 @@ describe('Form validations', () => {
         testAddressHistoryField('seniorContactAddressHistory');
 
         function rolesFor(type) {
-            const fieldsFn = fieldsFor('senior-contact', 'Senior contact');
-            const fields = fieldsFn({ organisationType: type });
+            const fields = formBuilder({
+                locale: 'en',
+                data: { organisationType: type }
+            }).getCurrentFieldsForStep('senior-contact', 0);
             const field = fields.find(f => f.name === 'seniorContactRole');
             return field.options.map(option => option.value);
         }
@@ -721,9 +858,11 @@ describe('Form validations', () => {
         });
 
         test('contact fields not included for schools and statutory bodies', () => {
-            const fieldsFn = fieldsFor('senior-contact', 'Senior contact');
+            const defaultFieldNames = formBuilder({ locale: 'en' })
+                .getCurrentFieldsForStep('senior-contact', 0)
+                .map(field => field.name);
 
-            expect(mapNames(fieldsFn({}))).toEqual([
+            expect(defaultFieldNames).toEqual([
                 'seniorContactFirstName',
                 'seniorContactLastName',
                 'seniorContactRole',
@@ -739,9 +878,14 @@ describe('Form validations', () => {
                 ORGANISATION_TYPES.SCHOOL,
                 ORGANISATION_TYPES.STATUTORY_BODY
             ].forEach(orgType => {
-                expect(
-                    mapNames(fieldsFn({ organisationType: orgType }))
-                ).toEqual([
+                const fieldNames = formBuilder({
+                    locale: 'en',
+                    data: { organisationType: orgType }
+                })
+                    .getCurrentFieldsForStep('senior-contact', 0)
+                    .map(field => field.name);
+
+                expect(fieldNames).toEqual([
                     'seniorContactFirstName',
                     'seniorContactLastName',
                     'seniorContactRole',
@@ -761,9 +905,11 @@ describe('Form validations', () => {
         testAddressHistoryField('mainContactAddressHistory');
 
         test('contact fields not included for schools and statutory bodies', () => {
-            const fieldsFn = fieldsFor('main-contact', 'Main contact');
+            const defaultFieldNames = formBuilder({ locale: 'en' })
+                .getCurrentFieldsForStep('main-contact', 0)
+                .map(field => field.name);
 
-            expect(mapNames(fieldsFn({}))).toEqual([
+            expect(defaultFieldNames).toEqual([
                 'mainContactFirstName',
                 'mainContactLastName',
                 'mainContactDateOfBirth',
@@ -778,9 +924,14 @@ describe('Form validations', () => {
                 ORGANISATION_TYPES.SCHOOL,
                 ORGANISATION_TYPES.STATUTORY_BODY
             ].forEach(orgType => {
-                expect(
-                    mapNames(fieldsFn({ organisationType: orgType }))
-                ).toEqual([
+                const fieldNames = formBuilder({
+                    locale: 'en',
+                    data: { organisationType: orgType }
+                })
+                    .getCurrentFieldsForStep('main-contact', 0)
+                    .map(field => field.name);
+
+                expect(fieldNames).toEqual([
                     'mainContactFirstName',
                     'mainContactLastName',
                     'mainContactEmail',
@@ -846,7 +997,6 @@ describe('form shape', () => {
     test('progress', () => {
         const emptyForm = formBuilder({ locale: 'en' });
         expect(emptyForm.progress).toEqual({
-            all: 'empty',
             isComplete: false,
             sections: [
                 {
@@ -888,7 +1038,6 @@ describe('form shape', () => {
         });
 
         expect(partialForm.progress).toEqual({
-            all: 'incomplete',
             isComplete: false,
             sections: [
                 {
@@ -934,7 +1083,6 @@ describe('form shape', () => {
         });
 
         expect(completeForm.progress).toEqual({
-            all: 'complete',
             isComplete: true,
             sections: [
                 {

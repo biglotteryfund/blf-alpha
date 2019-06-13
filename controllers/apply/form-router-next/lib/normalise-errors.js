@@ -47,7 +47,7 @@ function messagesForError(messages, detail) {
  * @param {Object} options.validationError
  * @param {Object} options.errorMessages
  */
-function normaliseErrors({ validationError, errorMessages }) {
+module.exports = function normaliseErrors({ validationError, errorMessages }) {
     const errorDetails = getOr([], 'details')(validationError);
     const uniqueErrorsDetails = uniqBy(detail => head(detail.path))(
         errorDetails
@@ -65,29 +65,4 @@ function normaliseErrors({ validationError, errorMessages }) {
             };
         });
     });
-}
-
-/**
- * Validate data against the form schema
- *
- * Validating against the whole form ensures that
- * conditional validations are taken into account
- */
-module.exports = function validateForm(form, data = {}) {
-    const { value, error } = form.schema.validate(data, {
-        abortEarly: false,
-        stripUnknown: true
-    });
-
-    const messages = normaliseErrors({
-        validationError: error,
-        errorMessages: form.messages
-    });
-
-    return {
-        value: value,
-        error: error,
-        isValid: error === null && messages.length === 0,
-        messages: messages
-    };
 };

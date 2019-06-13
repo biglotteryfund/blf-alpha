@@ -1,10 +1,10 @@
 'use strict';
 const moment = require('moment/moment');
 const { get } = require('lodash/fp');
-const { flatMap, includes, reduce, values } = require('lodash');
+const { flatMap, includes, values } = require('lodash');
 
 const Joi = require('../form-router-next/joi-extensions');
-const locationsFor = require('../form-router-next/lib/locations');
+const locationsFor = require('./locations');
 const {
     BENEFICIARY_GROUPS,
     MAX_BUDGET_TOTAL_GBP,
@@ -2067,29 +2067,5 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         }
     };
 
-    const schema = Joi.object(
-        reduce(
-            fields,
-            function(acc, field) {
-                acc[field.name] = field.schema;
-                return acc;
-            },
-            {}
-        )
-    );
-
-    const messages = reduce(
-        fields,
-        function(acc, field) {
-            acc[field.name] = field.messages;
-            return acc;
-        },
-        {}
-    );
-
-    return {
-        fields,
-        schema,
-        messages
-    };
+    return fields;
 };

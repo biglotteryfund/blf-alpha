@@ -7,7 +7,7 @@ const has = require('lodash/fp/has');
 const includes = require('lodash/includes');
 const sumBy = require('lodash/sumBy');
 
-const enrichForm = require('../form-router-next/lib/enrich-form');
+const { FormModel } = require('../form-router-next/lib/form-model');
 const { fromDateParts } = require('../form-router-next/lib/date-parts');
 const { formatDateRange } = require('../form-router-next/lib/formatters');
 const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
@@ -17,7 +17,7 @@ module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
     const currentOrganisationType = get('organisationType')(data);
 
-    const { fields, schema, messages } = fieldsFor({
+    const fields = fieldsFor({
         locale: locale,
         data: data
     });
@@ -652,27 +652,26 @@ module.exports = function({ locale, data = {} }) {
         return enriched;
     }
 
-    const form = {
-        title: localise({
-            en: 'National Lottery Awards for All',
-            cy: ''
-        }),
-        isBilingual: true,
-        fields: fields,
-        schema: schema,
-        messages: messages,
-        summary: summary(),
-        forSalesforce: forSalesforce,
-        sections: [
-            sectionProject,
-            sectionBeneficiaries(),
-            sectionOrganisation,
-            sectionSeniorContact,
-            sectionMainContact,
-            sectionBankDetails
-        ],
-        termsFields: termsFields
-    };
-
-    return enrichForm(form, data);
+    return new FormModel(
+        {
+            title: localise({
+                en: 'National Lottery Awards for All',
+                cy: ''
+            }),
+            isBilingual: true,
+            allFields: fields,
+            summary: summary(),
+            forSalesforce: forSalesforce,
+            sections: [
+                sectionProject,
+                sectionBeneficiaries(),
+                sectionOrganisation,
+                sectionSeniorContact,
+                sectionMainContact,
+                sectionBankDetails
+            ],
+            termsFields: termsFields
+        },
+        data
+    );
 };

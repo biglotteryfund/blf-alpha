@@ -3,7 +3,6 @@ const path = require('path');
 const express = require('express');
 const concat = require('lodash/concat');
 const findIndex = require('lodash/findIndex');
-const flatMap = require('lodash/flatMap');
 const get = require('lodash/get');
 const keyBy = require('lodash/keyBy');
 const mapValues = require('lodash/mapValues');
@@ -11,8 +10,6 @@ const Sentry = require('@sentry/node');
 
 const { PendingApplication } = require('../../../db/models');
 
-const pagination = require('./lib/pagination');
-const validateForm = require('./lib/validate-form');
 const s3Uploads = require('./lib/s3-uploads');
 
 module.exports = function(formId, formBuilder) {
@@ -44,10 +41,9 @@ module.exports = function(formId, formBuilder) {
                     const step = section.steps[stepIndex];
 
                     if (step) {
-                        const { nextUrl, previousUrl } = pagination({
+                        const { nextUrl, previousUrl } = form.pagination({
                             baseUrl: res.locals.formBaseUrl,
-                            sections: form.sections,
-                            currentSectionIndex: sectionIndex,
+                            sectionSlug: req.params.section,
                             currentStepIndex: stepIndex
                         });
 
@@ -83,10 +79,9 @@ module.exports = function(formId, formBuilder) {
                         res.redirect(res.locals.formBaseUrl);
                     }
                 } else if (section.introduction) {
-                    const { nextUrl, previousUrl } = pagination({
+                    const { nextUrl, previousUrl } = form.pagination({
                         baseUrl: res.locals.formBaseUrl,
-                        sections: form.sections,
-                        currentSectionIndex: sectionIndex
+                        sectionSlug: req.params.section
                     });
 
                     const viewData = {
@@ -138,16 +133,11 @@ module.exports = function(formId, formBuilder) {
                 data: applicationData
             });
 
-            // @TODO: Lift up as form.getCurrentFields()
-            const sectionIndex = findIndex(
-                form.sections,
-                section => section.slug === req.params.section
-            );
-            const currentSection = form.sections[sectionIndex];
-
             const stepIndex = parseInt(req.params.step, 10) - 1;
-            const step = currentSection.steps[stepIndex];
-            const stepFields = flatMap(step.fieldsets, 'fields');
+            const stepFields = form.getCurrentFieldsForStep(
+                req.params.section,
+                stepIndex
+            );
 
             /**
              * Determine files to upload
@@ -187,19 +177,14 @@ module.exports = function(formId, formBuilder) {
             }
 
             /**
-             * Validate form against combined application data
+             * Re-validate form against combined application data
              * currentApplication data with req.body
              * and file metadata mixed in.
              */
-            const combinedApplicationData = {
+            const validationResult = form.validate({
                 ...applicationData,
                 ...fileValues()
-            };
-
-            const validationResult = validateForm(
-                form,
-                combinedApplicationData
-            );
+            });
 
             const errorsForStep = validationResult.messages.filter(item =>
                 stepFields.map(f => f.name).includes(item.param)
@@ -226,26 +211,6 @@ module.exports = function(formId, formBuilder) {
                         })
                     );
                     await Promise.all(uploadPromises);
-
-                    try {
-                        /**
-                         * Store the form's current state (errors and all) in the database
-                         */
-                        await PendingApplication.saveApplicationState(
-                            currentlyEditingId,
-                            validationResult.value
-                        );
-
-                        const { nextUrl } = pagination({
-                            baseUrl: res.locals.formBaseUrl,
-                            sections: form.sections,
-                            currentSectionIndex: sectionIndex,
-                            currentStepIndex: stepIndex
-                        });
-                        res.redirect(nextUrl);
-                    } catch (storageError) {
-                        next(storageError);
-                    }
                 } catch (rejection) {
                     Sentry.captureException(rejection.error);
 
@@ -258,7 +223,29 @@ module.exports = function(formId, formBuilder) {
                         req.params.section,
                         req.params.step
                     );
-                    renderStep(req, res, validationResult.value, [uploadError]);
+
+                    return renderStep(req, res, validationResult.value, [
+                        uploadError
+                    ]);
+                }
+
+                try {
+                    /**
+                     * Store the form's current state (errors and all) in the database
+                     */
+                    await PendingApplication.saveApplicationState(
+                        currentlyEditingId,
+                        validationResult.value
+                    );
+
+                    const { nextUrl } = form.pagination({
+                        baseUrl: res.locals.formBaseUrl,
+                        sectionSlug: req.params.section,
+                        currentStepIndex: stepIndex
+                    });
+                    res.redirect(nextUrl);
+                } catch (storageError) {
+                    next(storageError);
                 }
             }
         });
