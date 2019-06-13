@@ -8,9 +8,10 @@ sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial m
 apt-get update
 apt-get install -y nginx-extras passenger
 
+
 # enable passenger
 PassengerDisabled="# include /etc/nginx/passenger.conf;"
-PassengerEnabled="include /etc/nginx/passenger.conf; \n\n\t client_max_body_size 50M;"
+PassengerEnabled="include /etc/nginx/passenger.conf; \n\n\t client_max_body_size 50M; \n\n\t passenger_core_file_descriptor_ulimit 50000;"
 sed -i "s|$PassengerDisabled|$PassengerEnabled|g" /etc/nginx/nginx.conf
 
 # enable gzip in nginx
