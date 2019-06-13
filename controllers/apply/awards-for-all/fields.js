@@ -1742,6 +1742,59 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             })
         }),
         organisationType: organisationTypeField(),
+        organisationSubTypeStatutoryBody: {
+            name: 'organisationSubType',
+            label: localise({ en: 'Organisation subtype @TODO', cy: '' }),
+            type: 'radio',
+            options: [
+                {
+                    value: 'parish-council',
+                    label: localise({ en: 'Parish Council', cy: '' })
+                },
+                {
+                    value: 'Town Council',
+                    label: localise({ en: 'Town Council', cy: '' })
+                },
+                {
+                    value: 'local-authority',
+                    label: localise({ en: 'Local Authority', cy: '' })
+                },
+                {
+                    value: 'nhs-trust-health-authority',
+                    label: localise({
+                        en: 'NHS Trust/Health Authority',
+                        cy: ''
+                    })
+                },
+                {
+                    value: 'prison-service',
+                    label: localise({ en: 'Prison Service', cy: '' })
+                },
+                {
+                    value: 'fire-service',
+                    label: localise({ en: 'Fire Service', cy: '' })
+                },
+                {
+                    value: 'police-authority',
+                    label: localise({ en: 'Police Authority', cy: '' })
+                }
+            ],
+            isRequired: true,
+            schema: Joi.when('organisationType', {
+                is: ORGANISATION_TYPES.STATUTORY_BODY,
+                then: Joi.string().required(),
+                otherwise: Joi.any().strip()
+            }),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Choose your organisation subtype @TODO',
+                        cy: ''
+                    })
+                }
+            ]
+        },
         companyNumber: {
             name: 'companyNumber',
             label: localise({ en: 'Companies house number', cy: '' }),

@@ -350,6 +350,33 @@ module.exports = function({ locale, data = {} }) {
                 ]
             },
             {
+                title: localise({ en: 'Organisation subtype @TODO', cy: '' }),
+                get fieldsets() {
+                    const orgType = get('organisationType')(data);
+                    let fieldsForStep;
+                    switch (orgType) {
+                        case ORGANISATION_TYPES.STATUTORY_BODY:
+                            fieldsForStep = [
+                                fields.organisationSubTypeStatutoryBody
+                            ];
+                            break;
+                        default:
+                            fieldsForStep = [];
+                            break;
+                    }
+
+                    return [
+                        {
+                            legend: localise({
+                                en: 'Organisation subtype @TODO',
+                                cy: ''
+                            }),
+                            fields: fieldsForStep
+                        }
+                    ];
+                }
+            },
+            {
                 title: localise({ en: 'Registration numbers', cy: '' }),
                 fieldsets: [
                     {
