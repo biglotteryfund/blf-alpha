@@ -350,11 +350,30 @@ module.exports = function({ locale, data = {} }) {
                 ]
             },
             {
-                title: localise({ en: 'Organisation subtype @TODO', cy: '' }),
+                get organisationType() {
+                    return get('organisationType')(data);
+                },
+                get title() {
+                    let title;
+                    switch (this.organisationType) {
+                        case ORGANISATION_TYPES.STATUTORY_BODY:
+                            title = localise({
+                                en: 'Type of statutory body',
+                                cy: ''
+                            });
+                            break;
+                        default:
+                            title = localise({
+                                en: 'Organisation sub-type',
+                                cy: ''
+                            });
+                            break;
+                    }
+                    return title;
+                },
                 get fieldsets() {
-                    const orgType = get('organisationType')(data);
                     let fieldsForStep;
-                    switch (orgType) {
+                    switch (this.organisationType) {
                         case ORGANISATION_TYPES.STATUTORY_BODY:
                             fieldsForStep = [
                                 fields.organisationSubTypeStatutoryBody
@@ -367,10 +386,7 @@ module.exports = function({ locale, data = {} }) {
 
                     return [
                         {
-                            legend: localise({
-                                en: 'Organisation subtype @TODO',
-                                cy: ''
-                            }),
+                            legend: this.title,
                             fields: fieldsForStep
                         }
                     ];
