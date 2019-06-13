@@ -443,6 +443,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function seniorContactRoleField() {
         function rolesFor(organisationType, organisationSubType) {
             const ROLES = {
+                FREE_TEXT: {
+                    value: '*',
+                    label: localise({ en: 'Please type a role', cy: '' }),
+                    allowFreeText: true
+                },
                 CHAIR: {
                     value: 'chair',
                     label: localise({ en: 'Chair', cy: '' })
@@ -567,15 +572,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     case ORGANISATION_SUB_TYPES.STATUTORY_BODY.NHS_TRUST:
                         options = [ROLES.CHIEF_EXECUTIVE, ROLES.DIRECTOR];
                         break;
-                    // @TODO these three need to be free text...?!?
                     case ORGANISATION_SUB_TYPES.STATUTORY_BODY.PRISON_SERVICE:
-                        options = [];
+                        options = [ROLES.FREE_TEXT];
                         break;
                     case ORGANISATION_SUB_TYPES.STATUTORY_BODY.FIRE_SERVICE:
-                        options = [];
+                        options = [ROLES.FREE_TEXT];
                         break;
                     case ORGANISATION_SUB_TYPES.STATUTORY_BODY.POLICE_AUTHORITY:
-                        options = [];
+                        options = [ROLES.FREE_TEXT];
                         break;
                     default:
                         options = values(ROLES);
@@ -623,9 +627,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ),
             isRequired: true,
             get schema() {
-                return Joi.string()
-                    .valid(this.options.map(option => option.value))
-                    .required();
+                return (
+                    Joi.string()
+                        // .valid(this.options.map(option => option.value))
+                        .required()
+                );
             },
             messages: [
                 {
