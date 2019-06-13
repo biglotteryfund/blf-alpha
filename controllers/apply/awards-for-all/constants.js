@@ -14,6 +14,18 @@ const ORGANISATION_TYPES = {
     STATUTORY_BODY: 'statutory-body'
 };
 
+const ORGANISATION_SUB_TYPES = {
+    STATUTORY_BODY: {
+        PARISH_COUNCIL: 'parish-council',
+        TOWN_COUNCIL: 'Town Council',
+        LOCAL_AUTHORITY: 'local-authority',
+        NHS_TRUST: 'nhs-trust-health-authority',
+        PRISON_SERVICE: 'prison-service',
+        FIRE_SERVICE: 'fire-service',
+        POLICE_AUTHORITY: 'police-authority'
+    }
+};
+
 const BENEFICIARY_GROUPS = {
     ETHNIC_BACKGROUND: 'ethnic-background',
     GENDER: 'gender',
@@ -42,5 +54,6 @@ module.exports = {
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     ORGANISATION_TYPES,
+    ORGANISATION_SUB_TYPES,
     FILE_LIMITS
 };

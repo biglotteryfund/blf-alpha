@@ -548,7 +548,8 @@ describe('Form validations', () => {
                     'companyNumber',
                     'charityNumber'
                 ],
-                [ORGANISATION_TYPES.SCHOOL]: ['educationNumber']
+                [ORGANISATION_TYPES.SCHOOL]: ['educationNumber'],
+                [ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY]: ['educationNumber']
             };
 
             map(mappings, (expected, type) => {

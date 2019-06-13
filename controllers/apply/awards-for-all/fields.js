@@ -11,6 +11,7 @@ const {
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     ORGANISATION_TYPES,
+    ORGANISATION_SUB_TYPES,
     FILE_LIMITS
 } = require('./constants');
 
@@ -18,6 +19,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
 
     const currentOrganisationType = get('organisationType')(data);
+    const currentOrganisationSubType = get('organisationSubType')(data);
 
     function matchesOrganisationType(type) {
         return currentOrganisationType === type;
@@ -439,35 +441,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function seniorContactRoleField() {
-        function rolesFor(organisationType) {
+        function rolesFor(organisationType, organisationSubType) {
             const ROLES = {
-                TRUSTEE: {
-                    value: 'trustee',
-                    label: localise({ en: 'Trustee', cy: '' })
-                },
                 CHAIR: {
                     value: 'chair',
                     label: localise({ en: 'Chair', cy: '' })
                 },
-                VICE_CHAIR: {
-                    value: 'vice-chair',
-                    label: localise({ en: 'Vice-chair', cy: '' })
-                },
-                SECRETARY: {
-                    value: 'secretary',
-                    label: localise({ en: 'Secretary', cy: '' })
-                },
-                TREASURER: {
-                    value: 'treasurer',
-                    label: localise({ en: 'Treasurer', cy: '' })
-                },
-                COMPANY_DIRECTOR: {
-                    value: 'company-director',
-                    label: localise({ en: 'Company Director', cy: '' })
-                },
-                COMPANY_SECRETARY: {
-                    value: 'company-secretary',
-                    label: localise({ en: 'Company Secretary', cy: '' })
+                CHANCELLOR: {
+                    value: 'chancellor',
+                    label: localise({ en: 'Chancellor', cy: '' })
                 },
                 CHIEF_EXECUTIVE: {
                     value: 'chief-executive',
@@ -477,17 +459,49 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     value: 'chief-executive-officer',
                     label: localise({ en: 'Chief Executive Officer', cy: '' })
                 },
-                PARISH_CLERK: {
-                    value: 'parish-clerk',
-                    label: localise({ en: 'Parish Clerk', cy: '' })
+                COMPANY_DIRECTOR: {
+                    value: 'company-director',
+                    label: localise({ en: 'Company Director', cy: '' })
+                },
+                COMPANY_SECRETARY: {
+                    value: 'company-secretary',
+                    label: localise({ en: 'Company Secretary', cy: '' })
+                },
+                DEPUTY_PARISH_CLERK: {
+                    value: 'deputy-parish-clerk',
+                    label: localise({ en: 'Deputy Parish Clerk', cy: '' })
+                },
+                DIRECTOR: {
+                    value: 'director',
+                    label: localise({ en: 'Director', cy: '' })
+                },
+                ELECTED_MEMBER: {
+                    value: 'elected-member',
+                    label: localise({ en: 'Elected Member', cy: '' })
                 },
                 HEAD_TEACHER: {
                     value: 'head-teacher',
                     label: localise({ en: 'Head Teacher', cy: '' })
                 },
-                CHANCELLOR: {
-                    value: 'chancellor',
-                    label: localise({ en: 'Chancellor', cy: '' })
+                PARISH_CLERK: {
+                    value: 'parish-clerk',
+                    label: localise({ en: 'Parish Clerk', cy: '' })
+                },
+                SECRETARY: {
+                    value: 'secretary',
+                    label: localise({ en: 'Secretary', cy: '' })
+                },
+                TREASURER: {
+                    value: 'treasurer',
+                    label: localise({ en: 'Treasurer', cy: '' })
+                },
+                TRUSTEE: {
+                    value: 'trustee',
+                    label: localise({ en: 'Trustee', cy: '' })
+                },
+                VICE_CHAIR: {
+                    value: 'vice-chair',
+                    label: localise({ en: 'Vice-chair', cy: '' })
                 },
                 VICE_CHANCELLOR: {
                     value: 'vice-chancellor',
@@ -521,11 +535,52 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     options = [ROLES.CHANCELLOR, ROLES.VICE_CHANCELLOR];
                     break;
                 case ORGANISATION_TYPES.STATUTORY_BODY:
-                    options = [ROLES.PARISH_CLERK, ROLES.CHIEF_EXECUTIVE];
+                    options = [ROLES];
                     break;
                 default:
                     options = values(ROLES);
                     break;
+            }
+
+            // Add custom options for statutory bodies
+            if (
+                organisationType === ORGANISATION_TYPES.STATUTORY_BODY &&
+                organisationSubType
+            ) {
+                switch (organisationSubType) {
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.PARISH_COUNCIL:
+                        options = [
+                            ROLES.PARISH_CLERK,
+                            ROLES.DEPUTY_PARISH_CLERK
+                        ];
+                        break;
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.TOWN_COUNCIL:
+                        options = [ROLES.ELECTED_MEMBER, ROLES.CHAIR];
+                        break;
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.LOCAL_AUTHORITY:
+                        options = [
+                            ROLES.CHAIR,
+                            ROLES.CHIEF_EXECUTIVE,
+                            ROLES.DIRECTOR
+                        ];
+                        break;
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.NHS_TRUST:
+                        options = [ROLES.CHIEF_EXECUTIVE, ROLES.DIRECTOR];
+                        break;
+                    // @TODO these three need to be free text...?!?
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.PRISON_SERVICE:
+                        options = [];
+                        break;
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.FIRE_SERVICE:
+                        options = [];
+                        break;
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.POLICE_AUTHORITY:
+                        options = [];
+                        break;
+                    default:
+                        options = values(ROLES);
+                        break;
+                }
             }
 
             return options;
@@ -562,7 +617,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 return text;
             },
             type: 'radio',
-            options: rolesFor(currentOrganisationType),
+            options: rolesFor(
+                currentOrganisationType,
+                currentOrganisationSubType
+            ),
             isRequired: true,
             get schema() {
                 return Joi.string()
@@ -1715,34 +1773,36 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'radio',
             options: [
                 {
-                    value: 'parish-council',
+                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.PARISH_COUNCIL,
                     label: localise({ en: 'Parish Council', cy: '' })
                 },
                 {
-                    value: 'Town Council',
+                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.TOWN_COUNCIL,
                     label: localise({ en: 'Town Council', cy: '' })
                 },
                 {
-                    value: 'local-authority',
+                    value:
+                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.LOCAL_AUTHORITY,
                     label: localise({ en: 'Local Authority', cy: '' })
                 },
                 {
-                    value: 'nhs-trust-health-authority',
+                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.NHS_TRUST,
                     label: localise({
                         en: 'NHS Trust/Health Authority',
                         cy: ''
                     })
                 },
                 {
-                    value: 'prison-service',
+                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.PRISON_SERVICE,
                     label: localise({ en: 'Prison Service', cy: '' })
                 },
                 {
-                    value: 'fire-service',
+                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.FIRE_SERVICE,
                     label: localise({ en: 'Fire Service', cy: '' })
                 },
                 {
-                    value: 'police-authority',
+                    value:
+                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.POLICE_AUTHORITY,
                     label: localise({ en: 'Police Authority', cy: '' })
                 }
             ],
