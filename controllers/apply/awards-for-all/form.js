@@ -54,7 +54,13 @@ module.exports = function({ locale, data = {} }) {
     }
 
     function includeEducationNumber() {
-        return currentOrganisationType === ORGANISATION_TYPES.SCHOOL;
+        return includes(
+            [
+                ORGANISATION_TYPES.SCHOOL,
+                ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY
+            ],
+            currentOrganisationType
+        );
     }
 
     const sectionProject = {

@@ -506,31 +506,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ];
                     break;
                 case ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY:
-                    options = [
-                        ROLES.TRUSTEE,
-                        ROLES.CHAIR,
-                        ROLES.VICE_CHAIR,
-                        ROLES.TREASURER
-                    ];
+                    options = [ROLES.TRUSTEE];
                     break;
                 case ORGANISATION_TYPES.CIO:
-                    options = [
-                        ROLES.TRUSTEE,
-                        ROLES.CHAIR,
-                        ROLES.VICE_CHAIR,
-                        ROLES.TREASURER,
-                        ROLES.CHIEF_EXECUTIVE_OFFICER
-                    ];
+                    options = [ROLES.TRUSTEE, ROLES.CHIEF_EXECUTIVE_OFFICER];
                     break;
                 case ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY:
                     options = [ROLES.COMPANY_DIRECTOR, ROLES.COMPANY_SECRETARY];
                     break;
                 case ORGANISATION_TYPES.SCHOOL:
-                    options = [
-                        ROLES.HEAD_TEACHER,
-                        ROLES.CHANCELLOR,
-                        ROLES.VICE_CHANCELLOR
-                    ];
+                    options = [ROLES.HEAD_TEACHER];
+                    break;
+                case ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY:
+                    options = [ROLES.CHANCELLOR, ROLES.VICE_CHANCELLOR];
                     break;
                 case ORGANISATION_TYPES.STATUTORY_BODY:
                     options = [ROLES.PARISH_CLERK, ROLES.CHIEF_EXECUTIVE];
@@ -1776,7 +1764,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         },
         companyNumber: {
             name: 'companyNumber',
-            label: localise({ en: 'Companies house number', cy: '' }),
+            label: localise({ en: 'Companies House number', cy: '' }),
             type: 'text',
             isRequired: true,
             schema: Joi.when('organisationType', {
@@ -1834,9 +1822,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             attributes: { size: 20 },
             isRequired: true,
             schema: Joi.when('organisationType', {
-                is: ORGANISATION_TYPES.SCHOOL,
+                is: Joi.exist().valid(
+                    ORGANISATION_TYPES.SCHOOL,
+                    ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY
+                ),
                 then: Joi.string().required()
             }),
+
             messages: [
                 {
                     type: 'base',
