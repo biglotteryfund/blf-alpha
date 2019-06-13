@@ -10,6 +10,7 @@ const ORGANISATION_TYPES = {
     CIO: 'charitable-incorporated-organisation',
     NOT_FOR_PROFIT_COMPANY: 'not-for-profit-company',
     SCHOOL: 'school',
+    COLLEGE_OR_UNIVERSITY: 'college-or-university',
     STATUTORY_BODY: 'statutory-body'
 };
 

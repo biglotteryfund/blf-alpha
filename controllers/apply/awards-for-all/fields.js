@@ -385,11 +385,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             {
                 value: ORGANISATION_TYPES.SCHOOL,
                 label: localise({
-                    en: 'School or educational body',
+                    en: 'School',
                     cy: ''
                 }),
                 explanation: localise({
-                    en: `<p>My organisation is a school, college, university, or other registered educational establishment</p>`,
+                    en: `<p>My organisation is a school</p>`,
+                    cy: ``
+                })
+            },
+            {
+                value: ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY,
+                label: localise({
+                    en: 'College or University',
+                    cy: ''
+                }),
+                explanation: localise({
+                    en: `<p>My organisation is a college, university, or other registered educational establishment</p>`,
                     cy: ``
                 })
             },
