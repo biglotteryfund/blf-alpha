@@ -71,6 +71,7 @@
   },
   "dependencies": {
     "@hapi/joi": "15.0.3",
+    "@ideal-postcodes/core-node": "1.0.0",
     "@sentry/browser": "5.3.0",
     "@sentry/integrations": "5.3.1",
     "@sentry/node": "5.3.0",
@@ -101,7 +102,6 @@
     "html-pdf": "2.2.0",
     "html-to-text": "4.0.0",
     "i18n-2": "^0.7.2",
-    "ideal-postcodes": "1.0.0",
     "joi-phone-number": "3.0.0",
     "jquery": "^3.4.0",
     "js-yaml": "3.13.1",

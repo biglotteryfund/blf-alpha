@@ -24,7 +24,7 @@ const { requireActiveUser } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
 const salesforceService = require('./lib/salesforce');
-const s3 = require('./lib/s3');
+const s3Uploads = require('./lib/s3-uploads');
 
 function initFormRouter({
     formId,
@@ -339,44 +339,27 @@ function initFormRouter({
                     /**
                      * Upload each file in the submission to salesforce
                      */
-                    const fileFields = fields.filter(function(field) {
-                        return field.type === 'file';
-                    });
-
-                    await Promise.all(
-                        fileFields.map(function(field) {
-                            const attachmentName = `${field.name}${path.extname(
-                                field.value.filename
-                            )}`;
-
-                            const s3PathConfig = {
-                                formId: formId,
-                                applicationId: currentApplication.id,
-                                filename: field.value.filename
-                            };
-
-                            return s3
-                                .headObject(s3PathConfig)
-                                .then(function(headers) {
+                    const contentVersionPromises = fields
+                        .filter(field => field.type === 'file')
+                        .map(field => {
+                            return s3Uploads
+                                .buildMultipartData({
+                                    formId: formId,
+                                    applicationId: currentApplication.id,
+                                    filename: field.value.filename
+                                })
+                                .then(versionData => {
                                     return salesforce.contentVersion({
                                         recordId: salesforceRecordId,
-                                        attachmentName: attachmentName,
-                                        versionData: {
-                                            value: s3
-                                                .getObject(s3PathConfig)
-                                                .createReadStream(),
-                                            options: {
-                                                filename: s3PathConfig.filename,
-                                                contentType:
-                                                    headers.ContentType,
-                                                knownLength:
-                                                    headers.ContentLength
-                                            }
-                                        }
+                                        attachmentName: `${
+                                            field.name
+                                        }${path.extname(field.value.filename)}`,
+                                        versionData: versionData
                                     });
                                 });
-                        })
-                    );
+                        });
+
+                    await Promise.all(contentVersionPromises);
                 } else {
                     debug(`skipped salesforce submission for ${formId}`);
                 }
@@ -434,7 +417,7 @@ function initFormRouter({
     });
 
     /**
-     * Routes: Download a proxied file from S3 (if authorised)
+     * Routes: Stream file from S3 if authorised
      */
     router.route('/download/:fieldName/:filename').get((req, res, next) => {
         const { currentlyEditingId, currentApplicationData } = res.locals;
@@ -447,11 +430,12 @@ function initFormRouter({
             // Retrieve this file from S3
             // Stream the file's headers and serve it directly as a response
             // (via https://stackoverflow.com/a/43356401)
-            s3.getObject({
-                formId: formId,
-                applicationId: currentlyEditingId,
-                filename: req.params.filename
-            })
+            s3Uploads
+                .getObject({
+                    formId: formId,
+                    applicationId: currentlyEditingId,
+                    filename: req.params.filename
+                })
                 .on('httpHeaders', (code, headers) => {
                     res.status(code);
                     if (code < 300) {
