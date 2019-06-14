@@ -292,7 +292,7 @@ _Does your organisation use a different name in your day-to-day work?_
 
 #### Conditions
 
--   If the **organisation type** is either **school / educational body** or **statutory body** then this field will not be shown.
+-   If the **organisation type** is either **school**, **college/university** or **statutory body** then this field will not be shown.
 
 ### Main contact address
 
@@ -307,7 +307,7 @@ _Does your organisation use a different name in your day-to-day work?_
 
 #### Conditions
 
--   If the **organisation type** is either **school / educational body** or **statutory body** then this field will not be shown.
+-   If the **organisation type** is either **school**, **college/university** or **statutory body** then this field will not be shown.
 
 ### Main contact address history
 
@@ -323,7 +323,7 @@ _Does your organisation use a different name in your day-to-day work?_
 
 #### Conditions
 
--   If the **organisation type** is either **school / educational body** or **statutory body** then this field will not be shown.
+-   If the **organisation type** is either **school**, **college/university** or **statutory body** then this field will not be shown.
 
 ### Main contact email
 
@@ -376,10 +376,17 @@ The senior contact role shows the following choices depending on the organisatio
 | ------------------------------------------------ | ----------------------------------------- |
 | Unregistered voluntary or community organisation | Chair, Vice-chair, Secretary, Treasurer   |
 | Registered charity (unincorporated)              | Trustee                                   |
-| Charitable incorporated organisation (CIO)       | Trustee                                   |
+| Charitable incorporated organisation (CIO)       | Trustee, Chief Executive Officer          |
 | Not-for-profit company                           | Company Director, Company Secretary       |
-| School or educational body                       | Head Teacher, Chancellor, Vice-chancellor |
-| Statutory body                                   | Parish Clerk, Chief Executive             |
+| School                                           | Head Teacher                              |
+| College or University                            | Chancellor, Vice-chancellor               |
+| Statutory body: Parish Council                   | Parish Clerk, Deputy Parish Clerk         |
+| Statutory body: Town Council                     | Elected Member, Chair                     |
+| Statutory body: Local Authority                  | Chair, Chief Executive Officer, Director  |
+| Statutory body: NHS Trust                        | Chief Executive, Director                 |
+| Statutory body: Prison Service                   | Free text                                 |
+| Statutory body: Fire Service                     | Free text                                 |
+| Statutory body: Police Authority                 | Free text                                 |
 
 ### Senior contact date of birth
 
@@ -391,7 +398,7 @@ The senior contact role shows the following choices depending on the organisatio
 
 #### Conditions
 
--   If the **organisation type** is either **school / educational body** or **statutory body** then this field will not be shown.
+-   If the **organisation type** is either **school**, **college/university**  or **statutory body** then this field will not be shown.
 
 ### Senior contact address
 
@@ -420,11 +427,7 @@ Address history field group, consists of:
 
 #### Conditions
 
--   If the **organisation type** is either **school / educational body** or **statutory body** then this field will not be shown.
-
-#### Conditions
-
--   If the **organisation type** is either **school / educational body** or **statutory body** then this field will not be shown.
+-   If the **organisation type** is either **school**, **college/university** or **statutory body** then this field will not be shown.
 
 ### Senior contact email
 
