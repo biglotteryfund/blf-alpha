@@ -443,11 +443,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function seniorContactRoleField() {
         function rolesFor(organisationType, organisationSubType) {
             const ROLES = {
-                FREE_TEXT: {
-                    value: '*',
-                    label: localise({ en: 'Please type a role', cy: '' }),
-                    allowFreeText: true
-                },
                 CHAIR: {
                     value: 'chair',
                     label: localise({ en: 'Chair', cy: '' })
@@ -538,9 +533,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     break;
                 case ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY:
                     options = [ROLES.CHANCELLOR, ROLES.VICE_CHANCELLOR];
-                    break;
-                case ORGANISATION_TYPES.STATUTORY_BODY:
-                    options = [ROLES];
                     break;
                 default:
                     options = values(ROLES);

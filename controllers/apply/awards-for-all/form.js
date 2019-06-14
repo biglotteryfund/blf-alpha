@@ -29,7 +29,11 @@ module.exports = function({ locale, data = {} }) {
     function includeAddressAndDob() {
         return (
             includes(
-                [ORGANISATION_TYPES.SCHOOL, ORGANISATION_TYPES.STATUTORY_BODY],
+                [
+                    ORGANISATION_TYPES.SCHOOL,
+                    ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY,
+                    ORGANISATION_TYPES.STATUTORY_BODY
+                ],
                 currentOrganisationType
             ) === false
         );
