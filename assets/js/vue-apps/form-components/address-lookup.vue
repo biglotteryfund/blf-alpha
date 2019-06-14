@@ -7,7 +7,6 @@ import compact from 'lodash/compact';
  * - Find a way to return to the postcode lookup UI after editing a looked-up address
  * - Make the postcode field required when visible after enabling a nested address field
  * - Make it clearer a postcode must be *submitted* after being typed, otherwise form submission fails silently
- * - Fix state where you enter a postcode, address isn't there, you click to enter manually and then can't submit the form
  *
  * */
 
