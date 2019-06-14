@@ -16,13 +16,13 @@ const ORGANISATION_TYPES = {
 
 const ORGANISATION_SUB_TYPES = {
     STATUTORY_BODY: {
-        PARISH_COUNCIL: 'parish-council',
-        TOWN_COUNCIL: 'Town Council',
-        LOCAL_AUTHORITY: 'local-authority',
-        NHS_TRUST: 'nhs-trust-health-authority',
-        PRISON_SERVICE: 'prison-service',
-        FIRE_SERVICE: 'fire-service',
-        POLICE_AUTHORITY: 'police-authority'
+        PARISH_COUNCIL: { key: 'parish-council' },
+        TOWN_COUNCIL: { key: 'town-council' },
+        LOCAL_AUTHORITY: { key: 'local-authority' },
+        NHS_TRUST: { key: 'nhs-trust-health-authority' },
+        PRISON_SERVICE: { key: 'prison-service', freeText: true },
+        FIRE_SERVICE: { key: 'fire-service', freeText: true },
+        POLICE_AUTHORITY: { key: 'police-authority', freeText: true }
     }
 };
 

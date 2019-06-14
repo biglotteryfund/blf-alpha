@@ -553,33 +553,26 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 organisationSubType
             ) {
                 switch (organisationSubType) {
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.PARISH_COUNCIL:
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.PARISH_COUNCIL
+                        .key:
                         options = [
                             ROLES.PARISH_CLERK,
                             ROLES.DEPUTY_PARISH_CLERK
                         ];
                         break;
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.TOWN_COUNCIL:
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.TOWN_COUNCIL.key:
                         options = [ROLES.ELECTED_MEMBER, ROLES.CHAIR];
                         break;
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.LOCAL_AUTHORITY:
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.LOCAL_AUTHORITY
+                        .key:
                         options = [
                             ROLES.CHAIR,
                             ROLES.CHIEF_EXECUTIVE,
                             ROLES.DIRECTOR
                         ];
                         break;
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.NHS_TRUST:
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.NHS_TRUST.key:
                         options = [ROLES.CHIEF_EXECUTIVE, ROLES.DIRECTOR];
-                        break;
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.PRISON_SERVICE:
-                        options = [ROLES.FREE_TEXT];
-                        break;
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.FIRE_SERVICE:
-                        options = [ROLES.FREE_TEXT];
-                        break;
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.POLICE_AUTHORITY:
-                        options = [ROLES.FREE_TEXT];
                         break;
                     default:
                         options = values(ROLES);
@@ -595,8 +588,27 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             label: localise({ en: 'Role', cy: '' }),
             get explanation() {
                 let text = localise({
-                    en: `<p>The position held by the senior contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.<p>`,
+                    en: `<p>The position held by the senior contact is dependent on the type of organisation you are applying on behalf of. `,
                     cy: ''
+                });
+
+                if (this.type === 'radio') {
+                    text += localise({
+                        en:
+                            'The options given to you for selection are based on this.',
+                        cy: ''
+                    });
+                } else {
+                    text += localise({
+                        en:
+                            'This should be someone in a position of authority in your organisation.',
+                        cy: ''
+                    });
+                }
+
+                text += localise({
+                    en: '</p>',
+                    cy: '</p>'
                 });
 
                 if (
@@ -620,18 +632,44 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
                 return text;
             },
-            type: 'radio',
+            get type() {
+                const organisationType = get('organisationType')(data);
+                const organisationSubType = get('organisationSubType')(data);
+
+                // Statutory bodies require a sub-type, some of which allow
+                // free text input for roles.
+                if (organisationType === ORGANISATION_TYPES.STATUTORY_BODY) {
+                    let freeTextSubTypes = [];
+                    // Filter just the free text org sub types
+                    for (let type in ORGANISATION_SUB_TYPES.STATUTORY_BODY) {
+                        if (
+                            ORGANISATION_SUB_TYPES.STATUTORY_BODY[type].freeText
+                        ) {
+                            freeTextSubTypes.push(
+                                ORGANISATION_SUB_TYPES.STATUTORY_BODY[type].key
+                            );
+                        }
+                    }
+                    if (includes(freeTextSubTypes, organisationSubType)) {
+                        return 'text';
+                    }
+                }
+
+                return 'radio';
+            },
             options: rolesFor(
                 currentOrganisationType,
                 currentOrganisationSubType
             ),
             isRequired: true,
             get schema() {
-                return (
-                    Joi.string()
-                        // .valid(this.options.map(option => option.value))
-                        .required()
-                );
+                if (this.type === 'radio') {
+                    return Joi.string()
+                        .valid(this.options.map(option => option.value))
+                        .required();
+                } else {
+                    return Joi.string().required();
+                }
             },
             messages: [
                 {
@@ -1779,36 +1817,44 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'radio',
             options: [
                 {
-                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.PARISH_COUNCIL,
+                    value:
+                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.PARISH_COUNCIL
+                            .key,
                     label: localise({ en: 'Parish Council', cy: '' })
                 },
                 {
-                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.TOWN_COUNCIL,
+                    value:
+                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.TOWN_COUNCIL.key,
                     label: localise({ en: 'Town Council', cy: '' })
                 },
                 {
                     value:
-                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.LOCAL_AUTHORITY,
+                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.LOCAL_AUTHORITY
+                            .key,
                     label: localise({ en: 'Local Authority', cy: '' })
                 },
                 {
-                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.NHS_TRUST,
+                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.NHS_TRUST.key,
                     label: localise({
                         en: 'NHS Trust/Health Authority',
                         cy: ''
                     })
                 },
                 {
-                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.PRISON_SERVICE,
+                    value:
+                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.PRISON_SERVICE
+                            .key,
                     label: localise({ en: 'Prison Service', cy: '' })
                 },
                 {
-                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.FIRE_SERVICE,
+                    value:
+                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.FIRE_SERVICE.key,
                     label: localise({ en: 'Fire Service', cy: '' })
                 },
                 {
                     value:
-                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.POLICE_AUTHORITY,
+                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.POLICE_AUTHORITY
+                            .key,
                     label: localise({ en: 'Police Authority', cy: '' })
                 }
             ],
@@ -1822,7 +1868,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose your organisation subtype @TODO',
+                        en: 'Tell us what type of statutory body you are',
                         cy: ''
                     })
                 }
