@@ -328,7 +328,16 @@ Address object with the following fields:
 
 type: `string`
 
-Allowed values: `unregistered-vco`, `unincorporated-registered-charity`, `charitable-incorporated-organisation`, `not-for-profit-company`, `school`, `statutory-body`
+Allowed values: `unregistered-vco`, `unincorporated-registered-charity`, `charitable-incorporated-organisation`, `not-for-profit-company`, `school`, `college-or-university`, `statutory-body`
+
+### organisationSubType
+
+type: `string`
+
+Present if `organisationType` is `statutory-body`
+
+Allowed values: `parish-council`, `town-council`, `local-authority`
+`nhs-trust-health-authority`, `prison-service`, `fire-service`, `police-authority`
 
 ### companyNumber
 
@@ -420,8 +429,6 @@ type: `string`
 
 type: `string`
 
-Allowed values: `audiotape` , `braille` , `disk` , `large-print` , `letter` , `sign-language,`text-relay`
-
 ### seniorContactFirstName
 
 type: `string`
@@ -434,7 +441,10 @@ type: `string`
 
 type: `string`
 
-Allowed values: `trustee`, `chair`, `vice-chair`, `secretary`, `treasurer`, `company-director`, `company-secretary`, `chief-executive`, `chief-executive-officer`, `parish-clerk`, `head-teacher`, `chancellor`, `vice-chancellor`
+Allowed values: `chair`, `chancellor`, `chief-executive`, `chief-executive-officer`, 
+`company-director`, `company-secretary`, `deputy-parish-clerk`, `director`, 
+`elected-member`, `head-teacher`, `parish-clerk`, `secretary`, 
+`treasurer`, `trustee`, `vice-chair`, `vice-chancellor`,
 
 ### seniorContactDateOfBirth
 
@@ -489,8 +499,6 @@ type: `string`
 
 type: `string`
 
-Allowed values: `audiotape` , `braille` , `disk` , `large-print` , `letter` , `sign-language,`text-relay`
-
 ### bankAccountName
 
 type: `string`
@@ -505,4 +513,12 @@ type: `string`
 
 ### bankStatement
 
-type: `file`
+type: `object`
+
+File object with the following fields:
+
+| Name         | Type          | Notes    |
+| ------------ | ------------- | -------- |
+| **filename** | `string`      |          |
+| **size**     | `integer`     |          |
+| **type**     | `string`      |          |
