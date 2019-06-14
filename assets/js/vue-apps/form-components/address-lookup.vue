@@ -260,7 +260,11 @@ export default {
                     name="address-selection"
                     id="address-selection"
                     :disabled="currentState === states.Loading"
-                    required
+                    :required="
+                        !this.fallbackVisible &&
+                            shouldShowPostcodeLookup &&
+                            !componentIsNested
+                    "
                 >
                     <option disabled value="">
                         {{ candidates.length }} addresses found
