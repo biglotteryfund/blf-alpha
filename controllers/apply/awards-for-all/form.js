@@ -452,11 +452,54 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Who is your senior contact?',
                             cy: ''
                         }),
-                        introduction: localise({
-                            en: `<p>Please give us the contact details of a senior member of your organisation.</p>
-                            <p>Your senior contact must be at least 18 years old and is legally responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.</p>`,
-                            cy: ``
-                        }),
+                        get introduction() {
+                            const organisationType = get('organisationType')(
+                                data
+                            );
+
+                            let text = localise({
+                                en: `<p>Please give us the contact details of a senior member of your organisation.</p>`,
+                                cy: ``
+                            });
+
+                            const isCharityOrCompany = includes(
+                                [
+                                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                                    ORGANISATION_TYPES.CIO,
+                                    ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+                                ],
+                                organisationType
+                            );
+
+                            if (isCharityOrCompany) {
+                                text += localise({
+                                    en:
+                                        '<p>This person must be a member of your board or committee.</p>',
+                                    cy: ''
+                                });
+                            } else if (
+                                organisationType === ORGANISATION_TYPES.SCHOOL
+                            ) {
+                                text += localise({
+                                    en:
+                                        '<p>If you are a school, this person must be the headteacher.</p>',
+                                    cy: ''
+                                });
+                            } else {
+                                text += localise({
+                                    en:
+                                        '<p>This person is usually a senior leader, or a member of your board or committee.</p>',
+                                    cy: ''
+                                });
+                            }
+
+                            text += localise({
+                                en: `<p>Your senior contact must be at least 18 years old and is legally responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.</p>`,
+                                cy: ''
+                            });
+
+                            return text;
+                        },
                         fields: compact([
                             fields.seniorContactFirstName,
                             fields.seniorContactLastName,
@@ -492,18 +535,29 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Who is your main contact?',
                             cy: ''
                         }),
-                        introduction: localise({
-                            en: `<p>
-                                The main contact is the person we can get in touch with if we have any questions about your project.
-                                While your main contact needs to be from the organisation applying, they don't need to hold a particular position.
-                            </p>
-                            <p>
-                                The main contact must be unconnected to the senior contact.
-                                By ‘unconnected’ we mean not related by blood, marriage,
-                                in a long-term relationship or people living together at the same address.
-                            </p>`,
-                            cy: ''
-                        }),
+                        get introduction() {
+                            const seniorContactDetails = {
+                                firstName: get('seniorContactFirstName')(data),
+                                lastName: get('seniorContactLastName')(data)
+                            };
+                            const seniorName =
+                                seniorContactDetails.firstName &&
+                                seniorContactDetails.lastName
+                                    ? `, <strong>${seniorContactDetails.firstName} ${seniorContactDetails.lastName}</strong>`
+                                    : '';
+                            return localise({
+                                en: `<p>
+                                        Please give us the contact details of a person we can get in touch with if we 
+                                        have any questions about your project. While they need to be from the organisation
+                                        applying, they don't need to hold a particular position.</p>
+                                    <p>
+                                        The main contact must be a different person from the senior contact${seniorName}. 
+                                        The two contacts also can't be married or in a long-term relationship with each 
+                                        other, living together at the same address, or related by blood.
+                                    </p>`,
+                                cy: ''
+                            });
+                        },
                         fields: compact([
                             fields.mainContactFirstName,
                             fields.mainContactLastName,
