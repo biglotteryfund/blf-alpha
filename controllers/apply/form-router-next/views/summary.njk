@@ -16,7 +16,7 @@
             {% for fieldset in step.fieldsets %}
                 {% for field in fieldset.fields %}
                     <div class="step-summary__data {% if field.type === 'textarea' %} is-stacked{% endif %}">
-                        <div class="step-summary__data__question">{{ field.label }}</div>
+                        <div class="step-summary__data__question">{{ field.label | safe }}</div>
                         <div class="step-summary__data__answer s-prose">
                             {% if field.displayValue %}
                                 {% set cleanValue = field.displayValue | striptags(true) | escape | nl2br %}
@@ -118,7 +118,12 @@
 
             <div class="form-actions">
                 {% if form.progress.isComplete %}
-                    <p><a href="{{ formBaseUrl }}/terms" class="btn">{{ copy.submit }}</a></p>
+                    <form action="{{ formBaseUrl }}/submission" method="post">
+                        {% if csrfToken %}
+                            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                        {% endif %}
+                        <p><input type="submit" class="btn" value="{{ copy.submit }}" /></p>
+                    </form>
                 {% else %}
                     <div class="s-prose">{{ copy.summary.incompleteMessage | safe }}</div>
                 {% endif %}
