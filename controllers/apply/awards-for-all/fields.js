@@ -653,17 +653,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             },
             get explanation() {
                 return localise({
-                    en: `<p>The start date needs to be at least ${
-                        this.settings.minStart.amount
-                    } ${
-                        this.settings.minStart.units
-                    } from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
-                    <p><strong>For example: ${
-                        this.settings.minDateExample
-                    }</strong>.</p>
-                    <p>The project end date must be within ${
-                        this.settings.maxDurationFromStart.label
-                    }
+                    en: `<p>The start date needs to be at least ${this.settings.minStart.amount} ${this.settings.minStart.units} from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
+                    <p><strong>For example: ${this.settings.minDateExample}</strong>.</p>
+                    <p>The project end date must be within ${this.settings.maxDurationFromStart.label}
                      of the start date.</p>`,
                     cy: ''
                 });
@@ -710,9 +702,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'dateRange.minDate.invalid',
                         message: localise({
-                            en: `Date you start or end the project must be after ${
-                                this.settings.fromDateExample
-                            }`,
+                            en: `Date you start or end the project must be after ${this.settings.fromDateExample}`,
                             cy: ''
                         })
                     },
@@ -726,9 +716,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'dateRange.endDate.outsideLimit',
                         message: localise({
-                            en: `End date must be within ${
-                                this.settings.maxDurationFromStart.label
-                            } of the start date.`,
+                            en: `End date must be within ${this.settings.maxDurationFromStart.label} of the start date.`,
                             cy: ''
                         })
                     }
@@ -892,18 +880,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'string.minWords',
                         message: localise({
-                            en: `Answer must be at least ${
-                                this.settings.minWords
-                            } words`,
+                            en: `Answer must be at least ${this.settings.minWords} words`,
                             cy: ''
                         })
                     },
                     {
                         type: 'string.maxWords',
                         message: localise({
-                            en: `Answer must be no more than ${
-                                this.settings.maxWords
-                            } words`,
+                            en: `Answer must be no more than ${this.settings.maxWords} words`,
                             cy: ''
                         })
                     }
@@ -955,18 +939,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'string.minWords',
                         message: localise({
-                            en: `Answer must be at least ${
-                                this.settings.minWords
-                            } words`,
+                            en: `Answer must be at least ${this.settings.minWords} words`,
                             cy: ''
                         })
                     },
                     {
                         type: 'string.maxWords',
                         message: localise({
-                            en: `Answer must be no more than ${
-                                this.settings.maxWords
-                            } words`,
+                            en: `Answer must be no more than ${this.settings.maxWords} words`,
                             cy: ''
                         })
                     }
@@ -1025,18 +1005,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'string.minWords',
                         message: localise({
-                            en: `Answer must be at least ${
-                                this.settings.minWords
-                            } words`,
+                            en: `Answer must be at least ${this.settings.minWords} words`,
                             cy: ''
                         })
                     },
                     {
                         type: 'string.maxWords',
                         message: localise({
-                            en: `Answer must be no more than ${
-                                this.settings.maxWords
-                            } words`,
+                            en: `Answer must be no more than ${this.settings.maxWords} words`,
                             cy: ''
                         })
                     }
