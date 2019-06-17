@@ -49,7 +49,10 @@ function generateHtmlEmail({ template, templateData }) {
                     html,
                     {
                         removeStyleTags: false,
-                        webResources: { relativeTo: publicRoot, images: 10 }
+                        webResources: {
+                            relativeTo: publicRoot,
+                            images: false // add `data-inline-ignore` to images to force them to be base64 inlined
+                        }
                     },
                     function(juiceErr, newHtml) {
                         /* istanbul ignore if */
