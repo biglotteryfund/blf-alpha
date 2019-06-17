@@ -11,7 +11,7 @@ const {
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     ORGANISATION_TYPES,
-    ORGANISATION_SUB_TYPES,
+    STATUTORY_BODY_TYPES,
     FILE_LIMITS
 } = require('./constants');
 
@@ -545,23 +545,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 organisationSubType
             ) {
                 switch (organisationSubType) {
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.PARISH_COUNCIL:
+                    case STATUTORY_BODY_TYPES.PARISH_COUNCIL:
                         options = [
                             ROLES.PARISH_CLERK,
                             ROLES.DEPUTY_PARISH_CLERK
                         ];
                         break;
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.TOWN_COUNCIL:
+                    case STATUTORY_BODY_TYPES.TOWN_COUNCIL:
                         options = [ROLES.ELECTED_MEMBER, ROLES.CHAIR];
                         break;
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.LOCAL_AUTHORITY:
+                    case STATUTORY_BODY_TYPES.LOCAL_AUTHORITY:
                         options = [
                             ROLES.CHAIR,
                             ROLES.CHIEF_EXECUTIVE,
                             ROLES.DIRECTOR
                         ];
                         break;
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.NHS_TRUST:
+                    case STATUTORY_BODY_TYPES.NHS_TRUST:
                         options = [ROLES.CHIEF_EXECUTIVE, ROLES.DIRECTOR];
                         break;
                     default:
@@ -630,11 +630,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         ORGANISATION_TYPES.STATUTORY_BODY &&
                     includes(
                         [
-                            ORGANISATION_SUB_TYPES.STATUTORY_BODY
-                                .PRISON_SERVICE,
-                            ORGANISATION_SUB_TYPES.STATUTORY_BODY.FIRE_SERVICE,
-                            ORGANISATION_SUB_TYPES.STATUTORY_BODY
-                                .POLICE_AUTHORITY
+                            STATUTORY_BODY_TYPES.PRISON_SERVICE,
+                            STATUTORY_BODY_TYPES.FIRE_SERVICE,
+                            STATUTORY_BODY_TYPES.POLICE_AUTHORITY
                         ],
                         currentOrganisationSubType
                     )
@@ -1804,36 +1802,34 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'radio',
             options: [
                 {
-                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.PARISH_COUNCIL,
+                    value: STATUTORY_BODY_TYPES.PARISH_COUNCIL,
                     label: localise({ en: 'Parish Council', cy: '' })
                 },
                 {
-                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.TOWN_COUNCIL,
+                    value: STATUTORY_BODY_TYPES.TOWN_COUNCIL,
                     label: localise({ en: 'Town Council', cy: '' })
                 },
                 {
-                    value:
-                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.LOCAL_AUTHORITY,
+                    value: STATUTORY_BODY_TYPES.LOCAL_AUTHORITY,
                     label: localise({ en: 'Local Authority', cy: '' })
                 },
                 {
-                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.NHS_TRUST,
+                    value: STATUTORY_BODY_TYPES.NHS_TRUST,
                     label: localise({
                         en: 'NHS Trust/Health Authority',
                         cy: ''
                     })
                 },
                 {
-                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.PRISON_SERVICE,
+                    value: STATUTORY_BODY_TYPES.PRISON_SERVICE,
                     label: localise({ en: 'Prison Service', cy: '' })
                 },
                 {
-                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.FIRE_SERVICE,
+                    value: STATUTORY_BODY_TYPES.FIRE_SERVICE,
                     label: localise({ en: 'Fire Service', cy: '' })
                 },
                 {
-                    value:
-                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.POLICE_AUTHORITY,
+                    value: STATUTORY_BODY_TYPES.POLICE_AUTHORITY,
                     label: localise({ en: 'Police Authority', cy: '' })
                 }
             ],
