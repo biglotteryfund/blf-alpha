@@ -329,7 +329,7 @@ describe('user', () => {
     });
 });
 
-describe('awards for all', function() {
+describe.only('awards for all', function() {
     it('should submit full awards for all application', () => {
         const randomCountry = faker.random.arrayElement([
             'England',
@@ -664,7 +664,7 @@ describe('awards for all', function() {
             cy.getByLabelText('Day').type('5');
             cy.getByLabelText('Month').type('11');
             cy.getByLabelText('Year').type('1926');
-            cy.getByText('Current address')
+            cy.getByText('Home address')
                 .parent()
                 .within(() => {
                     fillAddress();
@@ -691,7 +691,7 @@ describe('awards for all', function() {
             cy.getByLabelText('Day').type('5');
             cy.getByLabelText('Month').type('11');
             cy.getByLabelText('Year').type('1926');
-            cy.getByText('Current address')
+            cy.getByText('Home address')
                 .parent()
                 .within(() => {
                     fillAddress();
