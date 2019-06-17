@@ -80,11 +80,7 @@
         <article class="section-summary__content u-padded-s">
             <p class="u-constrained-wide">{{ section.summary }}</p>
 
-            {% call details(
-                title = copy.summary.showQuestions,
-                extraClasses = 'js-toggleable',
-                isOpen = form.progress.isComplete
-            ) %}
+            {% if form.progress.isComplete %}
                 {% for step in section.steps %}
                     {{ stepSummary(
                         step = step,
@@ -92,7 +88,21 @@
                         totalSteps = section.steps.length
                     )}}
                 {% endfor %}
-            {% endcall %}
+            {% else %}
+                {% call details(
+                    title = copy.summary.showQuestions,
+                    extraClasses = 'js-toggleable',
+                    isOpen = form.progress.isComplete
+                ) %}
+                    {% for step in section.steps %}
+                        {{ stepSummary(
+                            step = step,
+                            stepNumber = loop.index,
+                            totalSteps = section.steps.length
+                        )}}
+                    {% endfor %}
+                {% endcall %}
+            {% endif %}
         </article>
     </section>
 {% endmacro %}
@@ -121,13 +131,15 @@
                 </a>
             <p>
 
-            <p class="u-align-right">
-                <button type="button"
-                    class="btn-link u-text-small js-toggle-all-details js-only"
-                    data-label-open="{{ copy.summary.collapseAll }}"
-                    data-label-closed="{{ copy.summary.expandAll }}">
-                </button>
-            </p>
+            {% if not form.progress.isComplete %}
+                <p class="u-align-right">
+                    <button type="button"
+                        class="btn-link u-text-small js-toggle-all-details js-only u-align-right"
+                        data-label-open="{{ copy.summary.collapseAll }}"
+                        data-label-closed="{{ copy.summary.expandAll }}">
+                    </button>
+                </p>
+            {% endif %}
 
             {% for section in form.sections %}
                 {{ sectionSummary(section, loop.index) }}
