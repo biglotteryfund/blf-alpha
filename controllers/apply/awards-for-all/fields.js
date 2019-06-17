@@ -11,6 +11,7 @@ const {
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     ORGANISATION_TYPES,
+    STATUTORY_BODY_TYPES,
     FILE_LIMITS
 } = require('./constants');
 
@@ -18,6 +19,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
 
     const currentOrganisationType = get('organisationType')(data);
+    const currentOrganisationSubType = get('organisationSubType')(data);
 
     function matchesOrganisationType(type) {
         return currentOrganisationType === type;
@@ -247,7 +249,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function dateOfBirthField(minAge, props) {
         const defaultProps = {
             explanation: localise({
-                en: `It's important to make sure the date of birth is correct, as errors will fail our authenticity checks and delay your application.`,
+                en: `We need your date of birth to help confirm who you are. And we do check your date of birth. So make sure you've typed it in right. If you don't, it could delay your application.`,
                 cy: ''
             }),
             type: 'date',
@@ -280,56 +282,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'dateParts.dob',
                     message: localise({
                         en: `Must be at least ${minAge} years old`,
-                        cy: ''
-                    })
-                }
-            ]
-        };
-
-        return { ...defaultProps, ...props };
-    }
-
-    function communicationNeedsField(props) {
-        const options = [
-            {
-                value: 'audiotape',
-                label: localise({ en: 'Audiotape', cy: '' })
-            },
-            {
-                value: 'braille',
-                label: localise({ en: 'Braille', cy: '' })
-            },
-            {
-                value: 'disk',
-                label: localise({ en: 'Disk', cy: '' })
-            },
-            {
-                value: 'large-print',
-                label: localise({ en: 'Large print', cy: '' })
-            },
-            {
-                value: 'letter',
-                label: localise({ en: 'Letter', cy: '' })
-            },
-            {
-                value: 'sign-language',
-                label: localise({ en: 'Sign language', cy: '' })
-            },
-            {
-                value: 'text-relay',
-                label: localise({ en: 'Text relay', cy: '' })
-            }
-        ];
-
-        const defaultProps = {
-            type: 'checkbox',
-            options: options,
-            schema: multiChoice(options).optional(),
-            messages: [
-                {
-                    type: 'any.allowOnly',
-                    message: localise({
-                        en: 'Choose from the options provided',
                         cy: ''
                     })
                 }
@@ -385,11 +337,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             {
                 value: ORGANISATION_TYPES.SCHOOL,
                 label: localise({
-                    en: 'School or educational body',
+                    en: 'School',
                     cy: ''
                 }),
                 explanation: localise({
-                    en: `<p>My organisation is a school, college, university, or other registered educational establishment</p>`,
+                    en: `<p>My organisation is a school</p>`,
+                    cy: ``
+                })
+            },
+            {
+                value: ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY,
+                label: localise({
+                    en: 'College or University',
+                    cy: ''
+                }),
+                explanation: localise({
+                    en: `<p>My organisation is a college, university, or other registered educational establishment</p>`,
                     cy: ``
                 })
             },
@@ -428,35 +391,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function seniorContactRoleField() {
-        function rolesFor(organisationType) {
+        function rolesFor(organisationType, organisationSubType) {
             const ROLES = {
-                TRUSTEE: {
-                    value: 'trustee',
-                    label: localise({ en: 'Trustee', cy: '' })
-                },
                 CHAIR: {
                     value: 'chair',
                     label: localise({ en: 'Chair', cy: '' })
                 },
-                VICE_CHAIR: {
-                    value: 'vice-chair',
-                    label: localise({ en: 'Vice-chair', cy: '' })
-                },
-                SECRETARY: {
-                    value: 'secretary',
-                    label: localise({ en: 'Secretary', cy: '' })
-                },
-                TREASURER: {
-                    value: 'treasurer',
-                    label: localise({ en: 'Treasurer', cy: '' })
-                },
-                COMPANY_DIRECTOR: {
-                    value: 'company-director',
-                    label: localise({ en: 'Company Director', cy: '' })
-                },
-                COMPANY_SECRETARY: {
-                    value: 'company-secretary',
-                    label: localise({ en: 'Company Secretary', cy: '' })
+                CHANCELLOR: {
+                    value: 'chancellor',
+                    label: localise({ en: 'Chancellor', cy: '' })
                 },
                 CHIEF_EXECUTIVE: {
                     value: 'chief-executive',
@@ -466,17 +409,49 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     value: 'chief-executive-officer',
                     label: localise({ en: 'Chief Executive Officer', cy: '' })
                 },
-                PARISH_CLERK: {
-                    value: 'parish-clerk',
-                    label: localise({ en: 'Parish Clerk', cy: '' })
+                COMPANY_DIRECTOR: {
+                    value: 'company-director',
+                    label: localise({ en: 'Company Director', cy: '' })
+                },
+                COMPANY_SECRETARY: {
+                    value: 'company-secretary',
+                    label: localise({ en: 'Company Secretary', cy: '' })
+                },
+                DEPUTY_PARISH_CLERK: {
+                    value: 'deputy-parish-clerk',
+                    label: localise({ en: 'Deputy Parish Clerk', cy: '' })
+                },
+                DIRECTOR: {
+                    value: 'director',
+                    label: localise({ en: 'Director', cy: '' })
+                },
+                ELECTED_MEMBER: {
+                    value: 'elected-member',
+                    label: localise({ en: 'Elected Member', cy: '' })
                 },
                 HEAD_TEACHER: {
                     value: 'head-teacher',
                     label: localise({ en: 'Head Teacher', cy: '' })
                 },
-                CHANCELLOR: {
-                    value: 'chancellor',
-                    label: localise({ en: 'Chancellor', cy: '' })
+                PARISH_CLERK: {
+                    value: 'parish-clerk',
+                    label: localise({ en: 'Parish Clerk', cy: '' })
+                },
+                SECRETARY: {
+                    value: 'secretary',
+                    label: localise({ en: 'Secretary', cy: '' })
+                },
+                TREASURER: {
+                    value: 'treasurer',
+                    label: localise({ en: 'Treasurer', cy: '' })
+                },
+                TRUSTEE: {
+                    value: 'trustee',
+                    label: localise({ en: 'Trustee', cy: '' })
+                },
+                VICE_CHAIR: {
+                    value: 'vice-chair',
+                    label: localise({ en: 'Vice-chair', cy: '' })
                 },
                 VICE_CHANCELLOR: {
                     value: 'vice-chancellor',
@@ -495,38 +470,54 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ];
                     break;
                 case ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY:
-                    options = [
-                        ROLES.TRUSTEE,
-                        ROLES.CHAIR,
-                        ROLES.VICE_CHAIR,
-                        ROLES.TREASURER
-                    ];
+                    options = [ROLES.TRUSTEE];
                     break;
                 case ORGANISATION_TYPES.CIO:
-                    options = [
-                        ROLES.TRUSTEE,
-                        ROLES.CHAIR,
-                        ROLES.VICE_CHAIR,
-                        ROLES.TREASURER,
-                        ROLES.CHIEF_EXECUTIVE_OFFICER
-                    ];
+                    options = [ROLES.TRUSTEE, ROLES.CHIEF_EXECUTIVE_OFFICER];
                     break;
                 case ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY:
                     options = [ROLES.COMPANY_DIRECTOR, ROLES.COMPANY_SECRETARY];
                     break;
                 case ORGANISATION_TYPES.SCHOOL:
-                    options = [
-                        ROLES.HEAD_TEACHER,
-                        ROLES.CHANCELLOR,
-                        ROLES.VICE_CHANCELLOR
-                    ];
+                    options = [ROLES.HEAD_TEACHER];
                     break;
-                case ORGANISATION_TYPES.STATUTORY_BODY:
-                    options = [ROLES.PARISH_CLERK, ROLES.CHIEF_EXECUTIVE];
+                case ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY:
+                    options = [ROLES.CHANCELLOR, ROLES.VICE_CHANCELLOR];
                     break;
                 default:
                     options = values(ROLES);
                     break;
+            }
+
+            // Add custom options for statutory bodies
+            if (
+                organisationType === ORGANISATION_TYPES.STATUTORY_BODY &&
+                organisationSubType
+            ) {
+                switch (organisationSubType) {
+                    case STATUTORY_BODY_TYPES.PARISH_COUNCIL:
+                        options = [
+                            ROLES.PARISH_CLERK,
+                            ROLES.DEPUTY_PARISH_CLERK
+                        ];
+                        break;
+                    case STATUTORY_BODY_TYPES.TOWN_COUNCIL:
+                        options = [ROLES.ELECTED_MEMBER, ROLES.CHAIR];
+                        break;
+                    case STATUTORY_BODY_TYPES.LOCAL_AUTHORITY:
+                        options = [
+                            ROLES.CHAIR,
+                            ROLES.CHIEF_EXECUTIVE,
+                            ROLES.DIRECTOR
+                        ];
+                        break;
+                    case STATUTORY_BODY_TYPES.NHS_TRUST:
+                        options = [ROLES.CHIEF_EXECUTIVE, ROLES.DIRECTOR];
+                        break;
+                    default:
+                        options = values(ROLES);
+                        break;
+                }
             }
 
             return options;
@@ -536,12 +527,47 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'seniorContactRole',
             label: localise({ en: 'Role', cy: '' }),
             get explanation() {
+                const projectCountry = get('projectCountry')(data);
+                const organisationType = get('organisationType')(data);
+
                 let text = localise({
-                    en: `<p>The position held by the senior contact is dependent on the type of organisation you are applying on behalf of. The options given to you for selection are based on this.<p>`,
+                    en: `<p>The role held by the senior contact is dependent on the type of organisation you are applying on behalf of. `,
                     cy: ''
                 });
 
-                if (
+                if (this.type === 'radio') {
+                    text += localise({
+                        en:
+                            'The options given to you for selection are based on this.',
+                        cy: ''
+                    });
+                } else {
+                    text += localise({
+                        en:
+                            'This should be someone in a position of authority in your organisation.',
+                        cy: ''
+                    });
+                }
+
+                text += localise({
+                    en: '</p>',
+                    cy: '</p>'
+                });
+
+                const isCharityOrCompany = includes(
+                    [
+                        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                        ORGANISATION_TYPES.CIO,
+                        ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+                    ],
+                    organisationType
+                );
+
+                if (isCharityOrCompany && projectCountry !== 'scotland') {
+                    text += localise({
+                        en: `<p><strong>Your senior contact must be listed as a member of your organisation's board or committee with the Charity Commission/Companies House.</strong></p>`
+                    });
+                } else if (
                     matchesOrganisationType(
                         ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY
                     )
@@ -562,13 +588,39 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
                 return text;
             },
-            type: 'radio',
-            options: rolesFor(currentOrganisationType),
+            get type() {
+                // Statutory bodies require a sub-type, some of which allow
+                // free text input for roles.
+                if (
+                    currentOrganisationType ===
+                        ORGANISATION_TYPES.STATUTORY_BODY &&
+                    includes(
+                        [
+                            STATUTORY_BODY_TYPES.PRISON_SERVICE,
+                            STATUTORY_BODY_TYPES.FIRE_SERVICE,
+                            STATUTORY_BODY_TYPES.POLICE_AUTHORITY
+                        ],
+                        currentOrganisationSubType
+                    )
+                ) {
+                    return 'text';
+                }
+
+                return 'radio';
+            },
+            options: rolesFor(
+                currentOrganisationType,
+                currentOrganisationSubType
+            ),
             isRequired: true,
             get schema() {
-                return Joi.string()
-                    .valid(this.options.map(option => option.value))
-                    .required();
+                if (this.type === 'radio') {
+                    return Joi.string()
+                        .valid(this.options.map(option => option.value))
+                        .required();
+                } else {
+                    return Joi.string().required();
+                }
             },
             messages: [
                 {
@@ -1710,9 +1762,65 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             })
         }),
         organisationType: organisationTypeField(),
+        organisationSubTypeStatutoryBody: {
+            name: 'organisationSubType',
+            label: localise({
+                en: 'Tell us what type of statutory body you are',
+                cy: ''
+            }),
+            type: 'radio',
+            options: [
+                {
+                    value: STATUTORY_BODY_TYPES.PARISH_COUNCIL,
+                    label: localise({ en: 'Parish Council', cy: '' })
+                },
+                {
+                    value: STATUTORY_BODY_TYPES.TOWN_COUNCIL,
+                    label: localise({ en: 'Town Council', cy: '' })
+                },
+                {
+                    value: STATUTORY_BODY_TYPES.LOCAL_AUTHORITY,
+                    label: localise({ en: 'Local Authority', cy: '' })
+                },
+                {
+                    value: STATUTORY_BODY_TYPES.NHS_TRUST,
+                    label: localise({
+                        en: 'NHS Trust/Health Authority',
+                        cy: ''
+                    })
+                },
+                {
+                    value: STATUTORY_BODY_TYPES.PRISON_SERVICE,
+                    label: localise({ en: 'Prison Service', cy: '' })
+                },
+                {
+                    value: STATUTORY_BODY_TYPES.FIRE_SERVICE,
+                    label: localise({ en: 'Fire Service', cy: '' })
+                },
+                {
+                    value: STATUTORY_BODY_TYPES.POLICE_AUTHORITY,
+                    label: localise({ en: 'Police Authority', cy: '' })
+                }
+            ],
+            isRequired: true,
+            schema: Joi.when('organisationType', {
+                is: ORGANISATION_TYPES.STATUTORY_BODY,
+                then: Joi.string().required(),
+                otherwise: Joi.any().strip()
+            }),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Tell us what type of statutory body you are',
+                        cy: ''
+                    })
+                }
+            ]
+        },
         companyNumber: {
             name: 'companyNumber',
-            label: localise({ en: 'Companies house number', cy: '' }),
+            label: localise({ en: 'Companies House number', cy: '' }),
             type: 'text',
             isRequired: true,
             schema: Joi.when('organisationType', {
@@ -1770,9 +1878,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             attributes: { size: 20 },
             isRequired: true,
             schema: Joi.when('organisationType', {
-                is: ORGANISATION_TYPES.SCHOOL,
+                is: Joi.exist().valid(
+                    ORGANISATION_TYPES.SCHOOL,
+                    ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY
+                ),
                 then: Joi.string().required()
             }),
+
             messages: [
                 {
                     type: 'base',
@@ -1850,7 +1962,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         }),
         mainContactAddress: addressField({
             name: 'mainContactAddress',
-            label: localise({ en: 'Current address', cy: '' }),
+            label: localise({ en: 'Home address', cy: '' }),
+            explanation: localise({
+                en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
+                cy: ''
+            }),
             schema: Joi.ukAddress().when(Joi.ref('organisationType'), {
                 is: Joi.exist().valid(
                     ORGANISATION_TYPES.SCHOOL,
@@ -1878,13 +1994,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'mainContactPhone',
             label: localise({ en: 'Telephone number', cy: '' })
         }),
-        mainContactCommunicationNeeds: communicationNeedsField({
+        mainContactCommunicationNeeds: {
             name: 'mainContactCommunicationNeeds',
             label: localise({
                 en: `Please tell us about any particular communication needs this contact has.`,
                 cy: ``
-            })
-        }),
+            }),
+            type: 'text',
+            isRequired: false,
+            schema: Joi.string()
+                .allow('')
+                .optional(),
+            messages: []
+        },
+        seniorContactRole: seniorContactRoleField(),
         seniorContactFirstName: firstNameField({
             name: 'seniorContactFirstName',
             label: localise({ en: 'First name', cy: '' })
@@ -1893,14 +2016,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'seniorContactLastName',
             label: localise({ en: 'Last name', cy: '' })
         }),
-        seniorContactRole: seniorContactRoleField(),
         seniorContactDob: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
             name: 'seniorContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })
         }),
         seniorContactAddress: addressField({
             name: 'seniorContactAddress',
-            label: localise({ en: 'Current address', cy: '' }),
+            label: localise({ en: 'Home address', cy: '' }),
+            explanation: localise({
+                en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
+                cy: ''
+            }),
             schema: Joi.ukAddress().when(Joi.ref('organisationType'), {
                 is: Joi.exist().valid(
                     ORGANISATION_TYPES.SCHOOL,
@@ -1928,13 +2054,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'seniorContactPhone',
             label: localise({ en: 'Telephone number', cy: '' })
         }),
-        seniorContactCommunicationNeeds: communicationNeedsField({
+        seniorContactCommunicationNeeds: {
             name: 'seniorContactCommunicationNeeds',
             label: localise({
                 en: `Please tell us about any particular communication needs this contact has.`,
                 cy: ``
-            })
-        }),
+            }),
+            type: 'text',
+            isRequired: false,
+            schema: Joi.string()
+                .allow('')
+                .optional(),
+            messages: []
+        },
         bankAccountName: {
             name: 'bankAccountName',
             label: localise({ en: 'Name on the bank account', cy: '' }),
