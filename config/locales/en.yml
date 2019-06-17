@@ -685,6 +685,7 @@ funding:
         monolingual: England, Scotland or Northern Ireland
         bilingual: Wales
       outOfStock: Out of stock
+      mustBeOrderedDirectly: Not available directly – please <a href="mailto:branding@tnlcommunityfund.org.uk">email our branding team</a> if you would like to order this item.
       enterDeliveryAddress: Enter your delivery details
       chooseItems: Choose any of the following items
       formFields:
@@ -1368,7 +1369,7 @@ applyNext:
     incompleteMessage: >
       <p>Your form isn't complete yet — you can submit it here when it's ready.</p>
     terms: >
-      <p><strong>Please note</strong>: in order to submit your application you will need to agree to our <a href="#">terms and conditions</a>.</p>
+      <p><strong>Please note</strong>: in order to submit your application you will need to agree to our terms and conditions.</p>
     expandAll: Expand all sections
     collapseAll: Collapse all sections
     showQuestions: Show questions
