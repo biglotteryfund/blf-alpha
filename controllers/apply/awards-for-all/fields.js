@@ -249,7 +249,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function dateOfBirthField(minAge, props) {
         const defaultProps = {
             explanation: localise({
-                en: `It's important to make sure the date of birth is correct, as errors will fail our authenticity checks and delay your application.`,
+                en: `We need your date of birth to help confirm who you are. And we do check your date of birth. So make sure you've typed it in right. If you don't, it could delay your application.`,
                 cy: ''
             }),
             type: 'date',
@@ -282,56 +282,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'dateParts.dob',
                     message: localise({
                         en: `Must be at least ${minAge} years old`,
-                        cy: ''
-                    })
-                }
-            ]
-        };
-
-        return { ...defaultProps, ...props };
-    }
-
-    function communicationNeedsField(props) {
-        const options = [
-            {
-                value: 'audiotape',
-                label: localise({ en: 'Audiotape', cy: '' })
-            },
-            {
-                value: 'braille',
-                label: localise({ en: 'Braille', cy: '' })
-            },
-            {
-                value: 'disk',
-                label: localise({ en: 'Disk', cy: '' })
-            },
-            {
-                value: 'large-print',
-                label: localise({ en: 'Large print', cy: '' })
-            },
-            {
-                value: 'letter',
-                label: localise({ en: 'Letter', cy: '' })
-            },
-            {
-                value: 'sign-language',
-                label: localise({ en: 'Sign language', cy: '' })
-            },
-            {
-                value: 'text-relay',
-                label: localise({ en: 'Text relay', cy: '' })
-            }
-        ];
-
-        const defaultProps = {
-            type: 'checkbox',
-            options: options,
-            schema: multiChoice(options).optional(),
-            messages: [
-                {
-                    type: 'any.allowOnly',
-                    message: localise({
-                        en: 'Choose from the options provided',
                         cy: ''
                     })
                 }
@@ -577,8 +527,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'seniorContactRole',
             label: localise({ en: 'Role', cy: '' }),
             get explanation() {
+                const projectCountry = get('projectCountry')(data);
+                const organisationType = get('organisationType')(data);
+
                 let text = localise({
-                    en: `<p>The position held by the senior contact is dependent on the type of organisation you are applying on behalf of. `,
+                    en: `<p>The role held by the senior contact is dependent on the type of organisation you are applying on behalf of. `,
                     cy: ''
                 });
 
@@ -601,7 +554,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     cy: '</p>'
                 });
 
-                if (
+                const isCharityOrCompany = includes(
+                    [
+                        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                        ORGANISATION_TYPES.CIO,
+                        ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+                    ],
+                    organisationType
+                );
+
+                if (isCharityOrCompany && projectCountry !== 'scotland') {
+                    text += localise({
+                        en: `<p><strong>Your senior contact must be listed as a member of your organisation's board or committee with the Charity Commission/Companies House.</strong></p>`
+                    });
+                } else if (
                     matchesOrganisationType(
                         ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY
                     )
@@ -1997,7 +1963,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         }),
         mainContactAddress: addressField({
             name: 'mainContactAddress',
-            label: localise({ en: 'Current address', cy: '' }),
+            label: localise({ en: 'Home address', cy: '' }),
+            explanation: localise({
+                en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
+                cy: ''
+            }),
             schema: Joi.ukAddress().when(Joi.ref('organisationType'), {
                 is: Joi.exist().valid(
                     ORGANISATION_TYPES.SCHOOL,
@@ -2025,13 +1995,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'mainContactPhone',
             label: localise({ en: 'Telephone number', cy: '' })
         }),
-        mainContactCommunicationNeeds: communicationNeedsField({
+        mainContactCommunicationNeeds: {
             name: 'mainContactCommunicationNeeds',
             label: localise({
                 en: `Please tell us about any particular communication needs this contact has.`,
                 cy: ``
-            })
-        }),
+            }),
+            type: 'text',
+            isRequired: false,
+            schema: Joi.string()
+                .allow('')
+                .optional(),
+            messages: []
+        },
+        seniorContactRole: seniorContactRoleField(),
         seniorContactFirstName: firstNameField({
             name: 'seniorContactFirstName',
             label: localise({ en: 'First name', cy: '' })
@@ -2040,14 +2017,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'seniorContactLastName',
             label: localise({ en: 'Last name', cy: '' })
         }),
-        seniorContactRole: seniorContactRoleField(),
         seniorContactDob: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
             name: 'seniorContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })
         }),
         seniorContactAddress: addressField({
             name: 'seniorContactAddress',
-            label: localise({ en: 'Current address', cy: '' }),
+            label: localise({ en: 'Home address', cy: '' }),
+            explanation: localise({
+                en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
+                cy: ''
+            }),
             schema: Joi.ukAddress().when(Joi.ref('organisationType'), {
                 is: Joi.exist().valid(
                     ORGANISATION_TYPES.SCHOOL,
@@ -2075,13 +2055,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'seniorContactPhone',
             label: localise({ en: 'Telephone number', cy: '' })
         }),
-        seniorContactCommunicationNeeds: communicationNeedsField({
+        seniorContactCommunicationNeeds: {
             name: 'seniorContactCommunicationNeeds',
             label: localise({
                 en: `Please tell us about any particular communication needs this contact has.`,
                 cy: ``
-            })
-        }),
+            }),
+            type: 'text',
+            isRequired: false,
+            schema: Joi.string()
+                .allow('')
+                .optional(),
+            messages: []
+        },
         bankAccountName: {
             name: 'bankAccountName',
             label: localise({ en: 'Name on the bank account', cy: '' }),
