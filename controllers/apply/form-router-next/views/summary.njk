@@ -107,6 +107,7 @@
             <p class="u-align-right">
                 <button type="button"
                     class="btn-link u-text-small js-toggle-all-details js-only"
+                    {% if form.progress.isComplete %}data-is-open="true"{% endif %}
                     data-label-open="{{ copy.summary.collapseAll }}"
                     data-label-closed="{{ copy.summary.expandAll }}">
                 </button>
