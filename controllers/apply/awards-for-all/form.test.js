@@ -121,7 +121,13 @@ function mockFullForm({
             filename: 'example.pdf',
             size: 123,
             type: 'application/pdf'
-        }
+        },
+        termsAgreement1: 'yes',
+        termsAgreement2: 'yes',
+        termsAgreement3: 'yes',
+        termsAgreement4: 'yes',
+        termsPersonName: `${faker.name.firstName()} ${faker.name.lastName()}`,
+        termsPersonPosition: faker.name.jobTitle()
     };
 }
 
@@ -1028,6 +1034,11 @@ describe('form shape', () => {
                     label: 'Bank details',
                     slug: 'bank-details',
                     status: 'empty'
+                },
+                {
+                    label: 'Terms and Conditions',
+                    slug: 'terms-and-conditions',
+                    status: 'empty'
                 }
             ]
         });
@@ -1068,6 +1079,11 @@ describe('form shape', () => {
                 {
                     label: 'Bank details',
                     slug: 'bank-details',
+                    status: 'complete'
+                },
+                {
+                    label: 'Terms and Conditions',
+                    slug: 'terms-and-conditions',
                     status: 'complete'
                 }
             ]
@@ -1113,6 +1129,11 @@ describe('form shape', () => {
                 {
                     label: 'Bank details',
                     slug: 'bank-details',
+                    status: 'complete'
+                },
+                {
+                    label: 'Terms and Conditions',
+                    slug: 'terms-and-conditions',
                     status: 'complete'
                 }
             ]
