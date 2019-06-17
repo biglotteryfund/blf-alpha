@@ -50,14 +50,27 @@
         margin: 0;
         padding: $spacingUnit / 3;
     }
-    .form-errors__list {
+
+    .form-errors__body {
         padding: $spacingUnit / 2;
     }
 
-    .form-errors__list li,
-    .form-errors__list li a {
-        color: get-color('message', 'warning');
-        font-weight: font-weight('body', 'bold');
+    .form-errors__subtitle {
+        margin-bottom: 3px;
+    }
+
+    .form-errors__list {
+        margin-bottom: 1em;
+
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+
+        li,
+        li a {
+            color: get-color('message', 'warning');
+            font-weight: font-weight('body', 'bold');
+        }
     }
 }
 

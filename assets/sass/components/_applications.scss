@@ -282,7 +282,16 @@ $statuses: (
 
 .submit-actions {
     margin-bottom: $spacingUnit;
+    background-color: get-color('background', 'light-neutral');
 
+    padding: $spacingUnit ($spacingUnit / 2);
+
+    @include mq('medium') {
+        padding: $spacingUnit;
+    }
+}
+
+.submit-actions--complete {
     .submit-actions__title {
         color: map-get($statuses, 'complete');
     }
