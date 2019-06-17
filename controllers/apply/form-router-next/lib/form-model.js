@@ -150,9 +150,12 @@ class FormModel {
         };
     }
 
+    getCurrentSteps() {
+        return flatMap(this.sections, 'steps');
+    }
+
     getCurrentFields() {
-        const steps = flatMap(this.sections, 'steps');
-        const fieldsets = flatMap(steps, 'fieldsets');
+        const fieldsets = flatMap(this.getCurrentSteps(), 'fieldsets');
         return flatMap(fieldsets, 'fields');
     }
 
