@@ -169,6 +169,13 @@ export default {
         elementIsHidden() {
             return this.$el && this.$el.offsetParent === null;
         },
+        fieldsAreRequired() {
+            return (
+                !this.fallbackVisible &&
+                this.shouldShowPostcodeLookup &&
+                !this.componentIsNested
+            );
+        },
         shouldShowPostcodeLookup() {
             return (
                 this.currentState === this.states.Asking ||
@@ -230,11 +237,7 @@ export default {
                     class="ff-text"
                     v-model="postcode"
                     autocomplete="off"
-                    :required="
-                        !this.fallbackVisible &&
-                            shouldShowPostcodeLookup &&
-                            !componentIsNested
-                    "
+                    :required="fieldsAreRequired"
                 />
                 <button
                     type="button"
@@ -260,11 +263,7 @@ export default {
                     name="address-selection"
                     id="address-selection"
                     :disabled="currentState === states.Loading"
-                    :required="
-                        !this.fallbackVisible &&
-                            shouldShowPostcodeLookup &&
-                            !componentIsNested
-                    "
+                    :required="fieldsAreRequired"
                 >
                     <option disabled value="">
                         {{ candidates.length }} addresses found
