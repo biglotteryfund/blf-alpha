@@ -777,7 +777,9 @@ describe('awards for all', function() {
 
             cy.checkA11y();
             cy.get('h1').should('contain', 'Summary');
-            cy.getByText('Submit application').click();
+            cy.getAllByText('Submit application')
+                .first()
+                .click();
 
             cy.get('h1').should(
                 'contain',

@@ -6,6 +6,19 @@
 
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
+
+{% macro submitActions() %}
+    <form class="submit-actions u-tone-background-tint u-padded" action="{{ formBaseUrl }}/submission" method="post">
+        <h2 class="submit-actions__title">{{ iconTick('medium') }} {{ copy.summary.completeTitle }}</h2>
+        <p class="submit-actions__text">{{ copy.summary.completeMessage }}</p>
+        {% if csrfToken %}
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+        {% endif %}
+        <input type="submit" class="btn" value="{{ copy.submit }}" class="u-margin-bottom-s" />
+    </form>
+{% endmacro %}
+
+
 {% macro stepSummary(step, stepNumber, totalSteps) %}
     <div class="step-summary">
         <h3 class="step-summary__title">
@@ -15,7 +28,7 @@
         {% if step.isRequired %}
             {% for fieldset in step.fieldsets %}
                 {% for field in fieldset.fields %}
-                    <div class="step-summary__data {% if field.type === 'textarea' %} is-stacked{% endif %}">
+                    <div class="step-summary__data {% if field.settings.stackedSummary %} is-stacked{% endif %}">
                         <div class="step-summary__data__question">{{ field.label | safe }}</div>
                         <div class="step-summary__data__answer s-prose">
                             {% if field.displayValue %}
@@ -67,11 +80,7 @@
         <article class="section-summary__content u-padded-s">
             <p class="u-constrained-wide">{{ section.summary }}</p>
 
-            {% call details(
-                title = copy.summary.showQuestions,
-                extraClasses = 'js-toggleable',
-                isOpen = form.progress.isComplete
-            ) %}
+            {% if form.progress.isComplete %}
                 {% for step in section.steps %}
                     {{ stepSummary(
                         step = step,
@@ -79,7 +88,21 @@
                         totalSteps = section.steps.length
                     )}}
                 {% endfor %}
-            {% endcall %}
+            {% else %}
+                {% call details(
+                    title = copy.summary.showQuestions,
+                    extraClasses = 'js-toggleable',
+                    isOpen = form.progress.isComplete
+                ) %}
+                    {% for step in section.steps %}
+                        {{ stepSummary(
+                            step = step,
+                            stepNumber = loop.index,
+                            totalSteps = section.steps.length
+                        )}}
+                    {% endfor %}
+                {% endcall %}
+            {% endif %}
         </article>
     </section>
 {% endmacro %}
@@ -95,7 +118,11 @@
                 suffix = currentProjectName
             ) }}
 
-            <div class="s-prose">{{ copy.summary.introduction | safe }}</div>
+            {% if form.progress.isComplete %}
+                {{ submitActions( )}}
+            {% else %}
+                <div class="s-prose">{{ copy.summary.introduction | safe }}</div>
+            {% endif %}
 
             <p class="u-margin-bottom-s">
                 <a class="btn btn--small btn--outline" href="{{ formBaseUrl }}/delete/{{ currentlyEditingId }}">
@@ -104,32 +131,29 @@
                 </a>
             <p>
 
-            <p class="u-align-right">
-                <button type="button"
-                    class="btn-link u-text-small js-toggle-all-details js-only"
-                    data-label-open="{{ copy.summary.collapseAll }}"
-                    data-label-closed="{{ copy.summary.expandAll }}">
-                </button>
-            </p>
+            {% if not form.progress.isComplete %}
+                <p class="u-align-right">
+                    <button type="button"
+                        class="btn-link u-text-small js-toggle-all-details js-only u-align-right"
+                        data-label-open="{{ copy.summary.collapseAll }}"
+                        data-label-closed="{{ copy.summary.expandAll }}">
+                    </button>
+                </p>
+            {% endif %}
 
             {% for section in form.sections %}
                 {{ sectionSummary(section, loop.index) }}
             {% endfor %}
 
-            <div class="form-actions">
-                {% if form.progress.isComplete %}
-                    <form action="{{ formBaseUrl }}/submission" method="post">
-                        {% if csrfToken %}
-                            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                        {% endif %}
-                        <p><input type="submit" class="btn" value="{{ copy.submit }}" /></p>
-                    </form>
-                {% else %}
-                    <div class="s-prose">{{ copy.summary.incompleteMessage | safe }}</div>
-                {% endif %}
+            {% if form.progress.isComplete %}
+                {{ submitActions( )}}
+            {% else %}
+                <div class="s-prose">
+                    {{ copy.summary.incompleteMessage | safe }}
+                    {{ copy.summary.terms | safe }}
+                </div>
+            {% endif %}
 
-                <div class="s-prose">{{ copy.summary.terms | safe }}</div>
-            </div>
         </div>
     </main>
 {% endblock %}
