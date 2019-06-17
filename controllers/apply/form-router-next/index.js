@@ -254,28 +254,6 @@ function initFormRouter({
     });
 
     /**
-     * Route: Terms and Conditions
-     */
-    router.route('/terms').get(function(req, res) {
-        const form = formBuilder({
-            locale: req.i18n.getLocale(),
-            data: res.locals.currentApplicationData
-        });
-
-        if (form.validation.isValid) {
-            res.render(path.resolve(__dirname, './views/terms'), {
-                csrfToken: req.csrfToken(),
-                breadcrumbs: res.locals.breadcrumbs.concat({
-                    label: 'Terms & Conditions'
-                }),
-                form: form
-            });
-        } else {
-            res.redirect(`${req.baseUrl}/summary`);
-        }
-    });
-
-    /**
      * Route: Submission
      */
     router.post('/submission', async (req, res, next) => {

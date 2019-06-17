@@ -653,17 +653,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             },
             get explanation() {
                 return localise({
-                    en: `<p>The start date needs to be at least ${
-                        this.settings.minStart.amount
-                    } ${
-                        this.settings.minStart.units
-                    } from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
-                    <p><strong>For example: ${
-                        this.settings.minDateExample
-                    }</strong>.</p>
-                    <p>The project end date must be within ${
-                        this.settings.maxDurationFromStart.label
-                    }
+                    en: `<p>The start date needs to be at least ${this.settings.minStart.amount} ${this.settings.minStart.units} from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
+                    <p><strong>For example: ${this.settings.minDateExample}</strong>.</p>
+                    <p>The project end date must be within ${this.settings.maxDurationFromStart.label}
                      of the start date.</p>`,
                     cy: ''
                 });
@@ -710,9 +702,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'dateRange.minDate.invalid',
                         message: localise({
-                            en: `Date you start or end the project must be after ${
-                                this.settings.fromDateExample
-                            }`,
+                            en: `Date you start or end the project must be after ${this.settings.fromDateExample}`,
                             cy: ''
                         })
                     },
@@ -726,9 +716,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'dateRange.endDate.outsideLimit',
                         message: localise({
-                            en: `End date must be within ${
-                                this.settings.maxDurationFromStart.label
-                            } of the start date.`,
+                            en: `End date must be within ${this.settings.maxDurationFromStart.label} of the start date.`,
                             cy: ''
                         })
                     }
@@ -892,18 +880,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'string.minWords',
                         message: localise({
-                            en: `Answer must be at least ${
-                                this.settings.minWords
-                            } words`,
+                            en: `Answer must be at least ${this.settings.minWords} words`,
                             cy: ''
                         })
                     },
                     {
                         type: 'string.maxWords',
                         message: localise({
-                            en: `Answer must be no more than ${
-                                this.settings.maxWords
-                            } words`,
+                            en: `Answer must be no more than ${this.settings.maxWords} words`,
                             cy: ''
                         })
                     }
@@ -955,18 +939,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'string.minWords',
                         message: localise({
-                            en: `Answer must be at least ${
-                                this.settings.minWords
-                            } words`,
+                            en: `Answer must be at least ${this.settings.minWords} words`,
                             cy: ''
                         })
                     },
                     {
                         type: 'string.maxWords',
                         message: localise({
-                            en: `Answer must be no more than ${
-                                this.settings.maxWords
-                            } words`,
+                            en: `Answer must be no more than ${this.settings.maxWords} words`,
                             cy: ''
                         })
                     }
@@ -1025,18 +1005,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'string.minWords',
                         message: localise({
-                            en: `Answer must be at least ${
-                                this.settings.minWords
-                            } words`,
+                            en: `Answer must be at least ${this.settings.minWords} words`,
                             cy: ''
                         })
                     },
                     {
                         type: 'string.maxWords',
                         message: localise({
-                            en: `Answer must be no more than ${
-                                this.settings.maxWords
-                            } words`,
+                            en: `Answer must be no more than ${this.settings.maxWords} words`,
                             cy: ''
                         })
                     }
@@ -2057,13 +2033,137 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'number.max',
                     message: localise({
-                        en: `Please upload a file below ${
-                            FILE_LIMITS.SIZE.label
-                        }`,
+                        en: `Please upload a file below ${FILE_LIMITS.SIZE.label}`,
                         cy: ''
                     })
                 }
             ]
+        },
+        termsAgreement1: {
+            name: 'termsAgreement1',
+            type: 'checkbox',
+            label: localise({
+                en: `You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.`,
+                cy: ''
+            }),
+            options: [
+                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
+            ],
+            isRequired: true,
+            schema: Joi.string('yes').required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'You must agree to all of the terms and conditions',
+                        cy: ''
+                    })
+                }
+            ]
+        },
+        termsAgreement2: {
+            name: 'termsAgreement2',
+            type: 'checkbox',
+            label: localise({
+                en: `All the information you have provided in your application is accurate and complete; and you will notify us of any changes.`,
+                cy: ''
+            }),
+            options: [
+                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
+            ],
+            isRequired: true,
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'You must agree to all of the terms and conditions',
+                        cy: ''
+                    })
+                }
+            ]
+        },
+        termsAgreement3: {
+            name: 'termsAgreement3',
+            type: 'checkbox',
+            label: localise({
+                en: `You understand that we will use any personal information you have provided for the purposes described under the <a href="/about/customer-service/data-protection">Data Protection Statement</a>.`,
+                cy: ''
+            }),
+            options: [
+                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
+            ],
+            isRequired: true,
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'You must agree to all of the terms and conditions',
+                        cy: ''
+                    })
+                }
+            ]
+        },
+        termsAgreement4: {
+            name: 'termsAgreement4',
+            type: 'checkbox',
+            label: localise({
+                en: `If information about this application is requested under the Freedom of Information Act, we will release it in line with our <a href="/about/customer-service/freedom-of-information">Freedom of Information policy.</a>`,
+                cy: ''
+            }),
+            options: [
+                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
+            ],
+            isRequired: true,
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'You must agree to all of the terms and conditions',
+                        cy: ''
+                    })
+                }
+            ]
+        },
+        termsPersonName: {
+            name: 'termsPersonName',
+            label: localise({
+                en: 'Full name of person completing this form',
+                cy: ''
+            }),
+            type: 'text',
+            isRequired: true,
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en:
+                            'You must provide the name of the person completing this form',
+                        cy: ''
+                    })
+                }
+            ],
+            attributes: { autocomplete: 'name' }
+        },
+        termsPersonPosition: {
+            name: 'termsPersonPosition',
+            label: localise({ en: 'Position in organisation', cy: '' }),
+            type: 'text',
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en:
+                            'You must provide the position of the person completing this form',
+                        cy: ''
+                    })
+                }
+            ],
+            isRequired: true
         }
     };
 
