@@ -1369,7 +1369,7 @@ applyNext:
     incompleteMessage: >
       <p>Your form isn't complete yet — you can submit it here when it's ready.</p>
     terms: >
-      <p><strong>Please note</strong>: in order to submit your application you will need to agree to our <a href="#">terms and conditions</a>.</p>
+      <p><strong>Please note</strong>: in order to submit your application you will need to agree to our terms and conditions.</p>
     expandAll: Expand all sections
     collapseAll: Collapse all sections
     showQuestions: Show questions

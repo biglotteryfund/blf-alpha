@@ -735,7 +735,7 @@ describe('awards for all', function() {
             submitStep();
         }
 
-        function fillTerms() {
+        function stepTermsAndConditions() {
             cy.checkA11y();
             cy.getAllByLabelText('I agree').each($el => {
                 cy.wrap($el).click();
@@ -747,6 +747,7 @@ describe('awards for all', function() {
             cy.getByLabelText('Position in organisation', {
                 exact: false
             }).type(faker.name.jobDescriptor());
+            submitStep();
         }
 
         cy.seedAndLogin().then(() => {
@@ -772,12 +773,10 @@ describe('awards for all', function() {
             stepMainContact();
             stepBankDetails();
             stepBankStatement();
+            stepTermsAndConditions();
 
             cy.checkA11y();
             cy.get('h1').should('contain', 'Summary');
-            cy.getByText('Submit application').click();
-
-            fillTerms();
             cy.getByText('Submit application').click();
 
             cy.get('h1').should(
