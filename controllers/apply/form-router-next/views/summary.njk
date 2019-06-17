@@ -6,6 +6,19 @@
 
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
+
+{% macro submitActions() %}
+    <form class="submit-actions u-tone-background-tint u-padded" action="{{ formBaseUrl }}/submission" method="post">
+        <h2 class="submit-actions__title">{{ iconTick('medium') }} {{ copy.summary.completeTitle }}</h2>
+        <p class="submit-actions__text">{{ copy.summary.completeMessage }}</p>
+        {% if csrfToken %}
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+        {% endif %}
+        <input type="submit" class="btn" value="{{ copy.submit }}" class="u-margin-bottom-s" />
+    </form>
+{% endmacro %}
+
+
 {% macro stepSummary(step, stepNumber, totalSteps) %}
     <div class="step-summary">
         <h3 class="step-summary__title">
@@ -95,7 +108,11 @@
                 suffix = currentProjectName
             ) }}
 
-            <div class="s-prose">{{ copy.summary.introduction | safe }}</div>
+            {% if form.progress.isComplete %}
+                {{ submitActions( )}}
+            {% else %}
+                <div class="s-prose">{{ copy.summary.introduction | safe }}</div>
+            {% endif %}
 
             <p class="u-margin-bottom-s">
                 <a class="btn btn--small btn--outline" href="{{ formBaseUrl }}/delete/{{ currentlyEditingId }}">
@@ -116,20 +133,15 @@
                 {{ sectionSummary(section, loop.index) }}
             {% endfor %}
 
-            <div class="form-actions">
-                {% if form.progress.isComplete %}
-                    <form action="{{ formBaseUrl }}/submission" method="post">
-                        {% if csrfToken %}
-                            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-                        {% endif %}
-                        <p><input type="submit" class="btn" value="{{ copy.submit }}" /></p>
-                    </form>
-                {% else %}
-                    <div class="s-prose">{{ copy.summary.incompleteMessage | safe }}</div>
-                {% endif %}
+            {% if form.progress.isComplete %}
+                {{ submitActions( )}}
+            {% else %}
+                <div class="s-prose">
+                    {{ copy.summary.incompleteMessage | safe }}
+                    {{ copy.summary.terms | safe }}
+                </div>
+            {% endif %}
 
-                <div class="s-prose">{{ copy.summary.terms | safe }}</div>
-            </div>
         </div>
     </main>
 {% endblock %}
