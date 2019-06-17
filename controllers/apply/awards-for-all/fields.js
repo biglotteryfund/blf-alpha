@@ -495,25 +495,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 organisationSubType
             ) {
                 switch (organisationSubType) {
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.PARISH_COUNCIL
-                        .key:
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.PARISH_COUNCIL:
                         options = [
                             ROLES.PARISH_CLERK,
                             ROLES.DEPUTY_PARISH_CLERK
                         ];
                         break;
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.TOWN_COUNCIL.key:
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.TOWN_COUNCIL:
                         options = [ROLES.ELECTED_MEMBER, ROLES.CHAIR];
                         break;
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.LOCAL_AUTHORITY
-                        .key:
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.LOCAL_AUTHORITY:
                         options = [
                             ROLES.CHAIR,
                             ROLES.CHIEF_EXECUTIVE,
                             ROLES.DIRECTOR
                         ];
                         break;
-                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.NHS_TRUST.key:
+                    case ORGANISATION_SUB_TYPES.STATUTORY_BODY.NHS_TRUST:
                         options = [ROLES.CHIEF_EXECUTIVE, ROLES.DIRECTOR];
                         break;
                     default:
@@ -591,26 +589,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 return text;
             },
             get type() {
-                const organisationType = get('organisationType')(data);
-                const organisationSubType = get('organisationSubType')(data);
-
                 // Statutory bodies require a sub-type, some of which allow
                 // free text input for roles.
-                if (organisationType === ORGANISATION_TYPES.STATUTORY_BODY) {
-                    let freeTextSubTypes = [];
-                    // Filter just the free text org sub types
-                    for (let type in ORGANISATION_SUB_TYPES.STATUTORY_BODY) {
-                        if (
-                            ORGANISATION_SUB_TYPES.STATUTORY_BODY[type].freeText
-                        ) {
-                            freeTextSubTypes.push(
-                                ORGANISATION_SUB_TYPES.STATUTORY_BODY[type].key
-                            );
-                        }
-                    }
-                    if (includes(freeTextSubTypes, organisationSubType)) {
-                        return 'text';
-                    }
+                if (
+                    currentOrganisationType ===
+                        ORGANISATION_TYPES.STATUTORY_BODY &&
+                    includes(
+                        [
+                            ORGANISATION_SUB_TYPES.STATUTORY_BODY
+                                .PRISON_SERVICE,
+                            ORGANISATION_SUB_TYPES.STATUTORY_BODY.FIRE_SERVICE,
+                            ORGANISATION_SUB_TYPES.STATUTORY_BODY
+                                .POLICE_AUTHORITY
+                        ],
+                        currentOrganisationSubType
+                    )
+                ) {
+                    return 'text';
                 }
 
                 return 'radio';
@@ -1775,44 +1770,36 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'radio',
             options: [
                 {
-                    value:
-                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.PARISH_COUNCIL
-                            .key,
+                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.PARISH_COUNCIL,
                     label: localise({ en: 'Parish Council', cy: '' })
                 },
                 {
-                    value:
-                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.TOWN_COUNCIL.key,
+                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.TOWN_COUNCIL,
                     label: localise({ en: 'Town Council', cy: '' })
                 },
                 {
                     value:
-                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.LOCAL_AUTHORITY
-                            .key,
+                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.LOCAL_AUTHORITY,
                     label: localise({ en: 'Local Authority', cy: '' })
                 },
                 {
-                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.NHS_TRUST.key,
+                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.NHS_TRUST,
                     label: localise({
                         en: 'NHS Trust/Health Authority',
                         cy: ''
                     })
                 },
                 {
-                    value:
-                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.PRISON_SERVICE
-                            .key,
+                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.PRISON_SERVICE,
                     label: localise({ en: 'Prison Service', cy: '' })
                 },
                 {
-                    value:
-                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.FIRE_SERVICE.key,
+                    value: ORGANISATION_SUB_TYPES.STATUTORY_BODY.FIRE_SERVICE,
                     label: localise({ en: 'Fire Service', cy: '' })
                 },
                 {
                     value:
-                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.POLICE_AUTHORITY
-                            .key,
+                        ORGANISATION_SUB_TYPES.STATUTORY_BODY.POLICE_AUTHORITY,
                     label: localise({ en: 'Police Authority', cy: '' })
                 }
             ],
@@ -2183,6 +2170,94 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'number.max',
                     message: localise({
                         en: `Please upload a file below ${FILE_LIMITS.SIZE.label}`,
+                        cy: ''
+                    })
+                }
+            ]
+        },
+        termsAgreement1: {
+            name: 'termsAgreement1',
+            type: 'checkbox',
+            label: localise({
+                en: `You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.`,
+                cy: ''
+            }),
+            options: [
+                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
+            ],
+            isRequired: true,
+            schema: Joi.string('yes').required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'You must agree to all of the terms and conditions',
+                        cy: ''
+                    })
+                }
+            ]
+        },
+        termsAgreement2: {
+            name: 'termsAgreement2',
+            type: 'checkbox',
+            label: localise({
+                en: `All the information you have provided in your application is accurate and complete; and you will notify us of any changes.`,
+                cy: ''
+            }),
+            options: [
+                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
+            ],
+            isRequired: true,
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'You must agree to all of the terms and conditions',
+                        cy: ''
+                    })
+                }
+            ]
+        },
+        termsAgreement3: {
+            name: 'termsAgreement3',
+            type: 'checkbox',
+            label: localise({
+                en: `You understand that we will use any personal information you have provided for the purposes described under the <a href="/about/customer-service/data-protection">Data Protection Statement</a>.`,
+                cy: ''
+            }),
+            options: [
+                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
+            ],
+            isRequired: true,
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'You must agree to all of the terms and conditions',
+                        cy: ''
+                    })
+                }
+            ]
+        },
+        termsAgreement4: {
+            name: 'termsAgreement4',
+            type: 'checkbox',
+            label: localise({
+                en: `If information about this application is requested under the Freedom of Information Act, we will release it in line with our <a href="/about/customer-service/freedom-of-information">Freedom of Information policy.</a>`,
+                cy: ''
+            }),
+            options: [
+                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
+            ],
+            isRequired: true,
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'You must agree to all of the terms and conditions',
                         cy: ''
                     })
                 }

@@ -96,8 +96,6 @@ class FormModel {
 
             return section;
         });
-
-        this.termsFields = props.termsFields.map(enrichField);
     }
 
     get schema() {

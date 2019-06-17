@@ -12,6 +12,7 @@ const { fromDateParts } = require('../form-router-next/lib/date-parts');
 const { formatDateRange } = require('../form-router-next/lib/formatters');
 const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
 const fieldsFor = require('./fields');
+const termsCopy = require('./terms');
 
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
@@ -632,72 +633,39 @@ module.exports = function({ locale, data = {} }) {
         ]
     };
 
-    const termsFields = [
-        {
-            name: 'terms-agreement-1',
-            type: 'checkbox',
-            label: localise({
-                en: `You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.`,
-                cy: ''
-            }),
-            options: [
-                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
-            ],
-            isRequired: true
-        },
-        {
-            name: 'terms-agreement-2',
-            type: 'checkbox',
-            label: localise({
-                en: `All the information you have provided in your application is accurate and complete; and you will notify us of any changes.`,
-                cy: ''
-            }),
-            options: [
-                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
-            ],
-            isRequired: true
-        },
-        {
-            name: 'terms-agreement-3',
-            type: 'checkbox',
-            label: localise({
-                en: `You understand that we will use any personal information you have provided for the purposes described under the <a href="/about/customer-service/data-protection">Data Protection Statement</a>.`,
-                cy: ''
-            }),
-            options: [
-                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
-            ],
-            isRequired: true
-        },
-        {
-            name: 'terms-agreement-4',
-            type: 'checkbox',
-            label: localise({
-                en: `If information about this application is requested under the Freedom of Information Act, we will release it in line with our <a href="/about/customer-service/freedom-of-information">Freedom of Information policy.</a>`,
-                cy: ''
-            }),
-            options: [
-                { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
-            ],
-            isRequired: true
-        },
-        {
-            name: 'terms-person-name',
-            label: localise({
-                en: 'Full name of person completing this form',
-                cy: ''
-            }),
-            type: 'text',
-            isRequired: true,
-            attributes: { autocomplete: 'name' }
-        },
-        {
-            name: 'terms-person-position',
-            label: localise({ en: 'Position in organisation', cy: '' }),
-            type: 'text',
-            isRequired: true
-        }
-    ];
+    const sectionTerms = {
+        slug: 'terms-and-conditions',
+        title: localise({ en: 'Terms and Conditions', cy: '' }),
+        summary: localise({
+            en: `In order to submit your application, you will need to agree to our terms and conditions.`,
+            cy: ''
+        }),
+        steps: [
+            {
+                title: localise({
+                    en: 'Terms and Conditions of your grant',
+                    cy: ''
+                }),
+                fieldsets: [
+                    {
+                        legend: localise({
+                            en: 'Terms and Conditions of your grant',
+                            cy: ''
+                        }),
+                        introduction: localise(termsCopy),
+                        fields: [
+                            fields.termsAgreement1,
+                            fields.termsAgreement2,
+                            fields.termsAgreement3,
+                            fields.termsAgreement4,
+                            fields.termsPersonName,
+                            fields.termsPersonPosition
+                        ]
+                    }
+                ]
+            }
+        ]
+    };
 
     function summary() {
         const projectDateRange = get('projectDateRange')(data);
@@ -768,9 +736,9 @@ module.exports = function({ locale, data = {} }) {
                 sectionOrganisation,
                 sectionSeniorContact,
                 sectionMainContact,
-                sectionBankDetails
-            ],
-            termsFields: termsFields
+                sectionBankDetails,
+                sectionTerms
+            ]
         },
         data
     );
