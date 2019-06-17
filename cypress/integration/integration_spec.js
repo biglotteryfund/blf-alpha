@@ -329,7 +329,7 @@ describe('user', () => {
     });
 });
 
-describe.only('awards for all', function() {
+describe('awards for all', function() {
     it('should submit full awards for all application', () => {
         const randomCountry = faker.random.arrayElement([
             'England',
