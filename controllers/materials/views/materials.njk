@@ -15,39 +15,43 @@
 {% endmacro %}
 
 {% macro stepControl(material, product, quantity) %}
-    <form class="step-control" method="post" action="{{ formActionBase }}/update-basket">
-        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+    {% if material.mustBeOrderedDirectly %}
+        <p class="material-product__subtitle u-margin-top">{{ copy.mustBeOrderedDirectly | safe }}</p>
+    {% else %}
+        <form class="step-control" method="post" action="{{ formActionBase }}/update-basket">
+            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
 
-        <input type="hidden" name="materialId" value="{{ material.itemId }}">
-        <input type="hidden" name="productId" value="{{ product.id }}">
-        <input type="hidden" name="max" value="{{ material.maximum }}">
-        {% if material.notAllowedWith %}
-            <input type="hidden" name="notAllowedWith" value="{{ material.notAllowedWith | join(",") }}">
-        {% endif %}
+            <input type="hidden" name="materialId" value="{{ material.itemId }}">
+            <input type="hidden" name="productId" value="{{ product.id }}">
+            <input type="hidden" name="max" value="{{ material.maximum }}">
+            {% if material.notAllowedWith %}
+                <input type="hidden" name="notAllowedWith" value="{{ material.notAllowedWith | join(",") }}">
+            {% endif %}
 
-        <button class="btn step-control__button step-control__button--decrease"
-                type="submit"
-                value="decrease"
-                name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
-                v-bind:disabled="getQuantity('{{ product.id }}') == 0"
-                v-on:click.prevent="changeQuantity($event)"
-                aria-label="Decrease quantity">-
-        </button>
+            <button class="btn step-control__button step-control__button--decrease"
+                    type="submit"
+                    value="decrease"
+                    name="action"{% if quantity == 0 %} disabled="disabled"{% endif %}
+                    v-bind:disabled="getQuantity('{{ product.id }}') == 0"
+                    v-on:click.prevent="changeQuantity($event)"
+                    aria-label="Decrease quantity">-
+            </button>
 
-        <div aria-label="Quantity" class="step-control__quantity js-material-count">
-            <span class="js-only" v-cloak><% getQuantity('{{ product.id }}') %></span>
-            <noscript>{{ quantity }}</noscript>
-        </div>
+            <div aria-label="Quantity" class="step-control__quantity js-material-count">
+                <span class="js-only" v-cloak><% getQuantity('{{ product.id }}') %></span>
+                <noscript>{{ quantity }}</noscript>
+            </div>
 
-        <button class="btn step-control__button step-control__button--increase"
-                type="submit"
-                value="increase"
-                name="action"{% if material.maximum == quantity %} disabled="disabled"{% endif %}
-                v-bind:disabled="getQuantity('{{ product.id }}') == {{ material.maximum }}"
-                v-on:click.prevent="changeQuantity($event)"
-                aria-label="Increase quantity">+
-        </button>
-    </form>
+            <button class="btn step-control__button step-control__button--increase"
+                    type="submit"
+                    value="increase"
+                    name="action"{% if material.maximum == quantity %} disabled="disabled"{% endif %}
+                    v-bind:disabled="getQuantity('{{ product.id }}') == {{ material.maximum }}"
+                    v-on:click.prevent="changeQuantity($event)"
+                    aria-label="Increase quantity">+
+            </button>
+        </form>
+    {% endif %}
 {% endmacro %}
 
 {% macro materialProduct(material, product) %}

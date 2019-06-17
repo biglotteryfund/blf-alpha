@@ -685,6 +685,7 @@ funding:
         monolingual: England, Scotland or Northern Ireland
         bilingual: Wales
       outOfStock: Out of stock
+      mustBeOrderedDirectly: Not available directly – please <a href="mailto:branding@tnlcommunityfund.org.uk">email our branding team</a> if you would like to order this item.
       enterDeliveryAddress: Enter your delivery details
       chooseItems: Choose any of the following items
       formFields:

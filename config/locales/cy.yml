@@ -595,6 +595,7 @@ funding:
         monolingual: Lloegr, Yr Alban neu Ogledd Iwerddon
         bilingual: Cymru
       outOfStock: Allan o stoc
+      mustBeOrderedDirectly: Ddim ar gael yn uniongyrchol - <a href="mailto:branding@tnlcommunityfund.org.uk">e-bostiwch ein tîm brandio</a> os hoffech archebu'r eitem hon.
       enterDeliveryAddress: Nodwch eich manylion cludo
       chooseItems: Dewiswch unrhyw un o'r eitemau a ganlyn
       formFields:
