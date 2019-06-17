@@ -15,13 +15,13 @@ const ORGANISATION_TYPES = {
 };
 
 const STATUTORY_BODY_TYPES = {
-    PARISH_COUNCIL: 'parish-council',
-    TOWN_COUNCIL: 'town-council',
-    LOCAL_AUTHORITY: 'local-authority',
-    NHS_TRUST: 'nhs-trust-health-authority',
-    PRISON_SERVICE: 'prison-service',
-    FIRE_SERVICE: 'fire-service',
-    POLICE_AUTHORITY: 'police-authority'
+    PARISH_COUNCIL: 'parish-council', // ⛪️
+    TOWN_COUNCIL: 'town-council', // 🏙
+    LOCAL_AUTHORITY: 'local-authority', // 🏛
+    NHS_TRUST: 'nhs-trust-health-authority', // 🏥
+    PRISON_SERVICE: 'prison-service', // 🔐
+    FIRE_SERVICE: 'fire-service', // 🚒
+    POLICE_AUTHORITY: 'police-authority' // 🚓
 };
 
 const BENEFICIARY_GROUPS = {
