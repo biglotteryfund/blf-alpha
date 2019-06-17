@@ -855,6 +855,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'textarea',
             settings: {
+                stackedSummary: true,
                 showWordCount: true,
                 minWords: 50,
                 maxWords: 300,
@@ -912,6 +913,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'textarea',
             settings: {
+                stackedSummary: true,
                 showWordCount: true,
                 minWords: 50,
                 maxWords: 150,
@@ -980,6 +982,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'textarea',
             settings: {
+                stackedSummary: true,
                 showWordCount: true,
                 minWords: 50,
                 maxWords: 200,
@@ -2049,6 +2052,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             options: [
                 { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
             ],
+            settings: { stackedSummary: true },
             isRequired: true,
             schema: Joi.string('yes').required(),
             messages: [
@@ -2071,6 +2075,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             options: [
                 { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
             ],
+            settings: { stackedSummary: true },
             isRequired: true,
             schema: Joi.string().required(),
             messages: [
@@ -2093,6 +2098,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             options: [
                 { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
             ],
+            settings: { stackedSummary: true },
             isRequired: true,
             schema: Joi.string().required(),
             messages: [
@@ -2115,6 +2121,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             options: [
                 { value: 'yes', label: localise({ en: 'I agree', cy: '' }) }
             ],
+            settings: { stackedSummary: true },
             isRequired: true,
             schema: Joi.string().required(),
             messages: [

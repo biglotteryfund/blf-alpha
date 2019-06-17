@@ -28,7 +28,7 @@
         {% if step.isRequired %}
             {% for fieldset in step.fieldsets %}
                 {% for field in fieldset.fields %}
-                    <div class="step-summary__data {% if field.type === 'textarea' %} is-stacked{% endif %}">
+                    <div class="step-summary__data {% if field.settings.stackedSummary %} is-stacked{% endif %}">
                         <div class="step-summary__data__question">{{ field.label | safe }}</div>
                         <div class="step-summary__data__answer s-prose">
                             {% if field.displayValue %}
