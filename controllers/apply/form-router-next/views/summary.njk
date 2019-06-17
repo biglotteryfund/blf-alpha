@@ -46,7 +46,7 @@
         <header class="section-progress-bar section-progress-bar--{{ section.progress.status }}">
             <h2 class="section-progress-bar__title">
                 <a href="{{ formBaseUrl }}/{{ section.slug }}" class="u-link-unstyled">
-                    {{ copy.sectionPrefix }} {{ sectionNumber }}: {{ section.title }}
+                    {{ copy.sectionPrefix }} {{ sectionNumber }}: {{ section.shortTitle or section.title }}
                 </a>
 
                 {% set editWord = copy.continue if section.progress.status === 'incomplete' else copy.edit %}
