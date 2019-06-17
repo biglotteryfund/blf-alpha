@@ -3,9 +3,9 @@
    ========================================================================= */
 
 $statuses: (
-    'complete': #55ac3b,
-    'incomplete': #fd992b,
-    'empty': #7b7b7b
+    'complete': #4a9e2e,
+    'incomplete': #f56600,
+    'empty': #757575
 );
 
 /* =========================================================================
@@ -18,21 +18,25 @@ $statuses: (
     background-color: get-color('background', 'light-neutral');
     margin-bottom: 3px;
 
-    @include mq('medium') {
+    @include mq('medium-minor') {
         display: flex;
         align-items: center;
         border-left: 3px solid map-get($statuses, 'empty');
         padding-left: $spacingUnit / 2;
     }
 
-    @include mq('medium', 'max') {
+    @include mq('medium-minor', 'max') {
         border-top: 3px solid map-get($statuses, 'empty');
     }
 
     .section-progress-bar__title {
         margin: 0;
 
-        @include mq('medium') {
+        @include mq('medium-minor', 'max') {
+            padding: $spacingUnit / 2 5px;
+        }
+
+        @include mq('medium-minor') {
             flex: 1 1 auto;
         }
     }
@@ -40,18 +44,20 @@ $statuses: (
     .section-progress-bar__marker {
         color: white;
         text-align: center;
-        font-size: 14px;
+        font-size: 20px;
         font-weight: font-weight('body', 'semibold');
         padding: $spacingUnit / 2;
         background-color: map-get($statuses, 'empty');
         display: block;
 
-        @include mq('medium') {
+        @include mq('medium-minor') {
             flex: 0 0 160px;
         }
 
-        svg {
-            margin-right: 2px;
+        .icon {
+            width: 21px;
+            height: 21px;
+            margin-right: 5px;
             vertical-align: middle;
             position: relative;
             top: -1px;
