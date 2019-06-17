@@ -2262,6 +2262,44 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 }
             ]
+        },
+        termsPersonName: {
+            name: 'termsPersonName',
+            label: localise({
+                en: 'Full name of person completing this form',
+                cy: ''
+            }),
+            type: 'text',
+            isRequired: true,
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en:
+                            'You must provide the name of the person completing this form',
+                        cy: ''
+                    })
+                }
+            ],
+            attributes: { autocomplete: 'name' }
+        },
+        termsPersonPosition: {
+            name: 'termsPersonPosition',
+            label: localise({ en: 'Position in organisation', cy: '' }),
+            type: 'text',
+            schema: Joi.string().required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en:
+                            'You must provide the position of the person completing this form',
+                        cy: ''
+                    })
+                }
+            ],
+            isRequired: true
         }
     };
 
