@@ -72,7 +72,7 @@
         <div class="application-questions__set">
             {% for field in form.eligibilityQuestions %}
                 {% call question(first = loop.first) %}
-                    <dt class="application-questions__q">{{ field.question }}</dt>
+                    <dt class="application-questions__q">{{ field.question | safe }}</dt>
                     {% if field.explanation %}
                         <dd class="s-prose u-text-x-small">{{ field.explanation | safe }}</dd>
                     {% endif %}
@@ -94,7 +94,7 @@
                     {% for fieldset in step.fieldsets %}
                         {% for field in fieldset.fields %}
                             {% call question(first = loop.first) %}
-                                <dt class="application-questions__q">{{ field.label }}</dt>
+                                <dt class="application-questions__q">{{ field.label | safe }}</dt>
                                 <dd class="application-questions__help">{{ fieldTypeHelpText(field, step) }}</dd>
 
                                 {% if field.options %}
