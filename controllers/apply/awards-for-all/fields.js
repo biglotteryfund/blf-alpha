@@ -2040,7 +2040,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         termsAgreement1: {
-            name: 'terms-agreement-1',
+            name: 'termsAgreement1',
             type: 'checkbox',
             label: localise({
                 en: `You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.`,
@@ -2062,7 +2062,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         termsAgreement2: {
-            name: 'terms-agreement-2',
+            name: 'termsAgreement2',
             type: 'checkbox',
             label: localise({
                 en: `All the information you have provided in your application is accurate and complete; and you will notify us of any changes.`,
@@ -2084,7 +2084,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         termsAgreement3: {
-            name: 'terms-agreement-3',
+            name: 'termsAgreement3',
             type: 'checkbox',
             label: localise({
                 en: `You understand that we will use any personal information you have provided for the purposes described under the <a href="/about/customer-service/data-protection">Data Protection Statement</a>.`,
@@ -2106,7 +2106,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         termsAgreement4: {
-            name: 'terms-agreement-4',
+            name: 'termsAgreement4',
             type: 'checkbox',
             label: localise({
                 en: `If information about this application is requested under the Freedom of Information Act, we will release it in line with our <a href="/about/customer-service/freedom-of-information">Freedom of Information policy.</a>`,
@@ -2128,7 +2128,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         termsPersonName: {
-            name: 'terms-person-name',
+            name: 'termsPersonName',
             label: localise({
                 en: 'Full name of person completing this form',
                 cy: ''
@@ -2149,7 +2149,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             attributes: { autocomplete: 'name' }
         },
         termsPersonPosition: {
-            name: 'terms-person-position',
+            name: 'termsPersonPosition',
             label: localise({ en: 'Position in organisation', cy: '' }),
             type: 'text',
             schema: Joi.string().required(),
