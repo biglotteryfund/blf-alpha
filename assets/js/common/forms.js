@@ -5,7 +5,11 @@ import { trackEvent } from '../helpers/metrics';
 function handleBeforeUnload(e) {
     // Message cannot be customised in Chrome 51+
     // https://developers.google.com/web/updates/2016/04/chrome-51-deprecations?hl=en
-    trackEvent('Apply', 'User warned before abandoning form changes', 'message shown');
+    trackEvent(
+        'Apply',
+        'User warned before abandoning form changes',
+        'message shown'
+    );
     const confirmationMessage = 'Are you sure you want to leave this page?';
     e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34-51
     return confirmationMessage; // Gecko, WebKit, Chrome <34
@@ -28,7 +32,12 @@ function handleAbandonmentMessage(formEl) {
     formEl.addEventListener('submit', removeBeforeUnload);
 
     window.addEventListener('unload', function() {
-        recordUnload && trackEvent('Apply', 'User warned before abandoning form changes', 'left page');
+        recordUnload &&
+            trackEvent(
+                'Apply',
+                'User warned before abandoning form changes',
+                'left page'
+            );
     });
 }
 
@@ -46,12 +55,17 @@ function warnOnUnsavedChanges() {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         });
 
-        $(':input', $form).change(function() {
-            if ($form.serialize() !== initialState) {
-                window.addEventListener('beforeunload', handleBeforeUnload);
-            } else {
-                window.removeEventListener('beforeunload', handleBeforeUnload);
-            }
+        $(document).ready(() => {
+            $(':input', $form).change(function() {
+                if ($form.serialize() !== initialState) {
+                    window.addEventListener('beforeunload', handleBeforeUnload);
+                } else {
+                    window.removeEventListener(
+                        'beforeunload',
+                        handleBeforeUnload
+                    );
+                }
+            });
         });
     });
 }
@@ -76,7 +90,11 @@ function handleExpandingDetails() {
     $toggleBtn.text($toggleBtn.data('label-closed')).show();
 
     $toggleBtn.on('click', function() {
-        $toggleBtn.text(isClosed ? $toggleBtn.data('label-open') : $toggleBtn.data('label-closed'));
+        $toggleBtn.text(
+            isClosed
+                ? $toggleBtn.data('label-open')
+                : $toggleBtn.data('label-closed')
+        );
         $('details.js-toggleable').attr('open', isClosed);
         isClosed = !isClosed;
     });
@@ -86,7 +104,9 @@ function handleConditionalRadios() {
     forEach(document.querySelectorAll('.js-conditional-radios'), el => {
         function setAttributes(radioEl) {
             var inputIsChecked = radioEl.checked;
-            var conditionalEl = el.querySelector(`#${radioEl.getAttribute('aria-controls')}`);
+            var conditionalEl = el.querySelector(
+                `#${radioEl.getAttribute('aria-controls')}`
+            );
             if (conditionalEl) {
                 conditionalEl.setAttribute('aria-expanded', inputIsChecked);
 
