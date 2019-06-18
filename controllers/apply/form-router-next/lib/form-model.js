@@ -130,7 +130,8 @@ class FormModel {
 
         const normalisedErrors = normaliseErrors({
             validationError: error,
-            errorMessages: this.messages
+            errorMessages: this.messages,
+            formFields: this.allFields
         });
 
         return {
