@@ -41,7 +41,7 @@ module.exports = function(formId, formBuilder) {
                     const step = section.steps[stepIndex];
 
                     if (step) {
-                        const { nextUrl, previousUrl } = form.pagination({
+                        const { nextPage, previousPage } = form.pagination({
                             baseUrl: res.locals.formBaseUrl,
                             sectionSlug: req.params.section,
                             currentStepIndex: stepIndex
@@ -63,8 +63,8 @@ module.exports = function(formId, formBuilder) {
                                 stepIsMultipart: step.isMultipart,
                                 stepNumber: stepNumber,
                                 totalSteps: section.steps.length,
-                                previousUrl: previousUrl,
-                                nextUrl: nextUrl,
+                                previousPage: previousPage,
+                                nextPage: nextPage,
                                 errors: errors
                             };
 

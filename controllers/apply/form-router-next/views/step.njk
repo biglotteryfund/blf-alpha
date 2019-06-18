@@ -15,18 +15,43 @@
                 {{ breadcrumbTrail(breadcrumbs) }}
 
                 <div class="form-header">
-                    <div class="form-header__actions">
-                        {% if previousUrl %}
-                            <a href="{{ previousUrl }}">← Previous</a>
-                        {% endif %}
-                        {% if nextUrl %}
-                            <a href="{{ nextUrl }}">Next →</a>
-                        {% endif %}
-                    </div>
-                    <p class="form-header__prefix">{{ formTitle }}</p>
-                    <h1 class="form-header__title">{{ section.title }}</h1>
+
+                    <ul class="form-header__actions">
+                        <li class="form-header__actions__steps">
+                            <ul class="form-step-link">
+                                {% if previousPage %}
+                                    <li class="form-step-link__item">
+                                        <span class="form-step-link__arrow">←</span>
+                                        <a href="{{ previousPage.url }}">
+                                            Previous
+                                            <span class="form-step-link__subtitle">
+                                                {{ previousPage.label }}
+                                            </span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if nextPage %}
+                                    <li class="form-step-link__item">
+                                        <a href="{{ nextPage.url }}">
+                                            Next
+                                            <span class="form-step-link__subtitle">
+                                                {{ nextPage.label }}
+                                            </span>
+                                        </a>
+                                        <span class="form-step-link__arrow">→</span>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                        <li><a href="#">View summary</a></li>
+                        <li><a href="#">Applications dashboard</a></li>
+                        <li><a href="#">Account</a></li>
+                        <li><a href="#">Log out</a></li>
+                    </ul>
+
+                    <h2 class="form-header__title u-tone-brand-primary">{{ section.title }}</h2>
                     <p class="form-header__suffix">
-                        {{ step.title }} ({{ __('global.misc.stepProgress', stepNumber, totalSteps) }})
+                        <strong>{{ step.title }}</strong> ({{ __('global.misc.stepProgress', stepNumber, totalSteps) }})
                     </p>
                 </div>
 
