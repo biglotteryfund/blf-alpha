@@ -118,8 +118,6 @@
     }
 
     .form-errors__list li {
-        list-style: decimal;
-        margin-left: 20px;
         color: get-color('message', 'warning');
         font-weight: font-weight('body', 'bold');
         margin-bottom: $spacingUnit / 2;

@@ -1896,7 +1896,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             label: localise({ en: 'Last name', cy: '' })
         }),
         seniorContactRole: seniorContactRoleField(),
-        seniorContactDob: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
+        seniorContactDateOfBirth: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
             name: 'seniorContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })
         }),

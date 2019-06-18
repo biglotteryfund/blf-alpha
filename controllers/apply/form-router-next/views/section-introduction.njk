@@ -9,10 +9,10 @@
             {{ breadcrumbTrail(breadcrumbs) }}
 
             <div class="form-header">
-                {% if previousUrl %}
+                {% if previousPage %}
                     <div class="form-header__actions">
-                        <a href="{{ previousUrl }}">← Previous</a>
-                        <a href="{{ nextUrl }}">Next →</a>
+                        <a href="{{ previousPage.url }}">← Previous</a>
+                        <a href="{{ nextPage.url }}">Next →</a>
                     </div>
                 {% endif %}
                 <p class="form-header__prefix">{{ formTitle }}</p>

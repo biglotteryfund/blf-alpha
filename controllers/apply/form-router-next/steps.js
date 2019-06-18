@@ -73,13 +73,13 @@ module.exports = function(formId, formBuilder) {
                                 viewData
                             );
                         } else {
-                            res.redirect(nextUrl);
+                            res.redirect(nextPage.url);
                         }
                     } else {
                         res.redirect(res.locals.formBaseUrl);
                     }
                 } else if (section.introduction) {
-                    const { nextUrl, previousUrl } = form.pagination({
+                    const { nextPage, previousPage } = form.pagination({
                         baseUrl: res.locals.formBaseUrl,
                         sectionSlug: req.params.section
                     });
@@ -90,8 +90,8 @@ module.exports = function(formId, formBuilder) {
                             label: sectionShortTitle,
                             url: sectionUrl
                         }),
-                        nextUrl: nextUrl,
-                        previousUrl: previousUrl
+                        nextPage: nextPage,
+                        previousPage: previousPage
                     };
 
                     res.render(
@@ -238,12 +238,12 @@ module.exports = function(formId, formBuilder) {
                         validationResult.value
                     );
 
-                    const { nextUrl } = form.pagination({
+                    const { nextPage } = form.pagination({
                         baseUrl: res.locals.formBaseUrl,
                         sectionSlug: req.params.section,
                         currentStepIndex: stepIndex
                     });
-                    res.redirect(nextUrl);
+                    res.redirect(nextPage.url);
                 } catch (storageError) {
                     next(storageError);
                 }

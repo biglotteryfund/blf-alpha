@@ -409,7 +409,8 @@ module.exports = function({ locale, data = {} }) {
                             fields.seniorContactFirstName,
                             fields.seniorContactLastName,
                             fields.seniorContactRole,
-                            includeAddressAndDob() && fields.seniorContactDob,
+                            includeAddressAndDob() &&
+                                fields.seniorContactDateOfBirth,
                             includeAddressAndDob() &&
                                 fields.seniorContactAddress,
                             includeAddressAndDob() &&
