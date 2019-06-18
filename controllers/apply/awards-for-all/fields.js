@@ -1117,6 +1117,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     <li>disabled people</li>
                     <li>lesbian, gay or bisexual people</li>
                     <li>people with caring responsibilities</li>
+                    <li>any other specific group of people</li>
                 </ul>`,
                 cy: ``
             }),
@@ -1200,7 +1201,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             get schema() {
                 return Joi.when('beneficiariesGroupsCheck', {
                     is: 'yes',
-                    then: multiChoice(this.options).required(),
+                    then: Joi.when('beneficiariesGroupsOther', {
+                        is: Joi.string(),
+                        then: Joi.any().strip(),
+                        otherwise: multiChoice(this.options).required()
+                    }),
                     otherwise: Joi.any().strip()
                 });
             },
