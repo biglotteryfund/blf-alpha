@@ -48,6 +48,11 @@
                                 {{ formField(field, errors = errors) }}
                             {% endfor %}
                         </div>
+
+                        {% if fieldset.footer %}
+                            <div class="form-fieldset__intro s-prose">{{ fieldset.footer | safe }}</div>
+                        {% endif %}
+
                     </fieldset>
                 {% endfor %}
 

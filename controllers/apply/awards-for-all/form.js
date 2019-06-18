@@ -552,7 +552,8 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Terms and Conditions of your grant',
                             cy: ''
                         }),
-                        introduction: localise(termsCopy),
+                        introduction: localise(termsCopy.introduction),
+                        footer: localise(termsCopy.footer),
                         fields: [
                             fields.termsAgreement1,
                             fields.termsAgreement2,
