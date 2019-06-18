@@ -43,10 +43,10 @@
                                 {% endif %}
                             </ul>
                         </li>
-                        <li><a href="#">View summary</a></li>
-                        <li><a href="#">Applications dashboard</a></li>
-                        <li><a href="#">Account</a></li>
-                        <li><a href="#">Log out</a></li>
+                        <li><a href="{{ formBaseUrl }}/summary">View summary</a></li>
+                        <li><a href="{{ formBaseUrl }}">Applications dashboard</a></li>
+                        <li><a href="{{ localify('/user') }}">Account</a></li>
+                        <li><a href="{{ localify('/user/logout') }}">Log out</a></li>
                     </ul>
 
                     <h2 class="form-header__title u-tone-brand-primary">{{ section.title }}</h2>
