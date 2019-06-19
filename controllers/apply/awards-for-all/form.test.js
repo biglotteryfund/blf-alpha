@@ -878,9 +878,9 @@ describe('Form validations', () => {
                 .map(field => field.name);
 
             expect(defaultFieldNames).toEqual([
+                'seniorContactRole',
                 'seniorContactFirstName',
                 'seniorContactLastName',
-                'seniorContactRole',
                 'seniorContactDateOfBirth',
                 'seniorContactAddress',
                 'seniorContactAddressHistory',
@@ -901,9 +901,9 @@ describe('Form validations', () => {
                     .map(field => field.name);
 
                 expect(fieldNames).toEqual([
+                    'seniorContactRole',
                     'seniorContactFirstName',
                     'seniorContactLastName',
-                    'seniorContactRole',
                     'seniorContactEmail',
                     'seniorContactPhone',
                     'seniorContactCommunicationNeeds'
