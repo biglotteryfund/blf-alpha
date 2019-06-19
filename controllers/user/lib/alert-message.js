@@ -6,6 +6,18 @@ module.exports = function alertMessage({ locale, status }) {
 
     let result;
     switch (status) {
+        case 'activationSent':
+            result = localise({
+                en: `An email was sent to your registered address with instructions to activate your account.`,
+                cy: ``
+            });
+            break;
+        case 'activationComplete':
+            result = localise({
+                en: `Your account was successfully activated!`,
+                cy: ``
+            });
+            break;
         case 'passwordUpdated':
             result = localise({
                 en: `Your password was successfully updated!`,

@@ -13,6 +13,8 @@ const {
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
 
+const logger = require('../../common/logger');
+
 const { verifyTokenActivate } = require('./lib/jwt');
 const sendActivationEmail = require('./lib/activation-email');
 
@@ -45,8 +47,12 @@ router
                     req.user.userData.id
                 );
                 await Users.activateUser(req.user.userData.id);
+                logger.info('User activation: succeeded');
                 redirectUrlWithFallback(req, res, '/user?s=activationComplete');
             } catch (error) {
+                logger.info('User activation: token failed', {
+                    error: error
+                });
                 Sentry.withScope(scope => {
                     scope.setLevel('warning');
                     Sentry.captureException(error);
@@ -62,8 +68,12 @@ router
         try {
             await sendActivationEmail(req, req.user.userData);
             res.locals.resendSuccessful = true;
+            logger.info('User activation: email sent');
             renderTemplate(req, res);
         } catch (err) {
+            logger.info('User activation: email failed', {
+                error: err
+            });
             next(err);
         }
     });
