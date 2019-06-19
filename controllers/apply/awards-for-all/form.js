@@ -556,9 +556,11 @@ module.exports = function({ locale, data = {} }) {
                         fields: compact([
                             fields.mainContactFirstName,
                             fields.mainContactLastName,
-                            fields.mainContactDateOfBirth,
-                            fields.mainContactAddress,
-                            fields.mainContactAddressHistory,
+                            includeAddressAndDob() &&
+                                fields.mainContactDateOfBirth,
+                            includeAddressAndDob() && fields.mainContactAddress,
+                            includeAddressAndDob() &&
+                                fields.mainContactAddressHistory,
                             fields.mainContactEmail,
                             fields.mainContactPhone,
                             fields.mainContactCommunicationNeeds
