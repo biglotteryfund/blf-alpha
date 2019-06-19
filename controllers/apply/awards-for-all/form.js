@@ -69,8 +69,7 @@ module.exports = function({ locale, data = {} }) {
     }
 
     function includeAccountDetails() {
-        const orgIsOlderThanMinimum = get('organisationAge')(data);
-        return orgIsOlderThanMinimum === 'yes';
+        return get('organisationAge')(data) === 'yes';
     }
 
     const sectionProject = {

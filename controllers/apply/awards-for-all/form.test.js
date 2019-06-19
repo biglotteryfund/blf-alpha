@@ -83,6 +83,7 @@ function mockFullForm({
         beneficiariesGroupsReligionOther: undefined,
         organisationLegalName: faker.company.companyName(),
         organisationTradingName: faker.company.companyName(),
+        organisationAge: 'yes',
         organisationAddress: mockAddress(),
         organisationType: organisationType,
         companyNumber: companyNumber,
@@ -425,6 +426,17 @@ describe('Form validations', () => {
             ]);
         });
 
+        test('organisation age must be provided', () => {
+            function value(val) {
+                return { organisationAge: val };
+            }
+
+            assertValidByKey(value('yes'));
+            assertMessagesByKey(value(null), [
+                'You must let us know about the age of your organisation'
+            ]);
+        });
+
         test('organisation address must be provided', () => {
             function value(val) {
                 return { organisationAddress: val };
@@ -459,7 +471,10 @@ describe('Form validations', () => {
 
         test('accounting year end must be a valid day and month', () => {
             function value(day, month) {
-                return { accountingYearDate: { day, month } };
+                return {
+                    organisationAge: 'yes',
+                    accountingYearDate: { day, month }
+                };
             }
 
             assertValidByKey(value(12, 12));
@@ -469,7 +484,10 @@ describe('Form validations', () => {
 
         test('total income for year must be a valid number', () => {
             function value(val) {
-                return { totalIncomeYear: val };
+                return {
+                    organisationAge: 'yes',
+                    totalIncomeYear: val
+                };
             }
 
             assertValidByKey(value(random(1000, 1000000)));
