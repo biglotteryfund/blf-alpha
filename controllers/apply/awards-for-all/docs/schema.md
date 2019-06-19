@@ -179,7 +179,7 @@ type: `string`
 -   **North East & Cumbria**: `northumberland`, `county-durham`, `tyne-and-wear`, `middlesbrough`, `darlington`, `stockton-on-tees`, `cleveland`, `cumbria`
 -   **North West**: `greater-manchester`, `lancashire`, `cheshire`, `merseyside`
 -   **Yorkshire and the Humber**: `north-yorkshire`, `south-yorkshire`, `west-yorkshire`, `east-riding-of-yorkshire`, `north-lincolnshire`, `north-east-lincolnshire`
--   **South West**: `gloucestershire`, `south-gloucestershire`, `bristol`, `bath-and-north-east-somerset`, `north-somerset`, `somerset`, `wiltshire`, `swindon`, `dorset`, `bournemouth`, `poole`, `devon`, `rorbay`, `plymouth`, `cornwall`, `isles-of-scilly`
+-   **South West**: `gloucestershire`, `south-gloucestershire`, `bristol`, `bath-and-north-east-somerset`, `north-somerset`, `somerset`, `wiltshire`, `swindon`, `dorset`, `bournemouth`, `poole`, `devon`, `torbay`, `plymouth`, `cornwall`, `isles-of-scilly`
 -   **London, South East and East of England**: `greater-london`, `berkshire`, `buckinghamshire`, `east-sussex`, `west-sussex`, `hampshire`, `the-isle-of-wight`, `kent`, `oxfordshire`, `surrey`, `bedfordshire`, `peterborough`, `cambridgeshire`, `essex`, `hertfordshire`, `norfolk`, `suffolk`
 -   **East and West Midlands**: `derbyshire`, `leicestershire`, `lincolnshire`, `northamptonshire`, `nottinghamshire`, `rutland`, `herefordshire`, `shropshire`, `staffordshire`, `warwickshire`, `west-midlands`, `worcestershire`
 

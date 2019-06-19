@@ -62,7 +62,7 @@ module.exports = function locationsFor(country) {
                 { value: 'bournemouth', label: 'Bournemouth' },
                 { value: 'poole', label: 'Poole' },
                 { value: 'devon', label: 'Devon' },
-                { value: 'rorbay', label: 'Rorbay' },
+                { value: 'torbay', label: 'Torbay' },
                 { value: 'plymouth', label: 'Plymouth' },
                 { value: 'cornwall', label: 'Cornwall' },
                 { value: 'isles-of-scilly', label: 'Isles of Scilly' }
