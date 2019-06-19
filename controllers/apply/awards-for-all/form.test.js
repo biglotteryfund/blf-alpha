@@ -310,8 +310,14 @@ describe('Form validations', () => {
                     currentStepIndex: 0
                 })
             ).toEqual({
-                nextUrl: '/apply/awards-for-all/beneficiaries/2',
-                previousUrl: '/apply/awards-for-all/your-project/5'
+                nextPage: {
+                    label: 'Specific groups of people',
+                    url: '/apply/awards-for-all/beneficiaries/2'
+                },
+                previousPage: {
+                    label: 'Project costs',
+                    url: '/apply/awards-for-all/your-project/5'
+                }
             });
 
             expect(
@@ -321,8 +327,14 @@ describe('Form validations', () => {
                     currentStepIndex: 0
                 })
             ).toEqual({
-                nextUrl: '/apply/awards-for-all/organisation/2',
-                previousUrl: '/apply/awards-for-all/beneficiaries/1'
+                nextPage: {
+                    label: 'Organisation type',
+                    url: '/apply/awards-for-all/organisation/2'
+                },
+                previousPage: {
+                    label: 'Specific groups of people',
+                    url: '/apply/awards-for-all/beneficiaries/1'
+                }
             });
         });
 
