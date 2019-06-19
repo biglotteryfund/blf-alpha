@@ -374,6 +374,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'What type of organisation are you?',
                 cy: ''
             }),
+            explanation: localise({
+                en: `If you're both a charity and a company - just pick 'Registered charity' below.`,
+                cy: ''
+            }),
             type: 'radio',
             options: options,
             isRequired: true,
@@ -1774,14 +1778,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ORG_MIN_AGE.unit
                 );
                 return localise({
-                    en: `Was your organisation set up prior to ${minFoundingDate.format(
+                    en: `Was your organisation set up before ${minFoundingDate.format(
                         'MMMM YYYY'
                     )}?`,
                     cy: ''
                 });
             },
             explanation: localise({
-                en: `We ask this to determine whether we need to ask you about your accounting dates`,
+                en: `We're asking this to figure out if we need to ask you about your accounting dates or not.`,
                 cy: ''
             }),
             options: [
