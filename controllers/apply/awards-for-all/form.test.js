@@ -100,7 +100,7 @@ function mockFullForm({
         },
         mainContactEmail: faker.internet.exampleEmail(),
         mainContactPhone: '0345 4 10 20 30',
-        mainContactCommunicationNeeds: [],
+        mainContactCommunicationNeeds: '',
         seniorContactFirstName: faker.name.firstName(),
         seniorContactLastName: faker.name.lastName(),
         seniorContactRole: seniorContactRole,
@@ -112,7 +112,7 @@ function mockFullForm({
         },
         seniorContactEmail: faker.internet.exampleEmail(),
         seniorContactPhone: '020 7211 1888',
-        seniorContactCommunicationNeeds: [],
+        seniorContactCommunicationNeeds: '',
         bankAccountName: faker.company.companyName(),
         bankSortCode: '108800',
         bankAccountNumber: '00012345',
@@ -554,7 +554,8 @@ describe('Form validations', () => {
                     'companyNumber',
                     'charityNumber'
                 ],
-                [ORGANISATION_TYPES.SCHOOL]: ['educationNumber']
+                [ORGANISATION_TYPES.SCHOOL]: ['educationNumber'],
+                [ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY]: ['educationNumber']
             };
 
             map(mappings, (expected, type) => {
@@ -562,7 +563,7 @@ describe('Form validations', () => {
                     locale: 'en',
                     data: { organisationType: type }
                 })
-                    .getCurrentFieldsForStep('organisation', 2)
+                    .getCurrentFieldsForStep('organisation', 3)
                     .map(field => field.name);
 
                 expect(fieldNames).toEqual(expected);
@@ -790,18 +791,21 @@ describe('Form validations', () => {
 
         test('include all roles if no organisation type is provided', () => {
             expect(rolesFor(null)).toEqual([
-                'trustee',
                 'chair',
-                'vice-chair',
-                'secretary',
-                'treasurer',
-                'company-director',
-                'company-secretary',
+                'chancellor',
                 'chief-executive',
                 'chief-executive-officer',
-                'parish-clerk',
+                'company-director',
+                'company-secretary',
+                'deputy-parish-clerk',
+                'director',
+                'elected-member',
                 'head-teacher',
-                'chancellor',
+                'parish-clerk',
+                'secretary',
+                'treasurer',
+                'trustee',
+                'vice-chair',
                 'vice-chancellor'
             ]);
         });
@@ -835,14 +839,11 @@ describe('Form validations', () => {
 
             assertRolesForType(
                 ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                ['trustee', 'chair', 'vice-chair', 'treasurer']
+                ['trustee']
             );
 
             assertRolesForType(ORGANISATION_TYPES.CIO, [
                 'trustee',
-                'chair',
-                'vice-chair',
-                'treasurer',
                 'chief-executive-officer'
             ]);
 
@@ -851,15 +852,11 @@ describe('Form validations', () => {
                 'company-secretary'
             ]);
 
-            assertRolesForType(ORGANISATION_TYPES.SCHOOL, [
-                'head-teacher',
+            assertRolesForType(ORGANISATION_TYPES.SCHOOL, ['head-teacher']);
+
+            assertRolesForType(ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY, [
                 'chancellor',
                 'vice-chancellor'
-            ]);
-
-            assertRolesForType(ORGANISATION_TYPES.STATUTORY_BODY, [
-                'parish-clerk',
-                'chief-executive'
             ]);
         });
 

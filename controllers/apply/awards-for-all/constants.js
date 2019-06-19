@@ -11,7 +11,18 @@ const ORGANISATION_TYPES = {
     CIO: 'charitable-incorporated-organisation',
     NOT_FOR_PROFIT_COMPANY: 'not-for-profit-company',
     SCHOOL: 'school',
+    COLLEGE_OR_UNIVERSITY: 'college-or-university',
     STATUTORY_BODY: 'statutory-body'
+};
+
+const STATUTORY_BODY_TYPES = {
+    PARISH_COUNCIL: 'parish-council', // ⛪️
+    TOWN_COUNCIL: 'town-council', // 🏙
+    LOCAL_AUTHORITY: 'local-authority', // 🏛
+    NHS_TRUST: 'nhs-trust-health-authority', // 🏥
+    PRISON_SERVICE: 'prison-service', // 🔐
+    FIRE_SERVICE: 'fire-service', // 🚒
+    POLICE_AUTHORITY: 'police-authority' // 🚓
 };
 
 const BENEFICIARY_GROUPS = {
@@ -43,5 +54,6 @@ module.exports = {
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     ORGANISATION_TYPES,
+    STATUTORY_BODY_TYPES,
     FILE_LIMITS
 };

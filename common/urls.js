@@ -53,11 +53,6 @@ function getBaseUrl(req) {
     return `${protocol}://${req.get('host')}`;
 }
 
-function getFullUrl(req) {
-    const baseUrl = getBaseUrl(req);
-    return `${baseUrl}${req.originalUrl}`;
-}
-
 function getAbsoluteUrl(req, urlPath) {
     if (urlPath.indexOf('://') === -1) {
         const baseUrl = getBaseUrl(req);

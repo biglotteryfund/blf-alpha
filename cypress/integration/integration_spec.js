@@ -664,7 +664,7 @@ describe('awards for all', function() {
             cy.getByLabelText('Day').type('5');
             cy.getByLabelText('Month').type('11');
             cy.getByLabelText('Year').type('1926');
-            cy.getByText('Current address')
+            cy.getByText('Home address')
                 .parent()
                 .within(() => {
                     fillAddress();
@@ -691,7 +691,7 @@ describe('awards for all', function() {
             cy.getByLabelText('Day').type('5');
             cy.getByLabelText('Month').type('11');
             cy.getByLabelText('Year').type('1926');
-            cy.getByText('Current address')
+            cy.getByText('Home address')
                 .parent()
                 .within(() => {
                     fillAddress();
@@ -777,7 +777,9 @@ describe('awards for all', function() {
 
             cy.checkA11y();
             cy.get('h1').should('contain', 'Summary');
-            cy.getByText('Submit application').click();
+            cy.getAllByText('Submit application')
+                .first()
+                .click();
 
             cy.get('h1').should(
                 'contain',

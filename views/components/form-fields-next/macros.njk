@@ -29,7 +29,7 @@
 {% macro labelFor(field) -%}
     {{ field.label | safe }}
     {% if field.isRequired === false %}
-        <span class="ff-label-note">{{ __('global.misc.optional') }}</span>
+        <span class="ff-label-note">({{ __('global.misc.optional') }})</span>
     {% endif %}
 {%- endmacro %}
 
@@ -422,7 +422,7 @@
             {{ inputAddress(
                 {
                     name: field.name + '[previousAddress]',
-                    label: 'Previous address',
+                    label: 'Previous home address',
                     value: field.value.previousAddress
                 },
                 isNested = true
