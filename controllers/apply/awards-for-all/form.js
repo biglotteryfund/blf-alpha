@@ -495,9 +495,9 @@ module.exports = function({ locale, data = {} }) {
                             ].join('\n');
                         },
                         fields: compact([
+                            fields.seniorContactRole,
                             fields.seniorContactFirstName,
                             fields.seniorContactLastName,
-                            fields.seniorContactRole,
                             includeAddressAndDob() &&
                                 fields.seniorContactDateOfBirth,
                             includeAddressAndDob() &&
@@ -556,7 +556,7 @@ module.exports = function({ locale, data = {} }) {
                         fields: compact([
                             fields.mainContactFirstName,
                             fields.mainContactLastName,
-                            fields.mainContactDob,
+                            fields.mainContactDateOfBirth,
                             fields.mainContactAddress,
                             fields.mainContactAddressHistory,
                             fields.mainContactEmail,
