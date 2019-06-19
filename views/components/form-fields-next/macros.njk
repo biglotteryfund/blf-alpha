@@ -441,6 +441,7 @@
         <div id="js-budget-input">
             <budget-input
                 field-name="{{ field.name }}"
+                :min-budget="{{ field.attributes.min }}"
                 :max-budget="{{ field.attributes.max }}"
                 :max-items="{{ field.attributes.rowLimit }}"
                 {% if field.value %}:budget-data="{{ field.value | dump }}"{% endif %}>

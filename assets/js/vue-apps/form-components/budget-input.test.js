@@ -10,9 +10,15 @@ describe('BudgetInput', () => {
     test('should be able to add items up to max limit', () => {
         const maxItems = 10;
         const maxBudget = 500;
+        const minBudget = 500;
         const wrapper = mount(BudgetInput, {
             attachToDocument: true,
-            propsData: { fieldName: 'budget', maxBudget: maxBudget, maxItems: maxItems }
+            propsData: {
+                fieldName: 'budget',
+                minBudget: minBudget,
+                maxBudget: maxBudget,
+                maxItems: maxItems
+            }
         });
 
         expect(wrapper.findAll('[data-testid="budget-row"]').length).toBe(1);
@@ -23,22 +29,31 @@ describe('BudgetInput', () => {
             row.find('input[type="number"]').setValue(50);
         });
 
-        expect(wrapper.find('[data-testid="budget-total"]').text()).toContain('£400');
+        expect(wrapper.find('[data-testid="budget-total"]').text()).toContain(
+            '£400'
+        );
         expect(wrapper.findAll('[data-testid="budget-row"]').length).toBe(9);
 
-        // Reach limit
-        const lastRow = wrapper.find('[data-testid="budget-row"]:last-child');
-        lastRow.find('input[type="text"]').setValue(`One more thing`);
-
-        expect(wrapper.findAll('[data-testid="budget-row"]').length).toBe(10);
-        expect(wrapper.find('[data-testid="budget-errors"]').text()).toContain(
-            `You must use ${maxItems} budget headings or fewer to tell us your costs`
-        );
+        const lastRow = wrapper.find('[data-testid="budget-row"]:nth-child(8)');
+        const blankRow = wrapper.find('[data-testid="budget-row"]:last-child');
 
         // Over-budget
         lastRow.find('input[type="number"]').setValue(10000);
         expect(wrapper.find('[data-testid="budget-errors"]').text()).toContain(
             `Total project costs must be less than £${maxBudget}.`
+        );
+
+        // Under-budget
+        lastRow.find('input[type="number"]').setValue(10);
+        expect(wrapper.find('[data-testid="budget-errors"]').text()).toContain(
+            `Total project costs must be greater than £${minBudget}.`
+        );
+
+        // Reach limit
+        blankRow.find('input[type="text"]').setValue(`One more thing`);
+        expect(wrapper.findAll('[data-testid="budget-row"]').length).toBe(10);
+        expect(wrapper.find('[data-testid="budget-errors"]').text()).toContain(
+            `You must use ${maxItems} budget headings or fewer to tell us your costs`
         );
 
         // Can't exceed limit

@@ -7,6 +7,7 @@ const Joi = require('../form-router-next/joi-extensions');
 const locationsFor = require('./locations');
 const {
     BENEFICIARY_GROUPS,
+    MIN_BUDGET_TOTAL_GBP,
     MAX_BUDGET_TOTAL_GBP,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
@@ -1032,12 +1033,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'budget',
             attributes: {
+                min: MIN_BUDGET_TOTAL_GBP,
                 max: MAX_BUDGET_TOTAL_GBP,
                 rowLimit: 10
             },
             isRequired: true,
             schema: Joi.budgetItems()
-                .maxBudget(MAX_BUDGET_TOTAL_GBP)
+                .validBudgetRange(MIN_BUDGET_TOTAL_GBP, MAX_BUDGET_TOTAL_GBP)
                 .required(),
             messages: [
                 {
@@ -1061,6 +1063,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'budgetItems.overBudget',
                     message: localise({
                         en: `Total project costs must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                        cy: ``
+                    })
+                },
+                {
+                    type: 'budgetItems.underBudget',
+                    message: localise({
+                        en: `Total project costs must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
                         cy: ``
                     })
                 }

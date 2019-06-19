@@ -38,8 +38,9 @@ module.exports = function budgetItems(joi) {
         },
         rules: [
             {
-                name: 'maxBudget',
+                name: 'validBudgetRange',
                 params: {
+                    minBudget: joi.number().required(),
                     maxBudget: joi.number().required()
                 },
                 validate(params, value, state, options) {
@@ -47,6 +48,13 @@ module.exports = function budgetItems(joi) {
                     if (total > params.maxBudget) {
                         return this.createError(
                             'budgetItems.overBudget',
+                            { v: value, number: params.maxBudget },
+                            state,
+                            options
+                        );
+                    } else if (total < params.minBudget) {
+                        return this.createError(
+                            'budgetItems.underBudget',
                             { v: value, number: params.maxBudget },
                             state,
                             options
