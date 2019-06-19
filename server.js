@@ -37,7 +37,6 @@ const bodyParserMiddleware = require('./middleware/bodyParser');
 const domainRedirectMiddleware = require('./middleware/domain-redirect');
 const i18nMiddleware = require('./middleware/i18n');
 const localsMiddleware = require('./middleware/locals');
-const loggerMiddleware = require('./middleware/logger');
 const passportMiddleware = require('./middleware/passport');
 const portalMiddleware = require('./middleware/portal');
 const previewMiddleware = require('./middleware/preview');
@@ -207,7 +206,6 @@ app.use([
     },
     cacheControl(),
     defaultMaxAge,
-    loggerMiddleware,
     helmet({
         contentSecurityPolicy: {
             directives: cspDirectives({

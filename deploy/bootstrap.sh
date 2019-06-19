@@ -31,12 +31,26 @@ fi
 # Run environment var script to add them to the current shell
 /var/www/biglotteryfund/bin/get-secrets --environment=$APP_ENV
 
+# Copy nginx config files to correct place
+nginx_config=/var/www/biglotteryfund/deploy/nginx.conf
+server_config=/var/www/biglotteryfund/deploy/server.conf
+
 # Update NODE_ENV based on deploy group ID
 APP_ENV_PLACEHOLDER="APP_ENV"
-nginx_config=/var/www/biglotteryfund/deploy/server.conf
-sed -i "s|$APP_ENV_PLACEHOLDER|$APP_ENV|g" $nginx_config
+sed -i "s|$APP_ENV_PLACEHOLDER|$APP_ENV|g" $server_config
+
+# Configure/start Cloudwatch agent with config file
+cloudwatch_config_src=/var/www/biglotteryfund/deploy/cloudwatch-agent.json
+sed -i "s|$APP_ENV_PLACEHOLDER|$APP_ENV|g" $cloudwatch_config_src
+
+cloudwatch_config_dest=/opt/aws/amazon-cloudwatch-agent/bin/tnlcf.json
+cp $cloudwatch_config_src $cloudwatch_config_dest
+amazon-cloudwatch-agent-ctl -a fetch-config -c file:$cloudwatch_config_dest -s
+amazon-cloudwatch-agent-ctl -a start
 
 # Configure nginx
 rm -f /etc/nginx/sites-enabled/default
-cp $nginx_config /etc/nginx/sites-enabled
+cp $nginx_config /etc/nginx/conf.d
+cp $server_config /etc/nginx/sites-enabled
+
 service nginx restart
