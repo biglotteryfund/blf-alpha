@@ -617,6 +617,10 @@ describe('awards for all', function() {
                 'What is the full legal name of your organisation?',
                 { exact: false }
             ).type(faker.company.companyName());
+
+            // Org age question
+            cy.getByLabelText('Yes').click();
+
             cy.getByText(
                 'What is the main or registered address of your organisation?'
             )

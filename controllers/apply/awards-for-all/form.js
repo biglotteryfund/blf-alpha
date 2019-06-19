@@ -68,6 +68,11 @@ module.exports = function({ locale, data = {} }) {
         );
     }
 
+    function includeAccountDetails() {
+        const orgIsOlderThanMinimum = get('organisationAge')(data);
+        return orgIsOlderThanMinimum === 'yes';
+    }
+
     const sectionProject = {
         slug: 'your-project',
         title: localise({ en: 'Your Project', cy: '(WELSH) Your Project' }),
@@ -346,6 +351,7 @@ module.exports = function({ locale, data = {} }) {
                         fields: [
                             fields.organisationLegalName,
                             fields.organisationTradingName,
+                            fields.organisationAge,
                             fields.organisationAddress
                         ]
                     }
@@ -427,10 +433,11 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Organisation finances',
                             cy: ''
                         }),
-                        fields: [
-                            fields.accountingYearDate,
-                            fields.totalIncomeYear
-                        ]
+                        fields: compact([
+                            includeAccountDetails() &&
+                                fields.accountingYearDate,
+                            includeAccountDetails() && fields.totalIncomeYear
+                        ])
                     }
                 ]
             }

@@ -13,6 +13,7 @@ const {
     MIN_AGE_SENIOR_CONTACT,
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,
+    ORG_MIN_AGE,
     FILE_LIMITS
 } = require('./constants');
 
@@ -1764,6 +1765,47 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
+        organisationAge: {
+            name: 'organisationAge',
+            type: 'radio',
+            get label() {
+                const minFoundingDate = moment().subtract(
+                    ORG_MIN_AGE.amount,
+                    ORG_MIN_AGE.unit
+                );
+                return localise({
+                    en: `Was your organisation set up prior to ${minFoundingDate.format(
+                        'MMMM YYYY'
+                    )}?`,
+                    cy: ''
+                });
+            },
+            explanation: localise({
+                en: `We ask this to determine whether we need to ask you about your accounting dates`,
+                cy: ''
+            }),
+            options: [
+                { value: 'yes', label: localise({ en: 'Yes', cy: '' }) },
+                { value: 'no', label: localise({ en: 'No', cy: '' }) }
+            ],
+            settings: { stackedSummary: true },
+            isRequired: true,
+            get schema() {
+                return Joi.string()
+                    .valid(this.options.map(option => option.value))
+                    .required();
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en:
+                            'You must let us know about the age of your organisation',
+                        cy: ''
+                    })
+                }
+            ]
+        },
         organisationAddress: addressField({
             name: 'organisationAddress',
             label: localise({
@@ -1920,7 +1962,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'day-month',
             isRequired: true,
-            schema: Joi.dayMonth().required(),
+            schema: Joi.when('organisationAge', {
+                is: 'yes',
+                then: Joi.dayMonth().required(),
+                otherwise: Joi.any().strip()
+            }),
             messages: [
                 {
                     type: 'base',
@@ -1943,7 +1989,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'currency',
             isRequired: true,
-            schema: Joi.number().required(),
+            schema: Joi.when('organisationAge', {
+                is: 'yes',
+                then: Joi.number().required(),
+                otherwise: Joi.any().strip()
+            }),
             messages: [
                 {
                     type: 'base',
