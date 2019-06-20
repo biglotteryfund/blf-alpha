@@ -125,7 +125,7 @@ module.exports = function({ locale }) {
         successMessage: localise({
             en: `<p>We're excited to hear more about your project and invite you to fill in our application form.</p>
 
-            <p>Your account will also allow you to part complete your application so that you can complete it with in a time frame that is suitable to you.</p>`,
+            <p>Your account will also allow you to part complete your application so that you can complete it within a time frame that is suitable to you.</p>`,
             cy: ``
         })
     };

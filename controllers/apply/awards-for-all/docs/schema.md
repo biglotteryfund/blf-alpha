@@ -74,6 +74,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
             "county": "Berkshire",
             "postcode": "B15 1TR"
         },
+        "organisationStartDate": { "month": 9, "year": 1986 },
         "organisationType": "not-for-profit-company",
         "companyNumber": "123456789",
         "charityNumber": null,
@@ -193,7 +194,7 @@ type: `string`
 -   **Eastern**: `antrim-and-newtownabbey`, `ards-and-north-down`, `belfast`
 -   **Western**: `fermanagh-and-omagh`, `mid-ulster`
 -   **Northern**: `derry-and-strabane`, `causeway-coast-and-glens`, `mid-and-east-antrim`
--   **Southern**: `lisburn-and-castlereagh`, `newry-mourne-and-down`
+-   **Southern**: `armagh-banbridge-and-craigavon`, `lisburn-and-castlereagh`, `newry-mourne-and-down`
 
 #### Wales
 
@@ -339,6 +340,16 @@ Present if `organisationType` is `statutory-body`
 Allowed values: `parish-council`, `town-council`, `local-authority`
 `nhs-trust-health-authority`, `prison-service`, `fire-service`, `police-authority`
 
+### organisationStartDate
+type: `object`
+
+Object with properties:
+
+| Name      | Type      |
+| --------- | --------- |
+| **month** | `integer` |
+| **year**  | `integer` |
+
 ### companyNumber
 
 type: `string` or `null`
@@ -361,12 +372,20 @@ Present if `organisationType` is `school`
 
 type: `object`
 
+Present if `organisationStartDate` is 15 months or more ago.
+
 Object with properties:
 
 | Name      | Type      |
 | --------- | --------- |
-| **year**  | `integer` |
+| **day**  | `integer` |
 | **month** | `integer` |
+
+### totalIncomeYear
+
+type: `integer`
+
+Present if `organisationStartDate` is 15 months or more ago.
 
 ### mainContactFirstName
 
