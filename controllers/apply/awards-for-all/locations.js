@@ -222,6 +222,10 @@ module.exports = function locationsFor(country) {
             label: 'Southern',
             options: [
                 {
+                    value: 'armagh-banbridge-and-craigavon',
+                    label: 'Armagh, Banbridge and Craigavon'
+                },
+                {
                     value: 'lisburn-and-castlereagh',
                     label: 'Lisburn and Castlereagh'
                 },
