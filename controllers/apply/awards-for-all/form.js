@@ -69,7 +69,7 @@ module.exports = function({ locale, data = {} }) {
     }
 
     function includeAccountDetails() {
-        return get('organisationAge')(data) === 'yes';
+        return get('organisationStartDate.isBeforeMin')(data) === true;
     }
 
     const sectionProject = {
@@ -350,7 +350,7 @@ module.exports = function({ locale, data = {} }) {
                         fields: [
                             fields.organisationLegalName,
                             fields.organisationTradingName,
-                            fields.organisationAge,
+                            fields.organisationStartDate,
                             fields.organisationAddress
                         ]
                     }

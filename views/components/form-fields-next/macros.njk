@@ -59,19 +59,21 @@
     {%- endif -%}
 {% endmacro %}
 
-{% macro dayMonthYearInputs(field, rangePeriod = false, includeYear = true) %}
-    <label class="ff-date__field">
-        <span class="ff-label">{{ __('global.misc.day') }}</span>
-        <input
-            class="ff-text ff-width-2"
-            name="{{ dateInputName(field, 'day', rangePeriod) }}"
-            type="number"
-            pattern="[0-9]*" min="1" max="31"
-            autocomplete="off"
-            {% if field.isRequired %}required aria-required="true"{% endif %}
-            value="{{ field.value[rangePeriod].day if rangePeriod else field.value.day }}"
-        />
-    </label>
+{% macro dayMonthYearInputs(field, rangePeriod = false, includeYear = true, includeDay = true) %}
+    {% if includeDay %}
+        <label class="ff-date__field">
+            <span class="ff-label">{{ __('global.misc.day') }}</span>
+            <input
+                class="ff-text ff-width-2"
+                name="{{ dateInputName(field, 'day', rangePeriod) }}"
+                type="number"
+                pattern="[0-9]*" min="1" max="31"
+                autocomplete="off"
+                {% if field.isRequired %}required aria-required="true"{% endif %}
+                value="{{ field.value[rangePeriod].day if rangePeriod else field.value.day }}"
+            />
+        </label>
+    {% endif %}
     <label class="ff-date__field">
         <span class="ff-label">{{ __('global.misc.month') }}</span>
         <input
@@ -103,13 +105,17 @@
     {% endif %}
 {% endmacro %}
 
-{% macro inputDate(field, includeYear = true) %}
+{% macro inputDate(field, includeYear = true, includeDay = true) %}
     <fieldset class="ff-date" id="field-{{ field.name }}">
         <legend class="ff-label ff-date__legend">
             {{ field.label }}
         </legend>
         {{ explanationFor(field) }}
-        {{ dayMonthYearInputs(field, includeYear = includeYear) }}
+        {{ dayMonthYearInputs(
+            field,
+            includeYear = includeYear,
+            includeDay = includeDay
+        ) }}
     </fieldset>
 {% endmacro %}
 
@@ -546,6 +552,8 @@
                     {{ inputDateRange(field) }}
                 {% elseif field.type === 'day-month' %}
                     {{ inputDate(field, includeYear = false) }}
+                {% elseif field.type === 'month-year' %}
+                    {{ inputDate(field, includeDay = false) }}
                 {% elseif field.type === 'currency' %}
                     {{ inputCurrency(field) }}
                 {% elseif field.type === 'address' %}

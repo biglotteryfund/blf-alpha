@@ -1769,42 +1769,39 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
-        organisationAge: {
-            name: 'organisationAge',
-            type: 'radio',
-            get label() {
-                const minFoundingDate = moment().subtract(
-                    ORG_MIN_AGE.amount,
-                    ORG_MIN_AGE.unit
-                );
-                return localise({
-                    en: `Was your organisation set up before ${minFoundingDate.format(
-                        'MMMM YYYY'
-                    )}?`,
-                    cy: ''
-                });
-            },
-            explanation: localise({
-                en: `We're asking this to figure out if we need to ask you about your accounting dates or not.`,
+        organisationStartDate: {
+            name: 'organisationStartDate',
+            type: 'month-year',
+            label: localise({
+                en: `When was your organisation set up?`,
                 cy: ''
             }),
-            options: [
-                { value: 'yes', label: localise({ en: 'Yes', cy: '' }) },
-                { value: 'no', label: localise({ en: 'No', cy: '' }) }
-            ],
-            settings: { stackedSummary: true },
+            explanation: localise({
+                en: `<p>Please tell us the month and year.</p>
+                     <p><strong>For example: 11 2017</strong></p>`,
+                cy: ''
+            }),
             isRequired: true,
-            get schema() {
-                return Joi.string()
-                    .valid(this.options.map(option => option.value))
-                    .required();
-            },
+            schema: Joi.monthYear()
+                .pastDate()
+                .minTimeAgo(ORG_MIN_AGE.amount, ORG_MIN_AGE.unit)
+                .required(),
             messages: [
                 {
                     type: 'base',
+                    message: localise({ en: 'Enter a day and month', cy: '' })
+                },
+                {
+                    type: 'any.invalid',
                     message: localise({
-                        en:
-                            'You must let us know about the age of your organisation',
+                        en: 'Enter a real day and month',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'monthYear.pastDate',
+                    message: localise({
+                        en: 'Enter a past date',
                         cy: ''
                     })
                 }
@@ -1966,8 +1963,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'day-month',
             isRequired: true,
-            schema: Joi.when('organisationAge', {
-                is: 'yes',
+            schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
+                is: true,
                 then: Joi.dayMonth().required(),
                 otherwise: Joi.any().strip()
             }),
@@ -1993,8 +1990,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'currency',
             isRequired: true,
-            schema: Joi.when('organisationAge', {
-                is: 'yes',
+            schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
+                is: true,
                 then: Joi.number().required(),
                 otherwise: Joi.any().strip()
             }),

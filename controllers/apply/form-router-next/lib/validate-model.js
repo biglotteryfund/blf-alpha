@@ -18,6 +18,7 @@ module.exports = function validateModel(formModel) {
                 'day-month',
                 'email',
                 'file',
+                'month-year',
                 'number',
                 'radio',
                 'select',
@@ -99,11 +100,7 @@ module.exports = function validateModel(formModel) {
                     fieldset.fields.some(field => {
                         if (arrayFieldTypes.indexOf(field.type) !== -1) {
                             throw new Error(
-                                `Error: An array field "${
-                                    field.name
-                                }" was added to this multipart step "${
-                                    step.title
-                                }", which will fail.`
+                                `Error: An array field "${field.name}" was added to this multipart step "${step.title}", which will fail.`
                             );
                         }
                     });
