@@ -4,6 +4,41 @@
 
 {% block title %}{{ step.title }} | {{ section.shortTitle or section.title }} | {{ formTitle }} | {% endblock %}
 
+{% macro formActions(isFooter = false) %}
+    <ul class="form-header__actions{% if isFooter %} form-header__actions--footer{% endif %}">
+        <li class="form-header__actions__steps">
+            <ul class="form-step-link">
+                {% if previousPage %}
+                    <li class="form-step-link__item">
+                        <span class="form-step-link__arrow">←</span>
+                        <a href="{{ previousPage.url }}">
+                            Previous
+                            <span class="form-step-link__subtitle">
+                                {{ previousPage.label }}
+                            </span>
+                        </a>
+                    </li>
+                {% endif %}
+                {% if nextPage %}
+                    <li class="form-step-link__item">
+                        <a href="{{ nextPage.url }}">
+                            Next
+                            <span class="form-step-link__subtitle">
+                                {{ nextPage.label }}
+                            </span>
+                        </a>
+                        <span class="form-step-link__arrow">→</span>
+                    </li>
+                {% endif %}
+            </ul>
+        </li>
+        <li><a href="{{ formBaseUrl }}/summary">View summary</a></li>
+        <li><a href="{{ formBaseUrl }}">Applications dashboard</a></li>
+        <li><a href="{{ localify('/user') }}">Account</a></li>
+        <li><a href="{{ localify('/user/logout') }}">Log out</a></li>
+    </ul>
+{% endmacro %}
+
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
@@ -15,38 +50,7 @@
             >
                 <div class="form-header">
 
-                    <ul class="form-header__actions">
-                        <li class="form-header__actions__steps">
-                            <ul class="form-step-link">
-                                {% if previousPage %}
-                                    <li class="form-step-link__item">
-                                        <span class="form-step-link__arrow">←</span>
-                                        <a href="{{ previousPage.url }}">
-                                            Previous
-                                            <span class="form-step-link__subtitle">
-                                                {{ previousPage.label }}
-                                            </span>
-                                        </a>
-                                    </li>
-                                {% endif %}
-                                {% if nextPage %}
-                                    <li class="form-step-link__item">
-                                        <a href="{{ nextPage.url }}">
-                                            Next
-                                            <span class="form-step-link__subtitle">
-                                                {{ nextPage.label }}
-                                            </span>
-                                        </a>
-                                        <span class="form-step-link__arrow">→</span>
-                                    </li>
-                                {% endif %}
-                            </ul>
-                        </li>
-                        <li><a href="{{ formBaseUrl }}/summary">View summary</a></li>
-                        <li><a href="{{ formBaseUrl }}">Applications dashboard</a></li>
-                        <li><a href="{{ localify('/user') }}">Account</a></li>
-                        <li><a href="{{ localify('/user/logout') }}">Log out</a></li>
-                    </ul>
+                    {{ formActions() }}
 
                     <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
                     <p class="form-header__suffix">
@@ -55,11 +59,12 @@
                 </div>
 
                 {{ formErrors(__('global.misc.errorTitle'), errors) }}
-            
+
                 {% set singleFieldset = step.fieldsets.length === 1 %}
                 {% for fieldset in step.fieldsets %}
                     <fieldset class="form-fieldset u-constrained-wide">
-                        <legend class="form-fieldset__legend t2 t--underline{% if singleFieldset %} u-visually-hidden{% endif %}">
+                        <legend
+                            class="form-fieldset__legend t2 t--underline{% if singleFieldset %} u-visually-hidden{% endif %}">
                             {{ fieldset.legend }}
                         </legend>
 
@@ -85,14 +90,11 @@
                 {% endif %}
 
                 <div class="form-actions">
-                    <input class="btn" type="submit" value="Continue" />
+                    <input class="btn" type="submit" value="Continue"/>
                 </div>
 
-                <p class="u-text-medium">
-                    Not sure about this step? <a href="{{ nextUrl }}">Skip to the next step</a>
-                    or <a href="{{ formBaseUrl }}/summary">go to the summary</a>
-                </p>
             </form>
+            {{ formActions(isFooter = true) }}
         </div>
     </main>
 {% endblock %}
