@@ -99,6 +99,16 @@ function formatDayMonth(value) {
     return dt.isValid() ? dt.format('Do MMMM') : '';
 }
 
+function formatMonthYear(value) {
+    const dt = moment({
+        year: value.year,
+        month: value.month - 1,
+        day: 1
+    });
+
+    return dt.isValid() ? dt.format('MMMM YYYY') : '';
+}
+
 function formatCurrency(value) {
     return `£${value.toLocaleString()}`;
 }
@@ -158,6 +168,9 @@ function formatterFor(field) {
             break;
         case 'day-month':
             formatter = formatDayMonth;
+            break;
+        case 'month-year':
+            formatter = formatMonthYear;
             break;
         case 'currency':
             formatter = formatCurrency;
