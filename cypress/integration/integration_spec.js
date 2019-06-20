@@ -619,7 +619,8 @@ describe('awards for all', function() {
             ).type(faker.company.companyName());
 
             // Org age question
-            cy.getByLabelText('Yes').click();
+            cy.getByLabelText('Month').type(9);
+            cy.getByLabelText('Year').type(1986);
 
             cy.getByText(
                 'What is the main or registered address of your organisation?'
