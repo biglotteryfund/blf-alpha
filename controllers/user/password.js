@@ -245,12 +245,26 @@ router
                                 req,
                                 user.username
                             );
+
+                            // Log the user in
+                            req.logIn(user, function(loginErr) {
+                                if (loginErr) {
+                                    redirectForLocale(
+                                        req,
+                                        res,
+                                        '/user/login?s=passwordUpdated'
+                                    );
+                                } else {
+                                    redirectForLocale(
+                                        req,
+                                        res,
+                                        '/user?s=passwordUpdated'
+                                    );
+                                }
+                            });
                         } else {
                             redirectForLocale(req, res, '/user/login');
                         }
-
-                        const urlPath = '/user/login?s=passwordUpdated';
-                        redirectForLocale(req, res, urlPath);
                     } catch (error) {
                         Sentry.captureException(error);
                         res.locals.token = token;
