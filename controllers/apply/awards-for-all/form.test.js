@@ -142,7 +142,7 @@ function assertMessagesByKey(data, messages) {
         return includes(Object.keys(data), message.param);
     });
 
-    expect(map(messagesByKey, 'msg')).toEqual(messages);
+    expect(map(messagesByKey, 'msg').sort()).toEqual(messages.sort());
 }
 
 function assertValid(data) {
