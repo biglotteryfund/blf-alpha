@@ -794,23 +794,46 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'radio',
             options: [
                 {
-                    value: 'england',
-                    label: localise({ en: 'England', cy: '' })
-                },
-                {
-                    value: 'northern-ireland',
-                    label: localise({ en: 'Northern Ireland', cy: '' })
-                },
-                {
                     value: 'scotland',
                     label: localise({ en: 'Scotland', cy: '' })
                 },
-                { value: 'wales', label: localise({ en: 'Wales', cy: '' }) }
+                {
+                    value: 'england',
+                    label: localise({ en: 'England (coming soon)', cy: '' }),
+                    attributes: {
+                        disabled: 'disabled'
+                    }
+                },
+                {
+                    value: 'northern-ireland',
+                    label: localise({
+                        en: 'Northern Ireland (coming soon)',
+                        cy: ''
+                    }),
+                    attributes: {
+                        disabled: 'disabled'
+                    }
+                },
+                {
+                    value: 'wales',
+                    label: localise({ en: 'Wales (coming soon)', cy: '' }),
+                    attributes: {
+                        disabled: 'disabled'
+                    }
+                }
             ],
             isRequired: true,
             get schema() {
                 return Joi.string()
-                    .valid(this.options.map(option => option.value))
+                    .valid(
+                        this.options
+                            .filter(
+                                option =>
+                                    !option.attributes ||
+                                    !option.attributes.disabled
+                            )
+                            .map(option => option.value)
+                    )
                     .required();
             },
             messages: [

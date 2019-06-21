@@ -252,6 +252,10 @@ $inputOutline: 3px solid get-color('border', 'outline');
             align-items: center;
         }
 
+        &.ff-choice__option--disabled {
+            color: gray;
+        }
+
         input[type='radio'],
         input[type='checkbox'] {
             margin: 0 0.5em 0 0;
