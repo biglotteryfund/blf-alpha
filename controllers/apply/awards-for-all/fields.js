@@ -2213,27 +2213,47 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         bankSortCode: {
             name: 'bankSortCode',
             label: localise({ en: 'Sort code', cy: '' }),
-            type: 'number',
+            explanation: localise({ en: 'eg. 123456', cy: '' }),
+            type: 'text',
             attributes: { size: 20 },
             isRequired: true,
-            schema: Joi.number().required(),
+            schema: Joi.bankNumbers()
+                .sortCode(6)
+                .required(),
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a sort-code', cy: '' })
+                    message: localise({ en: 'Enter a sort code', cy: '' })
+                },
+                {
+                    type: 'sortCode.wrongSize',
+                    message: localise({
+                        en: 'Enter a six digit sort code',
+                        cy: ''
+                    })
                 }
             ]
         },
         bankAccountNumber: {
             name: 'bankAccountNumber',
             label: localise({ en: 'Account number', cy: '' }),
-            type: 'number',
+            explanation: localise({ en: 'eg. 12345678', cy: '' }),
+            type: 'text',
             isRequired: true,
-            schema: Joi.number().required(),
+            schema: Joi.bankNumbers()
+                .accountNumber(8)
+                .required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({ en: 'Enter an account number', cy: '' })
+                },
+                {
+                    type: 'accountNumber.wrongSize',
+                    message: localise({
+                        en: 'Enter an eight digit account number',
+                        cy: ''
+                    })
                 }
             ]
         },

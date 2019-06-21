@@ -991,7 +991,7 @@ describe('Form validations', () => {
             }
 
             assertValidByKey(value('108800'));
-            assertMessagesByKey(value(null), ['Enter a sort-code']);
+            assertMessagesByKey(value(null), ['Enter a sort code']);
         });
 
         test('valid account number', () => {
