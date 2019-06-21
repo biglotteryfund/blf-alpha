@@ -51,7 +51,11 @@
     />
 {% endmacro %}
 
-{% macro nameField(field, nameType, autocompleteName) %}
+{% macro nameField(field, nameType, autocompleteName, label) %}
+    <label class="ff-label u-margin-top"
+           for="field-{{ field.name }}-{{ nameType }}">
+        {{ label }}
+    </label>
     <input
         class="ff-text"
         type="{{ field.type }}"
@@ -64,26 +68,14 @@
 {% endmacro %}
 
 {% macro inputNames(field) %}
-    <div class="ff-names" id="field-{{ field-name }}-legend">
+    <div class="ff-names" id="field-{{ field.name }}-legend">
         <h2 class="ff-label">{{ field.label }}</h2>
         {{ explanationFor(field) }}
     </div>
 
-    <fieldset class="ff-names u-margin-top" id="field-{{ field.name }}-firstName">
-        <legend class="ff-label">
-            {# @TODO i18n #}
-            First name
-        </legend>
-        {{ nameField(field, 'firstName', 'given-name') }}
-    </fieldset>
+    {{ nameField(field, 'firstName', 'given-name', 'First name') }}
+    {{ nameField(field, 'lastName', 'family-name', 'Last name') }}
 
-    <fieldset class="ff-names u-margin-top" id="field-{{ field.name }}-lastName">
-        <legend class="ff-label">
-            {# @TODO i18n #}
-            Last name
-        </legend>
-        {{ nameField(field, 'lastName', 'family-name') }}
-    </fieldset>
 {% endmacro %}
 
 {% macro dateInputName(field, datePiece, rangePeriod = false) %}

@@ -138,6 +138,14 @@ function formatFile(value) {
     }
 }
 
+function formatName(value) {
+    if (value) {
+        return `${value.firstName} ${value.lastName}`;
+    } else {
+        return '';
+    }
+}
+
 function formatDefault(value) {
     return value.toString();
 }
@@ -180,6 +188,9 @@ function formatterFor(field) {
             break;
         case 'file':
             formatter = formatFile;
+            break;
+        case 'full-name':
+            formatter = formatName;
             break;
         default:
             formatter = formatDefault;

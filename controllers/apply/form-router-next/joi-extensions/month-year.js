@@ -62,6 +62,7 @@ module.exports = function monthYear(joi) {
                     amount: joi.number().required(),
                     units: joi.string().required()
                 },
+                /* eslint-disable-next-line no-unused-vars */
                 validate(params, value, state, options) {
                     const minDate = moment().subtract(
                         params.amount,

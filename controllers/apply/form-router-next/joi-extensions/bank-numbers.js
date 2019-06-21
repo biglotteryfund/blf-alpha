@@ -1,8 +1,6 @@
 'use strict';
 const { isString } = require('lodash');
 
-const getNumberLength = n => {};
-
 module.exports = function bankNumbers(joi) {
     return {
         name: 'bankNumbers',
