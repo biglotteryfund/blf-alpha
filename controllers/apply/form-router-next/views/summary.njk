@@ -22,7 +22,7 @@
 {% macro stepSummary(step, stepNumber, totalSteps) %}
     <div class="step-summary">
         <h3 class="step-summary__title">
-            {{ __('global.misc.stepProgress', stepNumber, totalSteps) }} &ndash; {{ step.title }}
+            {{ step.title }}
         </h3>
 
         {% if step.isRequired %}
@@ -59,7 +59,7 @@
         <header class="section-progress-bar section-progress-bar--{{ section.progress.status }}">
             <h2 class="section-progress-bar__title">
                 <a href="{{ formBaseUrl }}/{{ section.slug }}" class="u-link-unstyled">
-                    {{ copy.sectionPrefix }} {{ sectionNumber }}: {{ section.shortTitle or section.title }}
+                    {{ section.shortTitle or section.title }}
                 </a>
 
                 {% set editWord = copy.continue if section.progress.status === 'incomplete' else copy.edit %}
