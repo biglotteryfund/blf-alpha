@@ -1,7 +1,7 @@
 'use strict';
 const moment = require('moment/moment');
 const { get } = require('lodash/fp');
-const { flatMap, includes, values } = require('lodash');
+const { flatMap, includes, values, concat } = require('lodash');
 
 const Joi = require('../form-router-next/joi-extensions');
 const locationsFor = require('./locations');
@@ -33,7 +33,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             .single();
     }
 
-    function emailField(props) {
+    function emailField(props, additionalMessages = []) {
         const defaultProps = {
             label: localise({ en: 'Email', cy: '' }),
             type: 'email',
@@ -42,19 +42,25 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             schema: Joi.string()
                 .email()
                 .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter an email address', cy: '' })
-                },
-                {
-                    type: 'string.email',
-                    message: localise({
-                        en: `Email address must be in the correct format, like name@example.com`,
-                        cy: ``
-                    })
-                }
-            ]
+            messages: concat(
+                [
+                    {
+                        type: 'base',
+                        message: localise({
+                            en: 'Enter an email address',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'string.email',
+                        message: localise({
+                            en: `Email address must be in the correct format, like name@example.com`,
+                            cy: ``
+                        })
+                    }
+                ],
+                additionalMessages
+            )
         };
 
         return { ...defaultProps, ...props };
@@ -89,45 +95,57 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return { ...defaultProps, ...props };
     }
 
-    function addressField(props) {
+    function addressField(props, additionalMessages = []) {
         const defaultProps = {
             type: 'address',
             isRequired: true,
             schema: Joi.ukAddress().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter a full UK address', cy: '' })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'line1',
-                    message: localise({
-                        en: 'Enter a building and street',
-                        cy: ''
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'townCity',
-                    message: localise({ en: 'Enter a town or city', cy: '' })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'county',
-                    message: localise({ en: 'Enter a county', cy: '' })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'postcode',
-                    message: localise({ en: 'Enter a postcode', cy: '' })
-                },
-                {
-                    type: 'string.postcode',
-                    key: 'postcode',
-                    message: localise({ en: 'Enter a real postcode', cy: '' })
-                }
-            ]
+            messages: concat(
+                [
+                    {
+                        type: 'base',
+                        message: localise({
+                            en: 'Enter a full UK address',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'any.empty',
+                        key: 'line1',
+                        message: localise({
+                            en: 'Enter a building and street',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'any.empty',
+                        key: 'townCity',
+                        message: localise({
+                            en: 'Enter a town or city',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'any.empty',
+                        key: 'county',
+                        message: localise({ en: 'Enter a county', cy: '' })
+                    },
+                    {
+                        type: 'any.empty',
+                        key: 'postcode',
+                        message: localise({ en: 'Enter a postcode', cy: '' })
+                    },
+                    {
+                        type: 'string.postcode',
+                        key: 'postcode',
+                        message: localise({
+                            en: 'Enter a real postcode',
+                            cy: ''
+                        })
+                    }
+                ],
+                additionalMessages
+            )
         };
 
         return { ...defaultProps, ...props };
@@ -2024,21 +2042,34 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'mainContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })
         }),
-        mainContactAddress: addressField({
-            name: 'mainContactAddress',
-            label: localise({ en: 'Home address', cy: '' }),
-            explanation: localise({
-                en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
-                cy: ''
-            }),
-            schema: Joi.ukAddress().when(Joi.ref('organisationType'), {
-                is: Joi.exist().valid(
-                    ORGANISATION_TYPES.SCHOOL,
-                    ORGANISATION_TYPES.STATUTORY_BODY
-                ),
-                then: Joi.any().strip()
-            })
-        }),
+        mainContactAddress: addressField(
+            {
+                name: 'mainContactAddress',
+                label: localise({ en: 'Home address', cy: '' }),
+                explanation: localise({
+                    en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
+                    cy: ''
+                }),
+                schema: Joi.ukAddress()
+                    .mainContact()
+                    .when(Joi.ref('organisationType'), {
+                        is: Joi.exist().valid(
+                            ORGANISATION_TYPES.SCHOOL,
+                            ORGANISATION_TYPES.STATUTORY_BODY
+                        ),
+                        then: Joi.any().strip()
+                    })
+            },
+            [
+                {
+                    type: 'address.matchesOther',
+                    message: localise({
+                        en: `Main Contact address must be different from the Senior Contact's address`,
+                        cy: ``
+                    })
+                }
+            ]
+        ),
         mainContactAddressHistory: addressHistoryField({
             name: 'mainContactAddressHistory',
             label: localise({
@@ -2046,14 +2077,29 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             })
         }),
-        mainContactEmail: emailField({
-            name: 'mainContactEmail',
-            label: localise({ en: 'Email', cy: '' }),
-            explanation: localise({
-                en: 'We’ll use this whenever we get in touch about the project',
-                cy: ''
-            })
-        }),
+        mainContactEmail: emailField(
+            {
+                name: 'mainContactEmail',
+                label: localise({ en: 'Email', cy: '' }),
+                explanation: localise({
+                    en:
+                        'We’ll use this whenever we get in touch about the project',
+                    cy: ''
+                }),
+                schema: Joi.string()
+                    .email()
+                    .invalid(Joi.ref('seniorContactEmail'))
+            },
+            [
+                {
+                    type: 'any.invalid',
+                    message: localise({
+                        en: `Main Contact email address must be different from the Senior Contact's email address`,
+                        cy: ``
+                    })
+                }
+            ]
+        ),
         mainContactPhone: phoneField({
             name: 'mainContactPhone',
             label: localise({ en: 'Telephone number', cy: '' })
@@ -2084,21 +2130,34 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'seniorContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })
         }),
-        seniorContactAddress: addressField({
-            name: 'seniorContactAddress',
-            label: localise({ en: 'Home address', cy: '' }),
-            explanation: localise({
-                en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
-                cy: ''
-            }),
-            schema: Joi.ukAddress().when(Joi.ref('organisationType'), {
-                is: Joi.exist().valid(
-                    ORGANISATION_TYPES.SCHOOL,
-                    ORGANISATION_TYPES.STATUTORY_BODY
-                ),
-                then: Joi.any().strip()
-            })
-        }),
+        seniorContactAddress: addressField(
+            {
+                name: 'seniorContactAddress',
+                label: localise({ en: 'Home address', cy: '' }),
+                explanation: localise({
+                    en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
+                    cy: ''
+                }),
+                schema: Joi.ukAddress()
+                    .seniorContact()
+                    .when(Joi.ref('organisationType'), {
+                        is: Joi.exist().valid(
+                            ORGANISATION_TYPES.SCHOOL,
+                            ORGANISATION_TYPES.STATUTORY_BODY
+                        ),
+                        then: Joi.any().strip()
+                    })
+            },
+            [
+                {
+                    type: 'address.matchesOther',
+                    message: localise({
+                        en: `Senior Contact address must be different from the Main Contact's address`,
+                        cy: ``
+                    })
+                }
+            ]
+        ),
         seniorContactAddressHistory: addressHistoryField({
             name: 'seniorContactAddressHistory',
             label: localise({
@@ -2154,10 +2213,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         bankSortCode: {
             name: 'bankSortCode',
             label: localise({ en: 'Sort code', cy: '' }),
-            type: 'text',
+            type: 'number',
             attributes: { size: 20 },
             isRequired: true,
-            schema: Joi.string().required(),
+            schema: Joi.number().required(),
             messages: [
                 {
                     type: 'base',
@@ -2168,9 +2227,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         bankAccountNumber: {
             name: 'bankAccountNumber',
             label: localise({ en: 'Account number', cy: '' }),
-            type: 'text',
+            type: 'number',
             isRequired: true,
-            schema: Joi.string().required(),
+            schema: Joi.number().required(),
             messages: [
                 {
                     type: 'base',

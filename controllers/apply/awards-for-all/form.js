@@ -537,15 +537,34 @@ module.exports = function({ locale, data = {} }) {
                             cy: ''
                         }),
                         get introduction() {
-                            const seniorContactDetails = {
+                            const seniorContact = {
                                 firstName: get('seniorContactFirstName')(data),
                                 lastName: get('seniorContactLastName')(data)
                             };
+                            const mainContact = {
+                                firstName: get('mainContactFirstName')(data),
+                                lastName: get('mainContactLastName')(data)
+                            };
                             const seniorName =
-                                seniorContactDetails.firstName &&
-                                seniorContactDetails.lastName
-                                    ? `, <strong>${seniorContactDetails.firstName} ${seniorContactDetails.lastName}</strong>`
+                                seniorContact.firstName &&
+                                seniorContact.lastName
+                                    ? `, <strong>${seniorContact.firstName} ${seniorContact.lastName}</strong>`
                                     : '';
+
+                            const contactsShareNames =
+                                seniorContact.firstName +
+                                    seniorContact.lastName ===
+                                mainContact.firstName + mainContact.lastName;
+                            const contactsShareSurname =
+                                seniorContact.lastName === mainContact.lastName;
+
+                            let contactSameNameWarning = '';
+                            if (contactsShareNames) {
+                                contactSameNameWarning = `<p><strong>Main contact's name must be different from the senior contact's</strong></p>`;
+                            } else if (contactsShareSurname) {
+                                contactSameNameWarning = `<p><strong>We've noticed that your main and senior contact have the same surname. Remember we can't fund projects where the two contacts are married or related by blood.</strong></p>`;
+                            }
+
                             return localise({
                                 en: `<p>
                                         Please give us the contact details of a person we can get in touch with if we 
@@ -555,7 +574,7 @@ module.exports = function({ locale, data = {} }) {
                                         The main contact must be a different person from the senior contact${seniorName}. 
                                         The two contacts also can't be married or in a long-term relationship with each 
                                         other, living together at the same address, or related by blood.
-                                    </p>`,
+                                    </p>${contactSameNameWarning}`,
                                 cy: ''
                             });
                         },
