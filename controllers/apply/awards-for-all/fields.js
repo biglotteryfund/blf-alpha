@@ -226,41 +226,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return { ...defaultProps, ...props };
     }
 
-    function firstNameField(props) {
+    function nameField(props, additionalMessages = []) {
         const defaultProps = {
-            type: 'text',
-            attributes: {
-                autocomplete: 'given-name',
-                spellcheck: 'false'
-            },
+            type: 'full-name',
             isRequired: true,
-            schema: Joi.string().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter first name', cy: '' })
-                }
-            ]
-        };
-
-        return { ...defaultProps, ...props };
-    }
-
-    function lastNameField(props) {
-        const defaultProps = {
-            type: 'text',
-            attributes: {
-                autocomplete: 'family-name',
-                spellcheck: 'false'
-            },
-            isRequired: true,
-            schema: Joi.string().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter last name', cy: '' })
-                }
-            ]
+            schema: Joi.fullName().required(),
+            messages: concat(
+                [
+                    {
+                        type: 'base',
+                        message: localise({
+                            en: 'Enter a first and last name',
+                            cy: ''
+                        })
+                    }
+                ],
+                additionalMessages
+            )
         };
 
         return { ...defaultProps, ...props };
@@ -2030,14 +2012,24 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        mainContactFirstName: firstNameField({
-            name: 'mainContactFirstName',
-            label: localise({ en: 'First name', cy: '' })
-        }),
-        mainContactLastName: lastNameField({
-            name: 'mainContactLastName',
-            label: localise({ en: 'Last name', cy: '' })
-        }),
+        mainContactName: nameField(
+            {
+                name: 'mainContactName',
+                label: localise({ en: 'Full name of main contact', cy: '' }),
+                schema: Joi.fullName()
+                    .mainContact()
+                    .required()
+            },
+            [
+                {
+                    type: 'name.matchesOther',
+                    message: localise({
+                        en: `Main Contact name must be different from the Senior Contact's name`,
+                        cy: ``
+                    })
+                }
+            ]
+        ),
         mainContactDateOfBirth: dateOfBirthField(MIN_AGE_MAIN_CONTACT, {
             name: 'mainContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })
@@ -2118,14 +2110,24 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: []
         },
         seniorContactRole: seniorContactRoleField(),
-        seniorContactFirstName: firstNameField({
-            name: 'seniorContactFirstName',
-            label: localise({ en: 'First name', cy: '' })
-        }),
-        seniorContactLastName: lastNameField({
-            name: 'seniorContactLastName',
-            label: localise({ en: 'Last name', cy: '' })
-        }),
+        seniorContactName: nameField(
+            {
+                name: 'seniorContactName',
+                label: localise({ en: 'Full name of senior contact', cy: '' }),
+                schema: Joi.fullName()
+                    .seniorContact()
+                    .required()
+            },
+            [
+                {
+                    type: 'name.matchesOther',
+                    message: localise({
+                        en: `Senior Contact name must be different from the Main Contact's name`,
+                        cy: ``
+                    })
+                }
+            ]
+        ),
         seniorContactDateOfBirth: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
             name: 'seniorContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })

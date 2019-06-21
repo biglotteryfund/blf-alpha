@@ -51,6 +51,41 @@
     />
 {% endmacro %}
 
+{% macro nameField(field, nameType, autocompleteName) %}
+    <input
+        class="ff-text"
+        type="{{ field.type }}"
+        id="field-{{ field.name }}-{{ nameType }}"
+        name="{{ field.name }}[{{ nameType }}]"
+        {% if field.value[nameType] %}value="{{ field.value[nameType] }}"{% endif %}
+        {% if field.isRequired %}required aria-required="true"{% endif %}
+        size="40" autocomplete="{{ autocompleteName }}" spellcheck="false"
+    />
+{% endmacro %}
+
+{% macro inputNames(field) %}
+    <div class="ff-names" id="field-{{ field-name }}-legend">
+        <h2 class="ff-label">{{ field.label }}</h2>
+        {{ explanationFor(field) }}
+    </div>
+
+    <fieldset class="ff-names u-margin-top" id="field-{{ field.name }}-firstName">
+        <legend class="ff-label">
+            {# @TODO i18n #}
+            First name
+        </legend>
+        {{ nameField(field, 'firstName', 'given-name') }}
+    </fieldset>
+
+    <fieldset class="ff-names u-margin-top" id="field-{{ field.name }}-lastName">
+        <legend class="ff-label">
+            {# @TODO i18n #}
+            Last name
+        </legend>
+        {{ nameField(field, 'lastName', 'family-name') }}
+    </fieldset>
+{% endmacro %}
+
 {% macro dateInputName(field, datePiece, rangePeriod = false) %}
     {%- if rangePeriod -%}
         {{ field.name }}[{{ rangePeriod }}][{{ datePiece }}]
@@ -128,12 +163,14 @@
     </div>
     <fieldset class="ff-date ff-date--range" id="field-{{ field.name }}-start">
         <legend class="ff-label ff-date__legend">
+            {# @TODO i18n #}
             Start date
         </legend>
         {{ dayMonthYearInputs(field, rangePeriod = 'startDate') }}
     </fieldset>
     <fieldset class="ff-date ff-date--range u-margin-top" id="field-{{ field.name }}-end">
         <legend class="ff-label ff-date__legend">
+            {# @TODO i18n #}
             End date
         </legend>
         {{ dayMonthYearInputs(field, rangePeriod = 'endDate') }}
@@ -564,6 +601,8 @@
                     {{ inputBudget(field) }}
                 {% elseif field.type === 'file' %}
                     {{ inputFile(field) }}
+                {% elseif field.type === 'full-name' %}
+                    {{ inputNames(field) }}
                 {% else %}
                     {{ inputText(field) }}
                 {% endif %}

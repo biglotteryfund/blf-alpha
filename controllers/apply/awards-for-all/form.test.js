@@ -91,8 +91,10 @@ function mockFullForm({
         educationNumber: educationNumber,
         accountingYearDate: { day: 1, month: 3 },
         totalIncomeYear: faker.random.number({ min: 10000, max: 1000000 }),
-        mainContactFirstName: faker.name.firstName(),
-        mainContactLastName: faker.name.lastName(),
+        mainContactName: {
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName()
+        },
         mainContactDateOfBirth: mockDateOfBirth(16),
         mainContactAddress: mockAddress(),
         mainContactAddressHistory: {
@@ -102,8 +104,10 @@ function mockFullForm({
         mainContactEmail: faker.internet.exampleEmail(),
         mainContactPhone: '0345 4 10 20 30',
         mainContactCommunicationNeeds: '',
-        seniorContactFirstName: faker.name.firstName(),
-        seniorContactLastName: faker.name.lastName(),
+        seniorContactName: {
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName()
+        },
         seniorContactRole: seniorContactRole,
         seniorContactDateOfBirth: mockDateOfBirth(18),
         seniorContactAddress: mockAddress(),
@@ -599,12 +603,14 @@ describe('Form validations', () => {
         });
     });
 
-    function testNameFields(firstFieldName, lastFieldName) {
+    function testNameFields(fieldName) {
         test('first and last name must be provided', () => {
             function value(firstName, lastName) {
                 return {
-                    [firstFieldName]: firstName,
-                    [lastFieldName]: lastName
+                    [fieldName]: {
+                        firstName: firstName,
+                        lastName: lastName
+                    }
                 };
             }
 
@@ -613,8 +619,7 @@ describe('Form validations', () => {
             );
 
             assertMessagesByKey(value(null, null), [
-                'Enter first name',
-                'Enter last name'
+                'Enter a first and last name'
             ]);
         });
     }
@@ -802,7 +807,7 @@ describe('Form validations', () => {
     }
 
     describe('Senior contact', () => {
-        testNameFields('seniorContactFirstName', 'seniorContactLastName');
+        testNameFields('seniorContactName');
         testEmailPhoneFields('seniorContactEmail', 'seniorContactPhone');
         testDateOfBirthField('seniorContactDateOfBirth', 18);
         testAddressField('seniorContactAddress');
@@ -895,8 +900,7 @@ describe('Form validations', () => {
 
             expect(defaultFieldNames).toEqual([
                 'seniorContactRole',
-                'seniorContactFirstName',
-                'seniorContactLastName',
+                'seniorContactName',
                 'seniorContactDateOfBirth',
                 'seniorContactAddress',
                 'seniorContactAddressHistory',
@@ -918,8 +922,7 @@ describe('Form validations', () => {
 
                 expect(fieldNames).toEqual([
                     'seniorContactRole',
-                    'seniorContactFirstName',
-                    'seniorContactLastName',
+                    'seniorContactName',
                     'seniorContactEmail',
                     'seniorContactPhone',
                     'seniorContactCommunicationNeeds'
@@ -929,7 +932,7 @@ describe('Form validations', () => {
     });
 
     describe('Main contact', () => {
-        testNameFields('mainContactFirstName', 'mainContactLastName');
+        testNameFields('mainContactName');
         testEmailPhoneFields('mainContactEmail', 'mainContactPhone');
         testDateOfBirthField('mainContactDateOfBirth', 16);
         testAddressField('mainContactAddress');
@@ -941,8 +944,7 @@ describe('Form validations', () => {
                 .map(field => field.name);
 
             expect(defaultFieldNames).toEqual([
-                'mainContactFirstName',
-                'mainContactLastName',
+                'mainContactName',
                 'mainContactDateOfBirth',
                 'mainContactAddress',
                 'mainContactAddressHistory',
@@ -963,8 +965,7 @@ describe('Form validations', () => {
                     .map(field => field.name);
 
                 expect(fieldNames).toEqual([
-                    'mainContactFirstName',
-                    'mainContactLastName',
+                    'mainContactName',
                     'mainContactEmail',
                     'mainContactPhone',
                     'mainContactCommunicationNeeds'

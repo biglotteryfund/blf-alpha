@@ -502,8 +502,7 @@ module.exports = function({ locale, data = {} }) {
                         },
                         fields: compact([
                             fields.seniorContactRole,
-                            fields.seniorContactFirstName,
-                            fields.seniorContactLastName,
+                            fields.seniorContactName,
                             includeAddressAndDob() &&
                                 fields.seniorContactDateOfBirth,
                             includeAddressAndDob() &&
@@ -537,31 +536,22 @@ module.exports = function({ locale, data = {} }) {
                             cy: ''
                         }),
                         get introduction() {
-                            const seniorContact = {
-                                firstName: get('seniorContactFirstName')(data),
-                                lastName: get('seniorContactLastName')(data)
-                            };
-                            const mainContact = {
-                                firstName: get('mainContactFirstName')(data),
-                                lastName: get('mainContactLastName')(data)
-                            };
+                            const seniorFirstName = get(
+                                'seniorContactName.firstName'
+                            )(data);
+                            const seniorSurname = get(
+                                'seniorContactName.lastName'
+                            )(data);
                             const seniorName =
-                                seniorContact.firstName &&
-                                seniorContact.lastName
-                                    ? `, <strong>${seniorContact.firstName} ${seniorContact.lastName}</strong>`
+                                seniorFirstName && seniorSurname
+                                    ? `, ${seniorFirstName} ${seniorSurname}`
                                     : '';
+                            const mainSurname = get('mainContactName.lastName')(
+                                data
+                            );
 
-                            const contactsShareNames =
-                                seniorContact.firstName +
-                                    seniorContact.lastName ===
-                                mainContact.firstName + mainContact.lastName;
-                            const contactsShareSurname =
-                                seniorContact.lastName === mainContact.lastName;
-
-                            let contactSameNameWarning = '';
-                            if (contactsShareNames) {
-                                contactSameNameWarning = `<p><strong>Main contact's name must be different from the senior contact's</strong></p>`;
-                            } else if (contactsShareSurname) {
+                            let contactSameNameWarning;
+                            if (seniorSurname === mainSurname) {
                                 contactSameNameWarning = `<p><strong>We've noticed that your main and senior contact have the same surname. Remember we can't fund projects where the two contacts are married or related by blood.</strong></p>`;
                             }
 
@@ -579,8 +569,7 @@ module.exports = function({ locale, data = {} }) {
                             });
                         },
                         fields: compact([
-                            fields.mainContactFirstName,
-                            fields.mainContactLastName,
+                            fields.mainContactName,
                             includeAddressAndDob() &&
                                 fields.mainContactDateOfBirth,
                             includeAddressAndDob() && fields.mainContactAddress,

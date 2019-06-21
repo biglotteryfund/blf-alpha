@@ -84,8 +84,10 @@ Each submission has two top-level keys: `meta` which contains metadata about the
             "month": 3
         },
         "totalIncomeYear": 824974,
-        "mainContactFirstName": "Nelda",
-        "mainContactLastName": "Nolan",
+        "mainContactName": {
+          "firstName": "Nelda",
+          "lastName": "Nolan"
+        },
         "mainContactDateOfBirth": "1975-10-12",
         "mainContactAddress": {
             "line1": "41465 Bashirian Oval",
@@ -105,8 +107,10 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "mainContactEmail": "Lizzie87@example.com",
         "mainContactPhone": "0345 4 10 20 30",
         "mainContactCommunicationNeeds": [],
-        "seniorContactFirstName": "Maribel",
-        "seniorContactLastName": "D'Amore",
+        "seniorContactName": {
+          "firstName": "Maribel",
+          "lastName": "D'Amore"
+        },
         "seniorContactRole": "trustee",
         "seniorContactDateOfBirth": "1980-12-12",
         "seniorContactAddress": {
@@ -387,13 +391,14 @@ type: `integer`
 
 Present if `organisationStartDate` is 15 months or more ago.
 
-### mainContactFirstName
+### mainContactName
 
-type: `string`
+Object with properties:
 
-### mainContactLastName
-
-type: `string`
+| Name      | Type      |
+| --------- | --------- |
+| **firstName**  | `string` |
+| **lastName** | `string` |
 
 ### mainContactDateOfBirth
 
@@ -448,13 +453,14 @@ type: `string`
 
 type: `string`
 
-### seniorContactFirstName
+### seniorContactName
 
-type: `string`
+Object with properties:
 
-### seniorContactLastName
-
-type: `string`
+| Name      | Type      |
+| --------- | --------- |
+| **firstName**  | `string` |
+| **lastName** | `string` |
 
 ### seniorContactRole
 

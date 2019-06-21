@@ -8,6 +8,7 @@ const budgetTotalCosts = require('./budget-total-costs');
 const dateParts = require('./date-parts');
 const dateRange = require('./date-range');
 const dayMonth = require('./day-month');
+const fullName = require('./full-name');
 const monthYear = require('./month-year');
 const postcode = require('./postcode');
 const ukAddress = require('./uk-address');
@@ -20,6 +21,7 @@ module.exports = baseJoi.extend([
     dateParts,
     dateRange,
     dayMonth,
+    fullName,
     monthYear,
     phoneNumber,
     postcode,

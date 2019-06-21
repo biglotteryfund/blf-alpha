@@ -18,6 +18,7 @@ module.exports = function validateModel(formModel) {
                 'day-month',
                 'email',
                 'file',
+                'full-name',
                 'month-year',
                 'number',
                 'radio',
