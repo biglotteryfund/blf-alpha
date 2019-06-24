@@ -746,14 +746,11 @@ module.exports = function({ locale, data = {} }) {
             isBilingual: true,
             allFields: fields,
             featuredErrorsAllowList: [
-                {
-                    param: 'projectDateRange',
-                    includeBaseError: false
-                },
-                {
-                    param: 'seniorContactRole',
-                    includeBaseError: false
-                }
+                { param: 'projectDateRange', includeBaseError: false },
+                { param: 'seniorContactRole', includeBaseError: false },
+                { param: 'mainContactName', includeBaseError: false },
+                { param: 'mainContactEmail', includeBaseError: false },
+                { param: 'mainContactPhone', includeBaseError: false }
             ],
             summary: summary(),
             forSalesforce: forSalesforce,

@@ -186,14 +186,14 @@ describe('Form validations', () => {
                     { day: 31, month: 2, year: 2030 },
                     { day: 31, month: 24, year: 2030 }
                 ),
-                ['Enter a valid start and end date']
+                ['Enter a valid project start and end date']
             );
             assertMessagesByKey(
                 value(
                     { day: 1, month: 1, year: 2020 },
                     { day: 1, month: 1, year: 2030 }
                 ),
-                [expect.stringMatching(/End date must be within/)]
+                [expect.stringMatching(/Project end date must be within/)]
             );
         });
 
@@ -861,7 +861,7 @@ describe('Form validations', () => {
                         organisationType: type,
                         seniorContactRole: 'not-an-option'
                     },
-                    ['Choose a valid role']
+                    ['Senior contact role is not valid']
                 );
             }
 
@@ -1046,12 +1046,14 @@ describe('form shape', () => {
                     /Date you start or end the project must be after/
                 ),
                 param: 'projectDateRange',
-                type: 'dateRange.minDate.invalid'
+                type: 'dateRange.minDate.invalid',
+                field: expect.any(Object)
             },
             {
-                msg: 'Choose a valid role',
+                msg: 'Senior contact role is not valid',
                 param: 'seniorContactRole',
-                type: 'any.allowOnly'
+                type: 'any.allowOnly',
+                field: expect.any(Object)
             }
         ]);
     });

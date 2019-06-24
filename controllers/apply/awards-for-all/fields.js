@@ -635,7 +635,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 },
                 {
                     type: 'any.allowOnly',
-                    message: localise({ en: 'Choose a valid role', cy: '' })
+                    message: localise({
+                        en: 'Senior contact role is not valid',
+                        cy: ''
+                    })
                 }
             ]
         };
@@ -743,21 +746,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'dateRange.both.invalid',
                         message: localise({
-                            en: 'Enter a valid start and end date',
+                            en: 'Enter a valid project start and end date',
                             cy: ''
                         })
                     },
                     {
                         type: 'datesRange.startDate.invalid',
                         message: localise({
-                            en: 'Enter a valid start date',
+                            en: 'Enter a valid project start date',
                             cy: ''
                         })
                     },
                     {
                         type: 'dateRange.endDate.invalid',
                         message: localise({
-                            en: 'Enter a valid end date',
+                            en: 'Enter a valid project end date',
                             cy: ''
                         })
                     },
@@ -771,14 +774,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'dateRange.endDate.beforeStartDate',
                         message: localise({
-                            en: `End date must be after start date`,
+                            en: `Project end date must be after start date`,
                             cy: ''
                         })
                     },
                     {
                         type: 'dateRange.endDate.outsideLimit',
                         message: localise({
-                            en: `End date must be within ${this.settings.maxDurationFromStart.label} of the start date.`,
+                            en: `Project end date must be within ${this.settings.maxDurationFromStart.label} of the start date.`,
                             cy: ''
                         })
                     }
