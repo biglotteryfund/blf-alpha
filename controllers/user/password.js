@@ -52,7 +52,6 @@ async function processResetRequest(req, user) {
 }
 
 function sendPasswordResetNotification(req, email) {
-    console.log(email);
     const template = path.resolve(
         __dirname,
         './views/emails/password-reset.njk'
