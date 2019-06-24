@@ -61,6 +61,7 @@ module.exports = function normaliseErrors({ validationError, errorMessages }) {
         return matchingMessages.map(match => {
             return {
                 param: name,
+                type: match.type,
                 msg: match.message
             };
         });
