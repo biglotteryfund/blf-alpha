@@ -4,6 +4,8 @@ const express = require('express');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 
+const featuredErrors = require('./lib/featured-errors');
+
 module.exports = function(formBuilder) {
     const router = express.Router();
 
@@ -32,36 +34,6 @@ module.exports = function(formBuilder) {
             }
         }
 
-        function featuredErrors() {
-            const allowList = [
-                {
-                    param: 'projectDateRange',
-                    includeBaseError: false
-                },
-                {
-                    param: 'seniorContactRole',
-                    includeBaseError: false
-                }
-            ];
-
-            if (form.validation.messages.length > 0) {
-                return form.validation.messages.filter(message => {
-                    return allowList.some(item => {
-                        if (item.includeBaseError) {
-                            return item.param === message.param;
-                        } else {
-                            return (
-                                item.param === message.param &&
-                                message.type !== 'base'
-                            );
-                        }
-                    });
-                });
-            } else {
-                return [];
-            }
-        }
-
         const title = copy.summary.title;
         const showErrors = !!req.query['show-errors'] === true;
 
@@ -73,7 +45,16 @@ module.exports = function(formBuilder) {
             currentProjectName: get('projectName')(currentApplicationData),
             errors: form.validation.messages,
             errorsByStep: errorsByStep(),
-            featuredErrors: featuredErrors(),
+            featuredErrors: featuredErrors(form.validation.messages, [
+                {
+                    param: 'projectDateRange',
+                    includeBaseError: false
+                },
+                {
+                    param: 'seniorContactRole',
+                    includeBaseError: false
+                }
+            ]),
             showErrors: showErrors,
             expandSections: form.progress.isComplete || showErrors
         };
