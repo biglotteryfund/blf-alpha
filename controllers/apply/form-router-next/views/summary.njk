@@ -6,6 +6,29 @@
 
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
+{% macro summariseErrors() %}
+    <div class="form-errors" data-testid="form-errors">
+        <h2 class="form-errors__title">These fields need attention before you can submit</h2>
+        <div class="form-errors__body">
+            {% for step in errorsByStep %}
+                {% if step.errors.length > 0 %}
+                    <h3 class="form-errors__subtitle">{{ step.title }}</h3>
+                    <ol class="form-errors__list">
+                        {% for error in step.errors %}
+                            <li>
+                                {% if error.param %}<a href="#field-{{ error.param }}">{% endif %}
+                                {{ error.msg }}
+                                {% if error.param %}</a>{% endif %}
+                            </li>
+                        {% endfor %}
+                    </ol>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endmacro %}
+
+
 {% macro submitActions() %}
     <form class="submit-actions submit-actions--complete" action="{{ formBaseUrl }}/submission" method="post">
         <h2 class="submit-actions__title">{{ iconTick('medium') }} {{ copy.summary.completeTitle }}</h2>
@@ -36,7 +59,8 @@
         {% if step.isRequired %}
             {% for fieldset in step.fieldsets %}
                 {% for field in fieldset.fields %}
-                    <div class="step-summary__data {% if field.settings.stackedSummary %} is-stacked{% endif %}">
+                    <div class="step-summary__data {% if field.settings.stackedSummary %} is-stacked{% endif %}"
+                        id="field-{{ field.name }}">
                         <div class="step-summary__data__question">{{ field.label | safe }}</div>
                         <div class="step-summary__data__answer s-prose">
                             {% if field.displayValue %}
@@ -127,27 +151,8 @@
             ) }}
 
             {% if showErrors and errorsByStep.length > 0 %}
-                <div class="form-errors" data-testid="form-errors">
-                    <h2 class="form-errors__title">{{ __('global.misc.errorTitle') }}</h2>
-                    <div class="form-errors__body">
-                        {% for step in errorsByStep %}
-                            {% if step.errors.length > 0 %}
-                            <h3 class="form-errors__subtitle">{{ step.title }}</h3>
-                            <ol class="form-errors__list">
-                                {% for error in step.errors %}
-                                    <li>
-                                        {% if error.param %}<a href="#form-field-{{ error.param }}">{% endif %}
-                                        {{ error.msg }}
-                                        {% if error.param %}</a>{% endif %}
-                                    </li>
-                                {% endfor %}
-                            </ol>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
+                {{ summariseErrors() }}
             {% endif %}
-
 
             {% if form.progress.isComplete %}
                 {{ submitActions( )}}
