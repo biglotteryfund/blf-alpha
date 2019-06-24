@@ -222,7 +222,7 @@ describe('interactions', () => {
     });
 });
 
-describe.only('user', () => {
+describe('user', () => {
     function logIn(username, password) {
         cy.getByLabelText('Email address')
             .clear()
