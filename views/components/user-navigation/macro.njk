@@ -1,4 +1,4 @@
-{% macro formNavigation(links = false, isFooter = false) %}
+{% macro userNavigation(links = false, isFooter = false) %}
     <ul class="user-nav{% if isFooter %} user-nav--footer{% endif %}">
 
         {% if (not nextPage or not previousPage) and user %}
