@@ -203,10 +203,10 @@ describe('Form validations', () => {
             }
 
             const randomCountry = sample([
-                'england',
-                'northern-ireland',
-                'scotland',
-                'wales'
+                // 'england',
+                // 'northern-ireland',
+                'scotland'
+                // 'wales'
             ]);
 
             assertValidByKey(value(randomCountry));

@@ -2,7 +2,6 @@
 const baseJoi = require('@hapi/joi');
 const phoneNumber = require('joi-phone-number');
 
-const bankNumbers = require('./bank-numbers');
 const budgetItems = require('./budget-items');
 const budgetTotalCosts = require('./budget-total-costs');
 const dateParts = require('./date-parts');
@@ -15,7 +14,6 @@ const ukAddress = require('./uk-address');
 const wordCount = require('./word-count');
 
 module.exports = baseJoi.extend([
-    bankNumbers,
     budgetItems,
     budgetTotalCosts,
     dateParts,

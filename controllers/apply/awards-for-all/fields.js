@@ -1,7 +1,7 @@
 'use strict';
 const moment = require('moment/moment');
 const { get } = require('lodash/fp');
-const { flatMap, includes, values, concat } = require('lodash');
+const { flatMap, includes, values, concat, has } = require('lodash');
 
 const Joi = require('../form-router-next/joi-extensions');
 const locationsFor = require('./locations');
@@ -829,8 +829,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         this.options
                             .filter(
                                 option =>
-                                    !option.attributes ||
-                                    !option.attributes.disabled
+                                    has(option, 'attributes.disabled') === false
                             )
                             .map(option => option.value)
                     )
@@ -839,7 +838,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Choose a country', cy: '' })
+                    message: localise({ en: 'Choose a valid country', cy: '' })
                 }
             ]
         },
@@ -2242,8 +2241,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'text',
             attributes: { size: 20 },
             isRequired: true,
-            schema: Joi.bankNumbers()
-                .sortCode(6)
+            schema: Joi.string()
+                .replace(/\D/g, '')
+                .length(6)
                 .required(),
             messages: [
                 {
@@ -2251,7 +2251,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({ en: 'Enter a sort code', cy: '' })
                 },
                 {
-                    type: 'sortCode.wrongSize',
+                    type: 'string.length',
                     message: localise({
                         en: 'Enter a six digit sort code',
                         cy: ''
@@ -2265,8 +2265,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             explanation: localise({ en: 'eg. 12345678', cy: '' }),
             type: 'text',
             isRequired: true,
-            schema: Joi.bankNumbers()
-                .accountNumber(8)
+            schema: Joi.string()
+                .replace(/\D/g, '')
+                .length(8)
                 .required(),
             messages: [
                 {
@@ -2274,7 +2275,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({ en: 'Enter an account number', cy: '' })
                 },
                 {
-                    type: 'accountNumber.wrongSize',
+                    type: 'string.length',
                     message: localise({
                         en: 'Enter an eight digit account number',
                         cy: ''

@@ -68,14 +68,12 @@
 {% endmacro %}
 
 {% macro inputNames(field) %}
-    <div class="ff-names" id="field-{{ field.name }}-legend">
-        <h2 class="ff-label">{{ field.label }}</h2>
+    <fieldset class="ff-names" id="field-{{ field.name }}-legend">
+        <legend class="ff-label">{{ field.label }}</legend>
         {{ explanationFor(field) }}
-    </div>
-
-    {{ nameField(field, 'firstName', 'given-name', 'First name') }}
-    {{ nameField(field, 'lastName', 'family-name', 'Last name') }}
-
+        {{ nameField(field, 'firstName', 'given-name', 'First name') }}
+        {{ nameField(field, 'lastName', 'family-name', 'Last name') }}
+    </fieldset>
 {% endmacro %}
 
 {% macro dateInputName(field, datePiece, rangePeriod = false) %}
