@@ -190,63 +190,65 @@ module.exports = function(formId, formBuilder) {
                 stepFields.map(f => f.name).includes(item.param)
             );
 
-            /**
-             * If there are errors re-render the step with errors
-             * - Pass the full data object from validationResult to the view. Including invalid values.
-             * Otherwise, find the next suitable step and redirect there.
-             */
-            if (errorsForStep.length > 0) {
-                const renderStep = renderStepFor(
-                    req.params.section,
-                    req.params.step
+            try {
+                /**
+                 * Store the form's current state (errors and all) in the database
+                 */
+                await PendingApplication.saveApplicationState(
+                    currentlyEditingId,
+                    validationResult.value
                 );
-                renderStep(req, res, validationResult.value, errorsForStep);
-            } else {
-                try {
-                    const uploadPromises = filesToUpload.map(file =>
-                        s3Uploads.uploadFile({
-                            formId: formId,
-                            applicationId: currentlyEditingId,
-                            fileMetadata: file
-                        })
-                    );
-                    await Promise.all(uploadPromises);
-                } catch (rejection) {
-                    Sentry.captureException(rejection.error);
 
-                    const uploadError = {
-                        msg: copy.common.errorUploading,
-                        param: rejection.fieldName
-                    };
-
+                /**
+                 * If there are errors re-render the step with errors
+                 * - Pass the full data object from validationResult to the view. Including invalid values.
+                 * Otherwise, find the next suitable step and redirect there.
+                 */
+                if (errorsForStep.length > 0) {
                     const renderStep = renderStepFor(
                         req.params.section,
                         req.params.step
                     );
 
-                    return renderStep(req, res, validationResult.value, [
-                        uploadError
-                    ]);
-                }
+                    renderStep(req, res, validationResult.value, errorsForStep);
+                } else {
+                    try {
+                        const uploadPromises = filesToUpload.map(file =>
+                            s3Uploads.uploadFile({
+                                formId: formId,
+                                applicationId: currentlyEditingId,
+                                fileMetadata: file
+                            })
+                        );
 
-                try {
-                    /**
-                     * Store the form's current state (errors and all) in the database
-                     */
-                    await PendingApplication.saveApplicationState(
-                        currentlyEditingId,
-                        validationResult.value
-                    );
+                        await Promise.all(uploadPromises);
 
-                    const { nextPage } = form.pagination({
-                        baseUrl: res.locals.formBaseUrl,
-                        sectionSlug: req.params.section,
-                        currentStepIndex: stepIndex
-                    });
-                    res.redirect(nextPage.url);
-                } catch (storageError) {
-                    next(storageError);
+                        const { nextPage } = form.pagination({
+                            baseUrl: res.locals.formBaseUrl,
+                            sectionSlug: req.params.section,
+                            currentStepIndex: stepIndex
+                        });
+                        res.redirect(nextPage.url);
+                    } catch (rejection) {
+                        Sentry.captureException(rejection.error);
+
+                        const uploadError = {
+                            msg: copy.common.errorUploading,
+                            param: rejection.fieldName
+                        };
+
+                        const renderStep = renderStepFor(
+                            req.params.section,
+                            req.params.step
+                        );
+
+                        return renderStep(req, res, validationResult.value, [
+                            uploadError
+                        ]);
+                    }
                 }
+            } catch (storageError) {
+                next(storageError);
             }
         });
 
