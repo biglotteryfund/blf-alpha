@@ -1,13 +1,19 @@
 {% extends "layouts/main.njk" %}
 {% from "components/section-links/macro.njk" import sectionLinks %}
-{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/user-status/macro.njk" import userStatus with context %}
+{% from "components/user-navigation/macro.njk" import formNavigation with context %}
 
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
-            {{ breadcrumbTrail(breadcrumbs) }}
-            {{ userStatus(user) }}
+
+            {{ formNavigation(links = [
+                {
+                    "url": '/apply/awards-for-all',
+                    "label": 'Applications dashboard'
+                }
+            ]) }}
+
 
             <div class="content-sidebar">
                 <div class="content-sidebar__primary">
