@@ -163,6 +163,10 @@ $statuses: (
         border-top: 1px solid get-color('border', 'base');
         margin-top: $spacingUnit / 2;
 
+        &:target {
+            background-color: rgba(255, 255, 0, 0.5);
+        }
+
         .step-summary__data__question {
             font-weight: bold;
         }
