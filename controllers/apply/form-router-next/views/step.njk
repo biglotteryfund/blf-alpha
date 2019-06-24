@@ -1,6 +1,6 @@
 {% extends "layouts/main.njk" %}
 {% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
-{% from "components/user-navigation/macro.njk" import formNavigation with context %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% block title %}{{ step.title }} | {{ section.shortTitle or section.title }} | {{ formTitle }} | {% endblock %}
@@ -17,7 +17,7 @@
             >
                 <div class="form-header">
 
-                    {{ formNavigation(links = userNavigationLinks) }}
+                    {{ userNavigation(links = userNavigationLinks) }}
 
                     <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
                     <p class="form-header__suffix">
@@ -61,7 +61,7 @@
                 </div>
 
             </form>
-            {{ formNavigation(links = userNavigationLinks, isFooter = true) }}
+            {{ userNavigation(links = userNavigationLinks, isFooter = true) }}
         </div>
     </main>
 {% endblock %}

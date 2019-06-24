@@ -1,12 +1,12 @@
 {% extends "layouts/main.njk" %}
 {% from "components/form-fields/macros.njk" import formErrors, formField with context %}
-{% from "components/user-navigation/macro.njk" import formNavigation with context %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
 
-            {{ formNavigation(links = [
+            {{ userNavigation(links = [
                 {
                     "url": '/apply/awards-for-all',
                     "label": 'Applications dashboard'
