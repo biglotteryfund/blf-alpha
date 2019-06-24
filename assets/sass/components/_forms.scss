@@ -79,7 +79,13 @@
             }
         }
 
+        &.form-header__actions__steps--text {
+            padding-bottom: 0;
+            text-align: left;
+            align-self: center;
+        }
     }
+
 
     .form-step-link__arrow {
         color: get-color('links', 'base');

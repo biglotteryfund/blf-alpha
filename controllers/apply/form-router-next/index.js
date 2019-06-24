@@ -68,6 +68,7 @@ function initFormRouter({
         res.locals.isBilingual = form.isBilingual;
         res.locals.enableSiteSurvey = false;
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
+        res.locals.currentPath = req.baseUrl + req.path;
 
         next();
     }
