@@ -24,8 +24,7 @@ class FormModel {
         const validation = this.validate(data);
 
         this.validation = validation;
-        this.summary = props.summary;
-        this.forSalesforce = props.forSalesforce;
+        this.featuredErrorsAllowList = props.featuredErrorsAllowList || [];
 
         function enrichField(field) {
             // Assign value to field if present
@@ -103,6 +102,9 @@ class FormModel {
 
             return section;
         });
+
+        this.summary = props.summary;
+        this.forSalesforce = props.forSalesforce;
     }
 
     get schema() {
@@ -146,6 +148,25 @@ class FormModel {
             isValid: error === null && normalisedErrors.length === 0,
             messages: normalisedErrors
         };
+    }
+
+    featuredErrors() {
+        if (this.validation.messages.length > 0) {
+            return this.validation.messages.filter(message => {
+                return this.featuredErrorsAllowList.some(item => {
+                    if (item.includeBaseError) {
+                        return item.param === message.param;
+                    } else {
+                        return (
+                            item.param === message.param &&
+                            message.type !== 'base'
+                        );
+                    }
+                });
+            });
+        } else {
+            return [];
+        }
     }
 
     get progress() {

@@ -4,8 +4,6 @@ const express = require('express');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 
-const featuredErrors = require('./lib/featured-errors');
-
 module.exports = function(formBuilder) {
     const router = express.Router();
 
@@ -45,16 +43,7 @@ module.exports = function(formBuilder) {
             currentProjectName: get('projectName')(currentApplicationData),
             errors: form.validation.messages,
             errorsByStep: errorsByStep(),
-            featuredErrors: featuredErrors(form.validation.messages, [
-                {
-                    param: 'projectDateRange',
-                    includeBaseError: false
-                },
-                {
-                    param: 'seniorContactRole',
-                    includeBaseError: false
-                }
-            ]),
+            featuredErrors: form.featuredErrors(),
             showErrors: showErrors,
             expandSections: form.progress.isComplete || showErrors
         };
