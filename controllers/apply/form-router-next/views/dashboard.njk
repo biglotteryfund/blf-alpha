@@ -2,6 +2,7 @@
 {% from "components/content-box/macro.njk" import contentBox %}
 {% from "components/icons.njk" import iconTick, iconBin %}
 {% from "components/user-status/macro.njk" import userStatus with context %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 
 {% block title %}{{ copy.dashboard.title }} | {{ formTitle }} | {% endblock %}
 
@@ -119,7 +120,8 @@
 {% block content %}
     <main role="main" id="content">
         <section class="content-box u-inner-wide-only">
-            {{ userStatus(user) }}
+
+            {{ userNavigation(links = userNavigationLinks) }}
 
             <div class="s-prose">
                 <h1 class="t--underline">{{ copy.dashboard.title }}</h1>

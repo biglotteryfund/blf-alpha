@@ -1,43 +1,10 @@
 {% extends "layouts/main.njk" %}
 {% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% block title %}{{ step.title }} | {{ section.shortTitle or section.title }} | {{ formTitle }} | {% endblock %}
 
-{% macro formActions(isFooter = false) %}
-    <ul class="form-header__actions{% if isFooter %} form-header__actions--footer{% endif %}">
-        <li class="form-header__actions__steps">
-            <ul class="form-step-link">
-                {% if previousPage %}
-                    <li class="form-step-link__item">
-                        <span class="form-step-link__arrow">←</span>
-                        <a href="{{ previousPage.url }}">
-                            Previous
-                            <span class="form-step-link__subtitle">
-                                {{ previousPage.label }}
-                            </span>
-                        </a>
-                    </li>
-                {% endif %}
-                {% if nextPage %}
-                    <li class="form-step-link__item">
-                        <a href="{{ nextPage.url }}">
-                            Next
-                            <span class="form-step-link__subtitle">
-                                {{ nextPage.label }}
-                            </span>
-                        </a>
-                        <span class="form-step-link__arrow">→</span>
-                    </li>
-                {% endif %}
-            </ul>
-        </li>
-        <li><a href="{{ formBaseUrl }}/summary">View summary</a></li>
-        <li><a href="{{ formBaseUrl }}">Applications dashboard</a></li>
-        <li><a href="{{ localify('/user') }}">Account</a></li>
-        <li><a href="{{ localify('/user/logout') }}">Log out</a></li>
-    </ul>
-{% endmacro %}
 
 {% block content %}
     <main role="main" id="content">
@@ -50,7 +17,7 @@
             >
                 <div class="form-header">
 
-                    {{ formActions() }}
+                    {{ userNavigation(links = userNavigationLinks) }}
 
                     <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
                     <p class="form-header__suffix">
@@ -94,7 +61,7 @@
                 </div>
 
             </form>
-            {{ formActions(isFooter = true) }}
+            {{ userNavigation(links = userNavigationLinks, isFooter = true) }}
         </div>
     </main>
 {% endblock %}

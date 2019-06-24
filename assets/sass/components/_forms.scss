@@ -5,6 +5,14 @@
 .form-header {
     margin-bottom: $spacingUnit * 2;
 
+    .form-header__actions {
+        margin-bottom: $spacingUnit / 2;
+
+        a:not(:last-of-type) {
+            margin-right: $spacingUnit;
+        }
+    }
+
     .form-header__prefix,
     .form-header__title {
         margin-bottom: 3px;
@@ -79,7 +87,13 @@
             }
         }
 
+        &.form-header__actions__steps--text {
+            padding-bottom: 0;
+            text-align: left;
+            align-self: center;
+        }
     }
+
 
     .form-step-link__arrow {
         color: get-color('links', 'base');
