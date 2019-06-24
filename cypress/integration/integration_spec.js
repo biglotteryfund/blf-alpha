@@ -332,10 +332,10 @@ describe('user', () => {
 describe('awards for all', function() {
     it('should submit full awards for all application', () => {
         const randomCountry = faker.random.arrayElement([
-            'England',
-            'Scotland',
-            'Northern Ireland',
-            'Wales'
+            'Scotland'
+            // 'England',
+            // 'Northern Ireland',
+            // 'Wales'
         ]);
 
         cy.log(`Country: ${randomCountry}`);
