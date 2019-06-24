@@ -192,28 +192,6 @@ describe('Form validations', () => {
             );
         });
 
-        test('project date range included in featured errors', () => {
-            const form = formBuilder({
-                locale: 'en',
-                data: {
-                    projectDateRange: {
-                        startDate: { day: 31, month: 1, year: 2019 },
-                        endDate: { day: 31, month: 1, year: 2019 }
-                    }
-                }
-            });
-
-            expect(form.featuredErrors()).toEqual([
-                {
-                    msg: expect.stringMatching(
-                        /Date you start or end the project must be after/
-                    ),
-                    param: 'projectDateRange',
-                    type: 'dateRange.minDate.invalid'
-                }
-            ]);
-        });
-
         test('project country must be provided', () => {
             function value(val) {
                 return { projectCountry: val };
@@ -882,23 +860,6 @@ describe('Form validations', () => {
             ]);
         });
 
-        test('senior contact role included in featured errors', () => {
-            const form = formBuilder({
-                locale: 'en',
-                data: {
-                    seniorContactRole: 'not-a-real-role'
-                }
-            });
-
-            expect(form.featuredErrors()).toEqual([
-                {
-                    msg: 'Choose a valid role',
-                    param: 'seniorContactRole',
-                    type: 'any.allowOnly'
-                }
-            ]);
-        });
-
         test('contact fields not included for schools and statutory bodies', () => {
             const defaultFieldNames = formBuilder({ locale: 'en' })
                 .getCurrentFieldsForStep('senior-contact', 0)
@@ -1034,6 +995,34 @@ describe('Form validations', () => {
 describe('form shape', () => {
     test('validate model shape', () => {
         validateModel(formBuilder({ locale: 'en' }));
+    });
+
+    test('featured errors from allow list', () => {
+        const form = formBuilder({
+            locale: 'en',
+            data: {
+                projectDateRange: {
+                    startDate: { day: 31, month: 1, year: 2019 },
+                    endDate: { day: 31, month: 1, year: 2019 }
+                },
+                seniorContactRole: 'not-a-real-role'
+            }
+        });
+
+        expect(form.featuredErrors()).toEqual([
+            {
+                msg: expect.stringMatching(
+                    /Date you start or end the project must be after/
+                ),
+                param: 'projectDateRange',
+                type: 'dateRange.minDate.invalid'
+            },
+            {
+                msg: 'Choose a valid role',
+                param: 'seniorContactRole',
+                type: 'any.allowOnly'
+            }
+        ]);
     });
 
     test('progress', () => {
