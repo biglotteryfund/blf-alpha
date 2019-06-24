@@ -302,7 +302,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     cy: ''
                 }),
                 explanation: localise({
-                    en: `<p>My organisation has been set up with a governing document, like a constitution, but it's not a charity or a company. Some examples of these sorts of groups would be a sports club, community club or residents association.</p>`,
+                    en: `<p>My organisation has been set up with a governing document such as a constitution but <strong>is not</strong> a registered charity or company, such as a Scouts group, sports club, community group or residents association</p>`,
                     cy: ``
                 })
             },
@@ -537,7 +537,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 const organisationType = get('organisationType')(data);
 
                 let text = localise({
-                    en: `<p>You told us what sort of organisation you are earlier. So the senior contact role options we're giving you now, are based on your organisation type. `,
+                    en: `<p>The role held by the senior contact is dependent on the type of organisation you are applying on behalf of. `,
                     cy: ''
                 });
 
@@ -680,7 +680,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         projectDateRange: {
             name: 'projectDateRange',
             label: localise({
-                en: `When would you like to start and end your project?`,
+                en: `When is the planned (or estimated) start and end date of your project?`,
                 cy: ``
             }),
             get settings() {
@@ -694,7 +694,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 );
                 return {
                     minStart: minStart,
-                    minDateExample: minStartDate.format('DD/MM/YYYY'),
+                    minDateExample: minStartDate.format('DD MM YYYY'),
                     fromDateExample: minStartDate
                         .subtract(1, 'days')
                         .format('D MMMM YYYY'),
@@ -703,19 +703,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         amount: 1,
                         units: 'years',
                         label: localise({
-                            en: `twelve months`,
+                            en: `one year`,
                             cy: ``
                         })
                     }
                 };
             },
             get explanation() {
-                // @TODO is the end date optional?
                 return localise({
-                    en: `<p>If you don't know exactly, your dates can be estimates. But you need to start your project after ${this.settings.minDateExample}.</p>
-                      <p>We usually only fund projects that last ${this.settings.maxDurationFromStart.label} or less. So, the end date can't be more than ${this.settings.maxDurationFromStart.label} after the start date.</p>
-                      <p><strong>If your project is a one-off event</strong></p>
-                      <p>Just let us know the date you plan to hold the event in the start date box below.</p>`,
+                    en: `<p>The start date needs to be at least ${this.settings.minStart.amount} ${this.settings.minStart.units} from when you plan to submit your application. If your project is a one-off event, please tell us the date of the event.</p>
+                    <p><strong>For example: ${this.settings.minDateExample}</strong>.</p>
+                    <p>The project end date must be within ${this.settings.maxDurationFromStart.label}
+                     of the start date.</p>`,
                     cy: ''
                 });
             },
@@ -927,7 +926,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     <li>What you would like to do</li>
                     <li>What difference your project will make</li>
                     <li>Who will benefit from it</li>
-                    <li>How you'll make sure people know about it</li>
+                    <li>How long you expect to run it for. This can be an estimate</li>
+                    <li>How you will make sure people know about it and will benefit from it</li>
                     <li>How you plan to learn from it and use this learning to shape future projects</li>
                     <li>Is it something new, or are you continuing something that has worked well previously? We want to fund both types of projects</li>
                 </ul>`,
@@ -984,9 +984,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             explanation: localise({
                 en: `<p>National Lottery Awards for All has three funding priorities, please tell us how your project will <strong>meet at least one of these:</strong></p>
                 <ol>
-                    <li>Bring people together and build strong relationships in and across communities</li>
-                    <li>Improve the places and spaces that matter to communities</li>
-                    <li>Help more people to reach their potential, by supporting them at the earliest possible stage</li>
+                    <li>bring people together and build strong relationships in and across communities</li>
+                    <li>improve the places and spaces that matter to communities</li>
+                    <li>help more people to reach their potential, by supporting them at the earliest possible stage</li>
                 </ol>
                 <p>You can tell us if your project meets more than one priority, but don't worry if it doesn't.</p>`,
                 cy: ``
@@ -1042,18 +1042,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             }),
             explanation: localise({
-                en: `
-                <details class="o-details u-margin-bottom-s">
-                    <summary class="o-details__summary">What do we mean by community?</summary>
-                    <div class="o-details__content">
-                        <ol>
-                            <li>People living in the same area</li>
-                            <li>People who have similar interests or life experiences, but might not live in the same area</li>
-                            <li>Even though schools can be at the heart of a community - we'll only fund schools that also benefit the communities around them.</li>
-                        </ol>
-                    <div>
-                </details>
-                <p>We believe that people understand what's needed in their communities better than anyone. Tell us how your community came up with the idea for your project. We want to know how many people you've spoken to, and how they'll be involved in the development and delivery of the project.</p>
+                en: `<p><strong>What do we mean by 'community'?</strong></p>
+                <ol>
+                    <li>People living in the same area</li>
+                    <li>People who have similar interests or life experiences, but might not live in the same area</li>
+                    <li>We don't think of a school or club as a community, but will fund a project run by one of these organisations that also benefits the communities around it</li>
+                </ol>
+
+                <p>We believe that people understand what's needed in their communities better than anyone. Tell us how your community came up with the idea for your project, and how they will be involved in the development and delivery of the project you're planning.</p>
                 <p><strong>Here are some examples of how you could be involving your community:</strong></p>
                 <ul>
                     <li>Having regular chats with community members, in person or on social media</li>
@@ -1114,7 +1110,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             explanation: localise({
                 en: `<p>You should use budget headings, rather than a detailed list of items. For example, if you're applying for pens, pencils, paper and envelopes, using 'office supplies' is fine.</p>
-                <p>Please note you can only have a maximum of 10 rows.</p>`,
+                <p>Please note you can only have a maximum of 10 rows</p>`,
                 cy: ''
             }),
             type: 'budget',
@@ -1164,8 +1160,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         projectTotalCosts: {
             name: 'projectTotalCosts',
             label: localise({
-                en: 'Tell us the total cost of your project',
-                cy: '(WELSH) Tell us the total cost of your project'
+                en: 'Tell us the total cost of your project.',
+                cy: '(WELSH) Tell us the total cost of your project.'
             }),
             explanation: localise({
                 en: `<p>This is the cost of everything related to your project, even things you aren't asking us to fund.</p>
@@ -1925,7 +1921,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'charityNumber',
             label: localise({ en: 'Charity registration number', cy: '' }),
             explanation: localise({
-                en: `If you're a Scottish charity registered with OSCR, we only need the last 5 numbers.`,
+                en: `If you are registered with OSCR, you only need to provide the last five digits of your registration number.`,
                 cy: ''
             }),
             type: 'text',
@@ -2220,13 +2216,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         },
         bankAccountName: {
             name: 'bankAccountName',
-            label: localise({
-                en:
-                    'Tell us the name of your organisation - as it appears on the bank statement',
-                cy: ''
-            }),
+            label: localise({ en: 'Name on the bank account', cy: '' }),
             explanation: localise({
-                en: `Not the name of your bank`,
+                en: `Name of your organisation as it appears on your bank statement`,
                 cy: ``
             }),
             type: 'text',
@@ -2236,8 +2228,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en:
-                            'Enter the name of your organisation as it appears on your bank statement',
+                        en: 'Enter the name on the bank account',
                         cy: ''
                     })
                 }
@@ -2295,12 +2286,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         buildingSocietyNumber: {
             name: 'buildingSocietyNumber',
             label: localise({
-                en: 'Building society number',
+                en: 'Building society number (if applicable)',
                 cy: ''
             }),
             type: 'text',
             explanation: localise({
-                en: `You only need to fill this in if your organisation's account is with a building society.`,
+                en: `This is only applicable if your organisation’s account is with a building society.`,
                 cy: ``
             }),
             isRequired: false,
