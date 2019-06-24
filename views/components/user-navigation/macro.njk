@@ -1,35 +1,38 @@
 {% macro formNavigation(links = false, isFooter = false) %}
-    <ul class="form-header__actions{% if isFooter %} form-header__actions--footer{% endif %}">
+    <ul class="user-nav{% if isFooter %} user-nav--footer{% endif %}">
+
         {% if (not nextPage or not previousPage) and user %}
-            <li class="form-header__actions__steps form-header__actions__steps--text">
+            <li class="user-nav__item user-nav__item--text">
                 Logged in as <strong>{{ user.userData.username }}</strong>
             </li>
         {% else %}
-            <li class="form-header__actions__steps">
-                <ul class="form-step-link">
+            <li class="user-nav__item user-nav__item--split">
+
+                <ul class="user-nav-link">
                     {% if previousPage %}
-                        <li class="form-step-link__item">
-                            <span class="form-step-link__arrow">←</span>
+                        <li class="user-nav-link__item user-nav-link__item--prev">
+                            <span class="user-nav-link__arrow">←</span>
                             <a href="{{ previousPage.url }}">
                                 Previous
-                                <span class="form-step-link__subtitle">
+                                <span class="user-nav-link__subtitle">
                                     {{ previousPage.label }}
                                 </span>
                             </a>
                         </li>
                     {% endif %}
                     {% if nextPage %}
-                        <li class="form-step-link__item">
+                        <li class="user-nav-link__item user-nav-link__item--next">
                             <a href="{{ nextPage.url }}">
                                 Next
-                                <span class="form-step-link__subtitle">
+                                <span class="user-nav-link__subtitle">
                                     {{ nextPage.label }}
                                 </span>
                             </a>
-                            <span class="form-step-link__arrow">→</span>
+                            <span class="user-nav-link__arrow">→</span>
                         </li>
                     {% endif %}
                 </ul>
+
             </li>
         {% endif %}
 
@@ -38,24 +41,13 @@
                 {% set currentPath = getCurrentUrl() | stripTrailingSlashes | removeQuery %}
                 {% set linkUrl = link.url | stripTrailingSlashes %}
                 {% set shouldLink = linkUrl !== currentPath %}
-                <li>
+                <li class="user-nav__item">
                     {% if shouldLink %}<a href="{{ link.url }}">{% endif %}
                         {{ link.label }}
                     {% if shouldLink %}</a>{% endif %}
                 </li>
             {% endfor %}
         {% endmacro %}
-
-        {% set customLinks = [
-            {
-                "url": formBaseUrl + "/summary",
-                "label": "View summary"
-            },
-            {
-                "url": formBaseUrl,
-                "label": "Applications dashboard"
-            }
-        ] %}
 
         {% if links %}
             {{ makeLinks(links) }}

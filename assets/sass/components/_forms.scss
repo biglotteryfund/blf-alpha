@@ -5,6 +5,14 @@
 .form-header {
     margin-bottom: $spacingUnit * 2;
 
+    .form-header__actions {
+        margin-bottom: $spacingUnit / 2;
+
+        a:not(:last-of-type) {
+            margin-right: $spacingUnit;
+        }
+    }
+
     .form-header__prefix,
     .form-header__title {
         margin-bottom: 3px;
