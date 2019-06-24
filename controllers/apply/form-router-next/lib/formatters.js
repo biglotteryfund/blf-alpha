@@ -99,6 +99,16 @@ function formatDayMonth(value) {
     return dt.isValid() ? dt.format('Do MMMM') : '';
 }
 
+function formatMonthYear(value) {
+    const dt = moment({
+        year: value.year,
+        month: value.month - 1,
+        day: 1
+    });
+
+    return dt.isValid() ? dt.format('MMMM YYYY') : '';
+}
+
 function formatCurrency(value) {
     return `£${value.toLocaleString()}`;
 }
@@ -123,6 +133,14 @@ function formatFile(value) {
         return `${value.filename} (${mime
             .extension(value.type)
             .toUpperCase()}, ${filesize(value.size, { round: 0 })})`;
+    } else {
+        return '';
+    }
+}
+
+function formatName(value) {
+    if (value) {
+        return `${value.firstName} ${value.lastName}`;
     } else {
         return '';
     }
@@ -159,6 +177,9 @@ function formatterFor(field) {
         case 'day-month':
             formatter = formatDayMonth;
             break;
+        case 'month-year':
+            formatter = formatMonthYear;
+            break;
         case 'currency':
             formatter = formatCurrency;
             break;
@@ -167,6 +188,9 @@ function formatterFor(field) {
             break;
         case 'file':
             formatter = formatFile;
+            break;
+        case 'full-name':
+            formatter = formatName;
             break;
         default:
             formatter = formatDefault;

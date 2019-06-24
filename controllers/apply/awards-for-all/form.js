@@ -68,6 +68,10 @@ module.exports = function({ locale, data = {} }) {
         );
     }
 
+    function includeAccountDetails() {
+        return get('organisationStartDate.isBeforeMin')(data) === true;
+    }
+
     const sectionProject = {
         slug: 'your-project',
         title: localise({ en: 'Your Project', cy: '(WELSH) Your Project' }),
@@ -346,6 +350,7 @@ module.exports = function({ locale, data = {} }) {
                         fields: [
                             fields.organisationLegalName,
                             fields.organisationTradingName,
+                            fields.organisationStartDate,
                             fields.organisationAddress
                         ]
                     }
@@ -427,10 +432,11 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Organisation finances',
                             cy: ''
                         }),
-                        fields: [
-                            fields.accountingYearDate,
-                            fields.totalIncomeYear
-                        ]
+                        fields: compact([
+                            includeAccountDetails() &&
+                                fields.accountingYearDate,
+                            includeAccountDetails() && fields.totalIncomeYear
+                        ])
                     }
                 ]
             }
@@ -495,10 +501,10 @@ module.exports = function({ locale, data = {} }) {
                             ].join('\n');
                         },
                         fields: compact([
-                            fields.seniorContactFirstName,
-                            fields.seniorContactLastName,
                             fields.seniorContactRole,
-                            includeAddressAndDob() && fields.seniorContactDob,
+                            fields.seniorContactName,
+                            includeAddressAndDob() &&
+                                fields.seniorContactDateOfBirth,
                             includeAddressAndDob() &&
                                 fields.seniorContactAddress,
                             includeAddressAndDob() &&
@@ -530,15 +536,25 @@ module.exports = function({ locale, data = {} }) {
                             cy: ''
                         }),
                         get introduction() {
-                            const seniorContactDetails = {
-                                firstName: get('seniorContactFirstName')(data),
-                                lastName: get('seniorContactLastName')(data)
-                            };
+                            const seniorFirstName = get(
+                                'seniorContactName.firstName'
+                            )(data);
+                            const seniorSurname = get(
+                                'seniorContactName.lastName'
+                            )(data);
                             const seniorName =
-                                seniorContactDetails.firstName &&
-                                seniorContactDetails.lastName
-                                    ? `, <strong>${seniorContactDetails.firstName} ${seniorContactDetails.lastName}</strong>`
+                                seniorFirstName && seniorSurname
+                                    ? `, ${seniorFirstName} ${seniorSurname}`
                                     : '';
+                            const mainSurname = get('mainContactName.lastName')(
+                                data
+                            );
+
+                            let contactSameNameWarning = '';
+                            if (seniorSurname === mainSurname) {
+                                contactSameNameWarning = `<p><strong>We've noticed that your main and senior contact have the same surname. Remember we can't fund projects where the two contacts are married or related by blood.</strong></p>`;
+                            }
+
                             return localise({
                                 en: `<p>
                                         Please give us the contact details of a person we can get in touch with if we 
@@ -548,14 +564,14 @@ module.exports = function({ locale, data = {} }) {
                                         The main contact must be a different person from the senior contact${seniorName}. 
                                         The two contacts also can't be married or in a long-term relationship with each 
                                         other, living together at the same address, or related by blood.
-                                    </p>`,
+                                    </p>${contactSameNameWarning}`,
                                 cy: ''
                             });
                         },
                         fields: compact([
-                            fields.mainContactFirstName,
-                            fields.mainContactLastName,
-                            includeAddressAndDob() && fields.mainContactDob,
+                            fields.mainContactName,
+                            includeAddressAndDob() &&
+                                fields.mainContactDateOfBirth,
                             includeAddressAndDob() && fields.mainContactAddress,
                             includeAddressAndDob() &&
                                 fields.mainContactAddressHistory,
@@ -652,7 +668,8 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Terms and Conditions of your grant',
                             cy: ''
                         }),
-                        introduction: localise(termsCopy),
+                        introduction: localise(termsCopy.introduction),
+                        footer: localise(termsCopy.footer),
                         fields: [
                             fields.termsAgreement1,
                             fields.termsAgreement2,

@@ -12,9 +12,13 @@ const { take, clone, pickBy, identity } = require('lodash');
 const moment = require('moment');
 const querystring = require('querystring');
 
+const { stripTrailingSlashes } = require('./urls');
+
 let assets = {};
 try {
-    assets = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8'));
+    assets = JSON.parse(
+        fs.readFileSync(path.join(__dirname, '../config/assets.json'), 'utf8')
+    );
 } catch (e) {} // eslint-disable-line no-empty
 
 const version = assets.version || 'latest';
@@ -97,6 +101,10 @@ function addQueryParam(queryParams, param, value) {
     return querystring.stringify(queryObj);
 }
 
+function removeQuery(str) {
+    return str.split('?')[0];
+}
+
 module.exports = {
     appendUuid,
     filter,
@@ -111,5 +119,7 @@ module.exports = {
     widont,
     timeago,
     removeQueryParam,
-    addQueryParam
+    addQueryParam,
+    stripTrailingSlashes,
+    removeQuery
 };

@@ -3,6 +3,12 @@
 const MIN_AGE_MAIN_CONTACT = 16;
 const MIN_AGE_SENIOR_CONTACT = 18;
 const MAX_BUDGET_TOTAL_GBP = 10000;
+const MIN_BUDGET_TOTAL_GBP = 300;
+const ORG_MIN_AGE = {
+    amount: 15,
+    unit: 'months',
+    label: 'fifteen months'
+};
 
 const ORGANISATION_TYPES = {
     UNREGISTERED_VCO: 'unregistered-vco',
@@ -48,10 +54,12 @@ const FILE_LIMITS = {
 
 module.exports = {
     BENEFICIARY_GROUPS,
+    MIN_BUDGET_TOTAL_GBP,
     MAX_BUDGET_TOTAL_GBP,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,
+    ORG_MIN_AGE,
     FILE_LIMITS
 };

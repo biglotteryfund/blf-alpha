@@ -20,6 +20,8 @@ module.exports = function(req, res, next) {
      */
     res.locals.enableSiteSurvey = features.enableSiteSurvey;
     res.locals.enableNameChangeMessage = features.enableNameChangeMessage;
+    res.locals.enableAwardsForAllApplications =
+        features.enableAwardsForAllApplications;
 
     /**
      * Global copy
@@ -81,7 +83,9 @@ module.exports = function(req, res, next) {
 
     res.locals.getSocialImageUrl = function(socialImage) {
         if (isString(socialImage)) {
-            return socialImage.indexOf('://') !== -1 ? socialImage : getAbsoluteUrl(socialImage);
+            return socialImage.indexOf('://') !== -1
+                ? socialImage
+                : getAbsoluteUrl(socialImage);
         } else {
             return getAbsoluteUrl(req, socialImage.default);
         }

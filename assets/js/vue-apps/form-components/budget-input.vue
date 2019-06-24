@@ -7,6 +7,7 @@ export default {
     components: { IconBin },
     props: {
         fieldName: { type: String, required: true },
+        minBudget: { type: Number, required: true },
         maxBudget: { type: Number, required: true },
         maxItems: { type: Number, required: true },
         budgetData: {
@@ -35,6 +36,7 @@ export default {
                 }
                 this.error.TOO_MANY_ITEMS = this.budgetRows.length === this.maxItems;
                 this.error.OVER_BUDGET = this.maxBudget && this.total > this.maxBudget;
+                this.error.UNDER_BUDGET = this.minBudget && this.total < this.minBudget && this.total > 0;
             },
             deep: true
         }
@@ -121,6 +123,9 @@ export default {
             </p>
             <p v-if="error.OVER_BUDGET">
                 Total project costs must be less than £{{ maxBudget.toLocaleString() }}.
+            </p>
+            <p v-if="error.UNDER_BUDGET">
+                Total project costs must be greater than £{{ minBudget.toLocaleString() }}.
             </p>
         </div>
 

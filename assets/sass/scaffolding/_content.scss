@@ -98,6 +98,11 @@
         @include mq('medium-major') {
             flex: 0 0 320px;
         }
+        &.content-sidebar__secondary--major {
+            @include mq('medium-major') {
+                flex: 0 0 400px;
+            }
+        }
     }
 }
 
