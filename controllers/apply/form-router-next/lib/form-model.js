@@ -21,7 +21,9 @@ class FormModel {
         this.isBilingual = props.isBilingual || false;
         this.allFields = props.allFields;
 
-        this.validation = this.validate(data);
+        const validation = this.validate(data);
+
+        this.validation = validation;
         this.summary = props.summary;
         this.forSalesforce = props.forSalesforce;
 
@@ -32,6 +34,11 @@ class FormModel {
                 field.value = fieldValue;
                 field.displayValue = formatterFor(field)(fieldValue);
             }
+
+            // Assign errors to field if present
+            field.errors = validation.messages.filter(
+                message => message.param === field.name
+            );
 
             return field;
         }
@@ -91,7 +98,7 @@ class FormModel {
             section.progress = {
                 slug: section.slug,
                 label: section.shortTitle || section.title,
-                status: sectionStatus(this.validation)
+                status: sectionStatus(validation)
             };
 
             return section;
