@@ -192,6 +192,28 @@ describe('Form validations', () => {
             );
         });
 
+        test('project date range included in featured errors', () => {
+            const form = formBuilder({
+                locale: 'en',
+                data: {
+                    projectDateRange: {
+                        startDate: { day: 31, month: 1, year: 2019 },
+                        endDate: { day: 31, month: 1, year: 2019 }
+                    }
+                }
+            });
+
+            expect(form.featuredErrors()).toEqual([
+                {
+                    msg: expect.stringMatching(
+                        /Date you start or end the project must be after/
+                    ),
+                    param: 'projectDateRange',
+                    type: 'dateRange.minDate.invalid'
+                }
+            ]);
+        });
+
         test('project country must be provided', () => {
             function value(val) {
                 return { projectCountry: val };
@@ -857,6 +879,23 @@ describe('Form validations', () => {
             assertRolesForType(ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY, [
                 'chancellor',
                 'vice-chancellor'
+            ]);
+        });
+
+        test('senior contact role included in featured errors', () => {
+            const form = formBuilder({
+                locale: 'en',
+                data: {
+                    seniorContactRole: 'not-a-real-role'
+                }
+            });
+
+            expect(form.featuredErrors()).toEqual([
+                {
+                    msg: 'Choose a valid role',
+                    param: 'seniorContactRole',
+                    type: 'any.allowOnly'
+                }
             ]);
         });
 
