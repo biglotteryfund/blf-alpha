@@ -10,7 +10,7 @@ dist: xenial
 
 # Defaults
 language: node_js
-node_js: 'node'
+node_js: 'lts/*'
 
 before_install:
   # Required for Cypress on xenial
