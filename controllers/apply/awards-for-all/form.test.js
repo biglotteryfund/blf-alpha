@@ -50,7 +50,7 @@ function mockBudget() {
 }
 
 function mockFullForm({
-    country = 'england',
+    country = 'scotland',
     organisationType,
     seniorContactRole,
     companyNumber = null,
@@ -64,7 +64,7 @@ function mockFullForm({
             startDate: mockStartDate(12),
             endDate: mockStartDate(30)
         },
-        projectLocation: 'west-midlands',
+        projectLocation: 'east-lothian',
         projectLocationDescription: faker.lorem.sentence(),
         projectPostcode: 'B15 1TR',
         yourIdeaProject: faker.lorem.words(250),
@@ -210,7 +210,9 @@ describe('Form validations', () => {
             ]);
 
             assertValidByKey(value(randomCountry));
-            assertMessagesByKey(value('not-a-country'), ['Choose a country']);
+            assertMessagesByKey(value('not-a-country'), [
+                'Choose a valid country'
+            ]);
         });
 
         test('project postcode must be a valid UK postcode', () => {
@@ -343,7 +345,7 @@ describe('Form validations', () => {
             });
         });
 
-        test('welsh language question required for applicants in Wales', () => {
+        test.skip('welsh language question required for applicants in Wales', () => {
             function value(country, val) {
                 return {
                     projectCountry: country,
@@ -376,7 +378,7 @@ describe('Form validations', () => {
             });
         });
 
-        test('additional community question in Northern Ireland', () => {
+        test.skip('additional community question in Northern Ireland', () => {
             function value(country, val) {
                 return {
                     projectCountry: country,
@@ -563,7 +565,7 @@ describe('Form validations', () => {
 
         test('no registration numbers required if unregistered VCO', () => {
             const mock = mockFullForm({
-                country: 'england',
+                country: 'scotland',
                 organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO,
                 seniorContactRole: 'chair'
             });
@@ -1071,7 +1073,7 @@ describe('form shape', () => {
 
         const partialForm = formBuilder({
             locale: 'en',
-            data: mockFullForm({ country: 'england' })
+            data: mockFullForm({ country: 'scotland' })
         });
 
         expect(partialForm.progress).toEqual({
@@ -1118,7 +1120,7 @@ describe('form shape', () => {
         const completeForm = formBuilder({
             locale: 'en',
             data: mockFullForm({
-                country: 'england',
+                country: 'scotland',
                 organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO,
                 seniorContactRole: 'chair'
             })
