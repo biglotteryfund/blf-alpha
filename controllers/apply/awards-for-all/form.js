@@ -550,7 +550,7 @@ module.exports = function({ locale, data = {} }) {
                                 data
                             );
 
-                            let contactSameNameWarning;
+                            let contactSameNameWarning = '';
                             if (seniorSurname === mainSurname) {
                                 contactSameNameWarning = `<p><strong>We've noticed that your main and senior contact have the same surname. Remember we can't fund projects where the two contacts are married or related by blood.</strong></p>`;
                             }
