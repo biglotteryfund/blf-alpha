@@ -7,25 +7,42 @@
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
 {% macro summariseErrors() %}
-    <div class="form-errors" data-testid="form-errors">
-        <h2 class="form-errors__title">These fields need attention before you can submit</h2>
-        <div class="form-errors__body">
-            {% for step in errorsByStep %}
-                {% if step.errors.length > 0 %}
-                    <h3 class="form-errors__subtitle">{{ step.title }}</h3>
-                    <ol class="form-errors__list">
-                        {% for error in step.errors %}
-                            <li>
-                                {% if error.param %}<a href="#field-{{ error.param }}">{% endif %}
-                                {{ error.msg }}
-                                {% if error.param %}</a>{% endif %}
-                            </li>
-                        {% endfor %}
-                    </ol>
-                {% endif %}
-            {% endfor %}
+    {% if showErrors and errorsByStep.length > 0 %}
+        <div class="form-errors" data-testid="form-errors">
+            <h2 class="form-errors__title">These fields need attention before you can submit</h2>
+            <div class="form-errors__body">
+                {% for step in errorsByStep %}
+                    {% if step.errors.length > 0 %}
+                        <h3 class="form-errors__subtitle">{{ step.title }}</h3>
+                        <ol class="form-errors__list">
+                            {% for error in step.errors %}
+                                <li>
+                                    {% if error.param %}<a href="#field-{{ error.param }}">{% endif %}
+                                    {{ error.msg }}
+                                    {% if error.param %}</a>{% endif %}
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div>
-    </div>
+    {% elseif featuredErrors.length > 0 %}
+        <div class="form-errors form-errors--featured" data-testid="form-errors">
+            <h2 class="form-errors__title">Some details in your application need extra attention</h2>
+            <div class="form-errors__body">
+                <ol class="form-errors__list">
+                    {% for error in featuredErrors %}
+                        <li>
+                            {% if error.param %}<a href="#field-{{ error.param }}">{% endif %}
+                            {{ error.msg }}
+                            {% if error.param %}</a>{% endif %}
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    {% endif %}
 {% endmacro %}
 
 {% macro submitActionsIncomplete() %}
@@ -149,9 +166,8 @@
                 suffix = currentProjectName
             ) }}
 
-            {% if showErrors and errorsByStep.length > 0 %}
-                {{ summariseErrors() }}
-            {% endif %}
+
+            {{ summariseErrors() }}
 
             {% if form.progress.isComplete %}
                 <div class="submit-actions submit-actions--complete">

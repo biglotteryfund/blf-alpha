@@ -32,19 +32,50 @@ module.exports = function(formBuilder) {
             }
         }
 
+        function featuredErrors() {
+            const allowList = [
+                {
+                    param: 'projectDateRange',
+                    includeBaseError: false
+                },
+                {
+                    param: 'seniorContactRole',
+                    includeBaseError: false
+                }
+            ];
+
+            if (form.validation.messages.length > 0) {
+                return form.validation.messages.filter(message => {
+                    return allowList.some(item => {
+                        if (item.includeBaseError) {
+                            return item.param === message.param;
+                        } else {
+                            return (
+                                item.param === message.param &&
+                                message.type !== 'base'
+                            );
+                        }
+                    });
+                });
+            } else {
+                return [];
+            }
+        }
+
+        const title = copy.summary.title;
+        const showErrors = !!req.query['show-errors'] === true;
+
         const viewData = {
             form: form,
             csrfToken: req.csrfToken(),
-            title: copy.summary.title,
-            get breadcrumbs() {
-                return res.locals.breadcrumbs.concat({ label: this.title });
-            },
+            title: title,
+            breadcrumbs: res.locals.breadcrumbs.concat({ label: title }),
             currentProjectName: get('projectName')(currentApplicationData),
+            errors: form.validation.messages,
             errorsByStep: errorsByStep(),
-            showErrors: !!req.query['show-errors'] === true,
-            get expandSections() {
-                return form.progress.isComplete || this.showErrors;
-            }
+            featuredErrors: featuredErrors(),
+            showErrors: showErrors,
+            expandSections: form.progress.isComplete || showErrors
         };
 
         res.render(path.resolve(__dirname, './views/summary'), viewData);

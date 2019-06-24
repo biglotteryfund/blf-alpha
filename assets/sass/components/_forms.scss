@@ -74,6 +74,21 @@
     }
 }
 
+.form-errors.form-errors--featured {
+    border-color: #d96929;
+
+    .form-errors__title {
+        background-color: #d96929;
+    }
+
+    .form-errors__list {
+        li,
+        li a {
+            color: #d96929;
+        }
+    }
+}
+
 /* =========================================================================
    Fields (individual field styles)
    ========================================================================= */
