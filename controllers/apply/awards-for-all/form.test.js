@@ -826,7 +826,7 @@ describe('Form validations', () => {
                         organisationType: type,
                         seniorContactRole: 'not-an-option'
                     },
-                    ['Choose a role']
+                    ['Choose a valid role']
                 );
             }
 
