@@ -46,6 +46,14 @@ module.exports = function(formId, formBuilder) {
                 })
             ]);
 
+            // @TODO i18n
+            res.locals.userNavigationLinks = [
+                {
+                    url: req.baseUrl,
+                    label: 'Applications dashboard'
+                }
+            ];
+
             res.render(path.resolve(__dirname, './views/dashboard'), {
                 title: res.locals.formTitle,
                 pendingApplications: pendingApplications.map(

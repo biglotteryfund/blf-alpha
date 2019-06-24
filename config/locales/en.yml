@@ -1357,7 +1357,7 @@ applyNext:
   dashboard:
     title: Your applications
     introduction: >
-      <p>Here you can check the status of an online application in progress.
+      <p>Here you can keep going with an application you've already started.
       You can also <a href="%s">start a brand new application</a> and see any
       applications you've previously submitted online.</p>
     inProgressTitle: In progress
@@ -1365,7 +1365,7 @@ applyNext:
   summary:
     title: Summary
     introduction: >
-      <p>Here's a summary of your application progress. You may complete the sections in any order.</p>
+      <p>Here's a summary of your application. You may complete the sections in any order.</p>
     completeTitle: All sections are complete
     completeMessage: You’ve answered every required question on this form. Please take the time to check over and refine your answers, and click submit when you are ready.
     incompleteMessage: >
@@ -1375,7 +1375,7 @@ applyNext:
     expandAll: Expand all sections
     collapseAll: Collapse all sections
     showQuestions: Show questions
-    notRequired: Not required for your application
+    notRequired: You don't need to fill this bit in because of what you've told us about your project so far.
   delete:
     title: Are you sure you want to delete your application?
     message: >

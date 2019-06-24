@@ -10,7 +10,7 @@ This file documents validation rules, conditions, and error message text for all
 | -------------- | -------------------- |
 | Required field | Enter a project name |
 
-### When is the planned (or estimated) start date of your project?
+### When would you like to start and end your project?
 
 | Rule                              | Message                                                                          |
 | --------------------------------- | -------------------------------------------------------------------------------- |
@@ -79,8 +79,8 @@ All project idea questions have the following in-browser word-count messages.
 
 | Rule            | Message                                                                                 |
 | --------------- | --------------------------------------------------------------------------------------- |
-| Word count      | 0 / MAX words. Must be at least MIN words. We recommend using around RECOMMENDED words. |
-| Reached minimum | MIN / MAX words. We recommend using around \RECOMMENDED words.                          |
+| Word count      | 0 / MAX words. Must be at least MIN words. You can write up to RECOMMENDED words for this section, but don't worry if you use less. |
+| Reached minimum | MIN / MAX words. You can write up to RECOMMENDED words for this section, but don't worry if you use less.                          |
 | Over limit      | You have X words too many.                                                              |
 
 ## Project costs
@@ -104,7 +104,7 @@ All project idea questions have the following in-browser word-count messages.
 | Cost is not a number | Total cost must be a real number                                                  |
 | Under budget         | Total cost must be the same as or higher than the amount you're asking us to fund |
 
-## Beneficiaries
+## Who will benefit
 
 ### Is your project aimed at one of the following groups of people?
 
@@ -456,7 +456,7 @@ Address history field group, consists of:
 
 | Rule           | Message                            |
 | -------------- | ---------------------------------- |
-| Required field | Enter the name on the bank account |
+| Required field | Tell us the name of your organisation - as it appears on the bank statement |
 
 ### Sort code
 
