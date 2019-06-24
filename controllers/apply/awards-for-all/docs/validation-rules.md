@@ -24,7 +24,7 @@ This file documents validation rules, conditions, and error message text for all
 
 | Rule           | Message          |
 | -------------- | ---------------- |
-| Required field | Choose a country |
+| Required field | Choose a valid country |
 
 ## Project Location
 
