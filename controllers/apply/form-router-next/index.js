@@ -68,7 +68,17 @@ function initFormRouter({
         res.locals.isBilingual = form.isBilingual;
         res.locals.enableSiteSurvey = false;
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
-        res.locals.currentPath = req.baseUrl + req.path;
+        // @TODO i18n
+        res.locals.userNavigationLinks = [
+            {
+                url: req.baseUrl + '/summary',
+                label: 'View summary'
+            },
+            {
+                url: req.baseUrl,
+                label: 'Applications dashboard'
+            }
+        ];
 
         next();
     }

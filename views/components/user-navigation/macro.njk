@@ -1,0 +1,74 @@
+{% macro formNavigation(links = false, isFooter = false) %}
+    <ul class="form-header__actions{% if isFooter %} form-header__actions--footer{% endif %}">
+        {% if (not nextPage or not previousPage) and user %}
+            <li class="form-header__actions__steps form-header__actions__steps--text">
+                Logged in as <strong>{{ user.userData.username }}</strong>
+            </li>
+        {% else %}
+            <li class="form-header__actions__steps">
+                <ul class="form-step-link">
+                    {% if previousPage %}
+                        <li class="form-step-link__item">
+                            <span class="form-step-link__arrow">←</span>
+                            <a href="{{ previousPage.url }}">
+                                Previous
+                                <span class="form-step-link__subtitle">
+                                    {{ previousPage.label }}
+                                </span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if nextPage %}
+                        <li class="form-step-link__item">
+                            <a href="{{ nextPage.url }}">
+                                Next
+                                <span class="form-step-link__subtitle">
+                                    {{ nextPage.label }}
+                                </span>
+                            </a>
+                            <span class="form-step-link__arrow">→</span>
+                        </li>
+                    {% endif %}
+                </ul>
+            </li>
+        {% endif %}
+
+        {% macro makeLinks(links) %}
+            {% for link in links %}
+                {% set currentPath = getCurrentUrl() | stripTrailingSlashes | removeQuery %}
+                {% set linkUrl = link.url | stripTrailingSlashes %}
+                {% set shouldLink = linkUrl !== currentPath %}
+                <li>
+                    {% if shouldLink %}<a href="{{ link.url }}">{% endif %}
+                        {{ link.label }}
+                    {% if shouldLink %}</a>{% endif %}
+                </li>
+            {% endfor %}
+        {% endmacro %}
+
+        {% set customLinks = [
+            {
+                "url": formBaseUrl + "/summary",
+                "label": "View summary"
+            },
+            {
+                "url": formBaseUrl,
+                "label": "Applications dashboard"
+            }
+        ] %}
+
+        {% if links %}
+            {{ makeLinks(links) }}
+        {% endif %}
+        {{ makeLinks([
+            {
+                "url": localify("/user"),
+                "label": "Account"
+            },
+            {
+                "url": localify("/user/logout"),
+                "label": "Log out"
+            }
+        ]) }}
+    </ul>
+{% endmacro %}

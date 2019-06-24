@@ -101,6 +101,10 @@ function addQueryParam(queryParams, param, value) {
     return querystring.stringify(queryObj);
 }
 
+function removeQuery(str) {
+    return str.split('?')[0];
+}
+
 module.exports = {
     appendUuid,
     filter,
@@ -116,5 +120,6 @@ module.exports = {
     timeago,
     removeQueryParam,
     addQueryParam,
-    stripTrailingSlashes
+    stripTrailingSlashes,
+    removeQuery
 };
