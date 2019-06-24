@@ -50,7 +50,7 @@ function mockBudget() {
 }
 
 function mockFullForm({
-    country = 'england',
+    country = 'scotland',
     organisationType,
     seniorContactRole,
     companyNumber = null,
@@ -64,7 +64,7 @@ function mockFullForm({
             startDate: mockStartDate(12),
             endDate: mockStartDate(30)
         },
-        projectLocation: 'west-midlands',
+        projectLocation: 'east-lothian',
         projectLocationDescription: faker.lorem.sentence(),
         projectPostcode: 'B15 1TR',
         yourIdeaProject: faker.lorem.words(250),
@@ -83,6 +83,7 @@ function mockFullForm({
         beneficiariesGroupsReligionOther: undefined,
         organisationLegalName: faker.company.companyName(),
         organisationTradingName: faker.company.companyName(),
+        organisationStartDate: { month: 9, year: 1986 },
         organisationAddress: mockAddress(),
         organisationType: organisationType,
         companyNumber: companyNumber,
@@ -90,8 +91,10 @@ function mockFullForm({
         educationNumber: educationNumber,
         accountingYearDate: { day: 1, month: 3 },
         totalIncomeYear: faker.random.number({ min: 10000, max: 1000000 }),
-        mainContactFirstName: faker.name.firstName(),
-        mainContactLastName: faker.name.lastName(),
+        mainContactName: {
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName()
+        },
         mainContactDateOfBirth: mockDateOfBirth(16),
         mainContactAddress: mockAddress(),
         mainContactAddressHistory: {
@@ -101,8 +104,10 @@ function mockFullForm({
         mainContactEmail: faker.internet.exampleEmail(),
         mainContactPhone: '0345 4 10 20 30',
         mainContactCommunicationNeeds: '',
-        seniorContactFirstName: faker.name.firstName(),
-        seniorContactLastName: faker.name.lastName(),
+        seniorContactName: {
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName()
+        },
         seniorContactRole: seniorContactRole,
         seniorContactDateOfBirth: mockDateOfBirth(18),
         seniorContactAddress: mockAddress(),
@@ -141,7 +146,7 @@ function assertMessagesByKey(data, messages) {
         return includes(Object.keys(data), message.param);
     });
 
-    expect(map(messagesByKey, 'msg')).toEqual(messages);
+    expect(map(messagesByKey, 'msg').sort()).toEqual(messages.sort());
 }
 
 function assertValid(data) {
@@ -198,14 +203,16 @@ describe('Form validations', () => {
             }
 
             const randomCountry = sample([
-                'england',
-                'northern-ireland',
-                'scotland',
-                'wales'
+                // 'england',
+                // 'northern-ireland',
+                'scotland'
+                // 'wales'
             ]);
 
             assertValidByKey(value(randomCountry));
-            assertMessagesByKey(value('not-a-country'), ['Choose a country']);
+            assertMessagesByKey(value('not-a-country'), [
+                'Choose a valid country'
+            ]);
         });
 
         test('project postcode must be a valid UK postcode', () => {
@@ -310,8 +317,14 @@ describe('Form validations', () => {
                     currentStepIndex: 0
                 })
             ).toEqual({
-                nextUrl: '/apply/awards-for-all/beneficiaries/2',
-                previousUrl: '/apply/awards-for-all/your-project/5'
+                nextPage: {
+                    label: 'Specific groups of people',
+                    url: '/apply/awards-for-all/beneficiaries/2'
+                },
+                previousPage: {
+                    label: 'Project costs',
+                    url: '/apply/awards-for-all/your-project/5'
+                }
             });
 
             expect(
@@ -321,12 +334,18 @@ describe('Form validations', () => {
                     currentStepIndex: 0
                 })
             ).toEqual({
-                nextUrl: '/apply/awards-for-all/organisation/2',
-                previousUrl: '/apply/awards-for-all/beneficiaries/1'
+                nextPage: {
+                    label: 'Organisation type',
+                    url: '/apply/awards-for-all/organisation/2'
+                },
+                previousPage: {
+                    label: 'Specific groups of people',
+                    url: '/apply/awards-for-all/beneficiaries/1'
+                }
             });
         });
 
-        test('welsh language question required for applicants in Wales', () => {
+        test.skip('welsh language question required for applicants in Wales', () => {
             function value(country, val) {
                 return {
                     projectCountry: country,
@@ -359,7 +378,7 @@ describe('Form validations', () => {
             });
         });
 
-        test('additional community question in Northern Ireland', () => {
+        test.skip('additional community question in Northern Ireland', () => {
             function value(country, val) {
                 return {
                     projectCountry: country,
@@ -413,6 +432,15 @@ describe('Form validations', () => {
             ]);
         });
 
+        test('organisation age must be provided', () => {
+            function value(val) {
+                return { organisationStartDate: val };
+            }
+
+            assertValidByKey(value({ month: 3, year: 2000 }));
+            assertMessagesByKey(value(null), ['Enter a day and month']);
+        });
+
         test('organisation address must be provided', () => {
             function value(val) {
                 return { organisationAddress: val };
@@ -447,7 +475,10 @@ describe('Form validations', () => {
 
         test('accounting year end must be a valid day and month', () => {
             function value(day, month) {
-                return { accountingYearDate: { day, month } };
+                return {
+                    organisationStartDate: { month: 3, year: 2000 },
+                    accountingYearDate: { day, month }
+                };
             }
 
             assertValidByKey(value(12, 12));
@@ -457,7 +488,10 @@ describe('Form validations', () => {
 
         test('total income for year must be a valid number', () => {
             function value(val) {
-                return { totalIncomeYear: val };
+                return {
+                    organisationStartDate: { month: 3, year: 2000 },
+                    totalIncomeYear: val
+                };
             }
 
             assertValidByKey(value(random(1000, 1000000)));
@@ -531,7 +565,7 @@ describe('Form validations', () => {
 
         test('no registration numbers required if unregistered VCO', () => {
             const mock = mockFullForm({
-                country: 'england',
+                country: 'scotland',
                 organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO,
                 seniorContactRole: 'chair'
             });
@@ -571,12 +605,14 @@ describe('Form validations', () => {
         });
     });
 
-    function testNameFields(firstFieldName, lastFieldName) {
+    function testNameFields(fieldName) {
         test('first and last name must be provided', () => {
             function value(firstName, lastName) {
                 return {
-                    [firstFieldName]: firstName,
-                    [lastFieldName]: lastName
+                    [fieldName]: {
+                        firstName: firstName,
+                        lastName: lastName
+                    }
                 };
             }
 
@@ -585,8 +621,7 @@ describe('Form validations', () => {
             );
 
             assertMessagesByKey(value(null, null), [
-                'Enter first name',
-                'Enter last name'
+                'Enter a first and last name'
             ]);
         });
     }
@@ -774,7 +809,7 @@ describe('Form validations', () => {
     }
 
     describe('Senior contact', () => {
-        testNameFields('seniorContactFirstName', 'seniorContactLastName');
+        testNameFields('seniorContactName');
         testEmailPhoneFields('seniorContactEmail', 'seniorContactPhone');
         testDateOfBirthField('seniorContactDateOfBirth', 18);
         testAddressField('seniorContactAddress');
@@ -866,9 +901,8 @@ describe('Form validations', () => {
                 .map(field => field.name);
 
             expect(defaultFieldNames).toEqual([
-                'seniorContactFirstName',
-                'seniorContactLastName',
                 'seniorContactRole',
+                'seniorContactName',
                 'seniorContactDateOfBirth',
                 'seniorContactAddress',
                 'seniorContactAddressHistory',
@@ -889,9 +923,8 @@ describe('Form validations', () => {
                     .map(field => field.name);
 
                 expect(fieldNames).toEqual([
-                    'seniorContactFirstName',
-                    'seniorContactLastName',
                     'seniorContactRole',
+                    'seniorContactName',
                     'seniorContactEmail',
                     'seniorContactPhone',
                     'seniorContactCommunicationNeeds'
@@ -901,7 +934,7 @@ describe('Form validations', () => {
     });
 
     describe('Main contact', () => {
-        testNameFields('mainContactFirstName', 'mainContactLastName');
+        testNameFields('mainContactName');
         testEmailPhoneFields('mainContactEmail', 'mainContactPhone');
         testDateOfBirthField('mainContactDateOfBirth', 16);
         testAddressField('mainContactAddress');
@@ -913,8 +946,7 @@ describe('Form validations', () => {
                 .map(field => field.name);
 
             expect(defaultFieldNames).toEqual([
-                'mainContactFirstName',
-                'mainContactLastName',
+                'mainContactName',
                 'mainContactDateOfBirth',
                 'mainContactAddress',
                 'mainContactAddressHistory',
@@ -935,8 +967,7 @@ describe('Form validations', () => {
                     .map(field => field.name);
 
                 expect(fieldNames).toEqual([
-                    'mainContactFirstName',
-                    'mainContactLastName',
+                    'mainContactName',
                     'mainContactEmail',
                     'mainContactPhone',
                     'mainContactCommunicationNeeds'
@@ -963,7 +994,7 @@ describe('Form validations', () => {
             }
 
             assertValidByKey(value('108800'));
-            assertMessagesByKey(value(null), ['Enter a sort-code']);
+            assertMessagesByKey(value(null), ['Enter a sort code']);
         });
 
         test('valid account number', () => {
@@ -1070,7 +1101,7 @@ describe('form shape', () => {
 
         const partialForm = formBuilder({
             locale: 'en',
-            data: mockFullForm({ country: 'england' })
+            data: mockFullForm({ country: 'scotland' })
         });
 
         expect(partialForm.progress).toEqual({
@@ -1117,7 +1148,7 @@ describe('form shape', () => {
         const completeForm = formBuilder({
             locale: 'en',
             data: mockFullForm({
-                country: 'england',
+                country: 'scotland',
                 organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO,
                 seniorContactRole: 'chair'
             })

@@ -74,6 +74,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
             "county": "Berkshire",
             "postcode": "B15 1TR"
         },
+        "organisationStartDate": { "month": 9, "year": 1986 },
         "organisationType": "not-for-profit-company",
         "companyNumber": "123456789",
         "charityNumber": null,
@@ -83,8 +84,10 @@ Each submission has two top-level keys: `meta` which contains metadata about the
             "month": 3
         },
         "totalIncomeYear": 824974,
-        "mainContactFirstName": "Nelda",
-        "mainContactLastName": "Nolan",
+        "mainContactName": {
+          "firstName": "Nelda",
+          "lastName": "Nolan"
+        },
         "mainContactDateOfBirth": "1975-10-12",
         "mainContactAddress": {
             "line1": "41465 Bashirian Oval",
@@ -104,8 +107,10 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "mainContactEmail": "Lizzie87@example.com",
         "mainContactPhone": "0345 4 10 20 30",
         "mainContactCommunicationNeeds": [],
-        "seniorContactFirstName": "Maribel",
-        "seniorContactLastName": "D'Amore",
+        "seniorContactName": {
+          "firstName": "Maribel",
+          "lastName": "D'Amore"
+        },
         "seniorContactRole": "trustee",
         "seniorContactDateOfBirth": "1980-12-12",
         "seniorContactAddress": {
@@ -173,7 +178,7 @@ type: `string`
 -   **North East & Cumbria**: `northumberland`, `county-durham`, `tyne-and-wear`, `middlesbrough`, `darlington`, `stockton-on-tees`, `cleveland`, `cumbria`
 -   **North West**: `greater-manchester`, `lancashire`, `cheshire`, `merseyside`
 -   **Yorkshire and the Humber**: `north-yorkshire`, `south-yorkshire`, `west-yorkshire`, `east-riding-of-yorkshire`, `north-lincolnshire`, `north-east-lincolnshire`
--   **South West**: `gloucestershire`, `south-gloucestershire`, `bristol`, `bath-and-north-east-somerset`, `north-somerset`, `somerset`, `wiltshire`, `swindon`, `dorset`, `bournemouth`, `poole`, `devon`, `rorbay`, `plymouth`, `cornwall`, `isles-of-scilly`
+-   **South West**: `gloucestershire`, `south-gloucestershire`, `bristol`, `bath-and-north-east-somerset`, `north-somerset`, `somerset`, `wiltshire`, `swindon`, `dorset`, `bournemouth`, `poole`, `devon`, `torbay`, `plymouth`, `cornwall`, `isles-of-scilly`
 -   **London, South East and East of England**: `greater-london`, `berkshire`, `buckinghamshire`, `east-sussex`, `west-sussex`, `hampshire`, `the-isle-of-wight`, `kent`, `oxfordshire`, `surrey`, `bedfordshire`, `peterborough`, `cambridgeshire`, `essex`, `hertfordshire`, `norfolk`, `suffolk`
 -   **East and West Midlands**: `derbyshire`, `leicestershire`, `lincolnshire`, `northamptonshire`, `nottinghamshire`, `rutland`, `herefordshire`, `shropshire`, `staffordshire`, `warwickshire`, `west-midlands`, `worcestershire`
 
@@ -193,7 +198,7 @@ type: `string`
 -   **Eastern**: `antrim-and-newtownabbey`, `ards-and-north-down`, `belfast`
 -   **Western**: `fermanagh-and-omagh`, `mid-ulster`
 -   **Northern**: `derry-and-strabane`, `causeway-coast-and-glens`, `mid-and-east-antrim`
--   **Southern**: `lisburn-and-castlereagh`, `newry-mourne-and-down`
+-   **Southern**: `armagh-banbridge-and-craigavon`, `lisburn-and-castlereagh`, `newry-mourne-and-down`
 
 #### Wales
 
@@ -339,6 +344,16 @@ Present if `organisationType` is `statutory-body`
 Allowed values: `parish-council`, `town-council`, `local-authority`
 `nhs-trust-health-authority`, `prison-service`, `fire-service`, `police-authority`
 
+### organisationStartDate
+type: `object`
+
+Object with properties:
+
+| Name      | Type      |
+| --------- | --------- |
+| **month** | `integer` |
+| **year**  | `integer` |
+
 ### companyNumber
 
 type: `string` or `null`
@@ -361,20 +376,29 @@ Present if `organisationType` is `school`
 
 type: `object`
 
+Present if `organisationStartDate` is 15 months or more ago.
+
 Object with properties:
 
 | Name      | Type      |
 | --------- | --------- |
-| **year**  | `integer` |
+| **day**  | `integer` |
 | **month** | `integer` |
 
-### mainContactFirstName
+### totalIncomeYear
 
-type: `string`
+type: `integer`
 
-### mainContactLastName
+Present if `organisationStartDate` is 15 months or more ago.
 
-type: `string`
+### mainContactName
+
+Object with properties:
+
+| Name      | Type      |
+| --------- | --------- |
+| **firstName**  | `string` |
+| **lastName** | `string` |
 
 ### mainContactDateOfBirth
 
@@ -429,13 +453,14 @@ type: `string`
 
 type: `string`
 
-### seniorContactFirstName
+### seniorContactName
 
-type: `string`
+Object with properties:
 
-### seniorContactLastName
-
-type: `string`
+| Name      | Type      |
+| --------- | --------- |
+| **firstName**  | `string` |
+| **lastName** | `string` |
 
 ### seniorContactRole
 

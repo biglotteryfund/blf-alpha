@@ -1,5 +1,6 @@
 'use strict';
 const { get } = require('lodash/fp');
+const { MIN_BUDGET_TOTAL_GBP, MAX_BUDGET_TOTAL_GBP } = require('./constants');
 
 module.exports = function({ locale }) {
     const localise = get(locale);
@@ -29,16 +30,16 @@ module.exports = function({ locale }) {
 
     const question2 = {
         question: localise({
-            en: `Are you applying for an amount between £300 and £10,000 for a project that will be finished within about 12 months?`,
+            en: `Are you applying for an amount between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} for a project that will be finished within about 12 months?`,
             cy: ``
         }),
         explanation: localise({
-            en: `We know for it's not always possible to complete a project in 12 months lots of reasons. We can therefore consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.`,
+            en: `We know it's not always possible to complete a project in 12 months for lots of reasons. We can therefore consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.`,
             cy: ``
         }),
         ineligible: {
             reason: localise({
-                en: `This is because you can only apply for funding between £300 and £10,000 for a project that will be finished in about 12 months through National Lottery Awards for All, and it sounds like you need a different amount of funding from us.`,
+                en: `This is because you can only apply for funding between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} for a project that will be finished in about 12 months through National Lottery Awards for All, and it sounds like you need a different amount of funding from us.`,
                 cy: ``
             }),
             detail: localise({
@@ -124,9 +125,7 @@ module.exports = function({ locale }) {
         successMessage: localise({
             en: `<p>We're excited to hear more about your project and invite you to fill in our application form.</p>
 
-            <p>To do this you have to create an account with us so that we can help you with your application and to make any future applications easier for you.</p>
-
-            <p>Your account will also allow you to part complete your application so that you can complete it with in a time frame that is suitable to you.</p>`,
+            <p>Your account will also allow you to part complete your application so that you can complete it within a time frame that is suitable to you.</p>`,
             cy: ``
         })
     };

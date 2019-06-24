@@ -47,7 +47,11 @@ function messagesForError(messages, detail) {
  * @param {Object} options.validationError
  * @param {Object} options.errorMessages
  */
-module.exports = function normaliseErrors({ validationError, errorMessages }) {
+module.exports = function normaliseErrors({
+    validationError,
+    errorMessages,
+    formFields
+}) {
     const errorDetails = getOr([], 'details')(validationError);
     const uniqueErrorsDetails = uniqBy(detail => head(detail.path))(
         errorDetails
@@ -57,12 +61,14 @@ module.exports = function normaliseErrors({ validationError, errorMessages }) {
         const name = head(detail.path);
         const fieldMessages = getOr([], name)(errorMessages);
         const matchingMessages = messagesForError(fieldMessages, detail);
+        const formField = getOr({}, name)(formFields);
 
         return matchingMessages.map(match => {
             return {
                 param: name,
                 type: match.type,
-                msg: match.message
+                msg: match.message,
+                field: formField
             };
         });
     });

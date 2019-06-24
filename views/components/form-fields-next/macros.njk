@@ -8,6 +8,7 @@
                 <ol class="form-errors__list">
                     {% for error in errors %}
                         <li>
+                            {{ error.field.label }}
                             {% if error.param %}<a href="#form-field-{{ error.param }}">{% endif %}
                             {{ error.msg }}
                             {% if error.param %}</a>{% endif %}
@@ -50,6 +51,31 @@
     />
 {% endmacro %}
 
+{% macro nameField(field, nameType, autocompleteName, label) %}
+    <label class="ff-label u-margin-top"
+           for="field-{{ field.name }}-{{ nameType }}">
+        {{ label }}
+    </label>
+    <input
+        class="ff-text"
+        type="{{ field.type }}"
+        id="field-{{ field.name }}-{{ nameType }}"
+        name="{{ field.name }}[{{ nameType }}]"
+        {% if field.value[nameType] %}value="{{ field.value[nameType] }}"{% endif %}
+        {% if field.isRequired %}required aria-required="true"{% endif %}
+        size="40" autocomplete="{{ autocompleteName }}" spellcheck="false"
+    />
+{% endmacro %}
+
+{% macro inputNames(field) %}
+    <fieldset class="ff-names" id="field-{{ field.name }}-legend">
+        <legend class="ff-label">{{ field.label }}</legend>
+        {{ explanationFor(field) }}
+        {{ nameField(field, 'firstName', 'given-name', 'First name') }}
+        {{ nameField(field, 'lastName', 'family-name', 'Last name') }}
+    </fieldset>
+{% endmacro %}
+
 {% macro dateInputName(field, datePiece, rangePeriod = false) %}
     {%- if rangePeriod -%}
         {{ field.name }}[{{ rangePeriod }}][{{ datePiece }}]
@@ -58,19 +84,21 @@
     {%- endif -%}
 {% endmacro %}
 
-{% macro dayMonthYearInputs(field, rangePeriod = false, includeYear = true) %}
-    <label class="ff-date__field">
-        <span class="ff-label">{{ __('global.misc.day') }}</span>
-        <input
-            class="ff-text ff-width-2"
-            name="{{ dateInputName(field, 'day', rangePeriod) }}"
-            type="number"
-            pattern="[0-9]*" min="1" max="31"
-            autocomplete="off"
-            {% if field.isRequired %}required aria-required="true"{% endif %}
-            value="{{ field.value[rangePeriod].day if rangePeriod else field.value.day }}"
-        />
-    </label>
+{% macro dayMonthYearInputs(field, rangePeriod = false, includeYear = true, includeDay = true) %}
+    {% if includeDay %}
+        <label class="ff-date__field">
+            <span class="ff-label">{{ __('global.misc.day') }}</span>
+            <input
+                class="ff-text ff-width-2"
+                name="{{ dateInputName(field, 'day', rangePeriod) }}"
+                type="number"
+                pattern="[0-9]*" min="1" max="31"
+                autocomplete="off"
+                {% if field.isRequired %}required aria-required="true"{% endif %}
+                value="{{ field.value[rangePeriod].day if rangePeriod else field.value.day }}"
+            />
+        </label>
+    {% endif %}
     <label class="ff-date__field">
         <span class="ff-label">{{ __('global.misc.month') }}</span>
         <input
@@ -102,13 +130,17 @@
     {% endif %}
 {% endmacro %}
 
-{% macro inputDate(field, includeYear = true) %}
+{% macro inputDate(field, includeYear = true, includeDay = true) %}
     <fieldset class="ff-date" id="field-{{ field.name }}">
         <legend class="ff-label ff-date__legend">
             {{ field.label }}
         </legend>
         {{ explanationFor(field) }}
-        {{ dayMonthYearInputs(field, includeYear = includeYear) }}
+        {{ dayMonthYearInputs(
+            field,
+            includeYear = includeYear,
+            includeDay = includeDay
+        ) }}
     </fieldset>
 {% endmacro %}
 
@@ -121,12 +153,14 @@
     </div>
     <fieldset class="ff-date ff-date--range" id="field-{{ field.name }}-start">
         <legend class="ff-label ff-date__legend">
+            {# @TODO i18n #}
             Start date
         </legend>
         {{ dayMonthYearInputs(field, rangePeriod = 'startDate') }}
     </fieldset>
     <fieldset class="ff-date ff-date--range u-margin-top" id="field-{{ field.name }}-end">
         <legend class="ff-label ff-date__legend">
+            {# @TODO i18n #}
             End date
         </legend>
         {{ dayMonthYearInputs(field, rangePeriod = 'endDate') }}
@@ -277,7 +311,7 @@
         {{ explanationFor(field) }}
         <ul class="ff-choice__list">
             {% for option in field.options %}
-                <li class="ff-choice__option">
+                <li class="ff-choice__option{% if option.attributes.disabled %} ff-choice__option--disabled{% endif %}">
                     <div class="ff-choice__input">
                         <input
                             type="radio"
@@ -286,6 +320,7 @@
                             value="{{ option.value }}"
                             {% if field.isRequired %}required aria-required="true"{% endif %}
                             {% if field.value[0] === option.value or field.value === option.value %}checked{% endif %}
+                            {% if option.attributes %}{% for attr, value in option.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
                         />
                     </div>
                     <label class="ff-choice__label" for="field-{{ field.name }}-{{ loop.index }}">
@@ -440,6 +475,7 @@
         <div id="js-budget-input">
             <budget-input
                 field-name="{{ field.name }}"
+                :min-budget="{{ field.attributes.min }}"
                 :max-budget="{{ field.attributes.max }}"
                 :max-items="{{ field.attributes.rowLimit }}"
                 {% if field.value %}:budget-data="{{ field.value | dump }}"{% endif %}>
@@ -544,6 +580,8 @@
                     {{ inputDateRange(field) }}
                 {% elseif field.type === 'day-month' %}
                     {{ inputDate(field, includeYear = false) }}
+                {% elseif field.type === 'month-year' %}
+                    {{ inputDate(field, includeDay = false) }}
                 {% elseif field.type === 'currency' %}
                     {{ inputCurrency(field) }}
                 {% elseif field.type === 'address' %}
@@ -554,6 +592,8 @@
                     {{ inputBudget(field) }}
                 {% elseif field.type === 'file' %}
                     {{ inputFile(field) }}
+                {% elseif field.type === 'full-name' %}
+                    {{ inputNames(field) }}
                 {% else %}
                     {{ inputText(field) }}
                 {% endif %}
