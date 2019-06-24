@@ -104,6 +104,16 @@ $inputOutline: 3px solid get-color('border', 'outline');
     color: get-color('message', 'warning');
 }
 
+.ff-errors {
+    margin-top: $spacingUnit / 3;
+
+    li,
+    li a {
+        color: get-color('message', 'warning');
+        font-weight: font-weight('body', 'bold');
+    }
+}
+
 /**
  * Field label notes
  */

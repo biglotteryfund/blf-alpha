@@ -168,6 +168,11 @@ $statuses: (
         }
     }
 
+    .step-summary__data__answer-inner.has-errors {
+        border-left: 3px solid get-color('message', 'warning');
+        padding-left: $spacingUnit / 2;
+    }
+
     .step-summary__data:not(.is-stacked) {
         .step-summary__data__question,
         .step-summary__data__answer,

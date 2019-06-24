@@ -625,7 +625,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Choose a role', cy: '' })
+                    message: localise({ en: 'Choose a valid role', cy: '' })
                 }
             ]
         };

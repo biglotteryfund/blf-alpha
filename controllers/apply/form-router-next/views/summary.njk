@@ -62,13 +62,24 @@
                     <div class="step-summary__data {% if field.settings.stackedSummary %} is-stacked{% endif %}"
                         id="field-{{ field.name }}">
                         <div class="step-summary__data__question">{{ field.label | safe }}</div>
-                        <div class="step-summary__data__answer s-prose">
-                            {% if field.displayValue %}
-                                {% set cleanValue = field.displayValue | striptags(true) | escape | nl2br %}
-                                {{ cleanValue }}
-                            {% else %}
-                                &ndash;
-                            {% endif %}
+                        <div class="step-summary__data__answer">
+                            <div class="step-summary__data__answer-inner{% if field.errors.length > 0 %} has-errors{% endif %}">
+
+                                {% if field.displayValue %}
+                                    {% set cleanValue = field.displayValue | striptags(true) | escape | nl2br %}
+                                    <span class="s-prose">{{ cleanValue }}</span>
+                                {% else %}
+                                    &ndash;
+                                {% endif %}
+
+                                {% if field.errors.length > 0 %}
+                                    <ol class="ff-errors">
+                                        {% for error in field.errors %}
+                                            <li>{{ error.msg }}</li>
+                                        {% endfor %}
+                                    </ol>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="step-summary__data__link">
                             <a href="{{ formBaseUrl }}/{{ step.slug }}#form-field-{{ field.name }}" class="u-edit-link">
