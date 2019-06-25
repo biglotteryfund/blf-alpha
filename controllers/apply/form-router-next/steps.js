@@ -41,7 +41,7 @@ module.exports = function(formId, formBuilder) {
                     const step = section.steps[stepIndex];
 
                     if (step) {
-                        const { nextUrl, previousUrl } = form.pagination({
+                        const { nextPage, previousPage } = form.pagination({
                             baseUrl: res.locals.formBaseUrl,
                             sectionSlug: req.params.section,
                             currentStepIndex: stepIndex
@@ -63,8 +63,8 @@ module.exports = function(formId, formBuilder) {
                                 stepIsMultipart: step.isMultipart,
                                 stepNumber: stepNumber,
                                 totalSteps: section.steps.length,
-                                previousUrl: previousUrl,
-                                nextUrl: nextUrl,
+                                previousPage: previousPage,
+                                nextPage: nextPage,
                                 errors: errors
                             };
 
@@ -73,13 +73,13 @@ module.exports = function(formId, formBuilder) {
                                 viewData
                             );
                         } else {
-                            res.redirect(nextUrl);
+                            res.redirect(nextPage.url);
                         }
                     } else {
                         res.redirect(res.locals.formBaseUrl);
                     }
                 } else if (section.introduction) {
-                    const { nextUrl, previousUrl } = form.pagination({
+                    const { nextPage, previousPage } = form.pagination({
                         baseUrl: res.locals.formBaseUrl,
                         sectionSlug: req.params.section
                     });
@@ -90,8 +90,8 @@ module.exports = function(formId, formBuilder) {
                             label: sectionShortTitle,
                             url: sectionUrl
                         }),
-                        nextUrl: nextUrl,
-                        previousUrl: previousUrl
+                        nextPage: nextPage,
+                        previousPage: previousPage
                     };
 
                     res.render(
@@ -190,63 +190,65 @@ module.exports = function(formId, formBuilder) {
                 stepFields.map(f => f.name).includes(item.param)
             );
 
-            /**
-             * If there are errors re-render the step with errors
-             * - Pass the full data object from validationResult to the view. Including invalid values.
-             * Otherwise, find the next suitable step and redirect there.
-             */
-            if (errorsForStep.length > 0) {
-                const renderStep = renderStepFor(
-                    req.params.section,
-                    req.params.step
+            try {
+                /**
+                 * Store the form's current state (errors and all) in the database
+                 */
+                await PendingApplication.saveApplicationState(
+                    currentlyEditingId,
+                    validationResult.value
                 );
-                renderStep(req, res, validationResult.value, errorsForStep);
-            } else {
-                try {
-                    const uploadPromises = filesToUpload.map(file =>
-                        s3Uploads.uploadFile({
-                            formId: formId,
-                            applicationId: currentlyEditingId,
-                            fileMetadata: file
-                        })
-                    );
-                    await Promise.all(uploadPromises);
-                } catch (rejection) {
-                    Sentry.captureException(rejection.error);
 
-                    const uploadError = {
-                        msg: copy.common.errorUploading,
-                        param: rejection.fieldName
-                    };
-
+                /**
+                 * If there are errors re-render the step with errors
+                 * - Pass the full data object from validationResult to the view. Including invalid values.
+                 * Otherwise, find the next suitable step and redirect there.
+                 */
+                if (errorsForStep.length > 0) {
                     const renderStep = renderStepFor(
                         req.params.section,
                         req.params.step
                     );
 
-                    return renderStep(req, res, validationResult.value, [
-                        uploadError
-                    ]);
-                }
+                    renderStep(req, res, validationResult.value, errorsForStep);
+                } else {
+                    try {
+                        const uploadPromises = filesToUpload.map(file =>
+                            s3Uploads.uploadFile({
+                                formId: formId,
+                                applicationId: currentlyEditingId,
+                                fileMetadata: file
+                            })
+                        );
 
-                try {
-                    /**
-                     * Store the form's current state (errors and all) in the database
-                     */
-                    await PendingApplication.saveApplicationState(
-                        currentlyEditingId,
-                        validationResult.value
-                    );
+                        await Promise.all(uploadPromises);
 
-                    const { nextUrl } = form.pagination({
-                        baseUrl: res.locals.formBaseUrl,
-                        sectionSlug: req.params.section,
-                        currentStepIndex: stepIndex
-                    });
-                    res.redirect(nextUrl);
-                } catch (storageError) {
-                    next(storageError);
+                        const { nextPage } = form.pagination({
+                            baseUrl: res.locals.formBaseUrl,
+                            sectionSlug: req.params.section,
+                            currentStepIndex: stepIndex
+                        });
+                        res.redirect(nextPage.url);
+                    } catch (rejection) {
+                        Sentry.captureException(rejection.error);
+
+                        const uploadError = {
+                            msg: copy.common.errorUploading,
+                            param: rejection.fieldName
+                        };
+
+                        const renderStep = renderStepFor(
+                            req.params.section,
+                            req.params.step
+                        );
+
+                        return renderStep(req, res, validationResult.value, [
+                            uploadError
+                        ]);
+                    }
                 }
+            } catch (storageError) {
+                next(storageError);
             }
         });
 

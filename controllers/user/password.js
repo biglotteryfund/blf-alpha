@@ -258,16 +258,32 @@ router
                                 req,
                                 user.username
                             );
+
                             logger.info('User password: reset email sent');
+
+                            // Log the user in
+                            req.logIn(user, function(loginErr) {
+                                if (loginErr) {
+                                    redirectForLocale(
+                                        req,
+                                        res,
+                                        '/user/login?s=passwordUpdated'
+                                    );
+                                } else {
+                                    redirectForLocale(
+                                        req,
+                                        res,
+                                        '/user?s=passwordUpdated'
+                                    );
+                                }
+                            });
+
                         } else {
                             logger.info(
                                 'User password: reset not valid for user'
                             );
                             redirectForLocale(req, res, '/user/login');
                         }
-
-                        const urlPath = '/user/login?s=passwordUpdated';
-                        redirectForLocale(req, res, urlPath);
                     } catch (error) {
                         logger.info('User password: reset failed', {
                             error: error

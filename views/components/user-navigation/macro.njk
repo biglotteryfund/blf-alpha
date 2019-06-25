@@ -1,0 +1,66 @@
+{% macro userNavigation(links = false, isFooter = false) %}
+    <ul class="user-nav{% if isFooter %} user-nav--footer{% endif %}">
+
+        {% if (not nextPage or not previousPage) and user %}
+            <li class="user-nav__item user-nav__item--text">
+                Logged in as <strong>{{ user.userData.username }}</strong>
+            </li>
+        {% else %}
+            <li class="user-nav__item user-nav__item--split">
+
+                <ul class="user-nav-link">
+                    {% if previousPage %}
+                        <li class="user-nav-link__item user-nav-link__item--prev">
+                            <span class="user-nav-link__arrow">←</span>
+                            <a href="{{ previousPage.url }}">
+                                Previous
+                                <span class="user-nav-link__subtitle">
+                                    {{ previousPage.label }}
+                                </span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% if nextPage %}
+                        <li class="user-nav-link__item user-nav-link__item--next">
+                            <a href="{{ nextPage.url }}">
+                                Next
+                                <span class="user-nav-link__subtitle">
+                                    {{ nextPage.label }}
+                                </span>
+                            </a>
+                            <span class="user-nav-link__arrow">→</span>
+                        </li>
+                    {% endif %}
+                </ul>
+
+            </li>
+        {% endif %}
+
+        {% macro makeLinks(links) %}
+            {% for link in links %}
+                {% set currentPath = getCurrentUrl() | stripTrailingSlashes | removeQuery %}
+                {% set linkUrl = link.url | stripTrailingSlashes %}
+                {% set shouldLink = linkUrl !== currentPath %}
+                <li class="user-nav__item">
+                    {% if shouldLink %}<a href="{{ link.url }}">{% endif %}
+                        {{ link.label }}
+                    {% if shouldLink %}</a>{% endif %}
+                </li>
+            {% endfor %}
+        {% endmacro %}
+
+        {% if links %}
+            {{ makeLinks(links) }}
+        {% endif %}
+        {{ makeLinks([
+            {
+                "url": localify("/user"),
+                "label": "Account"
+            },
+            {
+                "url": localify("/user/logout"),
+                "label": "Log out"
+            }
+        ]) }}
+    </ul>
+{% endmacro %}

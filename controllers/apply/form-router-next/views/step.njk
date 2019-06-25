@@ -1,8 +1,10 @@
 {% extends "layouts/main.njk" %}
 {% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% block title %}{{ step.title }} | {{ section.shortTitle or section.title }} | {{ formTitle }} | {% endblock %}
+
 
 {% block content %}
     <main role="main" id="content">
@@ -10,32 +12,26 @@
             <form action=""
                   method="post"
                   class="js-form-warn-unsaved"
+                  {% if errors | length > 0 %}data-form-has-errors="1"{% endif %}
                   {% if stepIsMultipart %}enctype="multipart/form-data"{% endif %}
             >
-                {{ breadcrumbTrail(breadcrumbs) }}
-
                 <div class="form-header">
-                    <div class="form-header__actions">
-                        {% if previousUrl %}
-                            <a href="{{ previousUrl }}">← Previous</a>
-                        {% endif %}
-                        {% if nextUrl %}
-                            <a href="{{ nextUrl }}">Next →</a>
-                        {% endif %}
-                    </div>
-                    <p class="form-header__prefix">{{ formTitle }}</p>
-                    <h1 class="form-header__title">{{ section.title }}</h1>
+
+                    {{ userNavigation(links = userNavigationLinks) }}
+
+                    <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
                     <p class="form-header__suffix">
-                        {{ step.title }} ({{ __('global.misc.stepProgress', stepNumber, totalSteps) }})
+                        <strong>{{ step.title }}</strong> ({{ __('global.misc.stepProgress', stepNumber, totalSteps) }})
                     </p>
                 </div>
 
                 {{ formErrors(__('global.misc.errorTitle'), errors) }}
-            
+
                 {% set singleFieldset = step.fieldsets.length === 1 %}
                 {% for fieldset in step.fieldsets %}
                     <fieldset class="form-fieldset u-constrained-wide">
-                        <legend class="form-fieldset__legend t2 t--underline{% if singleFieldset %} u-visually-hidden{% endif %}">
+                        <legend
+                            class="form-fieldset__legend t2 t--underline{% if singleFieldset %} u-visually-hidden{% endif %}">
                             {{ fieldset.legend }}
                         </legend>
 
@@ -48,6 +44,11 @@
                                 {{ formField(field, errors = errors) }}
                             {% endfor %}
                         </div>
+
+                        {% if fieldset.footer %}
+                            <div class="form-fieldset__intro s-prose">{{ fieldset.footer | safe }}</div>
+                        {% endif %}
+
                     </fieldset>
                 {% endfor %}
 
@@ -56,14 +57,11 @@
                 {% endif %}
 
                 <div class="form-actions">
-                    <input class="btn" type="submit" value="Continue" />
+                    <input class="btn" type="submit" value="Continue"/>
                 </div>
 
-                <p class="u-text-medium">
-                    Not sure about this step? <a href="{{ nextUrl }}">Skip to the next step</a>
-                    or <a href="{{ formBaseUrl }}/summary">go to the summary</a>
-                </p>
             </form>
+            {{ userNavigation(links = userNavigationLinks, isFooter = true) }}
         </div>
     </main>
 {% endblock %}

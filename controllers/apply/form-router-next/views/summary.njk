@@ -1,6 +1,7 @@
 {% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/details/macro.njk" import details %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/icons.njk" import iconTick, iconBin %}
 
@@ -22,7 +23,7 @@
 {% macro stepSummary(step, stepNumber, totalSteps) %}
     <div class="step-summary">
         <h3 class="step-summary__title">
-            {{ __('global.misc.stepProgress', stepNumber, totalSteps) }} &ndash; {{ step.title }}
+            {{ step.title }}
         </h3>
 
         {% if step.isRequired %}
@@ -59,11 +60,11 @@
         <header class="section-progress-bar section-progress-bar--{{ section.progress.status }}">
             <h2 class="section-progress-bar__title">
                 <a href="{{ formBaseUrl }}/{{ section.slug }}" class="u-link-unstyled">
-                    {{ copy.sectionPrefix }} {{ sectionNumber }}: {{ section.shortTitle or section.title }}
+                    {{ section.shortTitle or section.title }}
                 </a>
 
                 {% set editWord = copy.continue if section.progress.status === 'incomplete' else copy.edit %}
-                <a class="section-progress-bar__edit u-edit-link" href="{{ formBaseUrl }}/{{ section.slug }}">{{ editWord }}</a>
+                <a class="section-progress-bar__edit u-edit-link u-dont-print" href="{{ formBaseUrl }}/{{ section.slug }}">{{ editWord }}</a>
             </h2>
 
             <a class="section-progress-bar__marker u-link-unstyled" href="{{ formBaseUrl }}/{{ section.slug }}">
@@ -89,6 +90,7 @@
                     )}}
                 {% endfor %}
             {% else %}
+                {# @TODO how does this print? #}
                 {% call details(
                     title = copy.summary.showQuestions,
                     extraClasses = 'js-toggleable',
@@ -110,10 +112,10 @@
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
-            {{ breadcrumbTrail(breadcrumbs) }}
+
+            {{ userNavigation(links = userNavigationLinks) }}
 
             {{ formHeader(
-                prefix = formTitle,
                 title = copy.summary.title,
                 suffix = currentProjectName
             ) }}
@@ -124,7 +126,7 @@
                 <div class="s-prose">{{ copy.summary.introduction | safe }}</div>
             {% endif %}
 
-            <p class="u-margin-bottom-s">
+            <p class="u-margin-bottom-s u-dont-print">
                 <a class="btn btn--small btn--outline" href="{{ formBaseUrl }}/delete/{{ currentlyEditingId }}">
                     <span class="btn__icon btn__icon-left">{{ iconBin() }}</span>
                     {{ copy.common.delete }}
@@ -132,7 +134,7 @@
             <p>
 
             {% if not form.progress.isComplete %}
-                <p class="u-align-right">
+                <p class="u-align-right u-dont-print">
                     <button type="button"
                         class="btn-link u-text-small js-toggle-all-details js-only u-align-right"
                         data-label-open="{{ copy.summary.collapseAll }}"

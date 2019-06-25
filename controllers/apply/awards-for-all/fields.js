@@ -1,17 +1,19 @@
 'use strict';
 const moment = require('moment/moment');
 const { get } = require('lodash/fp');
-const { flatMap, includes, values } = require('lodash');
+const { flatMap, includes, values, concat, has } = require('lodash');
 
 const Joi = require('../form-router-next/joi-extensions');
 const locationsFor = require('./locations');
 const {
     BENEFICIARY_GROUPS,
+    MIN_BUDGET_TOTAL_GBP,
     MAX_BUDGET_TOTAL_GBP,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,
+    ORG_MIN_AGE,
     FILE_LIMITS
 } = require('./constants');
 
@@ -31,7 +33,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             .single();
     }
 
-    function emailField(props) {
+    function emailField(props, additionalMessages = []) {
         const defaultProps = {
             label: localise({ en: 'Email', cy: '' }),
             type: 'email',
@@ -40,19 +42,25 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             schema: Joi.string()
                 .email()
                 .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter an email address', cy: '' })
-                },
-                {
-                    type: 'string.email',
-                    message: localise({
-                        en: `Email address must be in the correct format, like name@example.com`,
-                        cy: ``
-                    })
-                }
-            ]
+            messages: concat(
+                [
+                    {
+                        type: 'base',
+                        message: localise({
+                            en: 'Enter an email address',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'string.email',
+                        message: localise({
+                            en: `Email address must be in the correct format, like name@example.com`,
+                            cy: ``
+                        })
+                    }
+                ],
+                additionalMessages
+            )
         };
 
         return { ...defaultProps, ...props };
@@ -87,45 +95,57 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return { ...defaultProps, ...props };
     }
 
-    function addressField(props) {
+    function addressField(props, additionalMessages = []) {
         const defaultProps = {
             type: 'address',
             isRequired: true,
             schema: Joi.ukAddress().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter a full UK address', cy: '' })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'line1',
-                    message: localise({
-                        en: 'Enter a building and street',
-                        cy: ''
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'townCity',
-                    message: localise({ en: 'Enter a town or city', cy: '' })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'county',
-                    message: localise({ en: 'Enter a county', cy: '' })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'postcode',
-                    message: localise({ en: 'Enter a postcode', cy: '' })
-                },
-                {
-                    type: 'string.postcode',
-                    key: 'postcode',
-                    message: localise({ en: 'Enter a real postcode', cy: '' })
-                }
-            ]
+            messages: concat(
+                [
+                    {
+                        type: 'base',
+                        message: localise({
+                            en: 'Enter a full UK address',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'any.empty',
+                        key: 'line1',
+                        message: localise({
+                            en: 'Enter a building and street',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'any.empty',
+                        key: 'townCity',
+                        message: localise({
+                            en: 'Enter a town or city',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'any.empty',
+                        key: 'county',
+                        message: localise({ en: 'Enter a county', cy: '' })
+                    },
+                    {
+                        type: 'any.empty',
+                        key: 'postcode',
+                        message: localise({ en: 'Enter a postcode', cy: '' })
+                    },
+                    {
+                        type: 'string.postcode',
+                        key: 'postcode',
+                        message: localise({
+                            en: 'Enter a real postcode',
+                            cy: ''
+                        })
+                    }
+                ],
+                additionalMessages
+            )
         };
 
         return { ...defaultProps, ...props };
@@ -206,41 +226,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return { ...defaultProps, ...props };
     }
 
-    function firstNameField(props) {
+    function nameField(props, additionalMessages = []) {
         const defaultProps = {
-            type: 'text',
-            attributes: {
-                autocomplete: 'given-name',
-                spellcheck: 'false'
-            },
+            type: 'full-name',
             isRequired: true,
-            schema: Joi.string().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter first name', cy: '' })
-                }
-            ]
-        };
-
-        return { ...defaultProps, ...props };
-    }
-
-    function lastNameField(props) {
-        const defaultProps = {
-            type: 'text',
-            attributes: {
-                autocomplete: 'family-name',
-                spellcheck: 'false'
-            },
-            isRequired: true,
-            schema: Joi.string().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter last name', cy: '' })
-                }
-            ]
+            schema: Joi.fullName().required(),
+            messages: concat(
+                [
+                    {
+                        type: 'base',
+                        message: localise({
+                            en: 'Enter a first and last name',
+                            cy: ''
+                        })
+                    }
+                ],
+                additionalMessages
+            )
         };
 
         return { ...defaultProps, ...props };
@@ -370,6 +372,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'organisationType',
             label: localise({
                 en: 'What type of organisation are you?',
+                cy: ''
+            }),
+            explanation: localise({
+                en: `If you're both a charity and a company - just pick 'Registered charity' below.`,
                 cy: ''
             }),
             type: 'radio',
@@ -788,29 +794,51 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'radio',
             options: [
                 {
-                    value: 'england',
-                    label: localise({ en: 'England', cy: '' })
-                },
-                {
-                    value: 'northern-ireland',
-                    label: localise({ en: 'Northern Ireland', cy: '' })
-                },
-                {
                     value: 'scotland',
                     label: localise({ en: 'Scotland', cy: '' })
                 },
-                { value: 'wales', label: localise({ en: 'Wales', cy: '' }) }
+                {
+                    value: 'england',
+                    label: localise({ en: 'England (coming soon)', cy: '' }),
+                    attributes: {
+                        disabled: 'disabled'
+                    }
+                },
+                {
+                    value: 'northern-ireland',
+                    label: localise({
+                        en: 'Northern Ireland (coming soon)',
+                        cy: ''
+                    }),
+                    attributes: {
+                        disabled: 'disabled'
+                    }
+                },
+                {
+                    value: 'wales',
+                    label: localise({ en: 'Wales (coming soon)', cy: '' }),
+                    attributes: {
+                        disabled: 'disabled'
+                    }
+                }
             ],
             isRequired: true,
             get schema() {
                 return Joi.string()
-                    .valid(this.options.map(option => option.value))
+                    .valid(
+                        this.options
+                            .filter(
+                                option =>
+                                    has(option, 'attributes.disabled') === false
+                            )
+                            .map(option => option.value)
+                    )
                     .required();
             },
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Choose a country', cy: '' })
+                    message: localise({ en: 'Choose a valid country', cy: '' })
                 }
             ]
         },
@@ -1087,12 +1115,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'budget',
             attributes: {
+                min: MIN_BUDGET_TOTAL_GBP,
                 max: MAX_BUDGET_TOTAL_GBP,
                 rowLimit: 10
             },
             isRequired: true,
             schema: Joi.budgetItems()
-                .maxBudget(MAX_BUDGET_TOTAL_GBP)
+                .validBudgetRange(MIN_BUDGET_TOTAL_GBP, MAX_BUDGET_TOTAL_GBP)
                 .required(),
             messages: [
                 {
@@ -1116,6 +1145,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'budgetItems.overBudget',
                     message: localise({
                         en: `Total project costs must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                        cy: ``
+                    })
+                },
+                {
+                    type: 'budgetItems.underBudget',
+                    message: localise({
+                        en: `Total project costs must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
                         cy: ``
                     })
                 }
@@ -1172,6 +1208,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     <li>disabled people</li>
                     <li>lesbian, gay or bisexual people</li>
                     <li>people with caring responsibilities</li>
+                    <li>any other specific group of people</li>
                 </ul>`,
                 cy: ``
             }),
@@ -1255,7 +1292,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             get schema() {
                 return Joi.when('beneficiariesGroupsCheck', {
                     is: 'yes',
-                    then: multiChoice(this.options).required(),
+                    then: Joi.when('beneficiariesGroupsOther', {
+                        is: Joi.string(),
+                        then: Joi.any().strip(),
+                        otherwise: multiChoice(this.options).required()
+                    }),
                     otherwise: Joi.any().strip()
                 });
             },
@@ -1750,6 +1791,44 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
+        organisationStartDate: {
+            name: 'organisationStartDate',
+            type: 'month-year',
+            label: localise({
+                en: `When was your organisation set up?`,
+                cy: ''
+            }),
+            explanation: localise({
+                en: `<p>Please tell us the month and year.</p>
+                     <p><strong>For example: 11 2017</strong></p>`,
+                cy: ''
+            }),
+            isRequired: true,
+            schema: Joi.monthYear()
+                .pastDate()
+                .minTimeAgo(ORG_MIN_AGE.amount, ORG_MIN_AGE.unit)
+                .required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Enter a day and month', cy: '' })
+                },
+                {
+                    type: 'any.invalid',
+                    message: localise({
+                        en: 'Enter a real day and month',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'monthYear.pastDate',
+                    message: localise({
+                        en: 'Enter a past date',
+                        cy: ''
+                    })
+                }
+            ]
+        },
         organisationAddress: addressField({
             name: 'organisationAddress',
             label: localise({
@@ -1884,7 +1963,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 ),
                 then: Joi.string().required()
             }),
-
             messages: [
                 {
                     type: 'base',
@@ -1907,7 +1985,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'day-month',
             isRequired: true,
-            schema: Joi.dayMonth().required(),
+            schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
+                is: true,
+                then: Joi.dayMonth().required(),
+                otherwise: Joi.any().strip()
+            }),
             messages: [
                 {
                     type: 'base',
@@ -1930,7 +2012,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'currency',
             isRequired: true,
-            schema: Joi.number().required(),
+            schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
+                is: true,
+                then: Joi.number().required(),
+                otherwise: Joi.any().strip()
+            }),
             messages: [
                 {
                     type: 'base',
@@ -1948,33 +2034,56 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        mainContactFirstName: firstNameField({
-            name: 'mainContactFirstName',
-            label: localise({ en: 'First name', cy: '' })
-        }),
-        mainContactLastName: lastNameField({
-            name: 'mainContactLastName',
-            label: localise({ en: 'Last name', cy: '' })
-        }),
-        mainContactDob: dateOfBirthField(MIN_AGE_MAIN_CONTACT, {
+        mainContactName: nameField(
+            {
+                name: 'mainContactName',
+                label: localise({ en: 'Full name of main contact', cy: '' }),
+                schema: Joi.fullName()
+                    .mainContact()
+                    .required()
+            },
+            [
+                {
+                    type: 'name.matchesOther',
+                    message: localise({
+                        en: `Main Contact name must be different from the Senior Contact's name`,
+                        cy: ``
+                    })
+                }
+            ]
+        ),
+        mainContactDateOfBirth: dateOfBirthField(MIN_AGE_MAIN_CONTACT, {
             name: 'mainContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })
         }),
-        mainContactAddress: addressField({
-            name: 'mainContactAddress',
-            label: localise({ en: 'Home address', cy: '' }),
-            explanation: localise({
-                en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
-                cy: ''
-            }),
-            schema: Joi.ukAddress().when(Joi.ref('organisationType'), {
-                is: Joi.exist().valid(
-                    ORGANISATION_TYPES.SCHOOL,
-                    ORGANISATION_TYPES.STATUTORY_BODY
-                ),
-                then: Joi.any().strip()
-            })
-        }),
+        mainContactAddress: addressField(
+            {
+                name: 'mainContactAddress',
+                label: localise({ en: 'Home address', cy: '' }),
+                explanation: localise({
+                    en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
+                    cy: ''
+                }),
+                schema: Joi.ukAddress()
+                    .mainContact()
+                    .when(Joi.ref('organisationType'), {
+                        is: Joi.exist().valid(
+                            ORGANISATION_TYPES.SCHOOL,
+                            ORGANISATION_TYPES.STATUTORY_BODY
+                        ),
+                        then: Joi.any().strip()
+                    })
+            },
+            [
+                {
+                    type: 'address.matchesOther',
+                    message: localise({
+                        en: `Main Contact address must be different from the Senior Contact's address`,
+                        cy: ``
+                    })
+                }
+            ]
+        ),
         mainContactAddressHistory: addressHistoryField({
             name: 'mainContactAddressHistory',
             label: localise({
@@ -1982,14 +2091,29 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             })
         }),
-        mainContactEmail: emailField({
-            name: 'mainContactEmail',
-            label: localise({ en: 'Email', cy: '' }),
-            explanation: localise({
-                en: 'We’ll use this whenever we get in touch about the project',
-                cy: ''
-            })
-        }),
+        mainContactEmail: emailField(
+            {
+                name: 'mainContactEmail',
+                label: localise({ en: 'Email', cy: '' }),
+                explanation: localise({
+                    en:
+                        'We’ll use this whenever we get in touch about the project',
+                    cy: ''
+                }),
+                schema: Joi.string()
+                    .email()
+                    .invalid(Joi.ref('seniorContactEmail'))
+            },
+            [
+                {
+                    type: 'any.invalid',
+                    message: localise({
+                        en: `Main Contact email address must be different from the Senior Contact's email address`,
+                        cy: ``
+                    })
+                }
+            ]
+        ),
         mainContactPhone: phoneField({
             name: 'mainContactPhone',
             label: localise({ en: 'Telephone number', cy: '' })
@@ -2008,33 +2132,56 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: []
         },
         seniorContactRole: seniorContactRoleField(),
-        seniorContactFirstName: firstNameField({
-            name: 'seniorContactFirstName',
-            label: localise({ en: 'First name', cy: '' })
-        }),
-        seniorContactLastName: lastNameField({
-            name: 'seniorContactLastName',
-            label: localise({ en: 'Last name', cy: '' })
-        }),
-        seniorContactDob: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
+        seniorContactName: nameField(
+            {
+                name: 'seniorContactName',
+                label: localise({ en: 'Full name of senior contact', cy: '' }),
+                schema: Joi.fullName()
+                    .seniorContact()
+                    .required()
+            },
+            [
+                {
+                    type: 'name.matchesOther',
+                    message: localise({
+                        en: `Senior Contact name must be different from the Main Contact's name`,
+                        cy: ``
+                    })
+                }
+            ]
+        ),
+        seniorContactDateOfBirth: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
             name: 'seniorContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })
         }),
-        seniorContactAddress: addressField({
-            name: 'seniorContactAddress',
-            label: localise({ en: 'Home address', cy: '' }),
-            explanation: localise({
-                en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
-                cy: ''
-            }),
-            schema: Joi.ukAddress().when(Joi.ref('organisationType'), {
-                is: Joi.exist().valid(
-                    ORGANISATION_TYPES.SCHOOL,
-                    ORGANISATION_TYPES.STATUTORY_BODY
-                ),
-                then: Joi.any().strip()
-            })
-        }),
+        seniorContactAddress: addressField(
+            {
+                name: 'seniorContactAddress',
+                label: localise({ en: 'Home address', cy: '' }),
+                explanation: localise({
+                    en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
+                    cy: ''
+                }),
+                schema: Joi.ukAddress()
+                    .seniorContact()
+                    .when(Joi.ref('organisationType'), {
+                        is: Joi.exist().valid(
+                            ORGANISATION_TYPES.SCHOOL,
+                            ORGANISATION_TYPES.STATUTORY_BODY
+                        ),
+                        then: Joi.any().strip()
+                    })
+            },
+            [
+                {
+                    type: 'address.matchesOther',
+                    message: localise({
+                        en: `Senior Contact address must be different from the Main Contact's address`,
+                        cy: ``
+                    })
+                }
+            ]
+        ),
         seniorContactAddressHistory: addressHistoryField({
             name: 'seniorContactAddressHistory',
             label: localise({
@@ -2090,27 +2237,49 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         bankSortCode: {
             name: 'bankSortCode',
             label: localise({ en: 'Sort code', cy: '' }),
+            explanation: localise({ en: 'eg. 123456', cy: '' }),
             type: 'text',
             attributes: { size: 20 },
             isRequired: true,
-            schema: Joi.string().required(),
+            schema: Joi.string()
+                .replace(/\D/g, '')
+                .length(6)
+                .required(),
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a sort-code', cy: '' })
+                    message: localise({ en: 'Enter a sort code', cy: '' })
+                },
+                {
+                    type: 'string.length',
+                    message: localise({
+                        en: 'Enter a six digit sort code',
+                        cy: ''
+                    })
                 }
             ]
         },
         bankAccountNumber: {
             name: 'bankAccountNumber',
             label: localise({ en: 'Account number', cy: '' }),
+            explanation: localise({ en: 'eg. 12345678', cy: '' }),
             type: 'text',
             isRequired: true,
-            schema: Joi.string().required(),
+            schema: Joi.string()
+                .replace(/\D/g, '')
+                .length(8)
+                .required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({ en: 'Enter an account number', cy: '' })
+                },
+                {
+                    type: 'string.length',
+                    message: localise({
+                        en: 'Enter an eight digit account number',
+                        cy: ''
+                    })
                 }
             ]
         },

@@ -332,10 +332,10 @@ describe('user', () => {
 describe('awards for all', function() {
     it('should submit full awards for all application', () => {
         const randomCountry = faker.random.arrayElement([
-            'England',
-            'Scotland',
-            'Northern Ireland',
-            'Wales'
+            'Scotland'
+            // 'England',
+            // 'Northern Ireland',
+            // 'Wales'
         ]);
 
         cy.log(`Country: ${randomCountry}`);
@@ -617,6 +617,11 @@ describe('awards for all', function() {
                 'What is the full legal name of your organisation?',
                 { exact: false }
             ).type(faker.company.companyName());
+
+            // Org age question
+            cy.getByLabelText('Month').type(9);
+            cy.getByLabelText('Year').type(1986);
+
             cy.getByText(
                 'What is the main or registered address of your organisation?'
             )
