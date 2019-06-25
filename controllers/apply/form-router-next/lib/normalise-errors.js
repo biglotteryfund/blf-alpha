@@ -46,6 +46,7 @@ function messagesForError(messages, detail) {
  * @param {Object} options
  * @param {Object} options.validationError
  * @param {Object} options.errorMessages
+ * @return {Array}
  */
 module.exports = function normaliseErrors({
     validationError,
@@ -66,6 +67,7 @@ module.exports = function normaliseErrors({
         return matchingMessages.map(match => {
             return {
                 param: name,
+                type: match.type,
                 msg: match.message,
                 field: formField
             };

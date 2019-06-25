@@ -186,14 +186,14 @@ describe('Form validations', () => {
                     { day: 31, month: 2, year: 2030 },
                     { day: 31, month: 24, year: 2030 }
                 ),
-                ['Enter a valid start and end date']
+                ['Enter a valid project start and end date']
             );
             assertMessagesByKey(
                 value(
                     { day: 1, month: 1, year: 2020 },
                     { day: 1, month: 1, year: 2030 }
                 ),
-                [expect.stringMatching(/End date must be within/)]
+                [expect.stringMatching(/Project end date must be within/)]
             );
         });
 
@@ -861,7 +861,7 @@ describe('Form validations', () => {
                         organisationType: type,
                         seniorContactRole: 'not-an-option'
                     },
-                    ['Choose a role']
+                    ['Senior contact role is not valid']
                 );
             }
 
@@ -1026,6 +1026,40 @@ describe('Form validations', () => {
 describe('form shape', () => {
     test('validate model shape', () => {
         validateModel(formBuilder({ locale: 'en' }));
+    });
+
+    test('featured errors from allow list', () => {
+        const form = formBuilder({
+            locale: 'en',
+            data: {
+                projectDateRange: {
+                    startDate: { day: 31, month: 1, year: 2019 },
+                    endDate: { day: 31, month: 1, year: 2019 }
+                },
+                seniorContactRole: 'not-a-real-role'
+            }
+        });
+
+        expect(
+            form.validation.messages.filter(message => message.isFeatured)
+        ).toEqual([
+            {
+                msg: expect.stringMatching(
+                    /Date you start or end the project must be after/
+                ),
+                param: 'projectDateRange',
+                type: 'dateRange.minDate.invalid',
+                field: expect.any(Object),
+                isFeatured: expect.any(Boolean)
+            },
+            {
+                msg: 'Senior contact role is not valid',
+                param: 'seniorContactRole',
+                type: 'any.allowOnly',
+                field: expect.any(Object),
+                isFeatured: expect.any(Boolean)
+            }
+        ]);
     });
 
     test('progress', () => {

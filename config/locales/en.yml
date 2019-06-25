@@ -1379,10 +1379,8 @@ applyNext:
       <p>Here's a summary of your application. You may complete the sections in any order.</p>
     completeTitle: All sections are complete
     completeMessage: You’ve answered every required question on this form. Please take the time to check over and refine your answers, and click submit when you are ready.
-    incompleteMessage: >
-      <p>Your form isn't complete yet — you can submit it here when it's ready.</p>
-    terms: >
-      <p><strong>Please note</strong>: in order to submit your application you will need to agree to our terms and conditions.</p>
+    incompleteTitle: Your form isn’t complete yet
+    incompleteMessage: See what you've got left to do
     expandAll: Expand all sections
     collapseAll: Collapse all sections
     showQuestions: Show questions

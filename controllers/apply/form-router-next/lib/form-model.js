@@ -21,17 +21,31 @@ class FormModel {
         this.isBilingual = props.isBilingual || false;
         this.allFields = props.allFields;
 
-        this.validation = this.validate(data);
-        this.summary = props.summary;
-        this.forSalesforce = props.forSalesforce;
+        this.featuredErrorsAllowList = props.featuredErrorsAllowList || [];
 
+        const validation = this.validate(data);
+        this.validation = validation;
+
+        /**
+         * Enrich field
+         * Assign current value and errors to field if present
+         */
         function enrichField(field) {
-            // Assign value to field if present
             const fieldValue = find(data, (value, name) => name === field.name);
             if (fieldValue) {
                 field.value = fieldValue;
                 field.displayValue = formatterFor(field)(fieldValue);
             }
+
+            const fieldErrors = validation.messages.filter(
+                message => message.param === field.name
+            );
+
+            field.errors = fieldErrors;
+
+            field.featuredErrors = fieldErrors.filter(
+                message => message.isFeatured
+            );
 
             return field;
         }
@@ -72,11 +86,11 @@ class FormModel {
                 return flatMap(fieldsets, 'fields');
             }
 
-            function sectionStatus(validation) {
+            function sectionStatus() {
                 const fieldNames = fieldsForSection().map(f => f.name);
                 const fieldData = pick(validation.value, fieldNames);
-                const fieldErrors = get(validation, 'error.details', []).filter(
-                    detail => fieldNames.includes(detail.path[0])
+                const fieldErrors = validation.messages.filter(item =>
+                    fieldNames.includes(item.param)
                 );
 
                 if (isEmpty(fieldData)) {
@@ -91,11 +105,25 @@ class FormModel {
             section.progress = {
                 slug: section.slug,
                 label: section.shortTitle || section.title,
-                status: sectionStatus(this.validation)
+                status: sectionStatus(validation)
             };
+
+            function hasFeaturedErrors() {
+                const fieldNames = fieldsForSection().map(f => f.name);
+                return validation.messages.some(
+                    item =>
+                        fieldNames.includes(item.param) &&
+                        item.isFeatured === true
+                );
+            }
+
+            section.hasFeaturedErrors = hasFeaturedErrors();
 
             return section;
         });
+
+        this.summary = props.summary;
+        this.forSalesforce = props.forSalesforce;
     }
 
     get schema() {
@@ -128,10 +156,23 @@ class FormModel {
             stripUnknown: true
         });
 
+        function matchesFeaturedCriteria(item, message) {
+            if (item.includeBaseError) {
+                return item.param === message.param;
+            } else {
+                return item.param === message.param && message.type !== 'base';
+            }
+        }
+
         const normalisedErrors = normaliseErrors({
             validationError: error,
             errorMessages: this.messages,
             formFields: this.allFields
+        }).map(message => {
+            message.isFeatured = this.featuredErrorsAllowList.some(item =>
+                matchesFeaturedCriteria(item, message)
+            );
+            return message;
         });
 
         return {
@@ -151,9 +192,12 @@ class FormModel {
         };
     }
 
+    getCurrentSteps() {
+        return flatMap(this.sections, 'steps');
+    }
+
     getCurrentFields() {
-        const steps = flatMap(this.sections, 'steps');
-        const fieldsets = flatMap(steps, 'fieldsets');
+        const fieldsets = flatMap(this.getCurrentSteps(), 'fieldsets');
         return flatMap(fieldsets, 'fields');
     }
 

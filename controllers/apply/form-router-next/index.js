@@ -245,24 +245,7 @@ function initFormRouter({
     /**
      * Route: Summary
      */
-    router.route('/summary').get(function(req, res) {
-        const { copy, currentApplicationData } = res.locals;
-
-        const form = formBuilder({
-            locale: req.i18n.getLocale(),
-            data: currentApplicationData
-        });
-
-        const title = copy.summary.title;
-
-        res.render(path.resolve(__dirname, './views/summary'), {
-            csrfToken: req.csrfToken(),
-            title: title,
-            form: form,
-            breadcrumbs: concat(res.locals.breadcrumbs, { label: title }),
-            currentProjectName: get(currentApplicationData, 'projectName')
-        });
-    });
+    router.use('/summary', require('./summary')(formBuilder));
 
     /**
      * Route: Submission

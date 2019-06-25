@@ -1,24 +1,60 @@
 {% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/details/macro.njk" import details %}
-{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/icons.njk" import iconTick, iconBin %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
-
-{% macro submitActions() %}
-    <form class="submit-actions u-tone-background-tint u-padded" action="{{ formBaseUrl }}/submission" method="post">
-        <h2 class="submit-actions__title">{{ iconTick('medium') }} {{ copy.summary.completeTitle }}</h2>
-        <p class="submit-actions__text">{{ copy.summary.completeMessage }}</p>
-        {% if csrfToken %}
-            <input type="hidden" name="_csrf" value="{{ csrfToken }}">
-        {% endif %}
-        <input type="submit" class="btn" value="{{ copy.submit }}" class="u-margin-bottom-s" />
-    </form>
+{% macro summariseErrors() %}
+    {% if showErrors and errorsByStep.length > 0 %}
+        <div class="form-errors" data-testid="form-errors">
+            <h2 class="form-errors__title">These fields need attention before you can submit</h2>
+            <div class="form-errors__body">
+                {% for step in errorsByStep %}
+                    {% if step.errors.length > 0 %}
+                        <h3 class="form-errors__subtitle">{{ step.title }}</h3>
+                        <ol class="form-errors__list">
+                            {% for error in step.errors %}
+                                <li>
+                                    {% if error.param %}<a href="#field-{{ error.param }}">{% endif %}
+                                    {{ error.msg }}
+                                    {% if error.param %}</a>{% endif %}
+                                </li>
+                            {% endfor %}
+                        </ol>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% elseif featuredErrors.length > 0 %}
+        <div class="form-errors form-errors--featured" data-testid="form-errors">
+            <h2 class="form-errors__title">Some details in your application need extra attention</h2>
+            <div class="form-errors__body">
+                <ol class="form-errors__list">
+                    {% for error in featuredErrors %}
+                        <li>
+                            {% if error.param %}<a href="#field-{{ error.param }}">{% endif %}
+                            {{ error.msg }}
+                            {% if error.param %}</a>{% endif %}
+                        </li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    {% endif %}
 {% endmacro %}
 
+{% macro submitActionsIncomplete() %}
+    <div class="submit-actions">
+        <h2 class="submit-actions__title">{{ copy.summary.incompleteTitle }}</h2>
+        <p class="u-text-medium s-prose">
+            <a href="?show-errors=true">{{ copy.summary.incompleteMessage }}</a>
+        </p>
+        <a href="?show-errors=true" class="btn">{{ copy.submit }}</a>
+    </div>
+{% endmacro %}
 
 {% macro stepSummary(step, stepNumber, totalSteps) %}
     <div class="step-summary">
@@ -29,15 +65,33 @@
         {% if step.isRequired %}
             {% for fieldset in step.fieldsets %}
                 {% for field in fieldset.fields %}
-                    <div class="step-summary__data {% if field.settings.stackedSummary %} is-stacked{% endif %}">
+                    {% set fieldErrors = field.featuredErrors %}
+                    {% if showErrors %}
+                        {% set fieldErrors = field.errors %}
+                    {% endif %}
+
+                    <div class="step-summary__data {% if field.settings.stackedSummary %} is-stacked{% endif %}"
+                        id="field-{{ field.name }}">
                         <div class="step-summary__data__question">{{ field.label | safe }}</div>
-                        <div class="step-summary__data__answer s-prose">
-                            {% if field.displayValue %}
-                                {% set cleanValue = field.displayValue | striptags(true) | escape | nl2br %}
-                                {{ cleanValue }}
-                            {% else %}
-                                &ndash;
-                            {% endif %}
+                        <div class="step-summary__data__answer">
+                            <div class="step-summary__data__answer-inner
+                                {% if fieldErrors.length > 0 %}{% if showErrors %} has-errors{% else %} has-featured-errors{% endif %}{% endif %}">
+
+                                {% if field.displayValue %}
+                                    {% set cleanValue = field.displayValue | striptags(true) | escape | nl2br %}
+                                    <span class="s-prose">{{ cleanValue }}</span>
+                                {% else %}
+                                    &ndash;
+                                {% endif %}
+
+                                {% if fieldErrors.length > 0 %}
+                                    <ol class="step-summary__data__errors">
+                                        {% for error in fieldErrors %}
+                                            <li>{{ error.msg }}</li>
+                                        {% endfor %}
+                                    </ol>
+                                {% endif %}
+                            </div>
                         </div>
                         <div class="step-summary__data__link">
                             <a href="{{ formBaseUrl }}/{{ step.slug }}#form-field-{{ field.name }}" class="u-edit-link">
@@ -81,7 +135,7 @@
         <article class="section-summary__content u-padded-s">
             <p class="u-constrained-wide">{{ section.summary }}</p>
 
-            {% if form.progress.isComplete %}
+            {% if expandSections %}
                 {% for step in section.steps %}
                     {{ stepSummary(
                         step = step,
@@ -94,7 +148,7 @@
                 {% call details(
                     title = copy.summary.showQuestions,
                     extraClasses = 'js-toggleable',
-                    isOpen = form.progress.isComplete
+                    isOpen = form.progress.isComplete or section.hasFeaturedErrors
                 ) %}
                     {% for step in section.steps %}
                         {{ stepSummary(
@@ -120,8 +174,14 @@
                 suffix = currentProjectName
             ) }}
 
+
+            {{ summariseErrors() }}
+
             {% if form.progress.isComplete %}
-                {{ submitActions( )}}
+                <div class="submit-actions submit-actions--complete">
+                    <h2 class="submit-actions__title">{{ iconTick('medium') }} {{ copy.summary.completeTitle }}</h2>
+                    <p class="submit-actions__text">{{ copy.summary.completeMessage }}</p>
+                </div>
             {% else %}
                 <div class="s-prose">{{ copy.summary.introduction | safe }}</div>
             {% endif %}
@@ -133,7 +193,7 @@
                 </a>
             <p>
 
-            {% if not form.progress.isComplete %}
+            {% if not expandSections %}
                 <p class="u-align-right u-dont-print">
                     <button type="button"
                         class="btn-link u-text-small js-toggle-all-details js-only u-align-right"
@@ -148,12 +208,17 @@
             {% endfor %}
 
             {% if form.progress.isComplete %}
-                {{ submitActions( )}}
+                <form class="submit-actions submit-actions--complete"
+                      action="{{ formBaseUrl }}/submission" method="post">
+                    <h2 class="submit-actions__title">{{ iconTick('medium') }} {{ copy.summary.completeTitle }}</h2>
+                    <p class="submit-actions__text">{{ copy.summary.completeMessage }}</p>
+                    {% if csrfToken %}
+                        <input type="hidden" name="_csrf" value="{{ csrfToken }}">
+                    {% endif %}
+                    <input class="btn u-margin-bottom-s" type="submit" value="{{ copy.submit }}" />
+                </form>
             {% else %}
-                <div class="s-prose">
-                    {{ copy.summary.incompleteMessage | safe }}
-                    {{ copy.summary.terms | safe }}
-                </div>
+                {{ submitActionsIncomplete() }}
             {% endif %}
 
         </div>
