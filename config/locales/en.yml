@@ -1380,7 +1380,7 @@ applyNext:
     completeTitle: All sections are complete
     completeMessage: You’ve answered every required question on this form. Please take the time to check over and refine your answers, and click submit when you are ready.
     incompleteTitle: Your form isn’t complete yet
-    incompleteMessage: Show me what I’ve got left to do
+    incompleteMessage: See what you've got left to do
     expandAll: Expand all sections
     collapseAll: Collapse all sections
     showQuestions: Show questions
