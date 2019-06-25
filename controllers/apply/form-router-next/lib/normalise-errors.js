@@ -46,6 +46,7 @@ function messagesForError(messages, detail) {
  * @param {Object} options
  * @param {Object} options.validationError
  * @param {Object} options.errorMessages
+ * @return {Array}
  */
 module.exports = function normaliseErrors({
     validationError,

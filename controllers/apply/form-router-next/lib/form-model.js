@@ -21,22 +21,30 @@ class FormModel {
         this.isBilingual = props.isBilingual || false;
         this.allFields = props.allFields;
 
-        const validation = this.validate(data);
-
-        this.validation = validation;
         this.featuredErrorsAllowList = props.featuredErrorsAllowList || [];
 
+        const validation = this.validate(data);
+        this.validation = validation;
+
+        /**
+         * Enrich field
+         * Assign current value and errors to field if present
+         */
         function enrichField(field) {
-            // Assign value to field if present
             const fieldValue = find(data, (value, name) => name === field.name);
             if (fieldValue) {
                 field.value = fieldValue;
                 field.displayValue = formatterFor(field)(fieldValue);
             }
 
-            // Assign errors to field if present
-            field.errors = validation.messages.filter(
+            const fieldErrors = validation.messages.filter(
                 message => message.param === field.name
+            );
+
+            field.errors = fieldErrors;
+
+            field.featuredErrors = fieldErrors.filter(
+                message => message.isFeatured
             );
 
             return field;
@@ -78,11 +86,11 @@ class FormModel {
                 return flatMap(fieldsets, 'fields');
             }
 
-            function sectionStatus(validation) {
+            function sectionStatus() {
                 const fieldNames = fieldsForSection().map(f => f.name);
                 const fieldData = pick(validation.value, fieldNames);
-                const fieldErrors = get(validation, 'error.details', []).filter(
-                    detail => fieldNames.includes(detail.path[0])
+                const fieldErrors = validation.messages.filter(item =>
+                    fieldNames.includes(item.param)
                 );
 
                 if (isEmpty(fieldData)) {
@@ -99,6 +107,17 @@ class FormModel {
                 label: section.shortTitle || section.title,
                 status: sectionStatus(validation)
             };
+
+            function hasFeaturedErrors() {
+                const fieldNames = fieldsForSection().map(f => f.name);
+                return validation.messages.some(
+                    item =>
+                        fieldNames.includes(item.param) &&
+                        item.isFeatured === true
+                );
+            }
+
+            section.hasFeaturedErrors = hasFeaturedErrors();
 
             return section;
         });
@@ -137,10 +156,23 @@ class FormModel {
             stripUnknown: true
         });
 
+        function matchesFeaturedCriteria(item, message) {
+            if (item.includeBaseError) {
+                return item.param === message.param;
+            } else {
+                return item.param === message.param && message.type !== 'base';
+            }
+        }
+
         const normalisedErrors = normaliseErrors({
             validationError: error,
             errorMessages: this.messages,
             formFields: this.allFields
+        }).map(message => {
+            message.isFeatured = this.featuredErrorsAllowList.some(item =>
+                matchesFeaturedCriteria(item, message)
+            );
+            return message;
         });
 
         return {
@@ -149,25 +181,6 @@ class FormModel {
             isValid: error === null && normalisedErrors.length === 0,
             messages: normalisedErrors
         };
-    }
-
-    featuredErrors() {
-        if (this.validation.messages.length > 0) {
-            return this.validation.messages.filter(message => {
-                return this.featuredErrorsAllowList.some(item => {
-                    if (item.includeBaseError) {
-                        return item.param === message.param;
-                    } else {
-                        return (
-                            item.param === message.param &&
-                            message.type !== 'base'
-                        );
-                    }
-                });
-            });
-        } else {
-            return [];
-        }
     }
 
     get progress() {

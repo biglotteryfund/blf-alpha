@@ -34,21 +34,22 @@ module.exports = function(formBuilder) {
 
         const title = copy.summary.title;
         const showErrors = !!req.query['show-errors'] === true;
+        const featuredErrors = form.validation.messages.filter(
+            message => message.isFeatured
+        );
 
-        const viewData = {
+        res.render(path.resolve(__dirname, './views/summary'), {
             form: form,
             csrfToken: req.csrfToken(),
             title: title,
             breadcrumbs: res.locals.breadcrumbs.concat({ label: title }),
             currentProjectName: get('projectName')(currentApplicationData),
+            showErrors: showErrors,
             errors: form.validation.messages,
             errorsByStep: errorsByStep(),
-            featuredErrors: form.featuredErrors(),
-            showErrors: showErrors,
+            featuredErrors: featuredErrors,
             expandSections: form.progress.isComplete || showErrors
-        };
-
-        res.render(path.resolve(__dirname, './views/summary'), viewData);
+        });
     });
 
     return router;
