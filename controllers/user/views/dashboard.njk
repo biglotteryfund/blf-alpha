@@ -10,9 +10,11 @@
             {{ userNavigation(links = [
                 {
                     "url": '/apply/awards-for-all',
-                    "label": 'Applications dashboard'
+                    "label": 'Your Applications'
                 }
             ]) }}
+
+            {{ userStatus(user) }}
 
 
             <div class="content-sidebar">

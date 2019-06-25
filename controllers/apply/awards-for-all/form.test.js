@@ -298,7 +298,7 @@ describe('Form validations', () => {
         });
     });
 
-    describe('Beneficiaries', () => {
+    describe('Who will benefit', () => {
         test('skip section based on screening question', () => {
             const formWithYes = formBuilder({
                 locale: 'en',
@@ -1068,12 +1068,12 @@ describe('form shape', () => {
             isComplete: false,
             sections: [
                 {
-                    label: 'Your Project',
+                    label: 'Your project',
                     slug: 'your-project',
                     status: 'empty'
                 },
                 {
-                    label: 'Beneficiaries',
+                    label: 'Who will benefit',
                     slug: 'beneficiaries',
                     status: 'empty'
                 },
@@ -1098,7 +1098,7 @@ describe('form shape', () => {
                     status: 'empty'
                 },
                 {
-                    label: 'Terms and Conditions',
+                    label: 'Terms and conditions',
                     slug: 'terms-and-conditions',
                     status: 'empty'
                 }
@@ -1114,12 +1114,12 @@ describe('form shape', () => {
             isComplete: false,
             sections: [
                 {
-                    label: 'Your Project',
+                    label: 'Your project',
                     slug: 'your-project',
                     status: 'complete'
                 },
                 {
-                    label: 'Beneficiaries',
+                    label: 'Who will benefit',
                     slug: 'beneficiaries',
                     status: 'complete'
                 },
@@ -1144,7 +1144,7 @@ describe('form shape', () => {
                     status: 'complete'
                 },
                 {
-                    label: 'Terms and Conditions',
+                    label: 'Terms and conditions',
                     slug: 'terms-and-conditions',
                     status: 'complete'
                 }
@@ -1164,12 +1164,12 @@ describe('form shape', () => {
             isComplete: true,
             sections: [
                 {
-                    label: 'Your Project',
+                    label: 'Your project',
                     slug: 'your-project',
                     status: 'complete'
                 },
                 {
-                    label: 'Beneficiaries',
+                    label: 'Who will benefit',
                     slug: 'beneficiaries',
                     status: 'complete'
                 },
@@ -1194,7 +1194,7 @@ describe('form shape', () => {
                     status: 'complete'
                 },
                 {
-                    label: 'Terms and Conditions',
+                    label: 'Terms and conditions',
                     slug: 'terms-and-conditions',
                     status: 'complete'
                 }

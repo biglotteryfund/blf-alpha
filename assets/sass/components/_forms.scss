@@ -436,6 +436,12 @@ $inputOutline: 3px solid get-color('border', 'outline');
         max-width: 10em;
     }
 
+    &.ff-currency--row {
+        .ff-currency__input {
+            flex: auto;
+        }
+    }
+
     .ff-currency__pre,
     .ff-currency__input {
         padding: $inputPadding;
@@ -500,17 +506,19 @@ $inputOutline: 3px solid get-color('border', 'outline');
             display: flex;
             align-items: flex-end;
 
-            .ff-budget__row-item {
-                flex: 0 0 48%;
+            > * {
                 margin-right: 2%;
+                &:last-child {
+                    margin-right: 0;
+                }
             }
 
-            .ff-budget__row-amount,
-            .ff-budget-row__action {
-                flex: 1 1 100%;
+            .ff-budget__row-item {
+                flex-grow: 2;
             }
 
             .ff-budget-row__action {
+                min-width: 190px;
                 text-align: right;
             }
         }

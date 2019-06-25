@@ -74,7 +74,7 @@ module.exports = function({ locale, data = {} }) {
 
     const sectionProject = {
         slug: 'your-project',
-        title: localise({ en: 'Your Project', cy: '(WELSH) Your Project' }),
+        title: localise({ en: 'Your project', cy: '(WELSH) Your project' }),
         summary: localise({
             en: `Please tell us about your project in this section. This is the most important section when it comes to making a decision about whether you will receive funding.`,
             cy: `(WELSH) Please tell us about your project in this section. This is the most important section when it comes to making a decision about whether you will receive funding.`
@@ -189,7 +189,7 @@ module.exports = function({ locale, data = {} }) {
                 en: 'Who will benefit from your project?',
                 cy: ''
             }),
-            shortTitle: localise({ en: 'Beneficiaries', cy: '' }),
+            shortTitle: localise({ en: 'Who will benefit', cy: '' }),
             summary: localise({
                 en: `We want to hear more about the people who will benefit from your project.`,
                 cy: ``
@@ -209,7 +209,7 @@ module.exports = function({ locale, data = {} }) {
                             introduction: localise({
                                 en: `<p>We want to hear more about the people who will benefit from your project.</p>
 
-                                <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
+                                <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities to thrive. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
 
                                 <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
                                 cy: ``
@@ -447,7 +447,7 @@ module.exports = function({ locale, data = {} }) {
         slug: 'senior-contact',
         title: localise({ en: 'Senior contact', cy: '' }),
         summary: localise({
-            en: `Please provide details for your senior contact. This person will be legally responsible for the funding and must be unconnected to the main contact.`,
+            en: `Please provide details for your senior contact. This person will be legally responsible for the funding. They can't be married, in a long-term relationship, living with, or related to the main contact.`,
             cy: ``
         }),
         steps: [
@@ -557,9 +557,8 @@ module.exports = function({ locale, data = {} }) {
 
                             return localise({
                                 en: `<p>
-                                        Please give us the contact details of a person we can get in touch with if we 
-                                        have any questions about your project. While they need to be from the organisation
-                                        applying, they don't need to hold a particular position.</p>
+                                        Please give us the contact details of a person we can get in touch with if we have any questions. The main contact is usually the person filling in the form - so it's probably you. The main contact needs to be from the organisation applying, but they don't need to hold a particular position.    
+                                    </p>
                                     <p>
                                         The main contact must be a different person from the senior contact${seniorName}. 
                                         The two contacts also can't be married or in a long-term relationship with each 
@@ -589,7 +588,7 @@ module.exports = function({ locale, data = {} }) {
         slug: 'bank-details',
         title: localise({ en: 'Bank details', cy: '' }),
         summary: localise({
-            en: `Please provide your bank details. Before you submit your application you will need to attach a copy of a bank statement that is less than two months old.`,
+            en: `Please provide your bank details. Before you submit your application you will need to attach a copy of a bank statement that is less than three months old`,
             cy: ''
         }),
         steps: [
@@ -602,8 +601,11 @@ module.exports = function({ locale, data = {} }) {
                             cy: ''
                         }),
                         introduction: localise({
-                            en:
-                                'This should be the legal name of your organisation as it appears on your bank statement, not the name of your bank. This will usually be the same as your organisation’s name on your governing document.',
+                            en: `
+                                <p>This should be the legal name of your organisation as it appears on your bank statement - not the name of your bank. This will usually be the same as your organisation’s name on your governing document.</p>
+                                <p><strong>The kinds of bank accounts we don't accept</strong></p>
+                                <p>We can't transfer money into certain types of bank accounts like Tide, Cashplus and Paypal.</p>
+                                `,
                             cy: ''
                         }),
                         fields: [
@@ -623,22 +625,40 @@ module.exports = function({ locale, data = {} }) {
                         legend: localise({ en: 'Bank statement', cy: '' }),
                         introduction: localise({
                             en: `
+    
     <p><strong>You must attach your bank statement as a PDF, JPEG or PNG file. Unfortunately we can’t accept Word documents, but photos of your bank statements are absolutely fine.</strong></p>
+    
+    <aside class="o-media u-padded u-tone-background-tint u-margin-bottom">
+        <a href="/assets/images/apply/afa-bank-statement-example.png" target="_blank">
+            <img src="/assets/images/apply/afa-bank-statement-example-small.png"
+                 alt="An example of a bank statement we need from you"
+                 class="o-media__figure-gutter"
+                 width="300" />
+         </a>
+        <div class="o-media__body">
+            <p><strong>Please make sure that we can clearly see the following on your bank statement:</strong></p>
+            <ul>
+                <li>Your organisation’s legal name</li>
+                <li>The address the statements are sent to</li>
+                <li>The bank name</li>
+                <li>Account number</li>
+                <li>Sort code</li>
+                <li>Date (must be within last 3 months)</li>
+            </ul>
+            <p>Here's an <a target="_blank" href="/assets/images/apply/afa-bank-statement-example.png">example of what we're looking for</a>.</p>
+        </div>
+    </aside>
 
-    <p>Please make sure that we can clearly see the following on your bank statement:</p>
-
+    <p><strong>Your statement needs to be less than three months old</strong>. For bank accounts opened within the last three months, we can accept a bank welcome letter. This must confirm the date your account was opened, account name, account number and sort code.</p>
+    
+    <p><strong>If you're a school using a local authority bank account</strong></p>
+    <p>We'll need a letter from the local authority dated within the last 3 months. It should show:</p> 
     <ul>
-        <li>Your organisation’s legal name</li>
-        <li>The address the statements are sent to</li>
-        <li>The bank name</li>
+        <li>Your school name</li>
+        <li>The bank account name</li>
         <li>Account number</li>
-        <li>Sort code</li>
-        <li>Date (must be within last 3 months)</li>
+        <li>Sort code.</li>
     </ul>
-
-    <p>Your statement needs to be less than three months old. For bank accounts opened within the last three months, we can accept a bank welcome letter. This must confirm the date your account was opened, account name, account number and sort code.</p>
-
-    <p>If you are a school who uses a local authority bank account, please attach a letter from the local authority that confirms your school name, the bank account name and number and sort code. The letter must be on local authority headed paper and dated. Other statutory bodies can attach a letter from their finance department that confirms the details of the bank account funding would be paid into.</p>
                         `,
                             cy: ''
                         }),
@@ -651,7 +671,7 @@ module.exports = function({ locale, data = {} }) {
 
     const sectionTerms = {
         slug: 'terms-and-conditions',
-        title: localise({ en: 'Terms and Conditions', cy: '' }),
+        title: localise({ en: 'Terms and conditions', cy: '' }),
         summary: localise({
             en: `In order to submit your application, you will need to agree to our terms and conditions.`,
             cy: ''
@@ -659,13 +679,13 @@ module.exports = function({ locale, data = {} }) {
         steps: [
             {
                 title: localise({
-                    en: 'Terms and Conditions of your grant',
+                    en: 'Terms and conditions of your grant',
                     cy: ''
                 }),
                 fieldsets: [
                     {
                         legend: localise({
-                            en: 'Terms and Conditions of your grant',
+                            en: 'Terms and conditions of your grant',
                             cy: ''
                         }),
                         introduction: localise(termsCopy.introduction),

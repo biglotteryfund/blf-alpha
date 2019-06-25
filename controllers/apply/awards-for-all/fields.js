@@ -251,7 +251,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function dateOfBirthField(minAge, props) {
         const defaultProps = {
             explanation: localise({
-                en: `We need your date of birth to help confirm who you are. And we do check your date of birth. So make sure you've typed it in right. If you don't, it could delay your application.`,
+                en: `We need your date of birth to help confirm who you are. And we do check your date of birth. So make sure you've entered it right. If you don't, it could delay your application.`,
                 cy: ''
             }),
             type: 'date',
@@ -1211,11 +1211,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             explanation: localise({
                 en: `<ul>
-                    <li>people of a particular ethnic background, gender, age or religious belief</li>
-                    <li>disabled people</li>
-                    <li>lesbian, gay or bisexual people</li>
-                    <li>people with caring responsibilities</li>
-                    <li>any other specific group of people</li>
+                    <li>People of a particular ethnic background, gender, age or religious belief</li>
+                    <li>Disabled people</li>
+                    <li>Lesbian, gay or bisexual people</li>
+                    <li>People with caring responsibilities</li>
+                    <li>Any other specific group of people</li>
                 </ul>`,
                 cy: ``
             }),
@@ -2053,7 +2053,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'name.matchesOther',
                     message: localise({
-                        en: `Main Contact name must be different from the Senior Contact's name`,
+                        en: `Main contact name must be different from the senior contact's name`,
                         cy: ``
                     })
                 }
@@ -2068,7 +2068,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 name: 'mainContactAddress',
                 label: localise({ en: 'Home address', cy: '' }),
                 explanation: localise({
-                    en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
+                    en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've entered it right. If you don't, it could delay your application.`,
                     cy: ''
                 }),
                 schema: Joi.ukAddress()
@@ -2085,7 +2085,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'address.matchesOther',
                     message: localise({
-                        en: `Main Contact address must be different from the Senior Contact's address`,
+                        en: `Main contact address must be different from the senior contact's address`,
                         cy: ``
                     })
                 }
@@ -2115,7 +2115,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'any.invalid',
                     message: localise({
-                        en: `Main Contact email address must be different from the Senior Contact's email address`,
+                        en: `Main contact email address must be different from the senior contact's email address`,
                         cy: ``
                     })
                 }
@@ -2151,7 +2151,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'name.matchesOther',
                     message: localise({
-                        en: `Senior Contact name must be different from the Main Contact's name`,
+                        en: `Senior contact name must be different from the main contact's name`,
                         cy: ``
                     })
                 }
@@ -2166,7 +2166,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 name: 'seniorContactAddress',
                 label: localise({ en: 'Home address', cy: '' }),
                 explanation: localise({
-                    en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've typed it in right. If you don't, it could delay your application.`,
+                    en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've entered it right. If you don't, it could delay your application.`,
                     cy: ''
                 }),
                 schema: Joi.ukAddress()
@@ -2183,7 +2183,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'address.matchesOther',
                     message: localise({
-                        en: `Senior Contact address must be different from the Main Contact's address`,
+                        en: `Senior contact address must be different from the main contact's address`,
                         cy: ``
                     })
                 }

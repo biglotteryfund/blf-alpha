@@ -2,14 +2,13 @@
 
 {% block content %}
     <h1>The National Lottery Community Fund</h1>
-    <h2>Account activation</h2>
-    {% if isExisting %}
-        <p>We recently received a request to use this email address ({{ email }}) for an existing account. If you didn't initiate this request, please ignore this email.</p>
-    {% else %}
-        <p>We recently received a request to register an account for this email address ({{ email }}). If you didn't initiate this request, please ignore this email.</p>
-    {% endif %}
-    <p>If you wish to activate this account, then please click the following link to start using your The National Lottery Community Fund account:</p>
-    <h3><a href="{{ activateUrl }}">Activate your account now</a></h3>
-    <p>Thank you,</p>
+
+    <h2>You’re almost ready to apply for the National Lottery Community Fund</h2>
+
+    <p>You set up an account with us, using this email address: {{ email }}.</p>
+
+    <p>Now you just need to <a href="{{ activateUrl }}">activate your account</a> to start your application.</p>
+
+    <p>Thanks,</p>
     <p>The National Lottery Community Fund</p>
 {% endblock %}

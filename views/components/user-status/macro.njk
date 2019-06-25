@@ -1,17 +1,8 @@
 {% macro userStatus(user) %}
     {% if user %}
-        <div class="user-status">
-            <div class="user-status__current">
-                Logged in as <strong>{{ user.userData.username }}</strong>
-            </div>
-            <div class="user-status__actions">
-                <a href="{{ localify('/user/logout') }}" data-testid="logout-button">Log out</a>
-            </div>
-        </div>
         {% if user.userType === 'user' and not user.userData.is_active %}
             <p class="message" role="alert">
-                You haven't activated your account yet.
-                <a href="{{ localify('/user/activate') }}">Re-send activation link?</a>
+                Now we need to make sure the email address you just gave us is right. Check your emails to activate your account. Or do you need us to <a href="{{ localify('/user/activate') }}">re-send the activation link</a>?
             </p>
         {% endif %}
     {% endif %}
