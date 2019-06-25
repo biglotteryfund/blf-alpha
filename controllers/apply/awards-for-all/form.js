@@ -97,7 +97,11 @@ module.exports = function({ locale, data = {} }) {
                         fields: [fields.projectCountry]
                     }
                 ],
-                showAfaWarning: true
+                message: {
+                    title:
+                        'Applying for a project in England, Northern Ireland or Wales?',
+                    body: `<a href="https://apply.tnlcommunityfund.org.uk">You’ll need to use this form instead</a>. Only applicants in Scotland can apply through our new online form at the moment. We’re working on making this available for the rest of the UK.`
+                }
             },
             {
                 title: localise({ en: 'Project location', cy: '' }),

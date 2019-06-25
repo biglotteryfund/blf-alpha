@@ -3,7 +3,6 @@
 {% from "components/icons.njk" import iconTick, iconBin %}
 {% from "components/user-status/macro.njk" import userStatus with context %}
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
-{% from "components/awards-for-all/macros.njk" import awardsForAllMessage with context %}
 
 {% block title %}{{ copy.dashboard.title }} | {{ formTitle }} | {% endblock %}
 
@@ -123,7 +122,10 @@
 
             {{ userNavigation(links = userNavigationLinks) }}
 
-            {{ awardsForAllMessage() }}
+            <div class="message message--info" role="alert">
+                <p><strong>Applying for a project in England, Northern Ireland or Wales?</strong></p>
+                <p><a href="https://apply.tnlcommunityfund.org.uk">You’ll need to use this form instead</a>. Only applicants in Scotland can apply through our new online form at the moment. We’re working on making this available for the rest of the UK.</p>
+            </div>
 
             {{ userStatus(user) }}
 

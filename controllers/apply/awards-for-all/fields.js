@@ -1836,7 +1836,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             }),
             explanation: localise({
-                en: `<p>Enter the postcode and search for the address. It's important to make sure that the home address is correct, as errors will fail our authenticity checks and delay your application.</p>`,
+                en: `<p>For example: EC4A 1DE</p>`,
                 cy: ``
             })
         }),
