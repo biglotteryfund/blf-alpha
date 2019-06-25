@@ -626,30 +626,38 @@ module.exports = function({ locale, data = {} }) {
                         introduction: localise({
                             en: `
     
-    <p>You must attach your bank statement as a PDF, JPEG or PNG file. Unfortunately we can’t accept Word documents, but photos of your bank statements are absolutely fine. <a target="_blank" href="https://www.tnlcommunityfund.org.uk/media/documents/awards-for-all/bank-statement-graphic/BLF18_055_Bank-statement-graphic-4-29.03.19.pdf">Here's an example of what we're looking for</a>.</p>
-
-    <p>Please make sure that we can clearly see the following on your bank statement:</p>
-
-    <ul>
-        <li>Your organisation’s legal name</li>
-        <li>The address the statements are sent to</li>
-        <li>The bank name</li>
-        <li>Account number</li>
-        <li>Sort code</li>
-        <li>Date (must be within last 3 months)</li>
-    </ul>
-
-    <p><strong>Your statement needs to be less than three months old</strong></p>
+    <p><strong>You must attach your bank statement as a PDF, JPEG or PNG file. Unfortunately we can’t accept Word documents, but photos of your bank statements are absolutely fine.</strong></p>
     
-    <p>For bank accounts opened within the last three months, we can accept a bank welcome letter. This must confirm the date your account was opened, account name, account number and sort code.</p>
+    <aside class="o-media u-padded u-tone-background-tint u-margin-bottom">
+        <a href="/assets/images/apply/afa-bank-statement-example.png" target="_blank">
+            <img src="/assets/images/apply/afa-bank-statement-example-small.png"
+                 alt="An example of a bank statement we need from you"
+                 class="o-media__figure-gutter"
+                 width="300" />
+         </a>
+        <div class="o-media__body">
+            <p><strong>Please make sure that we can clearly see the following on your bank statement:</strong></p>
+            <ul>
+                <li>Your organisation’s legal name</li>
+                <li>The address the statements are sent to</li>
+                <li>The bank name</li>
+                <li>Account number</li>
+                <li>Sort code</li>
+                <li>Date (must be within last 3 months)</li>
+            </ul>
+            <p>Here's an <a target="_blank" href="/assets/images/apply/afa-bank-statement-example.png">example of what we're looking for</a>.</p>
+        </div>
+    </aside>
+
+    <p><strong>Your statement needs to be less than three months old</strong>. For bank accounts opened within the last three months, we can accept a bank welcome letter. This must confirm the date your account was opened, account name, account number and sort code.</p>
     
     <p><strong>If you're a school using a local authority bank account</strong></p>
     <p>We'll need a letter from the local authority dated within the last 3 months. It should show:</p> 
     <ul>
-        <li>your school name</li>
-        <li>the bank account name</li>
-        <li>account number</li>
-        <li>sort code.</li>
+        <li>Your school name</li>
+        <li>The bank account name</li>
+        <li>Account number</li>
+        <li>Sort code.</li>
     </ul>
                         `,
                             cy: ''
