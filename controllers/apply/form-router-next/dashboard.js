@@ -50,7 +50,7 @@ module.exports = function(formId, formBuilder) {
             res.locals.userNavigationLinks = [
                 {
                     url: req.baseUrl,
-                    label: 'Applications dashboard'
+                    label: 'Your Applications'
                 }
             ];
 
