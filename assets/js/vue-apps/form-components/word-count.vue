@@ -56,7 +56,7 @@ export default {
                 }[this.locale];
             } else {
                 return {
-                    en: `You can write up to ${this.maxWords} words for this section, but don't worry if you use less`,
+                    en: `You can write up to ${this.maxWords} words for this section, but don't worry if you use less.`,
                     cy: 'Welsh'
                 }[this.locale];
             }
