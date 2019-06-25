@@ -135,10 +135,12 @@
     }
 
     .form-errors__subtitle {
+        color: get-color('message', 'warning');
         margin-bottom: 3px;
     }
 
     .form-errors__body {
+        font-size: 18px;
         padding: $spacingUnit / 2;
     }
 
@@ -160,16 +162,16 @@
         }
 
         li a {
-            font-weight: normal;
+            font-weight: font-weight('body', 'semibold');
         }
     }
 }
 
 .form-errors.form-errors--featured {
-    border-color: #f56600;
+    border-color: get-color('message', 'information');
 
     .form-errors__title {
-        background-color: #f56600;
+        background-color: get-color('message', 'information');
     }
 }
 
@@ -201,16 +203,6 @@ $inputOutline: 3px solid get-color('border', 'outline');
 .ff-error {
     font-weight: font-weight('body', 'bold');
     color: get-color('message', 'warning');
-}
-
-.ff-errors {
-    margin-top: $spacingUnit / 3;
-
-    li,
-    li a {
-        color: get-color('message', 'warning');
-        font-weight: font-weight('body', 'bold');
-    }
 }
 
 /**

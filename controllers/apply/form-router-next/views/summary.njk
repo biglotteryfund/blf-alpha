@@ -1,9 +1,9 @@
 {% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/details/macro.njk" import details %}
-{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 {% from "components/form-header/macro.njk" import formHeader with context %}
 {% from "components/icons.njk" import iconTick, iconBin %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
@@ -65,11 +65,17 @@
         {% if step.isRequired %}
             {% for fieldset in step.fieldsets %}
                 {% for field in fieldset.fields %}
+                    {% set fieldErrors = field.featuredErrors %}
+                    {% if showErrors %}
+                        {% set fieldErrors = field.errors %}
+                    {% endif %}
+
                     <div class="step-summary__data {% if field.settings.stackedSummary %} is-stacked{% endif %}"
                         id="field-{{ field.name }}">
                         <div class="step-summary__data__question">{{ field.label | safe }}</div>
                         <div class="step-summary__data__answer">
-                            <div class="step-summary__data__answer-inner{% if field.errors.length > 0 %} has-errors{% endif %}">
+                            <div class="step-summary__data__answer-inner
+                                {% if fieldErrors.length > 0 %}{% if showErrors %} has-errors{% else %} has-featured-errors{% endif %}{% endif %}">
 
                                 {% if field.displayValue %}
                                     {% set cleanValue = field.displayValue | striptags(true) | escape | nl2br %}
@@ -78,9 +84,9 @@
                                     &ndash;
                                 {% endif %}
 
-                                {% if field.errors.length > 0 %}
-                                    <ol class="ff-errors">
-                                        {% for error in field.errors %}
+                                {% if fieldErrors.length > 0 %}
+                                    <ol class="step-summary__data__errors">
+                                        {% for error in fieldErrors %}
                                             <li>{{ error.msg }}</li>
                                         {% endfor %}
                                     </ol>
@@ -142,7 +148,7 @@
                 {% call details(
                     title = copy.summary.showQuestions,
                     extraClasses = 'js-toggleable',
-                    isOpen = form.progress.isComplete
+                    isOpen = form.progress.isComplete or section.hasFeaturedErrors
                 ) %}
                     {% for step in section.steps %}
                         {{ stepSummary(

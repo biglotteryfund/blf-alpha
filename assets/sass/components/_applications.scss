@@ -172,10 +172,29 @@ $statuses: (
         }
     }
 
-    .step-summary__data__answer-inner.has-errors {
+    .step-summary__data__errors {
+        margin-top: $spacingUnit / 3;
+        max-width: 25em;
+        color: get-color('message', 'warning');
+        font-weight: font-weight('body', 'bold');
+    }
+
+    .step-summary__data__answer-inner.has-errors,
+    .step-summary__data__answer-inner.has-featured-errors
+    {
         border-left: 3px solid get-color('message', 'warning');
         padding-left: $spacingUnit / 2;
     }
+
+    .step-summary__data__answer-inner.has-featured-errors {
+        border-left: 3px solid get-color('message', 'information');
+
+        .step-summary__data__errors {
+            color: get-color('message', 'information');
+        }
+    }
+
+
 
     .step-summary__data:not(.is-stacked) {
         .step-summary__data__question,
