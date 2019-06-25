@@ -66,7 +66,7 @@ function sendPasswordResetNotification(req, email) {
         {
             name: 'user_password_reset_success',
             sendTo: email,
-            subject: `Your National Lottery Community Fund account password was successfully reset`
+            subject: `You just changed your password`
         }
     );
 }
