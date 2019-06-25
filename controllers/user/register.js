@@ -7,6 +7,7 @@ const Sentry = require('@sentry/node');
 const { Users } = require('../../db/models');
 const { localify } = require('../../common/urls');
 const sanitise = require('../../common/sanitise');
+const logger = require('../../common/logger');
 const { csrfProtection } = require('../../middleware/cached');
 const {
     injectCopy,
@@ -81,6 +82,7 @@ router
                 const existingUser = await Users.findByUsername(username);
 
                 if (existingUser) {
+                    logger.info('User registration: account already exists');
                     Sentry.withScope(scope => {
                         scope.setLevel('info');
                         Sentry.captureMessage(
@@ -102,6 +104,10 @@ router
                         newUser
                     );
 
+                    logger.info(
+                        'User registration: account creation successful'
+                    );
+
                     if (req.body.returnToken) {
                         // used for tests to verify activation works
                         res.send(activationData);
@@ -110,6 +116,9 @@ router
                     }
                 }
             } catch (error) {
+                logger.info('User registration: account creation failed', {
+                    error: error
+                });
                 Sentry.captureException(error);
                 res.locals.alertMessage = genericError;
                 renderForm(req, res, validationResult.value);
