@@ -456,7 +456,7 @@ Address history field group, consists of:
 
 | Rule           | Message                            |
 | -------------- | ---------------------------------- |
-| Required field | Tell us the name of your organisation - as it appears on the bank statement |
+| Required field | Name on the bank account |
 
 ### Sort code
 
