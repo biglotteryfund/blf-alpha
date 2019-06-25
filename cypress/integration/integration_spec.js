@@ -504,7 +504,7 @@ describe('awards for all', function() {
             cy.getAllByTestId('budget-total').should('contain', '£11,250');
             cy.checkA11y();
 
-            cy.getByLabelText('Tell us the total cost of your project.').type(
+            cy.getByLabelText('Tell us the total cost of your project').type(
                 '10000'
             );
 
@@ -713,9 +713,12 @@ describe('awards for all', function() {
 
         function stepBankDetails() {
             cy.checkA11y();
-            cy.getByLabelText('Name on the bank account', {
-                exact: false
-            }).type(faker.company.companyName());
+            cy.getByLabelText(
+                'Tell us the name of your organisation - as it appears on the bank statement',
+                {
+                    exact: false
+                }
+            ).type(faker.company.companyName());
             cy.getByLabelText('Account number', { exact: false }).type(
                 '00012345'
             );

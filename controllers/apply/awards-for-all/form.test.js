@@ -984,7 +984,7 @@ describe('Form validations', () => {
 
             assertValidByKey(value(faker.company.companyName()));
             assertMessagesByKey(value(null), [
-                'Enter the name on the bank account'
+                'Enter the name of your organisation as it appears on your bank statement'
             ]);
         });
 
