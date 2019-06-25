@@ -19,6 +19,15 @@
 
                     {{ userNavigation(links = userNavigationLinks) }}
 
+                    {% if step.message %}
+                        <div class="message message--info" role="alert">
+                            <p><strong>{{ step.message.title | safe }}</strong></p>
+                            <p>{{ step.message.body | safe }}</p>
+                        </div>
+
+
+                    {% endif %}
+
                     <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
                     <p class="form-header__suffix">
                         <strong>{{ step.title }}</strong> ({{ __('global.misc.stepProgress', stepNumber, totalSteps) }})
