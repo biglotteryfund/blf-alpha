@@ -42,9 +42,8 @@
             </div>
 
             <aside class="application-summary__links">
-                <h4 class="application-card__minor-title">Guidance for this programme:</h4>
-                {# @TODO: Where should this go? #}
-                <p><a href="#">{{ formTitle }} guidance</a><br /></p>
+                <h4 class="application-card__minor-title">Before you start</h4>
+                <p>You might want to look at some helpful advice and tips about <a href="{{ localify('/funding/under10k') }}">applying for funding on our website</a>.</p>
             </aside>
         </div>
 
@@ -122,6 +121,7 @@
         <section class="content-box u-inner-wide-only">
 
             {{ userNavigation(links = userNavigationLinks) }}
+            {{ userStatus(user) }}
 
             <div class="s-prose">
                 <h1 class="t--underline">{{ copy.dashboard.title }}</h1>
@@ -145,7 +145,7 @@
 
         {% call contentBox(id = "new") %}
             <h2>New application</h2>
-            <p>You can create a new funding application for {{ formTitle }} here after completing our eligibility checks.</p>
+            <p>You can create a new funding application for {{ formTitle }} here.</p>
             <p><a href="{{ formBaseUrl }}/start" class="btn btn--outline">Start new application</a></p>
         {% endcall %}
     </main>

@@ -47,3 +47,25 @@
         @include wrap-words();
     }
 }
+
+// Via https://stackoverflow.com/a/26245056
+.o-nested-numbers {
+    list-style-type: none;
+    counter-reset: item;
+
+    li {
+        display: table;
+        counter-increment: item;
+    }
+
+    li:before {
+        content: counters(item, ".") ". ";
+        display: table-cell;
+        padding-right: 0.6em;
+    }
+
+    li li:before {
+        content: counters(item, ".") " ";
+    }
+}
+

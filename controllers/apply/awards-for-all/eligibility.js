@@ -34,7 +34,7 @@ module.exports = function({ locale }) {
             cy: ``
         }),
         explanation: localise({
-            en: `We know it's not always possible to complete a project in 12 months for lots of reasons. We can therefore consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.`,
+            en: `We know it's not always possible to complete a project in 12 months for lots of reasons. So we can consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.`,
             cy: ``
         }),
         ineligible: {
@@ -43,10 +43,10 @@ module.exports = function({ locale }) {
                 cy: ``
             }),
             detail: localise({
-                en: `<p>This isn't the end! Here are a couple of ideas about what you can do:</p>
+                en: `<p>This isn't the end. Here are a couple of ideas about what you can do:</p>
                 <ul>
                     <li>consider asking us to fund part of your project through National Lottery Awards for All, and find out if there are other sources of funding that can cover the rest of your project</li>
-                    <li><a href="/funding/over10k">look at our other funding programmes</a> to see if they cover the amount of funding you want to apply for and the length of time you want to run your project for, and consider applying to us for a grant worth over £10,000</li>
+                    <li><a href="/funding/over10k">look at our other funding programmes</a> to see if they cover the amount of funding you want to apply for and the length of time you want to run your project for, and consider applying to us for a grant worth over £10,000.</li>
                 </ul>`,
                 cy: ``
             })
@@ -60,7 +60,7 @@ module.exports = function({ locale }) {
             cy: ``
         }),
         explanation: localise({
-            en: `We need 12 weeks to be able to assess your application and pay your grant, if you're successful. Therefore, projects need to start at least 12 weeks from the date you submit your application to us.`,
+            en: `We need 12 weeks to be able to assess your application and pay your grant, if you're successful. So projects need to start at least 12 weeks from the date you submit your application to us.`,
             cy: ``
         }),
         ineligible: {
@@ -69,7 +69,7 @@ module.exports = function({ locale }) {
                 cy: ``
             }),
             detail: localise({
-                en: `<p>We don't want to miss out on funding a great idea that will help communities to thrive.</p>
+                en: `<p>We don't want communities to miss out on a great idea that will help them thrive.</p>
                 <p>Have a think and see if it's possible to start your project at least 12 weeks from now. We need this time to consider your application, carry out checks and, if successful, pay your grant. If it is possible, continue with your application.</p>`,
                 cy: ``
             })
@@ -78,7 +78,7 @@ module.exports = function({ locale }) {
 
     const question4 = {
         question: localise({
-            en: `Do you have a UK bank account in the legal name of your organisation, with at least two unrelated people who are able to manage the account?`,
+            en: `Do you have a UK bank account or building society? It needs to be in the legal name of your organisation, with at least two unrelated people who are able to manage the account.`,
             cy: ``
         }),
         explanation: localise({
@@ -91,8 +91,8 @@ module.exports = function({ locale }) {
                 cy: ``
             }),
             detail: localise({
-                en: `<p>We don't want to miss out on funding a great idea that will help to transform communities.</p>
-                <p>Before applying, make sure your organisation has a UK bank account in the legal name of your organisation.</p>`,
+                en: `<p>We don't want communities to miss out on a great idea that will help them to thrive.</p>
+                <p>So you might want to double check whether you have a UK bank account in the legal name of your organisation. Or you might want to open an account like that before you apply.</p>`,
                 cy: ``
             })
         }
@@ -113,7 +113,7 @@ module.exports = function({ locale }) {
                 cy: ``
             }),
             detail: localise({
-                en: `<p>This isn't the end! Before applying, make sure your organisation has produced annual accounts.</p>
+                en: `<p>This isn't the end. Before applying, make sure your organisation has produced annual accounts.</p>
                 <p>By 'annual accounts' we mean a summary of your financial activity. If you're a small organisation, this can be produced by your board or committee, and doesn't have to be done by an accountant.</p>`,
                 cy: ``
             })

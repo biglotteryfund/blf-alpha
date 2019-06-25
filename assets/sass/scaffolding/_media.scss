@@ -11,6 +11,10 @@
     .o-media__figure {
         margin-right: $spacingUnit / 2;
     }
+
+    .o-media__figure-gutter {
+        margin-right: $spacingUnit;
+    }
     .o-media__body {
         flex: 1;
     }

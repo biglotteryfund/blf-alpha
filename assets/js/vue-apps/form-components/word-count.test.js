@@ -34,17 +34,23 @@ describe('WordCount', () => {
             }
         });
 
-        expect(wrapper.text()).toEqual('0 / 150 words Must be at least 50 words. We recommend using around 100 words.');
+        expect(wrapper.text()).toEqual(
+            `0 / 150 words Must be at least 50 words. You can write up to 150 words for this section, but don't worry if you use less.`
+        );
 
         wrapper.setProps({ currentText: faker.lorem.words(10) });
         expect(wrapper.text()).toContain(
-            '10 / 150 words Must be at least 50 words. We recommend using around 100 words.'
+            `10 / 150 words Must be at least 50 words. You can write up to 150 words for this section, but don't worry if you use less.`
         );
 
         wrapper.setProps({ currentText: faker.lorem.words(50) });
-        expect(wrapper.text()).toContain('50 / 150 words We recommend using around 100 words.');
+        expect(wrapper.text()).toContain(
+            `50 / 150 words You can write up to 150 words for this section, but don't worry if you use less.`
+        );
 
         wrapper.setProps({ currentText: faker.lorem.words(175) });
-        expect(wrapper.text()).toContain('175 / 150 words You have 25 words too many.');
+        expect(wrapper.text()).toContain(
+            '175 / 150 words You have 25 words too many.'
+        );
     });
 });
