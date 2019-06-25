@@ -1040,20 +1040,24 @@ describe('form shape', () => {
             }
         });
 
-        expect(form.featuredErrors()).toEqual([
+        expect(
+            form.validation.messages.filter(message => message.isFeatured)
+        ).toEqual([
             {
                 msg: expect.stringMatching(
                     /Date you start or end the project must be after/
                 ),
                 param: 'projectDateRange',
                 type: 'dateRange.minDate.invalid',
-                field: expect.any(Object)
+                field: expect.any(Object),
+                isFeatured: expect.any(Boolean)
             },
             {
                 msg: 'Senior contact role is not valid',
                 param: 'seniorContactRole',
                 type: 'any.allowOnly',
-                field: expect.any(Object)
+                field: expect.any(Object),
+                isFeatured: expect.any(Boolean)
             }
         ]);
     });
