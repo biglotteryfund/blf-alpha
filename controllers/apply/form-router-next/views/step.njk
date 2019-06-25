@@ -2,6 +2,7 @@
 {% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/awards-for-all/macros.njk" import awardsForAllMessage with context %}
 
 {% block title %}{{ step.title }} | {{ section.shortTitle or section.title }} | {{ formTitle }} | {% endblock %}
 
@@ -18,6 +19,10 @@
                 <div class="form-header">
 
                     {{ userNavigation(links = userNavigationLinks) }}
+
+                    {% if step.showAfaWarning %}
+                        {{ awardsForAllMessage() }}
+                    {% endif %}
 
                     <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
                     <p class="form-header__suffix">

@@ -96,7 +96,8 @@ module.exports = function({ locale, data = {} }) {
                         legend: localise({ en: 'Project country', cy: '' }),
                         fields: [fields.projectCountry]
                     }
-                ]
+                ],
+                showAfaWarning: true
             },
             {
                 title: localise({ en: 'Project location', cy: '' }),

@@ -3,6 +3,7 @@
 {% from "components/icons.njk" import iconTick, iconBin %}
 {% from "components/user-status/macro.njk" import userStatus with context %}
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
+{% from "components/awards-for-all/macros.njk" import awardsForAllMessage with context %}
 
 {% block title %}{{ copy.dashboard.title }} | {{ formTitle }} | {% endblock %}
 
@@ -121,6 +122,9 @@
         <section class="content-box u-inner-wide-only">
 
             {{ userNavigation(links = userNavigationLinks) }}
+
+            {{ awardsForAllMessage() }}
+
             {{ userStatus(user) }}
 
             <div class="s-prose">

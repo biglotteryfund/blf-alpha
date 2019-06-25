@@ -1,11 +1,13 @@
 {% extends "layouts/main.njk" %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 {% from "components/form-fields-next/macros.njk" import formErrors, formField with context %}
+{% from "components/awards-for-all/macros.njk" import awardsForAllMessage with context %}
 
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
-            {{ breadcrumbTrail(breadcrumbs) }}
+
+            {{ awardsForAllMessage(mode = 'full', skipCreateAccountLink = true) }}
 
             <h1 class="t--underline">{{ title }}</h1>
 

@@ -13,6 +13,10 @@
     font-weight: font-weight('body', 'semibold');
     margin-bottom: $spacingUnit;
 
+    &.message--info {
+        font-weight: normal;
+    }
+
     &.message--error {
         border-color: get-color('message', 'warning');
     }
