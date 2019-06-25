@@ -72,7 +72,7 @@ function initFormRouter({
         res.locals.userNavigationLinks = [
             {
                 url: req.baseUrl + '/summary',
-                label: 'View summary'
+                label: 'Summary'
             },
             {
                 url: req.baseUrl,
