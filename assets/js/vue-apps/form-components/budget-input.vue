@@ -86,7 +86,7 @@ export default {
                     <label class="ff-label" :for="getLineItemName(index, 'cost')">
                         Amount
                     </label>
-                    <div class="ff-currency">
+                    <div class="ff-currency ff-currency--row">
                         <div class="ff-currency__pre">£</div>
                         <input
                             type="number"
