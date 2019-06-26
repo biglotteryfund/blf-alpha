@@ -1,10 +1,11 @@
 'use strict';
+const path = require('path');
+const express = require('express');
+const moment = require('moment');
+const Postcode = require('postcode');
 const { map, mapValues, reduce, some } = require('lodash');
 const { sanitizeBody } = require('express-validator/filter');
 const { validationResult } = require('express-validator/check');
-const express = require('express');
-const moment = require('moment');
-const path = require('path');
 const Sentry = require('@sentry/node');
 
 const router = express.Router();
@@ -19,12 +20,11 @@ const {
     injectMerchandise
 } = require('../../middleware/inject-content');
 const cached = require('../../middleware/cached');
-const ordersService = require('../../services/orders');
+const { Order } = require('../../db/models');
 
 const {
     materialFields,
     makeOrderText,
-    postcodeArea,
     normaliseUserInput
 } = require('./helpers');
 
@@ -129,10 +129,10 @@ function storeOrderSummary({ orderItems, orderDetails }) {
         return field ? field.value : null;
     };
 
-    return ordersService.storeOrder({
+    return Order.storeOrder({
         grantAmount: getFieldValue('yourGrantAmount'),
         orderReason: getFieldValue('yourReason'),
-        postcodeArea: postcodeArea(getFieldValue('yourPostcode')),
+        postcodeArea: Postcode.toOutcode(getFieldValue('yourPostcode')),
         items: preparedOrderItems
     });
 }
