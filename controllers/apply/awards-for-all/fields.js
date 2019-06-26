@@ -716,13 +716,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     }
                 };
             },
-            // @TODO is the end date optional?
             get explanation() {
                 return localise({
                     en: `<p>If you don't know exactly, your dates can be estimates. But you need to start your project after ${this.settings.minDateExample}.</p>
                       <p>We usually only fund projects that last ${this.settings.maxDurationFromStart.label} or less. So, the end date can't be more than ${this.settings.maxDurationFromStart.label} after the start date.</p>
                       <p><strong>If your project is a one-off event</strong></p>
-                      <p>Just let us know the date you plan to hold the event in the start date box below.</p>`,
+                      <p>Just let us know the date you plan to hold the event in the start and end date boxes below.</p>`,
                     cy: ''
                 });
             },
