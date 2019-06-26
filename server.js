@@ -8,6 +8,7 @@ const moment = require('moment');
 const i18n = require('i18n-2');
 const yaml = require('js-yaml');
 const nunjucks = require('nunjucks');
+const bodyParser = require('body-parser');
 const cacheControl = require('express-cache-controller');
 const favicon = require('serve-favicon');
 const helmet = require('helmet');
@@ -35,7 +36,6 @@ const cspDirectives = require('./common/csp-directives');
 const contentApi = require('./common/content-api');
 
 const { defaultMaxAge } = require('./middleware/cached');
-const bodyParserMiddleware = require('./middleware/bodyParser');
 const i18nMiddleware = require('./middleware/i18n');
 const localsMiddleware = require('./middleware/locals');
 const passportMiddleware = require('./middleware/passport');
@@ -215,10 +215,11 @@ app.use([
         },
         dnsPrefetchControl: { allow: true },
         frameguard: { action: 'sameorigin' }
-    })
+    }),
+    bodyParser.json(),
+    bodyParser.urlencoded({ extended: true })
 ]);
 
-app.use(bodyParserMiddleware);
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
 app.use(localsMiddleware);
