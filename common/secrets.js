@@ -72,6 +72,12 @@ const SALESFORCE_AUTH = {
     TOKEN: process.env.SALESFORCE_TOKEN || getSecret('salesforce.token')
 };
 
+// These expire in July 2020
+const BANK_API = {
+    KEY: process.env.SALESFORCE_TOKEN || getSecret('bank.api.key'),
+    PASSWORD: process.env.SALESFORCE_TOKEN || getSecret('bank.api.password')
+};
+
 /**
  * Material supplier email
  * Used for sending order emails when placing and order for free materials
@@ -102,6 +108,7 @@ module.exports = {
     POSTCODES_API_KEY,
     S3_KMS_KEY_ID,
     SALESFORCE_AUTH,
+    BANK_API,
     SENTRY_DSN,
     SESSION_SECRET
 };

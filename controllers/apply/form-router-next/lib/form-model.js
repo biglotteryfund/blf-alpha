@@ -201,13 +201,17 @@ class FormModel {
         return flatMap(fieldsets, 'fields');
     }
 
-    getCurrentFieldsForStep(sectionSlug, stepIndex) {
+    getStep(sectionSlug, stepIndex) {
         const sectionMatch = find(
             this.sections,
             section => section.slug === sectionSlug
         );
 
-        const step = sectionMatch.steps[stepIndex];
+        return sectionMatch.steps[stepIndex];
+    }
+
+    getCurrentFieldsForStep(sectionSlug, stepIndex) {
+        const step = this.getStep(sectionSlug, stepIndex);
         return flatMap(step.fieldsets, 'fields');
     }
 
