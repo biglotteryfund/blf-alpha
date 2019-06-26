@@ -245,7 +245,10 @@ fieldset {
 }
 
 [type='text'],
+[type='tel'],
 [type='email'],
+[type='number'],
+[type='password'],
 [type='search'] {
     -webkit-appearance: none;
     appearance: none;
