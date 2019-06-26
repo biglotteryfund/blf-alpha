@@ -1,7 +1,8 @@
 'use strict';
-const { forEach } = require('lodash');
-const config = require('config');
+const find = require('lodash/fp/find');
+const forEach = require('lodash/forEach');
 const path = require('path');
+const config = require('config');
 const express = require('express');
 const moment = require('moment');
 const i18n = require('i18n-2');
@@ -31,6 +32,7 @@ const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
 const viewFilters = require('./common/filters');
 const cspDirectives = require('./common/csp-directives');
+const contentApi = require('./common/content-api');
 
 const { defaultMaxAge } = require('./middleware/cached');
 const bodyParserMiddleware = require('./middleware/bodyParser');
@@ -39,7 +41,6 @@ const localsMiddleware = require('./middleware/locals');
 const passportMiddleware = require('./middleware/passport');
 const previewMiddleware = require('./middleware/preview');
 const sessionMiddleware = require('./middleware/session');
-const vanityMiddleware = require('./middleware/vanity');
 
 const {
     renderError,
@@ -307,13 +308,45 @@ app.get('/error-unauthorised', renderUnauthorised);
  * - Otherwise, if the URL is welsh strip that from the URL and try again
  * - If all else fails, pass through to the 404 handler.
  */
-app.route('*').get(vanityMiddleware, function(req, res, next) {
-    if (isWelsh(req.originalUrl)) {
-        res.redirect(removeWelsh(req.originalUrl));
-    } else {
-        next();
+app.route('*').get(
+    async function vanityLookup(req, res, next) {
+        const findAlias = find(
+            alias => alias.from.toLowerCase() === req.path.toLowerCase()
+        );
+        try {
+            const enAliases = await contentApi.getAliases({ locale: 'en' });
+            const enMatch = findAlias(enAliases);
+            if (enMatch) {
+                res.redirect(301, enMatch.to || '/');
+            } else {
+                try {
+                    const cyAliases = await contentApi.getAliases({
+                        locale: 'cy'
+                    });
+                    const cyMatch = find(alias => alias.from === req.path)(
+                        cyAliases
+                    );
+                    if (cyMatch) {
+                        res.redirect(301, cyMatch.to || '/');
+                    } else {
+                        next();
+                    }
+                } catch (e) {
+                    next();
+                }
+            }
+        } catch (e) {
+            next();
+        }
+    },
+    function(req, res, next) {
+        if (isWelsh(req.originalUrl)) {
+            res.redirect(removeWelsh(req.originalUrl));
+        } else {
+            next();
+        }
     }
-});
+);
 
 /**
  * 404 Handler
