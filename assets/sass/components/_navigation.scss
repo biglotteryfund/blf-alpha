@@ -235,7 +235,6 @@
     }
 }
 
-
 /* =========================================================================
    Navigation: User Nav (eg. application forms)
    ========================================================================= */
@@ -260,12 +259,20 @@
         margin-bottom: $spacingUnit / 2;
     }
 
+    .user-nav__secondary {
+        @include mq('medium', 'max') {
+            border-top: 1px solid get-color('border', 'base');
+            padding-top: $spacingUnit / 2;
+        }
+    }
+
     @include mq('medium') {
         display: flex;
 
         .user-nav__primary,
         .user-nav__secondary {
             flex: 1 1 auto;
+            align-self: center;
             margin-bottom: 0;
         }
 
@@ -278,7 +285,6 @@
     }
 
     .user-nav__text {
-        padding-top: $spacingUnit / 2;
         margin: 0;
     }
 
@@ -307,19 +313,8 @@
         display: flex;
         text-align: center;
 
-        .user-nav__pagination-arrow {
-            color: get-color('links', 'base');
-            font-size: 22px;
-            vertical-align: middle;
-        }
-
-        .user-nav__pagination-subtitle {
-            font-weight: normal;
-            font-size: 13px;
-            display: block;
-        }
-
         .user-nav__pagination-link {
+            display: flex;
             font-weight: bold;
             flex: 1 1 auto;
 
@@ -339,6 +334,18 @@
                 .user-nav__pagination-arrow {
                     margin-left: 5px;
                 }
+            }
+
+            .user-nav__pagination-arrow {
+                color: get-color('links', 'base');
+                font-size: 22px;
+                vertical-align: middle;
+            }
+
+            .user-nav__pagination-subtitle {
+                font-weight: normal;
+                font-size: 13px;
+                display: block;
             }
         }
     }
