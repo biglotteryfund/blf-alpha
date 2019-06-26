@@ -65,10 +65,11 @@
             <ol class="u-list-unstyled">
                 {% for section in application.progress.sections %}
                     <li class="section-progress-mini section-progress-mini--{{ section.status }}">
-                        <span class="section-progress-mini__title">
+                        <a class="section-progress-mini__title u-link-minimal" href="{{ formBaseUrl }}/{{ section.slug }}">
                             {{ loop.index }}: {{ section.label }}
-                        </span>
-                        <span class="section-progress-mini__marker">
+                        </a>
+
+                        <a class="section-progress-mini__marker u-link-minimal" href="{{ formBaseUrl }}/{{ section.slug }}">
                             {% if section.status === 'complete' %}
                                 {{ iconTick() }} {{ copy.statusComplete }}
                             {% elseif section.status === 'incomplete' %}
@@ -76,7 +77,7 @@
                             {% else %}
                                 {{ copy.statusNotStarted }}
                             {% endif %}
-                        </span>
+                        </a>
                     </li>
                 {% endfor %}
             </ol>
@@ -94,12 +95,6 @@
 
             {{ applicationOverview(application.applicationOverview) }}
 
-            {# @TODO: Where does view application go? Needs to be read-only #}
-            <div class="o-button-group u-margin-bottom">
-                <a class="btn btn--small btn--outline" href="#">
-                    View this application
-                </a>
-            </div>
         </div>
 
         <div class="application-card__progress">
