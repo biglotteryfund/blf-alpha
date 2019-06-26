@@ -1,12 +1,30 @@
 {% macro userNavigation(links = [], isFooter = false) %}
     <div class="user-nav{% if isFooter %} user-nav--footer{% endif %}">
+        {% if links.length > 0 %}
+            <nav class="user-nav__secondary">
+                <ul class="user-nav__links">
+                    {% for link in links %}
+                        {% set currentPath = getCurrentUrl() | stripTrailingSlashes | removeQuery %}
+                        {% set linkUrl = link.url | stripTrailingSlashes %}
+                        {% set shouldLink = linkUrl !== currentPath %}
+                        <li>
+                            {% if shouldLink %}<a href="{{ link.url }}">{% endif %}
+                            {{ link.label }}
+                            {% if shouldLink %}</a>{% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        {% endif %}
 
-        <div class="user-nav__primary">
-            {% if (not nextPage or not previousPage) and user %}
+        {% if user and (not nextPage or not previousPage) %}
+            <div class="user-nav__primary">
                 <p class="user-nav__text">
                     Logged in as <strong>{{ user.userData.username }}</strong>
                 </p>
-            {% else %}
+            </div>
+        {% else %}
+            <nav class="user-nav__primary">
                 <ul class="user-nav__pagination">
                     {% if previousPage %}
                         <li class="user-nav__pagination-link user-nav__pagination-link--prev">
@@ -31,24 +49,7 @@
                         </li>
                     {% endif %}
                 </ul>
-            {% endif %}
-        </div>
-
-        {% if links.length > 0 %}
-            <div class="user-nav__secondary">
-                <ul class="user-nav__links">
-                    {% for link in links %}
-                        {% set currentPath = getCurrentUrl() | stripTrailingSlashes | removeQuery %}
-                        {% set linkUrl = link.url | stripTrailingSlashes %}
-                        {% set shouldLink = linkUrl !== currentPath %}
-                        <li>
-                            {% if shouldLink %}<a href="{{ link.url }}">{% endif %}
-                            {{ link.label }}
-                            {% if shouldLink %}</a>{% endif %}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
+            </nav>
         {% endif %}
     </div>
 {% endmacro %}

@@ -261,8 +261,9 @@
 
     .user-nav__secondary {
         @include mq('medium', 'max') {
-            border-top: 1px solid get-color('border', 'base');
-            padding-top: $spacingUnit / 2;
+            border-bottom: 1px solid get-color('border', 'base');
+            padding-bottom: $spacingUnit / 2;
+            margin-bottom: $spacingUnit / 2;
         }
     }
 
@@ -277,10 +278,15 @@
         }
 
         .user-nav__primary {
+            order: 1;
             flex-basis: 35%;
             padding-right: $spacingUnit;
             margin-right: $spacingUnit;
             border-right: 1px solid get-color('border', 'base');
+        }
+
+        .user-nav__secondary {
+            order: 2;
         }
     }
 
