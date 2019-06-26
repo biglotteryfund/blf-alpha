@@ -241,7 +241,7 @@ export default {
                 />
                 <button
                     type="button"
-                    class="btn btn--small u-margin-left-s"
+                    class="btn btn--small"
                     @click="handleLookup"
                     :disabled="currentState === states.Loading || !formIsValid"
                     aria-live="assertive"

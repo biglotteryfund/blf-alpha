@@ -1,66 +1,55 @@
-{% macro userNavigation(links = false, isFooter = false) %}
-    <ul class="user-nav{% if isFooter %} user-nav--footer{% endif %}">
+{% macro userNavigation(links = [], isFooter = false) %}
+    <div class="user-nav{% if isFooter %} user-nav--footer{% endif %}">
+        {% if links.length > 0 %}
+            <nav class="user-nav__secondary">
+                <ul class="user-nav__links">
+                    {% for link in links %}
+                        {% set currentPath = getCurrentUrl() | stripTrailingSlashes | removeQuery %}
+                        {% set linkUrl = link.url | stripTrailingSlashes %}
+                        {% set shouldLink = linkUrl !== currentPath %}
+                        <li>
+                            {% if shouldLink %}<a href="{{ link.url }}">{% endif %}
+                            {{ link.label }}
+                            {% if shouldLink %}</a>{% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        {% endif %}
 
-        {% if (not nextPage or not previousPage) and user %}
-            <li class="user-nav__item user-nav__item--text">
-                Logged in as <strong>{{ user.userData.username }}</strong>
-            </li>
+        {% if user and (not nextPage or not previousPage) %}
+            <div class="user-nav__primary">
+                <p class="user-nav__text">
+                    Logged in as <strong>{{ user.userData.username }}</strong>
+                </p>
+            </div>
         {% else %}
-            <li class="user-nav__item user-nav__item--split">
-
-                <ul class="user-nav-link">
+            <nav class="user-nav__primary">
+                <ul class="user-nav__pagination">
                     {% if previousPage %}
-                        <li class="user-nav-link__item user-nav-link__item--prev">
-                            <span class="user-nav-link__arrow">←</span>
+                        <li class="user-nav__pagination-link user-nav__pagination-link--prev">
+                            <span class="user-nav__pagination-arrow">←</span>
                             <a href="{{ previousPage.url }}">
                                 Previous
-                                <span class="user-nav-link__subtitle">
+                                <span class="user-nav__pagination-subtitle">
                                     {{ previousPage.label }}
                                 </span>
                             </a>
                         </li>
                     {% endif %}
                     {% if nextPage %}
-                        <li class="user-nav-link__item user-nav-link__item--next">
+                        <li class="user-nav__pagination-link user-nav__pagination-link--next">
                             <a href="{{ nextPage.url }}">
                                 Next
-                                <span class="user-nav-link__subtitle">
+                                <span class="user-nav__pagination-subtitle">
                                     {{ nextPage.label }}
                                 </span>
                             </a>
-                            <span class="user-nav-link__arrow">→</span>
+                            <span class="user-nav__pagination-arrow">→</span>
                         </li>
                     {% endif %}
                 </ul>
-
-            </li>
+            </nav>
         {% endif %}
-
-        {% macro makeLinks(links) %}
-            {% for link in links %}
-                {% set currentPath = getCurrentUrl() | stripTrailingSlashes | removeQuery %}
-                {% set linkUrl = link.url | stripTrailingSlashes %}
-                {% set shouldLink = linkUrl !== currentPath %}
-                <li class="user-nav__item">
-                    {% if shouldLink %}<a href="{{ link.url }}">{% endif %}
-                        {{ link.label }}
-                    {% if shouldLink %}</a>{% endif %}
-                </li>
-            {% endfor %}
-        {% endmacro %}
-
-        {% if links %}
-            {{ makeLinks(links) }}
-        {% endif %}
-        {{ makeLinks([
-            {
-                "url": localify("/user"),
-                "label": "Account"
-            },
-            {
-                "url": localify("/user/logout"),
-                "label": "Log out"
-            }
-        ]) }}
-    </ul>
+    </div>
 {% endmacro %}

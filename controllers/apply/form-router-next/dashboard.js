@@ -7,6 +7,7 @@ const {
     PendingApplication,
     SubmittedApplication
 } = require('../../../db/models');
+const { localify } = require('../../../common/urls');
 
 module.exports = function(formId, formBuilder) {
     const router = express.Router();
@@ -50,7 +51,15 @@ module.exports = function(formId, formBuilder) {
             res.locals.userNavigationLinks = [
                 {
                     url: req.baseUrl,
-                    label: 'Your Applications'
+                    label: 'Applications'
+                },
+                {
+                    url: localify(req.i18n.getLocale())('/user'),
+                    label: 'Account'
+                },
+                {
+                    url: localify(req.i18n.getLocale())('/user/logout'),
+                    label: 'Log out'
                 }
             ];
 

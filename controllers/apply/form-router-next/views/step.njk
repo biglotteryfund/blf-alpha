@@ -9,6 +9,15 @@
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
+            {{ userNavigation(userNavigationLinks) }}
+
+            {% if step.message %}
+                <div class="message message--info" role="alert">
+                    <p><strong>{{ step.message.title | safe }}</strong></p>
+                    <p>{{ step.message.body | safe }}</p>
+                </div>
+            {% endif %}
+
             <form action=""
                   method="post"
                   class="js-form-warn-unsaved"
@@ -16,18 +25,6 @@
                   {% if stepIsMultipart %}enctype="multipart/form-data"{% endif %}
             >
                 <div class="form-header">
-
-                    {{ userNavigation(links = userNavigationLinks) }}
-
-                    {% if step.message %}
-                        <div class="message message--info" role="alert">
-                            <p><strong>{{ step.message.title | safe }}</strong></p>
-                            <p>{{ step.message.body | safe }}</p>
-                        </div>
-
-
-                    {% endif %}
-
                     <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
                     <p class="form-header__suffix">
                         <strong>{{ step.title }}</strong> ({{ __('global.misc.stepProgress', stepNumber, totalSteps) }})
@@ -70,7 +67,7 @@
                 </div>
 
             </form>
-            {{ userNavigation(links = userNavigationLinks, isFooter = true) }}
+            {{ userNavigation(userNavigationLinks, isFooter = true) }}
         </div>
     </main>
 {% endblock %}

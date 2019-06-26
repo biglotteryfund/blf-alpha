@@ -235,16 +235,15 @@
     }
 }
 
-
 /* =========================================================================
    Navigation: User Nav (eg. application forms)
    ========================================================================= */
 
 .user-nav {
-    margin-bottom: $spacingUnit / 2;
+    font-size: 15px;
+    margin-bottom: $spacingUnit;
     padding-bottom: $spacingUnit / 2;
     border-bottom: 1px solid get-color('border', 'base');
-    display: flex;
 
     // Swap the borders/padding for use at bottom of page
     &.user-nav--footer {
@@ -256,76 +255,104 @@
         border-top: 1px solid get-color('border', 'base');
     }
 
-    .user-nav__item {
-        flex-grow: 1;
-        font-size: 15px;
-        font-weight: bold;
-        border-left: 1px solid get-color('border', 'base');
-        padding: $spacingUnit / 3 $spacingUnit / 2;
-        text-align: center;
-        color: get-color('brand', 'primary');
+    .user-nav__primary {
+        margin-bottom: $spacingUnit / 2;
+    }
 
-        &:first-child {
-            padding-left: 0;
-            border-left: none;
-        }
-
-        &.user-nav__item--text {
-            padding-bottom: 0;
-            text-align: left;
-            align-self: center;
-            color: get-color('text', 'base');
-            font-weight: normal;
+    .user-nav__secondary {
+        @include mq('medium', 'max') {
+            border-bottom: 1px solid get-color('border', 'base');
+            padding-bottom: $spacingUnit / 2;
+            margin-bottom: $spacingUnit / 2;
         }
     }
 
-    // Used for prev/next links within an item
-    .user-nav__item--split {
-        flex-basis: 40%;
-        padding-top: 0;
+    @include mq('medium') {
+        display: flex;
 
-        // A container for split links
-        .user-nav-link {
-            width: 100%;
-            display: flex;
+        .user-nav__primary,
+        .user-nav__secondary {
+            flex: 1 1 auto;
+            align-self: center;
+            margin-bottom: 0;
         }
 
-        // A split link item
-        .user-nav-link__item {
-            display: flex;
+        .user-nav__primary {
+            order: 1;
+            flex-basis: 35%;
+            padding-right: $spacingUnit;
+            margin-right: $spacingUnit;
+            border-right: 1px solid get-color('border', 'base');
+        }
 
-            .user-nav-link__arrow {
+        .user-nav__secondary {
+            order: 2;
+        }
+    }
+
+    .user-nav__text {
+        margin: 0;
+    }
+
+    .user-nav__links {
+        display: flex;
+        flex-wrap: wrap;
+
+        li {
+            flex-grow: 1;
+            font-size: 15px;
+            font-weight: bold;
+            border-left: 1px solid get-color('border', 'base');
+            padding: $spacingUnit / 3 $spacingUnit / 2;
+            text-align: center;
+            color: get-color('brand', 'primary');
+
+            &:first-child {
+                padding-left: 0;
+                border-left: none;
+            }
+        }
+    }
+
+    .user-nav__pagination {
+        width: 100%;
+        display: flex;
+        text-align: center;
+
+        .user-nav__pagination-link {
+            display: flex;
+            font-weight: bold;
+            flex: 1 1 auto;
+
+            &.user-nav__pagination-link--prev {
+                text-align: left;
+                padding-left: 0;
+
+                .user-nav__pagination-arrow {
+                    margin-right: 5px;
+                }
+            }
+
+            &.user-nav__pagination-link--next {
+                text-align: right;
+                justify-content: flex-end;
+
+                .user-nav__pagination-arrow {
+                    margin-left: 5px;
+                }
+            }
+
+            .user-nav__pagination-arrow {
                 color: get-color('links', 'base');
                 font-size: 22px;
                 vertical-align: middle;
             }
 
-            .user-nav-link__subtitle {
+            .user-nav__pagination-subtitle {
                 font-weight: normal;
                 font-size: 13px;
                 display: block;
             }
-
-            &.user-nav-link__item--prev {
-                text-align: left;
-                padding-left: 0;
-                flex: 1;
-
-                .user-nav-link__arrow {
-                    margin-right: 5px;
-                }
-            }
-
-            &.user-nav-link__item--next {
-                text-align: right;
-                flex: 1;
-                justify-content: flex-end;
-
-                .user-nav-link__arrow {
-                    margin-left: 5px;
-                }
-            }
-
         }
     }
 }

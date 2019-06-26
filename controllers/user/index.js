@@ -4,7 +4,7 @@ const uuidv4 = require('uuid/v4');
 const features = require('config').get('features');
 
 const { Users } = require('../../db/models');
-const { redirectForLocale } = require('../../common/urls');
+const { localify, redirectForLocale } = require('../../common/urls');
 const { noCache } = require('../../middleware/cached');
 const { noindex } = require('../../middleware/robots');
 const { requireNotStaffAuth } = require('../../middleware/authed');
@@ -51,6 +51,21 @@ router.use(requireNotStaffAuth, function(req, res, next) {
 
     if (req.user) {
         res.locals.user = req.user;
+
+        res.locals.userNavigationLinks = [
+            {
+                url: localify(req.i18n.getLocale())('/apply/awards-for-all'),
+                label: 'Applications'
+            },
+            {
+                url: localify(req.i18n.getLocale())('/user'),
+                label: 'Account'
+            },
+            {
+                url: localify(req.i18n.getLocale())('/user/logout'),
+                label: 'Log out'
+            }
+        ];
     }
 
     next();

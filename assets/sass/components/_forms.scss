@@ -379,9 +379,13 @@ $inputOutline: 3px solid get-color('border', 'outline');
     }
 
     &.ff-address--nested {
-        margin-left: $spacingUnit;
-        padding-left: $spacingUnit;
+        padding-left: $spacingUnit / 2;
         border-left: 5px solid get-color('background', 'light-neutral');
+
+        @include mq('medium') {
+            margin-left: $spacingUnit;
+            padding-left: $spacingUnit;
+        }
     }
 }
 
@@ -396,12 +400,27 @@ $inputOutline: 3px solid get-color('border', 'outline');
     max-width: 30em;
 
     .address-lookup__field {
-        display: flex;
         margin-bottom: 5px;
 
-        input[type='text'] {
-            flex: 0 0 auto;
-            margin-right: 5px;
+        @include mq('medium-minor', 'max') {
+            input[type='text'] {
+                width: 100%;
+                margin-bottom: $spacingUnit / 2;
+            }
+
+            button {
+                display: block;
+                width: 100%;
+            }
+        }
+
+        @include mq('medium-minor') {
+            display: flex;
+
+            input[type='text'] {
+                flex: 0 0 auto;
+                margin-right: 5px;
+            }
         }
     }
 
@@ -560,6 +579,10 @@ $inputOutline: 3px solid get-color('border', 'outline');
     font-size: 18px;
     margin-bottom: $spacingUnit / 2;
 
+    @include mq('medium') {
+        display: flex;
+    }
+
     .word-count__counter,
     .word-count__message {
         padding: 10px 12px;
@@ -570,6 +593,17 @@ $inputOutline: 3px solid get-color('border', 'outline');
         min-width: 9.5em;
         background-color: darken(get-color('background', 'light-neutral'), 3%);
         font-weight: font-weight('body', 'bold');
+
+        @include mq('medium', 'max') {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    .word-count__message {
+        @include mq('medium') {
+            flex: 1 1 auto;
+        }
     }
 
     &.word-count--over {
