@@ -560,6 +560,10 @@ $inputOutline: 3px solid get-color('border', 'outline');
     font-size: 18px;
     margin-bottom: $spacingUnit / 2;
 
+    @include mq('medium') {
+        display: flex;
+    }
+
     .word-count__counter,
     .word-count__message {
         padding: 10px 12px;
@@ -570,6 +574,17 @@ $inputOutline: 3px solid get-color('border', 'outline');
         min-width: 9.5em;
         background-color: darken(get-color('background', 'light-neutral'), 3%);
         font-weight: font-weight('body', 'bold');
+
+        @include mq('medium', 'max') {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    .word-count__message {
+        @include mq('medium') {
+            flex: 1 1 auto;
+        }
     }
 
     &.word-count--over {
