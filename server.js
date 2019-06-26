@@ -34,7 +34,6 @@ const cspDirectives = require('./common/csp-directives');
 
 const { defaultMaxAge } = require('./middleware/cached');
 const bodyParserMiddleware = require('./middleware/bodyParser');
-const domainRedirectMiddleware = require('./middleware/domain-redirect');
 const i18nMiddleware = require('./middleware/i18n');
 const localsMiddleware = require('./middleware/locals');
 const passportMiddleware = require('./middleware/passport');
@@ -85,7 +84,7 @@ i18n.expressBind(app, {
  * Old domain redirect
  * Redirect requests from www.biglotteryfund.org.uk
  */
-app.use(domainRedirectMiddleware);
+app.use(require('./controllers/domain-redirect'));
 
 /**
  * Status endpoint
