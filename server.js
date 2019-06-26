@@ -38,7 +38,6 @@ const domainRedirectMiddleware = require('./middleware/domain-redirect');
 const i18nMiddleware = require('./middleware/i18n');
 const localsMiddleware = require('./middleware/locals');
 const passportMiddleware = require('./middleware/passport');
-const portalMiddleware = require('./middleware/portal');
 const previewMiddleware = require('./middleware/preview');
 const sessionMiddleware = require('./middleware/session');
 const vanityMiddleware = require('./middleware/vanity');
@@ -224,7 +223,6 @@ app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
 app.use(localsMiddleware);
 app.use(previewMiddleware);
-app.use(portalMiddleware);
 
 /**
  * Mount utility routes
