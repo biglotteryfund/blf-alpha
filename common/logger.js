@@ -11,8 +11,8 @@ if (!skipLogs) {
     winston.add(
         new WinstonCloudWatch({
             awsRegion: 'eu-west-2',
-            logGroupName: 'WWW_APP_LOG',
-            logStreamName: appData.environment,
+            logGroupName: `/tnlcf/${appData.environment}/app`,
+            logStreamName: appData.buildNumber,
             jsonMessage: true,
             retentionInDays: 30
         })
