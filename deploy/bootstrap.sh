@@ -39,6 +39,11 @@ server_config=/var/www/biglotteryfund/deploy/server.conf
 APP_ENV_PLACEHOLDER="APP_ENV"
 sed -i "s|$APP_ENV_PLACEHOLDER|$APP_ENV|g" $server_config
 
+# Fix phantomjs install for Ubuntu
+cd /var/www/biglotteryfund/ && npm rebuild phantomjs-prebuilt
+# Allow write access to generated PDF folder
+chmod 777 /var/www/biglotteryfund/public/documents/application-questions/
+
 # Configure/start Cloudwatch agent with config file
 cloudwatch_config_src=/var/www/biglotteryfund/deploy/cloudwatch-agent.json
 sed -i "s|$APP_ENV_PLACEHOLDER|$APP_ENV|g" $cloudwatch_config_src
