@@ -2,7 +2,6 @@
 const express = require('express');
 const path = require('path');
 const Sentry = require('@sentry/node');
-const concat = require('lodash/concat');
 const get = require('lodash/get');
 const pick = require('lodash/pick');
 const flatMap = require('lodash/flatMap');
@@ -19,6 +18,7 @@ const {
 } = require('../../../db/models');
 
 const appData = require('../../../common/appData');
+const { localify } = require('../../../common/urls');
 const { csrfProtection } = require('../../../middleware/cached');
 const { requireActiveUser } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
@@ -68,15 +68,24 @@ function initFormRouter({
         res.locals.isBilingual = form.isBilingual;
         res.locals.enableSiteSurvey = false;
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
+
         // @TODO i18n
         res.locals.userNavigationLinks = [
             {
-                url: req.baseUrl + '/summary',
+                url: `${req.baseUrl}/summary`,
                 label: 'Summary'
             },
             {
                 url: req.baseUrl,
-                label: 'Your Applications'
+                label: 'Applications'
+            },
+            {
+                url: localify(req.i18n.getLocale())('/user'),
+                label: 'Account'
+            },
+            {
+                url: localify(req.i18n.getLocale())('/user/logout'),
+                label: 'Log out'
             }
         ];
 

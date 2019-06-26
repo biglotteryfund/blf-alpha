@@ -1,4 +1,4 @@
-{% macro userNavigation(links = false, isFooter = false) %}
+{% macro userNavigation(links = [], isFooter = false) %}
     <div class="user-nav{% if isFooter %} user-nav--footer{% endif %}">
 
         <div class="user-nav__primary">
@@ -34,9 +34,9 @@
             {% endif %}
         </div>
 
-        <div class="user-nav__secondary">
-            <ul class="user-nav__links">
-                {% macro makeLinks(links) %}
+        {% if links.length > 0 %}
+            <div class="user-nav__secondary">
+                <ul class="user-nav__links">
                     {% for link in links %}
                         {% set currentPath = getCurrentUrl() | stripTrailingSlashes | removeQuery %}
                         {% set linkUrl = link.url | stripTrailingSlashes %}
@@ -47,20 +47,8 @@
                             {% if shouldLink %}</a>{% endif %}
                         </li>
                     {% endfor %}
-                {% endmacro %}
-
-                {% if links %}
-                    {{ makeLinks(links) }}
-                {% endif %}
-
-                {{ makeLinks([{
-                    "url": localify("/user"),
-                    "label": "Account"
-                }, {
-                    "url": localify("/user/logout"),
-                    "label": "Log out"
-                }]) }}
-            </ul>
-        </div>
+                </ul>
+            </div>
+        {% endif %}
     </div>
 {% endmacro %}
