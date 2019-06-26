@@ -11,6 +11,7 @@ const Staff = require('./staff');
 const Feedback = require('./feedback');
 const SurveyAnswer = require('./survey');
 const { PendingApplication, SubmittedApplication } = require('./applications');
+const { Order, OrderItem } = require('./orders');
 
 debug(`Using ${databaseConfig.dialect} database`);
 
@@ -33,8 +34,8 @@ const db = {
     Staff: Staff.init(sequelize, Sequelize),
     Feedback: Feedback.init(sequelize, Sequelize),
     SurveyAnswer: SurveyAnswer.init(sequelize, Sequelize),
-    Order: sequelize.import('./order'),
-    OrderItem: sequelize.import('./order-item')
+    Order: Order.init(sequelize, Sequelize),
+    OrderItem: OrderItem.init(sequelize, Sequelize)
 };
 
 if (appData.isNotProduction) {

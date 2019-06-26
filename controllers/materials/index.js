@@ -19,7 +19,7 @@ const {
     injectMerchandise
 } = require('../../middleware/inject-content');
 const cached = require('../../middleware/cached');
-const ordersService = require('../../services/orders');
+const { Order } = require('../../db/models');
 
 const {
     materialFields,
@@ -129,7 +129,7 @@ function storeOrderSummary({ orderItems, orderDetails }) {
         return field ? field.value : null;
     };
 
-    return ordersService.storeOrder({
+    return Order.storeOrder({
         grantAmount: getFieldValue('yourGrantAmount'),
         orderReason: getFieldValue('yourReason'),
         postcodeArea: postcodeArea(getFieldValue('yourPostcode')),
