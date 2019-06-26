@@ -5,8 +5,6 @@ const globby = require('globby');
 const express = require('express');
 const { capitalize, concat } = require('lodash');
 
-const { noindex } = require('../../middleware/robots');
-
 const router = express.Router();
 
 function buildBreadcrumbs(req, trail = []) {
@@ -20,7 +18,10 @@ function buildBreadcrumbs(req, trail = []) {
     return concat(core, trail);
 }
 
-router.use(noindex);
+router.use(function(req, res, next) {
+    res.setHeader('X-Robots-Tag', 'noindex');
+    next();
+});
 
 router.get('/', (req, res) => {
     const breadcrumbs = buildBreadcrumbs(req);
@@ -45,7 +46,10 @@ router.get('/components', async (req, res, next) => {
     const { component } = req.query;
     if (component) {
         // Check if the file is readable.
-        const componentPath = path.resolve(__dirname, `../../views/components/${component}/examples.njk`);
+        const componentPath = path.resolve(
+            __dirname,
+            `../../views/components/${component}/examples.njk`
+        );
         fs.access(componentPath, fs.constants.R_OK, err => {
             if (err) {
                 next();
@@ -61,16 +65,22 @@ router.get('/components', async (req, res, next) => {
                     }
                 ]);
 
-                res.render(path.resolve(__dirname, './views/component-detail'), {
-                    title,
-                    breadcrumbs,
-                    slug: component
-                });
+                res.render(
+                    path.resolve(__dirname, './views/component-detail'),
+                    {
+                        title,
+                        breadcrumbs,
+                        slug: component
+                    }
+                );
             }
         });
     } else {
         try {
-            const matches = await globby(path.resolve(__dirname, '../../views/components') + '/**/examples.njk');
+            const matches = await globby(
+                path.resolve(__dirname, '../../views/components') +
+                    '/**/examples.njk'
+            );
             if (matches.length > 0) {
                 const title = 'Components';
                 const breadcrumbs = buildBreadcrumbs(req, [
@@ -78,7 +88,9 @@ router.get('/components', async (req, res, next) => {
                         label: title
                     }
                 ]);
-                const componentSlugs = matches.map(match => path.basename(path.dirname(match))).sort();
+                const componentSlugs = matches
+                    .map(match => path.basename(path.dirname(match)))
+                    .sort();
                 res.render(path.resolve(__dirname, './views/components'), {
                     title,
                     breadcrumbs,

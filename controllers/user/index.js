@@ -6,12 +6,14 @@ const features = require('config').get('features');
 const { Users } = require('../../db/models');
 const { localify, redirectForLocale } = require('../../common/urls');
 const { noCache } = require('../../middleware/cached');
-const { noindex } = require('../../middleware/robots');
 const { requireNotStaffAuth } = require('../../middleware/authed');
 
 const router = express.Router();
 
-router.use(noCache, noindex);
+router.use(noCache, function(req, res, next) {
+    res.setHeader('X-Robots-Tag', 'noindex');
+    next();
+});
 
 /**
  * Staff auth
