@@ -205,7 +205,7 @@ $statuses: (
 
         @include mq('medium') {
             display: flex;
-            justify-content: start;
+            justify-content: flex-start;
 
             .step-summary__data__question,
             .step-summary__data__answer,
