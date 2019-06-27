@@ -1700,7 +1700,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Choose an option', cy: '' })
+                    message: localise({
+                        en: 'Choose from one of the options provided',
+                        cy: ''
+                    })
                 }
             ]
         },
@@ -1754,7 +1757,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Choose an option', cy: '' })
+                    message: localise({
+                        en: 'Choose from one of the options provided',
+                        cy: ''
+                    })
                 }
             ]
         },
@@ -2235,8 +2241,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en:
-                            'Enter the name of your organisation as it appears on your bank statement',
+                        en: `Enter the name of your organisation as it appears on your bank statement`,
                         cy: ''
                     })
                 }
@@ -2456,8 +2461,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en:
-                            'You must provide the name of the person completing this form',
+                        en: `You must provide the name of the person completing this form`,
                         cy: ''
                     })
                 }
@@ -2473,8 +2477,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en:
-                            'You must provide the position of the person completing this form',
+                        en: `You must provide the position of the person completing this form`,
                         cy: ''
                     })
                 }
