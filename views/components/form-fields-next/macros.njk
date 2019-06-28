@@ -305,7 +305,7 @@
 
 {% macro inputRadio(field) %}
     <fieldset class="ff-choice">
-        <legend class="ff-label" for="field-{{ field.name }}">
+        <legend class="ff-label">
             {{ labelFor(field) }}
         </legend>
         {{ explanationFor(field) }}
@@ -420,7 +420,7 @@
 {% macro inputAddressHistory(field) %}
     <div class="js-conditional-radios">
         <fieldset class="ff-choice ff-choice--inline">
-            <legend class="ff-label" for="field-{{ field.name }}">
+            <legend class="ff-label">
                 {{ labelFor(field) }}
             </legend>
             {{ explanationFor(field) }}
