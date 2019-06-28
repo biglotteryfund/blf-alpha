@@ -16,11 +16,15 @@ const fieldsFor = require('./fields');
 const termsCopy = require('./terms');
 
 const checkBankAccountDetails = require('../../../common/bank-api');
-const logger = require('../../../common/logger');
+const commonLogger = require('../../../common/logger');
 
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
     const currentOrganisationType = get('organisationType')(data);
+
+    const logger = commonLogger.child({
+        service: 'form-awards-for-all'
+    });
 
     const fields = fieldsFor({
         locale: locale,
