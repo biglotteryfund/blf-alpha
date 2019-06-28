@@ -119,8 +119,8 @@ function mockFullForm({
         seniorContactPhone: '020 7211 1888',
         seniorContactCommunicationNeeds: '',
         bankAccountName: faker.company.companyName(),
-        bankSortCode: '108800',
-        bankAccountNumber: '00012345',
+        bankSortCode: '308087',
+        bankAccountNumber: '25337846',
         buildingSocietyNumber: undefined,
         bankStatement: {
             filename: 'example.pdf',

@@ -720,9 +720,9 @@ describe('awards for all', function() {
                 }
             ).type(faker.company.companyName());
             cy.getByLabelText('Account number', { exact: false }).type(
-                '00012345'
+                '25337846'
             );
-            cy.getByLabelText('Sort code', { exact: false }).type('108800');
+            cy.getByLabelText('Sort code', { exact: false }).type('308087');
             submitStep();
         }
 
