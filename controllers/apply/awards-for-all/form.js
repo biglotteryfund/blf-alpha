@@ -634,6 +634,11 @@ module.exports = function({ locale, data = {} }) {
                     const accountNumber = get('bankAccountNumber')(data);
 
                     return new Promise(async (resolve, reject) => {
+                        // Bail early if we're testing and won't make this lookup
+                        if (process.env.TEST_SERVER === true) {
+                            return resolve();
+                        }
+
                         try {
                             const bankStatus = await checkBankAccountDetails(
                                 sortCode,
