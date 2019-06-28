@@ -3,7 +3,9 @@ const express = require('express');
 
 const router = express.Router();
 
-const logger = require('../../common/logger');
+const logger = require('../../common/logger').child({
+    service: 'user'
+});
 
 router.get('/', async (req, res) => {
     logger.info('User logout');
