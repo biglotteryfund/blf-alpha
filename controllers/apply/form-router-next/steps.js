@@ -213,8 +213,10 @@ module.exports = function(formId, formBuilder) {
 
                     renderStep(req, res, validationResult.value, errorsForStep);
                 } else {
-                    // Run any pre-flight checks for this step
-                    // (eg. custom validations which don't run in Joi)
+                    /**
+                     * Run any pre-flight checks for this steps
+                     * eg. custom validations which don't run in Joi
+                     */
                     if (step.preflightCheck) {
                         try {
                             await step.preflightCheck();
@@ -233,39 +235,49 @@ module.exports = function(formId, formBuilder) {
                         }
                     }
 
-                    try {
-                        const uploadPromises = filesToUpload.map(file =>
-                            s3Uploads.uploadFile({
-                                formId: formId,
-                                applicationId: currentlyEditingId,
-                                fileMetadata: file
-                            })
-                        );
+                    const { nextPage } = form.pagination({
+                        baseUrl: res.locals.formBaseUrl,
+                        sectionSlug: req.params.section,
+                        currentStepIndex: stepIndex
+                    });
 
-                        await Promise.all(uploadPromises);
+                    /**
+                     * Handle file uploads if we have any for the step
+                     */
+                    if (filesToUpload.length > 0) {
+                        try {
+                            await Promise.all(
+                                filesToUpload.map(file =>
+                                    s3Uploads.uploadFile({
+                                        formId: formId,
+                                        applicationId: currentlyEditingId,
+                                        fileMetadata: file
+                                    })
+                                )
+                            );
+                            res.redirect(nextPage.url);
+                        } catch (rejection) {
+                            Sentry.captureException(rejection.error);
 
-                        const { nextPage } = form.pagination({
-                            baseUrl: res.locals.formBaseUrl,
-                            sectionSlug: req.params.section,
-                            currentStepIndex: stepIndex
-                        });
+                            const renderStep = renderStepFor(
+                                req.params.section,
+                                req.params.step
+                            );
+
+                            const uploadError = {
+                                msg: copy.common.errorUploading,
+                                param: rejection.fieldName
+                            };
+
+                            return renderStep(
+                                req,
+                                res,
+                                validationResult.value,
+                                [uploadError]
+                            );
+                        }
+                    } else {
                         res.redirect(nextPage.url);
-                    } catch (rejection) {
-                        Sentry.captureException(rejection.error);
-
-                        const uploadError = {
-                            msg: copy.common.errorUploading,
-                            param: rejection.fieldName
-                        };
-
-                        const renderStep = renderStepFor(
-                            req.params.section,
-                            req.params.step
-                        );
-
-                        return renderStep(req, res, validationResult.value, [
-                            uploadError
-                        ]);
                     }
                 }
             } catch (storageError) {
