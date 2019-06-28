@@ -2,7 +2,7 @@
 const request = require('request-promise-native');
 const { BANK_API } = require('../common/secrets');
 
-const checkBankAccountDetails = (sortCode, accountNumber) => {
+module.exports = function checkBankAccountDetails(sortCode, accountNumber) {
     return request
         .get({
             uri: 'https://www.bankaccountchecker.com/listener.php',
@@ -41,8 +41,4 @@ const checkBankAccountDetails = (sortCode, accountNumber) => {
                 supportsBacsPayment: supportsBacsPayment
             };
         });
-};
-
-module.exports = {
-    checkBankAccountDetails
 };

@@ -6,6 +6,7 @@ const getOr = require('lodash/fp/getOr');
 const has = require('lodash/fp/has');
 const includes = require('lodash/includes');
 const sumBy = require('lodash/sumBy');
+const Sentry = require('@sentry/node');
 
 const { FormModel } = require('../form-router-next/lib/form-model');
 const { fromDateParts } = require('../form-router-next/lib/date-parts');
@@ -14,7 +15,7 @@ const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
 const fieldsFor = require('./fields');
 const termsCopy = require('./terms');
 
-const { checkBankAccountDetails } = require('../../../common/bank-api');
+const checkBankAccountDetails = require('../../../common/bank-api');
 const logger = require('../../../common/logger');
 
 module.exports = function({ locale, data = {} }) {
@@ -624,12 +625,12 @@ module.exports = function({ locale, data = {} }) {
                         ]
                     }
                 ],
-                preflightCheck: function() {
+                preflightCheck: async function() {
                     const sortCode = get('bankSortCode')(data);
                     const accountNumber = get('bankAccountNumber')(data);
 
-                    return new Promise((resolve, reject) => {
-                        checkBankAccountDetails(sortCode, accountNumber)
+                    return new Promise(async (resolve, reject) => {
+                        await checkBankAccountDetails(sortCode, accountNumber)
                             .then(status => {
                                 if (status.code === 'UNKNOWN') {
                                     // If this API does anything weird, assume all is well
@@ -681,11 +682,10 @@ module.exports = function({ locale, data = {} }) {
                                 return resolve();
                             })
                             .catch(err => {
-                                logger.info(
-                                    'User bank details check: API call failed',
-                                    {
-                                        error: err
-                                    }
+                                Sentry.captureException(
+                                    new Error(
+                                        `User bank details check: API call failed`
+                                    )
                                 );
                                 // We treat this as a success in order to keep the form usable
                                 // if the third party API is down/broken
