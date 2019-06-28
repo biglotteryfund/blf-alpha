@@ -31,9 +31,7 @@ class Salesforce {
     }
     async contentVersion({ recordId, attachmentName, versionData }) {
         return request.post({
-            url: `${this.apiUrl}/services/data/${
-                this.apiVersion
-            }/sobjects/ContentVersion`,
+            url: `${this.apiUrl}/services/data/${this.apiVersion}/sobjects/ContentVersion`,
             headers: this.headers,
             formData: {
                 entity_content: {
@@ -53,22 +51,31 @@ class Salesforce {
 }
 
 async function authorise() {
-    const AUTH_URL = `https://${SALESFORCE_AUTH.API_URL}/services/oauth2/token`;
+    const AUTH_URL = `https://${SALESFORCE_AUTH.apiUrl}/services/oauth2/token`;
     const resultJson = await request.post({
         url: AUTH_URL,
         json: true,
         form: {
             grant_type: 'password',
-            client_id: SALESFORCE_AUTH.CONSUMER_KEY,
-            client_secret: SALESFORCE_AUTH.CONSUMER_SECRET,
-            username: SALESFORCE_AUTH.USERNAME,
-            password: `${SALESFORCE_AUTH.PASSWORD}${SALESFORCE_AUTH.TOKEN}`
+            client_id: SALESFORCE_AUTH.consumerKey,
+            client_secret: SALESFORCE_AUTH.consumerSecret,
+            username: SALESFORCE_AUTH.username,
+            password: `${SALESFORCE_AUTH.password}${SALESFORCE_AUTH.token}`
         }
     });
 
     return new Salesforce(resultJson.instance_url, resultJson.access_token);
 }
 
+function checkStatus() {
+    return request({
+        url: `https://api.status.salesforce.com/v1/instances/${SALESFORCE_AUTH.instanceId}/status`,
+        json: true,
+        timeout: 3000
+    });
+}
+
 module.exports = {
-    authorise
+    authorise,
+    checkStatus
 };
