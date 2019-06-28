@@ -17,6 +17,7 @@ const {
     SubmittedApplication
 } = require('../../../db/models');
 
+const commonLogger = require('../../../common/logger');
 const appData = require('../../../common/appData');
 const { localify } = require('../../../common/urls');
 const { csrfProtection } = require('../../../middleware/cached');
@@ -262,6 +263,10 @@ function initFormRouter({
     router.post('/submission', async (req, res, next) => {
         const { currentApplication, currentApplicationData } = res.locals;
 
+        const logger = commonLogger.child({
+            service: 'salesforce'
+        });
+
         function canSubmit() {
             return isEmpty(currentApplication) === false;
         }
@@ -285,6 +290,8 @@ function initFormRouter({
             const fields = flatMap(fieldsets, 'fields');
 
             try {
+                logger.info('Submission started');
+
                 /**
                  * Increment submission attempts
                  * Allows us to report on failed submission attempts.
@@ -317,6 +324,8 @@ function initFormRouter({
                         salesforceFormData
                     );
 
+                    logger.info('FormData record created');
+
                     /**
                      * Upload each file in the submission to salesforce
                      */
@@ -341,6 +350,7 @@ function initFormRouter({
                         });
 
                     await Promise.all(contentVersionPromises);
+                    logger.info('File uploads attached to FormData record');
                 } else {
                     debug(`skipped salesforce submission for ${formId}`);
                 }
@@ -379,6 +389,7 @@ function initFormRouter({
                         data: currentApplicationData
                     });
 
+                    logger.info('Submission successful');
                     res.render(
                         path.resolve(__dirname, './views/confirmation'),
                         {
@@ -389,8 +400,25 @@ function initFormRouter({
                     );
                 });
             } catch (error) {
-                // @TODO: Redirect to custom /error rather than passing to default handler?
-                next(error);
+                logger.error('Submission failed');
+
+                /**
+                 * Salesforce submission failed,
+                 * Check the instance status and log if not OK,
+                 * allows us to monitor how many applications get submitted during
+                 * maintenance windows to determine if we need some visible messaging.
+                 */
+                try {
+                    const response = await salesforceService.checkStatus();
+
+                    if (response.status !== 'OK') {
+                        logger.info(`Salesforce status ${response.status}`);
+                    }
+
+                    next(error);
+                } catch (statusError) {
+                    next(error);
+                }
             }
         } else {
             res.redirect(req.baseUrl);

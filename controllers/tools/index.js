@@ -4,11 +4,11 @@ const express = require('express');
 
 const { requireStaffAuth } = require('../../middleware/authed');
 const { noCache } = require('../../middleware/cached');
-const { noindex } = require('../../middleware/robots');
 
 const router = express.Router();
 
-router.use(noCache, noindex, requireStaffAuth, function(req, res, next) {
+router.use(noCache, requireStaffAuth, function(req, res, next) {
+    res.setHeader('X-Robots-Tag', 'noindex');
     res.locals.isBilingual = false;
     res.locals.enableSiteSurvey = false;
     res.locals.bodyClass = 'has-static-header'; // No hero images on tools pages

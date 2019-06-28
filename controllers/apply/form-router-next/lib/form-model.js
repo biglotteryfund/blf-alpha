@@ -4,7 +4,6 @@ const find = require('lodash/find');
 const findIndex = require('lodash/findIndex');
 const findLastIndex = require('lodash/findLastIndex');
 const flatMap = require('lodash/flatMap');
-const get = require('lodash/get');
 const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
 const reduce = require('lodash/reduce');

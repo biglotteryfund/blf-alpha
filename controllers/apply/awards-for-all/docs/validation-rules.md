@@ -12,18 +12,22 @@ This file documents validation rules, conditions, and error message text for all
 
 ### When would you like to start and end your project?
 
-| Rule                              | Message                                                                          |
-| --------------------------------- | -------------------------------------------------------------------------------- |
-| Required field                    | Enter a date                                                                     |
-| Must be a valid date              | Enter a real date                                                                |
-| At least 12 weeks into the future | Date you start the project must be after [example date 12 weeks into the future] |
+| Rule                   | Message                                                          |
+| ---------------------- | ---------------------------------------------------------------- |
+| Required field         | Enter a date                                                     |
+| Both invalid           | Enter a valid project start and end date                         |
+| Start date invalid     | Enter a valid project start date                                 |
+| End date invalid       | Enter a valid project end date                                   |
+| Date too soon          | Date you start or end the project must be after [example date]   |
+| Ends before start date | Project end date must be after start date                        |
+| Outside limit          | Project end date must be within [max duration] of the start date |
 
 ## Project Country
 
 ### What country will your project be based in?
 
-| Rule           | Message          |
-| -------------- | ---------------- |
+| Rule           | Message                |
+| -------------- | ---------------------- |
 | Required field | Choose a valid country |
 
 ## Project Location
@@ -44,57 +48,66 @@ This file documents validation rules, conditions, and error message text for all
 
 | Rule           | Message               |
 | -------------- | --------------------- |
-| Required field | Enter a postcode      |
 | Valid postcode | Enter a real postcode |
 
 ## Your idea
 
 ### What would you like to do?
 
-| Rule           | Message                               |
-| -------------- | ------------------------------------- |
-| Required field | Tell us about your project            |
-| Min words: 50  | Answer must be at least 50 words      |
-| Max words: 300 | Answer must be no more than 300 words |
+| Rule           | Message                                 |
+| -------------- | --------------------------------------- |
+| Required field | Tell us about your project              |
+| Min words      | Answer must be at least [min] words     |
+| Max words      | Answer must be no more than [max] words |
 
 ### How does your project meet at least one of our funding priorities?
 
-| Rule           | Message                               |
-| -------------- | ------------------------------------- |
-| Required field | Tell us about your project            |
-| Min words: 50  | Answer must be at least 50 words      |
-| Max words: 150 | Answer must be no more than 150 words |
+| Rule           | Message                                                              |
+| -------------- | -------------------------------------------------------------------- |
+| Required field | Tell us how your project meet at least one of our funding priorities |
+| Min words      | Answer must be at least [min] words                                  |
+| Max words      | Answer must be no more than [max] words                              |
 
 ### How does your project involve your community?
 
-| Rule           | Message                               |
-| -------------- | ------------------------------------- |
-| Required field | Tell us about your project            |
-| Min words: 50  | Answer must be at least 50 words      |
-| Max words: 200 | Answer must be no more than 200 words |
+| Rule           | Message                                          |
+| -------------- | ------------------------------------------------ |
+| Required field | Tell us how your project involves your community |
+| Min words      | Answer must be at least [min] words              |
+| Max words      | Answer must be no more than [max] words          |
 
 ### Word count messages
 
 All project idea questions have the following in-browser word-count messages.
 
-| Rule            | Message                                                                                 |
-| --------------- | --------------------------------------------------------------------------------------- |
-| Word count      | 0 / MAX words. Must be at least MIN words. You can write up to RECOMMENDED words for this section, but don't worry if you use less. |
-| Reached minimum | MIN / MAX words. You can write up to RECOMMENDED words for this section, but don't worry if you use less.                          |
-| Over limit      | You have X words too many.                                                              |
+| Rule            | Message                                                                                                                               |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| Word count      | [x] / [max] words. Must be at least [min] words. You can write up to [limit] words for this section, but don't worry if you use less. |
+| Reached minimum | [min] / [max] words. You can write up to [limit] words for this section, but don't worry if you use less.                             |
+| Over limit      | You have [x] words too many.                                                                                                          |
 
 ## Project costs
 
 ### Budget Items
 
-| Rule                         | Message                                                        |
-| ---------------------------- | -------------------------------------------------------------- |
-| Required field               | Enter a project budget                                         |
-| Missing item or activity     | Enter an item or activity                                      |
-| Missing cost                 | Enter an amount                                                |
-| Cost is not a number         | Each cost must be a real number                                |
-| Total amount is over £10,000 | Total project costs must be less than £10,000                  |
-| Too many rows                | You must use 10 budget headings or fewer to tell us your costs |
+Server-side errors:
+
+| Rule                  | Message                                        |
+| --------------------- | ---------------------------------------------- |
+| Required field        | Enter a project budget                         |
+| Missing description   | Enter an item or activity                      |
+| Missing cost          | Enter an amount                                |
+| Cost is not a number  | Each cost must be a real number                |
+| Amount is below limit | Total project costs must be greater than [min] |
+| Amount is over limit  | Total project costs must be less than [max]    |
+
+Client-side warnings:
+
+| Rule                  | Message                                                        |
+| --------------------- | -------------------------------------------------------------- |
+| Amount is below limit | Total project costs must be greater than [min]                 |
+| Amount is over limit  | Total project costs must be less than [max]                    |
+| Too many rows         | You must use 10 budget headings or fewer to tell us your costs |
 
 ### Project total cost
 
@@ -102,7 +115,7 @@ All project idea questions have the following in-browser word-count messages.
 | -------------------- | --------------------------------------------------------------------------------- |
 | Required field       | Enter a total cost for your project                                               |
 | Cost is not a number | Total cost must be a real number                                                  |
-| Under budget         | Total cost must be the same as or higher than the amount you're asking us to fund |
+| Under budget         | Total cost must be the same as or higher than the amount you’re asking us to fund |
 
 ## Who will benefit
 
@@ -176,9 +189,9 @@ An additional "Other" field is provided for free text responses.
 
 ### How many of the people who will benefit from your project speak Welsh?
 
-| Rule           | Message          |
-| -------------- | ---------------- |
-| Required field | Choose an option |
+| Rule           | Message                                 |
+| -------------- | --------------------------------------- |
+| Required field | Choose from one of the options provided |
 
 #### Conditions
 
@@ -186,9 +199,9 @@ An additional "Other" field is provided for free text responses.
 
 ### Which community do the people who will benefit from your project belong to?
 
-| Rule           | Message          |
-| -------------- | ---------------- |
-| Required field | Choose an option |
+| Rule           | Message                                 |
+| -------------- | --------------------------------------- |
+| Required field | Choose from one of the options provided |
 
 #### Conditions
 
@@ -209,6 +222,14 @@ _Does your organisation use a different name in your day-to-day work?_
 | Rule           | Message |
 | -------------- | ------- |
 | Optional field | n/a     |
+
+### When was your organisation set up?
+
+| Rule         | Message                    |
+| ------------ | -------------------------- |
+| Empty        | Enter a day and month      |
+| Invalid date | Enter a real day and month |
+| In future    | Enter a past date          |
 
 ### Organisation address
 
@@ -268,86 +289,6 @@ _Does your organisation use a different name in your day-to-day work?_
 | Required field         | Enter a total income for the year  |
 | Must be a valid number | Total income must be a real number |
 
-## Main contact
-
-### Main contact first name
-
-| Rule           | Message          |
-| -------------- | ---------------- |
-| Required field | Enter first name |
-
-### Main contact last name
-
-| Rule           | Message         |
-| -------------- | --------------- |
-| Required field | Enter last name |
-
-### Main contact date of birth
-
-| Rule                 | Message                                    |
-| -------------------- | ------------------------------------------ |
-| Required field       | Enter a date of birth                      |
-| Must be a valid date | Enter a real date                          |
-| Date of birth        | Main contact must be at least 16 years old |
-
-#### Conditions
-
--   If the **organisation type** is either **school**, **college/university** or **statutory body** then this field will not be shown.
-
-### Main contact address
-
-| Rule                   | Message                     |
-| ---------------------- | --------------------------- |
-| Required field         | Enter a full UK address     |
-| No building and street | Enter a building and street |
-| No town or city        | Enter a town or city        |
-| No county              | Enter a county              |
-| No postcode            | Enter a postcode            |
-| Valid postcode         | Enter a real postcode       |
-
-#### Conditions
-
--   If the **organisation type** is either **school**, **college/university** or **statutory body** then this field will not be shown.
-
-### Main contact address history
-
-| Rule                   | Message                                 |
-| ---------------------- | --------------------------------------- |
-| Required field         | Enter a full UK address                 |
-| Invalid choice         | Choose from one of the options provided |
-| No building and street | Enter a building and street             |
-| No town or city        | Enter a town or city                    |
-| No county              | Enter a county                          |
-| No postcode            | Enter a postcode                        |
-| Valid postcode         | Enter a real postcode                   |
-
-#### Conditions
-
--   If the **organisation type** is either **school**, **college/university** or **statutory body** then this field will not be shown.
-
-### Main contact email
-
-| Rule           | Message                                                            |
-| -------------- | ------------------------------------------------------------------ |
-| Required field | Enter an email address                                             |
-| Invalid format | Email address must be in the correct format, like name@example.com |
-
-### Main contact phone
-
-| Rule                 | Message                          |
-| -------------------- | -------------------------------- |
-| Required field       | Enter a UK telephone number      |
-| Invalid phone number | Enter a real UK telephone number |
-
-**Note**: Phone numbers validated using [joi-phone-number](https://github.com/Salesflare/joi-phone-number) which is a wrapper around the Google `libphonenumber` library.
-
-### Main contact communication needs
-
-| Rule           | Message                                 |
-| -------------- | --------------------------------------- |
-| Optional field | n/a                                     |
-| Invalid choice | Choose from one of the options provided |
-
 ## Senior contact
 
 ### Senior contact first name
@@ -356,17 +297,12 @@ _Does your organisation use a different name in your day-to-day work?_
 | -------------- | ---------------- |
 | Required field | Enter first name |
 
-### Senior contact last name
+### Senior contact name
 
-| Rule           | Message         |
-| -------------- | --------------- |
-| Required field | Enter last name |
-
-### Senior contact role
-
-| Rule           | Message             |
-| -------------- | ------------------- |
-| Required field | Choose a valid role |
+| Rule                   | Message                                                            |
+| ---------------------- | ------------------------------------------------------------------ |
+| Required field         | Enter a first and last name                                        |
+| Matches Senior Contact | Senior contact name must be different from the main contact's name |
 
 #### Mappings
 
@@ -445,30 +381,104 @@ Address history field group, consists of:
 
 ### Senior contact communication needs
 
-| Rule           | Message                                 |
-| -------------- | --------------------------------------- |
-| Optional field | n/a                                     |
-| Invalid choice | Choose from one of the options provided |
+| Rule           | Message |
+| -------------- | ------- |
+| Optional field | n/a     |
+
+## Main contact
+
+### Main contact name
+
+| Rule                   | Message                                                            |
+| ---------------------- | ------------------------------------------------------------------ |
+| Required field         | Enter a first and last name                                        |
+| Matches Senior Contact | Main contact name must be different from the senior contact's name |
+
+### Main contact date of birth
+
+| Rule                 | Message                                    |
+| -------------------- | ------------------------------------------ |
+| Required field       | Enter a date of birth                      |
+| Must be a valid date | Enter a real date                          |
+| Date of birth        | Main contact must be at least 16 years old |
+
+#### Conditions
+
+-   If the **organisation type** is either **school**, **college/university** or **statutory body** then this field will not be shown.
+
+### Main contact address
+
+| Rule                   | Message                     |
+| ---------------------- | --------------------------- |
+| Required field         | Enter a full UK address     |
+| No building and street | Enter a building and street |
+| No town or city        | Enter a town or city        |
+| No county              | Enter a county              |
+| No postcode            | Enter a postcode            |
+| Valid postcode         | Enter a real postcode       |
+
+#### Conditions
+
+-   If the **organisation type** is either **school**, **college/university** or **statutory body** then this field will not be shown.
+
+### Main contact address history
+
+| Rule                   | Message                                 |
+| ---------------------- | --------------------------------------- |
+| Required field         | Enter a full UK address                 |
+| Invalid choice         | Choose from one of the options provided |
+| No building and street | Enter a building and street             |
+| No town or city        | Enter a town or city                    |
+| No county              | Enter a county                          |
+| No postcode            | Enter a postcode                        |
+| Valid postcode         | Enter a real postcode                   |
+
+#### Conditions
+
+-   If the **organisation type** is either **school**, **college/university** or **statutory body** then this field will not be shown.
+
+### Main contact email
+
+| Rule                   | Message                                                                              |
+| ---------------------- | ------------------------------------------------------------------------------------ |
+| Required field         | Enter an email address                                                               |
+| Invalid format         | Email address must be in the correct format, like name@example.com                   |
+| Matches senior contact | Main contact email address must be different from the senior contact's email address |
+
+### Main contact phone
+
+| Rule                 | Message                          |
+| -------------------- | -------------------------------- |
+| Required field       | Enter a UK telephone number      |
+| Invalid phone number | Enter a real UK telephone number |
+
+### Main contact communication needs
+
+| Rule           | Message |
+| -------------- | ------- |
+| Optional field | n/a     |
 
 ## Bank details
 
 ### Account name
 
-| Rule           | Message                            |
-| -------------- | ---------------------------------- |
+| Rule           | Message                  |
+| -------------- | ------------------------ |
 | Required field | Name on the bank account |
 
 ### Sort code
 
-| Rule           | Message           |
-| -------------- | ----------------- |
-| Required field | Enter a sort-code |
+| Rule           | Message                     |
+| -------------- | --------------------------- |
+| Required field | Enter a sort-code           |
+| Too short      | Enter a six digit sort code |
 
 ### Account number
 
-| Rule           | Message                 |
-| -------------- | ----------------------- |
-| Required field | Enter an account number |
+| Rule           | Message                             |
+| -------------- | ----------------------------------- |
+| Required field | Enter an account number             |
+| Too short      | Enter an eight digit account number |
 
 ### Building society number
 
@@ -478,6 +488,46 @@ Address history field group, consists of:
 
 ### Bank statement
 
-| Rule           | Message                  |
-| -------------- | ------------------------ |
-| Required field | Provide a bank statement |
+| Rule           | Message                                                       |
+| -------------- | ------------------------------------------------------------- |
+| Required field | Provide a bank statement                                      |
+| Invalid format | Please upload a file in one of these formats: [valid formats] |
+| Too large      | Please upload a file below [max size]                         |
+
+## Terms
+
+### Terms checkbox 1
+
+| Rule     | Message                                           |
+| -------- | ------------------------------------------------- |
+| Required | You must agree to all of the terms and conditions |
+
+### Terms checkbox 2
+
+| Rule     | Message                                           |
+| -------- | ------------------------------------------------- |
+| Required | You must agree to all of the terms and conditions |
+
+### Terms checkbox 3
+
+| Rule     | Message                                           |
+| -------- | ------------------------------------------------- |
+| Required | You must agree to all of the terms and conditions |
+
+### Terms checkbox 3
+
+| Rule     | Message                                           |
+| -------- | ------------------------------------------------- |
+| Required | You must agree to all of the terms and conditions |
+
+### Full name of person completing this form
+
+| Rule     | Message                                                      |
+| -------- | ------------------------------------------------------------ |
+| Required | You must provide the name of the person completing this form |
+
+### Position in organisation
+
+| Rule     | Message                                                          |
+| -------- | ---------------------------------------------------------------- |
+| Required | You must provide the position of the person completing this form |

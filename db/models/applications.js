@@ -70,7 +70,7 @@ class PendingApplication extends Model {
                 userId: { [Op.eq]: userId },
                 formId: { [Op.eq]: formId }
             },
-            order: [['updatedAt', 'DESC']]
+            order: [['createdAt', 'DESC']]
         });
     }
     static findApplicationForForm({ formId, applicationId, userId }) {
@@ -210,7 +210,7 @@ class SubmittedApplication extends Model {
                 userId: { [Op.eq]: userId },
                 formId: { [Op.eq]: formId }
             },
-            order: [['updatedAt', 'DESC']]
+            order: [['createdAt', 'DESC']]
         });
     }
     static createFromPendingApplication({

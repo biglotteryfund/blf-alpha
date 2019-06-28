@@ -188,18 +188,6 @@ const materialFields = {
     })
 };
 
-/**
- * Extract post code area (outcode)
- * Based on https://github.com/ideal-postcodes/postcode.js
- */
-function postcodeArea(postcode) {
-    const incodeRegex = /\d[a-z]{2}$/i;
-    return postcode
-        .replace(incodeRegex, '')
-        .replace(/\s+/, '')
-        .toUpperCase();
-}
-
 function normaliseUserInput(userInput) {
     return reduce(
         materialFields,
@@ -262,6 +250,5 @@ If you have feedback, please contact digital.monitoring@tnlcommunityfund.org.uk.
 module.exports = {
     materialFields,
     makeOrderText,
-    postcodeArea,
     normaliseUserInput
 };
