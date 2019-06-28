@@ -3,14 +3,11 @@ const path = require('path');
 const express = require('express');
 const concat = require('lodash/concat');
 const findIndex = require('lodash/findIndex');
-const get = require('lodash/get');
-const keyBy = require('lodash/keyBy');
-const mapValues = require('lodash/mapValues');
 const Sentry = require('@sentry/node');
 
 const { PendingApplication } = require('../../../db/models');
 
-const s3Uploads = require('./lib/s3-uploads');
+const { prepareFilesForUpload, uploadFile } = require('./lib/file-uploads');
 
 module.exports = function(formId, formBuilder) {
     const router = express.Router();
@@ -120,42 +117,7 @@ module.exports = function(formId, formBuilder) {
                 stepIndex
             );
 
-            /**
-             * Determine files to upload
-             * - Retrieve the file from Formidable's parsed data
-             * - Guard against empty files (eg. ignore empty file inputs when one already exists)
-             */
-            function determineFilesToUpload(fields, files) {
-                const validFileFields = fields
-                    .filter(field => field.type === 'file')
-                    .filter(field => get(files, field.name).size > 0);
-
-                return validFileFields.map(field => {
-                    return {
-                        fieldName: field.name,
-                        fileData: get(files, field.name)
-                    };
-                });
-            }
-
-            const filesToUpload = determineFilesToUpload(stepFields, req.files);
-
-            /**
-             * Normalise file data for storage in validation object
-             * This is the metadata submitted as part of JSON data
-             * which joi validations run against.
-             */
-            function fileValues() {
-                const keyedByFieldName = keyBy(filesToUpload, 'fieldName');
-
-                return mapValues(keyedByFieldName, function({ fileData }) {
-                    return {
-                        filename: fileData.name,
-                        size: fileData.size,
-                        type: fileData.type
-                    };
-                });
-            }
+            const preparedFiles = prepareFilesForUpload(stepFields, req.files);
 
             /**
              * Re-validate form against combined application data
@@ -164,7 +126,7 @@ module.exports = function(formId, formBuilder) {
              */
             const validationResult = form.validate({
                 ...applicationData,
-                ...fileValues()
+                ...preparedFiles.valuesByField
             });
 
             const errorsForStep = validationResult.messages.filter(item =>
@@ -224,11 +186,11 @@ module.exports = function(formId, formBuilder) {
                     /**
                      * Handle file uploads if we have any for the step
                      */
-                    if (filesToUpload.length > 0) {
+                    if (preparedFiles.filesToUpload.length > 0) {
                         try {
                             await Promise.all(
-                                filesToUpload.map(file =>
-                                    s3Uploads.uploadFile({
+                                preparedFiles.filesToUpload.map(file =>
+                                    uploadFile({
                                         formId: formId,
                                         applicationId: currentlyEditingId,
                                         fileMetadata: file
