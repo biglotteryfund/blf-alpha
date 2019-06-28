@@ -2275,7 +2275,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.string()
                 .replace(/\D/g, '')
-                .length(8)
+                .min(6)
+                .max(11)
                 .required(),
             messages: [
                 {
@@ -2283,9 +2284,16 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({ en: 'Enter an account number', cy: '' })
                 },
                 {
-                    type: 'string.length',
+                    type: 'string.min',
                     message: localise({
-                        en: 'Enter an eight digit account number',
+                        en: 'Enter a valid length account number',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: 'Enter a valid length account number',
                         cy: ''
                     })
                 }
