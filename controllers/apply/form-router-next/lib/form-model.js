@@ -264,8 +264,8 @@ class FormModel {
         } else {
             return {
                 // @TODO i18n
-                label: 'Dashboard',
-                url: baseUrl
+                label: 'Summary',
+                url: `${baseUrl}/summary`
             };
         }
     }
