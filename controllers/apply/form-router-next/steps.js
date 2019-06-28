@@ -134,6 +134,7 @@ module.exports = function(formId, formBuilder) {
             });
 
             const stepIndex = parseInt(req.params.step, 10) - 1;
+            const step = form.getStep(req.params.section, stepIndex);
             const stepFields = form.getCurrentFieldsForStep(
                 req.params.section,
                 stepIndex
@@ -212,6 +213,26 @@ module.exports = function(formId, formBuilder) {
 
                     renderStep(req, res, validationResult.value, errorsForStep);
                 } else {
+                    // Run any pre-flight checks for this step
+                    // (eg. custom validations which don't run in Joi)
+                    if (step.preflightCheck) {
+                        try {
+                            await step.preflightCheck();
+                        } catch (errors) {
+                            // There was a validation error, so return users to the form
+                            const renderStep = renderStepFor(
+                                req.params.section,
+                                req.params.step
+                            );
+                            return renderStep(
+                                req,
+                                res,
+                                validationResult.value,
+                                errors
+                            );
+                        }
+                    }
+
                     try {
                         const uploadPromises = filesToUpload.map(file =>
                             s3Uploads.uploadFile({

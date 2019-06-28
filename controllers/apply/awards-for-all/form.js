@@ -6,6 +6,7 @@ const getOr = require('lodash/fp/getOr');
 const has = require('lodash/fp/has');
 const includes = require('lodash/includes');
 const sumBy = require('lodash/sumBy');
+const Sentry = require('@sentry/node');
 
 const { FormModel } = require('../form-router-next/lib/form-model');
 const { fromDateParts } = require('../form-router-next/lib/date-parts');
@@ -14,9 +15,16 @@ const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
 const fieldsFor = require('./fields');
 const termsCopy = require('./terms');
 
+const checkBankAccountDetails = require('../../../common/bank-api');
+const commonLogger = require('../../../common/logger');
+
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
     const currentOrganisationType = get('organisationType')(data);
+
+    const logger = commonLogger.child({
+        service: 'form-awards-for-all'
+    });
 
     const fields = fieldsFor({
         locale: locale,
@@ -620,7 +628,75 @@ module.exports = function({ locale, data = {} }) {
                             fields.buildingSocietyNumber
                         ]
                     }
-                ]
+                ],
+                preflightCheck: async function() {
+                    const sortCode = get('bankSortCode')(data);
+                    const accountNumber = get('bankAccountNumber')(data);
+
+                    return new Promise(async (resolve, reject) => {
+                        await checkBankAccountDetails(sortCode, accountNumber)
+                            .then(status => {
+                                if (status.code === 'UNKNOWN') {
+                                    // If this API does anything weird, assume all is well
+                                    logger.info(
+                                        'User bank details check: API call failed',
+                                        {
+                                            resultCode: status.originalCode
+                                        }
+                                    );
+                                    // We treat this as a success in order to keep the form usable
+                                    // if the third party API is down/broken
+                                    return resolve();
+                                } else if (
+                                    status.code === 'BANK_DETAILS_INVALID'
+                                ) {
+                                    return reject([
+                                        {
+                                            msg: localise({
+                                                en:
+                                                    'This sort code is not valid with this account number',
+                                                cy: ''
+                                            }),
+                                            param: 'bankSortCode',
+                                            field: fields.bankSortCode
+                                        },
+                                        {
+                                            msg: localise({
+                                                en:
+                                                    'This account number is not valid with this sort code',
+                                                cy: ''
+                                            }),
+                                            param: 'bankAccountNumber',
+                                            field: fields.bankAccountNumber
+                                        }
+                                    ]);
+                                } else if (!status.supportsBacsPayment) {
+                                    return reject([
+                                        {
+                                            msg: localise({
+                                                en:
+                                                    'This bank account cannot receive BACS payments, which is a requirement for funding',
+                                                cy: ''
+                                            }),
+                                            param: 'bankAccountNumber'
+                                        }
+                                    ]);
+                                }
+                                // Otherwise everything is all good
+                                return resolve();
+                            })
+                            .catch(err => {
+                                Sentry.captureException(
+                                    new Error(
+                                        `User bank details check: API call failed`
+                                    )
+                                );
+                                // We treat this as a success in order to keep the form usable
+                                // if the third party API is down/broken
+                                return resolve();
+                            });
+                    });
+                }
             },
             {
                 title: localise({ en: 'Bank statement', cy: '' }),
