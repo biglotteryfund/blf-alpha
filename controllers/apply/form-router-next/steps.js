@@ -3,14 +3,11 @@ const path = require('path');
 const express = require('express');
 const concat = require('lodash/concat');
 const findIndex = require('lodash/findIndex');
-const get = require('lodash/get');
-const keyBy = require('lodash/keyBy');
-const mapValues = require('lodash/mapValues');
 const Sentry = require('@sentry/node');
 
 const { PendingApplication } = require('../../../db/models');
 
-const s3Uploads = require('./lib/s3-uploads');
+const { prepareFilesForUpload, uploadFile } = require('./lib/file-uploads');
 
 module.exports = function(formId, formBuilder) {
     const router = express.Router();
@@ -78,26 +75,6 @@ module.exports = function(formId, formBuilder) {
                     } else {
                         res.redirect(res.locals.formBaseUrl);
                     }
-                } else if (section.introduction) {
-                    const { nextPage, previousPage } = form.pagination({
-                        baseUrl: res.locals.formBaseUrl,
-                        sectionSlug: req.params.section
-                    });
-
-                    const viewData = {
-                        section: section,
-                        breadcrumbs: concat(res.locals.breadcrumbs, {
-                            label: sectionShortTitle,
-                            url: sectionUrl
-                        }),
-                        nextPage: nextPage,
-                        previousPage: previousPage
-                    };
-
-                    res.render(
-                        path.resolve(__dirname, './views/section-introduction'),
-                        viewData
-                    );
                 } else {
                     res.redirect(`${sectionUrl}/1`);
                 }
@@ -140,42 +117,7 @@ module.exports = function(formId, formBuilder) {
                 stepIndex
             );
 
-            /**
-             * Determine files to upload
-             * - Retrieve the file from Formidable's parsed data
-             * - Guard against empty files (eg. ignore empty file inputs when one already exists)
-             */
-            function determineFilesToUpload(fields, files) {
-                const validFileFields = fields
-                    .filter(field => field.type === 'file')
-                    .filter(field => get(files, field.name).size > 0);
-
-                return validFileFields.map(field => {
-                    return {
-                        fieldName: field.name,
-                        fileData: get(files, field.name)
-                    };
-                });
-            }
-
-            const filesToUpload = determineFilesToUpload(stepFields, req.files);
-
-            /**
-             * Normalise file data for storage in validation object
-             * This is the metadata submitted as part of JSON data
-             * which joi validations run against.
-             */
-            function fileValues() {
-                const keyedByFieldName = keyBy(filesToUpload, 'fieldName');
-
-                return mapValues(keyedByFieldName, function({ fileData }) {
-                    return {
-                        filename: fileData.name,
-                        size: fileData.size,
-                        type: fileData.type
-                    };
-                });
-            }
+            const preparedFiles = prepareFilesForUpload(stepFields, req.files);
 
             /**
              * Re-validate form against combined application data
@@ -184,7 +126,7 @@ module.exports = function(formId, formBuilder) {
              */
             const validationResult = form.validate({
                 ...applicationData,
-                ...fileValues()
+                ...preparedFiles.valuesByField
             });
 
             const errorsForStep = validationResult.messages.filter(item =>
@@ -213,8 +155,10 @@ module.exports = function(formId, formBuilder) {
 
                     renderStep(req, res, validationResult.value, errorsForStep);
                 } else {
-                    // Run any pre-flight checks for this step
-                    // (eg. custom validations which don't run in Joi)
+                    /**
+                     * Run any pre-flight checks for this steps
+                     * eg. custom validations which don't run in Joi
+                     */
                     if (step.preflightCheck) {
                         try {
                             await step.preflightCheck();
@@ -233,39 +177,49 @@ module.exports = function(formId, formBuilder) {
                         }
                     }
 
-                    try {
-                        const uploadPromises = filesToUpload.map(file =>
-                            s3Uploads.uploadFile({
-                                formId: formId,
-                                applicationId: currentlyEditingId,
-                                fileMetadata: file
-                            })
-                        );
+                    const { nextPage } = form.pagination({
+                        baseUrl: res.locals.formBaseUrl,
+                        sectionSlug: req.params.section,
+                        currentStepIndex: stepIndex
+                    });
 
-                        await Promise.all(uploadPromises);
+                    /**
+                     * Handle file uploads if we have any for the step
+                     */
+                    if (preparedFiles.filesToUpload.length > 0) {
+                        try {
+                            await Promise.all(
+                                preparedFiles.filesToUpload.map(file =>
+                                    uploadFile({
+                                        formId: formId,
+                                        applicationId: currentlyEditingId,
+                                        fileMetadata: file
+                                    })
+                                )
+                            );
+                            res.redirect(nextPage.url);
+                        } catch (rejection) {
+                            Sentry.captureException(rejection.error);
 
-                        const { nextPage } = form.pagination({
-                            baseUrl: res.locals.formBaseUrl,
-                            sectionSlug: req.params.section,
-                            currentStepIndex: stepIndex
-                        });
+                            const renderStep = renderStepFor(
+                                req.params.section,
+                                req.params.step
+                            );
+
+                            const uploadError = {
+                                msg: copy.common.errorUploading,
+                                param: rejection.fieldName
+                            };
+
+                            return renderStep(
+                                req,
+                                res,
+                                validationResult.value,
+                                [uploadError]
+                            );
+                        }
+                    } else {
                         res.redirect(nextPage.url);
-                    } catch (rejection) {
-                        Sentry.captureException(rejection.error);
-
-                        const uploadError = {
-                            msg: copy.common.errorUploading,
-                            param: rejection.fieldName
-                        };
-
-                        const renderStep = renderStepFor(
-                            req.params.section,
-                            req.params.step
-                        );
-
-                        return renderStep(req, res, validationResult.value, [
-                            uploadError
-                        ]);
                     }
                 }
             } catch (storageError) {

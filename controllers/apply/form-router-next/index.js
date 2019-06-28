@@ -25,7 +25,7 @@ const { requireActiveUser } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
 const salesforceService = require('./lib/salesforce');
-const s3Uploads = require('./lib/s3-uploads');
+const { getObject, buildMultipartData } = require('./lib/file-uploads');
 
 function initFormRouter({
     formId,
@@ -332,21 +332,19 @@ function initFormRouter({
                     const contentVersionPromises = fields
                         .filter(field => field.type === 'file')
                         .map(field => {
-                            return s3Uploads
-                                .buildMultipartData({
-                                    formId: formId,
-                                    applicationId: currentApplication.id,
-                                    filename: field.value.filename
-                                })
-                                .then(versionData => {
-                                    return salesforce.contentVersion({
-                                        recordId: salesforceRecordId,
-                                        attachmentName: `${
-                                            field.name
-                                        }${path.extname(field.value.filename)}`,
-                                        versionData: versionData
-                                    });
+                            return buildMultipartData({
+                                formId: formId,
+                                applicationId: currentApplication.id,
+                                filename: field.value.filename
+                            }).then(versionData => {
+                                return salesforce.contentVersion({
+                                    recordId: salesforceRecordId,
+                                    attachmentName: `${
+                                        field.name
+                                    }${path.extname(field.value.filename)}`,
+                                    versionData: versionData
                                 });
+                            });
                         });
 
                     await Promise.all(contentVersionPromises);
@@ -427,24 +425,22 @@ function initFormRouter({
 
     /**
      * Routes: Stream file from S3 if authorised
+     * Stream the file's headers and serve it directly as a response
+     * @see https://stackoverflow.com/a/43356401
      */
     router.route('/download/:fieldName/:filename').get((req, res, next) => {
         const { currentlyEditingId, currentApplicationData } = res.locals;
 
-        // Check that this application has data for the requested field name
         const fileData = currentApplicationData[req.params.fieldName];
+        const matchesField =
+            fileData && fileData.filename === req.params.filename;
 
-        // Confirm that the requested filename matches this field's file
-        if (fileData && fileData.filename === req.params.filename) {
-            // Retrieve this file from S3
-            // Stream the file's headers and serve it directly as a response
-            // (via https://stackoverflow.com/a/43356401)
-            s3Uploads
-                .getObject({
-                    formId: formId,
-                    applicationId: currentlyEditingId,
-                    filename: req.params.filename
-                })
+        if (matchesField) {
+            getObject({
+                formId: formId,
+                applicationId: currentlyEditingId,
+                filename: req.params.filename
+            })
                 .on('httpHeaders', (code, headers) => {
                     res.status(code);
                     if (code < 300) {
