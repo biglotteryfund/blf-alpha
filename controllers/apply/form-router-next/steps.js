@@ -78,26 +78,6 @@ module.exports = function(formId, formBuilder) {
                     } else {
                         res.redirect(res.locals.formBaseUrl);
                     }
-                } else if (section.introduction) {
-                    const { nextPage, previousPage } = form.pagination({
-                        baseUrl: res.locals.formBaseUrl,
-                        sectionSlug: req.params.section
-                    });
-
-                    const viewData = {
-                        section: section,
-                        breadcrumbs: concat(res.locals.breadcrumbs, {
-                            label: sectionShortTitle,
-                            url: sectionUrl
-                        }),
-                        nextPage: nextPage,
-                        previousPage: previousPage
-                    };
-
-                    res.render(
-                        path.resolve(__dirname, './views/section-introduction'),
-                        viewData
-                    );
                 } else {
                     res.redirect(`${sectionUrl}/1`);
                 }
