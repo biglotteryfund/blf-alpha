@@ -357,7 +357,8 @@
                  open :open="showFallbackFields">
             <summary class="js-only o-details__summary"
                      v-show="showSummaryLabel"
-                     @click.self="showFallbackFields = !showFallbackFields">
+                     @click.self="showFallbackFields = !showFallbackFields"
+                     data-testid="manual-address">
                 Enter address manually
             </summary>
             <div class="o-details__content ff-address__fields">
