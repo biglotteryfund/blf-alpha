@@ -146,9 +146,9 @@
 
 {% macro inputDateRange(field) %}
     <div class="ff-date ff-date--range" id="field-{{ field.name }}-legend">
-        <h2 class="ff-label ff-date__legend">
+        <label class="ff-label ff-date__legend">
             {{ field.label }}
-        </h2>
+        </label>
         {{ explanationFor(field) }}
     </div>
     <fieldset class="ff-date ff-date--range" id="field-{{ field.name }}-start">
@@ -305,7 +305,7 @@
 
 {% macro inputRadio(field) %}
     <fieldset class="ff-choice">
-        <legend class="ff-label" for="field-{{ field.name }}">
+        <legend class="ff-label">
             {{ labelFor(field) }}
         </legend>
         {{ explanationFor(field) }}
@@ -357,7 +357,8 @@
                  open :open="showFallbackFields">
             <summary class="js-only o-details__summary"
                      v-show="showSummaryLabel"
-                     @click.self="showFallbackFields = !showFallbackFields">
+                     @click.self="showFallbackFields = !showFallbackFields"
+                     data-testid="manual-address">
                 Enter address manually
             </summary>
             <div class="o-details__content ff-address__fields">
@@ -420,7 +421,7 @@
 {% macro inputAddressHistory(field) %}
     <div class="js-conditional-radios">
         <fieldset class="ff-choice ff-choice--inline">
-            <legend class="ff-label" for="field-{{ field.name }}">
+            <legend class="ff-label">
                 {{ labelFor(field) }}
             </legend>
             {{ explanationFor(field) }}

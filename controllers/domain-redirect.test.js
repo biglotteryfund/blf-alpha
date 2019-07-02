@@ -2,7 +2,7 @@
 'use strict';
 
 const httpMocks = require('node-mocks-http');
-const domainRedirect = require('../domain-redirect');
+const domainRedirect = require('./domain-redirect');
 
 describe('domain redirect', () => {
     it('should redirect old domain to new domain', () => {
@@ -10,7 +10,7 @@ describe('domain redirect', () => {
             method: 'GET',
             url: '/some/example/url/',
             headers: {
-                Host: 'www.biglotteryfund.org.uk',
+                'Host': 'www.biglotteryfund.org.uk',
                 'X-Forwarded-Proto': 'https'
             }
         });
@@ -26,7 +26,7 @@ describe('domain redirect', () => {
             method: 'GET',
             url: '/some/example/url/',
             headers: {
-                Host: 'www.tnlcommunityfund.org.uk',
+                'Host': 'www.tnlcommunityfund.org.uk',
                 'X-Forwarded-Proto': 'https'
             }
         });

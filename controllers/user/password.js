@@ -14,7 +14,9 @@ const {
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
 
-const logger = require('../../common/logger');
+const logger = require('../../common/logger').child({
+    service: 'user'
+});
 
 const {
     signTokenPasswordReset,
@@ -115,13 +117,13 @@ router
 
                 if (user) {
                     await processResetRequest(req, user);
-                    logger.info('User password: reset request succeeded');
+                    logger.info('Password reset request succeeded');
                     res.locals.passwordWasJustReset = true;
                 }
 
                 renderForgotForm(req, res);
             } catch (error) {
-                logger.info('User password: reset request failed');
+                logger.warn('Password reset request failed');
                 Sentry.captureException(error);
                 renderForgotForm(req, res);
             }
@@ -159,7 +161,7 @@ router
                 res.locals.token = token();
                 renderResetForm(req, res);
             } catch (error) {
-                logger.info('User password: reset request token invalid');
+                logger.warn('Password reset request token invalid');
                 renderResetFormExpired(req, res);
             }
         } else {
@@ -199,12 +201,10 @@ router
                             newPassword: password
                         });
                         await sendPasswordResetNotification(req, username);
-                        logger.info('User password: change successful');
+                        logger.info('Password change successful');
                         redirectForLocale(req, res, '/user?s=passwordUpdated');
                     } catch (error) {
-                        logger.info('User password: change failed', {
-                            error: error
-                        });
+                        logger.warn('Password change failed', error);
                         renderResetForm(req, res, validationResult.value, [
                             {
                                 msg: `There was a problem updating your password`
@@ -237,9 +237,7 @@ router
                     try {
                         decodedData = await verifyTokenPasswordReset(token);
                     } catch (jwtError) {
-                        logger.info(
-                            'User password: reset request token invalid'
-                        );
+                        logger.info('Password reset token invalid');
                         return renderResetFormExpired(req, res);
                     }
 
@@ -259,7 +257,7 @@ router
                                 user.username
                             );
 
-                            logger.info('User password: reset email sent');
+                            logger.info('Password reset email sent');
 
                             // Log the user in
                             req.logIn(user, function(loginErr) {
@@ -277,17 +275,12 @@ router
                                     );
                                 }
                             });
-
                         } else {
-                            logger.info(
-                                'User password: reset not valid for user'
-                            );
+                            logger.info('Password reset not valid for user');
                             redirectForLocale(req, res, '/user/login');
                         }
                     } catch (error) {
-                        logger.info('User password: reset failed', {
-                            error: error
-                        });
+                        logger.warn('Password reset failed', error);
                         Sentry.captureException(error);
                         res.locals.token = token;
                         const errors = [
