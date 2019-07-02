@@ -335,7 +335,7 @@
     </fieldset>
 {% endmacro %}
 
-{% macro inputAddress(field, isNested = false, conditionalOptions = false, conditionalName = false) %}
+{% macro inputAddress(field, isNested = false) %}
 
     {% set fallbackFields %}
         <div class="o-details__content ff-address__fields">
@@ -393,46 +393,70 @@
         </div>
     {% endset %}
 
-    <fieldset class="ff-address{% if isNested %} ff-address--nested{% endif %} js-address-lookup" id="field-{{ field.name }}">
-        <legend class="ff-label ff-address__legend">
-            {{ labelFor(field) }}
-        </legend>
+    <div class="js-address-lookup">
 
-        {{ explanationFor(field) }}
+        {% if caller %}
+            {{ caller() }}
+        {% endif %}
 
-        <address-lookup
-            field-name="{{ field.name }}"
-            is-nested="{{ isNested }}"
-            locale="{{ locale }}"
-            address="{{ field.value | dump }}"
-            {% if conditionalOptions %}conditional-options="{{ conditionalOptions | dump }}"{% endif %}
-            {% if conditionalOptions %}conditional-name="{{ conditionalName }}"{% endif %}
-        >
-        </address-lookup>
+        <fieldset class="ff-address{% if isNested %} ff-address--nested{% endif %}" id="field-{{ field.name }}">
 
-        {# Non-JS version (*not* <noscript> because we still need it if JS fails #}
-        {# (this will be removed by our Vue component when mounted) #}
-        <div class="js-fallback-only">
-            {{ fallbackFields | safe }}
-        </div>
+            <address-lookup
+                label="{{ field.label }}"
+                explanation="{{ field.explanation }}"
+                field-name="{{ field.name }}"
+                locale="{{ locale }}"
+                address="{{ field.value | dump }}"
+            >
+            </address-lookup>
 
-    </fieldset>
+            {# Non-JS version (*not* <noscript> because we still need it if JS fails #}
+            {# (this will be removed by our Vue component when mounted) #}
+            <div class="js-fallback-only">
+                <legend class="ff-label ff-address__legend">
+                    {{ labelFor(field) }}
+                </legend>
+
+                {{ explanationFor(field) }}
+                {{ fallbackFields | safe }}
+            </div>
+
+        </fieldset>
+    </div>
 {% endmacro %}
 
 {% macro inputAddressHistory(field) %}
-    {% set options = [{
-        label: __('global.misc.yes'),
-        value: 'yes'
-    }, {
-        label: __('global.misc.no'),
-        value: 'no'
-    }] %}
-    <div class="js-conditional-radios">
+
+    {% call inputAddress(
+        {
+            name: field.name + '[previousAddress]',
+            label: 'Previous home address',
+            value: field.value.previousAddress
+        },
+        isNested = true
+    ) %}
+
+        {% set options = [{
+            label: __('global.misc.yes'),
+            value: 'yes'
+        }, {
+            label: __('global.misc.no'),
+            value: 'no'
+        }] %}
         <fieldset class="ff-choice ff-choice--inline">
             <legend class="ff-label">
                 {{ labelFor(field) }}
             </legend>
+
             {{ explanationFor(field) }}
+
+            <conditional-radios
+                options="{{ options | dump }}"
+                field-name="{{ field.name }}"
+                sub-field-name="currentAddressMeetsMinimum"
+                initial-value="{{ field.value['currentAddressMeetsMinimum'] or 'yes' }}">
+            </conditional-radios>
+
             <noscript>
                 <ul class="ff-choice__list">
                     {% for option in options %}
@@ -453,18 +477,7 @@
                 </ul>
             </noscript>
         </fieldset>
-
-        {{ inputAddress(
-            {
-                name: field.name + '[previousAddress]',
-                label: 'Previous home address',
-                value: field.value.previousAddress
-            },
-            isNested = true,
-            conditionalOptions = options,
-            conditionalName = field.name + "[currentAddressMeetsMinimum]"
-        ) }}
-    </div>
+    {% endcall %}
 {% endmacro %}
 
 {% macro inputBudget(field) %}

@@ -13,6 +13,7 @@ import AddressLine from './address-line.vue';
 
 const states = {
     NotAsked: 'NotAsked',
+    NotRequired: 'NotRequired',
     AlreadyAnswered: 'AlreadyAnswered',
     Editing: 'Editing',
     Asking: 'Asking',
@@ -26,17 +27,14 @@ export default {
     props: {
         locale: { type: String, default: 'en' },
         address: { type: String, default: null },
-        conditionalOptions: { type: String, default: null },
-        conditionalName: { type: String, default: null },
-        isNested: { type: String, default: null },
-        fieldName: { type: String, default: null }
+        fieldName: { type: String, default: null },
+        label: { type: String, default: null },
+        explanation: { type: String, default: null }
     },
     data() {
         return {
-            selectedToggle: null,
             showFallbackFields: false,
             currentAddress: null,
-            toggleInputOptions: null,
             postcode: null,
             currentState: states.NotAsked,
             states: states,
@@ -44,14 +42,20 @@ export default {
             addressData: [],
             candidates: [],
             selectedAddressId: '',
-            fallbackVisible: null,
-            componentIsNested: false
+            fallbackVisible: null
         };
     },
     mounted() {
-        if (this.isNested === 'true') {
-            this.componentIsNested = true;
-        }
+        this.$root.$on('update:conditionalRadio', (value) => {
+            if (value === 'yes') {
+                this.currentState = states.NotRequired;
+            } else if (this.fullAddress) {
+                this.currentState = this.states.AlreadyAnswered;
+            } else {
+                this.currentState = states.NotAsked;
+            }
+        });
+
         if (this.address) {
             try {
                 const addressParts = JSON.parse(this.address);
@@ -70,19 +74,10 @@ export default {
             } catch (e) {} // eslint-disable-line no-empty
         }
 
-        if (this.conditionalOptions) {
-            try {
-                const conditionalOptions = JSON.parse(this.conditionalOptions);
-                if (conditionalOptions) {
-                    this.toggleInputOptions = conditionalOptions;
-                }
-            } catch (e) {} // eslint-disable-line no-empty
-        }
-
         const $form = $(this.$el).parents('form').find('input[type="submit"]');
         const that = this;
         $form.on('click', function(e) {
-            if (!that.componentIsNested && that.candidates.length === 0 && !that.showFallbackFields && that.postcode) {
+            if (that.candidates.length === 0 && !that.showFallbackFields && that.postcode) {
                 // @TODO i18n
                 alert(`Please click "Find address" and choose an address from the list.`);
                 document.querySelector('.address-lookup').scrollIntoView();
@@ -201,17 +196,10 @@ export default {
     computed: {
 
         fieldsAreRequired() {
-            if (this.toggleInputOptions) {
-                return (
-                    this.selectedToggle === 'no'
-                );
-            } else {
-                return (
-                    !this.showFallbackFields &&
-                    this.shouldShowPostcodeLookup &&
-                    !this.componentIsNested
-                );
-            }
+            return (
+                !this.showFallbackFields &&
+                this.shouldShowPostcodeLookup
+            );
         },
         shouldShowPostcodeLookup() {
             return (
@@ -258,35 +246,16 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div v-if="currentState !== states.NotRequired">
 
-        <span v-if="fieldsAreRequired">FIELDS REQUIRED</span>
-        <span v-if="!fieldsAreRequired">FIELDS NOT REQUIRED</span>
+        <legend class="ff-label ff-address__legend"
+                v-html="label">
+        </legend>
+
+        <div class="ff-help s-prose" v-if="explanation" v-html="explanation"></div>
 
         <!-- @TODO i18n -->
         <div v-if="shouldShowPostcodeLookup" class="address-lookup">
-
-            <fieldset class="ff-choice ff-choice--inline"
-                      v-if="toggleInputOptions">
-                <ul class="ff-choice__list">
-                    <li class="ff-choice__option"
-                        v-for="option in toggleInputOptions"
-                        :key="option.value">
-                        <div class="ff-choice__input">
-                            <input type="radio"
-                                :name="conditionalName"
-                                id="optionId"
-                                :value="option.value"
-                                @click="selectedToggle = option.value"
-                            />
-                        </div>
-                        <label class="ff-choice__label" for="optionId">
-                            {{ option.label }}
-                        </label>
-                    </li>
-                </ul>
-            </fieldset>
-
             <label :for="ariaId" class="ff-label"
                 >Find address by postcode</label
             >
@@ -372,52 +341,53 @@ export default {
 
         <!-- fallback fields -->
         <details class="o-details u-margin-top"
-                 :open="showFallbackFields">
+                 :open="showFallbackFields"
+                 v-if="currentState !== states.NotRequired">
             <summary class="js-only o-details__summary"
                      @click="showFallbackFields = !showFallbackFields">
                 Enter address manually
             </summary>
 
-            <AddressLine
-                :name="fieldName + '[line1]'"
-                label="Building and street"
-                :is-required="fieldsAreRequired"
-                :value="fullAddress ? fullAddress.line1 : null">
-            </AddressLine>
+            <div>
+                <AddressLine
+                    :name="fieldName + '[line1]'"
+                    label="Building and street"
+                    :is-required="true"
+                    :value="fullAddress ? fullAddress.line1 : null">
+                </AddressLine>
 
-            <AddressLine
-                :name="fieldName + '[line2]'"
-                label="Address line 2"
-                is-required="false"
-                :value="fullAddress ? fullAddress.line2 : null">
-            </AddressLine>
+                <AddressLine
+                    :name="fieldName + '[line2]'"
+                    label="Address line 2"
+                    is-required="false"
+                    :value="fullAddress ? fullAddress.line2 : null">
+                </AddressLine>
 
-            <AddressLine
-                :name="fieldName + '[townCity]'"
-                label="Town or city"
-                :is-required="fieldsAreRequired"
-                :value="fullAddress ? fullAddress.townCity : null"
-                size="30">
-            </AddressLine>
+                <AddressLine
+                    :name="fieldName + '[townCity]'"
+                    label="Town or city"
+                    :is-required="true"
+                    :value="fullAddress ? fullAddress.townCity : null"
+                    size="30">
+                </AddressLine>
 
-            <AddressLine
-                :name="fieldName + '[county]'"
-                label="County"
-                is-required="false"
-                :value="fullAddress ? fullAddress.county : null"
-                size="30">
-            </AddressLine>
+                <AddressLine
+                    :name="fieldName + '[county]'"
+                    label="County"
+                    is-required="false"
+                    :value="fullAddress ? fullAddress.county : null"
+                    size="30">
+                </AddressLine>
 
-            <AddressLine
-                :name="fieldName + '[postcode]'"
-                label="Postcode"
-                :is-required="fieldsAreRequired"
-                :value="fullAddress ? fullAddress.postcode : null"
-                size="10">
-            </AddressLine>
-
+                <AddressLine
+                    :name="fieldName + '[postcode]'"
+                    label="Postcode"
+                    :is-required="true"
+                    :value="fullAddress ? fullAddress.postcode : null"
+                    size="10">
+                </AddressLine>
+            </div>
         </details>
-
 
     </div>
 </template>

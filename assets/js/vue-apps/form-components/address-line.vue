@@ -3,7 +3,7 @@ export default {
     props: ['name', 'label', 'isRequired', 'value', 'size'],
     computed: {
         required() {
-            return this.isRequired === 'true';
+            return this.isRequired === true;
         }
     }
 };
