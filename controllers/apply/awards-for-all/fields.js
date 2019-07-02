@@ -2243,8 +2243,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         bankAccountName: {
             name: 'bankAccountName',
             label: localise({
-                en:
-                    'Tell us the name of your organisation - as it appears on the bank statement',
+                en: `Tell us the name of your organisation - as it appears on the bank statement`,
                 cy: ''
             }),
             explanation: localise({
@@ -2258,7 +2257,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `Enter the name of your organisation as it appears on your bank statement`,
+                        en: `Enter the name of your organisation, as it appears on your bank statement`,
                         cy: ''
                     })
                 }
@@ -2283,7 +2282,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'string.length',
                     message: localise({
-                        en: 'Enter a six digit sort code',
+                        en: 'Sort code must be six digits long',
                         cy: ''
                     })
                 }

@@ -462,22 +462,21 @@ Address history field group, consists of:
 
 | Rule           | Message                                                                   |
 | -------------- | ------------------------------------------------------------------------- |
-| Required field | Enter the name of your organisaiton, as it appears on your bank statement |
+| Required field | Enter the name of your organisation, as it appears on your bank statement |
 
 ### Sort code
 
 | Rule           | Message                           |
 | -------------- | --------------------------------- |
 | Required field | Enter a sort code                 |
-| Too short      | Sort code must be six digits long |
-| Too long       | Sort code must be six digits long |
+| Invalid length | Sort code must be six digits long |
 
 ### Account number
 
-| Rule           | Message                                                        |
-| -------------- | -------------------------------------------------------------- |
-| Required field | Enter an account number                                        |
-| Too short      | Is this correct? Account numbers are usually eight digits long |
+| Rule           | Message                             |
+| -------------- | ----------------------------------- |
+| Required field | Enter an account number             |
+| Invalid length | Enter a valid length account number |
 
 ### Building society number
 
