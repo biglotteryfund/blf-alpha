@@ -370,15 +370,18 @@ news:
     press-releases:
       singular: Datganiad i’r wasg
       plural: Datganiadau i’r wasg
-    # @TODO decide on the name for this and get it translated
-    updates:
-      singular: Updates
-      plural: Updates
+    people-stories:
+      singular: Stori Pobl
+      plural: Straeon Pobl
+  aboutThisContent:
+    blog: Ynglŷn â’r blog postio hwn
+    people-stories: Ynglŷn â’r Stori Pobl hwn
   datePublished: Dyddiad cyhoeddi
   readMoreAboutProgramme: Darllen mwy am y rhaglen hon
   blogpost:
-    aboutThisBlogPost: Ynglŷn â’r blog postio hwn
     viewAllBlogPosts: Gweld yr holl bostiadau blog
+  peopleStories:
+    viewAllPeopleStories: Gweld holl Straeon Pobl
   pressRelease:
     region: Rhanbarth
     notesToEditors: Nodiadau i Olygyddion
@@ -402,6 +405,8 @@ news:
       Bydd ein datganiadau i’r wasg yn rhoi’r prif ffeithiau i chi am gyhoeddiadau ariannu, grantiau neu ymchwil newydd, digwyddiadau arbennig, digwyddiadau lansio, pa elusennau y gwobrwywyd arian iddynt, prosiectau dyfeisgar, arfer gorau yn y sector a mwy.
     blog: >
       Chwilio am liw, cyd-destun a phersbectif ar waith Cronfa Gymunedol y Loteri Genedlaethol, ei effaith ar gymunedau a’r pynciau sydd yn y newyddion ar hyn o bryd? Mae’r cyfan yma. Bydd y blog hwn yn esbonio, ymchwilio, arddangos ac archwilio ffyrdd y mae cymdeithas sifil, ac o ganlyniad i hynny, y sector, yn newid. Darllenwch am yr hyn yr oedd pobl mewn cymunedau led led y DU a’r sector yn ei feddwl yr oedd gan arweinyddion i’w ddweud a ffurfio eich barn eich hunan.
+    people-stories: >
+      Rydym o’r gred pan mae pobl yn arwain, mae cymunedau’n ffynnu. Yma, gallwch ddarllen straeon bywyd go iawn am bobl sydd wedi cael budd o arian y Loteri Genedlaethol; wedi cymryd rhan mewn prosiectau sydd wedi ehangu gorwelion, gwella eu cymunedau a newid eu bywydau am y gorau.
   filters:
     viewPostsTagged: Gweld yr holl byst sydd wedi’u tagio gyda
     viewPostsIn: Gweld yr holl byst o fewn

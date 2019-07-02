@@ -60,26 +60,28 @@
                 </footer>
             </section>
 
-            {# Blog posts #}
-            <section class="latest-updates u-inner u-margin-bottom">
-                <header class="latest-updates__header">
-                    <h2 class="t--underline">{{ copy.types['people-stories'].plural }}</h2>
-                </header>
-                <div class="latest-updates__content">
-                    <ul class="flex-grid flex-grid--3up">
-                        {% for entry in peopleStories | take(3) %}
-                            <li class="flex-grid__item">
-                                {{ blogTrail(entry, updateType = 'people-stories') }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <footer class="latest-updates__footer">
-                    <a class="latest-updates__more" href="{{ localify('/news/people-stories') }}">
-                        {{ copy.peopleStories.viewAllPeopleStories }} &rarr;
-                    </a>
-                </footer>
-            </section>
+            {# People stories #}
+            {% if peopleStories.length > 0 %}
+                <section class="latest-updates u-inner u-margin-bottom">
+                    <header class="latest-updates__header">
+                        <h2 class="t--underline">{{ copy.types['people-stories'].plural }}</h2>
+                    </header>
+                    <div class="latest-updates__content">
+                        <ul class="flex-grid flex-grid--3up">
+                            {% for entry in peopleStories | take(3) %}
+                                <li class="flex-grid__item">
+                                    {{ blogTrail(entry, updateType = 'people-stories') }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <footer class="latest-updates__footer">
+                        <a class="latest-updates__more" href="{{ localify('/news/people-stories') }}">
+                            {{ copy.peopleStories.viewAllPeopleStories }} &rarr;
+                        </a>
+                    </footer>
+                </section>
+            {% endif %}
 
             {# Press releases #}
             {% call contentBox() %}
