@@ -638,10 +638,8 @@ $inputOutline: 3px solid get-color('border', 'outline');
     }
 
     &.has-errors {
-        .form-field__main {
-            border-left: 3px solid get-color('message', 'warning');
-            padding-left: $spacingUnit / 2;
-        }
+        border-left: 3px solid get-color('message', 'warning');
+        padding-left: $spacingUnit / 2;
     }
 }
 
