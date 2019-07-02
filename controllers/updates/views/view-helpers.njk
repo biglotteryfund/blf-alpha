@@ -11,7 +11,7 @@
     {%- endfor %}
 {% endmacro %}
 
-{% macro blogTrail(entry, promoted = false, showAuthor = true) %}
+{% macro blogTrail(entry, promoted = false, showAuthor = true, updateType = 'blog') %}
     {% call promoCard({
         "title": entry.trailText or entry.title,
         subtitle: formatDate(entry.postDate.date, DATE_FORMATS.short),
@@ -57,14 +57,16 @@
 
             <div class="blogpost-attribution__tags">
                 <ul class="tags-list">
-                    <li class="tag">
-                        <a href="{{ localify('/news/blog?category=' + entry.category.slug) }}">
-                            {{ entry.category.title }}
-                        </a>
-                    </li>
+                    {% if entry.category %}
+                        <li class="tag">
+                            <a href="{{ localify('/news/' + updateType + '?category=' + entry.category.slug) }}">
+                                {{ entry.category.title }}
+                            </a>
+                        </li>
+                    {% endif %}
                     {% for tag in entry.tags %}
                         <li class="tag tag--secondary">
-                            <a href="{{ localify('/news/blog?tag=' + tag.slug) }}">
+                            <a href="{{ localify('/news/' + updateType + '?tag=' + tag.slug) }}">
                                 {{ tag.title }}
                             </a>
                         </li>
