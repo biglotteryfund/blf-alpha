@@ -399,9 +399,7 @@ describe('awards for all', function() {
 
             submitStep();
 
-            shouldDisplayErrors([
-                'Date you start or end the project must be after'
-            ]);
+            shouldDisplayErrors(['Date you start the project must be after']);
             cy.checkA11y();
 
             const validDate = moment().add('12', 'weeks');
@@ -461,26 +459,11 @@ describe('awards for all', function() {
                 .invoke('val', faker.lorem.words(100))
                 .trigger('change');
 
-            const maybeTooShort = faker.random.number({ min: 10, max: 200 });
-
             cy.getByLabelText('How does your project involve your community?')
-                .invoke('val', faker.lorem.words(maybeTooShort))
+                .invoke('val', faker.lorem.words(200))
                 .trigger('change');
 
             submitStep();
-
-            if (maybeTooShort < 50) {
-                shouldDisplayErrors(['Answer must be at least 50 words']);
-                cy.checkA11y();
-
-                cy.getByLabelText(
-                    'How does your project involve your community?'
-                )
-                    .invoke('val', faker.lorem.words(200))
-                    .trigger('change');
-
-                submitStep();
-            }
         }
 
         function stepProjectCosts() {
