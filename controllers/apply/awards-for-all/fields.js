@@ -741,47 +741,50 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 return [
                     {
                         type: 'base',
-                        message: localise({ en: 'Enter a date', cy: '' })
+                        message: localise({
+                            en: 'Enter a project start and end date',
+                            cy: ''
+                        })
                     },
                     {
                         type: 'dateRange.both.invalid',
                         message: localise({
-                            en: 'Enter a valid project start and end date',
+                            en: `Project start and end dates must be real dates`,
                             cy: ''
                         })
                     },
                     {
                         type: 'datesRange.startDate.invalid',
                         message: localise({
-                            en: 'Enter a valid project start date',
+                            en: `Date you start the project must be a real date`,
                             cy: ''
                         })
                     },
                     {
                         type: 'dateRange.endDate.invalid',
                         message: localise({
-                            en: 'Enter a valid project end date',
+                            en: 'Date you end the project must be a real date',
                             cy: ''
                         })
                     },
                     {
                         type: 'dateRange.minDate.invalid',
                         message: localise({
-                            en: `Date you start or end the project must be after ${this.settings.fromDateExample}`,
+                            en: `Date you start the project must be after ${this.settings.fromDateExample}`,
                             cy: ''
                         })
                     },
                     {
                         type: 'dateRange.endDate.beforeStartDate',
                         message: localise({
-                            en: `Project end date must be after start date`,
+                            en: `Date you end the project must be after the start date`,
                             cy: ''
                         })
                     },
                     {
                         type: 'dateRange.endDate.outsideLimit',
                         message: localise({
-                            en: `Project end date must be within ${this.settings.maxDurationFromStart.label} of the start date.`,
+                            en: `Date you end the project must be within ${this.settings.maxDurationFromStart.label} of the start date.`,
                             cy: ''
                         })
                     }
