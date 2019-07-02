@@ -1027,7 +1027,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'base',
                         message: localise({
-                            en: `Tell us how your project meet at least one of our funding priorities`,
+                            en: `Tell us how your project meets at least one of our funding priorities`,
                             cy: ``
                         })
                     },
@@ -1153,14 +1153,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'budgetItems.overBudget',
                     message: localise({
-                        en: `Total project costs must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                        en: `Project costs must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
                         cy: ``
                     })
                 },
                 {
                     type: 'budgetItems.underBudget',
                     message: localise({
-                        en: `Total project costs must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                        en: `Project costs must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
                         cy: ``
                     })
                 }

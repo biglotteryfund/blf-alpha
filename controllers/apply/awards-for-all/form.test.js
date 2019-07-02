@@ -276,14 +276,14 @@ describe('Form validations', () => {
             assertMessagesByKey(value(budgetWithoutCosts), defaultMessages);
         });
 
-        test('total project costs must be less than £10,000', () => {
+        test('project costs must be less than £10,000', () => {
             const budget = times(10, () => ({
                 item: faker.lorem.words(5),
                 cost: 1100
             }));
 
             assertMessagesByKey(value(budget), [
-                'Total project costs must be less than £10,000'
+                'Project costs must be less than £10,000'
             ]);
         });
 
