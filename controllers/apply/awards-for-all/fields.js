@@ -2397,7 +2397,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'You must agree to all of the terms and conditions',
+                        en: `You must confirm that you're authorised to submit this application`,
                         cy: ''
                     })
                 }
@@ -2420,7 +2420,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'You must agree to all of the terms and conditions',
+                        en: `You must confirm that the information you've provided in this application is accurate`,
                         cy: ''
                     })
                 }
@@ -2443,7 +2443,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'You must agree to all of the terms and conditions',
+                        en: `You must confirm that you understand how we'll use any personal information you've provided`,
                         cy: ''
                     })
                 }
@@ -2466,7 +2466,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'You must agree to all of the terms and conditions',
+                        en: `You must confirm that you understand your application is subject to our Freedom of Information policy`,
                         cy: ''
                     })
                 }
@@ -2485,7 +2485,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `You must provide the name of the person completing this form`,
+                        en: `Enter the full name of the person completing this form`,
                         cy: ''
                     })
                 }
@@ -2501,7 +2501,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `You must provide the position of the person completing this form`,
+                        en: `Enter the position of the person completing this form`,
                         cy: ''
                     })
                 }
