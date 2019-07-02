@@ -40,13 +40,13 @@ describe('BudgetInput', () => {
         // Over-budget
         lastRow.find('input[type="number"]').setValue(10000);
         expect(wrapper.find('[data-testid="budget-errors"]').text()).toContain(
-            `Total project costs must be less than £${maxBudget}.`
+            `Project costs must be less than £${maxBudget}.`
         );
 
         // Under-budget
         lastRow.find('input[type="number"]').setValue(10);
         expect(wrapper.find('[data-testid="budget-errors"]').text()).toContain(
-            `Total project costs must be greater than £${minBudget}.`
+            `Project costs must be greater than £${minBudget}.`
         );
 
         // Reach limit
