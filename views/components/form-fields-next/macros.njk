@@ -599,11 +599,17 @@
             {% endif %}
         </div>
         {% if fieldErrors.length > 0 %}
+            {% if field.settings.showWordCount %}
+                <noscript>
+            {% endif %}
             <ol class="form-field__errors">
                 {% for error in fieldErrors %}
                     <li>{{ error.msg }}</li>
                 {% endfor %}
             </ol>
+            {% if field.settings.showWordCount %}
+                </noscript>
+            {% endif %}
         {% endif %}
     </div>
 {% endmacro %}
