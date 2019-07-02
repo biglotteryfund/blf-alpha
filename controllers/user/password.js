@@ -110,15 +110,14 @@ router
         );
 
         if (validationResult.isValid) {
-            res.locals.alertMessage = `Password reset requested. If the email address entered is correct you will receive instructions via email.`;
             try {
                 const { username } = validationResult.value;
                 const user = await Users.findByUsername(sanitise(username));
+                res.locals.passwordWasJustReset = true;
 
                 if (user) {
                     await processResetRequest(req, user);
                     logger.info('Password reset request succeeded');
-                    res.locals.passwordWasJustReset = true;
                 }
 
                 renderForgotForm(req, res);
