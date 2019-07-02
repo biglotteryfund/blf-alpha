@@ -216,9 +216,7 @@ describe('Form validations', () => {
             ]);
 
             assertValidByKey(value(randomCountry));
-            assertMessagesByKey(value('not-a-country'), [
-                'Choose a valid country'
-            ]);
+            assertMessagesByKey(value('not-a-country'), ['Select a country']);
         });
 
         test('project postcode must be a valid UK postcode', () => {

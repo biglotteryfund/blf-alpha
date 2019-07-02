@@ -848,7 +848,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Choose a valid country', cy: '' })
+                    message: localise({ en: 'Select a country', cy: '' })
                 }
             ]
         },
@@ -878,7 +878,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Choose a location', cy: '' })
+                    message: localise({ en: 'Select a location', cy: '' })
                 }
             ]
         },
@@ -894,7 +894,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a description', cy: '' })
+                    message: localise({
+                        en: `Tell us the towns, villages or wards your beneficiaries live in`,
+                        cy: ''
+                    })
                 }
             ]
         },
