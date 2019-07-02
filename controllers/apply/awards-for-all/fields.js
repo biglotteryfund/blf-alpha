@@ -1239,7 +1239,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Answer yes or no', cy: '' })
+                    message: localise({ en: 'Select yes or no', cy: '' })
                 }
             ]
         },
@@ -1313,7 +1313,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the specific group(s) of people your project is aimed at`,
                         cy: ''
                     })
                 }
@@ -1474,7 +1474,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the ethnic background(s) of the people that will benefit from your project`,
                         cy: ''
                     })
                 }
@@ -1514,7 +1514,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the gender(s) of the people that will benefit from your project`,
                         cy: ''
                     })
                 }
@@ -1547,7 +1547,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the age group(s) of the people that will benefit from your project`,
                         cy: ''
                     })
                 }
@@ -1608,7 +1608,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the disabled people that will benefit from your project`,
                         cy: ''
                     })
                 }
@@ -1652,7 +1652,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the religion(s) or belief(s) of the people that will benefit from your project`,
                         cy: ''
                     })
                 }
@@ -1707,7 +1707,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the amount of people who speak Welsh that will benefit from your project`,
                         cy: ''
                     })
                 }
@@ -1764,7 +1764,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the community that the people who will benefit from your project belong to`,
                         cy: ''
                     })
                 }
