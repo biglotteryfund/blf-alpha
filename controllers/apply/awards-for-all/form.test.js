@@ -472,7 +472,7 @@ describe('Form validations', () => {
             }
 
             assertValidByKey(value(sample(Object.values(ORGANISATION_TYPES))));
-            const defaultMessages = ['Choose a type of organisation'];
+            const defaultMessages = ['Select a type of organisation'];
             assertMessagesByKey(value(null), defaultMessages);
             assertMessagesByKey(value('not-an-option'), defaultMessages);
         });
@@ -625,7 +625,7 @@ describe('Form validations', () => {
             );
 
             assertMessagesByKey(value(null, null), [
-                'Enter a first and last name'
+                'Enter first and last name'
             ]);
         });
     }

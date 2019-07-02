@@ -12,24 +12,24 @@ This file documents validation rules, conditions, and error message text for all
 
 ### When would you like to start and end your project?
 
-| Rule                                | Message                                                          |
-| ----------------------------------- | ---------------------------------------------------------------- |
-| Required field (start date)         | Enter a project start date                                       |
-| Required field (end date)           | Enter an project end date                                        |
-| Both invalid                        | Project start and end dates must be real dates                   |
-| Start date invalid                  | Date you start the project must be a real date                   |
-| End date invalid                    | Date you end the project must be a real date                     |
-| Date too soon                       | Date you start the project must be after [example date]          |
-| Ends before start date              | Date you end the project must be after the start date            |
-| Outside limit                       | Date you end the project must be within [max duration] of the start date |
+| Rule                        | Message                                                                  |
+| --------------------------- | ------------------------------------------------------------------------ |
+| Required field (start date) | Enter a project start date                                               |
+| Required field (end date)   | Enter an project end date                                                |
+| Both invalid                | Project start and end dates must be real dates                           |
+| Start date invalid          | Date you start the project must be a real date                           |
+| End date invalid            | Date you end the project must be a real date                             |
+| Date too soon               | Date you start the project must be after [example date]                  |
+| Ends before start date      | Date you end the project must be after the start date                    |
+| Outside limit               | Date you end the project must be within [max duration] of the start date |
 
 ## Project Country
 
 ### What country will your project be based in?
 
-| Rule           | Message                |
-| -------------- | ---------------------- |
-| Required field | Select a country       |
+| Rule           | Message          |
+| -------------- | ---------------- |
+| Required field | Select a country |
 
 ## Project Location
 
@@ -138,9 +138,9 @@ An additional "Other" field is provided for free text responses.
 
 ### Ethnic background
 
-| Rule           | Message                                                                                       |
-| -------------- | --------------------------------------------------------------------------------------------- |
-| Required field | Select the ethnic background(s) of the people that will benefit from your project             |
+| Rule           | Message                                                                           |
+| -------------- | --------------------------------------------------------------------------------- |
+| Required field | Select the ethnic background(s) of the people that will benefit from your project |
 
 #### Conditions
 
@@ -148,9 +148,9 @@ An additional "Other" field is provided for free text responses.
 
 ### Gender
 
-| Rule           | Message                                                                         |
-| -------------- | ------------------------------------------------------------------------------- |
-| Required field | Select the gender(s) of the people that will benefit from your project          |
+| Rule           | Message                                                                |
+| -------------- | ---------------------------------------------------------------------- |
+| Required field | Select the gender(s) of the people that will benefit from your project |
 
 #### Conditions
 
@@ -158,9 +158,9 @@ An additional "Other" field is provided for free text responses.
 
 ### Age
 
-| Rule           | Message                                                                                       |
-| -------------- | --------------------------------------------------------------------------------------------- |
-| Required field | Select the age group(s) of the people that will benefit from your project                     |
+| Rule           | Message                                                                   |
+| -------------- | ------------------------------------------------------------------------- |
+| Required field | Select the age group(s) of the people that will benefit from your project |
 
 #### Conditions
 
@@ -168,9 +168,9 @@ An additional "Other" field is provided for free text responses.
 
 ### Disabled people
 
-| Rule           | Message                                                                         |
-| -------------- | ------------------------------------------------------------------------------- |
-| Required field | Select the disabled people that will benefit from your project                  |
+| Rule           | Message                                                        |
+| -------------- | -------------------------------------------------------------- |
+| Required field | Select the disabled people that will benefit from your project |
 
 #### Conditions
 
@@ -178,9 +178,9 @@ An additional "Other" field is provided for free text responses.
 
 ### Religion
 
-| Rule           | Message                                                                                   |
-| -------------- | ----------------------------------------------------------------------------------------- |
-| Required field | Select the religion(s) or belief(s) of the people that will benefit from your project     |
+| Rule           | Message                                                                               |
+| -------------- | ------------------------------------------------------------------------------------- |
+| Required field | Select the religion(s) or belief(s) of the people that will benefit from your project |
 
 #### Conditions
 
@@ -190,9 +190,9 @@ An additional "Other" field is provided for free text responses.
 
 ### How many of the people who will benefit from your project speak Welsh?
 
-| Rule           | Message                                                                                   |
-| -------------- | ----------------------------------------------------------------------------------------- |
-| Required field | Select the amount of people who speak Welsh that will benefit from your project           |
+| Rule           | Message                                                                         |
+| -------------- | ------------------------------------------------------------------------------- |
+| Required field | Select the amount of people who speak Welsh that will benefit from your project |
 
 #### Conditions
 
@@ -200,9 +200,9 @@ An additional "Other" field is provided for free text responses.
 
 ### Which community do the people who will benefit from your project belong to?
 
-| Rule           | Message                                                                                   |
-| -------------- | ----------------------------------------------------------------------------------------- |
-| Required field | Select the community that the people who will benefit from your project belong to         |
+| Rule           | Message                                                                           |
+| -------------- | --------------------------------------------------------------------------------- |
+| Required field | Select the community that the people who will benefit from your project belong to |
 
 #### Conditions
 
@@ -226,10 +226,10 @@ _Does your organisation use a different name in your day-to-day work?_
 
 ### When was your organisation set up?
 
-| Rule         | Message                     |
-| ------------ | --------------------------- |
-| Empty        | Enter a month and year      |
-| Invalid date | Enter a real month and year |
+| Rule         | Message                            |
+| ------------ | ---------------------------------- |
+| Empty        | Enter a month and year             |
+| Invalid date | Enter a real month and year        |
 | In future    | Date you enter must be in the past |
 
 ### Organisation address
@@ -292,23 +292,14 @@ _Does your organisation use a different name in your day-to-day work?_
 
 ## Senior contact
 
-### Senior contact first name
-
-| Rule           | Message          |
-| -------------- | ---------------- |
-| Required field | Enter first name |
-
-### Senior contact last name
-
-| Rule           | Message          |
-| -------------- | ---------------- |
-| Required field | Enter last name |
-
 ### Senior contact name
 
-| Rule                   | Message                                                            |
-| ---------------------- | ------------------------------------------------------------------ |
-| Matches Senior Contact | Senior contact must be a different person from the main contact    |
+| Rule                   | Message                                                         |
+| ---------------------- | --------------------------------------------------------------- |
+| Required field         | Enter first and last name                                       |
+| Missing first name     | Enter first name                                                |
+| Missing last name      | Enter last name                                                 |
+| Matches Senior Contact | Senior contact must be a different person from the main contact |
 
 #### Mappings
 
@@ -372,10 +363,10 @@ Address history field group, consists of:
 
 ### Senior contact email
 
-| Rule           | Message                                                            |
-| -------------- | ------------------------------------------------------------------ |
-| Required field | Enter an email address                                             |
-| Invalid format | Email address must be in the correct format, like name@example.com |
+| Rule                 | Message                                                                              |
+| -------------------- | ------------------------------------------------------------------------------------ |
+| Required field       | Enter an email address                                                               |
+| Invalid format       | Email address must be in the correct format, like name@example.com                   |
 | Matches main contact | Senior contact email address must be different from the main contact's email address |
 
 ### Senior contact phone
@@ -393,23 +384,14 @@ Address history field group, consists of:
 
 ## Main contact
 
-### Main contact first name
-
-| Rule           | Message          |
-| -------------- | ---------------- |
-| Required field | Enter first name |
-
-### Main contact last name
-
-| Rule           | Message          |
-| -------------- | ---------------- |
-| Required field | Enter last name |
-
 ### Main contact name
 
-| Rule                   | Message                                                            |
-| ---------------------- | ------------------------------------------------------------------ |
-| Matches Senior Contact | Main contact must be a different person from the senior contact    |
+| Rule                   | Message                                                         |
+| ---------------------- | --------------------------------------------------------------- |
+| Required field         | Enter first and last name                                       |
+| Missing first name     | Enter first name                                                |
+| Missing last name      | Enter last name                                                 |
+| Matches Senior Contact | Main contact must be a different person from the senior contact |
 
 ### Main contact date of birth
 
@@ -484,17 +466,17 @@ Address history field group, consists of:
 
 ### Sort code
 
-| Rule           | Message                     |
-| -------------- | --------------------------- |
-| Required field | Enter a sort code           |
+| Rule           | Message                           |
+| -------------- | --------------------------------- |
+| Required field | Enter a sort code                 |
 | Too short      | Sort code must be six digits long |
 | Too long       | Sort code must be six digits long |
 
 ### Account number
 
-| Rule           | Message                             |
-| -------------- | ----------------------------------- |
-| Required field | Enter an account number             |
+| Rule           | Message                                                        |
+| -------------- | -------------------------------------------------------------- |
+| Required field | Enter an account number                                        |
 | Too short      | Is this correct? Account numbers are usually eight digits long |
 
 ### Building society number
@@ -515,36 +497,36 @@ Address history field group, consists of:
 
 ### Terms checkbox 1
 
-| Rule     | Message                                           |
-| -------- | ------------------------------------------------- |
+| Rule     | Message                                                            |
+| -------- | ------------------------------------------------------------------ |
 | Required | You must confirm that you're authorised to submit this application |
 
 ### Terms checkbox 2
 
-| Rule     | Message                                           |
-| -------- | ------------------------------------------------- |
+| Rule     | Message                                                                               |
+| -------- | ------------------------------------------------------------------------------------- |
 | Required | You must confirm that the information you've provided in this application is accurate |
 
 ### Terms checkbox 3
 
-| Rule     | Message                                           |
-| -------- | ------------------------------------------------- |
+| Rule     | Message                                                                                     |
+| -------- | ------------------------------------------------------------------------------------------- |
 | Required | You must confirm that you understand how we'll use any personal information you've provided |
 
 ### Terms checkbox 3
 
-| Rule     | Message                                           |
-| -------- | ------------------------------------------------- |
-| Required | You must confirm that you understand your application is subject to our Freedom of Information policy  |
+| Rule     | Message                                                                                               |
+| -------- | ----------------------------------------------------------------------------------------------------- |
+| Required | You must confirm that you understand your application is subject to our Freedom of Information policy |
 
 ### Full name of person completing this form
 
-| Rule     | Message                                                      |
-| -------- | ------------------------------------------------------------ |
-| Required | Enter the full name of the person completing this form       |
+| Rule     | Message                                                |
+| -------- | ------------------------------------------------------ |
+| Required | Enter the full name of the person completing this form |
 
 ### Position in organisation
 
-| Rule     | Message                                                          |
-| -------- | ---------------------------------------------------------------- |
-| Required | Enter the position of the person completing this form            |
+| Rule     | Message                                               |
+| -------- | ----------------------------------------------------- |
+| Required | Enter the position of the person completing this form |

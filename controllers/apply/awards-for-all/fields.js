@@ -127,11 +127,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     },
                     {
                         type: 'any.empty',
-                        key: 'county',
-                        message: localise({ en: 'Enter a county', cy: '' })
-                    },
-                    {
-                        type: 'any.empty',
                         key: 'postcode',
                         message: localise({ en: 'Enter a postcode', cy: '' })
                     },
@@ -236,7 +231,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'base',
                         message: localise({
-                            en: 'Enter a first and last name',
+                            en: 'Enter first and last name',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'any.empty',
+                        key: 'firstName',
+                        message: localise({
+                            en: 'Enter first name',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'any.empty',
+                        key: 'lastName',
+                        message: localise({
+                            en: 'Enter last name',
                             cy: ''
                         })
                     }
@@ -388,7 +399,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose a type of organisation',
+                        en: 'Select a type of organisation',
                         cy: ''
                     })
                 }
@@ -1838,7 +1849,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'monthYear.pastDate',
                     message: localise({
-                        en: 'Enter a past date',
+                        en: 'Date you enter must be in the past',
                         cy: ''
                     })
                 }
