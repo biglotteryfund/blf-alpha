@@ -1,8 +1,11 @@
 'use strict';
 const { find, filter, get, head, map, sortBy } = require('lodash/fp');
 const request = require('request-promise-native');
-const debug = require('debug')('tnlcf:content-api');
 const querystring = require('querystring');
+
+const logger = require('./logger').child({
+    service: 'content-api'
+});
 
 const getAttrs = response => get('data.attributes')(response);
 const mapAttrs = response => map('attributes')(response.data);
@@ -11,8 +14,10 @@ const { sanitiseUrlPath } = require('./urls');
 let { CONTENT_API_URL } = require('./secrets');
 
 function fetch(urlPath, options) {
-    debug(
-        `Fetching ${CONTENT_API_URL}${urlPath}${options && options.qs ? '?' + querystring.stringify(options.qs) : ''}`
+    logger.debug(
+        `Fetching ${CONTENT_API_URL}${urlPath}${
+            options && options.qs ? '?' + querystring.stringify(options.qs) : ''
+        }`
     );
     const defaults = {
         url: `${CONTENT_API_URL}${urlPath}`,

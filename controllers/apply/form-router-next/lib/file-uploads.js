@@ -5,9 +5,11 @@ const AWS = require('aws-sdk');
 const get = require('lodash/get');
 const keyBy = require('lodash/keyBy');
 const mapValues = require('lodash/mapValues');
-const debug = require('debug')('tnlcf:s3');
 
 const { S3_KMS_KEY_ID } = require('../../../../common/secrets');
+const logger = require('../../../../common/logger').child({
+    service: 's3-uploads'
+});
 
 const S3_UPLOAD_BUCKET = config.get('aws.s3.formUploadBucket');
 
@@ -74,7 +76,7 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
 
         fileStream.on('open', async () => {
             if (!!process.env.TEST_SERVER === true) {
-                debug(`skipped uploading file ${uploadKey}`);
+                logger.debug(`Skipped uploading file ${uploadKey}`);
                 return resolve();
             } else {
                 s3.putObject(

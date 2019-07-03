@@ -1,7 +1,8 @@
 'use strict';
 const Sequelize = require('sequelize');
-const debug = require('debug')('tnlcf:models');
+
 const appData = require('../../common/appData');
+const logger = require('../../common/logger').child({ service: 'db' });
 
 const env = process.env.NODE_ENV || 'development';
 const databaseConfig = require('../database-config')[env];
@@ -13,17 +14,17 @@ const SurveyAnswer = require('./survey');
 const { PendingApplication, SubmittedApplication } = require('./applications');
 const { Order, OrderItem } = require('./orders');
 
-debug(`Using ${databaseConfig.dialect} database`);
+logger.debug(`Using ${databaseConfig.dialect} database`);
 
 const sequelize = new Sequelize(databaseConfig.url, databaseConfig);
 
 sequelize
     .authenticate()
     .then(() => {
-        debug('Connection has been established successfully.');
+        logger.info('Connection has been established successfully.');
     })
     .catch(err => {
-        debug('Unable to connect to the database:', err);
+        logger.info('Unable to connect to the database:', err);
     });
 
 /**
