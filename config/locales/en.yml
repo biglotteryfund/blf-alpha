@@ -797,6 +797,8 @@ funding:
     under10k: Awards under £10,000
     over10k: Awards over £10,000
     allProgrammes: View all funding programmes
+  strategics:
+    title: Strategic investments in England
   archivedProgramme:
     archivedMessage: This programme is no longer available and has been archived
     archivedDetail: >

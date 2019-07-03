@@ -40,8 +40,11 @@ function setCommonLocals({ res, entry }) {
     res.locals.openGraph = get('openGraph')(entry);
 
     res.locals.previewStatus = {
-        isDraftOrVersion: entry.status === 'draft' || entry.status === 'version',
-        lastUpdated: moment(entry.dateUpdated.date).format('Do MMM YYYY [at] h:mma')
+        isDraftOrVersion:
+            entry.status === 'draft' || entry.status === 'version',
+        lastUpdated: moment(entry.dateUpdated.date).format(
+            'Do MMM YYYY [at] h:mma'
+        )
     };
 
     setHeroLocals({ res, entry });
@@ -97,7 +100,9 @@ function injectBreadcrumbs(req, res, next) {
             url: res.locals.sectionUrl
         };
 
-        const ancestors = res.locals.customAncestors || getOr([], 'ancestors')(res.locals.content);
+        const ancestors =
+            res.locals.customAncestors ||
+            getOr([], 'ancestors')(res.locals.content);
         const ancestorCrumbs = ancestors.map(ancestor => {
             return {
                 label: ancestor.title,
@@ -207,15 +212,17 @@ async function injectFundingProgramme(req, res, next) {
 
 async function injectStrategicProgramme(req, res, next) {
     try {
-        // Assumes a parameter of :slug in the request
-        const { slug } = req.params;
+        // Assumes a parameter of :slug and :childPageSlug? in the request
+        const { slug, childPageSlug } = req.params;
         let query = {};
         if (req.query.social) {
             query.social = req.query.social;
         }
         if (slug) {
+            const querySlug = childPageSlug ? `${slug}/${childPageSlug}` : slug;
+
             const entry = await contentApi.getStrategicProgrammes({
-                slug: slug,
+                slug: querySlug,
                 locale: req.i18n.getLocale(),
                 previewMode: res.locals.PREVIEW_MODE || false,
                 query: query
@@ -236,9 +243,11 @@ async function injectStrategicProgramme(req, res, next) {
 
 async function injectStrategicProgrammes(req, res, next) {
     try {
-        res.locals.strategicProgrammes = await contentApi.getStrategicProgrammes({
-            locale: req.i18n.getLocale()
-        });
+        res.locals.strategicProgrammes = await contentApi.getStrategicProgrammes(
+            {
+                locale: req.i18n.getLocale()
+            }
+        );
         next();
     } catch (error) {
         if (error.statusCode >= 500) {
@@ -318,7 +327,10 @@ function injectMerchandise({ locale = null, showAll = false }) {
     return async (req, res, next) => {
         try {
             const localeToUse = locale ? locale : req.i18n.getLocale();
-            res.locals.availableItems = await contentApi.getMerchandise(localeToUse, showAll);
+            res.locals.availableItems = await contentApi.getMerchandise(
+                localeToUse,
+                showAll
+            );
             next();
         } catch (error) {
             next(error);
