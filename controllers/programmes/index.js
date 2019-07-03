@@ -243,7 +243,8 @@ router.get(
                 res.render(
                     path.resolve(__dirname, '../common/views/flexible-content'),
                     {
-                        breadcrumbs: breadcrumbs
+                        breadcrumbs: breadcrumbs,
+                        flexibleContent: fundingProgramme.content
                     }
                 );
             } else if (

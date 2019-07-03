@@ -68,7 +68,8 @@ router.get('/:slug/:childPageSlug?', injectStrategicProgramme, function(
             res.render(
                 path.resolve(__dirname, '../common/views/flexible-content'),
                 {
-                    breadcrumbs: breadcrumbs
+                    breadcrumbs: breadcrumbs,
+                    flexibleContent: strategicProgramme.content
                 }
             );
         } else {

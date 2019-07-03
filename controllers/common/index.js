@@ -136,7 +136,12 @@ function flexibleContent() {
         injectBreadcrumbs,
         (req, res, next) => {
             if (res.locals.content) {
-                res.render(path.resolve(__dirname, './views/flexible-content'));
+                res.render(
+                    path.resolve(__dirname, './views/flexible-content'),
+                    {
+                        flexibleContent: res.locals.content.flexibleContent
+                    }
+                );
             } else {
                 next();
             }
