@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.use(noCache, function(req, res, next) {
     res.setHeader('X-Robots-Tag', 'noindex');
-    res.locals.isBilingual = false;
+    // res.locals.isBilingual = false;
     next();
 });
 
