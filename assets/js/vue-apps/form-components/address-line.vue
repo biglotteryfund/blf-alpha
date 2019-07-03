@@ -24,6 +24,7 @@ export default {
             :id="'field-' + name"
             :name="name"
             :value="value"
+            @input="$emit('input', $event.target.value)"
             :required="required"
             :aria-required="required"
             :size="size || 40"

@@ -3,12 +3,7 @@ import $ from 'jquery';
 import compact from 'lodash/compact';
 
 import AddressLine from './address-line.vue';
-
-/* @TODO UX/UI snags/edge-cases
- *
- * - Find a way to return to the postcode lookup UI after editing a looked-up address
- *
- * */
+import { trackEvent } from '../../helpers/metrics';
 
 const states = {
     NotAsked: 'NotAsked',
@@ -37,7 +32,14 @@ export default {
             postcode: null,
             currentState: states.NotAsked,
             states: states,
-            fullAddress: null,
+            fullAddress: {
+                line1: null,
+                line2: null,
+                townCity: null,
+                county: null,
+                postcode: null
+            },
+            fullAddressPreview: '',
             addressData: [],
             candidates: [],
             selectedAddressId: '',
@@ -79,6 +81,7 @@ export default {
             if (that.candidates.length === 0 && !that.showFallbackFields && that.postcode) {
                 // @TODO i18n
                 alert(`Please click "Find address" and choose an address from the list.`);
+                trackEvent('Form warning', 'Postcode lookup', 'Typed but not submitted');
                 document.querySelector('.address-lookup').scrollIntoView();
                 // Prevent form submission (for nested)
                 return false;
@@ -167,6 +170,10 @@ export default {
             this.currentState = this.states.Editing;
             this.showFallbackFields = true;
         },
+        finishEditing() {
+            this.currentState = this.states.AlreadyAnswered;
+            this.showFallbackFields = false;
+        },
         updateAddressPreview(fullAddress) {
             if (fullAddress) {
                 this.showFallbackFields = false;
@@ -184,10 +191,22 @@ export default {
                     this.updateAddressPreview(this.formatAddress(address));
                 }
             }
+        },
+        fullAddress: {
+            handler() {
+                this.fullAddressPreview = this.fullAddress
+                    ? compact([
+                        this.fullAddress.line1,
+                        this.fullAddress.line2,
+                        this.fullAddress.townCity,
+                        this.fullAddress.postcode
+                    ]).join('<br />')
+                    : '';
+            },
+            deep: true
         }
     },
     computed: {
-
         fieldsAreRequired() {
             return (
                 !this.showFallbackFields &&
@@ -215,16 +234,6 @@ export default {
             } else {
                 return 'Find address';
             }
-        },
-        addressHtml() {
-            return this.fullAddress
-                ? compact([
-                      this.fullAddress.line1,
-                      this.fullAddress.line2,
-                      this.fullAddress.townCity,
-                      this.fullAddress.postcode
-                  ]).join('<br />')
-                : '';
         },
         id() {
             return Math.random()
@@ -316,7 +325,7 @@ export default {
             <h3 class="existing-data__title">Selected address</h3>
             <address
                 class="existing-data__address"
-                v-html="addressHtml"
+                v-html="fullAddressPreview"
             ></address>
             <div class="existing-data__actions">
                 <button type="button" class="btn-link" @click="startEditing">
@@ -341,26 +350,26 @@ export default {
                 Enter address manually
             </summary>
 
-            <div>
+            <div class="existing-data">
                 <AddressLine
                     :name="fieldName + '[line1]'"
                     label="Building and street"
                     :is-required="true"
-                    :value="fullAddress ? fullAddress.line1 : null">
+                    v-model="fullAddress.line1">
                 </AddressLine>
 
                 <AddressLine
                     :name="fieldName + '[line2]'"
                     label="Address line 2"
                     is-required="false"
-                    :value="fullAddress ? fullAddress.line2 : null">
+                    v-model="fullAddress.line2">
                 </AddressLine>
 
                 <AddressLine
                     :name="fieldName + '[townCity]'"
                     label="Town or city"
                     :is-required="true"
-                    :value="fullAddress ? fullAddress.townCity : null"
+                    v-model="fullAddress.townCity"
                     size="30">
                 </AddressLine>
 
@@ -368,7 +377,7 @@ export default {
                     :name="fieldName + '[county]'"
                     label="County"
                     is-required="false"
-                    :value="fullAddress ? fullAddress.county : null"
+                    v-model="fullAddress.county"
                     size="30">
                 </AddressLine>
 
@@ -376,9 +385,13 @@ export default {
                     :name="fieldName + '[postcode]'"
                     label="Postcode"
                     :is-required="true"
-                    :value="fullAddress ? fullAddress.postcode : null"
+                    v-model="fullAddress.postcode"
                     size="10">
                 </AddressLine>
+
+                <button type="button" class="btn-link u-margin-top-s" @click="finishEditing">
+                    I'm done editing
+                </button>
             </div>
         </details>
 
