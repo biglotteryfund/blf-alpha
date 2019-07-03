@@ -67,7 +67,7 @@ router
                  */
                 logger.warn('Login failed: invalid credentials');
                 return renderForm(req, res, req.body, [
-                    { msg: `Your username and password combination is invalid` }
+                    { msg: res.locals.copy.invalidUser }
                 ]);
             }
         })(req, res, next);
