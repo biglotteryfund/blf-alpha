@@ -49,7 +49,6 @@ if (features.enableSeeders) {
  */
 router.use(requireNotStaffAuth, function(req, res, next) {
     res.locals.bodyClass = 'has-static-header'; // No hero images on user pages
-    res.locals.sectionTitle = req.i18n.__('user.common.yourAccount');
     res.locals.sectionUrl = req.baseUrl;
 
     if (req.user) {
@@ -58,15 +57,15 @@ router.use(requireNotStaffAuth, function(req, res, next) {
         res.locals.userNavigationLinks = [
             {
                 url: localify(req.i18n.getLocale())('/apply/awards-for-all'),
-                label: 'Applications'
+                label: req.i18n.__('user.common.applications')
             },
             {
                 url: localify(req.i18n.getLocale())('/user'),
-                label: 'Account'
+                label: req.i18n.__('user.common.account')
             },
             {
                 url: localify(req.i18n.getLocale())('/user/logout'),
-                label: 'Log out'
+                label: req.i18n.__('user.common.logOut')
             }
         ];
     }

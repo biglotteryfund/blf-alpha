@@ -1079,7 +1079,9 @@ materials:
     <p>If you have any questions about your order, get in touch at <a href="mailto:branding@tnlcommunityfund.org.uk">branding@tnlcommunityfund.org.uk</a>.</p>
 user:
   common:
-    yourAccount: Your account
+    applications: Applications
+    account: Account
+    logOut: Log out
     emailAddress: Email address
     password: Password
     passwordRequirements: >
