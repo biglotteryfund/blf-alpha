@@ -3,6 +3,10 @@ const path = require('path');
 const express = require('express');
 const passport = require('passport');
 
+const logger = require('../../common/logger').child({
+    service: 'user'
+});
+
 const {
     injectCopy,
     injectBreadcrumbs
@@ -13,7 +17,6 @@ const {
 } = require('../../middleware/authed');
 const { csrfProtection } = require('../../middleware/cached');
 
-const logger = require('../../common/logger');
 const alertMessage = require('./lib/alert-message');
 
 const router = express.Router();
@@ -42,22 +45,18 @@ router
         renderForm(req, res);
     })
     .post((req, res, next) => {
-        logger.info('User login: attempted');
+        logger.info('Login attempted');
         passport.authenticate('local', function(err, user) {
             if (err) {
-                logger.info('User login: failed', {
-                    error: err
-                });
+                logger.error('Authentication failed', err);
                 next(err);
             } else if (user) {
                 req.logIn(user, function(loginErr) {
                     if (loginErr) {
-                        logger.info('User login: failed', {
-                            error: loginErr
-                        });
+                        logger.error('Login failed', loginErr);
                         next(loginErr);
                     } else {
-                        logger.info('User login: succeeded');
+                        logger.info('Login succeeded');
                         redirectUrlWithFallback(req, res, '/user');
                     }
                 });
@@ -66,9 +65,7 @@ router
                  * User is invalid
                  * Show a generic error message here to avoid exposing account state
                  */
-                logger.info('User login: failed', {
-                    error: 'Invalid credentials'
-                });
+                logger.warn('Login failed: invalid credentials');
                 return renderForm(req, res, req.body, [
                     { msg: `Your username and password combination is invalid` }
                 ]);

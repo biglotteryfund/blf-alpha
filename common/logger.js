@@ -1,22 +1,23 @@
 'use strict';
-const winston = require('winston');
+const { createLogger, format, transports } = require('winston');
 const WinstonCloudWatch = require('winston-cloudwatch');
 
 const appData = require('./appData');
 
 const skipLogs = !!process.env.TEST_SERVER === true;
 
-if (!skipLogs) {
-    // Push logs to Cloudwatch
-    winston.add(
-        new WinstonCloudWatch({
-            awsRegion: 'eu-west-2',
-            logGroupName: `/tnlcf/${appData.environment}/app`,
-            logStreamName: appData.buildNumber,
-            jsonMessage: true,
-            retentionInDays: 30
-        })
-    );
-}
+const transport = skipLogs
+    ? new transports.Console()
+    : new WinstonCloudWatch({
+          awsRegion: 'eu-west-2',
+          logGroupName: `/tnlcf/${appData.environment}/app`,
+          logStreamName: `build-${appData.buildNumber}`,
+          jsonMessage: true,
+          retentionInDays: 30
+      });
 
-module.exports = winston;
+module.exports = createLogger({
+    level: 'info',
+    format: format.combine(format.errors({ stack: true }), format.json()),
+    transports: [transport]
+});

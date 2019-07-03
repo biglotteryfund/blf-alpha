@@ -127,11 +127,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     },
                     {
                         type: 'any.empty',
-                        key: 'county',
-                        message: localise({ en: 'Enter a county', cy: '' })
-                    },
-                    {
-                        type: 'any.empty',
                         key: 'postcode',
                         message: localise({ en: 'Enter a postcode', cy: '' })
                     },
@@ -236,7 +231,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'base',
                         message: localise({
-                            en: 'Enter a first and last name',
+                            en: 'Enter first and last name',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'any.empty',
+                        key: 'firstName',
+                        message: localise({
+                            en: 'Enter first name',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'any.empty',
+                        key: 'lastName',
+                        message: localise({
+                            en: 'Enter last name',
                             cy: ''
                         })
                     }
@@ -388,7 +399,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose a type of organisation',
+                        en: 'Select a type of organisation',
                         cy: ''
                     })
                 }
@@ -741,47 +752,50 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 return [
                     {
                         type: 'base',
-                        message: localise({ en: 'Enter a date', cy: '' })
+                        message: localise({
+                            en: 'Enter a project start and end date',
+                            cy: ''
+                        })
                     },
                     {
                         type: 'dateRange.both.invalid',
                         message: localise({
-                            en: 'Enter a valid project start and end date',
+                            en: `Project start and end dates must be real dates`,
                             cy: ''
                         })
                     },
                     {
                         type: 'datesRange.startDate.invalid',
                         message: localise({
-                            en: 'Enter a valid project start date',
+                            en: `Date you start the project must be a real date`,
                             cy: ''
                         })
                     },
                     {
                         type: 'dateRange.endDate.invalid',
                         message: localise({
-                            en: 'Enter a valid project end date',
+                            en: 'Date you end the project must be a real date',
                             cy: ''
                         })
                     },
                     {
                         type: 'dateRange.minDate.invalid',
                         message: localise({
-                            en: `Date you start or end the project must be after ${this.settings.fromDateExample}`,
+                            en: `Date you start the project must be after ${this.settings.fromDateExample}`,
                             cy: ''
                         })
                     },
                     {
                         type: 'dateRange.endDate.beforeStartDate',
                         message: localise({
-                            en: `Project end date must be after start date`,
+                            en: `Date you end the project must be after the start date`,
                             cy: ''
                         })
                     },
                     {
                         type: 'dateRange.endDate.outsideLimit',
                         message: localise({
-                            en: `Project end date must be within ${this.settings.maxDurationFromStart.label} of the start date.`,
+                            en: `Date you end the project must be within ${this.settings.maxDurationFromStart.label} of the start date.`,
                             cy: ''
                         })
                     }
@@ -845,7 +859,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Choose a valid country', cy: '' })
+                    message: localise({ en: 'Select a country', cy: '' })
                 }
             ]
         },
@@ -875,7 +889,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Choose a location', cy: '' })
+                    message: localise({ en: 'Select a location', cy: '' })
                 }
             ]
         },
@@ -891,7 +905,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a description', cy: '' })
+                    message: localise({
+                        en: `Tell us the towns, villages or wards your beneficiaries live in`,
+                        cy: ''
+                    })
                 }
             ]
         },
@@ -1021,7 +1038,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'base',
                         message: localise({
-                            en: `Tell us how your project meet at least one of our funding priorities`,
+                            en: `Tell us how your project meets at least one of our funding priorities`,
                             cy: ``
                         })
                     },
@@ -1147,14 +1164,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'budgetItems.overBudget',
                     message: localise({
-                        en: `Total project costs must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                        en: `Project costs must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
                         cy: ``
                     })
                 },
                 {
                     type: 'budgetItems.underBudget',
                     message: localise({
-                        en: `Total project costs must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                        en: `Project costs must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
                         cy: ``
                     })
                 }
@@ -1233,7 +1250,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Answer yes or no', cy: '' })
+                    message: localise({ en: 'Select yes or no', cy: '' })
                 }
             ]
         },
@@ -1307,7 +1324,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the specific group(s) of people your project is aimed at`,
                         cy: ''
                     })
                 }
@@ -1468,7 +1485,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the ethnic background(s) of the people that will benefit from your project`,
                         cy: ''
                     })
                 }
@@ -1508,7 +1525,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the gender(s) of the people that will benefit from your project`,
                         cy: ''
                     })
                 }
@@ -1541,7 +1558,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the age group(s) of the people that will benefit from your project`,
                         cy: ''
                     })
                 }
@@ -1602,7 +1619,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the disabled people that will benefit from your project`,
                         cy: ''
                     })
                 }
@@ -1646,7 +1663,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the religion(s) or belief(s) of the people that will benefit from your project`,
                         cy: ''
                     })
                 }
@@ -1701,7 +1718,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the amount of people who speak Welsh that will benefit from your project`,
                         cy: ''
                     })
                 }
@@ -1758,7 +1775,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Choose from one of the options provided',
+                        en: `Select the community that the people who will benefit from your project belong to`,
                         cy: ''
                     })
                 }
@@ -1832,7 +1849,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'monthYear.pastDate',
                     message: localise({
-                        en: 'Enter a past date',
+                        en: 'Date you enter must be in the past',
                         cy: ''
                     })
                 }
@@ -2226,8 +2243,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         bankAccountName: {
             name: 'bankAccountName',
             label: localise({
-                en:
-                    'Tell us the name of your organisation - as it appears on the bank statement',
+                en: `Tell us the name of your organisation - as it appears on the bank statement`,
                 cy: ''
             }),
             explanation: localise({
@@ -2241,7 +2257,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `Enter the name of your organisation as it appears on your bank statement`,
+                        en: `Enter the name of your organisation, as it appears on your bank statement`,
                         cy: ''
                     })
                 }
@@ -2266,7 +2282,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'string.length',
                     message: localise({
-                        en: 'Enter a six digit sort code',
+                        en: 'Sort code must be six digits long',
                         cy: ''
                     })
                 }
@@ -2280,7 +2296,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.string()
                 .replace(/\D/g, '')
-                .length(8)
+                .min(6)
+                .max(11)
                 .required(),
             messages: [
                 {
@@ -2288,9 +2305,16 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({ en: 'Enter an account number', cy: '' })
                 },
                 {
-                    type: 'string.length',
+                    type: 'string.min',
                     message: localise({
-                        en: 'Enter an eight digit account number',
+                        en: 'Enter a valid length account number',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: 'Enter a valid length account number',
                         cy: ''
                     })
                 }
@@ -2373,7 +2397,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'You must agree to all of the terms and conditions',
+                        en: `You must confirm that you're authorised to submit this application`,
                         cy: ''
                     })
                 }
@@ -2396,7 +2420,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'You must agree to all of the terms and conditions',
+                        en: `You must confirm that the information you've provided in this application is accurate`,
                         cy: ''
                     })
                 }
@@ -2419,7 +2443,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'You must agree to all of the terms and conditions',
+                        en: `You must confirm that you understand how we'll use any personal information you've provided`,
                         cy: ''
                     })
                 }
@@ -2442,7 +2466,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'You must agree to all of the terms and conditions',
+                        en: `You must confirm that you understand your application is subject to our Freedom of Information policy`,
                         cy: ''
                     })
                 }
@@ -2461,7 +2485,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `You must provide the name of the person completing this form`,
+                        en: `Enter the full name of the person completing this form`,
                         cy: ''
                     })
                 }
@@ -2477,7 +2501,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `You must provide the position of the person completing this form`,
+                        en: `Enter the position of the person completing this form`,
                         cy: ''
                     })
                 }

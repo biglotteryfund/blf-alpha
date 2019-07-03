@@ -11,7 +11,10 @@ const {
     injectCopy,
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
-const logger = require('../../common/logger');
+
+const logger = require('../../common/logger').child({
+    service: 'user'
+});
 
 const schemas = require('./lib/account-schemas');
 const validateSchema = require('./lib/validate-schema');
@@ -53,7 +56,7 @@ router
                 const { username } = validationResult.value;
                 const existingUser = await Users.findByUsername(username);
                 if (existingUser) {
-                    logger.info('User email update: address already in use');
+                    logger.info('Email address already in use');
                     Sentry.withScope(scope => {
                         scope.setLevel('info');
                         Sentry.captureMessage(
@@ -75,13 +78,11 @@ router
                     });
                     const updatedUser = await Users.findById(userId);
                     await sendActivationEmail(req, updatedUser, true);
-                    logger.info('User email update: address change successful');
+                    logger.info('Update email change successful');
                     redirectForLocale(req, res, '/user?s=emailUpdated');
                 }
             } catch (error) {
-                logger.info('User email update: failed', {
-                    error: error
-                });
+                logger.warn('Update email failed', error);
                 Sentry.captureException(error);
 
                 renderUpdateEmailForm(

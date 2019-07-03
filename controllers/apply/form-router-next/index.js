@@ -17,6 +17,7 @@ const {
     SubmittedApplication
 } = require('../../../db/models');
 
+const commonLogger = require('../../../common/logger');
 const appData = require('../../../common/appData');
 const { localify } = require('../../../common/urls');
 const { csrfProtection } = require('../../../middleware/cached');
@@ -24,7 +25,7 @@ const { requireActiveUser } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
 const salesforceService = require('./lib/salesforce');
-const s3Uploads = require('./lib/s3-uploads');
+const { getObject, buildMultipartData } = require('./lib/file-uploads');
 
 function initFormRouter({
     formId,
@@ -262,6 +263,10 @@ function initFormRouter({
     router.post('/submission', async (req, res, next) => {
         const { currentApplication, currentApplicationData } = res.locals;
 
+        const logger = commonLogger.child({
+            service: 'salesforce'
+        });
+
         function canSubmit() {
             return isEmpty(currentApplication) === false;
         }
@@ -285,6 +290,8 @@ function initFormRouter({
             const fields = flatMap(fieldsets, 'fields');
 
             try {
+                logger.info('Submission started');
+
                 /**
                  * Increment submission attempts
                  * Allows us to report on failed submission attempts.
@@ -317,30 +324,31 @@ function initFormRouter({
                         salesforceFormData
                     );
 
+                    logger.info('FormData record created');
+
                     /**
                      * Upload each file in the submission to salesforce
                      */
                     const contentVersionPromises = fields
                         .filter(field => field.type === 'file')
                         .map(field => {
-                            return s3Uploads
-                                .buildMultipartData({
-                                    formId: formId,
-                                    applicationId: currentApplication.id,
-                                    filename: field.value.filename
-                                })
-                                .then(versionData => {
-                                    return salesforce.contentVersion({
-                                        recordId: salesforceRecordId,
-                                        attachmentName: `${
-                                            field.name
-                                        }${path.extname(field.value.filename)}`,
-                                        versionData: versionData
-                                    });
+                            return buildMultipartData({
+                                formId: formId,
+                                applicationId: currentApplication.id,
+                                filename: field.value.filename
+                            }).then(versionData => {
+                                return salesforce.contentVersion({
+                                    recordId: salesforceRecordId,
+                                    attachmentName: `${
+                                        field.name
+                                    }${path.extname(field.value.filename)}`,
+                                    versionData: versionData
                                 });
+                            });
                         });
 
                     await Promise.all(contentVersionPromises);
+                    logger.info('File uploads attached to FormData record');
                 } else {
                     debug(`skipped salesforce submission for ${formId}`);
                 }
@@ -379,6 +387,7 @@ function initFormRouter({
                         data: currentApplicationData
                     });
 
+                    logger.info('Submission successful');
                     res.render(
                         path.resolve(__dirname, './views/confirmation'),
                         {
@@ -389,8 +398,25 @@ function initFormRouter({
                     );
                 });
             } catch (error) {
-                // @TODO: Redirect to custom /error rather than passing to default handler?
-                next(error);
+                logger.error('Submission failed');
+
+                /**
+                 * Salesforce submission failed,
+                 * Check the instance status and log if not OK,
+                 * allows us to monitor how many applications get submitted during
+                 * maintenance windows to determine if we need some visible messaging.
+                 */
+                try {
+                    const response = await salesforceService.checkStatus();
+
+                    if (response.status !== 'OK') {
+                        logger.info(`Salesforce status ${response.status}`);
+                    }
+
+                    next(error);
+                } catch (statusError) {
+                    next(error);
+                }
             }
         } else {
             res.redirect(req.baseUrl);
@@ -399,24 +425,22 @@ function initFormRouter({
 
     /**
      * Routes: Stream file from S3 if authorised
+     * Stream the file's headers and serve it directly as a response
+     * @see https://stackoverflow.com/a/43356401
      */
     router.route('/download/:fieldName/:filename').get((req, res, next) => {
         const { currentlyEditingId, currentApplicationData } = res.locals;
 
-        // Check that this application has data for the requested field name
         const fileData = currentApplicationData[req.params.fieldName];
+        const matchesField =
+            fileData && fileData.filename === req.params.filename;
 
-        // Confirm that the requested filename matches this field's file
-        if (fileData && fileData.filename === req.params.filename) {
-            // Retrieve this file from S3
-            // Stream the file's headers and serve it directly as a response
-            // (via https://stackoverflow.com/a/43356401)
-            s3Uploads
-                .getObject({
-                    formId: formId,
-                    applicationId: currentlyEditingId,
-                    filename: req.params.filename
-                })
+        if (matchesField) {
+            getObject({
+                formId: formId,
+                applicationId: currentlyEditingId,
+                filename: req.params.filename
+            })
                 .on('httpHeaders', (code, headers) => {
                     res.status(code);
                     if (code < 300) {

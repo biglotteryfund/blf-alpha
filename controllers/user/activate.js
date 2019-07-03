@@ -13,7 +13,9 @@ const {
     injectBreadcrumbs
 } = require('../../middleware/inject-content');
 
-const logger = require('../../common/logger');
+const logger = require('../../common/logger').child({
+    service: 'user'
+});
 
 const { verifyTokenActivate } = require('./lib/jwt');
 const sendActivationEmail = require('./lib/activation-email');
@@ -47,12 +49,10 @@ router
                     req.user.userData.id
                 );
                 await Users.activateUser(req.user.userData.id);
-                logger.info('User activation: succeeded');
+                logger.info('Activation succeeded');
                 redirectUrlWithFallback(req, res, '/user?s=activationComplete');
             } catch (error) {
-                logger.info('User activation: token failed', {
-                    error: error
-                });
+                logger.warn('Activation token failed');
                 Sentry.withScope(scope => {
                     scope.setLevel('warning');
                     Sentry.captureException(error);
@@ -68,12 +68,10 @@ router
         try {
             await sendActivationEmail(req, req.user.userData);
             res.locals.resendSuccessful = true;
-            logger.info('User activation: email sent');
+            logger.info('Activation email sent');
             renderTemplate(req, res);
         } catch (err) {
-            logger.info('User activation: email failed', {
-                error: err
-            });
+            logger.error('Activation email failed', err);
             next(err);
         }
     });

@@ -9,26 +9,12 @@ module.exports = {
     presets: [
         [
             '@babel/preset-env',
-            {
-                modules: false,
-                targets: {
-                    browsers: pkg.browserslist
-                }
-            }
+            { modules: false, targets: { browsers: pkg.browserslist } }
         ]
     ],
     env: {
         test: {
-            presets: [
-                [
-                    '@babel/preset-env',
-                    {
-                        targets: {
-                            node: 'current'
-                        }
-                    }
-                ]
-            ]
+            presets: [['@babel/preset-env', { targets: { node: 'current' } }]]
         }
     }
 };

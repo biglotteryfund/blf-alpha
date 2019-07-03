@@ -58,18 +58,26 @@ const AZURE_AUTH = {
  * Salesforce authentication
  */
 const SALESFORCE_AUTH = {
-    API_URL: process.env.SALESFORCE_API_URL || getSecret('salesforce.apiUrl'),
-    CONSUMER_KEY:
+    apiUrl: process.env.SALESFORCE_API_URL || getSecret('salesforce.apiUrl'),
+    consumerKey:
         process.env.SALESFORCE_CONSUMER_KEY ||
         getSecret('salesforce.consumerKey'),
-    CONSUMER_SECRET:
+    consumerSecret:
         process.env.SALESFORCE_CONSUMER_SECRET ||
         getSecret('salesforce.consumerSecret'),
-    USERNAME:
+    username:
         process.env.SALESFORCE_USERNAME || getSecret('salesforce.username'),
-    PASSWORD:
+    password:
         process.env.SALESFORCE_PASSWORD || getSecret('salesforce.password'),
-    TOKEN: process.env.SALESFORCE_TOKEN || getSecret('salesforce.token')
+    token: process.env.SALESFORCE_TOKEN || getSecret('salesforce.token'),
+    instanceId:
+        process.env.SALESFORCE_INSTANCE_ID || getSecret('salesforce.instanceId')
+};
+
+// These expire in July 2020
+const BANK_API = {
+    KEY: process.env.SALESFORCE_TOKEN || getSecret('bank.api.key'),
+    PASSWORD: process.env.SALESFORCE_TOKEN || getSecret('bank.api.password')
 };
 
 /**
@@ -102,6 +110,7 @@ module.exports = {
     POSTCODES_API_KEY,
     S3_KMS_KEY_ID,
     SALESFORCE_AUTH,
+    BANK_API,
     SENTRY_DSN,
     SESSION_SECRET
 };

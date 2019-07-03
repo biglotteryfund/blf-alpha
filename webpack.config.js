@@ -26,7 +26,11 @@ module.exports = {
         ]
     },
     entry: {
-        app: './assets/js/main.js'
+        app: [
+            'core-js/modules/es6.promise',
+            'core-js/modules/es6.array.iterator',
+            './assets/js/main.js'
+        ]
     },
     output: {
         filename: '[name].js',
