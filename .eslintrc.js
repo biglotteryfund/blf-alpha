@@ -12,12 +12,12 @@ module.exports = {
         ecmaVersion: 2018
     },
     rules: {
+        'eqeqeq': 'error',
         'no-console': 'warn',
         'no-only-tests/no-only-tests': 'error',
-        'no-shadow': 'warn',
-        'no-unused-vars': 'warn',
-        eqeqeq: 'error',
-        semi: ['error', 'always'],
-        strict: ['warn', 'safe']
+        // @TODO: Review if this should be re-enabled
+        'require-atomic-updates': 'off',
+        'semi': ['error', 'always'],
+        'strict': ['warn', 'safe']
     }
 };

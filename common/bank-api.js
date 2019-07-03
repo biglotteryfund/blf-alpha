@@ -2,6 +2,28 @@
 const request = require('request-promise-native');
 const { BANK_API } = require('../common/secrets');
 
+function normaliseResultCode(resultCode) {
+    let result;
+    switch (resultCode) {
+        case '01':
+            result = 'VALID';
+            break;
+        case '02':
+            result = 'INVALID';
+            break;
+        default:
+            result = 'UNKNOWN';
+            break;
+    }
+
+    return result;
+}
+
+function normaliseBacsCheck(accountProperties) {
+    // Coerce a string ("true") into a boolean
+    return accountProperties ? !!accountProperties.bacs_credit : false;
+}
+
 module.exports = function checkBankAccountDetails(sortCode, accountNumber) {
     return request
         .get({
@@ -17,28 +39,12 @@ module.exports = function checkBankAccountDetails(sortCode, accountNumber) {
             json: true
         })
         .then(response => {
-            let responseStatus;
-            switch (response.resultCode) {
-                case '01':
-                    responseStatus = 'BANK_DETAILS_VALID';
-                    break;
-                case '02':
-                    responseStatus = 'BANK_DETAILS_INVALID';
-                    break;
-                default:
-                    responseStatus = 'UNKNOWN';
-                    break;
-            }
-
-            // Coerce a string ("true") into a boolean
-            const supportsBacsPayment = response.accountProperties
-                ? !!response.accountProperties.bacs_credit
-                : false;
-
             return {
-                code: responseStatus,
+                code: normaliseResultCode(response.resultCode),
                 originalCode: response.resultCode,
-                supportsBacsPayment: supportsBacsPayment
+                supportsBacsPayment: normaliseBacsCheck(
+                    response.accountProperties
+                )
             };
         });
 };

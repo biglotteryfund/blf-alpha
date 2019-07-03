@@ -51,7 +51,8 @@ function init(STORAGE_KEY) {
              */
             // @ts-ignore
             const initialData = window._PAST_GRANTS_SEARCH;
-            const initialQueryParams = get(initialData, 'queryParams', {}) || {};
+            const initialQueryParams =
+                get(initialData, 'queryParams', {}) || {};
             const facets = get(initialData, 'facets', {});
 
             return {
@@ -88,7 +89,11 @@ function init(STORAGE_KEY) {
             this.filterSummary = this.buildFilterSummary(this.filters);
 
             window.onpopstate = event => {
-                const historyUrlPath = get(event, 'state.urlPath', window.location.pathname);
+                const historyUrlPath = get(
+                    event,
+                    'state.urlPath',
+                    window.location.pathname
+                );
                 historyUrlPath && this.updateResults(historyUrlPath);
                 this.filters = queryString.parse(location.search);
                 // Reset the search query if it has just been removed
@@ -114,10 +119,16 @@ function init(STORAGE_KEY) {
                             label = get(this.facets, 'awardDate[0].label');
                             break;
                         case 'localAuthority':
-                            label = get(this.facets, 'localAuthorities[0].label');
+                            label = get(
+                                this.facets,
+                                'localAuthorities[0].label'
+                            );
                             break;
                         case 'westminsterConstituency':
-                            label = get(this.facets, 'westminsterConstituencies[0].label');
+                            label = get(
+                                this.facets,
+                                'westminsterConstituencies[0].label'
+                            );
                             break;
                     }
 
@@ -137,7 +148,10 @@ function init(STORAGE_KEY) {
             },
 
             handleActiveFilter(payload) {
-                const match = find(this.filterSummary, item => item.name === payload.name);
+                const match = find(
+                    this.filterSummary,
+                    item => item.name === payload.name
+                );
 
                 if (match) {
                     if (match.label !== payload.label) {
@@ -145,10 +159,14 @@ function init(STORAGE_KEY) {
                     }
 
                     // Update the existing one
-                    this.filterSummary.find(i => i.name === payload.name).label = payload.label;
+                    this.filterSummary.find(
+                        i => i.name === payload.name
+                    ).label = payload.label;
                 } else {
                     // Add the new summary item
-                    this.filterSummary = [].concat(this.filterSummary, [payload]);
+                    this.filterSummary = [].concat(this.filterSummary, [
+                        payload
+                    ]);
                     this.trackFilter(payload.name, payload.label);
                 }
             },
@@ -164,8 +182,13 @@ function init(STORAGE_KEY) {
             clearFilters(name) {
                 this.status = { state: states.Loading };
                 if (name) {
-                    this.filters = pickBy(this.filters, (value, key) => key !== name);
-                    this.filterSummary = this.filterSummary.filter(i => i.name !== name);
+                    this.filters = pickBy(
+                        this.filters,
+                        (value, key) => key !== name
+                    );
+                    this.filterSummary = this.filterSummary.filter(
+                        i => i.name !== name
+                    );
                     if (name === 'q') {
                         this.activeQuery = null;
                     }
@@ -175,13 +198,18 @@ function init(STORAGE_KEY) {
                     this.filters = {};
                     this.filters.q = this.activeQuery; // reset query
                     // remove everything except the query from the summary
-                    this.filterSummary = this.filterSummary.filter(i => i.name === 'q');
+                    this.filterSummary = this.filterSummary.filter(
+                        i => i.name === 'q'
+                    );
                     this.trackUi('Clear all filters');
                 }
             },
 
             handleSuggestion(suggestedQuery) {
-                this.trackUi('Spelling suggestion', `${this.activeQuery} => ${suggestedQuery}`);
+                this.trackUi(
+                    'Spelling suggestion',
+                    `${this.activeQuery} => ${suggestedQuery}`
+                );
                 this.activeQuery = suggestedQuery;
                 this.filterResults();
             },
@@ -204,14 +232,22 @@ function init(STORAGE_KEY) {
 
                 if (this.activeQuery) {
                     combinedFilters.q = trim(this.activeQuery);
-                    this.handleActiveFilter({ label: this.activeQuery || undefined, name: 'q' });
+                    this.handleActiveFilter({
+                        label: this.activeQuery || undefined,
+                        name: 'q'
+                    });
                 } else {
                     // Clear the filter if necessary
                     this.filters.q = undefined;
-                    this.filterSummary = this.filterSummary.filter(i => i.name !== 'q');
+                    this.filterSummary = this.filterSummary.filter(
+                        i => i.name !== 'q'
+                    );
                 }
 
-                if (this.sort.activeSort && this.sort.activeSort !== this.sort.defaultSort) {
+                if (
+                    this.sort.activeSort &&
+                    this.sort.activeSort !== this.sort.defaultSort
+                ) {
                     combinedFilters.sort = this.sort.activeSort;
                 }
 
@@ -232,7 +268,7 @@ function init(STORAGE_KEY) {
                 this.trackUi('Sort results', newSort);
             },
 
-            updateResults(urlPath, queryString = null) {
+            updateResults(urlPath, currentQueryString = null) {
                 this.status = { state: states.Loading };
 
                 // Hide server-rendered results
@@ -257,12 +293,15 @@ function init(STORAGE_KEY) {
                         this.totalResults = response.meta.totalResults;
                         this.totalAwarded = response.meta.totalAwarded;
                         this.facets = response.facets;
-                        this.searchSuggestions = assign({}, response.searchSuggestions);
+                        this.searchSuggestions = assign(
+                            {},
+                            response.searchSuggestions
+                        );
                         this.sort = response.meta.sort;
                         this.status = { state: states.Success, data: response };
 
                         if (this.totalResults === 0) {
-                            this.trackUi('No results', queryString);
+                            this.trackUi('No results', currentQueryString);
                         }
                     },
                     error: (jqXhr, textStatus, errorThrown) => {
@@ -275,7 +314,10 @@ function init(STORAGE_KEY) {
                         } else {
                             // @ts-ignore
                             const errMsg = errorThrown.responseJSON.error;
-                            this.status = { state: states.Failure, error: errMsg };
+                            this.status = {
+                                state: states.Failure,
+                                error: errMsg
+                            };
                             this.trackUi('Search error', errMsg);
                         }
                     }
