@@ -1,5 +1,5 @@
 'use strict';
-const { concat, get, groupBy, head, map, set } = require('lodash');
+const { concat, get, groupBy, head, map, set, startsWith } = require('lodash');
 const express = require('express');
 const path = require('path');
 
@@ -208,51 +208,75 @@ router.get(
     '/:programmeSlug/:childPageSlug?',
     injectFundingProgramme,
     (req, res, next) => {
-        const { fundingProgramme } = res.locals;
+        const { currentPath, fundingProgramme } = res.locals;
 
-        if (get(fundingProgramme, 'entryType') === 'contentPage') {
-            setCommonLocals({ res, entry: fundingProgramme });
-            set(
-                res.locals,
-                'content.flexibleContent',
-                fundingProgramme.content
-            );
-            const parentProgrammeCrumb = fundingProgramme.parent
-                ? {
-                      label: fundingProgramme.parent.title,
-                      url: fundingProgramme.parent.linkUrl
-                  }
-                : {};
-            res.render(
-                path.resolve(__dirname, '../common/views/flexible-content'),
-                {
-                    breadcrumbs: concat(res.locals.breadcrumbs, [
+        /* Only render if not using an external path */
+        if (
+            fundingProgramme &&
+            startsWith(currentPath, fundingProgramme.linkUrl)
+        ) {
+            if (get(fundingProgramme, 'entryType') === 'contentPage') {
+                setCommonLocals({ res, entry: fundingProgramme });
+                set(
+                    res.locals,
+                    'content.flexibleContent',
+                    fundingProgramme.content
+                );
+
+                let breadcrumbs;
+
+                if (fundingProgramme.parent) {
+                    const parentProgrammeCrumb = {
+                        label: fundingProgramme.parent.title,
+                        url: fundingProgramme.parent.linkUrl
+                    };
+                    breadcrumbs = concat(res.locals.breadcrumbs, [
                         parentProgrammeCrumb,
                         { label: res.locals.title }
-                    ])
+                    ]);
+                } else {
+                    breadcrumbs = concat(res.locals.breadcrumbs, [
+                        { label: res.locals.title }
+                    ]);
                 }
-            );
-        } else if (get(fundingProgramme, 'contentSections', []).length > 0) {
-            /**
-             * Programme Detail page
-             */
-            res.render(path.resolve(__dirname, './views/programme'), {
-                entry: fundingProgramme,
-                breadcrumbs: concat(res.locals.breadcrumbs, [
-                    { label: res.locals.title }
-                ])
-            });
-        } else if (get(fundingProgramme, 'isArchived') === true) {
-            /**
-             * Archived programme
-             */
-            res.render(path.resolve(__dirname, './views/archived-programme'), {
-                entry: fundingProgramme,
-                archiveUrl: buildArchiveUrl(fundingProgramme.legacyPath),
-                breadcrumbs: concat(res.locals.breadcrumbs, [
-                    { label: res.locals.title }
-                ])
-            });
+
+                res.render(
+                    path.resolve(__dirname, '../common/views/flexible-content'),
+                    {
+                        breadcrumbs: breadcrumbs
+                    }
+                );
+            } else if (
+                get(fundingProgramme, 'contentSections', []).length > 0
+            ) {
+                /**
+                 * Programme Detail page
+                 */
+                res.render(path.resolve(__dirname, './views/programme'), {
+                    entry: fundingProgramme,
+                    breadcrumbs: concat(res.locals.breadcrumbs, [
+                        { label: res.locals.title }
+                    ])
+                });
+            } else if (get(fundingProgramme, 'isArchived') === true) {
+                /**
+                 * Archived programme
+                 */
+                res.render(
+                    path.resolve(__dirname, './views/archived-programme'),
+                    {
+                        entry: fundingProgramme,
+                        archiveUrl: buildArchiveUrl(
+                            fundingProgramme.legacyPath
+                        ),
+                        breadcrumbs: concat(res.locals.breadcrumbs, [
+                            { label: res.locals.title }
+                        ])
+                    }
+                );
+            } else {
+                next();
+            }
         } else {
             next();
         }
