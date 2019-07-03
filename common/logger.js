@@ -17,7 +17,7 @@ function transport() {
     } else {
         return new transports.Console({
             silent: !!process.env.TEST_SERVER === true,
-            format: format.simple()
+            format: format.combine(format.colorize(), format.simple())
         });
     }
 }
