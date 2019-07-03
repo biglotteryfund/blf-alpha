@@ -5,6 +5,7 @@ const Sentry = require('@sentry/node');
 
 const { localify } = require('../common/urls');
 const contentApi = require('../common/content-api');
+const injectCopy = require('../common/inject-copy');
 
 /*
  * Populate hero image (with social image URLs too)
@@ -75,19 +76,6 @@ function injectHeroImage(heroSlug) {
         } else {
             next();
         }
-    };
-}
-
-function injectCopy(lang) {
-    return function(req, res, next) {
-        if (lang) {
-            const copy = req.i18n.__(lang);
-            res.locals.copy = copy;
-            res.locals.title = copy.title;
-            res.locals.description = copy.description || false;
-        }
-
-        next();
     };
 }
 
@@ -340,6 +328,7 @@ function injectMerchandise({ locale = null, showAll = false }) {
 
 module.exports = {
     injectBreadcrumbs,
+    // @TODO: Remove in favour of using common/inject-copy directly
     injectCopy,
     injectFlexibleContent,
     injectFundingProgramme,

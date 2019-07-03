@@ -7,10 +7,8 @@ const logger = require('../../common/logger').child({
     service: 'user'
 });
 
-const {
-    injectCopy,
-    injectBreadcrumbs
-} = require('../../middleware/inject-content');
+const injectCopy = require('../../common/inject-copy');
+const { injectBreadcrumbs } = require('../../middleware/inject-content');
 const {
     requireNoAuth,
     redirectUrlWithFallback
