@@ -114,7 +114,7 @@ export default {
             }
             this.currentState = this.states.Loading;
 
-            this.fullAddress = null;
+            this.clearAddress();
             this.candidates = [];
             this.addressData = [];
             this.selectedAddressId = null;
@@ -154,8 +154,17 @@ export default {
             this.postcode = null;
             this.candidates = [];
             this.addressData = [];
-            this.fullAddress = null;
+            this.clearAddress();
             this.showFallbackFields = false;
+        },
+        clearAddress() {
+           this.fullAddress = {
+               line1: null,
+               line2: null,
+               townCity: null,
+               county: null,
+               postcode: null
+           };
         },
         removeAddress() {
             this.currentState = this.states.Asking;
