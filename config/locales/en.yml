@@ -1103,6 +1103,10 @@ user:
       href: /user/update-email
     - label: View your funding applications
       href: /apply/awards-for-all
+    awardsForAllNotice:
+      title: Start an application for National Lottery Awards for All
+      description: A quick and simple way to get small National Lottery grants of between £300 and £10,000
+      actionLabel: Start a new application
   login:
     title: Log in
     introduction: >

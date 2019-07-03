@@ -6,20 +6,18 @@
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
-
             {{ userNavigation(userNavigationLinks) }}
-
             {{ userStatus(user) }}
+
+            {% if alertMessage %}
+                <div class="message" role="alert">
+                    {{ alertMessage }}
+                </div>
+            {% endif %}
 
             <div class="content-sidebar">
                 <div class="content-sidebar__primary">
                     <h1 class="t--underline">{{ title }}</h1>
-
-                    {% if alertMessage %}
-                        <div class="message" role="alert">
-                            {{ alertMessage }}
-                        </div>
-                    {% endif %}
 
                     <div class="u-margin-bottom">
                         {{ sectionLinks(copy.sectionLinks) }}
@@ -29,9 +27,14 @@
                 {% if enableAwardsForAllApplications %}
                     <div class="content-sidebar__secondary content-sidebar__secondary--major">
                         <div class="u-padded u-tone-background-tint">
-                            <h2>Start an application for<br /> National Lottery Awards for All</h2>
-                            <p>A quick and simple way to get small National Lottery grants of between £300 and £10,000</p>
-                            <p><a class="btn btn--small" href="/apply/awards-for-all/start">Start a new application</a></p>
+                            <h2>{{ copy.awardsForAllNotice.title }}</h2>
+                            <p>{{ copy.awardsForAllNotice.description }}</p>
+                            <p>
+                                <a class="btn btn--small"
+                                   href="{{ localify("/apply/awards-for-all/start") }}">
+                                    {{ copy.awardsForAllNotice.actionLabel }}
+                                </a>
+                            </p>
                         </div>
                     </div>
                 {% endif %}
