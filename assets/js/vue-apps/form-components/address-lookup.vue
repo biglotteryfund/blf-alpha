@@ -346,7 +346,8 @@ export default {
                  :open="showFallbackFields"
                  v-if="currentState !== states.NotRequired">
             <summary class="js-only o-details__summary"
-                     @click="showFallbackFields = !showFallbackFields">
+                     @click="showFallbackFields = !showFallbackFields"
+                     data-testid="manual-address">
                 Enter address manually
             </summary>
 
