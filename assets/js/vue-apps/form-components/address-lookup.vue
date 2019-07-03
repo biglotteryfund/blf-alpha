@@ -157,7 +157,6 @@ export default {
         removeAddress() {
             this.currentState = this.states.Asking;
             this.clearState();
-            // this.$emit('clear-address');
             this.showFallbackFields = false;
         },
         handleFallback() {
@@ -167,19 +166,14 @@ export default {
         startEditing() {
             this.currentState = this.states.Editing;
             this.showFallbackFields = true;
-            // this.handleFallback();
         },
         updateAddressPreview(fullAddress) {
             if (fullAddress) {
-                // this.$emit('full-address', fullAddress);
                 this.showFallbackFields = false;
                 this.currentState = this.states.AlreadyAnswered;
                 this.fullAddress = fullAddress;
             }
-        },
-        // trackFallbackState(fallbackVisibleState) {
-        //     this.fallbackVisible = fallbackVisibleState;
-        // }
+        }
     },
     watch: {
         selectedAddressId() {
