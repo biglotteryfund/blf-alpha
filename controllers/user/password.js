@@ -46,7 +46,7 @@ async function processResetRequest(req, user) {
         {
             name: 'user_password_reset',
             sendTo: user.username,
-            subject: `Reset the password for your The National Lottery Community Fund website account`
+            subject: req.i18n.__('user.emails.resetSubject')
         }
     );
 
@@ -70,7 +70,7 @@ function sendPasswordResetNotification(req, email) {
         {
             name: 'user_password_reset_success',
             sendTo: email,
-            subject: `You just changed your password`
+            subject: req.i18n.__('user.emails.resetSuccessSubject')
         }
     );
 }

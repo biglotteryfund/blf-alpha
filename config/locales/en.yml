@@ -1090,6 +1090,10 @@ user:
       A good tip for a secure password is to
       <a href="https://www.cyberaware.gov.uk/blog/three-random-words">
       use three random words<span class="u-visually-hidden"> National Cyber Security Centre - External link</span></a>.</p>
+  emails:
+    activateSubject: Activate your The National Lottery Community Fund website account
+    resetSubject: Reset the password for your The National Lottery Community Fund website account
+    resetSuccessSubject: You just changed your password
   dashboard:
     title: Your account
     sectionLinks:
@@ -1120,8 +1124,6 @@ user:
     title: Reset your password
     introduction: >
       <p>Please choose a new password for your account by entering it below. Ensure you choose a strong password.</p>
-  activateEmail:
-    subject: Activate your The National Lottery Community Fund website account
   updateEmail:
     title: Update email address
     introduction: >

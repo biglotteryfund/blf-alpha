@@ -16,7 +16,7 @@ module.exports = async function sendActivationEmail(
     const mailParams = {
         name: 'user_activate_account',
         sendTo: user.username,
-        subject: req.i18n.__('user.activateEmail.subject')
+        subject: req.i18n.__('user.emails.activateSubject')
     };
 
     const email = await sendHtmlEmail(
