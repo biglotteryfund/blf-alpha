@@ -1,6 +1,6 @@
 {% extends "layouts/main.njk" %}
 {% from "components/hero.njk" import hero with context %}
-{% from "components/flexible-content/macro.njk" import flexibleContent %}
+{% from "components/flexible-content/macro.njk" import flexibleContent as flexibleContentArea %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% block content %}
@@ -10,7 +10,7 @@
         <div class="nudge-up">
             <section class="content-box u-inner-wide-only">
                 {{ breadcrumbTrail(breadcrumbs) }}
-                {{ flexibleContent(content.flexibleContent) }}
+                {{ flexibleContentArea(flexibleContent) }}
             </section>
         </div>
     </main>
