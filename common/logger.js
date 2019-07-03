@@ -3,7 +3,7 @@ const { createLogger, format, transports } = require('winston');
 const WinstonCloudWatch = require('winston-cloudwatch');
 const features = require('config').get('features');
 
-const { environment, buildNumber } = require('./appData');
+const { isDev, environment, buildNumber } = require('./appData');
 
 function transport() {
     if (features.enableCloudWatchLogs) {
@@ -22,7 +22,7 @@ function transport() {
 }
 
 module.exports = createLogger({
-    level: 'info',
+    level: isDev ? 'debug' : 'info',
     format: format.combine(format.errors({ stack: true }), format.json()),
     transports: [transport()]
 });
