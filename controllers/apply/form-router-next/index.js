@@ -8,7 +8,6 @@ const flatMap = require('lodash/flatMap');
 const isEmpty = require('lodash/isEmpty');
 const set = require('lodash/set');
 const unset = require('lodash/unset');
-const debug = require('debug')('tnlcf:form-router');
 const features = require('config').get('features');
 const formidable = require('formidable');
 
@@ -350,7 +349,7 @@ function initFormRouter({
                     await Promise.all(contentVersionPromises);
                     logger.info('File uploads attached to FormData record');
                 } else {
-                    debug(`skipped salesforce submission for ${formId}`);
+                    logger.debug(`Skipped salesforce submission for ${formId}`);
                 }
 
                 /**

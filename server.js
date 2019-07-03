@@ -15,13 +15,13 @@ const helmet = require('helmet');
 const slashes = require('connect-slashes');
 const vary = require('vary');
 const Sentry = require('@sentry/node');
-const debug = require('debug')('tnlcf:server');
 const features = config.get('features');
 
 const app = express();
 module.exports = app;
 
 const appData = require('./common/appData');
+const logger = require('./common/logger').child({ service: 'server' });
 
 if (appData.isDev) {
     require('dotenv').config();
@@ -171,7 +171,7 @@ function initViewEngine() {
      */
     const shouldWatchTemplates = !!process.env.WATCH_TEMPLATES === true;
     if (shouldWatchTemplates) {
-        debug('Watching templates for changes');
+        logger.debug('Watching templates for changes');
     }
 
     const templateEnv = nunjucks.configure(['.', 'views'], {
