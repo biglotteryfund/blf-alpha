@@ -77,7 +77,7 @@ export default {
 
         const $form = $(this.$el).parents('form').find('input[type="submit"]');
         const that = this;
-        $form.on('click', function(e) {
+        $form.on('click', function() {
             if (that.candidates.length === 0 && !that.showFallbackFields && that.postcode) {
                 // @TODO i18n
                 alert(`Please click "Find address" and choose an address from the list.`);
@@ -257,7 +257,8 @@ export default {
 </script>
 
 <template>
-    <div v-if="currentState !== states.NotRequired">
+    <div
+        v-if="currentState !== states.NotRequired">
 
         <legend class="ff-label ff-address__legend"
                 v-html="label">
