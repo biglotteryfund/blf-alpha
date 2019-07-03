@@ -2064,6 +2064,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             {
                 name: 'mainContactName',
                 label: localise({ en: 'Full name of main contact', cy: '' }),
+                explanation: localise({
+                    en: 'This person has to live in the UK.',
+                    cy: ''
+                }),
                 schema: Joi.fullName()
                     .mainContact()
                     .required()
@@ -2162,6 +2166,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             {
                 name: 'seniorContactName',
                 label: localise({ en: 'Full name of senior contact', cy: '' }),
+                explanation: localise({
+                    en: 'This person has to live in the UK.',
+                    cy: ''
+                }),
                 schema: Joi.fullName()
                     .seniorContact()
                     .required()
