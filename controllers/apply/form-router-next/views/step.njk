@@ -3,7 +3,8 @@
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
 {% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
-{% block title %}{{ step.title }} | {{ section.shortTitle or section.title }} | {{ formTitle }} | {% endblock %}
+{% set stepCount = __('global.misc.stepProgress', stepNumber, totalSteps) %}
+{% block title %}{{ step.title }} ({{ stepCount }}) | {{ section.shortTitle or section.title }} | {{ formTitle }} | {% endblock %}
 
 
 {% block content %}
@@ -27,7 +28,7 @@
                 <div class="form-header">
                     <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
                     <p class="form-header__suffix">
-                        <strong>{{ step.title }}</strong> ({{ __('global.misc.stepProgress', stepNumber, totalSteps) }})
+                        <strong>{{ step.title }}</strong> ({{ stepCount }})
                     </p>
                 </div>
 
