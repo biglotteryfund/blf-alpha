@@ -1117,6 +1117,8 @@ user:
     title: Reset your password
     introduction: >
       <p>Please choose a new password for your account by entering it below. Ensure you choose a strong password.</p>
+  activateEmail:
+    subject: Activate your The National Lottery Community Fund website account
   updateEmail:
     title: Update email address
     introduction: >

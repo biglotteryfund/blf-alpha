@@ -16,7 +16,7 @@ module.exports = async function sendActivationEmail(
     const mailParams = {
         name: 'user_activate_account',
         sendTo: user.username,
-        subject: `Activate your The National Lottery Community Fund website account`
+        subject: req.i18n.__('user.activateEmail.subject')
     };
 
     const email = await sendHtmlEmail(
