@@ -14,7 +14,7 @@
 
 {% macro articleMeta(entry) %}
 
-    {% set aboutTitle = copy.author.plural  if entry.authors.length > 1  else copy.author.singular %}
+    {% set aboutTitle = copy.author.plural if entry.authors.length > 1  else copy.author.singular %}
     {% call card(aboutTitle) %}
         {% for author in entry.authors -%}
             <aside class="o-media">
@@ -37,11 +37,11 @@
                     {% endif %}
                 </div>
             </aside>
-            <p class="u-margin-top-s"><a href="{{ localify('/news/blog?author=' + author.slug) }}">{{ copy.author.seeAllPosts }}</a></p>
+            <p class="u-margin-top-s"><a href="{{ localify('/news/' + updateType + '?author=' + author.slug) }}">{{ copy.author.seeAllPosts }}</a></p>
         {% endfor %}
     {% endcall %}
 
-    {% call card(copy.blogpost.aboutThisBlogPost) %}
+    {% call card(copy.aboutThisContent[updateType]) %}
         {% if entry.postDate %}
             <p class="u-margin-bottom-s">
                 <strong>{{ copy.datePublished }}:</strong>
@@ -58,14 +58,16 @@
         {% endif %}
 
         <ul class="tags-list">
-            <li class="tag">
-                <a href="{{ localify('/news/blog/?category=' + entry.category.slug) }}">
-                    {{ entry.category.title }}
-                </a>
-            </li>
+            {% if entry.category %}
+                <li class="tag">
+                    <a href="{{ localify('/news/' + updateType + '?category=' + entry.category.slug) }}">
+                        {{ entry.category.title }}
+                    </a>
+                </li>
+            {% endif %}
             {% for tag in entry.tags %}
                 <li class="tag tag--secondary">
-                    <a href="{{ localify('/news/blog?tag=' + tag.slug) }}">
+                    <a href="{{ localify('/news/' + updateType + '?tag=' + tag.slug) }}">
                         {{ tag.title }}
                     </a>
                 </li>
@@ -103,7 +105,7 @@
                 <aside class="article__topics" role="aside">
                     {% set links = [] %}
                     {% for tag in entry.tags %}
-                        {% set links = (links.push({ "label": tag.title, "url": localify('/news/blog?tag=' + tag.slug) }), links) %}
+                        {% set links = (links.push({ "label": tag.title, "url": localify('/news/' + updateType + '?tag=' + tag.slug) }), links) %}
                     {% endfor %}
                     {{ inlineLinks(prefix = __('global.misc.topics') | title, links = links) }}
                 </aside>
@@ -114,7 +116,7 @@
                     href="https://www.facebook.com/sharer.php?u={{ getCurrentAbsoluteUrl() }}"
                     data-ga-on="click"
                     data-ga-event-category="Facebook"
-                    data-ga-event-action="Share blogpost">
+                    data-ga-event-action="Share {{ updateType }}">
                     <span class="btn__icon">{{ iconFacebook() }}</span>
                     {{ __('global.misc.share.facebook') }}
                 </a>
@@ -122,7 +124,7 @@
                     href="https://twitter.com/intent/tweet?url={{ getCurrentAbsoluteUrl() }}&text={{ entry.title }}&via={{ globalCopy.brand.twitter }}"
                     data-ga-on="click"
                     data-ga-event-category="Twitter"
-                    data-ga-event-action="Share blogpost">
+                    data-ga-event-action="Share {{ updateType }}">
                     <span class="btn__icon">{{ iconTwitter() }}</span>
                     {{ __('global.misc.share.twitter')  }}
                 </a>

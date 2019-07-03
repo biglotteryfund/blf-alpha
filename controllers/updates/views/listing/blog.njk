@@ -43,7 +43,7 @@
                     {% set activeCategory = entriesMeta.activeCategory %}
                     <h1>{{ copy.filters.viewPostsIn }} {{ activeCategory.title }}</h1>
                 {% else %}
-                    <p>{{ copy.introductions.blog }}</p>
+                    <p>{{ copy.introductions[updateType] }}</p>
                 {% endif %}
             </div>
         </div>
@@ -67,7 +67,8 @@
                         {{ blogTrail(
                             entry = entry,
                             promoted = shouldPromote,
-                            showAuthor = entriesMeta.pageType !== 'author'
+                            showAuthor = entriesMeta.pageType !== 'author',
+                            updateType = updateType
                         ) }}
                     </li>
                 {% endfor %}
