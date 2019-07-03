@@ -1862,7 +1862,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             }),
             explanation: localise({
-                en: `<p>For example: EC4A 1DE</p>`,
+                en: `<p>Enter the postcode and search for the address, or enter it manually below.</p>`,
                 cy: ``
             })
         }),

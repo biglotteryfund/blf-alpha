@@ -336,134 +336,148 @@
 {% endmacro %}
 
 {% macro inputAddress(field, isNested = false) %}
-    <fieldset class="ff-address{% if isNested %} ff-address--nested{% endif %} js-address-lookup" id="field-{{ field.name }}">
-        <legend class="ff-label ff-address__legend">
-            {{ labelFor(field) }}
-        </legend>
 
-        {{ explanationFor(field) }}
-
-        <address-lookup
-            is-nested="{{ isNested }}"
-            locale="{{ locale }}"
-            address="{{ field.value | dump }}"
-            @full-address="handleAddress"
-            @clear-address="clearAddress"
-            @show-fallback="handleFallback"
-            ref="addressLookup"
-        ></address-lookup>
-
-        <details class="o-details u-margin-top"
-                 open :open="showFallbackFields">
-            <summary class="js-only o-details__summary"
-                     v-show="showSummaryLabel"
-                     @click.self="showFallbackFields = !showFallbackFields"
-                     data-testid="manual-address">
-                Enter address manually
-            </summary>
-            <div class="o-details__content ff-address__fields">
-                <div class="ff-address__field">
-                    {{ inputText({
-                        label: 'Building and street',
-                        name: field.name + '[line1]',
-                        value: field.value['line1'],
-                        type: 'text',
-                        isRequired: field.isRequired,
-                        attributes: { size: 40, ref: 'addressLine1' }
-                    }) }}
-                </div>
-                <div class="ff-address__field">
-                    {{ inputText({
-                        label: 'Address line 2',
-                        name: field.name + '[line2]',
-                        value: field.value['line2'],
-                        type: 'text',
-                        isRequired: false,
-                        settings: { hideLabel: true },
-                        attributes: { size: 40, ref: 'addressLine2' }
-                    }) }}
-                </div>
-                <div class="ff-address__field">
-                    {{ inputText({
-                        label: 'Town or city',
-                        name: field.name + '[townCity]',
-                        value: field.value['townCity'],
-                        type: 'text',
-                        isRequired: field.isRequired,
-                        attributes: { size: 30, ref: 'townCity' }
-                    }) }}
-                </div>
-                <div class="ff-address__field">
-                    {{ inputText({
-                        label: 'County',
-                        name: field.name + '[county]',
-                        value: field.value['county'],
-                        type: 'text',
-                        isRequired: false,
-                        attributes: { size: 30, ref: 'county' }
-                    }) }}
-                </div>
-                <div class="ff-address__field">
-                    {{ inputText({
-                        label: 'Postcode',
-                        name: field.name + '[postcode]',
-                        value: field.value['postcode'],
-                        type: 'text',
-                        isRequired: field.isRequired,
-                        attributes: { size: 10, ref: 'postcode' }
-                    }) }}
-                </div>
+    {% set fallbackFields %}
+        <div class="o-details__content ff-address__fields">
+            <div class="ff-address__field">
+                {{ inputText({
+                    label: 'Building and street',
+                    name: field.name + '[line1]',
+                    value: field.value['line1'],
+                    type: 'text',
+                    isRequired: field.isRequired,
+                    attributes: { size: 40, ref: 'addressLine1' }
+                }) }}
             </div>
-        </details>
-    </fieldset>
+            <div class="ff-address__field">
+                {{ inputText({
+                    label: 'Address line 2',
+                    name: field.name + '[line2]',
+                    value: field.value['line2'],
+                    type: 'text',
+                    isRequired: false,
+                    settings: { hideLabel: true },
+                    attributes: { size: 40, ref: 'addressLine2' }
+                }) }}
+            </div>
+            <div class="ff-address__field">
+                {{ inputText({
+                    label: 'Town or city',
+                    name: field.name + '[townCity]',
+                    value: field.value['townCity'],
+                    type: 'text',
+                    isRequired: field.isRequired,
+                    attributes: { size: 30, ref: 'townCity' }
+                }) }}
+            </div>
+            <div class="ff-address__field">
+                {{ inputText({
+                    label: 'County',
+                    name: field.name + '[county]',
+                    value: field.value['county'],
+                    type: 'text',
+                    isRequired: false,
+                    attributes: { size: 30, ref: 'county' }
+                }) }}
+            </div>
+            <div class="ff-address__field">
+                {{ inputText({
+                    label: 'Postcode',
+                    name: field.name + '[postcode]',
+                    value: field.value['postcode'],
+                    type: 'text',
+                    isRequired: field.isRequired,
+                    attributes: { size: 10, ref: 'postcode' }
+                }) }}
+            </div>
+        </div>
+    {% endset %}
+
+    <div class="js-address-lookup">
+
+        {% if caller %}
+            {{ caller() }}
+        {% endif %}
+
+        <fieldset class="ff-address{% if isNested %} ff-address--nested{% endif %}" id="field-{{ field.name }}">
+
+            <address-lookup
+                label="{{ field.label }}"
+                explanation="{{ field.explanation }}"
+                field-name="{{ field.name }}"
+                locale="{{ locale }}"
+                address="{{ field.value | dump }}"
+            >
+            </address-lookup>
+
+            {# Non-JS version (*not* <noscript> because we still need it if JS fails #}
+            {# (this will be removed by our Vue component when mounted) #}
+            <div class="js-fallback-only">
+                <legend class="ff-label ff-address__legend">
+                    {{ labelFor(field) }}
+                </legend>
+
+                {{ explanationFor(field) }}
+                {{ fallbackFields | safe }}
+            </div>
+
+        </fieldset>
+    </div>
 {% endmacro %}
 
 {% macro inputAddressHistory(field) %}
-    <div class="js-conditional-radios">
+
+    {% call inputAddress(
+        {
+            name: field.name + '[previousAddress]',
+            label: 'Previous home address',
+            value: field.value.previousAddress
+        },
+        isNested = true
+    ) %}
+
+        {% set options = [{
+            label: __('global.misc.yes'),
+            value: 'yes'
+        }, {
+            label: __('global.misc.no'),
+            value: 'no'
+        }] %}
         <fieldset class="ff-choice ff-choice--inline">
             <legend class="ff-label">
                 {{ labelFor(field) }}
             </legend>
-            {{ explanationFor(field) }}
-            {% set options = [{
-                label: __('global.misc.yes'),
-                value: 'yes'
-            }, {
-                label: __('global.misc.no'),
-                value: 'no',
-                conditionalId: 'address-history-conditional-no'
-            }] %}
-            <ul class="ff-choice__list">
-                {% for option in options  %}
-                    <li class="ff-choice__option">
-                        {% set optionId = 'option-' + field.name + '-' + option.value %}
-                        <div class="ff-choice__input">
-                            <input
-                                type="radio"
-                                id="{{ optionId }}"
-                                name="{{ field.name }}[currentAddressMeetsMinimum]"
-                                value="{{ option.value }}"
-                                {% if field.value['currentAddressMeetsMinimum'] === option.value %}checked{% endif %}
-                                {% if option.conditionalId %}data-aria-controls="{{ option.conditionalId }}"{% endif %}
-                            />
-                        </div>
-                        <label class="ff-choice__label" for="{{ optionId }}">{{ option.label }}</label>
-                    </li>
-                {% endfor %}
-            </ul>
-        </fieldset>
 
-        <div id="address-history-conditional-no">
-            {{ inputAddress(
-                {
-                    name: field.name + '[previousAddress]',
-                    label: 'Previous home address',
-                    value: field.value.previousAddress
-                },
-                isNested = true
-            ) }}
-        </div>
-    </div>
+            {{ explanationFor(field) }}
+
+            <conditional-radios
+                options="{{ options | dump }}"
+                field-name="{{ field.name }}"
+                sub-field-name="currentAddressMeetsMinimum"
+                initial-value="{{ field.value['currentAddressMeetsMinimum'] or 'yes' }}">
+            </conditional-radios>
+
+            <div class="js-fallback-only">
+                <ul class="ff-choice__list">
+                    {% for option in options %}
+                        <li class="ff-choice__option">
+                            {% set optionId = 'option-' + field.name + '-' + option.value %}
+                            <div class="ff-choice__input">
+                                <input
+                                    type="radio"
+                                    id="{{ optionId }}"
+                                    name="{{ field.name }}[currentAddressMeetsMinimum]"
+                                    value="{{ option.value }}"
+                                    {% if field.value['currentAddressMeetsMinimum'] === option.value %}checked{% endif %}
+                                />
+                            </div>
+                            <label class="ff-choice__label" for="{{ optionId }}">{{ option.label }}</label>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </fieldset>
+    {% endcall %}
 {% endmacro %}
 
 {% macro inputBudget(field) %}
@@ -565,51 +579,51 @@
     <div
         id="form-field-{{ field.name }}"
         class="form-field form-field--{{ field.name }} form-field--type-{{ field.type }}{% if fieldErrors | length > 0 %} has-errors{% endif %}">
-        <div class="form-field__body">
-            {% if field.type === 'textarea' %}
-                {{ inputTextarea(field) }}
-            {% elseif field.type === 'select' %}
-                {{ inputSelect(field) }}
-            {% elseif field.type === 'checkbox' %}
-                {{ inputCheckbox(field) }}
-            {% elseif field.type === 'radio' %}
-                {{ inputRadio(field) }}
-            {% elseif field.type === 'date' %}
-                {{ inputDate(field) }}
-            {% elseif field.type === 'date-range' %}
-                {{ inputDateRange(field) }}
-            {% elseif field.type === 'day-month' %}
-                {{ inputDate(field, includeYear = false) }}
-            {% elseif field.type === 'month-year' %}
-                {{ inputDate(field, includeDay = false) }}
-            {% elseif field.type === 'currency' %}
-                {{ inputCurrency(field) }}
-            {% elseif field.type === 'address' %}
-                {{ inputAddress(field) }}
-            {% elseif field.type === 'address-history' %}
-                {{ inputAddressHistory(field) }}
-            {% elseif field.type === 'budget' %}
-                {{ inputBudget(field) }}
-            {% elseif field.type === 'file' %}
-                {{ inputFile(field) }}
-            {% elseif field.type === 'full-name' %}
-                {{ inputNames(field) }}
-            {% else %}
-                {{ inputText(field) }}
+            <div class="form-field__body">
+                {% if field.type === 'textarea' %}
+                    {{ inputTextarea(field) }}
+                {% elseif field.type === 'select' %}
+                    {{ inputSelect(field) }}
+                {% elseif field.type === 'checkbox' %}
+                    {{ inputCheckbox(field) }}
+                {% elseif field.type === 'radio' %}
+                    {{ inputRadio(field) }}
+                {% elseif field.type === 'date' %}
+                    {{ inputDate(field) }}
+                {% elseif field.type === 'date-range' %}
+                    {{ inputDateRange(field) }}
+                {% elseif field.type === 'day-month' %}
+                    {{ inputDate(field, includeYear = false) }}
+                {% elseif field.type === 'month-year' %}
+                    {{ inputDate(field, includeDay = false) }}
+                {% elseif field.type === 'currency' %}
+                    {{ inputCurrency(field) }}
+                {% elseif field.type === 'address' %}
+                    {{ inputAddress(field) }}
+                {% elseif field.type === 'address-history' %}
+                    {{ inputAddressHistory(field) }}
+                {% elseif field.type === 'budget' %}
+                    {{ inputBudget(field) }}
+                {% elseif field.type === 'file' %}
+                    {{ inputFile(field) }}
+                {% elseif field.type === 'full-name' %}
+                    {{ inputNames(field) }}
+                {% else %}
+                    {{ inputText(field) }}
+                {% endif %}
+            </div>
+            {% if fieldErrors.length > 0 %}
+                {% if field.settings.showWordCount %}
+                    <noscript>
+                {% endif %}
+                <ol class="form-field__errors">
+                    {% for error in fieldErrors %}
+                        <li>{{ error.msg }}</li>
+                    {% endfor %}
+                </ol>
+                {% if field.settings.showWordCount %}
+                    </noscript>
+                {% endif %}
             {% endif %}
-        </div>
-        {% if fieldErrors.length > 0 %}
-            {% if field.settings.showWordCount %}
-                <noscript>
-            {% endif %}
-            <ol class="form-field__errors">
-                {% for error in fieldErrors %}
-                    <li>{{ error.msg }}</li>
-                {% endfor %}
-            </ol>
-            {% if field.settings.showWordCount %}
-                </noscript>
-            {% endif %}
-        {% endif %}
     </div>
 {% endmacro %}

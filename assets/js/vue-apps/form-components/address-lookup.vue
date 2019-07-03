@@ -2,16 +2,12 @@
 import $ from 'jquery';
 import compact from 'lodash/compact';
 
-/* @TODO UX/UI snags/edge-cases
- *
- * - Find a way to return to the postcode lookup UI after editing a looked-up address
- * - Make the postcode field required when visible after enabling a nested address field
- * - Make it clearer a postcode must be *submitted* after being typed, otherwise form submission fails silently
- *
- * */
+import AddressLine from './address-line.vue';
+import { trackEvent } from '../../helpers/metrics';
 
 const states = {
     NotAsked: 'NotAsked',
+    NotRequired: 'NotRequired',
     AlreadyAnswered: 'AlreadyAnswered',
     Editing: 'Editing',
     Asking: 'Asking',
@@ -21,29 +17,46 @@ const states = {
 };
 
 export default {
+    components: { AddressLine },
     props: {
         locale: { type: String, default: 'en' },
         address: { type: String, default: null },
-        isNested: { type: String, default: null }
+        fieldName: { type: String, default: null },
+        label: { type: String, default: null },
+        explanation: { type: String, default: null }
     },
     data() {
         return {
+            showFallbackFields: false,
             currentAddress: null,
             postcode: null,
             currentState: states.NotAsked,
             states: states,
-            fullAddress: null,
+            fullAddress: {
+                line1: null,
+                line2: null,
+                townCity: null,
+                county: null,
+                postcode: null
+            },
+            fullAddressPreview: '',
             addressData: [],
             candidates: [],
             selectedAddressId: '',
-            fallbackVisible: null,
-            componentIsNested: false
+            fallbackVisible: null
         };
     },
     mounted() {
-        if (this.isNested === 'true') {
-            this.componentIsNested = true;
-        }
+        this.$root.$on('update:conditionalRadio', (value) => {
+            if (value === 'yes') {
+                this.currentState = states.NotRequired;
+            } else if (this.fullAddress) {
+                this.currentState = this.states.AlreadyAnswered;
+            } else {
+                this.currentState = states.NotAsked;
+            }
+        });
+
         if (this.address) {
             try {
                 const addressParts = JSON.parse(this.address);
@@ -61,6 +74,19 @@ export default {
                 }
             } catch (e) {} // eslint-disable-line no-empty
         }
+
+        const $form = $(this.$el).parents('form').find('input[type="submit"]');
+        const that = this;
+        $form.on('click', function() {
+            if (that.candidates.length === 0 && !that.showFallbackFields && that.postcode) {
+                // @TODO i18n
+                alert(`Please click "Find address" and choose an address from the list.`);
+                trackEvent('Form warning', 'Postcode lookup', 'Typed but not submitted');
+                document.querySelector('.address-lookup').scrollIntoView();
+                // Prevent form submission (for nested)
+                return false;
+            }
+        });
     },
     methods: {
         getAddressFromId(udprn) {
@@ -88,7 +114,7 @@ export default {
             }
             this.currentState = this.states.Loading;
 
-            this.fullAddress = null;
+            this.clearAddress();
             this.candidates = [];
             this.addressData = [];
             this.selectedAddressId = null;
@@ -128,30 +154,41 @@ export default {
             this.postcode = null;
             this.candidates = [];
             this.addressData = [];
-            this.fullAddress = null;
+            this.clearAddress();
+            this.showFallbackFields = false;
+        },
+        clearAddress() {
+           this.fullAddress = {
+               line1: null,
+               line2: null,
+               townCity: null,
+               county: null,
+               postcode: null
+           };
         },
         removeAddress() {
             this.currentState = this.states.Asking;
             this.clearState();
-            this.$emit('clear-address');
+            this.showFallbackFields = false;
         },
         handleFallback() {
             this.clearState();
-            this.$emit('show-fallback');
+            this.showFallbackFields = true;
         },
         startEditing() {
             this.currentState = this.states.Editing;
-            this.handleFallback();
+            this.showFallbackFields = true;
+        },
+        finishEditing() {
+            this.currentState = this.states.AlreadyAnswered;
+            this.showFallbackFields = false;
         },
         updateAddressPreview(fullAddress) {
             if (fullAddress) {
-                this.$emit('full-address', fullAddress);
+                this.showFallbackFields = false;
                 this.currentState = this.states.AlreadyAnswered;
                 this.fullAddress = fullAddress;
             }
-        },
-        trackFallbackState(fallbackVisibleState) {
-            this.fallbackVisible = fallbackVisibleState;
         }
     },
     watch: {
@@ -163,17 +200,26 @@ export default {
                     this.updateAddressPreview(this.formatAddress(address));
                 }
             }
+        },
+        fullAddress: {
+            handler() {
+                this.fullAddressPreview = this.fullAddress
+                    ? compact([
+                        this.fullAddress.line1,
+                        this.fullAddress.line2,
+                        this.fullAddress.townCity,
+                        this.fullAddress.postcode
+                    ]).join('<br />')
+                    : '';
+            },
+            deep: true
         }
     },
     computed: {
-        elementIsHidden() {
-            return this.$el && this.$el.offsetParent === null;
-        },
         fieldsAreRequired() {
             return (
-                !this.fallbackVisible &&
-                this.shouldShowPostcodeLookup &&
-                !this.componentIsNested
+                !this.showFallbackFields &&
+                this.shouldShowPostcodeLookup
             );
         },
         shouldShowPostcodeLookup() {
@@ -198,16 +244,6 @@ export default {
                 return 'Find address';
             }
         },
-        addressHtml() {
-            return this.fullAddress
-                ? compact([
-                      this.fullAddress.line1,
-                      this.fullAddress.line2,
-                      this.fullAddress.townCity,
-                      this.fullAddress.postcode
-                  ]).join('<br />')
-                : '';
-        },
         id() {
             return Math.random()
                 .toString(36)
@@ -221,12 +257,21 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div
+        v-if="currentState !== states.NotRequired">
+
+        <legend class="ff-label ff-address__legend"
+                v-html="label">
+        </legend>
+
+        <div class="ff-help s-prose" v-if="explanation" v-html="explanation"></div>
+
         <!-- @TODO i18n -->
         <div v-if="shouldShowPostcodeLookup" class="address-lookup">
             <label :for="ariaId" class="ff-label"
                 >Find address by postcode</label
             >
+            <div class="ff-help s-prose"><p>eg. EC4A 1DE</p></div>
             <div class="address-lookup__field">
                 <input
                     type="text"
@@ -290,7 +335,7 @@ export default {
             <h3 class="existing-data__title">Selected address</h3>
             <address
                 class="existing-data__address"
-                v-html="addressHtml"
+                v-html="fullAddressPreview"
             ></address>
             <div class="existing-data__actions">
                 <button type="button" class="btn-link" @click="startEditing">
@@ -305,5 +350,61 @@ export default {
                 </button>
             </div>
         </div>
+
+        <!-- fallback fields -->
+        <details class="o-details u-margin-top"
+                 :open="showFallbackFields"
+                 v-if="currentState !== states.NotRequired">
+            <summary class="js-only o-details__summary"
+                     @click="showFallbackFields = !showFallbackFields"
+                     data-testid="manual-address">
+                Enter address manually
+            </summary>
+
+            <div class="existing-data">
+                <AddressLine
+                    :name="fieldName + '[line1]'"
+                    label="Building and street"
+                    :is-required="true"
+                    v-model="fullAddress.line1">
+                </AddressLine>
+
+                <AddressLine
+                    :name="fieldName + '[line2]'"
+                    label="Address line 2"
+                    is-required="false"
+                    v-model="fullAddress.line2">
+                </AddressLine>
+
+                <AddressLine
+                    :name="fieldName + '[townCity]'"
+                    label="Town or city"
+                    :is-required="true"
+                    v-model="fullAddress.townCity"
+                    size="30">
+                </AddressLine>
+
+                <AddressLine
+                    :name="fieldName + '[county]'"
+                    label="County"
+                    is-required="false"
+                    v-model="fullAddress.county"
+                    size="30">
+                </AddressLine>
+
+                <AddressLine
+                    :name="fieldName + '[postcode]'"
+                    label="Postcode"
+                    :is-required="true"
+                    v-model="fullAddress.postcode"
+                    size="10">
+                </AddressLine>
+
+                <button type="button" class="btn-link u-margin-top-s" @click="finishEditing">
+                    I'm done editing
+                </button>
+            </div>
+        </details>
+
     </div>
 </template>
