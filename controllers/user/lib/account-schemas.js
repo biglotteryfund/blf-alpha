@@ -51,7 +51,7 @@ const MESSAGES = {
     },
     passwordInvalid(locale) {
         return get(locale)({
-            en: `Your password could be too common, or is the same as your username.`,
+            en: `Your password could be too common, or is the same as your username`,
             cy: ''
         });
     },
