@@ -40,14 +40,15 @@
   "features": {
     "enableAllowLocalhost": false,
     "enableAwardsForAllApplications": false,
+    "enableCloudWatchLogs": true,
     "enableDigitalFundApplications": false,
     "enableHotjar": false,
     "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
     "enableRelatedGrants": false,
+    "enableSalesforceConnector": false,
     "enableSeeders": false,
-    "enableSiteSurvey": true,
-    "enableSalesforceConnector": false
+    "enableSiteSurvey": true
   },
   "cookies": {
     "session": "blf-alpha-session"

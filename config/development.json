@@ -5,6 +5,7 @@
   "features": {
     "enableAllowLocalhost": false,
     "enableAwardsForAllApplications": true,
+    "enableCloudWatchLogs": false,
     "enableSeeders": true,
     "enableSalesforceConnector": true
   }
