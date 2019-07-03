@@ -1090,6 +1090,20 @@ user:
       A good tip for a secure password is to
       <a href="https://www.cyberaware.gov.uk/blog/three-random-words">
       use three random words<span class="u-visually-hidden"> National Cyber Security Centre - External link</span></a>.</p>
+    passwordConfirmation: Re-type your password
+    awardsForAllNotice: >
+      <p>Welcome to our new online application for National Lottery Awards for All.</p>
+      <p><strong>Applying for a project in Scotland?</strong></p>
+      <p>
+          Great - you’re in the right place.
+          You’ll need to <a href="/user/register">create a new account</a> to apply.
+          Unless you’ve already created an account for our new online application form.
+      </p>
+      <p><strong>Applying for a project somewhere else in the UK?</strong></p>
+      <p>
+          <a href="https://apply.tnlcommunityfund.org.uk">You’ll need to use this form instead</a>.
+          We’re still working on the new online form for the rest of the UK.
+      </p>
   emails:
     activateSubject: Activate your The National Lottery Community Fund website account
     resetSubject: Reset the password for your The National Lottery Community Fund website account
@@ -1103,7 +1117,7 @@ user:
       href: /user/update-email
     - label: View your funding applications
       href: /apply/awards-for-all
-    awardsForAllNotice:
+    awardsForAllApplications:
       title: Start an application for National Lottery Awards for All
       description: A quick and simple way to get small National Lottery grants of between £300 and £10,000
       actionLabel: Start a new application

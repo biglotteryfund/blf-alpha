@@ -11,10 +11,8 @@ const logger = require('../../common/logger').child({
     service: 'user'
 });
 const { csrfProtection } = require('../../middleware/cached');
-const {
-    injectCopy,
-    injectBreadcrumbs
-} = require('../../middleware/inject-content');
+const injectCopy = require('../../common/inject-copy');
+
 const {
     requireNoAuth,
     redirectUrlWithFallback
@@ -26,22 +24,6 @@ const sendActivationEmail = require('./lib/activation-email');
 
 const router = express.Router();
 
-function logIn(req, res, next) {
-    passport.authenticate('local', function(authError, authUser) {
-        if (authError) {
-            next(authError);
-        } else {
-            req.logIn(authUser, function(loginErr) {
-                if (loginErr) {
-                    next(loginErr);
-                } else {
-                    redirectUrlWithFallback(req, res, '/user?s=activationSent');
-                }
-            });
-        }
-    })(req, res, next);
-}
-
 function renderForm(req, res, data = null, errors = []) {
     res.render(path.resolve(__dirname, './views/register'), {
         csrfToken: req.csrfToken(),
@@ -52,12 +34,7 @@ function renderForm(req, res, data = null, errors = []) {
 
 router
     .route('/')
-    .all(
-        requireNoAuth,
-        csrfProtection,
-        injectCopy('user.register'),
-        injectBreadcrumbs
-    )
+    .all(requireNoAuth, csrfProtection, injectCopy('user.register'))
     .get(renderForm)
     .post(async function handleRegister(req, res, next) {
         const validationResult = validateSchema(
@@ -84,14 +61,7 @@ router
                 const existingUser = await Users.findByUsername(username);
 
                 if (existingUser) {
-                    logger.info('Account already exists');
-                    Sentry.withScope(scope => {
-                        scope.setLevel('info');
-                        Sentry.captureMessage(
-                            'A user tried to register with an existing email address'
-                        );
-                    });
-
+                    logger.warn('Account already exists');
                     res.locals.alertMessage = genericError;
                     renderForm(req, res, validationResult.value);
                 } else {
@@ -112,11 +82,29 @@ router
                         // used for tests to verify activation works
                         res.send(activationData);
                     } else {
-                        logIn(req, res, next);
+                        passport.authenticate('local', function(
+                            authError,
+                            authUser
+                        ) {
+                            if (authError) {
+                                next(authError);
+                            } else {
+                                req.logIn(authUser, function(loginErr) {
+                                    if (loginErr) {
+                                        next(loginErr);
+                                    } else {
+                                        redirectUrlWithFallback(
+                                            req,
+                                            res,
+                                            '/user?s=activationSent'
+                                        );
+                                    }
+                                });
+                            }
+                        })(req, res, next);
                     }
                 }
             } catch (error) {
-                logger.warn('Registration failed', error);
                 Sentry.captureException(error);
                 res.locals.alertMessage = genericError;
                 renderForm(req, res, validationResult.value);

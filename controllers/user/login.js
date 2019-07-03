@@ -3,12 +3,8 @@ const path = require('path');
 const express = require('express');
 const passport = require('passport');
 
-const logger = require('../../common/logger').child({
-    service: 'user'
-});
-
+const logger = require('../../common/logger').child({ service: 'user' });
 const injectCopy = require('../../common/inject-copy');
-const { injectBreadcrumbs } = require('../../middleware/inject-content');
 const {
     requireNoAuth,
     redirectUrlWithFallback
@@ -29,12 +25,7 @@ function renderForm(req, res, formValues = null, errors = []) {
 
 router
     .route('/')
-    .all(
-        csrfProtection,
-        requireNoAuth,
-        injectCopy('user.login'),
-        injectBreadcrumbs
-    )
+    .all(csrfProtection, requireNoAuth, injectCopy('user.login'))
     .get(function(req, res) {
         res.locals.alertMessage = alertMessage({
             locale: req.i18n.getLocale(),
