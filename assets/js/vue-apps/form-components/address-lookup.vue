@@ -7,7 +7,6 @@ import AddressLine from './address-line.vue';
 /* @TODO UX/UI snags/edge-cases
  *
  * - Find a way to return to the postcode lookup UI after editing a looked-up address
- * - Make the postcode field required when visible after enabling a nested address field
  *
  * */
 
