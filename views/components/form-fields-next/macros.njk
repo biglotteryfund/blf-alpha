@@ -457,7 +457,7 @@
                 initial-value="{{ field.value['currentAddressMeetsMinimum'] or 'yes' }}">
             </conditional-radios>
 
-            <noscript>
+            <div class="js-fallback-only">
                 <ul class="ff-choice__list">
                     {% for option in options %}
                         <li class="ff-choice__option">
@@ -475,7 +475,7 @@
                         </li>
                     {% endfor %}
                 </ul>
-            </noscript>
+            </div>
         </fieldset>
     {% endcall %}
 {% endmacro %}
