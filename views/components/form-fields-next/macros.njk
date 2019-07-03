@@ -565,47 +565,51 @@
     <div
         id="form-field-{{ field.name }}"
         class="form-field form-field--{{ field.name }} form-field--type-{{ field.type }}{% if fieldErrors | length > 0 %} has-errors{% endif %}">
-        <div class="form-field__main">
-            <div class="form-field__body">
-                {% if field.type === 'textarea' %}
-                    {{ inputTextarea(field) }}
-                {% elseif field.type === 'select' %}
-                    {{ inputSelect(field) }}
-                {% elseif field.type === 'checkbox' %}
-                    {{ inputCheckbox(field) }}
-                {% elseif field.type === 'radio' %}
-                    {{ inputRadio(field) }}
-                {% elseif field.type === 'date' %}
-                    {{ inputDate(field) }}
-                {% elseif field.type === 'date-range' %}
-                    {{ inputDateRange(field) }}
-                {% elseif field.type === 'day-month' %}
-                    {{ inputDate(field, includeYear = false) }}
-                {% elseif field.type === 'month-year' %}
-                    {{ inputDate(field, includeDay = false) }}
-                {% elseif field.type === 'currency' %}
-                    {{ inputCurrency(field) }}
-                {% elseif field.type === 'address' %}
-                    {{ inputAddress(field) }}
-                {% elseif field.type === 'address-history' %}
-                    {{ inputAddressHistory(field) }}
-                {% elseif field.type === 'budget' %}
-                    {{ inputBudget(field) }}
-                {% elseif field.type === 'file' %}
-                    {{ inputFile(field) }}
-                {% elseif field.type === 'full-name' %}
-                    {{ inputNames(field) }}
-                {% else %}
-                    {{ inputText(field) }}
-                {% endif %}
-            </div>
-            {% if fieldErrors.length > 0 %}
-                <ol class="form-field__errors">
-                    {% for error in fieldErrors %}
-                        <li>{{ error.msg }}</li>
-                    {% endfor %}
-                </ol>
+        <div class="form-field__body">
+            {% if field.type === 'textarea' %}
+                {{ inputTextarea(field) }}
+            {% elseif field.type === 'select' %}
+                {{ inputSelect(field) }}
+            {% elseif field.type === 'checkbox' %}
+                {{ inputCheckbox(field) }}
+            {% elseif field.type === 'radio' %}
+                {{ inputRadio(field) }}
+            {% elseif field.type === 'date' %}
+                {{ inputDate(field) }}
+            {% elseif field.type === 'date-range' %}
+                {{ inputDateRange(field) }}
+            {% elseif field.type === 'day-month' %}
+                {{ inputDate(field, includeYear = false) }}
+            {% elseif field.type === 'month-year' %}
+                {{ inputDate(field, includeDay = false) }}
+            {% elseif field.type === 'currency' %}
+                {{ inputCurrency(field) }}
+            {% elseif field.type === 'address' %}
+                {{ inputAddress(field) }}
+            {% elseif field.type === 'address-history' %}
+                {{ inputAddressHistory(field) }}
+            {% elseif field.type === 'budget' %}
+                {{ inputBudget(field) }}
+            {% elseif field.type === 'file' %}
+                {{ inputFile(field) }}
+            {% elseif field.type === 'full-name' %}
+                {{ inputNames(field) }}
+            {% else %}
+                {{ inputText(field) }}
             {% endif %}
         </div>
+        {% if fieldErrors.length > 0 %}
+            {% if field.settings.showWordCount %}
+                <noscript>
+            {% endif %}
+            <ol class="form-field__errors">
+                {% for error in fieldErrors %}
+                    <li>{{ error.msg }}</li>
+                {% endfor %}
+            </ol>
+            {% if field.settings.showWordCount %}
+                </noscript>
+            {% endif %}
+        {% endif %}
     </div>
 {% endmacro %}
