@@ -225,7 +225,6 @@ function sendEmail({ name, mailConfig, mailTransport = null }) {
         return transport.sendMail(buildMailOptions(mailConfig)).then(info => {
             /**
              * Record a send count as a CloudWatch event if enabled
-             * istanbul ignore if
              */
             if (config.get('features.enableMailSendMetrics')) {
                 metrics.count({
@@ -235,6 +234,8 @@ function sendEmail({ name, mailConfig, mailTransport = null }) {
                     value: 'SEND_COUNT'
                 });
             }
+
+            logger.info(`Mail sent: ${name}`);
 
             return info;
         });
