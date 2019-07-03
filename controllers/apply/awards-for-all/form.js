@@ -629,78 +629,78 @@ module.exports = function({ locale, data = {} }) {
                         ]
                     }
                 ],
-                preflightCheck: async function() {
+                preFlightCheck() {
                     const sortCode = get('bankSortCode')(data);
                     const accountNumber = get('bankAccountNumber')(data);
 
-                    return new Promise(async (resolve, reject) => {
-                        // Bail early if we're testing and won't make this lookup
-                        if (process.env.TEST_SERVER === true) {
+                    return new Promise((resolve, reject) => {
+                        /**
+                         * Bail early if we're testing and won't make this lookup
+                         */
+                        if (!!process.env.TEST_SERVER === true) {
                             return resolve();
-                        }
+                        } else {
+                            checkBankAccountDetails(sortCode, accountNumber)
+                                .then(bankStatus => {
+                                    /**
+                                     * If this API does anything weird, assume all is well
+                                     * We treat this as a success in order to keep the form usable
+                                     * if the third party API is down/broken
+                                     */
+                                    if (bankStatus.code === 'UNKNOWN') {
+                                        const loggerMeta = {
+                                            resultCode: bankStatus.originalCode
+                                        };
 
-                        try {
-                            const bankStatus = await checkBankAccountDetails(
-                                sortCode,
-                                accountNumber
-                            );
-                            if (bankStatus.code === 'UNKNOWN') {
-                                // If this API does anything weird, assume all is well
-                                logger.info(
-                                    'User bank details check: API call failed',
-                                    {
-                                        resultCode: bankStatus.originalCode
+                                        logger.info(
+                                            'User bank details check: API call failed',
+                                            loggerMeta
+                                        );
+
+                                        return resolve();
+                                    } else if (bankStatus.code === 'INVALID') {
+                                        return reject([
+                                            {
+                                                msg: localise({
+                                                    en: `This sort code is not valid with this account number`,
+                                                    cy: ''
+                                                }),
+                                                param: 'bankSortCode',
+                                                field: fields.bankSortCode
+                                            },
+                                            {
+                                                msg: localise({
+                                                    en: `This account number is not valid with this sort code`,
+                                                    cy: ''
+                                                }),
+                                                param: 'bankAccountNumber',
+                                                field: fields.bankAccountNumber
+                                            }
+                                        ]);
+                                    } else if (
+                                        !bankStatus.supportsBacsPayment
+                                    ) {
+                                        return reject([
+                                            {
+                                                msg: localise({
+                                                    en: `This bank account cannot receive BACS payments, which is a requirement for funding`,
+                                                    cy: ''
+                                                }),
+                                                param: 'bankAccountNumber'
+                                            }
+                                        ]);
+                                    } else {
+                                        return resolve();
                                     }
-                                );
-                                // We treat this as a success in order to keep the form usable
-                                // if the third party API is down/broken
-                                return resolve();
-                            } else if (
-                                bankStatus.code === 'BANK_DETAILS_INVALID'
-                            ) {
-                                return reject([
-                                    {
-                                        msg: localise({
-                                            en:
-                                                'This sort code is not valid with this account number',
-                                            cy: ''
-                                        }),
-                                        param: 'bankSortCode',
-                                        field: fields.bankSortCode
-                                    },
-                                    {
-                                        msg: localise({
-                                            en:
-                                                'This account number is not valid with this sort code',
-                                            cy: ''
-                                        }),
-                                        param: 'bankAccountNumber',
-                                        field: fields.bankAccountNumber
-                                    }
-                                ]);
-                            } else if (!bankStatus.supportsBacsPayment) {
-                                return reject([
-                                    {
-                                        msg: localise({
-                                            en:
-                                                'This bank account cannot receive BACS payments, which is a requirement for funding',
-                                            cy: ''
-                                        }),
-                                        param: 'bankAccountNumber'
-                                    }
-                                ]);
-                            }
-                            // Otherwise everything is all good
-                            return resolve();
-                        } catch (err) {
-                            Sentry.captureException(
-                                new Error(
-                                    `User bank details check: API call failed`
-                                )
-                            );
-                            // We treat this as a success in order to keep the form usable
-                            // if the third party API is down/broken
-                            return resolve();
+                                })
+                                .catch(err => {
+                                    /**
+                                     * We treat this as a success in order to keep the form usable
+                                     * if the third party API is down/broken
+                                     */
+                                    Sentry.captureException(err);
+                                    return resolve();
+                                });
                         }
                     });
                 }

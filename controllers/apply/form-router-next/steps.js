@@ -159,9 +159,9 @@ module.exports = function(formId, formBuilder) {
                      * Run any pre-flight checks for this steps
                      * eg. custom validations which don't run in Joi
                      */
-                    if (step.preflightCheck) {
+                    if (step.preFlightCheck) {
                         try {
-                            await step.preflightCheck();
+                            await step.preFlightCheck();
                         } catch (errors) {
                             // There was a validation error, so return users to the form
                             const renderStep = renderStepFor(
