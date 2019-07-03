@@ -3,12 +3,15 @@
 /* eslint-disable no-console */
 const http = require('http');
 const config = require('config');
-const debug = require('debug')('tnlcf:www');
+
+const logger = require('../common/logger').child({
+    service: 'www'
+});
 
 const app = require('../server');
 const { sequelize } = require('../db/models');
 
-debug(`App environment: ${config.util.getEnv('NODE_ENV')}`);
+logger.debug(`App environment: ${config.util.getEnv('NODE_ENV')}`);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -70,7 +73,9 @@ function startServer() {
         }
     });
     server.on('listening', function() {
-        debug(`App now running on ${describeAddressBinding(server.address())}`);
+        logger.debug(
+            `App now running on ${describeAddressBinding(server.address())}`
+        );
     });
 }
 
@@ -80,11 +85,11 @@ function startServer() {
 sequelize
     .sync()
     .then(function() {
-        debug('Database sync complete');
+        logger.info('Database sync complete');
         startServer();
     })
     .catch(function(e) {
-        debug('Database sync failed', e);
+        logger.warn('Database sync failed', e);
         startServer();
     });
 

@@ -579,7 +579,6 @@
     <div
         id="form-field-{{ field.name }}"
         class="form-field form-field--{{ field.name }} form-field--type-{{ field.type }}{% if fieldErrors | length > 0 %} has-errors{% endif %}">
-        <div class="form-field__main">
             <div class="form-field__body">
                 {% if field.type === 'textarea' %}
                     {{ inputTextarea(field) }}
@@ -614,12 +613,17 @@
                 {% endif %}
             </div>
             {% if fieldErrors.length > 0 %}
+                {% if field.settings.showWordCount %}
+                    <noscript>
+                {% endif %}
                 <ol class="form-field__errors">
                     {% for error in fieldErrors %}
                         <li>{{ error.msg }}</li>
                     {% endfor %}
                 </ol>
+                {% if field.settings.showWordCount %}
+                    </noscript>
+                {% endif %}
             {% endif %}
         </div>
-    </div>
 {% endmacro %}

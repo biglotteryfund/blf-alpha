@@ -12,23 +12,24 @@ This file documents validation rules, conditions, and error message text for all
 
 ### When would you like to start and end your project?
 
-| Rule                   | Message                                                          |
-| ---------------------- | ---------------------------------------------------------------- |
-| Required field         | Enter a date                                                     |
-| Both invalid           | Enter a valid project start and end date                         |
-| Start date invalid     | Enter a valid project start date                                 |
-| End date invalid       | Enter a valid project end date                                   |
-| Date too soon          | Date you start or end the project must be after [example date]   |
-| Ends before start date | Project end date must be after start date                        |
-| Outside limit          | Project end date must be within [max duration] of the start date |
+| Rule                        | Message                                                                  |
+| --------------------------- | ------------------------------------------------------------------------ |
+| Required field (start date) | Enter a project start date                                               |
+| Required field (end date)   | Enter an project end date                                                |
+| Both invalid                | Project start and end dates must be real dates                           |
+| Start date invalid          | Date you start the project must be a real date                           |
+| End date invalid            | Date you end the project must be a real date                             |
+| Date too soon               | Date you start the project must be after [example date]                  |
+| Ends before start date      | Date you end the project must be after the start date                    |
+| Outside limit               | Date you end the project must be within [max duration] of the start date |
 
 ## Project Country
 
 ### What country will your project be based in?
 
-| Rule           | Message                |
-| -------------- | ---------------------- |
-| Required field | Choose a valid country |
+| Rule           | Message          |
+| -------------- | ---------------- |
+| Required field | Select a country |
 
 ## Project Location
 
@@ -36,13 +37,13 @@ This file documents validation rules, conditions, and error message text for all
 
 | Rule           | Message           |
 | -------------- | ----------------- |
-| Required field | Choose a location |
+| Required field | Select a location |
 
 ### Tell us the towns, villages or wards where your beneficiaries live
 
-| Rule           | Message             |
-| -------------- | ------------------- |
-| Required field | Enter a description |
+| Rule           | Message                                                         |
+| -------------- | --------------------------------------------------------------- |
+| Required field | Tell us the towns, villages or wards your beneficiaries live in |
 
 ### What is the postcode of the location where your project will take place?
 
@@ -62,11 +63,11 @@ This file documents validation rules, conditions, and error message text for all
 
 ### How does your project meet at least one of our funding priorities?
 
-| Rule           | Message                                                              |
-| -------------- | -------------------------------------------------------------------- |
-| Required field | Tell us how your project meet at least one of our funding priorities |
-| Min words      | Answer must be at least [min] words                                  |
-| Max words      | Answer must be no more than [max] words                              |
+| Rule           | Message                                                               |
+| -------------- | --------------------------------------------------------------------- |
+| Required field | Tell us how your project meets at least one of our funding priorities |
+| Min words      | Answer must be at least [min] words                                   |
+| Max words      | Answer must be no more than [max] words                               |
 
 ### How does your project involve your community?
 
@@ -105,8 +106,8 @@ Client-side warnings:
 
 | Rule                  | Message                                                        |
 | --------------------- | -------------------------------------------------------------- |
-| Amount is below limit | Total project costs must be greater than [min]                 |
-| Amount is over limit  | Total project costs must be less than [max]                    |
+| Amount is below limit | Project costs must be greater than [min]                       |
+| Amount is over limit  | Project costs must be less than [max]                          |
 | Too many rows         | You must use 10 budget headings or fewer to tell us your costs |
 
 ### Project total cost
@@ -123,23 +124,23 @@ Client-side warnings:
 
 | Rule           | Message          |
 | -------------- | ---------------- |
-| Required field | Answer yes or no |
+| Required field | Select yes or no |
 
 ### What specific groups of people is your project aimed at?
 
 Shown if answered "yes" to the question above.
 
-| Rule           | Message                                 |
-| -------------- | --------------------------------------- |
-| Required field | Choose from one of the options provided |
+| Rule           | Message                                                         |
+| -------------- | --------------------------------------------------------------- |
+| Required field | Select the specific group(s) of people your project is aimed at |
 
 An additional "Other" field is provided for free text responses.
 
 ### Ethnic background
 
-| Rule           | Message                                 |
-| -------------- | --------------------------------------- |
-| Required field | Choose from one of the options provided |
+| Rule           | Message                                                                           |
+| -------------- | --------------------------------------------------------------------------------- |
+| Required field | Select the ethnic background(s) of the people that will benefit from your project |
 
 #### Conditions
 
@@ -147,9 +148,9 @@ An additional "Other" field is provided for free text responses.
 
 ### Gender
 
-| Rule           | Message                                 |
-| -------------- | --------------------------------------- |
-| Required field | Choose from one of the options provided |
+| Rule           | Message                                                                |
+| -------------- | ---------------------------------------------------------------------- |
+| Required field | Select the gender(s) of the people that will benefit from your project |
 
 #### Conditions
 
@@ -157,9 +158,9 @@ An additional "Other" field is provided for free text responses.
 
 ### Age
 
-| Rule           | Message                                 |
-| -------------- | --------------------------------------- |
-| Required field | Choose from one of the options provided |
+| Rule           | Message                                                                   |
+| -------------- | ------------------------------------------------------------------------- |
+| Required field | Select the age group(s) of the people that will benefit from your project |
 
 #### Conditions
 
@@ -167,9 +168,9 @@ An additional "Other" field is provided for free text responses.
 
 ### Disabled people
 
-| Rule           | Message                                 |
-| -------------- | --------------------------------------- |
-| Required field | Choose from one of the options provided |
+| Rule           | Message                                                        |
+| -------------- | -------------------------------------------------------------- |
+| Required field | Select the disabled people that will benefit from your project |
 
 #### Conditions
 
@@ -177,9 +178,9 @@ An additional "Other" field is provided for free text responses.
 
 ### Religion
 
-| Rule           | Message                                 |
-| -------------- | --------------------------------------- |
-| Required field | Choose from one of the options provided |
+| Rule           | Message                                                                               |
+| -------------- | ------------------------------------------------------------------------------------- |
+| Required field | Select the religion(s) or belief(s) of the people that will benefit from your project |
 
 #### Conditions
 
@@ -189,9 +190,9 @@ An additional "Other" field is provided for free text responses.
 
 ### How many of the people who will benefit from your project speak Welsh?
 
-| Rule           | Message                                 |
-| -------------- | --------------------------------------- |
-| Required field | Choose from one of the options provided |
+| Rule           | Message                                                                         |
+| -------------- | ------------------------------------------------------------------------------- |
+| Required field | Select the amount of people who speak Welsh that will benefit from your project |
 
 #### Conditions
 
@@ -199,9 +200,9 @@ An additional "Other" field is provided for free text responses.
 
 ### Which community do the people who will benefit from your project belong to?
 
-| Rule           | Message                                 |
-| -------------- | --------------------------------------- |
-| Required field | Choose from one of the options provided |
+| Rule           | Message                                                                           |
+| -------------- | --------------------------------------------------------------------------------- |
+| Required field | Select the community that the people who will benefit from your project belong to |
 
 #### Conditions
 
@@ -225,28 +226,28 @@ _Does your organisation use a different name in your day-to-day work?_
 
 ### When was your organisation set up?
 
-| Rule         | Message                    |
-| ------------ | -------------------------- |
-| Empty        | Enter a day and month      |
-| Invalid date | Enter a real day and month |
-| In future    | Enter a past date          |
+| Rule         | Message                            |
+| ------------ | ---------------------------------- |
+| Empty        | Enter a month and year             |
+| Invalid date | Enter a real month and year        |
+| In future    | Date you enter must be in the past |
 
 ### Organisation address
 
-| Rule                   | Message                     |
-| ---------------------- | --------------------------- |
-| Required field         | Enter a full UK address     |
-| No building and street | Enter a building and street |
-| No town or city        | Enter a town or city        |
-| No county              | Enter a county              |
-| No postcode            | Enter a postcode            |
-| Valid postcode         | Enter a real postcode       |
+| Rule                       | Message                     |
+| -------------------------- | --------------------------- |
+| Required field             | Enter a full UK address     |
+| No building and street     | Enter a building and street |
+| No town or city            | Enter a town or city        |
+| No county (optional field) | n/a                         |
+| No postcode                | Enter a postcode            |
+| Valid postcode             | Enter a real postcode       |
 
 ### Organisation type
 
 | Rule           | Message                       |
 | -------------- | ----------------------------- |
-| Required field | Choose a type of organisation |
+| Required field | Select a type of organisation |
 
 ### Company number
 
@@ -291,18 +292,14 @@ _Does your organisation use a different name in your day-to-day work?_
 
 ## Senior contact
 
-### Senior contact first name
-
-| Rule           | Message          |
-| -------------- | ---------------- |
-| Required field | Enter first name |
-
 ### Senior contact name
 
-| Rule                   | Message                                                            |
-| ---------------------- | ------------------------------------------------------------------ |
-| Required field         | Enter a first and last name                                        |
-| Matches Senior Contact | Senior contact name must be different from the main contact's name |
+| Rule                   | Message                                                         |
+| ---------------------- | --------------------------------------------------------------- |
+| Required field         | Enter first and last name                                       |
+| Missing first name     | Enter first name                                                |
+| Missing last name      | Enter last name                                                 |
+| Matches Senior Contact | Senior contact must be a different person from the main contact |
 
 #### Mappings
 
@@ -338,28 +335,27 @@ The senior contact role shows the following choices depending on the organisatio
 
 ### Senior contact address
 
-| Rule                   | Message                     |
-| ---------------------- | --------------------------- |
-| Required field         | Enter a full UK address     |
-| No building and street | Enter a building and street |
-| No town or city        | Enter a town or city        |
-| No county              | Enter a county              |
-| No postcode            | Enter a postcode            |
-| Valid postcode         | Enter a real postcode       |
+| Rule                       | Message                     |
+| -------------------------- | --------------------------- |
+| Required field             | Enter a full UK address     |
+| No building and street     | Enter a building and street |
+| No town or city            | Enter a town or city        |
+| No county (optional field) | n/a                         |
+| No postcode                | Enter a postcode            |
+| Valid postcode             | Enter a real postcode       |
 
 ### Senior contact address history
 
 Address history field group, consists of:
 
-| Rule                   | Message                                 |
-| ---------------------- | --------------------------------------- |
-| Required field         | Enter a full UK address                 |
-| Invalid choice         | Choose from one of the options provided |
-| No building and street | Enter a building and street             |
-| No town or city        | Enter a town or city                    |
-| No county              | Enter a county                          |
-| No postcode            | Enter a postcode                        |
-| Valid postcode         | Enter a real postcode                   |
+| Rule                       | Message                     |
+| -------------------------- | --------------------------- |
+| Required field             | Enter a full UK address     |
+| No building and street     | Enter a building and street |
+| No town or city            | Enter a town or city        |
+| No county (optional field) | n/a                         |
+| No postcode                | Enter a postcode            |
+| Valid postcode             | Enter a real postcode       |
 
 #### Conditions
 
@@ -367,10 +363,11 @@ Address history field group, consists of:
 
 ### Senior contact email
 
-| Rule           | Message                                                            |
-| -------------- | ------------------------------------------------------------------ |
-| Required field | Enter an email address                                             |
-| Invalid format | Email address must be in the correct format, like name@example.com |
+| Rule                 | Message                                                                              |
+| -------------------- | ------------------------------------------------------------------------------------ |
+| Required field       | Enter an email address                                                               |
+| Invalid format       | Email address must be in the correct format, like name@example.com                   |
+| Matches main contact | Senior contact email address must be different from the main contact's email address |
 
 ### Senior contact phone
 
@@ -389,10 +386,12 @@ Address history field group, consists of:
 
 ### Main contact name
 
-| Rule                   | Message                                                            |
-| ---------------------- | ------------------------------------------------------------------ |
-| Required field         | Enter a first and last name                                        |
-| Matches Senior Contact | Main contact name must be different from the senior contact's name |
+| Rule                   | Message                                                         |
+| ---------------------- | --------------------------------------------------------------- |
+| Required field         | Enter first and last name                                       |
+| Missing first name     | Enter first name                                                |
+| Missing last name      | Enter last name                                                 |
+| Matches Senior Contact | Main contact must be a different person from the senior contact |
 
 ### Main contact date of birth
 
@@ -408,14 +407,14 @@ Address history field group, consists of:
 
 ### Main contact address
 
-| Rule                   | Message                     |
-| ---------------------- | --------------------------- |
-| Required field         | Enter a full UK address     |
-| No building and street | Enter a building and street |
-| No town or city        | Enter a town or city        |
-| No county              | Enter a county              |
-| No postcode            | Enter a postcode            |
-| Valid postcode         | Enter a real postcode       |
+| Rule                       | Message                     |
+| -------------------------- | --------------------------- |
+| Required field             | Enter a full UK address     |
+| No building and street     | Enter a building and street |
+| No town or city            | Enter a town or city        |
+| No county (optional field) | n/a                         |
+| No postcode                | Enter a postcode            |
+| Valid postcode             | Enter a real postcode       |
 
 #### Conditions
 
@@ -423,15 +422,14 @@ Address history field group, consists of:
 
 ### Main contact address history
 
-| Rule                   | Message                                 |
-| ---------------------- | --------------------------------------- |
-| Required field         | Enter a full UK address                 |
-| Invalid choice         | Choose from one of the options provided |
-| No building and street | Enter a building and street             |
-| No town or city        | Enter a town or city                    |
-| No county              | Enter a county                          |
-| No postcode            | Enter a postcode                        |
-| Valid postcode         | Enter a real postcode                   |
+| Rule                       | Message                     |
+| -------------------------- | --------------------------- |
+| Required field             | Enter a full UK address     |
+| No building and street     | Enter a building and street |
+| No town or city            | Enter a town or city        |
+| No county (optional field) | n/a                         |
+| No postcode                | Enter a postcode            |
+| Valid postcode             | Enter a real postcode       |
 
 #### Conditions
 
@@ -462,23 +460,23 @@ Address history field group, consists of:
 
 ### Account name
 
-| Rule           | Message                  |
-| -------------- | ------------------------ |
-| Required field | Name on the bank account |
+| Rule           | Message                                                                   |
+| -------------- | ------------------------------------------------------------------------- |
+| Required field | Enter the name of your organisation, as it appears on your bank statement |
 
 ### Sort code
 
-| Rule           | Message                     |
-| -------------- | --------------------------- |
-| Required field | Enter a sort-code           |
-| Too short      | Enter a six digit sort code |
+| Rule           | Message                           |
+| -------------- | --------------------------------- |
+| Required field | Enter a sort code                 |
+| Invalid length | Sort code must be six digits long |
 
 ### Account number
 
 | Rule           | Message                             |
 | -------------- | ----------------------------------- |
 | Required field | Enter an account number             |
-| Too short      | Enter an eight digit account number |
+| Invalid length | Enter a valid length account number |
 
 ### Building society number
 
@@ -498,36 +496,36 @@ Address history field group, consists of:
 
 ### Terms checkbox 1
 
-| Rule     | Message                                           |
-| -------- | ------------------------------------------------- |
-| Required | You must agree to all of the terms and conditions |
+| Rule     | Message                                                            |
+| -------- | ------------------------------------------------------------------ |
+| Required | You must confirm that you're authorised to submit this application |
 
 ### Terms checkbox 2
 
-| Rule     | Message                                           |
-| -------- | ------------------------------------------------- |
-| Required | You must agree to all of the terms and conditions |
+| Rule     | Message                                                                               |
+| -------- | ------------------------------------------------------------------------------------- |
+| Required | You must confirm that the information you've provided in this application is accurate |
 
 ### Terms checkbox 3
 
-| Rule     | Message                                           |
-| -------- | ------------------------------------------------- |
-| Required | You must agree to all of the terms and conditions |
+| Rule     | Message                                                                                     |
+| -------- | ------------------------------------------------------------------------------------------- |
+| Required | You must confirm that you understand how we'll use any personal information you've provided |
 
 ### Terms checkbox 3
 
-| Rule     | Message                                           |
-| -------- | ------------------------------------------------- |
-| Required | You must agree to all of the terms and conditions |
+| Rule     | Message                                                                                               |
+| -------- | ----------------------------------------------------------------------------------------------------- |
+| Required | You must confirm that you understand your application is subject to our Freedom of Information policy |
 
 ### Full name of person completing this form
 
-| Rule     | Message                                                      |
-| -------- | ------------------------------------------------------------ |
-| Required | You must provide the name of the person completing this form |
+| Rule     | Message                                                |
+| -------- | ------------------------------------------------------ |
+| Required | Enter the full name of the person completing this form |
 
 ### Position in organisation
 
-| Rule     | Message                                                          |
-| -------- | ---------------------------------------------------------------- |
-| Required | You must provide the position of the person completing this form |
+| Rule     | Message                                               |
+| -------- | ----------------------------------------------------- |
+| Required | Enter the position of the person completing this form |

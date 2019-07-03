@@ -170,7 +170,7 @@ router
         renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
     })
     .post(
-        injectMerchandise({ locale: 'en' }),
+        injectMerchandise({}),
         map(materialFields, field => field.validator(field)),
         (req, res) => {
             req.body = mapValues(req.body, sanitise);

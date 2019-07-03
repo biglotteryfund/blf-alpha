@@ -180,20 +180,26 @@ describe('Form validations', () => {
             }
 
             assertValidByKey(value(mockStartDate(12), mockStartDate(30)));
-            assertMessagesByKey(value(null, null), ['Enter a date']);
+            assertMessagesByKey(value(null, null), [
+                'Enter a project start and end date'
+            ]);
             assertMessagesByKey(
                 value(
                     { day: 31, month: 2, year: 2030 },
                     { day: 31, month: 24, year: 2030 }
                 ),
-                ['Enter a valid project start and end date']
+                ['Project start and end dates must be real dates']
             );
             assertMessagesByKey(
                 value(
                     { day: 1, month: 1, year: 2020 },
                     { day: 1, month: 1, year: 2030 }
                 ),
-                [expect.stringMatching(/Project end date must be within/)]
+                [
+                    expect.stringMatching(
+                        /Date you end the project must be within/
+                    )
+                ]
             );
         });
 
@@ -210,9 +216,7 @@ describe('Form validations', () => {
             ]);
 
             assertValidByKey(value(randomCountry));
-            assertMessagesByKey(value('not-a-country'), [
-                'Choose a valid country'
-            ]);
+            assertMessagesByKey(value('not-a-country'), ['Select a country']);
         });
 
         test('project postcode must be a valid UK postcode', () => {
@@ -272,14 +276,14 @@ describe('Form validations', () => {
             assertMessagesByKey(value(budgetWithoutCosts), defaultMessages);
         });
 
-        test('total project costs must be less than £10,000', () => {
+        test('project costs must be less than £10,000', () => {
             const budget = times(10, () => ({
                 item: faker.lorem.words(5),
                 cost: 1100
             }));
 
             assertMessagesByKey(value(budget), [
-                'Total project costs must be less than £10,000'
+                'Project costs must be less than £10,000'
             ]);
         });
 
@@ -468,7 +472,7 @@ describe('Form validations', () => {
             }
 
             assertValidByKey(value(sample(Object.values(ORGANISATION_TYPES))));
-            const defaultMessages = ['Choose a type of organisation'];
+            const defaultMessages = ['Select a type of organisation'];
             assertMessagesByKey(value(null), defaultMessages);
             assertMessagesByKey(value('not-an-option'), defaultMessages);
         });
@@ -621,7 +625,7 @@ describe('Form validations', () => {
             );
 
             assertMessagesByKey(value(null, null), [
-                'Enter a first and last name'
+                'Enter first and last name'
             ]);
         });
     }
@@ -984,7 +988,7 @@ describe('Form validations', () => {
 
             assertValidByKey(value(faker.company.companyName()));
             assertMessagesByKey(value(null), [
-                'Enter the name of your organisation as it appears on your bank statement'
+                'Enter the name of your organisation, as it appears on your bank statement'
             ]);
         });
 
@@ -1045,7 +1049,7 @@ describe('form shape', () => {
         ).toEqual([
             {
                 msg: expect.stringMatching(
-                    /Date you start or end the project must be after/
+                    /Date you start the project must be after/
                 ),
                 param: 'projectDateRange',
                 type: 'dateRange.minDate.invalid',

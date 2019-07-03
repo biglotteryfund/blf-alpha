@@ -6,8 +6,9 @@ const nunjucks = require('nunjucks');
 const nodemailer = require('nodemailer');
 const juice = require('juice');
 const htmlToText = require('html-to-text');
-const debug = require('debug')('tnlcf:mail');
 const { isString, isArray } = require('lodash');
+
+const logger = require('./logger').child({ service: 'mail' });
 
 const metrics = require('./metrics');
 
@@ -211,7 +212,7 @@ function sendEmail({ name, mailConfig, mailTransport = null }) {
      */
     if (!!process.env.TEST_SERVER === true) {
         const reason = `skipped sending mail ${name}`;
-        debug(reason);
+        logger.debug(reason);
         return Promise.resolve(reason);
     } else {
         /**

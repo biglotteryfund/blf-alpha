@@ -122,10 +122,10 @@ export default {
                 You must use {{ maxItems }} budget headings or fewer to tell us your costs
             </p>
             <p v-if="error.OVER_BUDGET">
-                Total project costs must be less than £{{ maxBudget.toLocaleString() }}.
+                Project costs must be less than £{{ maxBudget.toLocaleString() }}.
             </p>
             <p v-if="error.UNDER_BUDGET">
-                Total project costs must be greater than £{{ minBudget.toLocaleString() }}.
+                Project costs must be greater than £{{ minBudget.toLocaleString() }}.
             </p>
         </div>
 

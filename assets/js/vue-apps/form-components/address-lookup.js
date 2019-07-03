@@ -1,4 +1,3 @@
-'use strict';
 import Vue from 'vue';
 import forEach from 'lodash/forEach';
 import $ from 'jquery';

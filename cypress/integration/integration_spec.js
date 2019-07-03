@@ -399,9 +399,7 @@ describe('awards for all', function() {
 
             submitStep();
 
-            shouldDisplayErrors([
-                'Date you start or end the project must be after'
-            ]);
+            shouldDisplayErrors(['Date you start the project must be after']);
             cy.checkA11y();
 
             const validDate = moment().add('12', 'weeks');
@@ -461,26 +459,11 @@ describe('awards for all', function() {
                 .invoke('val', faker.lorem.words(100))
                 .trigger('change');
 
-            const maybeTooShort = faker.random.number({ min: 10, max: 200 });
-
             cy.getByLabelText('How does your project involve your community?')
-                .invoke('val', faker.lorem.words(maybeTooShort))
+                .invoke('val', faker.lorem.words(200))
                 .trigger('change');
 
             submitStep();
-
-            if (maybeTooShort < 50) {
-                shouldDisplayErrors(['Answer must be at least 50 words']);
-                cy.checkA11y();
-
-                cy.getByLabelText(
-                    'How does your project involve your community?'
-                )
-                    .invoke('val', faker.lorem.words(200))
-                    .trigger('change');
-
-                submitStep();
-            }
         }
 
         function stepProjectCosts() {
@@ -498,7 +481,7 @@ describe('awards for all', function() {
 
             cy.getAllByTestId('budget-errors').should(
                 'contain',
-                'Total project costs must be less than £10,000'
+                'Project costs must be less than £10,000'
             );
 
             cy.getAllByTestId('budget-total').should('contain', '£11,250');
@@ -511,7 +494,7 @@ describe('awards for all', function() {
             submitStep();
 
             shouldDisplayErrors([
-                'Total project costs must be less than £10,000',
+                'Project costs must be less than £10,000',
                 'Total cost must be the same as or higher than the amount you’re asking us to fund'
             ]);
             cy.checkA11y();
