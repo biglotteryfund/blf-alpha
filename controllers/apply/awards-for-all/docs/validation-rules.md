@@ -120,7 +120,7 @@ Client-side warnings:
 
 ## Who will benefit
 
-### Is your project aimed at one of the following groups of people?
+### Is your project aimed at a specific group of people?
 
 | Rule           | Message          |
 | -------------- | ---------------- |

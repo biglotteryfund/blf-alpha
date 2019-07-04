@@ -1219,17 +1219,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         beneficiariesGroupsCheck: {
             name: 'beneficiariesGroupsCheck',
             label: localise({
-                en: `Is your project aimed at one of the following groups of people?`,
+                en: `Is your project aimed at a specific group of people?`,
                 cy: ``
             }),
             explanation: localise({
-                en: `<ul>
-                    <li>People of a particular ethnic background, gender, age or religious belief</li>
-                    <li>Disabled people</li>
-                    <li>Lesbian, gay or bisexual people</li>
-                    <li>People with caring responsibilities</li>
-                    <li>Any other specific group of people</li>
-                </ul>`,
+                en: `<p>eg. one of the following groups:</p>
+                    <ul>
+                        <li>People of a particular ethnic background, gender, age or religious belief</li>
+                        <li>Disabled people</li>
+                        <li>Lesbian, gay or bisexual people</li>
+                        <li>People with caring responsibilities</li>
+                        <li>Any other specific group of people</li>
+                    </ul>`,
                 cy: ``
             }),
             type: 'radio',
