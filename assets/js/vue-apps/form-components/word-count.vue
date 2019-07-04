@@ -54,6 +54,8 @@ export default {
                     en: `Must be at least ${this.minWords} words.`,
                     cy: 'Welsh'
                 }[this.locale];
+            } else {
+                return '';
             }
         }
     }
