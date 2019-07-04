@@ -14,7 +14,9 @@
                         <li class="user-nav__pagination-link user-nav__pagination-link--prev">
                             <span class="user-nav__pagination-arrow">←</span>
                             <a href="{{ previousPage.url }}">
-                                Previous
+                                <span>
+                                    Previous
+                                </span>
                                 <span class="user-nav__pagination-subtitle">
                                     {{ previousPage.label }}
                                 </span>
@@ -24,7 +26,9 @@
                     {% if nextPage %}
                         <li class="user-nav__pagination-link user-nav__pagination-link--next">
                             <a href="{{ nextPage.url }}">
-                                Next
+                                <span>
+                                    Next
+                                </span>
                                 <span class="user-nav__pagination-subtitle">
                                     {{ nextPage.label }}
                                 </span>

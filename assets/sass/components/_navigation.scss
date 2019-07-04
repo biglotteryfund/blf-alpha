@@ -320,6 +320,14 @@
             font-weight: bold;
             flex: 1 1 auto;
 
+            // a11y fix for confusing underlines
+            a {
+                text-decoration: none;
+                span {
+                    border-bottom: 1px solid get-color('links', 'base');
+                }
+            }
+
             &.user-nav__pagination-link--prev {
                 text-align: left;
                 padding-left: 0;
@@ -345,6 +353,7 @@
             }
 
             .user-nav__pagination-subtitle {
+                margin-top: 2px;
                 font-weight: normal;
                 font-size: 13px;
                 display: block;
