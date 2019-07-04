@@ -35,7 +35,7 @@
                             {{ region.label }}: {{ region.phone }}
                         </span>
                         <a class="global-footer__contact-email" href="mailto:{{ region.email }}">
-                            {{ __('global.misc.email') | capitalize }}
+                            {{ __('global.misc.email') | capitalize }} <span class="u-visually-hidden">{{ region.label}}</span>
                         </a>
                     </p>
                 {% endfor %}
