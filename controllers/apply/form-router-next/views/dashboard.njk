@@ -27,7 +27,7 @@
             <p class="application-card__minor-title">{{ formTitle }}</p>
             <h3 class="t--underline u-tone-brand-primary">
                 <a href="{{ application.editUrl }}" class="u-link-unstyled">
-                    {{ application.summary.title }}
+                    {{ application.summary.title or "Untitled Application" }}
                 </a>
             </h3>
 
