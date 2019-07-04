@@ -295,13 +295,7 @@ $statuses: (
 }
 
 .application-data-missing {
-    &:before {
-        content: '<';
-    }
-    &:after {
-        content: '>';
-    }
-    color: lighten(get-color('text', 'base'), 50%);
+    color: #865c35;
 }
 
 /* =========================================================================
