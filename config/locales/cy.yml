@@ -134,6 +134,7 @@ global:
     readMoreAbout: Darllenwch fwy am
     required: Gorfodol
     search: Chwilio
+    searchTerm: Chwiliwch am derm
     searchGrants: Chwilio grantiau a ddyfarnwyd
     seeProgramme: Gweld y rhaglen
     stepProgress: "Cam %s o %s"

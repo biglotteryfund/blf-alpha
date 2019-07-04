@@ -136,6 +136,7 @@ global:
     readMoreAbout: "Read more about %s"
     required: Required
     search: Search
+    searchTerm: Enter a search term
     searchGrants: Search all grants
     seeProgramme: See programme
     stepProgress: "Step %s of %s"
