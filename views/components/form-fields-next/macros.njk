@@ -91,7 +91,7 @@
             <input
                 class="ff-text ff-width-2"
                 name="{{ dateInputName(field, 'day', rangePeriod) }}"
-                type="number"
+                type="tel"
                 pattern="[0-9]*" min="1" max="31"
                 autocomplete="off"
                 {% if field.isRequired %}required aria-required="true"{% endif %}
@@ -104,7 +104,7 @@
         <input
             class="ff-text ff-width-2"
             name="{{ dateInputName(field, 'month', rangePeriod) }}"
-            type="number"
+            type="tel"
             pattern="[0-9]*" min="1" max="12"
             autocomplete="off"
             {% if field.isRequired %}required aria-required="true"{% endif %}
@@ -118,7 +118,7 @@
             <input
                 class="ff-text ff-width-4"
                 name="{{ dateInputName(field, 'year', rangePeriod) }}"
-                type="number"
+                type="tel"
                 pattern="[0-9]*" min="{{ field.settings.minYear | default(1900) }}"
                 autocomplete="off"
                 size="20"
@@ -175,7 +175,7 @@
     <div class="ff-currency ff-currency--constrained">
         <div class="ff-currency__pre">£</div>
         <input class="ff-currency__input"
-            type="number"
+            type="tel"
             id="field-{{ field.name }}"
             name="{{ field.name }}"
             {% if field.value %}value="{{ field.value }}"{% endif %}
@@ -534,7 +534,7 @@
             <div class="ff-currency">
                 <div class="ff-currency__pre">£</div>
                 <input
-                    type="number"
+                    type="tel"
                     id="ff-{{ field.name }}-{{ counter }}-cost"
                     name="{{ field.name }}[{{ counter }}][cost]"
                     min="1" max="{{ field.attributes.max }}"
