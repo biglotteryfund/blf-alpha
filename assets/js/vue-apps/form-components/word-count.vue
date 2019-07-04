@@ -51,12 +51,7 @@ export default {
                 }[this.locale];
             } else if (this.currentCount < this.minWords) {
                 return {
-                    en: `Must be at least ${this.minWords} words. You can write up to ${this.maxWords} words for this section, but don't worry if you use less.`,
-                    cy: 'Welsh'
-                }[this.locale];
-            } else {
-                return {
-                    en: `You can write up to ${this.maxWords} words for this section, but don't worry if you use less.`,
+                    en: `Must be at least ${this.minWords} words.`,
                     cy: 'Welsh'
                 }[this.locale];
             }

@@ -944,19 +944,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'What would you like to do?',
                 cy: ''
             }),
-            explanation: localise({
-                en: `<p><strong>Here are some ideas of what to tell us about your project:</strong></p>
-                <ul>
-                    <li>What you would like to do</li>
-                    <li>What difference your project will make</li>
-                    <li>Who will benefit from it</li>
-                    <li>How long you expect to run it for. This can be an estimate</li>
-                    <li>How you'll make sure people know about it</li>
-                    <li>How you plan to learn from it and use this learning to shape future projects</li>
-                    <li>Is it something new, or are you continuing something that has worked well previously? We want to fund both types of projects</li>
-                </ul>`,
-                cy: ''
-            }),
+            get explanation() {
+                return localise({
+                    en: `<p><strong>Here are some ideas of what to tell us about your project:</strong></p>
+                    <ul>
+                        <li>What you would like to do</li>
+                        <li>What difference your project will make</li>
+                        <li>Who will benefit from it</li>
+                        <li>How long you expect to run it for. This can be an estimate</li>
+                        <li>How you'll make sure people know about it</li>
+                        <li>How you plan to learn from it and use this learning to shape future projects</li>
+                        <li>Is it something new, or are you continuing something that has worked well previously? We want to fund both types of projects</li>
+                    </ul>
+                    <p><strong>You can write up to ${this.settings.maxWords} words for this section, but don't worry if you use less.</strong></p>`,
+                    cy: ''
+                });
+            },
             type: 'textarea',
             settings: {
                 stackedSummary: true,
@@ -1005,16 +1008,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `How does your project meet at least one of our funding priorities?`,
                 cy: ``
             }),
-            explanation: localise({
-                en: `<p>National Lottery Awards for All has three funding priorities, please tell us how your project will <strong>meet at least one of these:</strong></p>
-                <ol>
-                    <li>Bring people together and build strong relationships in and across communities</li>
-                    <li>Improve the places and spaces that matter to communities</li>
-                    <li>Help more people to reach their potential, by supporting them at the earliest possible stage</li>
-                </ol>
-                <p>You can tell us if your project meets more than one priority, but don't worry if it doesn't.</p>`,
-                cy: ``
-            }),
+            get explanation() {
+                return localise({
+                    en: `<p>National Lottery Awards for All has three funding priorities, please tell us how your project will <strong>meet at least one of these:</strong></p>
+                        <ol>
+                            <li>Bring people together and build strong relationships in and across communities</li>
+                            <li>Improve the places and spaces that matter to communities</li>
+                            <li>Help more people to reach their potential, by supporting them at the earliest possible stage</li>
+                        </ol>
+                        <p>You can tell us if your project meets more than one priority, but don't worry if it doesn't.</p>
+                        <p><strong>You can write up to ${this.settings.maxWords} words for this section, but don't worry if you use less.</strong></p>`,
+                    cy: ``
+                });
+            },
             type: 'textarea',
             settings: {
                 stackedSummary: true,
@@ -1065,21 +1071,24 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'How does your project involve your community?',
                 cy: ''
             }),
-            explanation: localise({
-                en: `
-                <details class="o-details u-margin-bottom-s">
-                    <summary class="o-details__summary">What do we mean by community?</summary>
-                    <div class="o-details__content">
-                        <ol>
-                            <li>People living in the same area</li>
-                            <li>People who have similar interests or life experiences, but might not live in the same area</li>
-                            <li>Even though schools can be at the heart of a community - we'll only fund schools that also benefit the communities around them.</li>
-                        </ol>
-                    <div>
-                </details>
-                <p>We believe that people understand what's needed in their communities better than anyone. Tell us how your community came up with the idea for your project. We want to know how many people you've spoken to, and how they'll be involved in the development and delivery of the project.</p>`,
-                cy: ''
-            }),
+            get explanation() {
+                return localise({
+                    en: `
+                        <details class="o-details u-margin-bottom-s">
+                            <summary class="o-details__summary">What do we mean by community?</summary>
+                            <div class="o-details__content">
+                                <ol>
+                                    <li>People living in the same area</li>
+                                    <li>People who have similar interests or life experiences, but might not live in the same area</li>
+                                    <li>Even though schools can be at the heart of a community - we'll only fund schools that also benefit the communities around them.</li>
+                                </ol>
+                            <div>
+                        </details>
+                        <p>We believe that people understand what's needed in their communities better than anyone. Tell us how your community came up with the idea for your project. We want to know how many people you've spoken to, and how they'll be involved in the development and delivery of the project.</p>
+                        <p><strong>You can write up to ${this.settings.maxWords} words for this section, but don't worry if you use less.</strong></p>`,
+                    cy: ''
+                });
+            },
             type: 'textarea',
             settings: {
                 stackedSummary: true,
