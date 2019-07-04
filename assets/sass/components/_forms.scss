@@ -558,7 +558,8 @@ $inputOutline: 3px solid get-color('border', 'outline');
         padding-top: $spacingUnit / 2;
 
         @include mq('medium') {
-            padding-left: 50%;
+            // @TODO magic number
+            padding-left: 57.5%;
         }
     }
     .ff-budget__total-label {
