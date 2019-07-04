@@ -164,7 +164,9 @@ global:
     question: A ddaethoch o hyd i'r hyn yr oeddech yn chwilio amdano?
     prompt: Sut gallem fod wedi gwneud y dudalen hon yn well?
     yes: Do
+    yesExtended: rwyf wedi dod o hyd i’r hyn roeddwn yn chwilio amdano
     no: Naddo
+    noExtended: nid wyf wedi dod o hyd i’r hyn roeddwn yn chwilio amdano
     submit: Cyflwyno
     cancel: Canslo
     success: Diolch am rannu'ch adborth gyda ni – rydym yn gwerthfawrogi'ch amser.

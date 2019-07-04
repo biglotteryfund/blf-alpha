@@ -9,7 +9,7 @@ const statuses = {
 };
 
 export default {
-    props: ['question', 'prompt', 'yes', 'no', 'submit', 'cancel', 'success', 'error'],
+    props: ['question', 'prompt', 'yes', 'yesExtended', 'no', 'noExtended', 'submit', 'cancel', 'success', 'error'],
     data() {
         return {
             statuses: statuses,
@@ -70,10 +70,10 @@ export default {
                 <p class="survey__choices-question">{{ question }}</p>
                 <div class="survey__choices-actions">
                     <button class="btn btn--small survey__choice" type="button" @click="selectChoice('yes')">
-                        {{ yes }}
+                        {{ yes }} <span class="u-visually-hidden">{{ yesExtended }}</span>
                     </button>
                     <button class="btn btn--small survey__choice" type="button" @click="selectChoice('no')">
-                        {{ no }}
+                        {{ no }} <span class="u-visually-hidden">{{ noExtended }}</span>
                     </button>
                 </div>
             </div>

@@ -166,7 +166,9 @@ global:
     question: Did you find what you were looking for?
     prompt: How could we have made this page better?
     yes: Yes
+    yesExtended: I found what I was looking for
     no: No
+    noExtended: I did not find what I was looking for
     submit: Submit
     cancel: Cancel
     success: Thank you for sharing your feedback with us - we appreciate your time.
