@@ -189,10 +189,8 @@ export default {
                 this.currentState = this.states.AlreadyAnswered;
                 this.fullAddress = fullAddress;
             }
-        }
-    },
-    watch: {
-        selectedAddressId() {
+        },
+        setSelectedAddress() {
             if (this.selectedAddressId) {
                 this.currentState = this.states.Success;
                 const address = this.getAddressFromId(this.selectedAddressId);
@@ -200,7 +198,9 @@ export default {
                     this.updateAddressPreview(this.formatAddress(address));
                 }
             }
-        },
+        }
+    },
+    watch: {
         fullAddress: {
             handler() {
                 this.fullAddressPreview = this.fullAddress
@@ -303,12 +303,14 @@ export default {
                 <label for="address-selection" class="ff-label">
                     Select an address
                 </label>
+                <!-- We use @blur here to avoid Win/Chrome bug where keypresses trigger a change on the first item-->
                 <select
                     v-model="selectedAddressId"
                     name="address-selection"
                     id="address-selection"
                     :disabled="currentState === states.Loading"
                     :required="fieldsAreRequired"
+                    @blur="setSelectedAddress"
                 >
                     <option disabled value="">
                         {{ candidates.length }} addresses found
