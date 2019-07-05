@@ -794,6 +794,7 @@ describe('Form validations', () => {
                 'elected-member',
                 'head-teacher',
                 'parish-clerk',
+                'religious-leader',
                 'secretary',
                 'treasurer',
                 'trustee',
