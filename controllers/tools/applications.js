@@ -5,17 +5,19 @@ const moment = require('moment');
 const concat = require('lodash/concat');
 const groupBy = require('lodash/groupBy');
 const maxBy = require('lodash/maxBy');
+const get = require('lodash/get');
+const mean = require('lodash/mean');
 const uniqBy = require('lodash/uniqBy');
 const minBy = require('lodash/minBy');
 const times = require('lodash/times');
 
 const { PendingApplication, SubmittedApplication } = require('../../db/models');
+const { getDateRange } = require('./helpers');
 
 const router = express.Router();
 
 const DATE_FORMAT = 'YYYY-MM-DD';
 
-// @TODO share some of this with surveys/voteDataFor?
 function applicationsByDay(responses) {
     if (responses.length === 0) {
         return [];
@@ -50,72 +52,180 @@ function applicationsByDay(responses) {
     return dayData;
 }
 
+function minMaxAvg(arr) {
+    const sorted = arr.slice().sort((a, b) => a - b);
+    return {
+        lowest: sorted[0] || 0,
+        highest: sorted[sorted.length - 1] || 0,
+        average: mean(sorted) || 0
+    };
+}
+
+function measureTimeTaken(data) {
+    const appDurations = data.map(row => {
+        const created = moment(row.startedAt);
+        const submitted = moment(row.createdAt);
+        return submitted.diff(created, 'days');
+    });
+    return minMaxAvg(appDurations);
+}
+
+function measureWordCounts(data) {
+    const wordCounts = data.map(
+        d =>
+            d.applicationSummary
+                .map(_ => _.value)
+                .join(' ')
+                .split(' ').length
+    );
+    return minMaxAvg(wordCounts);
+}
+
+function filterByCountry(country, appType) {
+    return function(item) {
+        if (!country) {
+            return item;
+        } else if (!item.applicationSummary && !item.applicationData) {
+            return false;
+        } else {
+            let appCountry;
+
+            if (appType === 'pending') {
+                appCountry = get(item, 'applicationData.projectCountry');
+            } else {
+                const rowCountry = item.applicationSummary.find(
+                    _ =>
+                        _.label ===
+                        'What country will your project be based in?'
+                );
+                appCountry = get(rowCountry, 'value');
+            }
+
+            if (appCountry) {
+                const c = appCountry.toLowerCase().replace(' ', '-');
+                return c === country;
+            } else {
+                return false;
+            }
+        }
+    };
+}
+
+function titleCase(str) {
+    if (!str) {
+        return;
+    }
+    return str.replace(/-/g, ' ').replace(/(^|\s)\S/g, function(t) {
+        return t.toUpperCase();
+    });
+}
+
 router.get('/:applicationId', async (req, res, next) => {
     try {
-        const responsesPending = await PendingApplication.findAllByForm(
-            req.params.applicationId
-        );
+        const dateRange = getDateRange(req.query.start, req.query.end);
+        const country = req.query.country;
+        const countryTitle = country ? titleCase(country) : false;
+        const applicationTitle = titleCase(req.params.applicationId);
 
-        const responsesSubmitted = await SubmittedApplication.findAllByForm(
-            req.params.applicationId
-        );
-
-        const appsPerDay = {
-            pending: applicationsByDay(responsesPending),
-            submitted: applicationsByDay(responsesSubmitted)
-        };
-
-        const today = moment().format(DATE_FORMAT);
-        const appsToday = {
-            pending: appsPerDay.pending.filter(_ => _.x === today),
-            submitted: appsPerDay.submitted.filter(_ => _.x === today)
-        };
-
-        const data = {
-            applications: [
-                {
-                    id: 'pending',
-                    title: 'Number of applications started per day',
-                    shortTitle: 'Applications created',
-                    data: {
-                        totalResponses: responsesPending.length,
-                        appsPerDay: appsPerDay.pending
-                    }
-                },
-                {
-                    id: 'submitted',
-                    title: 'Number of applications submitted per day',
-                    shortTitle: 'Applications submitted',
-                    data: {
-                        totalResponses: responsesSubmitted.length,
-                        appsPerDay: appsPerDay.submitted
-                    }
-                }
-            ],
-            totals: {
-                pending: responsesPending.length,
-                submitted: responsesSubmitted.length,
-                appsToday: {
-                    pending: appsToday.pending.length ? appsToday.pending.y : 0,
-                    submitted: appsToday.submitted.length
-                        ? appsToday.submitted.y
-                        : 0
-                },
-                uniqueUsers: {
-                    pending: uniqBy(responsesPending, 'userId').length,
-                    submitted: uniqBy(responsesSubmitted, 'userId').length
-                }
+        const appTypes = [
+            {
+                id: 'pending',
+                title: 'In-progress applications created',
+                verb: 'started',
+                applications: await PendingApplication.findAllByForm(
+                    req.params.applicationId,
+                    dateRange
+                ).filter(filterByCountry(country, 'pending'))
+            },
+            {
+                id: 'submitted',
+                title: 'Submitted applications',
+                verb: 'submitted',
+                applications: await SubmittedApplication.findAllByForm(
+                    req.params.applicationId,
+                    dateRange
+                ).filter(filterByCountry(country, 'submitted'))
             }
+        ];
+
+        const getAppsToday = dataset => {
+            const appsToday = dataset.filter(
+                _ => _.x === moment().format(DATE_FORMAT)
+            );
+            return appsToday.length ? appsToday.y : 0;
+        };
+
+        const applicationData = appTypes.map(appType => {
+            appType.data = {
+                appsPerDay: applicationsByDay(appType.applications),
+                get totals() {
+                    return {
+                        applicationsToday: getAppsToday(this.appsPerDay),
+                        applicationsAll: appType.applications.length,
+                        uniqueUsers: uniqBy(appType.applications, 'userId')
+                            .length
+                    };
+                }
+            };
+            return appType;
+        });
+
+        const submittedApplications = appTypes.find(_ => _.id === 'submitted')
+            .applications;
+
+        const statistics = {
+            appDurations: measureTimeTaken(submittedApplications),
+            wordCount: measureWordCounts(submittedApplications)
         };
 
         const title = 'Applications';
-        const breadcrumbs = concat(res.locals.breadcrumbs, [{ label: title }]);
+
+        let extraBreadcrumbs = [
+            {
+                label: title,
+                url: '/tools/applications'
+            },
+            {
+                label: applicationTitle,
+                url: req.baseUrl + req.path
+            }
+        ];
+
+        if (countryTitle) {
+            if (!req.query.start) {
+                extraBreadcrumbs = concat(extraBreadcrumbs, [
+                    {
+                        label: countryTitle
+                    }
+                ]);
+            } else {
+                let label = moment(dateRange.start).format(DATE_FORMAT);
+                if (req.query.end) {
+                    label += ' — ' + moment(dateRange.end).format(DATE_FORMAT);
+                }
+                extraBreadcrumbs = concat(extraBreadcrumbs, [
+                    {
+                        label: countryTitle,
+                        url: req.baseUrl + req.path + '?country=' + country
+                    },
+                    {
+                        label: label
+                    }
+                ]);
+            }
+        }
+
+        let breadcrumbs = concat(res.locals.breadcrumbs, extraBreadcrumbs);
 
         res.render(path.resolve(__dirname, './views/applications'), {
             title: title,
             breadcrumbs: breadcrumbs,
-            applicationId: req.params.applicationId,
-            data: data
+            applicationTitle: applicationTitle,
+            applicationData: applicationData,
+            statistics: statistics,
+            dateRange: dateRange,
+            country: country,
+            countryTitle: countryTitle
         });
     } catch (error) {
         next(error);

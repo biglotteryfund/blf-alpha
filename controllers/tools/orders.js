@@ -13,6 +13,7 @@ const take = require('lodash/take');
 
 const { injectMerchandise } = require('../../middleware/inject-content');
 const { Order } = require('../../db/models');
+const { getDateRange } = require('./helpers');
 
 const router = express.Router();
 
@@ -89,27 +90,6 @@ function summariseOrders(orders) {
         ordersByDay,
         averageOrdersPerDay
     };
-}
-
-function getStart(startVal) {
-    const start = moment(startVal);
-    return start.isValid() ? start : moment();
-}
-
-function getEnd(endVal) {
-    const end = endVal ? moment(endVal) : moment();
-    return end.isValid() ? end : moment();
-}
-
-function getDateRange(startVal, endVal) {
-    let result;
-    if (startVal) {
-        result = {
-            start: getStart(startVal).toDate(),
-            end: getEnd(endVal).toDate()
-        };
-    }
-    return result;
 }
 
 router.get(
