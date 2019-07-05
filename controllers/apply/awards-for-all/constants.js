@@ -17,7 +17,8 @@ const ORGANISATION_TYPES = {
     NOT_FOR_PROFIT_COMPANY: 'not-for-profit-company',
     SCHOOL: 'school',
     COLLEGE_OR_UNIVERSITY: 'college-or-university',
-    STATUTORY_BODY: 'statutory-body'
+    STATUTORY_BODY: 'statutory-body',
+    FAITH_GROUP: 'faith-group'
 };
 
 const STATUTORY_BODY_TYPES = {

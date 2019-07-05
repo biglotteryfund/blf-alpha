@@ -60,7 +60,8 @@ module.exports = function({ locale, data = {} }) {
             [
                 ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
                 ORGANISATION_TYPES.CIO,
-                ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+                ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
+                ORGANISATION_TYPES.FAITH_GROUP
             ],
             currentOrganisationType
         );

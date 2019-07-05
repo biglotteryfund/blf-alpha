@@ -376,6 +376,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     en: `<p>My organisation is a public body, such as a local authority, parish council, or police or health authority</p>`,
                     cy: ''
                 })
+            },
+            {
+                value: ORGANISATION_TYPES.FAITH_GROUP,
+                label: localise({ en: 'Faith-based group', cy: '' }),
+                explanation: localise({
+                    en: `<p>My organisation is a church, mosque, temple, synagogue etc.</p>`,
+                    cy: ''
+                })
             }
         ];
 
@@ -454,6 +462,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     value: 'parish-clerk',
                     label: localise({ en: 'Parish Clerk', cy: '' })
                 },
+                RELIGIOUS_LEADER: {
+                    value: 'religious-leader',
+                    label: localise({
+                        en: 'Religious leader (eg. rabbi, imam, vicar)',
+                        cy: ''
+                    })
+                },
                 SECRETARY: {
                     value: 'secretary',
                     label: localise({ en: 'Secretary', cy: '' })
@@ -500,6 +515,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     break;
                 case ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY:
                     options = [ROLES.CHANCELLOR, ROLES.VICE_CHANCELLOR];
+                    break;
+                case ORGANISATION_TYPES.FAITH_GROUP:
+                    options = [
+                        ROLES.CHAIR,
+                        ROLES.VICE_CHAIR,
+                        ROLES.SECRETARY,
+                        ROLES.TREASURER,
+                        ROLES.RELIGIOUS_LEADER
+                    ];
                     break;
                 default:
                     options = values(ROLES);
