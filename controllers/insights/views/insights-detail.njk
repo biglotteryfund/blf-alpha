@@ -56,7 +56,9 @@
                     {% if entry.documents %}
                         {{ documentsCard(
                             title = extraCopy.documents,
-                            documents = entry.documents
+                            documents = entry.documents,
+                            gaCategory = 'Insight Documents',
+                            gaAction = 'Downloaded a document'
                         ) }}
                     {% endif %}
 
