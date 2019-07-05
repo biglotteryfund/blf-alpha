@@ -656,20 +656,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function conditionalBeneficiaryChoice({ match, schema }) {
-        return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
-            is: 'yes',
-            // Conditional based on array
-            // https://github.com/hapijs/joi/issues/622
-            then: Joi.when(Joi.ref('beneficiariesGroups'), {
-                is: Joi.array().items(
-                    Joi.string()
-                        .only(match)
-                        .required(),
-                    Joi.any()
-                ),
-                then: schema,
-                otherwise: Joi.any().strip()
-            }),
+        return Joi.when(Joi.ref('beneficiariesGroups'), {
+            is: Joi.array().items(
+                Joi.string()
+                    .only(match)
+                    .required(),
+                Joi.any()
+            ),
+            then: schema,
             otherwise: Joi.any().strip()
         });
     }
@@ -1225,53 +1219,33 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        beneficiariesGroupsCheck: {
-            name: 'beneficiariesGroupsCheck',
-            label: localise({
-                en: `Is your project aimed at a specific group of people?`,
-                cy: ``
-            }),
-            explanation: localise({
-                en: `<p>eg. one of the following groups:</p>
-                    <ul>
-                        <li>People of a particular ethnic background, gender, age or religious belief</li>
-                        <li>Disabled people</li>
-                        <li>Lesbian, gay or bisexual people</li>
-                        <li>People with caring responsibilities</li>
-                        <li>Any other specific group of people</li>
-                    </ul>`,
-                cy: ``
-            }),
-            type: 'radio',
-            options: [
-                {
-                    value: 'yes',
-                    label: localise({ en: 'Yes', cy: '' })
-                },
-                {
-                    value: 'no',
-                    label: localise({ en: 'No', cy: '' })
-                }
-            ],
-            isRequired: true,
-            schema: Joi.string()
-                .valid(['yes', 'no'])
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Select yes or no', cy: '' })
-                }
-            ]
-        },
         beneficiariesGroups: {
             name: 'beneficiariesGroups',
             label: localise({
                 en: `What specific groups of people is your project aimed at?`,
                 cy: ``
             }),
+            explanation: localise({
+                en: `
+                        <details class="o-details u-margin-bottom-s">
+                            <summary class="o-details__summary">What do we mean by projects for specific groups?</summary>
+                            <div class="o-details__content">
+                               <p>A wheelchair sports club is a place for disabled people to play wheelchair sport. So, this is a project that’s specifically for disabled people. Or a group that aims to empower African women in the community – this group is specifically for people from a particular ethnic background.</p>
+                           </div>
+                        </details> 
+                        <p>Check the boxes that apply:</p>`,
+                cy: ''
+            }),
             type: 'checkbox',
             options: [
+                {
+                    value: BENEFICIARY_GROUPS.EVERYONE,
+                    label: localise({
+                        en:
+                            'The project is open to everyone and not for a specific group of people',
+                        cy: ''
+                    })
+                },
                 {
                     value: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
                     label: localise({
@@ -1320,14 +1294,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             get schema() {
-                return Joi.when('beneficiariesGroupsCheck', {
-                    is: 'yes',
-                    then: Joi.when('beneficiariesGroupsOther', {
-                        is: Joi.string(),
-                        then: Joi.any().strip(),
-                        otherwise: multiChoice(this.options).required()
-                    }),
-                    otherwise: Joi.any().strip()
+                return Joi.when('beneficiariesGroupsOther', {
+                    is: Joi.string(),
+                    then: Joi.any().strip(),
+                    otherwise: multiChoice(this.options).required()
                 });
             },
             messages: [
@@ -1342,7 +1312,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         },
         beneficiariesGroupsOther: {
             name: 'beneficiariesGroupsOther',
-            label: localise({ en: 'Other', cy: '' }),
+            label: localise({ en: 'Other ', cy: '' }),
+            explanation: localise({
+                en:
+                    'If your project’s for a specific group that’s not mentioned above, tell us about it here:',
+                cy: ''
+            }),
             type: 'text',
             isRequired: false,
             schema: Joi.string()
