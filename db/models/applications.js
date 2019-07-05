@@ -64,7 +64,15 @@ class PendingApplication extends Model {
             sequelize
         });
     }
-    static findAllByForm({ userId, formId }) {
+    static findAllByForm(formId) {
+        return this.findAll({
+            where: {
+                formId: { [Op.eq]: formId }
+            },
+            order: [['createdAt', 'ASC']]
+        });
+    }
+    static findUserApplicationsByForm({ userId, formId }) {
         return this.findAll({
             where: {
                 userId: { [Op.eq]: userId },
@@ -204,7 +212,15 @@ class SubmittedApplication extends Model {
             sequelize
         });
     }
-    static findAllByForm({ userId, formId }) {
+    static findAllByForm(formId) {
+        return this.findAll({
+            where: {
+                formId: { [Op.eq]: formId }
+            },
+            order: [['createdAt', 'ASC']]
+        });
+    }
+    static findUserApplicationsByForm({ userId, formId }) {
         return this.findAll({
             where: {
                 userId: { [Op.eq]: userId },

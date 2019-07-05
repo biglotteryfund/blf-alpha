@@ -1,0 +1,149 @@
+{% extends "layouts/main.njk" %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/data.njk" import statsGrid %}
+{% from "components/user-status/macro.njk" import staffStatus with context %}
+
+{% block extraHead %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only">
+            {{ breadcrumbTrail(breadcrumbs) }}
+            {{ staffStatus(user) }}
+
+            <h1 class="t--underline">Applications dashboard &ndash; <small>{{ applicationId }}</small></h1>
+
+            <h3>In-progress applications</h3>
+
+            <div class="u-margin-bottom-l">
+                {{ statsGrid(
+                    [
+                        {
+                            prefix: 'there were',
+                            value: data.totals.appsToday.pending,
+                            title: 'applications started today',
+                            showNumberBeforeTitle: true
+                        },
+                        {
+                            prefix: 'and a total of',
+                            value: data.totals.pending,
+                            title: 'applications started',
+                            showNumberBeforeTitle: true
+                        },
+                        {
+                            prefix: 'made by',
+                            value: data.totals.uniqueUsers.pending,
+                            title: 'unique users',
+                            showNumberBeforeTitle: true
+                        }
+                    ]
+                ) }}
+            </div>
+
+            <h3>Completed applications</h3>
+
+            <div class="u-margin-bottom-l">
+                {{ statsGrid(
+                    [
+                        {
+                            prefix: 'there were',
+                            value: data.totals.appsToday.submitted,
+                            title: 'applications submitted today',
+                            showNumberBeforeTitle: true
+                        },
+                        {
+                            prefix: 'and a total of',
+                            value: data.totals.submitted,
+                            title: 'applications submitted',
+                            showNumberBeforeTitle: true
+                        },
+                        {
+                            prefix: 'made by',
+                            value: data.totals.uniqueUsers.submitted,
+                            title: 'unique users',
+                            showNumberBeforeTitle: true
+                        }
+                    ]
+                ) }}
+            </div>
+
+            <div class="u-margin-bottom-l">
+
+                {% for applicationType in data.applications %}
+                    {% set chartId = 'js-chart-' + applicationType.id %}
+                    <h3>{{ applicationType.title }}</h3>
+                    <div class="u-margin-bottom">
+                        <canvas id="{{ chartId }}" height="150"></canvas>
+                    </div>
+                    <script>
+                        new Chart(document.getElementById('{{ chartId }}'), {
+                            type: 'line',
+                            data: {
+                                datasets: [{
+                                    label: '{{ applicationType.shortTitle }}',
+                                    type: 'line',
+                                    data: {{ applicationType.data.appsPerDay | dump(2) | safe }},
+                                    borderColor: '#e5007d',
+                                    fill: '#e5007d'
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                title: {
+                                    display: false,
+                                    text: 'Response distribution'
+                                },
+                                legend: {
+                                    display: false
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        type: 'time',
+                                        display: true,
+                                        scaleLabel: {
+                                            display: false,
+                                            labelString: 'Date'
+                                        },
+                                        ticks: {
+                                            major: {
+                                                fontStyle: 'bold',
+                                                fontColor: '#FF0000'
+                                            }
+                                        },
+                                        time: {
+                                            round: 'day',
+                                            unit: 'day'
+                                        },
+                                        gridLines: {
+                                            display: true
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        display: true,
+                                        ticks: {
+                                            stepSize: 10,
+                                        },
+                                        scaleLabel: {
+                                            display: true,
+                                            labelString: "{{ applicationType.shortTitle }}"
+                                        },
+                                        gridLines: {
+                                            display: true
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                    </script>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </main>
+
+{% endblock %}

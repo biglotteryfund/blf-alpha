@@ -37,11 +37,11 @@ module.exports = function(formId, formBuilder) {
                 pendingApplications,
                 submittedApplications
             ] = await Promise.all([
-                PendingApplication.findAllByForm({
+                PendingApplication.findUserApplicationsByForm({
                     userId: req.user.userData.id,
                     formId: formId
                 }),
-                SubmittedApplication.findAllByForm({
+                SubmittedApplication.findUserApplicationsByForm({
                     userId: req.user.userData.id,
                     formId: formId
                 })
