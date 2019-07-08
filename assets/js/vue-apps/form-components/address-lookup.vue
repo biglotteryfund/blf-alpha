@@ -47,7 +47,7 @@ export default {
         };
     },
     mounted() {
-        this.$root.$on('update:conditionalRadio', (value) => {
+        this.$root.$on('update:conditionalRadio', value => {
             if (value === 'yes') {
                 this.currentState = states.NotRequired;
             } else if (this.fullAddress) {
@@ -75,13 +75,25 @@ export default {
             } catch (e) {} // eslint-disable-line no-empty
         }
 
-        const $form = $(this.$el).parents('form').find('input[type="submit"]');
+        const $form = $(this.$el)
+            .parents('form')
+            .find('input[type="submit"]');
         const that = this;
         $form.on('click', function() {
-            if (that.candidates.length === 0 && !that.showFallbackFields && that.postcode) {
+            if (
+                that.candidates.length === 0 &&
+                !that.showFallbackFields &&
+                that.postcode
+            ) {
                 // @TODO i18n
-                alert(`Please click "Find address" and choose an address from the list.`);
-                trackEvent('Form warning', 'Postcode lookup', 'Typed but not submitted');
+                alert(
+                    `Please click "Find address" and choose an address from the list.`
+                );
+                trackEvent(
+                    'Form warning',
+                    'Postcode lookup',
+                    'Typed but not submitted'
+                );
                 document.querySelector('.address-lookup').scrollIntoView();
                 // Prevent form submission (for nested)
                 return false;
@@ -158,13 +170,13 @@ export default {
             this.showFallbackFields = false;
         },
         clearAddress() {
-           this.fullAddress = {
-               line1: null,
-               line2: null,
-               townCity: null,
-               county: null,
-               postcode: null
-           };
+            this.fullAddress = {
+                line1: null,
+                line2: null,
+                townCity: null,
+                county: null,
+                postcode: null
+            };
         },
         removeAddress() {
             this.currentState = this.states.Asking;
@@ -205,11 +217,11 @@ export default {
             handler() {
                 this.fullAddressPreview = this.fullAddress
                     ? compact([
-                        this.fullAddress.line1,
-                        this.fullAddress.line2,
-                        this.fullAddress.townCity,
-                        this.fullAddress.postcode
-                    ]).join('<br />')
+                          this.fullAddress.line1,
+                          this.fullAddress.line2,
+                          this.fullAddress.townCity,
+                          this.fullAddress.postcode
+                      ]).join('<br />')
                     : '';
             },
             deep: true
@@ -217,10 +229,7 @@ export default {
     },
     computed: {
         fieldsAreRequired() {
-            return (
-                !this.showFallbackFields &&
-                this.shouldShowPostcodeLookup
-            );
+            return !this.showFallbackFields && this.shouldShowPostcodeLookup;
         },
         shouldShowPostcodeLookup() {
             return (
@@ -257,14 +266,14 @@ export default {
 </script>
 
 <template>
-    <div
-        v-if="currentState !== states.NotRequired">
+    <div v-if="currentState !== states.NotRequired">
+        <legend class="ff-label ff-address__legend" v-html="label"></legend>
 
-        <legend class="ff-label ff-address__legend"
-                v-html="label">
-        </legend>
-
-        <div class="ff-help s-prose" v-if="explanation" v-html="explanation"></div>
+        <div
+            class="ff-help s-prose"
+            v-if="explanation"
+            v-html="explanation"
+        ></div>
 
         <!-- @TODO i18n -->
         <div v-if="shouldShowPostcodeLookup" class="address-lookup">
@@ -354,12 +363,16 @@ export default {
         </div>
 
         <!-- fallback fields -->
-        <details class="o-details u-margin-top"
-                 :open="showFallbackFields"
-                 v-if="currentState !== states.NotRequired">
-            <summary class="js-only o-details__summary"
-                     @click="showFallbackFields = !showFallbackFields"
-                     data-testid="manual-address">
+        <details
+            class="o-details u-margin-top"
+            :open="showFallbackFields"
+            v-if="currentState !== states.NotRequired"
+        >
+            <summary
+                class="js-only o-details__summary"
+                @click="showFallbackFields = !showFallbackFields"
+                data-testid="manual-address"
+            >
                 Enter address manually
             </summary>
 
@@ -368,14 +381,16 @@ export default {
                     :name="fieldName + '[line1]'"
                     label="Building and street"
                     :is-required="true"
-                    v-model="fullAddress.line1">
+                    v-model="fullAddress.line1"
+                >
                 </AddressLine>
 
                 <AddressLine
                     :name="fieldName + '[line2]'"
                     label="Address line 2"
                     is-required="false"
-                    v-model="fullAddress.line2">
+                    v-model="fullAddress.line2"
+                >
                 </AddressLine>
 
                 <AddressLine
@@ -383,7 +398,8 @@ export default {
                     label="Town or city"
                     :is-required="true"
                     v-model="fullAddress.townCity"
-                    size="30">
+                    size="30"
+                >
                 </AddressLine>
 
                 <AddressLine
@@ -391,7 +407,8 @@ export default {
                     label="County"
                     is-required="false"
                     v-model="fullAddress.county"
-                    size="30">
+                    size="30"
+                >
                 </AddressLine>
 
                 <AddressLine
@@ -399,14 +416,18 @@ export default {
                     label="Postcode"
                     :is-required="true"
                     v-model="fullAddress.postcode"
-                    size="10">
+                    size="10"
+                >
                 </AddressLine>
 
-                <button type="button" class="btn-link u-margin-top-s" @click="finishEditing">
+                <button
+                    type="button"
+                    class="btn-link u-margin-top-s"
+                    @click="finishEditing"
+                >
                     I'm done editing
                 </button>
             </div>
         </details>
-
     </div>
 </template>

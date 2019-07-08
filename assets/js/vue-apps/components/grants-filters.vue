@@ -8,7 +8,14 @@ import $ from 'jquery';
 
 export default {
     components: { FacetGroup, FacetDisclose, FacetChoice, FacetSelect },
-    props: ['facets', 'filters', 'status', 'copy', 'handleActiveFilter', 'trackUi'],
+    props: [
+        'facets',
+        'filters',
+        'status',
+        'copy',
+        'handleActiveFilter',
+        'trackUi'
+    ],
     methods: {
         isActiveFacet(name) {
             return has(this.filters, name);
@@ -26,15 +33,28 @@ export default {
 </script>
 
 <template>
-    <fieldset class="search-filters" :class="{ 'search-filters--locked': status.state === 'Loading' }">
+    <fieldset
+        class="search-filters"
+        :class="{ 'search-filters--locked': status.state === 'Loading' }"
+    >
         <div class="search-filters__header">
-            <legend class="search-filters__title">{{ copy.filters.title }}</legend>
-            <button type="button" class="search-filters__clear-all btn-link" @click="$emit('clear-filters')">
+            <legend class="search-filters__title">
+                {{ copy.filters.title }}
+            </legend>
+            <button
+                type="button"
+                class="search-filters__clear-all btn-link"
+                @click="$emit('clear-filters')"
+            >
                 {{ copy.filters.reset }}
             </button>
         </div>
 
-        <FacetGroup :legend="copy.filters.grantLegend" :toggle-label="copy.filters.toggle" :track-ui="trackUi">
+        <FacetGroup
+            :legend="copy.filters.grantLegend"
+            :toggle-label="copy.filters.toggle"
+            :track-ui="trackUi"
+        >
             <FacetChoice
                 v-model="filters.amount"
                 type="radio"
@@ -74,7 +94,11 @@ export default {
             />
         </FacetGroup>
 
-        <FacetGroup :legend="copy.filters.organisationLegend" :toggle-label="copy.filters.toggle" :track-ui="trackUi">
+        <FacetGroup
+            :legend="copy.filters.organisationLegend"
+            :toggle-label="copy.filters.toggle"
+            :track-ui="trackUi"
+        >
             <FacetChoice
                 v-model="filters.country"
                 type="radio"
@@ -91,7 +115,10 @@ export default {
             <FacetDisclose
                 :label-open="copy.filters.options.country.labelOpen"
                 :label-closed="copy.filters.options.country.labelClosed"
-                :initial-open="isActiveFacet('localAuthority') || isActiveFacet('westminsterConstituency')"
+                :initial-open="
+                    isActiveFacet('localAuthority') ||
+                        isActiveFacet('westminsterConstituency')
+                "
                 :track-ui="trackUi"
                 :filter-name="'country'"
             >
@@ -112,10 +139,14 @@ export default {
                     name="westminsterConstituency"
                     class="facet-group__item"
                     :label="copy.filters.options.westminsterConstituency.label"
-                    :label-any="copy.filters.options.westminsterConstituency.any"
+                    :label-any="
+                        copy.filters.options.westminsterConstituency.any
+                    "
                     :clear-label="copy.filters.clearSelection"
                     :options="facets.westminsterConstituencies"
-                    @clear-selection="$emit('clear-filters', 'westminsterConstituency')"
+                    @clear-selection="
+                        $emit('clear-filters', 'westminsterConstituency')
+                    "
                     :handle-active-filter="handleActiveFilter"
                 />
             </FacetDisclose>
@@ -135,6 +166,9 @@ export default {
         <p class="u-margin-top-s u-margin-bottom-s">
             <strong>{{ copy.feedback.title }}</strong>
         </p>
-        <p v-html="copy.feedback.body" @click="triggerFeedbackPanel($event)"></p>
+        <p
+            v-html="copy.feedback.body"
+            @click="triggerFeedbackPanel($event)"
+        ></p>
     </fieldset>
 </template>

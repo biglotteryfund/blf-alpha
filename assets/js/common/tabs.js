@@ -36,12 +36,16 @@ function showNewTabPane($tabClicked) {
         if ($paneSet.length > 0) {
             // toggle the active pane in this set
             let $oldActivePane = $paneSet.find(`> .${ACTIVE_CLASS}`);
-            $oldActivePane.removeClass(ACTIVE_CLASS).attr('aria-hidden', 'true');
+            $oldActivePane
+                .removeClass(ACTIVE_CLASS)
+                .attr('aria-hidden', 'true');
             $paneToShow.addClass(ACTIVE_CLASS).attr('aria-hidden', 'false');
 
             // toggle the active tab in this set
             let $oldActiveTab = $tabset.find(`.${ACTIVE_CLASS}`);
-            $oldActiveTab.removeClass(ACTIVE_CLASS).attr('aria-selected', 'false');
+            $oldActiveTab
+                .removeClass(ACTIVE_CLASS)
+                .attr('aria-selected', 'false');
             $tabClicked.addClass(ACTIVE_CLASS).attr('aria-selected', 'true');
 
             // pass this data back to the click handler
@@ -159,7 +163,9 @@ function openTabOnHashchange() {
             scrollIntoView(linkEl);
         } else {
             const idEl = $(hash).first();
-            const parentTabLinkEl = idEl.closest(SELECTORS.tabpane).find(SELECTORS.tab);
+            const parentTabLinkEl = idEl
+                .closest(SELECTORS.tabpane)
+                .find(SELECTORS.tab);
 
             if (idEl.length > 0 && parentTabLinkEl.length > 0) {
                 showNewTabPane(parentTabLinkEl);
@@ -174,7 +180,10 @@ function init() {
     const $tabs = $(SELECTORS.tab);
     const matchCriteria = $container.attr('data-breakpoint');
 
-    if ($tabs.length < 1 || (matchCriteria && window.matchMedia(matchCriteria).matches === false)) {
+    if (
+        $tabs.length < 1 ||
+        (matchCriteria && window.matchMedia(matchCriteria).matches === false)
+    ) {
         return;
     }
 

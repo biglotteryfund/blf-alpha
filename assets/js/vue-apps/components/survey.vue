@@ -9,7 +9,18 @@ const statuses = {
 };
 
 export default {
-    props: ['question', 'prompt', 'yes', 'yesExtended', 'no', 'noExtended', 'submit', 'cancel', 'success', 'error'],
+    props: [
+        'question',
+        'prompt',
+        'yes',
+        'yesExtended',
+        'no',
+        'noExtended',
+        'submit',
+        'cancel',
+        'success',
+        'error'
+    ],
     data() {
         return {
             statuses: statuses,
@@ -69,28 +80,70 @@ export default {
             <div class="survey__choices" v-if="status === statuses.NOT_ASKED">
                 <p class="survey__choices-question">{{ question }}</p>
                 <div class="survey__choices-actions">
-                    <button class="btn btn--small survey__choice" type="button" @click="selectChoice('yes')">
-                        {{ yes }} <span class="u-visually-hidden">{{ yesExtended }}</span>
+                    <button
+                        class="btn btn--small survey__choice"
+                        type="button"
+                        @click="selectChoice('yes')"
+                    >
+                        {{ yes }}
+                        <span class="u-visually-hidden">{{ yesExtended }}</span>
                     </button>
-                    <button class="btn btn--small survey__choice" type="button" @click="selectChoice('no')">
-                        {{ no }} <span class="u-visually-hidden">{{ noExtended }}</span>
+                    <button
+                        class="btn btn--small survey__choice"
+                        type="button"
+                        @click="selectChoice('no')"
+                    >
+                        {{ no }}
+                        <span class="u-visually-hidden">{{ noExtended }}</span>
                     </button>
                 </div>
             </div>
 
-            <p class="survey__response" v-if="status === statuses.SUBMISSION_SUCCESS">{{ success }}</p>
+            <p
+                class="survey__response"
+                v-if="status === statuses.SUBMISSION_SUCCESS"
+            >
+                {{ success }}
+            </p>
 
-            <p class="survey__response" v-if="status === statuses.SUBMISSION_ERROR">{{ error }}</p>
+            <p
+                class="survey__response"
+                v-if="status === statuses.SUBMISSION_ERROR"
+            >
+                {{ error }}
+            </p>
 
-            <div class="survey__extra" v-if="status === statuses.MESSAGE_BOX_SHOWN">
-                <form class="survey__form" @submit.prevent="storeResponse('no')">
+            <div
+                class="survey__extra"
+                v-if="status === statuses.MESSAGE_BOX_SHOWN"
+            >
+                <form
+                    class="survey__form"
+                    @submit.prevent="storeResponse('no')"
+                >
                     <div class="survey__form-fields">
-                        <label class="ff-label" for="survey-extra-msg">{{ prompt }}</label>
-                        <textarea class="ff-textarea" id="survey-extra-msg" v-model="response.message"></textarea>
+                        <label class="ff-label" for="survey-extra-msg">{{
+                            prompt
+                        }}</label>
+                        <textarea
+                            class="ff-textarea"
+                            id="survey-extra-msg"
+                            v-model="response.message"
+                        ></textarea>
                     </div>
                     <div class="survey__form-actions">
-                        <input type="submit" class="btn btn--small" :value="submit" />
-                        <button type="reset" class="btn-link" @click="resetChoice">{{ cancel }}</button>
+                        <input
+                            type="submit"
+                            class="btn btn--small"
+                            :value="submit"
+                        />
+                        <button
+                            type="reset"
+                            class="btn-link"
+                            @click="resetChoice"
+                        >
+                            {{ cancel }}
+                        </button>
                     </div>
                 </form>
             </div>

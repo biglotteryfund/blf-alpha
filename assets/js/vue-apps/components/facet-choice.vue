@@ -22,7 +22,9 @@ export default {
     computed: {
         optionsToDisplay() {
             if (this.shouldTruncate()) {
-                return this.isOpen ? this.options : take(this.options, this.optionLimit);
+                return this.isOpen
+                    ? this.options
+                    : take(this.options, this.optionLimit);
             } else {
                 return this.options;
             }
@@ -37,7 +39,9 @@ export default {
             });
         },
         shouldTruncate() {
-            return this.optionLimit && this.options.length >= this.optionLimit + 2;
+            return (
+                this.optionLimit && this.options.length >= this.optionLimit + 2
+            );
         },
         fieldId(index) {
             return `field-dynamic-${this.name}-${index}`;
@@ -68,22 +72,36 @@ export default {
                         :name="name"
                         :value="option.value"
                         :checked="option.value == value"
-                        @change="handleInput($event, option);"
+                        @change="handleInput($event, option)"
                     />
-                    <label class="ff-choice__label" :for="fieldId(index)"> {{ option.label }} </label>
+                    <label class="ff-choice__label" :for="fieldId(index)">
+                        {{ option.label }}
+                    </label>
 
                     <button
                         class="active-filter active-filter--mini u-margin-left-s"
-                        @click="$emit('clear-selection');"
+                        @click="$emit('clear-selection')"
                         v-if="option.value == value"
                     >
-                        <IconClose :id="'clear-' + fieldId(index)" :description="copy.filters.clearSelection" />
+                        <IconClose
+                            :id="'clear-' + fieldId(index)"
+                            :description="copy.filters.clearSelection"
+                        />
                     </button>
                 </li>
             </ul>
         </fieldset>
-        <button type="button" class="btn-link" v-if="shouldTruncate()" @click="toggle">
-            {{ isOpen ? copy.filters.options.truncate.seeFewer : copy.filters.options.truncate.seeMore }}
+        <button
+            type="button"
+            class="btn-link"
+            v-if="shouldTruncate()"
+            @click="toggle"
+        >
+            {{
+                isOpen
+                    ? copy.filters.options.truncate.seeFewer
+                    : copy.filters.options.truncate.seeMore
+            }}
         </button>
     </div>
 </template>
