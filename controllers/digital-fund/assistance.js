@@ -1,73 +1,71 @@
 'use strict';
-const { body, validationResult } = require('express-validator/check');
-const { concat } = require('lodash');
-const { matchedData } = require('express-validator/filter');
 const express = require('express');
 const moment = require('moment');
 const path = require('path');
+const Joi = require('@hapi/joi');
+const Sentry = require('@sentry/node');
 
 const { DIGITAL_FUND_EMAIL } = require('../../common/secrets');
 const { sendEmail } = require('../../common/mail');
-const appData = require('../../common/appData');
+const { isNotProduction } = require('../../common/appData');
 
 const router = express.Router();
 
-function errorTranslator(prefix) {
-    return function(prop, replacementKeys = []) {
-        return function(value, { req }) {
-            const t = `${prefix}.${prop}`;
-            const replacements = replacementKeys.map(_ => req.i18n.__(_));
-            return replacements.length > 0
-                ? req.i18n.__(t, replacements)
-                : req.i18n.__(t);
-        };
-    };
+function render(req, res, formData = null, errors = []) {
+    const title = res.locals.copy.assistance.title;
+    res.render(path.resolve(__dirname, './views/assistance'), {
+        title: title,
+        breadcrumbs: res.locals.breadcrumbs.concat([{ label: title }]),
+        formData: formData,
+        errors: errors
+    });
 }
 
-const validators = [
-    body('email')
-        .isEmail()
-        .withMessage(errorTranslator('global.forms')('invalidEmailError'))
-];
-
-function render(req, res) {
-    res.render(path.resolve(__dirname, './views/assistance'), {
-        title: res.locals.copy.assistance.title,
-        breadcrumbs: concat(res.locals.breadcrumbs, [{ label: res.locals.copy.assistance.title }])
-    });
+function buildMailConfig(emailAddress) {
+    const dateStamp = moment().format('Do MMMM YYYY, h:mm a');
+    return {
+        sendTo: isNotProduction ? emailAddress : DIGITAL_FUND_EMAIL,
+        subject: `New subscription: Help getting started with digital (${dateStamp})`,
+        type: 'text',
+        content: `${emailAddress} has requested more information about free digital assistance`
+    };
 }
 
 router
     .route('/')
     .get(render)
-    .post(validators, async (req, res) => {
-        const formData = matchedData(req);
-        const formErrors = validationResult(req);
+    .post(async (req, res) => {
+        const validationResult = Joi.object({
+            email: Joi.string()
+                .email()
+                .required()
+        }).validate(req.body, {
+            abortEarly: false,
+            stripUnknown: true
+        });
 
-        if (formErrors.isEmpty()) {
+        if (validationResult.error) {
+            const errors = [
+                {
+                    param: 'email',
+                    msg: req.i18n.__('global.forms.invalidEmailError')
+                }
+            ];
+            render(req, res, validationResult.value, errors);
+        } else {
             try {
                 await sendEmail({
                     name: 'digital_fund_assistance',
-                    mailConfig: {
-                        sendTo: appData.isNotProduction ? formData.email : DIGITAL_FUND_EMAIL,
-                        subject: `New subscription: Help getting started with digital (${moment().format(
-                            'Do MMMM YYYY, h:mm a'
-                        )})`,
-                        type: 'text',
-                        content: `${formData.email} has requested more information about free digital assistance`
-                    }
+                    mailConfig: buildMailConfig(validationResult.value.email)
                 });
 
                 res.locals.status = 'SUBMISSION_SUCCESS';
                 render(req, res);
             } catch (error) {
+                Sentry.captureException(error);
                 res.locals.status = 'SUBMISSION_ERROR';
                 render(req, res);
             }
-        } else {
-            res.locals.formData = formData;
-            res.locals.errors = formErrors.array();
-            render(req, res);
         }
     });
 
