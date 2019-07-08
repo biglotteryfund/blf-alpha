@@ -64,7 +64,21 @@ class PendingApplication extends Model {
             sequelize
         });
     }
-    static findAllByForm({ userId, formId }) {
+    static findAllByForm(formId, dateRange = {}) {
+        let whereClause = {
+            formId: { [Op.eq]: formId }
+        };
+        if (dateRange.start && dateRange.end) {
+            whereClause = {
+                createdAt: { [Op.between]: [dateRange.start, dateRange.end] }
+            };
+        }
+        return this.findAll({
+            where: whereClause,
+            order: [['createdAt', 'ASC']]
+        });
+    }
+    static findUserApplicationsByForm({ userId, formId }) {
         return this.findAll({
             where: {
                 userId: { [Op.eq]: userId },
@@ -204,7 +218,21 @@ class SubmittedApplication extends Model {
             sequelize
         });
     }
-    static findAllByForm({ userId, formId }) {
+    static findAllByForm(formId, dateRange = {}) {
+        let whereClause = {
+            formId: { [Op.eq]: formId }
+        };
+        if (dateRange.start && dateRange.end) {
+            whereClause = {
+                createdAt: { [Op.between]: [dateRange.start, dateRange.end] }
+            };
+        }
+        return this.findAll({
+            where: whereClause,
+            order: [['createdAt', 'ASC']]
+        });
+    }
+    static findUserApplicationsByForm({ userId, formId }) {
         return this.findAll({
             where: {
                 userId: { [Op.eq]: userId },
