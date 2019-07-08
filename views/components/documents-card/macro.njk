@@ -1,4 +1,4 @@
-{% macro documentsCard(title, documents) %}
+{% macro documentsCard(title, documents, gaCategory = false, gaAction = false) %}
     <aside class="card">
         <header class="card__header">
             <h3 class="card__title">{{ title }}</h3>
@@ -6,7 +6,15 @@
         <div class="card__body">
             {% for document in documents %}
                 <div class="document-summary">
-                    <a class="document-summary__link u-document-link" href="{{ document.url }}">
+                    <a class="document-summary__link u-document-link"
+                       href="{{ document.url }}"
+                        {% if gaCategory and gaAction %}
+                            data-ga-on="click"
+                            data-ga-event-category="{{ gaCategory }}"
+                            data-ga-event-action="{{ gaAction }}"
+                            data-ga-event-label="{{ document.url }}"
+                       {% endif %}
+                    >
                         {{ document.title }}
                         {% if document.filetype or document.filesize %}
                             <small>({{ document.filetype | upper }} {{ document.filesize }})</small>
@@ -21,7 +29,15 @@
                     {% endif %}
 
                     <div class="document-summary__download u-align-center">
-                        <a href="{{ document.url }}" class="btn btn--medium">
+                        <a href="{{ document.url }}"
+                           class="btn btn--medium"
+                            {% if gaCategory and gaAction %}
+                                data-ga-on="click"
+                                data-ga-event-category="{{ gaCategory }}"
+                                data-ga-event-action="{{ gaAction }}"
+                                data-ga-event-label="{{ document.url }}"
+                            {% endif %}
+                        >
                             {{ __('global.misc.download') | title }}
                         </a>
                     </div>

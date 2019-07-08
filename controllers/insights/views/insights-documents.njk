@@ -171,7 +171,12 @@
                                                 </a>
                                             {% endif %}
                                             {% if entry.document %}
-                                                <a class="btn btn--outline btn--small" href="{{ entry.document.url }}">
+                                                <a class="btn btn--outline btn--small"
+                                                   href="{{ entry.document.url }}"
+                                                   data-ga-on="click"
+                                                   data-ga-event-category="Insight Documents"
+                                                   data-ga-event-action="Downloaded a document"
+                                                   data-ga-event-label="{{ entry.document.url }}">
                                                     {{ iconDownload() }}
                                                     {{ docTitle }}
                                                 </a>
