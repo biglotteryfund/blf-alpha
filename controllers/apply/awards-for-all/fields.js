@@ -376,6 +376,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     en: `<p>My organisation is a public body, such as a local authority, parish council, or police or health authority</p>`,
                     cy: ''
                 })
+            },
+            {
+                value: ORGANISATION_TYPES.FAITH_GROUP,
+                label: localise({ en: 'Faith-based group', cy: '' }),
+                explanation: localise({
+                    en: `<p>My organisation is a church, mosque, temple, synagogue etc.</p>`,
+                    cy: ''
+                })
             }
         ];
 
@@ -454,6 +462,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     value: 'parish-clerk',
                     label: localise({ en: 'Parish Clerk', cy: '' })
                 },
+                RELIGIOUS_LEADER: {
+                    value: 'religious-leader',
+                    label: localise({
+                        en: 'Religious leader (eg. rabbi, imam, vicar)',
+                        cy: ''
+                    })
+                },
                 SECRETARY: {
                     value: 'secretary',
                     label: localise({ en: 'Secretary', cy: '' })
@@ -500,6 +515,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     break;
                 case ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY:
                     options = [ROLES.CHANCELLOR, ROLES.VICE_CHANCELLOR];
+                    break;
+                case ORGANISATION_TYPES.FAITH_GROUP:
+                    options = [
+                        ROLES.CHAIR,
+                        ROLES.VICE_CHAIR,
+                        ROLES.SECRETARY,
+                        ROLES.TREASURER,
+                        ROLES.RELIGIOUS_LEADER
+                    ];
                     break;
                 default:
                     options = values(ROLES);
@@ -656,20 +680,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function conditionalBeneficiaryChoice({ match, schema }) {
-        return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
-            is: 'yes',
-            // Conditional based on array
-            // https://github.com/hapijs/joi/issues/622
-            then: Joi.when(Joi.ref('beneficiariesGroups'), {
-                is: Joi.array().items(
-                    Joi.string()
-                        .only(match)
-                        .required(),
-                    Joi.any()
-                ),
-                then: schema,
-                otherwise: Joi.any().strip()
-            }),
+        return Joi.when(Joi.ref('beneficiariesGroups'), {
+            is: Joi.array().items(
+                Joi.string()
+                    .only(match)
+                    .required(),
+                Joi.any()
+            ),
+            then: schema,
             otherwise: Joi.any().strip()
         });
     }
@@ -944,19 +962,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'What would you like to do?',
                 cy: ''
             }),
-            explanation: localise({
-                en: `<p><strong>Here are some ideas of what to tell us about your project:</strong></p>
-                <ul>
-                    <li>What you would like to do</li>
-                    <li>What difference your project will make</li>
-                    <li>Who will benefit from it</li>
-                    <li>How long you expect to run it for. This can be an estimate</li>
-                    <li>How you'll make sure people know about it</li>
-                    <li>How you plan to learn from it and use this learning to shape future projects</li>
-                    <li>Is it something new, or are you continuing something that has worked well previously? We want to fund both types of projects</li>
-                </ul>`,
-                cy: ''
-            }),
+            get explanation() {
+                return localise({
+                    en: `<p><strong>Here are some ideas of what to tell us about your project:</strong></p>
+                    <ul>
+                        <li>What you would like to do</li>
+                        <li>What difference your project will make</li>
+                        <li>Who will benefit from it</li>
+                        <li>How long you expect to run it for. This can be an estimate</li>
+                        <li>How you'll make sure people know about it</li>
+                        <li>How you plan to learn from it and use this learning to shape future projects</li>
+                        <li>Is it something new, or are you continuing something that has worked well previously? We want to fund both types of projects</li>
+                    </ul>
+                    <p><strong>You can write up to ${this.settings.maxWords} words for this section, but don't worry if you use less.</strong></p>`,
+                    cy: ''
+                });
+            },
             type: 'textarea',
             settings: {
                 stackedSummary: true,
@@ -1005,16 +1026,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `How does your project meet at least one of our funding priorities?`,
                 cy: ``
             }),
-            explanation: localise({
-                en: `<p>National Lottery Awards for All has three funding priorities, please tell us how your project will <strong>meet at least one of these:</strong></p>
-                <ol>
-                    <li>Bring people together and build strong relationships in and across communities</li>
-                    <li>Improve the places and spaces that matter to communities</li>
-                    <li>Help more people to reach their potential, by supporting them at the earliest possible stage</li>
-                </ol>
-                <p>You can tell us if your project meets more than one priority, but don't worry if it doesn't.</p>`,
-                cy: ``
-            }),
+            get explanation() {
+                return localise({
+                    en: `<p>National Lottery Awards for All has three funding priorities, please tell us how your project will <strong>meet at least one of these:</strong></p>
+                        <ol>
+                            <li>Bring people together and build strong relationships in and across communities</li>
+                            <li>Improve the places and spaces that matter to communities</li>
+                            <li>Help more people to reach their potential, by supporting them at the earliest possible stage</li>
+                        </ol>
+                        <p>You can tell us if your project meets more than one priority, but don't worry if it doesn't.</p>
+                        <p><strong>You can write up to ${this.settings.maxWords} words for this section, but don't worry if you use less.</strong></p>`,
+                    cy: ``
+                });
+            },
             type: 'textarea',
             settings: {
                 stackedSummary: true,
@@ -1065,21 +1089,24 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'How does your project involve your community?',
                 cy: ''
             }),
-            explanation: localise({
-                en: `
-                <details class="o-details u-margin-bottom-s">
-                    <summary class="o-details__summary">What do we mean by community?</summary>
-                    <div class="o-details__content">
-                        <ol>
-                            <li>People living in the same area</li>
-                            <li>People who have similar interests or life experiences, but might not live in the same area</li>
-                            <li>Even though schools can be at the heart of a community - we'll only fund schools that also benefit the communities around them.</li>
-                        </ol>
-                    <div>
-                </details>
-                <p>We believe that people understand what's needed in their communities better than anyone. Tell us how your community came up with the idea for your project. We want to know how many people you've spoken to, and how they'll be involved in the development and delivery of the project.</p>`,
-                cy: ''
-            }),
+            get explanation() {
+                return localise({
+                    en: `
+                        <details class="o-details u-margin-bottom-s">
+                            <summary class="o-details__summary">What do we mean by community?</summary>
+                            <div class="o-details__content">
+                                <ol>
+                                    <li>People living in the same area</li>
+                                    <li>People who have similar interests or life experiences, but might not live in the same area</li>
+                                    <li>Even though schools can be at the heart of a community - we'll only fund schools that also benefit the communities around them.</li>
+                                </ol>
+                            <div>
+                        </details>
+                        <p>We believe that people understand what's needed in their communities better than anyone. Tell us how your community came up with the idea for your project. We want to know how many people you've spoken to, and how they'll be involved in the development and delivery of the project.</p>
+                        <p><strong>You can write up to ${this.settings.maxWords} words for this section, but don't worry if you use less.</strong></p>`,
+                    cy: ''
+                });
+            },
             type: 'textarea',
             settings: {
                 stackedSummary: true,
@@ -1216,52 +1243,33 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        beneficiariesGroupsCheck: {
-            name: 'beneficiariesGroupsCheck',
-            label: localise({
-                en: `Is your project aimed at one of the following groups of people?`,
-                cy: ``
-            }),
-            explanation: localise({
-                en: `<ul>
-                    <li>People of a particular ethnic background, gender, age or religious belief</li>
-                    <li>Disabled people</li>
-                    <li>Lesbian, gay or bisexual people</li>
-                    <li>People with caring responsibilities</li>
-                    <li>Any other specific group of people</li>
-                </ul>`,
-                cy: ``
-            }),
-            type: 'radio',
-            options: [
-                {
-                    value: 'yes',
-                    label: localise({ en: 'Yes', cy: '' })
-                },
-                {
-                    value: 'no',
-                    label: localise({ en: 'No', cy: '' })
-                }
-            ],
-            isRequired: true,
-            schema: Joi.string()
-                .valid(['yes', 'no'])
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Select yes or no', cy: '' })
-                }
-            ]
-        },
         beneficiariesGroups: {
             name: 'beneficiariesGroups',
             label: localise({
                 en: `What specific groups of people is your project aimed at?`,
                 cy: ``
             }),
+            explanation: localise({
+                en: `
+                        <details class="o-details u-margin-bottom-s">
+                            <summary class="o-details__summary">What do we mean by projects for specific groups?</summary>
+                            <div class="o-details__content">
+                               <p>A wheelchair sports club is a place for disabled people to play wheelchair sport. So, this is a project that’s specifically for disabled people. Or a group that aims to empower African women in the community – this group is specifically for people from a particular ethnic background.</p>
+                           </div>
+                        </details> 
+                        <p>Check the boxes that apply:</p>`,
+                cy: ''
+            }),
             type: 'checkbox',
             options: [
+                {
+                    value: BENEFICIARY_GROUPS.EVERYONE,
+                    label: localise({
+                        en:
+                            'The project is open to everyone and not for a specific group of people',
+                        cy: ''
+                    })
+                },
                 {
                     value: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
                     label: localise({
@@ -1310,14 +1318,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             get schema() {
-                return Joi.when('beneficiariesGroupsCheck', {
-                    is: 'yes',
-                    then: Joi.when('beneficiariesGroupsOther', {
-                        is: Joi.string(),
-                        then: Joi.any().strip(),
-                        otherwise: multiChoice(this.options).required()
-                    }),
-                    otherwise: Joi.any().strip()
+                return Joi.when('beneficiariesGroupsOther', {
+                    is: Joi.string(),
+                    then: Joi.any().strip(),
+                    otherwise: multiChoice(this.options).required()
                 });
             },
             messages: [
@@ -1332,7 +1336,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         },
         beneficiariesGroupsOther: {
             name: 'beneficiariesGroupsOther',
-            label: localise({ en: 'Other', cy: '' }),
+            label: localise({ en: 'Other ', cy: '' }),
+            explanation: localise({
+                en:
+                    'If your project’s for a specific group that’s not mentioned above, tell us about it here:',
+                cy: ''
+            }),
             type: 'text',
             isRequired: false,
             schema: Joi.string()

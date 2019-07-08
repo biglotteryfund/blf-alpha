@@ -111,6 +111,9 @@ export default {
                             <IconBin :id="'delete-icon-' + index" description="Delete this row" />
                         </span>
                         Delete row
+                        <span class="u-visually-hidden">
+                            "{{ lineItem.item }}" (row {{ index + 1 }})
+                        </span>
                     </button>
                 </div>
             </li>

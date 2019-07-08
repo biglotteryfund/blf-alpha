@@ -117,13 +117,6 @@
     font-weight: font-weight('body', 'normal');
     text-decoration: none;
 
-    &:before {
-        content: '[';
-    }
-    &:after {
-        content: ']';
-    }
-
     @include on-interact {
         text-decoration: underline;
     }

@@ -261,9 +261,9 @@
 
     .user-nav__secondary {
         @include mq('medium', 'max') {
-            border-bottom: 1px solid get-color('border', 'base');
-            padding-bottom: $spacingUnit / 2;
-            margin-bottom: $spacingUnit / 2;
+            border-top: 1px solid get-color('border', 'base');
+            padding-top: $spacingUnit / 2;
+            margin-top: $spacingUnit / 2;
         }
     }
 
@@ -278,16 +278,12 @@
         }
 
         .user-nav__primary {
-            order: 1;
             flex-basis: 35%;
             padding-right: $spacingUnit;
             margin-right: $spacingUnit;
             border-right: 1px solid get-color('border', 'base');
         }
 
-        .user-nav__secondary {
-            order: 2;
-        }
     }
 
     .user-nav__text {
@@ -324,6 +320,14 @@
             font-weight: bold;
             flex: 1 1 auto;
 
+            // a11y fix for confusing underlines
+            a {
+                text-decoration: none;
+                span {
+                    border-bottom: 1px solid get-color('links', 'base');
+                }
+            }
+
             &.user-nav__pagination-link--prev {
                 text-align: left;
                 padding-left: 0;
@@ -349,6 +353,7 @@
             }
 
             .user-nav__pagination-subtitle {
+                margin-top: 2px;
                 font-weight: normal;
                 font-size: 13px;
                 display: block;

@@ -7,6 +7,7 @@ const pick = require('lodash/pick');
 const flatMap = require('lodash/flatMap');
 const isEmpty = require('lodash/isEmpty');
 const set = require('lodash/set');
+const includes = require('lodash/includes');
 const unset = require('lodash/unset');
 const features = require('config').get('features');
 const formidable = require('formidable');
@@ -202,6 +203,32 @@ function initFormRouter({
      * Route: Delete application
      */
     router.use('/delete', require('./delete')(formId));
+
+    /**
+     * Help pages
+     * Used to render support pages for this application
+     */
+    router.get('/help/:helpItem', function(req, res) {
+        const helpItems = ['bank-statement'];
+        if (!includes(helpItems, req.params.helpItem)) {
+            res.redirect(req.baseUrl);
+        }
+
+        let title;
+        switch (req.params.helpItem) {
+            case 'bank-statement':
+                title = 'Help with your bank statement';
+                break;
+            default:
+                title = res.locals.formTitle;
+                break;
+        }
+
+        res.render(path.resolve(__dirname, './views/help-item'), {
+            title: title,
+            item: req.params.helpItem
+        });
+    });
 
     /**
      * Require application

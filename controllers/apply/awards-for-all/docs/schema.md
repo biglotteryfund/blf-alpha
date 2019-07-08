@@ -49,7 +49,6 @@ Each submission has two top-level keys: `meta` which contains metadata about the
             }
         ],
         "projectTotalCosts": 20000,
-        "beneficiariesGroupsCheck": "yes",
         "beneficiariesGroups": [
             "ethnic-background",
             "gender",
@@ -241,17 +240,11 @@ Array of budget items
 
 type: `integer`
 
-### beneficiariesGroupsCheck
-
-type: `string`
-
-allowed values: `yes` or `no`
-
 ### beneficiariesGroups
 
 type: `array`
 
-Allowed values: `ethnic-background`, `gender`, `age,`disabled-people`,`religion`,`lgbt`,`caring-responsibilities`
+Allowed values: `open-to-all`, `ethnic-background`, `gender`, `age,`disabled-people`,`religion`,`lgbt`,`caring-responsibilities`
 
 ### beneficiariesGroupsEthnicBackground
 
@@ -333,7 +326,7 @@ Address object with the following fields:
 
 type: `string`
 
-Allowed values: `unregistered-vco`, `unincorporated-registered-charity`, `charitable-incorporated-organisation`, `not-for-profit-company`, `school`, `college-or-university`, `statutory-body`
+Allowed values: `unregistered-vco`, `unincorporated-registered-charity`, `charitable-incorporated-organisation`, `not-for-profit-company`, `school`, `college-or-university`, `statutory-body`, `faith-group`
 
 ### organisationSubType
 

@@ -514,10 +514,6 @@ describe('awards for all', function() {
         }
 
         function stepBeneficiaries() {
-            cy.checkA11y();
-            cy.getByLabelText('Yes').click();
-            submitStep();
-
             const randomBeneficiaryGroups = sampleSize(
                 [
                     'People from a particular ethnic background',

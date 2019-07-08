@@ -60,7 +60,8 @@ module.exports = function({ locale, data = {} }) {
             [
                 ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
                 ORGANISATION_TYPES.CIO,
-                ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+                ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
+                ORGANISATION_TYPES.FAITH_GROUP
             ],
             currentOrganisationType
         );
@@ -162,7 +163,6 @@ module.exports = function({ locale, data = {} }) {
     };
 
     function sectionBeneficiaries() {
-        const groupsCheck = get('beneficiariesGroupsCheck')(data);
         const groupChoices = get('beneficiariesGroups')(data);
 
         function fieldsForGroup(type) {
@@ -191,9 +191,7 @@ module.exports = function({ locale, data = {} }) {
                     break;
             }
 
-            return groupsCheck === 'yes' && includes(groupChoices, type)
-                ? result
-                : [];
+            return includes(groupChoices, type) ? result : [];
         }
 
         return {
@@ -210,29 +208,6 @@ module.exports = function({ locale, data = {} }) {
             steps: [
                 {
                     title: localise({
-                        en: `Specific groups of people`,
-                        cy: ``
-                    }),
-                    fieldsets: [
-                        {
-                            legend: localise({
-                                en: `Specific groups of people`,
-                                cy: ``
-                            }),
-                            introduction: localise({
-                                en: `<p>We want to hear more about the people who will benefit from your project.</p>
-
-                                <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities to thrive. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
-
-                                <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
-                                cy: ``
-                            }),
-                            fields: [fields.beneficiariesGroupsCheck]
-                        }
-                    ]
-                },
-                {
-                    title: localise({
                         en: 'Specific groups of people',
                         cy: ''
                     }),
@@ -242,12 +217,10 @@ module.exports = function({ locale, data = {} }) {
                                 en: 'Specific groups of people',
                                 cy: ''
                             }),
-                            fields: compact([
-                                groupsCheck === 'yes' &&
-                                    fields.beneficiariesGroups,
-                                groupsCheck === 'yes' &&
-                                    fields.beneficiariesGroupsOther
-                            ])
+                            fields: [
+                                fields.beneficiariesGroups,
+                                fields.beneficiariesGroupsOther
+                            ]
                         }
                     ]
                 },
@@ -717,11 +690,12 @@ module.exports = function({ locale, data = {} }) {
     <p><strong>You must attach your bank statement as a PDF, JPEG or PNG file. Unfortunately we can’t accept Word documents, but photos of your bank statements are absolutely fine.</strong></p>
     
     <aside class="o-media u-padded u-tone-background-tint u-margin-bottom">
-        <a href="/assets/images/apply/afa-bank-statement-example.png" target="_blank">
+        <a href="../help/bank-statement" target="_blank">
             <img src="/assets/images/apply/afa-bank-statement-example-small.png"
                  alt="An example of a bank statement we need from you"
                  class="o-media__figure-gutter"
                  width="300" />
+            <span class="u-visually-hidden">Opens in a new window</span>
          </a>
         <div class="o-media__body">
             <p><strong>Please make sure that we can clearly see the following on your bank statement:</strong></p>
@@ -733,7 +707,7 @@ module.exports = function({ locale, data = {} }) {
                 <li>Sort code</li>
                 <li>Date (must be within last 3 months)</li>
             </ul>
-            <p>Here's an <a target="_blank" href="/assets/images/apply/afa-bank-statement-example.png">example of what we're looking for</a>.</p>
+            <p>Here's an <a target="_blank" href="../help/bank-statement">example of what we're looking for</a><span class="u-visually-hidden"> Opens in a new window</span>.</p>
         </div>
     </aside>
 

@@ -3,16 +3,16 @@
 
 {% macro globalSearch() %}
     <form class="global-search js-global-search-form" role="search" action="/search" id="global-search">
-        <label>
-            <span class="u-visually-hidden">{{ __("global.misc.search") }}</span>
-            <input
-                class="global-search__input ff-text"
-                id="global-search-input"
-                name="q"
-                type="search"
-                placeholder="{{ __("global.misc.search") }}"
-            >
+        <label for="global-search-input" class="u-visually-hidden">
+            {{ __("global.misc.searchTerm") }}
         </label>
+        <input
+            class="global-search__input ff-text"
+            id="global-search-input"
+            name="q"
+            type="search"
+            placeholder="{{ __("global.misc.search") }}"
+        >
         <button class="global-search__submit" type="submit">
             <span class="global-search__icon">{{ iconSearch() }}</span>
             <span class="global-search__label">{{ __("global.misc.search") }}</span>

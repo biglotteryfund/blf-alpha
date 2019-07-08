@@ -1,0 +1,39 @@
+{% extends "layouts/main.njk" %}
+{% from "components/feedback.njk" import inlineFeedback with context %}
+{% from "components/content-box/macro.njk" import contentBox %}
+
+{% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
+
+{% block content %}
+    <main role="main" id="content">
+        {% call contentBox() %}
+
+            <div class="form-header">
+                <h1 class="form-header__title">{{ title }}</h1>
+            </div>
+
+            {% if item === 'bank-statement' %}
+                <div class="s-prose u-constrained">
+                    <h2>What we need from you</h2>
+                    <p><strong>Please make sure that we can clearly see the following on your bank statement:</strong></p>
+                    <ul>
+                        <li>Your organisation’s legal name</li>
+                        <li>The address the statements are sent to</li>
+                        <li>The bank name</li>
+                        <li>Account number</li>
+                        <li>Sort code</li>
+                        <li>Date (must be within last 3 months)</li>
+                    </ul>
+                    <img src="/assets/images/apply/afa-bank-statement-example.png"
+                         alt="An example of a bank statement we need from you, with the bank name, date, organisation address, account number and organisation legal name circled" />
+                </div>
+            {% endif %}
+
+            <p class="u-margin-top js-only"><a href="javascript:window.close();" class="btn">Close this page</a></p>
+            <noscript>
+                <p class="u-margin-top"><a href="../" class="btn">Back to your applications</a></p>
+            </noscript>
+
+        {% endcall %}
+    </main>
+{% endblock %}

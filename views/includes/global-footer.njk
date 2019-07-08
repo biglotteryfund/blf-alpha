@@ -7,7 +7,9 @@
             question="{{ __('global.survey.question') }}"
             prompt="{{ __('global.survey.prompt') }}"
             yes="{{ __('global.survey.yes') }}"
+            yes-extended="{{ __('global.survey.yesExtended') }}"
             no="{{ __('global.survey.no') }}"
+            no-extended="{{ __('global.survey.noExtended') }}"
             submit="{{ __('global.survey.submit') }}"
             cancel="{{ __('global.survey.cancel') }}"
             success="{{ __('global.survey.success') }}"
@@ -35,7 +37,7 @@
                             {{ region.label }}: {{ region.phone }}
                         </span>
                         <a class="global-footer__contact-email" href="mailto:{{ region.email }}">
-                            {{ __('global.misc.email') | capitalize }}
+                            {{ __('global.misc.email') | capitalize }} <span class="u-visually-hidden">{{ region.label}}</span>
                         </a>
                     </p>
                 {% endfor %}

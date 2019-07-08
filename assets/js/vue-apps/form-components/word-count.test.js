@@ -35,18 +35,16 @@ describe('WordCount', () => {
         });
 
         expect(wrapper.text()).toEqual(
-            `0 / 150 words Must be at least 50 words. You can write up to 150 words for this section, but don't worry if you use less.`
+            `0 / 150 words Must be at least 50 words.`
         );
 
         wrapper.setProps({ currentText: faker.lorem.words(10) });
         expect(wrapper.text()).toContain(
-            `10 / 150 words Must be at least 50 words. You can write up to 150 words for this section, but don't worry if you use less.`
+            `10 / 150 words Must be at least 50 words.`
         );
 
         wrapper.setProps({ currentText: faker.lorem.words(50) });
-        expect(wrapper.text()).toContain(
-            `50 / 150 words You can write up to 150 words for this section, but don't worry if you use less.`
-        );
+        expect(wrapper.text()).toContain(`50 / 150 words`);
 
         wrapper.setProps({ currentText: faker.lorem.words(175) });
         expect(wrapper.text()).toContain(

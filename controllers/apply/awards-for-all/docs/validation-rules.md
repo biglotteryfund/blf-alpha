@@ -120,7 +120,7 @@ Client-side warnings:
 
 ## Who will benefit
 
-### Is your project aimed at one of the following groups of people?
+### Is your project aimed at a specific group of people?
 
 | Rule           | Message          |
 | -------------- | ---------------- |
@@ -305,21 +305,22 @@ _Does your organisation use a different name in your day-to-day work?_
 
 The senior contact role shows the following choices depending on the organisation type:
 
-| Organisation type                                | Choices                                  |
-| ------------------------------------------------ | ---------------------------------------- |
-| Unregistered voluntary or community organisation | Chair, Vice-chair, Secretary, Treasurer  |
-| Registered charity (unincorporated)              | Trustee                                  |
-| Charitable incorporated organisation (CIO)       | Trustee, Chief Executive Officer         |
-| Not-for-profit company                           | Company Director, Company Secretary      |
-| School                                           | Head Teacher                             |
-| College or University                            | Chancellor, Vice-chancellor              |
-| Statutory body: Parish Council                   | Parish Clerk, Deputy Parish Clerk        |
-| Statutory body: Town Council                     | Elected Member, Chair                    |
-| Statutory body: Local Authority                  | Chair, Chief Executive Officer, Director |
-| Statutory body: NHS Trust                        | Chief Executive, Director                |
-| Statutory body: Prison Service                   | Free text                                |
-| Statutory body: Fire Service                     | Free text                                |
-| Statutory body: Police Authority                 | Free text                                |
+| Organisation type                                | Choices                                                    |
+| ------------------------------------------------ | -----------------------------------------------------------|
+| Unregistered voluntary or community organisation | Chair, Vice-chair, Secretary, Treasurer                    |
+| Registered charity (unincorporated)              | Trustee                                                    |
+| Charitable incorporated organisation (CIO)       | Trustee, Chief Executive Officer                           |
+| Not-for-profit company                           | Company Director, Company Secretary                        |
+| School                                           | Head Teacher                                               |
+| College or University                            | Chancellor, Vice-chancellor                                |
+| Statutory body: Parish Council                   | Parish Clerk, Deputy Parish Clerk                          |
+| Statutory body: Town Council                     | Elected Member, Chair                                      |
+| Statutory body: Local Authority                  | Chair, Chief Executive Officer, Director                   |
+| Statutory body: NHS Trust                        | Chief Executive, Director                                  |
+| Statutory body: Prison Service                   | Free text                                                  |
+| Statutory body: Fire Service                     | Free text                                                  |
+| Statutory body: Police Authority                 | Free text                                                  |
+| Faith-based group                                | Chair, Vice-chair, Secretary, Treasurer, Religious leader  |
 
 ### Senior contact date of birth
 
