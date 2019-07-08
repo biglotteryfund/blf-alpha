@@ -130,9 +130,10 @@ Client-side warnings:
 
 Shown if answered "yes" to the question above.
 
-| Rule           | Message                                                         |
-| -------------- | --------------------------------------------------------------- |
-| Required field | Select the specific group(s) of people your project is aimed at |
+| Rule              | Message                                                                                    |
+| ----------------- | ------------------------------------------------------------------------------------------ |
+| Required field    | Select the specific group(s) of people your project is aimed at                            |
+| Invalid selection | You have selected that your project is open to everyone please de-select the other options |
 
 An additional "Other" field is provided for free text responses.
 
@@ -305,22 +306,22 @@ _Does your organisation use a different name in your day-to-day work?_
 
 The senior contact role shows the following choices depending on the organisation type:
 
-| Organisation type                                | Choices                                                    |
-| ------------------------------------------------ | -----------------------------------------------------------|
-| Unregistered voluntary or community organisation | Chair, Vice-chair, Secretary, Treasurer                    |
-| Registered charity (unincorporated)              | Trustee                                                    |
-| Charitable incorporated organisation (CIO)       | Trustee, Chief Executive Officer                           |
-| Not-for-profit company                           | Company Director, Company Secretary                        |
-| School                                           | Head Teacher                                               |
-| College or University                            | Chancellor, Vice-chancellor                                |
-| Statutory body: Parish Council                   | Parish Clerk, Deputy Parish Clerk                          |
-| Statutory body: Town Council                     | Elected Member, Chair                                      |
-| Statutory body: Local Authority                  | Chair, Chief Executive Officer, Director                   |
-| Statutory body: NHS Trust                        | Chief Executive, Director                                  |
-| Statutory body: Prison Service                   | Free text                                                  |
-| Statutory body: Fire Service                     | Free text                                                  |
-| Statutory body: Police Authority                 | Free text                                                  |
-| Faith-based group                                | Chair, Vice-chair, Secretary, Treasurer, Religious leader  |
+| Organisation type                                | Choices                                                   |
+| ------------------------------------------------ | --------------------------------------------------------- |
+| Unregistered voluntary or community organisation | Chair, Vice-chair, Secretary, Treasurer                   |
+| Registered charity (unincorporated)              | Trustee                                                   |
+| Charitable incorporated organisation (CIO)       | Trustee, Chief Executive Officer                          |
+| Not-for-profit company                           | Company Director, Company Secretary                       |
+| School                                           | Head Teacher                                              |
+| College or University                            | Chancellor, Vice-chancellor                               |
+| Statutory body: Parish Council                   | Parish Clerk, Deputy Parish Clerk                         |
+| Statutory body: Town Council                     | Elected Member, Chair                                     |
+| Statutory body: Local Authority                  | Chair, Chief Executive Officer, Director                  |
+| Statutory body: NHS Trust                        | Chief Executive, Director                                 |
+| Statutory body: Prison Service                   | Free text                                                 |
+| Statutory body: Fire Service                     | Free text                                                 |
+| Statutory body: Police Authority                 | Free text                                                 |
+| Faith-based group                                | Chair, Vice-chair, Secretary, Treasurer, Religious leader |
 
 ### Senior contact date of birth
 

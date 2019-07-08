@@ -1,7 +1,11 @@
 'use strict';
 const moment = require('moment/moment');
 const { get } = require('lodash/fp');
-const { flatMap, includes, values, concat, has } = require('lodash');
+const concat = require('lodash/concat');
+const flatMap = require('lodash/flatMap');
+const has = require('lodash/has');
+const includes = require('lodash/includes');
+const partition = require('lodash/partition');
 
 const Joi = require('../form-router-next/joi-extensions');
 const locationsFor = require('./locations');
@@ -526,7 +530,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ];
                     break;
                 default:
-                    options = values(ROLES);
+                    options = Object.values(ROLES);
                     break;
             }
 
@@ -556,7 +560,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         options = [ROLES.CHIEF_EXECUTIVE, ROLES.DIRECTOR];
                         break;
                     default:
-                        options = values(ROLES);
+                        options = Object.values(ROLES);
                         break;
                 }
             }
@@ -1318,10 +1322,30 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             get schema() {
+                const [everyoneOptions, specificOptions] = partition(
+                    BENEFICIARY_GROUPS,
+                    value => value !== BENEFICIARY_GROUPS.EVERYONE
+                );
+
                 return Joi.when('beneficiariesGroupsOther', {
                     is: Joi.string(),
                     then: Joi.any().strip(),
-                    otherwise: multiChoice(this.options).required()
+                    /**
+                     * Allow *either* everyone or a selection of specific groups
+                     * Note: This returns the any.allowOnly error
+                     * This means that the error message provided for this case will also be shown
+                     * if someone tampers with the submitted values. This is a reasonable trade-off.
+                     */
+                    otherwise: Joi.alternatives().try([
+                        Joi.array()
+                            .items(Joi.string().valid(everyoneOptions))
+                            .single()
+                            .required(),
+                        Joi.array()
+                            .items(Joi.string().valid(specificOptions))
+                            .single()
+                            .required()
+                    ])
                 });
             },
             messages: [
@@ -1329,6 +1353,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Select the specific group(s) of people your project is aimed at`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'any.allowOnly',
+                    message: localise({
+                        en: `You have selected that your project is open to everyone please de-select the other options`,
                         cy: ''
                     })
                 }

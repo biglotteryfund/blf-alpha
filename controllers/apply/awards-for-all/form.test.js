@@ -302,6 +302,31 @@ describe('Form validations', () => {
     });
 
     describe('Who will benefit', () => {
+        test('beneficiaries must not contain other options when open-to-everyone is selected', () => {
+            function value(val) {
+                return {
+                    beneficiariesGroups: val,
+                    beneficiariesGroupsOther: null
+                };
+            }
+
+            assertValidByKey(value(BENEFICIARY_GROUPS.EVERYONE));
+            assertValidByKey(value([BENEFICIARY_GROUPS.EVERYONE]));
+            assertValidByKey(
+                value([BENEFICIARY_GROUPS.AGE, BENEFICIARY_GROUPS.LGBT])
+            );
+            assertMessagesByKey(
+                value([
+                    BENEFICIARY_GROUPS.EVERYONE,
+                    BENEFICIARY_GROUPS.AGE,
+                    BENEFICIARY_GROUPS.LGBT
+                ]),
+                [
+                    'You have selected that your project is open to everyone please de-select the other options'
+                ]
+            );
+        });
+
         test.skip('welsh language question required for applicants in Wales', () => {
             function value(country, val) {
                 return {
