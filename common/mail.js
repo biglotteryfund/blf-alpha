@@ -10,6 +10,7 @@ const { isString, isArray } = require('lodash');
 
 const logger = require('./logger').child({ service: 'mail' });
 
+const { isTestServer } = require('../common/appData');
 const metrics = require('./metrics');
 
 /**
@@ -210,7 +211,7 @@ function sendEmail({ name, mailConfig, mailTransport = null }) {
     /**
      * Skip sending mail in test environments
      */
-    if (!!process.env.TEST_SERVER === true) {
+    if (isTestServer) {
         const reason = `skipped sending mail ${name}`;
         logger.debug(reason);
         return Promise.resolve(reason);

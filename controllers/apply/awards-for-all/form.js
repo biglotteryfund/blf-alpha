@@ -15,6 +15,7 @@ const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
 const fieldsFor = require('./fields');
 const termsCopy = require('./terms');
 
+const { isTestServer } = require('../../../common/appData');
 const checkBankAccountDetails = require('../../../common/bank-api');
 const commonLogger = require('../../../common/logger');
 
@@ -610,7 +611,7 @@ module.exports = function({ locale, data = {} }) {
                         /**
                          * Bail early if we're testing and won't make this lookup
                          */
-                        if (!!process.env.TEST_SERVER === true) {
+                        if (isTestServer) {
                             return resolve();
                         } else {
                             checkBankAccountDetails(sortCode, accountNumber)

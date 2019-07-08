@@ -298,10 +298,11 @@ function initFormRouter({
         }
 
         function canSubmitToSalesforce() {
-            return (
-                features.enableSalesforceConnector === true &&
-                !!process.env.TEST_SERVER === false
-            );
+            if (appData.isTestServer) {
+                return false;
+            } else {
+                return features.enableSalesforceConnector;
+            }
         }
 
         if (canSubmit() === true) {
