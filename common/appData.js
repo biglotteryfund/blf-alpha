@@ -24,6 +24,7 @@ const appData = {
     environment: environment,
     isDev: environment === 'development',
     isNotProduction: environment !== 'production',
+    isTestServer: !!process.env.TEST_SERVER === true,
     deployId: get(deploymentData, 'deployId', 'DEV'),
     buildNumber: get(deploymentData, 'buildNumber', 'DEV'),
     commitId: get(deploymentData, 'commitId', 'DEV'),
