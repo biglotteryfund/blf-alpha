@@ -45,11 +45,7 @@ router
             req.body
         );
 
-        const genericErrors = [
-            {
-                msg: `There was an error updating your details - please try again`
-            }
-        ];
+        const genericErrors = [{ msg: res.locals.copy.genericError }];
 
         if (validationResult.isValid) {
             try {

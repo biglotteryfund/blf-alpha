@@ -1146,6 +1146,7 @@ user:
     title: Update email address
     introduction: >
       <p>You can modify your registered email address here. Please bear in mind you will need to confirm your account again once you have done this.</p>
+    genericError: There was an error updating your details - please try again
   activate:
     title: Activate your account
     introduction: >
