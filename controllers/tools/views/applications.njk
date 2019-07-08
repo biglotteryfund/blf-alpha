@@ -35,6 +35,14 @@
             font-size: 14px;
             vertical-align: middle;
         }
+        .country-picker label,
+        .country-picker select {
+            font-size: 14px;
+        }
+
+        .country-picker label {
+            font-weight: bold;
+        }
     </style>
 {% endblock %}
 
@@ -68,7 +76,7 @@
             </h2>
 
             <form class="country-picker u-margin-bottom-l u-margin-top">
-                <label>Choose a country</label>
+                <label>Choose a country:</label>
                 {% set countries = [
                     {
                         'value': 'uk',
@@ -133,19 +141,31 @@
                     {% set chartId = 'js-chart-' + appType.id %}
                     <h3>{{ appType.title }} &ndash; day-by-day</h3>
                     <div class="u-margin-bottom">
-                        <canvas id="{{ chartId }}" height="150"></canvas>
+                        <canvas id="{{ chartId }}" height="300"></canvas>
                     </div>
                     <script>
                         new Chart(document.getElementById('{{ chartId }}'), {
                             type: 'line',
                             data: {
-                                datasets: [{
-                                    label: '{{ appType.title }}',
-                                    type: 'line',
-                                    data: {{ appType.data.appsPerDay | dump(2) | safe }},
-                                    borderColor: '#e5007d',
-                                    fill: '#e5007d'
-                                }]
+                                {% if country %}
+                                    datasets: [{
+                                        label: '{{ appType.title }}',
+                                        data: {{ appType.data.appsPerDay | dump(2) | safe }},
+                                        borderColor: '#e5007d',
+                                        fill: '#e5007d'
+                                    }]
+                                {% else %}
+                                    datasets: [
+                                        {% for country in appType.appsByCountryByDay %}
+                                            {
+                                                label: '{{ country.title }}',
+                                                data: {{ country.data | dump(2) | safe }},
+                                                borderColor: '{{ country.colour }}',
+                                                fill: '{{ country.colour }}'
+                                            },
+                                        {% endfor %}
+                                    ]
+                                {% endif %}
                             },
                             options: {
                                 responsive: true,
@@ -155,7 +175,7 @@
                                     text: 'Response distribution'
                                 },
                                 legend: {
-                                    display: false
+                                    display: {% if country %}false{% else %}true{% endif %}
                                 },
                                 scales: {
                                     xAxes: [{
@@ -186,7 +206,7 @@
                                         },
                                         scaleLabel: {
                                             display: true,
-                                            labelString: "{{ appType.shortTitle }}"
+                                            labelString: "{{ appType.title }}"
                                         },
                                         gridLines: {
                                             display: true

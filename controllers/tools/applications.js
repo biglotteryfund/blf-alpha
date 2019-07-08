@@ -120,6 +120,39 @@ function titleCase(str) {
     });
 }
 
+function getColourForCountry(countryName) {
+    let colour = '';
+    switch (countryName) {
+        case 'England':
+            colour = '#f95d6a';
+            break;
+        case 'Northern Ireland':
+            colour = '#2f4b7c';
+            break;
+        case 'Scotland':
+            colour = '#a05195';
+            break;
+        case 'Wales':
+            colour = '#ffa600';
+            break;
+        default:
+            colour = '#e5007d';
+            break;
+    }
+    return colour;
+}
+
+function addCountry(row) {
+    // Convert Sequelize instance into a plain object so we can modify it
+    const data = row.get({
+        plain: true
+    });
+    data.country = data.applicationCountry
+        ? data.applicationCountry
+        : get(data, 'applicationData.projectCountry');
+    return data;
+}
+
 router.get('/:applicationId', async (req, res, next) => {
     try {
         const dateRange = getDateRange(req.query.start, req.query.end);
@@ -127,24 +160,34 @@ router.get('/:applicationId', async (req, res, next) => {
         const countryTitle = country ? titleCase(country) : false;
         const applicationTitle = titleCase(req.params.applicationId);
 
+        const getApplications = async appType => {
+            const applications =
+                appType === 'pending'
+                    ? await PendingApplication.findAllByForm(
+                          req.params.applicationId,
+                          dateRange
+                      )
+                    : await SubmittedApplication.findAllByForm(
+                          req.params.applicationId,
+                          dateRange
+                      );
+            return applications
+                .map(addCountry)
+                .filter(filterByCountry(country, appType));
+        };
+
         const appTypes = [
             {
                 id: 'pending',
                 title: 'In-progress applications created',
                 verb: 'started',
-                applications: await PendingApplication.findAllByForm(
-                    req.params.applicationId,
-                    dateRange
-                ).filter(filterByCountry(country, 'pending'))
+                applications: await getApplications('pending')
             },
             {
                 id: 'submitted',
                 title: 'Submitted applications',
                 verb: 'submitted',
-                applications: await SubmittedApplication.findAllByForm(
-                    req.params.applicationId,
-                    dateRange
-                ).filter(filterByCountry(country, 'submitted'))
+                applications: await getApplications('submitted')
             }
         ];
 
@@ -167,6 +210,26 @@ router.get('/:applicationId', async (req, res, next) => {
                     };
                 }
             };
+
+            let appsByCountryByDay = [];
+
+            if (!country) {
+                const appsByCountry = groupBy(appType.applications, 'country');
+                for (const [appCountry, apps] of Object.entries(
+                    appsByCountry
+                )) {
+                    if (appCountry && appCountry !== 'undefined') {
+                        const countryName = titleCase(appCountry);
+                        appsByCountryByDay.push({
+                            title: countryName,
+                            data: applicationsByDay(apps),
+                            colour: getColourForCountry(countryName)
+                        });
+                    }
+                }
+            }
+            appType.appsByCountryByDay = appsByCountryByDay;
+
             return appType;
         });
 
@@ -218,7 +281,7 @@ router.get('/:applicationId', async (req, res, next) => {
         let breadcrumbs = concat(res.locals.breadcrumbs, extraBreadcrumbs);
 
         res.render(path.resolve(__dirname, './views/applications'), {
-            title: title,
+            title: `${applicationTitle} | ${title}`,
             breadcrumbs: breadcrumbs,
             applicationTitle: applicationTitle,
             applicationData: applicationData,
