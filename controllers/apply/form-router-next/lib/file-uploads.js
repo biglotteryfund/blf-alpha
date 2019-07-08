@@ -6,6 +6,7 @@ const get = require('lodash/get');
 const keyBy = require('lodash/keyBy');
 const mapValues = require('lodash/mapValues');
 
+const { isTestServer } = require('../../../../common/appData');
 const { S3_KMS_KEY_ID } = require('../../../../common/secrets');
 const logger = require('../../../../common/logger').child({
     service: 's3-uploads'
@@ -75,7 +76,7 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
         ].join('/');
 
         fileStream.on('open', async () => {
-            if (!!process.env.TEST_SERVER === true) {
+            if (isTestServer) {
                 logger.debug(`Skipped uploading file ${uploadKey}`);
                 return resolve();
             } else {
