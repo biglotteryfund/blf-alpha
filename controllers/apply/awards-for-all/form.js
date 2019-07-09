@@ -718,7 +718,7 @@ module.exports = function({ locale, data = {} }) {
     
     <p><strong>You must attach your bank statement as a PDF, JPEG or PNG file. Unfortunately we can’t accept Word documents, but photos of your bank statements are absolutely fine.</strong></p>
     
-    <aside class="o-media u-padded u-tone-background-tint u-margin-bottom">
+    <div class="o-media u-padded u-tone-background-tint u-margin-bottom">
         <a href="../help/bank-statement" target="_blank">
             <img src="/assets/images/apply/afa-bank-statement-example-small.png"
                  alt="An example of a bank statement we need from you"
@@ -738,7 +738,7 @@ module.exports = function({ locale, data = {} }) {
             </ul>
             <p>Here's an <a target="_blank" href="../help/bank-statement">example of what we're looking for</a><span class="u-visually-hidden"> Opens in a new window</span>.</p>
         </div>
-    </aside>
+    </div>
 
     <p><strong>Your statement needs to be less than three months old</strong>. For bank accounts opened within the last three months, we can accept a bank welcome letter. This must confirm the date your account was opened, account name, account number and sort code.</p>
     
