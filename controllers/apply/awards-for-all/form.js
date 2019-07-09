@@ -164,6 +164,7 @@ module.exports = function({ locale, data = {} }) {
     };
 
     function sectionBeneficiaries() {
+        const groupsCheck = get('beneficiariesGroupsCheck')(data);
         const groupChoices = get('beneficiariesGroups')(data);
 
         function fieldsForGroup(type) {
@@ -192,7 +193,9 @@ module.exports = function({ locale, data = {} }) {
                     break;
             }
 
-            return includes(groupChoices, type) ? result : [];
+            return groupsCheck === 'yes' && includes(groupChoices, type)
+                ? result
+                : [];
         }
 
         return {
@@ -209,6 +212,29 @@ module.exports = function({ locale, data = {} }) {
             steps: [
                 {
                     title: localise({
+                        en: `Specific groups of people`,
+                        cy: ``
+                    }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: `Specific groups of people`,
+                                cy: ``
+                            }),
+                            introduction: localise({
+                                en: `<p>We want to hear more about the people who will benefit from your project.</p>
+
+                                <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities to thrive. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
+
+                                <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
+                                cy: ``
+                            }),
+                            fields: [fields.beneficiariesGroupsCheck]
+                        }
+                    ]
+                },
+                {
+                    title: localise({
                         en: 'Specific groups of people',
                         cy: ''
                     }),
@@ -218,10 +244,12 @@ module.exports = function({ locale, data = {} }) {
                                 en: 'Specific groups of people',
                                 cy: ''
                             }),
-                            fields: [
-                                fields.beneficiariesGroups,
-                                fields.beneficiariesGroupsOther
-                            ]
+                            fields: compact([
+                                groupsCheck === 'yes' &&
+                                    fields.beneficiariesGroups,
+                                groupsCheck === 'yes' &&
+                                    fields.beneficiariesGroupsOther
+                            ])
                         }
                     ]
                 },
