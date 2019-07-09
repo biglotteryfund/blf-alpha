@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import fitvids from 'fitvids';
 
 const SELECTORS = {
     container: '.js-tab-container',
@@ -43,6 +44,17 @@ function showNewTabPane($tabClicked) {
             let $oldActiveTab = $tabset.find(`.${ACTIVE_CLASS}`);
             $oldActiveTab.removeClass(ACTIVE_CLASS).attr('aria-selected', 'false');
             $tabClicked.addClass(ACTIVE_CLASS).attr('aria-selected', 'true');
+
+            // Re-render any videos embedded in the pane
+            // which aren't picked up on pageload by fitvids
+            // eg. https://github.com/davatron5000/FitVids.js/issues/8
+            const fitVidsClass = 'fluid-width-video-wrapper';
+            $paneToShow
+                .find(`.${fitVidsClass}`)
+                .removeClass(fitVidsClass)
+                .unwrap('div')
+                .removeAttr('style');
+            fitvids();
 
             // pass this data back to the click handler
             tabData = {
