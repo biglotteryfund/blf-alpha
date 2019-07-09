@@ -1257,14 +1257,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             explanation: localise({
                 en: `<p>What do we mean by projects for specific groups?</p>
-                    <p>eg. one of the following groups:</p>
-                    <ul>
-                        <li>People of a particular ethnic background, gender, age or religious belief</li>
-                        <li>Disabled people</li>
-                        <li>Lesbian, gay or bisexual people</li>
-                        <li>People with caring responsibilities</li>
-                        <li>Any other specific group of people</li>
-                    </ul>`,
+                    <p>
+                      A wheelchair sports club is a place for disabled people to play wheelchair sport.
+                      So, this is a project that’s specifically for disabled people.
+                      Or a group that aims to empower African women in the community—this group is
+                      specifically for people from a particular ethnic background.
+                    </p>
+                    <p>Check the one that applies:</p>`,
                 cy: ``
             }),
             type: 'radio',
