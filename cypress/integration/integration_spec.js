@@ -144,54 +144,10 @@ describe('common', function() {
         });
     });
 
-    it('should check top-level pages for a11y violations', function() {
+    it('should check top-level pages', function() {
         cy.visit('/');
         cy.checkA11y();
         cy.percySnapshot('homepage');
-
-        cy.visit('/welsh');
-        cy.checkA11y();
-        cy.percySnapshot('homepage-welsh');
-
-        cy.visit('/about');
-        cy.checkA11y();
-
-        cy.visit('/funding');
-        cy.checkA11y();
-
-        cy.visit('/insights');
-        cy.checkA11y();
-
-        cy.visit('/news');
-        cy.checkA11y();
-    });
-
-    it('should check patterns for visual regressions', function() {
-        cy.visit('/patterns/components');
-        cy.percySnapshot('patterns');
-    });
-});
-
-describe('interactions', () => {
-    it('should perform common interactions', () => {
-        cy.visit('/funding/programmes/national-lottery-awards-for-all-england');
-        cy.get('.cookie-consent button').click();
-        cy.checkA11y();
-        cy.percySnapshot('funding-programme');
-
-        function interactWithTabs() {
-            cy.get('.js-tabset .js-tab').each($el => {
-                cy.wrap($el)
-                    .click()
-                    .should('have.class', 'is-active');
-
-                // Check there is only one tab active
-                cy.get('.js-tabset .is-active').should('have.length', 1);
-
-                // Check tab content is visible
-                cy.get($el.attr('href')).should('be.visible');
-            });
-        }
 
         function interactWithMobileNav() {
             cy.viewport(375, 667);
@@ -217,8 +173,28 @@ describe('interactions', () => {
             cy.get('@search').should('not.be.visible');
         }
 
-        interactWithTabs();
         interactWithMobileNav();
+
+        cy.visit('/welsh');
+        cy.checkA11y();
+        cy.percySnapshot('homepage-welsh');
+
+        cy.visit('/about');
+        cy.checkA11y();
+
+        cy.visit('/funding');
+        cy.checkA11y();
+
+        cy.visit('/insights');
+        cy.checkA11y();
+
+        cy.visit('/news');
+        cy.checkA11y();
+    });
+
+    it('should check patterns for visual regressions', function() {
+        cy.visit('/patterns/components');
+        cy.percySnapshot('patterns');
     });
 });
 
@@ -514,6 +490,12 @@ describe('awards for all', function() {
         }
 
         function stepBeneficiaries() {
+            cy.checkA11y();
+            cy.getByLabelText(
+                'My project is aimed at a specific group of people'
+            ).click();
+            submitStep();
+
             const randomBeneficiaryGroups = sampleSize(
                 [
                     'People from a particular ethnic background',
@@ -737,8 +719,32 @@ describe('awards for all', function() {
             submitStep();
         }
 
+        cy.visit(
+            '/funding/programmes/national-lottery-awards-for-all-scotland'
+        );
+        cy.get('.cookie-consent button').click();
+        cy.checkA11y();
+        cy.percySnapshot('funding-programme');
+
+        function interactWithTabs() {
+            cy.get('.js-tabset .js-tab').each($el => {
+                cy.wrap($el)
+                    .click()
+                    .should('have.class', 'is-active');
+
+                // Check there is only one tab active
+                cy.get('.js-tabset .is-active').should('have.length', 1);
+
+                // Check tab content is visible
+                cy.get($el.attr('href')).should('be.visible');
+            });
+        }
+
+        interactWithTabs();
+
         cy.seedAndLogin().then(() => {
             cy.visit('/apply/awards-for-all');
+
             cy.getByText('Start new application').click();
             times(5, function() {
                 cy.getByLabelText('Yes').click();
