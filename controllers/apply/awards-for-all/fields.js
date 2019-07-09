@@ -1252,11 +1252,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         beneficiariesGroupsCheck: {
             name: 'beneficiariesGroupsCheck',
             label: localise({
-                en: `Is your project aimed at a specific group of people?`,
+                en: `Is your project open to everyone or is it aimed at a specific group of people?`,
                 cy: ``
             }),
             explanation: localise({
-                en: `<p>eg. one of the following groups:</p>
+                en: `<p>What do we mean by projects for specific groups?</p>
+                    <p>eg. one of the following groups:</p>
                     <ul>
                         <li>People of a particular ethnic background, gender, age or religious belief</li>
                         <li>Disabled people</li>
@@ -1269,12 +1270,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'radio',
             options: [
                 {
-                    value: 'yes',
-                    label: localise({ en: 'Yes', cy: '' })
+                    value: 'no',
+                    label: localise({
+                        en: `My project is open to everyone and isn’t aimed at a specific group of people`,
+                        cy: ''
+                    })
                 },
                 {
-                    value: 'no',
-                    label: localise({ en: 'No', cy: '' })
+                    value: 'yes',
+                    label: localise({
+                        en: `My project is aimed at a specific group of people`,
+                        cy: ''
+                    })
                 }
             ],
             isRequired: true,
@@ -1291,7 +1298,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         beneficiariesGroups: {
             name: 'beneficiariesGroups',
             label: localise({
-                en: `What specific groups of people is your project aimed at?`,
+                en: `What specific groups is your project aimed at?`,
+                cy: ``
+            }),
+            explanation: localise({
+                en: `Check the boxes that apply:`,
                 cy: ``
             }),
             type: 'checkbox',
@@ -1367,6 +1378,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         beneficiariesGroupsOther: {
             name: 'beneficiariesGroupsOther',
             label: localise({ en: 'Other', cy: '' }),
+            explanation: localise({
+                en: `If your project's for a specific group that's not mentioned above, tell us about it here:`,
+                cy: ``
+            }),
             type: 'text',
             isRequired: false,
             schema: Joi.string()
