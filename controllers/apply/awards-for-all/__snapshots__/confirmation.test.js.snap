@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`confirmation builder should return confirmation text based on country 1`] = `
+<p>
+  Thank you for submitting your application to National Lottery Awards for All.
+</p>
+<h2>
+  What happens next?
+</h2>
+<p>
+  We will now review your application and may contact you
+    to find out more about your project. It will take around
+  <strong>
+    12 weeks
+  </strong>
+  for us to make a decision and we will
+    let you know whether you have been successful by email.
+</p>
+<p>
+  In the meantime, if you have any questions, please call
+  <strong>
+    0345 4 10 20 30
+  </strong>
+  or email
+  <a href="mailto:afe@tnlcommunityfund.org.uk">
+    afe@tnlcommunityfund.org.uk
+  </a>
+  and we will be happy to help you.
+</p>
+<p>
+  We have emailed you a copy of your application form.
+    Please keep this for your records as you may need to refer to it.
+</p>
+<p>
+  Good luck with your application,
+  <br>
+  <strong>
+    The National Lottery Awards for All Team
+  </strong>
+</p>
+`;
+
+exports[`confirmation builder should return confirmation text based on country 2`] = `
+<p>
+  Thank you for submitting your application to National Lottery Awards for All.
+</p>
+<h2>
+  What happens next?
+</h2>
+<p>
+  We will now review your application and may contact you
+    to find out more about your project. It will take around
+  <strong>
+    18 weeks
+  </strong>
+  for us to make a decision and we will
+    let you know whether you have been successful by email.
+</p>
+<p>
+  In the meantime, if you have any questions, please call
+  <strong>
+    0300 123 7110
+  </strong>
+  or email
+  <a href="mailto:advicescotland@tnlcommunityfund.org.uk">
+    advicescotland@tnlcommunityfund.org.uk
+  </a>
+  and we will be happy to help you.
+</p>
+<p>
+  We have emailed you a copy of your application form.
+    Please keep this for your records as you may need to refer to it.
+</p>
+<p>
+  Good luck with your application,
+  <br>
+  <strong>
+    The National Lottery Awards for All Team
+  </strong>
+</p>
+`;
