@@ -5,12 +5,22 @@ const concat = require('lodash/concat');
 const findIndex = require('lodash/findIndex');
 const Sentry = require('@sentry/node');
 
+const logger = require('../../../common/logger');
 const { PendingApplication } = require('../../../db/models');
-
 const { prepareFilesForUpload, uploadFile } = require('./lib/file-uploads');
 
 module.exports = function(formId, formBuilder) {
     const router = express.Router();
+
+    function logValidationErrors(errors) {
+        const validationLogger = logger.child({
+            service: 'step-validations'
+        });
+
+        errors.forEach(item => {
+            validationLogger.info(`[${item.type}] ${item.param}: ${item.msg}`);
+        });
+    }
 
     function renderStepFor(sectionSlug, stepNumber) {
         return function(req, res, data, errors = []) {
@@ -148,6 +158,8 @@ module.exports = function(formId, formBuilder) {
                  * Otherwise, find the next suitable step and redirect there.
                  */
                 if (errorsForStep.length > 0) {
+                    logValidationErrors(errorsForStep);
+
                     const renderStep = renderStepFor(
                         req.params.section,
                         req.params.step
