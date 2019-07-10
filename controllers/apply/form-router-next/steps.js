@@ -1,7 +1,6 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const concat = require('lodash/concat');
 const findIndex = require('lodash/findIndex');
 const Sentry = require('@sentry/node');
 
@@ -27,10 +26,6 @@ module.exports = function(formId, formBuilder) {
             const section = form.sections[sectionIndex];
 
             if (section) {
-                const sectionShortTitle = section.shortTitle
-                    ? section.shortTitle
-                    : section.title;
-
                 const sectionUrl = `${res.locals.formBaseUrl}/${section.slug}`;
 
                 if (stepNumber) {
@@ -45,19 +40,19 @@ module.exports = function(formId, formBuilder) {
                         });
 
                         if (step.isRequired) {
+                            const breadcrumbs = res.locals.breadcrumbs.concat([
+                                {
+                                    label: section.shortTitle || section.title,
+                                    url: sectionUrl
+                                },
+                                { label: step.title }
+                            ]);
+
                             const viewData = {
                                 csrfToken: req.csrfToken(),
-                                breadcrumbs: concat(
-                                    res.locals.breadcrumbs,
-                                    {
-                                        label: sectionShortTitle,
-                                        url: sectionUrl
-                                    },
-                                    { label: step.title }
-                                ),
+                                breadcrumbs: breadcrumbs,
                                 section: section,
                                 step: step,
-                                stepIsMultipart: step.isMultipart,
                                 stepNumber: stepNumber,
                                 totalSteps: section.steps.length,
                                 previousPage: previousPage,
