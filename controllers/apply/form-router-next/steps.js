@@ -12,16 +12,6 @@ const { prepareFilesForUpload, uploadFile } = require('./lib/file-uploads');
 module.exports = function(formId, formBuilder) {
     const router = express.Router();
 
-    function logValidationErrors(errors) {
-        const validationLogger = logger.child({
-            service: 'step-validations'
-        });
-
-        errors.forEach(item => {
-            validationLogger.info(`[${item.type}] ${item.param}: ${item.msg}`);
-        });
-    }
-
     function renderStepFor(sectionSlug, stepNumber) {
         return function(req, res, data, errors = []) {
             const form = formBuilder({
@@ -74,6 +64,20 @@ module.exports = function(formId, formBuilder) {
                                 nextPage: nextPage,
                                 errors: errors
                             };
+
+                            /**
+                             * Log validation errors along with section and step metadata
+                             */
+                            if (errors.length > 0) {
+                                errors.forEach(item => {
+                                    logger.info(item.msg, {
+                                        service: 'step-validations',
+                                        fieldName: item.param,
+                                        section: section.slug,
+                                        step: stepNumber
+                                    });
+                                });
+                            }
 
                             res.render(
                                 path.resolve(__dirname, './views/step'),
@@ -158,8 +162,6 @@ module.exports = function(formId, formBuilder) {
                  * Otherwise, find the next suitable step and redirect there.
                  */
                 if (errorsForStep.length > 0) {
-                    logValidationErrors(errorsForStep);
-
                     const renderStep = renderStepFor(
                         req.params.section,
                         req.params.step
