@@ -49,39 +49,6 @@ module.exports = function({ locale, data = {} }) {
         );
     }
 
-    function includeCompanyNumber() {
-        return (
-            currentOrganisationType ===
-            ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-        );
-    }
-
-    function includeCharityNumber() {
-        return includes(
-            [
-                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                ORGANISATION_TYPES.CIO,
-                ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
-                ORGANISATION_TYPES.FAITH_GROUP
-            ],
-            currentOrganisationType
-        );
-    }
-
-    function includeEducationNumber() {
-        return includes(
-            [
-                ORGANISATION_TYPES.SCHOOL,
-                ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY
-            ],
-            currentOrganisationType
-        );
-    }
-
-    function includeAccountDetails() {
-        return get('organisationStartDate.isBeforeMin')(data) === true;
-    }
-
     function stepProjectDetails() {
         return {
             title: localise({ en: 'Project details', cy: '' }),
@@ -371,117 +338,145 @@ module.exports = function({ locale, data = {} }) {
         };
     }
 
-    const sectionOrganisation = {
-        slug: 'organisation',
-        title: localise({ en: 'Your organisation', cy: '' }),
-        summary: localise({
-            en: `Please tell us about your organisation, including legal name, registered address and income. This helps us understand the type of organisation you are.`,
-            cy: ''
-        }),
-        steps: [
-            {
-                title: localise({ en: 'Organisation details', cy: '' }),
-                fieldsets: [
-                    {
-                        legend: localise({
-                            en: 'Organisation details',
-                            cy: ''
-                        }),
-                        fields: [
-                            fields.organisationLegalName,
-                            fields.organisationTradingName,
-                            fields.organisationStartDate,
-                            fields.organisationAddress
-                        ]
-                    }
-                ]
-            },
-            {
-                title: localise({ en: 'Organisation type', cy: '' }),
-                fieldsets: [
-                    {
-                        legend: localise({ en: 'Organisation type', cy: '' }),
-                        fields: [fields.organisationType]
-                    }
-                ]
-            },
-            {
-                get organisationType() {
-                    return get('organisationType')(data);
-                },
-                get title() {
-                    let title;
-                    switch (this.organisationType) {
-                        case ORGANISATION_TYPES.STATUTORY_BODY:
-                            title = localise({
-                                en: 'Type of statutory body',
-                                cy: ''
-                            });
-                            break;
-                        default:
-                            title = localise({
-                                en: 'Organisation sub-type',
-                                cy: ''
-                            });
-                            break;
-                    }
-                    return title;
-                },
-                get fieldsets() {
-                    let fieldsForStep;
-                    switch (this.organisationType) {
-                        case ORGANISATION_TYPES.STATUTORY_BODY:
-                            fieldsForStep = [
-                                fields.organisationSubTypeStatutoryBody
-                            ];
-                            break;
-                        default:
-                            fieldsForStep = [];
-                            break;
-                    }
-
-                    return [
-                        {
-                            legend: this.title,
-                            fields: fieldsForStep
-                        }
-                    ];
+    function stepOrganisationDetails() {
+        return {
+            title: localise({ en: 'Organisation details', cy: '' }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Organisation details',
+                        cy: ''
+                    }),
+                    fields: [
+                        fields.organisationLegalName,
+                        fields.organisationTradingName,
+                        fields.organisationStartDate,
+                        fields.organisationAddress
+                    ]
                 }
-            },
-            {
-                title: localise({ en: 'Registration numbers', cy: '' }),
-                fieldsets: [
-                    {
-                        legend: localise({
-                            en: 'Registration numbers',
-                            cy: ''
-                        }),
-                        fields: compact([
-                            includeCompanyNumber() && fields.companyNumber,
-                            includeCharityNumber() && fields.charityNumber,
-                            includeEducationNumber() && fields.educationNumber
-                        ])
-                    }
-                ]
-            },
-            {
-                title: localise({ en: 'Organisation finances', cy: '' }),
-                fieldsets: [
-                    {
-                        legend: localise({
-                            en: 'Organisation finances',
-                            cy: ''
-                        }),
-                        fields: compact([
-                            includeAccountDetails() &&
-                                fields.accountingYearDate,
-                            includeAccountDetails() && fields.totalIncomeYear
-                        ])
-                    }
-                ]
-            }
-        ]
-    };
+            ]
+        };
+    }
+
+    function stepOrganisationType() {
+        return {
+            title: localise({ en: 'Organisation type', cy: '' }),
+            fieldsets: [
+                {
+                    legend: localise({ en: 'Organisation type', cy: '' }),
+                    fields: [fields.organisationType]
+                }
+            ]
+        };
+    }
+
+    /**
+     * Include fields based on the current organisation type.
+     */
+    function includeIfOrganisationType(type, fields) {
+        const organisationType = get('organisationType')(data);
+        return organisationType === type ? fields : [];
+    }
+
+    /**
+     * Conditional sub-type based on the primary organisation type.
+     * Currently this is only required for statutory bodies.
+     *
+     * A fallback step title is provided for display on the summary
+     * when the primary organisation type hasn't been provided yet.
+     * i.e. for new applications
+     */
+    function stepOrganisationSubType() {
+        let title = localise({
+            en: 'Organisation sub-type',
+            cy: ''
+        });
+
+        if (currentOrganisationType === ORGANISATION_TYPES.STATUTORY_BODY) {
+            title = localise({
+                en: 'Type of statutory body',
+                cy: ''
+            });
+        }
+
+        return {
+            title: title,
+            fieldsets: [
+                {
+                    legend: title,
+                    fields: includeIfOrganisationType(
+                        ORGANISATION_TYPES.STATUTORY_BODY,
+                        [fields.organisationSubTypeStatutoryBody]
+                    )
+                }
+            ]
+        };
+    }
+
+    /**
+     * Registration numbers are conditional based on the organisation type
+     * This step can include a combination of company number,
+     * charity number, and/or department for education number.
+     */
+    function stepRegistrationNumbers() {
+        const includeCompanyNumber = [
+            ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+        ].includes(currentOrganisationType);
+
+        const includeCharityNumber = [
+            ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+            ORGANISATION_TYPES.CIO,
+            ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
+            ORGANISATION_TYPES.FAITH_GROUP
+        ].includes(currentOrganisationType);
+
+        const includeEducationNumber = [
+            ORGANISATION_TYPES.SCHOOL,
+            ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY
+        ].includes(currentOrganisationType);
+
+        return {
+            title: localise({ en: 'Registration numbers', cy: '' }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Registration numbers',
+                        cy: ''
+                    }),
+                    fields: compact([
+                        includeCompanyNumber && fields.companyNumber,
+                        includeCharityNumber && fields.charityNumber,
+                        includeEducationNumber && fields.educationNumber
+                    ])
+                }
+            ]
+        };
+    }
+
+    /**
+     * Conditionally include organisation finance questions based
+     * on the organisation start date. New organisations will not have
+     * produced annual accounts yet so will not have this information.
+     */
+    function stepOrganisationFinances() {
+        const includeAccountDetails =
+            get('organisationStartDate.isBeforeMin')(data) === true;
+
+        return {
+            title: localise({ en: 'Organisation finances', cy: '' }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Organisation finances',
+                        cy: ''
+                    }),
+                    fields: includeAccountDetails
+                        ? [fields.accountingYearDate, fields.totalIncomeYear]
+                        : []
+                }
+            ]
+        };
+    }
 
     const sectionSeniorContact = {
         slug: 'senior-contact',
@@ -875,7 +870,23 @@ module.exports = function({ locale, data = {} }) {
                 ]
             },
             sectionBeneficiaries(),
-            sectionOrganisation,
+            {
+                slug: 'organisation',
+                title: localise({ en: 'Your organisation', cy: '' }),
+                summary: localise({
+                    en: `Please tell us about your organisation,
+                         including legal name, registered address and income.
+                         This helps us understand the type of organisation you are.`,
+                    cy: ''
+                }),
+                steps: [
+                    stepOrganisationDetails(),
+                    stepOrganisationType(),
+                    stepOrganisationSubType(),
+                    stepRegistrationNumbers(),
+                    stepOrganisationFinances()
+                ]
+            },
             sectionSeniorContact,
             sectionMainContact,
             sectionBankDetails,
