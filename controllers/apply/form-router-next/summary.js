@@ -34,9 +34,6 @@ module.exports = function(formBuilder) {
 
         const title = copy.summary.title;
         const showErrors = !!req.query['show-errors'] === true;
-        const featuredErrors = form.validation.messages.filter(
-            message => message.isFeatured
-        );
 
         res.render(path.resolve(__dirname, './views/summary'), {
             form: form,
@@ -47,7 +44,7 @@ module.exports = function(formBuilder) {
             showErrors: showErrors,
             errors: form.validation.messages,
             errorsByStep: errorsByStep(),
-            featuredErrors: featuredErrors,
+            featuredErrors: form.validation.featuredMessages,
             expandSections: form.progress.isComplete || showErrors
         });
     });

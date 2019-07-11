@@ -24,6 +24,15 @@
     {% if field.explanation %}
         <div class="ff-help s-prose">{{ field.explanation | safe }}</div>
     {% endif %}
+
+    {# Include soft warnings provided by the field #}
+    {% if field.warnings %}
+        <div class="ff-help s-prose">
+            {% for warning in field.warnings %}
+                <p><strong>{{ warning }}</strong></p>
+            {% endfor %}
+        </div>
+    {% endif %}
 {% endmacro %}
 
 {% macro labelFor(field) -%}

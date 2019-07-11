@@ -140,6 +140,11 @@ function testValidate(data) {
     return formBuilder({ locale: 'en', data }).validation;
 }
 
+function fieldFor(fieldName, data) {
+    const form = formBuilder({ locale: 'en', data: data });
+    return form.allFields[fieldName];
+}
+
 function assertMessagesByKey(data, messages) {
     const validationResult = testValidate(data);
     const messagesByKey = validationResult.messages.filter(message => {
@@ -819,17 +824,11 @@ describe('Form validations', () => {
         testAddressField('seniorContactAddress');
         testAddressHistoryField('seniorContactAddressHistory');
 
-        function rolesFor(type) {
-            const fields = formBuilder({
-                locale: 'en',
-                data: { organisationType: type }
-            }).getCurrentFieldsForStep('senior-contact', 0);
-            const field = fields.find(f => f.name === 'seniorContactRole');
-            return field.options.map(option => option.value);
-        }
-
         test('include all roles if no organisation type is provided', () => {
-            expect(rolesFor(null)).toEqual([
+            const field = fieldFor('seniorContactRole', {
+                organisationType: null
+            });
+            expect(field.options.map(option => option.value)).toEqual([
                 'chair',
                 'chancellor',
                 'chief-executive',
@@ -852,8 +851,9 @@ describe('Form validations', () => {
 
         test('include roles based on organisation type', () => {
             function assertRolesForType(type, expected) {
-                const roles = rolesFor(type);
-
+                const roles = fieldFor('seniorContactRole', {
+                    organisationType: type
+                }).options.map(option => option.value);
                 expect(roles).toEqual(expected);
 
                 assertValidByKey({
@@ -897,6 +897,53 @@ describe('Form validations', () => {
             assertRolesForType(ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY, [
                 'chancellor',
                 'vice-chancellor'
+            ]);
+        });
+
+        test('include role warning based on organisation type', () => {
+            function assertWarningsFor(data, expected) {
+                const field = fieldFor('seniorContactRole', data);
+                expect(field.warnings).toEqual(expected);
+            }
+
+            assertWarningsFor({ organisationType: ORGANISATION_TYPES.CIO }, [
+                expect.stringContaining(
+                    `Your senior contact must be listed as a member`
+                ),
+                expect.stringContaining(
+                    `As a charity, your senior contact can be one of`
+                )
+            ]);
+
+            assertWarningsFor(
+                {
+                    organisationType: ORGANISATION_TYPES.CIO,
+                    projectCountry: 'scotland'
+                },
+                [
+                    expect.stringContaining(
+                        `As a charity, your senior contact can be one of`
+                    )
+                ]
+            );
+
+            assertWarningsFor(
+                {
+                    organisationType:
+                        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                    projectCountry: 'scotland'
+                },
+                [
+                    expect.stringContaining(
+                        `As a registered charity, your senior contact must be`
+                    )
+                ]
+            );
+
+            assertWarningsFor({ organisationType: ORGANISATION_TYPES.SCHOOL }, [
+                expect.stringContaining(
+                    `As a school, your senior contact must be`
+                )
             ]);
         });
 
@@ -979,6 +1026,24 @@ describe('Form validations', () => {
                 ]);
             });
         });
+
+        test('include warning if contact last names match', () => {
+            expect(fieldFor('mainContactName', null).warnings).toEqual([]);
+
+            const lastName = faker.name.lastName();
+            expect(
+                fieldFor('mainContactName', {
+                    seniorContactName: {
+                        firstName: faker.name.firstName(),
+                        lastName: lastName
+                    },
+                    mainContactName: {
+                        firstName: faker.name.firstName(),
+                        lastName: lastName
+                    }
+                }).warnings
+            ).toEqual([expect.stringContaining('have the same surname')]);
+        });
     });
 
     describe('Bank details', () => {
@@ -1045,24 +1110,20 @@ describe('form shape', () => {
             }
         });
 
-        expect(
-            form.validation.messages.filter(message => message.isFeatured)
-        ).toEqual([
+        expect(form.validation.featuredMessages).toEqual([
             {
                 msg: expect.stringMatching(
                     /Date you start the project must be after/
                 ),
                 param: 'projectDateRange',
                 type: 'dateRange.minDate.invalid',
-                field: expect.any(Object),
-                isFeatured: expect.any(Boolean)
+                field: expect.any(Object)
             },
             {
                 msg: 'Senior contact role is not valid',
                 param: 'seniorContactRole',
                 type: 'any.allowOnly',
-                field: expect.any(Object),
-                isFeatured: expect.any(Boolean)
+                field: expect.any(Object)
             }
         ]);
     });
