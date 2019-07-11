@@ -7,7 +7,7 @@ const getOr = require('lodash/fp/getOr');
 const has = require('lodash/fp/has');
 const includes = require('lodash/includes');
 const sumBy = require('lodash/sumBy');
-const { safeHtml } = require('common-tags');
+const { safeHtml, oneLine } = require('common-tags');
 
 const { FormModel } = require('../form-router-next/lib/form-model');
 const { fromDateParts } = require('../form-router-next/lib/date-parts');
@@ -535,12 +535,19 @@ module.exports = function({ locale, data = {} }) {
 
                         return localise({
                             en: safeHtml`<p>
-                                Please give us the contact details of a person we can get in touch with if we have any questions. The main contact is usually the person filling in the form - so it's probably you. The main contact needs to be from the organisation applying, but they don't need to hold a particular position.    
+                                Please give us the contact details of a person
+                                we can get in touch with if we have any questions.
+                                The main contact is usually the person filling in
+                                the form—so it's probably you. The main contact needs
+                                to be from the organisation applying, but they don't
+                                need to hold a particular position.    
                             </p>
                             <p>
-                                The main contact must be a different person from the senior contact${seniorName}. 
-                                The two contacts also can't be married or in a long-term relationship with each 
-                                other, living together at the same address, or related by blood.
+                                The main contact must be a different person from
+                                the senior contact${seniorName}. The two contacts
+                                also can't be married or in a long-term relationship
+                                with each other, living together at the same address,
+                                or related by blood.
                             </p>`,
                             cy: ''
                         });
@@ -649,7 +656,8 @@ module.exports = function({ locale, data = {} }) {
                         en: `<p>
                             This should be the legal name of your organisation as it
                             appears on your bank statement—not the name of your bank.
-                            This will usually be the same as your organisation’s name on your governing document.
+                            This will usually be the same as your organisation’s
+                            name on your governing document.
                         </p>
                         <p>
                             <strong>The kinds of bank accounts we don't accept</strong>:
@@ -688,7 +696,10 @@ module.exports = function({ locale, data = {} }) {
                         <span class="u-visually-hidden">Opens in a new window</span>
                      </a>
                     <div class="o-media__body">
-                        <p><strong>Please make sure that we can clearly see the following on your bank statement:</strong></p>
+                        <p><strong>
+                            Please make sure that we can clearly see the
+                            following on your bank statement:
+                        </strong></p>
                         <ul>
                             <li>Your organisation’s legal name</li>
                             <li>The address the statements are sent to</li>
@@ -697,17 +708,24 @@ module.exports = function({ locale, data = {} }) {
                             <li>Sort code</li>
                             <li>Date (must be within last 3 months)</li>
                         </ul>
-                        <p>Here's an <a target="_blank" href="../help/bank-statement">example of what we're looking for</a>
+                        <p>Here's an <a target="_blank" href="../help/bank-statement">
+                            example of what we're looking for
+                        </a>
                         <span class="u-visually-hidden"> Opens in a new window</span>.</p>
                     </div>
                 </aside>
                 <p>
                     <strong>Your statement needs to be less than three months old</strong>.
-                    For bank accounts opened within the last three months, we can accept a bank welcome letter.
-                    This must confirm the date your account was opened, account name, account number and sort code.
+                    For bank accounts opened within the last three months,
+                    we can accept a bank welcome letter. This must confirm
+                    the date your account was opened, account name,
+                    account number and sort code.
                 </p>
                 <p><strong>If you're a school using a local authority bank account</strong></p>
-                <p>We'll need a letter from the local authority dated within the last 3 months. It should show:</p> 
+                <p>
+                    We'll need a letter from the local authority dated
+                    within the last 3 months. It should show:
+                </p> 
                 <ul>
                     <li>Your school name</li>
                     <li>The bank account name</li>
@@ -835,9 +853,9 @@ module.exports = function({ locale, data = {} }) {
                     cy: '(WELSH) Your project'
                 }),
                 summary: localise({
-                    en: `Please tell us about your project in this section.
-                     This is the most important section when it comes to
-                     making a decision about whether you will receive funding.`,
+                    en: oneLine`Please tell us about your project in this section.
+                        This is the most important section when it comes to
+                        making a decision about whether you will receive funding.`,
                     cy: ``
                 }),
                 steps: [
@@ -853,9 +871,9 @@ module.exports = function({ locale, data = {} }) {
                 slug: 'organisation',
                 title: localise({ en: 'Your organisation', cy: '' }),
                 summary: localise({
-                    en: `Please tell us about your organisation,
-                         including legal name, registered address and income.
-                         This helps us understand the type of organisation you are.`,
+                    en: oneLine`Please tell us about your organisation,
+                        including legal name, registered address and income.
+                        This helps us understand the type of organisation you are.`,
                     cy: ''
                 }),
                 steps: [
@@ -870,7 +888,10 @@ module.exports = function({ locale, data = {} }) {
                 slug: 'senior-contact',
                 title: localise({ en: 'Senior contact', cy: '' }),
                 summary: localise({
-                    en: `Please provide details for your senior contact. This person will be legally responsible for the funding. They can't be married, in a long-term relationship, living with, or related to the main contact.`,
+                    en: oneLine`Please provide details for your senior contact.
+                        This person will be legally responsible for the funding.
+                        They can't be married, in a long-term relationship,
+                        living with, or related to the main contact.`,
                     cy: ``
                 }),
                 steps: [stepSeniorContact()]
@@ -879,7 +900,9 @@ module.exports = function({ locale, data = {} }) {
                 slug: 'main-contact',
                 title: localise({ en: 'Main contact', cy: '' }),
                 summary: localise({
-                    en: `Please provide details for your main contact. This will be the first person we contact if we need to discuss your project.`,
+                    en: oneLine`Please provide details for your main contact.
+                        This will be the first person we contact if we
+                        need to discuss your project.`,
                     cy: ``
                 }),
                 steps: [stepMainContact()]
@@ -888,9 +911,10 @@ module.exports = function({ locale, data = {} }) {
                 slug: 'bank-details',
                 title: localise({ en: 'Bank details', cy: '' }),
                 summary: localise({
-                    en: `Please provide your bank details. Before you submit your
-                         application you will need to attach a copy of a bank
-                         statement that is less than three months old`,
+                    en: oneLine`Please provide your bank details.
+                        Before you submit your application you will
+                        need to attach a copy of a bank statement
+                        that is less than three months old`,
                     cy: ''
                 }),
                 steps: [stepBankAccount(), stepBankStatement()]
@@ -899,7 +923,8 @@ module.exports = function({ locale, data = {} }) {
                 slug: 'terms-and-conditions',
                 title: localise({ en: 'Terms and conditions', cy: '' }),
                 summary: localise({
-                    en: `In order to submit your application, you will need to agree to our terms and conditions.`,
+                    en: oneLine`In order to submit your application,
+                        you will need to agree to our terms and conditions.`,
                     cy: ''
                 }),
                 steps: [stepTerms()]
