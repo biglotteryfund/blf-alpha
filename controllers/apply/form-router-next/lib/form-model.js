@@ -36,14 +36,13 @@ class FormModel {
                 field.displayValue = formatterFor(field)(fieldValue);
             }
 
-            const fieldErrors = validation.messages.filter(
-                message => message.param === field.name
-            );
+            function messageMatchesField(message) {
+                return message.param === field.name;
+            }
 
-            field.errors = fieldErrors;
-
-            field.featuredErrors = fieldErrors.filter(
-                message => message.isFeatured
+            field.errors = validation.messages.filter(messageMatchesField);
+            field.featuredErrors = validation.featuredMessages.filter(
+                messageMatchesField
             );
 
             return field;
@@ -109,10 +108,8 @@ class FormModel {
 
             function hasFeaturedErrors() {
                 const fieldNames = fieldsForSection().map(f => f.name);
-                return validation.messages.some(
-                    item =>
-                        fieldNames.includes(item.param) &&
-                        item.isFeatured === true
+                return validation.featuredMessages.some(item =>
+                    fieldNames.includes(item.param)
                 );
             }
 
@@ -155,30 +152,29 @@ class FormModel {
             stripUnknown: true
         });
 
-        function matchesFeaturedCriteria(item, message) {
-            if (item.includeBaseError) {
-                return item.param === message.param;
-            } else {
-                return item.param === message.param && message.type !== 'base';
-            }
-        }
-
-        const normalisedErrors = normaliseErrors({
+        const messages = normaliseErrors({
             validationError: error,
             errorMessages: this.messages,
             formFields: this.allFields
-        }).map(message => {
-            message.isFeatured = this.featuredErrorsAllowList.some(item =>
-                matchesFeaturedCriteria(item, message)
-            );
-            return message;
+        });
+
+        /**
+         * Consider messages featured if field names are
+         * included in featuredErrorsAllowList and the
+         * message type is not the 'base` message.
+         */
+        const featuredMessages = messages.filter(message => {
+            return this.featuredErrorsAllowList.some(name => {
+                return name === message.param && message.type !== 'base';
+            });
         });
 
         return {
             value: value,
             error: error,
-            isValid: error === null && normalisedErrors.length === 0,
-            messages: normalisedErrors
+            isValid: error === null && messages.length === 0,
+            messages: messages,
+            featuredMessages: featuredMessages
         };
     }
 

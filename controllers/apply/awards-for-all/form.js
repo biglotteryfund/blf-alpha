@@ -821,11 +821,11 @@ module.exports = function({ locale, data = {} }) {
             isBilingual: false,
             allFields: fields,
             featuredErrorsAllowList: [
-                { param: 'projectDateRange', includeBaseError: false },
-                { param: 'seniorContactRole', includeBaseError: false },
-                { param: 'mainContactName', includeBaseError: false },
-                { param: 'mainContactEmail', includeBaseError: false },
-                { param: 'mainContactPhone', includeBaseError: false }
+                'projectDateRange',
+                'seniorContactRole',
+                'mainContactName',
+                'mainContactEmail',
+                'mainContactPhone'
             ],
             summary: summary(),
             forSalesforce: forSalesforce,
