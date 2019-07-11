@@ -474,47 +474,18 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Who is your senior contact?',
                             cy: ''
                         }),
-                        get introduction() {
-                            function roleText() {
-                                let result;
-                                switch (currentOrganisationType) {
-                                    case ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY:
-                                    case ORGANISATION_TYPES.CIO:
-                                    case ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY:
-                                        result = localise({
-                                            en: `<p>This person must be a member of your board or committee.</p>`,
-                                            cy: ''
-                                        });
-                                        break;
-                                    case ORGANISATION_TYPES.SCHOOL:
-                                        result = localise({
-                                            en: `<p>If you are a school, this person must be the headteacher.</p>`,
-                                            cy: ''
-                                        });
-                                        break;
-                                    default:
-                                        result = localise({
-                                            en: `<p>This person is usually a senior leader, or a member of your board or committee.</p>`,
-                                            cy: ''
-                                        });
-                                        break;
-                                }
-
-                                return result;
-                            }
-
-                            return [
-                                localise({
-                                    en: `<p>Please give us the contact details of a senior member of your organisation.</p>`,
-                                    cy: ``
-                                }),
-                                roleText(),
-                                localise({
-                                    en: `<p>Your senior contact must be at least 18 years old and is legally responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.</p>`,
-                                    cy: ''
-                                })
-                            ].join('\n');
-                        },
+                        introduction: localise({
+                            en: `<p>
+                                Please give us the contact details of a senior member of your organisation.
+                            </p>
+                            <p>
+                                Your senior contact must be at least 18 years old and is legally responsible
+                                for ensuring that this application is supported by the organisation applying,
+                                any funding is delivered as set out in the application form, and that the
+                                funded organisation meets our monitoring requirements.
+                            </p>`,
+                            cy: ``
+                        }),
                         fields: compact([
                             fields.seniorContactRole,
                             fields.seniorContactName,

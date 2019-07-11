@@ -564,109 +564,117 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             return options;
         }
 
+        /**
+         * Statutory bodies require a sub-type,
+         * some of which allow free text input for roles.
+         */
+        function isFreeText() {
+            return (
+                currentOrganisationType === ORGANISATION_TYPES.STATUTORY_BODY &&
+                [
+                    STATUTORY_BODY_TYPES.PRISON_SERVICE,
+                    STATUTORY_BODY_TYPES.FIRE_SERVICE,
+                    STATUTORY_BODY_TYPES.POLICE_AUTHORITY
+                ].includes(currentOrganisationSubType)
+            );
+        }
+
         return {
             name: 'seniorContactRole',
             label: localise({ en: 'Role', cy: '' }),
-            get explanation() {
+            explanation: localise({
+                en: `<p>
+                    You told us what sort of organisation you are earlier.
+                    So the senior contact role options we're giving you now,
+                    are based on your organisation type.
+                    ${
+                        isFreeText()
+                            ? `This should be someone in a position of authority in your organisation.`
+                            : `The options given to you for selection are based on this.`
+                    }
+                </p>`,
+                cy: ''
+            }),
+            get warnings() {
+                let result = [];
+
                 const projectCountry = get('projectCountry')(data);
-                const organisationType = get('organisationType')(data);
 
-                let text = localise({
-                    en: `<p>You told us what sort of organisation you are earlier. So the senior contact role options we're giving you now, are based on your organisation type. `,
-                    cy: ''
-                });
+                const isCharityOrCompany = [
+                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                    ORGANISATION_TYPES.CIO,
+                    ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+                ].includes(currentOrganisationType);
 
-                if (this.type === 'radio') {
-                    text += localise({
-                        en:
-                            'The options given to you for selection are based on this.',
-                        cy: ''
-                    });
-                } else {
-                    text += localise({
-                        en:
-                            'This should be someone in a position of authority in your organisation.',
-                        cy: ''
-                    });
-                }
-
-                text += localise({
-                    en: '</p>',
-                    cy: '</p>'
-                });
-
-                const isCharityOrCompany = includes(
-                    [
-                        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                        ORGANISATION_TYPES.CIO,
-                        ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-                    ],
-                    organisationType
-                );
-
+                /**
+                 * Scotland doesn't include trustees in their charity commission
+                 * data, so don't show this message in Scotland.
+                 */
                 if (isCharityOrCompany && projectCountry !== 'scotland') {
-                    text += localise({
-                        en: `<p><strong>Your senior contact must be listed as a member of your organisation's board or committee with the Charity Commission/Companies House.</strong></p>`
-                    });
-                } else if (
-                    matchesOrganisationType(
-                        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY
-                    )
-                ) {
-                    text += localise({
-                        en: `<p><strong>
-                            As a registered charity, your senior contact must be one of your organisation's trustees. This can include trustees taking on the role of Chair, Vice Chair or Treasurer.
-                        </strong></p>`
-                    });
-                } else if (matchesOrganisationType(ORGANISATION_TYPES.CIO)) {
-                    text += localise({
-                        en: `<p><strong>
-                            As a charity, your senior contact can be one of your organisation's trustees.
-                            This can include trustees taking on the role of Chair, Vice Chair or Treasurer.
-                        </strong></p>`
-                    });
+                    result.push(
+                        localise({
+                            en: `Your senior contact must be listed as a member of your organisation's
+                                 board or committee with the Charity Commission/Companies House.`,
+                            cy: ``
+                        })
+                    );
                 }
 
-                return text;
-            },
-            get type() {
-                // Statutory bodies require a sub-type, some of which allow
-                // free text input for roles.
+                if (currentOrganisationType === ORGANISATION_TYPES.CIO) {
+                    result.push(
+                        localise({
+                            en: `As a charity, your senior contact can be one of your organisation's trustees.
+                         This can include trustees taking on the role of Chair, Vice Chair or Treasurer.`,
+                            cy: ``
+                        })
+                    );
+                }
+
                 if (
                     currentOrganisationType ===
-                        ORGANISATION_TYPES.STATUTORY_BODY &&
-                    includes(
-                        [
-                            STATUTORY_BODY_TYPES.PRISON_SERVICE,
-                            STATUTORY_BODY_TYPES.FIRE_SERVICE,
-                            STATUTORY_BODY_TYPES.POLICE_AUTHORITY
-                        ],
-                        currentOrganisationSubType
-                    )
+                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY
                 ) {
-                    return 'text';
+                    result.push(
+                        localise({
+                            en: `As a registered charity, your senior contact must be one of your organisation's trustees. 
+                                 This can include trustees taking on the role of Chair, Vice Chair or Treasurer.`,
+                            cy: ``
+                        })
+                    );
                 }
 
-                return 'radio';
+                if (currentOrganisationType === ORGANISATION_TYPES.SCHOOL) {
+                    result.push(
+                        localise({
+                            en: `As a school, your senior contact must be the headteacher`,
+                            cy: ``
+                        })
+                    );
+                }
+
+                return result;
             },
+            type: isFreeText() ? 'text' : 'radio',
             options: rolesFor(
                 currentOrganisationType,
                 currentOrganisationSubType
             ),
             isRequired: true,
             get schema() {
-                if (this.type === 'radio') {
+                if (isFreeText()) {
+                    return Joi.string().required();
+                } else {
                     return Joi.string()
                         .valid(this.options.map(option => option.value))
                         .required();
-                } else {
-                    return Joi.string().required();
                 }
             },
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Choose a role', cy: '' })
+                    message: isFreeText()
+                        ? localise({ en: 'Enter a role', cy: '' })
+                        : localise({ en: 'Choose a role', cy: '' })
                 },
                 {
                     type: 'any.allowOnly',
