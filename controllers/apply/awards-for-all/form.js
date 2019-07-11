@@ -5,7 +5,6 @@ const compact = require('lodash/compact');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const has = require('lodash/fp/has');
-const includes = require('lodash/includes');
 const sumBy = require('lodash/sumBy');
 const { safeHtml, oneLine } = require('common-tags');
 
@@ -13,6 +12,7 @@ const { FormModel } = require('../form-router-next/lib/form-model');
 const { fromDateParts } = require('../form-router-next/lib/date-parts');
 const { formatDateRange } = require('../form-router-next/lib/formatters');
 const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
+
 const fieldsFor = require('./fields');
 const termsCopy = require('./terms');
 
@@ -27,10 +27,6 @@ module.exports = function({ locale, data = {} }) {
         locale: locale,
         data: data
     });
-
-    function selectedCountry(country) {
-        return get('projectCountry')(data) === country;
-    }
 
     function stepProjectDetails() {
         return {
@@ -138,184 +134,193 @@ module.exports = function({ locale, data = {} }) {
         };
     }
 
-    function sectionBeneficiaries() {
-        const groupsCheck = get('beneficiariesGroupsCheck')(data);
-        const groupChoices = get('beneficiariesGroups')(data);
-
-        function fieldsForGroup(type) {
-            let result;
-            switch (type) {
-                case BENEFICIARY_GROUPS.ETHNIC_BACKGROUND:
-                    result = [fields.beneficiariesEthnicBackground];
-                    break;
-                case BENEFICIARY_GROUPS.GENDER:
-                    result = [fields.beneficiariesGroupsGender];
-                    break;
-                case BENEFICIARY_GROUPS.AGE:
-                    result = [fields.beneficiariesGroupsAge];
-                    break;
-                case BENEFICIARY_GROUPS.DISABLED_PEOPLE:
-                    result = [fields.beneficiariesGroupsDisabledPeople];
-                    break;
-                case BENEFICIARY_GROUPS.RELIGION:
-                    result = [
-                        fields.beneficiariesGroupsReligion,
-                        fields.beneficiariesGroupsReligionOther
-                    ];
-                    break;
-                default:
-                    result = [];
-                    break;
-            }
-
-            return groupsCheck === 'yes' && includes(groupChoices, type)
-                ? result
-                : [];
-        }
-
+    function stepBeneficiariesCheck() {
         return {
-            slug: 'beneficiaries',
             title: localise({
-                en: 'Who will benefit from your project?',
-                cy: ''
-            }),
-            shortTitle: localise({ en: 'Who will benefit', cy: '' }),
-            summary: localise({
-                en: `We want to hear more about the people who will benefit from your project.`,
+                en: `Specific groups of people`,
                 cy: ``
             }),
-            steps: [
+            fieldsets: [
                 {
-                    title: localise({
+                    legend: localise({
                         en: `Specific groups of people`,
                         cy: ``
                     }),
-                    fieldsets: [
-                        {
-                            legend: localise({
-                                en: `Specific groups of people`,
-                                cy: ``
-                            }),
-                            introduction: localise({
-                                en: `<p>We want to hear more about the people who will benefit from your project.</p>
+                    introduction: localise({
+                        en: `<p>
+                            We want to hear more about the people who will benefit from your project.
+                        </p>
+                        <p>
+                            It's important to be as accurate as possible in your answers.
+                            We'll use this information to make better decisions about how
+                            our funding supports people and communities to thrive.
+                            We'll also use it to tell people about the impact of
+                            our funding and who it is reaching.
+                        </p>
+                        <p>
+                            However, the information you provide here is <strong>not assessed</strong>
+                            and <strong>will not</strong> be used to decide whether you will be
+                            awarded funding for your project.
+                        </p>`,
+                        cy: ``
+                    }),
+                    fields: [fields.beneficiariesGroupsCheck]
+                }
+            ]
+        };
+    }
 
-                                <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities to thrive. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
-
-                                <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
-                                cy: ``
-                            }),
-                            fields: [fields.beneficiariesGroupsCheck]
-                        }
-                    ]
-                },
+    function stepBeneficiariesGroups() {
+        const groupsCheck = get('beneficiariesGroupsCheck')(data);
+        return {
+            title: localise({
+                en: 'Specific groups of people',
+                cy: ''
+            }),
+            fieldsets: [
                 {
-                    title: localise({
+                    legend: localise({
                         en: 'Specific groups of people',
                         cy: ''
                     }),
-                    fieldsets: [
-                        {
-                            legend: localise({
-                                en: 'Specific groups of people',
-                                cy: ''
-                            }),
-                            fields: compact([
-                                groupsCheck === 'yes' &&
-                                    fields.beneficiariesGroups,
-                                groupsCheck === 'yes' &&
-                                    fields.beneficiariesGroupsOther
-                            ])
-                        }
-                    ]
-                },
+                    fields: compact([
+                        groupsCheck === 'yes' && fields.beneficiariesGroups,
+                        groupsCheck === 'yes' && fields.beneficiariesGroupsOther
+                    ])
+                }
+            ]
+        };
+    }
+
+    /**
+     * Include fields based on the beneficiary groups selected.
+     * Used to conditionally render fields for age, gender etc.
+     */
+    function includeIfBeneficiaryType(type, fields) {
+        const groupChoices = getOr([], 'beneficiariesGroups')(data);
+        return groupChoices.includes(type) ? fields : [];
+    }
+
+    function stepEthnicBackground() {
+        return {
+            title: localise({ en: 'Ethnic background', cy: '' }),
+            fieldsets: [
                 {
-                    title: localise({ en: 'Ethnic background', cy: '' }),
-                    fieldsets: [
-                        {
-                            legend: localise({
-                                en: 'Ethnic background',
-                                cy: ''
-                            }),
-                            fields: fieldsForGroup(
-                                BENEFICIARY_GROUPS.ETHNIC_BACKGROUND
-                            )
-                        }
-                    ]
-                },
+                    legend: localise({
+                        en: 'Ethnic background',
+                        cy: ''
+                    }),
+                    fields: includeIfBeneficiaryType(
+                        BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
+                        [fields.beneficiariesEthnicBackground]
+                    )
+                }
+            ]
+        };
+    }
+
+    function stepGender() {
+        return {
+            title: localise({ en: 'Gender', cy: '' }),
+            fieldsets: [
                 {
-                    title: localise({ en: 'Gender', cy: '' }),
-                    fieldsets: [
-                        {
-                            legend: localise({ en: 'Gender', cy: '' }),
-                            fields: fieldsForGroup(BENEFICIARY_GROUPS.GENDER)
-                        }
-                    ]
-                },
+                    legend: localise({ en: 'Gender', cy: '' }),
+                    fields: includeIfBeneficiaryType(
+                        BENEFICIARY_GROUPS.GENDER,
+                        [fields.beneficiariesGroupsGender]
+                    )
+                }
+            ]
+        };
+    }
+
+    function stepAge() {
+        return {
+            title: localise({ en: 'Age', cy: '' }),
+            fieldsets: [
                 {
-                    title: localise({ en: 'Age', cy: '' }),
-                    fieldsets: [
-                        {
-                            legend: localise({ en: 'Age', cy: '' }),
-                            fields: fieldsForGroup(BENEFICIARY_GROUPS.AGE)
-                        }
-                    ]
-                },
+                    legend: localise({ en: 'Age', cy: '' }),
+                    fields: includeIfBeneficiaryType(BENEFICIARY_GROUPS.AGE, [
+                        fields.beneficiariesGroupsAge
+                    ])
+                }
+            ]
+        };
+    }
+
+    function stepDisabledPeople() {
+        return {
+            title: localise({ en: 'Disabled people', cy: '' }),
+            fieldsets: [
                 {
-                    title: localise({ en: 'Disabled people', cy: '' }),
-                    fieldsets: [
-                        {
-                            legend: localise({ en: 'Disabled people', cy: '' }),
-                            fields: fieldsForGroup(
-                                BENEFICIARY_GROUPS.DISABLED_PEOPLE
-                            )
-                        }
-                    ]
-                },
+                    legend: localise({ en: 'Disabled people', cy: '' }),
+                    fields: includeIfBeneficiaryType(
+                        BENEFICIARY_GROUPS.DISABLED_PEOPLE,
+                        [fields.beneficiariesGroupsDisabledPeople]
+                    )
+                }
+            ]
+        };
+    }
+
+    function stepReligionOrFaith() {
+        return {
+            title: localise({ en: 'Religion or belief', cy: '' }),
+            fieldsets: [
                 {
-                    title: localise({ en: 'Religion or belief', cy: '' }),
-                    fieldsets: [
-                        {
-                            legend: localise({
-                                en: 'Religion or belief',
-                                cy: ''
-                            }),
-                            fields: fieldsForGroup(BENEFICIARY_GROUPS.RELIGION)
-                        }
-                    ]
-                },
+                    legend: localise({
+                        en: 'Religion or belief',
+                        cy: ''
+                    }),
+                    fields: includeIfBeneficiaryType(
+                        BENEFICIARY_GROUPS.RELIGION,
+                        [
+                            fields.beneficiariesGroupsReligion,
+                            fields.beneficiariesGroupsReligionOther
+                        ]
+                    )
+                }
+            ]
+        };
+    }
+
+    /**
+     * Include fields based on the current country.
+     */
+    function includeIfCountry(country, fields) {
+        const currentCountry = get('projectCountry')(data);
+        return currentCountry === country ? fields : [];
+    }
+
+    function stepWelshLanguage() {
+        return {
+            title: localise({
+                en: `People who speak Welsh`,
+                cy: ``
+            }),
+            fieldsets: [
                 {
-                    title: localise({
+                    legend: localise({
                         en: `People who speak Welsh`,
                         cy: ``
                     }),
-                    fieldsets: [
-                        {
-                            legend: localise({
-                                en: `People who speak Welsh`,
-                                cy: ``
-                            }),
-                            fields: selectedCountry('wales')
-                                ? [fields.beneficiariesWelshLanguage]
-                                : []
-                        }
-                    ]
-                },
+                    fields: includeIfCountry('wales', [
+                        fields.beneficiariesWelshLanguage
+                    ])
+                }
+            ]
+        };
+    }
+
+    function stepNorthernIrelandCommunity() {
+        return {
+            title: localise({ en: `Community`, cy: `` }),
+            fieldsets: [
                 {
-                    title: localise({
-                        en: `Community`,
-                        cy: ``
-                    }),
-                    fieldsets: [
-                        {
-                            legend: localise({
-                                en: `Community`,
-                                cy: ``
-                            }),
-                            fields: selectedCountry('northern-ireland')
-                                ? [fields.beneficiariesNorthernIrelandCommunity]
-                                : []
-                        }
-                    ]
+                    legend: localise({ en: `Community`, cy: `` }),
+                    fields: includeIfCountry('northern-ireland', [
+                        fields.beneficiariesNorthernIrelandCommunity
+                    ])
                 }
             ]
         };
@@ -866,7 +871,29 @@ module.exports = function({ locale, data = {} }) {
                     stepProjectCosts()
                 ]
             },
-            sectionBeneficiaries(),
+            {
+                slug: 'beneficiaries',
+                title: localise({
+                    en: 'Who will benefit from your project?',
+                    cy: ''
+                }),
+                shortTitle: localise({ en: 'Who will benefit', cy: '' }),
+                summary: localise({
+                    en: `We want to hear more about the people who will benefit from your project.`,
+                    cy: ``
+                }),
+                steps: [
+                    stepBeneficiariesCheck(),
+                    stepBeneficiariesGroups(),
+                    stepEthnicBackground(),
+                    stepGender(),
+                    stepAge(),
+                    stepDisabledPeople(),
+                    stepReligionOrFaith(),
+                    stepWelshLanguage(),
+                    stepNorthernIrelandCommunity()
+                ]
+            },
             {
                 slug: 'organisation',
                 title: localise({ en: 'Your organisation', cy: '' }),
