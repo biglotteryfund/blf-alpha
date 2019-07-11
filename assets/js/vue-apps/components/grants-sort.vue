@@ -12,9 +12,13 @@ export default {
             name="sort"
             id="field-sort"
             :value="sort.activeSort"
-            @change="$emit('change-sort', $event.target.value);"
+            @change="$emit('change-sort', $event.target.value)"
         >
-            <option v-for="option in sort.sortOptions" :key="option.label" :value="option.value">
+            <option
+                v-for="option in sort.sortOptions"
+                :key="option.label"
+                :value="option.value"
+            >
                 {{ option.label }}
             </option>
         </select>

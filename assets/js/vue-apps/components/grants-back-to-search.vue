@@ -18,7 +18,10 @@ export default {
         }
     },
     mounted: function() {
-        const searchData = getWithExpiry({ type: 'localStorage', key: this.storageKey });
+        const searchData = getWithExpiry({
+            type: 'localStorage',
+            key: this.storageKey
+        });
         if (searchData) {
             this.returnLink = this.prefix + '?' + searchData;
         }

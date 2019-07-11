@@ -53,11 +53,22 @@ export default {
     >
         <fieldset class="facet-group__fieldset">
             <button class="facet-group__toggle" type="button" @click="toggle">
-                <IconArrowDown :id="'facet-' + id" :description="toggleLabel + ' ' + legend" />
-                <span class="u-visually-hidden">{{ toggleLabel }} {{ legend }}</span>
+                <IconArrowDown
+                    :id="'facet-' + id"
+                    :description="toggleLabel + ' ' + legend"
+                />
+                <span class="u-visually-hidden"
+                    >{{ toggleLabel }} {{ legend }}</span
+                >
             </button>
             <legend class="facet-group__legend">{{ legend }}</legend>
-            <div class="facet-group__body" :id="ariaId" :aria-hidden="isOpen ? 'false' : 'true'"><slot></slot></div>
+            <div
+                class="facet-group__body"
+                :id="ariaId"
+                :aria-hidden="isOpen ? 'false' : 'true'"
+            >
+                <slot></slot>
+            </div>
         </fieldset>
     </div>
 </template>

@@ -24,7 +24,15 @@ export default {
 
 <template>
     <div :aria-expanded="isOpen ? 'true' : 'false'" :aria-controls="ariaId">
-        <div v-show="isOpen" :id="ariaId" :aria-hidden="isOpen ? 'false' : 'true'"><slot></slot></div>
-        <button class="btn-link" type="button" @click="toggle">{{ isOpen ? labelOpen : labelClosed }}</button>
+        <div
+            v-show="isOpen"
+            :id="ariaId"
+            :aria-hidden="isOpen ? 'false' : 'true'"
+        >
+            <slot></slot>
+        </div>
+        <button class="btn-link" type="button" @click="toggle">
+            {{ isOpen ? labelOpen : labelClosed }}
+        </button>
     </div>
 </template>

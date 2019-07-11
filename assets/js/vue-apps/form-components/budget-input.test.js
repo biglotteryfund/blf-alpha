@@ -3,14 +3,13 @@
  */
 /* eslint-env jest */
 import { mount } from '@vue/test-utils';
-import { times } from 'lodash';
 import BudgetInput from './budget-input.vue';
 
 describe('BudgetInput', () => {
     test('should be able to add items up to max limit', () => {
         const maxItems = 10;
-        const maxBudget = 500;
-        const minBudget = 500;
+        const maxBudget = 10000;
+        const minBudget = 300;
         const wrapper = mount(BudgetInput, {
             attachToDocument: true,
             propsData: {
@@ -21,46 +20,59 @@ describe('BudgetInput', () => {
             }
         });
 
-        expect(wrapper.findAll('[data-testid="budget-row"]').length).toBe(1);
-
-        times(maxItems - 2, index => {
+        function addItem(description, amount) {
             const row = wrapper.find('[data-testid="budget-row"]:last-child');
-            row.find('input[type="text"]').setValue(`My thing ${index + 1}`);
-            row.find('input[type="number"]').setValue(50);
-        });
+            row.find('input[type="text"]').setValue(description);
+            row.find('input[type="number"]').setValue(amount);
+        }
 
-        expect(wrapper.find('[data-testid="budget-total"]').text()).toContain(
-            '£400'
-        );
-        expect(wrapper.findAll('[data-testid="budget-row"]').length).toBe(9);
+        function checkItemCount(count) {
+            expect(wrapper.findAll('[data-testid="budget-row"]').length).toBe(
+                count
+            );
+        }
 
-        const lastRow = wrapper.find('[data-testid="budget-row"]:nth-child(8)');
-        const blankRow = wrapper.find('[data-testid="budget-row"]:last-child');
+        function checkTotal(amount) {
+            expect(
+                wrapper.find('[data-testid="budget-total"]').text()
+            ).toContain(amount);
+        }
 
-        // Over-budget
-        lastRow.find('input[type="number"]').setValue(10000);
-        expect(wrapper.find('[data-testid="budget-errors"]').text()).toContain(
-            `Project costs must be less than £${maxBudget}.`
-        );
+        function checkWarning(partialMessage) {
+            expect(
+                wrapper.find('[data-testid="budget-errors"]').text()
+            ).toContain(partialMessage);
+        }
+
+        checkItemCount(1);
+        addItem('My thing 1', 100);
+        addItem('My thing 2', 100);
+        addItem('My thing 3', 50);
+        checkTotal('£250');
+        checkItemCount(4);
 
         // Under-budget
-        lastRow.find('input[type="number"]').setValue(10);
-        expect(wrapper.find('[data-testid="budget-errors"]').text()).toContain(
-            `Project costs must be greater than £${minBudget}.`
+        checkWarning(`Project costs must be greater than £${minBudget}.`);
+
+        addItem('My thing 4', 250);
+        addItem('My thing 5', 750);
+        addItem('My thing 6', 1500);
+        addItem('My thing 7', 1250);
+        addItem('My thing 8', 500);
+        checkItemCount(9);
+        checkTotal('£4,500');
+
+        addItem('My thing 9', 6000);
+        checkItemCount(10);
+        checkTotal('£10,500');
+        checkWarning(
+            `Project costs must be less than £${maxBudget.toLocaleString()}.`
         );
 
         // Reach limit
-        blankRow.find('input[type="text"]').setValue(`One more thing`);
-        expect(wrapper.findAll('[data-testid="budget-row"]').length).toBe(10);
-        expect(wrapper.find('[data-testid="budget-errors"]').text()).toContain(
-            `You must use ${maxItems} budget headings or fewer to tell us your costs`
-        );
-
-        // Can't exceed limit
-        wrapper
-            .find('[data-testid="budget-row"]:last-child')
-            .find('input[type="text"]')
-            .setValue(`One more thing`);
-        expect(wrapper.findAll('[data-testid="budget-row"]').length).toBe(10);
+        addItem('My thing 10', 500);
+        checkItemCount(10);
+        checkTotal('£11,000');
+        checkWarning(`You must use ${maxItems} budget headings or fewer`);
     });
 });

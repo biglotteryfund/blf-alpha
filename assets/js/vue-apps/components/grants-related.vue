@@ -16,7 +16,10 @@ export default {
         getRelatedGrants() {
             let geocode;
             if (this.beneficiaryLocation) {
-                let loc = find(JSON.parse(this.beneficiaryLocation), location => location.geoCodeType === 'CMLAD');
+                let loc = find(
+                    JSON.parse(this.beneficiaryLocation),
+                    location => location.geoCodeType === 'CMLAD'
+                );
                 if (loc) {
                     geocode = loc.geoCode;
                 }
