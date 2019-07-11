@@ -16,10 +16,7 @@ const fieldsFor = require('./fields');
 const termsCopy = require('./terms');
 
 const { isTestServer } = require('../../../common/appData');
-const checkBankAccountDetails = require('../../../common/bank-api');
-const logger = require('../../../common/logger').child({
-    service: 'form-awards-for-all'
-});
+const checkBankApi = require('../../../common/bank-api');
 
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
@@ -562,201 +559,202 @@ module.exports = function({ locale, data = {} }) {
         };
     }
 
-    const sectionBankDetails = {
-        slug: 'bank-details',
-        title: localise({ en: 'Bank details', cy: '' }),
-        summary: localise({
-            en: `Please provide your bank details. Before you submit your application you will need to attach a copy of a bank statement that is less than three months old`,
-            cy: ''
-        }),
-        steps: [
-            {
-                title: localise({ en: 'Bank account', cy: '' }),
-                fieldsets: [
-                    {
-                        legend: localise({
-                            en: 'What are your bank account details?',
-                            cy: ''
-                        }),
-                        introduction: localise({
-                            en: `
-                                <p>This should be the legal name of your organisation as it appears on your bank statement - not the name of your bank. This will usually be the same as your organisation’s name on your governing document.</p>
-                                <p><strong>The kinds of bank accounts we don't accept</strong></p>
-                                <p>We can't transfer money into certain types of bank accounts like Tide, Cashplus and Paypal.</p>
-                                `,
-                            cy: ''
-                        }),
-                        fields: [
-                            fields.bankAccountName,
-                            fields.bankSortCode,
-                            fields.bankAccountNumber,
-                            fields.buildingSocietyNumber
-                        ]
-                    }
-                ],
-                preFlightCheck() {
-                    const sortCode = get('bankSortCode')(data);
-                    const accountNumber = get('bankAccountNumber')(data);
+    /**
+     * Bank account details pre-flight check
+     * Returns a list of error messages if the bank details are invalid
+     *
+     * Wraps result in a promise so we can resolve if the API
+     * returns an unknown status or an error.
+     *
+     * We can treat this check as optional as it is performed again
+     * at the CRM end and we want to keep the form usable if
+     * if the third party API is down/broken.
+     *
+     * Bails early if we're in a test server to avoid extra lookups.
+     */
+    function bankAccountPreFlightCheck() {
+        const sortCode = get('bankSortCode')(data);
+        const accountNumber = get('bankAccountNumber')(data);
 
-                    return new Promise((resolve, reject) => {
-                        /**
-                         * Bail early if we're testing and won't make this lookup
-                         */
-                        if (isTestServer) {
-                            return resolve();
+        function messagesForStatus(bankStatus) {
+            let messages = [];
+            if (bankStatus.code === 'INVALID') {
+                messages = [
+                    {
+                        msg: localise({
+                            en: `This sort code is not valid with this account number`,
+                            cy: ''
+                        }),
+                        param: 'bankSortCode',
+                        field: fields.bankSortCode
+                    },
+                    {
+                        msg: localise({
+                            en: `This account number is not valid with this sort code`,
+                            cy: ''
+                        }),
+                        param: 'bankAccountNumber',
+                        field: fields.bankAccountNumber
+                    }
+                ];
+            } else if (bankStatus.supportsBacsPayment === false) {
+                messages = [
+                    {
+                        msg: localise({
+                            en: oneLine`This bank account cannot receive BACS payments,
+                                which is a requirement for funding`,
+                            cy: ''
+                        }),
+                        param: 'bankAccountNumber',
+                        field: fields.bankAccountNumber
+                    }
+                ];
+            }
+            return messages;
+        }
+
+        if (isTestServer) {
+            return Promise.resolve();
+        } else {
+            return new Promise((resolve, reject) => {
+                checkBankApi(sortCode, accountNumber)
+                    .then(bankStatus => {
+                        const messages = messagesForStatus(bankStatus);
+
+                        if (messages.length > 0) {
+                            return reject(messages);
                         } else {
-                            checkBankAccountDetails(sortCode, accountNumber)
-                                .then(bankStatus => {
-                                    /**
-                                     * If this API does anything weird, assume all is well
-                                     * We treat this as a success in order to keep the form usable
-                                     * if the third party API is down/broken
-                                     */
-                                    if (bankStatus.code === 'UNKNOWN') {
-                                        const loggerMeta = {
-                                            resultCode: bankStatus.originalCode
-                                        };
-
-                                        logger.info(
-                                            'User bank details check: API call failed',
-                                            loggerMeta
-                                        );
-
-                                        return resolve();
-                                    } else if (bankStatus.code === 'INVALID') {
-                                        return reject([
-                                            {
-                                                msg: localise({
-                                                    en: `This sort code is not valid with this account number`,
-                                                    cy: ''
-                                                }),
-                                                param: 'bankSortCode',
-                                                field: fields.bankSortCode
-                                            },
-                                            {
-                                                msg: localise({
-                                                    en: `This account number is not valid with this sort code`,
-                                                    cy: ''
-                                                }),
-                                                param: 'bankAccountNumber',
-                                                field: fields.bankAccountNumber
-                                            }
-                                        ]);
-                                    } else if (
-                                        !bankStatus.supportsBacsPayment
-                                    ) {
-                                        return reject([
-                                            {
-                                                msg: localise({
-                                                    en: `This bank account cannot receive BACS payments, which is a requirement for funding`,
-                                                    cy: ''
-                                                }),
-                                                param: 'bankAccountNumber'
-                                            }
-                                        ]);
-                                    } else {
-                                        return resolve();
-                                    }
-                                })
-                                .catch(err => {
-                                    /**
-                                     * We treat this as a success in order to keep the form usable
-                                     * if the third party API is down/broken
-                                     */
-                                    Sentry.captureException(err);
-                                    return resolve();
-                                });
+                            return resolve();
                         }
+                    })
+                    .catch(err => {
+                        Sentry.captureException(err);
+                        return resolve();
                     });
+            });
+        }
+    }
+
+    function stepBankAccount() {
+        return {
+            title: localise({ en: 'Bank account', cy: '' }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'What are your bank account details?',
+                        cy: ''
+                    }),
+                    introduction: localise({
+                        en: `<p>
+                            This should be the legal name of your organisation as it
+                            appears on your bank statement—not the name of your bank.
+                            This will usually be the same as your organisation’s name on your governing document.
+                        </p>
+                        <p>
+                            <strong>The kinds of bank accounts we don't accept</strong>:
+                            We can't transfer money into certain types of bank
+                            accounts like Tide, Cashplus and Paypal.
+                        </p>`,
+                        cy: ''
+                    }),
+                    fields: [
+                        fields.bankAccountName,
+                        fields.bankSortCode,
+                        fields.bankAccountNumber,
+                        fields.buildingSocietyNumber
+                    ]
                 }
-            },
-            {
-                title: localise({ en: 'Bank statement', cy: '' }),
-                isMultipart: true,
-                fieldsets: [
-                    {
-                        legend: localise({ en: 'Bank statement', cy: '' }),
-                        introduction: localise({
-                            en: `
-    
-    <p><strong>You must attach your bank statement as a PDF, JPEG or PNG file. Unfortunately we can’t accept Word documents, but photos of your bank statements are absolutely fine.</strong></p>
-    
-    <div class="o-media u-padded u-tone-background-tint u-margin-bottom">
-        <a href="../help/bank-statement" target="_blank">
-            <img src="/assets/images/apply/afa-bank-statement-example-small.png"
-                 alt="An example of a bank statement we need from you"
-                 class="o-media__figure-gutter"
-                 width="300" />
-            <span class="u-visually-hidden">Opens in a new window</span>
-         </a>
-        <div class="o-media__body">
-            <p><strong>Please make sure that we can clearly see the following on your bank statement:</strong></p>
-            <ul>
-                <li>Your organisation’s legal name</li>
-                <li>The address the statements are sent to</li>
-                <li>The bank name</li>
-                <li>Account number</li>
-                <li>Sort code</li>
-                <li>Date (must be within last 3 months)</li>
-            </ul>
-            <p>Here's an <a target="_blank" href="../help/bank-statement">example of what we're looking for</a><span class="u-visually-hidden"> Opens in a new window</span>.</p>
-        </div>
-    </div>
+            ],
+            preFlightCheck: bankAccountPreFlightCheck
+        };
+    }
 
-    <p><strong>Your statement needs to be less than three months old</strong>. For bank accounts opened within the last three months, we can accept a bank welcome letter. This must confirm the date your account was opened, account name, account number and sort code.</p>
-    
-    <p><strong>If you're a school using a local authority bank account</strong></p>
-    <p>We'll need a letter from the local authority dated within the last 3 months. It should show:</p> 
-    <ul>
-        <li>Your school name</li>
-        <li>The bank account name</li>
-        <li>Account number</li>
-        <li>Sort code.</li>
-    </ul>
-                        `,
-                            cy: ''
-                        }),
-                        fields: [fields.bankStatement]
-                    }
-                ]
-            }
-        ]
-    };
-
-    const sectionTerms = {
-        slug: 'terms-and-conditions',
-        title: localise({ en: 'Terms and conditions', cy: '' }),
-        summary: localise({
-            en: `In order to submit your application, you will need to agree to our terms and conditions.`,
+    function stepBankStatement() {
+        const introduction = localise({
+            en: `
+                <p><strong>
+                    You must attach your bank statement as a PDF, JPEG or PNG file.
+                    Unfortunately we can’t accept Word documents,
+                    but photos of your bank statements are absolutely fine.
+                </strong></p>
+                
+                <aside class="o-media u-padded u-tone-background-tint u-margin-bottom">
+                    <a href="../help/bank-statement" target="_blank">
+                        <img src="/assets/images/apply/afa-bank-statement-example-small.png"
+                             alt="An example of a bank statement we need from you"
+                             class="o-media__figure-gutter"
+                             width="300" />
+                        <span class="u-visually-hidden">Opens in a new window</span>
+                     </a>
+                    <div class="o-media__body">
+                        <p><strong>Please make sure that we can clearly see the following on your bank statement:</strong></p>
+                        <ul>
+                            <li>Your organisation’s legal name</li>
+                            <li>The address the statements are sent to</li>
+                            <li>The bank name</li>
+                            <li>Account number</li>
+                            <li>Sort code</li>
+                            <li>Date (must be within last 3 months)</li>
+                        </ul>
+                        <p>Here's an <a target="_blank" href="../help/bank-statement">example of what we're looking for</a>
+                        <span class="u-visually-hidden"> Opens in a new window</span>.</p>
+                    </div>
+                </aside>
+                <p>
+                    <strong>Your statement needs to be less than three months old</strong>.
+                    For bank accounts opened within the last three months, we can accept a bank welcome letter.
+                    This must confirm the date your account was opened, account name, account number and sort code.
+                </p>
+                <p><strong>If you're a school using a local authority bank account</strong></p>
+                <p>We'll need a letter from the local authority dated within the last 3 months. It should show:</p> 
+                <ul>
+                    <li>Your school name</li>
+                    <li>The bank account name</li>
+                    <li>Account number</li>
+                    <li>Sort code.</li>
+                </ul>`,
             cy: ''
-        }),
-        steps: [
-            {
-                title: localise({
-                    en: 'Terms and conditions of your grant',
-                    cy: ''
-                }),
-                fieldsets: [
-                    {
-                        legend: localise({
-                            en: 'Terms and conditions of your grant',
-                            cy: ''
-                        }),
-                        introduction: localise(termsCopy.introduction),
-                        footer: localise(termsCopy.footer),
-                        fields: [
-                            fields.termsAgreement1,
-                            fields.termsAgreement2,
-                            fields.termsAgreement3,
-                            fields.termsAgreement4,
-                            fields.termsPersonName,
-                            fields.termsPersonPosition
-                        ]
-                    }
-                ]
-            }
-        ]
-    };
+        });
+
+        return {
+            title: localise({ en: 'Bank statement', cy: '' }),
+            isMultipart: true,
+            fieldsets: [
+                {
+                    legend: localise({ en: 'Bank statement', cy: '' }),
+                    introduction: introduction,
+                    fields: [fields.bankStatement]
+                }
+            ]
+        };
+    }
+
+    function stepTerms() {
+        return {
+            title: localise({
+                en: 'Terms and conditions of your grant',
+                cy: ''
+            }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Terms and conditions of your grant',
+                        cy: ''
+                    }),
+                    introduction: localise(termsCopy.introduction),
+                    footer: localise(termsCopy.footer),
+                    fields: [
+                        fields.termsAgreement1,
+                        fields.termsAgreement2,
+                        fields.termsAgreement3,
+                        fields.termsAgreement4,
+                        fields.termsPersonName,
+                        fields.termsPersonPosition
+                    ]
+                }
+            ]
+        };
+    }
 
     function summary() {
         const projectDateRange = get('projectDateRange')(data);
@@ -885,8 +883,26 @@ module.exports = function({ locale, data = {} }) {
                 }),
                 steps: [stepMainContact()]
             },
-            sectionBankDetails,
-            sectionTerms
+            {
+                slug: 'bank-details',
+                title: localise({ en: 'Bank details', cy: '' }),
+                summary: localise({
+                    en: `Please provide your bank details. Before you submit your
+                         application you will need to attach a copy of a bank
+                         statement that is less than three months old`,
+                    cy: ''
+                }),
+                steps: [stepBankAccount(), stepBankStatement()]
+            },
+            {
+                slug: 'terms-and-conditions',
+                title: localise({ en: 'Terms and conditions', cy: '' }),
+                summary: localise({
+                    en: `In order to submit your application, you will need to agree to our terms and conditions.`,
+                    cy: ''
+                }),
+                steps: [stepTerms()]
+            }
         ]
     };
 
