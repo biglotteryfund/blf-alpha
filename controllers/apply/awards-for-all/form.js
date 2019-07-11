@@ -1,4 +1,5 @@
 'use strict';
+const Sentry = require('@sentry/node');
 const clone = require('lodash/clone');
 const compact = require('lodash/compact');
 const get = require('lodash/fp/get');
@@ -6,7 +7,7 @@ const getOr = require('lodash/fp/getOr');
 const has = require('lodash/fp/has');
 const includes = require('lodash/includes');
 const sumBy = require('lodash/sumBy');
-const Sentry = require('@sentry/node');
+const { safeHtml } = require('common-tags');
 
 const { FormModel } = require('../form-router-next/lib/form-model');
 const { fromDateParts } = require('../form-router-next/lib/date-parts');
@@ -533,7 +534,7 @@ module.exports = function({ locale, data = {} }) {
                                 : '';
 
                         return localise({
-                            en: `<p>
+                            en: safeHtml`<p>
                                 Please give us the contact details of a person we can get in touch with if we have any questions. The main contact is usually the person filling in the form - so it's probably you. The main contact needs to be from the organisation applying, but they don't need to hold a particular position.    
                             </p>
                             <p>
