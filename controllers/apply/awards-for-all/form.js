@@ -854,7 +854,8 @@ module.exports = function({ locale, data = {} }) {
                 en: 'National Lottery Awards for All',
                 cy: ''
             }),
-            isBilingual: true,
+            // @TODO: Re-enable when welsh translation has been added
+            isBilingual: false,
             allFields: fields,
             featuredErrorsAllowList: [
                 { param: 'projectDateRange', includeBaseError: false },
