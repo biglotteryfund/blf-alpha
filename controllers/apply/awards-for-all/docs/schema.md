@@ -49,6 +49,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
             }
         ],
         "projectTotalCosts": 20000,
+        "beneficiariesGroupsCheck": "yes",
         "beneficiariesGroups": [
             "ethnic-background",
             "gender",
@@ -239,6 +240,12 @@ Array of budget items
 ### projectTotalCosts
 
 type: `integer`
+
+### beneficiariesGroupsCheck
+
+type: `string`
+
+allowed values: `yes` or `no`
 
 ### beneficiariesGroups
 

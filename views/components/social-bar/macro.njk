@@ -1,7 +1,7 @@
 {% from "components/icons.njk" import iconFacebook, iconInstagram, iconTwitter %}
 
 {% macro socialBar() %}
-    <aside class="social-bar">
+    <div class="social-bar">
         <div class="social-bar__inner u-inner">
             <a class="social-bar__item" href="{{ globalCopy.brand.instagram }}">
                 <span class="social-bar__item-icon">{{ iconInstagram() }}</span>
@@ -16,5 +16,5 @@
                 <span class="social-bar__item-text">{{ __('global.misc.followUsOn') }} {{ __('global.misc.twitter') }}</span>
             </a>
         </div>
-</aside>
+    </div>
 {% endmacro %}

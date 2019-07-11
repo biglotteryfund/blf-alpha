@@ -3,10 +3,10 @@
 {% macro contentTabs(tabs) %}
     {# data-breakpoint must match breakpoint used for styles #}
     <div class="js-tab-container" data-breakpoint="(min-width: 620px)">
-        <ul role="tablist" class="js-tabset content-tabset">
+        <ul class="js-tabset content-tabset">
             {% for tab in tabs %}
                 <li class="content-tabset__item">
-                    <a role="tab" class="js-tab content-tabset__tab{% if loop.first %} is-active{% endif %}"
+                    <a class="js-tab content-tabset__tab{% if loop.first %} is-active{% endif %}"
                         href="#{{ tab.id }}">
                         {{ tab.title }}
                     </a>

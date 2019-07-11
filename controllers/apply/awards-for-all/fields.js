@@ -680,14 +680,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function conditionalBeneficiaryChoice({ match, schema }) {
-        return Joi.when(Joi.ref('beneficiariesGroups'), {
-            is: Joi.array().items(
-                Joi.string()
-                    .only(match)
-                    .required(),
-                Joi.any()
-            ),
-            then: schema,
+        return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
+            is: 'yes',
+            // Conditional based on array
+            // https://github.com/hapijs/joi/issues/622
+            then: Joi.when(Joi.ref('beneficiariesGroups'), {
+                is: Joi.array().items(
+                    Joi.string()
+                        .only(match)
+                        .required(),
+                    Joi.any()
+                ),
+                then: schema,
+                otherwise: Joi.any().strip()
+            }),
             otherwise: Joi.any().strip()
         });
     }
@@ -1243,33 +1249,63 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        beneficiariesGroups: {
-            name: 'beneficiariesGroups',
+        beneficiariesGroupsCheck: {
+            name: 'beneficiariesGroupsCheck',
             label: localise({
-                en: `What specific groups of people is your project aimed at?`,
+                en: `Is your project open to everyone or is it aimed at a specific group of people?`,
                 cy: ``
             }),
             explanation: localise({
-                en: `
-                        <details class="o-details u-margin-bottom-s">
-                            <summary class="o-details__summary">What do we mean by projects for specific groups?</summary>
-                            <div class="o-details__content">
-                               <p>A wheelchair sports club is a place for disabled people to play wheelchair sport. So, this is a project that’s specifically for disabled people. Or a group that aims to empower African women in the community – this group is specifically for people from a particular ethnic background.</p>
-                           </div>
-                        </details> 
-                        <p>Check the boxes that apply:</p>`,
-                cy: ''
+                en: `<p>What do we mean by projects for specific groups?</p>
+                    <p>
+                      A wheelchair sports club is a place for disabled people to play wheelchair sport.
+                      So, this is a project that’s specifically for disabled people.
+                      Or a group that aims to empower African women in the community—this group is
+                      specifically for people from a particular ethnic background.
+                    </p>
+                    <p>Check the one that applies:</p>`,
+                cy: ``
             }),
-            type: 'checkbox',
+            type: 'radio',
             options: [
                 {
-                    value: BENEFICIARY_GROUPS.EVERYONE,
+                    value: 'no',
                     label: localise({
-                        en:
-                            'The project is open to everyone and not for a specific group of people',
+                        en: `My project is open to everyone and isn’t aimed at a specific group of people`,
                         cy: ''
                     })
                 },
+                {
+                    value: 'yes',
+                    label: localise({
+                        en: `My project is aimed at a specific group of people`,
+                        cy: ''
+                    })
+                }
+            ],
+            isRequired: true,
+            schema: Joi.string()
+                .valid(['yes', 'no'])
+                .required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Select yes or no', cy: '' })
+                }
+            ]
+        },
+        beneficiariesGroups: {
+            name: 'beneficiariesGroups',
+            label: localise({
+                en: `What specific groups is your project aimed at?`,
+                cy: ``
+            }),
+            explanation: localise({
+                en: `Check the boxes that apply:`,
+                cy: ``
+            }),
+            type: 'checkbox',
+            options: [
                 {
                     value: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
                     label: localise({
@@ -1318,10 +1354,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             get schema() {
-                return Joi.when('beneficiariesGroupsOther', {
-                    is: Joi.string(),
-                    then: Joi.any().strip(),
-                    otherwise: multiChoice(this.options).required()
+                return Joi.when('beneficiariesGroupsCheck', {
+                    is: 'yes',
+                    then: Joi.when('beneficiariesGroupsOther', {
+                        is: Joi.string(),
+                        then: Joi.any().strip(),
+                        otherwise: multiChoice(this.options).required()
+                    }),
+                    otherwise: Joi.any().strip()
                 });
             },
             messages: [
@@ -1336,11 +1376,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         },
         beneficiariesGroupsOther: {
             name: 'beneficiariesGroupsOther',
-            label: localise({ en: 'Other ', cy: '' }),
+            label: localise({ en: 'Other', cy: '' }),
             explanation: localise({
-                en:
-                    'If your project’s for a specific group that’s not mentioned above, tell us about it here:',
-                cy: ''
+                en: `If your project's for a specific group that's not mentioned above, tell us about it here:`,
+                cy: ``
             }),
             type: 'text',
             isRequired: false,

@@ -32,7 +32,7 @@
                     {% if entry.authors.length === 1 %}
                         {% set author = entry.authors[0] %}
 
-                        <aside class="o-media">
+                        <div class="o-media">
                             {% if author.photo %}
                                 <img src="{{ author.photo }}"
                                      alt="{{ author.title }}"
@@ -45,7 +45,7 @@
                                     <p>{{ author.authorTitle }}</p>
                                 {% endif %}
                             </div>
-                        </aside>
+                        </div>
                     {% else %}
                         {% set separator = joiner(',') %}
                         {% for author in entry.authors -%}
