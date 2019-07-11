@@ -82,86 +82,111 @@ module.exports = function({ locale, data = {} }) {
         return get('organisationStartDate.isBeforeMin')(data) === true;
     }
 
-    const sectionProject = {
-        slug: 'your-project',
-        title: localise({ en: 'Your project', cy: '(WELSH) Your project' }),
-        summary: localise({
-            en: `Please tell us about your project in this section. This is the most important section when it comes to making a decision about whether you will receive funding.`,
-            cy: `(WELSH) Please tell us about your project in this section. This is the most important section when it comes to making a decision about whether you will receive funding.`
-        }),
-        steps: [
-            {
-                title: localise({ en: 'Project details', cy: '' }),
-                fieldsets: [
-                    {
-                        legend: localise({ en: 'Project details', cy: '' }),
-                        fields: [fields.projectName, fields.projectDateRange]
-                    }
-                ]
-            },
-            {
-                title: localise({ en: 'Project country', cy: '' }),
-                fieldsets: [
-                    {
-                        legend: localise({ en: 'Project country', cy: '' }),
-                        fields: [fields.projectCountry]
-                    }
-                ],
-                message: {
-                    title:
-                        'Applying for a project in England, Northern Ireland or Wales?',
-                    body: `<a href="https://apply.tnlcommunityfund.org.uk">You’ll need to use this form instead</a>. Only applicants in Scotland can apply through our new online form at the moment. We’re working on making this available for the rest of the UK.`
+    function stepProjectDetails() {
+        return {
+            title: localise({ en: 'Project details', cy: '' }),
+            fieldsets: [
+                {
+                    legend: localise({ en: 'Project details', cy: '' }),
+                    fields: [fields.projectName, fields.projectDateRange]
                 }
-            },
-            {
-                title: localise({ en: 'Project location', cy: '' }),
-                fieldsets: [
-                    {
-                        legend: localise({ en: 'Project location', cy: '' }),
-                        get fields() {
-                            const hasCountry = has('projectCountry')(data);
-                            return compact([
-                                hasCountry && fields.projectLocation,
-                                hasCountry && fields.projectLocationDescription,
-                                hasCountry && fields.projectPostcode
-                            ]);
-                        }
-                    }
-                ]
-            },
-            {
-                title: localise({ en: 'Your idea', cy: '(WELSH) Your idea' }),
-                fieldsets: [
-                    {
-                        legend: localise({
-                            en: 'Your idea',
-                            cy: '(WELSH) Your idea'
-                        }),
-                        fields: [
-                            fields.yourIdeaProject,
-                            fields.yourIdeaPriorities,
-                            fields.yourIdeaCommunity
-                        ]
-                    }
-                ]
-            },
-            {
-                title: localise({
-                    en: 'Project costs',
-                    cy: '(WELSH) Project costs'
-                }),
-                fieldsets: [
-                    {
-                        legend: localise({
-                            en: 'Project costs',
-                            cy: '(WELSH) Project costs'
-                        }),
-                        fields: [fields.projectBudget, fields.projectTotalCosts]
-                    }
-                ]
-            }
-        ]
-    };
+            ]
+        };
+    }
+
+    function stepProjectCountry() {
+        /**
+         * We are rolling out this form on a per-country basis
+         * so we need to show a message to direct applicants to the old form
+         * if they are applying for a country we don't support yet
+         */
+        const countryNoticeMessage = {
+            title: localise({
+                en: `Applying for a project in England, Northern Ireland or Wales?`,
+                cy: ``
+            }),
+            body: localise({
+                en: `<a href="https://apply.tnlcommunityfund.org.uk">
+                    You’ll need to use this form instead
+                </a>.
+                Only applicants in Scotland can apply through our new online form at the moment.
+                We’re working on making this available for the rest of the UK.`,
+                cy: ``
+            })
+        };
+
+        return {
+            title: localise({ en: 'Project country', cy: '' }),
+            fieldsets: [
+                {
+                    legend: localise({ en: 'Project country', cy: '' }),
+                    fields: [fields.projectCountry]
+                }
+            ],
+            message: countryNoticeMessage
+        };
+    }
+
+    function stepProjectLocation() {
+        return {
+            title: localise({ en: 'Project location', cy: '' }),
+            fieldsets: [
+                {
+                    legend: localise({ en: 'Project location', cy: '' }),
+
+                    /**
+                     * The project location fields are conditional based
+                     * on the project country, so don't include them if
+                     * the country hasn't been provided yet.
+                     */
+                    fields: has('projectCountry')(data)
+                        ? [
+                              fields.projectLocation,
+                              fields.projectLocationDescription,
+                              fields.projectPostcode
+                          ]
+                        : []
+                }
+            ]
+        };
+    }
+
+    function stepYourIdea() {
+        return {
+            title: localise({ en: 'Your idea', cy: '(WELSH) Your idea' }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Your idea',
+                        cy: '(WELSH) Your idea'
+                    }),
+                    fields: [
+                        fields.yourIdeaProject,
+                        fields.yourIdeaPriorities,
+                        fields.yourIdeaCommunity
+                    ]
+                }
+            ]
+        };
+    }
+
+    function stepProjectCosts() {
+        return {
+            title: localise({
+                en: 'Project costs',
+                cy: '(WELSH) Project costs'
+            }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Project costs',
+                        cy: '(WELSH) Project costs'
+                    }),
+                    fields: [fields.projectBudget, fields.projectTotalCosts]
+                }
+            ]
+        };
+    }
 
     function sectionBeneficiaries() {
         const groupsCheck = get('beneficiariesGroupsCheck')(data);
@@ -811,34 +836,52 @@ module.exports = function({ locale, data = {} }) {
         return enriched;
     }
 
-    return new FormModel(
-        {
-            title: localise({
-                en: 'National Lottery Awards for All',
-                cy: ''
-            }),
-            // @TODO: Re-enable when welsh translation has been added
-            isBilingual: false,
-            allFields: fields,
-            featuredErrorsAllowList: [
-                'projectDateRange',
-                'seniorContactRole',
-                'mainContactName',
-                'mainContactEmail',
-                'mainContactPhone'
-            ],
-            summary: summary(),
-            forSalesforce: forSalesforce,
-            sections: [
-                sectionProject,
-                sectionBeneficiaries(),
-                sectionOrganisation,
-                sectionSeniorContact,
-                sectionMainContact,
-                sectionBankDetails,
-                sectionTerms
-            ]
-        },
-        data
-    );
+    const form = {
+        title: localise({
+            en: 'National Lottery Awards for All',
+            cy: ''
+        }),
+        // @TODO: Re-enable when welsh translation has been added
+        isBilingual: false,
+        allFields: fields,
+        featuredErrorsAllowList: [
+            'projectDateRange',
+            'seniorContactRole',
+            'mainContactName',
+            'mainContactEmail',
+            'mainContactPhone'
+        ],
+        summary: summary(),
+        forSalesforce: forSalesforce,
+        sections: [
+            {
+                slug: 'your-project',
+                title: localise({
+                    en: 'Your project',
+                    cy: '(WELSH) Your project'
+                }),
+                summary: localise({
+                    en: `Please tell us about your project in this section.
+                     This is the most important section when it comes to
+                     making a decision about whether you will receive funding.`,
+                    cy: ``
+                }),
+                steps: [
+                    stepProjectDetails(),
+                    stepProjectCountry(),
+                    stepProjectLocation(),
+                    stepYourIdea(),
+                    stepProjectCosts()
+                ]
+            },
+            sectionBeneficiaries(),
+            sectionOrganisation,
+            sectionSeniorContact,
+            sectionMainContact,
+            sectionBankDetails,
+            sectionTerms
+        ]
+    };
+
+    return new FormModel(form, data);
 };
