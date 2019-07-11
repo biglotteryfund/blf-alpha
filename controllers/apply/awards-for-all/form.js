@@ -14,7 +14,7 @@ const { formatDateRange } = require('../form-router-next/lib/formatters');
 const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
 
 const fieldsFor = require('./fields');
-const termsCopy = require('./terms');
+const terms = require('./terms');
 
 const { isTestServer } = require('../../../common/appData');
 const checkBankApi = require('../../../common/bank-api');
@@ -754,6 +754,33 @@ module.exports = function({ locale, data = {} }) {
     }
 
     function stepTerms() {
+        const footer = localise({
+            en: `<p>
+                We know the vast majority of the many thousands who
+                seek and use our funding are genuine. However, we
+                sometimes receive fraudulent applications and so we
+                have a duty to carry out checks on individuals at
+                organisations which apply for grants.
+                The personal information we have collected from you
+                will therefore be shared with fraud prevention
+                agencies who will use it to prevent fraud and money-laundering
+                and to verify your identity. If fraud is detected,
+                you could be refused certain services, finance or employment.
+            </p>
+            <p>
+                Further details of how your information will be used by us
+                and these fraud prevention agencies, your data protection
+                rights and how to contact us, can be found in our full
+                Data Protection and Privacy Notice which is published on our website
+                <a href="/data-protection">www.tnlcommunityfund.org.uk/data-protection</a>.
+                Contact us to request a hard copy by telephoning our advice line on 0345 4 10 20 30,
+                or by writing to Customer Services, The National Lottery Community Fund,
+                2 St James’ Gate, Newcastle upon Tyne, NE1 4BE.
+             </p>
+             <p>When you click submit the Terms and Conditions as agreed to above become binding.</p>`,
+            cy: ''
+        });
+
         return {
             title: localise({
                 en: 'Terms and conditions of your grant',
@@ -765,8 +792,21 @@ module.exports = function({ locale, data = {} }) {
                         en: 'Terms and conditions of your grant',
                         cy: ''
                     }),
-                    introduction: localise(termsCopy.introduction),
-                    footer: localise(termsCopy.footer),
+                    introduction: `<ol class="o-nested-numbers">
+                        ${localise(terms)
+                            .map(
+                                section => `<li>
+                                    <p><strong>${section.title}</strong></p>
+                                    <ol class="o-nested-numbers">
+                                        ${section.clauses
+                                            .map(clause => `<li>${clause}</li>`)
+                                            .join('')}
+                                    </ol>
+                                </li>`
+                            )
+                            .join('')}
+                    </ol>`,
+                    footer: footer,
                     fields: [
                         fields.termsAgreement1,
                         fields.termsAgreement2,
