@@ -17,15 +17,13 @@ const termsCopy = require('./terms');
 
 const { isTestServer } = require('../../../common/appData');
 const checkBankAccountDetails = require('../../../common/bank-api');
-const commonLogger = require('../../../common/logger');
+const logger = require('../../../common/logger').child({
+    service: 'form-awards-for-all'
+});
 
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
     const currentOrganisationType = get('organisationType')(data);
-
-    const logger = commonLogger.child({
-        service: 'form-awards-for-all'
-    });
 
     const fields = fieldsFor({
         locale: locale,
@@ -34,19 +32,6 @@ module.exports = function({ locale, data = {} }) {
 
     function selectedCountry(country) {
         return get('projectCountry')(data) === country;
-    }
-
-    function includeAddressAndDob() {
-        return (
-            includes(
-                [
-                    ORGANISATION_TYPES.SCHOOL,
-                    ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY,
-                    ORGANISATION_TYPES.STATUTORY_BODY
-                ],
-                currentOrganisationType
-            ) === false
-        );
     }
 
     function stepProjectDetails() {
@@ -478,24 +463,30 @@ module.exports = function({ locale, data = {} }) {
         };
     }
 
-    const sectionSeniorContact = {
-        slug: 'senior-contact',
-        title: localise({ en: 'Senior contact', cy: '' }),
-        summary: localise({
-            en: `Please provide details for your senior contact. This person will be legally responsible for the funding. They can't be married, in a long-term relationship, living with, or related to the main contact.`,
-            cy: ``
-        }),
-        steps: [
-            {
-                title: localise({ en: 'Senior contact', cy: '' }),
-                fieldsets: [
-                    {
-                        legend: localise({
-                            en: 'Who is your senior contact?',
-                            cy: ''
-                        }),
-                        introduction: localise({
-                            en: `<p>
+    /**
+     * Determine if we should ask for address and date of birth information.
+     * For data protection reasons we should not request address information
+     * for the organisation types listed here.
+     */
+    function includeAddressAndDob() {
+        return ![
+            ORGANISATION_TYPES.SCHOOL,
+            ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY,
+            ORGANISATION_TYPES.STATUTORY_BODY
+        ].includes(currentOrganisationType);
+    }
+
+    function stepSeniorContact() {
+        return {
+            title: localise({ en: 'Senior contact', cy: '' }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Who is your senior contact?',
+                        cy: ''
+                    }),
+                    introduction: localise({
+                        en: `<p>
                                 Please give us the contact details of a senior member of your organisation.
                             </p>
                             <p>
@@ -504,83 +495,72 @@ module.exports = function({ locale, data = {} }) {
                                 any funding is delivered as set out in the application form, and that the
                                 funded organisation meets our monitoring requirements.
                             </p>`,
-                            cy: ``
-                        }),
-                        fields: compact([
-                            fields.seniorContactRole,
-                            fields.seniorContactName,
-                            includeAddressAndDob() &&
-                                fields.seniorContactDateOfBirth,
-                            includeAddressAndDob() &&
-                                fields.seniorContactAddress,
-                            includeAddressAndDob() &&
-                                fields.seniorContactAddressHistory,
-                            fields.seniorContactEmail,
-                            fields.seniorContactPhone,
-                            fields.seniorContactCommunicationNeeds
-                        ])
-                    }
-                ]
-            }
-        ]
-    };
+                        cy: ``
+                    }),
+                    fields: compact([
+                        fields.seniorContactRole,
+                        fields.seniorContactName,
+                        includeAddressAndDob() &&
+                            fields.seniorContactDateOfBirth,
+                        includeAddressAndDob() && fields.seniorContactAddress,
+                        includeAddressAndDob() &&
+                            fields.seniorContactAddressHistory,
+                        fields.seniorContactEmail,
+                        fields.seniorContactPhone,
+                        fields.seniorContactCommunicationNeeds
+                    ])
+                }
+            ]
+        };
+    }
 
-    const sectionMainContact = {
-        slug: 'main-contact',
-        title: localise({ en: 'Main contact', cy: '' }),
-        summary: localise({
-            en: `Please provide details for your main contact. This will be the first person we contact if we need to discuss your project.`,
-            cy: ``
-        }),
-        steps: [
-            {
-                title: localise({ en: 'Main contact', cy: '' }),
-                fieldsets: [
-                    {
-                        legend: localise({
-                            en: 'Who is your main contact?',
+    function stepMainContact() {
+        return {
+            title: localise({ en: 'Main contact', cy: '' }),
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Who is your main contact?',
+                        cy: ''
+                    }),
+                    get introduction() {
+                        const seniorFirstName = get(
+                            'seniorContactName.firstName'
+                        )(data);
+                        const seniorSurname = get('seniorContactName.lastName')(
+                            data
+                        );
+                        const seniorName =
+                            seniorFirstName && seniorSurname
+                                ? `, ${seniorFirstName} ${seniorSurname}`
+                                : '';
+
+                        return localise({
+                            en: `<p>
+                                Please give us the contact details of a person we can get in touch with if we have any questions. The main contact is usually the person filling in the form - so it's probably you. The main contact needs to be from the organisation applying, but they don't need to hold a particular position.    
+                            </p>
+                            <p>
+                                The main contact must be a different person from the senior contact${seniorName}. 
+                                The two contacts also can't be married or in a long-term relationship with each 
+                                other, living together at the same address, or related by blood.
+                            </p>`,
                             cy: ''
-                        }),
-                        get introduction() {
-                            const seniorFirstName = get(
-                                'seniorContactName.firstName'
-                            )(data);
-                            const seniorSurname = get(
-                                'seniorContactName.lastName'
-                            )(data);
-                            const seniorName =
-                                seniorFirstName && seniorSurname
-                                    ? `, ${seniorFirstName} ${seniorSurname}`
-                                    : '';
-
-                            return localise({
-                                en: `<p>
-                                        Please give us the contact details of a person we can get in touch with if we have any questions. The main contact is usually the person filling in the form - so it's probably you. The main contact needs to be from the organisation applying, but they don't need to hold a particular position.    
-                                    </p>
-                                    <p>
-                                        The main contact must be a different person from the senior contact${seniorName}. 
-                                        The two contacts also can't be married or in a long-term relationship with each 
-                                        other, living together at the same address, or related by blood.
-                                    </p>`,
-                                cy: ''
-                            });
-                        },
-                        fields: compact([
-                            fields.mainContactName,
-                            includeAddressAndDob() &&
-                                fields.mainContactDateOfBirth,
-                            includeAddressAndDob() && fields.mainContactAddress,
-                            includeAddressAndDob() &&
-                                fields.mainContactAddressHistory,
-                            fields.mainContactEmail,
-                            fields.mainContactPhone,
-                            fields.mainContactCommunicationNeeds
-                        ])
-                    }
-                ]
-            }
-        ]
-    };
+                        });
+                    },
+                    fields: compact([
+                        fields.mainContactName,
+                        includeAddressAndDob() && fields.mainContactDateOfBirth,
+                        includeAddressAndDob() && fields.mainContactAddress,
+                        includeAddressAndDob() &&
+                            fields.mainContactAddressHistory,
+                        fields.mainContactEmail,
+                        fields.mainContactPhone,
+                        fields.mainContactCommunicationNeeds
+                    ])
+                }
+            ]
+        };
+    }
 
     const sectionBankDetails = {
         slug: 'bank-details',
@@ -887,8 +867,24 @@ module.exports = function({ locale, data = {} }) {
                     stepOrganisationFinances()
                 ]
             },
-            sectionSeniorContact,
-            sectionMainContact,
+            {
+                slug: 'senior-contact',
+                title: localise({ en: 'Senior contact', cy: '' }),
+                summary: localise({
+                    en: `Please provide details for your senior contact. This person will be legally responsible for the funding. They can't be married, in a long-term relationship, living with, or related to the main contact.`,
+                    cy: ``
+                }),
+                steps: [stepSeniorContact()]
+            },
+            {
+                slug: 'main-contact',
+                title: localise({ en: 'Main contact', cy: '' }),
+                summary: localise({
+                    en: `Please provide details for your main contact. This will be the first person we contact if we need to discuss your project.`,
+                    cy: ``
+                }),
+                steps: [stepMainContact()]
+            },
             sectionBankDetails,
             sectionTerms
         ]
