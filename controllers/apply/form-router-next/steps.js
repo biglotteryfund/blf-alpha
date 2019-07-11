@@ -1,12 +1,11 @@
 'use strict';
 const path = require('path');
 const express = require('express');
-const concat = require('lodash/concat');
 const findIndex = require('lodash/findIndex');
 const Sentry = require('@sentry/node');
 
+const logger = require('../../../common/logger');
 const { PendingApplication } = require('../../../db/models');
-
 const { prepareFilesForUpload, uploadFile } = require('./lib/file-uploads');
 
 module.exports = function(formId, formBuilder) {
@@ -27,10 +26,6 @@ module.exports = function(formId, formBuilder) {
             const section = form.sections[sectionIndex];
 
             if (section) {
-                const sectionShortTitle = section.shortTitle
-                    ? section.shortTitle
-                    : section.title;
-
                 const sectionUrl = `${res.locals.formBaseUrl}/${section.slug}`;
 
                 if (stepNumber) {
@@ -45,25 +40,39 @@ module.exports = function(formId, formBuilder) {
                         });
 
                         if (step.isRequired) {
+                            const breadcrumbs = res.locals.breadcrumbs.concat([
+                                {
+                                    label: section.shortTitle || section.title,
+                                    url: sectionUrl
+                                },
+                                { label: step.title }
+                            ]);
+
                             const viewData = {
                                 csrfToken: req.csrfToken(),
-                                breadcrumbs: concat(
-                                    res.locals.breadcrumbs,
-                                    {
-                                        label: sectionShortTitle,
-                                        url: sectionUrl
-                                    },
-                                    { label: step.title }
-                                ),
+                                breadcrumbs: breadcrumbs,
                                 section: section,
                                 step: step,
-                                stepIsMultipart: step.isMultipart,
                                 stepNumber: stepNumber,
                                 totalSteps: section.steps.length,
                                 previousPage: previousPage,
                                 nextPage: nextPage,
                                 errors: errors
                             };
+
+                            /**
+                             * Log validation errors along with section and step metadata
+                             */
+                            if (errors.length > 0) {
+                                errors.forEach(item => {
+                                    logger.info(item.msg, {
+                                        service: 'step-validations',
+                                        fieldName: item.param,
+                                        section: section.slug,
+                                        step: stepNumber
+                                    });
+                                });
+                            }
 
                             res.render(
                                 path.resolve(__dirname, './views/step'),
