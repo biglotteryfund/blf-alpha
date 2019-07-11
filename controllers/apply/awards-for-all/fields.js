@@ -1,6 +1,6 @@
 'use strict';
 const moment = require('moment/moment');
-const { get } = require('lodash/fp');
+const get = require('lodash/fp/get');
 const { flatMap, includes, values, concat, has } = require('lodash');
 
 const Joi = require('../form-router-next/joi-extensions');
@@ -22,10 +22,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     const currentOrganisationType = get('organisationType')(data);
     const currentOrganisationSubType = get('organisationSubType')(data);
-
-    function matchesOrganisationType(type) {
-        return currentOrganisationType === type;
-    }
 
     function multiChoice(options) {
         return Joi.array()
@@ -2124,6 +2120,30 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     en: 'This person has to live in the UK.',
                     cy: ''
                 }),
+                get warnings() {
+                    let result = [];
+
+                    const seniorSurname = get('seniorContactName.lastName')(
+                        data
+                    );
+
+                    const lastNamesMatch =
+                        seniorSurname &&
+                        seniorSurname === get('mainContactName.lastName')(data);
+
+                    if (lastNamesMatch) {
+                        result.push(
+                            localise({
+                                en: `We've noticed that your main and senior contact
+                                     have the same surname. Remember we can't fund projects
+                                     where the two contacts are married or related by blood.`,
+                                cy: ``
+                            })
+                        );
+                    }
+
+                    return result;
+                },
                 schema: Joi.fullName()
                     .mainContact()
                     .required()

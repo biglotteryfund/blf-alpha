@@ -1026,6 +1026,24 @@ describe('Form validations', () => {
                 ]);
             });
         });
+
+        test('include warning if contact last names match', () => {
+            expect(fieldFor('mainContactName', null).warnings).toEqual([]);
+
+            const lastName = faker.name.lastName();
+            expect(
+                fieldFor('mainContactName', {
+                    seniorContactName: {
+                        firstName: faker.name.firstName(),
+                        lastName: lastName
+                    },
+                    mainContactName: {
+                        firstName: faker.name.firstName(),
+                        lastName: lastName
+                    }
+                }).warnings
+            ).toEqual([expect.stringContaining('have the same surname')]);
+        });
     });
 
     describe('Bank details', () => {
