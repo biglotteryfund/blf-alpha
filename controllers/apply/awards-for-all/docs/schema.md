@@ -19,7 +19,10 @@ Each submission has two top-level keys: `meta` which contains metadata about the
     "application": {
         "projectName": "My project name",
         "projectCountry": "england",
-        "projectStartDate": "2020-12-12",
+        "projectDateRange": {
+            "startDate": "2020-12-12",
+            "endDate": "2020-12-12"
+        },
         "projectLocation": "west-midlands",
         "projectLocationDescription": "Additional description of location",
         "projectPostcode": "B15 1TR",
@@ -59,6 +62,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
             "lgbt",
             "caring-responsibilities"
         ],
+        "beneficiariesGroupsOther": null,
         "beneficiariesGroupsEthnicBackground": ["african", "caribbean"],
         "beneficiariesGroupsGender": ["non-binary"],
         "beneficiariesGroupsAge": ["0-12", "13-24"],
@@ -76,6 +80,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         },
         "organisationStartDate": { "month": 9, "year": 1986 },
         "organisationType": "not-for-profit-company",
+        "organisationSubType": null,
         "companyNumber": "123456789",
         "charityNumber": null,
         "educationNumber": null,
@@ -85,8 +90,8 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         },
         "totalIncomeYear": 824974,
         "mainContactName": {
-          "firstName": "Nelda",
-          "lastName": "Nolan"
+            "firstName": "Nelda",
+            "lastName": "Nolan"
         },
         "mainContactDateOfBirth": "1975-10-12",
         "mainContactAddress": {
@@ -108,8 +113,8 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "mainContactPhone": "0345 4 10 20 30",
         "mainContactCommunicationNeeds": [],
         "seniorContactName": {
-          "firstName": "Maribel",
-          "lastName": "D'Amore"
+            "firstName": "Maribel",
+            "lastName": "D'Amore"
         },
         "seniorContactRole": "trustee",
         "seniorContactDateOfBirth": "1980-12-12",
@@ -133,7 +138,13 @@ Each submission has two top-level keys: `meta` which contains metadata about the
             "filename": "example.pdf",
             "size": "123",
             "type": "application/pdf"
-        }
+        },
+        "termsAgreement1": "yes",
+        "termsAgreement2": "yes",
+        "termsAgreement3": "yes",
+        "termsAgreement4": "yes",
+        "termsPersonName": "Guybrush Threepwood",
+        "termsPersonPosition": "Mighty Pirate"
     }
 }
 ```
@@ -161,11 +172,16 @@ type: `string`
 
 Allowed values: `england`, `northern-ireland`, `scotland`, `wales`
 
-### projectStartDate
+### projectDateRange
 
-type: `string`
+type: `object`
 
-Date in the format `yyyy-mm-dd`
+Object with the following fields:
+
+| Name          | Type     | Notes      |
+| ------------- | -------- | ---------- |
+| **startDate** | `string` | yyyy-mm-dd |
+| **endDate**   | `string` | yyyy-mm-dd |
 
 ### projectLocation
 
@@ -253,6 +269,12 @@ type: `array`
 
 Allowed values: `open-to-all`, `ethnic-background`, `gender`, `age,`disabled-people`,`religion`,`lgbt`,`caring-responsibilities`
 
+### beneficiariesGroupsOther
+
+type: `string` or `null`
+
+Free text field optionally provided instead of `beneficiariesGroups`
+
 ### beneficiariesGroupsEthnicBackground
 
 type: `array`
@@ -287,7 +309,7 @@ Allowed values: `buddhist` , `christian`, `jewish` , `muslim` , `sikh` , `no-rel
 
 type: `string` or `null`
 
-Optional field
+Free text field optionally provided instead of `beneficiariesGroupsReligion`
 
 ### beneficiariesWelshLanguage
 
@@ -345,6 +367,7 @@ Allowed values: `parish-council`, `town-council`, `local-authority`
 `nhs-trust-health-authority`, `prison-service`, `fire-service`, `police-authority`
 
 ### organisationStartDate
+
 type: `object`
 
 Object with properties:
@@ -382,7 +405,7 @@ Object with properties:
 
 | Name      | Type      |
 | --------- | --------- |
-| **day**  | `integer` |
+| **day**   | `integer` |
 | **month** | `integer` |
 
 ### totalIncomeYear
@@ -395,10 +418,10 @@ Present if `organisationStartDate` is 15 months or more ago.
 
 Object with properties:
 
-| Name      | Type      |
-| --------- | --------- |
-| **firstName**  | `string` |
-| **lastName** | `string` |
+| Name          | Type     |
+| ------------- | -------- |
+| **firstName** | `string` |
+| **lastName**  | `string` |
 
 ### mainContactDateOfBirth
 
@@ -457,19 +480,21 @@ type: `string`
 
 Object with properties:
 
-| Name      | Type      |
-| --------- | --------- |
-| **firstName**  | `string` |
-| **lastName** | `string` |
+| Name          | Type     |
+| ------------- | -------- |
+| **firstName** | `string` |
+| **lastName**  | `string` |
 
 ### seniorContactRole
 
 type: `string`
 
-Allowed values: `chair`, `chancellor`, `chief-executive`, `chief-executive-officer`, 
-`company-director`, `company-secretary`, `deputy-parish-clerk`, `director`, 
-`elected-member`, `head-teacher`, `parish-clerk`, `secretary`, 
+Allowed values: `chair`, `chancellor`, `chief-executive`, `chief-executive-officer`,
+`company-director`, `company-secretary`, `deputy-parish-clerk`, `director`,
+`elected-member`, `head-teacher`, `parish-clerk`, `secretary`,
 `treasurer`, `trustee`, `vice-chair`, `vice-chancellor`,
+
+**Note**: Can be free-text if `organisationSubType` is `prison-service`, `fire-service`, or `police-authority`
 
 ### seniorContactDateOfBirth
 
@@ -542,8 +567,23 @@ type: `object`
 
 File object with the following fields:
 
-| Name         | Type          | Notes    |
-| ------------ | ------------- | -------- |
-| **filename** | `string`      |          |
-| **size**     | `integer`     |          |
-| **type**     | `string`      |          |
+| Name         | Type      | Notes |
+| ------------ | --------- | ----- |
+| **filename** | `string`  |       |
+| **size**     | `integer` |       |
+| **type**     | `string`  |       |
+
+### termsAgreement1
+### termsAgreement2
+### termsAgreement3
+### termsAgreement4
+
+type: `string`
+
+Will always be "yes" (required fields)
+
+### termsPersonName
+type: `string`
+
+### termsPersonPosition
+type: `string`
