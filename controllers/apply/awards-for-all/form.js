@@ -489,15 +489,16 @@ module.exports = function({ locale, data = {} }) {
                         cy: ''
                     }),
                     introduction: localise({
-                        en: `<p>
-                                Please give us the contact details of a senior member of your organisation.
-                            </p>
-                            <p>
-                                Your senior contact must be at least 18 years old and is legally responsible
-                                for ensuring that this application is supported by the organisation applying,
-                                any funding is delivered as set out in the application form, and that the
-                                funded organisation meets our monitoring requirements.
-                            </p>`,
+                        en: `
+                        <p>
+                            Please give us the contact details of a senior member of your organisation.
+                        </p>
+                        <p>
+                            Your senior contact must be at least 18 years old and is legally responsible
+                            for ensuring that this application is supported by the organisation applying,
+                            any funding is delivered as set out in the application form, and that the
+                            funded organisation meets our monitoring requirements.
+                        </p>`,
                         cy: ``
                     }),
                     fields: compact([
@@ -686,57 +687,57 @@ module.exports = function({ locale, data = {} }) {
     function stepBankStatement() {
         const introduction = localise({
             en: `
-                <p><strong>
-                    You must attach your bank statement as a PDF, JPEG or PNG file.
-                    Unfortunately we can’t accept Word documents,
-                    but photos of your bank statements are absolutely fine.
-                </strong></p>
-                
-                <aside class="o-media u-padded u-tone-background-tint u-margin-bottom">
-                    <a href="../help/bank-statement" target="_blank">
-                        <img src="/assets/images/apply/afa-bank-statement-example-small.png"
-                             alt="An example of a bank statement we need from you"
-                             class="o-media__figure-gutter"
-                             width="300" />
-                        <span class="u-visually-hidden">Opens in a new window</span>
-                     </a>
-                    <div class="o-media__body">
-                        <p><strong>
-                            Please make sure that we can clearly see the
-                            following on your bank statement:
-                        </strong></p>
-                        <ul>
-                            <li>Your organisation’s legal name</li>
-                            <li>The address the statements are sent to</li>
-                            <li>The bank name</li>
-                            <li>Account number</li>
-                            <li>Sort code</li>
-                            <li>Date (must be within last 3 months)</li>
-                        </ul>
-                        <p>Here's an <a target="_blank" href="../help/bank-statement">
-                            example of what we're looking for
-                        </a>
-                        <span class="u-visually-hidden"> Opens in a new window</span>.</p>
-                    </div>
-                </aside>
-                <p>
-                    <strong>Your statement needs to be less than three months old</strong>.
-                    For bank accounts opened within the last three months,
-                    we can accept a bank welcome letter. This must confirm
-                    the date your account was opened, account name,
-                    account number and sort code.
-                </p>
-                <p><strong>If you're a school using a local authority bank account</strong></p>
-                <p>
-                    We'll need a letter from the local authority dated
-                    within the last 3 months. It should show:
-                </p> 
-                <ul>
-                    <li>Your school name</li>
-                    <li>The bank account name</li>
-                    <li>Account number</li>
-                    <li>Sort code.</li>
-                </ul>`,
+            <p><strong>
+                You must attach your bank statement as a PDF, JPEG or PNG file.
+                Unfortunately we can’t accept Word documents,
+                but photos of your bank statements are absolutely fine.
+            </strong></p>
+            
+            <div class="o-media u-padded u-tone-background-tint u-margin-bottom">
+                <a href="../help/bank-statement" target="_blank">
+                    <img src="/assets/images/apply/afa-bank-statement-example-small.png"
+                         alt="An example of a bank statement we need from you"
+                         class="o-media__figure-gutter"
+                         width="300" />
+                    <span class="u-visually-hidden">Opens in a new window</span>
+                 </a>
+                <div class="o-media__body">
+                    <p><strong>
+                        Please make sure that we can clearly see the
+                        following on your bank statement:
+                    </strong></p>
+                    <ul>
+                        <li>Your organisation’s legal name</li>
+                        <li>The address the statements are sent to</li>
+                        <li>The bank name</li>
+                        <li>Account number</li>
+                        <li>Sort code</li>
+                        <li>Date (must be within last 3 months)</li>
+                    </ul>
+                    <p>Here's an <a target="_blank" href="../help/bank-statement">
+                        example of what we're looking for
+                    </a>
+                    <span class="u-visually-hidden"> Opens in a new window</span>.</p>
+                </div>
+            </div>
+            <p>
+                <strong>Your statement needs to be less than three months old</strong>.
+                For bank accounts opened within the last three months,
+                we can accept a bank welcome letter. This must confirm
+                the date your account was opened, account name,
+                account number and sort code.
+            </p>
+            <p><strong>If you're a school using a local authority bank account</strong></p>
+            <p>
+                We'll need a letter from the local authority dated
+                within the last 3 months. It should show:
+            </p> 
+            <ul>
+                <li>Your school name</li>
+                <li>The bank account name</li>
+                <li>Account number</li>
+                <li>Sort code.</li>
+            </ul>`,
             cy: ''
         });
 
