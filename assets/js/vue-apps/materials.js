@@ -9,7 +9,9 @@ function init() {
     $('body').on('click', `.js-has-radios input[type="radio"]`, function() {
         const $clickedRadio = $(this);
         // find the corresponding <input> field for this radio set
-        const $other = $('#' + $clickedRadio.parents(`.js-has-radios`).data('other-id'));
+        const $other = $(
+            '#' + $clickedRadio.parents(`.js-has-radios`).data('other-id')
+        );
         if ($other.length === 0) {
             return;
         }
@@ -30,10 +32,12 @@ function init() {
 
     let langParam = 'lang';
     // make sure we only allow valid language options
-    let isValidLangParam = param => ['monolingual', 'bilingual'].indexOf(param) !== -1;
+    let isValidLangParam = param =>
+        ['monolingual', 'bilingual'].indexOf(param) !== -1;
 
     // save the language preference in the form so we can redirect to it
-    let storeLangPrefInForm = newState => $('#js-language-choice').val(newState);
+    let storeLangPrefInForm = newState =>
+        $('#js-language-choice').val(newState);
 
     new Vue({
         el: mountEl,
@@ -65,14 +69,20 @@ function init() {
                     storeLangPrefInForm(newState);
                     // add this to the URL
                     if (history.replaceState) {
-                        history.replaceState(null, null, `?${langParam}=${newState}`);
+                        history.replaceState(
+                            null,
+                            null,
+                            `?${langParam}=${newState}`
+                        );
                     }
                 }
             },
             // look up the quantity of a given item, defaulting to its
             // value when the page was loaded (eg. from session cookie)
             getQuantity: function(productId) {
-                let product = this.orderData.find(o => o.productId === parseInt(productId));
+                let product = this.orderData.find(
+                    o => o.productId === parseInt(productId)
+                );
                 return product ? product.quantity : 0;
             },
             // work out if the user has anything in their "basket"

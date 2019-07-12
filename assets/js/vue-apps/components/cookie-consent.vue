@@ -8,7 +8,8 @@ const STORAGE_KEY = 'biglotteryfund:cookie-consent';
 export default {
     props: ['title', 'message', 'action'],
     data() {
-        const hasAccepted = canStore && window.localStorage.getItem(STORAGE_KEY) === 'true';
+        const hasAccepted =
+            canStore && window.localStorage.getItem(STORAGE_KEY) === 'true';
         return { isShown: hasAccepted === false };
     },
     methods: {
@@ -26,7 +27,9 @@ export default {
         <div class="cookie-consent__inner">
             <div class="cookie-consent__content" v-html="message"></div>
             <div class="cookie-consent__actions">
-                <button class="btn btn--small" @click="handleAccept">{{ action }}</button>
+                <button class="btn btn--small" @click="handleAccept">
+                    {{ action }}
+                </button>
             </div>
         </div>
     </aside>

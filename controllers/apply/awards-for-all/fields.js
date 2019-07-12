@@ -1,6 +1,6 @@
 'use strict';
 const moment = require('moment/moment');
-const { get } = require('lodash/fp');
+const get = require('lodash/fp/get');
 const { flatMap, includes, values, concat, has } = require('lodash');
 
 const Joi = require('../form-router-next/joi-extensions');
@@ -22,10 +22,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     const currentOrganisationType = get('organisationType')(data);
     const currentOrganisationSubType = get('organisationSubType')(data);
-
-    function matchesOrganisationType(type) {
-        return currentOrganisationType === type;
-    }
 
     function multiChoice(options) {
         return Joi.array()
@@ -564,109 +560,117 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             return options;
         }
 
+        /**
+         * Statutory bodies require a sub-type,
+         * some of which allow free text input for roles.
+         */
+        function isFreeText() {
+            return (
+                currentOrganisationType === ORGANISATION_TYPES.STATUTORY_BODY &&
+                [
+                    STATUTORY_BODY_TYPES.PRISON_SERVICE,
+                    STATUTORY_BODY_TYPES.FIRE_SERVICE,
+                    STATUTORY_BODY_TYPES.POLICE_AUTHORITY
+                ].includes(currentOrganisationSubType)
+            );
+        }
+
         return {
             name: 'seniorContactRole',
             label: localise({ en: 'Role', cy: '' }),
-            get explanation() {
+            explanation: localise({
+                en: `<p>
+                    You told us what sort of organisation you are earlier.
+                    So the senior contact role options we're giving you now,
+                    are based on your organisation type.
+                    ${
+                        isFreeText()
+                            ? `This should be someone in a position of authority in your organisation.`
+                            : `The options given to you for selection are based on this.`
+                    }
+                </p>`,
+                cy: ''
+            }),
+            get warnings() {
+                let result = [];
+
                 const projectCountry = get('projectCountry')(data);
-                const organisationType = get('organisationType')(data);
 
-                let text = localise({
-                    en: `<p>You told us what sort of organisation you are earlier. So the senior contact role options we're giving you now, are based on your organisation type. `,
-                    cy: ''
-                });
+                const isCharityOrCompany = [
+                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                    ORGANISATION_TYPES.CIO,
+                    ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
+                ].includes(currentOrganisationType);
 
-                if (this.type === 'radio') {
-                    text += localise({
-                        en:
-                            'The options given to you for selection are based on this.',
-                        cy: ''
-                    });
-                } else {
-                    text += localise({
-                        en:
-                            'This should be someone in a position of authority in your organisation.',
-                        cy: ''
-                    });
-                }
-
-                text += localise({
-                    en: '</p>',
-                    cy: '</p>'
-                });
-
-                const isCharityOrCompany = includes(
-                    [
-                        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                        ORGANISATION_TYPES.CIO,
-                        ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-                    ],
-                    organisationType
-                );
-
+                /**
+                 * Scotland doesn't include trustees in their charity commission
+                 * data, so don't show this message in Scotland.
+                 */
                 if (isCharityOrCompany && projectCountry !== 'scotland') {
-                    text += localise({
-                        en: `<p><strong>Your senior contact must be listed as a member of your organisation's board or committee with the Charity Commission/Companies House.</strong></p>`
-                    });
-                } else if (
-                    matchesOrganisationType(
-                        ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY
-                    )
-                ) {
-                    text += localise({
-                        en: `<p><strong>
-                            As a registered charity, your senior contact must be one of your organisation's trustees. This can include trustees taking on the role of Chair, Vice Chair or Treasurer.
-                        </strong></p>`
-                    });
-                } else if (matchesOrganisationType(ORGANISATION_TYPES.CIO)) {
-                    text += localise({
-                        en: `<p><strong>
-                            As a charity, your senior contact can be one of your organisation's trustees.
-                            This can include trustees taking on the role of Chair, Vice Chair or Treasurer.
-                        </strong></p>`
-                    });
+                    result.push(
+                        localise({
+                            en: `Your senior contact must be listed as a member of your organisation's
+                                 board or committee with the Charity Commission/Companies House.`,
+                            cy: ``
+                        })
+                    );
                 }
 
-                return text;
-            },
-            get type() {
-                // Statutory bodies require a sub-type, some of which allow
-                // free text input for roles.
+                if (currentOrganisationType === ORGANISATION_TYPES.CIO) {
+                    result.push(
+                        localise({
+                            en: `As a charity, your senior contact can be one of your organisation's trustees.
+                         This can include trustees taking on the role of Chair, Vice Chair or Treasurer.`,
+                            cy: ``
+                        })
+                    );
+                }
+
                 if (
                     currentOrganisationType ===
-                        ORGANISATION_TYPES.STATUTORY_BODY &&
-                    includes(
-                        [
-                            STATUTORY_BODY_TYPES.PRISON_SERVICE,
-                            STATUTORY_BODY_TYPES.FIRE_SERVICE,
-                            STATUTORY_BODY_TYPES.POLICE_AUTHORITY
-                        ],
-                        currentOrganisationSubType
-                    )
+                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY
                 ) {
-                    return 'text';
+                    result.push(
+                        localise({
+                            en: `As a registered charity, your senior contact must be one of your organisation's trustees. 
+                                 This can include trustees taking on the role of Chair, Vice Chair or Treasurer.`,
+                            cy: ``
+                        })
+                    );
                 }
 
-                return 'radio';
+                if (currentOrganisationType === ORGANISATION_TYPES.SCHOOL) {
+                    result.push(
+                        localise({
+                            en: `As a school, your senior contact must be the headteacher`,
+                            cy: ``
+                        })
+                    );
+                }
+
+                return result;
             },
+            type: isFreeText() ? 'text' : 'radio',
             options: rolesFor(
                 currentOrganisationType,
                 currentOrganisationSubType
             ),
             isRequired: true,
             get schema() {
-                if (this.type === 'radio') {
+                if (isFreeText()) {
+                    return Joi.string().required();
+                } else {
                     return Joi.string()
                         .valid(this.options.map(option => option.value))
                         .required();
-                } else {
-                    return Joi.string().required();
                 }
             },
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Choose a role', cy: '' })
+                    message: isFreeText()
+                        ? localise({ en: 'Enter a role', cy: '' })
+                        : localise({ en: 'Choose a role', cy: '' })
                 },
                 {
                     type: 'any.allowOnly',
@@ -680,14 +684,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function conditionalBeneficiaryChoice({ match, schema }) {
-        return Joi.when(Joi.ref('beneficiariesGroups'), {
-            is: Joi.array().items(
-                Joi.string()
-                    .only(match)
-                    .required(),
-                Joi.any()
-            ),
-            then: schema,
+        return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
+            is: 'yes',
+            // Conditional based on array
+            // https://github.com/hapijs/joi/issues/622
+            then: Joi.when(Joi.ref('beneficiariesGroups'), {
+                is: Joi.array().items(
+                    Joi.string()
+                        .only(match)
+                        .required(),
+                    Joi.any()
+                ),
+                then: schema,
+                otherwise: Joi.any().strip()
+            }),
             otherwise: Joi.any().strip()
         });
     }
@@ -1243,33 +1253,63 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        beneficiariesGroups: {
-            name: 'beneficiariesGroups',
+        beneficiariesGroupsCheck: {
+            name: 'beneficiariesGroupsCheck',
             label: localise({
-                en: `What specific groups of people is your project aimed at?`,
+                en: `Is your project open to everyone or is it aimed at a specific group of people?`,
                 cy: ``
             }),
             explanation: localise({
-                en: `
-                        <details class="o-details u-margin-bottom-s">
-                            <summary class="o-details__summary">What do we mean by projects for specific groups?</summary>
-                            <div class="o-details__content">
-                               <p>A wheelchair sports club is a place for disabled people to play wheelchair sport. So, this is a project that’s specifically for disabled people. Or a group that aims to empower African women in the community – this group is specifically for people from a particular ethnic background.</p>
-                           </div>
-                        </details> 
-                        <p>Check the boxes that apply:</p>`,
-                cy: ''
+                en: `<p>What do we mean by projects for specific groups?</p>
+                    <p>
+                      A wheelchair sports club is a place for disabled people to play wheelchair sport.
+                      So, this is a project that’s specifically for disabled people.
+                      Or a group that aims to empower African women in the community—this group is
+                      specifically for people from a particular ethnic background.
+                    </p>
+                    <p>Check the one that applies:</p>`,
+                cy: ``
             }),
-            type: 'checkbox',
+            type: 'radio',
             options: [
                 {
-                    value: BENEFICIARY_GROUPS.EVERYONE,
+                    value: 'no',
                     label: localise({
-                        en:
-                            'The project is open to everyone and not for a specific group of people',
+                        en: `My project is open to everyone and isn’t aimed at a specific group of people`,
                         cy: ''
                     })
                 },
+                {
+                    value: 'yes',
+                    label: localise({
+                        en: `My project is aimed at a specific group of people`,
+                        cy: ''
+                    })
+                }
+            ],
+            isRequired: true,
+            schema: Joi.string()
+                .valid(['yes', 'no'])
+                .required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Select yes or no', cy: '' })
+                }
+            ]
+        },
+        beneficiariesGroups: {
+            name: 'beneficiariesGroups',
+            label: localise({
+                en: `What specific groups is your project aimed at?`,
+                cy: ``
+            }),
+            explanation: localise({
+                en: `Check the boxes that apply:`,
+                cy: ``
+            }),
+            type: 'checkbox',
+            options: [
                 {
                     value: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
                     label: localise({
@@ -1318,10 +1358,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ],
             get schema() {
-                return Joi.when('beneficiariesGroupsOther', {
-                    is: Joi.string(),
-                    then: Joi.any().strip(),
-                    otherwise: multiChoice(this.options).required()
+                return Joi.when('beneficiariesGroupsCheck', {
+                    is: 'yes',
+                    then: Joi.when('beneficiariesGroupsOther', {
+                        is: Joi.string(),
+                        then: Joi.any().strip(),
+                        otherwise: multiChoice(this.options).required()
+                    }),
+                    otherwise: Joi.any().strip()
                 });
             },
             messages: [
@@ -1336,11 +1380,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         },
         beneficiariesGroupsOther: {
             name: 'beneficiariesGroupsOther',
-            label: localise({ en: 'Other ', cy: '' }),
+            label: localise({ en: 'Other', cy: '' }),
             explanation: localise({
-                en:
-                    'If your project’s for a specific group that’s not mentioned above, tell us about it here:',
-                cy: ''
+                en: `If your project's for a specific group that's not mentioned above, tell us about it here:`,
+                cy: ``
             }),
             type: 'text',
             isRequired: false,
@@ -2077,6 +2120,30 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     en: 'This person has to live in the UK.',
                     cy: ''
                 }),
+                get warnings() {
+                    let result = [];
+
+                    const seniorSurname = get('seniorContactName.lastName')(
+                        data
+                    );
+
+                    const lastNamesMatch =
+                        seniorSurname &&
+                        seniorSurname === get('mainContactName.lastName')(data);
+
+                    if (lastNamesMatch) {
+                        result.push(
+                            localise({
+                                en: `We've noticed that your main and senior contact
+                                     have the same surname. Remember we can't fund projects
+                                     where the two contacts are married or related by blood.`,
+                                cy: ``
+                            })
+                        );
+                    }
+
+                    return result;
+                },
                 schema: Joi.fullName()
                     .mainContact()
                     .required()

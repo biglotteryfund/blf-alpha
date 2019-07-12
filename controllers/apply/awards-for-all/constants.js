@@ -32,7 +32,6 @@ const STATUTORY_BODY_TYPES = {
 };
 
 const BENEFICIARY_GROUPS = {
-    EVERYONE: 'open-to-all',
     ETHNIC_BACKGROUND: 'ethnic-background',
     GENDER: 'gender',
     AGE: 'age',

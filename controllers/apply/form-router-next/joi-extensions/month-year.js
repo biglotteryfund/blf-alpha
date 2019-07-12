@@ -44,7 +44,6 @@ module.exports = function monthYear(joi) {
                     const now = moment();
                     const date = valueToDate(value);
                     if (date.isValid() && date.isSameOrBefore(now)) {
-                        value.lol = true;
                         return value;
                     } else {
                         return this.createError(

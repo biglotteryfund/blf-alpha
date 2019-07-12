@@ -1,7 +1,7 @@
 {% from "components/media-figure/macro.njk" import mediaFigure %}
 
 {% macro mediaAside(quoteText, link, image, isReversed = false) %}
-    <aside class="media-aside{% if isReversed %} media-aside--reversed{% endif %}">
+    <div class="media-aside{% if isReversed %} media-aside--reversed{% endif %}">
         <div class="media-aside__figure">
             {{ mediaFigure(image.url, image.caption) }}
         </div>
@@ -13,5 +13,5 @@
                 {% endif %}
             </div>
         </div>
-    </aside>
+    </div>
 {% endmacro %}

@@ -103,7 +103,7 @@ Cypress.Commands.add('registerUser', function({
  * A11y check with axe-core
  * @see https://github.com/avanslaars/cypress-axe
  */
-Cypress.Commands.add('checkA11y', () => {
+Cypress.Commands.add('checkA11y', ({ context, options } = {}) => {
     cy.window({ log: false }).then(window => {
         if (window.axe === undefined) {
             const axe = require('axe-core');
@@ -113,22 +113,7 @@ Cypress.Commands.add('checkA11y', () => {
 
     cy.window({ log: false })
         .then(window => {
-            return window.axe.run(
-                {
-                    include: window.document,
-                    exclude: [['iframe']]
-                },
-                {
-                    rules: {
-                        // @TODO: Review and re-enable this
-                        'color-contrast': { enabled: false },
-                        // New ARIA complementary rule. Review and then re-enable
-                        'landmark-complementary-is-top-level': {
-                            enabled: false
-                        }
-                    }
-                }
-            );
+            return window.axe.run(context || window.document, options);
         })
         .then(({ violations }) => {
             if (violations.length) {

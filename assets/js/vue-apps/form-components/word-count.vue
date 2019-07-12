@@ -63,7 +63,14 @@ export default {
 </script>
 
 <template>
-    <div class="word-count" :class="{ 'word-count--over': isOverLimit }" role="region" aria-live="polite" aria-atomic="true" data-testid="word-count">
+    <div
+        class="word-count"
+        :class="{ 'word-count--over': isOverLimit }"
+        role="region"
+        aria-live="polite"
+        aria-atomic="true"
+        data-testid="word-count"
+    >
         <span class="word-count__counter" v-html="currentCountMessage"></span>
         <span class="word-count__message" v-html="helpMessage"></span>
     </div>

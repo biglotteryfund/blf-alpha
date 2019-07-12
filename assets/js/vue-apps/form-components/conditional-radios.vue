@@ -25,7 +25,7 @@ export default {
     },
     computed: {
         inputName() {
-            return `${ this.fieldName }[${ this.subFieldName }]`;
+            return `${this.fieldName}[${this.subFieldName}]`;
         }
     },
     watch: {
@@ -38,12 +38,13 @@ export default {
 
 <template>
     <div>
-        <legend class="ff-label ff-address__legend" v-html="label">
-        </legend>
+        <legend class="ff-label ff-address__legend" v-html="label"></legend>
         <ul class="ff-choice__list">
-            <li class="ff-choice__option"
+            <li
+                class="ff-choice__option"
                 v-for="option in radioOptions"
-                :key="option.value">
+                :key="option.value"
+            >
                 <div class="ff-choice__input">
                     <input
                         type="radio"
@@ -53,8 +54,7 @@ export default {
                         v-model="currentChoice"
                     />
                 </div>
-                <label class="ff-choice__label"
-                       :for="optionId(option)">
+                <label class="ff-choice__label" :for="optionId(option)">
                     {{ option.label }}
                 </label>
             </li>

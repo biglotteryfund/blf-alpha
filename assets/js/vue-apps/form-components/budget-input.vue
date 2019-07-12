@@ -34,9 +34,14 @@ export default {
                 if (this.shouldAddNewRow()) {
                     this.addRow();
                 }
-                this.error.TOO_MANY_ITEMS = this.budgetRows.length === this.maxItems;
-                this.error.OVER_BUDGET = this.maxBudget && this.total > this.maxBudget;
-                this.error.UNDER_BUDGET = this.minBudget && this.total < this.minBudget && this.total > 0;
+                this.error.TOO_MANY_ITEMS =
+                    this.budgetRows.length === this.maxItems;
+                this.error.OVER_BUDGET =
+                    this.maxBudget && this.total > this.maxBudget;
+                this.error.UNDER_BUDGET =
+                    this.minBudget &&
+                    this.total < this.minBudget &&
+                    this.total > 0;
             },
             deep: true
         }
@@ -58,7 +63,10 @@ export default {
             this.budgetRows = this.budgetRows.filter(i => i !== item);
         },
         canDelete(index) {
-            return this.budgetRows.length > 1 && index !== this.budgetRows.length - 1;
+            return (
+                this.budgetRows.length > 1 &&
+                index !== this.budgetRows.length - 1
+            );
         }
     }
 };
@@ -68,9 +76,17 @@ export default {
 <template>
     <div class="ff-budget">
         <ol class="ff-budget__list">
-            <li class="ff-budget__row" v-for="(lineItem, index) in budgetRows" :key="index" data-testid="budget-row">
+            <li
+                class="ff-budget__row"
+                v-for="(lineItem, index) in budgetRows"
+                :key="index"
+                data-testid="budget-row"
+            >
                 <div class="ff-budget__row-item">
-                    <label class="ff-label" :for="getLineItemName(index, 'item')">
+                    <label
+                        class="ff-label"
+                        :for="getLineItemName(index, 'item')"
+                    >
                         Item or activity
                     </label>
                     <input
@@ -83,7 +99,10 @@ export default {
                     />
                 </div>
                 <div class="ff-budget__row-amount">
-                    <label class="ff-label" :for="getLineItemName(index, 'cost')">
+                    <label
+                        class="ff-label"
+                        :for="getLineItemName(index, 'cost')"
+                    >
                         Amount
                     </label>
                     <div class="ff-currency ff-currency--row">
@@ -108,7 +127,10 @@ export default {
                         v-if="canDelete(index)"
                     >
                         <span class="btn__icon btn__icon-left">
-                            <IconBin :id="'delete-icon-' + index" description="Delete this row" />
+                            <IconBin
+                                :id="'delete-icon-' + index"
+                                description="Delete this row"
+                            />
                         </span>
                         Delete row
                         <span class="u-visually-hidden">
@@ -119,22 +141,39 @@ export default {
             </li>
         </ol>
 
-        <div class="ff-budget__errors" aria-live="polite" aria-atomic="true" data-testid="budget-errors">
+        <div
+            class="ff-budget__errors"
+            aria-live="polite"
+            aria-atomic="true"
+            data-testid="budget-errors"
+        >
             <!-- @TODO localise -->
             <p v-if="error.TOO_MANY_ITEMS">
-                You must use {{ maxItems }} budget headings or fewer to tell us your costs
+                You must use {{ maxItems }} budget headings or fewer to tell us
+                your costs
             </p>
             <p v-if="error.OVER_BUDGET">
-                Project costs must be less than £{{ maxBudget.toLocaleString() }}.
+                Project costs must be less than £{{
+                    maxBudget.toLocaleString()
+                }}.
             </p>
             <p v-if="error.UNDER_BUDGET">
-                Project costs must be greater than £{{ minBudget.toLocaleString() }}.
+                Project costs must be greater than £{{
+                    minBudget.toLocaleString()
+                }}.
             </p>
         </div>
 
-        <dl class="ff-budget__total" aria-live="polite" aria-atomic="true" data-testid="budget-total">
+        <dl
+            class="ff-budget__total"
+            aria-live="polite"
+            aria-atomic="true"
+            data-testid="budget-total"
+        >
             <dt class="ff-budget__total-label">Total</dt>
-            <dd class="ff-budget__total-amount">£{{ total.toLocaleString() }}</dd>
+            <dd class="ff-budget__total-amount">
+                £{{ total.toLocaleString() }}
+            </dd>
         </dl>
     </div>
 </template>

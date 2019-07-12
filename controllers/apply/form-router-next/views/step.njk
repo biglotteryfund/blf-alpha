@@ -23,7 +23,7 @@
                   method="post"
                   class="js-form-warn-unsaved"
                   {% if errors | length > 0 %}data-form-has-errors="1"{% endif %}
-                  {% if stepIsMultipart %}enctype="multipart/form-data"{% endif %}
+                  {% if step.isMultipart %}enctype="multipart/form-data"{% endif %}
             >
                 <div class="form-header">
                     <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>

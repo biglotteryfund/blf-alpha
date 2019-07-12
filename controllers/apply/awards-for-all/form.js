@@ -164,6 +164,7 @@ module.exports = function({ locale, data = {} }) {
     };
 
     function sectionBeneficiaries() {
+        const groupsCheck = get('beneficiariesGroupsCheck')(data);
         const groupChoices = get('beneficiariesGroups')(data);
 
         function fieldsForGroup(type) {
@@ -192,7 +193,9 @@ module.exports = function({ locale, data = {} }) {
                     break;
             }
 
-            return includes(groupChoices, type) ? result : [];
+            return groupsCheck === 'yes' && includes(groupChoices, type)
+                ? result
+                : [];
         }
 
         return {
@@ -209,6 +212,29 @@ module.exports = function({ locale, data = {} }) {
             steps: [
                 {
                     title: localise({
+                        en: `Specific groups of people`,
+                        cy: ``
+                    }),
+                    fieldsets: [
+                        {
+                            legend: localise({
+                                en: `Specific groups of people`,
+                                cy: ``
+                            }),
+                            introduction: localise({
+                                en: `<p>We want to hear more about the people who will benefit from your project.</p>
+
+                                <p>It's important to be as accurate as possible in your answers. We'll use this information to make better decisions about how our funding supports people and communities to thrive. We'll also use it to tell people about the impact of our funding and who it is reaching.</p>
+
+                                <p>However, the information you provide here is <strong>not assessed</strong> and <strong>will not</strong> be used to decide whether you will be awarded funding for your project.</p>`,
+                                cy: ``
+                            }),
+                            fields: [fields.beneficiariesGroupsCheck]
+                        }
+                    ]
+                },
+                {
+                    title: localise({
                         en: 'Specific groups of people',
                         cy: ''
                     }),
@@ -218,10 +244,12 @@ module.exports = function({ locale, data = {} }) {
                                 en: 'Specific groups of people',
                                 cy: ''
                             }),
-                            fields: [
-                                fields.beneficiariesGroups,
-                                fields.beneficiariesGroupsOther
-                            ]
+                            fields: compact([
+                                groupsCheck === 'yes' &&
+                                    fields.beneficiariesGroups,
+                                groupsCheck === 'yes' &&
+                                    fields.beneficiariesGroupsOther
+                            ])
                         }
                     ]
                 },
@@ -446,47 +474,18 @@ module.exports = function({ locale, data = {} }) {
                             en: 'Who is your senior contact?',
                             cy: ''
                         }),
-                        get introduction() {
-                            function roleText() {
-                                let result;
-                                switch (currentOrganisationType) {
-                                    case ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY:
-                                    case ORGANISATION_TYPES.CIO:
-                                    case ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY:
-                                        result = localise({
-                                            en: `<p>This person must be a member of your board or committee.</p>`,
-                                            cy: ''
-                                        });
-                                        break;
-                                    case ORGANISATION_TYPES.SCHOOL:
-                                        result = localise({
-                                            en: `<p>If you are a school, this person must be the headteacher.</p>`,
-                                            cy: ''
-                                        });
-                                        break;
-                                    default:
-                                        result = localise({
-                                            en: `<p>This person is usually a senior leader, or a member of your board or committee.</p>`,
-                                            cy: ''
-                                        });
-                                        break;
-                                }
-
-                                return result;
-                            }
-
-                            return [
-                                localise({
-                                    en: `<p>Please give us the contact details of a senior member of your organisation.</p>`,
-                                    cy: ``
-                                }),
-                                roleText(),
-                                localise({
-                                    en: `<p>Your senior contact must be at least 18 years old and is legally responsible for ensuring that this application is supported by the organisation applying, any funding is delivered as set out in the application form, and that the funded organisation meets our monitoring requirements.</p>`,
-                                    cy: ''
-                                })
-                            ].join('\n');
-                        },
+                        introduction: localise({
+                            en: `<p>
+                                Please give us the contact details of a senior member of your organisation.
+                            </p>
+                            <p>
+                                Your senior contact must be at least 18 years old and is legally responsible
+                                for ensuring that this application is supported by the organisation applying,
+                                any funding is delivered as set out in the application form, and that the
+                                funded organisation meets our monitoring requirements.
+                            </p>`,
+                            cy: ``
+                        }),
                         fields: compact([
                             fields.seniorContactRole,
                             fields.seniorContactName,
@@ -533,14 +532,6 @@ module.exports = function({ locale, data = {} }) {
                                 seniorFirstName && seniorSurname
                                     ? `, ${seniorFirstName} ${seniorSurname}`
                                     : '';
-                            const mainSurname = get('mainContactName.lastName')(
-                                data
-                            );
-
-                            let contactSameNameWarning = '';
-                            if (seniorSurname === mainSurname) {
-                                contactSameNameWarning = `<p><strong>We've noticed that your main and senior contact have the same surname. Remember we can't fund projects where the two contacts are married or related by blood.</strong></p>`;
-                            }
 
                             return localise({
                                 en: `<p>
@@ -550,7 +541,7 @@ module.exports = function({ locale, data = {} }) {
                                         The main contact must be a different person from the senior contact${seniorName}. 
                                         The two contacts also can't be married or in a long-term relationship with each 
                                         other, living together at the same address, or related by blood.
-                                    </p>${contactSameNameWarning}`,
+                                    </p>`,
                                 cy: ''
                             });
                         },
@@ -690,7 +681,7 @@ module.exports = function({ locale, data = {} }) {
     
     <p><strong>You must attach your bank statement as a PDF, JPEG or PNG file. Unfortunately we can’t accept Word documents, but photos of your bank statements are absolutely fine.</strong></p>
     
-    <aside class="o-media u-padded u-tone-background-tint u-margin-bottom">
+    <div class="o-media u-padded u-tone-background-tint u-margin-bottom">
         <a href="../help/bank-statement" target="_blank">
             <img src="/assets/images/apply/afa-bank-statement-example-small.png"
                  alt="An example of a bank statement we need from you"
@@ -710,7 +701,7 @@ module.exports = function({ locale, data = {} }) {
             </ul>
             <p>Here's an <a target="_blank" href="../help/bank-statement">example of what we're looking for</a><span class="u-visually-hidden"> Opens in a new window</span>.</p>
         </div>
-    </aside>
+    </div>
 
     <p><strong>Your statement needs to be less than three months old</strong>. For bank accounts opened within the last three months, we can accept a bank welcome letter. This must confirm the date your account was opened, account name, account number and sort code.</p>
     
@@ -826,14 +817,15 @@ module.exports = function({ locale, data = {} }) {
                 en: 'National Lottery Awards for All',
                 cy: ''
             }),
-            isBilingual: true,
+            // @TODO: Re-enable when welsh translation has been added
+            isBilingual: false,
             allFields: fields,
             featuredErrorsAllowList: [
-                { param: 'projectDateRange', includeBaseError: false },
-                { param: 'seniorContactRole', includeBaseError: false },
-                { param: 'mainContactName', includeBaseError: false },
-                { param: 'mainContactEmail', includeBaseError: false },
-                { param: 'mainContactPhone', includeBaseError: false }
+                'projectDateRange',
+                'seniorContactRole',
+                'mainContactName',
+                'mainContactEmail',
+                'mainContactPhone'
             ],
             summary: summary(),
             forSalesforce: forSalesforce,
