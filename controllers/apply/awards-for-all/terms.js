@@ -1,109 +1,118 @@
 'use strict';
+const { oneLine } = require('common-tags');
+
 module.exports = {
-    introduction: {
-        en: `
-            <ol class="o-nested-numbers">
-                <li>
-                    <p><strong>By submitting an application to The National Lottery Community Fund, the organisation named in the application (referred to as “you” in these Terms and Conditions) agrees, if awarded a grant, to:</strong></p>
-           
-                    <ol class="o-nested-numbers">
-                
-                        <li>hold the grant on trust for The National Lottery Community Fund (referred to as “we” or “us”) and use it only for your project as described in your application or otherwise agreed with us, and only for expenditure incurred after the date of the grant award;
-                        </li>
-                
-                        <li>provide us promptly with any information and reports we require about the project and its impact, both during and after the end of the project;
-                        </li>
-                
-                        <li>act lawfully in carrying out your project, in accordance with best practice and guidance from your regulators, and follow any guidelines issued by us about the project or use of the grant;
-                        </li>
-                
-                        <li>acknowledge National Lottery funding using the common lottery branding in accordance with the relevant brand guidelines;
-                        </li>
-                
-                        <li>hold the grant in a UK based bank or building society account which satisfies our requirements as set out in guidelines and requires at least two unconnected people to approve all transactions and withdrawals;
-                        </li>
-                
-                        <li>immediately return any part of the grant that is not used for your project or which constitutes unlawful state aid;
-                        </li>
-                
-                        <li>where your project involves working with children, young people or vulnerable adults, adopt and implement an appropriate written safeguarding policy, obtain written consent from legal carers or guardians and carry out background checks for all employees, volunteers, trustees or contractors as required by law or our guidelines;
-                        </li>
-                
-                        <li>comply with data protection laws and obtain the consent of your beneficiaries for us and you to receive and process their personal information and contact them;
-                        </li>
-                
-                        <li>keep accurate and comprehensive records about your project both during the project and for seven years afterwards and provide us on request with copies of those records and evidence of expenditure of the grant, such as original receipts and bank statements;
-                        </li>
-                
-                        <li>allow us and/or the Comptroller and Auditor General reasonable access to your premises and systems to inspect project and grant records;
-                        </li>
-                
-                        <li>The National Lottery Community Fund publicising and sharing information about you and your project including your name and images of project activities. You hereby grant us a royalty free licence to reproduce and publish any project information you give us. You will let us know when you provide the information if you don’t have permission for us to use it in this way; and
-                        </li>
-                
-                        <li>if your project is being delivered in Wales, enable people to engage in both Welsh and English, treating both languages equally. Welsh speakers must be able to access information and services in Welsh and all materials must be produced bilingually.
-                        </li>
-                    </ol>
-                </li>
-            
-                <li>
-                    <p><strong>You acknowledge that we are entitled to suspend or terminate the grant and/or require you to repay all or any of the grant in any of the following situations. You must let us know if any of these situations have occurred or are likely to occur:</strong></p>
-                
-                    <ol class="o-nested-numbers">
-                
-                        <li>You use the grant in any way other than as approved by us or fail to comply with any of these Terms & Conditions.
-                        </li>
-                
-                        <li>You fail to make good progress with your project or are unlikely in our view to complete the project or achieve the objectives agreed with us.
-                        </li>
-                
-                        <li>You have match funding for the project withdrawn or receive duplicate funding for the same project costs as funded by the grant.
-                        </li>
-                
-                        <li>You provide us with false or misleading information either on application or after award of the grant, act dishonestly or are under investigation by us, a regulatory body or the police, or if we consider for any other reason that public funds are at risk or you do anything to bring us or the National Lottery into disrepute.
-                        </li>
-                
-                        <li>You enter into, or in our view are likely to enter into, administration, liquidation, receivership, dissolution or, in Scotland, have your organisation’s estate sequestrated.
-                        </li>
-                    </ol>
-                </li>
-                
-                <li>
-                
-                    <p><strong>You acknowledge that:</strong></p>
-                
-                    <ol class="o-nested-numbers">
-                
-                        <li>the grant is for your use only and we may require you to pay us a share of any proceeds from disposal of assets purchased or enhanced with the grant;
-                        </li>
-                
-                        <li>we will not increase the grant if you spend more than the agreed budget and we can only guarantee the grant as long as the National Lottery continues to operate and we receive sufficient funds from it;
-                        </li>
-                
-                        <li>the grant is not consideration for any taxable supply for VAT purposes;</li>
-                
-                        <li>we have no liability for any costs or consequences incurred by you or third parties that arise directly or indirectly from the project, nor from non-payment or withdrawal of the grant, save to the extent required by law;
-                        </li>
-                
-                        <li>these Terms and Conditions will continue to apply for one year after the grant is paid or until the project has been completed, whichever is later. Clauses 1.2, 1.4, 1.6, 1.9, 1.10, 1.11 and 3.4 shall survive expiry of these Terms and Conditions; and
-                        </li>
-                
-                        <li>If the application and grant award are made electronically, the agreement between us shall be deemed to be in writing and your online acceptance of these Terms and Conditions shall be deemed to be a signature of that agreement.
-                        </li>
-                    </ol>
-                </li>
-            </ol>
-            `,
-        cy: ``
-    },
-    footer: {
-        en: `
-            <p>We know the vast majority of the many thousands who seek and use our funding are genuine. However, we sometimes receive fraudulent applications and so we have a duty to carry out checks on individuals at organisations which apply for grants. The personal information we have collected from you will therefore be shared with fraud prevention agencies who will use it to prevent fraud and money-laundering and to verify your identity. If fraud is detected, you could be refused certain services, finance or employment.</p>
-            
-            <p>Further details of how your information will be used by us and these fraud prevention agencies, your data protection rights and how to contact us, can be found in our full Data Protection and Privacy Notice which is published on our website <a href="/data-protection">www.tnlcommunityfund.org.uk/data-protection</a>. Contact us to request a hard copy by telephoning our advice line on 0345 4 10 20 30, or by writing to Customer Services, The National Lottery Community Fund, 2 St James’ Gate, Newcastle upon Tyne, NE1 4BE.</p>
-            
-            <p>When you click submit the Terms and Conditions as agreed to above become binding.</p>
-        `,
-        cy: ''
-    }
+    en: [
+        {
+            title: oneLine`By submitting an application to The National
+                Lottery Community Fund, the organisation named in the application
+                (referred to as “you” in these Terms and Conditions) agrees,
+                if awarded a grant, to:`,
+            clauses: [
+                oneLine`hold the grant on trust for The National Lottery Community Fund
+                    (referred to as “we” or “us”) and use it only for your project as
+                    described in your application or otherwise agreed with us,
+                    and only for expenditure incurred after the date of the grant award;`,
+
+                oneLine`provide us promptly with any information and reports we require
+                    about the project and its impact, both during and after the end of the project;`,
+
+                oneLine`act lawfully in carrying out your project, in accordance with
+                    best practice and guidance from your regulators, and follow any
+                    guidelines issued by us about the project or use of the grant;`,
+
+                oneLine`acknowledge National Lottery funding using the common lottery
+                    branding in accordance with the relevant brand guidelines`,
+
+                oneLine`hold the grant in a UK based bank or building society account
+                    which satisfies our requirements as set out in guidelines and requires
+                    at least two unconnected people to approve all transactions and withdrawals;`,
+
+                oneLine`immediately return any part of the grant that is not used for
+                    your project or which constitutes unlawful state aid;`,
+
+                oneLine`where your project involves working with children, young people
+                    or vulnerable adults, adopt and implement an appropriate written
+                    safeguarding policy, obtain written consent from legal carers or
+                    guardians and carry out background checks for all employees,
+                    volunteers, trustees or contractors as required by law or our guidelines;`,
+
+                oneLine`comply with data protection laws and obtain the consent of
+                    your beneficiaries for us and you to receive and process their
+                    personal information and contact them;`,
+
+                oneLine`keep accurate and comprehensive records about your project both during
+                    the project and for seven years afterwards and provide us on request with
+                    copies of those records and evidence of expenditure of the grant,
+                    such as original receipts and bank statements;`,
+
+                oneLine`allow us and/or the Comptroller and Auditor General reasonable access
+                    to your premises and systems to inspect project and grant records;`,
+
+                oneLine`The National Lottery Community Fund publicising and sharing information
+                    about you and your project including your name and images of project activities.
+                    You hereby grant us a royalty free licence to reproduce and publish any project
+                    information you give us. You will let us know when you provide the information
+                    if you don’t have permission for us to use it in this way; and`,
+
+                oneLine`if your project is being delivered in Wales, enable people to engage
+                    in both Welsh and English, treating both languages equally.
+                    Welsh speakers must be able to access information and services in Welsh
+                    and all materials must be produced bilingually.`
+            ]
+        },
+        {
+            title: oneLine`You acknowledge that we are entitled to suspend or terminate the grant
+            and/or require you to repay all or any of the grant in any of the following situations.
+            You must let us know if any of these situations have occurred or are likely to occur:`,
+            clauses: [
+                oneLine`You use the grant in any way other than as approved by us or fail
+                    to comply with any of these Terms & Conditions.`,
+
+                oneLine`You fail to make good progress with your project or are unlikely
+                    in our view to complete the project or achieve the objectives agreed with us.`,
+
+                oneLine`You have match funding for the project withdrawn or receive duplicate
+                    funding for the same project costs as funded by the grant.`,
+
+                oneLine`You provide us with false or misleading information either on application
+                    or after award of the grant, act dishonestly or are under investigation by us,
+                    a regulatory body or the police, or if we consider for any other reason
+                    that public funds are at risk or you do anything to bring us or
+                    the National Lottery into disrepute.`,
+
+                oneLine`You enter into, or in our view are likely to enter into, administration,
+                    liquidation, receivership, dissolution or, in Scotland, have your
+                    organisation’s estate sequestrated.`
+            ]
+        },
+        {
+            title: `You acknowledge that:`,
+            clauses: [
+                oneLine`the grant is for your use only and we may require you to pay us a 
+                    share of any proceeds from disposal of assets purchased or enhanced with the grant;`,
+
+                oneLine`we will not increase the grant if you spend more than the agreed budget
+                and we can only guarantee the grant as long as the National Lottery continues
+                to operate and we receive sufficient funds from it;`,
+
+                oneLine`the grant is not consideration for any taxable supply for VAT purposes;`,
+
+                oneLine`we have no liability for any costs or consequences incurred by you 
+                    or third parties that arise directly or indirectly from the project,
+                    nor from non-payment or withdrawal of the grant, save to the extent required by law;`,
+
+                oneLine`these Terms and Conditions will continue to apply for one year after 
+                    the grant is paid or until the project has been completed, whichever is later.
+                    Clauses 1.2, 1.4, 1.6, 1.9, 1.10, 1.11 and 3.4 shall survive expiry of these
+                    Terms and Conditions; and`,
+
+                oneLine`If the application and grant award are made electronically,
+                    the agreement between us shall be deemed to be in writing and your
+                    online acceptance of these Terms and Conditions shall be deemed to
+                    be a signature of that agreement.`
+            ]
+        }
+    ],
+    cy: []
 };
