@@ -315,6 +315,13 @@ app.route('*').get(
             alias => alias.from.toLowerCase() === req.path.toLowerCase()
         );
         try {
+            // Is this request a single-level path (eg. /foo, /bar)?
+            const pathCouldBeAlias = (req.path[0] === '/' ? req.path.substring(1) : req.path).split('/').length === 1;
+
+            if (!pathCouldBeAlias) {
+                return next();
+            }
+
             const enAliases = await contentApi.getAliases({ locale: 'en' });
             const enMatch = findAlias(enAliases);
             if (enMatch) {
