@@ -63,6 +63,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
             "lgbt",
             "caring-responsibilities"
         ],
+        "beneficiariesGroupsOther": null,
         "beneficiariesGroupsEthnicBackground": ["african", "caribbean"],
         "beneficiariesGroupsGender": ["non-binary"],
         "beneficiariesGroupsAge": ["0-12", "13-24"],
@@ -80,6 +81,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         },
         "organisationStartDate": { "month": 9, "year": 1986 },
         "organisationType": "not-for-profit-company",
+        "organisationSubType": null,
         "companyNumber": "123456789",
         "charityNumber": null,
         "educationNumber": null,
@@ -262,6 +264,12 @@ type: `array`
 
 Allowed values: `open-to-all`, `ethnic-background`, `gender`, `age,`disabled-people`,`religion`,`lgbt`,`caring-responsibilities`
 
+### beneficiariesGroupsOther
+
+type: `string` or `null`
+
+Free text field optionally provided instead of `beneficiariesGroups`
+
 ### beneficiariesGroupsEthnicBackground
 
 type: `array`
@@ -296,7 +304,7 @@ Allowed values: `buddhist` , `christian`, `jewish` , `muslim` , `sikh` , `no-rel
 
 type: `string` or `null`
 
-Optional field
+Free text field optionally provided instead of `beneficiariesGroupsReligion`
 
 ### beneficiariesWelshLanguage
 
@@ -480,6 +488,8 @@ Allowed values: `chair`, `chancellor`, `chief-executive`, `chief-executive-offic
 `company-director`, `company-secretary`, `deputy-parish-clerk`, `director`,
 `elected-member`, `head-teacher`, `parish-clerk`, `secretary`,
 `treasurer`, `trustee`, `vice-chair`, `vice-chancellor`,
+
+**Note**: Can be free-text if `organisationSubType` is `prison-service`, `fire-service`, or `police-authority`
 
 ### seniorContactDateOfBirth
 
