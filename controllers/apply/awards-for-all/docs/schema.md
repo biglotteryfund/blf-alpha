@@ -139,7 +139,13 @@ Each submission has two top-level keys: `meta` which contains metadata about the
             "filename": "example.pdf",
             "size": "123",
             "type": "application/pdf"
-        }
+        },
+        "termsAgreement1": "yes",
+        "termsAgreement2": "yes",
+        "termsAgreement3": "yes",
+        "termsAgreement4": "yes",
+        "termsPersonName": "Guybrush Threepwood",
+        "termsPersonPosition": "Mighty Pirate"
     }
 }
 ```
@@ -567,3 +573,18 @@ File object with the following fields:
 | **filename** | `string`  |       |
 | **size**     | `integer` |       |
 | **type**     | `string`  |       |
+
+### termsAgreement1
+### termsAgreement2
+### termsAgreement3
+### termsAgreement4
+
+type: `string`
+
+Will always be "yes" (required fields)
+
+### termsPersonName
+type: `string`
+
+### termsPersonPosition
+type: `string`
