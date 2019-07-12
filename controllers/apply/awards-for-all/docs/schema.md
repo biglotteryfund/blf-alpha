@@ -20,6 +20,10 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "projectName": "My project name",
         "projectCountry": "england",
         "projectStartDate": "2020-12-12",
+        "projectDateRange": {
+            "startDate": "2020-12-12",
+            "endDate": "2020-12-12"
+        },
         "projectLocation": "west-midlands",
         "projectLocationDescription": "Additional description of location",
         "projectPostcode": "B15 1TR",
@@ -85,8 +89,8 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         },
         "totalIncomeYear": 824974,
         "mainContactName": {
-          "firstName": "Nelda",
-          "lastName": "Nolan"
+            "firstName": "Nelda",
+            "lastName": "Nolan"
         },
         "mainContactDateOfBirth": "1975-10-12",
         "mainContactAddress": {
@@ -108,8 +112,8 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "mainContactPhone": "0345 4 10 20 30",
         "mainContactCommunicationNeeds": [],
         "seniorContactName": {
-          "firstName": "Maribel",
-          "lastName": "D'Amore"
+            "firstName": "Maribel",
+            "lastName": "D'Amore"
         },
         "seniorContactRole": "trustee",
         "seniorContactDateOfBirth": "1980-12-12",
@@ -161,11 +165,16 @@ type: `string`
 
 Allowed values: `england`, `northern-ireland`, `scotland`, `wales`
 
-### projectStartDate
+### projectDateRange
 
-type: `string`
+type: `object`
 
-Date in the format `yyyy-mm-dd`
+Object with the following fields:
+
+| Name          | Type     | Notes      |
+| ------------- | -------- | ---------- |
+| **startDate** | `string` | yyyy-mm-dd |
+| **endDate**   | `string` | yyyy-mm-dd |
 
 ### projectLocation
 
@@ -345,6 +354,7 @@ Allowed values: `parish-council`, `town-council`, `local-authority`
 `nhs-trust-health-authority`, `prison-service`, `fire-service`, `police-authority`
 
 ### organisationStartDate
+
 type: `object`
 
 Object with properties:
@@ -382,7 +392,7 @@ Object with properties:
 
 | Name      | Type      |
 | --------- | --------- |
-| **day**  | `integer` |
+| **day**   | `integer` |
 | **month** | `integer` |
 
 ### totalIncomeYear
@@ -395,10 +405,10 @@ Present if `organisationStartDate` is 15 months or more ago.
 
 Object with properties:
 
-| Name      | Type      |
-| --------- | --------- |
-| **firstName**  | `string` |
-| **lastName** | `string` |
+| Name          | Type     |
+| ------------- | -------- |
+| **firstName** | `string` |
+| **lastName**  | `string` |
 
 ### mainContactDateOfBirth
 
@@ -457,18 +467,18 @@ type: `string`
 
 Object with properties:
 
-| Name      | Type      |
-| --------- | --------- |
-| **firstName**  | `string` |
-| **lastName** | `string` |
+| Name          | Type     |
+| ------------- | -------- |
+| **firstName** | `string` |
+| **lastName**  | `string` |
 
 ### seniorContactRole
 
 type: `string`
 
-Allowed values: `chair`, `chancellor`, `chief-executive`, `chief-executive-officer`, 
-`company-director`, `company-secretary`, `deputy-parish-clerk`, `director`, 
-`elected-member`, `head-teacher`, `parish-clerk`, `secretary`, 
+Allowed values: `chair`, `chancellor`, `chief-executive`, `chief-executive-officer`,
+`company-director`, `company-secretary`, `deputy-parish-clerk`, `director`,
+`elected-member`, `head-teacher`, `parish-clerk`, `secretary`,
 `treasurer`, `trustee`, `vice-chair`, `vice-chancellor`,
 
 ### seniorContactDateOfBirth
@@ -542,8 +552,8 @@ type: `object`
 
 File object with the following fields:
 
-| Name         | Type          | Notes    |
-| ------------ | ------------- | -------- |
-| **filename** | `string`      |          |
-| **size**     | `integer`     |          |
-| **type**     | `string`      |          |
+| Name         | Type      | Notes |
+| ------------ | --------- | ----- |
+| **filename** | `string`  |       |
+| **size**     | `integer` |       |
+| **type**     | `string`  |       |
