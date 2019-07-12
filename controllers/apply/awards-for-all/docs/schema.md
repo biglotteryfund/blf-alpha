@@ -19,7 +19,6 @@ Each submission has two top-level keys: `meta` which contains metadata about the
     "application": {
         "projectName": "My project name",
         "projectCountry": "england",
-        "projectStartDate": "2020-12-12",
         "projectDateRange": {
             "startDate": "2020-12-12",
             "endDate": "2020-12-12"
