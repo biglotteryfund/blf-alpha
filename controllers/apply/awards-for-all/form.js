@@ -197,7 +197,7 @@ module.exports = function({ locale, data = {} }) {
      * Used to conditionally render fields for age, gender etc.
      */
     function includeIfBeneficiaryType(type, fields) {
-        const groupChoices = getOr([], 'beneficiariesGroups')(data);
+        const groupChoices = get('beneficiariesGroups')(data) || [];
         return groupChoices.includes(type) ? fields : [];
     }
 
