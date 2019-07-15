@@ -19,7 +19,7 @@ const {
     FILE_LIMITS
 } = require('./constants');
 const countriesFor = require('./lib/countries');
-const locationsFor = require('./locations');
+const locationsFor = require('./lib/locations');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
