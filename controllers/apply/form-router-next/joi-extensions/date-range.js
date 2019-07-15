@@ -132,27 +132,6 @@ module.exports = function dateParts(joi) {
                         );
                     }
                 }
-            },
-            {
-                name: 'futureEndDate',
-                validate(params, value, state, options) {
-                    const dates = toRange(value);
-
-                    if (
-                        dates.startDate.isValid() &&
-                        dates.endDate.isValid() &&
-                        dates.endDate.isSameOrAfter(dates.startDate)
-                    ) {
-                        return value;
-                    } else {
-                        return this.createError(
-                            'dateRange.endDate.beforeStartDate',
-                            { v: value, min: params.min },
-                            state,
-                            options
-                        );
-                    }
-                }
             }
         ]
     };

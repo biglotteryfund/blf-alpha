@@ -334,8 +334,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.dateRange()
                 .minDate(minDate.format('YYYY-MM-DD'))
-                .maxDate(maxDate.format('YYYY-MM-DD'))
-                .futureEndDate(),
+                .maxDate(maxDate.format('YYYY-MM-DD')),
             messages: [
                 {
                     type: 'base',
