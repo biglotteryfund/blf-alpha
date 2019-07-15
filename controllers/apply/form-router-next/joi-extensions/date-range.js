@@ -38,7 +38,8 @@ module.exports = function dateParts(joi) {
                 invalid: 'Invalid startDate'
             },
             endDate: {
-                invalid: 'Invalid endDate'
+                invalid: 'Invalid endDate',
+                beforeStartDate: 'endDate must not be before startDate'
             },
             minDate: {
                 invalid: 'Date must be at least {{min}}'

@@ -75,4 +75,23 @@ describe('dateRange', () => {
 
         expect(invalid.error.message).toContain('Date is outside limit');
     });
+
+    test('futureEndDate', () => {
+        const schema = Joi.dateRange().futureEndDate();
+
+        const valid = {
+            startDate: { day: 1, month: 2, year: 2100 },
+            endDate: { day: 1, month: 2, year: 2100 }
+        };
+
+        expect(schema.validate(valid).error).toBeNull();
+
+        const invalid = {
+            startDate: { day: 1, month: 2, year: 2100 },
+            endDate: { day: 1, month: 1, year: 2100 }
+        };
+        expect(schema.validate(invalid).error.message).toContain(
+            'endDate must not be before startDate'
+        );
+    });
 });
