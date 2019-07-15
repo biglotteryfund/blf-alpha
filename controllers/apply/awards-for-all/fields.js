@@ -292,7 +292,117 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return { ...defaultProps, ...props };
     }
 
-    function organisationTypeField() {
+    function fieldProjectDateRange() {
+        return {
+            name: 'projectDateRange',
+            label: localise({
+                en: `When would you like to start and end your project?`,
+                cy: ``
+            }),
+            get settings() {
+                const minStart = {
+                    amount: 12,
+                    units: 'weeks'
+                };
+                const minStartDate = moment().add(
+                    minStart.amount,
+                    minStart.units
+                );
+                return {
+                    minStart: minStart,
+                    minDateExample: minStartDate.format('DD/MM/YYYY'),
+                    fromDateExample: minStartDate
+                        .subtract(1, 'days')
+                        .format('D MMMM YYYY'),
+                    minYear: minStartDate.format('YYYY'),
+                    maxDurationFromStart: {
+                        amount: 1,
+                        units: 'years',
+                        label: localise({
+                            en: `twelve months`,
+                            cy: ``
+                        })
+                    }
+                };
+            },
+            get explanation() {
+                return localise({
+                    en: `<p>If you don't know exactly, your dates can be estimates. But you need to start your project after ${this.settings.minDateExample}.</p>
+                      <p>We usually only fund projects that last ${this.settings.maxDurationFromStart.label} or less. So, the end date can't be more than ${this.settings.maxDurationFromStart.label} after the start date.</p>
+                      <p><strong>If your project is a one-off event</strong></p>
+                      <p>Just let us know the date you plan to hold the event in the start and end date boxes below.</p>`,
+                    cy: ''
+                });
+            },
+            type: 'date-range',
+            isRequired: true,
+            get schema() {
+                const minDate = moment().add('12', 'weeks');
+                return Joi.dateRange()
+                    .minDate(minDate.format('YYYY-MM-DD'))
+                    .futureEndDate()
+                    .endDateLimit(
+                        this.settings.maxDurationFromStart.amount,
+                        this.settings.maxDurationFromStart.units
+                    );
+            },
+            get messages() {
+                return [
+                    {
+                        type: 'base',
+                        message: localise({
+                            en: 'Enter a project start and end date',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dateRange.both.invalid',
+                        message: localise({
+                            en: `Project start and end dates must be real dates`,
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'datesRange.startDate.invalid',
+                        message: localise({
+                            en: `Date you start the project must be a real date`,
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dateRange.endDate.invalid',
+                        message: localise({
+                            en: 'Date you end the project must be a real date',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dateRange.minDate.invalid',
+                        message: localise({
+                            en: `Date you start the project must be after ${this.settings.fromDateExample}`,
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dateRange.endDate.beforeStartDate',
+                        message: localise({
+                            en: `Date you end the project must be after the start date`,
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'dateRange.endDate.outsideLimit',
+                        message: localise({
+                            en: `Date you end the project must be within ${this.settings.maxDurationFromStart.label} of the start date.`,
+                            cy: ''
+                        })
+                    }
+                ];
+            }
+        };
+    }
+
+    function fieldOrganisationType() {
         const options = [
             {
                 value: ORGANISATION_TYPES.UNREGISTERED_VCO,
@@ -403,7 +513,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
     }
 
-    function seniorContactRoleField() {
+    function fieldSeniorContactRole() {
         function rolesFor(organisationType, organisationSubType) {
             const ROLES = {
                 CHAIR: {
@@ -698,7 +808,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
-    const fields = {
+    return {
         projectName: {
             name: 'projectName',
             label: localise({
@@ -719,113 +829,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        projectDateRange: {
-            name: 'projectDateRange',
-            label: localise({
-                en: `When would you like to start and end your project?`,
-                cy: ``
-            }),
-            get settings() {
-                const minStart = {
-                    amount: 12,
-                    units: 'weeks'
-                };
-                const minStartDate = moment().add(
-                    minStart.amount,
-                    minStart.units
-                );
-                return {
-                    minStart: minStart,
-                    minDateExample: minStartDate.format('DD/MM/YYYY'),
-                    fromDateExample: minStartDate
-                        .subtract(1, 'days')
-                        .format('D MMMM YYYY'),
-                    minYear: minStartDate.format('YYYY'),
-                    maxDurationFromStart: {
-                        amount: 1,
-                        units: 'years',
-                        label: localise({
-                            en: `twelve months`,
-                            cy: ``
-                        })
-                    }
-                };
-            },
-            get explanation() {
-                return localise({
-                    en: `<p>If you don't know exactly, your dates can be estimates. But you need to start your project after ${this.settings.minDateExample}.</p>
-                      <p>We usually only fund projects that last ${this.settings.maxDurationFromStart.label} or less. So, the end date can't be more than ${this.settings.maxDurationFromStart.label} after the start date.</p>
-                      <p><strong>If your project is a one-off event</strong></p>
-                      <p>Just let us know the date you plan to hold the event in the start and end date boxes below.</p>`,
-                    cy: ''
-                });
-            },
-            type: 'date-range',
-            isRequired: true,
-            get schema() {
-                const minDate = moment().add('12', 'weeks');
-                return Joi.dateRange()
-                    .minDate(minDate.format('YYYY-MM-DD'))
-                    .futureEndDate()
-                    .endDateLimit(
-                        this.settings.maxDurationFromStart.amount,
-                        this.settings.maxDurationFromStart.units
-                    );
-            },
-            get messages() {
-                return [
-                    {
-                        type: 'base',
-                        message: localise({
-                            en: 'Enter a project start and end date',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'dateRange.both.invalid',
-                        message: localise({
-                            en: `Project start and end dates must be real dates`,
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'datesRange.startDate.invalid',
-                        message: localise({
-                            en: `Date you start the project must be a real date`,
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'dateRange.endDate.invalid',
-                        message: localise({
-                            en: 'Date you end the project must be a real date',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'dateRange.minDate.invalid',
-                        message: localise({
-                            en: `Date you start the project must be after ${this.settings.fromDateExample}`,
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'dateRange.endDate.beforeStartDate',
-                        message: localise({
-                            en: `Date you end the project must be after the start date`,
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'dateRange.endDate.outsideLimit',
-                        message: localise({
-                            en: `Date you end the project must be within ${this.settings.maxDurationFromStart.label} of the start date.`,
-                            cy: ''
-                        })
-                    }
-                ];
-            }
-        },
+        projectDateRange: fieldProjectDateRange(),
         projectCountry: {
             name: 'projectCountry',
             label: localise({
@@ -1911,7 +1915,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             })
         }),
-        organisationType: organisationTypeField(),
+        organisationType: fieldOrganisationType(),
         organisationSubTypeStatutoryBody: {
             name: 'organisationSubType',
             label: localise({
@@ -2227,7 +2231,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
-        seniorContactRole: seniorContactRoleField(),
+        seniorContactRole: fieldSeniorContactRole(),
         seniorContactName: nameField(
             {
                 name: 'seniorContactName',
@@ -2583,6 +2587,4 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true
         }
     };
-
-    return fields;
 };
