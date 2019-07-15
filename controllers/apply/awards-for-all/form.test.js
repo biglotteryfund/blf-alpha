@@ -7,7 +7,6 @@ const random = require('lodash/random');
 const range = require('lodash/range');
 const sample = require('lodash/sample');
 const times = require('lodash/times');
-const values = require('lodash/values');
 const faker = require('faker');
 const moment = require('moment');
 
@@ -73,7 +72,7 @@ function mockFullForm({
         projectBudget: mockBudget(),
         projectTotalCosts: 20000,
         beneficiariesGroupsCheck: 'yes',
-        beneficiariesGroups: values(BENEFICIARY_GROUPS),
+        beneficiariesGroups: Object.values(BENEFICIARY_GROUPS),
         beneficiariesGroupsOther: undefined,
         beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
         beneficiariesGroupsGender: ['non-binary'],
@@ -351,6 +350,81 @@ describe('Form validations', () => {
                     label: 'Specific groups of people',
                     url: '/apply/awards-for-all/beneficiaries/1'
                 }
+            });
+        });
+
+        test('require beneficiaries groups if check question was yes', () => {
+            assertValidByKey({
+                beneficiariesGroupsCheck: 'no',
+                beneficiariesGroups: null,
+                beneficiariesGroupsOther: null,
+                beneficiariesGroupsEthnicBackground: null,
+                beneficiariesGroupsGender: null,
+                beneficiariesGroupsAge: null,
+                beneficiariesGroupsDisabledPeople: null,
+                beneficiariesGroupsReligion: null,
+                beneficiariesGroupsReligionOther: null
+            });
+
+            assertMessagesByKey(
+                {
+                    beneficiariesGroupsCheck: 'yes',
+                    beneficiariesGroups: null,
+                    beneficiariesGroupsOther: null,
+                    beneficiariesGroupsEthnicBackground: null,
+                    beneficiariesGroupsGender: null,
+                    beneficiariesGroupsAge: null,
+                    beneficiariesGroupsDisabledPeople: null,
+                    beneficiariesGroupsReligion: null,
+                    beneficiariesGroupsReligionOther: null
+                },
+                [expect.stringContaining('Select the specific group')]
+            );
+
+            assertMessagesByKey(
+                {
+                    beneficiariesGroupsCheck: 'yes',
+                    beneficiariesGroups: Object.values(BENEFICIARY_GROUPS),
+                    beneficiariesGroupsOther: null,
+                    beneficiariesGroupsEthnicBackground: null,
+                    beneficiariesGroupsGender: null,
+                    beneficiariesGroupsAge: null,
+                    beneficiariesGroupsDisabledPeople: null,
+                    beneficiariesGroupsReligion: null,
+                    beneficiariesGroupsReligionOther: null
+                },
+                [
+                    expect.stringContaining('Select the age group'),
+                    expect.stringContaining('Select the disabled people'),
+                    expect.stringContaining('Select the ethnic background'),
+                    expect.stringContaining('Select the gender'),
+                    expect.stringContaining('Select the religion')
+                ]
+            );
+        });
+
+        test('ignore beneficiary groups if beneficiariesOther is present', () => {
+            assertValidByKey({
+                beneficiariesGroupsCheck: 'yes',
+                beneficiariesGroups: ['lgbt'],
+                beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
+                beneficiariesGroupsGender: ['non-binary'],
+                beneficiariesGroupsAge: ['0-12', '13-24'],
+                beneficiariesGroupsDisabledPeople: ['sensory'],
+                beneficiariesGroupsReligion: ['sikh'],
+                beneficiariesGroupsReligionOther: undefined
+            });
+
+            assertValidByKey({
+                beneficiariesGroupsCheck: 'yes',
+                beneficiariesGroups: null,
+                beneficiariesGroupsOther: 'example',
+                beneficiariesGroupsEthnicBackground: null,
+                beneficiariesGroupsGender: null,
+                beneficiariesGroupsAge: null,
+                beneficiariesGroupsDisabledPeople: null,
+                beneficiariesGroupsReligion: null,
+                beneficiariesGroupsReligionOther: null
             });
         });
 
