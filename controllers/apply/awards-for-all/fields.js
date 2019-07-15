@@ -293,6 +293,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldProjectDateRange() {
+        const minStartDate = moment().add(12, 'weeks');
+
         return {
             name: 'projectDateRange',
             label: localise({
@@ -300,16 +302,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             }),
             get settings() {
-                const minStart = {
-                    amount: 12,
-                    units: 'weeks'
-                };
-                const minStartDate = moment().add(
-                    minStart.amount,
-                    minStart.units
-                );
                 return {
-                    minStart: minStart,
                     minDateExample: minStartDate.format('DD/MM/YYYY'),
                     fromDateExample: minStartDate
                         .subtract(1, 'days')
