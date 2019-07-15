@@ -139,6 +139,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
             "size": "123",
             "type": "application/pdf"
         },
+        "buildingSocietyNumber": null,
         "termsAgreement1": "yes",
         "termsAgreement2": "yes",
         "termsAgreement3": "yes",
@@ -560,6 +561,12 @@ type: `string`
 ### bankAccountNumber
 
 type: `string`
+
+### buildingSocietyNumber
+
+type: `string` or `null`
+
+Optional field
 
 ### bankStatement
 
