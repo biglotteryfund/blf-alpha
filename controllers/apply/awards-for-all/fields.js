@@ -686,17 +686,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function conditionalBeneficiaryChoice({ match, schema }) {
         return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
             is: 'yes',
-            // Conditional based on array
-            // https://github.com/hapijs/joi/issues/622
-            then: Joi.when(Joi.ref('beneficiariesGroups'), {
-                is: Joi.array().items(
-                    Joi.string()
-                        .only(match)
-                        .required(),
-                    Joi.any()
-                ),
-                then: schema,
-                otherwise: Joi.any().strip()
+            then: Joi.when('beneficiariesGroupsOther', {
+                is: Joi.string().required(),
+                then: Joi.any().strip(),
+                // Conditional based on array
+                // https://github.com/hapijs/joi/issues/622
+                otherwise: Joi.when(Joi.ref('beneficiariesGroups'), {
+                    is: Joi.array().items(
+                        Joi.string()
+                            .only(match)
+                            .required(),
+                        Joi.any()
+                    ),
+                    then: schema,
+                    otherwise: Joi.any().strip()
+                })
             }),
             otherwise: Joi.any().strip()
         });
@@ -1361,7 +1365,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 return Joi.when('beneficiariesGroupsCheck', {
                     is: 'yes',
                     then: Joi.when('beneficiariesGroupsOther', {
-                        is: Joi.string(),
+                        is: Joi.string().required(),
                         then: Joi.any().strip(),
                         otherwise: multiChoice(this.options).required()
                     }),

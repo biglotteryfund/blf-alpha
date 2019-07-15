@@ -86,7 +86,7 @@ class FormModel {
 
             function sectionStatus() {
                 const fieldNames = fieldsForSection().map(f => f.name);
-                const fieldData = pick(validation.value, fieldNames);
+                const fieldData = pick(data, fieldNames);
                 const fieldErrors = validation.messages.filter(item =>
                     fieldNames.includes(item.param)
                 );
