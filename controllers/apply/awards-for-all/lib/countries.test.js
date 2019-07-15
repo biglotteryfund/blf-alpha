@@ -10,9 +10,9 @@ describe('countriesFor', () => {
                 o => o.label
             )
         ).toEqual([
-            'Scotland (coming soon)',
             'England',
             'Northern Ireland (coming soon)',
+            'Scotland (coming soon)',
             'Wales (coming soon)'
         ]);
 
@@ -23,9 +23,9 @@ describe('countriesFor', () => {
             }).map(o => o.label)
         ).toEqual([
             'Scotland',
+            'Wales',
             'England (coming soon)',
-            'Northern Ireland (coming soon)',
-            'Wales'
+            'Northern Ireland (coming soon)'
         ]);
     });
 });

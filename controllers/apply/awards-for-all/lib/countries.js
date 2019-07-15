@@ -1,5 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
+const getOr = require('lodash/fp/getOr');
+const orderBy = require('lodash/orderBy');
 
 module.exports = function countriesFor({ locale, allowedCountries = [] }) {
     const localise = get(locale);
@@ -58,5 +60,5 @@ module.exports = function countriesFor({ locale, allowedCountries = [] }) {
         }
     );
 
-    return options;
+    return orderBy(options, ['attributes.disabled', 'label'], ['desc', 'asc']);
 };
