@@ -4,7 +4,6 @@ export default {
         currentText: { type: String, default: '' },
         maxWords: { type: Number, required: true },
         minWords: { type: Number, required: true },
-        recommendedWords: { type: Number, required: true },
         locale: { type: String, required: true }
     },
     methods: {

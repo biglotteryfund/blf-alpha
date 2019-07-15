@@ -1,7 +1,9 @@
 'use strict';
 const moment = require('moment/moment');
+const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
-const { flatMap, includes, values, concat, has } = require('lodash');
+const has = require('lodash/has');
+const { oneLine } = require('common-tags');
 
 const Joi = require('../form-router-next/joi-extensions');
 const locationsFor = require('./locations');
@@ -38,25 +40,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             schema: Joi.string()
                 .email()
                 .required(),
-            messages: concat(
-                [
-                    {
-                        type: 'base',
-                        message: localise({
-                            en: 'Enter an email address',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'string.email',
-                        message: localise({
-                            en: `Email address must be in the correct format, like name@example.com`,
-                            cy: ``
-                        })
-                    }
-                ],
-                additionalMessages
-            )
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter an email address',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.email',
+                    message: localise({
+                        en: `Email address must be in the correct format, like name@example.com`,
+                        cy: ``
+                    })
+                }
+            ].concat(additionalMessages)
         };
 
         return { ...defaultProps, ...props };
@@ -96,47 +95,44 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'address',
             isRequired: true,
             schema: Joi.ukAddress().required(),
-            messages: concat(
-                [
-                    {
-                        type: 'base',
-                        message: localise({
-                            en: 'Enter a full UK address',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'any.empty',
-                        key: 'line1',
-                        message: localise({
-                            en: 'Enter a building and street',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'any.empty',
-                        key: 'townCity',
-                        message: localise({
-                            en: 'Enter a town or city',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'any.empty',
-                        key: 'postcode',
-                        message: localise({ en: 'Enter a postcode', cy: '' })
-                    },
-                    {
-                        type: 'string.postcode',
-                        key: 'postcode',
-                        message: localise({
-                            en: 'Enter a real postcode',
-                            cy: ''
-                        })
-                    }
-                ],
-                additionalMessages
-            )
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a full UK address',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'any.empty',
+                    key: 'line1',
+                    message: localise({
+                        en: 'Enter a building and street',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'any.empty',
+                    key: 'townCity',
+                    message: localise({
+                        en: 'Enter a town or city',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'any.empty',
+                    key: 'postcode',
+                    message: localise({ en: 'Enter a postcode', cy: '' })
+                },
+                {
+                    type: 'string.postcode',
+                    key: 'postcode',
+                    message: localise({
+                        en: 'Enter a real postcode',
+                        cy: ''
+                    })
+                }
+            ].concat(additionalMessages)
         };
 
         return { ...defaultProps, ...props };
@@ -222,34 +218,31 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'full-name',
             isRequired: true,
             schema: Joi.fullName().required(),
-            messages: concat(
-                [
-                    {
-                        type: 'base',
-                        message: localise({
-                            en: 'Enter first and last name',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'any.empty',
-                        key: 'firstName',
-                        message: localise({
-                            en: 'Enter first name',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'any.empty',
-                        key: 'lastName',
-                        message: localise({
-                            en: 'Enter last name',
-                            cy: ''
-                        })
-                    }
-                ],
-                additionalMessages
-            )
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter first and last name',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'any.empty',
+                    key: 'firstName',
+                    message: localise({
+                        en: 'Enter first name',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'any.empty',
+                    key: 'lastName',
+                    message: localise({
+                        en: 'Enter last name',
+                        cy: ''
+                    })
+                }
+            ].concat(additionalMessages)
         };
 
         return { ...defaultProps, ...props };
@@ -300,7 +293,324 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return { ...defaultProps, ...props };
     }
 
-    function organisationTypeField() {
+    function fieldProjectDateRange() {
+        const minDate = moment().add(12, 'weeks');
+        const minDateAfter = minDate.subtract(1, 'days');
+        const maxDate = moment().add(1, 'years');
+        const maxDateLabel = localise({
+            en: `twelve months`,
+            cy: ``
+        });
+
+        return {
+            name: 'projectDateRange',
+            label: localise({
+                en: `When would you like to start and end your project?`,
+                cy: ``
+            }),
+            settings: {
+                minYear: minDate.format('YYYY')
+            },
+            explanation: localise({
+                en: `<p>
+                    If you don't know exactly, your dates can be estimates.
+                    But you need to start your project after
+                    ${minDate.format('DD/MM/YYYY')}.
+                </p>
+                <p>
+                    We usually only fund projects that last
+                    ${maxDateLabel} or less.
+                    So, the end date can't be more than
+                    ${maxDateLabel} after the start date.    
+                </p>
+                <p><strong>If your project is a one-off event</strong></p>
+                <p>
+                    Just let us know the date you plan to hold the event
+                    in the start and end date boxes below.
+                </p>`,
+                cy: ''
+            }),
+            type: 'date-range',
+            isRequired: true,
+            schema: Joi.dateRange()
+                .minDate(minDate.format('YYYY-MM-DD'))
+                .maxDate(maxDate.format('YYYY-MM-DD')),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a project start and end date',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'dateRange.both.invalid',
+                    message: localise({
+                        en: `Project start and end dates must be real dates`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'datesRange.startDate.invalid',
+                    message: localise({
+                        en: `Date you start the project must be a real date`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'dateRange.endDate.invalid',
+                    message: localise({
+                        en: 'Date you end the project must be a real date',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'dateRange.minDate.invalid',
+                    message: localise({
+                        en: oneLine`Date you start the project must be after
+                            ${minDateAfter.format('D MMMM YYYY')}`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'dateRange.maxDate.invalid',
+                    message: localise({
+                        en: oneLine`Date you end the project must be within
+                            ${maxDateLabel} of the start date.`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'dateRange.endDate.beforeStartDate',
+                    message: localise({
+                        en: `Date you end the project must be after the start date`,
+                        cy: ''
+                    })
+                }
+            ]
+        };
+    }
+
+    function fieldYourIdeaProject() {
+        const minWords = 50;
+        const maxWords = 300;
+
+        return {
+            name: 'yourIdeaProject',
+            label: localise({
+                en: 'What would you like to do?',
+                cy: ''
+            }),
+            explanation: localise({
+                en: `<p><strong>
+                    Here are some ideas of what to tell us about your project:
+                </strong></p>
+                <ul>
+                    <li>What you would like to do</li>
+                    <li>What difference your project will make</li>
+                    <li>Who will benefit from it</li>
+                    <li>How long you expect to run it for. This can be an estimate</li>
+                    <li>How you'll make sure people know about it</li>
+                    <li>How you plan to learn from it and use this
+                        learning to shape future projects</li>
+                    <li>Is it something new, or are you continuing something that
+                        has worked well previously? We want to fund both types of projects</li>
+                </ul>
+                <p><strong>
+                    You can write up to ${maxWords} words for this section,
+                    but don't worry if you use less.
+                </strong></p>`,
+                cy: ''
+            }),
+            type: 'textarea',
+            settings: {
+                stackedSummary: true,
+                showWordCount: true,
+                minWords: minWords,
+                maxWords: maxWords
+            },
+            attributes: { rows: 20 },
+            isRequired: true,
+            schema: Joi.string()
+                .minWords(minWords)
+                .maxWords(maxWords)
+                .required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Tell us about your project',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.minWords',
+                    message: localise({
+                        en: `Answer must be at least ${minWords} words`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.maxWords',
+                    message: localise({
+                        en: `Answer must be no more than ${maxWords} words`,
+                        cy: ''
+                    })
+                }
+            ]
+        };
+    }
+
+    function fieldYourIdeaPriorities() {
+        const minWords = 50;
+        const maxWords = 150;
+
+        return {
+            name: 'yourIdeaPriorities',
+            label: localise({
+                en: `How does your project meet at least one of our funding priorities?`,
+                cy: ``
+            }),
+            explanation: localise({
+                en: `<p>
+                    National Lottery Awards for All has three funding priorities, 
+                    please tell us how your project will
+                    <strong>meet at least one of these:</strong>
+                </p>
+                <ol>
+                    <li>Bring people together and build strong
+                        relationships in and across communities</li>
+                    <li>Improve the places and spaces that matter to communities</li>
+                    <li>Help more people to reach their potential,
+                        by supporting them at the earliest possible stage</li>
+                </ol>
+                <p>You can tell us if your project meets more than one priority,
+                   but don't worry if it doesn't.</p>
+                <p><strong>
+                    You can write up to ${maxWords} words for this section,
+                    but don't worry if you use less.
+                </strong></p>`,
+                cy: ``
+            }),
+            type: 'textarea',
+            settings: {
+                stackedSummary: true,
+                showWordCount: true,
+                minWords: minWords,
+                maxWords: maxWords
+            },
+            attributes: {
+                rows: 12
+            },
+            isRequired: true,
+            schema: Joi.string()
+                .minWords(minWords)
+                .maxWords(maxWords)
+                .required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Tell us how your project meets at least one of our funding priorities`,
+                        cy: ``
+                    })
+                },
+                {
+                    type: 'string.minWords',
+                    message: localise({
+                        en: `Answer must be at least ${minWords} words`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.maxWords',
+                    message: localise({
+                        en: `Answer must be no more than ${maxWords} words`,
+                        cy: ''
+                    })
+                }
+            ]
+        };
+    }
+
+    function fieldYourIdeaCommunity() {
+        const minWords = 50;
+        const maxWords = 200;
+
+        return {
+            name: 'yourIdeaCommunity',
+            label: localise({
+                en: 'How does your project involve your community?',
+                cy: ''
+            }),
+            explanation: localise({
+                en: `
+                <details class="o-details u-margin-bottom-s">
+                    <summary class="o-details__summary">What do we mean by community?</summary>
+                    <div class="o-details__content">
+                        <ol>
+                            <li>People living in the same area</li>
+                            <li>People who have similar interests or life experiences,
+                                but might not live in the same area</li>
+                            <li>Even though schools can be at the heart of a
+                                community—we'll only fund schools that also
+                                benefit the communities around them.</li>
+                        </ol>
+                    <div>
+                </details>
+                <p>
+                    We believe that people understand what's needed in their
+                    communities better than anyone. Tell us how your community 
+                    came up with the idea for your project. We want to know how
+                    many people you've spoken to, and how they'll be involved
+                    in the development and delivery of the project.
+                </p>
+                <p><strong>
+                    You can write up to ${maxWords} words for this section,
+                    but don't worry if you use less.
+                </strong></p>`,
+                cy: ''
+            }),
+            type: 'textarea',
+            settings: {
+                stackedSummary: true,
+                showWordCount: true,
+                minWords: minWords,
+                maxWords: maxWords
+            },
+            attributes: { rows: 15 },
+            isRequired: true,
+            schema: Joi.string()
+                .minWords(minWords)
+                .maxWords(maxWords)
+                .required(),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Tell us how your project involves your community`,
+                        cy: ``
+                    })
+                },
+                {
+                    type: 'string.minWords',
+                    message: localise({
+                        en: `Answer must be at least ${minWords} words`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.maxWords',
+                    message: localise({
+                        en: `Answer must be no more than ${maxWords} words`,
+                        cy: ''
+                    })
+                }
+            ]
+        };
+    }
+
+    function fieldOrganisationType() {
         const options = [
             {
                 value: ORGANISATION_TYPES.UNREGISTERED_VCO,
@@ -411,7 +721,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
     }
 
-    function seniorContactRoleField() {
+    function fieldSeniorContactRole() {
         function rolesFor(organisationType, organisationSubType) {
             const ROLES = {
                 CHAIR: {
@@ -522,7 +832,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ];
                     break;
                 default:
-                    options = values(ROLES);
+                    options = Object.values(ROLES);
                     break;
             }
 
@@ -552,7 +862,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         options = [ROLES.CHIEF_EXECUTIVE, ROLES.DIRECTOR];
                         break;
                     default:
-                        options = values(ROLES);
+                        options = Object.values(ROLES);
                         break;
                 }
             }
@@ -706,7 +1016,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
-    const fields = {
+    return {
         projectName: {
             name: 'projectName',
             label: localise({
@@ -727,113 +1037,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        projectDateRange: {
-            name: 'projectDateRange',
-            label: localise({
-                en: `When would you like to start and end your project?`,
-                cy: ``
-            }),
-            get settings() {
-                const minStart = {
-                    amount: 12,
-                    units: 'weeks'
-                };
-                const minStartDate = moment().add(
-                    minStart.amount,
-                    minStart.units
-                );
-                return {
-                    minStart: minStart,
-                    minDateExample: minStartDate.format('DD/MM/YYYY'),
-                    fromDateExample: minStartDate
-                        .subtract(1, 'days')
-                        .format('D MMMM YYYY'),
-                    minYear: minStartDate.format('YYYY'),
-                    maxDurationFromStart: {
-                        amount: 1,
-                        units: 'years',
-                        label: localise({
-                            en: `twelve months`,
-                            cy: ``
-                        })
-                    }
-                };
-            },
-            get explanation() {
-                return localise({
-                    en: `<p>If you don't know exactly, your dates can be estimates. But you need to start your project after ${this.settings.minDateExample}.</p>
-                      <p>We usually only fund projects that last ${this.settings.maxDurationFromStart.label} or less. So, the end date can't be more than ${this.settings.maxDurationFromStart.label} after the start date.</p>
-                      <p><strong>If your project is a one-off event</strong></p>
-                      <p>Just let us know the date you plan to hold the event in the start and end date boxes below.</p>`,
-                    cy: ''
-                });
-            },
-            type: 'date-range',
-            isRequired: true,
-            get schema() {
-                const minDate = moment().add('12', 'weeks');
-                return Joi.dateRange()
-                    .minDate(minDate.format('YYYY-MM-DD'))
-                    .futureEndDate()
-                    .endDateLimit(
-                        this.settings.maxDurationFromStart.amount,
-                        this.settings.maxDurationFromStart.units
-                    );
-            },
-            get messages() {
-                return [
-                    {
-                        type: 'base',
-                        message: localise({
-                            en: 'Enter a project start and end date',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'dateRange.both.invalid',
-                        message: localise({
-                            en: `Project start and end dates must be real dates`,
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'datesRange.startDate.invalid',
-                        message: localise({
-                            en: `Date you start the project must be a real date`,
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'dateRange.endDate.invalid',
-                        message: localise({
-                            en: 'Date you end the project must be a real date',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'dateRange.minDate.invalid',
-                        message: localise({
-                            en: `Date you start the project must be after ${this.settings.fromDateExample}`,
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'dateRange.endDate.beforeStartDate',
-                        message: localise({
-                            en: `Date you end the project must be after the start date`,
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'dateRange.endDate.outsideLimit',
-                        message: localise({
-                            en: `Date you end the project must be within ${this.settings.maxDurationFromStart.label} of the start date.`,
-                            cy: ''
-                        })
-                    }
-                ];
-            }
-        },
+        projectDateRange: fieldProjectDateRange(),
         projectCountry: {
             name: 'projectCountry',
             label: localise({
@@ -970,199 +1174,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        yourIdeaProject: {
-            name: 'yourIdeaProject',
-            label: localise({
-                en: 'What would you like to do?',
-                cy: ''
-            }),
-            get explanation() {
-                return localise({
-                    en: `<p><strong>Here are some ideas of what to tell us about your project:</strong></p>
-                    <ul>
-                        <li>What you would like to do</li>
-                        <li>What difference your project will make</li>
-                        <li>Who will benefit from it</li>
-                        <li>How long you expect to run it for. This can be an estimate</li>
-                        <li>How you'll make sure people know about it</li>
-                        <li>How you plan to learn from it and use this learning to shape future projects</li>
-                        <li>Is it something new, or are you continuing something that has worked well previously? We want to fund both types of projects</li>
-                    </ul>
-                    <p><strong>You can write up to ${this.settings.maxWords} words for this section, but don't worry if you use less.</strong></p>`,
-                    cy: ''
-                });
-            },
-            type: 'textarea',
-            settings: {
-                stackedSummary: true,
-                showWordCount: true,
-                minWords: 50,
-                maxWords: 300,
-                recommendedWords: 250
-            },
-            attributes: { rows: 20 },
-            isRequired: true,
-            get schema() {
-                return Joi.string()
-                    .minWords(this.settings.minWords)
-                    .maxWords(this.settings.maxWords)
-                    .required();
-            },
-            get messages() {
-                return [
-                    {
-                        type: 'base',
-                        message: localise({
-                            en: 'Tell us about your project',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'string.minWords',
-                        message: localise({
-                            en: `Answer must be at least ${this.settings.minWords} words`,
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'string.maxWords',
-                        message: localise({
-                            en: `Answer must be no more than ${this.settings.maxWords} words`,
-                            cy: ''
-                        })
-                    }
-                ];
-            }
-        },
-        yourIdeaPriorities: {
-            name: 'yourIdeaPriorities',
-            label: localise({
-                en: `How does your project meet at least one of our funding priorities?`,
-                cy: ``
-            }),
-            get explanation() {
-                return localise({
-                    en: `<p>National Lottery Awards for All has three funding priorities, please tell us how your project will <strong>meet at least one of these:</strong></p>
-                        <ol>
-                            <li>Bring people together and build strong relationships in and across communities</li>
-                            <li>Improve the places and spaces that matter to communities</li>
-                            <li>Help more people to reach their potential, by supporting them at the earliest possible stage</li>
-                        </ol>
-                        <p>You can tell us if your project meets more than one priority, but don't worry if it doesn't.</p>
-                        <p><strong>You can write up to ${this.settings.maxWords} words for this section, but don't worry if you use less.</strong></p>`,
-                    cy: ``
-                });
-            },
-            type: 'textarea',
-            settings: {
-                stackedSummary: true,
-                showWordCount: true,
-                minWords: 50,
-                maxWords: 150,
-                recommendedWords: 100
-            },
-            attributes: {
-                rows: 12
-            },
-            isRequired: true,
-            get schema() {
-                return Joi.string()
-                    .minWords(this.settings.minWords)
-                    .maxWords(this.settings.maxWords)
-                    .required();
-            },
-            get messages() {
-                return [
-                    {
-                        type: 'base',
-                        message: localise({
-                            en: `Tell us how your project meets at least one of our funding priorities`,
-                            cy: ``
-                        })
-                    },
-                    {
-                        type: 'string.minWords',
-                        message: localise({
-                            en: `Answer must be at least ${this.settings.minWords} words`,
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'string.maxWords',
-                        message: localise({
-                            en: `Answer must be no more than ${this.settings.maxWords} words`,
-                            cy: ''
-                        })
-                    }
-                ];
-            }
-        },
-        yourIdeaCommunity: {
-            name: 'yourIdeaCommunity',
-            label: localise({
-                en: 'How does your project involve your community?',
-                cy: ''
-            }),
-            get explanation() {
-                return localise({
-                    en: `
-                        <details class="o-details u-margin-bottom-s">
-                            <summary class="o-details__summary">What do we mean by community?</summary>
-                            <div class="o-details__content">
-                                <ol>
-                                    <li>People living in the same area</li>
-                                    <li>People who have similar interests or life experiences, but might not live in the same area</li>
-                                    <li>Even though schools can be at the heart of a community - we'll only fund schools that also benefit the communities around them.</li>
-                                </ol>
-                            <div>
-                        </details>
-                        <p>We believe that people understand what's needed in their communities better than anyone. Tell us how your community came up with the idea for your project. We want to know how many people you've spoken to, and how they'll be involved in the development and delivery of the project.</p>
-                        <p><strong>You can write up to ${this.settings.maxWords} words for this section, but don't worry if you use less.</strong></p>`,
-                    cy: ''
-                });
-            },
-            type: 'textarea',
-            settings: {
-                stackedSummary: true,
-                showWordCount: true,
-                minWords: 50,
-                maxWords: 200,
-                recommendedWords: 150
-            },
-            attributes: { rows: 15 },
-            isRequired: true,
-            get schema() {
-                return Joi.string()
-                    .minWords(this.settings.minWords)
-                    .maxWords(this.settings.maxWords)
-                    .required();
-            },
-            get messages() {
-                return [
-                    {
-                        type: 'base',
-                        message: localise({
-                            en: `Tell us how your project involves your community`,
-                            cy: ``
-                        })
-                    },
-                    {
-                        type: 'string.minWords',
-                        message: localise({
-                            en: `Answer must be at least ${this.settings.minWords} words`,
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'string.maxWords',
-                        message: localise({
-                            en: `Answer must be no more than ${this.settings.maxWords} words`,
-                            cy: ''
-                        })
-                    }
-                ];
-            }
-        },
+        yourIdeaProject: fieldYourIdeaProject(),
+        yourIdeaPriorities: fieldYourIdeaPriorities(),
+        yourIdeaCommunity: fieldYourIdeaCommunity(),
         projectBudget: {
             name: 'projectBudget',
             label: localise({
@@ -1922,7 +1936,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             })
         }),
-        organisationType: organisationTypeField(),
+        organisationType: fieldOrganisationType(),
         organisationSubTypeStatutoryBody: {
             name: 'organisationSubType',
             label: localise({
@@ -2008,13 +2022,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'text',
             attributes: { size: 20 },
-            isRequired: includes(
-                [
-                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                    ORGANISATION_TYPES.CIO
-                ],
-                currentOrganisationType
-            ),
+            isRequired: [
+                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                ORGANISATION_TYPES.CIO
+            ].includes(currentOrganisationType),
             schema: Joi.when('organisationType', {
                 is: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
                 then: Joi.number().required()
@@ -2241,7 +2252,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
-        seniorContactRole: seniorContactRoleField(),
+        seniorContactRole: fieldSeniorContactRole(),
         seniorContactName: nameField(
             {
                 name: 'seniorContactName',
@@ -2597,6 +2608,4 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true
         }
     };
-
-    return fields;
 };
