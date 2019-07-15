@@ -50,6 +50,9 @@
     "enableSeeders": false,
     "enableSiteSurvey": true
   },
+  "awardsForAllApplications": {
+    "allowedCountries": ["scotland"]
+  },
   "cookies": {
     "session": "blf-alpha-session"
   },
