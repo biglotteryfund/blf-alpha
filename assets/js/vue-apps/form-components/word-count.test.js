@@ -13,7 +13,6 @@ describe('WordCount', () => {
                 currentText: null,
                 minWords: 10,
                 maxWords: 150,
-                recommendedWords: 100,
                 locale: 'en'
             }
         });
@@ -29,7 +28,6 @@ describe('WordCount', () => {
                 currentText: null,
                 minWords: 50,
                 maxWords: 150,
-                recommendedWords: 100,
                 locale: 'en'
             }
         });

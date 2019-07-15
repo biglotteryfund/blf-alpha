@@ -997,8 +997,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 stackedSummary: true,
                 showWordCount: true,
                 minWords: 50,
-                maxWords: 300,
-                recommendedWords: 250
+                maxWords: 300
             },
             attributes: { rows: 20 },
             isRequired: true,
@@ -1058,8 +1057,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 stackedSummary: true,
                 showWordCount: true,
                 minWords: 50,
-                maxWords: 150,
-                recommendedWords: 100
+                maxWords: 150
             },
             attributes: {
                 rows: 12
@@ -1126,8 +1124,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 stackedSummary: true,
                 showWordCount: true,
                 minWords: 50,
-                maxWords: 200,
-                recommendedWords: 150
+                maxWords: 200
             },
             attributes: { rows: 15 },
             isRequired: true,
