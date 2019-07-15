@@ -37,6 +37,15 @@ describe('dateRange', () => {
         });
 
         expect(endDateInvalid.error.message).toContain('Invalid endDate');
+
+        const endDateBeforeStart = schema.validate({
+            startDate: { day: 1, month: 2, year: 2100 },
+            endDate: { day: 1, month: 1, year: 2100 }
+        });
+
+        expect(endDateBeforeStart.error.message).toContain(
+            'endDate must not be before startDate'
+        );
     });
 
     test('minDate', () => {

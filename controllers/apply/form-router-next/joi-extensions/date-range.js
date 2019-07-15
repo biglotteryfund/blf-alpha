@@ -72,6 +72,13 @@ module.exports = function dateParts(joi) {
                     state,
                     options
                 );
+            } else if (dates.endDate.isSameOrAfter(dates.startDate) === false) {
+                return this.createError(
+                    'dateRange.endDate.beforeStartDate',
+                    { v: value },
+                    state,
+                    options
+                );
             } else {
                 return value;
             }
