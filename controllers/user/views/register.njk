@@ -53,7 +53,10 @@
                 }, errors = errors) }}
 
                 <div class="form-actions">
-                    <input type="submit" class="btn" value="{{ copy.actionLabel }}" />
+                    <input type="submit"
+                           class="btn"
+                           value="{{ copy.actionLabel }}"
+                           data-testid="form-submit" />
                     {{ __('global.misc.or') }}
                     <a href="{{ localify('/user/login') }}">{{ copy.loginLabel }}</a>
                 </div>

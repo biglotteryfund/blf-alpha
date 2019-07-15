@@ -211,9 +211,8 @@ describe('user', () => {
         cy.getByLabelText('Password')
             .clear()
             .type(password, { delay: 0 });
-        cy.get('.form-actions').within(() => {
-            cy.getByText('Log in').click();
-        });
+
+        cy.getByTestId('form-submit').click();
     }
 
     it('should not allow unknown users to login', () => {
@@ -233,7 +232,7 @@ describe('user', () => {
         cy.getByLabelText('Password')
             .clear()
             .type(password, { delay: 0 });
-        cy.getByLabelText('Password confirmation', { exact: false })
+        cy.getByLabelText('Re-type your password')
             .clear()
             .type(password, { delay: 0 });
         cy.get('.form-actions').within(() => {
