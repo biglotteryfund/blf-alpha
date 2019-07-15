@@ -1,12 +1,12 @@
 'use strict';
-const moment = require('moment/moment');
+const config = require('config');
+const moment = require('moment');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const has = require('lodash/has');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../form-router-next/joi-extensions');
-const locationsFor = require('./locations');
 const {
     BENEFICIARY_GROUPS,
     MIN_BUDGET_TOTAL_GBP,
@@ -18,6 +18,8 @@ const {
     ORG_MIN_AGE,
     FILE_LIMITS
 } = require('./constants');
+const countriesFor = require('./lib/countries');
+const locationsFor = require('./locations');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
@@ -405,36 +407,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             }),
             type: 'radio',
-            options: [
-                {
-                    value: 'scotland',
-                    label: localise({ en: 'Scotland', cy: '' })
-                },
-                {
-                    value: 'england',
-                    label: localise({ en: 'England (coming soon)', cy: '' }),
-                    attributes: {
-                        disabled: 'disabled'
-                    }
-                },
-                {
-                    value: 'northern-ireland',
-                    label: localise({
-                        en: 'Northern Ireland (coming soon)',
-                        cy: ''
-                    }),
-                    attributes: {
-                        disabled: 'disabled'
-                    }
-                },
-                {
-                    value: 'wales',
-                    label: localise({ en: 'Wales (coming soon)', cy: '' }),
-                    attributes: {
-                        disabled: 'disabled'
-                    }
-                }
-            ],
+            options: countriesFor({
+                locale: locale,
+                allowedCountries: config.get(
+                    'awardsForAllApplications.allowedCountries'
+                )
+            }),
             isRequired: true,
             get schema() {
                 const allowedOptions = this.options.filter(function(option) {
