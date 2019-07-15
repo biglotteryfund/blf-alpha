@@ -29,6 +29,14 @@ describe('server smoke tests', function() {
             expect(response.status).to.eq(404);
             expect(response.body).to.include('Error 404');
         });
+
+        cy.request({
+            url: '/not/a/page',
+            failOnStatusCode: false
+        }).then(response => {
+            expect(response.status).to.eq(404);
+            expect(response.body).to.include('Error 404');
+        });
     });
 
     it('should redirect search queries to a google site search', () => {

@@ -1,5 +1,6 @@
 'use strict';
-const { find, filter, get, head, map, sortBy } = require('lodash/fp');
+const { find, filter, get, getOr, head, map, sortBy } = require('lodash/fp');
+
 const request = require('request-promise-native');
 const querystring = require('querystring');
 
@@ -91,8 +92,32 @@ function getRoutes() {
     return fetch('/v1/list-routes').then(mapAttrs);
 }
 
-function getAliases({ locale }) {
-    return fetch(`/v1/${locale}/aliases`).then(mapAttrs);
+function getAliasForLocale({ locale, urlPath }) {
+    return fetch(`/v1/${locale}/aliases`)
+        .then(mapAttrs)
+        .then(matches => {
+            const findAlias = find(
+                alias => alias.from.toLowerCase() === urlPath.toLowerCase()
+            );
+            return findAlias(matches);
+        });
+}
+
+function getAlias(urlPath) {
+    const getOrHomepage = getOr('/', 'to');
+    return getAliasForLocale({
+        locale: 'en',
+        urlPath: urlPath
+    }).then(enMatch => {
+        if (enMatch) {
+            return getOrHomepage(enMatch);
+        } else {
+            return getAliasForLocale({
+                locale: 'cy',
+                urlPath: urlPath
+            }).then(cyMatch => (cyMatch ? getOrHomepage(cyMatch) : null));
+        }
+    });
 }
 
 function getHeroImage({ locale, slug }) {
@@ -250,10 +275,7 @@ function getMerchandise(locale, showAll = false) {
 }
 
 module.exports = {
-    mapAttrs,
-    mergeWelshBy,
-    // API methods
-    getAliases,
+    getAlias,
     getProjectStory,
     getProjectStories,
     getDataStats,
