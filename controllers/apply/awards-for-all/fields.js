@@ -391,6 +391,72 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
     }
 
+    function fieldProjectCountry() {
+        return {
+            name: 'projectCountry',
+            label: localise({
+                en: 'What country will your project be based in?',
+                cy: ''
+            }),
+            explanation: localise({
+                en: oneLine`We work slightly differently depending on which
+                    country your project is based in, to meet local needs
+                    and the regulations that apply there.`,
+                cy: ''
+            }),
+            type: 'radio',
+            options: [
+                {
+                    value: 'scotland',
+                    label: localise({ en: 'Scotland', cy: '' })
+                },
+                {
+                    value: 'england',
+                    label: localise({ en: 'England (coming soon)', cy: '' }),
+                    attributes: {
+                        disabled: 'disabled'
+                    }
+                },
+                {
+                    value: 'northern-ireland',
+                    label: localise({
+                        en: 'Northern Ireland (coming soon)',
+                        cy: ''
+                    }),
+                    attributes: {
+                        disabled: 'disabled'
+                    }
+                },
+                {
+                    value: 'wales',
+                    label: localise({ en: 'Wales (coming soon)', cy: '' }),
+                    attributes: {
+                        disabled: 'disabled'
+                    }
+                }
+            ],
+            isRequired: true,
+            get schema() {
+                return Joi.string()
+                    .valid(
+                        this.options
+                            .filter(
+                                option =>
+                                    has(option, 'attributes.disabled') === false
+                            )
+                            .map(option => option.value)
+                    )
+                    .required();
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({ en: 'Select a country', cy: '' })
+                }
+            ]
+        };
+    }
+
     function fieldYourIdeaProject() {
         const minWords = 50;
         const maxWords = 300;
@@ -1038,67 +1104,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         projectDateRange: fieldProjectDateRange(),
-        projectCountry: {
-            name: 'projectCountry',
-            label: localise({
-                en: 'What country will your project be based in?',
-                cy: ''
-            }),
-            explanation: localise({
-                en: `We work slightly differently depending on which country your project is based in, to meet local needs and the regulations that apply there.`,
-                cy: ''
-            }),
-            type: 'radio',
-            options: [
-                {
-                    value: 'scotland',
-                    label: localise({ en: 'Scotland', cy: '' })
-                },
-                {
-                    value: 'england',
-                    label: localise({ en: 'England (coming soon)', cy: '' }),
-                    attributes: {
-                        disabled: 'disabled'
-                    }
-                },
-                {
-                    value: 'northern-ireland',
-                    label: localise({
-                        en: 'Northern Ireland (coming soon)',
-                        cy: ''
-                    }),
-                    attributes: {
-                        disabled: 'disabled'
-                    }
-                },
-                {
-                    value: 'wales',
-                    label: localise({ en: 'Wales (coming soon)', cy: '' }),
-                    attributes: {
-                        disabled: 'disabled'
-                    }
-                }
-            ],
-            isRequired: true,
-            get schema() {
-                return Joi.string()
-                    .valid(
-                        this.options
-                            .filter(
-                                option =>
-                                    has(option, 'attributes.disabled') === false
-                            )
-                            .map(option => option.value)
-                    )
-                    .required();
-            },
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Select a country', cy: '' })
-                }
-            ]
-        },
+        projectCountry: fieldProjectCountry(),
         projectLocation: {
             name: 'projectLocation',
             label: localise({
