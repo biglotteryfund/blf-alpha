@@ -295,6 +295,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldProjectDateRange() {
         const minStartDate = moment().add(12, 'weeks');
+        const maxDurationFromStart = {
+            amount: 1,
+            units: 'years',
+            label: localise({
+                en: `twelve months`,
+                cy: ``
+            })
+        };
 
         return {
             name: 'projectDateRange',
@@ -304,15 +312,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             get settings() {
                 return {
-                    minYear: minStartDate.format('YYYY'),
-                    maxDurationFromStart: {
-                        amount: 1,
-                        units: 'years',
-                        label: localise({
-                            en: `twelve months`,
-                            cy: ``
-                        })
-                    }
+                    minYear: minStartDate.format('YYYY')
                 };
             },
             get explanation() {
@@ -321,9 +321,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         'DD/MM/YYYY'
                     )}.</p>
                       <p>We usually only fund projects that last ${
-                          this.settings.maxDurationFromStart.label
+                          maxDurationFromStart.label
                       } or less. So, the end date can't be more than ${
-                        this.settings.maxDurationFromStart.label
+                        maxDurationFromStart.label
                     } after the start date.</p>
                       <p><strong>If your project is a one-off event</strong></p>
                       <p>Just let us know the date you plan to hold the event in the start and end date boxes below.</p>`,
@@ -338,8 +338,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     .minDate(minDate.format('YYYY-MM-DD'))
                     .futureEndDate()
                     .endDateLimit(
-                        this.settings.maxDurationFromStart.amount,
-                        this.settings.maxDurationFromStart.units
+                        maxDurationFromStart.amount,
+                        maxDurationFromStart.units
                     );
             },
             get messages() {
@@ -392,7 +392,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'dateRange.endDate.outsideLimit',
                         message: localise({
-                            en: `Date you end the project must be within ${this.settings.maxDurationFromStart.label} of the start date.`,
+                            en: `Date you end the project must be within ${maxDurationFromStart.label} of the start date.`,
                             cy: ''
                         })
                     }
