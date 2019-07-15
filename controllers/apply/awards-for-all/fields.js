@@ -294,7 +294,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldProjectDateRange() {
-        const minStartDate = moment().add(12, 'weeks');
+        const minDate = moment().add(12, 'weeks');
+        const minDateAfter = minDate.subtract(1, 'days');
         const maxDurationFromStart = {
             amount: 1,
             units: 'years',
@@ -311,13 +312,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             }),
             settings: {
-                minYear: minStartDate.format('YYYY')
+                minYear: minDate.format('YYYY')
             },
             explanation: localise({
                 en: `<p>
                     If you don't know exactly, your dates can be estimates.
                     But you need to start your project after
-                    ${minStartDate.format('DD/MM/YYYY')}.
+                    ${minDate.format('DD/MM/YYYY')}.
                 </p>
                 <p>
                     We usually only fund projects that last
@@ -335,7 +336,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'date-range',
             isRequired: true,
             schema: Joi.dateRange()
-                .minDate(minStartDate.format('YYYY-MM-DD'))
+                .minDate(minDate.format('YYYY-MM-DD'))
                 .futureEndDate()
                 .endDateLimit(
                     maxDurationFromStart.amount,
@@ -374,9 +375,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'dateRange.minDate.invalid',
                     message: localise({
                         en: oneLine`Date you start the project must be after
-                            ${minStartDate
-                                .subtract(1, 'days')
-                                .format('D MMMM YYYY')}`,
+                            ${minDateAfter.format('D MMMM YYYY')}`,
                         cy: ''
                     })
                 },
@@ -390,7 +389,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'dateRange.endDate.outsideLimit',
                     message: localise({
-                        en: `Date you end the project must be within ${maxDurationFromStart.label} of the start date.`,
+                        en: oneLine`Date you end the project must be within
+                            ${maxDurationFromStart.label} of the start date.`,
                         cy: ''
                     })
                 }
