@@ -1,7 +1,8 @@
 'use strict';
 const moment = require('moment/moment');
+const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
-const { flatMap, includes, values, concat, has } = require('lodash');
+const has = require('lodash/has');
 
 const Joi = require('../form-router-next/joi-extensions');
 const locationsFor = require('./locations');
@@ -38,25 +39,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             schema: Joi.string()
                 .email()
                 .required(),
-            messages: concat(
-                [
-                    {
-                        type: 'base',
-                        message: localise({
-                            en: 'Enter an email address',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'string.email',
-                        message: localise({
-                            en: `Email address must be in the correct format, like name@example.com`,
-                            cy: ``
-                        })
-                    }
-                ],
-                additionalMessages
-            )
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter an email address',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.email',
+                    message: localise({
+                        en: `Email address must be in the correct format, like name@example.com`,
+                        cy: ``
+                    })
+                }
+            ].concat(additionalMessages)
         };
 
         return { ...defaultProps, ...props };
@@ -96,47 +94,44 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'address',
             isRequired: true,
             schema: Joi.ukAddress().required(),
-            messages: concat(
-                [
-                    {
-                        type: 'base',
-                        message: localise({
-                            en: 'Enter a full UK address',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'any.empty',
-                        key: 'line1',
-                        message: localise({
-                            en: 'Enter a building and street',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'any.empty',
-                        key: 'townCity',
-                        message: localise({
-                            en: 'Enter a town or city',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'any.empty',
-                        key: 'postcode',
-                        message: localise({ en: 'Enter a postcode', cy: '' })
-                    },
-                    {
-                        type: 'string.postcode',
-                        key: 'postcode',
-                        message: localise({
-                            en: 'Enter a real postcode',
-                            cy: ''
-                        })
-                    }
-                ],
-                additionalMessages
-            )
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a full UK address',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'any.empty',
+                    key: 'line1',
+                    message: localise({
+                        en: 'Enter a building and street',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'any.empty',
+                    key: 'townCity',
+                    message: localise({
+                        en: 'Enter a town or city',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'any.empty',
+                    key: 'postcode',
+                    message: localise({ en: 'Enter a postcode', cy: '' })
+                },
+                {
+                    type: 'string.postcode',
+                    key: 'postcode',
+                    message: localise({
+                        en: 'Enter a real postcode',
+                        cy: ''
+                    })
+                }
+            ].concat(additionalMessages)
         };
 
         return { ...defaultProps, ...props };
@@ -222,34 +217,31 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'full-name',
             isRequired: true,
             schema: Joi.fullName().required(),
-            messages: concat(
-                [
-                    {
-                        type: 'base',
-                        message: localise({
-                            en: 'Enter first and last name',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'any.empty',
-                        key: 'firstName',
-                        message: localise({
-                            en: 'Enter first name',
-                            cy: ''
-                        })
-                    },
-                    {
-                        type: 'any.empty',
-                        key: 'lastName',
-                        message: localise({
-                            en: 'Enter last name',
-                            cy: ''
-                        })
-                    }
-                ],
-                additionalMessages
-            )
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter first and last name',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'any.empty',
+                    key: 'firstName',
+                    message: localise({
+                        en: 'Enter first name',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'any.empty',
+                    key: 'lastName',
+                    message: localise({
+                        en: 'Enter last name',
+                        cy: ''
+                    })
+                }
+            ].concat(additionalMessages)
         };
 
         return { ...defaultProps, ...props };
@@ -522,7 +514,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ];
                     break;
                 default:
-                    options = values(ROLES);
+                    options = Object.values(ROLES);
                     break;
             }
 
@@ -552,7 +544,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         options = [ROLES.CHIEF_EXECUTIVE, ROLES.DIRECTOR];
                         break;
                     default:
-                        options = values(ROLES);
+                        options = Object.values(ROLES);
                         break;
                 }
             }
@@ -2005,13 +1997,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'text',
             attributes: { size: 20 },
-            isRequired: includes(
-                [
-                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                    ORGANISATION_TYPES.CIO
-                ],
-                currentOrganisationType
-            ),
+            isRequired: [
+                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+                ORGANISATION_TYPES.CIO
+            ].includes(currentOrganisationType),
             schema: Joi.when('organisationType', {
                 is: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
                 then: Joi.number().required()
