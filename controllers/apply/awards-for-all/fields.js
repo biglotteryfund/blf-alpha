@@ -296,14 +296,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function fieldProjectDateRange() {
         const minDate = moment().add(12, 'weeks');
         const minDateAfter = minDate.subtract(1, 'days');
-        const maxDurationFromStart = {
-            amount: 1,
-            units: 'years',
-            label: localise({
-                en: `twelve months`,
-                cy: ``
-            })
-        };
+        const maxDate = moment().add(1, 'years');
+        const maxDateLabel = localise({
+            en: `twelve months`,
+            cy: ``
+        });
 
         return {
             name: 'projectDateRange',
@@ -322,9 +319,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 </p>
                 <p>
                     We usually only fund projects that last
-                    ${maxDurationFromStart.label} or less.
+                    ${maxDateLabel} or less.
                     So, the end date can't be more than
-                    ${maxDurationFromStart.label} after the start date.    
+                    ${maxDateLabel} after the start date.    
                 </p>
                 <p><strong>If your project is a one-off event</strong></p>
                 <p>
@@ -337,11 +334,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.dateRange()
                 .minDate(minDate.format('YYYY-MM-DD'))
-                .futureEndDate()
-                .endDateLimit(
-                    maxDurationFromStart.amount,
-                    maxDurationFromStart.units
-                ),
+                .maxDate(maxDate.format('YYYY-MM-DD'))
+                .futureEndDate(),
             messages: [
                 {
                     type: 'base',
@@ -380,17 +374,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
-                    type: 'dateRange.endDate.beforeStartDate',
+                    type: 'dateRange.maxDate.invalid',
                     message: localise({
-                        en: `Date you end the project must be after the start date`,
+                        en: oneLine`Date you end the project must be within
+                            ${maxDateLabel} of the start date.`,
                         cy: ''
                     })
                 },
                 {
-                    type: 'dateRange.endDate.outsideLimit',
+                    type: 'dateRange.endDate.beforeStartDate',
                     message: localise({
-                        en: oneLine`Date you end the project must be within
-                            ${maxDurationFromStart.label} of the start date.`,
+                        en: `Date you end the project must be after the start date`,
                         cy: ''
                     })
                 }

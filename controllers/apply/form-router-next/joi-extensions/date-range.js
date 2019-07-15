@@ -38,11 +38,13 @@ module.exports = function dateParts(joi) {
                 invalid: 'Invalid startDate'
             },
             endDate: {
-                invalid: 'Invalid endDate',
-                outsideLimit: 'Date is outside limit'
+                invalid: 'Invalid endDate'
             },
             minDate: {
                 invalid: 'Date must be at least {{min}}'
+            },
+            maxDate: {
+                invalid: 'Date is outside limit'
             }
         },
         pre(value, state, options) {
@@ -100,6 +102,30 @@ module.exports = function dateParts(joi) {
                 }
             },
             {
+                name: 'maxDate',
+                params: {
+                    max: joi.string().required()
+                },
+                validate(params, value, state, options) {
+                    const dates = toRange(value);
+
+                    if (
+                        dates.startDate.isValid() &&
+                        dates.endDate.isValid() &&
+                        dates.endDate.isSameOrBefore(params.max)
+                    ) {
+                        return value;
+                    } else {
+                        return this.createError(
+                            'dateRange.maxDate.invalid',
+                            { v: value, max: params.max },
+                            state,
+                            options
+                        );
+                    }
+                }
+            },
+            {
                 name: 'futureEndDate',
                 validate(params, value, state, options) {
                     const dates = toRange(value);
@@ -113,35 +139,6 @@ module.exports = function dateParts(joi) {
                     } else {
                         return this.createError(
                             'dateRange.endDate.beforeStartDate',
-                            { v: value, min: params.min },
-                            state,
-                            options
-                        );
-                    }
-                }
-            },
-            {
-                name: 'endDateLimit',
-                params: {
-                    amount: joi.number().required(),
-                    units: joi.string().required()
-                },
-                validate(params, value, state, options) {
-                    const dates = toRange(value);
-
-                    const maximumEndDate = dates.startDate.add(
-                        params.amount,
-                        params.units
-                    );
-                    if (
-                        dates.startDate.isValid() &&
-                        dates.endDate.isValid() &&
-                        dates.endDate.isSameOrBefore(maximumEndDate)
-                    ) {
-                        return value;
-                    } else {
-                        return this.createError(
-                            'dateRange.endDate.outsideLimit',
                             { v: value, min: params.min },
                             state,
                             options
