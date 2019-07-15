@@ -26,7 +26,13 @@ if (appData.isDev) {
     require('dotenv').config();
 }
 
-const { isWelsh, makeWelsh, removeWelsh, localify } = require('./common/urls');
+const {
+    isWelsh,
+    localify,
+    makeWelsh,
+    pathCouldBeAlias,
+    removeWelsh
+} = require('./common/urls');
 const { SENTRY_DSN } = require('./common/secrets');
 const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
@@ -308,13 +314,8 @@ app.get('/error-unauthorised', renderUnauthorised);
  * - If all else fails, pass through to the 404 handler.
  */
 app.route('*').get(
-    async function vanityLookup(req, res, next) {
-        // Is this request a single-level path (eg. /foo, /bar)?
-        const pathCouldBeAlias =
-            (req.path[0] === '/' ? req.path.substring(1) : req.path).split('/')
-                .length === 1;
-
-        if (pathCouldBeAlias) {
+    async function(req, res, next) {
+        if (pathCouldBeAlias(req.path)) {
             try {
                 const urlMatch = await contentApi.getAlias(req.path);
                 if (urlMatch) {

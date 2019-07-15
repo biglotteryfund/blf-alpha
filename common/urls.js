@@ -47,6 +47,16 @@ function localify(locale) {
     };
 }
 
+/**
+ * Test if a path could be an alias
+ * i.e. more than one level deep
+ * @param path
+ * @returns {boolean}
+ */
+function pathCouldBeAlias(path) {
+    return (path[0] === '/' ? path.substring(1) : path).split('/').length === 1;
+}
+
 function getBaseUrl(req) {
     const headerProtocol = req.get('X-Forwarded-Proto');
     const protocol = headerProtocol ? headerProtocol : req.protocol;
@@ -146,8 +156,9 @@ module.exports = {
     isWelsh,
     localify,
     makeWelsh,
+    pathCouldBeAlias,
+    redirectForLocale,
     removeWelsh,
     sanitiseUrlPath,
-    stripTrailingSlashes,
-    redirectForLocale
+    stripTrailingSlashes
 };
