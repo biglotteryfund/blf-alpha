@@ -3,6 +3,7 @@ const moment = require('moment/moment');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const has = require('lodash/has');
+const { oneLine } = require('common-tags');
 
 const Joi = require('../form-router-next/joi-extensions');
 const locationsFor = require('./locations');
@@ -303,9 +304,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             get settings() {
                 return {
-                    fromDateExample: minStartDate
-                        .subtract(1, 'days')
-                        .format('D MMMM YYYY'),
                     minYear: minStartDate.format('YYYY'),
                     maxDurationFromStart: {
                         amount: 1,
@@ -377,7 +375,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     {
                         type: 'dateRange.minDate.invalid',
                         message: localise({
-                            en: `Date you start the project must be after ${this.settings.fromDateExample}`,
+                            en: oneLine`Date you start the project must be after
+                                ${minStartDate
+                                    .subtract(1, 'days')
+                                    .format('D MMMM YYYY')}`,
                             cy: ''
                         })
                     },
