@@ -30,6 +30,21 @@ module.exports = function dateParts(joi) {
             startDate: datePartsConfig,
             endDate: datePartsConfig
         }),
+        language: {
+            both: {
+                invalid: 'Both startDate and endDate are invalid'
+            },
+            startDate: {
+                invalid: 'Invalid startDate'
+            },
+            endDate: {
+                invalid: 'Invalid endDate',
+                outsideLimit: 'Date is outside limit'
+            },
+            minDate: {
+                invalid: 'Date must be at least {{min}}'
+            }
+        },
         pre(value, state, options) {
             const dates = toRange(value);
 
