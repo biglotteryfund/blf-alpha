@@ -437,15 +437,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ],
             isRequired: true,
             get schema() {
+                const allowedOptions = this.options.filter(function(option) {
+                    return has(option, 'attributes.disabled') === false;
+                });
                 return Joi.string()
-                    .valid(
-                        this.options
-                            .filter(
-                                option =>
-                                    has(option, 'attributes.disabled') === false
-                            )
-                            .map(option => option.value)
-                    )
+                    .valid(allowedOptions.map(option => option.value))
                     .required();
             },
             messages: [
