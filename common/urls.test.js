@@ -7,6 +7,7 @@ const {
     hasTrailingSlash,
     isWelsh,
     localify,
+    pathCouldBeAlias,
     sanitiseUrlPath,
     stripTrailingSlashes
 } = require('./urls');
@@ -144,6 +145,15 @@ describe('URL Helpers', () => {
 
         it('should not consider homepage as having a trailing slash', () => {
             expect(hasTrailingSlash('/')).toBe(false);
+        });
+    });
+
+    describe('#pathCouldBeAlias', () => {
+        it('should test if path could be an alias', () => {
+            expect(pathCouldBeAlias('/hello')).toBeTruthy();
+            expect(pathCouldBeAlias('/hyphenated-alias')).toBeTruthy();
+            expect(pathCouldBeAlias('/two/levels')).toBeFalsy();
+            expect(pathCouldBeAlias('/multi/level/path')).toBeFalsy();
         });
     });
 

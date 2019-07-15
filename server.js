@@ -1,5 +1,4 @@
 'use strict';
-const find = require('lodash/fp/find');
 const forEach = require('lodash/forEach');
 const path = require('path');
 const config = require('config');
@@ -27,7 +26,13 @@ if (appData.isDev) {
     require('dotenv').config();
 }
 
-const { isWelsh, makeWelsh, removeWelsh, localify } = require('./common/urls');
+const {
+    isWelsh,
+    localify,
+    makeWelsh,
+    pathCouldBeAlias,
+    removeWelsh
+} = require('./common/urls');
 const { SENTRY_DSN } = require('./common/secrets');
 const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
@@ -304,46 +309,24 @@ app.get('/error-unauthorised', renderUnauthorised);
 
 /**
  * Final wildcard request handler
- * - Lookup vanity URLs and redirect if any match
- * - Attempt to proxy pages from the legacy site
+ * - Lookup vanity URL and redirect if we have a match
  * - Otherwise, if the URL is welsh strip that from the URL and try again
  * - If all else fails, pass through to the 404 handler.
  */
 app.route('*').get(
-    async function vanityLookup(req, res, next) {
-        const findAlias = find(
-            alias => alias.from.toLowerCase() === req.path.toLowerCase()
-        );
-        try {
-            // Is this request a single-level path (eg. /foo, /bar)?
-            const pathCouldBeAlias = (req.path[0] === '/' ? req.path.substring(1) : req.path).split('/').length === 1;
-
-            if (!pathCouldBeAlias) {
-                return next();
-            }
-
-            const enAliases = await contentApi.getAliases({ locale: 'en' });
-            const enMatch = findAlias(enAliases);
-            if (enMatch) {
-                res.redirect(301, enMatch.to || '/');
-            } else {
-                try {
-                    const cyAliases = await contentApi.getAliases({
-                        locale: 'cy'
-                    });
-                    const cyMatch = find(alias => alias.from === req.path)(
-                        cyAliases
-                    );
-                    if (cyMatch) {
-                        res.redirect(301, cyMatch.to || '/');
-                    } else {
-                        next();
-                    }
-                } catch (e) {
+    async function(req, res, next) {
+        if (pathCouldBeAlias(req.path)) {
+            try {
+                const urlMatch = await contentApi.getAlias(req.path);
+                if (urlMatch) {
+                    res.redirect(301, urlMatch);
+                } else {
                     next();
                 }
+            } catch (e) {
+                next();
             }
-        } catch (e) {
+        } else {
             next();
         }
     },
