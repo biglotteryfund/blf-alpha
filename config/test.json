@@ -11,5 +11,8 @@
     "enableHotjar": true,
     "enableMailSendMetrics": true,
     "enableSalesforceConnector": true
+  },
+  "awardsForAllApplications": {
+    "allowedCountries": ["england", "scotland"]
   }
 }

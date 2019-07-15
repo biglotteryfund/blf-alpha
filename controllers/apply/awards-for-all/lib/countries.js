@@ -1,6 +1,5 @@
 'use strict';
 const get = require('lodash/fp/get');
-const getOr = require('lodash/fp/getOr');
 const orderBy = require('lodash/orderBy');
 
 module.exports = function countriesFor({ locale, allowedCountries = [] }) {
@@ -45,7 +44,7 @@ module.exports = function countriesFor({ locale, allowedCountries = [] }) {
         return result;
     }
 
-    const options = ['scotland', 'england', 'northern-ireland', 'wales'].map(
+    const options = ['england', 'scotland', 'wales', 'northern-ireland'].map(
         country => {
             const option = {
                 value: country,
