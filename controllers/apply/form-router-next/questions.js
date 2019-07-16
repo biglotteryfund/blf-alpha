@@ -6,11 +6,15 @@ const nunjucks = require('nunjucks');
 const path = require('path');
 const pdf = require('html-pdf');
 
-module.exports = function(formId, formBuilder) {
+module.exports = function(formId, formBuilder, eligibilityBuilder) {
     const router = express.Router();
 
     router.get('/:pdf?', (req, res, next) => {
         const form = formBuilder({
+            locale: req.i18n.getLocale()
+        });
+
+        const eligibility = eligibilityBuilder({
             locale: req.i18n.getLocale()
         });
 
@@ -21,7 +25,8 @@ module.exports = function(formId, formBuilder) {
             },
             context: {
                 title: form.title,
-                form: form
+                form: form,
+                eligibility: eligibility
             }
         };
 

@@ -61,7 +61,7 @@
     </div>
 {% endmacro %}
 
-{% macro questionList(form) %}
+{% macro questionList(form, eligibility) %}
 
     <section class="application-questions">
 
@@ -70,7 +70,7 @@
         {% endcall %}
 
         <div class="application-questions__set">
-            {% for field in form.eligibilityQuestions %}
+            {% for field in eligibility.questions %}
                 {% call question(first = loop.first) %}
                     <dt class="application-questions__q">{{ field.question | safe }}</dt>
                     {% if field.explanation %}

@@ -1,4 +1,4 @@
-{% from "./questions-list.njk" import questionsIntro, questionList %}
+{% from "./questions-list.njk" import questionsIntro, questionList with context %}
 {% from "components/icons.njk" import iconDownload %}
 {% from "components/print-button/macro.njk" import printButton %}
 
@@ -23,7 +23,7 @@
         </section>
 
         <section class="content-box u-inner-wide-only">
-            {{ questionList(form) }}
+            {{ questionList(form, eligibility) }}
         </section>
 
     </main>
