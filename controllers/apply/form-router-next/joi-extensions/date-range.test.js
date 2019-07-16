@@ -1,6 +1,7 @@
 /* eslint-env jest */
 // @ts-nocheck
 'use strict';
+const moment = require('moment');
 const baseJoi = require('@hapi/joi');
 const Joi = baseJoi.extend(require('./date-range'));
 
@@ -67,19 +68,25 @@ describe('dateRange', () => {
         );
     });
 
-    test('maxDate', () => {
-        const schema = Joi.dateRange().maxDate('2100-02-28');
+    test('endDateLimit', () => {
+        function toDateParts(dt) {
+            return { day: dt.date(), month: dt.month() + 1, year: dt.year() };
+        }
+        const schema = Joi.dateRange().endDateLimit(12, 'months');
+
+        const dynamicStartDate = moment().add('12', 'weeks');
+        const dynamicEndDate = dynamicStartDate.clone().add('12', 'months');
 
         const valid = schema.validate({
-            startDate: { day: 1, month: 2, year: 2100 },
-            endDate: { day: 7, month: 2, year: 2100 }
+            startDate: toDateParts(dynamicStartDate),
+            endDate: toDateParts(dynamicEndDate)
         });
 
         expect(valid.error).toBeNull();
 
         const invalid = schema.validate({
-            startDate: { day: 1, month: 2, year: 2100 },
-            endDate: { day: 1, month: 3, year: 2100 }
+            startDate: toDateParts(dynamicStartDate),
+            endDate: toDateParts(dynamicEndDate.clone().add('1', 'day'))
         });
 
         expect(invalid.error.message).toContain('Date is outside limit');

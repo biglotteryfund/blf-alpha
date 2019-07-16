@@ -298,8 +298,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function fieldProjectDateRange() {
         const minDate = moment().add(12, 'weeks');
         const minDateAfter = minDate.subtract(1, 'days');
-        const maxDate = moment().add(1, 'years');
-        const maxDateLabel = localise({
+        const maxDuration = { amount: 12, unit: 'months' };
+        const maxDurationLabel = localise({
             en: `twelve months`,
             cy: ``
         });
@@ -321,9 +321,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 </p>
                 <p>
                     We usually only fund projects that last
-                    ${maxDateLabel} or less.
+                    ${maxDurationLabel} or less.
                     So, the end date can't be more than
-                    ${maxDateLabel} after the start date.    
+                    ${maxDurationLabel} after the start date.    
                 </p>
                 <p><strong>If your project is a one-off event</strong></p>
                 <p>
@@ -336,7 +336,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.dateRange()
                 .minDate(minDate.format('YYYY-MM-DD'))
-                .maxDate(maxDate.format('YYYY-MM-DD')),
+                .endDateLimit(maxDuration.amount, maxDuration.unit),
             messages: [
                 {
                     type: 'base',
@@ -375,10 +375,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
-                    type: 'dateRange.maxDate.invalid',
+                    type: 'dateRange.endDate.outsideLimit',
                     message: localise({
                         en: oneLine`Date you end the project must be within
-                            ${maxDateLabel} of the start date.`,
+                            ${maxDurationLabel} of the start date.`,
                         cy: ''
                     })
                 },
