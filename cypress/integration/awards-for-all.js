@@ -44,18 +44,14 @@ describe('awards for all', function() {
             });
         }
 
-        function fillAddress() {
+        function fillAddress({ streetAddress, city, county, postcode }) {
             cy.getByText('Enter address manually').click();
-            cy.getByLabelText('Building and street', { exact: false }).type(
-                faker.address.streetAddress()
-            );
-            cy.getByLabelText('Town or city', { exact: false }).type(
-                faker.address.city()
-            );
-            cy.getByLabelText('County', { exact: false }).type(
-                faker.address.county()
-            );
-            cy.getByLabelText('Postcode', { exact: true }).type('B15 1TR');
+            cy.getByLabelText('Building and street').type(streetAddress);
+            cy.getByLabelText('Town or city').type(city);
+            if (county) {
+                cy.getByLabelText('County').type(county);
+            }
+            cy.getByLabelText('Postcode').type(postcode);
         }
 
         function stepProjectDetails() {
@@ -287,7 +283,11 @@ describe('awards for all', function() {
             )
                 .parent()
                 .within(() => {
-                    fillAddress();
+                    fillAddress({
+                        streetAddress: '1 Plough Place, Holborn',
+                        city: 'London',
+                        postcode: 'EC4A 1DE'
+                    });
                 });
             submitStep();
         }
@@ -332,7 +332,11 @@ describe('awards for all', function() {
             cy.getByText('Home address')
                 .parent()
                 .within(() => {
-                    fillAddress();
+                    fillAddress({
+                        streetAddress: `The Bar, 2 St James' Blvd`,
+                        city: 'Newcastle',
+                        postcode: 'NE4 7JH'
+                    });
                 });
             cy.getByLabelText('Yes').click();
             cy.getByLabelText('Email', { exact: false }).type(
@@ -359,7 +363,11 @@ describe('awards for all', function() {
             cy.getByText('Home address')
                 .parent()
                 .within(() => {
-                    fillAddress();
+                    fillAddress({
+                        streetAddress: 'Pacific House, 70 Wellington St',
+                        city: 'Glasgow',
+                        postcode: 'G2 6UA'
+                    });
                 });
             cy.getByLabelText('Yes').click();
             cy.getByLabelText('Email', { exact: false }).type(
