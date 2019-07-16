@@ -11,7 +11,8 @@ module.exports = function(formId, formBuilder, eligibilityBuilder) {
 
     router.get('/:pdf?', (req, res, next) => {
         const form = formBuilder({
-            locale: req.i18n.getLocale()
+            locale: req.i18n.getLocale(),
+            showAllFields: true
         });
 
         const eligibility = eligibilityBuilder({

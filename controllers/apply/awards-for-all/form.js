@@ -19,8 +19,21 @@ const terms = require('./terms');
 const { isTestServer } = require('../../../common/appData');
 const checkBankApi = require('../../../common/bank-api');
 
-module.exports = function({ locale, data = {} }) {
+module.exports = function({ locale, data = {}, showAllFields = false }) {
     const localise = get(locale);
+
+    const conditionalFields = (fields, filteredFields) => {
+        const filteredFieldNames = filteredFields.map(_ => _.name);
+        const allFields = fields.map(f => {
+            if (filteredFieldNames.indexOf(f.name) === -1) {
+                f.isConditional = true;
+            }
+            return f;
+        });
+
+        return showAllFields ? fields : filteredFields;
+    };
+
     const currentOrganisationType = get('organisationType')(data);
 
     const fields = fieldsFor({
@@ -85,13 +98,17 @@ module.exports = function({ locale, data = {} }) {
                      * on the project country, so don't include them if
                      * the country hasn't been provided yet.
                      */
-                    fields: has('projectCountry')(data)
-                        ? [
-                              fields.projectLocation,
-                              fields.projectLocationDescription,
-                              fields.projectPostcode
-                          ]
-                        : []
+                    get fields() {
+                        const allFields = [
+                            fields.projectLocation,
+                            fields.projectLocationDescription,
+                            fields.projectPostcode
+                        ];
+                        return conditionalFields(
+                            allFields,
+                            has('projectCountry')(data) ? allFields : []
+                        );
+                    }
                 }
             ]
         };
@@ -183,10 +200,21 @@ module.exports = function({ locale, data = {} }) {
                         en: 'Specific groups of people',
                         cy: ''
                     }),
-                    fields: compact([
-                        groupsCheck === 'yes' && fields.beneficiariesGroups,
-                        groupsCheck === 'yes' && fields.beneficiariesGroupsOther
-                    ])
+                    get fields() {
+                        const allFields = [
+                            fields.beneficiariesGroups,
+                            fields.beneficiariesGroupsOther
+                        ];
+                        return conditionalFields(
+                            allFields,
+                            compact([
+                                groupsCheck === 'yes' &&
+                                    fields.beneficiariesGroups,
+                                groupsCheck === 'yes' &&
+                                    fields.beneficiariesGroupsOther
+                            ])
+                        );
+                    }
                 }
             ]
         };
@@ -210,9 +238,12 @@ module.exports = function({ locale, data = {} }) {
                         en: 'Ethnic background',
                         cy: ''
                     }),
-                    fields: includeIfBeneficiaryType(
-                        BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
-                        [fields.beneficiariesEthnicBackground]
+                    fields: conditionalFields(
+                        [fields.beneficiariesEthnicBackground],
+                        includeIfBeneficiaryType(
+                            BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
+                            [fields.beneficiariesEthnicBackground]
+                        )
                     )
                 }
             ]
@@ -225,9 +256,11 @@ module.exports = function({ locale, data = {} }) {
             fieldsets: [
                 {
                     legend: localise({ en: 'Gender', cy: '' }),
-                    fields: includeIfBeneficiaryType(
-                        BENEFICIARY_GROUPS.GENDER,
-                        [fields.beneficiariesGroupsGender]
+                    fields: conditionalFields(
+                        [fields.beneficiariesGroupsGender],
+                        includeIfBeneficiaryType(BENEFICIARY_GROUPS.GENDER, [
+                            fields.beneficiariesGroupsGender
+                        ])
                     )
                 }
             ]
@@ -240,9 +273,12 @@ module.exports = function({ locale, data = {} }) {
             fieldsets: [
                 {
                     legend: localise({ en: 'Age', cy: '' }),
-                    fields: includeIfBeneficiaryType(BENEFICIARY_GROUPS.AGE, [
-                        fields.beneficiariesGroupsAge
-                    ])
+                    fields: conditionalFields(
+                        [fields.beneficiariesGroupsAge],
+                        includeIfBeneficiaryType(BENEFICIARY_GROUPS.AGE, [
+                            fields.beneficiariesGroupsAge
+                        ])
+                    )
                 }
             ]
         };
@@ -254,9 +290,12 @@ module.exports = function({ locale, data = {} }) {
             fieldsets: [
                 {
                     legend: localise({ en: 'Disabled people', cy: '' }),
-                    fields: includeIfBeneficiaryType(
-                        BENEFICIARY_GROUPS.DISABLED_PEOPLE,
-                        [fields.beneficiariesGroupsDisabledPeople]
+                    fields: conditionalFields(
+                        [fields.beneficiariesGroupsDisabledPeople],
+                        includeIfBeneficiaryType(
+                            BENEFICIARY_GROUPS.DISABLED_PEOPLE,
+                            [fields.beneficiariesGroupsDisabledPeople]
+                        )
                     )
                 }
             ]
@@ -272,13 +311,19 @@ module.exports = function({ locale, data = {} }) {
                         en: 'Religion or belief',
                         cy: ''
                     }),
-                    fields: includeIfBeneficiaryType(
-                        BENEFICIARY_GROUPS.RELIGION,
-                        [
+                    get fields() {
+                        const allFields = [
                             fields.beneficiariesGroupsReligion,
                             fields.beneficiariesGroupsReligionOther
-                        ]
-                    )
+                        ];
+                        return conditionalFields(
+                            allFields,
+                            includeIfBeneficiaryType(
+                                BENEFICIARY_GROUPS.RELIGION,
+                                allFields
+                            )
+                        );
+                    }
                 }
             ]
         };
@@ -304,9 +349,12 @@ module.exports = function({ locale, data = {} }) {
                         en: `People who speak Welsh`,
                         cy: ``
                     }),
-                    fields: includeIfCountry('wales', [
-                        fields.beneficiariesWelshLanguage
-                    ])
+                    fields: conditionalFields(
+                        [fields.beneficiariesWelshLanguage],
+                        includeIfCountry('wales', [
+                            fields.beneficiariesWelshLanguage
+                        ])
+                    )
                 }
             ]
         };
@@ -318,9 +366,12 @@ module.exports = function({ locale, data = {} }) {
             fieldsets: [
                 {
                     legend: localise({ en: `Community`, cy: `` }),
-                    fields: includeIfCountry('northern-ireland', [
-                        fields.beneficiariesNorthernIrelandCommunity
-                    ])
+                    fields: conditionalFields(
+                        [fields.beneficiariesNorthernIrelandCommunity],
+                        includeIfCountry('northern-ireland', [
+                            fields.beneficiariesNorthernIrelandCommunity
+                        ])
+                    )
                 }
             ]
         };
@@ -392,9 +443,12 @@ module.exports = function({ locale, data = {} }) {
             fieldsets: [
                 {
                     legend: title,
-                    fields: includeIfOrganisationType(
-                        ORGANISATION_TYPES.STATUTORY_BODY,
-                        [fields.organisationSubTypeStatutoryBody]
+                    fields: conditionalFields(
+                        [fields.organisationSubTypeStatutoryBody],
+                        includeIfOrganisationType(
+                            ORGANISATION_TYPES.STATUTORY_BODY,
+                            [fields.organisationSubTypeStatutoryBody]
+                        )
                     )
                 }
             ]
@@ -431,11 +485,21 @@ module.exports = function({ locale, data = {} }) {
                         en: 'Registration numbers',
                         cy: ''
                     }),
-                    fields: compact([
-                        includeCompanyNumber && fields.companyNumber,
-                        includeCharityNumber && fields.charityNumber,
-                        includeEducationNumber && fields.educationNumber
-                    ])
+                    get fields() {
+                        const allFields = [
+                            fields.companyNumber,
+                            fields.charityNumber,
+                            fields.educationNumber
+                        ];
+                        return conditionalFields(
+                            allFields,
+                            compact([
+                                includeCompanyNumber && fields.companyNumber,
+                                includeCharityNumber && fields.charityNumber,
+                                includeEducationNumber && fields.educationNumber
+                            ])
+                        );
+                    }
                 }
             ]
         };
@@ -458,9 +522,16 @@ module.exports = function({ locale, data = {} }) {
                         en: 'Organisation finances',
                         cy: ''
                     }),
-                    fields: includeAccountDetails
-                        ? [fields.accountingYearDate, fields.totalIncomeYear]
-                        : []
+                    get fields() {
+                        const allFields = [
+                            fields.accountingYearDate,
+                            fields.totalIncomeYear
+                        ];
+                        return conditionalFields(
+                            allFields,
+                            includeAccountDetails ? allFields : []
+                        );
+                    }
                 }
             ]
         };
@@ -501,18 +572,32 @@ module.exports = function({ locale, data = {} }) {
                         </p>`,
                         cy: ``
                     }),
-                    fields: compact([
-                        fields.seniorContactRole,
-                        fields.seniorContactName,
-                        includeAddressAndDob() &&
+                    get fields() {
+                        const allFields = [
+                            fields.seniorContactRole,
+                            fields.seniorContactName,
                             fields.seniorContactDateOfBirth,
-                        includeAddressAndDob() && fields.seniorContactAddress,
-                        includeAddressAndDob() &&
+                            fields.seniorContactAddress,
                             fields.seniorContactAddressHistory,
-                        fields.seniorContactEmail,
-                        fields.seniorContactPhone,
-                        fields.seniorContactCommunicationNeeds
-                    ])
+                            fields.seniorContactEmail,
+                            fields.seniorContactPhone,
+                            fields.seniorContactCommunicationNeeds
+                        ];
+                        const filteredFields = compact([
+                            fields.seniorContactRole,
+                            fields.seniorContactName,
+                            includeAddressAndDob() &&
+                                fields.seniorContactDateOfBirth,
+                            includeAddressAndDob() &&
+                                fields.seniorContactAddress,
+                            includeAddressAndDob() &&
+                                fields.seniorContactAddressHistory,
+                            fields.seniorContactEmail,
+                            fields.seniorContactPhone,
+                            fields.seniorContactCommunicationNeeds
+                        ]);
+                        return conditionalFields(allFields, filteredFields);
+                    }
                 }
             ]
         };
@@ -558,16 +643,32 @@ module.exports = function({ locale, data = {} }) {
                             cy: ''
                         });
                     },
-                    fields: compact([
-                        fields.mainContactName,
-                        includeAddressAndDob() && fields.mainContactDateOfBirth,
-                        includeAddressAndDob() && fields.mainContactAddress,
-                        includeAddressAndDob() &&
+                    get fields() {
+                        const allFields = [
+                            fields.mainContactName,
+                            fields.mainContactDateOfBirth,
+                            fields.mainContactAddress,
                             fields.mainContactAddressHistory,
-                        fields.mainContactEmail,
-                        fields.mainContactPhone,
-                        fields.mainContactCommunicationNeeds
-                    ])
+                            fields.mainContactEmail,
+                            fields.mainContactPhone,
+                            fields.mainContactCommunicationNeeds
+                        ];
+                        return conditionalFields(
+                            allFields,
+                            compact([
+                                fields.mainContactName,
+                                includeAddressAndDob() &&
+                                    fields.mainContactDateOfBirth,
+                                includeAddressAndDob() &&
+                                    fields.mainContactAddress,
+                                includeAddressAndDob() &&
+                                    fields.mainContactAddressHistory,
+                                fields.mainContactEmail,
+                                fields.mainContactPhone,
+                                fields.mainContactCommunicationNeeds
+                            ])
+                        );
+                    }
                 }
             ]
         };
