@@ -126,7 +126,7 @@
 
             <div class="s-prose">
                 <h1 class="t--underline">{{ copy.dashboard.title }}</h1>
-                {{ __(copy.dashboard.introduction, '#new') | safe }}
+                {{ __(copy.dashboard.introduction, '#new', formBaseUrl + '/questions') | safe }}
             </div>
 
             {% if pendingApplications.length > 0 %}
