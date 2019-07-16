@@ -115,10 +115,13 @@ function makeBehaviourItem({
  * construct array of behaviours from a URL list
  */
 function generateBehaviours(origins) {
+    const defaultCookies = [cookies.session, cookies.awardsForAllPreview];
+    const cookiesWithoutSession = [cookies.awardsForAllPreview];
+
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.site,
         isPostable: true,
-        cookiesInUse: [cookies.session]
+        cookiesInUse: defaultCookies
     });
 
     /**
@@ -143,21 +146,53 @@ function generateBehaviours(origins) {
      */
     const customPaths = [
         { path: '/api/*', isPostable: true, allowAllQueryStrings: true },
-        { path: '/funding/grants*', isPostable: true, allowAllQueryStrings: true, isBilingual: true, noSession: true },
-        { path: '/funding/programmes', queryStrings: ['location', 'amount', 'min', 'max'], isBilingual: true },
-        { path: '/funding/programmes/all', queryStrings: ['location'], isBilingual: true },
-        { path: '/news/*', queryStrings: ['page', 'tag', 'author', 'category', 'region'], isBilingual: true },
+        {
+            path: '/funding/grants*',
+            isPostable: true,
+            allowAllQueryStrings: true,
+            isBilingual: true,
+            noSession: true
+        },
+        {
+            path: '/funding/programmes',
+            queryStrings: ['location', 'amount', 'min', 'max'],
+            isBilingual: true
+        },
+        {
+            path: '/funding/programmes/all',
+            queryStrings: ['location'],
+            isBilingual: true
+        },
+        {
+            path: '/news/*',
+            queryStrings: ['page', 'tag', 'author', 'category', 'region'],
+            isBilingual: true
+        },
         {
             path: '/insights/documents*',
-            queryStrings: ['page', 'programme', 'tag', 'doctype', 'portfolio', 'q', 'sort'],
+            queryStrings: [
+                'page',
+                'programme',
+                'tag',
+                'doctype',
+                'portfolio',
+                'q',
+                'sort'
+            ],
             isBilingual: true
         },
         { path: '/search', allowAllQueryStrings: true, isBilingual: true },
-        { path: '/user/*', isPostable: true, queryStrings: ['redirectUrl', 's', 'token'] }
+        {
+            path: '/user/*',
+            isPostable: true,
+            queryStrings: ['redirectUrl', 's', 'token']
+        }
     ];
 
     const primaryBehaviours = flatMap(customPaths, rule => {
-        const cookiesForRule = rule.noSession ? [] : [cookies.session];
+        const cookiesForRule = rule.noSession
+            ? cookiesWithoutSession
+            : defaultCookies;
 
         const behaviour = makeBehaviourItem({
             originId: origins.site,
