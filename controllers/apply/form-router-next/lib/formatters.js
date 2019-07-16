@@ -130,9 +130,9 @@ function formatBudget(value) {
 
 function formatFile(value) {
     if (value) {
-        return `${value.filename} (${mime
-            .extension(value.type)
-            .toUpperCase()}, ${filesize(value.size, { round: 0 })})`;
+        const mimeType = mime.extension(value.type) || 'File';
+        const fileSize = filesize(value.size, { round: 0 });
+        return `${value.filename} (${mimeType.toUpperCase()}, ${fileSize})`;
     } else {
         return '';
     }
