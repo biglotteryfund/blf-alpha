@@ -3,6 +3,7 @@ const includes = require('lodash/includes');
 const sampleSize = require('lodash/sampleSize');
 const times = require('lodash/times');
 const random = require('lodash/random');
+const sum = require('lodash/sum');
 const moment = require('moment');
 
 describe('awards for all', function() {
@@ -138,31 +139,33 @@ describe('awards for all', function() {
         }
 
         function stepProjectCosts() {
-            const amounts = [250, 1000, 2500, 5000, 2500];
-            amounts.forEach(amount => {
+            function addItem(description, amount) {
                 cy.getAllByTestId('budget-row')
                     .last()
                     .within(() => {
-                        cy.getByLabelText('Item or activity').type(
-                            faker.lorem.words(5)
-                        );
+                        cy.getByLabelText('Item or activity').type(description);
                         cy.getByLabelText('Amount').type(amount);
                     });
-            });
+            }
+
+            function deleteLastRow() {
+                cy.getAllByText('Delete row', { exact: false })
+                    .last()
+                    .click();
+            }
+
+            addItem('Example item', 9000);
+            addItem('Example item over budget', 1050);
+
+            cy.getAllByTestId('budget-total').should('contain', '£10,050');
 
             cy.getAllByTestId('budget-errors').should(
                 'contain',
                 'Project costs must be less than £10,000'
             );
 
-            cy.getAllByTestId('budget-total').should('contain', '£11,250');
-            // @TODO: Review contrast ratio of delete buttons
-            cy.checkA11y({
-                options: { rules: { 'color-contrast': { enabled: false } } }
-            });
-
             cy.getByLabelText('Tell us the total cost of your project').type(
-                '10000'
+                '9000'
             );
 
             submitStep();
@@ -171,21 +174,21 @@ describe('awards for all', function() {
                 'Project costs must be less than £10,000',
                 'Total cost must be the same as or higher than the amount you’re asking us to fund'
             ]);
-            // @TODO: Review contrast ratio of delete buttons
-            cy.checkA11y({
-                options: { rules: { 'color-contrast': { enabled: false } } }
+
+            // @TODO: Why does this need to be clicked once more than needed?
+            deleteLastRow();
+            deleteLastRow();
+            deleteLastRow();
+
+            const amounts = new Array(random(3, 10)).fill(random(100, 1000));
+            amounts.forEach((amount, index) => {
+                addItem(`Example budget item ${index + 1}`, amount);
             });
 
-            cy.getAllByText('Delete row', { exact: false })
-                .last()
-                .click();
-
-            // @TODO: Why does this need to be clicked twice?
-            cy.getAllByText('Delete row', { exact: false })
-                .last()
-                .click();
-
-            cy.getAllByTestId('budget-total').should('contain', '£8,750');
+            cy.getAllByTestId('budget-total').should(
+                'contain',
+                `£${sum(amounts).toLocaleString()}`
+            );
 
             submitStep();
         }
