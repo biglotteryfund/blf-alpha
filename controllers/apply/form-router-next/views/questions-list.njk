@@ -1,5 +1,5 @@
 {% macro fieldTypeHelpText(field, step) %}
-    {% if field.type === 'checkbox' or field.type === 'select' %}
+    {% if field.type === 'checkbox' %}
         Choose as many options as you like from a selection
     {% elseif field.type === 'radio' or field.type === 'select' %}
         Pick one option from a selection
