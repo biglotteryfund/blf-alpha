@@ -67,8 +67,8 @@ describe('dateRange', () => {
         );
     });
 
-    test('maxDate', () => {
-        const schema = Joi.dateRange().maxDate('2100-02-28');
+    test('endDateLimit', () => {
+        const schema = Joi.dateRange().endDateLimit(7, 'days');
 
         const valid = schema.validate({
             startDate: { day: 1, month: 2, year: 2100 },
@@ -78,8 +78,8 @@ describe('dateRange', () => {
         expect(valid.error).toBeNull();
 
         const invalid = schema.validate({
-            startDate: { day: 1, month: 2, year: 2100 },
-            endDate: { day: 1, month: 3, year: 2100 }
+            startDate: { day: 1, month: 2, year: 2099 },
+            endDate: { day: 1, month: 3, year: 2099 }
         });
 
         expect(invalid.error.message).toContain('Date is outside limit');

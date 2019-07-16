@@ -39,6 +39,7 @@ module.exports = function dateParts(joi) {
             },
             endDate: {
                 invalid: 'Invalid endDate',
+                outsideLimit: 'Date is outside limit',
                 beforeStartDate: 'endDate must not be before startDate'
             },
             minDate: {
@@ -110,23 +111,28 @@ module.exports = function dateParts(joi) {
                 }
             },
             {
-                name: 'maxDate',
+                name: 'endDateLimit',
                 params: {
-                    max: joi.string().required()
+                    amount: joi.number().required(),
+                    unit: joi.string().required()
                 },
                 validate(params, value, state, options) {
                     const dates = toRange(value);
 
+                    const maximumEndDate = dates.startDate
+                        .clone()
+                        .add(params.amount, params.unit);
+
                     if (
                         dates.startDate.isValid() &&
                         dates.endDate.isValid() &&
-                        dates.endDate.isSameOrBefore(params.max)
+                        dates.endDate.isSameOrBefore(maximumEndDate)
                     ) {
                         return value;
                     } else {
                         return this.createError(
-                            'dateRange.maxDate.invalid',
-                            { v: value, max: params.max },
+                            'dateRange.endDate.outsideLimit',
+                            { v: value },
                             state,
                             options
                         );
