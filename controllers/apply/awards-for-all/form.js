@@ -31,7 +31,7 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
             return f;
         });
 
-        return showAllFields ? fields : filteredFields;
+        return showAllFields ? allFields : filteredFields;
     };
 
     const currentOrganisationType = get('organisationType')(data);
