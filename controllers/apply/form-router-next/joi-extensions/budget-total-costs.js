@@ -23,7 +23,7 @@ module.exports = function budgetTotalCosts(joi) {
             if (projectBudget) {
                 const total = sumBy(
                     projectBudget,
-                    item => parseInt(item.cost) || 0
+                    item => parseInt(item.cost, 10) || 0
                 );
                 if (value < total) {
                     return this.createError(

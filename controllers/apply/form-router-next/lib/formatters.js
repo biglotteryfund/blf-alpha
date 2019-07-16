@@ -117,7 +117,7 @@ function formatBudget(value) {
     if (!isArray(value)) {
         return value;
     } else {
-        const total = sumBy(value, item => parseInt(item.cost || 0));
+        const total = sumBy(value, item => parseInt(item.cost, 10) || 0);
         return [
             value
                 .filter(line => line.item && line.cost)
