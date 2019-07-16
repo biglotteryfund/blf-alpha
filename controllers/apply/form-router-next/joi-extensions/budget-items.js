@@ -44,7 +44,10 @@ module.exports = function budgetItems(joi) {
                     maxBudget: joi.number().required()
                 },
                 validate(params, value, state, options) {
-                    const total = sumBy(value, item => item.cost);
+                    const total = sumBy(
+                        value,
+                        item => parseInt(item.cost) || 0
+                    );
                     if (total > params.maxBudget) {
                         return this.createError(
                             'budgetItems.overBudget',
