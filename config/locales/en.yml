@@ -1381,7 +1381,8 @@ applyNext:
     introduction: >
       <p>Here you can keep going with an application you've already started.
       You can also <a href="%s">start a brand new application</a> and see any
-      applications you've previously submitted online.</p>
+      applications you've previously submitted online. You can also see the
+      <a href="%s">questions you'll be asked</a> when you apply.</p>
     inProgressTitle: In progress
     submittedTitle: Submitted
   summary:

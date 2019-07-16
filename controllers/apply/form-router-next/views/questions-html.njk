@@ -1,7 +1,8 @@
 {% from "./questions-list.njk" import questionsIntro, questionList with context %}
 {% from "components/icons.njk" import iconDownload %}
 {% from "components/print-button/macro.njk" import printButton %}
-
+{% from "components/user-status/macro.njk" import userStatus with context %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 
 {% extends "layouts/main.njk" %}
 {% set bodyClass = 'has-static-header' %}
@@ -11,7 +12,11 @@
 
         <section class="content-box u-inner-wide-only">
 
+            {{ userNavigation(userNavigationLinks) }}
+
             {{ questionsIntro(form) }}
+
+            {{ userStatus(user) }}
 
             <div class="o-button-group u-dont-print">
                 {{ printButton(label = 'Print these questions') }}
