@@ -2,6 +2,7 @@ const faker = require('faker');
 const includes = require('lodash/includes');
 const sampleSize = require('lodash/sampleSize');
 const times = require('lodash/times');
+const random = require('lodash/random');
 const moment = require('moment');
 
 describe('awards for all', function() {
@@ -68,7 +69,7 @@ describe('awards for all', function() {
             shouldDisplayErrors(['Date you start the project must be after']);
             cy.checkA11y();
 
-            const validDate = moment().add('12', 'weeks');
+            const validDate = moment().add(random(12, 50), 'weeks');
             fillAllDateFields(validDate);
 
             submitStep();
