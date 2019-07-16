@@ -50,7 +50,7 @@ export default {
         this.$root.$on('update:conditionalRadio', value => {
             if (value === 'yes') {
                 this.currentState = states.NotRequired;
-            } else if (this.fullAddress) {
+            } else if (this.fullAddressPreview !== '') {
                 this.currentState = this.states.AlreadyAnswered;
             } else {
                 this.currentState = states.NotAsked;
