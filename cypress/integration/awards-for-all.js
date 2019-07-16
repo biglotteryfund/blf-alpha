@@ -82,18 +82,23 @@ describe('awards for all', function() {
 
         function stepProjectLocation() {
             let locationOption;
+            let locationPostcode;
             switch (country) {
                 case 'Northern Ireland':
                     locationOption = 'Derry and Strabane';
+                    locationPostcode = 'BT82 8AE';
                     break;
                 case 'Scotland':
                     locationOption = 'Perth & Kinross';
+                    locationPostcode = 'PH1 1DA';
                     break;
                 case 'Wales':
                     locationOption = 'Caerphilly';
+                    locationPostcode = 'CF83 1AP';
                     break;
                 default:
                     locationOption = 'Bath and North East Somerset';
+                    locationPostcode = 'BA1 0DH';
                     break;
             }
 
@@ -103,10 +108,10 @@ describe('awards for all', function() {
 
             cy.getByLabelText(
                 'Tell us the towns, villages or wards where your beneficiaries live'
-            ).type(faker.lorem.sentence());
+            ).type(`Example location description for ${locationOption}`);
 
             cy.getByLabelText('What is the postcode', { exact: false }).type(
-                'B15 1TR'
+                locationPostcode
             );
 
             submitStep();
