@@ -153,12 +153,12 @@ export default {
                 your costs
             </p>
             <p v-if="error.OVER_BUDGET">
-                Project costs must be less than £{{
+                Costs you would like us to fund must be less than £{{
                     maxBudget.toLocaleString()
                 }}.
             </p>
             <p v-if="error.UNDER_BUDGET">
-                Project costs must be greater than £{{
+                Costs you would like us to fund must be greater than £{{
                     minBudget.toLocaleString()
                 }}.
             </p>

@@ -150,7 +150,7 @@ describe('awards for all', function() {
 
             cy.getAllByTestId('budget-errors').should(
                 'contain',
-                'Project costs must be less than £10,000'
+                'Costs you would like us to fund must be less than £10,000'
             );
 
             cy.getAllByTestId('budget-total').should('contain', '£11,250');
@@ -166,7 +166,7 @@ describe('awards for all', function() {
             submitStep();
 
             shouldDisplayErrors([
-                'Project costs must be less than £10,000',
+                'Costs you would like us to fund must be less than £10,000',
                 'Total cost must be the same as or higher than the amount you’re asking us to fund'
             ]);
             // @TODO: Review contrast ratio of delete buttons

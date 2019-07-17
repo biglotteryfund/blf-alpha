@@ -287,7 +287,7 @@ describe('Form validations', () => {
             }));
 
             assertMessagesByKey(value(budget), [
-                'Project costs must be less than £10,000'
+                'Costs you would like us to fund must be less than £10,000'
             ]);
         });
 

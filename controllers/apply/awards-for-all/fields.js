@@ -1217,14 +1217,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'budgetItems.overBudget',
                     message: localise({
-                        en: `Project costs must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                        en: `Costs you would like us to fund must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
                         cy: ``
                     })
                 },
                 {
                     type: 'budgetItems.underBudget',
                     message: localise({
-                        en: `Project costs must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                        en: `Costs you would like us to fund must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
                         cy: ``
                     })
                 }
