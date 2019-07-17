@@ -61,13 +61,16 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
          */
         const countryNoticeMessage = {
             title: localise({
-                en: `Applying for a project in England, Northern Ireland or Wales?`,
+                en: `Applying for a project in England or Wales?`,
                 cy: ``
             }),
             body: localise({
-                en: `<a href="https://apply.tnlcommunityfund.org.uk">You’ll need to use this form instead</a>.
-                Only applicants in Scotland can apply through our new online form at the moment.
-                We’re working on making this available for the rest of the UK.`,
+                en: `
+                    <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
+                    <p><strong>Applying for a project in Northern Ireland?</strong></p>
+                    <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
+                    <p>Only applicants in Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
+                `,
                 cy: ``
             })
         };
