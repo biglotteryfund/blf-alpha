@@ -450,6 +450,10 @@ describe('awards for all', function() {
             });
             cy.getByText('Start your application').click();
 
+            cy.getAllByText('Start your application')
+                .first()
+                .click();
+
             stepProjectDetails();
             stepProjectCountry();
             stepProjectLocation();

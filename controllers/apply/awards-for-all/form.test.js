@@ -1279,6 +1279,7 @@ describe('form shape', () => {
 
         expect(completeForm.progress).toEqual({
             isComplete: true,
+            isPristine: false,
             sections: [
                 {
                     label: 'Your project',
