@@ -1,8 +1,8 @@
 const faker = require('faker');
 const includes = require('lodash/includes');
-const sampleSize = require('lodash/sampleSize');
-const times = require('lodash/times');
 const random = require('lodash/random');
+const sample = require('lodash/sample');
+const sampleSize = require('lodash/sampleSize');
 const sum = require('lodash/sum');
 const moment = require('moment');
 
@@ -48,29 +48,38 @@ describe('awards for all', function() {
 
         function fillAddress({ streetAddress, city, county, postcode }) {
             cy.getByText('Enter address manually').click();
+
             cy.getByLabelText('Building and street').type(streetAddress);
+
             cy.getByLabelText('Town or city').type(city);
+
             if (county) {
                 cy.getByLabelText('County').type(county);
             }
+
             cy.getByLabelText('Postcode').type(postcode);
+
+            cy.getByText(`I'm done editing`).click();
         }
 
         function stepProjectDetails() {
             cy.checkA11y();
+
             cy.getByLabelText('What is the name of your project?', {
                 exact: false
-            }).type('My application');
+            }).type('Test application');
 
             const invalidDate = moment();
+            const validDate = moment().add(random(12, 50), 'weeks');
+
             fillAllDateFields(invalidDate);
 
             submitStep();
 
             shouldDisplayErrors(['Date you start the project must be after']);
+
             cy.checkA11y();
 
-            const validDate = moment().add(random(12, 50), 'weeks');
             fillAllDateFields(validDate);
 
             submitStep();
@@ -132,7 +141,7 @@ describe('awards for all', function() {
                 .trigger('change');
 
             cy.getByLabelText('How does your project involve your community?')
-                .invoke('val', faker.lorem.words(200))
+                .invoke('val', faker.lorem.words(150))
                 .trigger('change');
 
             submitStep();
@@ -180,7 +189,10 @@ describe('awards for all', function() {
             deleteLastRow();
             deleteLastRow();
 
-            const amounts = new Array(random(3, 10)).fill(random(100, 1000));
+            const amounts = new Array(random(3, 10)).fill(null).map(() => {
+                return random(100, 1000);
+            });
+
             amounts.forEach((amount, index) => {
                 addItem(`Example budget item ${index + 1}`, amount);
             });
@@ -193,11 +205,21 @@ describe('awards for all', function() {
             submitStep();
         }
 
-        function stepBeneficiaries() {
+        function sectionYourProject() {
+            stepProjectDetails();
+            stepProjectCountry();
+            stepProjectLocation();
+            stepYourIdea();
+            stepProjectCosts();
+        }
+
+        function sectionBeneficiaries() {
             cy.checkA11y();
+
             cy.getByLabelText(
                 'My project is aimed at a specific group of people'
             ).click();
+
             submitStep();
 
             const randomBeneficiaryGroups = sampleSize(
@@ -214,9 +236,11 @@ describe('awards for all', function() {
             cy.log(`Beneficiary groups: ${randomBeneficiaryGroups.join(', ')}`);
 
             cy.checkA11y();
+
             randomBeneficiaryGroups.forEach(label => {
                 cy.getByLabelText(label).click();
             });
+
             submitStep();
 
             if (
@@ -276,16 +300,18 @@ describe('awards for all', function() {
             }
         }
 
-        function stepOrganisationDetails() {
+        function sectionOrganisation(organisationName) {
             cy.checkA11y();
+
             cy.getByLabelText(
                 'What is the full legal name of your organisation?',
                 { exact: false }
-            ).type(faker.company.companyName());
+            ).type(organisationName);
 
             // Org age question
-            cy.getByLabelText('Month').type(9);
-            cy.getByLabelText('Year').type(1986);
+            const dt = moment().subtract(random(1, 20), 'years');
+            cy.getByLabelText('Month').type(dt.month() + 1);
+            cy.getByLabelText('Year').type(dt.year());
 
             cy.getByText(
                 'What is the main or registered address of your organisation?'
@@ -298,113 +324,203 @@ describe('awards for all', function() {
                         postcode: 'EC4A 1DE'
                     });
                 });
-            submitStep();
-        }
 
-        function stepOrganisationType() {
+            submitStep();
+
             cy.checkA11y();
-            cy.getByLabelText('Registered charity (unincorporated)', {
+
+            const randomOrgType = sample([
+                'Unregistered voluntary or community organisation',
+                'Registered charity (unincorporated)',
+                'Charitable incorporated organisation (CIO)',
+                'Not-for-profit company',
+                'School',
+                'College or University',
+                'Statutory body',
+                'Faith-based group'
+            ]);
+
+            cy.log(`Organisation type: ${randomOrgType}`);
+
+            cy.getByLabelText(randomOrgType, {
                 exact: false
             }).click();
-            submitStep();
-        }
 
-        function stepRegistrationNumbers() {
-            cy.checkA11y();
-            cy.getByLabelText('Charity registration number', {
-                exact: false
-            }).type(12345678);
             submitStep();
-        }
 
-        function stepOrganisationFinances() {
             cy.checkA11y();
-            cy.getByLabelText('Day').type(31);
-            cy.getByLabelText('Month').type(3);
-            cy.getByLabelText('What is your total income for the year?', {
-                exact: false
-            }).type('150000');
-            submitStep();
-        }
 
-        function stepMainContact() {
-            cy.checkA11y();
-            cy.getByLabelText('First name', { exact: false }).type(
-                faker.name.firstName()
-            );
-            cy.getByLabelText('Last name', { exact: false }).type(
-                faker.name.lastName()
-            );
-            cy.getByLabelText('Day').type('5');
-            cy.getByLabelText('Month').type('11');
-            cy.getByLabelText('Year').type('1926');
-            cy.getByText('Home address')
-                .parent()
-                .within(() => {
-                    fillAddress({
-                        streetAddress: `The Bar, 2 St James' Blvd`,
-                        city: 'Newcastle',
-                        postcode: 'NE4 7JH'
-                    });
-                });
-            cy.getByLabelText('Yes').click();
-            cy.getByLabelText('Email', { exact: false }).type(
-                faker.internet.exampleEmail()
-            );
-            cy.getByLabelText('Telephone number', { exact: false }).type(
-                faker.phone.phoneNumber()
-            );
-            submitStep();
-        }
-
-        function stepSeniorContact() {
-            cy.checkA11y();
-            cy.getByLabelText('First name', { exact: false }).type(
-                faker.name.firstName()
-            );
-            cy.getByLabelText('Last name', { exact: false }).type(
-                faker.name.lastName()
-            );
-            cy.getByLabelText('Trustee').click();
-            cy.getByLabelText('Day').type('5');
-            cy.getByLabelText('Month').type('11');
-            cy.getByLabelText('Year').type('1926');
-            cy.getByText('Home address')
-                .parent()
-                .within(() => {
-                    fillAddress({
-                        streetAddress: 'Pacific House, 70 Wellington St',
-                        city: 'Glasgow',
-                        postcode: 'G2 6UA'
-                    });
-                });
-            cy.getByLabelText('Yes').click();
-            cy.getByLabelText('Email', { exact: false }).type(
-                faker.internet.exampleEmail()
-            );
-            cy.getByLabelText('Telephone number', { exact: false }).type(
-                faker.phone.phoneNumber()
-            );
-            submitStep();
-        }
-
-        function stepBankDetails() {
-            cy.checkA11y();
-            cy.getByLabelText(
-                'Tell us the name of your organisation - as it appears on the bank statement',
-                {
+            // @TODO: Should we further randomise the sub-types?
+            if (randomOrgType === 'Statutory body') {
+                cy.getByLabelText('Parish Council', {
                     exact: false
+                }).click();
+                submitStep();
+            }
+
+            cy.queryByLabelText('Companies House number', {
+                exact: false,
+                timeout: 1000
+            }).then(el => {
+                el && cy.wrap(el).type('12345678');
+            });
+
+            cy.queryByLabelText('Charity registration number', {
+                exact: false,
+                timeout: 1000
+            }).then(el => {
+                el && cy.wrap(el).type('23456789');
+            });
+
+            cy.queryByLabelText('Department for Education number', {
+                exact: false,
+                timeout: 1000
+            }).then(el => {
+                el && cy.wrap(el).type('34567890');
+            });
+
+            submitStep();
+
+            // Optional accounting year end step
+            cy.queryByText('What is your accounting year end date?', {
+                exact: false,
+                timeout: 1000
+            }).then(el => {
+                if (el) {
+                    cy.checkA11y();
+                    cy.getByLabelText('Day').type(31);
+                    cy.getByLabelText('Month').type(3);
+                    cy.getByLabelText(
+                        'What is your total income for the year?',
+                        {
+                            exact: false
+                        }
+                    ).type('150000');
+
+                    submitStep();
                 }
-            ).type(faker.company.companyName());
+            });
+        }
+
+        function fillDateOfBirth(minAge) {
+            cy.queryByText('Date of birth', { timeout: 1000 }).then(el => {
+                if (el) {
+                    const randomDob = moment().subtract(
+                        random(minAge, 80),
+                        'years'
+                    );
+                    cy.getByLabelText('Day').type(randomDob.date());
+                    cy.getByLabelText('Month').type(randomDob.month() + 1);
+                    cy.getByLabelText('Year').type(randomDob.year());
+                }
+            });
+        }
+
+        function fillHomeAddress(address) {
+            cy.queryByText('Home address', { timeout: 1000 }).then(el => {
+                if (el) {
+                    cy.wrap(el)
+                        .parent()
+                        .within(() => {
+                            fillAddress(address);
+                        });
+                }
+            });
+
+            cy.queryByText(
+                'Have they lived at this address for the last three years?',
+                { timeout: 1000 }
+            ).then(el => {
+                if (el) {
+                    cy.wrap(el)
+                        .parent()
+                        .within(() => {
+                            cy.getByLabelText('No').click();
+                        });
+
+                    cy.getByText('Previous home address')
+                        .parent()
+                        .within(() => {
+                            fillAddress({
+                                streetAddress: `Apex house, Edgbaston`,
+                                city: 'Birmingham',
+                                postcode: 'B15 1TR'
+                            });
+                        });
+                }
+            });
+        }
+
+        function sectionSeniorContact() {
+            cy.checkA11y();
+            cy.getByLabelText('First name', { exact: false }).type(
+                faker.name.firstName()
+            );
+            cy.getByLabelText('Last name', { exact: false }).type(
+                faker.name.lastName()
+            );
+
+            cy.get('label[for="field-seniorContactRole-1"]').click();
+
+            fillDateOfBirth(16);
+            fillHomeAddress({
+                streetAddress: 'Pacific House, 70 Wellington St',
+                city: 'Glasgow',
+                postcode: 'G2 6UA'
+            });
+
+            cy.getByLabelText('Email', { exact: false }).type(
+                faker.internet.exampleEmail()
+            );
+
+            cy.getByLabelText('Telephone number', { exact: false }).type(
+                faker.phone.phoneNumber()
+            );
+            submitStep();
+        }
+
+        function sectionMainContact() {
+            cy.checkA11y();
+            cy.getByLabelText('First name', { exact: false }).type(
+                faker.name.firstName()
+            );
+            cy.getByLabelText('Last name', { exact: false }).type(
+                faker.name.lastName()
+            );
+
+            fillDateOfBirth(16);
+            fillHomeAddress({
+                streetAddress: `The Bar, 2 St James' Blvd`,
+                city: 'Newcastle',
+                postcode: 'NE4 7JH'
+            });
+
+            cy.getByLabelText('Email', { exact: false }).type(
+                faker.internet.exampleEmail()
+            );
+            cy.getByLabelText('Telephone number', { exact: false }).type(
+                faker.phone.phoneNumber()
+            );
+            submitStep();
+        }
+
+        function sectionBankDetails(organisationName) {
+            cy.checkA11y();
+
+            cy.getByLabelText('Tell us the name of your organisation', {
+                exact: false
+            }).type(organisationName);
+
             cy.getByLabelText('Account number', { exact: false }).type(
                 '25337846'
             );
-            cy.getByLabelText('Sort code', { exact: false }).type('308087');
-            submitStep();
-        }
 
-        function stepBankStatement() {
+            cy.getByLabelText('Sort code', { exact: false }).type('308087');
+
+            submitStep();
+
             cy.checkA11y();
+
             cy.fixture('example.pdf', 'base64').then(fileContent => {
                 cy.getByLabelText('Upload a bank statement', {
                     exact: false
@@ -417,11 +533,13 @@ describe('awards for all', function() {
                     { subjectType: 'input' }
                 );
             });
+
             submitStep();
         }
 
-        function stepTermsAndConditions() {
+        function sectionTermsAndConditions() {
             cy.checkA11y();
+
             cy.getAllByLabelText('I agree').each($el => {
                 cy.wrap($el).click();
             });
@@ -429,59 +547,58 @@ describe('awards for all', function() {
             cy.getByLabelText('Full name of person completing this form', {
                 exact: false
             }).type(faker.name.findName());
+
             cy.getByLabelText('Position in organisation', {
                 exact: false
-            }).type(faker.name.jobDescriptor());
+            }).type('CEO');
+
             submitStep();
         }
 
-        cy.visit(
-            '/funding/programmes/national-lottery-awards-for-all-scotland'
-        );
-        cy.percySnapshot('awards-for-all');
-        cy.get('.cookie-consent button').click();
-
-        function interactWithTabs() {
-            cy.get('.js-tabset .js-tab').each($el => {
-                cy.wrap($el)
-                    .click()
-                    .should('have.class', 'is-active');
-
-                // Check there is only one tab active
-                cy.get('.js-tabset .is-active').should('have.length', 1);
-
-                // Check tab content is visible
-                cy.get($el.attr('href')).should('be.visible');
-            });
-        }
-
-        interactWithTabs();
+        // cy.visit(
+        //     '/funding/programmes/national-lottery-awards-for-all-scotland'
+        // );
+        // cy.percySnapshot('awards-for-all');
+        // cy.get('.cookie-consent button').click();
+        //
+        // function interactWithTabs() {
+        //     cy.get('.js-tabset .js-tab').each($el => {
+        //         cy.wrap($el)
+        //             .click()
+        //             .should('have.class', 'is-active');
+        //
+        //         // Check there is only one tab active
+        //         cy.get('.js-tabset .is-active').should('have.length', 1);
+        //
+        //         // Check tab content is visible
+        //         cy.get($el.attr('href')).should('be.visible');
+        //     });
+        // }
+        //
+        // interactWithTabs();
 
         cy.seedAndLogin().then(() => {
-            cy.visit('/apply/awards-for-all');
+            cy.visit('/apply/awards-for-all/new');
 
-            cy.getByText('Start new application').click();
-            times(5, function() {
-                cy.getByLabelText('Yes').click();
-                cy.getByText('Continue').click();
-            });
-            cy.getByText('Start your application').click();
+            // cy.visit('/apply/awards-for-all');
+            //
+            // cy.getByText('Start new application').click();
+            // times(5, function() {
+            //     cy.getByLabelText('Yes').click();
+            //     cy.getByText('Continue').click();
+            // });
+            // cy.getByText('Start your application').click();
 
-            stepProjectDetails();
-            stepProjectCountry();
-            stepProjectLocation();
-            stepYourIdea();
-            stepProjectCosts();
-            stepBeneficiaries();
-            stepOrganisationDetails();
-            stepOrganisationType();
-            stepRegistrationNumbers();
-            stepOrganisationFinances();
-            stepSeniorContact();
-            stepMainContact();
-            stepBankDetails();
-            stepBankStatement();
-            stepTermsAndConditions();
+            const organisationName = faker.company.companyName();
+
+            sectionYourProject();
+            sectionBeneficiaries();
+            sectionOrganisation(organisationName);
+
+            sectionSeniorContact();
+            sectionMainContact();
+            sectionBankDetails(organisationName);
+            sectionTermsAndConditions();
 
             cy.checkA11y();
             cy.get('h1').should('contain', 'Summary');
