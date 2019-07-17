@@ -22,30 +22,6 @@ describe('awards for all', function() {
             cy.getByText('Continue').click();
         }
 
-        function fillDateParts(momentInstance) {
-            cy.getByLabelText('Day')
-                .clear()
-                .type(momentInstance.date());
-
-            cy.getByLabelText('Month')
-                .clear()
-                .type(momentInstance.month() + 1);
-
-            cy.getByLabelText('Year')
-                .clear()
-                .type(momentInstance.year());
-        }
-
-        function fillAllDateFields(momentInstance) {
-            ['Start date', 'End date'].forEach(dateFieldName => {
-                cy.getByText(dateFieldName)
-                    .parent()
-                    .within(() => {
-                        fillDateParts(momentInstance);
-                    });
-            });
-        }
-
         function fillAddress({ streetAddress, city, county, postcode }) {
             cy.getByText('Enter address manually').click();
 
@@ -69,18 +45,34 @@ describe('awards for all', function() {
                 exact: false
             }).type('Test application');
 
-            const invalidDate = moment();
-            const validDate = moment().add(random(12, 50), 'weeks');
+            const startDate = moment().add(random(12, 20), 'weeks');
+            const endDate = startDate.clone().add(random(0, 52), 'weeks');
 
-            fillAllDateFields(invalidDate);
+            function fillDateParts(momentInstance) {
+                cy.getByLabelText('Day')
+                    .clear()
+                    .type(momentInstance.date());
 
-            submitStep();
+                cy.getByLabelText('Month')
+                    .clear()
+                    .type(momentInstance.month() + 1);
 
-            shouldDisplayErrors(['Date you start the project must be after']);
+                cy.getByLabelText('Year')
+                    .clear()
+                    .type(momentInstance.year());
+            }
 
-            cy.checkA11y();
+            cy.getByText('Start date')
+                .parent()
+                .within(() => {
+                    fillDateParts(startDate);
+                });
 
-            fillAllDateFields(validDate);
+            cy.getByText('End date')
+                .parent()
+                .within(() => {
+                    fillDateParts(endDate);
+                });
 
             submitStep();
         }
