@@ -268,13 +268,13 @@ allowed values: `yes` or `no`
 
 type: `array`
 
-Allowed values: `open-to-all`, `ethnic-background`, `gender`, `age,`disabled-people`,`religion`,`lgbt`,`caring-responsibilities`
+Allowed values: `open-to-all`, `ethnic-background`, `gender`, `age`, `disabled-people`,`religion`,`lgbt`,`caring-responsibilities`
 
 ### beneficiariesGroupsOther
 
 type: `string` or `null`
 
-Free text field optionally provided instead of `beneficiariesGroups`
+Free text field optionally provided as well as `beneficiariesGroups`
 
 ### beneficiariesGroupsEthnicBackground
 
