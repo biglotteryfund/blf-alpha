@@ -2012,10 +2012,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ].includes(currentOrganisationType),
             schema: Joi.when('organisationType', {
                 is: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                then: Joi.number().required()
+                then: Joi.string().required()
             }).when('organisationType', {
                 is: ORGANISATION_TYPES.CIO,
-                then: Joi.number().required()
+                then: Joi.string().required()
             }),
             messages: [
                 {
