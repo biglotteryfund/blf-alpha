@@ -309,7 +309,7 @@ export default {
                 class="address-lookup__candidates"
                 v-if="candidates.length > 0"
             >
-                <label for="address-selection" class="ff-label">
+                <label for="address-selection" class="ff-label" data-hj-suppress>
                     Select an address
                 </label>
                 <!-- We use @blur here to avoid Win/Chrome bug where keypresses trigger a change on the first item-->
@@ -342,6 +342,7 @@ export default {
         <div
             v-if="currentState === states.AlreadyAnswered"
             class="existing-data"
+            data-hj-suppress
         >
             <h3 class="existing-data__title">Selected address</h3>
             <address

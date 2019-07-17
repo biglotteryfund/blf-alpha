@@ -10,7 +10,7 @@
     <dl class="o-definition-list o-definition-list--compact u-margin-top">
         {% for part in overviewParts %}
             <dt>{{ part.label }}</dt>
-            <dd>
+            <dd data-hj-suppress>
                 {%- if part.value -%}
                     {{ part.value }}
                 {%- else -%}
@@ -25,7 +25,7 @@
     <article class="application-card">
         <div class="application-card__summary">
             <p class="application-card__minor-title">{{ formTitle }}</p>
-            <h3 class="t--underline u-tone-brand-primary">
+            <h3 class="t--underline u-tone-brand-primary" data-hj-suppress>
                 <a href="{{ application.editUrl }}" class="u-link-unstyled">
                     {{ application.summary.title or "Untitled Application" }}
                 </a>
@@ -89,7 +89,7 @@
     <article class="application-card">
         <div class="application-card__summary">
             <p class="application-card__minor-title">{{ formTitle }}</p>
-            <h3 class="t--underline u-tone-brand-primary">
+            <h3 class="t--underline u-tone-brand-primary" data-hj-suppress>
                 {{ application.applicationTitle }}
             </h3>
 
