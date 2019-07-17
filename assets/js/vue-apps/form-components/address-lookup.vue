@@ -370,7 +370,7 @@ export default {
         >
             <summary
                 class="js-only o-details__summary"
-                @click="showFallbackFields = !showFallbackFields"
+                @click.prevent="showFallbackFields = !showFallbackFields"
                 data-testid="manual-address"
             >
                 Enter address manually
