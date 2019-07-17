@@ -11,7 +11,11 @@ const { safeHtml, oneLine } = require('common-tags');
 const { FormModel } = require('../form-router-next/lib/form-model');
 const { fromDateParts } = require('../form-router-next/lib/date-parts');
 const { formatDateRange } = require('../form-router-next/lib/formatters');
-const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
+const {
+    BENEFICIARY_GROUPS,
+    CONTACT_EXCLUDED_TYPES,
+    ORGANISATION_TYPES
+} = require('./constants');
 
 const fieldsFor = require('./fields');
 const terms = require('./terms');
@@ -543,11 +547,9 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
      * for the organisation types listed here.
      */
     function includeAddressAndDob() {
-        return ![
-            ORGANISATION_TYPES.SCHOOL,
-            ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY,
-            ORGANISATION_TYPES.STATUTORY_BODY
-        ].includes(currentOrganisationType);
+        return (
+            CONTACT_EXCLUDED_TYPES.includes(currentOrganisationType) === false
+        );
     }
 
     function stepSeniorContact() {

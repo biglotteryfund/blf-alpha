@@ -161,10 +161,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 });
 
                 return Joi.when(Joi.ref('organisationType'), {
-                    is: Joi.exist().valid(
-                        ORGANISATION_TYPES.SCHOOL,
-                        ORGANISATION_TYPES.STATUTORY_BODY
-                    ),
+                    is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
                     then: Joi.any().strip(),
                     otherwise: addressHistorySchema.required()
                 });
@@ -267,10 +264,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             schema: Joi.dateParts()
                 .dob(minAge)
                 .when(Joi.ref('organisationType'), {
-                    is: Joi.exist().valid(
-                        ORGANISATION_TYPES.SCHOOL,
-                        ORGANISATION_TYPES.STATUTORY_BODY
-                    ),
+                    is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
                     then: Joi.any().strip(),
                     otherwise: Joi.required()
                 }),
@@ -2169,10 +2163,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 schema: Joi.ukAddress()
                     .mainContact()
                     .when(Joi.ref('organisationType'), {
-                        is: Joi.exist().valid(
-                            ORGANISATION_TYPES.SCHOOL,
-                            ORGANISATION_TYPES.STATUTORY_BODY
-                        ),
+                        is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
                         then: Joi.any().strip()
                     })
             },
@@ -2271,10 +2262,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 schema: Joi.ukAddress()
                     .seniorContact()
                     .when(Joi.ref('organisationType'), {
-                        is: Joi.exist().valid(
-                            ORGANISATION_TYPES.SCHOOL,
-                            ORGANISATION_TYPES.STATUTORY_BODY
-                        ),
+                        is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
                         then: Joi.any().strip()
                     })
             },
