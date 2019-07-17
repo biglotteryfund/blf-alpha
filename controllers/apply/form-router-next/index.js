@@ -144,7 +144,10 @@ function initFormRouter({
         '/questions',
         require('./questions')(formId, formBuilder, eligibilityBuilder)
     );
-    router.use('/eligibility', require('./eligibility')(eligibilityBuilder));
+    router.use(
+        '/eligibility',
+        require('./eligibility')(eligibilityBuilder, formId)
+    );
 
     /**
      * Require active user past this point
