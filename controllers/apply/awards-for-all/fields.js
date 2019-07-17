@@ -946,12 +946,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             explanation: localise({
                 en: `<p>
                     You told us what sort of organisation you are earlier.
-                    So the senior contact role options we're giving you now,
-                    are based on your organisation type.
                     ${
                         isFreeText()
-                            ? `This should be someone in a position of authority in your organisation.`
-                            : `The options given to you for selection are based on this.`
+                            ? `So the senior contact role should be someone in a position of authority in your organisation.`
+                            : `So the senior contact role options we're giving you now are based on your 
+                               organisation type. The options given to you for selection are based on this.`
                     }
                 </p>`,
                 cy: ''
