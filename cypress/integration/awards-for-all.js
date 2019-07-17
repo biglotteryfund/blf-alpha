@@ -72,7 +72,7 @@ describe('awards for all', function() {
             shouldDisplayErrors(['Date you start the project must be after']);
             cy.checkA11y();
 
-            const validDate = moment().add('12', 'weeks');
+            const validDate = moment().add('18', 'weeks');
             fillAllDateFields(validDate);
 
             submitStep();
@@ -105,7 +105,7 @@ describe('awards for all', function() {
             );
 
             cy.getByLabelText(
-                'Tell us the towns, villages or wards where your beneficiaries live'
+                'Tell us the towns or villages where people who will benefit from your project live'
             ).type(faker.lorem.sentence());
 
             cy.getByLabelText('What is the postcode', { exact: false }).type(
