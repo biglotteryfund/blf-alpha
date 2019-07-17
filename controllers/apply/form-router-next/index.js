@@ -180,9 +180,6 @@ function initFormRouter({
 
             setCurrentlyEditingId(req, application.id);
             req.session.save(() => {
-                const form = formBuilder({
-                    locale: req.i18n.getLocale()
-                });
                 res.redirect(`${req.baseUrl}/summary`);
             });
         } catch (error) {

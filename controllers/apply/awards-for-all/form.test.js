@@ -183,7 +183,7 @@ describe('Form validations', () => {
                 return { projectDateRange: { startDate, endDate } };
             }
 
-            assertValidByKey(value(mockStartDate(12), mockStartDate(30)));
+            assertValidByKey(value(mockStartDate(18), mockStartDate(30)));
             assertMessagesByKey(value(null, null), [
                 'Enter a project start and end date'
             ]);
@@ -401,31 +401,6 @@ describe('Form validations', () => {
                     expect.stringContaining('Select the religion')
                 ]
             );
-        });
-
-        test('ignore beneficiary groups if beneficiariesOther is present', () => {
-            assertValidByKey({
-                beneficiariesGroupsCheck: 'yes',
-                beneficiariesGroups: ['lgbt'],
-                beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
-                beneficiariesGroupsGender: ['non-binary'],
-                beneficiariesGroupsAge: ['0-12', '13-24'],
-                beneficiariesGroupsDisabledPeople: ['sensory'],
-                beneficiariesGroupsReligion: ['sikh'],
-                beneficiariesGroupsReligionOther: undefined
-            });
-
-            assertValidByKey({
-                beneficiariesGroupsCheck: 'yes',
-                beneficiariesGroups: null,
-                beneficiariesGroupsOther: 'example',
-                beneficiariesGroupsEthnicBackground: null,
-                beneficiariesGroupsGender: null,
-                beneficiariesGroupsAge: null,
-                beneficiariesGroupsDisabledPeople: null,
-                beneficiariesGroupsReligion: null,
-                beneficiariesGroupsReligionOther: null
-            });
         });
 
         test.skip('welsh language question required for applicants in Wales', () => {
@@ -1206,6 +1181,7 @@ describe('form shape', () => {
         const emptyForm = formBuilder({ locale: 'en' });
         expect(emptyForm.progress).toEqual({
             isComplete: false,
+            isPristine: true,
             sections: [
                 {
                     label: 'Your project',
