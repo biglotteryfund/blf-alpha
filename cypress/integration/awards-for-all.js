@@ -83,37 +83,48 @@ describe('awards for all', function() {
         }
 
         function stepProjectLocation() {
-            let locationOption;
-            let locationPostcode;
+            let location = {};
             switch (country) {
                 case 'Northern Ireland':
-                    locationOption = 'Derry and Strabane';
-                    locationPostcode = 'BT82 8AE';
+                    location = {
+                        option: 'Derry and Strabane',
+                        postcode: 'BT82 8AE'
+                    };
                     break;
                 case 'Scotland':
-                    locationOption = 'Perth & Kinross';
-                    locationPostcode = 'PH1 1DA';
+                    location = sample([
+                        { option: 'Glasgow', postcode: 'G1 1DN' },
+                        { option: 'Highlands', postcode: 'KW8 6JF' },
+                        { option: 'Perth & Kinross', postcode: 'PH1 1DA' }
+                    ]);
+
                     break;
                 case 'Wales':
-                    locationOption = 'Caerphilly';
-                    locationPostcode = 'CF83 1AP';
+                    location = {
+                        option: 'Caerphilly',
+                        postcode: 'CF83 1AP'
+                    };
+
                     break;
                 default:
-                    locationOption = 'Bath and North East Somerset';
-                    locationPostcode = 'BA1 0DH';
+                    location = {
+                        option: 'Bath and North East Somerset',
+                        postcode: 'BA1 0DH'
+                    };
+
                     break;
             }
 
             cy.getByLabelText('Where will your project take place?').select(
-                locationOption
+                location.option
             );
 
             cy.getByLabelText(
                 'Tell us the towns, villages or wards where your beneficiaries live'
-            ).type(`Example location description for ${locationOption}`);
+            ).type(`Example location description for ${location.option}`);
 
             cy.getByLabelText('What is the postcode', { exact: false }).type(
-                locationPostcode
+                location.postcode
             );
 
             submitStep();
