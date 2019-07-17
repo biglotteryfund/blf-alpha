@@ -9,6 +9,7 @@ const { oneLine } = require('common-tags');
 const Joi = require('../form-router-next/joi-extensions');
 const {
     BENEFICIARY_GROUPS,
+    CONTACT_EXCLUDED_TYPES,
     MIN_BUDGET_TOTAL_GBP,
     MAX_BUDGET_TOTAL_GBP,
     MIN_AGE_MAIN_CONTACT,
