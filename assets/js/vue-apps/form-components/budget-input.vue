@@ -3,6 +3,8 @@ import sumBy from 'lodash/sumBy';
 import concat from 'lodash/concat';
 import IconBin from '../components/icon-bin.vue';
 
+import { trackEvent } from '../../helpers/metrics';
+
 export default {
     components: { IconBin },
     props: {
@@ -42,9 +44,18 @@ export default {
                     this.minBudget &&
                     this.total < this.minBudget &&
                     this.total > 0;
+
+                if (this.error.OVER_BUDGET) {
+                    trackEvent('Budget Component', 'Error', 'Over budget');
+                }
+
+                if (this.error.TOO_MANY_ITEMS) {
+                    trackEvent('Budget Component', 'Error', 'Maximum number of items reached');
+                }
+
             },
             deep: true
-        }
+        },
     },
     methods: {
         getLineItemName(index, subFieldName) {
