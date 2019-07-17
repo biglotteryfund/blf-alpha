@@ -14,6 +14,7 @@ const filesize = require('filesize');
 const mime = require('mime-types');
 
 const { fromDateParts } = require('./date-parts');
+const { countWords } = require('../../../../common/strings');
 
 function formatRadio(field) {
     return function(value) {
@@ -146,6 +147,13 @@ function formatName(value) {
     }
 }
 
+function formatTextArea(value) {
+    const str = value.toString();
+    const wordCount = countWords(str);
+    // @TODO i18n
+    return str + `\n\n (${wordCount} words)`;
+}
+
 function formatDefault(value) {
     return value.toString();
 }
@@ -191,6 +199,9 @@ function formatterFor(field) {
             break;
         case 'full-name':
             formatter = formatName;
+            break;
+        case 'textarea':
+            formatter = formatTextArea;
             break;
         default:
             formatter = formatDefault;
