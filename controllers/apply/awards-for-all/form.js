@@ -363,10 +363,13 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
 
     function stepNorthernIrelandCommunity() {
         return {
-            title: localise({ en: `Community`, cy: `` }),
+            title: localise({ en: `Northern Ireland community`, cy: `` }),
             fieldsets: [
                 {
-                    legend: localise({ en: `Community`, cy: `` }),
+                    legend: localise({
+                        en: `Northern Ireland community`,
+                        cy: ``
+                    }),
                     fields: conditionalFields(
                         [fields.beneficiariesNorthernIrelandCommunity],
                         includeIfCountry('northern-ireland', [
@@ -1060,7 +1063,7 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
                 summary: localise({
                     en: oneLine`Please provide details for your senior contact.
                         This person will be legally responsible for the funding.
-                        They can't be married, in a long-term relationship,
+                        They can't be married to, in a long-term relationship with,
                         living with, or related to the main contact.`,
                     cy: ``
                 }),
