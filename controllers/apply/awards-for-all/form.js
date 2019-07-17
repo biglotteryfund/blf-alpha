@@ -625,11 +625,12 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
                         );
                         const seniorName =
                             seniorFirstName && seniorSurname
-                                ? `, ${seniorFirstName} ${seniorSurname}`
+                                ? safeHtml`, <strong>${seniorFirstName} ${seniorSurname}</strong>`
                                 : '';
 
                         return localise({
-                            en: safeHtml`<p>
+                            en:
+                                safeHtml`<p>
                                 Please give us the contact details of a person
                                 we can get in touch with if we have any questions.
                                 The main contact is usually the person filling in
@@ -639,7 +640,9 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
                             </p>
                             <p>
                                 The main contact must be a different person from
-                                the senior contact${seniorName}. The two contacts
+                                the senior contact` +
+                                seniorName +
+                                `. The two contacts
                                 also can't be married or in a long-term relationship
                                 with each other, living together at the same address,
                                 or related by blood.
