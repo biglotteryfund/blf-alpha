@@ -60,7 +60,7 @@ function mockFullForm({
         projectName: faker.lorem.words(5),
         projectCountry: country,
         projectDateRange: {
-            startDate: mockStartDate(12),
+            startDate: mockStartDate(18),
             endDate: mockStartDate(30)
         },
         projectLocation: 'east-lothian',
@@ -1228,6 +1228,7 @@ describe('form shape', () => {
 
         expect(partialForm.progress).toEqual({
             isComplete: false,
+            isPristine: false,
             sections: [
                 {
                     label: 'Your project',

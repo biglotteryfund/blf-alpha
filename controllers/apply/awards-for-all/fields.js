@@ -1247,7 +1247,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
-                    type: 'number.base',
+                    type: 'number.base', // @TODO this never fires
                     message: localise({
                         en: 'Total cost must be a real number',
                         cy: ''

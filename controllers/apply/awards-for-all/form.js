@@ -768,13 +768,9 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
                     }),
                     introduction: localise({
                         en: `<p>
-                            This should be the legal name of your organisation as it
-                            appears on your bank statement—not the name of your bank.
-                            This will usually be the same as your organisation’s
-                            name on your governing document.
+                            We need your bank details to pay the funding into your account - if your application is successful. 
                         </p>
-                        <p>
-                            <strong>The kinds of bank accounts we don't accept</strong>:
+                        <p><strong>We can't pay into all bank accounts</strong>:
                             We can't transfer money into certain types of bank
                             accounts like Tide, Cashplus and Paypal.
                         </p>`,
