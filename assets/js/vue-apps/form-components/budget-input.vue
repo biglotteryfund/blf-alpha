@@ -9,7 +9,6 @@ export default {
     components: { IconBin },
     props: {
         fieldName: { type: String, required: true },
-        minBudget: { type: Number, required: true },
         maxBudget: { type: Number, required: true },
         maxItems: { type: Number, required: true },
         budgetData: {
@@ -40,10 +39,6 @@ export default {
                     this.budgetRows.length === this.maxItems;
                 this.error.OVER_BUDGET =
                     this.maxBudget && this.total > this.maxBudget;
-                this.error.UNDER_BUDGET =
-                    this.minBudget &&
-                    this.total < this.minBudget &&
-                    this.total > 0;
 
                 if (this.error.OVER_BUDGET) {
                     trackEvent('Budget Component', 'Error', 'Over budget');
@@ -166,11 +161,6 @@ export default {
             <p v-if="error.OVER_BUDGET">
                 Costs you would like us to fund must be less than £{{
                     maxBudget.toLocaleString()
-                }}.
-            </p>
-            <p v-if="error.UNDER_BUDGET">
-                Costs you would like us to fund must be greater than £{{
-                    minBudget.toLocaleString()
                 }}.
             </p>
         </div>
