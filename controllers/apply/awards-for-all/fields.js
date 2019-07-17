@@ -1093,7 +1093,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             }),
             explanation: localise({
-                en: `If your project covers more than one area please choose the primary location`,
+                en: `If your project covers more than one area please tell us where most of it will take place`,
                 cy: ''
             }),
             type: 'select',
@@ -1119,10 +1119,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         projectLocationDescription: {
             name: 'projectLocationDescription',
             label: localise({
-                en: `Tell us the towns, villages or wards where your beneficiaries live`,
+                en: `Tell us the towns or villages where people who will benefit from your project live`,
                 cy: ``
             }),
             type: 'text',
+            attributes: {
+                size: 60
+            },
             isRequired: true,
             schema: Joi.string().required(),
             messages: [
@@ -1138,7 +1141,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         projectPostcode: {
             name: 'projectPostcode',
             label: localise({
-                en: `What is the postcode of the location where your project will take place?`,
+                en: `What is the postcode of where your project will take place?`,
                 cy: ``
             }),
             explanation: localise({
