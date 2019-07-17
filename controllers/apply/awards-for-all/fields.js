@@ -1865,7 +1865,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         organisationTradingName: {
             name: 'organisationTradingName',
             label: localise({
-                en: `Does your organisation use a different name in your day-to-day work?`,
+                en: `If your organisation uses a different name in your day-to-day work, tell us it here`,
                 cy: ``
             }),
             type: 'text',
@@ -2004,10 +2004,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         charityNumber: {
             name: 'charityNumber',
             label: localise({ en: 'Charity registration number', cy: '' }),
-            explanation: localise({
-                en: `If you're a Scottish charity registered with OSCR, we only need the last 5 numbers.`,
-                cy: ''
-            }),
             type: 'text',
             attributes: { size: 20 },
             isRequired: [
