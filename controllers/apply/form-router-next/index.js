@@ -183,7 +183,7 @@ function initFormRouter({
                 const form = formBuilder({
                     locale: req.i18n.getLocale()
                 });
-                res.redirect(`${req.baseUrl}/${form.sections[0].slug}`);
+                res.redirect(`${req.baseUrl}/summary`);
             });
         } catch (error) {
             next(error);

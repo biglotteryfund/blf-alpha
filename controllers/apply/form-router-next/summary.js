@@ -34,6 +34,7 @@ module.exports = function(formBuilder) {
 
         const title = copy.summary.title;
         const showErrors = !!req.query['show-errors'] === true;
+        const formProgress = form.progress;
 
         res.render(path.resolve(__dirname, './views/summary'), {
             form: form,
@@ -45,7 +46,9 @@ module.exports = function(formBuilder) {
             errors: form.validation.messages,
             errorsByStep: errorsByStep(),
             featuredErrors: form.validation.featuredMessages,
-            expandSections: form.progress.isComplete || showErrors
+            expandSections: formProgress.isComplete || showErrors,
+            formProgress: formProgress,
+            startPathSlug: form.sections[0].slug
         });
     });
 

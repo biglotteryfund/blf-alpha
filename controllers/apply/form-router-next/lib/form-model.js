@@ -19,6 +19,7 @@ class FormModel {
         this.title = props.title;
         this.isBilingual = props.isBilingual || false;
         this.allFields = props.allFields;
+        this.formData = data;
 
         this.featuredErrorsAllowList = props.featuredErrorsAllowList || [];
 
@@ -183,6 +184,7 @@ class FormModel {
             isComplete:
                 isEmpty(this.validation.value) === false &&
                 this.validation.error === null,
+            isPristine: Object.keys(this.formData || {}).length === 0,
             sections: this.sections.map(section => section.progress)
         };
     }
