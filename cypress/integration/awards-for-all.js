@@ -4,6 +4,7 @@ const random = require('lodash/random');
 const sample = require('lodash/sample');
 const sampleSize = require('lodash/sampleSize');
 const sum = require('lodash/sum');
+const times = require('lodash/times');
 const moment = require('moment');
 
 describe('awards for all', function() {
@@ -177,7 +178,7 @@ describe('awards for all', function() {
             );
 
             cy.getByLabelText('Tell us the total cost of your project').type(
-                '9000'
+                9000
             );
 
             submitStep();
@@ -204,6 +205,10 @@ describe('awards for all', function() {
                 'contain',
                 `£${sum(amounts).toLocaleString()}`
             );
+
+            cy.getByLabelText('Tell us the total cost of your project')
+                .clear()
+                .type(random(sum(amounts), 20000));
 
             submitStep();
         }
@@ -398,7 +403,7 @@ describe('awards for all', function() {
                         {
                             exact: false
                         }
-                    ).type('150000');
+                    ).type(random(25000, 150000));
 
                     submitStep();
                 }
@@ -409,7 +414,7 @@ describe('awards for all', function() {
             cy.queryByText('Date of birth', { timeout: 1000 }).then(el => {
                 if (el) {
                     const randomDob = moment().subtract(
-                        random(minAge, 80),
+                        random(minAge, 90),
                         'years'
                     );
                     cy.getByLabelText('Day').type(randomDob.date());
@@ -465,7 +470,7 @@ describe('awards for all', function() {
 
             cy.get('label[for="field-seniorContactRole-1"]').click();
 
-            fillDateOfBirth(16);
+            fillDateOfBirth(18);
             fillHomeAddress({
                 streetAddress: 'Pacific House, 70 Wellington St',
                 city: 'Glasgow',
@@ -558,39 +563,17 @@ describe('awards for all', function() {
             submitStep();
         }
 
-        // cy.visit(
-        //     '/funding/programmes/national-lottery-awards-for-all-scotland'
-        // );
-        // cy.percySnapshot('awards-for-all');
-        // cy.get('.cookie-consent button').click();
-        //
-        // function interactWithTabs() {
-        //     cy.get('.js-tabset .js-tab').each($el => {
-        //         cy.wrap($el)
-        //             .click()
-        //             .should('have.class', 'is-active');
-        //
-        //         // Check there is only one tab active
-        //         cy.get('.js-tabset .is-active').should('have.length', 1);
-        //
-        //         // Check tab content is visible
-        //         cy.get($el.attr('href')).should('be.visible');
-        //     });
-        // }
-        //
-        // interactWithTabs();
-
         cy.seedAndLogin().then(() => {
-            cy.visit('/apply/awards-for-all/new');
+            cy.visit('/apply/awards-for-all');
 
-            // cy.visit('/apply/awards-for-all');
-            //
-            // cy.getByText('Start new application').click();
-            // times(5, function() {
-            //     cy.getByLabelText('Yes').click();
-            //     cy.getByText('Continue').click();
-            // });
-            // cy.getByText('Start your application').click();
+            cy.get('.cookie-consent button').click();
+
+            cy.getByText('Start new application').click();
+            times(5, function() {
+                cy.getByLabelText('Yes').click();
+                cy.getByText('Continue').click();
+            });
+            cy.getByText('Start your application').click();
 
             const organisationName = faker.company.companyName();
 
