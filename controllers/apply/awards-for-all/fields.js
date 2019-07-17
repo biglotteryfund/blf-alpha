@@ -11,8 +11,10 @@ const {
     BENEFICIARY_GROUPS,
     MIN_BUDGET_TOTAL_GBP,
     MAX_BUDGET_TOTAL_GBP,
+    MAX_PROJECT_DURATION,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
+    MIN_START_DATE,
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,
     ORG_MIN_AGE,
@@ -296,13 +298,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldProjectDateRange() {
-        const minDate = moment().add(12, 'weeks');
+        const minDate = moment().add(
+            MIN_START_DATE.amount,
+            MIN_START_DATE.unit
+        );
         const minDateAfter = minDate.subtract(1, 'days');
-        const maxDuration = { amount: 12, unit: 'months' };
-        const maxDurationLabel = localise({
-            en: `twelve months`,
-            cy: ``
-        });
 
         return {
             name: 'projectDateRange',
@@ -321,9 +321,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 </p>
                 <p>
                     We usually only fund projects that last
-                    ${maxDurationLabel} or less.
+                    ${localise(MAX_PROJECT_DURATION.label)} or less.
                     So, the end date can't be more than
-                    ${maxDurationLabel} after the start date.    
+                    ${localise(
+                        MAX_PROJECT_DURATION.label
+                    )} after the start date.    
                 </p>
                 <p><strong>If your project is a one-off event</strong></p>
                 <p>
@@ -336,7 +338,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.dateRange()
                 .minDate(minDate.format('YYYY-MM-DD'))
-                .endDateLimit(maxDuration.amount, maxDuration.unit),
+                .endDateLimit(
+                    MAX_PROJECT_DURATION.amount,
+                    MAX_PROJECT_DURATION.unit
+                ),
             messages: [
                 {
                     type: 'base',
@@ -378,7 +383,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'dateRange.endDate.outsideLimit',
                     message: localise({
                         en: oneLine`Date you end the project must be within
-                            ${maxDurationLabel} of the start date.`,
+                            ${localise(
+                                MAX_PROJECT_DURATION.label
+                            )} of the start date.`,
                         cy: ''
                     })
                 },
@@ -1593,7 +1600,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'checkbox',
             options: [
-                { value: '0-12', label: localise({ en: '0–12', cy: '' }) },
+                { value: '0-12', label: localise({ en: '0-12', cy: '' }) },
                 { value: '13-24', label: localise({ en: '13-24', cy: '' }) },
                 { value: '25-64', label: localise({ en: '25-64', cy: '' }) },
                 { value: '65+', label: localise({ en: '65+', cy: '' }) }

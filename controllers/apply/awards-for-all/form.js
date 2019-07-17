@@ -65,9 +65,7 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
                 cy: ``
             }),
             body: localise({
-                en: `<a href="https://apply.tnlcommunityfund.org.uk">
-                    You’ll need to use this form instead
-                </a>.
+                en: `<a href="https://apply.tnlcommunityfund.org.uk">You’ll need to use this form instead</a>.
                 Only applicants in Scotland can apply through our new online form at the moment.
                 We’re working on making this available for the rest of the UK.`,
                 cy: ``
