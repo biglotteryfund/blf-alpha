@@ -612,6 +612,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     many people you've spoken to, and how they'll be involved
                     in the development and delivery of the project.
                 </p>
+                <p><strong>Here are some examples of how you could be involving your community:</strong></p>
+                <ul>
+                    <li>Having regular chats with community members, in person or on social media</li>
+                    <li>Including community members on your board or committee</li>
+                    <li>Regular surveys</li>
+                    <li>Setting up steering groups</li>
+                    <li>Running open days</li>
+                </ul>
                 <p><strong>
                     You can write up to ${maxWords} words for this section,
                     but don't worry if you use less.
@@ -2097,7 +2105,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
                 is: true,
-                then: Joi.number().required(),
+                then: Joi.number().required(), // @TODO strip commas
                 otherwise: Joi.any().strip()
             }),
             messages: [
