@@ -2086,11 +2086,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'What is your total income for the year?',
                 cy: ''
             }),
+            explanation: localise({
+                en: 'Use whole numbers only, eg. 12000',
+                cy: ''
+            }),
             type: 'currency',
             isRequired: true,
             schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
                 is: true,
-                then: Joi.number().required(), // @TODO strip commas
+                then: Joi.number()
+                    .integer()
+                    .required(),
                 otherwise: Joi.any().strip()
             }),
             messages: [
@@ -2105,6 +2111,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'any.invalid',
                     message: localise({
                         en: 'Total income must be a real number',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'number.base',
+                    key: 'cost',
+                    message: localise({
+                        en: 'Total income must be a whole number',
                         cy: ''
                     })
                 }
