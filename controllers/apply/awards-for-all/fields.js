@@ -290,6 +290,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         en: `Must be at least ${minAge} years old`,
                         cy: ''
                     })
+                },
+                {
+                    type: 'dateParts.dob.tooOld',
+                    message: localise({
+                        en: `Your birth date is not valid - please use four digits, eg. 1986`,
+                        cy: ''
+                    })
                 }
             ]
         };
