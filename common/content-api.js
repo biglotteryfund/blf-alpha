@@ -72,7 +72,9 @@ function mergeWelshBy(propName) {
             return enResults;
         } else {
             return map(enItem => {
-                const findCy = find(cyItem => cyItem[propName] === enItem[propName]);
+                const findCy = find(
+                    cyItem => cyItem[propName] === enItem[propName]
+                );
                 return findCy(cyResults) || enItem;
             })(enResults);
         }
@@ -121,11 +123,15 @@ function getAlias(urlPath) {
 }
 
 function getHeroImage({ locale, slug }) {
-    return fetch(`/v1/${locale}/hero-image/${slug}`).then(response => response.data.attributes);
+    return fetch(`/v1/${locale}/hero-image/${slug}`).then(
+        response => response.data.attributes
+    );
 }
 
 function getHomepage({ locale }) {
-    return fetch(`/v1/${locale}/homepage`).then(response => response.data.attributes);
+    return fetch(`/v1/${locale}/homepage`).then(
+        response => response.data.attributes
+    );
 }
 
 /**
@@ -138,7 +144,14 @@ function getHomepage({ locale }) {
  * @property {object} [options.query]
  * @property {object} [options.previewMode]
  */
-function getUpdates({ locale, type = null, date = null, slug = null, query = {}, previewMode = null }) {
+function getUpdates({
+    locale,
+    type = null,
+    date = null,
+    slug = null,
+    query = {},
+    previewMode = null
+}) {
     if (slug) {
         return fetch(`/v1/${locale}/updates/${type}/${date}/${slug}`, {
             qs: addPreviewParams(previewMode, { ...query })
@@ -150,7 +163,10 @@ function getUpdates({ locale, type = null, date = null, slug = null, query = {},
         });
     } else {
         return fetch(`/v1/${locale}/updates/${type || ''}`, {
-            qs: addPreviewParams(previewMode, { ...query, ...{ 'page-limit': 10 } })
+            qs: addPreviewParams(previewMode, {
+                ...query,
+                ...{ 'page-limit': 10 }
+            })
         }).then(response => {
             return {
                 meta: response.meta,
@@ -160,7 +176,12 @@ function getUpdates({ locale, type = null, date = null, slug = null, query = {},
     }
 }
 
-function getFundingProgrammes({ locale, page = 1, pageLimit = 100, showAll = false }) {
+function getFundingProgrammes({
+    locale,
+    page = 1,
+    pageLimit = 100,
+    showAll = false
+}) {
     return fetchAllLocales(reqLocale => `/v2/${reqLocale}/funding-programmes`, {
         qs: { 'page': page, 'page-limit': pageLimit, 'all': showAll === true }
     }).then(responses => {
@@ -183,13 +204,24 @@ function getRecentFundingProgrammes({ locale, limit = 3 }) {
     });
 }
 
-function getFundingProgramme({ locale, slug, previewMode = false, query = {} }) {
+function getFundingProgramme({
+    locale,
+    slug,
+    previewMode = false,
+    query = {}
+}) {
     return fetch(`/v2/${locale}/funding-programmes/${slug}`, {
         qs: addPreviewParams(previewMode, { ...query })
     }).then(response => get('data.attributes')(response));
 }
 
-function getResearch({ locale, slug = null, previewMode = null, query = {}, type = null }) {
+function getResearch({
+    locale,
+    slug = null,
+    previewMode = null,
+    query = {},
+    type = null
+}) {
     if (slug) {
         return fetch(`/v1/${locale}/research/${slug}`, {
             qs: addPreviewParams(previewMode, { ...query })
@@ -210,13 +242,20 @@ function getResearch({ locale, slug = null, previewMode = null, query = {}, type
     }
 }
 
-function getStrategicProgrammes({ locale, slug = null, previewMode = null, query = {} }) {
+function getStrategicProgrammes({
+    locale,
+    slug = null,
+    previewMode = null,
+    query = {}
+}) {
     if (slug) {
         return fetch(`/v1/${locale}/strategic-programmes/${slug}`, {
             qs: addPreviewParams(previewMode, { ...query })
         }).then(response => get('data.attributes')(response));
     } else {
-        return fetchAllLocales(reqLocale => `/v1/${reqLocale}/strategic-programmes`).then(responses => {
+        return fetchAllLocales(
+            reqLocale => `/v1/${reqLocale}/strategic-programmes`
+        ).then(responses => {
             const [enResults, cyResults] = responses.map(mapAttrs);
             return mergeWelshBy('urlPath')(locale, enResults, cyResults);
         });
@@ -226,7 +265,10 @@ function getStrategicProgrammes({ locale, slug = null, previewMode = null, query
 function getListingPage({ locale, path, previewMode = null, query = {} }) {
     const sanitisedPath = sanitiseUrlPath(path);
     return fetch(`/v1/${locale}/listing`, {
-        qs: addPreviewParams(previewMode, { ...query, ...{ path: sanitisedPath } })
+        qs: addPreviewParams(previewMode, {
+            ...query,
+            ...{ path: sanitisedPath }
+        })
     }).then(response => {
         const attributes = response.data.map(item => item.attributes);
         return attributes.find(_ => _.path === sanitisedPath);
@@ -236,7 +278,10 @@ function getListingPage({ locale, path, previewMode = null, query = {} }) {
 function getFlexibleContent({ locale, path, previewMode, query = {} }) {
     const sanitisedPath = sanitiseUrlPath(path);
     return fetch(`/v1/${locale}/flexible-content`, {
-        qs: addPreviewParams(previewMode, { ...query, ...{ path: sanitisedPath } })
+        qs: addPreviewParams(previewMode, {
+            ...query,
+            ...{ path: sanitisedPath }
+        })
     }).then(response => response.data.attributes);
 }
 
@@ -247,7 +292,9 @@ function getProjectStory({ locale, grantId, previewMode, query = {} }) {
 }
 
 function getProjectStories({ locale, slugs = [] }) {
-    return fetchAllLocales(reqLocale => `/v1/${reqLocale}/project-stories`).then(responses => {
+    return fetchAllLocales(
+        reqLocale => `/v1/${reqLocale}/project-stories`
+    ).then(responses => {
         const [enResults, cyResults] = responses.map(mapAttrs);
         const results = mergeWelshBy('slug')(locale, enResults, cyResults);
         return slugs.length > 0 ? filterBySlugs(results, slugs) : results;
