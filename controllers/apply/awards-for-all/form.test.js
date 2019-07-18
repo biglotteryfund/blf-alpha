@@ -295,7 +295,7 @@ describe('Form validations', () => {
             assertValidByKey(value(mockBudget()));
 
             assertMessagesByKey(value(mockBudget(), null), [
-                'Total cost must be a real number'
+                'Enter a total cost for your project'
             ]);
             assertMessagesByKey(value(mockBudget(), Infinity), [
                 'Enter a total cost for your project'
@@ -554,7 +554,7 @@ describe('Form validations', () => {
 
             assertValidByKey(value(random(1000, 1000000)));
             assertMessagesByKey(value(null), [
-                'Enter a total income for the year'
+                'Enter a total income for the year (eg. a whole number with no commas or decimal points)'
             ]);
             assertMessagesByKey(value(Infinity), [
                 'Total income must be a real number'
