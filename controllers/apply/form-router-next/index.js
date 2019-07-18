@@ -25,7 +25,11 @@ const { requireActiveUser } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
 const salesforceService = require('./lib/salesforce');
-const { getObject, buildMultipartData } = require('./lib/file-uploads');
+const {
+    getObject,
+    buildMultipartData,
+    checkAntiVirus
+} = require('./lib/file-uploads');
 
 function initFormRouter({
     formId,
@@ -361,20 +365,31 @@ function initFormRouter({
                      */
                     const contentVersionPromises = fields
                         .filter(field => field.type === 'file')
-                        .map(field => {
-                            return buildMultipartData({
+                        .map(async field => {
+                            const pathConfig = {
                                 formId: formId,
                                 applicationId: currentApplication.id,
                                 filename: field.value.filename
-                            }).then(versionData => {
-                                return salesforce.contentVersion({
-                                    recordId: salesforceRecordId,
-                                    attachmentName: `${
-                                        field.name
-                                    }${path.extname(field.value.filename)}`,
-                                    versionData: versionData
-                                });
-                            });
+                            };
+
+                            try {
+                                await checkAntiVirus(pathConfig);
+                            } catch (err) {
+                                // We caught a suspect file
+                                return;
+                            }
+
+                            return buildMultipartData(pathConfig).then(
+                                versionData => {
+                                    return salesforce.contentVersion({
+                                        recordId: salesforceRecordId,
+                                        attachmentName: `${
+                                            field.name
+                                        }${path.extname(field.value.filename)}`,
+                                        versionData: versionData
+                                    });
+                                }
+                            );
                         });
 
                     await Promise.all(contentVersionPromises);
@@ -458,39 +473,51 @@ function initFormRouter({
      * Stream the file's headers and serve it directly as a response
      * @see https://stackoverflow.com/a/43356401
      */
-    router.route('/download/:fieldName/:filename').get((req, res, next) => {
-        const { currentlyEditingId, currentApplicationData } = res.locals;
+    router
+        .route('/download/:fieldName/:filename')
+        .get(async (req, res, next) => {
+            const { currentlyEditingId, currentApplicationData } = res.locals;
 
-        const fileData = currentApplicationData[req.params.fieldName];
-        const matchesField =
-            fileData && fileData.filename === req.params.filename;
+            const fileData = currentApplicationData[req.params.fieldName];
+            const matchesField =
+                fileData && fileData.filename === req.params.filename;
 
-        if (matchesField) {
-            getObject({
-                formId: formId,
-                applicationId: currentlyEditingId,
-                filename: req.params.filename
-            })
-                .on('httpHeaders', (code, headers) => {
-                    res.status(code);
-                    if (code < 300) {
-                        res.set(
-                            pick(
-                                headers,
-                                'content-type',
-                                'content-length',
-                                'last-modified'
-                            )
-                        );
-                    }
-                })
-                .createReadStream()
-                .on('error', next)
-                .pipe(res);
-        } else {
-            next();
-        }
-    });
+            if (matchesField) {
+                const pathConfig = {
+                    formId: formId,
+                    applicationId: currentlyEditingId,
+                    filename: req.params.filename
+                };
+
+                try {
+                    await checkAntiVirus(pathConfig);
+                } catch (err) {
+                    return res.send(
+                        'This file has been blocked for security reasons.'
+                    );
+                }
+
+                getObject(pathConfig)
+                    .on('httpHeaders', (code, headers) => {
+                        res.status(code);
+                        if (code < 300) {
+                            res.set(
+                                pick(
+                                    headers,
+                                    'content-type',
+                                    'content-length',
+                                    'last-modified'
+                                )
+                            );
+                        }
+                    })
+                    .createReadStream()
+                    .on('error', next)
+                    .pipe(res);
+            } else {
+                next();
+            }
+        });
 
     /**
      * Routes: Form steps
