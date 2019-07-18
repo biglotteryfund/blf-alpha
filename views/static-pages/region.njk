@@ -21,7 +21,7 @@
 {% endmacro %}
 
 {% block content %}
-   {% set availableFundingContent %}
+    {% set availableFundingContent %}
         <div class="s-prose u-constrained-content-wide">
             <p>{{ copy.sections.availableFunding.introduction | safe }}</p>
             {% for programme in copy.sections.availableFunding.fundingProgrammes %}
@@ -78,6 +78,12 @@
         </div>
     {% endset %}
 
+    {% set environmentContent %}
+        <div class="s-prose u-constrained-content-wide">
+            <p>{{ copy.sections.environment.introduction | safe }}</p>
+        </div>
+    {% endset %}
+
     <main role="main" id="content">
         {{ hero(title, pageHero.image) }}
 
@@ -93,29 +99,57 @@
                 {{ content | safe }}
             {% endmacro %}
 
-            {% set tabItems = [{
-                "id": "section-1",
-                "title": copy.sections.availableFunding.title,
-                "content": tabContent(
-                    title = copy.sections.availableFunding.title,
-                    content = availableFundingContent
-                ),
-                "active": true
-            }, {
-                "id": "section-2",
-                "title": copy.sections.fundingInRegion.title,
-                "content": tabContent(
-                    title = copy.sections.fundingInRegion.title,
-                    content = fundingInRegionContent
-                )
-            }, {
-                "id": "section-3",
-                "title": copy.sections.aboutIdeas.title,
-                "content": tabContent(
-                    title = copy.sections.aboutIdeas.title,
-                    content = aboutIdeasContent
-                )
-            }] %}
+            {% set availableTabs = {
+                "availableFunding": {
+                    "id": "section-1",
+                    "title": copy.sections.availableFunding.title,
+                    "content": tabContent(
+                        title = copy.sections.availableFunding.title,
+                        content = availableFundingContent
+                    ),
+                    "active": true
+                },
+                "fundingInRegion": {
+                    "id": "section-2",
+                    "title": copy.sections.fundingInRegion.title,
+                    "content": tabContent(
+                        title = copy.sections.fundingInRegion.title,
+                        content = fundingInRegionContent
+                    )
+                },
+                "aboutIdeas": {
+                    "id": "section-3",
+                    "title": copy.sections.aboutIdeas.title,
+                    "content": tabContent(
+                        title = copy.sections.aboutIdeas.title,
+                        content = aboutIdeasContent
+                    )
+                },
+                "environment": {
+                    "id": "section-4",
+                    "title": copy.sections.environment.title,
+                    "content": tabContent(
+                        title = copy.sections.environment.title,
+                        content = environmentContent
+                    )
+                }
+            } %}
+
+            {% set tabItems = [
+                availableTabs.availableFunding,
+                availableTabs.fundingInRegion,
+                availableTabs.aboutIdeas
+            ] %}
+
+            {% if copy.sections.environment %}
+                {% set tabItems = [
+                    availableTabs.availableFunding,
+                    availableTabs.fundingInRegion,
+                    availableTabs.aboutIdeas,
+                    availableTabs.environment
+                ] %}
+            {% endif %}
+
 
             <div class="u-inner-wide-only">
                 {{ contentTabs(tabItems) }}
