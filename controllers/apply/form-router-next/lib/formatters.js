@@ -64,7 +64,7 @@ function formatAddressHistory(value) {
     if (previousAddress && meetsMinimum === 'no') {
         return formatAddress(previousAddress);
     } else {
-        return 'yes';
+        return 'Yes';
     }
 }
 

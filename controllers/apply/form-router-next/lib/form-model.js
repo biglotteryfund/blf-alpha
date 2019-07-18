@@ -180,11 +180,10 @@ class FormModel {
     }
 
     get progress() {
+        const formIsEmpty = isEmpty(this.validation.value) === true;
         return {
-            isComplete:
-                isEmpty(this.validation.value) === false &&
-                this.validation.error === null,
-            isPristine: Object.keys(this.formData || {}).length === 0,
+            isComplete: !formIsEmpty && this.validation.error === null,
+            isPristine: formIsEmpty,
             sections: this.sections.map(section => section.progress)
         };
     }
