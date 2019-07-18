@@ -101,6 +101,7 @@ export default {
                         :name="getLineItemName(index, 'item')"
                         :id="getLineItemName(index, 'item')"
                         autocomplete="off"
+                        placeholder="eg. Posters"
                         v-model="lineItem.item"
                     />
                 </div>
@@ -117,7 +118,8 @@ export default {
                             type="number"
                             :name="getLineItemName(index, 'cost')"
                             :id="getLineItemName(index, 'cost')"
-                            v-model="lineItem.cost"
+                            v-model.number="lineItem.cost"
+                            placeholder="eg. 1234"
                             min="1"
                             step="1"
                             :max="maxBudget"

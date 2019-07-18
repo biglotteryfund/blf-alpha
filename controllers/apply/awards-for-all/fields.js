@@ -1175,7 +1175,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             }),
             explanation: localise({
-                en: `<p>You should use budget headings, rather than a detailed list of items. For example, if you're applying for pens, pencils, paper and envelopes, using 'office supplies' is fine.</p>
+                en: `<p>You should use budget headings, rather than a detailed list of items. For example, if you're applying for pens, pencils, paper and envelopes, using 'office supplies' is fine. Please enter whole numbers only.</p>
                 <p>Please note you can only have a maximum of 10 rows.</p>`,
                 cy: ''
             }),
@@ -1247,9 +1247,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
-                    type: 'number.base', // @TODO this never fires
+                    type: 'number.integer',
                     message: localise({
-                        en: 'Total cost must be a real number',
+                        en:
+                            'Total cost must be a whole number (eg. no decimal point)',
                         cy: ''
                     })
                 },
@@ -2103,7 +2104,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Enter a total income for the year',
+                        en:
+                            'Enter a total income for the year (eg. a whole number with no commas or decimal points)',
                         cy: ''
                     })
                 },
@@ -2115,10 +2117,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
-                    type: 'number.base',
-                    key: 'cost',
+                    type: 'number.integer',
                     message: localise({
-                        en: 'Total income must be a whole number',
+                        en:
+                            'Total income must be a whole number (eg. no decimal point)',
                         cy: ''
                     })
                 }
