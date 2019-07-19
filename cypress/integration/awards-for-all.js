@@ -174,7 +174,7 @@ describe('awards for all', function() {
 
             cy.getAllByTestId('budget-errors').should(
                 'contain',
-                'Project costs must be less than £10,000'
+                'Costs you would like us to fund must be less than £10,000'
             );
 
             cy.getByLabelText('Tell us the total cost of your project').type(
@@ -184,7 +184,7 @@ describe('awards for all', function() {
             submitStep();
 
             shouldDisplayErrors([
-                'Project costs must be less than £10,000',
+                'Costs you would like us to fund must be less than £10,000',
                 'Total cost must be the same as or higher than the amount you’re asking us to fund'
             ]);
 
