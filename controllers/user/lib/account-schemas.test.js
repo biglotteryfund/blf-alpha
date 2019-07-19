@@ -22,7 +22,7 @@ describe('account schemas', () => {
                 param: 'password',
                 type: 'any.invalid',
                 msg: expect.stringContaining(
-                    'Password is the same as your username'
+                    'Password can not be the same as your username.'
                 )
             }
         ]);

@@ -45,8 +45,7 @@
                     name: 'password',
                     label: __('user.common.password'),
                     explanation: __('user.common.passwordRequirements'),
-                    isRequired: true,
-                    value: formValues['password']
+                    isRequired: true
                 }, errors = errors) }}
 
                 {{ formField({
@@ -54,8 +53,7 @@
                     name: 'passwordConfirmation',
                     label: 'Password confirmation',
                     explanation: 'Re-type your password',
-                    isRequired: true,
-                    value: formValues['passwordConfirmation']
+                    isRequired: true
                 }, errors = errors) }}
 
                 <div class="form-actions">

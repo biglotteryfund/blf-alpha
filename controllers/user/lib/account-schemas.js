@@ -1,29 +1,19 @@
 'use strict';
-const fs = require('fs');
-const path = require('path');
 const get = require('lodash/fp/get');
-const Joi = require('@hapi/joi');
-
-/**
- * List of the most commonly used passwords. Specifically to 10k, filtered by min-length
- * awk 'length($0)>9' full-list.txt > common-passwords.txt
- * @see https://github.com/danielmiessler/SecLists/tree/master/Passwords/Common-Credentials
- */
-const commonPasswords = fs
-    .readFileSync(path.resolve(__dirname, './common-passwords.txt'), 'utf8')
-    .toString()
-    .split('\n');
+const baseJoi = require('@hapi/joi');
+const Joi = baseJoi.extend(require('./password-strength'));
 
 const MIN_PASSWORD_LENGTH = 10;
+const MIN_PASSWORD_STRENGTH = 2;
 
 const username = Joi.string()
     .email()
     .required();
 
-const passwordSchema = Joi.string()
+const passwordSchema = Joi.password()
     .min(MIN_PASSWORD_LENGTH) // Min characters
     .invalid(Joi.ref('username')) // Must not equal username
-    .invalid(commonPasswords) // Must not be in common passwords list
+    .strength(MIN_PASSWORD_STRENGTH) // Must have a strength greater than minimum score
     .required();
 
 const passwordConfirmationSchema = Joi.string()
@@ -51,13 +41,19 @@ const MESSAGES = {
     },
     passwordInvalid(locale) {
         return get(locale)({
-            en: `Your password could be too common, or is the same as your username.`,
+            en: `Password can not be the same as your username.`,
             cy: ''
         });
     },
     passwordLength(locale) {
         return get(locale)({
             en: `Password must be at least ${MIN_PASSWORD_LENGTH} characters long`,
+            cy: ''
+        });
+    },
+    passwordStrength(locale) {
+        return get(locale)({
+            en: `Password is too weak, please try another password`,
             cy: ''
         });
     },
@@ -105,6 +101,14 @@ module.exports = {
                     {
                         type: 'string.min',
                         message: MESSAGES.passwordLength(locale)
+                    },
+                    {
+                        type: 'password.common',
+                        message: MESSAGES.passwordStrength(locale)
+                    },
+                    {
+                        type: 'password.strength',
+                        message: MESSAGES.passwordStrength(locale)
                     }
                 ],
                 passwordConfirmation: [
