@@ -21,6 +21,16 @@ const ORGANISATION_TYPES = {
     FAITH_GROUP: 'faith-group'
 };
 
+/**
+ * Define which organisation types should
+ * exclude contact details.
+ */
+const CONTACT_EXCLUDED_TYPES = [
+    ORGANISATION_TYPES.SCHOOL,
+    ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY,
+    ORGANISATION_TYPES.STATUTORY_BODY
+];
+
 const STATUTORY_BODY_TYPES = {
     PARISH_COUNCIL: 'parish-council', // ⛪️
     TOWN_COUNCIL: 'town-council', // 🏙
@@ -55,6 +65,7 @@ const FILE_LIMITS = {
 
 module.exports = {
     BENEFICIARY_GROUPS,
+    CONTACT_EXCLUDED_TYPES,
     MIN_BUDGET_TOTAL_GBP,
     MAX_BUDGET_TOTAL_GBP,
     MIN_AGE_MAIN_CONTACT,

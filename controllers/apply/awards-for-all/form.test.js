@@ -11,7 +11,11 @@ const faker = require('faker');
 const moment = require('moment');
 
 const formBuilder = require('./form');
-const { BENEFICIARY_GROUPS, ORGANISATION_TYPES } = require('./constants');
+const {
+    BENEFICIARY_GROUPS,
+    ORGANISATION_TYPES,
+    CONTACT_EXCLUDED_TYPES
+} = require('./constants');
 const validateModel = require('../form-router-next/lib/validate-model');
 
 function toDateParts(dt) {
@@ -764,25 +768,23 @@ describe('Form validations', () => {
             expect(testValidate(dobWithOrgType).value).toEqual(dobWithOrgType);
         });
 
-        test('date of birth value stripped for schools and statutory bodies', () => {
-            [
-                ORGANISATION_TYPES.SCHOOL,
-                ORGANISATION_TYPES.STATUTORY_BODY
-            ].forEach(orgType => {
+        test.each(CONTACT_EXCLUDED_TYPES)(
+            'date of birth value stripped for %p',
+            function(excludedOrgType) {
                 const dobWithSchool = {
-                    organisationType: orgType,
+                    organisationType: excludedOrgType,
                     [fieldName]: mockDateOfBirth(minAge, 90)
                 };
 
                 expect(testValidate(dobWithSchool).value).toEqual({
-                    organisationType: orgType
+                    organisationType: excludedOrgType
                 });
 
                 assertValidByKey({
-                    organisationType: orgType
+                    organisationType: excludedOrgType
                 });
-            });
-        });
+            }
+        );
     }
 
     function testAddressField(fieldName) {
@@ -828,25 +830,23 @@ describe('Form validations', () => {
             );
         });
 
-        test('address value stripped for schools and statutory bodies', () => {
-            [
-                ORGANISATION_TYPES.SCHOOL,
-                ORGANISATION_TYPES.STATUTORY_BODY
-            ].forEach(orgType => {
+        test.each(CONTACT_EXCLUDED_TYPES)(
+            'address value stripped for %p',
+            function(excludedOrgType) {
                 expect(
                     testValidate({
-                        organisationType: orgType,
+                        organisationType: excludedOrgType,
                         [fieldName]: mockAddress()
                     }).value
                 ).toEqual({
-                    organisationType: orgType
+                    organisationType: excludedOrgType
                 });
 
                 assertValidByKey({
-                    organisationType: orgType
+                    organisationType: excludedOrgType
                 });
-            });
-        });
+            }
+        );
     }
 
     function testAddressHistoryField(fieldName) {
@@ -872,23 +872,24 @@ describe('Form validations', () => {
             );
         });
 
-        test('optional if organisationType is a school or statutory-body', () => {
-            function value(orgType) {
-                return { organisationType: orgType, [fieldName]: null };
+        test.each(CONTACT_EXCLUDED_TYPES)(
+            'optional if organisationType is %p',
+            function(excludedOrgType) {
+                assertValidByKey({
+                    organisationType: excludedOrgType,
+                    [fieldName]: null
+                });
+
+                assertMessagesByKey(
+                    {
+                        organisationType:
+                            ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
+                        [fieldName]: null
+                    },
+                    ['Enter a full UK address']
+                );
             }
-
-            [
-                ORGANISATION_TYPES.SCHOOL,
-                ORGANISATION_TYPES.STATUTORY_BODY
-            ].forEach(orgType => {
-                assertValidByKey(value(orgType));
-            });
-
-            assertMessagesByKey(
-                value(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY),
-                ['Enter a full UK address']
-            );
-        });
+        );
     }
 
     describe('Senior contact', () => {
@@ -1021,29 +1022,12 @@ describe('Form validations', () => {
             ]);
         });
 
-        test('contact fields not included for schools and statutory bodies', () => {
-            const defaultFieldNames = formBuilder({ locale: 'en' })
-                .getCurrentFieldsForStep('senior-contact', 0)
-                .map(field => field.name);
-
-            expect(defaultFieldNames).toEqual([
-                'seniorContactRole',
-                'seniorContactName',
-                'seniorContactDateOfBirth',
-                'seniorContactAddress',
-                'seniorContactAddressHistory',
-                'seniorContactEmail',
-                'seniorContactPhone',
-                'seniorContactCommunicationNeeds'
-            ]);
-
-            [
-                ORGANISATION_TYPES.SCHOOL,
-                ORGANISATION_TYPES.STATUTORY_BODY
-            ].forEach(orgType => {
+        test.each(CONTACT_EXCLUDED_TYPES)(
+            'contact fields not included for %p',
+            function(excludedOrgType) {
                 const fieldNames = formBuilder({
                     locale: 'en',
-                    data: { organisationType: orgType }
+                    data: { organisationType: excludedOrgType }
                 })
                     .getCurrentFieldsForStep('senior-contact', 0)
                     .map(field => field.name);
@@ -1055,8 +1039,8 @@ describe('Form validations', () => {
                     'seniorContactPhone',
                     'seniorContactCommunicationNeeds'
                 ]);
-            });
-        });
+            }
+        );
     });
 
     describe('Main contact', () => {
@@ -1081,10 +1065,7 @@ describe('Form validations', () => {
                 'mainContactCommunicationNeeds'
             ]);
 
-            [
-                ORGANISATION_TYPES.SCHOOL,
-                ORGANISATION_TYPES.STATUTORY_BODY
-            ].forEach(orgType => {
+            CONTACT_EXCLUDED_TYPES.forEach(orgType => {
                 const fieldNames = formBuilder({
                     locale: 'en',
                     data: { organisationType: orgType }
