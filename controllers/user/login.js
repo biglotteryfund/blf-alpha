@@ -7,6 +7,8 @@ const logger = require('../../common/logger').child({
     service: 'user'
 });
 
+const { RateLimiter } = require('../../middleware/rate-limiter');
+
 const {
     injectCopy,
     injectBreadcrumbs
@@ -44,33 +46,66 @@ router
         });
         renderForm(req, res);
     })
-    .post((req, res, next) => {
+    .post(async (req, res, next) => {
         logger.info('Login attempted');
-        passport.authenticate('local', function(err, user) {
-            if (err) {
-                logger.error('Authentication failed', err);
-                next(err);
-            } else if (user) {
-                req.logIn(user, function(loginErr) {
-                    if (loginErr) {
-                        logger.error('Login failed', loginErr);
-                        next(loginErr);
-                    } else {
-                        logger.info('Login succeeded');
-                        redirectUrlWithFallback(req, res, '/user');
+
+        const LoginRateLimiter = new RateLimiter(
+            'failByUsername',
+            req.body.username
+        );
+
+        const rateLimiter = await LoginRateLimiter.getLimiter();
+
+        if (rateLimiter.isRateLimited) {
+            // User is rate limited
+            res.status(429).send('Too Many Requests');
+        } else {
+            passport.authenticate('local', async function(err, user) {
+                if (err) {
+                    logger.error('Authentication failed', err);
+                    next(err);
+                } else if (user) {
+                    req.logIn(user, async function(loginErr) {
+                        if (loginErr) {
+                            logger.error('Login failed', loginErr);
+                            next(loginErr);
+                        } else {
+                            logger.info('Login succeeded');
+
+                            // Reset rate limit on successful authorisation
+                            if (rateLimiter.hasConsumedPoints) {
+                                await LoginRateLimiter.clearRateLimit();
+                            }
+
+                            redirectUrlWithFallback(req, res, '/user');
+                        }
+                    });
+                } else {
+                    /**
+                     * User is invalid
+                     * Show a generic error message here to avoid exposing account state
+                     */
+                    logger.warn('Login failed: invalid credentials');
+                    try {
+                        await LoginRateLimiter.consumeRateLimit();
+                        return renderForm(req, res, req.body, [
+                            {
+                                msg: `Your username and password combination is invalid`
+                            }
+                        ]);
+                    } catch (rlRejected) {
+                        if (rlRejected instanceof Error) {
+                            next(rlRejected);
+                        } else {
+                            // User is rate limited
+                            res.status(429).send(
+                                'Too Many Requests (login fail)'
+                            );
+                        }
                     }
-                });
-            } else {
-                /**
-                 * User is invalid
-                 * Show a generic error message here to avoid exposing account state
-                 */
-                logger.warn('Login failed: invalid credentials');
-                return renderForm(req, res, req.body, [
-                    { msg: `Your username and password combination is invalid` }
-                ]);
-            }
-        })(req, res, next);
+                }
+            })(req, res, next);
+        }
     });
 
 module.exports = router;
