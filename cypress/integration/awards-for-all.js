@@ -370,21 +370,36 @@ describe('awards for all', function() {
                 exact: false,
                 timeout: 1000
             }).then(el => {
-                el && cy.wrap(el).type('12345678');
+                if (el) {
+                    const randomCompanyNumber = random(10000, 99999999)
+                        .toString()
+                        .padStart(8, '0');
+                    cy.wrap(el).type(randomCompanyNumber);
+                }
             });
 
             cy.queryByLabelText('Charity registration number', {
                 exact: false,
                 timeout: 1000
             }).then(el => {
-                el && cy.wrap(el).type('23456789');
+                if (el) {
+                    const randomCharityNumber = random(10000, 9999999)
+                        .toString()
+                        .padStart(7, '0');
+                    cy.wrap(el).type(randomCharityNumber);
+                }
             });
 
             cy.queryByLabelText('Department for Education number', {
                 exact: false,
                 timeout: 1000
             }).then(el => {
-                el && cy.wrap(el).type('34567890');
+                if (el) {
+                    const randomEducationNumber = random(10000, 999999)
+                        .toString()
+                        .padStart(6, '0');
+                    cy.wrap(el).type(randomEducationNumber);
+                }
             });
 
             submitStep();
