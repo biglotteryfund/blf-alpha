@@ -1,4 +1,5 @@
 {
+  "logLevel": "debug",
   "domains": {
     "base": "http://localhost:3000"
   },
