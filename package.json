@@ -154,7 +154,7 @@
     "css-loader": "3.0.0",
     "cssnano": "4.1.10",
     "cypress": "3.3.2",
-    "cypress-file-upload": "3.2.0",
+    "cypress-file-upload": "3.3.2",
     "del-cli": "2.0.0",
     "dotenv": "8.0.0",
     "eslint": "6.0.1",
