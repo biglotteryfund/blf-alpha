@@ -551,7 +551,8 @@ describe('awards for all', function() {
                     {
                         fileContent,
                         fileName: 'example.pdf',
-                        mimeType: 'application/pdf'
+                        mimeType: 'application/pdf',
+                        encoding: 'base64'
                     },
                     { subjectType: 'input' }
                 );
