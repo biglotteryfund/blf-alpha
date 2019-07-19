@@ -325,6 +325,7 @@ function initFormRouter({
 
             try {
                 logger.info('Submission started');
+                let fileUploadError = false;
 
                 /**
                  * Increment submission attempts
@@ -376,6 +377,7 @@ function initFormRouter({
                                 await checkAntiVirus(pathConfig);
                             } catch (err) {
                                 // We caught a suspect file
+                                fileUploadError = err.message;
                                 return;
                             }
 
@@ -438,7 +440,12 @@ function initFormRouter({
                         {
                             title: confirmation.title,
                             confirmation: confirmation,
-                            form: form
+                            fileUploadError: fileUploadError,
+                            form: form,
+                            metadata: {
+                                APPLICATION_ID: currentApplication.id,
+                                SALESFORCE_ID: salesforceRecordId
+                            }
                         }
                     );
                 });
@@ -491,29 +498,41 @@ function initFormRouter({
 
                 try {
                     await checkAntiVirus(pathConfig);
+                    getObject(pathConfig)
+                        .on('httpHeaders', (code, headers) => {
+                            res.status(code);
+                            if (code < 300) {
+                                res.set(
+                                    pick(
+                                        headers,
+                                        'content-type',
+                                        'content-length',
+                                        'last-modified'
+                                    )
+                                );
+                            }
+                        })
+                        .createReadStream()
+                        .on('error', next)
+                        .pipe(res);
                 } catch (err) {
-                    return res.send(
-                        'This file has been blocked for security reasons.'
-                    );
+                    let userMessage;
+                    switch (err.message) {
+                        case 'ERR_FILE_SCAN_INFECTED':
+                            userMessage =
+                                'This file has been blocked for security reasons.';
+                            break;
+                        case 'ERR_FILE_SCAN_UNKNOWN':
+                            userMessage =
+                                'This file is still being scanned for security risks - please check back shortly.';
+                            break;
+                        default:
+                            userMessage =
+                                'There was an issue retrieving your file - please try again soon.';
+                            break;
+                    }
+                    return res.send(userMessage);
                 }
-
-                getObject(pathConfig)
-                    .on('httpHeaders', (code, headers) => {
-                        res.status(code);
-                        if (code < 300) {
-                            res.set(
-                                pick(
-                                    headers,
-                                    'content-type',
-                                    'content-length',
-                                    'last-modified'
-                                )
-                            );
-                        }
-                    })
-                    .createReadStream()
-                    .on('error', next)
-                    .pipe(res);
             } else {
                 next();
             }
