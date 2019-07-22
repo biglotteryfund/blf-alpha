@@ -3,10 +3,18 @@ const config = require('config');
 const { createLogger, format, transports } = require('winston');
 const WinstonCloudWatch = require('winston-cloudwatch');
 
-const { environment, buildNumber } = require('./appData');
+const { environment, buildNumber, isTestServer } = require('./appData');
+
+function enableCloudWatchLogs() {
+    if (process.env.CI || isTestServer === true) {
+        return false;
+    } else {
+        return config.get('features.enableCloudWatchLogs');
+    }
+}
 
 function getTransports() {
-    if (config.get('features.enableCloudWatchLogs')) {
+    if (enableCloudWatchLogs()) {
         return [
             new WinstonCloudWatch({
                 awsRegion: config.get('aws.region'),
