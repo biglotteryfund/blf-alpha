@@ -3,7 +3,7 @@ const express = require('express');
 const Joi = require('@hapi/joi');
 const Sentry = require('@sentry/node');
 
-const sanitise = require('../../common/sanitise');
+const { sanitise } = require('../../common/sanitise');
 const { Feedback, SurveyAnswer } = require('../../db/models');
 const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');

@@ -11,7 +11,7 @@ const Sentry = require('@sentry/node');
 const router = express.Router();
 
 const appData = require('../../common/appData');
-const sanitise = require('../../common/sanitise');
+const { sanitise } = require('../../common/sanitise');
 const { MATERIAL_SUPPLIER } = require('../../common/secrets');
 const { generateHtmlEmail, sendEmail } = require('../../common/mail');
 const {

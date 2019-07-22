@@ -6,7 +6,7 @@ const Sentry = require('@sentry/node');
 
 const { Users } = require('../../db/models');
 const { localify } = require('../../common/urls');
-const sanitise = require('../../common/sanitise');
+const { sanitise } = require('../../common/sanitise');
 const logger = require('../../common/logger').child({ service: 'user' });
 const { csrfProtection } = require('../../middleware/cached');
 const {
