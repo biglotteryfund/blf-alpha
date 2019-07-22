@@ -7,9 +7,7 @@ const Sentry = require('@sentry/node');
 const { Users } = require('../../db/models');
 const { localify } = require('../../common/urls');
 const sanitise = require('../../common/sanitise');
-const logger = require('../../common/logger').child({
-    service: 'user'
-});
+const logger = require('../../common/logger').child({ service: 'user' });
 const { csrfProtection } = require('../../middleware/cached');
 const {
     injectCopy,
@@ -122,6 +120,15 @@ router
                 renderForm(req, res, validationResult.value);
             }
         } else {
+            /**
+             * Log validation errors
+             */
+            if (validationResult.messages.length > 0) {
+                validationResult.messages.forEach(item => {
+                    logger.info(item.msg, { type: item.type });
+                });
+            }
+
             renderForm(
                 req,
                 res,
