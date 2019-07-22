@@ -2,6 +2,7 @@
 const path = require('path');
 const express = require('express');
 const findIndex = require('lodash/findIndex');
+const omit = require('lodash/omit');
 const Sentry = require('@sentry/node');
 
 const logger = require('../../../common/logger');
@@ -110,7 +111,9 @@ module.exports = function(formId, formBuilder) {
                 currentApplicationData
             } = res.locals;
 
-            const sanitisedBody = sanitiseRequestBody(req.body);
+            const sanitisedBody = sanitiseRequestBody(
+                omit(req.body, ['_csrf'])
+            );
 
             const applicationData = {
                 ...currentApplicationData,
