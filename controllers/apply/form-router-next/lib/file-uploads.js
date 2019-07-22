@@ -127,6 +127,7 @@ function checkAntiVirus({ formId, applicationId, filename }) {
                 logger.error(`Infected file found at ${keyName}`);
                 throw new Error('ERR_FILE_SCAN_INFECTED');
             } else {
+                logger.error(`Attempted read of unscanned file at ${keyName}`);
                 throw new Error('ERR_FILE_SCAN_UNKNOWN');
             }
         });
