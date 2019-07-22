@@ -2,12 +2,12 @@
 const express = require('express');
 const path = require('path');
 const Sentry = require('@sentry/node');
-const get = require('lodash/get');
-const pick = require('lodash/pick');
 const flatMap = require('lodash/flatMap');
-const isEmpty = require('lodash/isEmpty');
-const set = require('lodash/set');
+const get = require('lodash/get');
 const includes = require('lodash/includes');
+const isEmpty = require('lodash/isEmpty');
+const pick = require('lodash/pick');
+const set = require('lodash/set');
 const unset = require('lodash/unset');
 const features = require('config').get('features');
 const formidable = require('formidable');
@@ -133,30 +133,15 @@ function initFormRouter({
 
     /**
      * Common router middleware
+     * Require active user past this point
      */
     router.use(
         handleMultipartFormData,
         csrfProtection,
         injectCopy('applyNext'),
-        setCommonLocals
+        setCommonLocals,
+        requireActiveUser
     );
-
-    /**
-     * Publicly accessible routes.
-     */
-    router.use(
-        '/questions',
-        require('./questions')(formId, formBuilder, eligibilityBuilder)
-    );
-    router.use(
-        '/eligibility',
-        require('./eligibility')(eligibilityBuilder, formId)
-    );
-
-    /**
-     * Require active user past this point
-     */
-    router.use(requireActiveUser);
 
     /**
      * Route: Dashboard
@@ -164,7 +149,23 @@ function initFormRouter({
     router.use('/', require('./dashboard')(formId, formBuilder));
 
     /**
-     * Start application
+     * Route: Questions list
+     */
+    router.use(
+        '/questions',
+        require('./questions')(formId, formBuilder, eligibilityBuilder)
+    );
+
+    /**
+     * Route: Eligibility
+     */
+    router.use(
+        '/eligibility',
+        require('./eligibility')(eligibilityBuilder, formId)
+    );
+
+    /**
+     * Route: Start application
      * Redirect to eligibility checker
      */
     router.get('/start', function(req, res) {
@@ -172,8 +173,8 @@ function initFormRouter({
     });
 
     /**
-     * New application
-     * Create a new blank application and redirect to first step
+     * Route: New application
+     * Create a new blank application
      */
     router.get('/new', async function(req, res, next) {
         try {
