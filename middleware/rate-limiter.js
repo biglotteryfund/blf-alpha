@@ -1,11 +1,19 @@
 'use strict';
-const { RateLimiterMySQL } = require('rate-limiter-flexible');
+const {
+    RateLimiterMySQL,
+    RateLimiterMemory
+} = require('rate-limiter-flexible');
+const { startsWith } = require('lodash');
 
 const { sequelize } = require('../db/models/index');
 const appData = require('../common/appData');
 const logger = require('../common/logger').child({
     service: 'rate-limiter'
 });
+
+const sqlDialect = startsWith(process.env.DB_CONNECTION_URI, 'sqlite://')
+    ? 'sqlite'
+    : 'mysql';
 
 const rateLimiterConfigs = {
     failByUsername: {
@@ -27,15 +35,23 @@ for (let confName in rateLimiterConfigs) {
     availableRateLimiters[confName] = {
         id: confName,
         config: conf,
-        instance: new RateLimiterMySQL({
-            storeClient: sequelize,
-            dbName: `rate_limiter_${appData.environment}`,
-            tableName: 'rate_limiter',
-            keyPrefix: conf.keyPrefix,
-            points: conf.maxPoints,
-            duration: conf.duration,
-            blockDuration: conf.blockDuration
-        })
+        instance:
+            sqlDialect === 'mysql'
+                ? new RateLimiterMySQL({
+                      storeClient: sequelize,
+                      dbName: `rate_limiter_${appData.environment}`,
+                      tableName: 'rate_limiter',
+                      keyPrefix: conf.keyPrefix,
+                      points: conf.maxPoints,
+                      duration: conf.duration,
+                      blockDuration: conf.blockDuration
+                  })
+                : new RateLimiterMemory({
+                      keyPrefix: conf.keyPrefix,
+                      points: conf.maxPoints,
+                      duration: conf.duration,
+                      blockDuration: conf.blockDuration
+                  })
     };
 }
 
