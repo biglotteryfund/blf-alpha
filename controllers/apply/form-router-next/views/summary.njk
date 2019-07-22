@@ -7,9 +7,6 @@
 
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
-{% set formIsComplete = formProgress.isComplete %}
-{% set formIsPristine = formProgress.isPristine %}
-
 {% macro summariseErrors() %}
     {% if showErrors and errorsByStep.length > 0 %}
         <div class="form-errors" data-testid="form-errors">
@@ -157,7 +154,7 @@
                     title = copy.summary.showQuestions,
                     assistiveText = 'for "' + secTitle + '" section',
                     extraClasses = 'js-toggleable',
-                    isOpen = formIsComplete or section.hasFeaturedErrors
+                    isOpen = form.progress.isComplete or section.hasFeaturedErrors
                 ) %}
                     {% for step in section.steps %}
                         {{ stepSummary(
@@ -191,14 +188,14 @@
             {{ summariseErrors() }}
 
 
-            {% if formIsComplete %}
+            {% if form.progress.isComplete %}
                 <div class="submit-actions submit-actions--complete">
                     <h2 class="submit-actions__title">{{ iconTick('medium') }} {{ copy.summary.completeTitle }}</h2>
                     <p class="submit-actions__text">{{ copy.summary.completeMessage }}</p>
                 </div>
             {% else %}
                 <div class="s-prose">{{ copy.summary.introduction | safe }}</div>
-                {% if formIsPristine %}
+                {% if form.progress.isPristine %}
                     {{ startButton() }}
                 {% endif %}
             {% endif %}
@@ -217,7 +214,7 @@
                 {{ sectionSummary(section, loop.index) }}
             {% endfor %}
 
-            {% if formIsComplete %}
+            {% if form.progress.isComplete %}
                 <form class="submit-actions submit-actions--complete"
                       action="{{ formBaseUrl }}/submission" method="post">
                     <h2 class="submit-actions__title">{{ iconTick('medium') }} {{ copy.summary.completeTitle }}</h2>
@@ -227,9 +224,9 @@
                     {% endif %}
                     <input class="btn u-margin-bottom-s" type="submit" value="{{ copy.submit }}" />
                 </form>
-            {% elseif not formIsPristine %}
+            {% elseif not form.progress.isPristine %}
                 {{ submitActionsIncomplete() }}
-            {% elseif formIsPristine %}
+            {% elseif form.progress.isPristine %}
                 {{ startButton() }}
             {% endif %}
 
