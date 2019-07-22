@@ -319,25 +319,21 @@ describe('user', () => {
         const fakeEmail = faker.internet.exampleEmail();
         const fakePassword = 'hunter2';
         const maxAttempts = 10;
-        times(maxAttempts, function(i) {
+        times(maxAttempts, function() {
             cy.loginUser({
                 username: fakeEmail,
                 password: fakePassword
             }).then(response => {
                 expect(response.status).to.eq(200);
             });
-
-            // If we're at the end, run a final one to ensure we're blocked
-            if (i === maxAttempts - 1) {
-                cy.loginUser({
-                    username: fakeEmail,
-                    password: fakePassword,
-                    failOnStatusCode: false
-                }).then(response => {
-                    expect(response.status).to.eq(429);
-                    expect(response.body).to.include('Too many requests');
-                });
-            }
+        });
+        cy.loginUser({
+            username: fakeEmail,
+            password: fakePassword,
+            failOnStatusCode: false
+        }).then(response => {
+            expect(response.status).to.eq(429);
+            expect(response.body).to.include('Too many requests');
         });
     });
 });

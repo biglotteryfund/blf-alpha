@@ -35,14 +35,11 @@ function renderForm(req, res, formValues = null, errors = []) {
 }
 
 function renderRateLimitError(req, res, minutesLeft) {
-    const errorData = {
-        minutesTillNextAllowedAttempt: minutesLeft
-    };
     res.status(429).render(
         path.resolve(__dirname, './views/error-rate-limit'),
         {
             title: 'Too many requests',
-            errorData: errorData
+            minutesLeft: minutesLeft
         }
     );
 }
