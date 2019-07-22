@@ -8,7 +8,7 @@ const logger = require('../../common/logger').child({
 });
 
 const {
-    availableRateLimiters,
+    rateLimiterConfigs,
     RateLimiter
 } = require('../../middleware/rate-limiter');
 
@@ -62,11 +62,11 @@ router
         logger.info('Login attempted');
 
         // Key all rate-limited login attempts by the user's IP and the attempted username
-        const uniqueKey = `${req.ip}_${req.body.username}`;
+        const RATE_LIMIT_UNIQUE_KEY = `${req.ip}_${req.body.username}`;
 
         const LoginRateLimiter = await new RateLimiter(
-            availableRateLimiters.failByUsername,
-            uniqueKey
+            rateLimiterConfigs.failByUsername,
+            RATE_LIMIT_UNIQUE_KEY
         ).init();
 
         if (LoginRateLimiter.isRateLimited()) {
@@ -80,7 +80,10 @@ router
                 } else if (user) {
                     req.logIn(user, async function(loginErr) {
                         if (loginErr) {
-                            logger.error('Login failed', loginErr);
+                            logger.error(
+                                'Login failed: Error with authentication',
+                                loginErr
+                            );
                             next(loginErr);
                         } else {
                             logger.info('Login succeeded');
@@ -96,7 +99,7 @@ router
                      * User is invalid
                      * Show a generic error message here to avoid exposing account state
                      */
-                    logger.warn('Login failed: invalid credentials');
+                    logger.warn('Login failed: Unsuccessful login attempt');
                     try {
                         await LoginRateLimiter.consumeRateLimit();
                         return renderForm(req, res, req.body, [
@@ -104,9 +107,9 @@ router
                                 msg: `Your username and password combination is invalid`
                             }
                         ]);
-                    } catch (rlRejected) {
-                        if (rlRejected instanceof Error) {
-                            next(rlRejected);
+                    } catch (rateLimitRejection) {
+                        if (rateLimitRejection instanceof Error) {
+                            next(rateLimitRejection);
                         } else {
                             // User is rate limited
                             return renderRateLimitError(req, res);

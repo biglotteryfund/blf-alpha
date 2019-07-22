@@ -3,7 +3,6 @@ const {
     RateLimiterMySQL,
     RateLimiterMemory
 } = require('rate-limiter-flexible');
-const { startsWith } = require('lodash');
 
 const { sequelize } = require('../db/models/index');
 const appData = require('../common/appData');
@@ -11,49 +10,45 @@ const logger = require('../common/logger').child({
     service: 'rate-limiter'
 });
 
-const sqlDialect = startsWith(process.env.DB_CONNECTION_URI, 'sqlite://')
-    ? 'sqlite'
-    : 'mysql';
+const sqlDialect = sequelize.getDialect();
+
+function rateLimiterFor(conf) {
+    if (sqlDialect === 'mysql') {
+        return new RateLimiterMySQL({
+            storeClient: sequelize,
+            dbName: `rate_limiter_${appData.environment}`,
+            tableName: 'rate_limiter',
+            keyPrefix: conf.keyPrefix,
+            points: conf.maxPoints,
+            duration: conf.duration,
+            blockDuration: conf.blockDuration
+        });
+    } else {
+        return new RateLimiterMemory({
+            keyPrefix: conf.keyPrefix,
+            points: conf.maxPoints,
+            duration: conf.duration,
+            blockDuration: conf.blockDuration
+        });
+    }
+}
+
+function makeRateLimiter(id, conf) {
+    return {
+        id: id,
+        config: conf,
+        instance: rateLimiterFor(conf)
+    };
+}
 
 const rateLimiterConfigs = {
-    failByUsername: {
-        maxPoints: 5,
+    failByUsername: makeRateLimiter('failByUsername', {
+        maxPoints: 10,
         keyPrefix: 'login_fail_consecutive_username',
         duration: 60 * 60 * 3, // Points will expire after 3 hours
         blockDuration: 60 * 15 // Exceeding points locks user out for 15 minutes
-    }
+    })
 };
-
-// We have to create all the ratelimiter db instances here
-// so the tables exist and are ready when the middleware is used.
-// We also need to be able to access the maxPoints
-// within the class below (which this API doesn't expose)
-// so we set it here as a property against the ratelimiter object
-let availableRateLimiters = {};
-for (let confName in rateLimiterConfigs) {
-    const conf = rateLimiterConfigs[confName];
-    availableRateLimiters[confName] = {
-        id: confName,
-        config: conf,
-        instance:
-            sqlDialect === 'mysql'
-                ? new RateLimiterMySQL({
-                      storeClient: sequelize,
-                      dbName: `rate_limiter_${appData.environment}`,
-                      tableName: 'rate_limiter',
-                      keyPrefix: conf.keyPrefix,
-                      points: conf.maxPoints,
-                      duration: conf.duration,
-                      blockDuration: conf.blockDuration
-                  })
-                : new RateLimiterMemory({
-                      keyPrefix: conf.keyPrefix,
-                      points: conf.maxPoints,
-                      duration: conf.duration,
-                      blockDuration: conf.blockDuration
-                  })
-    };
-}
 
 class RateLimiter {
     constructor(limiterConf, keyValue) {
@@ -74,14 +69,13 @@ class RateLimiter {
     isRateLimited() {
         const isRateLimited =
             this.limiterInstance !== null &&
-            this.limiterInstance.consumedPoints >
-                this.limiterConf.config.maxPoints;
+            this.limiterInstance.consumedPoints > this.maxPoints;
         if (isRateLimited) {
             logger.warn('User rate limited', {
                 rateLimiter: this.limiterConf.id,
                 uniqueKey: this.keyValue,
                 consumedPoints: this.limiterInstance.consumedPoints,
-                maximumPoints: this.limiterConf.config.maxPoints
+                maximumPoints: this.maxPoints
             });
         }
         return isRateLimited;
@@ -105,5 +99,5 @@ class RateLimiter {
 
 module.exports = {
     RateLimiter,
-    availableRateLimiters
+    rateLimiterConfigs
 };
