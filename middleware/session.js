@@ -19,7 +19,7 @@ module.exports = function(app) {
     /**
      * Configure session
      */
-    const IDLE_TIMEOUT_MINUTES = 30;
+    const IDLE_TIMEOUT_MINUTES = 60;
     const sessionConfig = {
         store: store,
         name: config.get('cookies.session'),
