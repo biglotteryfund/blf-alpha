@@ -6,6 +6,8 @@ const isObject = require('lodash/isObject');
 const isString = require('lodash/isString');
 const mapValues = require('lodash/mapValues');
 
+const logger = require('./logger').child({ service: 'sanitise' });
+
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
@@ -23,25 +25,30 @@ function sanitise(input) {
  * unwanted stringify-ing of other values.
  */
 function sanitiseRequestBody(body) {
-    function sanitiseIfString(value) {
-        return isString(value) ? sanitise(value) : value;
-    }
-
-    function sanitiseNested(value) {
-        if (isObject(value)) {
-            return mapValues(value, function(nestedValue) {
-                return sanitiseIfString(nestedValue);
-            });
+    function sanitiseIfString(value, key) {
+        if (isString(value)) {
+            logger.debug(`sanitising ${key}`);
+            return sanitise(value);
         } else {
-            return sanitiseIfString(value);
+            return value;
         }
     }
 
-    return mapValues(body, function(value) {
-        if (isArray(value)) {
-            return value.map(sanitiseNested);
+    function sanitiseNested(value, key) {
+        if (isObject(value)) {
+            return mapValues(value, function(nestedValue, nestedKey) {
+                return sanitiseNested(nestedValue, `${key}.${nestedKey}`);
+            });
         } else {
-            return sanitiseNested(value);
+            return sanitiseIfString(value, key);
+        }
+    }
+
+    return mapValues(body, function(value, key) {
+        if (isArray(value)) {
+            return value.map(arrayValue => sanitiseNested(arrayValue, key));
+        } else {
+            return sanitiseNested(value, key);
         }
     });
 }

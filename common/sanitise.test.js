@@ -19,7 +19,10 @@ describe('sanitiseRequestBody', () => {
             arrayOfObjects: [
                 { a: 'good', b: 'bad<script>alert(1)</script>' },
                 { a: 'good', b: '<script>alert(1)</script>' }
-            ]
+            ],
+            nestedObject: {
+                a: { x: 'good', y: 'bad<script>alert(1)</script>' }
+            }
         });
 
         expect(result).toEqual({
@@ -27,7 +30,8 @@ describe('sanitiseRequestBody', () => {
             numberValue: 1000,
             objectValue: { a: 'this value is OK', b: 'this one is not OK' },
             arrayValue: ['something', 'this one is bad'],
-            arrayOfObjects: [{ a: 'good', b: 'bad' }, { a: 'good', b: '' }]
+            arrayOfObjects: [{ a: 'good', b: 'bad' }, { a: 'good', b: '' }],
+            nestedObject: { a: { x: 'good', y: 'bad' } }
         });
     });
 });
