@@ -109,6 +109,29 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
     });
 }
 
+function checkAntiVirus({ formId, applicationId, filename }) {
+    const keyName = [formId, applicationId, filename].join('/');
+    return s3
+        .getObjectTagging({
+            Bucket: S3_UPLOAD_BUCKET,
+            Key: keyName
+        })
+        .promise()
+        .then(function(tags) {
+            const tagSet = get(tags, 'TagSet', []);
+            const avStatus = tagSet.find(t => t.Key === 'av-status');
+
+            if (avStatus && get(avStatus, 'Value') === 'CLEAN') {
+                return avStatus;
+            } else if (avStatus && get(avStatus, 'Value') === 'INFECTED') {
+                logger.error(`Infected file found at ${keyName}`);
+                throw new Error('ERR_FILE_SCAN_INFECTED');
+            } else {
+                throw new Error('ERR_FILE_SCAN_UNKNOWN');
+            }
+        });
+}
+
 function getObject({ formId, applicationId, filename }) {
     const keyName = [formId, applicationId, filename].join('/');
     return s3.getObject({
@@ -147,5 +170,6 @@ module.exports = {
     prepareFilesForUpload,
     uploadFile,
     getObject,
-    buildMultipartData
+    buildMultipartData,
+    checkAntiVirus
 };

@@ -3,8 +3,9 @@ const { get } = require('lodash/fp');
 
 const { MIN_START_DATE } = require('./constants');
 
-module.exports = function({ locale, data = {} }) {
+module.exports = function({ locale, data = {}, fileUploadError = null }) {
     const localise = get(locale);
+    const country = get('projectCountry')(data);
 
     function emailFor(country) {
         const options = {
@@ -30,10 +31,26 @@ module.exports = function({ locale, data = {} }) {
         return options[country] || options.default;
     }
 
+    function getFileUploadErrorMessage() {
+        let msg = '';
+        if (fileUploadError) {
+            msg = `<h2>Your bank statement hasn't been sent to us</h2>
+            <p>The bank statement you uploaded might have a virus or security risk. But we've received the rest of your application, so don't worry. 
+            You can call <strong>${phoneFor(
+                country
+            )}</strong> or email <a href="mailto:${emailFor(
+                country
+            )}">${emailFor(country)}</a> to send 
+            the bank statement to us - if not, we can contact you for it later.</p>`;
+        }
+        return msg;
+    }
+
     function enConfirmationBody() {
-        const country = get('projectCountry')(data);
+        const fileErrorMessage = getFileUploadErrorMessage();
 
         return `<p>Thank you for submitting your application to National Lottery Awards for All.</p>
+${fileErrorMessage}
 <h2>What happens next?</h2>
 <p>
     We will now review your application and may contact you

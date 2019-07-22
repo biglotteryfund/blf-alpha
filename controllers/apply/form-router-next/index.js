@@ -25,7 +25,11 @@ const { requireActiveUser } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
 const salesforceService = require('./lib/salesforce');
-const { getObject, buildMultipartData } = require('./lib/file-uploads');
+const {
+    getObject,
+    buildMultipartData,
+    checkAntiVirus
+} = require('./lib/file-uploads');
 
 function initFormRouter({
     formId,
@@ -321,6 +325,7 @@ function initFormRouter({
 
             try {
                 logger.info('Submission started');
+                let fileUploadError = false;
 
                 /**
                  * Increment submission attempts
@@ -361,20 +366,32 @@ function initFormRouter({
                      */
                     const contentVersionPromises = fields
                         .filter(field => field.type === 'file')
-                        .map(field => {
-                            return buildMultipartData({
+                        .map(async field => {
+                            const pathConfig = {
                                 formId: formId,
                                 applicationId: currentApplication.id,
                                 filename: field.value.filename
-                            }).then(versionData => {
-                                return salesforce.contentVersion({
-                                    recordId: salesforceRecordId,
-                                    attachmentName: `${
-                                        field.name
-                                    }${path.extname(field.value.filename)}`,
-                                    versionData: versionData
-                                });
-                            });
+                            };
+
+                            try {
+                                await checkAntiVirus(pathConfig);
+                            } catch (err) {
+                                // We caught a suspect file
+                                fileUploadError = err.message;
+                                return;
+                            }
+
+                            return buildMultipartData(pathConfig).then(
+                                versionData => {
+                                    return salesforce.contentVersion({
+                                        recordId: salesforceRecordId,
+                                        attachmentName: `${
+                                            field.name
+                                        }${path.extname(field.value.filename)}`,
+                                        versionData: versionData
+                                    });
+                                }
+                            );
                         });
 
                     await Promise.all(contentVersionPromises);
@@ -414,7 +431,8 @@ function initFormRouter({
                 unsetCurrentlyEditingId(req, function() {
                     const confirmation = confirmationBuilder({
                         locale: 'en',
-                        data: currentApplicationData
+                        data: currentApplicationData,
+                        fileUploadError: fileUploadError
                     });
 
                     logger.info('Submission successful');
@@ -458,39 +476,63 @@ function initFormRouter({
      * Stream the file's headers and serve it directly as a response
      * @see https://stackoverflow.com/a/43356401
      */
-    router.route('/download/:fieldName/:filename').get((req, res, next) => {
-        const { currentlyEditingId, currentApplicationData } = res.locals;
+    router
+        .route('/download/:fieldName/:filename')
+        .get(async (req, res, next) => {
+            const { currentlyEditingId, currentApplicationData } = res.locals;
 
-        const fileData = currentApplicationData[req.params.fieldName];
-        const matchesField =
-            fileData && fileData.filename === req.params.filename;
+            const fileData = currentApplicationData[req.params.fieldName];
+            const matchesField =
+                fileData && fileData.filename === req.params.filename;
 
-        if (matchesField) {
-            getObject({
-                formId: formId,
-                applicationId: currentlyEditingId,
-                filename: req.params.filename
-            })
-                .on('httpHeaders', (code, headers) => {
-                    res.status(code);
-                    if (code < 300) {
-                        res.set(
-                            pick(
-                                headers,
-                                'content-type',
-                                'content-length',
-                                'last-modified'
-                            )
-                        );
+            if (matchesField) {
+                const pathConfig = {
+                    formId: formId,
+                    applicationId: currentlyEditingId,
+                    filename: req.params.filename
+                };
+
+                try {
+                    await checkAntiVirus(pathConfig);
+                    getObject(pathConfig)
+                        .on('httpHeaders', (code, headers) => {
+                            res.status(code);
+                            if (code < 300) {
+                                res.set(
+                                    pick(
+                                        headers,
+                                        'content-type',
+                                        'content-length',
+                                        'last-modified'
+                                    )
+                                );
+                            }
+                        })
+                        .createReadStream()
+                        .on('error', next)
+                        .pipe(res);
+                } catch (err) {
+                    let userMessage;
+                    switch (err.message) {
+                        case 'ERR_FILE_SCAN_INFECTED':
+                            userMessage =
+                                'This file has been blocked for security reasons.';
+                            break;
+                        case 'ERR_FILE_SCAN_UNKNOWN':
+                            userMessage =
+                                'This file is still being scanned for security risks - please check back shortly.';
+                            break;
+                        default:
+                            userMessage =
+                                'There was an issue retrieving your file - please try again soon.';
+                            break;
                     }
-                })
-                .createReadStream()
-                .on('error', next)
-                .pipe(res);
-        } else {
-            next();
-        }
-    });
+                    return res.send(userMessage);
+                }
+            } else {
+                next();
+            }
+        });
 
     /**
      * Routes: Form steps
