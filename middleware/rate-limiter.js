@@ -9,7 +9,7 @@ const logger = require('../common/logger').child({
 
 const rateLimiterConfigs = {
     failByUsername: {
-        maxFailedLoginAttempts: 5,
+        maxPoints: 5,
         keyPrefix: 'login_fail_consecutive_username',
         duration: 60 * 60 * 3, // Points will expire after 3 hours
         blockDuration: 60 * 15 // Exceeding points locks user out for 15 minutes
@@ -18,7 +18,7 @@ const rateLimiterConfigs = {
 
 // We have to create all the ratelimiter db instances here
 // so the tables exist and are ready when the middleware is used.
-// We also need to be able to access the maxFailedLoginAttempts
+// We also need to be able to access the maxPoints
 // within the class below (which this API doesn't expose)
 // so we set it here as a property against the ratelimiter object
 let availableRateLimiters = {};
@@ -32,7 +32,7 @@ for (let confName in rateLimiterConfigs) {
             dbName: `rate_limiter_${appData.environment}`,
             tableName: 'rate_limiter',
             keyPrefix: conf.keyPrefix,
-            points: conf.maxFailedLoginAttempts,
+            points: conf.maxPoints,
             duration: conf.duration,
             blockDuration: conf.blockDuration
         })
@@ -41,7 +41,7 @@ for (let confName in rateLimiterConfigs) {
 
 class RateLimiter {
     constructor(limiterConf, keyValue) {
-        this.maxFailedLoginAttempts = limiterConf.maxFailedLoginAttempts;
+        this.maxPoints = limiterConf.maxPoints;
         this.limiterConf = limiterConf;
         this.limiter = limiterConf.instance;
         this.keyValue = keyValue;
@@ -59,13 +59,13 @@ class RateLimiter {
         const isRateLimited =
             this.limiterInstance !== null &&
             this.limiterInstance.consumedPoints >
-                this.limiterConf.config.maxFailedLoginAttempts;
+                this.limiterConf.config.maxPoints;
         if (isRateLimited) {
             logger.warn('User rate limited', {
                 rateLimiter: this.limiterConf.id,
                 uniqueKey: this.keyValue,
                 consumedPoints: this.limiterInstance.consumedPoints,
-                maximumPoints: this.limiterConf.config.maxFailedLoginAttempts
+                maximumPoints: this.limiterConf.config.maxPoints
             });
         }
         return isRateLimited;
