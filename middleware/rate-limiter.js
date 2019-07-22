@@ -93,7 +93,17 @@ class RateLimiter {
             Math.round(this.limiterInstance.msBeforeNext / 1000) || 1;
         const expiry = moment().add(retrySecs, 'seconds');
         const now = moment();
-        return expiry.diff(now, 'minutes');
+        const diff = expiry.diff(now, 'minutes');
+
+        // There's a bug where the first time a rate limit is encountered
+        // then msBeforeNext is the value of the duration, not the expiry time
+        // so if the expiry is longer than the block duration, just return that.
+        // @see https://github.com/animir/node-rate-limiter-flexible/issues/32
+        if (diff * 60 > this.limiterConf.config.blockDuration) {
+            return this.limiterConf.config.blockDuration / 60;
+        } else {
+            return diff;
+        }
     }
 
     hasConsumedPoints() {
