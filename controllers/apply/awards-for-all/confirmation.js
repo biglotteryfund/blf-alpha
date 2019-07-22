@@ -48,6 +48,7 @@ module.exports = function({ locale, data = {}, fileUploadError = null }) {
 
     function enConfirmationBody() {
         const fileErrorMessage = getFileUploadErrorMessage();
+
         return `<p>Thank you for submitting your application to National Lottery Awards for All.</p>
 ${fileErrorMessage}
 <h2>What happens next?</h2>

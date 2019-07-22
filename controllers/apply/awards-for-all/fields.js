@@ -9,6 +9,7 @@ const { oneLine } = require('common-tags');
 const Joi = require('../form-router-next/joi-extensions');
 const {
     BENEFICIARY_GROUPS,
+    CONTACT_EXCLUDED_TYPES,
     MIN_BUDGET_TOTAL_GBP,
     MAX_BUDGET_TOTAL_GBP,
     MAX_PROJECT_DURATION,
@@ -162,10 +163,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 });
 
                 return Joi.when(Joi.ref('organisationType'), {
-                    is: Joi.exist().valid(
-                        ORGANISATION_TYPES.SCHOOL,
-                        ORGANISATION_TYPES.STATUTORY_BODY
-                    ),
+                    is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
                     then: Joi.any().strip(),
                     otherwise: addressHistorySchema.required()
                 });
@@ -268,10 +266,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             schema: Joi.dateParts()
                 .dob(minAge)
                 .when(Joi.ref('organisationType'), {
-                    is: Joi.exist().valid(
-                        ORGANISATION_TYPES.SCHOOL,
-                        ORGANISATION_TYPES.STATUTORY_BODY
-                    ),
+                    is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
                     then: Joi.any().strip(),
                     otherwise: Joi.required()
                 }),
@@ -2194,10 +2189,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 schema: Joi.ukAddress()
                     .mainContact()
                     .when(Joi.ref('organisationType'), {
-                        is: Joi.exist().valid(
-                            ORGANISATION_TYPES.SCHOOL,
-                            ORGANISATION_TYPES.STATUTORY_BODY
-                        ),
+                        is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
                         then: Joi.any().strip()
                     })
             },
@@ -2296,10 +2288,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 schema: Joi.ukAddress()
                     .seniorContact()
                     .when(Joi.ref('organisationType'), {
-                        is: Joi.exist().valid(
-                            ORGANISATION_TYPES.SCHOOL,
-                            ORGANISATION_TYPES.STATUTORY_BODY
-                        ),
+                        is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
                         then: Joi.any().strip()
                     })
             },
@@ -2356,6 +2345,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             }),
             type: 'text',
+            attributes: { autocomplete: 'off' },
             isRequired: true,
             schema: Joi.string().required(),
             messages: [
@@ -2373,7 +2363,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             label: localise({ en: 'Sort code', cy: '' }),
             explanation: localise({ en: 'eg. 123456', cy: '' }),
             type: 'text',
-            attributes: { size: 20 },
+            attributes: { size: 20, autocomplete: 'off' },
             isRequired: true,
             schema: Joi.string()
                 .replace(/\D/g, '')
@@ -2398,6 +2388,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             label: localise({ en: 'Account number', cy: '' }),
             explanation: localise({ en: 'eg. 12345678', cy: '' }),
             type: 'text',
+            attributes: { autocomplete: 'off' },
             isRequired: true,
             schema: Joi.string()
                 .replace(/\D/g, '')
@@ -2432,6 +2423,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             }),
             type: 'text',
+            attributes: { autocomplete: 'off' },
             explanation: localise({
                 en: `You only need to fill this in if your organisation's account is with a building society.`,
                 cy: ``
