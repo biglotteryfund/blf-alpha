@@ -111,14 +111,26 @@
    ========================================================================= */
 
 .content-box {
+    $spacingDefault: $spacingUnit / 2;
+
     background-color: white;
     border: 1px solid get-color('border', 'base');
     border-top: 4px solid get-color('brand', 'primary');
     margin-bottom: $spacingUnit;
-    padding: $spacingUnit ($spacingUnit / 2);
+    padding: $spacingUnit $spacingDefault;
 
     @include mq('medium') {
         padding: $spacingUnit;
+    }
+
+    &.content-box__inner {
+        border: none;
+        margin-left: -$spacingDefault;
+        width: calc(100% + #{$spacingDefault * 2});
+        @include mq('medium') {
+            margin-left: -$spacingUnit;
+            width: calc(100% + #{$spacingUnit * 2});
+        }
     }
 
     &.content-box--borderless {

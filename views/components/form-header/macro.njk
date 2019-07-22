@@ -16,3 +16,10 @@
         {% endif %}
     </div>
 {% endmacro %}
+
+{% macro formHeaderWithData(formTitle, projectName) %}
+    <div class="content-box content-box__inner u-tone-background-tint u-padded">
+        <p class="form-header__suffix u-no-margin">{{ formTitle }}</p>
+        <p class="t2 form-header__title u-no-margin">{{ projectName or "Untitled Application" }}</p>
+    </div>
+{% endmacro %}

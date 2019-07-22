@@ -241,17 +241,13 @@
 
 .user-nav {
     font-size: 15px;
-    margin-bottom: $spacingUnit;
     padding-bottom: $spacingUnit / 2;
-    border-bottom: 1px solid get-color('border', 'base');
 
     // Swap the borders/padding for use at bottom of page
     &.user-nav--footer {
-        margin-bottom: 0;
         margin-top: $spacingUnit / 2;
         padding-bottom: 0;
         padding-top: $spacingUnit / 2;
-        border-bottom: none;
         border-top: 1px solid get-color('border', 'base');
     }
 
