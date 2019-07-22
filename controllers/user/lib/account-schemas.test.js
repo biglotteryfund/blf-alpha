@@ -1,14 +1,12 @@
 /* eslint-env jest */
 'use strict';
-const sample = require('lodash/sample');
-const commonPasswords = require('./common-passwords');
 const { newAccounts } = require('./account-schemas');
 const validateSchema = require('./validate-schema');
 
 describe('account schemas', () => {
     test('new accounts', () => {
         const username = 'example@example.com';
-        const commonPassword = sample(commonPasswords);
+        const commonPassword = 'qwertyuiop';
         const weakPassword = 'password321';
 
         expect(
@@ -22,7 +20,7 @@ describe('account schemas', () => {
                 param: 'password',
                 type: 'any.invalid',
                 msg: expect.stringContaining(
-                    'Password can not be the same as your username.'
+                    'Password must be different from your email address'
                 )
             }
         ]);

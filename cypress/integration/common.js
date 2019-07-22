@@ -263,7 +263,7 @@ describe('user', () => {
         createAccount(username, username);
         cy.getByTestId('form-errors').should(
             'contain',
-            'same as your username.'
+            'Password must be different from your email address'
         );
 
         createAccount(username, '5555555555');

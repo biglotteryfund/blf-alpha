@@ -39,9 +39,9 @@ const MESSAGES = {
             cy: ''
         });
     },
-    passwordInvalid(locale) {
+    passwordMatchesEmail(locale) {
         return get(locale)({
-            en: `Password can not be the same as your username.`,
+            en: `Password must be different from your email address`,
             cy: ''
         });
     },
@@ -53,7 +53,7 @@ const MESSAGES = {
     },
     passwordStrength(locale) {
         return get(locale)({
-            en: `Password is too weak, please try another password`,
+            en: `Password is too weak, try another password`,
             cy: ''
         });
     },
@@ -96,7 +96,7 @@ module.exports = {
                     },
                     {
                         type: 'any.invalid',
-                        message: MESSAGES.passwordInvalid(locale)
+                        message: MESSAGES.passwordMatchesEmail(locale)
                     },
                     {
                         type: 'string.min',
@@ -146,7 +146,7 @@ module.exports = {
                     },
                     {
                         type: 'any.invalid',
-                        message: MESSAGES.passwordInvalid(locale)
+                        message: MESSAGES.passwordMatchesEmail(locale)
                     },
                     {
                         type: 'string.min',
