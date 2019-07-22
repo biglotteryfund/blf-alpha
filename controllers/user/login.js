@@ -34,11 +34,15 @@ function renderForm(req, res, formValues = null, errors = []) {
     });
 }
 
-function renderRateLimitError(req, res) {
+function renderRateLimitError(req, res, minutesLeft) {
+    const errorData = {
+        minutesTillNextAllowedAttempt: minutesLeft
+    };
     res.status(429).render(
         path.resolve(__dirname, './views/error-rate-limit'),
         {
-            title: 'Too many requests'
+            title: 'Too many requests',
+            errorData: errorData
         }
     );
 }
@@ -71,7 +75,8 @@ router
 
         if (LoginRateLimiter.isRateLimited()) {
             // User is rate limited
-            return renderRateLimitError(req, res);
+            const minutesLeft = LoginRateLimiter.minutesTillNextAllowedAttempt();
+            return renderRateLimitError(req, res, minutesLeft);
         } else {
             passport.authenticate('local', async function(err, user) {
                 if (err) {
@@ -112,7 +117,8 @@ router
                             next(rateLimitRejection);
                         } else {
                             // User is rate limited
-                            return renderRateLimitError(req, res);
+                            const minutesLeft = LoginRateLimiter.minutesTillNextAllowedAttempt();
+                            return renderRateLimitError(req, res, minutesLeft);
                         }
                     }
                 }
