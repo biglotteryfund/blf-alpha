@@ -2345,6 +2345,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             }),
             type: 'text',
+            attributes: { autocomplete: 'off' },
             isRequired: true,
             schema: Joi.string().required(),
             messages: [
@@ -2362,7 +2363,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             label: localise({ en: 'Sort code', cy: '' }),
             explanation: localise({ en: 'eg. 123456', cy: '' }),
             type: 'text',
-            attributes: { size: 20 },
+            attributes: { size: 20, autocomplete: 'off' },
             isRequired: true,
             schema: Joi.string()
                 .replace(/\D/g, '')
@@ -2387,6 +2388,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             label: localise({ en: 'Account number', cy: '' }),
             explanation: localise({ en: 'eg. 12345678', cy: '' }),
             type: 'text',
+            attributes: { autocomplete: 'off' },
             isRequired: true,
             schema: Joi.string()
                 .replace(/\D/g, '')
@@ -2421,6 +2423,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             }),
             type: 'text',
+            attributes: { autocomplete: 'off' },
             explanation: localise({
                 en: `You only need to fill this in if your organisation's account is with a building society.`,
                 cy: ``
