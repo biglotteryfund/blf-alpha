@@ -4,14 +4,14 @@ const path = require('path');
 
 const commonLogger = require('../../../common/logger');
 
+const logger = commonLogger.child({
+    service: 'apply'
+});
+
 module.exports = function(eligibilityBuilder, formId) {
     const router = express.Router();
 
     const templatePath = path.resolve(__dirname, './views/eligibility');
-
-    const logger = commonLogger.child({
-        service: 'apply'
-    });
 
     router
         .route('/:step?')
