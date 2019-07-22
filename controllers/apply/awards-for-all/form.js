@@ -65,15 +65,16 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
          */
         const countryNoticeMessage = {
             title: localise({
-                en: `Applying for a project in England, Northern Ireland or Wales?`,
+                en: `Applying for a project in England or Wales?`,
                 cy: ``
             }),
             body: localise({
-                en: `<a href="https://apply.tnlcommunityfund.org.uk">
-                    You’ll need to use this form instead
-                </a>.
-                Only applicants in Scotland can apply through our new online form at the moment.
-                We’re working on making this available for the rest of the UK.`,
+                en: `
+                    <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
+                    <p><strong>Applying for a project in Northern Ireland?</strong></p>
+                    <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
+                    <p>Only applicants in Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
+                `,
                 cy: ``
             })
         };
@@ -366,10 +367,13 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
 
     function stepNorthernIrelandCommunity() {
         return {
-            title: localise({ en: `Community`, cy: `` }),
+            title: localise({ en: `Northern Ireland community`, cy: `` }),
             fieldsets: [
                 {
-                    legend: localise({ en: `Community`, cy: `` }),
+                    legend: localise({
+                        en: `Northern Ireland community`,
+                        cy: ``
+                    }),
                     fields: conditionalFields(
                         [fields.beneficiariesNorthernIrelandCommunity],
                         includeIfCountry('northern-ireland', [
@@ -623,11 +627,12 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
                         );
                         const seniorName =
                             seniorFirstName && seniorSurname
-                                ? `, ${seniorFirstName} ${seniorSurname}`
+                                ? safeHtml`, <strong>${seniorFirstName} ${seniorSurname}</strong>`
                                 : '';
 
                         return localise({
-                            en: safeHtml`<p>
+                            en:
+                                safeHtml`<p>
                                 Please give us the contact details of a person
                                 we can get in touch with if we have any questions.
                                 The main contact is usually the person filling in
@@ -637,7 +642,9 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
                             </p>
                             <p>
                                 The main contact must be a different person from
-                                the senior contact${seniorName}. The two contacts
+                                the senior contact` +
+                                seniorName +
+                                `. The two contacts
                                 also can't be married or in a long-term relationship
                                 with each other, living together at the same address,
                                 or related by blood.
@@ -763,13 +770,9 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
                     }),
                     introduction: localise({
                         en: `<p>
-                            This should be the legal name of your organisation as it
-                            appears on your bank statement—not the name of your bank.
-                            This will usually be the same as your organisation’s
-                            name on your governing document.
+                            We need your bank details to pay the funding into your account - if your application is successful. 
                         </p>
-                        <p>
-                            <strong>The kinds of bank accounts we don't accept</strong>:
+                        <p><strong>We can't pay into all bank accounts</strong>:
                             We can't transfer money into certain types of bank
                             accounts like Tide, Cashplus and Paypal.
                         </p>`,
@@ -1061,7 +1064,7 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
                 summary: localise({
                     en: oneLine`Please provide details for your senior contact.
                         This person will be legally responsible for the funding.
-                        They can't be married, in a long-term relationship,
+                        They can't be married to, in a long-term relationship with,
                         living with, or related to the main contact.`,
                     cy: ``
                 }),

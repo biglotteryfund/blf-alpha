@@ -12,8 +12,10 @@ const {
     CONTACT_EXCLUDED_TYPES,
     MIN_BUDGET_TOTAL_GBP,
     MAX_BUDGET_TOTAL_GBP,
+    MAX_PROJECT_DURATION,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
+    MIN_START_DATE,
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,
     ORG_MIN_AGE,
@@ -283,6 +285,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         en: `Must be at least ${minAge} years old`,
                         cy: ''
                     })
+                },
+                {
+                    type: 'dateParts.dob.tooOld',
+                    message: localise({
+                        en: `Your birth date is not valid - please use four digits, eg. 1986`,
+                        cy: ''
+                    })
                 }
             ]
         };
@@ -291,13 +300,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldProjectDateRange() {
-        const minDate = moment().add(12, 'weeks');
+        const minDate = moment().add(
+            MIN_START_DATE.amount,
+            MIN_START_DATE.unit
+        );
         const minDateAfter = minDate.subtract(1, 'days');
-        const maxDuration = { amount: 12, unit: 'months' };
-        const maxDurationLabel = localise({
-            en: `twelve months`,
-            cy: ``
-        });
 
         return {
             name: 'projectDateRange',
@@ -316,9 +323,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 </p>
                 <p>
                     We usually only fund projects that last
-                    ${maxDurationLabel} or less.
+                    ${localise(MAX_PROJECT_DURATION.label)} or less.
                     So, the end date can't be more than
-                    ${maxDurationLabel} after the start date.    
+                    ${localise(
+                        MAX_PROJECT_DURATION.label
+                    )} after the start date.    
                 </p>
                 <p><strong>If your project is a one-off event</strong></p>
                 <p>
@@ -331,7 +340,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: Joi.dateRange()
                 .minDate(minDate.format('YYYY-MM-DD'))
-                .endDateLimit(maxDuration.amount, maxDuration.unit),
+                .endDateLimit(
+                    MAX_PROJECT_DURATION.amount,
+                    MAX_PROJECT_DURATION.unit
+                ),
             messages: [
                 {
                     type: 'base',
@@ -373,7 +385,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'dateRange.endDate.outsideLimit',
                     message: localise({
                         en: oneLine`Date you end the project must be within
-                            ${maxDurationLabel} of the start date.`,
+                            ${localise(
+                                MAX_PROJECT_DURATION.label
+                            )} of the start date.`,
                         cy: ''
                     })
                 },
@@ -600,6 +614,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     many people you've spoken to, and how they'll be involved
                     in the development and delivery of the project.
                 </p>
+                <p><strong>Here are some examples of how you could be involving your community:</strong></p>
+                <ul>
+                    <li>Having regular chats with community members, in person or on social media</li>
+                    <li>Including community members on your board or committee</li>
+                    <li>Regular surveys</li>
+                    <li>Setting up steering groups</li>
+                    <li>Running open days</li>
+                </ul>
                 <p><strong>
                     You can write up to ${maxWords} words for this section,
                     but don't worry if you use less.
@@ -926,12 +948,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             explanation: localise({
                 en: `<p>
                     You told us what sort of organisation you are earlier.
-                    So the senior contact role options we're giving you now,
-                    are based on your organisation type.
                     ${
                         isFreeText()
-                            ? `This should be someone in a position of authority in your organisation.`
-                            : `The options given to you for selection are based on this.`
+                            ? `So the senior contact role should be someone in a position of authority in your organisation.`
+                            : `So the senior contact role options we're giving you now are based on your 
+                               organisation type. The options given to you for selection are based on this.`
                     }
                 </p>`,
                 cy: ''
@@ -1031,21 +1052,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function conditionalBeneficiaryChoice({ match, schema }) {
         return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
             is: 'yes',
-            then: Joi.when('beneficiariesGroupsOther', {
-                is: Joi.string().required(),
-                then: Joi.any().strip(),
-                // Conditional based on array
-                // https://github.com/hapijs/joi/issues/622
-                otherwise: Joi.when(Joi.ref('beneficiariesGroups'), {
-                    is: Joi.array().items(
-                        Joi.string()
-                            .only(match)
-                            .required(),
-                        Joi.any()
-                    ),
-                    then: schema,
-                    otherwise: Joi.any().strip()
-                })
+            then: Joi.when(Joi.ref('beneficiariesGroups'), {
+                is: Joi.array().items(
+                    Joi.string()
+                        .only(match)
+                        .required(),
+                    Joi.any()
+                ),
+                then: schema,
+                otherwise: Joi.any().strip()
             }),
             otherwise: Joi.any().strip()
         });
@@ -1081,7 +1096,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             }),
             explanation: localise({
-                en: `If your project covers more than one area please choose the primary location`,
+                en: `If your project covers more than one area please tell us where most of it will take place`,
                 cy: ''
             }),
             type: 'select',
@@ -1107,10 +1122,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         projectLocationDescription: {
             name: 'projectLocationDescription',
             label: localise({
-                en: `Tell us the towns, villages or wards where your beneficiaries live`,
+                en: `Tell us the towns or villages where people who will benefit from your project live`,
                 cy: ``
             }),
             type: 'text',
+            attributes: {
+                size: 60
+            },
             isRequired: true,
             schema: Joi.string().required(),
             messages: [
@@ -1126,7 +1144,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         projectPostcode: {
             name: 'projectPostcode',
             label: localise({
-                en: `What is the postcode of the location where your project will take place?`,
+                en: `What is the postcode of where your project will take place?`,
                 cy: ``
             }),
             explanation: localise({
@@ -1159,7 +1177,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             }),
             explanation: localise({
-                en: `<p>You should use budget headings, rather than a detailed list of items. For example, if you're applying for pens, pencils, paper and envelopes, using 'office supplies' is fine.</p>
+                en: `<p>You should use budget headings, rather than a detailed list of items. For example, if you're applying for pens, pencils, paper and envelopes, using 'office supplies' is fine. Please enter whole numbers only.</p>
                 <p>Please note you can only have a maximum of 10 rows.</p>`,
                 cy: ''
             }),
@@ -1194,14 +1212,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'budgetItems.overBudget',
                     message: localise({
-                        en: `Project costs must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                        en: `Costs you would like us to fund must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
                         cy: ``
                     })
                 },
                 {
                     type: 'budgetItems.underBudget',
                     message: localise({
-                        en: `Project costs must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                        en: `Costs you would like us to fund must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
                         cy: ``
                     })
                 }
@@ -1231,9 +1249,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
-                    type: 'number.base',
+                    type: 'number.integer',
                     message: localise({
-                        en: 'Total cost must be a real number',
+                        en:
+                            'Total cost must be a whole number (eg. no decimal point)',
                         cy: ''
                     })
                 },
@@ -1353,11 +1372,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             get schema() {
                 return Joi.when('beneficiariesGroupsCheck', {
                     is: 'yes',
-                    then: Joi.when('beneficiariesGroupsOther', {
-                        is: Joi.string().required(),
-                        then: Joi.any().strip(),
-                        otherwise: multiChoice(this.options).required()
-                    }),
+                    then: multiChoice(this.options).required(),
                     otherwise: Joi.any().strip()
                 });
             },
@@ -1588,7 +1603,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'checkbox',
             options: [
-                { value: '0-12', label: localise({ en: '0–12', cy: '' }) },
+                { value: '0-12', label: localise({ en: '0-12', cy: '' }) },
                 { value: '13-24', label: localise({ en: '13-24', cy: '' }) },
                 { value: '25-64', label: localise({ en: '25-64', cy: '' }) },
                 { value: '65+', label: localise({ en: '65+', cy: '' }) }
@@ -1852,7 +1867,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         organisationTradingName: {
             name: 'organisationTradingName',
             label: localise({
-                en: `Does your organisation use a different name in your day-to-day work?`,
+                en: `If your organisation uses a different name in your day-to-day work, tell us it here`,
                 cy: ``
             }),
             type: 'text',
@@ -1991,10 +2006,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         charityNumber: {
             name: 'charityNumber',
             label: localise({ en: 'Charity registration number', cy: '' }),
-            explanation: localise({
-                en: `If you're a Scottish charity registered with OSCR, we only need the last 5 numbers.`,
-                cy: ''
-            }),
             type: 'text',
             attributes: { size: 20 },
             isRequired: [
@@ -2003,10 +2014,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ].includes(currentOrganisationType),
             schema: Joi.when('organisationType', {
                 is: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                then: Joi.number().required()
+                then: Joi.string().required()
             }).when('organisationType', {
                 is: ORGANISATION_TYPES.CIO,
-                then: Joi.number().required()
+                then: Joi.string().required()
             }),
             messages: [
                 {
@@ -2078,18 +2089,25 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'What is your total income for the year?',
                 cy: ''
             }),
+            explanation: localise({
+                en: 'Use whole numbers only, eg. 12000',
+                cy: ''
+            }),
             type: 'currency',
             isRequired: true,
             schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
                 is: true,
-                then: Joi.number().required(),
+                then: Joi.number()
+                    .integer()
+                    .required(),
                 otherwise: Joi.any().strip()
             }),
             messages: [
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Enter a total income for the year',
+                        en:
+                            'Enter a total income for the year (eg. a whole number with no commas or decimal points)',
                         cy: ''
                     })
                 },
@@ -2097,6 +2115,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'any.invalid',
                     message: localise({
                         en: 'Total income must be a real number',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'number.integer',
+                    message: localise({
+                        en:
+                            'Total income must be a whole number (eg. no decimal point)',
                         cy: ''
                     })
                 }

@@ -13,7 +13,7 @@ describe('confirmation builder', () => {
         expect(england.body).toMatchSnapshot();
         expect(england.body).toContain('0345 4 10 20 30');
         expect(england.body).toContain('afe@tnlcommunityfund.org.uk');
-        expect(england.body).toContain('12 weeks');
+        expect(england.body).toContain('18 weeks');
 
         const scotland = confirmationBuilder({
             locale: 'en',

@@ -5,7 +5,7 @@ const { get, sumBy, isString } = require('lodash');
 module.exports = function budgetTotalCosts(joi) {
     return {
         name: 'budgetTotalCosts',
-        base: joi.number(),
+        base: joi.number().integer(),
         language: {
             underBudget: 'under project budget total'
         },

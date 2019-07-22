@@ -29,7 +29,8 @@
                     <h3>What now?</h3>
                     {{ currentStep.ineligible.detail | safe }}
                     <p class="form-actions">
-                        <a class="btn" href="{{ formBaseUrl }}">Exit</a>
+                        <a class="btn" href="/contact">{{ __('global.nav.contact')}}</a>
+                        <a class="btn btn--outline" href="{{ formBaseUrl }}">Exit</a>
                     </p>
                 </div>
             {% else %}

@@ -2,7 +2,13 @@
 const express = require('express');
 const path = require('path');
 
-module.exports = function(eligibilityBuilder) {
+const commonLogger = require('../../../common/logger');
+
+const logger = commonLogger.child({
+    service: 'apply'
+});
+
+module.exports = function(eligibilityBuilder, formId) {
     const router = express.Router();
 
     const templatePath = path.resolve(__dirname, './views/eligibility');
@@ -42,6 +48,11 @@ module.exports = function(eligibilityBuilder) {
         })
         .post(async (req, res) => {
             const { currentStepNumber, totalSteps } = res.locals;
+
+            logger.info('Eligibility check', {
+                eligible: req.body.eligibility === 'yes',
+                formId: formId
+            });
 
             if (req.body.eligibility === 'yes') {
                 if (currentStepNumber === totalSteps) {

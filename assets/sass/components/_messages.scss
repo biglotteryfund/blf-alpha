@@ -17,6 +17,10 @@
         font-weight: normal;
     }
 
+    &.message--minor {
+        font-size: 18px;
+    }
+
     &.message--error {
         border-color: get-color('message', 'warning');
     }

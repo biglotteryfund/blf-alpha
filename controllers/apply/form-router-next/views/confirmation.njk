@@ -1,16 +1,20 @@
 {% extends "layouts/main.njk" %}
 {% from "components/feedback.njk" import inlineFeedback with context %}
 {% from "components/content-box/macro.njk" import contentBox %}
+{% from "components/user-status/macro.njk" import userStatus with context %}
+{% from "components/user-navigation/macro.njk" import userNavigation with context %}
 
 {% block title %}{{ title }} | {{ formTitle }} | {% endblock %}
 
 {% block content %}
     <main role="main" id="content">
-        {% call contentBox() %}
-            <div class="form-header">
-                <p class="form-header__prefix">{{ formTitle }}</p>
-                <h1 class="form-header__title">{{ title }}</h1>
-            </div>
+        <section class="content-box u-inner-wide-only">
+
+            {{ userNavigation(userNavigationLinks) }}
+
+            <h1 class="t2 u-tone-brand-primary">{{ title }}</h1>
+
+            {{ userStatus(user) }}
 
             {{ confirmation.body | safe }}
 
@@ -21,6 +25,6 @@
                 helpText = "This is completely anonymous and doesn't form part of your submission. Don't include any details about your idea, just tell us how you found the experience.",
                 isToggleable = false
             )  }}
-        {% endcall %}
+        </section>
     </main>
 {% endblock %}

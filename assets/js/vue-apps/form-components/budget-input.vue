@@ -3,11 +3,12 @@ import sumBy from 'lodash/sumBy';
 import concat from 'lodash/concat';
 import IconBin from '../components/icon-bin.vue';
 
+import { trackEvent } from '../../helpers/metrics';
+
 export default {
     components: { IconBin },
     props: {
         fieldName: { type: String, required: true },
-        minBudget: { type: Number, required: true },
         maxBudget: { type: Number, required: true },
         maxItems: { type: Number, required: true },
         budgetData: {
@@ -38,13 +39,18 @@ export default {
                     this.budgetRows.length === this.maxItems;
                 this.error.OVER_BUDGET =
                     this.maxBudget && this.total > this.maxBudget;
-                this.error.UNDER_BUDGET =
-                    this.minBudget &&
-                    this.total < this.minBudget &&
-                    this.total > 0;
+
+                if (this.error.OVER_BUDGET) {
+                    trackEvent('Budget Component', 'Error', 'Over budget');
+                }
+
+                if (this.error.TOO_MANY_ITEMS) {
+                    trackEvent('Budget Component', 'Error', 'Maximum number of items reached');
+                }
+
             },
             deep: true
-        }
+        },
     },
     methods: {
         getLineItemName(index, subFieldName) {
@@ -95,6 +101,7 @@ export default {
                         :name="getLineItemName(index, 'item')"
                         :id="getLineItemName(index, 'item')"
                         autocomplete="off"
+                        placeholder="eg. Posters"
                         v-model="lineItem.item"
                     />
                 </div>
@@ -111,7 +118,8 @@ export default {
                             type="number"
                             :name="getLineItemName(index, 'cost')"
                             :id="getLineItemName(index, 'cost')"
-                            v-model="lineItem.cost"
+                            v-model.number="lineItem.cost"
+                            placeholder="eg. 1234"
                             min="1"
                             step="1"
                             :max="maxBudget"
@@ -153,13 +161,8 @@ export default {
                 your costs
             </p>
             <p v-if="error.OVER_BUDGET">
-                Project costs must be less than £{{
+                Costs you would like us to fund must be less than £{{
                     maxBudget.toLocaleString()
-                }}.
-            </p>
-            <p v-if="error.UNDER_BUDGET">
-                Project costs must be greater than £{{
-                    minBudget.toLocaleString()
                 }}.
             </p>
         </div>

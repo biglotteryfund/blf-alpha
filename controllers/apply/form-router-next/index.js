@@ -144,7 +144,10 @@ function initFormRouter({
         '/questions',
         require('./questions')(formId, formBuilder, eligibilityBuilder)
     );
-    router.use('/eligibility', require('./eligibility')(eligibilityBuilder));
+    router.use(
+        '/eligibility',
+        require('./eligibility')(eligibilityBuilder, formId)
+    );
 
     /**
      * Require active user past this point
@@ -177,10 +180,7 @@ function initFormRouter({
 
             setCurrentlyEditingId(req, application.id);
             req.session.save(() => {
-                const form = formBuilder({
-                    locale: req.i18n.getLocale()
-                });
-                res.redirect(`${req.baseUrl}/${form.sections[0].slug}`);
+                res.redirect(`${req.baseUrl}/summary`);
             });
         } catch (error) {
             next(error);

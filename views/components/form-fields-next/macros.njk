@@ -8,7 +8,9 @@
                 <ol class="form-errors__list">
                     {% for error in errors %}
                         <li>
-                            {{ error.field.label | safe }}
+                            {% if error.field %}
+                                {{ error.field.label | safe }} &ndash;
+                            {% endif %}
                             {% if error.param %}<a href="#form-field-{{ error.param }}">{% endif %}
                             {{ error.msg }}
                             {% if error.param %}</a>{% endif %}
@@ -498,7 +500,6 @@
         <div id="js-budget-input">
             <budget-input
                 field-name="{{ field.name }}"
-                :min-budget="{{ field.attributes.min }}"
                 :max-budget="{{ field.attributes.max }}"
                 :max-items="{{ field.attributes.rowLimit }}"
                 {% if field.value %}:budget-data="{{ field.value | dump }}"{% endif %}>

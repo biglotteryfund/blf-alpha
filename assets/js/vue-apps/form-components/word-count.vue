@@ -69,6 +69,7 @@ export default {
         aria-live="polite"
         aria-atomic="true"
         data-testid="word-count"
+        data-hj-whitelist
     >
         <span class="word-count__counter" v-html="currentCountMessage"></span>
         <span class="word-count__message" v-html="helpMessage"></span>
