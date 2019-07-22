@@ -1,6 +1,7 @@
 const uuid = require('uuid/v4');
 const faker = require('faker');
 const sample = require('lodash/sample');
+const times = require('lodash/times');
 
 describe('server smoke tests', function() {
     it('should have common headers', () => {
@@ -311,6 +312,32 @@ describe('user', () => {
             expect(res.body.mailParams.subject).to.equal(
                 'Activate your The National Lottery Community Fund website account'
             );
+        });
+    });
+
+    it('should rate-limit users attempting to login too often', () => {
+        const fakeEmail = faker.internet.exampleEmail();
+        const fakePassword = 'hunter2';
+        const maxAttempts = 10;
+        times(maxAttempts, function(i) {
+            cy.loginUser({
+                username: fakeEmail,
+                password: fakePassword
+            }).then(response => {
+                expect(response.status).to.eq(200);
+            });
+
+            // If we're at the end, run a final one to ensure we're blocked
+            if (i === maxAttempts - 1) {
+                cy.loginUser({
+                    username: fakeEmail,
+                    password: fakePassword,
+                    failOnStatusCode: false
+                }).then(response => {
+                    expect(response.status).to.eq(429);
+                    expect(response.body).to.include('Too many requests');
+                });
+            }
         });
     });
 });
