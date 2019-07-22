@@ -431,7 +431,8 @@ function initFormRouter({
                 unsetCurrentlyEditingId(req, function() {
                     const confirmation = confirmationBuilder({
                         locale: 'en',
-                        data: currentApplicationData
+                        data: currentApplicationData,
+                        fileUploadError: fileUploadError
                     });
 
                     logger.info('Submission successful');
@@ -440,12 +441,7 @@ function initFormRouter({
                         {
                             title: confirmation.title,
                             confirmation: confirmation,
-                            fileUploadError: fileUploadError,
-                            form: form,
-                            metadata: {
-                                APPLICATION_ID: currentApplication.id,
-                                SALESFORCE_ID: salesforceRecordId
-                            }
+                            form: form
                         }
                     );
                 });

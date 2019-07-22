@@ -16,32 +16,6 @@
 
             {{ userStatus(user) }}
 
-            {% if fileUploadError %}
-                <div class="message message--error">
-                    <p><strong>There was an error uploading your file</strong></p>
-                    <p>
-                        Your application form has been submitted successfully, but we had an issue with your file attachment:
-                        <strong>
-                            {% if fileUploadError === 'ERR_FILE_SCAN_UNKNOWN' %}
-                                We were unable to complete a security scan on the file you provided.
-                            {% elseif fileUploadError === 'ERR_FILE_SCAN_INFECTED' %}
-                                The file you provided may have contained a virus or security risk.
-                            {% else %}
-                                We weren't able to save your file due to an unknown error.
-                            {% endif %}
-                        </strong>
-                    </p>
-                    <p>We'll get in touch with you directly so we can access this file, but in the mean time we've received the rest of your application so don't worry.</p>
-                    <p>If you like, you can email us on <a href="mailto:something@tnlcommunityfund.org.uk">something@tnlcommunityfund.org.uk</a> and send us your file directly. <strong>Please include the following information: </strong></p>
-<pre>
-{% for key, value in metadata %}
-{{ key }}: {{ value }}
-{% endfor %}
-</pre>
-                    <p>This will help us find your application on our system.</p>
-                </div>
-            {% endif %}
-
             {{ confirmation.body | safe }}
 
             {{ inlineFeedback(
