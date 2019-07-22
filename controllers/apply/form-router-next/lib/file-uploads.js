@@ -109,15 +109,6 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
     });
 }
 
-function getObjectTagging(key) {
-    return s3
-        .getObjectTagging({
-            Bucket: S3_UPLOAD_BUCKET,
-            Key: key
-        })
-        .promise();
-}
-
 function checkAntiVirus({ formId, applicationId, filename }) {
     const keyName = [formId, applicationId, filename].join('/');
     return s3
