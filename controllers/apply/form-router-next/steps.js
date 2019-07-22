@@ -5,6 +5,7 @@ const findIndex = require('lodash/findIndex');
 const Sentry = require('@sentry/node');
 
 const logger = require('../../../common/logger');
+const { sanitiseRequestBody } = require('../../../common/sanitise');
 const { PendingApplication } = require('../../../db/models');
 const { prepareFilesForUpload, uploadFile } = require('./lib/file-uploads');
 
@@ -109,9 +110,11 @@ module.exports = function(formId, formBuilder) {
                 currentApplicationData
             } = res.locals;
 
+            const sanitisedBody = sanitiseRequestBody(req.body);
+
             const applicationData = {
                 ...currentApplicationData,
-                ...req.body
+                ...sanitisedBody
             };
 
             const form = formBuilder({

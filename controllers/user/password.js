@@ -5,7 +5,7 @@ const concat = require('lodash/concat');
 const Sentry = require('@sentry/node');
 
 const { Users } = require('../../db/models');
-const sanitise = require('../../common/sanitise');
+const { sanitise } = require('../../common/sanitise');
 const { sendHtmlEmail } = require('../../common/mail');
 const { getAbsoluteUrl, redirectForLocale } = require('../../common/urls');
 const { requireNoAuth } = require('../../middleware/authed');
