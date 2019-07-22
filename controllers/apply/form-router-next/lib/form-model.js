@@ -119,6 +119,16 @@ class FormModel {
             return section;
         });
 
+        /**
+         * Form progress
+         */
+        const formIsEmpty = isEmpty(this.validation.value);
+        this.progress = {
+            isComplete: formIsEmpty === false && this.validation.error === null,
+            isPristine: formIsEmpty === true,
+            sections: this.sections.map(section => section.progress)
+        };
+
         this.summary = props.summary;
         this.forSalesforce = props.forSalesforce;
     }
@@ -176,15 +186,6 @@ class FormModel {
             isValid: error === null && messages.length === 0,
             messages: messages,
             featuredMessages: featuredMessages
-        };
-    }
-
-    get progress() {
-        const formIsEmpty = isEmpty(this.validation.value) === true;
-        return {
-            isComplete: !formIsEmpty && this.validation.error === null,
-            isPristine: formIsEmpty,
-            sections: this.sections.map(section => section.progress)
         };
     }
 
