@@ -27,8 +27,12 @@ function sanitise(input) {
 function sanitiseRequestBody(body) {
     function sanitiseIfString(value, key) {
         if (isString(value)) {
-            logger.debug(`sanitising ${key}`);
-            return sanitise(value);
+            const sanitisedValue = sanitise(value);
+            if (sanitisedValue !== value) {
+                logger.info(`sanitising ${key}`);
+            }
+
+            return sanitisedValue;
         } else {
             return value;
         }
