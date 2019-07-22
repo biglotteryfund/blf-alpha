@@ -1,0 +1,21 @@
+{% extends "layouts/main.njk" %}
+{% from "components/hero.njk" import hero with context %}
+
+{% block title %}{{ title }} | {% endblock %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only">
+            <div class="s-prose">
+                <h1>Too many requests</h1>
+                <p>You've made too many attempts to sign into your account. Please wait for a while and try again soon.</p>
+                {% if minutesLeft %}
+                    <p>
+                        You can try again in <strong>{{ minutesLeft }} minutes</strong>.
+                    </p>
+                {% endif %}
+                <p><a href="/" class="btn">Back to website</a></p>
+            </div>
+        </div>
+    </main>
+{% endblock %}

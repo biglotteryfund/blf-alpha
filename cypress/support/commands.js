@@ -44,20 +44,26 @@ Cypress.Commands.add('getCsrf', () => {
         });
 });
 
-Cypress.Commands.add('loginUser', ({ username, password }) => {
-    return cy.getCsrf().then(csrfToken => {
-        return cy.request({
-            method: 'POST',
-            url: '/user/login',
-            form: true,
-            body: {
-                _csrf: csrfToken,
-                username: username,
-                password: password
-            }
+Cypress.Commands.add(
+    'loginUser',
+    ({ username, password, failOnStatusCode = true }) => {
+        return cy.getCsrf().then(csrfToken => {
+            return cy
+                .request({
+                    method: 'POST',
+                    url: '/user/login',
+                    form: true,
+                    failOnStatusCode: failOnStatusCode,
+                    body: {
+                        _csrf: csrfToken,
+                        username: username,
+                        password: password
+                    }
+                })
+                .as('loginAttempt');
         });
-    });
-});
+    }
+);
 
 Cypress.Commands.add('seedAndLogin', () => {
     return cy
