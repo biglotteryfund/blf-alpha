@@ -257,20 +257,17 @@ describe('user', () => {
         createAccount(username, 'tooshort');
         cy.getByTestId('form-errors').should(
             'contain',
-            'Password must be at least 10 characters long'
+            'Password must be at least'
         );
 
         createAccount(username, username);
         cy.getByTestId('form-errors').should(
             'contain',
-            'password could be too common, or is the same as your username'
+            'Password must be different from your email address'
         );
 
         createAccount(username, '5555555555');
-        cy.getByTestId('form-errors').should(
-            'contain',
-            'password could be too common, or is the same as your username'
-        );
+        cy.getByTestId('form-errors').should('contain', 'Password is too weak');
     });
 
     it('should be able to register, log in, and reset password', () => {
