@@ -4,10 +4,32 @@ const MIN_AGE_MAIN_CONTACT = 16;
 const MIN_AGE_SENIOR_CONTACT = 18;
 const MAX_BUDGET_TOTAL_GBP = 10000;
 const MIN_BUDGET_TOTAL_GBP = 300;
+
 const ORG_MIN_AGE = {
     amount: 15,
     unit: 'months',
-    label: 'fifteen months'
+    label: {
+        en: '15 months',
+        cy: ''
+    }
+};
+
+const MIN_START_DATE = {
+    amount: 18,
+    unit: 'weeks',
+    label: {
+        en: '18 weeks',
+        cy: ''
+    }
+};
+
+const MAX_PROJECT_DURATION = {
+    amount: 15,
+    unit: 'months',
+    label: {
+        en: '15 months',
+        cy: ''
+    }
 };
 
 const ORGANISATION_TYPES = {
@@ -66,12 +88,14 @@ const FILE_LIMITS = {
 module.exports = {
     BENEFICIARY_GROUPS,
     CONTACT_EXCLUDED_TYPES,
-    MIN_BUDGET_TOTAL_GBP,
+    FILE_LIMITS,
     MAX_BUDGET_TOTAL_GBP,
+    MAX_PROJECT_DURATION,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
-    ORGANISATION_TYPES,
-    STATUTORY_BODY_TYPES,
+    MIN_BUDGET_TOTAL_GBP,
+    MIN_START_DATE,
     ORG_MIN_AGE,
-    FILE_LIMITS
+    ORGANISATION_TYPES,
+    STATUTORY_BODY_TYPES
 };

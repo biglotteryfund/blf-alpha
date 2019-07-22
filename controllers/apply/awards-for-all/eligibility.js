@@ -1,9 +1,19 @@
 'use strict';
 const { get } = require('lodash/fp');
-const { MIN_BUDGET_TOTAL_GBP, MAX_BUDGET_TOTAL_GBP } = require('./constants');
+const {
+    MIN_BUDGET_TOTAL_GBP,
+    MIN_START_DATE,
+    MAX_BUDGET_TOTAL_GBP,
+    MAX_PROJECT_DURATION,
+    ORG_MIN_AGE
+} = require('./constants');
 
 module.exports = function({ locale }) {
     const localise = get(locale);
+
+    const minStartDateLabel = localise(MIN_START_DATE.label);
+    const maxProjectDurationLabel = localise(MAX_PROJECT_DURATION.label);
+    const orgMinAgeLabel = localise(ORG_MIN_AGE.label);
 
     const question1 = {
         question: localise({
@@ -30,23 +40,23 @@ module.exports = function({ locale }) {
 
     const question2 = {
         question: localise({
-            en: `Are you applying for an amount between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} for a project that will be finished within about 12 months?`,
+            en: `Are you applying for an amount between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} for a project that will be finished within about ${maxProjectDurationLabel}?`,
             cy: ``
         }),
         explanation: localise({
-            en: `We know it's not always possible to complete a project in 12 months for lots of reasons. So we can consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.`,
+            en: `We know it's not always possible to complete a project in ${maxProjectDurationLabel} for lots of reasons. So we can consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.`,
             cy: ``
         }),
         ineligible: {
             reason: localise({
-                en: `This is because you can only apply for funding between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} for a project that will be finished in about 12 months through National Lottery Awards for All, and it sounds like you need a different amount of funding from us.`,
+                en: `This is because you can only apply for funding between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} for a project that will be finished in about ${maxProjectDurationLabel} through National Lottery Awards for All, and it sounds like you need a different amount of funding from us.`,
                 cy: ``
             }),
             detail: localise({
                 en: `<p>This isn't the end. Here are a couple of ideas about what you can do:</p>
                 <ul>
-                    <li>consider asking us to fund part of your project through National Lottery Awards for All, and find out if there are other sources of funding that can cover the rest of your project</li>
-                    <li><a href="/funding/over10k">look at our other funding programmes</a> to see if they cover the amount of funding you want to apply for and the length of time you want to run your project for, and consider applying to us for a grant worth over £10,000.</li>
+                    <li>Consider asking us to fund part of your project through National Lottery Awards for All, and find out if there are other sources of funding that can cover the rest of your project</li>
+                    <li><a href="/funding/over10k">Look at our other funding programmes</a> to see if they cover the amount of funding you want to apply for and the length of time you want to run your project for, and consider applying to us for a grant worth over £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}.</li>
                 </ul>`,
                 cy: ``
             })
@@ -55,22 +65,21 @@ module.exports = function({ locale }) {
 
     const question3 = {
         question: localise({
-            en:
-                'Does your project start at least 12 weeks from when you plan to submit your application?',
+            en: `Does your project start at least ${minStartDateLabel} from when you plan to submit your application?`,
             cy: ``
         }),
         explanation: localise({
-            en: `We need 12 weeks to be able to assess your application and pay your grant, if you're successful. So projects need to start at least 12 weeks from the date you submit your application to us.`,
+            en: `We need ${minStartDateLabel} to be able to assess your application and pay your grant, if you're successful. So projects need to start at least ${minStartDateLabel} from the date you submit your application to us.`,
             cy: ``
         }),
         ineligible: {
             reason: localise({
-                en: `This is because you told us that your project doesn't start at least 12 weeks from when you plan to submit your application.`,
+                en: `This is because you told us that your project doesn't start at least ${minStartDateLabel} from when you plan to submit your application.`,
                 cy: ``
             }),
             detail: localise({
                 en: `<p>We don't want communities to miss out on a great idea that will help them thrive.</p>
-                <p>Have a think and see if it's possible to start your project at least 12 weeks from now. We need this time to consider your application, carry out checks and, if successful, pay your grant. If it is possible, continue with your application.</p>`,
+                <p>Have a think and see if it's possible to start your project at least ${minStartDateLabel} from now. We need this time to consider your application, carry out checks and, if successful, pay your grant. If it is possible, continue with your application.</p>`,
                 cy: ``
             })
         }
@@ -78,7 +87,7 @@ module.exports = function({ locale }) {
 
     const question4 = {
         question: localise({
-            en: `Do you have a UK bank account or building society? It needs to be in the legal name of your organisation, with at least two unrelated people who are able to manage the account.`,
+            en: `Do you have a UK bank account or building society account? It needs to be in the legal name of your organisation, with at least two unrelated people who are able to manage the account.`,
             cy: ``
         }),
         explanation: localise({
@@ -100,7 +109,7 @@ module.exports = function({ locale }) {
 
     const question5 = {
         question: localise({
-            en: `Do you produce annual accounts (or did you set up your organisation less than 15 months ago and haven't produced annual accounts yet)?`,
+            en: `Do you produce annual accounts (or did you set up your organisation less than ${orgMinAgeLabel} ago and haven't produced annual accounts yet)?`,
             cy: ``
         }),
         explanation: localise({
@@ -109,7 +118,7 @@ module.exports = function({ locale }) {
         }),
         ineligible: {
             reason: localise({
-                en: `This is because you told us that your organisation was set up more than 15 months ago and hasn't produced annual accounts yet.`,
+                en: `This is because you told us that your organisation was set up more than ${orgMinAgeLabel} ago and hasn't produced annual accounts yet.`,
                 cy: ``
             }),
             detail: localise({

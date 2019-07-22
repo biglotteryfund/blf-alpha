@@ -46,7 +46,7 @@ describe('awards for all', function() {
                 exact: false
             }).type('Test application');
 
-            const startDate = moment().add(random(12, 20), 'weeks');
+            const startDate = moment().add(random(18, 20), 'weeks');
             const endDate = startDate.clone().add(random(0, 52), 'weeks');
 
             function fillDateParts(momentInstance) {
@@ -121,7 +121,7 @@ describe('awards for all', function() {
             );
 
             cy.getByLabelText(
-                'Tell us the towns, villages or wards where your beneficiaries live'
+                'Tell us the towns or villages where people who will benefit from your project live'
             ).type(`Example location description for ${location.option}`);
 
             cy.getByLabelText('What is the postcode', { exact: false }).type(
@@ -174,7 +174,7 @@ describe('awards for all', function() {
 
             cy.getAllByTestId('budget-errors').should(
                 'contain',
-                'Project costs must be less than £10,000'
+                'Costs you would like us to fund must be less than £10,000'
             );
 
             cy.getByLabelText('Tell us the total cost of your project').type(
@@ -184,7 +184,7 @@ describe('awards for all', function() {
             submitStep();
 
             shouldDisplayErrors([
-                'Project costs must be less than £10,000',
+                'Costs you would like us to fund must be less than £10,000',
                 'Total cost must be the same as or higher than the amount you’re asking us to fund'
             ]);
 
@@ -590,6 +590,10 @@ describe('awards for all', function() {
                 cy.getByText('Continue').click();
             });
             cy.getByText('Start your application').click();
+
+            cy.getAllByText('Start your application')
+                .first()
+                .click();
 
             const organisationName = faker.company.companyName();
 

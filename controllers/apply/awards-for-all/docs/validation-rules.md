@@ -218,7 +218,7 @@ An additional "Other" field is provided for free text responses.
 
 ### Organisation alias
 
-_Does your organisation use a different name in your day-to-day work?_
+_If your organisation uses a different name in your day-to-day work, tell us it here_
 
 | Rule           | Message |
 | -------------- | ------- |

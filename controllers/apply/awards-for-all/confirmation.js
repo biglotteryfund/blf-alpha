@@ -1,6 +1,8 @@
 'use strict';
 const { get } = require('lodash/fp');
 
+const { MIN_START_DATE } = require('./constants');
+
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
 
@@ -28,10 +30,6 @@ module.exports = function({ locale, data = {} }) {
         return options[country] || options.default;
     }
 
-    function processingWeeksFor(country) {
-        return country === 'scotland' ? 18 : 12;
-    }
-
     function enConfirmationBody() {
         const country = get('projectCountry')(data);
 
@@ -40,7 +38,7 @@ module.exports = function({ locale, data = {} }) {
 <p>
     We will now review your application and may contact you
     to find out more about your project. It will take around
-    <strong>${processingWeeksFor(country)} weeks</strong>
+    <strong>${localise(MIN_START_DATE.label)}</strong>
     for us to make a decision and we will
     let you know whether you have been successful by email.
 </p>

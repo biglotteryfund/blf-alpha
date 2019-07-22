@@ -64,8 +64,21 @@ module.exports = function dateParts(joi) {
                 validate(params, value, state, options) {
                     const date = fromDateParts(value);
                     const maxDate = moment().subtract(params.minAge, 'years');
-                    if (date.isValid() && date.isSameOrBefore(maxDate)) {
+                    const minDate = moment().subtract(120, 'years');
+
+                    if (
+                        date.isValid() &&
+                        date.isSameOrBefore(maxDate) &&
+                        date.isSameOrAfter(minDate)
+                    ) {
                         return value;
+                    } else if (date.isSameOrBefore(minDate)) {
+                        return this.createError(
+                            'dateParts.dob.tooOld',
+                            { v: value, minAge: params.minAge },
+                            state,
+                            options
+                        );
                     } else {
                         return this.createError(
                             'dateParts.dob',

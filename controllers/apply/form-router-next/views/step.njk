@@ -13,7 +13,7 @@
             {{ userNavigation(userNavigationLinks) }}
 
             {% if step.message %}
-                <div class="message message--info" role="alert">
+                <div class="message message--info message--minor" role="alert">
                     <p><strong>{{ step.message.title | safe }}</strong></p>
                     <p>{{ step.message.body | safe }}</p>
                 </div>

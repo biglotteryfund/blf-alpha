@@ -19,6 +19,7 @@ class FormModel {
         this.title = props.title;
         this.isBilingual = props.isBilingual || false;
         this.allFields = props.allFields;
+        this.formData = data;
 
         this.featuredErrorsAllowList = props.featuredErrorsAllowList || [];
 
@@ -179,10 +180,10 @@ class FormModel {
     }
 
     get progress() {
+        const formIsEmpty = isEmpty(this.validation.value) === true;
         return {
-            isComplete:
-                isEmpty(this.validation.value) === false &&
-                this.validation.error === null,
+            isComplete: !formIsEmpty && this.validation.error === null,
+            isPristine: formIsEmpty,
             sections: this.sections.map(section => section.progress)
         };
     }

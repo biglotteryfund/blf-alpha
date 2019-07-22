@@ -50,7 +50,7 @@ export default {
         this.$root.$on('update:conditionalRadio', value => {
             if (value === 'yes') {
                 this.currentState = states.NotRequired;
-            } else if (this.fullAddressPreview !== '') {
+            } else if (this.fullAddress.postcode !== null || this.fullAddressPreview !== '') {
                 this.currentState = this.states.AlreadyAnswered;
             } else {
                 this.currentState = states.NotAsked;
@@ -309,7 +309,7 @@ export default {
                 class="address-lookup__candidates"
                 v-if="candidates.length > 0"
             >
-                <label for="address-selection" class="ff-label">
+                <label for="address-selection" class="ff-label" data-hj-suppress>
                     Select an address
                 </label>
                 <!-- We use @blur here to avoid Win/Chrome bug where keypresses trigger a change on the first item-->
@@ -342,6 +342,7 @@ export default {
         <div
             v-if="currentState === states.AlreadyAnswered"
             class="existing-data"
+            data-hj-suppress
         >
             <h3 class="existing-data__title">Selected address</h3>
             <address
@@ -370,7 +371,7 @@ export default {
         >
             <summary
                 class="js-only o-details__summary"
-                @click="showFallbackFields = !showFallbackFields"
+                @click.prevent="showFallbackFields = !showFallbackFields"
                 data-testid="manual-address"
             >
                 Enter address manually

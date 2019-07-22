@@ -51,9 +51,6 @@ describe('BudgetInput', () => {
         checkTotal('£250');
         checkItemCount(4);
 
-        // Under-budget
-        checkWarning(`Project costs must be greater than £${minBudget}.`);
-
         addItem('My thing 4', 250);
         addItem('My thing 5', 750);
         addItem('My thing 6', 1500);
@@ -66,7 +63,7 @@ describe('BudgetInput', () => {
         checkItemCount(10);
         checkTotal('£10,500');
         checkWarning(
-            `Project costs must be less than £${maxBudget.toLocaleString()}.`
+            `Costs you would like us to fund must be less than £${maxBudget.toLocaleString()}.`
         );
 
         // Reach limit

@@ -79,21 +79,21 @@ describe('formatters', () => {
             formatter({
                 currentAddressMeetsMinimum: 'yes'
             })
-        ).toBe('yes');
+        ).toBe('Yes');
 
         expect(
             formatter({
                 currentAddressMeetsMinimum: 'yes',
                 previousAddress: address
             })
-        ).toBe('yes');
+        ).toBe('Yes');
 
         expect(
             formatter({
                 currentAddressMeetsMinimum: 'yes',
                 previousAddress: emptyAddress
             })
-        ).toBe('yes');
+        ).toBe('Yes');
 
         expect(
             formatter({
