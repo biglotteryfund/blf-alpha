@@ -13,9 +13,9 @@ function defaultMaxAge(req, res, next) {
 }
 
 /**
- * No cache / no-store middleware
+ * No-store middleware
  */
-function noCache(req, res, next) {
+function noStore(req, res, next) {
     res.cacheControl = { noStore: true };
     next();
 }
@@ -37,13 +37,15 @@ function sMaxAge(sMaxAgeValue) {
 
 /**
  * csrfProtection
- * Apply csrf protection and no-cache at the same time
+ * Apply csrf protection and no-store at the same time
  */
-const csrfProtection = [csurf(), noCache];
+const csrfProtection = [csurf(), noStore];
 
 module.exports = {
     defaultMaxAge,
-    noCache,
+    // @TODO: Replace all instances of noCache with noStore
+    noCache: noStore,
+    noStore: noStore,
     sMaxAge,
     csrfProtection
 };
