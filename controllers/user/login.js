@@ -7,7 +7,10 @@ const logger = require('../../common/logger').child({
     service: 'user'
 });
 
-const { RateLimiter } = require('../../middleware/rate-limiter');
+const {
+    availableRateLimiters,
+    RateLimiter
+} = require('../../middleware/rate-limiter');
 
 const {
     injectCopy,
@@ -31,6 +34,15 @@ function renderForm(req, res, formValues = null, errors = []) {
     });
 }
 
+function renderRateLimitError(req, res) {
+    res.status(429).render(
+        path.resolve(__dirname, './views/error-rate-limit'),
+        {
+            title: 'Too many requests'
+        }
+    );
+}
+
 router
     .route('/')
     .all(
@@ -49,16 +61,17 @@ router
     .post(async (req, res, next) => {
         logger.info('Login attempted');
 
-        const LoginRateLimiter = new RateLimiter(
-            'failByUsername',
-            req.body.username
-        );
+        // Key all rate-limited login attempts by the user's IP and the attempted username
+        const uniqueKey = `${req.ip}_${req.body.username}`;
 
-        const rateLimiter = await LoginRateLimiter.getLimiter();
+        const LoginRateLimiter = await new RateLimiter(
+            availableRateLimiters.failByUsername,
+            uniqueKey
+        ).init();
 
-        if (rateLimiter.isRateLimited) {
+        if (LoginRateLimiter.isRateLimited()) {
             // User is rate limited
-            res.status(429).send('Too Many Requests');
+            return renderRateLimitError(req, res);
         } else {
             passport.authenticate('local', async function(err, user) {
                 if (err) {
@@ -71,12 +84,10 @@ router
                             next(loginErr);
                         } else {
                             logger.info('Login succeeded');
-
                             // Reset rate limit on successful authorisation
-                            if (rateLimiter.hasConsumedPoints) {
+                            if (LoginRateLimiter.hasConsumedPoints()) {
                                 await LoginRateLimiter.clearRateLimit();
                             }
-
                             redirectUrlWithFallback(req, res, '/user');
                         }
                     });
@@ -98,9 +109,7 @@ router
                             next(rlRejected);
                         } else {
                             // User is rate limited
-                            res.status(429).send(
-                                'Too Many Requests (login fail)'
-                            );
+                            return renderRateLimitError(req, res);
                         }
                     }
                 }
