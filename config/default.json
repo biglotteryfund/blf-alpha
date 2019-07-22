@@ -1,4 +1,5 @@
 {
+  "logLevel": "info",
   "aws": {
     "region": "eu-west-2",
     "cloudfrontDistributions": {
