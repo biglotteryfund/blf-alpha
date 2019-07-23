@@ -19,8 +19,12 @@ export default {
         }
     },
     data() {
+        // Add a ready-to-use new row if the budget isn't over the limit already
+        const budgetRowsArr = (this.budgetData.length < this.maxItems)
+            ? concat(this.budgetData, [{ item: '', cost: '' }])
+            : this.budgetData;
         return {
-            budgetRows: concat(this.budgetData, [{ item: '', cost: '' }]),
+            budgetRows: budgetRowsArr,
             error: {}
         };
     },
