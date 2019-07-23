@@ -1,6 +1,5 @@
 'use strict';
 const jwt = require('jsonwebtoken');
-const moment = require('moment');
 
 const { JWT_SIGNING_TOKEN } = require('../../../common/secrets');
 const { Users } = require('../../../db/models');
@@ -27,19 +26,11 @@ function verifyTokenActivate(token, userId) {
             const decoded = jwt.verify(token, JWT_SIGNING_TOKEN);
             const user = await Users.findByUserId(userId);
 
-            const mostRecentActivationTokenSent = moment.unix(
-                user.date_activation_sent
-            );
-
-            const dateThisTokenWasSent = moment.unix(
-                decoded.data.dateOfActivationAttempt
-            );
-
             // Ensure that the token's stored date matches the one in the database
             // (eg. it's the most recently-generated link)
-            const isNewestLink = mostRecentActivationTokenSent.isSame(
-                dateThisTokenWasSent
-            );
+            const isNewestLink =
+                user.date_activation_sent ===
+                decoded.data.dateOfActivationAttempt;
 
             if (
                 decoded.data.reason === 'activate' &&
