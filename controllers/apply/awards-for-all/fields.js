@@ -1188,42 +1188,67 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 rowLimit: 10
             },
             isRequired: true,
-            schema: Joi.budgetItems()
-                .validBudgetRange(MIN_BUDGET_TOTAL_GBP, MAX_BUDGET_TOTAL_GBP)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({ en: 'Enter a project budget', cy: '' })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'item',
-                    message: localise({
-                        en: 'Enter an item or activity',
-                        cy: ''
-                    })
-                },
-                {
-                    type: 'number.base',
-                    key: 'cost',
-                    message: localise({ en: 'Enter an amount', cy: '' })
-                },
-                {
-                    type: 'budgetItems.overBudget',
-                    message: localise({
-                        en: `Costs you would like us to fund must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
-                        cy: ``
-                    })
-                },
-                {
-                    type: 'budgetItems.underBudget',
-                    message: localise({
-                        en: `Costs you would like us to fund must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
-                        cy: ``
-                    })
-                }
-            ]
+            get schema() {
+                return Joi.budgetItems()
+                    .maxRows(this.attributes.rowLimit)
+                    .validBudgetRange(
+                        MIN_BUDGET_TOTAL_GBP,
+                        MAX_BUDGET_TOTAL_GBP
+                    )
+                    .required();
+            },
+            get messages() {
+                return [
+                    {
+                        type: 'base',
+                        message: localise({
+                            en: 'Enter a project budget',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'any.empty',
+                        key: 'item',
+                        message: localise({
+                            en: 'Enter an item or activity',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'number.base',
+                        key: 'cost',
+                        message: localise({ en: 'Enter an amount', cy: '' })
+                    },
+                    {
+                        type: 'array.min',
+                        message: localise({
+                            en: 'Enter at least one item',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'array.max',
+                        message: localise({
+                            en: `Enter no more than ${this.attributes.rowLimit} items`,
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'budgetItems.overBudget',
+                        message: localise({
+                            en: `Costs you would like us to fund must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                            cy: ``
+                        })
+                    },
+                    {
+                        type: 'budgetItems.underBudget',
+                        message: localise({
+                            en: `Costs you would like us to fund must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                            cy: ``
+                        })
+                    }
+                ];
+            }
         },
         projectTotalCosts: {
             name: 'projectTotalCosts',
