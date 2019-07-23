@@ -36,6 +36,13 @@
                     value: formValues['username']
                 }, errors = errors) }}
 
+                {{ formField({
+                    type: 'password',
+                    name: 'password',
+                    label: 'Confirm your password',
+                    isRequired: true
+                }, errors = errors) }}
+
                 <div class="form-actions">
                     <input type="submit" class="btn" value="Update email address" />
                 </div>
