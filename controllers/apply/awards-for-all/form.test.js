@@ -275,7 +275,8 @@ describe('Form validations', () => {
             assertValidByKey(value(mockBudget()));
 
             const defaultMessages = ['Enter a project budget'];
-            assertMessagesByKey(value([]), defaultMessages);
+            const tooSmallMessage = ['Enter at least one item'];
+            assertMessagesByKey(value([]), tooSmallMessage);
 
             const budgetWithoutCosts = times(5, () => ({
                 item: faker.lorem.words(5)

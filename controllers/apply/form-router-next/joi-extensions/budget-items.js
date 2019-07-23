@@ -38,24 +38,6 @@ module.exports = function budgetItems(joi) {
         },
         rules: [
             {
-                name: 'maxRows',
-                params: {
-                    rowLimit: joi.number().required()
-                },
-                validate(params, value, state, options) {
-                    if (value && value.length > params.rowLimit) {
-                        return this.createError(
-                            'array.max',
-                            { v: value, number: params.maxBudget },
-                            state,
-                            options
-                        );
-                    } else {
-                        return value;
-                    }
-                }
-            },
-            {
                 name: 'validBudgetRange',
                 params: {
                     minBudget: joi.number().required(),

@@ -1189,13 +1189,15 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             },
             isRequired: true,
             get schema() {
-                return Joi.budgetItems()
-                    .maxRows(this.attributes.rowLimit)
-                    .validBudgetRange(
-                        MIN_BUDGET_TOTAL_GBP,
-                        MAX_BUDGET_TOTAL_GBP
-                    )
-                    .required();
+                return (
+                    Joi.budgetItems()
+                        .max(this.attributes.rowLimit)
+                        .validBudgetRange(
+                            MIN_BUDGET_TOTAL_GBP,
+                            MAX_BUDGET_TOTAL_GBP
+                        )
+                        .required()
+                );
             },
             get messages() {
                 return [
