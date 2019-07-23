@@ -219,7 +219,19 @@ app.use([
             browserSniff: false
         },
         dnsPrefetchControl: { allow: true },
-        frameguard: { action: 'sameorigin' }
+        frameguard: { action: 'sameorigin' },
+        permittedCrossDomainPolicies: {
+            permittedPolicies: 'none'
+        },
+        referrerPolicy: {
+            policy: 'no-referrer-when-downgrade'
+        },
+        featurePolicy: {
+            features: {
+                fullscreen: ["'self'"],
+                payment: ["'none'"]
+            }
+        }
     }),
     bodyParser.json(),
     bodyParser.urlencoded({ extended: true })
