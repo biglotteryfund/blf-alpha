@@ -5,38 +5,38 @@ const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const { SESSION_SECRET } = require('../common/secrets');
-const appData = require('../common/appData');
-const models = require('../db/models');
+const { isDev } = require('../common/appData');
+const { sequelize } = require('../db/models');
 
 module.exports = function(app) {
-    if (!appData.isDev) {
-        app.set('trust proxy', 4);
-    }
+    const store = new SequelizeStore({ db: sequelize });
 
-    const store = new SequelizeStore({
-        db: models.sequelize
-    });
-
-    // create sessions table
+    /**
+     * Create session table
+     */
     store.sync();
 
-    // add session
+    /**
+     * Configure session
+     */
+    const IDLE_TIMEOUT_MINUTES = 60;
     const sessionConfig = {
+        store: store,
         name: config.get('cookies.session'),
         secret: SESSION_SECRET,
+        rolling: true,
         resave: false,
         saveUninitialized: false,
         cookie: {
             sameSite: false,
-            secure: !appData.isDev,
-            maxAge: 604800000 // 7 days in ms
-        },
-        store: store,
-        rolling: true
+            secure: isDev === false,
+            maxAge: IDLE_TIMEOUT_MINUTES * 60 * 1000
+        }
     };
 
-    if (!appData.isDev) {
+    if (isDev === false) {
         // trust the reverse proxy when securing cookies
+        app.set('trust proxy', 4);
         sessionConfig.proxy = true;
     }
 

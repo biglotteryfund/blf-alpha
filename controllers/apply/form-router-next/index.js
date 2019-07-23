@@ -1,5 +1,6 @@
 'use strict';
 const express = require('express');
+const csurf = require('csurf');
 const path = require('path');
 const Sentry = require('@sentry/node');
 const flatMap = require('lodash/flatMap');
@@ -20,7 +21,7 @@ const {
 const commonLogger = require('../../../common/logger');
 const appData = require('../../../common/appData');
 const { localify } = require('../../../common/urls');
-const { csrfProtection } = require('../../../middleware/cached');
+const { noStore } = require('../../../middleware/cached');
 const { requireActiveUser } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
@@ -136,11 +137,12 @@ function initFormRouter({
      * Require active user past this point
      */
     router.use(
+        noStore,
+        requireActiveUser,
         handleMultipartFormData,
-        csrfProtection,
         injectCopy('applyNext'),
         setCommonLocals,
-        requireActiveUser
+        csurf()
     );
 
     /**
