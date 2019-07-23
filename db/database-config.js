@@ -10,7 +10,6 @@ const commonConfig = {
             collate: 'utf8mb4_general_ci'
         }
     },
-    operatorsAliases: false,
     pool: { max: 5, min: 1, idle: 10000 }
 };
 

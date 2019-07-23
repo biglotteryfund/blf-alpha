@@ -54,7 +54,7 @@ async function handleSubmission(req, res, next) {
                     id: userId,
                     newEmail: username
                 });
-                const updatedUser = await Users.findById(userId);
+                const updatedUser = await Users.findByPk(userId);
                 await sendActivationEmail(req, updatedUser);
                 logger.info('Update email change successful');
                 redirectForLocale(req, res, '/user?s=emailUpdated');

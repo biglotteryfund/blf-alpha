@@ -68,7 +68,7 @@ class User extends Model {
 
     static updateNewPassword({ id, newPassword }) {
         return this.encryptPassword(newPassword).then(newEncryptedPassword => {
-            return this.findById(id).then(user => {
+            return this.findByPk(id).then(user => {
                 return user.update({
                     password: newEncryptedPassword,
                     is_password_reset: false
