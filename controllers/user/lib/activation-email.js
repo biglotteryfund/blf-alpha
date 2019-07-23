@@ -9,9 +9,9 @@ const { signTokenActivate } = require('./jwt');
 module.exports = async function sendActivationEmail(
     req,
     user,
-    isExisting = false
+    dateOfActivationAttempt = null
 ) {
-    const token = signTokenActivate(user.id);
+    const token = signTokenActivate(user.id, dateOfActivationAttempt);
 
     const mailParams = {
         name: 'user_activate_account',
@@ -31,8 +31,7 @@ module.exports = async function sendActivationEmail(
                     req,
                     `/user/activate?token=${token}`
                 ),
-                email: user.username,
-                isExisting: isExisting
+                email: user.username
             }
         },
         mailParams

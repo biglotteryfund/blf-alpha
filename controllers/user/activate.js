@@ -2,6 +2,7 @@
 const path = require('path');
 const express = require('express');
 const Sentry = require('@sentry/node');
+const moment = require('moment');
 
 const { Users } = require('../../db/models');
 const {
@@ -66,7 +67,19 @@ router
     })
     .post(async function(req, res, next) {
         try {
-            await sendActivationEmail(req, req.user.userData);
+            const dateOfActivationAttempt = moment().unix();
+
+            await sendActivationEmail(
+                req,
+                req.user.userData,
+                dateOfActivationAttempt
+            );
+
+            await Users.updateDateOfActivationAttempt({
+                id: req.user.userData.id,
+                dateOfActivationAttempt: dateOfActivationAttempt
+            });
+
             res.locals.resendSuccessful = true;
             logger.info('Activation email sent');
             renderTemplate(req, res);

@@ -77,7 +77,7 @@ router
                         newEmail: username
                     });
                     const updatedUser = await Users.findById(userId);
-                    await sendActivationEmail(req, updatedUser, true);
+                    await sendActivationEmail(req, updatedUser);
                     logger.info('Update email change successful');
                     redirectForLocale(req, res, '/user?s=emailUpdated');
                 }
