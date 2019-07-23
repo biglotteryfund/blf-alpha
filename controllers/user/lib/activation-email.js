@@ -1,16 +1,18 @@
 'use strict';
 const path = require('path');
+const moment = require('moment');
 
 const { sendHtmlEmail } = require('../../../common/mail');
 const { getAbsoluteUrl } = require('../../../common/urls');
+const { Users } = require('../../../db/models');
 
 const { signTokenActivate } = require('./jwt');
 
 module.exports = async function sendActivationEmail(
     req,
-    user,
-    dateOfActivationAttempt = null
+    user
 ) {
+    const dateOfActivationAttempt = moment().unix();
     const token = signTokenActivate(user.id, dateOfActivationAttempt);
 
     const mailParams = {
@@ -36,6 +38,11 @@ module.exports = async function sendActivationEmail(
         },
         mailParams
     );
+
+    await Users.updateDateOfActivationAttempt({
+        id: user.id,
+        dateOfActivationAttempt: dateOfActivationAttempt
+    });
 
     return {
         email: email,
