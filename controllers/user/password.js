@@ -196,7 +196,7 @@ router
                         const username = req.user.userData.username;
                         const { password } = validationResult.value;
                         await Users.updateNewPassword({
-                            id: sanitise(username),
+                            id: req.user.userData.id,
                             newPassword: password
                         });
                         await sendPasswordResetNotification(req, username);
