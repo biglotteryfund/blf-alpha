@@ -358,19 +358,48 @@ describe('Form validations', () => {
             });
         });
 
-        test('require beneficiaries groups if check question was yes', () => {
-            assertValidByKey({
+        test('strip beneficiary data when check is "no"', () => {
+            const dataWithNo = {
                 beneficiariesGroupsCheck: 'no',
                 beneficiariesGroups: null,
-                beneficiariesGroupsOther: null,
-                beneficiariesGroupsEthnicBackground: null,
-                beneficiariesGroupsGender: null,
-                beneficiariesGroupsAge: null,
-                beneficiariesGroupsDisabledPeople: null,
-                beneficiariesGroupsReligion: null,
-                beneficiariesGroupsReligionOther: null
+                beneficiariesGroupsOther: null
+            };
+
+            assertValidByKey(dataWithNo);
+            expect(testValidate(dataWithNo).value).toEqual({
+                beneficiariesGroupsCheck: 'no'
             });
 
+            const dataWithNoStripped = {
+                beneficiariesGroupsCheck: 'no',
+                beneficiariesGroups: Object.values(BENEFICIARY_GROUPS),
+                beneficiariesGroupsOther: 'this should be stripped'
+            };
+
+            expect(testValidate(dataWithNoStripped).value).toEqual({
+                beneficiariesGroupsCheck: 'no'
+            });
+        });
+
+        test('allow only "other" option for beneficiary groups', () => {
+            assertValidByKey({
+                beneficiariesGroupsCheck: 'yes',
+                beneficiariesGroups: Object.values(BENEFICIARY_GROUPS)
+            });
+
+            assertValidByKey({
+                beneficiariesGroupsCheck: 'yes',
+                beneficiariesGroupsOther: 'this should be valid'
+            });
+
+            assertValidByKey({
+                beneficiariesGroupsCheck: 'yes',
+                beneficiariesGroups: Object.values(BENEFICIARY_GROUPS),
+                beneficiariesGroupsOther: 'this should also be valid'
+            });
+        });
+
+        test('require additional beneficiary questions based on groups', () => {
             assertMessagesByKey(
                 {
                     beneficiariesGroupsCheck: 'yes',
