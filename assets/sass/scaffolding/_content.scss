@@ -122,17 +122,7 @@
     @include mq('medium') {
         padding: $spacingUnit;
     }
-
-    &.content-box__inner {
-        border: none;
-        margin-left: -$spacingDefault;
-        width: calc(100% + #{$spacingDefault * 2});
-        @include mq('medium') {
-            margin-left: -$spacingUnit;
-            width: calc(100% + #{$spacingUnit * 2});
-        }
-    }
-
+    
     &.content-box--borderless {
         border-right: none;
         border-bottom: none;
