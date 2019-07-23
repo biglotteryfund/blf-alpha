@@ -68,13 +68,12 @@ class User extends Model {
 
     static updateNewPassword({ id, newPassword }) {
         return this.encryptPassword(newPassword).then(newEncryptedPassword => {
-            return this.update(
-                {
+            return this.findById(id).then(user => {
+                return user.update({
                     password: newEncryptedPassword,
                     is_password_reset: false
-                },
-                { where: { id: { [Op.eq]: id } } }
-            );
+                });
+            });
         });
     }
 
