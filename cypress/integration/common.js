@@ -110,7 +110,7 @@ describe('server smoke tests', function() {
     });
 });
 
-describe.only('user', () => {
+describe('user', () => {
     function logIn(username, password) {
         cy.getByLabelText('Email address')
             .clear()
@@ -251,13 +251,9 @@ describe.only('user', () => {
     });
 
     it('should be able to log in and update account details', () => {
-        cy.seedUser().then(newUser => {
-            cy.visit('/user/login');
-            logIn(newUser.username, newUser.password);
-
-            const newPassword = uuid();
+        function changePassword(oldPassword, newPassword) {
             cy.getByText('Change your password').click();
-            cy.getByLabelText('Your old password').type(newUser.password, {
+            cy.getByLabelText('Your old password').type(oldPassword, {
                 delay: 0
             });
             cy.getByLabelText('Your new password').type(newPassword, {
@@ -272,10 +268,24 @@ describe.only('user', () => {
             cy.getByText('Your password was successfully updated!').should(
                 'be.visible'
             );
+        }
 
+        function updateEmail(password) {
             const newEmail = `${Date.now()}@example.com`;
             cy.getByText('Change your email address').click();
-            cy.getByLabelText('Email address', { exact: false }).type(newEmail);
+            cy.getByLabelText('Email address').type(newEmail);
+            cy.getByLabelText('Confirm your password').type('invalid password');
+
+            cy.get('.form-actions').within(() => {
+                cy.getByText('Update email address').click();
+            });
+
+            assertError('There was an error updating your details');
+
+            cy.getByLabelText('Confirm your password')
+                .clear()
+                .type(password);
+
             cy.get('.form-actions').within(() => {
                 cy.getByText('Update email address').click();
             });
@@ -284,6 +294,14 @@ describe.only('user', () => {
                 'contain',
                 'Check your emails to activate your account'
             );
+        }
+
+        cy.seedUser().then(user => {
+            cy.visit('/user/login');
+            logIn(user.username, user.password);
+            const newPassword = uuid();
+            changePassword(user.password, newPassword);
+            updateEmail(newPassword);
         });
     });
 });
