@@ -65,16 +65,17 @@ Cypress.Commands.add(
     }
 );
 
+Cypress.Commands.add('seedUser', () => {
+    return cy.request('POST', '/user/seed').its('body');
+});
+
 Cypress.Commands.add('seedAndLogin', () => {
-    return cy
-        .request('POST', '/user/seed')
-        .its('body')
-        .then(newUser => {
-            return cy.loginUser({
-                username: newUser.username,
-                password: newUser.password
-            });
+    return cy.seedUser().then(newUser => {
+        return cy.loginUser({
+            username: newUser.username,
+            password: newUser.password
         });
+    });
 });
 
 Cypress.Commands.add('registerUser', function({

@@ -110,6 +110,184 @@ describe('server smoke tests', function() {
     });
 });
 
+describe.only('user', () => {
+    function logIn(username, password) {
+        cy.getByLabelText('Email address')
+            .clear()
+            .type(username, { delay: 0 });
+        cy.getByLabelText('Password')
+            .clear()
+            .type(password, { delay: 0 });
+        cy.get('.form-actions').within(() => {
+            cy.getByText('Log in').click();
+        });
+    }
+
+    function createAccount(username, password) {
+        cy.getByLabelText('Email address')
+            .clear()
+            .type(username, { delay: 0 });
+        cy.getByLabelText('Password')
+            .clear()
+            .type(password, { delay: 0 });
+        cy.getByLabelText('Password confirmation', { exact: false })
+            .clear()
+            .type(password, { delay: 0 });
+        cy.get('.form-actions').within(() => {
+            cy.getByText('Create an account').click();
+        });
+    }
+
+    function assertError(partialMessage) {
+        cy.getByTestId('form-errors').should('contain', partialMessage);
+    }
+
+    it('log in and log out', function() {
+        cy.seedUser().then(newUser => {
+            cy.visit('/user/login');
+            logIn(newUser.username, newUser.password);
+
+            // Log out
+            cy.getByText('Log out').click();
+            cy.getByText('You were successfully logged out', {
+                exact: false
+            }).should('be.visible');
+        });
+    });
+
+    it('should prevent invalid log ins', () => {
+        cy.visit('/user/login');
+
+        const messageText = 'username and password combination is invalid';
+        logIn('not_a_real_account@example.com', 'examplepassword');
+        assertError(messageText);
+
+        cy.checkA11y();
+
+        cy.seedUser().then(newUser => {
+            logIn(newUser.username, 'invalidpassword');
+            assertError(messageText);
+        });
+    });
+
+    it('should rate-limit users attempting to login too often', () => {
+        const fakeEmail = `${Date.now()}@example.com`;
+        const fakePassword = 'hunter2';
+        const maxAttempts = 10;
+
+        times(maxAttempts, function() {
+            cy.loginUser({
+                username: fakeEmail,
+                password: fakePassword
+            }).then(response => {
+                expect(response.status).to.eq(200);
+            });
+        });
+
+        cy.loginUser({
+            username: fakeEmail,
+            password: fakePassword,
+            failOnStatusCode: false
+        }).then(response => {
+            expect(response.status).to.eq(429);
+            expect(response.body).to.include('Too many requests');
+        });
+    });
+
+    it('should prevent registrations with invalid passwords', () => {
+        const username = `${Date.now()}@example.com`;
+
+        cy.visit('/user/register');
+
+        createAccount(username, '5555555555');
+        cy.getByTestId('form-errors').should('contain', 'Password is too weak');
+
+        // Non-UI tests for remaining validations for speed
+        cy.registerUser({
+            username: username,
+            password: username
+        }).then(res => {
+            expect(res.body).to.contain(
+                'Password must be different from your email address'
+            );
+        });
+
+        cy.registerUser({
+            username: username,
+            password: 'tooshort'
+        }).then(res => {
+            expect(res.body).to.contain('Password must be at least');
+        });
+    });
+
+    it('should register and see activation screen', function() {
+        // Register
+        cy.visit('/user/register');
+        createAccount(`${Date.now()}@example.com`, uuid());
+        cy.checkA11y();
+        cy.get('body').should(
+            'contain',
+            'Check your emails to activate your account'
+        );
+    });
+
+    it('should email valid users with a token', () => {
+        const now = Date.now();
+        const username = `${now}@example.com`;
+        cy.registerUser({
+            username: username,
+            password: `password${now}`,
+            returnToken: true
+        }).then(res => {
+            // via https://github.com/auth0/node-jsonwebtoken/issues/162
+            expect(res.body.token).to.match(
+                /^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/
+            );
+            expect(res.body.mailParams.sendTo).to.equal(username);
+            expect(res.body.mailParams.subject).to.equal(
+                'Activate your The National Lottery Community Fund website account'
+            );
+        });
+    });
+
+    it('should be able to log in and update account details', () => {
+        cy.seedUser().then(newUser => {
+            cy.visit('/user/login');
+            logIn(newUser.username, newUser.password);
+
+            const newPassword = uuid();
+            cy.getByText('Change your password').click();
+            cy.getByLabelText('Your old password').type(newUser.password, {
+                delay: 0
+            });
+            cy.getByLabelText('Your new password').type(newPassword, {
+                delay: 0
+            });
+            cy.getByLabelText('Re-type your password').type(newPassword, {
+                delay: 0
+            });
+            cy.get('.form-actions').within(() => {
+                cy.getByText('Reset password').click();
+            });
+            cy.getByText('Your password was successfully updated!').should(
+                'be.visible'
+            );
+
+            const newEmail = `${Date.now()}@example.com`;
+            cy.getByText('Change your email address').click();
+            cy.getByLabelText('Email address', { exact: false }).type(newEmail);
+            cy.get('.form-actions').within(() => {
+                cy.getByText('Update email address').click();
+            });
+
+            cy.get('body').should(
+                'contain',
+                'Check your emails to activate your account'
+            );
+        });
+    });
+});
+
 describe('api endpoints', () => {
     it('should allow survey API responses', () => {
         const dataYes = {
@@ -209,132 +387,6 @@ describe('common pages', () => {
     it('should check patterns for visual regressions', function() {
         cy.visit('/patterns/components');
         cy.percySnapshot('patterns');
-    });
-});
-
-describe('user', () => {
-    function logIn(username, password) {
-        cy.getByLabelText('Email address')
-            .clear()
-            .type(username, { delay: 0 });
-        cy.getByLabelText('Password')
-            .clear()
-            .type(password, { delay: 0 });
-        cy.get('.form-actions').within(() => {
-            cy.getByText('Log in').click();
-        });
-    }
-
-    it('should not allow unknown users to login', () => {
-        cy.visit('/user/login');
-        logIn('not_a_real_account@example.com', 'examplepassword');
-        cy.getByTestId('form-errors').should(
-            'contain',
-            'Your username and password combination is invalid'
-        );
-        cy.checkA11y();
-    });
-
-    function createAccount(username, password) {
-        cy.getByLabelText('Email address')
-            .clear()
-            .type(username, { delay: 0 });
-        cy.getByLabelText('Password')
-            .clear()
-            .type(password, { delay: 0 });
-        cy.getByLabelText('Password confirmation', { exact: false })
-            .clear()
-            .type(password, { delay: 0 });
-        cy.get('.form-actions').within(() => {
-            cy.getByText('Create an account').click();
-        });
-    }
-
-    it('should prevent registrations with invalid passwords', () => {
-        const username = `${Date.now()}@example.com`;
-
-        cy.visit('/user/register');
-
-        createAccount(username, 'tooshort');
-        cy.getByTestId('form-errors').should(
-            'contain',
-            'Password must be at least'
-        );
-
-        createAccount(username, username);
-        cy.getByTestId('form-errors').should(
-            'contain',
-            'Password must be different from your email address'
-        );
-
-        createAccount(username, '5555555555');
-        cy.getByTestId('form-errors').should('contain', 'Password is too weak');
-    });
-
-    it('should be able to register, log in, and reset password', () => {
-        const password = uuid();
-        const username = `${Date.now()}@example.com`;
-
-        // Register
-        cy.visit('/user/register');
-        createAccount(username, password);
-        cy.checkA11y();
-        cy.getByText('Your account').should('be.visible');
-
-        // Log out
-        cy.getByText('Log out').click();
-
-        // Attempt to log in with new user with an incorrect password and then correct it
-        logIn(username, 'invalidpassword');
-
-        cy.getByTestId('form-errors').should(
-            'contain',
-            'username and password combination is invalid'
-        );
-
-        logIn(username, password);
-        cy.getByText('Your account').should('be.visible');
-    });
-
-    it('should email valid users with a token', () => {
-        const now = Date.now();
-        const username = `${now}@example.com`;
-        cy.registerUser({
-            username: username,
-            password: `password${now}`,
-            returnToken: true
-        }).then(res => {
-            // via https://github.com/auth0/node-jsonwebtoken/issues/162
-            expect(res.body.token).to.match(
-                /^[a-zA-Z0-9\-_]+?\.[a-zA-Z0-9\-_]+?\.([a-zA-Z0-9\-_]+)?$/
-            );
-            expect(res.body.mailParams.sendTo).to.equal(username);
-            expect(res.body.mailParams.subject).to.equal(
-                'Activate your The National Lottery Community Fund website account'
-            );
-        });
-    });
-
-    it('should rate-limit users attempting to login too often', () => {
-        const fakeEmail = faker.internet.exampleEmail();
-        const fakePassword = 'hunter2';
-        const maxAttempts = 10;
-        times(maxAttempts, function() {
-            cy.loginUser({
-                username: fakeEmail,
-                password: fakePassword
-            }).then(response => {
-                expect(response.status).to.eq(200);
-            });
-        });
-        cy.loginUser({
-            username: fakeEmail,
-            password: fakePassword,
-            failOnStatusCode: false
-        }).then(response => {
-            expect(response.status).to.eq(429);
-            expect(response.body).to.include('Too many requests');
-        });
     });
 });
 
