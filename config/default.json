@@ -47,7 +47,7 @@
     "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
     "enableRelatedGrants": false,
-    "enableSalesforceConnector": false,
+    "enableSalesforceConnector": true,
     "enableSeeders": false,
     "enableSiteSurvey": true
   },

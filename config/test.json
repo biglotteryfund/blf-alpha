@@ -9,8 +9,7 @@
     "enableAwardsForAllApplications": true,
     "enableDigitalFundApplications": false,
     "enableHotjar": true,
-    "enableMailSendMetrics": true,
-    "enableSalesforceConnector": true
+    "enableMailSendMetrics": true
   },
   "awardsForAllApplications": {
     "allowedCountries": ["england", "scotland"]
