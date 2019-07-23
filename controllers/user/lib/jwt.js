@@ -19,28 +19,32 @@ function signTokenActivate(userId, dateOfActivationAttempt) {
 }
 
 function verifyTokenActivate(token, userId) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise((resolve, reject) => {
         // We have to use try/catch here because jwt.verify() doesn't support async callbacks
         // @see https://stackoverflow.com/a/54419385
         try {
             const decoded = jwt.verify(token, JWT_SIGNING_TOKEN);
-            const user = await Users.findByUserId(userId);
+            Users.findByUserId(userId)
+                .then(user => {
+                    // Ensure that the token's stored date matches the one in the database
+                    // (eg. it's the most recently-generated link)
+                    const isNewestLink =
+                        user.date_activation_sent ===
+                        decoded.data.dateOfActivationAttempt;
 
-            // Ensure that the token's stored date matches the one in the database
-            // (eg. it's the most recently-generated link)
-            const isNewestLink =
-                user.date_activation_sent ===
-                decoded.data.dateOfActivationAttempt;
-
-            if (
-                decoded.data.reason === 'activate' &&
-                decoded.data.userId === userId &&
-                isNewestLink
-            ) {
-                resolve(decoded.data);
-            } else {
-                reject(new Error('Invalid token reason'));
-            }
+                    if (
+                        decoded.data.reason === 'activate' &&
+                        decoded.data.userId === userId &&
+                        isNewestLink
+                    ) {
+                        resolve(decoded.data);
+                    } else {
+                        reject(new Error('Invalid token reason'));
+                    }
+                })
+                .catch(err => {
+                    reject(err);
+                });
         } catch (err) {
             reject(err);
         }
