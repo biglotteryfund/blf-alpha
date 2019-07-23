@@ -24,7 +24,7 @@ function verifyTokenActivate(token, userId) {
         // @see https://stackoverflow.com/a/54419385
         try {
             const decoded = jwt.verify(token, JWT_SIGNING_TOKEN);
-            Users.findByUserId(userId)
+            Users.findByPk(userId)
                 .then(user => {
                     // Ensure that the token's stored date matches the one in the database
                     // (eg. it's the most recently-generated link)

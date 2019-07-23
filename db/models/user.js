@@ -50,12 +50,6 @@ class User extends Model {
         });
     }
 
-    static findByUserId(userId) {
-        return this.findOne({
-            where: { id: { [Op.eq]: userId } }
-        });
-    }
-
     static createUser({ username, password, isActive = false }) {
         return this.encryptPassword(password).then(encryptedPassword => {
             return this.create({
