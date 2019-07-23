@@ -4,8 +4,10 @@ const moment = require('moment');
 const { isString } = require('lodash');
 
 const { getCurrentUrl, getAbsoluteUrl, localify } = require('../common/urls');
+const { AWARDS_FOR_ALL_SECRET } = require('../common/secrets');
 
 const features = config.get('features');
+const cookies = config.get('cookies');
 
 /**
  * Set request locals
@@ -20,8 +22,15 @@ module.exports = function(req, res, next) {
      */
     res.locals.enableSiteSurvey = features.enableSiteSurvey;
     res.locals.enableNameChangeMessage = features.enableNameChangeMessage;
-    res.locals.enableAwardsForAllApplications =
-        features.enableAwardsForAllApplications;
+
+    const cookie = req.cookies[cookies.awardsForAllPreview];
+
+    if (cookie === AWARDS_FOR_ALL_SECRET) {
+        res.locals.enableAwardsForAllApplications = true;
+    } else {
+        res.locals.enableAwardsForAllApplications =
+            features.enableAwardsForAllApplications;
+    }
 
     /**
      * Global copy

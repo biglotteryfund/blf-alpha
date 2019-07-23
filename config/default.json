@@ -55,7 +55,8 @@
     "allowedCountries": ["scotland"]
   },
   "cookies": {
-    "session": "blf-alpha-session"
+    "session": "blf-alpha-session",
+    "awardsForAllPreview": "awards-for-all-preview"
   },
   "hotjarId": 1036292,
   "googleAnalyticsCode": "UA-98908627-1"
