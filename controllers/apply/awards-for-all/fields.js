@@ -157,7 +157,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         {
                             is: 'no',
                             then: Joi.ukAddress().required(),
-                            otherwise: Joi.any()
+                            otherwise: Joi.any().strip()
                         }
                     )
                 });
@@ -1189,15 +1189,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             },
             isRequired: true,
             get schema() {
-                return (
-                    Joi.budgetItems()
-                        .max(this.attributes.rowLimit)
-                        .validBudgetRange(
-                            MIN_BUDGET_TOTAL_GBP,
-                            MAX_BUDGET_TOTAL_GBP
-                        )
-                        .required()
-                );
+                return Joi.budgetItems()
+                    .max(this.attributes.rowLimit)
+                    .validBudgetRange(
+                        MIN_BUDGET_TOTAL_GBP,
+                        MAX_BUDGET_TOTAL_GBP
+                    )
+                    .required();
             },
             get messages() {
                 return [
