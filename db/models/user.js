@@ -18,6 +18,10 @@ class User extends Model {
                 allowNull: false,
                 defaultValue: false
             },
+            date_activation_sent: {
+                type: DataTypes.INTEGER,
+                allowNull: true
+            },
             is_password_reset: {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
@@ -43,6 +47,12 @@ class User extends Model {
     static findByUsername(username) {
         return this.findOne({
             where: { username: { [Op.eq]: username } }
+        });
+    }
+
+    static findByUserId(userId) {
+        return this.findOne({
+            where: { id: { [Op.eq]: userId } }
         });
     }
 
@@ -75,6 +85,13 @@ class User extends Model {
         );
     }
 
+    static updateDateOfActivationAttempt({ id, dateOfActivationAttempt }) {
+        return this.update(
+            { date_activation_sent: dateOfActivationAttempt },
+            { where: { id: { [Op.eq]: id } } }
+        );
+    }
+
     static findWithActivePasswordReset(id) {
         return this.findOne({
             where: {
@@ -93,7 +110,7 @@ class User extends Model {
 
     static activateUser(id) {
         return this.update(
-            { is_active: true },
+            { is_active: true, date_activation_sent: null },
             { where: { id: { [Op.eq]: id } } }
         );
     }
