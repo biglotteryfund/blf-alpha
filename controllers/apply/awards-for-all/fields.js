@@ -1422,9 +1422,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'text',
             isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .optional(),
+            schema: Joi.when('beneficiariesGroupsCheck', {
+                is: 'yes',
+                then: Joi.string()
+                    .allow('')
+                    .optional(),
+                otherwise: Joi.any().strip()
+            }),
             messages: []
         },
         beneficiariesEthnicBackground: {
