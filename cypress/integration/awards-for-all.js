@@ -409,8 +409,8 @@ describe('awards for all', function() {
             }).then(el => {
                 if (el) {
                     cy.checkA11y();
-                    cy.getByLabelText('Day').type(31);
-                    cy.getByLabelText('Month').type(3);
+                    cy.getByLabelText('Day').type(random(1, 28).toString());
+                    cy.getByLabelText('Month').type(random(1, 12).toString());
                     cy.getByLabelText(
                         'What is your total income for the year?',
                         {
