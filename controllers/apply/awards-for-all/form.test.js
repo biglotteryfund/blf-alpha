@@ -52,9 +52,9 @@ function mockBudget() {
     });
 }
 
-function mockBeneficiaries() {
+function mockBeneficiaries(checkAnswer = 'yes') {
     return {
-        beneficiariesGroupsCheck: 'yes',
+        beneficiariesGroupsCheck: checkAnswer,
         beneficiariesGroups: Object.values(BENEFICIARY_GROUPS),
         beneficiariesGroupsOther: 'Other value',
         beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
@@ -372,65 +372,18 @@ describe('Form validations', () => {
             });
         });
 
-        test('strip beneficiary data when check is "no"', () => {
-            const dataWithNo = {
-                beneficiariesGroupsCheck: 'no',
-                beneficiariesGroups: null,
-                beneficiariesGroupsOther: null
-            };
-
-            assertValidByKey(dataWithNo);
-            expect(testValidate(dataWithNo).value).toEqual({
-                beneficiariesGroupsCheck: 'no'
-            });
-
-            const dataWithNoStripped = {
-                beneficiariesGroupsCheck: 'no',
-                beneficiariesGroups: Object.values(BENEFICIARY_GROUPS),
-                beneficiariesGroupsOther: 'this should be stripped'
-            };
-
-            expect(testValidate(dataWithNoStripped).value).toEqual({
-                beneficiariesGroupsCheck: 'no'
-            });
-        });
-
-        test('allow only "other" option for beneficiary groups', () => {
-            assertValidByKey({
-                beneficiariesGroupsCheck: 'yes',
-                beneficiariesGroups: Object.values(BENEFICIARY_GROUPS)
-            });
-
-            assertValidByKey({
-                beneficiariesGroupsCheck: 'yes',
-                beneficiariesGroupsOther: 'this should be valid',
-                beneficiariesGroupsEthnicBackground: null,
-                beneficiariesGroupsGender: null,
-                beneficiariesGroupsAge: null,
-                beneficiariesGroupsDisabledPeople: null,
-                beneficiariesGroupsReligion: null,
-                beneficiariesGroupsReligionOther: null
-            });
-
-            assertValidByKey(mockBeneficiaries());
-        });
-
-        test('require additional beneficiary questions based on groups', () => {
+        test('require beneficiary groups when check is "yes"', () => {
             assertMessagesByKey(
                 {
                     beneficiariesGroupsCheck: 'yes',
                     beneficiariesGroups: null,
-                    beneficiariesGroupsOther: null,
-                    beneficiariesGroupsEthnicBackground: null,
-                    beneficiariesGroupsGender: null,
-                    beneficiariesGroupsAge: null,
-                    beneficiariesGroupsDisabledPeople: null,
-                    beneficiariesGroupsReligion: null,
-                    beneficiariesGroupsReligionOther: null
+                    beneficiariesGroupsOther: null
                 },
                 [expect.stringContaining('Select the specific group')]
             );
+        });
 
+        test('require additional beneficiary questions based on groups', () => {
             assertMessagesByKey(
                 {
                     beneficiariesGroupsCheck: 'yes',
@@ -451,6 +404,30 @@ describe('Form validations', () => {
                     expect.stringContaining('Select the religion')
                 ]
             );
+        });
+
+        test('strip beneficiary data when check is "no"', () => {
+            assertValidByKey(mockBeneficiaries('no'));
+            expect(testValidate(mockBeneficiaries('no')).value).toEqual({
+                beneficiariesGroupsCheck: 'no'
+            });
+        });
+
+        test('allow only "other" option for beneficiary groups', () => {
+            assertValidByKey(mockBeneficiaries('yes'));
+
+            assertValidByKey({
+                beneficiariesGroupsCheck: 'yes',
+                beneficiariesGroupsOther: 'this should be valid',
+                beneficiariesGroupsEthnicBackground: null,
+                beneficiariesGroupsGender: null,
+                beneficiariesGroupsAge: null,
+                beneficiariesGroupsDisabledPeople: null,
+                beneficiariesGroupsReligion: null,
+                beneficiariesGroupsReligionOther: null
+            });
+
+            assertValidByKey(mockBeneficiaries('yes'));
         });
 
         test.skip('welsh language question required for applicants in Wales', () => {
