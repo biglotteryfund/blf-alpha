@@ -11,8 +11,6 @@ describe('awards for all', function() {
     it('should submit full awards for all application', () => {
         const country = 'Scotland';
 
-        cy.log(`Country: ${country}`);
-
         function shouldDisplayErrors(errorDescriptions = []) {
             errorDescriptions.forEach(description => {
                 cy.getByTestId('form-errors').should('contain', description);
@@ -472,56 +470,41 @@ describe('awards for all', function() {
             });
         }
 
-        function sectionSeniorContact() {
+        function sectionSeniorContact(contact) {
             cy.checkA11y();
-            cy.getByLabelText('First name', { exact: false }).type(
-                faker.name.firstName()
-            );
-            cy.getByLabelText('Last name', { exact: false }).type(
-                faker.name.lastName()
-            );
+
+            cy.getByLabelText('First name').type(contact.firstName);
+
+            cy.getByLabelText('Last name').type(contact.lastName);
 
             cy.get('label[for="field-seniorContactRole-1"]').click();
 
             fillDateOfBirth(18);
-            fillHomeAddress({
-                streetAddress: 'Pacific House, 70 Wellington St',
-                city: 'Glasgow',
-                postcode: 'G2 6UA'
-            });
 
-            cy.getByLabelText('Email', { exact: false }).type(
-                faker.internet.exampleEmail()
-            );
+            fillHomeAddress(contact.address);
 
-            cy.getByLabelText('Telephone number', { exact: false }).type(
-                faker.phone.phoneNumber()
-            );
+            cy.getByLabelText('Email').type(contact.email);
+
+            cy.getByLabelText('Telephone number').type(contact.phone);
+
             submitStep();
         }
 
-        function sectionMainContact() {
+        function sectionMainContact(contact) {
             cy.checkA11y();
-            cy.getByLabelText('First name', { exact: false }).type(
-                faker.name.firstName()
-            );
-            cy.getByLabelText('Last name', { exact: false }).type(
-                faker.name.lastName()
-            );
+
+            cy.getByLabelText('First name').type(contact.firstName);
+
+            cy.getByLabelText('Last name').type(contact.lastName);
 
             fillDateOfBirth(16);
-            fillHomeAddress({
-                streetAddress: `The Bar, 2 St James' Blvd`,
-                city: 'Newcastle',
-                postcode: 'NE4 7JH'
-            });
 
-            cy.getByLabelText('Email', { exact: false }).type(
-                faker.internet.exampleEmail()
-            );
-            cy.getByLabelText('Telephone number', { exact: false }).type(
-                faker.phone.phoneNumber()
-            );
+            fillHomeAddress(contact.address);
+
+            cy.getByLabelText('Email').type(contact.email);
+
+            cy.getByLabelText('Telephone number').type(contact.phone);
+
             submitStep();
         }
 
@@ -599,8 +582,30 @@ describe('awards for all', function() {
             sectionBeneficiaries();
             sectionOrganisation(organisationName);
 
-            sectionSeniorContact();
-            sectionMainContact();
+            sectionSeniorContact({
+                firstName: faker.name.firstName(),
+                lastName: faker.name.lastName(),
+                email: faker.internet.exampleEmail(),
+                phone: faker.phone.phoneNumber(),
+                address: {
+                    streetAddress: `The Bar, 2 St James' Blvd`,
+                    city: 'Newcastle',
+                    postcode: 'NE4 7JH'
+                }
+            });
+
+            sectionMainContact({
+                firstName: faker.name.firstName(),
+                lastName: faker.name.lastName(),
+                email: faker.internet.exampleEmail(),
+                phone: faker.phone.phoneNumber(),
+                address: {
+                    streetAddress: 'Pacific House, 70 Wellington St',
+                    city: 'Glasgow',
+                    postcode: 'G2 6UA'
+                }
+            });
+
             sectionBankDetails(organisationName);
             sectionTermsAndConditions();
 
