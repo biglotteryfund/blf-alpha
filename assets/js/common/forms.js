@@ -148,9 +148,9 @@ function handleConditionalRadios() {
 
 // Track occurrences of users changing their mind about radio options
 // eg. to highlight potential confusion around questions
-function trackIndecisiveness() {
+function trackIndecisiveness(formClass) {
     let fields = {};
-    $('input[type="radio"]').on('click', function() {
+    $(`form.${formClass} input[type="radio"]`).on('click', function() {
         const name = $(this).attr('name');
         const value = $(this).val();
         if (!fields[name]) {
@@ -168,8 +168,8 @@ function trackIndecisiveness() {
 
 // Track when a radio button is clicked that has no other options
 // (eg. when a contact role choice is limited to a single item)
-function trackOneOptionRadios() {
-    $('input[type="radio"]').on('click', function() {
+function trackOneOptionRadios(formClass) {
+    $(`form.${formClass} input[type="radio"]`).on('click', function() {
         const name = $(this).attr('name');
         const others = $(`input[type="radio"][name="${name}"]`);
         if (others.length === 1) {
@@ -179,8 +179,8 @@ function trackOneOptionRadios() {
 }
 
 // Track the occurrence of a warning about contacts sharing surnames
-function trackSharedSurnameWarning() {
-    if ($('.js-form-warning-surname').length > 0) {
+function trackSharedSurnameWarning(formClass) {
+    if ($(`form.${formClass} .js-form-warning-surname`).length > 0) {
         tagHotjarRecording([
             'Apply: AFA: Contacts: User contact surname match'
         ]);
@@ -188,8 +188,8 @@ function trackSharedSurnameWarning() {
 }
 
 // Track clicks on details expandos
-function trackDetailsClicks() {
-    $('details summary').on('click', function() {
+function trackDetailsClicks(formClass) {
+    $(`.${formClass} details summary`).on('click', function() {
         tagHotjarRecording([
             'Apply: AFA: Summary: User toggles details element'
         ]);
@@ -198,8 +198,8 @@ function trackDetailsClicks() {
 
 // Detect attempted form submissions and log when the browser prevents the submission
 // due to inline validation failure.
-function trackInvalidSubmissionAttempts() {
-    $('input[type="submit"]').on('click', function() {
+function trackInvalidSubmissionAttempts(formClass) {
+    $(`form.${formClass} input[type="submit"]`).on('click', function() {
         const $parentForm = $(this)
             .parents('form')
             .first();
@@ -209,6 +209,15 @@ function trackInvalidSubmissionAttempts() {
             trackEvent('Apply', 'Attempted form submit', 'Failed validation');
         }
     });
+}
+
+function initHotjarTracking(formId) {
+    const scopedFormClass = `js-apply-${formId}`;
+    trackInvalidSubmissionAttempts(scopedFormClass);
+    trackIndecisiveness(scopedFormClass);
+    trackOneOptionRadios(scopedFormClass);
+    trackSharedSurnameWarning(scopedFormClass);
+    trackDetailsClicks(scopedFormClass);
 }
 
 function init() {
@@ -225,11 +234,7 @@ function init() {
     warnOnUnsavedChanges();
 
     // Hotjar tagging
-    trackInvalidSubmissionAttempts();
-    trackIndecisiveness();
-    trackOneOptionRadios();
-    trackSharedSurnameWarning();
-    trackDetailsClicks();
+    initHotjarTracking('awards-for-all');
 }
 
 export default {

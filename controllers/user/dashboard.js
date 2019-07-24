@@ -5,7 +5,7 @@ const express = require('express');
 const { requireUserAuth } = require('../../middleware/authed');
 const { injectCopy } = require('../../middleware/inject-content');
 
-const alertMessage = require('../../common/alert-message');
+const alertMessage = require('./lib/alert-message');
 
 const router = express.Router();
 

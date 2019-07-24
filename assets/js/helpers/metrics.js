@@ -26,7 +26,7 @@ export function trackEvent(category, action, label) {
  * Helper to add tag(s) to the current session's Hotjar recording
  */
 export function tagHotjarRecording(tags) {
-    if (window.hj && tags) {
+    if (window.hj) {
         hj('tagRecording', tags);
     }
 }

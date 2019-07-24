@@ -18,12 +18,6 @@ module.exports = function alertMessage({ locale, status }) {
                 cy: ``
             });
             break;
-        case 'applicationDeleted':
-            result = localise({
-                en: `Your application was successfully deleted.`,
-                cy: ``
-            });
-            break;
         case 'passwordUpdated':
             result = localise({
                 en: `Your password was successfully updated!`,

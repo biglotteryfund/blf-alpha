@@ -1406,7 +1406,7 @@ applyNext:
         <strong>This can't be undone</strong>.
         If you're sure you want to delete your application, then you can proceed below.
       </p>
-
+    success: Your application was successfully deleted
   sectionPrefix: Section
   statusNotStarted: Not started
   statusInProgress: In progress

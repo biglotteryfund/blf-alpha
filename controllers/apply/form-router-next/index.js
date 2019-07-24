@@ -67,6 +67,7 @@ function initFormRouter({
         });
 
         res.locals.formTitle = form.title;
+        res.locals.formId = formId;
         res.locals.formBaseUrl = req.baseUrl;
         res.locals.breadcrumbs = [{ label: form.title, url: req.baseUrl }];
 
