@@ -778,6 +778,15 @@ describe('Form validations', () => {
                     organisationType: excludedOrgType
                 });
 
+                const invalidDobWithSchool = {
+                    organisationType: excludedOrgType,
+                    [fieldName]: mockDateOfBirth(1, minAge - 1)
+                };
+
+                expect(testValidate(invalidDobWithSchool).value).toEqual({
+                    organisationType: excludedOrgType
+                });
+
                 assertValidByKey({
                     organisationType: excludedOrgType
                 });
