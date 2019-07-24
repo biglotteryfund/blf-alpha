@@ -52,6 +52,20 @@ function mockBudget() {
     });
 }
 
+function mockBeneficiaries() {
+    return {
+        beneficiariesGroupsCheck: 'yes',
+        beneficiariesGroups: Object.values(BENEFICIARY_GROUPS),
+        beneficiariesGroupsOther: 'Other value',
+        beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
+        beneficiariesGroupsGender: ['non-binary'],
+        beneficiariesGroupsAge: ['0-12', '13-24'],
+        beneficiariesGroupsDisabledPeople: ['sensory'],
+        beneficiariesGroupsReligion: ['sikh'],
+        beneficiariesGroupsReligionOther: undefined
+    };
+}
+
 function mockFullForm({
     country = 'scotland',
     organisationType,
@@ -389,14 +403,16 @@ describe('Form validations', () => {
 
             assertValidByKey({
                 beneficiariesGroupsCheck: 'yes',
-                beneficiariesGroupsOther: 'this should be valid'
+                beneficiariesGroupsOther: 'this should be valid',
+                beneficiariesGroupsEthnicBackground: null,
+                beneficiariesGroupsGender: null,
+                beneficiariesGroupsAge: null,
+                beneficiariesGroupsDisabledPeople: null,
+                beneficiariesGroupsReligion: null,
+                beneficiariesGroupsReligionOther: null
             });
 
-            assertValidByKey({
-                beneficiariesGroupsCheck: 'yes',
-                beneficiariesGroups: Object.values(BENEFICIARY_GROUPS),
-                beneficiariesGroupsOther: 'this should also be valid'
-            });
+            assertValidByKey(mockBeneficiaries());
         });
 
         test('require additional beneficiary questions based on groups', () => {
