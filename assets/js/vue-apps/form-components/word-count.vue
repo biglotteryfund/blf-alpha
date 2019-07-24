@@ -1,4 +1,6 @@
 <script>
+import { tagHotjarRecording } from '../../helpers/metrics';
+
 export default {
     props: {
         currentText: { type: String, default: '' },
@@ -55,6 +57,13 @@ export default {
                 }[this.locale];
             } else {
                 return '';
+            }
+        }
+    },
+    watch: {
+        isOverLimit(isOver) {
+            if (isOver) {
+                tagHotjarRecording(['Apply: AFA: Your Idea: Word count exceeded']);
             }
         }
     }

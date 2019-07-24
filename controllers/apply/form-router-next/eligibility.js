@@ -63,6 +63,9 @@ module.exports = function(eligibilityBuilder, formId) {
                     res.redirect(`${req.baseUrl}/${currentStepNumber + 1}`);
                 }
             } else {
+                res.locals.hotJarTagList = [
+                    'Apply: AFA: Failed eligibility check question'
+                ];
                 res.render(templatePath, {
                     eligibilityStatus: 'ineligible',
                     backUrl: `${req.baseUrl}/${currentStepNumber}`

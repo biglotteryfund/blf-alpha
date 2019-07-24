@@ -1,4 +1,4 @@
-/* global ga */
+/* global ga, hj */
 
 /**
  * Track event
@@ -18,5 +18,15 @@ export function trackEvent(category, action, label) {
         }
 
         ga('send', payload);
+    }
+}
+
+/**
+ * Tag recording
+ * Helper to add tag(s) to the current session's Hotjar recording
+ */
+export function tagHotjarRecording(tags) {
+    if (window.hj && tags) {
+        hj('tagRecording', tags);
     }
 }

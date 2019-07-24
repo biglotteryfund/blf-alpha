@@ -8,6 +8,7 @@ const {
     SubmittedApplication
 } = require('../../../db/models');
 const { localify } = require('../../../common/urls');
+const alertMessage = require('../../../common/alert-message');
 
 module.exports = function(formId, formBuilder) {
     const router = express.Router();
@@ -62,6 +63,17 @@ module.exports = function(formId, formBuilder) {
                     label: 'Log out'
                 }
             ];
+
+            res.locals.alertMessage = alertMessage({
+                locale: req.i18n.getLocale(),
+                status: req.query.s
+            });
+
+            if (req.query.s === 'applicationDeleted') {
+                res.locals.hotJarTagList = [
+                    'Apply: AFA: User deleted an application'
+                ];
+            }
 
             res.render(path.resolve(__dirname, './views/dashboard'), {
                 title: res.locals.formTitle,

@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import forEach from 'lodash/forEach';
-import { trackEvent } from '../helpers/metrics';
+import { trackEvent, tagHotjarRecording } from '../helpers/metrics';
 
 function handleBeforeUnload(e) {
     // Message cannot be customised in Chrome 51+
@@ -10,6 +10,7 @@ function handleBeforeUnload(e) {
         'User warned before abandoning form changes',
         'message shown'
     );
+    tagHotjarRecording(['App: User shown page abandonment warning']);
     const confirmationMessage = 'Are you sure you want to leave this page?';
     e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34-51
     return confirmationMessage; // Gecko, WebKit, Chrome <34
@@ -145,6 +146,71 @@ function handleConditionalRadios() {
     });
 }
 
+// Track occurrences of users changing their mind about radio options
+// eg. to highlight potential confusion around questions
+function trackIndecisiveness() {
+    let fields = {};
+    $('input[type="radio"]').on('click', function() {
+        const name = $(this).attr('name');
+        const value = $(this).val();
+        if (!fields[name]) {
+            fields[name] = value;
+        } else {
+            if (fields[name] !== value) {
+                tagHotjarRecording([
+                    'App: User changed selection on radio button'
+                ]);
+                fields[name] = value;
+            }
+        }
+    });
+}
+
+// Track when a radio button is clicked that has no other options
+// (eg. when a contact role choice is limited to a single item)
+function trackOneOptionRadios() {
+    $('input[type="radio"]').on('click', function() {
+        const name = $(this).attr('name');
+        const others = $(`input[type="radio"][name="${name}"]`);
+        if (others.length === 1) {
+            tagHotjarRecording(['App: Only one radio option shown']);
+        }
+    });
+}
+
+// Track the occurrence of a warning about contacts sharing surnames
+function trackSharedSurnameWarning() {
+    if ($('.js-form-warning-surname').length > 0) {
+        tagHotjarRecording([
+            'Apply: AFA: Contacts: User contact surname match'
+        ]);
+    }
+}
+
+// Track clicks on details expandos
+function trackDetailsClicks() {
+    $('details summary').on('click', function() {
+        tagHotjarRecording([
+            'Apply: AFA: Summary: User toggles details element'
+        ]);
+    });
+}
+
+// Detect attempted form submissions and log when the browser prevents the submission
+// due to inline validation failure.
+function trackInvalidSubmissionAttempts() {
+    $('input[type="submit"]').on('click', function() {
+        const $parentForm = $(this)
+            .parents('form')
+            .first();
+        const formIsValid = $parentForm[0].checkValidity();
+        if (!formIsValid) {
+            tagHotjarRecording(['App: User shown browser validation error']);
+            trackEvent('Apply', 'Attempted form submit', 'Failed validation');
+        }
+    });
+}
+
 function init() {
     /**
      * Review–step–specific logic
@@ -157,6 +223,13 @@ function init() {
     handleConditionalRadios();
     handleExpandingDetails();
     warnOnUnsavedChanges();
+
+    // Hotjar tagging
+    trackInvalidSubmissionAttempts();
+    trackIndecisiveness();
+    trackOneOptionRadios();
+    trackSharedSurnameWarning();
+    trackDetailsClicks();
 }
 
 export default {

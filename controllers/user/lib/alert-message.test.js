@@ -1,6 +1,6 @@
 /* eslint-env jest */
 'use strict';
-const alertMessage = require('./alert-message');
+const alertMessage = require('../../../common/alert-message');
 
 describe('alertMessage', () => {
     test('should return alert message based on status', () => {

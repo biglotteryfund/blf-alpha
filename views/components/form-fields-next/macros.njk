@@ -31,7 +31,7 @@
     {% if field.warnings %}
         <div class="ff-help s-prose">
             {% for warning in field.warnings %}
-                <p><strong>{{ warning }}</strong></p>
+                <p><strong>{{ warning | safe }}</strong></p>
             {% endfor %}
         </div>
     {% endif %}
@@ -561,7 +561,7 @@
         <div class="existing-data u-margin-bottom">
             <h3>Existing file</h3>
             <p>{{ field.displayValue }}</p>
-            <p class="u-no-margin">
+            <p class="u-no-margin" data-hj-suppress>
                 <a href="../download/{{ field.name }}/{{ field.value.filename }}">Download this file</a>
             </p>
         </div>

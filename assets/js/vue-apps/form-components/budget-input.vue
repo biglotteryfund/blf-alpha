@@ -3,7 +3,7 @@ import sumBy from 'lodash/sumBy';
 import concat from 'lodash/concat';
 import IconBin from '../components/icon-bin.vue';
 
-import { trackEvent } from '../../helpers/metrics';
+import { trackEvent, tagHotjarRecording } from '../../helpers/metrics';
 
 export default {
     components: { IconBin },
@@ -70,6 +70,7 @@ export default {
             }
         },
         removeItem(item) {
+            tagHotjarRecording(['Apply: AFA: Budget: Row deleted']);
             this.budgetRows = this.budgetRows.filter(i => i !== item);
         },
         canDelete(index) {

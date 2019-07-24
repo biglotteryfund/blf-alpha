@@ -79,7 +79,7 @@
 
                                 {% if field.displayValue %}
                                     {% set cleanValue = field.displayValue | striptags(true) | escape | nl2br %}
-                                    <span class="s-prose">{{ cleanValue }}</span>
+                                    <span class="s-prose" data-hj-suppress>{{ cleanValue }}</span>
                                 {% else %}
                                     &ndash;
                                 {% endif %}

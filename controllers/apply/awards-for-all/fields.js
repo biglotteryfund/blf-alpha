@@ -2184,9 +2184,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     if (lastNamesMatch) {
                         result.push(
                             localise({
-                                en: `We've noticed that your main and senior contact
+                                en: `<span class="js-form-warning-surname">We've noticed that your main and senior contact
                                      have the same surname. Remember we can't fund projects
-                                     where the two contacts are married or related by blood.`,
+                                     where the two contacts are married or related by blood.</span>`,
                                 cy: ``
                             })
                         );

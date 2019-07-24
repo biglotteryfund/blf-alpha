@@ -22,7 +22,7 @@ const {
 } = require('../../middleware/authed');
 const { csrfProtection } = require('../../middleware/cached');
 
-const alertMessage = require('./lib/alert-message');
+const alertMessage = require('../../common/alert-message');
 
 const router = express.Router();
 
