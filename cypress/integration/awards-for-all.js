@@ -24,7 +24,9 @@ describe('awards for all', function() {
         }
 
         function fillAddress({ streetAddress, city, county, postcode }) {
-            cy.getByText('Enter address manually').click();
+            const invalidPostcode = 'G61 7BY';
+            cy.getByLabelText('Find address by postcode').type(invalidPostcode);
+            cy.getByText('Find address').click();
 
             cy.getByLabelText('Building and street').type(streetAddress);
 
@@ -35,8 +37,6 @@ describe('awards for all', function() {
             }
 
             cy.getByLabelText('Postcode').type(postcode);
-
-            cy.getByText(`I'm done editing`).click();
         }
 
         function stepProjectDetails() {
