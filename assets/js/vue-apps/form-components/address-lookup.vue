@@ -219,7 +219,7 @@
                     this.currentState === states.AlreadyAnswered ||
                     this.currentState === states.Failure ||
                     this.currentState === states.EnteringManually
-                )
+                );
             },
             formIsValid() {
                 const VALIDATION_REGEX = /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/i;
@@ -248,7 +248,6 @@
 </script>
 
 <template>
-
     <div v-if="currentState !== states.NotRequired">
         <legend class="ff-label ff-address__legend" v-html="label"></legend>
 
@@ -284,7 +283,6 @@
                 >
                     {{ lookupLabel }}
                 </button>
-
             </div>
 
             <button
@@ -381,6 +379,5 @@
                 Remove this address
             </button>
         </div>
-
     </div>
 </template>
