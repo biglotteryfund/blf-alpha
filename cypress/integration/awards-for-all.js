@@ -35,6 +35,19 @@ describe('awards for all', function() {
             cy.getByLabelText('Postcode').type(postcode);
         }
 
+        function startApplication() {
+            cy.getByText('Start new application').click();
+            times(5, function() {
+                cy.getByLabelText('Yes').click();
+                cy.getByText('Continue').click();
+            });
+            cy.getByText('Start your application').click();
+
+            cy.getAllByText('Start your application')
+                .first()
+                .click();
+        }
+
         function stepProjectDetails() {
             cy.checkA11y();
 
@@ -483,9 +496,13 @@ describe('awards for all', function() {
 
             fillHomeAddress(contact.address);
 
-            cy.getByLabelText('Email').type(contact.email);
+            cy.getByLabelText('Email').type(
+                contact.email || faker.internet.exampleEmail()
+            );
 
-            cy.getByLabelText('Telephone number').type(contact.phone);
+            cy.getByLabelText('Telephone number').type(
+                faker.phone.phoneNumber()
+            );
 
             submitStep();
         }
@@ -501,9 +518,13 @@ describe('awards for all', function() {
 
             fillHomeAddress(contact.address);
 
-            cy.getByLabelText('Email').type(contact.email);
+            cy.getByLabelText('Email').type(
+                contact.email || faker.internet.exampleEmail()
+            );
 
-            cy.getByLabelText('Telephone number').type(contact.phone);
+            cy.getByLabelText('Telephone number').type(
+                faker.phone.phoneNumber()
+            );
 
             submitStep();
         }
@@ -560,21 +581,22 @@ describe('awards for all', function() {
             submitStep();
         }
 
+        function submitApplication() {
+            cy.getAllByText('Submit application')
+                .first()
+                .click();
+
+            cy.get('h1').should(
+                'contain',
+                'Your application has been submitted. Good luck!'
+            );
+        }
+
         cy.seedAndLogin().then(() => {
             cy.visit('/apply/awards-for-all');
 
             cy.get('.cookie-consent button').click();
-
-            cy.getByText('Start new application').click();
-            times(5, function() {
-                cy.getByLabelText('Yes').click();
-                cy.getByText('Continue').click();
-            });
-            cy.getByText('Start your application').click();
-
-            cy.getAllByText('Start your application')
-                .first()
-                .click();
+            startApplication();
 
             const organisationName = faker.company.companyName();
 
@@ -585,8 +607,7 @@ describe('awards for all', function() {
             sectionSeniorContact({
                 firstName: faker.name.firstName(),
                 lastName: faker.name.lastName(),
-                email: faker.internet.exampleEmail(),
-                phone: faker.phone.phoneNumber(),
+                email: Cypress.env('afa_senior_contact_email'),
                 address: {
                     streetAddress: `The Bar, 2 St James' Blvd`,
                     city: 'Newcastle',
@@ -597,8 +618,7 @@ describe('awards for all', function() {
             sectionMainContact({
                 firstName: faker.name.firstName(),
                 lastName: faker.name.lastName(),
-                email: faker.internet.exampleEmail(),
-                phone: faker.phone.phoneNumber(),
+                email: Cypress.env('afa_main_contact_email'),
                 address: {
                     streetAddress: 'Pacific House, 70 Wellington St',
                     city: 'Glasgow',
@@ -611,14 +631,8 @@ describe('awards for all', function() {
 
             cy.checkA11y();
             cy.get('h1').should('contain', 'Summary');
-            cy.getAllByText('Submit application')
-                .first()
-                .click();
 
-            cy.get('h1').should(
-                'contain',
-                'Your application has been submitted. Good luck!'
-            );
+            submitApplication();
         });
     });
 });
