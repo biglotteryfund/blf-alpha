@@ -26,7 +26,7 @@ function logErrorDifference(rawValidationErrors, stepValidationErrors) {
 
     if (errorDifference.length) {
         errorDifference.forEach(function(item) {
-            logger.warn(
+            logger.error(
                 `${item.param} not included in step fields but failed validation`,
                 { messages: item.msg }
             );
