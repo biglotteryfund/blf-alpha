@@ -1189,15 +1189,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             },
             isRequired: true,
             get schema() {
-                return (
-                    Joi.budgetItems()
-                        .max(this.attributes.rowLimit)
-                        .validBudgetRange(
-                            MIN_BUDGET_TOTAL_GBP,
-                            MAX_BUDGET_TOTAL_GBP
-                        )
-                        .required()
-                );
+                return Joi.budgetItems()
+                    .max(this.attributes.rowLimit)
+                    .validBudgetRange(
+                        MIN_BUDGET_TOTAL_GBP,
+                        MAX_BUDGET_TOTAL_GBP
+                    )
+                    .required();
             },
             get messages() {
                 return [
@@ -1399,7 +1397,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             get schema() {
                 return Joi.when('beneficiariesGroupsCheck', {
                     is: 'yes',
-                    then: multiChoice(this.options).required(),
+                    then: multiChoice(this.options)
+                        .required()
+                        .when('beneficiariesGroupsOther', {
+                            is: Joi.string().required(),
+                            then: Joi.optional()
+                        }),
                     otherwise: Joi.any().strip()
                 });
             },
@@ -1422,9 +1425,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'text',
             isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .optional(),
+            schema: Joi.when('beneficiariesGroupsCheck', {
+                is: 'yes',
+                then: Joi.string()
+                    .allow('')
+                    .optional(),
+                otherwise: Joi.any().strip()
+            }),
             messages: []
         },
         beneficiariesEthnicBackground: {
