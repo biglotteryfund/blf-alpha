@@ -652,9 +652,26 @@ describe('Form validations', () => {
             const mock = mockFullForm({
                 country: 'scotland',
                 organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO,
-                seniorContactRole: 'chair'
+                seniorContactRole: 'chair',
+                charityNumber: '12345678',
+                companyNumber: '2345678',
+                educationNumber: '34567'
             });
+
             assertValid(mock);
+        });
+
+        test('registration numbers stripped if not required', () => {
+            const withRegistrationNumbers = {
+                organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO,
+                charityNumber: '12345678',
+                companyNumber: '2345678',
+                educationNumber: '34567'
+            };
+
+            expect(testValidate(withRegistrationNumbers).value).toEqual({
+                organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO
+            });
         });
 
         test('registration numbers shown based on organisation type', () => {
