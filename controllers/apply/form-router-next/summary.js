@@ -4,6 +4,10 @@ const express = require('express');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 
+const logger = require('../../../common/logger').child({
+    service: 'form-summary'
+});
+
 module.exports = function(formBuilder) {
     const router = express.Router();
 
@@ -30,6 +34,19 @@ module.exports = function(formBuilder) {
             } else {
                 return [];
             }
+        }
+
+        function logValidationWarning() {
+            return (
+                form.progress.isComplete === false &&
+                form.progress.sections.every(
+                    section => section.status === 'complete'
+                ) === true
+            );
+        }
+
+        if (logValidationWarning()) {
+            logger.warn(`All sections complete but form marked as invalid`);
         }
 
         const title = copy.summary.title;
