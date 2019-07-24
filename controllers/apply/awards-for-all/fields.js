@@ -263,13 +263,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     .format('YYYY-MM-DD')
             },
             isRequired: true,
-            schema: Joi.dateParts()
-                .dob(minAge)
-                .when(Joi.ref('organisationType'), {
-                    is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
-                    then: Joi.any().strip(),
-                    otherwise: Joi.required()
-                }),
+            schema: Joi.any().when(Joi.ref('organisationType'), {
+                is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
+                then: Joi.any().strip(),
+                otherwise: Joi.dateParts()
+                    .dob(minAge)
+                    .required()
+            }),
             messages: [
                 {
                     type: 'base',
