@@ -1053,12 +1053,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
             is: 'yes',
             then: Joi.when(Joi.ref('beneficiariesGroups'), {
-                is: Joi.array().items(
-                    Joi.string()
-                        .only(match)
-                        .required(),
-                    Joi.any()
-                ),
+                is: Joi.array()
+                    .items(
+                        Joi.string()
+                            .only(match)
+                            .required(),
+                        Joi.any()
+                    )
+                    .required(),
                 then: schema,
                 otherwise: Joi.any().strip()
             }),
