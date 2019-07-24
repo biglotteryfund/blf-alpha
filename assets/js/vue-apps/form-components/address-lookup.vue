@@ -114,6 +114,11 @@
             handleFailure() {
                 // Handle case of no results for search
                 this.currentState = this.states.Failure;
+                trackEvent(
+                    'Form warning',
+                    'Postcode lookup',
+                    'Error looking up address'
+                );
                 this.clearState();
             },
             handleLookup() {
@@ -174,6 +179,11 @@
                 };
             },
             removeAddress() {
+                trackEvent(
+                    'Form warning',
+                    'Postcode lookup',
+                    'Address removed'
+                );
                 this.currentState = this.states.Asking;
                 this.clearState();
             },
@@ -187,6 +197,11 @@
                 }
             },
             enterManually() {
+                trackEvent(
+                    'Form warning',
+                    'Postcode lookup',
+                    'Enter Manually clicked'
+                );
                 this.currentState = this.states.EnteringManually;
             }
         },
