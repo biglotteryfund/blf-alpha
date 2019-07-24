@@ -1,12 +1,38 @@
 'use strict';
 const path = require('path');
 const express = require('express');
+const differenceBy = require('lodash/differenceBy');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 
 const logger = require('../../../common/logger').child({
     service: 'form-summary'
 });
+
+/**
+ * Compare the raw list of messages with the messages based on current steps\
+ * If this list is different then it suggests an error with the validation
+ * logic so we should log a warning for investigation.
+ *
+ * @param rawValidationErrors
+ * @param stepValidationErrors
+ */
+function logErrorDifference(rawValidationErrors, stepValidationErrors) {
+    const errorDifference = differenceBy(
+        rawValidationErrors,
+        stepValidationErrors,
+        item => item.param
+    );
+
+    if (errorDifference.length) {
+        errorDifference.forEach(function(item) {
+            logger.warn(
+                `${item.param} not included in step fields but failed validation`,
+                { messages: item.msg }
+            );
+        });
+    }
+}
 
 module.exports = function(formBuilder) {
     const router = express.Router();
@@ -19,35 +45,12 @@ module.exports = function(formBuilder) {
             data: currentApplicationData
         });
 
-        function errorsByStep() {
-            if (form.validation.messages.length > 0) {
-                return form.getCurrentSteps().map(function(step) {
-                    const stepFields = flatMap(step.fieldsets, 'fields');
-                    const fieldNames = stepFields.map(field => field.name);
-                    return {
-                        title: step.title,
-                        errors: form.validation.messages.filter(err =>
-                            fieldNames.includes(err.param)
-                        )
-                    };
-                });
-            } else {
-                return [];
-            }
-        }
+        const errorsByStep = form.getErrorsByStep();
 
-        function logValidationWarning() {
-            return (
-                form.progress.isComplete === false &&
-                form.progress.sections.every(
-                    section => section.status === 'complete'
-                ) === true
-            );
-        }
-
-        if (logValidationWarning()) {
-            logger.warn(`All sections complete but form marked as invalid`);
-        }
+        logErrorDifference(
+            form.validation.messages,
+            flatMap(errorsByStep, step => step.errors)
+        );
 
         const title = copy.summary.title;
         const showErrors = !!req.query['show-errors'] === true;
@@ -60,7 +63,7 @@ module.exports = function(formBuilder) {
             currentProjectName: get('projectName')(currentApplicationData),
             showErrors: showErrors,
             errors: form.validation.messages,
-            errorsByStep: errorsByStep(),
+            errorsByStep: errorsByStep,
             featuredErrors: form.validation.featuredMessages,
             expandSections: form.progress.isComplete || showErrors,
             startPathSlug: form.sections[0].slug
