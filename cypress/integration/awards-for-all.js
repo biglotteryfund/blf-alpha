@@ -35,8 +35,6 @@ describe('awards for all', function() {
             }
 
             cy.getByLabelText('Postcode').type(postcode);
-
-            cy.getByText(`I'm done editing`).click();
         }
 
         function stepProjectDetails() {

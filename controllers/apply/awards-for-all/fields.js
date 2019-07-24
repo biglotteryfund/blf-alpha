@@ -157,7 +157,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         {
                             is: 'no',
                             then: Joi.ukAddress().required(),
-                            otherwise: Joi.any()
+                            otherwise: Joi.any().strip()
                         }
                     )
                 });
