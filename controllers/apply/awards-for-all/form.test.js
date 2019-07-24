@@ -769,21 +769,21 @@ describe('Form validations', () => {
         test.each(CONTACT_EXCLUDED_TYPES)(
             'date of birth value stripped for %p',
             function(excludedOrgType) {
-                const dobWithSchool = {
+                const dobWithOrgType = {
                     organisationType: excludedOrgType,
                     [fieldName]: mockDateOfBirth(minAge, 90)
                 };
 
-                expect(testValidate(dobWithSchool).value).toEqual({
+                expect(testValidate(dobWithOrgType).value).toEqual({
                     organisationType: excludedOrgType
                 });
 
-                const invalidDobWithSchool = {
+                const invalidDobWithOrgType = {
                     organisationType: excludedOrgType,
                     [fieldName]: mockDateOfBirth(1, minAge - 1)
                 };
 
-                expect(testValidate(invalidDobWithSchool).value).toEqual({
+                expect(testValidate(invalidDobWithOrgType).value).toEqual({
                     organisationType: excludedOrgType
                 });
 
@@ -840,12 +840,25 @@ describe('Form validations', () => {
         test.each(CONTACT_EXCLUDED_TYPES)(
             'address value stripped for %p',
             function(excludedOrgType) {
-                expect(
-                    testValidate({
-                        organisationType: excludedOrgType,
-                        [fieldName]: mockAddress()
-                    }).value
-                ).toEqual({
+                const validAddressWithOrgType = {
+                    organisationType: excludedOrgType,
+                    [fieldName]: mockAddress()
+                };
+
+                expect(testValidate(validAddressWithOrgType).value).toEqual({
+                    organisationType: excludedOrgType
+                });
+
+                const invalidAddressWithOrgType = {
+                    organisationType: excludedOrgType,
+                    [fieldName]: {
+                        line1: faker.address.streetAddress(),
+                        townCity: faker.address.city(),
+                        county: faker.address.county()
+                    }
+                };
+
+                expect(testValidate(invalidAddressWithOrgType).value).toEqual({
                     organisationType: excludedOrgType
                 });
 
