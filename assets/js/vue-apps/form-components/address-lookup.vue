@@ -13,7 +13,8 @@
         Asking: 'Asking',
         Loading: 'Loading',
         Failure: 'Failure',
-        Success: 'Success'
+        Success: 'Success',
+        EnteringManually: 'EnteringManually'
     };
 
     export default {
@@ -184,6 +185,9 @@
                         this.fullAddress = this.formatAddress(address);
                     }
                 }
+            },
+            enterManually() {
+                this.currentState = this.states.EnteringManually;
             }
         },
         computed: {
@@ -194,6 +198,13 @@
                     this.currentState === this.states.Success ||
                     this.currentState === this.states.Loading
                 );
+            },
+            shouldShowInputFields() {
+                return (
+                    this.currentState === states.AlreadyAnswered ||
+                    this.currentState === states.Failure ||
+                    this.currentState === states.EnteringManually
+                )
             },
             formIsValid() {
                 const VALIDATION_REGEX = /^[a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}$/i;
@@ -258,7 +269,16 @@
                 >
                     {{ lookupLabel }}
                 </button>
+
             </div>
+
+            <button
+                type="button"
+                class="btn-link u-margin-top-s"
+                @click="enterManually"
+            >
+                Enter address manually
+            </button>
 
             <div
                 class="address-lookup__candidates"
@@ -294,8 +314,7 @@
             There was an error finding your address - please provide it below.
         </p>
 
-        <div class="existing-data"
-             v-if="currentState === states.AlreadyAnswered || currentState === states.Failure">
+        <div class="existing-data" v-if="shouldShowInputFields">
             <AddressLine
                 :name="fieldName + '[line1]'"
                 label="Building and street"
