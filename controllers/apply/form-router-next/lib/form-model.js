@@ -212,6 +212,25 @@ class FormModel {
         return flatMap(step.fieldsets, 'fields');
     }
 
+    getErrorsByStep() {
+        const allMessages = this.validation.messages;
+        if (allMessages.length > 0) {
+            return this.getCurrentSteps().map(function(step) {
+                const fields = flatMap(step.fieldsets, 'fields');
+                const fieldNames = fields.map(field => field.name);
+
+                return {
+                    title: step.title,
+                    errors: allMessages.filter(err =>
+                        fieldNames.includes(err.param)
+                    )
+                };
+            });
+        } else {
+            return [];
+        }
+    }
+
     previousSection(sectionSlug) {
         const currentSectionIndex = findIndex(
             this.sections,
