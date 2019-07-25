@@ -997,6 +997,7 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
             'mainContactPhone'
         ],
         summary: summary(),
+        schemaVersion: 'v1.0',
         forSalesforce: forSalesforce,
         sections: [
             {

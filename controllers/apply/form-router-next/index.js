@@ -346,6 +346,7 @@ function initFormRouter({
                     application: form.forSalesforce(),
                     meta: {
                         form: formId,
+                        schemaVersion: form.schemaVersion,
                         environment: appData.environment,
                         commitId: appData.commitId,
                         username: req.user.userData.username,
