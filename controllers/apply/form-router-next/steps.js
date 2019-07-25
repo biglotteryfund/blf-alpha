@@ -2,6 +2,7 @@
 const path = require('path');
 const express = require('express');
 const findIndex = require('lodash/findIndex');
+const includes = require('lodash/includes');
 const omit = require('lodash/omit');
 const Sentry = require('@sentry/node');
 
@@ -149,12 +150,29 @@ module.exports = function(formId, formBuilder) {
             );
 
             try {
+                let dataToStore = validationResult.value;
+
+                // Determine whether there were any uploaded files with errors
+                // and if so, remove them from the data object before storage
+                // so we don't record an invalid file in the database
+                if (errorsForStep.length > 0) {
+                    const uploadedFieldNamesWithErrors = Object.keys(
+                        preparedFiles.valuesByField
+                    ).filter(fieldName =>
+                        includes(errorsForStep.map(e => e.param), fieldName)
+                    );
+                    dataToStore = omit(
+                        dataToStore,
+                        uploadedFieldNamesWithErrors
+                    );
+                }
+
                 /**
                  * Store the form's current state (errors and all) in the database
                  */
                 await PendingApplication.saveApplicationState(
                     currentlyEditingId,
-                    validationResult.value
+                    dataToStore
                 );
 
                 /**
