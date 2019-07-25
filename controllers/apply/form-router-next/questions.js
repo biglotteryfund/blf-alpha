@@ -19,6 +19,8 @@ module.exports = function(formId, formBuilder, eligibilityBuilder) {
             locale: req.i18n.getLocale()
         });
 
+        res.locals.enableSiteSurvey = true;
+
         const output = {
             templates: {
                 html: path.resolve(__dirname, './views/questions-html.njk'),
