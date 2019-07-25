@@ -40,8 +40,7 @@ module.exports = function(formId) {
                     req.params.applicationId,
                     req.user.userData.id
                 );
-
-                res.redirect(res.locals.formBaseUrl);
+                res.redirect(res.locals.formBaseUrl + '?s=applicationDeleted');
             } catch (error) {
                 next(error);
             }

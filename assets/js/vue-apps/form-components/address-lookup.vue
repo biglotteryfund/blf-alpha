@@ -3,7 +3,7 @@
     import compact from 'lodash/compact';
 
     import AddressLine from './address-line.vue';
-    import { trackEvent } from '../../helpers/metrics';
+    import { trackEvent, tagHotjarRecording } from '../../helpers/metrics';
 
     const states = {
         NotAsked: 'NotAsked',
@@ -46,6 +46,9 @@
         },
         mounted() {
             this.$root.$on('update:conditionalRadio', value => {
+                if (value === 'no') {
+                    tagHotjarRecording(['Apply: AFA: Contacts: User needs address history']);
+                }
                 if (value === 'yes') {
                     this.currentState = states.NotRequired;
                 } else if (this.fullAddress.postcode !== null) {
@@ -119,6 +122,7 @@
                     'Postcode lookup',
                     'Error looking up address'
                 );
+                tagHotjarRecording(['Apply: AFA: Org Details: Unable to find address']);
                 this.clearState();
             },
             handleLookup() {
@@ -297,7 +301,7 @@
                 class="address-lookup__candidates"
                 v-if="candidates.length > 0"
             >
-                <label for="address-selection" class="ff-label" data-hj-suppress>
+                <label for="address-selection" class="ff-label">
                     Select an address
                 </label>
                 <!-- We use @blur here to avoid Win/Chrome bug where keypresses trigger a change on the first item-->
@@ -308,6 +312,7 @@
                     :disabled="currentState === states.Loading"
                     :required="shouldShowPostcodeLookup"
                     @blur="setSelectedAddress"
+                    data-hj-suppress
                 >
                     <option disabled value="">
                         {{ candidates.length }} addresses found
@@ -316,6 +321,7 @@
                         v-for="option in candidates"
                         :value="option.value"
                         :key="option.value"
+                        data-hj-suppress
                     >
                         {{ option.label }}
                     </option>

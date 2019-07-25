@@ -4,6 +4,7 @@ const express = require('express');
 const differenceBy = require('lodash/differenceBy');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
+const concat = require('lodash/concat');
 
 const logger = require('../../../common/logger').child({
     service: 'form-summary'
@@ -55,6 +56,26 @@ module.exports = function(formBuilder) {
         const title = copy.summary.title;
         const showErrors = !!req.query['show-errors'] === true;
 
+        if (showErrors) {
+            res.locals.hotJarTagList = [
+                'Apply: AFA: Summary: User clicked Submit early'
+            ];
+        }
+
+        const featuredErrors = form.validation.featuredMessages;
+
+        if (featuredErrors.length > 0) {
+            const msg = ['Apply: AFA: Summary: User shown soft warnings'];
+            if (res.locals.hotJarTagList) {
+                res.locals.hotJarTagList = concat(
+                    res.locals.hotJarTagList,
+                    msg
+                );
+            } else {
+                res.locals.hotJarTagList = msg;
+            }
+        }
+
         res.render(path.resolve(__dirname, './views/summary'), {
             form: form,
             csrfToken: req.csrfToken(),
@@ -64,7 +85,7 @@ module.exports = function(formBuilder) {
             showErrors: showErrors,
             errors: form.validation.messages,
             errorsByStep: errorsByStep,
-            featuredErrors: form.validation.featuredMessages,
+            featuredErrors: featuredErrors,
             expandSections: form.progress.isComplete || showErrors,
             startPathSlug: form.sections[0].slug
         });

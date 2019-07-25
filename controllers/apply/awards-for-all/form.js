@@ -628,7 +628,7 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
                         );
                         const seniorName =
                             seniorFirstName && seniorSurname
-                                ? safeHtml`, <strong>${seniorFirstName} ${seniorSurname}</strong>`
+                                ? safeHtml`, <strong data-hj-suppress>${seniorFirstName} ${seniorSurname}</strong>`
                                 : '';
 
                         return localise({

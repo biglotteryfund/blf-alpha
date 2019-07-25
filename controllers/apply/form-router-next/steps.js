@@ -67,6 +67,9 @@ module.exports = function(formId, formBuilder) {
                              * Log validation errors along with section and step metadata
                              */
                             if (errors.length > 0) {
+                                res.locals.hotJarTagList = [
+                                    'App: User shown form error after submitting'
+                                ];
                                 errors.forEach(item => {
                                     logger.info(item.msg, {
                                         service: 'step-validations',

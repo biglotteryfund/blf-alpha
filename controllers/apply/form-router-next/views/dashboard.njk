@@ -126,6 +126,12 @@
 
             {{ userStatus(user) }}
 
+            {% if alertMessage %}
+                <div class="message" role="alert">
+                    {{ alertMessage }}
+                </div>
+            {% endif %}
+
             <div class="s-prose">
                 <h1 class="t--underline">{{ copy.dashboard.title }}</h1>
                 {{ __(copy.dashboard.introduction, '#new', formBaseUrl + '/questions') | safe }}

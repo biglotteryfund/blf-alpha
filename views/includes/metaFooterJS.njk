@@ -8,6 +8,9 @@
         var isDoNotTrack = window.doNotTrack === '1' || window.navigator.doNotTrack === '1' || window.navigator.msDoNotTrack === '1';
 
         if (hotjarId && isDoNotTrack === false) {
+            // Pre-init Hotjar so we can tag pages before its library loads
+            window.hj=window.hj||function(){(hj.q=hj.q||[]).push(arguments)};
+
             (function(h, o, t, j, a, r) {
                 h.hj =
                     h.hj ||
@@ -21,6 +24,9 @@
                 r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
                 a.appendChild(r);
             })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
+            {% if hotJarTagList %}
+                hj('tagRecording', {{ hotJarTagList | dump | safe }});
+            {% endif %}
         }
     </script>
 {% endif %}

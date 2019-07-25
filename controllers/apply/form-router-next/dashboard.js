@@ -63,6 +63,13 @@ module.exports = function(formId, formBuilder) {
                 }
             ];
 
+            if (req.query.s === 'applicationDeleted') {
+                res.locals.alertMessage = res.locals.copy.delete.success;
+                res.locals.hotJarTagList = [
+                    'Apply: AFA: User deleted an application'
+                ];
+            }
+
             res.render(path.resolve(__dirname, './views/dashboard'), {
                 title: res.locals.formTitle,
                 pendingApplications: pendingApplications.map(

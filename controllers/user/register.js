@@ -124,6 +124,15 @@ router
              * Log validation errors
              */
             if (validationResult.messages.length > 0) {
+                const hasPasswordIssue = validationResult.messages.some(
+                    _ => _.param === 'password'
+                );
+                if (hasPasswordIssue) {
+                    res.locals.hotJarTagList = [
+                        'User: Error on password creation'
+                    ];
+                }
+
                 validationResult.messages.forEach(item => {
                     logger.info(item.msg, { type: item.type });
                 });
