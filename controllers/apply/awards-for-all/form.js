@@ -27,7 +27,11 @@ const terms = require('./terms');
 const { isTestServer } = require('../../../common/appData');
 const checkBankApi = require('../../../common/bank-api');
 
-module.exports = function({ locale, data = {}, showAllFields = false }) {
+module.exports = function({
+    locale = 'en',
+    data = {},
+    showAllFields = false
+} = {}) {
     const localise = get(locale);
 
     const conditionalFields = (fields, filteredFields) => {
