@@ -434,16 +434,12 @@ describe('awards for all', function() {
             });
         }
 
-        function fillDateOfBirth(minAge) {
+        function fillDateOfBirth(dateOfBirth) {
             cy.queryByText('Date of birth', { timeout: 1000 }).then(el => {
                 if (el) {
-                    const randomDob = moment().subtract(
-                        random(minAge, 90),
-                        'years'
-                    );
-                    cy.getByLabelText('Day').type(randomDob.date());
-                    cy.getByLabelText('Month').type(randomDob.month() + 1);
-                    cy.getByLabelText('Year').type(randomDob.year());
+                    cy.getByLabelText('Day').type(dateOfBirth.date());
+                    cy.getByLabelText('Month').type(dateOfBirth.month() + 1);
+                    cy.getByLabelText('Year').type(dateOfBirth.year());
                 }
             });
         }
@@ -483,16 +479,12 @@ describe('awards for all', function() {
             });
         }
 
-        function sectionSeniorContact(contact) {
-            cy.checkA11y();
-
+        function fillContact(contact) {
             cy.getByLabelText('First name').type(contact.firstName);
 
             cy.getByLabelText('Last name').type(contact.lastName);
 
-            cy.get('label[for="field-seniorContactRole-1"]').click();
-
-            fillDateOfBirth(18);
+            fillDateOfBirth(contact.dateOfBirth);
 
             fillHomeAddress(contact.address);
 
@@ -504,28 +496,22 @@ describe('awards for all', function() {
                 faker.phone.phoneNumber()
             );
 
+            cy.getByLabelText(
+                'tell us about any particular communication needs',
+                { exact: false }
+            ).type('Example communication need');
+        }
+
+        function sectionSeniorContact(contact) {
+            cy.checkA11y();
+            cy.get('label[for="field-seniorContactRole-1"]').click();
+            fillContact(contact);
             submitStep();
         }
 
         function sectionMainContact(contact) {
             cy.checkA11y();
-
-            cy.getByLabelText('First name').type(contact.firstName);
-
-            cy.getByLabelText('Last name').type(contact.lastName);
-
-            fillDateOfBirth(16);
-
-            fillHomeAddress(contact.address);
-
-            cy.getByLabelText('Email').type(
-                contact.email || faker.internet.exampleEmail()
-            );
-
-            cy.getByLabelText('Telephone number').type(
-                faker.phone.phoneNumber()
-            );
-
+            fillContact(contact);
             submitStep();
         }
 
@@ -608,6 +594,7 @@ describe('awards for all', function() {
                 firstName: faker.name.firstName(),
                 lastName: faker.name.lastName(),
                 email: Cypress.env('afa_senior_contact_email'),
+                dateOfBirth: moment().subtract(random(16, 90), 'years'),
                 address: {
                     streetAddress: `The Bar, 2 St James' Blvd`,
                     city: 'Newcastle',
@@ -619,6 +606,7 @@ describe('awards for all', function() {
                 firstName: faker.name.firstName(),
                 lastName: faker.name.lastName(),
                 email: Cypress.env('afa_main_contact_email'),
+                dateOfBirth: moment().subtract(random(18, 90), 'years'),
                 address: {
                     streetAddress: 'Pacific House, 70 Wellington St',
                     city: 'Glasgow',
