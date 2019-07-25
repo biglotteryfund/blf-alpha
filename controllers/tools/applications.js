@@ -13,6 +13,8 @@ const times = require('lodash/times');
 
 const { PendingApplication, SubmittedApplication } = require('../../db/models');
 const { getDateRange } = require('./helpers');
+const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
+
 
 const router = express.Router();
 
@@ -142,6 +144,19 @@ function getColourForCountry(countryName) {
     return colour;
 }
 
+function getDataStudioUrlForForm(formId) {
+    let url;
+    switch (formId) {
+        case 'awards-for-all':
+            url = DATA_STUDIO_AFA_URL;
+            break;
+        default:
+            url = null;
+            break;
+    }
+    return url;
+}
+
 function addCountry(row) {
     // Convert Sequelize instance into a plain object so we can modify it
     const data = row.get({
@@ -159,6 +174,7 @@ router.get('/:applicationId', async (req, res, next) => {
         const country = req.query.country;
         const countryTitle = country ? titleCase(country) : false;
         const applicationTitle = titleCase(req.params.applicationId);
+        const dataStudioUrl = getDataStudioUrlForForm(req.params.applicationId)
 
         const getApplications = async appType => {
             const applications =
@@ -288,7 +304,8 @@ router.get('/:applicationId', async (req, res, next) => {
             statistics: statistics,
             dateRange: dateRange,
             country: country,
-            countryTitle: countryTitle
+            countryTitle: countryTitle,
+            dataStudioUrl: dataStudioUrl
         });
     } catch (error) {
         next(error);
