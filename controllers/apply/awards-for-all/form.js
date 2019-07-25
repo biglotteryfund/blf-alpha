@@ -1,6 +1,7 @@
 'use strict';
 const Sentry = require('@sentry/node');
 const clone = require('lodash/clone');
+const concat = require('lodash/concat');
 const compact = require('lodash/compact');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
@@ -14,7 +15,10 @@ const { formatDateRange } = require('../form-router-next/lib/formatters');
 const {
     BENEFICIARY_GROUPS,
     CONTACT_EXCLUDED_TYPES,
-    ORGANISATION_TYPES
+    ORGANISATION_TYPES,
+    COMPANY_NUMBER_TYPES,
+    CHARITY_NUMBER_TYPES,
+    EDUCATION_NUMBER_TYPES
 } = require('./constants');
 
 const fieldsFor = require('./fields');
@@ -469,21 +473,18 @@ module.exports = function({ locale, data = {}, showAllFields = false }) {
      * charity number, and/or department for education number.
      */
     function stepRegistrationNumbers() {
-        const includeCompanyNumber = [
-            ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-        ].includes(currentOrganisationType);
+        const includeCompanyNumber = COMPANY_NUMBER_TYPES.includes(
+            currentOrganisationType
+        );
 
-        const includeCharityNumber = [
-            ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-            ORGANISATION_TYPES.CIO,
-            ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
-            ORGANISATION_TYPES.FAITH_GROUP
-        ].includes(currentOrganisationType);
+        const includeCharityNumber = concat(
+            CHARITY_NUMBER_TYPES.required,
+            CHARITY_NUMBER_TYPES.optional
+        ).includes(currentOrganisationType);
 
-        const includeEducationNumber = [
-            ORGANISATION_TYPES.SCHOOL,
-            ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY
-        ].includes(currentOrganisationType);
+        const includeEducationNumber = EDUCATION_NUMBER_TYPES.includes(
+            currentOrganisationType
+        );
 
         return {
             title: localise({ en: 'Registration numbers', cy: '' }),
