@@ -1,6 +1,11 @@
+{# @TODO i18n #}
 {% macro fieldTypeHelpText(field, step) %}
     {% if field.type === 'checkbox' %}
-        Choose as many options as you like from a selection
+        {% if field.options.length === 1 %}
+            Confirm the following criteria
+        {% else %}
+            Choose as many options as you like from a selection
+        {% endif %}
     {% elseif field.type === 'radio' or field.type === 'select' %}
         Pick one option from a selection
     {% elseif field.type === 'budget' %}
