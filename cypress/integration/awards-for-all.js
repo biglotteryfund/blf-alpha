@@ -11,8 +11,6 @@ describe('awards for all', function() {
     it('should submit full awards for all application', () => {
         const country = 'Scotland';
 
-        cy.log(`Country: ${country}`);
-
         function shouldDisplayErrors(errorDescriptions = []) {
             errorDescriptions.forEach(description => {
                 cy.getByTestId('form-errors').should('contain', description);
@@ -35,8 +33,19 @@ describe('awards for all', function() {
             }
 
             cy.getByLabelText('Postcode').type(postcode);
+        }
 
-            cy.getByText(`I'm done editing`).click();
+        function startApplication() {
+            cy.getByText('Start new application').click();
+            times(5, function() {
+                cy.getByLabelText('Yes').click();
+                cy.getByText('Continue').click();
+            });
+            cy.getByText('Start your application').click();
+
+            cy.getAllByText('Start your application')
+                .first()
+                .click();
         }
 
         function stepProjectDetails() {
@@ -411,8 +420,8 @@ describe('awards for all', function() {
             }).then(el => {
                 if (el) {
                     cy.checkA11y();
-                    cy.getByLabelText('Day').type(31);
-                    cy.getByLabelText('Month').type(3);
+                    cy.getByLabelText('Day').type(random(1, 28).toString());
+                    cy.getByLabelText('Month').type(random(1, 12).toString());
                     cy.getByLabelText(
                         'What is your total income for the year?',
                         {
@@ -474,56 +483,49 @@ describe('awards for all', function() {
             });
         }
 
-        function sectionSeniorContact() {
+        function sectionSeniorContact(contact) {
             cy.checkA11y();
-            cy.getByLabelText('First name', { exact: false }).type(
-                faker.name.firstName()
-            );
-            cy.getByLabelText('Last name', { exact: false }).type(
-                faker.name.lastName()
-            );
+
+            cy.getByLabelText('First name').type(contact.firstName);
+
+            cy.getByLabelText('Last name').type(contact.lastName);
 
             cy.get('label[for="field-seniorContactRole-1"]').click();
 
             fillDateOfBirth(18);
-            fillHomeAddress({
-                streetAddress: 'Pacific House, 70 Wellington St',
-                city: 'Glasgow',
-                postcode: 'G2 6UA'
-            });
 
-            cy.getByLabelText('Email', { exact: false }).type(
-                faker.internet.exampleEmail()
+            fillHomeAddress(contact.address);
+
+            cy.getByLabelText('Email').type(
+                contact.email || faker.internet.exampleEmail()
             );
 
-            cy.getByLabelText('Telephone number', { exact: false }).type(
+            cy.getByLabelText('Telephone number').type(
                 faker.phone.phoneNumber()
             );
+
             submitStep();
         }
 
-        function sectionMainContact() {
+        function sectionMainContact(contact) {
             cy.checkA11y();
-            cy.getByLabelText('First name', { exact: false }).type(
-                faker.name.firstName()
-            );
-            cy.getByLabelText('Last name', { exact: false }).type(
-                faker.name.lastName()
-            );
+
+            cy.getByLabelText('First name').type(contact.firstName);
+
+            cy.getByLabelText('Last name').type(contact.lastName);
 
             fillDateOfBirth(16);
-            fillHomeAddress({
-                streetAddress: `The Bar, 2 St James' Blvd`,
-                city: 'Newcastle',
-                postcode: 'NE4 7JH'
-            });
 
-            cy.getByLabelText('Email', { exact: false }).type(
-                faker.internet.exampleEmail()
+            fillHomeAddress(contact.address);
+
+            cy.getByLabelText('Email').type(
+                contact.email || faker.internet.exampleEmail()
             );
-            cy.getByLabelText('Telephone number', { exact: false }).type(
+
+            cy.getByLabelText('Telephone number').type(
                 faker.phone.phoneNumber()
             );
+
             submitStep();
         }
 
@@ -579,35 +581,7 @@ describe('awards for all', function() {
             submitStep();
         }
 
-        cy.seedAndLogin().then(() => {
-            cy.visit('/apply/awards-for-all');
-
-            cy.get('.cookie-consent button').click();
-
-            cy.getByText('Start new application').click();
-            times(5, function() {
-                cy.getByLabelText('Yes').click();
-                cy.getByText('Continue').click();
-            });
-            cy.getByText('Start your application').click();
-
-            cy.getAllByText('Start your application')
-                .first()
-                .click();
-
-            const organisationName = faker.company.companyName();
-
-            sectionYourProject();
-            sectionBeneficiaries();
-            sectionOrganisation(organisationName);
-
-            sectionSeniorContact();
-            sectionMainContact();
-            sectionBankDetails(organisationName);
-            sectionTermsAndConditions();
-
-            cy.checkA11y();
-            cy.get('h1').should('contain', 'Summary');
+        function submitApplication() {
             cy.getAllByText('Submit application')
                 .first()
                 .click();
@@ -616,6 +590,49 @@ describe('awards for all', function() {
                 'contain',
                 'Your application has been submitted. Good luck!'
             );
+        }
+
+        cy.seedAndLogin().then(() => {
+            cy.visit('/apply/awards-for-all');
+
+            cy.get('.cookie-consent button').click();
+            startApplication();
+
+            const organisationName = faker.company.companyName();
+
+            sectionYourProject();
+            sectionBeneficiaries();
+            sectionOrganisation(organisationName);
+
+            sectionSeniorContact({
+                firstName: faker.name.firstName(),
+                lastName: faker.name.lastName(),
+                email: Cypress.env('afa_senior_contact_email'),
+                address: {
+                    streetAddress: `The Bar, 2 St James' Blvd`,
+                    city: 'Newcastle',
+                    postcode: 'NE4 7JH'
+                }
+            });
+
+            sectionMainContact({
+                firstName: faker.name.firstName(),
+                lastName: faker.name.lastName(),
+                email: Cypress.env('afa_main_contact_email'),
+                address: {
+                    streetAddress: 'Pacific House, 70 Wellington St',
+                    city: 'Glasgow',
+                    postcode: 'G2 6UA'
+                }
+            });
+
+            sectionBankDetails(organisationName);
+            sectionTermsAndConditions();
+
+            cy.checkA11y();
+            cy.get('h1').should('contain', 'Summary');
+
+            submitApplication();
         });
     });
 });

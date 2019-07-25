@@ -1,8 +1,8 @@
+*.iml
 .css.map
 .DS_Store
 .env
 .idea
-*.iml
 .map
 .vscode/
 always_restart.txt
@@ -10,6 +10,7 @@ assets.json
 config/app/server-dev.conf
 config/cloudfront/backup/
 coverage/
+cypress.env.json
 cypress/screenshots
 cypress/videos
 deploy.json

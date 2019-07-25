@@ -36,6 +36,41 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             .single();
     }
 
+    function conditionalBeneficiaryChoice({ match, schema }) {
+        return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
+            is: 'yes',
+            then: Joi.when(Joi.ref('beneficiariesGroups'), {
+                is: Joi.array()
+                    .items(
+                        Joi.string()
+                            .only(match)
+                            .required(),
+                        Joi.any()
+                    )
+                    .required(),
+                then: schema,
+                otherwise: Joi.any().strip()
+            }),
+            otherwise: Joi.any().strip()
+        });
+    }
+
+    function stripIfExcludedOrgType(schema) {
+        return Joi.when(Joi.ref('organisationType'), {
+            is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
+            then: Joi.any().strip(),
+            otherwise: schema
+        });
+    }
+
+    function stripUnlessOrgTypes(types, schema) {
+        return Joi.when(Joi.ref('organisationType'), {
+            is: Joi.exist().valid(types),
+            then: schema,
+            otherwise: Joi.any().strip()
+        });
+    }
+
     function emailField(props, additionalMessages = []) {
         const defaultProps = {
             label: localise({ en: 'Email', cy: '' }),
@@ -147,8 +182,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         const defaultProps = {
             type: 'address-history',
             isRequired: true,
-            get schema() {
-                const addressHistorySchema = Joi.object({
+            schema: stripIfExcludedOrgType(
+                Joi.object({
                     currentAddressMeetsMinimum: Joi.string()
                         .valid(['yes', 'no'])
                         .required(),
@@ -157,17 +192,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         {
                             is: 'no',
                             then: Joi.ukAddress().required(),
-                            otherwise: Joi.any()
+                            otherwise: Joi.any().strip()
                         }
                     )
-                });
-
-                return Joi.when(Joi.ref('organisationType'), {
-                    is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
-                    then: Joi.any().strip(),
-                    otherwise: addressHistorySchema.required()
-                });
-            },
+                }).required()
+            ),
             messages: [
                 {
                     type: 'base',
@@ -263,13 +292,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     .format('YYYY-MM-DD')
             },
             isRequired: true,
-            schema: Joi.dateParts()
-                .dob(minAge)
-                .when(Joi.ref('organisationType'), {
-                    is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
-                    then: Joi.any().strip(),
-                    otherwise: Joi.required()
-                }),
+            schema: stripIfExcludedOrgType(
+                Joi.dateParts()
+                    .dob(minAge)
+                    .required()
+            ),
             messages: [
                 {
                     type: 'base',
@@ -778,6 +805,86 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
     }
 
+    function fieldCompanyNumber() {
+        const requiredOrgTypes = [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY];
+
+        return {
+            name: 'companyNumber',
+            label: localise({ en: 'Companies House number', cy: '' }),
+            type: 'text',
+            isRequired: true,
+            schema: stripUnlessOrgTypes(
+                requiredOrgTypes,
+                Joi.string().required()
+            ),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter your organisation’s Companies House number',
+                        cy: ''
+                    })
+                }
+            ]
+        };
+    }
+
+    function fieldCharityNumber() {
+        const requiredOrgTypes = [
+            ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
+            ORGANISATION_TYPES.CIO
+        ];
+
+        return {
+            name: 'charityNumber',
+            label: localise({ en: 'Charity registration number', cy: '' }),
+            type: 'text',
+            attributes: { size: 20 },
+            isRequired: requiredOrgTypes.includes(currentOrganisationType),
+            schema: stripUnlessOrgTypes(
+                requiredOrgTypes,
+                Joi.string().required()
+            ),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter your organisation’s charity number',
+                        cy: ''
+                    })
+                }
+            ]
+        };
+    }
+
+    function fieldEducationNumber() {
+        const requiredOrgTypes = [
+            ORGANISATION_TYPES.SCHOOL,
+            ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY
+        ];
+
+        return {
+            name: 'educationNumber',
+            label: localise({ en: 'Department for Education number', cy: '' }),
+            type: 'text',
+            attributes: { size: 20 },
+            isRequired: true,
+            schema: stripUnlessOrgTypes(
+                requiredOrgTypes,
+                Joi.string().required()
+            ),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Enter your organisation’s Department for Education number`,
+                        cy: ''
+                    })
+                }
+            ]
+        };
+    }
+
     function fieldSeniorContactRole() {
         function rolesFor(organisationType, organisationSubType) {
             const ROLES = {
@@ -1049,23 +1156,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
     }
 
-    function conditionalBeneficiaryChoice({ match, schema }) {
-        return Joi.when(Joi.ref('beneficiariesGroupsCheck'), {
-            is: 'yes',
-            then: Joi.when(Joi.ref('beneficiariesGroups'), {
-                is: Joi.array().items(
-                    Joi.string()
-                        .only(match)
-                        .required(),
-                    Joi.any()
-                ),
-                then: schema,
-                otherwise: Joi.any().strip()
-            }),
-            otherwise: Joi.any().strip()
-        });
-    }
-
     return {
         projectName: {
             name: 'projectName',
@@ -1189,15 +1279,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             },
             isRequired: true,
             get schema() {
-                return (
-                    Joi.budgetItems()
-                        .max(this.attributes.rowLimit)
-                        .validBudgetRange(
-                            MIN_BUDGET_TOTAL_GBP,
-                            MAX_BUDGET_TOTAL_GBP
-                        )
-                        .required()
-                );
+                return Joi.budgetItems()
+                    .max(this.attributes.rowLimit)
+                    .validBudgetRange(
+                        MIN_BUDGET_TOTAL_GBP,
+                        MAX_BUDGET_TOTAL_GBP
+                    )
+                    .required();
             },
             get messages() {
                 return [
@@ -1399,7 +1487,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             get schema() {
                 return Joi.when('beneficiariesGroupsCheck', {
                     is: 'yes',
-                    then: multiChoice(this.options).required(),
+                    then: multiChoice(this.options)
+                        .required()
+                        .when('beneficiariesGroupsOther', {
+                            is: Joi.string().required(),
+                            then: Joi.optional()
+                        }),
                     otherwise: Joi.any().strip()
                 });
             },
@@ -1422,9 +1515,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'text',
             isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .optional(),
+            schema: Joi.when('beneficiariesGroupsCheck', {
+                is: 'yes',
+                then: Joi.string()
+                    .allow('')
+                    .optional(),
+                otherwise: Joi.any().strip()
+            }),
             messages: []
         },
         beneficiariesEthnicBackground: {
@@ -2010,75 +2107,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        companyNumber: {
-            name: 'companyNumber',
-            label: localise({ en: 'Companies House number', cy: '' }),
-            type: 'text',
-            isRequired: true,
-            schema: Joi.when('organisationType', {
-                is: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
-                then: Joi.string().required(),
-                otherwise: Joi.any().strip()
-            }),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter your organisation’s Companies House number',
-                        cy: ''
-                    })
-                }
-            ]
-        },
-        charityNumber: {
-            name: 'charityNumber',
-            label: localise({ en: 'Charity registration number', cy: '' }),
-            type: 'text',
-            attributes: { size: 20 },
-            isRequired: [
-                ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                ORGANISATION_TYPES.CIO
-            ].includes(currentOrganisationType),
-            schema: Joi.when('organisationType', {
-                is: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                then: Joi.string().required()
-            }).when('organisationType', {
-                is: ORGANISATION_TYPES.CIO,
-                then: Joi.string().required()
-            }),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter your organisation’s charity number',
-                        cy: ''
-                    })
-                }
-            ]
-        },
-        educationNumber: {
-            name: 'educationNumber',
-            label: localise({ en: 'Department for Education number', cy: '' }),
-            type: 'text',
-            attributes: { size: 20 },
-            isRequired: true,
-            schema: Joi.when('organisationType', {
-                is: Joi.exist().valid(
-                    ORGANISATION_TYPES.SCHOOL,
-                    ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY
-                ),
-                then: Joi.string().required()
-            }),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: `Enter your organisation’s Department for Education number`,
-                        cy: ''
-                    })
-                }
-            ]
-        },
+        companyNumber: fieldCompanyNumber(),
+        charityNumber: fieldCharityNumber(),
+        educationNumber: fieldEducationNumber(),
         accountingYearDate: {
             name: 'accountingYearDate',
             label: localise({
@@ -2213,12 +2244,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've entered it right. If you don't, it could delay your application.`,
                     cy: ''
                 }),
-                schema: Joi.ukAddress()
-                    .mainContact()
-                    .when(Joi.ref('organisationType'), {
-                        is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
-                        then: Joi.any().strip()
-                    })
+                schema: stripIfExcludedOrgType(Joi.ukAddress().mainContact())
             },
             [
                 {
@@ -2312,12 +2338,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've entered it right. If you don't, it could delay your application.`,
                     cy: ''
                 }),
-                schema: Joi.ukAddress()
-                    .seniorContact()
-                    .when(Joi.ref('organisationType'), {
-                        is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
-                        then: Joi.any().strip()
-                    })
+                schema: stripIfExcludedOrgType(Joi.ukAddress().seniorContact())
             },
             [
                 {

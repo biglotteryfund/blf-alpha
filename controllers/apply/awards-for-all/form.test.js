@@ -52,6 +52,20 @@ function mockBudget() {
     });
 }
 
+function mockBeneficiaries(checkAnswer = 'yes') {
+    return {
+        beneficiariesGroupsCheck: checkAnswer,
+        beneficiariesGroups: Object.values(BENEFICIARY_GROUPS),
+        beneficiariesGroupsOther: 'Other value',
+        beneficiariesGroupsEthnicBackground: ['african', 'caribbean'],
+        beneficiariesGroupsGender: ['non-binary'],
+        beneficiariesGroupsAge: ['0-12', '13-24'],
+        beneficiariesGroupsDisabledPeople: ['sensory'],
+        beneficiariesGroupsReligion: ['sikh'],
+        beneficiariesGroupsReligionOther: undefined
+    };
+}
+
 function mockFullForm({
     country = 'scotland',
     organisationType,
@@ -358,34 +372,18 @@ describe('Form validations', () => {
             });
         });
 
-        test('require beneficiaries groups if check question was yes', () => {
-            assertValidByKey({
-                beneficiariesGroupsCheck: 'no',
-                beneficiariesGroups: null,
-                beneficiariesGroupsOther: null,
-                beneficiariesGroupsEthnicBackground: null,
-                beneficiariesGroupsGender: null,
-                beneficiariesGroupsAge: null,
-                beneficiariesGroupsDisabledPeople: null,
-                beneficiariesGroupsReligion: null,
-                beneficiariesGroupsReligionOther: null
-            });
-
+        test('require beneficiary groups when check is "yes"', () => {
             assertMessagesByKey(
                 {
                     beneficiariesGroupsCheck: 'yes',
                     beneficiariesGroups: null,
-                    beneficiariesGroupsOther: null,
-                    beneficiariesGroupsEthnicBackground: null,
-                    beneficiariesGroupsGender: null,
-                    beneficiariesGroupsAge: null,
-                    beneficiariesGroupsDisabledPeople: null,
-                    beneficiariesGroupsReligion: null,
-                    beneficiariesGroupsReligionOther: null
+                    beneficiariesGroupsOther: null
                 },
                 [expect.stringContaining('Select the specific group')]
             );
+        });
 
+        test('require additional beneficiary questions based on groups', () => {
             assertMessagesByKey(
                 {
                     beneficiariesGroupsCheck: 'yes',
@@ -406,6 +404,30 @@ describe('Form validations', () => {
                     expect.stringContaining('Select the religion')
                 ]
             );
+        });
+
+        test('strip beneficiary data when check is "no"', () => {
+            assertValidByKey(mockBeneficiaries('no'));
+            expect(testValidate(mockBeneficiaries('no')).value).toEqual({
+                beneficiariesGroupsCheck: 'no'
+            });
+        });
+
+        test('allow only "other" option for beneficiary groups', () => {
+            assertValidByKey(mockBeneficiaries('yes'));
+
+            assertValidByKey({
+                beneficiariesGroupsCheck: 'yes',
+                beneficiariesGroupsOther: 'this should be valid',
+                beneficiariesGroupsEthnicBackground: null,
+                beneficiariesGroupsGender: null,
+                beneficiariesGroupsAge: null,
+                beneficiariesGroupsDisabledPeople: null,
+                beneficiariesGroupsReligion: null,
+                beneficiariesGroupsReligionOther: null
+            });
+
+            assertValidByKey(mockBeneficiaries('yes'));
         });
 
         test.skip('welsh language question required for applicants in Wales', () => {
@@ -630,9 +652,26 @@ describe('Form validations', () => {
             const mock = mockFullForm({
                 country: 'scotland',
                 organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO,
-                seniorContactRole: 'chair'
+                seniorContactRole: 'chair',
+                charityNumber: '12345678',
+                companyNumber: '2345678',
+                educationNumber: '34567'
             });
+
             assertValid(mock);
+        });
+
+        test('registration numbers stripped if not required', () => {
+            const withRegistrationNumbers = {
+                organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO,
+                charityNumber: '12345678',
+                companyNumber: '2345678',
+                educationNumber: '34567'
+            };
+
+            expect(testValidate(withRegistrationNumbers).value).toEqual({
+                organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO
+            });
         });
 
         test('registration numbers shown based on organisation type', () => {
@@ -747,12 +786,21 @@ describe('Form validations', () => {
         test.each(CONTACT_EXCLUDED_TYPES)(
             'date of birth value stripped for %p',
             function(excludedOrgType) {
-                const dobWithSchool = {
+                const dobWithOrgType = {
                     organisationType: excludedOrgType,
                     [fieldName]: mockDateOfBirth(minAge, 90)
                 };
 
-                expect(testValidate(dobWithSchool).value).toEqual({
+                expect(testValidate(dobWithOrgType).value).toEqual({
+                    organisationType: excludedOrgType
+                });
+
+                const invalidDobWithOrgType = {
+                    organisationType: excludedOrgType,
+                    [fieldName]: mockDateOfBirth(1, minAge - 1)
+                };
+
+                expect(testValidate(invalidDobWithOrgType).value).toEqual({
                     organisationType: excludedOrgType
                 });
 
@@ -809,12 +857,25 @@ describe('Form validations', () => {
         test.each(CONTACT_EXCLUDED_TYPES)(
             'address value stripped for %p',
             function(excludedOrgType) {
-                expect(
-                    testValidate({
-                        organisationType: excludedOrgType,
-                        [fieldName]: mockAddress()
-                    }).value
-                ).toEqual({
+                const validAddressWithOrgType = {
+                    organisationType: excludedOrgType,
+                    [fieldName]: mockAddress()
+                };
+
+                expect(testValidate(validAddressWithOrgType).value).toEqual({
+                    organisationType: excludedOrgType
+                });
+
+                const invalidAddressWithOrgType = {
+                    organisationType: excludedOrgType,
+                    [fieldName]: {
+                        line1: faker.address.streetAddress(),
+                        townCity: faker.address.city(),
+                        county: faker.address.county()
+                    }
+                };
+
+                expect(testValidate(invalidAddressWithOrgType).value).toEqual({
                     organisationType: excludedOrgType
                 });
 
