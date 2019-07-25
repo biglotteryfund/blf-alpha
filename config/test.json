@@ -11,7 +11,7 @@
     "enableHotjar": true,
     "enableMailSendMetrics": true
   },
-  "awardsForAllApplications": {
+  "awardsForAll": {
     "allowedCountries": ["england", "scotland"]
   }
 }
