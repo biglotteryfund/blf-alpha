@@ -647,17 +647,19 @@ describe('Form validations', () => {
                     charityNumber: '23456789'
                 };
 
-                const optionalData = {
+                assertValidByKey(data);
+                assertValidByKey({
                     organisationType: organisationType,
                     charityNumber: null
-                };
+                });
 
-                assertValidByKey(data);
-                assertValidByKey(optionalData);
+                assertValidByKey({
+                    organisationType: organisationType,
+                    charityNumber: ''
+                });
 
                 const fullNumbers = {
                     organisationType,
-                    companyNumber: '12345678',
                     charityNumber: '23456789',
                     educationNumber: '345678'
                 };

@@ -831,6 +831,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldCharityNumber() {
+        /**
+         * Charity number fields schema
+         * If organisation type is in required list then this field is required
+         * Or, if organisation type is in the optional list then this field is optional
+         * Otherwise, strip the value from the resulting data
+         * Note: .optional doesn't allow null so needs to also allow null
+         */
+        const schema = Joi.when(Joi.ref('organisationType'), {
+            is: Joi.exist().valid(CHARITY_NUMBER_TYPES.required),
+            then: Joi.string().required()
+        }).when(Joi.ref('organisationType'), {
+            is: Joi.exist().valid(CHARITY_NUMBER_TYPES.optional),
+            then: [Joi.string().optional(), Joi.allow(null)],
+            otherwise: Joi.any().strip()
+        });
+
         return {
             name: 'charityNumber',
             label: localise({ en: 'Charity registration number', cy: '' }),
@@ -839,10 +855,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: CHARITY_NUMBER_TYPES.required.includes(
                 currentOrganisationType
             ),
-            schema: stripUnlessOrgTypes(
-                CHARITY_NUMBER_TYPES.required,
-                Joi.string().required()
-            ),
+            schema: schema,
             messages: [
                 {
                     type: 'base',
