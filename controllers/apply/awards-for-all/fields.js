@@ -9,17 +9,20 @@ const { oneLine } = require('common-tags');
 const Joi = require('../form-router-next/joi-extensions');
 const {
     BENEFICIARY_GROUPS,
+    COMPANY_NUMBER_TYPES,
     CONTACT_EXCLUDED_TYPES,
-    MIN_BUDGET_TOTAL_GBP,
+    FILE_LIMITS,
     MAX_BUDGET_TOTAL_GBP,
     MAX_PROJECT_DURATION,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
+    MIN_BUDGET_TOTAL_GBP,
     MIN_START_DATE,
+    ORG_MIN_AGE,
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,
-    ORG_MIN_AGE,
-    FILE_LIMITS
+    CHARITY_NUMBER_TYPES,
+    EDUCATION_NUMBER_TYPES
 } = require('./constants');
 const countriesFor = require('./lib/countries');
 const locationsFor = require('./lib/locations');
@@ -806,15 +809,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldCompanyNumber() {
-        const requiredOrgTypes = [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY];
-
         return {
             name: 'companyNumber',
             label: localise({ en: 'Companies House number', cy: '' }),
             type: 'text',
             isRequired: true,
             schema: stripUnlessOrgTypes(
-                requiredOrgTypes,
+                COMPANY_NUMBER_TYPES,
                 Joi.string().required()
             ),
             messages: [
@@ -830,21 +831,31 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldCharityNumber() {
-        const requiredOrgTypes = [
-            ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-            ORGANISATION_TYPES.CIO
-        ];
+        /**
+         * Charity number fields schema
+         * If organisation type is in required list then this field is required
+         * Or, if organisation type is in the optional list then this field is optional
+         * Otherwise, strip the value from the resulting data
+         * Note: .optional doesn't allow null so needs to also allow null
+         */
+        const schema = Joi.when(Joi.ref('organisationType'), {
+            is: Joi.exist().valid(CHARITY_NUMBER_TYPES.required),
+            then: Joi.string().required()
+        }).when(Joi.ref('organisationType'), {
+            is: Joi.exist().valid(CHARITY_NUMBER_TYPES.optional),
+            then: [Joi.string().optional(), Joi.allow(null)],
+            otherwise: Joi.any().strip()
+        });
 
         return {
             name: 'charityNumber',
             label: localise({ en: 'Charity registration number', cy: '' }),
             type: 'text',
             attributes: { size: 20 },
-            isRequired: requiredOrgTypes.includes(currentOrganisationType),
-            schema: stripUnlessOrgTypes(
-                requiredOrgTypes,
-                Joi.string().required()
+            isRequired: CHARITY_NUMBER_TYPES.required.includes(
+                currentOrganisationType
             ),
+            schema: schema,
             messages: [
                 {
                     type: 'base',
@@ -858,11 +869,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldEducationNumber() {
-        const requiredOrgTypes = [
-            ORGANISATION_TYPES.SCHOOL,
-            ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY
-        ];
-
         return {
             name: 'educationNumber',
             label: localise({ en: 'Department for Education number', cy: '' }),
@@ -870,7 +876,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             attributes: { size: 20 },
             isRequired: true,
             schema: stripUnlessOrgTypes(
-                requiredOrgTypes,
+                EDUCATION_NUMBER_TYPES,
                 Joi.string().required()
             ),
             messages: [
