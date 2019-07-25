@@ -557,7 +557,9 @@
 
 {% macro inputFile(field) %}
 
-    {% if field.value and field.displayValue %}
+    {% set fieldErrors = errors | filter('param', field.name) %}
+
+    {% if fieldErrors.length === 0 and field.value and field.displayValue %}
         <div class="existing-data u-margin-bottom">
             <h3>Existing file</h3>
             <p>{{ field.displayValue }}</p>
@@ -567,8 +569,16 @@
         </div>
     {% endif %}
 
-    <label class="ff-label{% if field.settings.hideLabel %} u-visually-hidden{% endif %}" for="field-{{ field.name }}">
-        {{ labelFor(field) }}
+    <label class="ff-label{% if field.settings.hideLabel %} u-visually-hidden{% endif %}"
+           for="field-{{ field.name }}">
+        {% if not field.value or not field.labelExisting %}
+            {{ labelFor(field) }}
+        {% else %}
+            {{ labelFor({
+                "label": field.labelExisting,
+                "isRequired": field.isRequired
+            }) }}
+        {% endif %}
     </label>
 
     {{ explanationFor(field) }}

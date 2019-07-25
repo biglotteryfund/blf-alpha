@@ -2485,6 +2485,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         bankStatement: {
             name: 'bankStatement',
             label: localise({ en: 'Upload a bank statement', cy: '' }),
+            // Used when editing an existing bank statement
+            labelExisting: localise({
+                en: 'Upload a new bank statement',
+                cy: ''
+            }),
             type: 'file',
             attributes: {
                 accept: FILE_LIMITS.TYPES.map(type => type.mime).join(',')
