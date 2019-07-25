@@ -1,9 +1,39 @@
 'use strict';
 const path = require('path');
 const express = require('express');
+const differenceBy = require('lodash/differenceBy');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const concat = require('lodash/concat');
+
+const logger = require('../../../common/logger').child({
+    service: 'form-summary'
+});
+
+/**
+ * Compare the raw list of messages with the messages based on current steps\
+ * If this list is different then it suggests an error with the validation
+ * logic so we should log a warning for investigation.
+ *
+ * @param rawValidationErrors
+ * @param stepValidationErrors
+ */
+function logErrorDifference(rawValidationErrors, stepValidationErrors) {
+    const errorDifference = differenceBy(
+        rawValidationErrors,
+        stepValidationErrors,
+        item => item.param
+    );
+
+    if (errorDifference.length) {
+        errorDifference.forEach(function(item) {
+            logger.error(
+                `${item.param} not included in step fields but failed validation`,
+                { messages: item.msg }
+            );
+        });
+    }
+}
 
 module.exports = function(formBuilder) {
     const router = express.Router();
@@ -16,25 +46,16 @@ module.exports = function(formBuilder) {
             data: currentApplicationData
         });
 
-        function errorsByStep() {
-            if (form.validation.messages.length > 0) {
-                return form.getCurrentSteps().map(function(step) {
-                    const stepFields = flatMap(step.fieldsets, 'fields');
-                    const fieldNames = stepFields.map(field => field.name);
-                    return {
-                        title: step.title,
-                        errors: form.validation.messages.filter(err =>
-                            fieldNames.includes(err.param)
-                        )
-                    };
-                });
-            } else {
-                return [];
-            }
-        }
+        const errorsByStep = form.getErrorsByStep();
+
+        logErrorDifference(
+            form.validation.messages,
+            flatMap(errorsByStep, step => step.errors)
+        );
 
         const title = copy.summary.title;
         const showErrors = !!req.query['show-errors'] === true;
+
         if (showErrors) {
             res.locals.hotJarTagList = [
                 'Apply: AFA: Summary: User clicked Submit early'
@@ -63,7 +84,7 @@ module.exports = function(formBuilder) {
             currentProjectName: get('projectName')(currentApplicationData),
             showErrors: showErrors,
             errors: form.validation.messages,
-            errorsByStep: errorsByStep(),
+            errorsByStep: errorsByStep,
             featuredErrors: featuredErrors,
             expandSections: form.progress.isComplete || showErrors,
             startPathSlug: form.sections[0].slug
