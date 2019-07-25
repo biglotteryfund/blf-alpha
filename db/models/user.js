@@ -50,12 +50,6 @@ class User extends Model {
         });
     }
 
-    static findByUserId(userId) {
-        return this.findOne({
-            where: { id: { [Op.eq]: userId } }
-        });
-    }
-
     static createUser({ username, password, isActive = false }) {
         return this.encryptPassword(password).then(encryptedPassword => {
             return this.create({
@@ -68,7 +62,7 @@ class User extends Model {
 
     static updateNewPassword({ id, newPassword }) {
         return this.encryptPassword(newPassword).then(newEncryptedPassword => {
-            return this.findById(id).then(user => {
+            return this.findByPk(id).then(user => {
                 return user.update({
                     password: newEncryptedPassword,
                     is_password_reset: false

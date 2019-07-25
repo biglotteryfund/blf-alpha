@@ -112,7 +112,7 @@ module.exports = function() {
     passport.deserializeUser(async function(serializedUser, done) {
         try {
             const model = serializedUser.userType === 'staff' ? Staff : Users;
-            const user = await model.findById(serializedUser.userData.id);
+            const user = await model.findByPk(serializedUser.userData.id);
             done(null, user ? makeUserObject(user) : null);
             return null;
         } catch (err) {
