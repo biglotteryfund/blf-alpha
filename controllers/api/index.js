@@ -16,53 +16,51 @@ const postcodesClient = new Client({
 
 const router = express.Router();
 
-if (appData.isNotProduction) {
-    /**
-     * API: UK address lookup proxy
-     */
-    router.post('/address-lookup', csrfProtection, async (req, res) => {
-        const makeError = (title, detail, source = null) => {
-            return res.status(400).json({
-                errors: [
-                    {
-                        status: 400,
-                        title,
-                        detail,
-                        source
-                    }
-                ]
-            });
-        };
+/**
+ * API: UK address lookup proxy
+ */
+router.post('/address-lookup', csrfProtection, async (req, res) => {
+    const makeError = (title, detail, source = null) => {
+        return res.status(400).json({
+            errors: [
+                {
+                    status: 400,
+                    title,
+                    detail,
+                    source
+                }
+            ]
+        });
+    };
 
-        const query = req.body.q;
+    const query = req.body.q;
 
-        if (!query) {
-            return makeError({
-                title: 'Invalid query parameter',
-                detail: 'Must include q parameter',
-                source: { parameter: 'q' }
-            });
-        }
-        try {
-            // Tag the postcode lookup with metadata
-            const tags = [
-                `ENV_${appData.environment}`,
-                `BUILD_${appData.buildNumber}`
-            ];
-            const addresses = await postcodesClient.lookupPostcode({
-                postcode: query,
-                tags: tags
-            });
-            return res.json({ addresses });
-        } catch (error) {
-            Sentry.captureException(error);
-            return makeError({
-                title: 'Connection error',
-                detail: 'Failed to get data from API'
-            });
-        }
-    });
-}
+    if (!query) {
+        return makeError({
+            title: 'Invalid query parameter',
+            detail: 'Must include q parameter',
+            source: { parameter: 'q' }
+        });
+    }
+    try {
+        // Tag the postcode lookup with metadata
+        const tags = [
+            `ENV_${appData.environment}`,
+            `BUILD_${appData.buildNumber}`
+        ];
+        const addresses = await postcodesClient.lookupPostcode({
+            postcode: query,
+            tags: tags
+        });
+        return res.json({ addresses });
+    } catch (error) {
+        Sentry.captureException(error);
+        return makeError({
+            title: 'Connection error',
+            detail: 'Failed to get data from API'
+        });
+    }
+});
 
 /**
  * API: Feedback endpoint
