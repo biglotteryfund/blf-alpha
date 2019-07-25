@@ -30,9 +30,7 @@
     "build-autotrack": "npx autotrack -o public/autotrack/autotrack.js -p outboundLinkTracker,eventTracker",
     "watch-js": "webpack --watch",
     "watch-css": "sane 'npm run build-css' assets/sass --glob='**/*.scss'",
-    "watch": "concurrently --kill-others npm:watch-js npm:watch-css",
-    "snyk-protect": "snyk protect",
-    "prepare": "npm run snyk-protect"
+    "watch": "concurrently --kill-others npm:watch-js npm:watch-css"
   },
   "jest": {
     "testEnvironment": "node",
@@ -129,7 +127,6 @@
     "serve-favicon": "^2.5.0",
     "sitemap": "^1.13.0",
     "slugify": "^1.2.1",
-    "snyk": "1.195.0",
     "sqlite3": "4.0.9",
     "uuid": "^3.2.1",
     "vary": "^1.1.1",
@@ -180,6 +177,5 @@
     "wait-on": "3.2.0",
     "webpack": "4.35.0",
     "webpack-cli": "3.3.5"
-  },
-  "snyk": true
+  }
 }
