@@ -14,7 +14,8 @@ const formBuilder = require('./form');
 const {
     BENEFICIARY_GROUPS,
     ORGANISATION_TYPES,
-    CONTACT_EXCLUDED_TYPES
+    CONTACT_EXCLUDED_TYPES,
+    CHARITY_NUMBER_TYPES
 } = require('./constants');
 const validateModel = require('../form-router-next/lib/validate-model');
 
@@ -606,32 +607,69 @@ describe('Form validations', () => {
             );
         });
 
-        test('charity number required if CIO or registered charity', () => {
-            function value(type, val) {
-                return {
-                    organisationType: type,
-                    charityNumber: val
+        test.each(CHARITY_NUMBER_TYPES.required)(
+            'charity number required for %p',
+            function(organisationType) {
+                const data = {
+                    organisationType: organisationType,
+                    charityNumber: '23456789'
                 };
+
+                assertValidByKey(data);
+
+                assertMessagesByKey(
+                    {
+                        organisationType: organisationType,
+                        charityNumber: null
+                    },
+                    ['Enter your organisation’s charity number']
+                );
+
+                expect(
+                    formBuilder({
+                        locale: 'en',
+                        data: {
+                            organisationType,
+                            companyNumber: '12345678',
+                            charityNumber: '23456789',
+                            educationNumber: '345678'
+                        }
+                    }).validation.value
+                ).toEqual(data);
             }
+        );
 
-            assertMessagesByKey(value(ORGANISATION_TYPES.CIO), [
-                'Enter your organisation’s charity number'
-            ]);
+        test.each(CHARITY_NUMBER_TYPES.optional)(
+            'charity number optional for %p',
+            function(organisationType) {
+                const data = {
+                    organisationType: organisationType,
+                    charityNumber: '23456789'
+                };
 
-            assertMessagesByKey(
-                value(ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY),
-                ['Enter your organisation’s charity number']
-            );
+                const optionalData = {
+                    organisationType: organisationType,
+                    charityNumber: null
+                };
 
-            assertValidByKey(value(ORGANISATION_TYPES.CIO, '1160580'));
-            assertValidByKey(
-                value(
-                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                    '1160580'
-                )
-            );
-            assertValidByKey(value(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY));
-        });
+                assertValidByKey(data);
+                assertValidByKey(optionalData);
+
+                const fullNumbers = {
+                    organisationType,
+                    companyNumber: '12345678',
+                    charityNumber: '23456789',
+                    educationNumber: '345678'
+                };
+
+                expect(
+                    formBuilder({
+                        locale: 'en',
+                        data: fullNumbers
+                    }).validation.value
+                ).toEqual(data);
+            }
+        );
 
         test('education number required if school', () => {
             function value(type, val) {
