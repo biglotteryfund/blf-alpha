@@ -1,6 +1,8 @@
 /* eslint-env jest */
 // @ts-nocheck
 'use strict';
+const concat = require('lodash/concat');
+const difference = require('lodash/difference');
 const includes = require('lodash/includes');
 const map = require('lodash/map');
 const random = require('lodash/random');
@@ -15,7 +17,9 @@ const {
     BENEFICIARY_GROUPS,
     ORGANISATION_TYPES,
     CONTACT_EXCLUDED_TYPES,
-    CHARITY_NUMBER_TYPES
+    COMPANY_NUMBER_TYPES,
+    CHARITY_NUMBER_TYPES,
+    EDUCATION_NUMBER_TYPES
 } = require('./constants');
 const validateModel = require('../form-router-next/lib/validate-model');
 
@@ -170,11 +174,6 @@ function assertMessagesByKey(data, messages) {
     });
 
     expect(map(messagesByKey, 'msg').sort()).toEqual(messages.sort());
-}
-
-function assertValid(data) {
-    const validationResult = testValidate(data);
-    expect(validationResult.isValid).toBeTruthy();
 }
 
 function assertValidByKey(data) {
@@ -588,24 +587,48 @@ describe('Form validations', () => {
                 'Total income must be a real number'
             ]);
         });
+    });
 
-        test('company number required if not for profit company', () => {
-            function value(type, val) {
-                return {
-                    organisationType: type,
-                    companyNumber: val
-                };
+    describe('Registration numbers', function() {
+        const noRegistrationNumbers = difference(
+            Object.values(ORGANISATION_TYPES),
+            concat(
+                COMPANY_NUMBER_TYPES,
+                CHARITY_NUMBER_TYPES.required,
+                CHARITY_NUMBER_TYPES.optional,
+                EDUCATION_NUMBER_TYPES
+            )
+        );
+
+        test.each(noRegistrationNumbers)(
+            'no registration numbers required for %p',
+            function(organisationType) {
+                assertValidByKey({
+                    organisationType: organisationType,
+                    companyNumber: null,
+                    charityNumber: null,
+                    educationNumber: null
+                });
             }
+        );
 
-            assertValidByKey(value(ORGANISATION_TYPES.CIO));
-            assertValidByKey(
-                value(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY, 'CE002712')
-            );
-            assertMessagesByKey(
-                value(ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY),
-                ['Enter your organisation’s Companies House number']
-            );
-        });
+        test.each(COMPANY_NUMBER_TYPES)(
+            'company number required for %p',
+            function(organisationType) {
+                assertValidByKey({
+                    organisationType: organisationType,
+                    companyNumber: '12345678'
+                });
+
+                assertMessagesByKey(
+                    {
+                        organisationType: organisationType,
+                        companyNumber: undefined
+                    },
+                    ['Enter your organisation’s Companies House number']
+                );
+            }
+        );
 
         test.each(CHARITY_NUMBER_TYPES.required)(
             'charity number required for %p',
@@ -673,76 +696,47 @@ describe('Form validations', () => {
             }
         );
 
-        test('education number required if school', () => {
-            function value(type, val) {
-                return {
-                    organisationType: type,
-                    educationNumber: val
-                };
+        test.each(EDUCATION_NUMBER_TYPES)(
+            'education number required for %p',
+            function(organisationType) {
+                assertMessagesByKey(
+                    {
+                        organisationType: organisationType,
+                        educationNumber: undefined
+                    },
+                    [
+                        'Enter your organisation’s Department for Education number'
+                    ]
+                );
+
+                assertValidByKey({
+                    organisationType: organisationType,
+                    educationNumber: '1160580'
+                });
             }
-
-            assertMessagesByKey(value(ORGANISATION_TYPES.SCHOOL), [
-                'Enter your organisation’s Department for Education number'
-            ]);
-            assertValidByKey(value(ORGANISATION_TYPES.SCHOOL, '1160580'));
-            assertValidByKey(value(ORGANISATION_TYPES.CIO));
-        });
-
-        test('no registration numbers required if unregistered VCO', () => {
-            const mock = mockFullForm({
-                country: 'scotland',
-                organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO,
-                seniorContactRole: 'chair',
-                charityNumber: '12345678',
-                companyNumber: '2345678',
-                educationNumber: '34567'
-            });
-
-            assertValid(mock);
-        });
-
-        test('registration numbers stripped if not required', () => {
-            const withRegistrationNumbers = {
-                organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO,
-                charityNumber: '12345678',
-                companyNumber: '2345678',
-                educationNumber: '34567'
-            };
-
-            expect(testValidate(withRegistrationNumbers).value).toEqual({
-                organisationType: ORGANISATION_TYPES.UNREGISTERED_VCO
-            });
-        });
+        );
 
         test('registration numbers shown based on organisation type', () => {
-            const defaultFieldNames = formBuilder({ locale: 'en' })
-                .getCurrentFieldsForStep('organisation', 2)
-                .map(field => field.name);
-
-            expect(defaultFieldNames).toEqual([]);
-
             const mappings = {
-                [ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY]: [
-                    'charityNumber'
-                ],
-                [ORGANISATION_TYPES.CIO]: ['charityNumber'],
-                [ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY]: [
-                    'companyNumber',
-                    'charityNumber'
-                ],
-                [ORGANISATION_TYPES.SCHOOL]: ['educationNumber'],
-                [ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY]: ['educationNumber']
+                companyNumber: COMPANY_NUMBER_TYPES,
+                charityNumber: concat(
+                    CHARITY_NUMBER_TYPES.required,
+                    CHARITY_NUMBER_TYPES.optional
+                ),
+                educationNumber: EDUCATION_NUMBER_TYPES
             };
 
-            map(mappings, (expected, type) => {
-                const fieldNames = formBuilder({
-                    locale: 'en',
-                    data: { organisationType: type }
-                })
-                    .getCurrentFieldsForStep('organisation', 3)
-                    .map(field => field.name);
+            map(mappings, (types, fieldName) => {
+                types.forEach(type => {
+                    const fieldNames = formBuilder({
+                        locale: 'en',
+                        data: { organisationType: type }
+                    })
+                        .getCurrentFieldsForStep('organisation', 3)
+                        .map(field => field.name);
 
-                expect(fieldNames).toEqual(expected);
+                    expect(fieldNames).toContain(fieldName);
+                });
             });
         });
     });
