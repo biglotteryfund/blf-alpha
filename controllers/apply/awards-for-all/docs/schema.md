@@ -10,6 +10,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
 {
     "meta": {
         "form": "awards-for-all",
+        "schemaVersion": "v1.0",
         "environment": "production",
         "commitId": "b4ecf18eae01d34b296e9388f387cc42bf7c0f93",
         "username": "example@example.com",
@@ -154,8 +155,9 @@ Each submission has two top-level keys: `meta` which contains metadata about the
 
 | Name              | Type     | Notes                                                      |
 | ----------------- | -------- | ---------------------------------------------------------- |
-| **form**          | `string` | `awards-for-all`                                           |
-| **environment**   | `string` | `development`, `test`, `production`                        |
+| **form**          | `string` | Form ID e.g. `awards-for-all`                              |
+| **schemaVersion** | `string` | Active schema version, e.g. `v1.0`                         |
+| **environment**   | `string` | `development`, `test`, or `production`                     |
 | **commitId**      | `string` | Git commit for website at the time of submission           |
 | **username**      | `string` | Username for the logged in user                            |
 | **applicationId** | `string` | UUID reference to the application as stored by the website |
@@ -581,8 +583,11 @@ File object with the following fields:
 | **type**     | `string`  |       |
 
 ### termsAgreement1
+
 ### termsAgreement2
+
 ### termsAgreement3
+
 ### termsAgreement4
 
 type: `string`
@@ -590,7 +595,9 @@ type: `string`
 Will always be "yes" (required fields)
 
 ### termsPersonName
+
 type: `string`
 
 ### termsPersonPosition
+
 type: `string`

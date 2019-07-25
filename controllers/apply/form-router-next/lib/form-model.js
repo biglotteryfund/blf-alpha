@@ -130,6 +130,7 @@ class FormModel {
         };
 
         this.summary = props.summary;
+        this.schemaVersion = props.schemaVersion;
         this.forSalesforce = props.forSalesforce;
     }
 
