@@ -400,7 +400,12 @@ function initFormRouter({
                         });
 
                     await Promise.all(contentVersionPromises);
-                    logger.info('File uploads attached to FormData record');
+
+                    if (fileUploadError) {
+                        logger.error('File upload skipped', {
+                            reason: fileUploadError
+                        });
+                    }
                 } else {
                     logger.debug(`Skipped salesforce submission for ${formId}`);
                 }

@@ -50,8 +50,9 @@ module.exports = function(eligibilityBuilder, formId) {
             const { currentStepNumber, totalSteps } = res.locals;
 
             logger.info('Eligibility check', {
-                eligible: req.body.eligibility === 'yes',
-                formId: formId
+                eligible: req.body.eligibility,
+                formId: formId,
+                step: currentStepNumber
             });
 
             if (req.body.eligibility === 'yes') {
