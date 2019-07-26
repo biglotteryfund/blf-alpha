@@ -51,7 +51,7 @@
     "enableSeeders": false,
     "enableSiteSurvey": true
   },
-  "awardsForAllApplications": {
+  "awardsForAll": {
     "allowedCountries": ["scotland"]
   },
   "cookies": {

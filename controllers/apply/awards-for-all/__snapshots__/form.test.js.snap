@@ -1,0 +1,242 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Bank details requires valid bank details 1`] = `
+Array [
+  "Enter a sort code",
+  "Enter an account number",
+  "Enter the name of your organisation, as it appears on your bank statement",
+]
+`;
+
+exports[`Contacts include all roles if no organisation type is provided 1`] = `
+Array [
+  "chair",
+  "chancellor",
+  "chief-executive",
+  "chief-executive-officer",
+  "company-director",
+  "company-secretary",
+  "deputy-parish-clerk",
+  "director",
+  "elected-member",
+  "head-teacher",
+  "parish-clerk",
+  "religious-leader",
+  "secretary",
+  "treasurer",
+  "trustee",
+  "vice-chair",
+  "vice-chancellor",
+]
+`;
+
+exports[`Contacts include expected roles for "charitable-incorporated-organisation" 1`] = `
+Array [
+  "trustee",
+  "chief-executive-officer",
+]
+`;
+
+exports[`Contacts include expected roles for "college-or-university" 1`] = `
+Array [
+  "chancellor",
+  "vice-chancellor",
+]
+`;
+
+exports[`Contacts include expected roles for "faith-group" 1`] = `
+Array [
+  "chair",
+  "vice-chair",
+  "secretary",
+  "treasurer",
+  "religious-leader",
+]
+`;
+
+exports[`Contacts include expected roles for "not-for-profit-company" 1`] = `
+Array [
+  "company-director",
+  "company-secretary",
+]
+`;
+
+exports[`Contacts include expected roles for "school" 1`] = `
+Array [
+  "head-teacher",
+]
+`;
+
+exports[`Contacts include expected roles for "statutory-body" 1`] = `
+Array [
+  "chair",
+  "chancellor",
+  "chief-executive",
+  "chief-executive-officer",
+  "company-director",
+  "company-secretary",
+  "deputy-parish-clerk",
+  "director",
+  "elected-member",
+  "head-teacher",
+  "parish-clerk",
+  "religious-leader",
+  "secretary",
+  "treasurer",
+  "trustee",
+  "vice-chair",
+  "vice-chancellor",
+]
+`;
+
+exports[`Contacts include expected roles for "unincorporated-registered-charity" 1`] = `
+Array [
+  "trustee",
+]
+`;
+
+exports[`Contacts include expected roles for "unregistered-vco" 1`] = `
+Array [
+  "chair",
+  "vice-chair",
+  "secretary",
+  "treasurer",
+]
+`;
+
+exports[`Contacts include role warning for "CIO" 1`] = `Array []`;
+
+exports[`Contacts include role warning for "CIO" 2`] = `Array []`;
+
+exports[`Contacts include role warning for "CIO" 3`] = `Array []`;
+
+exports[`Contacts include role warning for "CIO" 4`] = `Array []`;
+
+exports[`Contacts include role warning for "COLLEGE_OR_UNIVERSITY" 1`] = `Array []`;
+
+exports[`Contacts include role warning for "COLLEGE_OR_UNIVERSITY" 2`] = `Array []`;
+
+exports[`Contacts include role warning for "COLLEGE_OR_UNIVERSITY" 3`] = `Array []`;
+
+exports[`Contacts include role warning for "COLLEGE_OR_UNIVERSITY" 4`] = `Array []`;
+
+exports[`Contacts include role warning for "FAITH_GROUP" 1`] = `Array []`;
+
+exports[`Contacts include role warning for "FAITH_GROUP" 2`] = `Array []`;
+
+exports[`Contacts include role warning for "FAITH_GROUP" 3`] = `Array []`;
+
+exports[`Contacts include role warning for "FAITH_GROUP" 4`] = `Array []`;
+
+exports[`Contacts include role warning for "NOT_FOR_PROFIT_COMPANY" 1`] = `Array []`;
+
+exports[`Contacts include role warning for "NOT_FOR_PROFIT_COMPANY" 2`] = `Array []`;
+
+exports[`Contacts include role warning for "NOT_FOR_PROFIT_COMPANY" 3`] = `Array []`;
+
+exports[`Contacts include role warning for "NOT_FOR_PROFIT_COMPANY" 4`] = `Array []`;
+
+exports[`Contacts include role warning for "SCHOOL" 1`] = `Array []`;
+
+exports[`Contacts include role warning for "SCHOOL" 2`] = `Array []`;
+
+exports[`Contacts include role warning for "SCHOOL" 3`] = `Array []`;
+
+exports[`Contacts include role warning for "SCHOOL" 4`] = `Array []`;
+
+exports[`Contacts include role warning for "STATUTORY_BODY" 1`] = `Array []`;
+
+exports[`Contacts include role warning for "STATUTORY_BODY" 2`] = `Array []`;
+
+exports[`Contacts include role warning for "STATUTORY_BODY" 3`] = `Array []`;
+
+exports[`Contacts include role warning for "STATUTORY_BODY" 4`] = `Array []`;
+
+exports[`Contacts include role warning for "UNINCORPORATED_REGISTERED_CHARITY" 1`] = `Array []`;
+
+exports[`Contacts include role warning for "UNINCORPORATED_REGISTERED_CHARITY" 2`] = `Array []`;
+
+exports[`Contacts include role warning for "UNINCORPORATED_REGISTERED_CHARITY" 3`] = `Array []`;
+
+exports[`Contacts include role warning for "UNINCORPORATED_REGISTERED_CHARITY" 4`] = `Array []`;
+
+exports[`Contacts include role warning for "UNREGISTERED_VCO" 1`] = `Array []`;
+
+exports[`Contacts include role warning for "UNREGISTERED_VCO" 2`] = `Array []`;
+
+exports[`Contacts include role warning for "UNREGISTERED_VCO" 3`] = `Array []`;
+
+exports[`Contacts include role warning for "UNREGISTERED_VCO" 4`] = `Array []`;
+
+exports[`Global validation default validations for an empty form 1`] = `
+Array [
+  "Enter a project name",
+  "Select a country",
+  "Select a location",
+  "Tell us the towns, villages or wards your beneficiaries live in",
+  "Enter a real postcode",
+  "Tell us about your project",
+  "Tell us how your project meets at least one of our funding priorities",
+  "Tell us how your project involves your community",
+  "Enter a project budget",
+  "Enter a total cost for your project",
+  "Select yes or no",
+  "Enter the full legal name of the organisation",
+  "Enter a day and month",
+  "Enter a full UK address",
+  "Select a type of organisation",
+  "Enter first and last name",
+  "Enter a date of birth",
+  "Enter a full UK address",
+  "Enter a UK telephone number",
+  "Choose a role",
+  "Enter first and last name",
+  "Enter a date of birth",
+  "Enter a full UK address",
+  "Enter an email address",
+  "Enter a UK telephone number",
+  "Enter the name of your organisation, as it appears on your bank statement",
+  "Enter a sort code",
+  "Enter an account number",
+  "Provide a bank statement",
+  "You must confirm that you're authorised to submit this application",
+  "You must confirm that the information you've provided in this application is accurate",
+  "You must confirm that you understand how we'll use any personal information you've provided",
+  "You must confirm that you understand your application is subject to our Freedom of Information policy",
+  "Enter the full name of the person completing this form",
+  "Enter the position of the person completing this form",
+]
+`;
+
+exports[`Who will benefit require additional beneficiary questions based on groups 1`] = `
+Array [
+  "Select the age group(s) of the people that will benefit from your project",
+  "Select the disabled people that will benefit from your project",
+  "Select the ethnic background(s) of the people that will benefit from your project",
+  "Select the gender(s) of the people that will benefit from your project",
+  "Select the religion(s) or belief(s) of the people that will benefit from your project",
+]
+`;
+
+exports[`Your organisation finance details required if organisation is over 15 months old 1`] = `
+Array [
+  "Enter a day and month",
+  "Enter a total income for the year (eg. a whole number with no commas or decimal points)",
+]
+`;
+
+exports[`Your organisation finance details required if organisation is over 15 months old 2`] = `
+Array [
+  "Enter a day and month",
+  "Total income must be a real number",
+]
+`;
+
+exports[`Your organisation valid basic organisation details required 1`] = `
+Array [
+  "Enter a day and month",
+  "Enter a full UK address",
+  "Enter the full legal name of the organisation",
+  "Select a type of organisation",
+]
+`;
