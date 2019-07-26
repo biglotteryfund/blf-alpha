@@ -77,7 +77,11 @@ function requireStaffAuth(req, res, next) {
         if (isStaff(req.user)) {
             next();
         } else {
-            res.redirect('/user');
+            // Log out regular users and send them to the staff page
+            req.logout();
+            req.session.save(() => {
+                next();
+            });
         }
     } else {
         res.redirect(`/user/staff/login?redirectUrl=${req.originalUrl}`);
@@ -90,7 +94,10 @@ function requireStaffAuth(req, res, next) {
  */
 function requireNotStaffAuth(req, res, next) {
     if (req.isAuthenticated() && isStaff(req.user)) {
-        res.redirect('/tools');
+        req.logout();
+        req.session.save(() => {
+            next();
+        });
     } else {
         next();
     }

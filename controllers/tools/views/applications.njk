@@ -271,6 +271,17 @@
                 ) }}
             </div>
 
+            {% if dataStudioUrl %}
+                <div class="u-margin-bottom-l">
+                    <h3>User analytics for form usage <small>(not using the above date range)</small></h3>
+
+                    <div style="position:relative;padding-top:56.25%;">
+                        <iframe src="{{ dataStudioUrl }}" frameborder="0" allowfullscreen
+                                style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+                    </div>
+                </div>
+            {% endif %}
+
         </div>
 
     </main>
