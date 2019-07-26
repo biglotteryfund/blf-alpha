@@ -102,8 +102,7 @@ const POSTCODES_API_KEY =
 
 const S3_KMS_KEY_ID = process.env.S3_KMS_KEY_ID || getSecret('s3.kms.key.id');
 
-const DATA_STUDIO_AFA_URL =
-    process.env.DATA_STUDIO_AFA_URL || getSecret('dataStudio.url.awardsForAll');
+const DATA_STUDIO_AFA_URL = getSecret('dataStudio.url.awardsForAll');
 
 module.exports = {
     AWARDS_FOR_ALL_SECRET,
