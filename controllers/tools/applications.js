@@ -15,7 +15,6 @@ const { PendingApplication, SubmittedApplication } = require('../../db/models');
 const { getDateRange } = require('./helpers');
 const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
 
-
 const router = express.Router();
 
 const DATE_FORMAT = 'YYYY-MM-DD';
@@ -174,7 +173,7 @@ router.get('/:applicationId', async (req, res, next) => {
         const country = req.query.country;
         const countryTitle = country ? titleCase(country) : false;
         const applicationTitle = titleCase(req.params.applicationId);
-        const dataStudioUrl = getDataStudioUrlForForm(req.params.applicationId)
+        const dataStudioUrl = getDataStudioUrlForForm(req.params.applicationId);
 
         const getApplications = async appType => {
             const applications =
