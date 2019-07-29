@@ -1416,6 +1416,25 @@ applyNext:
   continue: Continue
   edit: Edit
   submit: Submit application
+  fields:
+    address:
+      label: Find address by postcode
+      required: Required
+      helpText: eg. EC4A 1DE
+      enterManually: Enter address manually
+      selectAddress: Select an address
+      addressesFound: addresses found
+      lookupError: There was an error finding your address - please provide it below.
+      removeAddress: Remove this address
+      lookingUpAddress: Looking up address…
+      findAddress: Find address
+      warningForIncomplete: 'Please click "Find address" and choose an address from the list.'
+      fieldNames:
+        line1: Building and street
+        line2: Address line 2
+        townCity: Town or city
+        county: County
+        postcode: Postcode
   #  @TODO: Move other common text to common:
   common:
     delete: Delete application

@@ -351,7 +351,7 @@
         <div class="o-details__content ff-address__fields">
             <div class="ff-address__field">
                 {{ inputText({
-                    label: 'Building and street',
+                    label: copy.fields.address.fieldNames.line1,
                     name: field.name + '[line1]',
                     value: field.value['line1'],
                     type: 'text',
@@ -361,7 +361,7 @@
             </div>
             <div class="ff-address__field">
                 {{ inputText({
-                    label: 'Address line 2',
+                    label: copy.fields.address.fieldNames.line2,
                     name: field.name + '[line2]',
                     value: field.value['line2'],
                     type: 'text',
@@ -372,7 +372,7 @@
             </div>
             <div class="ff-address__field">
                 {{ inputText({
-                    label: 'Town or city',
+                    label: copy.fields.address.fieldNames.townCity,
                     name: field.name + '[townCity]',
                     value: field.value['townCity'],
                     type: 'text',
@@ -382,7 +382,7 @@
             </div>
             <div class="ff-address__field">
                 {{ inputText({
-                    label: 'County',
+                    label: copy.fields.address.fieldNames.county,
                     name: field.name + '[county]',
                     value: field.value['county'],
                     type: 'text',
@@ -392,7 +392,7 @@
             </div>
             <div class="ff-address__field">
                 {{ inputText({
-                    label: 'Postcode',
+                    label: copy.fields.address.fieldNames.postcode,
                     name: field.name + '[postcode]',
                     value: field.value['postcode'],
                     type: 'text',
@@ -417,6 +417,7 @@
                 field-name="{{ field.name }}"
                 locale="{{ locale }}"
                 address="{{ field.value | dump }}"
+                i18n="{{ copy | dump }}"
             >
             </address-lookup>
 
