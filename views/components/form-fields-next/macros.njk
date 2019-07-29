@@ -164,15 +164,13 @@
     </div>
     <fieldset class="ff-date ff-date--range" id="field-{{ field.name }}-start">
         <legend class="ff-label ff-date__legend">
-            {# @TODO i18n #}
-            Start date
+            {{ copy.fields.dates.startDate }}
         </legend>
         {{ dayMonthYearInputs(field, rangePeriod = 'startDate') }}
     </fieldset>
     <fieldset class="ff-date ff-date--range u-margin-top" id="field-{{ field.name }}-end">
         <legend class="ff-label ff-date__legend">
-            {# @TODO i18n #}
-            End date
+            {{ copy.fields.dates.endDate }}
         </legend>
         {{ dayMonthYearInputs(field, rangePeriod = 'endDate') }}
     </fieldset>

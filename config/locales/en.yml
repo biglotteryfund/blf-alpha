@@ -1417,6 +1417,9 @@ applyNext:
   edit: Edit
   submit: Submit application
   fields:
+    dates:
+      startDate: Start date
+      endDate: End date
     address:
       label: Find address by postcode
       required: Required
