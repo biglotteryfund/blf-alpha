@@ -91,7 +91,7 @@ function initFormRouter({
             },
             {
                 url: localify(req.i18n.getLocale())('/user/logout'),
-                label: res.locals.copy.navigation.logout
+                label: res.locals.copy.navigation.logOut
             }
         ];
 
