@@ -335,9 +335,18 @@ describe('Project details', () => {
 
     test('project postcode must be a valid UK postcode', () => {
         const invalidMessages = ['Enter a real postcode'];
-        assertMessagesByKey({ projectPostcode: null }, invalidMessages);
         assertMessagesByKey(
-            { projectPostcode: 'not a postcode' },
+            {
+                projectCountry: 'scotland',
+                projectPostcode: null
+            },
+            invalidMessages
+        );
+        assertMessagesByKey(
+            {
+                projectCountry: 'scotland',
+                projectPostcode: 'not a postcode'
+            },
             invalidMessages
         );
     });
