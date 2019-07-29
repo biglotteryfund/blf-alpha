@@ -1378,6 +1378,11 @@ apply:
       emailConfirmation: We have emailed your a copy of your submission
       whatToExpect: If your request is successful, your local funding officer will arrange a phone call or visit and give you a full application form to fill out and return to us.
 applyNext:
+  navigation:
+    applications: Applications
+    account: Account
+    logOut: Log out
+    summary: Summary
   dashboard:
     title: Your applications
     introduction: >

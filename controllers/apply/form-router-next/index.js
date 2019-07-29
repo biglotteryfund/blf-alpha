@@ -76,23 +76,22 @@ function initFormRouter({
         res.locals.enableSiteSurvey = false;
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
 
-        // @TODO i18n
         res.locals.userNavigationLinks = [
             {
                 url: `${req.baseUrl}/summary`,
-                label: 'Summary'
+                label: res.locals.copy.navigation.summary
             },
             {
                 url: req.baseUrl,
-                label: 'Applications'
+                label: res.locals.copy.navigation.applications
             },
             {
                 url: localify(req.i18n.getLocale())('/user'),
-                label: 'Account'
+                label: res.locals.copy.navigation.account
             },
             {
                 url: localify(req.i18n.getLocale())('/user/logout'),
-                label: 'Log out'
+                label: res.locals.copy.navigation.logout
             }
         ];
 
