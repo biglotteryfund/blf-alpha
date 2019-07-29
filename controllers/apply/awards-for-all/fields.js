@@ -1057,9 +1057,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             get schema() {
                 const options = flatMap(this.optgroups, group => group.options);
-                return Joi.string()
-                    .valid(options.map(option => option.value))
-                    .required();
+                return Joi.when('projectCountry', {
+                    is: Joi.exist(),
+                    then: Joi.string()
+                        .valid(options.map(option => option.value))
+                        .required(),
+                    otherwise: Joi.any().strip()
+                });
             },
             messages: [
                 {
@@ -1079,7 +1083,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 size: 60
             },
             isRequired: true,
-            schema: Joi.string().required(),
+            schema: Joi.when('projectCountry', {
+                is: Joi.exist(),
+                then: Joi.string().required(),
+                otherwise: Joi.any().strip()
+            }),
             messages: [
                 {
                     type: 'base',
@@ -1106,9 +1114,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 autocomplete: 'postal-code'
             },
             isRequired: true,
-            schema: Joi.string()
-                .postcode()
-                .required(),
+            schema: Joi.when('projectCountry', {
+                is: Joi.exist(),
+                then: Joi.string()
+                    .postcode()
+                    .required(),
+                otherwise: Joi.any().strip()
+            }),
             messages: [
                 {
                     type: 'base',
