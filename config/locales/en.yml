@@ -1438,6 +1438,16 @@ applyNext:
         townCity: Town or city
         county: County
         postcode: Postcode
+    budget:
+      item: Item or activity
+      itemPlaceholder: eg. Posters
+      amount: Amount
+      amountPlaceholder: eg. 1234
+      deleteThisRow: Delete this row
+      deleteRow: Delete row
+      tooManyItems: Your number of budget headings must be less than or equal to
+      overBudget: Costs you would like us to fund must be less than
+      total: Total
   questionList:
     introduction:
       title: Questions you'll be asked

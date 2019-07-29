@@ -501,6 +501,7 @@
                 field-name="{{ field.name }}"
                 :max-budget="{{ field.attributes.max }}"
                 :max-items="{{ field.attributes.rowLimit }}"
+                i18n="{{ copy | dump }}"
                 {% if field.value %}:budget-data="{{ field.value | dump }}"{% endif %}>
             </budget-input>
 
@@ -525,19 +526,20 @@
     <li class="ff-budget__row">
         <div class="ff-budget__row-item">
             <label class="ff-label" for="ff-{{ field.name }}-{{ counter }}-item">
-                Item or activity
+                {{ copy.fields.budget.item }}
             </label>
             <input type="text"
-                id="ff-{{ field.name }}-{{ counter }}-item"
-                autocomplete="off"
-                name="{{ field.name }}[{{ counter }}][item]"
-                {% if lineItem %}value="{{ lineItem.item }}"{% endif %}
-                class="ff-text u-block-full"
+                   id="ff-{{ field.name }}-{{ counter }}-item"
+                   autocomplete="off"
+                   placeholder="{{ copy.fields.budget.itemPlaceholder }}"
+                   name="{{ field.name }}[{{ counter }}][item]"
+                   {% if lineItem %}value="{{ lineItem.item }}"{% endif %}
+                   class="ff-text u-block-full"
             />
         </div>
         <div class="ff-budget__row-amount">
             <label class="ff-label" for="ff-{{ field.name }}-{{ counter }}-cost">
-                Amount
+                {{ copy.fields.budget.amount }}
             </label>
             <div class="ff-currency">
                 <div class="ff-currency__pre">£</div>
@@ -546,6 +548,7 @@
                     id="ff-{{ field.name }}-{{ counter }}-cost"
                     name="{{ field.name }}[{{ counter }}][cost]"
                     min="1" max="{{ field.attributes.max }}"
+                    placeholder="{{ copy.fields.budget.amountPlaceholder }}"
                     {% if lineItem %}value="{{ lineItem.cost }}"{% endif %}
                     class="ff-currency__input"
                 />

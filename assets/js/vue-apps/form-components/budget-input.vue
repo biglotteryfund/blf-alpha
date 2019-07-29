@@ -1,5 +1,6 @@
 <script>
 import sumBy from 'lodash/sumBy';
+import get from 'lodash/get';
 import concat from 'lodash/concat';
 import IconBin from '../components/icon-bin.vue';
 
@@ -11,6 +12,7 @@ export default {
         fieldName: { type: String, required: true },
         maxBudget: { type: Number, required: true },
         maxItems: { type: Number, required: true },
+        i18n: { type: String, default: null },
         budgetData: {
             type: Array,
             default() {
@@ -20,13 +22,22 @@ export default {
     },
     data() {
         // Add a ready-to-use new row if the budget isn't over the limit already
-        const budgetRowsArr = (this.budgetData.length < this.maxItems)
-            ? concat(this.budgetData, [{ item: '', cost: '' }])
-            : this.budgetData;
+        const budgetRowsArr =
+            this.budgetData.length < this.maxItems
+                ? concat(this.budgetData, [{ item: '', cost: '' }])
+                : this.budgetData;
         return {
             budgetRows: budgetRowsArr,
-            error: {}
+            error: {},
+            copy: {}
         };
+    },
+    mounted() {
+        if (this.i18n) {
+            try {
+                this.copy = JSON.parse(this.i18n);
+            } catch (e) {} // eslint-disable-line no-empty
+        }
     },
     computed: {
         total() {
@@ -49,12 +60,15 @@ export default {
                 }
 
                 if (this.error.TOO_MANY_ITEMS) {
-                    trackEvent('Budget Component', 'Error', 'Maximum number of items reached');
+                    trackEvent(
+                        'Budget Component',
+                        'Error',
+                        'Maximum number of items reached'
+                    );
                 }
-
             },
             deep: true
-        },
+        }
     },
     methods: {
         getLineItemName(index, subFieldName) {
@@ -78,6 +92,9 @@ export default {
                 this.budgetRows.length > 1 &&
                 index !== this.budgetRows.length - 1
             );
+        },
+        localise(path) {
+            return get(this.copy, `fields.budget.${path}`);
         }
     }
 };
@@ -97,8 +114,8 @@ export default {
                     <label
                         class="ff-label"
                         :for="getLineItemName(index, 'item')"
+                        v-html="localise('item')"
                     >
-                        Item or activity
                     </label>
                     <input
                         class="ff-text u-block-full"
@@ -106,7 +123,7 @@ export default {
                         :name="getLineItemName(index, 'item')"
                         :id="getLineItemName(index, 'item')"
                         autocomplete="off"
-                        placeholder="eg. Posters"
+                        :placeholder="localise('itemPlaceholder')"
                         v-model="lineItem.item"
                     />
                 </div>
@@ -114,8 +131,8 @@ export default {
                     <label
                         class="ff-label"
                         :for="getLineItemName(index, 'cost')"
+                        v-html="localise('amount')"
                     >
-                        Amount
                     </label>
                     <div class="ff-currency ff-currency--row">
                         <div class="ff-currency__pre">£</div>
@@ -124,7 +141,7 @@ export default {
                             :name="getLineItemName(index, 'cost')"
                             :id="getLineItemName(index, 'cost')"
                             v-model.number="lineItem.cost"
-                            placeholder="eg. 1234"
+                            :placeholder="localise('amountPlaceholder')"
                             min="1"
                             step="1"
                             :max="maxBudget"
@@ -142,10 +159,10 @@ export default {
                         <span class="btn__icon btn__icon-left">
                             <IconBin
                                 :id="'delete-icon-' + index"
-                                description="Delete this row"
+                                :description="localise('deleteThisRow')"
                             />
                         </span>
-                        Delete row
+                        {{ localise('deleteRow') }}
                         <span class="u-visually-hidden">
                             "{{ lineItem.item }}" (row {{ index + 1 }})
                         </span>
@@ -160,15 +177,11 @@ export default {
             aria-atomic="true"
             data-testid="budget-errors"
         >
-            <!-- @TODO localise -->
             <p v-if="error.TOO_MANY_ITEMS">
-                You must use {{ maxItems }} budget headings or fewer to tell us
-                your costs
+                {{ localise('tooManyItems') }} {{ maxItems }}
             </p>
             <p v-if="error.OVER_BUDGET">
-                Costs you would like us to fund must be less than £{{
-                    maxBudget.toLocaleString()
-                }}.
+                {{ localise('overBudget') }} £{{ maxBudget.toLocaleString() }}.
             </p>
         </div>
 
@@ -178,7 +191,7 @@ export default {
             aria-atomic="true"
             data-testid="budget-total"
         >
-            <dt class="ff-budget__total-label">Total</dt>
+            <dt class="ff-budget__total-label" v-html="localise('total')"></dt>
             <dd class="ff-budget__total-amount">
                 £{{ total.toLocaleString() }}
             </dd>
