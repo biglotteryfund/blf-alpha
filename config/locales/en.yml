@@ -1438,6 +1438,35 @@ applyNext:
         townCity: Town or city
         county: County
         postcode: Postcode
+  questionList:
+    introduction:
+      title: Questions you'll be asked
+      body: >
+        Below is a list of all of the questions you may be asked when applying for %1$s. Please note that some questions are optional depending on your other answers to the form. You may find it helpful to revise our <a href="/funding/under10k">%1$s guidance</a>. <strong>Please note</strong>: in order to submit your application you'll need to agree to our terms and conditions.
+    eligibility:
+      title: Eligibility questions
+      note: You'll need to answer all of these before beginning your application form.
+    confirmCriteria: Confirm the following criteria
+    chooseFromSelection: Choose as many options as you like from a selection
+    pickOneFromSelection: Pick one option from a selection
+    provideBudget: Provide an itemised budget
+    maxBudget: "to a maximum total of £%s"
+    maxBudgetAndRows: "to a maximum total of £%s across %s items"
+    provideFinancialFigure: Provide a financial figure
+    provideAddress: Provide an address
+    provideDate: Provide a date
+    provideEmail: Provide an email address
+    uploadFile: Upload a file
+    provideName: Provide a person's full name
+    provideNumber: Provide a number
+    providePhone: Provide a telephone number
+    provideText: Provide a sentence or two
+    provideTextLong: Provide a longer answer
+    minAndMaxWords: between %s-%s words
+    minWords: minimum of %s words
+    maxWords: maximum of %s words
+    optional: optional, but may be required depending on your circumstances
+    conditionalNote: "<strong>Note</strong>: this field may be optional depending on your other answers"
   #  @TODO: Move other common text to common:
   common:
     delete: Delete application
