@@ -483,86 +483,63 @@ describe('Who will benefit', () => {
         );
     });
 
-    test('welsh language question required for applicants in Wales', () => {
-        assertValidByKey({
-            projectCountry: 'england',
-            beneficiariesWelshLanguage: undefined
-        });
-
-        assertValidByKey({
-            projectCountry: 'scotland',
-            beneficiariesWelshLanguage: undefined
-        });
-
+    test('welsh language question required in wales', () => {
         assertValidByKey({
             projectCountry: 'wales',
             beneficiariesWelshLanguage: 'all'
         });
 
-        const expectedMessage = expect.stringContaining(
-            'Select the amount of people who speak Welsh'
-        );
-
-        assertMessagesByKey(
-            {
-                projectCountry: 'wales',
-                beneficiariesWelshLanguage: undefined
-            },
-            [expectedMessage]
-        );
-
-        assertMessagesByKey(
-            {
-                projectCountry: 'wales',
-                beneficiariesWelshLanguage: 'not-a-valid-choice'
-            },
-            [expectedMessage]
-        );
+        [undefined, 'not-a-valid-choice'].forEach(input => {
+            assertMessagesByKey(
+                {
+                    projectCountry: 'wales',
+                    beneficiariesWelshLanguage: input
+                },
+                [
+                    expect.stringContaining(
+                        'Select the amount of people who speak Welsh'
+                    )
+                ]
+            );
+        });
     });
 
-    test('additional community question in Northern Ireland', () => {
-        assertValidByKey({
-            projectCountry: 'england',
-            beneficiariesNorthernIrelandCommunity: undefined
-        });
+    test.each(['england', 'scotland', 'northern-ireland'])(
+        `welsh language question not required in %p`,
+        function(country) {
+            assertValidByKey({
+                projectCountry: country,
+                beneficiariesWelshLanguage: undefined
+            });
+        }
+    );
 
-        assertValidByKey({
-            projectCountry: 'scotland',
-            beneficiariesNorthernIrelandCommunity: undefined
-        });
-
-        assertValidByKey({
-            projectCountry: 'wales',
-            beneficiariesNorthernIrelandCommunity: undefined
-        });
-
+    test('additional community question required in Northern Ireland', () => {
         assertValidByKey({
             projectCountry: 'northern-ireland',
             beneficiariesNorthernIrelandCommunity: 'mainly-catholic'
         });
 
-        assertValidByKey({
-            projectCountry: 'northern-ireland',
-            beneficiariesNorthernIrelandCommunity: 'mainly-protestant'
+        [undefined, 'not-a-valid-choice'].forEach(input => {
+            assertMessagesByKey(
+                {
+                    projectCountry: 'northern-ireland',
+                    beneficiariesNorthernIrelandCommunity: input
+                },
+                [expect.stringContaining('Select the community')]
+            );
         });
-
-        const expectedMessage = expect.stringContaining('Select the community');
-        assertMessagesByKey(
-            {
-                projectCountry: 'northern-ireland',
-                beneficiariesNorthernIrelandCommunity: undefined
-            },
-            [expectedMessage]
-        );
-
-        assertMessagesByKey(
-            {
-                projectCountry: 'northern-ireland',
-                beneficiariesNorthernIrelandCommunity: 'not-a-valid-choice'
-            },
-            [expectedMessage]
-        );
     });
+
+    test.each(['england', 'scotland', 'wales'])(
+        `northern ireland community questions not required in %p`,
+        function(country) {
+            assertValidByKey({
+                projectCountry: country,
+                beneficiariesNorthernIrelandCommunity: undefined
+            });
+        }
+    );
 });
 
 describe('Your organisation', () => {
