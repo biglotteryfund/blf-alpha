@@ -51,9 +51,11 @@ router
         injectBreadcrumbs
     )
     .get(function(req, res) {
-        res.locals.alertMessage = req.i18n.__(
-            `user.common.alertMessages.${req.query.s}`
-        );
+        if (req.query.s) {
+            res.locals.alertMessage = req.i18n.__(
+                `user.common.alertMessages.${req.query.s}`
+            );
+        }
         renderForm(req, res);
     })
     .post(async (req, res, next) => {

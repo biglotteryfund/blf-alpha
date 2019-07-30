@@ -8,21 +8,19 @@ const { Users } = require('../../../db/models');
 
 const { signTokenActivate } = require('./jwt');
 
-module.exports = async function sendActivationEmail(
-    req,
-    user
-) {
+module.exports = async function sendActivationEmail(req, user) {
     const dateOfActivationAttempt = moment().unix();
     const token = signTokenActivate(user.id, dateOfActivationAttempt);
 
-    const activationUrl = getAbsoluteUrl(
-        req,
-        `/user/activate?token=${token}`
-    );
+    const activationUrl = getAbsoluteUrl(req, `/user/activate?token=${token}`);
 
     const emailContent = {
         subject: req.i18n.__('user.activate.email.subject'),
-        body: req.i18n.__('user.activate.email.body', user.username, activationUrl)
+        body: req.i18n.__(
+            'user.activate.email.body',
+            user.username,
+            activationUrl
+        )
     };
 
     const mailParams = {
@@ -35,7 +33,7 @@ module.exports = async function sendActivationEmail(
         {
             template: path.resolve(
                 __dirname,
-                '../views/emails/activate-account.njk'
+                '../views/emails/email-from-locale.njk'
             ),
             templateData: {
                 body: emailContent.body

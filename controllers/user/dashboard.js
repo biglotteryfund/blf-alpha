@@ -9,7 +9,9 @@ const router = express.Router();
 
 router.get('/', requireUserAuth, injectCopy('user.dashboard'), (req, res) => {
     res.render(path.resolve(__dirname, './views/dashboard'), {
-        alertMessage: req.i18n.__(`user.common.alertMessages.${req.query.s}`)
+        alertMessage: req.query.s
+            ? req.i18n.__(`user.common.alertMessages.${req.query.s}`)
+            : null
     });
 });
 

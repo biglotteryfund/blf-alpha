@@ -1130,10 +1130,37 @@ user:
       <a href="%s">resetting your password</a>.
   forgottenPassword:
     title: Forgotten your password?
+    email:
+      subject: Reset the password for your The National Lottery Community Fund website account
+      body: >
+        <h1>The National Lottery Community Fund</h1>
+        <h2>Password reset requested</h2>
+
+        <p><strong>We just got a request to change the password for this email address</strong></p>
+        <h3><a href="%s">Change your password</a></h3>
+
+        <p><strong>If you don't want to reset your password</strong></p>
+        <p>You don't have to do anything. Just ignore this email.</p>
+
+        <p>Thanks,</p>
+        <p>The National Lottery Community Fund</p>
   resetPassword:
     title: Reset your password
     introduction: >
       <p>Please choose a new password for your account by entering it below. Ensure you choose a strong password.</p>
+    errorMessage: There was a problem updating your password - please try again
+    email:
+      subject: You just changed your password
+      body: >
+        <h1>The National Lottery Community Fund</h1>
+        <h2>You just changed your password</h2>
+
+        <p>Hello,</p>
+        <p>Just an email to let you know you’ve successfully changed your online password.</p>
+        <p>If this wasn’t you – and you don’t know about any password changes – please <a href="https://www.tnlcommunityfund.org.uk/contact">talk to us</a> straight away.</p>
+
+        <p>Thanks,</p>
+        <p>The National Lottery Community Fund</p>
   updateEmail:
     title: Update email address
     introduction: >
