@@ -483,41 +483,63 @@ describe('Who will benefit', () => {
         );
     });
 
-    test.skip('welsh language question required for applicants in Wales', () => {
-        function value(country, val) {
-            return {
-                projectCountry: country,
-                beneficiariesWelshLanguage: val
-            };
-        }
+    test('welsh language question required in wales', () => {
+        assertValidByKey({
+            projectCountry: 'wales',
+            beneficiariesWelshLanguage: 'all'
+        });
 
-        assertValidByKey(value('england'));
-        assertValidByKey(value('scotland'));
-        assertValidByKey(value('wales', 'all'));
-        assertMessagesByKey(value('wales'), ['Choose an option']);
-        assertMessagesByKey(value('wales', 'not-a-valid-choice'), [
-            'Choose an option'
-        ]);
+        [undefined, 'not-a-valid-choice'].forEach(input => {
+            assertMessagesByKey(
+                {
+                    projectCountry: 'wales',
+                    beneficiariesWelshLanguage: input
+                },
+                [
+                    expect.stringContaining(
+                        'Select the amount of people who speak Welsh'
+                    )
+                ]
+            );
+        });
     });
 
-    test.skip('additional community question in Northern Ireland', () => {
-        function value(country, val) {
-            return {
+    test.each(['england', 'scotland', 'northern-ireland'])(
+        `welsh language question not required in %p`,
+        function(country) {
+            assertValidByKey({
                 projectCountry: country,
-                beneficiariesNorthernIrelandCommunity: val
-            };
+                beneficiariesWelshLanguage: undefined
+            });
         }
+    );
 
-        assertValidByKey(value('england'));
-        assertValidByKey(value('scotland'));
-        assertValidByKey(value('wales'));
-        assertValidByKey(value('northern-ireland', 'mainly-catholic'));
-        assertValidByKey(value('northern-ireland', 'mainly-protestant'));
-        assertMessagesByKey(value('northern-ireland'), ['Choose an option']);
-        assertMessagesByKey(value('northern-ireland', 'not-a-valid-choice'), [
-            'Choose an option'
-        ]);
+    test('additional community question required in Northern Ireland', () => {
+        assertValidByKey({
+            projectCountry: 'northern-ireland',
+            beneficiariesNorthernIrelandCommunity: 'mainly-catholic'
+        });
+
+        [undefined, 'not-a-valid-choice'].forEach(input => {
+            assertMessagesByKey(
+                {
+                    projectCountry: 'northern-ireland',
+                    beneficiariesNorthernIrelandCommunity: input
+                },
+                [expect.stringContaining('Select the community')]
+            );
+        });
     });
+
+    test.each(['england', 'scotland', 'wales'])(
+        `northern ireland community questions not required in %p`,
+        function(country) {
+            assertValidByKey({
+                projectCountry: country,
+                beneficiariesNorthernIrelandCommunity: undefined
+            });
+        }
+    );
 });
 
 describe('Your organisation', () => {
