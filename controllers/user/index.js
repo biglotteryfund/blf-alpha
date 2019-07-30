@@ -7,6 +7,11 @@ const { Users } = require('../../db/models');
 const { localify, redirectForLocale } = require('../../common/urls');
 const { noCache } = require('../../middleware/cached');
 const { requireNotStaffAuth } = require('../../middleware/authed');
+const { injectCopy } = require('../../middleware/inject-content');
+
+const logger = require('../../common/logger').child({
+    service: 'user'
+});
 
 const router = express.Router();
 
@@ -47,7 +52,11 @@ if (features.enableSeeders) {
  * Public user routes
  * Disallow staff from this point on
  */
-router.use(requireNotStaffAuth, function(req, res, next) {
+router.use(requireNotStaffAuth, injectCopy('applyNext'), function(
+    req,
+    res,
+    next
+) {
     res.locals.bodyClass = 'has-static-header'; // No hero images on user pages
     res.locals.sectionTitle = req.i18n.__('user.common.yourAccount');
     res.locals.sectionUrl = req.baseUrl;
@@ -83,6 +92,7 @@ router.use('/update-email', require('./update-email'));
 
 router.get('/logout', function(req, res) {
     req.logout();
+    logger.info('User logout');
     req.session.save(() => {
         redirectForLocale(req, res, '/user/login?s=loggedOut');
     });
