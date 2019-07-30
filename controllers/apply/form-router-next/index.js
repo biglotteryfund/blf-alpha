@@ -186,6 +186,11 @@ function initFormRouter({
                 userId: req.user.userData.id
             });
 
+            commonLogger.info('Application created', {
+                service: 'apply',
+                formId: formId
+            });
+
             setCurrentlyEditingId(req, application.id);
             req.session.save(() => {
                 res.redirect(`${req.baseUrl}/summary`);
