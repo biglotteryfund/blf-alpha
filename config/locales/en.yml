@@ -1126,6 +1126,7 @@ user:
     actionLabel: Log in
     registerLabel: create an account
     forgottenPasswordPrompt: Forgotten your password?
+    credentialError: Your username and password combination is invalid
   register:
     title: Create an account
     actionLabel: Create an account

@@ -105,7 +105,7 @@ router
                         await LoginRateLimiter.consumeRateLimit();
                         return renderForm(req, res, req.body, [
                             {
-                                msg: `Your username and password combination is invalid`
+                                msg: res.locals.copy.credentialError
                             }
                         ]);
                     } catch (rateLimitRejection) {
