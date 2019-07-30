@@ -58,15 +58,15 @@ router.use(requireNotStaffAuth, function(req, res, next) {
         res.locals.userNavigationLinks = [
             {
                 url: localify(req.i18n.getLocale())('/apply/awards-for-all'),
-                label: 'Applications'
+                label: res.locals.copy.navigation.applications
             },
             {
                 url: localify(req.i18n.getLocale())('/user'),
-                label: 'Account'
+                label: res.locals.copy.navigation.account
             },
             {
                 url: localify(req.i18n.getLocale())('/user/logout'),
-                label: 'Log out'
+                label: res.locals.copy.navigation.logOut
             }
         ];
     }
