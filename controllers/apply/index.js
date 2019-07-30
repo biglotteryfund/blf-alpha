@@ -2,7 +2,6 @@
 const express = require('express');
 const features = require('config').get('features');
 
-const { renderNotFound } = require('../errors');
 const digitalFund = require('./digital-fund');
 const reachingCommunities = require('./reaching-communities');
 
@@ -30,18 +29,9 @@ if (features.enableDigitalFundApplications) {
 
 /**
  * Awards for All
- * Guard access with feature flag
  */
-router.use(
-    '/awards-for-all',
-    function(req, res, next) {
-        if (res.locals.enableAwardsForAllApplications) {
-            next();
-        } else {
-            renderNotFound(req, res);
-        }
-    },
-    require('./awards-for-all')
-);
+if (features.enableAwardsForAllApplications) {
+    router.use('/awards-for-all', require('./awards-for-all'));
+}
 
 module.exports = router;
