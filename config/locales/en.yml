@@ -1082,6 +1082,11 @@ user:
     yourAccount: Your account
     emailAddress: Email address
     password: Password
+    passwordConfirmation:
+      label: Password confirmation
+      explanation: Re-type your password
+    passwordOld: Your old password
+    passwordNew: Your new password
     passwordRequirements: >
       <p>Must be at least 10 characters long <br>
       Must not be the same as your email address<br>
@@ -1153,6 +1158,7 @@ user:
     introduction: >
       <p>Please choose a new password for your account by entering it below. Ensure you choose a strong password.</p>
     errorMessage: There was a problem updating your password - please try again
+    errorExpired: Your password reset link was invalid or has expired. <a href="/user/password/forgot">Please try again</a>.
     email:
       subject: You just changed your password
       body: >
@@ -1445,6 +1451,14 @@ applyNext:
     title: Start an application for<br /> National Lottery Awards for All
     intro: A quick and simple way to get small National Lottery grants of between £300 and £10,000
     callToAction: Start a new application
+  locationMessage: >
+      <p>Welcome to our new online application for National Lottery Awards for All.</p>
+      <p><strong>Applying for a project in Scotland?</strong></p>
+      <p>Great - you’re in the right place. You’ll need to <a href="/user/register">create a new account</a> to apply. Unless you’ve already created an account for our new online application form.</p>
+      <p><strong>Applying for a project in England or Wales?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
+      <p><strong>Applying for a project in Northern Ireland?</strong></p>
+      <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
   dashboard:
     title: Your applications
     introduction: >
