@@ -22,8 +22,6 @@ const {
 } = require('../../middleware/authed');
 const { csrfProtection } = require('../../middleware/cached');
 
-const alertMessage = require('./lib/alert-message');
-
 const router = express.Router();
 
 function renderForm(req, res, formValues = null, errors = []) {
@@ -53,10 +51,9 @@ router
         injectBreadcrumbs
     )
     .get(function(req, res) {
-        res.locals.alertMessage = alertMessage({
-            locale: req.i18n.getLocale(),
-            status: req.query.s
-        });
+        res.locals.alertMessage = req.i18n.__(
+            `user.common.alertMessages.${req.query.s}`
+        );
         renderForm(req, res);
     })
     .post(async (req, res, next) => {
