@@ -1130,6 +1130,10 @@ user:
       <a href="%s">resetting your password</a>.
   forgottenPassword:
     title: Forgotten your password?
+    emailExplanation: Enter the email address associated with your account.
+    resetConfirmation: Password reset requested. If the email address entered is correct you will receive instructions via email.
+    callToAction: Reset password
+    loginLink: Already reset your password? <a href="%s">Log in</a>
     email:
       subject: Reset the password for your The National Lottery Community Fund website account
       body: >
@@ -1437,6 +1441,10 @@ applyNext:
     account: Account
     logOut: Log out
     summary: Summary
+  startApplication:
+    title: Start an application for<br /> National Lottery Awards for All
+    intro: A quick and simple way to get small National Lottery grants of between £300 and £10,000
+    callToAction: Start a new application
   dashboard:
     title: Your applications
     introduction: >
