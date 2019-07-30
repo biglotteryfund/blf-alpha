@@ -1089,6 +1089,15 @@ user:
         Read tips on how to create a strong password
         <span class="u-visually-hidden"> National Cyber Security Centre - External link</span>
       </a></p>
+  validationMessages:
+    emailInvalid: Enter a valid email address
+    oldPasswordRequired: Enter your current password
+    oldPasswordWrong: Your old password was not correct
+    passwordRequired: Enter a password
+    passwordMatchesEmail: Password must be different from your email address
+    passwordLength: Password must be at least %s characters long
+    passwordStrength: Password is too weak, try another password
+    passwordConfirmation: Passwords must match
   dashboard:
     title: Your account
     sectionLinks:

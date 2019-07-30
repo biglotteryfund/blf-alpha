@@ -58,8 +58,9 @@ router
     )
     .get(renderForm)
     .post(async function handleRegister(req, res, next) {
+
         const validationResult = validateSchema(
-            newAccounts(req.i18n.getLocale()),
+            newAccounts(req.i18n),
             req.body
         );
 

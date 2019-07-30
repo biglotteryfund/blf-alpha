@@ -105,7 +105,7 @@ router
     .get(renderForgotForm)
     .post(async function(req, res) {
         const validationResult = validateSchema(
-            schemas.emailOnly(req.i18n.getLocale()),
+            schemas.emailOnly(req.i18n),
             req.body
         );
 
@@ -180,14 +180,16 @@ router
                 const errors = [
                     {
                         param: 'oldPassword',
-                        msg: 'Your old password was not correct'
+                        msg: req.i18n.__(
+                            'user.validationMessages.oldPasswordWrong'
+                        )
                     }
                 ];
                 renderResetForm(req, res, null, errors);
             } else {
                 // Update the stored password to new one
                 const validationResult = validateSchema(
-                    schemas.passwordReset(req.i18n.getLocale()),
+                    schemas.passwordReset(req.i18n),
                     req.body
                 );
 
@@ -227,7 +229,7 @@ router
             } else {
                 // Is this user's token valid to modify this password?
                 const validationResult = validateSchema(
-                    schemas.passwordReset(req.i18n.getLocale()),
+                    schemas.passwordReset(req.i18n),
                     req.body
                 );
 
