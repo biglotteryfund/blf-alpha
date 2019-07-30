@@ -15,10 +15,20 @@ module.exports = async function sendActivationEmail(
     const dateOfActivationAttempt = moment().unix();
     const token = signTokenActivate(user.id, dateOfActivationAttempt);
 
+    const activationUrl = getAbsoluteUrl(
+        req,
+        `/user/activate?token=${token}`
+    );
+
+    const emailContent = {
+        subject: req.i18n.__('user.activate.email.subject'),
+        body: req.i18n.__('user.activate.email.body', user.username, activationUrl)
+    };
+
     const mailParams = {
         name: 'user_activate_account',
         sendTo: user.username,
-        subject: `Activate your The National Lottery Community Fund website account`
+        subject: emailContent.subject
     };
 
     const email = await sendHtmlEmail(
@@ -28,12 +38,7 @@ module.exports = async function sendActivationEmail(
                 '../views/emails/activate-account.njk'
             ),
             templateData: {
-                locale: req.i18n.getLocale(),
-                activateUrl: getAbsoluteUrl(
-                    req,
-                    `/user/activate?token=${token}`
-                ),
-                email: user.username
+                body: emailContent.body
             }
         },
         mailParams
