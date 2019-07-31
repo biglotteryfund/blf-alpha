@@ -66,14 +66,10 @@ router
     })
     .post(async function(req, res, next) {
         try {
-
-            await sendActivationEmail(
-                req,
-                req.user.userData
-            );
+            await sendActivationEmail(req, req.user.userData);
 
             res.locals.resendSuccessful = true;
-            logger.info('Activation email sent');
+            logger.info('Activation email re-sent');
             renderTemplate(req, res);
         } catch (err) {
             logger.error('Activation email failed', err);
