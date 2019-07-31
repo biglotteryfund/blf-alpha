@@ -195,7 +195,7 @@ router.get('/:applicationId', async (req, res, next) => {
             {
                 id: 'pending',
                 title: 'In-progress applications created',
-                verb: 'started',
+                verb: 'in progress',
                 applications: await getApplications('pending')
             },
             {
