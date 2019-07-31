@@ -145,7 +145,7 @@
                     </div>
                     <script>
                         new Chart(document.getElementById('{{ chartId }}'), {
-                            type: 'line',
+                            type: 'bar',
                             data: {
                                 {% if country %}
                                     datasets: [{
@@ -161,7 +161,8 @@
                                                 label: '{{ country.title }}',
                                                 data: {{ country.data | dump(2) | safe }},
                                                 borderColor: '{{ country.colour }}',
-                                                fill: '{{ country.colour }}'
+                                                fill: '{{ country.colour }}',
+                                                backgroundColor: '{{ country.colour }}'
                                             },
                                         {% endfor %}
                                     ]
@@ -180,6 +181,7 @@
                                 scales: {
                                     xAxes: [{
                                         type: 'time',
+                                        offset: true,
                                         display: true,
                                         scaleLabel: {
                                             display: false,
