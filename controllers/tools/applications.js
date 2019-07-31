@@ -36,12 +36,11 @@ function applicationsByDay(responses) {
         .startOf('day')
         .diff(oldestResponseDate.startOf('day'), 'days');
 
-    const dayData = times(daysInRange, function(n) {
+    const dayData = times(daysInRange + 1, function(n) {
         const key = oldestResponseDate
             .clone()
             .add(n, 'days')
             .format(DATE_FORMAT);
-
         const responsesForDay = grouped[key] || [];
 
         return {
@@ -207,22 +206,20 @@ router.get('/:applicationId', async (req, res, next) => {
         ];
 
         const getAppsToday = dataset => {
-            const appsToday = dataset.filter(
+            const appsToday = dataset.find(
                 _ => _.x === moment().format(DATE_FORMAT)
             );
-            return appsToday.length ? appsToday.y : 0;
+            return appsToday ? appsToday.y : 0;
         };
 
         const applicationData = appTypes.map(appType => {
+            const appsPerDay = applicationsByDay(appType.applications);
             appType.data = {
-                appsPerDay: applicationsByDay(appType.applications),
-                get totals() {
-                    return {
-                        applicationsToday: getAppsToday(this.appsPerDay),
-                        applicationsAll: appType.applications.length,
-                        uniqueUsers: uniqBy(appType.applications, 'userId')
-                            .length
-                    };
+                appsPerDay: appsPerDay,
+                totals: {
+                    applicationsToday: getAppsToday(appsPerDay),
+                    applicationsAll: appType.applications.length,
+                    uniqueUsers: uniqBy(appType.applications, 'userId').length
                 }
             };
 
