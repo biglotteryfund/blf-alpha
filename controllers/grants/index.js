@@ -16,8 +16,7 @@ const {
 const { sMaxAge } = require('../../middleware/cached');
 const contentApi = require('../../common/content-api');
 
-const grantsService = require('./lib/grants-service');
-const checkSpelling = require('./lib/check-spelling');
+const grantsService = require('./grants-service');
 
 const router = express.Router();
 
