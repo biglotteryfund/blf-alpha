@@ -115,8 +115,8 @@ function makeBehaviourItem({
  * construct array of behaviours from a URL list
  */
 function generateBehaviours(origins) {
-    const defaultCookies = [cookies.session, cookies.awardsForAllPreview];
-    const cookiesWithoutSession = [cookies.awardsForAllPreview];
+    const defaultCookies = [cookies.session];
+    const cookiesWithoutSession = [];
 
     const defaultBehaviour = makeBehaviourItem({
         originId: origins.site,
