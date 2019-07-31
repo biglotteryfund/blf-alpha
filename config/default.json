@@ -40,7 +40,7 @@
   },
   "features": {
     "enableAllowLocalhost": false,
-    "enableAwardsForAllApplications": false,
+    "enableAwardsForAllApplications": true,
     "enableCloudWatchLogs": true,
     "enableDigitalFundApplications": false,
     "enableHotjar": false,
