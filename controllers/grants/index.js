@@ -103,15 +103,8 @@ router.get(
                 ...facetParams,
                 ...{ page: req.query.page || 1, locale }
             };
-            const data = await grantsService.query(queryWithPage);
 
-            let searchSuggestions = false;
-            if (data.meta.totalResults === 0 && req.query.q) {
-                searchSuggestions = await checkSpelling({
-                    searchTerm: req.query.q,
-                    locale: locale
-                });
-            }
+            const data = await grantsService.query(queryWithPage);
 
             res.format({
                 // Initial / server-only search
@@ -123,7 +116,7 @@ router.get(
                         facets: data.facets,
                         meta: data.meta,
                         grantDataDates: data.meta.grantDates,
-                        searchSuggestions: searchSuggestions,
+                        searchSuggestions: data.meta.searchSuggestions,
                         pagination: buildPagination(
                             req,
                             data.meta.pagination,
