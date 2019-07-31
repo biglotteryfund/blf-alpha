@@ -7,7 +7,6 @@ const moment = require('moment');
 const i18n = require('i18n-2');
 const yaml = require('js-yaml');
 const nunjucks = require('nunjucks');
-const bodyParser = require('body-parser');
 const cacheControl = require('express-cache-controller');
 const favicon = require('serve-favicon');
 const helmet = require('helmet');
@@ -233,8 +232,8 @@ app.use([
             }
         }
     }),
-    bodyParser.json(),
-    bodyParser.urlencoded({ extended: true })
+    express.json(),
+    express.urlencoded({ extended: true })
 ]);
 
 app.use(sessionMiddleware(app));
