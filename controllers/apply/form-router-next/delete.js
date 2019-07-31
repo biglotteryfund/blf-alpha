@@ -22,9 +22,6 @@ module.exports = function(formId) {
                 if (application) {
                     res.render(path.resolve(__dirname, './views/delete'), {
                         title: res.locals.copy.delete.title,
-                        breadcrumbs: res.locals.breadcrumbs.concat([
-                            { label: res.locals.copy.delete.title }
-                        ]),
                         csrfToken: req.csrfToken()
                     });
                 } else {
