@@ -1556,7 +1556,8 @@ applyNext:
         postcode: Postcode
     bankStatement:
       help:
-        title: What we need from you
+        title: Help with your bank statement
+        helpTitle: What we need from you
         body: >
           <p><strong>Please make sure that we can clearly see the following on your bank statement:</strong></p>
           <ul>
@@ -1615,6 +1616,11 @@ applyNext:
     unsuccessfulTitle: Sorry, you're not eligible to apply at this time
     whatNow: What now?
   #  @TODO: Move other common text to common:
+  errors:
+    file:
+      errorScanInfected: This file has been blocked for security reasons.
+      errorScanUnknown: This file is still being scanned for security risks - please check back shortly.
+      errorOther: There was an issue retrieving your file - please try again soon.
   common:
     delete: Delete
     exit: Exit
