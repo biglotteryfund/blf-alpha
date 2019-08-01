@@ -105,6 +105,11 @@ router.get(
 
             const data = await grantsService.query(queryWithPage);
 
+            let searchSuggestions = false;
+            if (data.meta.totalResults === 0 && req.query.q) {
+                searchSuggestions = get(data.meta, 'searchSuggestions', null);
+            }
+
             res.format({
                 // Initial / server-only search
                 'html': async () => {
@@ -115,7 +120,7 @@ router.get(
                         facets: data.facets,
                         meta: data.meta,
                         grantDataDates: data.meta.grantDates,
-                        searchSuggestions: data.meta.searchSuggestions,
+                        searchSuggestions: searchSuggestions,
                         pagination: buildPagination(
                             req,
                             data.meta.pagination,
