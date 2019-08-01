@@ -48,10 +48,9 @@
         "Forward": "whitelist",
         "WhitelistedNames": {
           "Items": [
-            "blf-alpha-session",
-            "awards-for-all-preview"
+            "blf-alpha-session"
           ],
-          "Quantity": 2
+          "Quantity": 1
         }
       }
     },
@@ -112,10 +111,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session",
-                "awards-for-all-preview"
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -172,13 +170,7 @@
           },
           "QueryString": true,
           "Cookies": {
-            "Forward": "whitelist",
-            "WhitelistedNames": {
-              "Items": [
-                "awards-for-all-preview"
-              ],
-              "Quantity": 1
-            }
+            "Forward": "none"
           }
         },
         "TrustedSigners": {
@@ -240,10 +232,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session",
-                "awards-for-all-preview"
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -303,10 +294,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session",
-                "awards-for-all-preview"
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -372,10 +362,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session",
-                "awards-for-all-preview"
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -439,10 +428,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session",
-                "awards-for-all-preview"
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -497,10 +485,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session",
-                "awards-for-all-preview"
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -567,10 +554,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session",
-                "awards-for-all-preview"
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -627,13 +613,7 @@
           },
           "QueryString": true,
           "Cookies": {
-            "Forward": "whitelist",
-            "WhitelistedNames": {
-              "Items": [
-                "awards-for-all-preview"
-              ],
-              "Quantity": 1
-            }
+            "Forward": "none"
           }
         },
         "TrustedSigners": {
@@ -695,10 +675,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session",
-                "awards-for-all-preview"
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -758,10 +737,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session",
-                "awards-for-all-preview"
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -827,10 +805,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session",
-                "awards-for-all-preview"
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -894,10 +871,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session",
-                "awards-for-all-preview"
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },
@@ -952,10 +928,9 @@
             "Forward": "whitelist",
             "WhitelistedNames": {
               "Items": [
-                "blf-alpha-session",
-                "awards-for-all-preview"
+                "blf-alpha-session"
               ],
-              "Quantity": 2
+              "Quantity": 1
             }
           }
         },

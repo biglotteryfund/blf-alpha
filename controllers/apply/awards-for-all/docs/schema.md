@@ -390,7 +390,8 @@ Present if `organisationType` is `not-for-profit-company`
 
 type: `string` or `null`
 
-Present if `organisationType` is `unincorporated-registered-charity` or `charitable-incorporated-organisation`
+Required if `organisationType` is `unincorporated-registered-charity` or `charitable-incorporated-organisation`
+Optional if `organisationType` is `not-for-profit-company` or `faith-group`
 
 ### educationNumber
 

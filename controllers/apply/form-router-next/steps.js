@@ -44,17 +44,8 @@ module.exports = function(formId, formBuilder) {
                         });
 
                         if (step.isRequired) {
-                            const breadcrumbs = res.locals.breadcrumbs.concat([
-                                {
-                                    label: section.shortTitle || section.title,
-                                    url: sectionUrl
-                                },
-                                { label: step.title }
-                            ]);
-
                             const viewData = {
                                 csrfToken: req.csrfToken(),
-                                breadcrumbs: breadcrumbs,
                                 section: section,
                                 step: step,
                                 stepNumber: stepNumber,

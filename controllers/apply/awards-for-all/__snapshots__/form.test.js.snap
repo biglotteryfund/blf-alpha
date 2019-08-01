@@ -172,9 +172,6 @@ exports[`Global validation default validations for an empty form 1`] = `
 Array [
   "Enter a project name",
   "Select a country",
-  "Select a location",
-  "Tell us the towns, villages or wards your beneficiaries live in",
-  "Enter a real postcode",
   "Tell us about your project",
   "Tell us how your project meets at least one of our funding priorities",
   "Tell us how your project involves your community",

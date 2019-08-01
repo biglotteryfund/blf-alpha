@@ -27,6 +27,7 @@ function getTransports() {
     } else {
         return [
             new transports.Console({
+                silent: process.env.CI,
                 format: format.combine(
                     format.colorize(),
                     format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),

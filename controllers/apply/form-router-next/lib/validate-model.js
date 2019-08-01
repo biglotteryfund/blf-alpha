@@ -5,6 +5,7 @@ module.exports = function validateModel(formModel) {
     const fieldSchema = Joi.object({
         name: Joi.string().required(),
         label: Joi.string().required(),
+        labelExisting: Joi.string().optional(),
         explanation: Joi.string().optional(),
         type: Joi.string()
             .valid([
@@ -29,6 +30,8 @@ module.exports = function validateModel(formModel) {
             ])
             .required(),
         attributes: Joi.object().optional(),
+        settings: Joi.object().optional(),
+        options: Joi.array().optional(),
         isRequired: Joi.alternatives().try(Joi.boolean(), Joi.func()),
         schema: Joi.object()
             .schema()
@@ -39,7 +42,10 @@ module.exports = function validateModel(formModel) {
                 key: Joi.string().optional(),
                 message: Joi.string().required()
             })
-        )
+        ),
+        warnings: Joi.array().optional(),
+        errors: Joi.array().optional(),
+        featuredErrors: Joi.array().optional()
     });
 
     const fieldsetSchema = Joi.object({
@@ -47,14 +53,23 @@ module.exports = function validateModel(formModel) {
         introduction: Joi.string().optional(),
         fields: Joi.array()
             .items(fieldSchema)
-            .required()
+            .required(),
+        footer: Joi.string().optional()
     });
 
     const stepSchema = Joi.object({
         title: Joi.string().required(),
+        slug: Joi.string().required(),
+        isRequired: Joi.boolean().required(),
         fieldsets: Joi.array()
             .items(fieldsetSchema)
-            .required()
+            .required(),
+        message: Joi.object({
+            title: Joi.string().required(),
+            body: Joi.string().required()
+        }).optional(),
+        preFlightCheck: Joi.func().optional(),
+        isMultipart: Joi.boolean().optional()
     });
 
     const sectionSchema = Joi.object({
@@ -65,23 +80,34 @@ module.exports = function validateModel(formModel) {
         introduction: Joi.string().optional(),
         steps: Joi.array()
             .items(stepSchema)
-            .required()
+            .required(),
+        hasFeaturedErrors: Joi.boolean().required(),
+        progress: Joi.object({
+            slug: Joi.string().required(),
+            label: Joi.string().required(),
+            status: Joi.string()
+                .valid(['complete', 'incomplete', 'empty'])
+                .required()
+        }).required()
     });
 
     const formSchema = Joi.object({
         title: Joi.string().required(),
+        isBilingual: Joi.boolean().required(),
+        allFields: Joi.object().required(),
         summary: Joi.object().required(),
         schemaVersion: Joi.string().required(),
         forSalesforce: Joi.func().required(),
+        formData: Joi.object().required(),
+        validation: Joi.object().required(),
+        progress: Joi.object().required(),
+        featuredErrorsAllowList: Joi.array().optional(),
         sections: Joi.array()
             .items(sectionSchema)
             .required()
     });
 
-    const validationResult = Joi.validate(formModel, formSchema, {
-        abortEarly: true,
-        allowUnknown: true
-    });
+    const validationResult = Joi.validate(formModel, formSchema);
 
     const arrayFieldTypes = [
         'budget',

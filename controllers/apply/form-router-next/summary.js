@@ -80,7 +80,6 @@ module.exports = function(formBuilder) {
             form: form,
             csrfToken: req.csrfToken(),
             title: title,
-            breadcrumbs: res.locals.breadcrumbs.concat({ label: title }),
             currentProjectName: get('projectName')(currentApplicationData),
             showErrors: showErrors,
             errors: form.validation.messages,

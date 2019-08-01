@@ -61,12 +61,13 @@ router
     .post(async (req, res, next) => {
         logger.info('Login attempted');
 
-        // Key all rate-limited login attempts by the user's IP and the attempted username
-        const RATE_LIMIT_UNIQUE_KEY = `${req.ip}_${req.body.username}`;
-
+        /**
+         * Key all rate-limited login attempts by
+         * the user's IP and the attempted username
+         */
         const LoginRateLimiter = await new RateLimiter(
             rateLimiterConfigs.failByUsername,
-            RATE_LIMIT_UNIQUE_KEY
+            [req.ip, req.body.username]
         ).init();
 
         if (LoginRateLimiter.isRateLimited()) {

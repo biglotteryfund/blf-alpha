@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 
 const { PendingApplication } = require('../../../db/models');
+const logger = require('../../../common/logger').child({ service: 'apply' });
 
 module.exports = function(formId) {
     const router = express.Router();
@@ -22,9 +23,6 @@ module.exports = function(formId) {
                 if (application) {
                     res.render(path.resolve(__dirname, './views/delete'), {
                         title: res.locals.copy.delete.title,
-                        breadcrumbs: res.locals.breadcrumbs.concat([
-                            { label: res.locals.copy.delete.title }
-                        ]),
                         csrfToken: req.csrfToken()
                     });
                 } else {
@@ -34,12 +32,15 @@ module.exports = function(formId) {
                 res.redirect(res.locals.formBaseUrl);
             }
         })
-        .post(async (req, res, next) => {
+        .post(async function(req, res, next) {
             try {
                 await PendingApplication.deleteApplication(
                     req.params.applicationId,
                     req.user.userData.id
                 );
+                logger.info('Application deleted', {
+                    applicationId: req.params.applicationId
+                });
                 res.redirect(res.locals.formBaseUrl + '?s=applicationDeleted');
             } catch (error) {
                 next(error);

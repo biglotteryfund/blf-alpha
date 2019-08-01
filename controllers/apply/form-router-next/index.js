@@ -69,7 +69,6 @@ function initFormRouter({
         res.locals.formTitle = form.title;
         res.locals.formId = formId;
         res.locals.formBaseUrl = req.baseUrl;
-        res.locals.breadcrumbs = [{ label: form.title, url: req.baseUrl }];
 
         res.locals.user = req.user;
         res.locals.isBilingual = form.isBilingual;
@@ -183,6 +182,11 @@ function initFormRouter({
             const application = await PendingApplication.createNewApplication({
                 formId: formId,
                 userId: req.user.userData.id
+            });
+
+            commonLogger.info('Application created', {
+                service: 'apply',
+                formId: formId
             });
 
             setCurrentlyEditingId(req, application.id);

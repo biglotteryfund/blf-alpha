@@ -12,6 +12,6 @@
     "enableMailSendMetrics": true
   },
   "awardsForAll": {
-    "allowedCountries": ["england", "scotland"]
+    "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]
   }
 }

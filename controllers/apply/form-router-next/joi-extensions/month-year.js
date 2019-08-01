@@ -10,7 +10,6 @@ const valueToDate = value => {
     });
 };
 
-// @TODO Could dateParts and dayMonth be merged with options?
 module.exports = function monthYear(joi) {
     return {
         name: 'monthYear',

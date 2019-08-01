@@ -2,7 +2,6 @@
 const { toInteger } = require('lodash');
 const moment = require('moment');
 
-// @TODO Could dateParts and dayMonth be merged with options?
 module.exports = function dayMonth(joi) {
     return {
         name: 'dayMonth',
