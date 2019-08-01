@@ -3,7 +3,7 @@ const path = require('path');
 const moment = require('moment');
 
 const { sendHtmlEmail } = require('../../../common/mail');
-const { getAbsoluteUrl } = require('../../../common/urls');
+const { getAbsoluteUrl, localify } = require('../../../common/urls');
 const { Users } = require('../../../db/models');
 
 const { signTokenActivate } = require('./jwt');
@@ -12,7 +12,10 @@ module.exports = async function sendActivationEmail(req, user) {
     const dateOfActivationAttempt = moment().unix();
     const token = signTokenActivate(user.id, dateOfActivationAttempt);
 
-    const activationUrl = getAbsoluteUrl(req, `/user/activate?token=${token}`);
+    const urlPath = localify(req.i18n.getLocale())(
+        `/user/activate?token=${token}`
+    );
+    const activationUrl = getAbsoluteUrl(req, urlPath);
 
     const emailContent = {
         subject: req.i18n.__('user.activate.email.subject'),

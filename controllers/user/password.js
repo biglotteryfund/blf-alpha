@@ -7,7 +7,11 @@ const Sentry = require('@sentry/node');
 const { Users } = require('../../db/models');
 const { sanitise } = require('../../common/sanitise');
 const { sendHtmlEmail } = require('../../common/mail');
-const { getAbsoluteUrl, redirectForLocale } = require('../../common/urls');
+const {
+    getAbsoluteUrl,
+    redirectForLocale,
+    localify
+} = require('../../common/urls');
 const { requireNoAuth } = require('../../middleware/authed');
 const {
     injectCopy,
@@ -35,7 +39,10 @@ async function processResetRequest(req, user) {
         './views/emails/email-from-locale.njk'
     );
 
-    const resetUrl = getAbsoluteUrl(req, `/user/password/reset?token=${token}`);
+    const urlPath = localify(req.i18n.getLocale())(
+        `/user/password/reset?token=${token}`
+    );
+    const resetUrl = getAbsoluteUrl(req, urlPath);
     const templateData = {
         body: req.i18n.__('user.forgottenPassword.email.body', resetUrl)
     };
