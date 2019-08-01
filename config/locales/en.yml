@@ -1181,7 +1181,7 @@ user:
   activate:
     title: Activate your account
     introduction: >
-      A email has been sent to <strong>%s</strong>.
+      An email has been sent to <strong>%s</strong>.
       To activate your account, please click on the link in the email.
     email:
       subject: Activate your The National Lottery Community Fund website account
