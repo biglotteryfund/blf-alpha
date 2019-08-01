@@ -107,7 +107,7 @@ router
                         await LoginRateLimiter.consumeRateLimit();
                         return renderForm(req, res, req.body, [
                             {
-                                msg: `Your username and password combination is invalid`
+                                msg: `Your username and password aren't quite right. Or you might not have an account, as this is a new application form - try <a href="/user/register">creating an account</a>.`
                             }
                         ]);
                     } catch (rateLimitRejection) {
