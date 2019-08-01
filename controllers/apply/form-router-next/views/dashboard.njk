@@ -128,7 +128,7 @@
             </div>
 
             {% if pendingApplications.length > 0 %}
-                <h2 class="t--underline">In progress</h2>
+                <h2 class="t--underline">{{ copy.dashboard.inProgressTitle }}</h2>
                 {% for application in pendingApplications %}
                     {{ pendingApplicationCard(application) }}
                 {% endfor %}
