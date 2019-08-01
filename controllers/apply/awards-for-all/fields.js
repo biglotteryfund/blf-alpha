@@ -287,7 +287,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function dateOfBirthField(minAge, props) {
         const defaultProps = {
             explanation: localise({
-                en: `We need your date of birth to help confirm who you are. And we do check your date of birth. So make sure you've entered it right. If you don't, it could delay your application.`,
+                en: `We need their date of birth to help confirm who they are. And we do check their date of birth. So make sure you've entered it right. If you don't, it could delay your application.`,
                 cy: ''
             }),
             type: 'date',
@@ -321,7 +321,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'dateParts.dob.tooOld',
                     message: localise({
-                        en: `Your birth date is not valid - please use four digits, eg. 1986`,
+                        en: `Their birth date is not valid - please use four digits, eg. 1986`,
                         cy: ''
                     })
                 }
@@ -2112,7 +2112,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 name: 'mainContactAddress',
                 label: localise({ en: 'Home address', cy: '' }),
                 explanation: localise({
-                    en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've entered it right. If you don't, it could delay your application.`,
+                    en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
                     cy: ''
                 }),
                 schema: stripIfExcludedOrgType(Joi.ukAddress().mainContact())
@@ -2206,7 +2206,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 name: 'seniorContactAddress',
                 label: localise({ en: 'Home address', cy: '' }),
                 explanation: localise({
-                    en: `We need your home address to help confirm who you are. And we do check your address. So make sure you've entered it right. If you don't, it could delay your application.`,
+                    en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
                     cy: ''
                 }),
                 schema: stripIfExcludedOrgType(Joi.ukAddress().seniorContact())
@@ -2224,7 +2224,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         seniorContactAddressHistory: addressHistoryField({
             name: 'seniorContactAddressHistory',
             label: localise({
-                en: `Have you lived at your last address for at least three years?`,
+                en: `Have they lived at their last address for at least three years?`,
                 cy: ``
             })
         }),
