@@ -1509,6 +1509,8 @@ applyNext:
     collapseAll: Collapse all sections
     showQuestions: Show questions
     notRequired: You don't need to fill this bit in because of what you've told us about your project so far.
+    errorSummaryTitle: These fields need attention before you can submit
+    featuredErrorsTitle: Some details in your application need extra attention
   delete:
     title: Are you sure you want to delete your application?
     message: >
@@ -1517,6 +1519,10 @@ applyNext:
         If you're sure you want to delete your application, then you can proceed below.
       </p>
     success: Your application was successfully deleted
+  questions:
+    printLink: Print these questions
+    downloadLink: Download these questions (PDF)
+    printWarning: Application form questions for %s – <strong>Please do not attempt to fill out this form or send it to The National Lottery Community Fund.</strong> We will not accept paper copies of this form.
   sectionPrefix: Section
   statusNotStarted: Not started
   statusInProgress: In progress
@@ -1548,6 +1554,21 @@ applyNext:
         townCity: Town or city
         county: County
         postcode: Postcode
+    bankStatement:
+      help:
+        title: What we need from you
+        body: >
+          <p><strong>Please make sure that we can clearly see the following on your bank statement:</strong></p>
+          <ul>
+              <li>Your organisation’s legal name</li>
+              <li>The address the statements are sent to</li>
+              <li>The bank name</li>
+              <li>Account number</li>
+              <li>Sort code</li>
+              <li>Date (must be within last 3 months)</li>
+          </ul>
+          <img src="/assets/images/apply/afa-bank-statement-example.png"
+               alt="An example of a bank statement we need from you, with the bank name, date, organisation address, account number and organisation legal name circled" />
     budget:
       item: Item or activity
       itemPlaceholder: eg. Posters
@@ -1566,6 +1587,7 @@ applyNext:
     eligibility:
       title: Eligibility questions
       note: You'll need to answer all of these before beginning your application form.
+      checkerTitle: Eligibility checker
     confirmCriteria: Confirm the following criteria
     chooseFromSelection: Choose as many options as you like from a selection
     pickOneFromSelection: Pick one option from a selection
@@ -1587,9 +1609,18 @@ applyNext:
     maxWords: maximum of %s words
     optional: optional, but may be required depending on your circumstances
     conditionalNote: "<strong>Note</strong>: this field may be optional depending on your other answers"
+  eligibility:
+    title: Eligibility checker
+    successfulTitle: Great! You're eligible to apply to %s
+    unsuccessfulTitle: Sorry, you're not eligible to apply at this time
+    whatNow: What now?
   #  @TODO: Move other common text to common:
   common:
     delete: Delete
+    exit: Exit
+    closeThisPage: Close this page
     deleteApplication: Delete application
     errorUploading: There was an error uploading your file, please try again
     untitledApplication: Untitled Application
+    startYourApplication: Start your application
+    backToApplications: Back to your applications

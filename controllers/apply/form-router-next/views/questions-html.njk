@@ -19,10 +19,10 @@
             {{ userStatus(user) }}
 
             <div class="o-button-group u-dont-print">
-                {{ printButton(label = 'Print these questions') }}
+                {{ printButton(label = copy.questions.printLink) }}
                 <a class="btn btn--medium btn--outline"
                    href="./questions/pdf">
-                    {{ iconDownload() }} Download these questions (PDF)
+                    {{ iconDownload() }} {{ copy.questions.downloadLink }}
                 </a>
             </div>
         </section>
