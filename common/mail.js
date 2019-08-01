@@ -1,6 +1,5 @@
 'use strict';
 const path = require('path');
-const config = require('config');
 const AWS = require('aws-sdk');
 const nunjucks = require('nunjucks');
 const nodemailer = require('nodemailer');
@@ -11,7 +10,6 @@ const { isString, isArray } = require('lodash');
 const logger = require('./logger').child({ service: 'mail' });
 
 const { isTestServer } = require('../common/appData');
-const metrics = require('./metrics');
 
 /**
  * @typedef {object} MailAddress
@@ -205,7 +203,7 @@ function createSesTransport() {
  * @property {string} options.name
  * @property {MailConfig} options.mailConfig
  * @property {nodemailer.Transporter} options.mailTransport
- * @return {Promise<nodemailer.SentMessageInfo>}
+ * @return {Promise}
  */
 function sendEmail({ name, mailConfig, mailTransport = null }) {
     /**
@@ -223,19 +221,7 @@ function sendEmail({ name, mailConfig, mailTransport = null }) {
         const transport = mailTransport ? mailTransport : createSesTransport();
 
         return transport.sendMail(buildMailOptions(mailConfig)).then(info => {
-            /**
-             * Record a send count as a CloudWatch event if enabled
-             * istanbul ignore if
-             */
-            if (config.get('features.enableMailSendMetrics')) {
-                metrics.count({
-                    name: name,
-                    namespace: 'SITE/MAIL',
-                    dimension: 'MAIL_SENT',
-                    value: 'SEND_COUNT'
-                });
-            }
-
+            logger.info('Mail sent', { name: name });
             return info;
         });
     }

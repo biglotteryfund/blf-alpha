@@ -44,7 +44,6 @@
     "enableCloudWatchLogs": true,
     "enableDigitalFundApplications": false,
     "enableHotjar": false,
-    "enableMailSendMetrics": false,
     "enableNameChangeMessage": true,
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
