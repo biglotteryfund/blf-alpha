@@ -1095,6 +1095,8 @@ user:
         Read tips on how to create a strong password
         <span class="u-visually-hidden"> National Cyber Security Centre - External link</span>
       </a></p>
+    loggedInAs: Logged in as
+    logOut: log out
     alertMessages:
       activationSent: An email was sent to your registered address with instructions to activate your account.
       activationComplete: Your account was successfully activated!
@@ -1102,6 +1104,8 @@ user:
       emailUpdated: Your email address was successfully updated!
       loggedOut: You were successfully logged out.
       passwordResetRequest: Password reset requested. If the email address entered is correct, you will receive further instructions via email.
+    activationRequired: >
+      Now we need to make sure the email address you just gave us is right. Check your emails to activate your account. Or do you need us to <a href="/user/activate">re-send the activation link</a>?
   validationMessages:
     emailInvalid: Enter a valid email address
     oldPasswordRequired: Enter your current password

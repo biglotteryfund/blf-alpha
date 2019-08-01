@@ -4,7 +4,7 @@
         {% if user and (not nextPage or not previousPage) %}
             <div class="user-nav__primary">
                 <p class="user-nav__text">
-                    Logged in as <strong>{{ user.userData.username }}</strong>
+                    {{ __('user.common.loggedInAs') }} <strong>{{ user.userData.username }}</strong>
                 </p>
             </div>
         {% else %}
