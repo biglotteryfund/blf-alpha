@@ -2130,7 +2130,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         mainContactAddressHistory: addressHistoryField({
             name: 'mainContactAddressHistory',
             label: localise({
-                en: 'Have they lived at this address for the last three years?',
+                en:
+                    'Have they lived at their home address for the last three years?',
                 cy: ''
             })
         }),
@@ -2224,7 +2225,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         seniorContactAddressHistory: addressHistoryField({
             name: 'seniorContactAddressHistory',
             label: localise({
-                en: `Have they lived at their last address for at least three years?`,
+                en: `Have they lived at their home address for the last three years?`,
                 cy: ``
             })
         }),
