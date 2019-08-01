@@ -1473,7 +1473,30 @@ applyNext:
       applications you've previously submitted online. You can also see the
       <a href="%s">questions you'll be asked</a> when you apply.</p>
     inProgressTitle: In progress
-    submittedTitle: Submitted
+    submitted: Submitted
+    notYetCompleted: not yet completed
+    continueApplication: Continue with this application
+    applicationStatus: Application status
+    notSubmitted: Not submitted
+    expiryMessage: >
+      <p>You started your application on <strong>%s</strong>.</p>
+      <p>You have until <strong>%s</strong> to complete your application.</p>
+    beforeYouStart:
+      title: Before you start
+      body: >
+        You might want to look at some helpful advice and tips about <a href="/funding/under10k">applying for funding on our website</a>.
+    decisionMessage: We aim to let you know our decision in about %s weeks. If you have any questions,
+      <a href="/contact">contact a member of our advice team</a>.
+    locationMessage: >
+      <p><strong>Applying for a project in England or Wales?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
+      <p><strong>Applying for a project in Northern Ireland?</strong></p>
+      <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
+      <p>Only applicants in Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
+    newApplication:
+      title: New application
+      body: You can create a new funding application for %s here
+      cta: Start new application
   summary:
     title: Summary
     introduction: >
@@ -1566,5 +1589,7 @@ applyNext:
     conditionalNote: "<strong>Note</strong>: this field may be optional depending on your other answers"
   #  @TODO: Move other common text to common:
   common:
-    delete: Delete application
+    delete: Delete
+    deleteApplication: Delete application
     errorUploading: There was an error uploading your file, please try again
+    untitledApplication: Untitled Application

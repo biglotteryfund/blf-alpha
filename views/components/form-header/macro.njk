@@ -20,6 +20,6 @@
 {% macro formHeaderWithData(formTitle, projectName) %}
     <div class="form-header u-tone-background-tint u-padded u-flush">
         <p class="form-header__prefix">{{ formTitle }}</p>
-        <p class="t2 form-header__title" data-hj-suppress>{{ projectName or "Untitled Application" }}</p>
+        <p class="t2 form-header__title" data-hj-suppress>{{ projectName or __('applyNext.common.untitledApplication') }}</p>
     </div>
 {% endmacro %}
