@@ -135,6 +135,9 @@ function getColourForCountry(countryName) {
         case 'Wales':
             colour = '#ffa600';
             break;
+        case 'Location unspecified':
+            colour = '#cccccc';
+            break;
         default:
             colour = '#e5007d';
             break;
@@ -230,8 +233,11 @@ router.get('/:applicationId', async (req, res, next) => {
                 for (const [appCountry, apps] of Object.entries(
                     appsByCountry
                 )) {
-                    if (appCountry && appCountry !== 'undefined') {
-                        const countryName = titleCase(appCountry);
+                    if (appCountry) {
+                        const countryName =
+                            appCountry !== 'undefined'
+                                ? titleCase(appCountry)
+                                : 'Location unspecified';
                         appsByCountryByDay.push({
                             title: countryName,
                             data: applicationsByDay(apps),
