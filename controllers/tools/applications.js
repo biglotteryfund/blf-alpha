@@ -197,7 +197,7 @@ router.get('/:applicationId', async (req, res, next) => {
             req.params.applicationId
         );
         const feedback = feedbackDescription
-            ? await Feedback.findAllByDescription(feedbackDescription)
+            ? await Feedback.findByDescription(feedbackDescription)
             : null;
 
         const getApplications = async appType => {

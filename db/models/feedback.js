@@ -39,27 +39,21 @@ class Feedback extends Model {
             })
         ]);
     }
-    static findAllByDescription(description = null) {
-        const whereClause = description
-            ? {
-                  description: {
-                      [Op.eq]: description
-                  }
-              }
-            : null;
+    static findAllByDescription() {
+        return this.findAll({
+            order: [['description', 'ASC'], ['updatedAt', 'DESC']]
+        }).then(groupBy(result => result.description.toLowerCase()));
+    }
 
-        const getAllRows = this.findAll({
-            where: whereClause,
+    static findByDescription(description) {
+        return this.findAll({
+            where: {
+                description: {
+                    [Op.eq]: description
+                }
+            },
             order: [['description', 'ASC'], ['updatedAt', 'DESC']]
         });
-
-        if (description) {
-            return getAllRows;
-        } else {
-            return getAllRows.then(
-                groupBy(result => result.description.toLowerCase())
-            );
-        }
     }
 }
 
