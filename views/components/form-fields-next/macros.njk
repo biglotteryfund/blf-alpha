@@ -164,15 +164,13 @@
     </div>
     <fieldset class="ff-date ff-date--range" id="field-{{ field.name }}-start">
         <legend class="ff-label ff-date__legend">
-            {# @TODO i18n #}
-            Start date
+            {{ copy.fields.dates.startDate }}
         </legend>
         {{ dayMonthYearInputs(field, rangePeriod = 'startDate') }}
     </fieldset>
     <fieldset class="ff-date ff-date--range u-margin-top" id="field-{{ field.name }}-end">
         <legend class="ff-label ff-date__legend">
-            {# @TODO i18n #}
-            End date
+            {{ copy.fields.dates.endDate }}
         </legend>
         {{ dayMonthYearInputs(field, rangePeriod = 'endDate') }}
     </fieldset>
@@ -351,7 +349,7 @@
         <div class="o-details__content ff-address__fields">
             <div class="ff-address__field">
                 {{ inputText({
-                    label: 'Building and street',
+                    label: copy.fields.address.fieldNames.line1,
                     name: field.name + '[line1]',
                     value: field.value['line1'],
                     type: 'text',
@@ -361,7 +359,7 @@
             </div>
             <div class="ff-address__field">
                 {{ inputText({
-                    label: 'Address line 2',
+                    label: copy.fields.address.fieldNames.line2,
                     name: field.name + '[line2]',
                     value: field.value['line2'],
                     type: 'text',
@@ -372,7 +370,7 @@
             </div>
             <div class="ff-address__field">
                 {{ inputText({
-                    label: 'Town or city',
+                    label: copy.fields.address.fieldNames.townCity,
                     name: field.name + '[townCity]',
                     value: field.value['townCity'],
                     type: 'text',
@@ -382,7 +380,7 @@
             </div>
             <div class="ff-address__field">
                 {{ inputText({
-                    label: 'County',
+                    label: copy.fields.address.fieldNames.county,
                     name: field.name + '[county]',
                     value: field.value['county'],
                     type: 'text',
@@ -392,7 +390,7 @@
             </div>
             <div class="ff-address__field">
                 {{ inputText({
-                    label: 'Postcode',
+                    label: copy.fields.address.fieldNames.postcode,
                     name: field.name + '[postcode]',
                     value: field.value['postcode'],
                     type: 'text',
@@ -417,6 +415,7 @@
                 field-name="{{ field.name }}"
                 locale="{{ locale }}"
                 address="{{ field.value | dump }}"
+                i18n="{{ copy | dump }}"
             >
             </address-lookup>
 
@@ -502,6 +501,7 @@
                 field-name="{{ field.name }}"
                 :max-budget="{{ field.attributes.max }}"
                 :max-items="{{ field.attributes.rowLimit }}"
+                i18n="{{ copy | dump }}"
                 {% if field.value %}:budget-data="{{ field.value | dump }}"{% endif %}>
             </budget-input>
 
@@ -526,19 +526,20 @@
     <li class="ff-budget__row">
         <div class="ff-budget__row-item">
             <label class="ff-label" for="ff-{{ field.name }}-{{ counter }}-item">
-                Item or activity
+                {{ copy.fields.budget.item }}
             </label>
             <input type="text"
-                id="ff-{{ field.name }}-{{ counter }}-item"
-                autocomplete="off"
-                name="{{ field.name }}[{{ counter }}][item]"
-                {% if lineItem %}value="{{ lineItem.item }}"{% endif %}
-                class="ff-text u-block-full"
+                   id="ff-{{ field.name }}-{{ counter }}-item"
+                   autocomplete="off"
+                   placeholder="{{ copy.fields.budget.itemPlaceholder }}"
+                   name="{{ field.name }}[{{ counter }}][item]"
+                   {% if lineItem %}value="{{ lineItem.item }}"{% endif %}
+                   class="ff-text u-block-full"
             />
         </div>
         <div class="ff-budget__row-amount">
             <label class="ff-label" for="ff-{{ field.name }}-{{ counter }}-cost">
-                Amount
+                {{ copy.fields.budget.amount }}
             </label>
             <div class="ff-currency">
                 <div class="ff-currency__pre">£</div>
@@ -547,6 +548,7 @@
                     id="ff-{{ field.name }}-{{ counter }}-cost"
                     name="{{ field.name }}[{{ counter }}][cost]"
                     min="1" max="{{ field.attributes.max }}"
+                    placeholder="{{ copy.fields.budget.amountPlaceholder }}"
                     {% if lineItem %}value="{{ lineItem.cost }}"{% endif %}
                     class="ff-currency__input"
                 />

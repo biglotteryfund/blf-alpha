@@ -1,56 +1,63 @@
-{# @TODO i18n #}
 {% macro fieldTypeHelpText(field, step) %}
     {% if field.type === 'checkbox' %}
         {% if field.options.length === 1 %}
-            Confirm the following criteria
+            {{ copy.questionList.confirmCriteria }}
         {% else %}
-            Choose as many options as you like from a selection
+            {{ copy.questionList.chooseFromSelection }}
         {% endif %}
     {% elseif field.type === 'radio' or field.type === 'select' %}
-        Pick one option from a selection
+        {{ copy.questionList.pickOneFromSelection }}
     {% elseif field.type === 'budget' %}
-        Provide an itemised budget
+        {{ copy.questionList.provideBudget }}
         {% if field.attributes.max %}
-            (to a maximum total of £{{ field.attributes.max.toLocaleString() }}{% if field.attributes.rowLimit %} across {{ field.attributes.rowLimit }} items{% endif %})
+            {% if field.attributes.rowLimit %}
+                ({{ __('applyNext.questionList.maxBudgetAndRows', field.attributes.max.toLocaleString(), field.attributes.rowLimit) }})
+            {% else %}
+                ({{ __('applyNext.questionList.maxBudget', field.attributes.max.toLocaleString()) }})
+            {% endif %}
         {% endif %}
     {% elseif field.type === 'currency' %}
-        Provide a financial figure
+        {{ copy.questionList.provideFinancialFigure }}
     {% elseif field.type === 'address' or field.type === 'address-history' %}
-        Provide an address
+        {{ copy.questionList.provideAddress }}
     {% elseif field.type === 'date' or field.type === 'day-month' or field.type === 'date-range' or field.type === 'month-year' %}
-        Provide a date
+        {{ copy.questionList.provideDate }}
     {% elseif field.type === 'email' %}
-        Provide an email address
+        {{ copy.questionList.provideEmail }}
     {% elseif field.type === 'file' %}
-        Upload a file
+        {{ copy.questionList.uploadFile }}
     {% elseif field.type === 'full-name' %}
-        Provide a person's full name
+        {{ copy.questionList.provideName }}
     {% elseif field.type === 'number' %}
-        Provide a number
+        {{ copy.questionList.provideNumber }}
     {% elseif field.type === 'tel' %}
-        Provide a telephone number
+        {{ copy.questionList.providePhone }}
     {% elseif field.type === 'text' %}
-        Provide a sentence or two
+        {{ copy.questionList.provideText }}
     {% elseif field.type === 'textarea' %}
-        Provide a longer answer
+        {{ copy.questionList.provideTextLong }}
         {% if field.settings.minWords and field.settings.maxWords %}
-            (between {{ field.settings.minWords }}-{{ field.settings.maxWords }} words)
+            ({{ __('applyNext.questionList.minAndMaxWords', field.settings.minWords, field.settings.maxWords) }})
         {% else %}
-            {% if field.settings.minWords %} (minimum of {{ field.settings.minWords }} words){% endif %}
-            {% if field.settings.maxWords %} (maximum of {{ field.settings.maxWords }} words){% endif %}
+            {% if field.settings.minWords %}
+                ({{ __('applyNext.questionList.minWords', field.settings.minWords) }})
+            {% endif %}
+            {% if field.settings.maxWords %}
+                ({{ __('applyNext.questionList.maxWords', field.settings.maxWords) }})
+            {% endif %}
         {% endif %}
     {% endif %}
     {% if step.notRequired %}
-        &mdash; optional, but may be required depending on your circumstances
+        &mdash; {{ copy.questionList.optional }}
     {% elseif field.isRequired %}
-        &mdash; required
+        &mdash; {{ __('global.misc.required') | lower }}
     {% elseif not field.isRequired %}
-        &mdash; optional
+        &mdash; {{ __('global.misc.optional') | lower }}
     {% endif %}
 
     {% if field.isConditional %}
         <p class="u-margin-top-s u-margin-bottom-s">
-            (<strong>Note</strong>: this field may be optional depending on your other answers)
+            ({{ copy.questionList.conditionalNote | safe }})
         </p>
     {% endif %}
 {% endmacro %}
@@ -71,8 +78,8 @@
 {% macro questionsIntro(form) %}
     <div class="s-prose">
         <h1 class="t--underline">{{ form.title }}</h1>
-        <h3>Questions you'll be asked</h3>
-        <p>Below is a list of all of the questions you may be asked when applying for {{ form.title }}. Please note that some questions are optional depending on your other answers to the form. You may find it helpful to revise our <a href="{{ localify('/funding/under10k') }}">{{ form.title }} guidance</a>. <strong>Please note</strong>: in order to submit your application you'll need to agree to our terms and conditions.</p>
+        <h3>{{ copy.questionList.introduction.title }}</h3>
+        <p>{{ __('applyNext.questionList.introduction.body', form.title) | safe }}</p>
     </div>
 {% endmacro %}
 
@@ -80,8 +87,8 @@
 
     <section class="application-questions">
 
-        {% call header('Eligibility questions') %}
-            <p class="u-no-margin u-text-x-small">You'll need to answer all of these before beginning your application form.</p>
+        {% call header(copy.questionList.eligibility.title) %}
+            <p class="u-no-margin u-text-x-small">{{ copy.questionList.eligibility.note }}</p>
         {% endcall %}
 
         <div class="application-questions__set">

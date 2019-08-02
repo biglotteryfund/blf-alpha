@@ -7,7 +7,11 @@ const Sentry = require('@sentry/node');
 const { Users } = require('../../db/models');
 const { sanitise } = require('../../common/sanitise');
 const { sendHtmlEmail } = require('../../common/mail');
-const { getAbsoluteUrl, redirectForLocale } = require('../../common/urls');
+const {
+    getAbsoluteUrl,
+    redirectForLocale,
+    localify
+} = require('../../common/urls');
 const { requireNoAuth } = require('../../middleware/authed');
 const {
     injectCopy,
@@ -32,13 +36,15 @@ async function processResetRequest(req, user) {
 
     const template = path.resolve(
         __dirname,
-        './views/emails/forgotten-password.njk'
+        './views/emails/email-from-locale.njk'
     );
 
+    const urlPath = localify(req.i18n.getLocale())(
+        `/user/password/reset?token=${token}`
+    );
+    const resetUrl = getAbsoluteUrl(req, urlPath);
     const templateData = {
-        locale: req.i18n.getLocale(),
-        resetUrl: getAbsoluteUrl(req, `/user/password/reset?token=${token}`),
-        email: user.username
+        body: req.i18n.__('user.forgottenPassword.email.body', resetUrl)
     };
 
     await sendHtmlEmail(
@@ -46,7 +52,7 @@ async function processResetRequest(req, user) {
         {
             name: 'user_password_reset',
             sendTo: user.username,
-            subject: `Reset the password for your The National Lottery Community Fund website account`
+            subject: req.i18n.__('user.forgottenPassword.email.subject')
         }
     );
 
@@ -56,21 +62,20 @@ async function processResetRequest(req, user) {
 function sendPasswordResetNotification(req, email) {
     const template = path.resolve(
         __dirname,
-        './views/emails/password-reset.njk'
+        './views/emails/email-from-locale.njk'
     );
 
     return sendHtmlEmail(
         {
             template: template,
             templateData: {
-                locale: req.i18n.getLocale(),
-                email: email
+                body: req.i18n.__('user.resetPassword.email.body')
             }
         },
         {
             name: 'user_password_reset_success',
             sendTo: email,
-            subject: `You just changed your password`
+            subject: req.i18n.__('user.resetPassword.email.subject')
         }
     );
 }
@@ -105,7 +110,7 @@ router
     .get(renderForgotForm)
     .post(async function(req, res) {
         const validationResult = validateSchema(
-            schemas.emailOnly(req.i18n.getLocale()),
+            schemas.emailOnly(req.i18n),
             req.body
         );
 
@@ -180,14 +185,16 @@ router
                 const errors = [
                     {
                         param: 'oldPassword',
-                        msg: 'Your old password was not correct'
+                        msg: req.i18n.__(
+                            'user.validationMessages.oldPasswordWrong'
+                        )
                     }
                 ];
                 renderResetForm(req, res, null, errors);
             } else {
                 // Update the stored password to new one
                 const validationResult = validateSchema(
-                    schemas.passwordReset(req.i18n.getLocale()),
+                    schemas.passwordReset(req.i18n),
                     req.body
                 );
 
@@ -206,7 +213,9 @@ router
                         logger.warn('Password change failed', error);
                         renderResetForm(req, res, validationResult.value, [
                             {
-                                msg: `There was a problem updating your password`
+                                msg: req.i18n.__(
+                                    'user.resetPassword.errorMessage'
+                                )
                             }
                         ]);
                     }
@@ -227,7 +236,7 @@ router
             } else {
                 // Is this user's token valid to modify this password?
                 const validationResult = validateSchema(
-                    schemas.passwordReset(req.i18n.getLocale()),
+                    schemas.passwordReset(req.i18n),
                     req.body
                 );
 
@@ -284,7 +293,9 @@ router
                         res.locals.token = token;
                         const errors = [
                             {
-                                msg: `There was a problem updating your password - please try again`
+                                msg: req.i18n.__(
+                                    'user.resetPassword.errorMessage'
+                                )
                             }
                         ];
                         return renderResetForm(

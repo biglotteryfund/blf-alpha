@@ -62,14 +62,12 @@ describe('BudgetInput', () => {
         addItem('My thing 9', 6000);
         checkItemCount(10);
         checkTotal('£10,500');
-        checkWarning(
-            `Costs you would like us to fund must be less than £${maxBudget.toLocaleString()}.`
-        );
+        checkWarning(`£${maxBudget.toLocaleString()}.`);
 
         // Reach limit
         addItem('My thing 10', 500);
         checkItemCount(10);
         checkTotal('£11,000');
-        checkWarning(`You must use ${maxItems} budget headings or fewer`);
+        checkWarning(`${maxItems}`);
     });
 });

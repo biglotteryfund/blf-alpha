@@ -26,8 +26,9 @@ function render(req, res, data = null, errors = []) {
 }
 
 async function handleSubmission(req, res, next) {
+
     const validationResult = validateSchema(
-        emailOnly(req.i18n.getLocale()),
+        emailOnly(req.i18n),
         req.body
     );
 

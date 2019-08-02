@@ -39,7 +39,8 @@ module.exports = function(formId, formBuilder) {
                         const { nextPage, previousPage } = form.pagination({
                             baseUrl: res.locals.formBaseUrl,
                             sectionSlug: req.params.section,
-                            currentStepIndex: stepIndex
+                            currentStepIndex: stepIndex,
+                            copy: res.locals.copy
                         });
 
                         if (step.isRequired) {
@@ -207,7 +208,8 @@ module.exports = function(formId, formBuilder) {
                     const { nextPage } = form.pagination({
                         baseUrl: res.locals.formBaseUrl,
                         sectionSlug: req.params.section,
-                        currentStepIndex: stepIndex
+                        currentStepIndex: stepIndex,
+                        copy: res.locals.copy
                     });
 
                     /**

@@ -2,7 +2,7 @@
     {% if user %}
         {% if user.userType === 'user' and not user.userData.is_active %}
             <p class="message" role="alert">
-                Now we need to make sure the email address you just gave us is right. Check your emails to activate your account. Or do you need us to <a href="{{ localify('/user/activate') }}">re-send the activation link</a>?
+                {{ __('user.common.activationRequired') | safe }}
             </p>
         {% endif %}
     {% endif %}
@@ -13,10 +13,12 @@
         <div class="user-status">
             <div class="user-status__current">
                 <span class="o-badge o-badge--primary u-margin-right-s">Staff</span>
-                Logged in as <strong>{{ user.userData.fullName }}</strong>
+                {{ __('user.common.loggedInAs') }} <strong>{{ user.userData.fullName }}</strong>
             </div>
             <div class="user-status__actions">
-                <a href="{{ localify('/user/staff/logout') }}">Log out</a>
+                <a href="{{ localify('/user/staff/logout') }}">
+                    {{ __('user.common.logOut') }}
+                </a>
             </div>
         </div>
     {% endif %}

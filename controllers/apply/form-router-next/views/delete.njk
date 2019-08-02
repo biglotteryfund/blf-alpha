@@ -6,10 +6,9 @@
         <div class="content-box u-inner u-inner-wide-only">
             {{ userNavigation(userNavigationLinks) }}
 
-
             <div class="form-header">
                 <p class="form-header__prefix">{{ formTitle }}</p>
-                <h1 class="form-header__title">{{  title }}</h1>
+                <h1 class="form-header__title">{{ title }}</h1>
             </div>
 
             <div class="s-prose u-constrained-wide">
@@ -20,8 +19,9 @@
                 {% if csrfToken %}
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                 {% endif %}
-                <input class="btn" type="submit" value="{{ copy.common.delete }}" />
-                or <a href="../">cancel</a>
+                <input class="btn" type="submit" value="{{ copy.common.deleteApplication }}" />
+                {{ __('global.misc.or') }}
+                <a href="../">{{ __('global.forms.cancel') | lower }}</a>
             </form>
         </div>
     </main>

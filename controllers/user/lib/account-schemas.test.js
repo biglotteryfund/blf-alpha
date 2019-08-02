@@ -10,7 +10,7 @@ describe('account schemas', () => {
         const weakPassword = 'password321';
 
         expect(
-            validateSchema(newAccounts('en'), {
+            validateSchema(newAccounts(), {
                 username: username,
                 password: username,
                 passwordConfirmation: username
@@ -18,15 +18,12 @@ describe('account schemas', () => {
         ).toEqual([
             {
                 param: 'password',
-                type: 'any.invalid',
-                msg: expect.stringContaining(
-                    'Password must be different from your email address'
-                )
+                type: 'any.invalid'
             }
         ]);
 
         expect(
-            validateSchema(newAccounts('en'), {
+            validateSchema(newAccounts(), {
                 username: username,
                 password: commonPassword,
                 passwordConfirmation: commonPassword
@@ -34,13 +31,12 @@ describe('account schemas', () => {
         ).toEqual([
             {
                 param: 'password',
-                type: 'password.common',
-                msg: expect.stringContaining('Password is too weak')
+                type: 'password.common'
             }
         ]);
 
         expect(
-            validateSchema(newAccounts('en'), {
+            validateSchema(newAccounts(), {
                 username: username,
                 password: weakPassword,
                 passwordConfirmation: weakPassword
@@ -48,8 +44,7 @@ describe('account schemas', () => {
         ).toEqual([
             {
                 param: 'password',
-                type: 'password.strength',
-                msg: expect.stringContaining('Password is too weak')
+                type: 'password.strength'
             }
         ]);
     });

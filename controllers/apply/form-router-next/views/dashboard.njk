@@ -14,7 +14,7 @@
                 {%- if part.value -%}
                     {{ part.value }}
                 {%- else -%}
-                    <span class="application-data-missing">not yet completed</span>
+                    <span class="application-data-missing">{{ copy.dashboard.notYetCompleted }}</span>
                 {%- endif -%}
             </dd>
         {% endfor %}
@@ -27,46 +27,41 @@
             <p class="application-card__minor-title">{{ formTitle }}</p>
             <h3 class="t--underline u-tone-brand-primary" data-hj-suppress>
                 <a href="{{ application.editUrl }}" class="u-link-unstyled">
-                    {{ application.summary.title or "Untitled Application" }}
+                    {{ application.summary.title or copy.common.untitledApplication }}
                 </a>
             </h3>
 
             {{ applicationOverview(application.summary.overview) }}
 
             <div class="o-button-group u-margin-bottom">
-                <a class="btn btn--medium" href="{{ application.editUrl }}">Continue with this application</a>
+                <a class="btn btn--medium" href="{{ application.editUrl }}">{{ copy.dashboard.continueApplication}}</a>
                 <a class="btn btn--small btn--outline" href="{{ application.deleteUrl }}" data-testid="delete-application">
                     <span class="btn__icon btn__icon-left">{{ iconBin() }}</span>
-                    Delete
+                    {{ copy.common.delete }}
                 </a>
             </div>
 
             <aside class="application-summary__links">
-                <h4 class="application-card__minor-title">Before you start</h4>
-                <p>You might want to look at some helpful advice and tips about <a href="{{ localify('/funding/under10k') }}">applying for funding on our website</a>.</p>
+                <h4 class="application-card__minor-title">{{ copy.dashboard.beforeYouStart.title }}</h4>
+                <p>{{ copy.dashboard.beforeYouStart.body | safe }}</p>
             </aside>
         </div>
 
         <div class="application-card__progress">
             <div class="application-card__progress__status">
-                <p class="application-card__minor-title">Application status:</p>
-                <h4>Not submitted</h4>
-                <p>
-                    You started your application on
-                    <strong>{{ formatDate(application.createdAt.toISOString(), DATE_FORMATS.short) }}</strong>.
-                </p>
-                <p>
-                    You have until
-                    <strong>{{ formatDate(application.expiresAt.toISOString(), DATE_FORMATS.short) }}</strong>
-                    to complete your application.
-                </p>
+                <p class="application-card__minor-title">{{ copy.dashboard.applicationStatus }}:</p>
+                <h4>{{ copy.dashboard.notSubmitted }}</h4>
+                {{ __('applyNext.dashboard.expiryMessage',
+                    formatDate(application.createdAt.toISOString(), DATE_FORMATS.short),
+                    formatDate(application.expiresAt.toISOString(), DATE_FORMATS.short)
+                ) | safe }}
             </div>
 
             <ol class="u-list-unstyled">
                 {% for section in application.progress.sections %}
                     <li class="section-progress-mini section-progress-mini--{{ section.status }}">
                         <span class="section-progress-mini__title">
-                            {{ loop.index }}: {{ section.label }}
+                            {{ section.label }}
                         </span>
 
                         <span class="section-progress-mini__marker">
@@ -99,11 +94,10 @@
 
         <div class="application-card__progress">
             <div class="application-card__progress__status">
-                <p class="application-card__minor-title">Application status:</p>
-                <h4>Submitted {{ formatDate(application.createdAt.toISOString(), DATE_FORMATS.short) }}</h4>
+                <p class="application-card__minor-title">{{ copy.dashboard.applicationStatus }}:</p>
+                <h4>{{ copy.dashboard.submitted }} {{ formatDate(application.createdAt.toISOString(), DATE_FORMATS.short) }}</h4>
                 <div class="s-prose">
-                    <p>We aim to let you know our decision in about 18 weeks. If you have any questions,
-                    <a href="{{ localify('/contact') }}">contact a member of our advice team</a>.</p>
+                    <p>{{ __('applyNext.dashboard.decisionMessage', 18) | safe }}</p>
                 </div>
             </div>
         </div>
@@ -117,11 +111,7 @@
             {{ userNavigation(userNavigationLinks) }}
 
             <div class="message message--info message--minor" role="alert">
-                <p><strong>Applying for a project in England or Wales?</strong></p>
-                <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
-                <p><strong>Applying for a project in Northern Ireland?</strong></p>
-                <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
-                <p>Only applicants in Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
+                {{  copy.dashboard.locationMessage | safe }}
             </div>
 
             {{ userStatus(user) }}
@@ -138,14 +128,14 @@
             </div>
 
             {% if pendingApplications.length > 0 %}
-                <h2 class="t--underline">In progress</h2>
+                <h2 class="t--underline">{{ copy.dashboard.inProgressTitle }}</h2>
                 {% for application in pendingApplications %}
                     {{ pendingApplicationCard(application) }}
                 {% endfor %}
             {% endif %}
 
             {% if submittedApplications.length > 0 %}
-                <h2 class="t--underline">{{ copy.dashboard.submittedTitle }}</h2>
+                <h2 class="t--underline">{{ copy.dashboard.submitted }}</h2>
                 {% for application in submittedApplications %}
                     {{ submittedApplicationCard(application) }}
                 {% endfor %}
@@ -153,9 +143,9 @@
         </section>
 
         {% call contentBox(id = "new") %}
-            <h2>New application</h2>
-            <p>You can create a new funding application for {{ formTitle }} here.</p>
-            <p><a href="{{ formBaseUrl }}/start" class="btn btn--outline">Start new application</a></p>
+            <h2>{{ copy.dashboard.newApplication.title }}</h2>
+            <p>{{ __('applyNext.dashboard.newApplication.body', formTitle) }}</p>
+            <p><a href="{{ formBaseUrl }}/start" class="btn btn--outline">{{ copy.dashboard.newApplication.cta }}</a></p>
         {% endcall %}
     </main>
 {% endblock %}

@@ -75,23 +75,22 @@ function initFormRouter({
         res.locals.enableSiteSurvey = false;
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
 
-        // @TODO i18n
         res.locals.userNavigationLinks = [
             {
                 url: `${req.baseUrl}/summary`,
-                label: 'Summary'
+                label: res.locals.copy.navigation.summary
             },
             {
                 url: req.baseUrl,
-                label: 'Applications'
+                label: res.locals.copy.navigation.applications
             },
             {
                 url: localify(req.i18n.getLocale())('/user'),
-                label: 'Account'
+                label: res.locals.copy.navigation.account
             },
             {
                 url: localify(req.i18n.getLocale())('/user/logout'),
-                label: 'Log out'
+                label: res.locals.copy.navigation.logOut
             }
         ];
 
@@ -232,7 +231,7 @@ function initFormRouter({
         let title;
         switch (req.params.helpItem) {
             case 'bank-statement':
-                title = 'Help with your bank statement';
+                title = res.locals.copy.fields.bankStatement.help.title;
                 break;
             default:
                 title = res.locals.formTitle;
@@ -530,15 +529,15 @@ function initFormRouter({
                     switch (err.message) {
                         case 'ERR_FILE_SCAN_INFECTED':
                             userMessage =
-                                'This file has been blocked for security reasons.';
+                                res.locals.copy.errors.file.errorScanInfected;
                             break;
                         case 'ERR_FILE_SCAN_UNKNOWN':
                             userMessage =
-                                'This file is still being scanned for security risks - please check back shortly.';
+                                res.locals.copy.errors.file.errorScanUnknown;
                             break;
                         default:
                             userMessage =
-                                'There was an issue retrieving your file - please try again soon.';
+                                res.locals.copy.errors.file.errorOther;
                             break;
                     }
                     return res.send(userMessage);
