@@ -44,6 +44,17 @@ class Feedback extends Model {
             order: [['description', 'ASC'], ['updatedAt', 'DESC']]
         }).then(groupBy(result => result.description.toLowerCase()));
     }
+
+    static findByDescription(description) {
+        return this.findAll({
+            where: {
+                description: {
+                    [Op.eq]: description
+                }
+            },
+            order: [['description', 'ASC'], ['updatedAt', 'DESC']]
+        });
+    }
 }
 
 module.exports = Feedback;

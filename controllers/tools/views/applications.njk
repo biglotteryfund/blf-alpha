@@ -273,6 +273,26 @@
                 ) }}
             </div>
 
+            {% if feedback %}
+                <div class="u-margin-bottom-l"  style="max-height: 400px; overflow: auto">
+                    <h3>Successful applicant feedback <small>({{ feedback.length }} responses)</small></h3>
+                    <ul>
+                        {% for f in feedback %}
+                            <li>
+                                <blockquote class="blockquote">
+                                    <div class="blockquote__text">
+                                        {{ f.message | safe }}
+                                    </div>
+                                    <cite class="blockquote__cite">
+                                        {{ formatDate(f.createdAt.toISOString(), DATE_FORMATS.short) }}
+                                    </cite>
+                                </blockquote>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
             {% if dataStudioUrl %}
                 <div class="u-margin-bottom-l">
                     <h3>User analytics for form usage <small>(not using the above date range)</small></h3>
