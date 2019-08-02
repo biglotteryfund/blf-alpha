@@ -78,33 +78,28 @@ export default {
             } catch (e) {} // eslint-disable-line no-empty
         }
 
-        const $form = $(this.$el)
-            .parents('form')
-            .find('input[type="submit"]');
-
-        function shouldWarn() {
-            return (
-                this.candidates.length === 0 &&
-                this.postcode &&
-                this.currentState !== states.NotRequired
-            );
-        }
-
-        $form.on('click', () => {
-            if (shouldWarn()) {
+        this.$el.form.addEventListener('submit', e => {
+            if (this.shouldWarn()) {
                 alert(this.$t('address.warningForIncomplete'));
                 trackEvent(
                     'Form warning',
                     'Postcode lookup',
                     'Typed but not submitted'
                 );
-                document.querySelector('.address-lookup').scrollIntoView();
                 // Prevent form submission (for nested)
-                return false;
+                e.preventDefault();
+                document.querySelector('.js-address-lookup').scrollIntoView();
             }
         });
     },
     methods: {
+        shouldWarn() {
+            return (
+                this.candidates.length === 0 &&
+                this.postcode &&
+                this.currentState !== states.NotRequired
+            );
+        },
         getAddressFromId(udprn) {
             return this.addressData.find(_ => _.udprn === udprn);
         },
