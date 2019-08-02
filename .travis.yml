@@ -27,7 +27,7 @@ cache:
 
 script:
   - npm audit --production
-#  - npm run build-production
+  - npm run build-production
 #  - npm run test-ci
 
 # Prepare artefact for deployment
