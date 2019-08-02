@@ -1,21 +1,25 @@
-import forEach from 'lodash/forEach';
+// @ts-nocheck
 import $ from 'jquery';
 import Vue from 'vue';
 import { setupI18n } from '../vue-helpers';
-
-import AddressLookup from './address-lookup.vue';
-import ConditionalRadios from './conditional-radios.vue';
+import BudgetInput from './budget-input.vue';
 
 function init() {
-    forEach(document.querySelectorAll('.js-address-lookup'), el => {
+    const el = document.getElementById('js-budget-input');
+    if (el) {
         new Vue({
             el: el,
             i18n: setupI18n(Vue),
             components: {
-                'address-lookup': AddressLookup,
-                'conditional-radios': ConditionalRadios
+                'budget-input': BudgetInput
             },
-            mounted() {
+            mounted: function() {
+                // Prevent the Enter key from submitting the entire form
+                // if pressed inside a budget field
+                $(this.$el).on('keypress', 'input', function(event) {
+                    return event.keyCode !== 13;
+                });
+
                 // Clear out <noscript> fallback otherwise they submit as well as the
                 // Vue-enhanced fields (eg. double inputs)
                 $(this.$el)
@@ -23,7 +27,7 @@ function init() {
                     .remove();
             }
         });
-    });
+    }
 }
 
 export default {

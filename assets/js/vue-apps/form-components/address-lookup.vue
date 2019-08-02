@@ -1,7 +1,6 @@
 <script>
 import $ from 'jquery';
 import compact from 'lodash/compact';
-import get from 'lodash/get';
 
 import AddressLine from './address-line.vue';
 import { trackEvent, tagHotjarRecording } from '../../helpers/metrics';
@@ -21,12 +20,10 @@ const states = {
 export default {
     components: { AddressLine },
     props: {
-        locale: { type: String, default: 'en' },
-        address: { type: String, default: null },
         fieldName: { type: String, default: null },
         label: { type: String, default: null },
         explanation: { type: String, default: null },
-        i18n: { type: String, default: null }
+        address: { type: String, default: null }
     },
     data() {
         return {
@@ -43,8 +40,7 @@ export default {
             },
             addressData: [],
             candidates: [],
-            selectedAddressId: '',
-            copy: {}
+            selectedAddressId: ''
         };
     },
     mounted() {
@@ -82,35 +78,28 @@ export default {
             } catch (e) {} // eslint-disable-line no-empty
         }
 
-        if (this.i18n) {
-            try {
-                this.copy = JSON.parse(this.i18n);
-            } catch (e) {} // eslint-disable-line no-empty
-        }
-
-        const $form = $(this.$el)
-            .parents('form')
-            .find('input[type="submit"]');
-        const that = this;
-        $form.on('click', function() {
-            if (
-                that.candidates.length === 0 &&
-                that.postcode &&
-                that.currentState !== states.NotRequired
-            ) {
-                alert(that.copy.fields.address.warningForIncomplete);
+        this.$el.form.addEventListener('submit', e => {
+            if (this.shouldWarn()) {
+                alert(this.$t('address.warningForIncomplete'));
                 trackEvent(
                     'Form warning',
                     'Postcode lookup',
                     'Typed but not submitted'
                 );
-                document.querySelector('.address-lookup').scrollIntoView();
                 // Prevent form submission (for nested)
-                return false;
+                e.preventDefault();
+                document.querySelector('.js-address-lookup').scrollIntoView();
             }
         });
     },
     methods: {
+        shouldWarn() {
+            return (
+                this.candidates.length === 0 &&
+                this.postcode &&
+                this.currentState !== states.NotRequired
+            );
+        },
         getAddressFromId(udprn) {
             return this.addressData.find(_ => _.udprn === udprn);
         },
@@ -214,9 +203,6 @@ export default {
                 'Enter Manually clicked'
             );
             this.currentState = this.states.EnteringManually;
-        },
-        localise(path) {
-            return get(this.copy, `fields.address.${path}`);
         }
     },
     computed: {
@@ -244,9 +230,9 @@ export default {
         },
         lookupLabel() {
             if (this.currentState === this.states.Loading) {
-                return this.localise('lookingUpAddress');
+                return this.$t('address.lookingUpAddress');
             } else {
-                return this.localise('findAddress');
+                return this.$t('address.findAddress');
             }
         },
         id() {
@@ -262,7 +248,7 @@ export default {
 </script>
 
 <template>
-    <div v-if="currentState !== states.NotRequired">
+    <fieldset v-if="currentState !== states.NotRequired">
         <legend class="ff-label ff-address__legend" v-html="label"></legend>
 
         <div
@@ -275,10 +261,10 @@ export default {
             <label
                 :for="ariaId"
                 class="ff-label"
-                v-html="localise('label')"
+                v-html="$t('address.label')"
             ></label>
             <div class="ff-help s-prose">
-                <p v-html="localise('helpText')"></p>
+                <p v-html="$t('address.helpText')"></p>
             </div>
             <div class="address-lookup__field">
                 <input
@@ -308,7 +294,7 @@ export default {
                 type="button"
                 class="btn-link u-margin-top-s"
                 @click="enterManually"
-                v-html="localise('enterManually')"
+                v-html="$t('address.enterManually')"
             ></button>
 
             <div
@@ -318,7 +304,7 @@ export default {
                 <label
                     for="address-selection"
                     class="ff-label"
-                    v-html="localise('selectAddress')"
+                    v-html="$t('address.selectAddress')"
                 >
                 </label>
                 <!-- We use @blur here to avoid Win/Chrome bug where keypresses trigger a change on the first item-->
@@ -332,7 +318,8 @@ export default {
                     data-hj-suppress
                 >
                     <option disabled value="">
-                        {{ candidates.length }} {{ localise('addressesFound') }}
+                        {{ candidates.length }}
+                        {{ $t('address.addressesFound') }}
                     </option>
                     <option
                         v-for="option in candidates"
@@ -349,55 +336,50 @@ export default {
         <p
             class="ff-error"
             v-if="currentState === states.Failure"
-            v-html="localise('lookupError')"
+            v-html="$t('address.lookupError')"
         ></p>
 
         <div class="existing-data" v-if="shouldShowInputFields">
             <AddressLine
                 :name="fieldName + '[line1]'"
-                :label="localise('fieldNames.line1')"
+                :label="$t('address.fieldNames.line1')"
                 :is-required="true"
                 v-model="fullAddress.line1"
-                :copy-optional="localise('optional')"
             >
             </AddressLine>
 
             <AddressLine
                 :name="fieldName + '[line2]'"
-                :label="localise('fieldNames.line2')"
+                :label="$t('address.fieldNames.line2')"
                 is-required="false"
                 v-model="fullAddress.line2"
-                :copy-optional="localise('optional')"
             >
             </AddressLine>
 
             <AddressLine
                 :name="fieldName + '[townCity]'"
-                :label="localise('fieldNames.townCity')"
+                :label="$t('address.fieldNames.townCity')"
                 :is-required="true"
                 v-model="fullAddress.townCity"
                 size="30"
-                :copy-optional="localise('optional')"
             >
             </AddressLine>
 
             <AddressLine
                 :name="fieldName + '[county]'"
-                :label="localise('fieldNames.county')"
+                :label="$t('address.fieldNames.county')"
                 is-required="false"
                 v-model="fullAddress.county"
                 size="30"
-                :copy-optional="localise('optional')"
             >
             </AddressLine>
 
             <AddressLine
                 :name="fieldName + '[postcode]'"
-                :label="localise('fieldNames.postcode')"
+                :label="$t('address.fieldNames.postcode')"
                 :is-required="true"
                 v-model="fullAddress.postcode"
                 size="10"
-                :copy-optional="localise('optional')"
             >
             </AddressLine>
 
@@ -405,8 +387,9 @@ export default {
                 type="button"
                 class="btn-link u-margin-top-s"
                 @click="removeAddress"
-                v-html="localise('removeAddress')"
-            ></button>
+            >
+                {{ $t('address.removeAddress') }}
+            </button>
         </div>
-    </div>
+    </fieldset>
 </template>
