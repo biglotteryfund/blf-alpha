@@ -12,7 +12,7 @@
                                 {{ error.field.label | safe }} &ndash;
                             {% endif %}
                             {% if error.param %}<a href="#form-field-{{ error.param }}">{% endif %}
-                            {{ error.msg }}
+                            {{ error.msg | safe }}
                             {% if error.param %}</a>{% endif %}
                         </li>
                     {% endfor %}

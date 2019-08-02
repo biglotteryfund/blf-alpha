@@ -8,8 +8,7 @@
     "enableAllowLocalhost": false,
     "enableAwardsForAllApplications": true,
     "enableDigitalFundApplications": false,
-    "enableHotjar": true,
-    "enableMailSendMetrics": true
+    "enableHotjar": true
   },
   "awardsForAll": {
     "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]

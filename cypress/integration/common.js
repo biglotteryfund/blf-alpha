@@ -158,7 +158,7 @@ describe('user', () => {
     it('should prevent invalid log ins', () => {
         cy.visit('/user/login');
 
-        const messageText = 'username and password combination is invalid';
+        const messageText = `Your username and password aren't quite right`;
         logIn('not_a_real_account@example.com', 'examplepassword');
         assertError(messageText);
 

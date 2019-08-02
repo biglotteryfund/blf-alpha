@@ -93,7 +93,11 @@ export default {
             .find('input[type="submit"]');
         const that = this;
         $form.on('click', function() {
-            if (that.candidates.length === 0 && that.postcode) {
+            if (
+                that.candidates.length === 0 &&
+                that.postcode &&
+                that.currentState !== states.NotRequired
+            ) {
                 alert(that.copy.fields.address.warningForIncomplete);
                 trackEvent(
                     'Form warning',
@@ -354,7 +358,7 @@ export default {
                 :label="localise('fieldNames.line1')"
                 :is-required="true"
                 v-model="fullAddress.line1"
-                :copy-required="localise('required')"
+                :copy-optional="localise('optional')"
             >
             </AddressLine>
 
@@ -363,7 +367,7 @@ export default {
                 :label="localise('fieldNames.line2')"
                 is-required="false"
                 v-model="fullAddress.line2"
-                :copy-required="localise('required')"
+                :copy-optional="localise('optional')"
             >
             </AddressLine>
 
@@ -373,7 +377,7 @@ export default {
                 :is-required="true"
                 v-model="fullAddress.townCity"
                 size="30"
-                :copy-required="localise('required')"
+                :copy-optional="localise('optional')"
             >
             </AddressLine>
 
@@ -383,7 +387,7 @@ export default {
                 is-required="false"
                 v-model="fullAddress.county"
                 size="30"
-                :copy-required="localise('required')"
+                :copy-optional="localise('optional')"
             >
             </AddressLine>
 
@@ -393,7 +397,7 @@ export default {
                 :is-required="true"
                 v-model="fullAddress.postcode"
                 size="10"
-                :copy-required="localise('required')"
+                :copy-optional="localise('optional')"
             >
             </AddressLine>
 

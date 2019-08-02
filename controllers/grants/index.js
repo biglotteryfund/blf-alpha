@@ -16,8 +16,7 @@ const {
 const { sMaxAge } = require('../../middleware/cached');
 const contentApi = require('../../common/content-api');
 
-const grantsService = require('./lib/grants-service');
-const checkSpelling = require('./lib/check-spelling');
+const grantsService = require('./grants-service');
 
 const router = express.Router();
 
@@ -103,14 +102,12 @@ router.get(
                 ...facetParams,
                 ...{ page: req.query.page || 1, locale }
             };
+
             const data = await grantsService.query(queryWithPage);
 
             let searchSuggestions = false;
             if (data.meta.totalResults === 0 && req.query.q) {
-                searchSuggestions = await checkSpelling({
-                    searchTerm: req.query.q,
-                    locale: locale
-                });
+                searchSuggestions = get(data.meta, 'searchSuggestions', null);
             }
 
             res.format({
