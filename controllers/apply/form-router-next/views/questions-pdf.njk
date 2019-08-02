@@ -8,6 +8,6 @@
     {{ questionList(form, eligibility) }}
 
     <div id="pageFooter">
-        <p>Application form questions for {{ form.title}} &ndash; <strong>Please do not attempt to fill out this form or send it to The National Lottery Community Fund.</strong> We will not accept paper copies of this form.</p>
+        <p>{{ __('applyNext.questions.printWarning', form.title) | safe }}</p>
     </div>
 {% endblock %}

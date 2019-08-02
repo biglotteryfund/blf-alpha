@@ -20,11 +20,13 @@ export default {
     },
     data() {
         // Add a ready-to-use new row if the budget isn't over the limit already
-        const budgetRowsArr = (this.budgetData.length < this.maxItems)
-            ? concat(this.budgetData, [{ item: '', cost: '' }])
-            : this.budgetData;
+        const initialBudgetRows =
+            this.budgetData.length < this.maxItems
+                ? concat(this.budgetData, [{ item: '', cost: '' }])
+                : this.budgetData;
+
         return {
-            budgetRows: budgetRowsArr,
+            budgetRows: initialBudgetRows,
             error: {}
         };
     },
@@ -49,12 +51,15 @@ export default {
                 }
 
                 if (this.error.TOO_MANY_ITEMS) {
-                    trackEvent('Budget Component', 'Error', 'Maximum number of items reached');
+                    trackEvent(
+                        'Budget Component',
+                        'Error',
+                        'Maximum number of items reached'
+                    );
                 }
-
             },
             deep: true
-        },
+        }
     },
     methods: {
         getLineItemName(index, subFieldName) {
@@ -97,8 +102,8 @@ export default {
                     <label
                         class="ff-label"
                         :for="getLineItemName(index, 'item')"
+                        v-html="$t('budget.item')"
                     >
-                        Item or activity
                     </label>
                     <input
                         class="ff-text u-block-full"
@@ -106,7 +111,7 @@ export default {
                         :name="getLineItemName(index, 'item')"
                         :id="getLineItemName(index, 'item')"
                         autocomplete="off"
-                        placeholder="eg. Posters"
+                        :placeholder="$t('budget.itemPlaceholder')"
                         v-model="lineItem.item"
                     />
                 </div>
@@ -114,8 +119,8 @@ export default {
                     <label
                         class="ff-label"
                         :for="getLineItemName(index, 'cost')"
+                        v-html="$t('budget.amount')"
                     >
-                        Amount
                     </label>
                     <div class="ff-currency ff-currency--row">
                         <div class="ff-currency__pre">£</div>
@@ -124,7 +129,7 @@ export default {
                             :name="getLineItemName(index, 'cost')"
                             :id="getLineItemName(index, 'cost')"
                             v-model.number="lineItem.cost"
-                            placeholder="eg. 1234"
+                            :placeholder="$t('budget.amountPlaceholder')"
                             min="1"
                             step="1"
                             :max="maxBudget"
@@ -142,10 +147,10 @@ export default {
                         <span class="btn__icon btn__icon-left">
                             <IconBin
                                 :id="'delete-icon-' + index"
-                                description="Delete this row"
+                                :description="$t('budget.deleteThisRow')"
                             />
                         </span>
-                        Delete row
+                        {{ $t('budget.deleteRow') }}
                         <span class="u-visually-hidden">
                             "{{ lineItem.item }}" (row {{ index + 1 }})
                         </span>
@@ -160,15 +165,11 @@ export default {
             aria-atomic="true"
             data-testid="budget-errors"
         >
-            <!-- @TODO localise -->
             <p v-if="error.TOO_MANY_ITEMS">
-                You must use {{ maxItems }} budget headings or fewer to tell us
-                your costs
+                {{ $t('budget.tooManyItems') }} {{ maxItems }}
             </p>
             <p v-if="error.OVER_BUDGET">
-                Costs you would like us to fund must be less than £{{
-                    maxBudget.toLocaleString()
-                }}.
+                {{ $t('budget.overBudget') }} £{{ maxBudget.toLocaleString() }}.
             </p>
         </div>
 
@@ -178,7 +179,7 @@ export default {
             aria-atomic="true"
             data-testid="budget-total"
         >
-            <dt class="ff-budget__total-label">Total</dt>
+            <dt class="ff-budget__total-label" v-html="$t('budget.total')"></dt>
             <dd class="ff-budget__total-amount">
                 £{{ total.toLocaleString() }}
             </dd>

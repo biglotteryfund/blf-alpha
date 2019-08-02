@@ -7,15 +7,7 @@
         <div class="content-box u-inner-wide-only">
 
             <div class="message message--info message--minor" role="alert">
-                <p>Welcome to our new online application for National Lottery Awards for All.</p>
-                <p><strong>Applying for a project in Scotland?</strong></p>
-                <p>Great - you’re in the right place. You’ll need to create a new account to apply. Unless you’ve already created an account for our new online application form.</p>
-
-                <p><strong>Applying for a project in England or Wales?</strong></p>
-                <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
-
-                <p><strong>Applying for a project in Northern Ireland?</strong></p>
-                <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
+                {{ __('applyNext.locationMessage') | safe }}
             </div>
 
             <h1 class="t--underline">{{ title }}</h1>
@@ -55,8 +47,8 @@
                 {{ formField({
                     type: 'password',
                     name: 'passwordConfirmation',
-                    label: 'Password confirmation',
-                    explanation: 'Re-type your password',
+                    label: __('user.common.passwordConfirmation.label'),
+                    explanation: __('user.common.passwordConfirmation.explanation'),
                     isRequired: true
                 }, errors = errors) }}
 

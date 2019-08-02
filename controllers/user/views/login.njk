@@ -7,14 +7,7 @@
         <div class="content-box u-inner-wide-only">
 
             <div class="message message--info message--minor" role="alert">
-                <p>Welcome to our new online application for National Lottery Awards for All.</p>
-                <p><strong>Applying for a project in Scotland?</strong></p>
-                <p>Great - you’re in the right place. You’ll need to {% if not skipCreateAccountLink %}<a href="{{ localify('/user/register') }}">create a new account</a>{% else %}create a new account{% endif %} to apply. Unless you’ve already created an account for our new online application form.</p>
-                <p><strong>Applying for a project in England or Wales?</strong></p>
-                <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
-
-                <p><strong>Applying for a project in Northern Ireland?</strong></p>
-                <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
+                {{ __('applyNext.locationMessage') | safe }}
             </div>
 
             <h1 class="t--underline">{{ title }}</h1>

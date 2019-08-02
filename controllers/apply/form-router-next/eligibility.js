@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 
 const commonLogger = require('../../../common/logger');
+const { injectCopy } = require('../../../middleware/inject-content');
 
 const logger = commonLogger.child({
     service: 'apply'
@@ -15,7 +16,7 @@ module.exports = function(eligibilityBuilder, formId) {
 
     router
         .route('/:step?')
-        .all(function(req, res, next) {
+        .all(injectCopy('applyNext'), function(req, res, next) {
             const eligibility = eligibilityBuilder({
                 locale: req.i18n.getLocale()
             });

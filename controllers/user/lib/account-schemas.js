@@ -1,5 +1,4 @@
 'use strict';
-const get = require('lodash/fp/get');
 const baseJoi = require('@hapi/joi');
 const Joi = baseJoi.extend(require('./password-strength'));
 
@@ -20,65 +19,33 @@ const passwordConfirmationSchema = Joi.string()
     .valid(Joi.ref('password')) // Must match password
     .required();
 
-const MESSAGES = {
-    emailInvalid(locale) {
-        return get(locale)({
-            en: 'Enter a valid email address',
-            cy: ''
-        });
-    },
-    oldPasswordRequired(locale) {
-        return get(locale)({
-            en: 'Enter your current password',
-            cy: ''
-        });
-    },
-    passwordRequired(locale) {
-        return get(locale)({
-            en: `Enter a password`,
-            cy: ''
-        });
-    },
-    passwordMatchesEmail(locale) {
-        return get(locale)({
-            en: `Password must be different from your email address`,
-            cy: ''
-        });
-    },
-    passwordLength(locale) {
-        return get(locale)({
-            en: `Password must be at least ${MIN_PASSWORD_LENGTH} characters long`,
-            cy: ''
-        });
-    },
-    passwordStrength(locale) {
-        return get(locale)({
-            en: `Password is too weak, try another password`,
-            cy: ''
-        });
-    },
-    passwordConfirmation(locale) {
-        return get(locale)({
-            en: 'Passwords must match'
-        });
-    }
-};
+function getTranslations(i18n) {
+    return function(path, ...params) {
+        return i18n && i18n.__(`user.validationMessages.${path}`, ...params);
+    };
+}
 
 module.exports = {
-    emailOnly(locale) {
+    emailOnly(i18n) {
+        const messageForLocale = getTranslations(i18n);
         return {
             schema: Joi.object({
                 username: username
             }),
             messages: {
                 username: [
-                    { type: 'base', message: MESSAGES.emailInvalid(locale) }
+                    {
+                        type: 'base',
+                        message: messageForLocale('emailInvalid')
+                    }
                 ]
             }
         };
     },
 
-    newAccounts(locale) {
+    newAccounts(i18n) {
+        const messageForLocale = getTranslations(i18n);
+
         return {
             schema: Joi.object({
                 username: username,
@@ -87,41 +54,49 @@ module.exports = {
             }),
             messages: {
                 username: [
-                    { type: 'base', message: MESSAGES.emailInvalid(locale) }
+                    {
+                        type: 'base',
+                        message: messageForLocale('emailInvalid')
+                    }
                 ],
                 password: [
                     {
                         type: 'base',
-                        message: MESSAGES.passwordRequired(locale)
+                        message: messageForLocale('passwordRequired')
                     },
                     {
                         type: 'any.invalid',
-                        message: MESSAGES.passwordMatchesEmail(locale)
+                        message: messageForLocale('passwordMatchesEmail')
                     },
                     {
                         type: 'string.min',
-                        message: MESSAGES.passwordLength(locale)
+                        message: messageForLocale(
+                            'passwordLength',
+                            MIN_PASSWORD_LENGTH,
+                            'you fool'
+                        )
                     },
                     {
                         type: 'password.common',
-                        message: MESSAGES.passwordStrength(locale)
+                        message: messageForLocale('passwordStrength')
                     },
                     {
                         type: 'password.strength',
-                        message: MESSAGES.passwordStrength(locale)
+                        message: messageForLocale('passwordStrength')
                     }
                 ],
                 passwordConfirmation: [
                     {
                         type: 'base',
-                        message: MESSAGES.passwordConfirmation(locale)
+                        message: messageForLocale('passwordConfirmation')
                     }
                 ]
             }
         };
     },
 
-    passwordReset(locale) {
+    passwordReset(i18n) {
+        const messageForLocale = getTranslations(i18n);
         return {
             schema: Joi.object({
                 oldPassword: Joi.when(Joi.ref('token'), {
@@ -136,27 +111,30 @@ module.exports = {
                 oldPassword: [
                     {
                         type: 'base',
-                        message: MESSAGES.oldPasswordRequired(locale)
+                        message: messageForLocale('oldPasswordRequired')
                     }
                 ],
                 password: [
                     {
                         type: 'base',
-                        message: MESSAGES.passwordRequired(locale)
+                        message: messageForLocale('passwordRequired')
                     },
                     {
                         type: 'any.invalid',
-                        message: MESSAGES.passwordMatchesEmail(locale)
+                        message: messageForLocale('passwordMatchesEmail')
                     },
                     {
                         type: 'string.min',
-                        message: MESSAGES.passwordLength(locale)
+                        message: messageForLocale(
+                            'passwordLength',
+                            MIN_PASSWORD_LENGTH
+                        )
                     }
                 ],
                 passwordConfirmation: [
                     {
                         type: 'base',
-                        message: MESSAGES.passwordConfirmation(locale)
+                        message: messageForLocale('passwordConfirmation')
                     }
                 ]
             }

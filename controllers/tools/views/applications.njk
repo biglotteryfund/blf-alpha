@@ -145,7 +145,7 @@
                     </div>
                     <script>
                         new Chart(document.getElementById('{{ chartId }}'), {
-                            type: 'line',
+                            type: 'bar',
                             data: {
                                 {% if country %}
                                     datasets: [{
@@ -161,7 +161,8 @@
                                                 label: '{{ country.title }}',
                                                 data: {{ country.data | dump(2) | safe }},
                                                 borderColor: '{{ country.colour }}',
-                                                fill: '{{ country.colour }}'
+                                                fill: '{{ country.colour }}',
+                                                backgroundColor: '{{ country.colour }}'
                                             },
                                         {% endfor %}
                                     ]
@@ -180,6 +181,7 @@
                                 scales: {
                                     xAxes: [{
                                         type: 'time',
+                                        offset: true,
                                         display: true,
                                         scaleLabel: {
                                             display: false,
@@ -270,6 +272,26 @@
                     ]
                 ) }}
             </div>
+
+            {% if feedback %}
+                <div class="u-margin-bottom-l"  style="max-height: 400px; overflow: auto">
+                    <h3>Successful applicant feedback <small>({{ feedback.length }} responses)</small></h3>
+                    <ul>
+                        {% for f in feedback %}
+                            <li>
+                                <blockquote class="blockquote">
+                                    <div class="blockquote__text">
+                                        {{ f.message | safe }}
+                                    </div>
+                                    <cite class="blockquote__cite">
+                                        {{ formatDate(f.createdAt.toISOString(), DATE_FORMATS.short) }}
+                                    </cite>
+                                </blockquote>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
 
             {% if dataStudioUrl %}
                 <div class="u-margin-bottom-l">

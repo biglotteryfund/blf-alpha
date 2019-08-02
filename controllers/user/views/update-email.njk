@@ -22,7 +22,7 @@
             {% endif %}
 
             <form action="" method="post" autocomplete="off">
-                {{ formErrors(errors = errors, title = "There was a problem with your submission") }}
+                {{ formErrors(errors = errors, title = __('global.misc.errorTitle')) }}
 
                 {% if csrfToken %}
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
@@ -31,7 +31,7 @@
                 {{ formField({
                     type: 'email',
                     name: 'username',
-                    label: 'Email address',
+                    label: __('user.common.emailAddress'),
                     isRequired: true,
                     value: formValues['username']
                 }, errors = errors) }}
@@ -39,12 +39,12 @@
                 {{ formField({
                     type: 'password',
                     name: 'password',
-                    label: 'Confirm your password',
+                    label: __('user.common.passwordConfirmation.label'),
                     isRequired: true
                 }, errors = errors) }}
 
                 <div class="form-actions">
-                    <input type="submit" class="btn" value="Update email address" />
+                    <input type="submit" class="btn" value="{{ copy.title }}" />
                 </div>
             </form>
         </div>

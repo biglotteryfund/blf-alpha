@@ -10,27 +10,27 @@
             {% set prefix = __('global.misc.stepProgress', currentStepNumber, totalSteps) %}
             {{ formHeader(
                 backUrl = backUrl,
-                title = 'Eligibility checker',
+                title = copy.eligibility.title,
                 prefix = prefix if eligibilityStatus !== 'eligible'
             )}}
 
             {% if eligibilityStatus === 'eligible' %}
                 <div class="s-prose u-constrained-wide">
-                    <h2>Great! You're eligible to apply to {{ formTitle }}</h2>
+                    <h2>{{ __('applyNext.eligibility.successfulTitle', formTitle) }}</h2>
                     {{ eligibility.successMessage | safe }}
                     <p class="form-actions">
-                        <a class="btn" href="{{ formBaseUrl }}/new">Start your application</a>
+                        <a class="btn" href="{{ formBaseUrl }}/new">{{ copy.common.startYourApplication }}</a>
                     </p>
                 </div>
             {% elseif eligibilityStatus === 'ineligible' %}
                 <div class="s-prose u-constrained-wide">
-                    <h2>Sorry, you're not eligible to apply at this time</h2>
+                    <h2>{{ copy.eligibility.unsuccessfulTitle }}</h2>
                     <p>{{ currentStep.ineligible.reason }}</p>
-                    <h3>What now?</h3>
+                    <h3>{{ copy.eligibility.whatNow }}</h3>
                     {{ currentStep.ineligible.detail | safe }}
                     <p class="form-actions">
                         <a class="btn" href="/contact">{{ __('global.nav.contact')}}</a>
-                        <a class="btn btn--outline" href="{{ formBaseUrl }}">Exit</a>
+                        <a class="btn btn--outline" href="{{ formBaseUrl }}">{{ copy.common.exit }}</a>
                     </p>
                 </div>
             {% else %}
@@ -56,7 +56,7 @@
                     }) }}
 
                     <div class="form-actions">
-                        <input class="btn" type="submit" value="Continue" />
+                        <input class="btn" type="submit" value="{{ copy.continue }}" />
                     </div>
                 </form>
             {% endif %}

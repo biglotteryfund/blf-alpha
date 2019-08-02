@@ -727,7 +727,7 @@ funding:
           mpVisit: MP Visit
           grantAcknowledgment: Grant acknowledgment
         grantSizes:
-          under10k: Under £10,000
+          under10k: £10,000 and under
           over10k: Over £10,000
           dunno: Don't know
       dataProtection:
@@ -1083,6 +1083,11 @@ user:
     yourAccount: Your account
     emailAddress: Email address
     password: Password
+    passwordConfirmation:
+      label: Password confirmation
+      explanation: Re-type your password
+    passwordOld: Your old password
+    passwordNew: Your new password
     passwordRequirements: >
       <p>Must be at least 10 characters long <br>
       Must not be the same as your email address<br>
@@ -1090,6 +1095,26 @@ user:
         Read tips on how to create a strong password
         <span class="u-visually-hidden"> National Cyber Security Centre - External link</span>
       </a></p>
+    loggedInAs: Logged in as
+    logOut: log out
+    alertMessages:
+      activationSent: An email was sent to your registered address with instructions to activate your account.
+      activationComplete: Your account was successfully activated!
+      passwordUpdated: Your password was successfully updated!
+      emailUpdated: Your email address was successfully updated!
+      loggedOut: You were successfully logged out.
+      passwordResetRequest: Password reset requested. If the email address entered is correct, you will receive further instructions via email.
+    activationRequired: >
+      Now we need to make sure the email address you just gave us is right. Check your emails to activate your account. Or do you need us to <a href="/user/activate">re-send the activation link</a>?
+  validationMessages:
+    emailInvalid: Enter a valid email address
+    oldPasswordRequired: Enter your current password
+    oldPasswordWrong: Your old password was not correct
+    passwordRequired: Enter a password
+    passwordMatchesEmail: Password must be different from your email address
+    passwordLength: Password must be at least %s characters long
+    passwordStrength: Password is too weak, try another password
+    passwordConfirmation: Passwords must match
   dashboard:
     title: Your account
     sectionLinks:
@@ -1102,10 +1127,11 @@ user:
   login:
     title: Log in
     introduction: >
-      <p>If you already have an account for The National Lottery Community Fund's website, you can log into it here.</p>
+      <p>This is a new application form. If you haven't logged in here before, you might not have an account with us - and will need to <a href="/user/register">create a new account</a> to apply.</p>
     actionLabel: Log in
     registerLabel: create an account
     forgottenPasswordPrompt: Forgotten your password?
+    credentialError: Your username and password aren't quite right. Or you might not have an account, as this is a new application form - try <a href="/user/register">creating an account</a>.
   register:
     title: Create an account
     actionLabel: Create an account
@@ -1115,10 +1141,42 @@ user:
       <a href="%s">resetting your password</a>.
   forgottenPassword:
     title: Forgotten your password?
+    emailExplanation: Enter the email address associated with your account.
+    resetConfirmation: Password reset requested. If the email address entered is correct you will receive instructions via email.
+    callToAction: Reset password
+    loginLink: Already reset your password? <a href="%s">Log in</a>
+    email:
+      subject: Reset the password for your The National Lottery Community Fund website account
+      body: >
+        <h1>The National Lottery Community Fund</h1>
+        <h2>Password reset requested</h2>
+
+        <p><strong>We just got a request to change the password for this email address</strong></p>
+        <h3><a href="%s">Change your password</a></h3>
+
+        <p><strong>If you don't want to reset your password</strong></p>
+        <p>You don't have to do anything. Just ignore this email.</p>
+
+        <p>Thanks,</p>
+        <p>The National Lottery Community Fund</p>
   resetPassword:
     title: Reset your password
     introduction: >
       <p>Please choose a new password for your account by entering it below. Ensure you choose a strong password.</p>
+    errorMessage: There was a problem updating your password - please try again
+    errorExpired: Your password reset link was invalid or has expired. <a href="/user/password/forgot">Please try again</a>.
+    email:
+      subject: You just changed your password
+      body: >
+        <h1>The National Lottery Community Fund</h1>
+        <h2>You just changed your password</h2>
+
+        <p>Hello,</p>
+        <p>Just an email to let you know you’ve successfully changed your online password.</p>
+        <p>If this wasn’t you – and you don’t know about any password changes – please <a href="https://www.tnlcommunityfund.org.uk/contact">talk to us</a> straight away.</p>
+
+        <p>Thanks,</p>
+        <p>The National Lottery Community Fund</p>
   updateEmail:
     title: Update email address
     introduction: >
@@ -1127,8 +1185,19 @@ user:
   activate:
     title: Activate your account
     introduction: >
-      A email has been sent to <strong>%s</strong>.
+      An email has been sent to <strong>%s</strong>.
       To activate your account, please click on the link in the email.
+    email:
+      subject: Activate your The National Lottery Community Fund website account
+      body: >
+        <h1>The National Lottery Community Fund</h1>
+        <h2>You’re almost ready to apply for the National Lottery Community Fund</h2>
+
+        <p>You set up an account with us, using this email address: %s.</p>
+        <p>Now you just need to <a href="%s">activate your account</a> to start your application.</p>
+
+        <p>Thanks,</p>
+        <p>The National Lottery Community Fund</p>
     errorMessage: Your activation link was invalid or has expired.
     resendLabel: Re-send activation link
     resendMessage: Activation link re-sent
@@ -1379,6 +1448,23 @@ apply:
       emailConfirmation: We have emailed your a copy of your submission
       whatToExpect: If your request is successful, your local funding officer will arrange a phone call or visit and give you a full application form to fill out and return to us.
 applyNext:
+  navigation:
+    applications: Applications
+    account: Account
+    logOut: Log out
+    summary: Summary
+  startApplication:
+    title: Start an application for<br /> National Lottery Awards for All
+    intro: A quick and simple way to get small National Lottery grants of between £300 and £10,000
+    callToAction: Start a new application
+  locationMessage: >
+      <p>Welcome to our new online application for National Lottery Awards for All.</p>
+      <p><strong>Applying for a project in Scotland?</strong></p>
+      <p>Great - you’re in the right place. You’ll need to <a href="/user/register">create a new account</a> to apply. Unless you’ve already created an account for our new online application form.</p>
+      <p><strong>Applying for a project in England or Wales?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
+      <p><strong>Applying for a project in Northern Ireland?</strong></p>
+      <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
   dashboard:
     title: Your applications
     introduction: >
@@ -1387,7 +1473,30 @@ applyNext:
       applications you've previously submitted online. You can also see the
       <a href="%s">questions you'll be asked</a> when you apply.</p>
     inProgressTitle: In progress
-    submittedTitle: Submitted
+    submitted: Submitted
+    notYetCompleted: not yet completed
+    continueApplication: Continue with this application
+    applicationStatus: Application status
+    notSubmitted: Not submitted
+    expiryMessage: >
+      <p>You started your application on <strong>%s</strong>.</p>
+      <p>You have until <strong>%s</strong> to complete your application.</p>
+    beforeYouStart:
+      title: Before you start
+      body: >
+        You might want to look at some helpful advice and tips about <a href="/funding/under10k">applying for funding on our website</a>.
+    decisionMessage: We aim to let you know our decision in about %s weeks. If you have any questions,
+      <a href="/contact">contact a member of our advice team</a>.
+    locationMessage: >
+      <p><strong>Applying for a project in England or Wales?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
+      <p><strong>Applying for a project in Northern Ireland?</strong></p>
+      <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
+      <p>Only applicants in Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
+    newApplication:
+      title: New application
+      body: You can create a new funding application for %s here
+      cta: Start new application
   summary:
     title: Summary
     introduction: >
@@ -1400,6 +1509,8 @@ applyNext:
     collapseAll: Collapse all sections
     showQuestions: Show questions
     notRequired: You don't need to fill this bit in because of what you've told us about your project so far.
+    errorSummaryTitle: These fields need attention before you can submit
+    featuredErrorsTitle: Some details in your application need extra attention
   delete:
     title: Are you sure you want to delete your application?
     message: >
@@ -1408,6 +1519,10 @@ applyNext:
         If you're sure you want to delete your application, then you can proceed below.
       </p>
     success: Your application was successfully deleted
+  questions:
+    printLink: Print these questions
+    downloadLink: Download these questions (PDF)
+    printWarning: Application form questions for %s – <strong>Please do not attempt to fill out this form or send it to The National Lottery Community Fund.</strong> We will not accept paper copies of this form.
   sectionPrefix: Section
   statusNotStarted: Not started
   statusInProgress: In progress
@@ -1417,7 +1532,102 @@ applyNext:
   continue: Continue
   edit: Edit
   submit: Submit application
+  fields:
+    dates:
+      startDate: Start date
+      endDate: End date
+    address:
+      label: Find address by postcode
+      required: Required
+      optional: Optional
+      helpText: eg. EC4A 1DE
+      enterManually: Enter address manually
+      selectAddress: Select an address
+      addressesFound: addresses found
+      lookupError: There was an error finding your address - please provide it below.
+      removeAddress: Remove this address
+      lookingUpAddress: Looking up address…
+      findAddress: Find address
+      warningForIncomplete: 'Please click "Find address" and choose an address from the list.'
+      fieldNames:
+        line1: Building and street
+        line2: Address line 2
+        townCity: Town or city
+        county: County
+        postcode: Postcode
+    bankStatement:
+      help:
+        title: Help with your bank statement
+        helpTitle: What we need from you
+        body: >
+          <p><strong>Please make sure that we can clearly see the following on your bank statement:</strong></p>
+          <ul>
+              <li>Your organisation’s legal name</li>
+              <li>The address the statements are sent to</li>
+              <li>The bank name</li>
+              <li>Account number</li>
+              <li>Sort code</li>
+              <li>Date (must be within last 3 months)</li>
+          </ul>
+          <img src="/assets/images/apply/afa-bank-statement-example.png"
+               alt="An example of a bank statement we need from you, with the bank name, date, organisation address, account number and organisation legal name circled" />
+    budget:
+      item: Item or activity
+      itemPlaceholder: eg. Posters
+      amount: Amount
+      amountPlaceholder: eg. 1234
+      deleteThisRow: Delete this row
+      deleteRow: Delete row
+      tooManyItems: Your number of budget headings must be less than or equal to
+      overBudget: Costs you would like us to fund must be less than
+      total: Total
+  questionList:
+    introduction:
+      title: Questions you'll be asked
+      body: >
+        Below is a list of all of the questions you may be asked when applying for %1$s. Please note that some questions are optional depending on your other answers to the form. You may find it helpful to revise our <a href="/funding/under10k">%1$s guidance</a>. <strong>Please note</strong>: in order to submit your application you'll need to agree to our terms and conditions.
+    eligibility:
+      title: Eligibility questions
+      note: You'll need to answer all of these before beginning your application form.
+      checkerTitle: Eligibility checker
+    confirmCriteria: Confirm the following criteria
+    chooseFromSelection: Choose as many options as you like from a selection
+    pickOneFromSelection: Pick one option from a selection
+    provideBudget: Provide an itemised budget
+    maxBudget: "to a maximum total of £%s"
+    maxBudgetAndRows: "to a maximum total of £%s across %s items"
+    provideFinancialFigure: Provide a financial figure
+    provideAddress: Provide an address
+    provideDate: Provide a date
+    provideEmail: Provide an email address
+    uploadFile: Upload a file
+    provideName: Provide a person's full name
+    provideNumber: Provide a number
+    providePhone: Provide a telephone number
+    provideText: Provide a sentence or two
+    provideTextLong: Provide a longer answer
+    minAndMaxWords: between %s-%s words
+    minWords: minimum of %s words
+    maxWords: maximum of %s words
+    optional: optional, but may be required depending on your circumstances
+    conditionalNote: "<strong>Note</strong>: this field may be optional depending on your other answers"
+  eligibility:
+    title: Eligibility checker
+    successfulTitle: Great! You're eligible to apply to %s
+    unsuccessfulTitle: Sorry, you're not eligible to apply at this time
+    whatNow: What now?
   #  @TODO: Move other common text to common:
+  errors:
+    file:
+      errorScanInfected: This file has been blocked for security reasons.
+      errorScanUnknown: This file is still being scanned for security risks - please check back shortly.
+      errorOther: There was an issue retrieving your file - please try again soon.
   common:
-    delete: Delete application
+    delete: Delete
+    exit: Exit
+    closeThisPage: Close this page
+    deleteApplication: Delete application
     errorUploading: There was an error uploading your file, please try again
+    untitledApplication: Untitled Application
+    startYourApplication: Start your application
+    backToApplications: Back to your applications

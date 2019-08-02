@@ -22,8 +22,6 @@ const {
 } = require('../../middleware/authed');
 const { csrfProtection } = require('../../middleware/cached');
 
-const alertMessage = require('./lib/alert-message');
-
 const router = express.Router();
 
 function renderForm(req, res, formValues = null, errors = []) {
@@ -53,21 +51,23 @@ router
         injectBreadcrumbs
     )
     .get(function(req, res) {
-        res.locals.alertMessage = alertMessage({
-            locale: req.i18n.getLocale(),
-            status: req.query.s
-        });
+        if (req.query.s) {
+            res.locals.alertMessage = req.i18n.__(
+                `user.common.alertMessages.${req.query.s}`
+            );
+        }
         renderForm(req, res);
     })
     .post(async (req, res, next) => {
         logger.info('Login attempted');
 
-        // Key all rate-limited login attempts by the user's IP and the attempted username
-        const RATE_LIMIT_UNIQUE_KEY = `${req.ip}_${req.body.username}`;
-
+        /**
+         * Key all rate-limited login attempts by
+         * the user's IP and the attempted username
+         */
         const LoginRateLimiter = await new RateLimiter(
             rateLimiterConfigs.failByUsername,
-            RATE_LIMIT_UNIQUE_KEY
+            [req.ip, req.body.username]
         ).init();
 
         if (LoginRateLimiter.isRateLimited()) {
@@ -106,7 +106,7 @@ router
                         await LoginRateLimiter.consumeRateLimit();
                         return renderForm(req, res, req.body, [
                             {
-                                msg: `Your username and password combination is invalid`
+                                msg: res.locals.copy.credentialError
                             }
                         ]);
                     } catch (rateLimitRejection) {

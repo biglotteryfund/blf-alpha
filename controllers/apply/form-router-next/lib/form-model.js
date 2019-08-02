@@ -250,7 +250,7 @@ class FormModel {
         return this.sections[currentSectionIndex + 1];
     }
 
-    previousPage({ baseUrl, sectionSlug, currentStepIndex = null }) {
+    previousPage({ baseUrl, sectionSlug, currentStepIndex = null, copy = {} }) {
         const currentSection = find(this.sections, s => s.slug === sectionSlug);
 
         const previousSection = this.previousSection(sectionSlug);
@@ -281,14 +281,13 @@ class FormModel {
             };
         } else {
             return {
-                // @TODO i18n
-                label: 'Summary',
+                label: copy.navigation.summary,
                 url: `${baseUrl}/summary`
             };
         }
     }
 
-    nextPage({ baseUrl, sectionSlug, currentStepIndex = null }) {
+    nextPage({ baseUrl, sectionSlug, currentStepIndex = null, copy = {} }) {
         const currentSection = find(
             this.sections,
             section => section.slug === sectionSlug
@@ -323,8 +322,7 @@ class FormModel {
                 };
             } else {
                 return {
-                    // @TODO i18n
-                    label: 'Summary',
+                    label: copy.navigation.summary,
                     url: `${baseUrl}/summary`
                 };
             }

@@ -3,7 +3,6 @@
 {% from "components/form-header/macro.njk" import formHeaderWithData with context %}
 
 {% from "components/user-navigation/macro.njk" import userNavigation with context %}
-{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
 
 {% set stepCount = __('global.misc.stepProgress', stepNumber, totalSteps) %}
 {% block title %}{{ step.title }} ({{ stepCount }}) | {{ section.shortTitle or section.title }} | {{ formTitle }} | {% endblock %}
@@ -68,7 +67,7 @@
                 {% endif %}
 
                 <div class="form-actions">
-                    <input class="btn" type="submit" value="Continue"/>
+                    <input class="btn" type="submit" value="{{ copy.continue }}"/>
                 </div>
 
             </form>

@@ -5,6 +5,7 @@ const {
 } = require('rate-limiter-flexible');
 const moment = require('moment');
 const { get } = require('lodash');
+const crypto = require('crypto');
 
 const { sequelize } = require('../db/models/index');
 const appData = require('../common/appData');
@@ -53,11 +54,14 @@ const rateLimiterConfigs = {
 };
 
 class RateLimiter {
-    constructor(limiterConf, keyValue) {
+    constructor(limiterConf, hashKeyParts = []) {
         this.maxPoints = limiterConf.config.maxPoints;
         this.limiterConf = limiterConf;
         this.limiter = limiterConf.instance;
-        this.keyValue = keyValue;
+        this.keyValue = crypto
+            .createHash('md5')
+            .update(hashKeyParts.join('_'))
+            .digest('hex');
         this.limiterInstance = null;
     }
 
@@ -77,7 +81,6 @@ class RateLimiter {
         if (isRateLimited) {
             logger.warn('User rate limited', {
                 rateLimiter: this.limiterConf.id,
-                uniqueKey: this.keyValue,
                 consumedPoints: consumedPoints,
                 maximumPoints: this.maxPoints
             });

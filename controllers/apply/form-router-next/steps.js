@@ -39,21 +39,13 @@ module.exports = function(formId, formBuilder) {
                         const { nextPage, previousPage } = form.pagination({
                             baseUrl: res.locals.formBaseUrl,
                             sectionSlug: req.params.section,
-                            currentStepIndex: stepIndex
+                            currentStepIndex: stepIndex,
+                            copy: res.locals.copy
                         });
 
                         if (step.isRequired) {
-                            const breadcrumbs = res.locals.breadcrumbs.concat([
-                                {
-                                    label: section.shortTitle || section.title,
-                                    url: sectionUrl
-                                },
-                                { label: step.title }
-                            ]);
-
                             const viewData = {
                                 csrfToken: req.csrfToken(),
-                                breadcrumbs: breadcrumbs,
                                 section: section,
                                 step: step,
                                 stepNumber: stepNumber,
@@ -216,7 +208,8 @@ module.exports = function(formId, formBuilder) {
                     const { nextPage } = form.pagination({
                         baseUrl: res.locals.formBaseUrl,
                         sectionSlug: req.params.section,
-                        currentStepIndex: stepIndex
+                        currentStepIndex: stepIndex,
+                        copy: res.locals.copy
                     });
 
                     /**

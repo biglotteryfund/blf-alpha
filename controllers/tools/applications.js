@@ -11,7 +11,11 @@ const uniqBy = require('lodash/uniqBy');
 const minBy = require('lodash/minBy');
 const times = require('lodash/times');
 
-const { PendingApplication, SubmittedApplication } = require('../../db/models');
+const {
+    PendingApplication,
+    SubmittedApplication,
+    Feedback
+} = require('../../db/models');
 const { getDateRange } = require('./helpers');
 const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
 
@@ -135,6 +139,9 @@ function getColourForCountry(countryName) {
         case 'Wales':
             colour = '#ffa600';
             break;
+        case 'Location unspecified':
+            colour = '#cccccc';
+            break;
         default:
             colour = '#e5007d';
             break;
@@ -166,6 +173,18 @@ function addCountry(row) {
     return data;
 }
 
+function getFeedbackDescriptionByAppId(appId) {
+    let description;
+    switch (appId) {
+        case 'awards-for-all':
+            description = 'National Lottery Awards for All';
+            break;
+        default:
+            break;
+    }
+    return description;
+}
+
 router.get('/:applicationId', async (req, res, next) => {
     try {
         const dateRange = getDateRange(req.query.start, req.query.end);
@@ -173,6 +192,13 @@ router.get('/:applicationId', async (req, res, next) => {
         const countryTitle = country ? titleCase(country) : false;
         const applicationTitle = titleCase(req.params.applicationId);
         const dataStudioUrl = getDataStudioUrlForForm(req.params.applicationId);
+
+        const feedbackDescription = getFeedbackDescriptionByAppId(
+            req.params.applicationId
+        );
+        const feedback = feedbackDescription
+            ? await Feedback.findByDescription(feedbackDescription)
+            : null;
 
         const getApplications = async appType => {
             const applications =
@@ -230,8 +256,11 @@ router.get('/:applicationId', async (req, res, next) => {
                 for (const [appCountry, apps] of Object.entries(
                     appsByCountry
                 )) {
-                    if (appCountry && appCountry !== 'undefined') {
-                        const countryName = titleCase(appCountry);
+                    if (appCountry) {
+                        const countryName =
+                            appCountry !== 'undefined'
+                                ? titleCase(appCountry)
+                                : 'Location unspecified';
                         appsByCountryByDay.push({
                             title: countryName,
                             data: applicationsByDay(apps),
@@ -301,7 +330,8 @@ router.get('/:applicationId', async (req, res, next) => {
             dateRange: dateRange,
             country: country,
             countryTitle: countryTitle,
-            dataStudioUrl: dataStudioUrl
+            dataStudioUrl: dataStudioUrl,
+            feedback: feedback
         });
     } catch (error) {
         next(error);

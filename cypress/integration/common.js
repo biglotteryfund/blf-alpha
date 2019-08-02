@@ -158,7 +158,7 @@ describe('user', () => {
     it('should prevent invalid log ins', () => {
         cy.visit('/user/login');
 
-        const messageText = 'username and password combination is invalid';
+        const messageText = `Your username and password aren't quite right`;
         logIn('not_a_real_account@example.com', 'examplepassword');
         assertError(messageText);
 
@@ -259,7 +259,7 @@ describe('user', () => {
             cy.getByLabelText('Your new password').type(newPassword, {
                 delay: 0
             });
-            cy.getByLabelText('Re-type your password').type(newPassword, {
+            cy.getByLabelText('Password confirmation').type(newPassword, {
                 delay: 0
             });
             cy.get('.form-actions').within(() => {
@@ -274,7 +274,7 @@ describe('user', () => {
             const newEmail = `${Date.now()}@example.com`;
             cy.getByText('Change your email address').click();
             cy.getByLabelText('Email address').type(newEmail);
-            cy.getByLabelText('Confirm your password').type('invalid password');
+            cy.getByLabelText('Password confirmation').type('invalid password');
 
             cy.get('.form-actions').within(() => {
                 cy.getByText('Update email address').click();
@@ -282,7 +282,7 @@ describe('user', () => {
 
             assertError('There was an error updating your details');
 
-            cy.getByLabelText('Confirm your password')
+            cy.getByLabelText('Password confirmation')
                 .clear()
                 .type(password);
 
