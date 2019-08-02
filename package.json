@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "@hapi/joi": "15.1.0",
-    "@ideal-postcodes/core-node": "1.0.0",
+    "@ideal-postcodes/core-node": "1.1.0",
     "@sentry/browser": "5.4.3",
     "@sentry/integrations": "5.4.2",
     "@sentry/node": "5.4.3",
