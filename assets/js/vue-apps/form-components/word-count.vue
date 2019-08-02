@@ -5,8 +5,7 @@ export default {
     props: {
         currentText: { type: String, default: '' },
         maxWords: { type: Number, required: true },
-        minWords: { type: Number, required: true },
-        locale: { type: String, required: true }
+        minWords: { type: Number, required: true }
     },
     methods: {
         /**
@@ -39,22 +38,20 @@ export default {
             }
         },
         currentCountMessage() {
-            return {
-                en: `${this.currentCount} / ${this.maxWords} words`,
-                cy: ''
-            }[this.locale];
+            return this.$t('wordCounter.currentCount', {
+                currentCount: this.currentCount,
+                maxWords: this.maxWords
+            });
         },
         helpMessage() {
             if (this.isOverLimit) {
-                return {
-                    en: `You have <strong>${this.amountOver} words</strong> too many.`,
-                    cy: 'Welsh'
-                }[this.locale];
+                return this.$t('wordCounter.overLimit', {
+                    amountOver: this.amountOver
+                });
             } else if (this.currentCount < this.minWords) {
-                return {
-                    en: `Must be at least ${this.minWords} words.`,
-                    cy: 'Welsh'
-                }[this.locale];
+                return this.$t('wordCounter.defaultMessage', {
+                    minWords: this.minWords
+                });
             } else {
                 return '';
             }
@@ -63,7 +60,9 @@ export default {
     watch: {
         isOverLimit(isOver) {
             if (isOver) {
-                tagHotjarRecording(['Apply: AFA: Your Idea: Word count exceeded']);
+                tagHotjarRecording([
+                    'Apply: AFA: Your Idea: Word count exceeded'
+                ]);
             }
         }
     }

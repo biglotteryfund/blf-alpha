@@ -1,0 +1,78 @@
+{
+  "en": {
+    "budget": {
+      "item": "Item or activity",
+      "itemPlaceholder": "eg. Posters",
+      "amount": "Amount",
+      "amountPlaceholder": "eg. 1234",
+      "deleteThisRow": "Delete this row",
+      "deleteRow": "Delete row",
+      "tooManyItems": "Your number of budget headings must be less than or equal to",
+      "overBudget": "Costs you would like us to fund must be less than",
+      "total": "Total"
+    },
+    "address": {
+      "label": "Find address by postcode",
+      "optional": "Optional",
+      "helpText": "eg. EC4A 1DE",
+      "enterManually": "Enter address manually",
+      "selectAddress": "Select an address",
+      "addressesFound": "addresses found",
+      "lookupError": "There was an error finding your address - please provide it below.",
+      "removeAddress": "Remove this address",
+      "lookingUpAddress": "Looking up address…",
+      "findAddress": "Find address",
+      "warningForIncomplete": "Please click \"Find address\" and choose an address from the list.",
+      "fieldNames": {
+        "line1": "Building and street",
+        "line2": "Address line 2",
+        "townCity": "Town or city",
+        "county": "County",
+        "postcode": "Postcode"
+      }
+    },
+    "wordCounter": {
+      "currentCount": "{currentCount} / {maxWords} words",
+      "defaultMessage": "Must be at least {minWords} words.",
+      "overLimit": "You have <strong>{amountOver} words</strong> too many."
+    }
+  },
+  "cy": {
+    "budget": {
+      "item": "",
+      "itemPlaceholder": "",
+      "amount": "",
+      "amountPlaceholder": "",
+      "deleteThisRow": "",
+      "deleteRow": "",
+      "tooManyItems": "",
+      "overBudget": "",
+      "total": ""
+    },
+    "address": {
+      "label": "",
+      "optional": "",
+      "helpText": "",
+      "enterManually": "",
+      "selectAddress": "",
+      "addressesFound": "",
+      "lookupError": "",
+      "removeAddress": "",
+      "lookingUpAddress": "",
+      "findAddress": "",
+      "warningForIncomplete": "",
+      "fieldNames": {
+        "line1": "",
+        "line2": "",
+        "townCity": "",
+        "county": "",
+        "postcode": ""
+      }
+    },
+    "wordCounter": {
+      "currentCount": "",
+      "defaultMessage": "",
+      "overLimit": ""
+    }
+  }
+}

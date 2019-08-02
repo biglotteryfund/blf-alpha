@@ -1,6 +1,6 @@
 <script>
 export default {
-    props: ['name', 'label', 'isRequired', 'value', 'size', 'copyOptional'],
+    props: ['name', 'label', 'isRequired', 'value', 'size'],
     computed: {
         required() {
             return this.isRequired === true;
@@ -13,7 +13,9 @@ export default {
     <div class="ff-address__field">
         <label class="ff-label" :for="'field-' + name">
             <span v-html="label"></span>
-            <span v-if="!required" class="ff-label-note">({{ copyOptional }})</span>
+            <span v-if="!required" class="ff-label-note"
+                >({{ $t('address.optional') }})
+            </span>
         </label>
 
         <input
