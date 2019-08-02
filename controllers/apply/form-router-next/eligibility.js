@@ -50,14 +50,14 @@ module.exports = function(eligibilityBuilder, formId) {
         .post(async (req, res) => {
             const { currentStepNumber, totalSteps } = res.locals;
 
-            logger.info('Eligibility check', {
-                eligible: req.body.eligibility,
-                formId: formId,
-                step: currentStepNumber
-            });
-
             if (req.body.eligibility === 'yes') {
                 if (currentStepNumber === totalSteps) {
+                    logger.info('Passed eligibility check', {
+                        eligible: req.body.eligibility,
+                        formId: formId,
+                        step: currentStepNumber
+                    });
+
                     res.render(templatePath, {
                         eligibilityStatus: 'eligible'
                     });
@@ -65,12 +65,17 @@ module.exports = function(eligibilityBuilder, formId) {
                     res.redirect(`${req.baseUrl}/${currentStepNumber + 1}`);
                 }
             } else {
-                res.locals.hotJarTagList = [
-                    'Apply: AFA: Failed eligibility check question'
-                ];
+                logger.info('Failed eligibility check', {
+                    formId: formId,
+                    step: currentStepNumber
+                });
+
                 res.render(templatePath, {
                     eligibilityStatus: 'ineligible',
-                    backUrl: `${req.baseUrl}/${currentStepNumber}`
+                    backUrl: `${req.baseUrl}/${currentStepNumber}`,
+                    hotJarTagList: [
+                        'Apply: AFA: Failed eligibility check question'
+                    ]
                 });
             }
         });
