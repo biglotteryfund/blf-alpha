@@ -28,7 +28,8 @@ cache:
 script:
   - npm audit --production
   - npm run lint
-  - npx concurrently --raw npm:test-unit npm:build-production
+  - npm run test-unit
+  - npm run build-production
   - npm run test-integration
 
 # Prepare artefact for deployment
