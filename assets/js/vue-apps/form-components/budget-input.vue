@@ -38,6 +38,7 @@ export default {
                 this.copy = JSON.parse(this.i18n);
             } catch (e) {} // eslint-disable-line no-empty
         }
+        this.checkErrors();
     },
     computed: {
         total() {
@@ -50,10 +51,17 @@ export default {
                 if (this.shouldAddNewRow()) {
                     this.addRow();
                 }
-                this.error.TOO_MANY_ITEMS =
-                    this.budgetRows.length === this.maxItems;
-                this.error.OVER_BUDGET =
-                    this.maxBudget && this.total > this.maxBudget;
+                this.checkErrors();
+            },
+            deep: true
+        }
+    },
+    methods: {
+        checkErrors() {
+            this.error.TOO_MANY_ITEMS =
+                this.budgetRows.length === this.maxItems;
+            this.error.OVER_BUDGET =
+                this.maxBudget && this.total > this.maxBudget;
 
                 if (this.error.OVER_BUDGET) {
                     trackEvent('Budget Component', 'Error', 'Over budget');
