@@ -5,8 +5,10 @@ const moment = require('moment');
 const groupBy = require('lodash/groupBy');
 const maxBy = require('lodash/maxBy');
 const minBy = require('lodash/minBy');
+const partition = require('lodash/partition');
 const times = require('lodash/times');
 
+const { Op } = require('sequelize');
 const { Users } = require('../../db/models');
 
 function chartData(users) {
@@ -18,11 +20,11 @@ function chartData(users) {
         return moment(response.createdAt).format('YYYY-MM-DD');
     });
 
-    const newestUser = maxBy(users, response => response.createdAt);
-    const oldestUser = minBy(users, response => response.createdAt);
-    const oldestDate = moment(oldestUser.createdAt);
+    const newest = maxBy(users, response => response.createdAt);
+    const oldest = minBy(users, response => response.createdAt);
+    const oldestDate = moment(oldest.createdAt);
 
-    const daysInRange = moment(newestUser.createdAt)
+    const daysInRange = moment(newest.createdAt)
         .startOf('day')
         .diff(oldestDate.startOf('day'), 'days');
 
@@ -45,15 +47,20 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
     try {
-        const allUsers = await Users.findAndCountAll();
-
-        const totalActiveUsers = await Users.count({
-            where: { is_active: true }
+        const allUsers = await Users.findAndCountAll({
+            where: {
+                createdAt: {
+                    [Op.gte]: moment()
+                        .subtract('3', 'months')
+                        .toDate()
+                }
+            }
         });
 
-        const totalInactiveUsers = await Users.count({
-            where: { is_active: false }
-        });
+        const [active, inactive] = partition(
+            allUsers.rows,
+            row => row.is_active
+        );
 
         res.render(path.resolve(__dirname, './views/users'), {
             breadcrumbs: res.locals.breadcrumbs.concat([
@@ -61,8 +68,8 @@ router.get('/', async (req, res, next) => {
             ]),
             chartData: chartData(allUsers.rows),
             totalUsers: allUsers.count,
-            totalActiveUsers,
-            totalInactiveUsers
+            totalActiveUsers: active.length,
+            totalInactiveUsers: inactive.length
         });
     } catch (error) {
         next(error);
