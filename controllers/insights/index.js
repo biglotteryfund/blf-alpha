@@ -18,20 +18,41 @@ const { buildPagination } = require('../../common/pagination');
 
 const router = express.Router();
 
-router.get('/', injectHeroImage('insights-letterbox-new'), injectCopy('insights'), injectResearch, (req, res) => {
-    res.render(path.resolve(__dirname, './views/insights-landing'), {
-        researchArchiveUrl: buildArchiveUrl(localify(req.i18n.getLocale())('/research'))
-    });
-});
+router.get(
+    '/',
+    injectHeroImage('insights-letterbox-new'),
+    injectCopy('insights'),
+    injectResearch,
+    (req, res) => {
+        res.render(path.resolve(__dirname, './views/insights-landing'), {
+            researchArchiveUrl: buildArchiveUrl(
+                localify(req.i18n.getLocale())('/research')
+            )
+        });
+    }
+);
 
 router.get(
-    '/documents',
+    '/documents/:slug?',
     injectHeroImage('insights-letterbox-new'),
     injectCopy('insights.documents'),
     async (req, res, next) => {
-        let query = pick(req.query, ['page', 'programme', 'tag', 'doctype', 'portfolio', 'q', 'sort']);
+        let query = pick(req.query, [
+            'page',
+            'programme',
+            'tag',
+            'doctype',
+            'portfolio',
+            'q',
+            'sort'
+        ]);
         res.locals.queryParams = clone(query);
         query['page-limit'] = 10;
+
+        if (req.params.slug) {
+            res.locals.documentSlug = req.params.slug;
+            query['slug'] = req.params.slug;
+        }
 
         try {
             const research = await contentApi.getResearch({
@@ -53,16 +74,21 @@ router.get(
     }
 );
 
-router.get('/:slug', injectResearchEntry, injectBreadcrumbs, (req, res, next) => {
-    const { researchEntry } = res.locals;
-    if (researchEntry) {
-        res.render(path.resolve(__dirname, './views/insights-detail'), {
-            extraCopy: req.i18n.__('insights.detail'),
-            entry: researchEntry
-        });
-    } else {
-        next();
+router.get(
+    '/:slug',
+    injectResearchEntry,
+    injectBreadcrumbs,
+    (req, res, next) => {
+        const { researchEntry } = res.locals;
+        if (researchEntry) {
+            res.render(path.resolve(__dirname, './views/insights-detail'), {
+                extraCopy: req.i18n.__('insights.detail'),
+                entry: researchEntry
+            });
+        } else {
+            next();
+        }
     }
-});
+);
 
 module.exports = router;
