@@ -27,5 +27,6 @@ router.use('/feedback-results', require('./feedback'));
 router.use('/survey-results', require('./surveys'));
 router.use('/applications', require('./applications'));
 router.use('/order-stats', require('./orders'));
+router.use('/users', require('./users'));
 
 module.exports = router;
