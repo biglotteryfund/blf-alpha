@@ -52,11 +52,7 @@ module.exports = function(eligibilityBuilder, formId) {
 
             if (req.body.eligibility === 'yes') {
                 if (currentStepNumber === totalSteps) {
-                    logger.info('Passed eligibility check', {
-                        eligible: req.body.eligibility,
-                        formId: formId,
-                        step: currentStepNumber
-                    });
+                    logger.info('Passed eligibility check', { formId });
 
                     res.render(templatePath, {
                         eligibilityStatus: 'eligible'
