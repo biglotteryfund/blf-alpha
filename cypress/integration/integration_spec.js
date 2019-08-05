@@ -12,12 +12,6 @@ describe('awards for all', function() {
     it('should submit full awards for all application', () => {
         const country = 'Scotland';
 
-        function shouldDisplayErrors(errorDescriptions = []) {
-            errorDescriptions.forEach(description => {
-                cy.getByTestId('form-errors').should('contain', description);
-            });
-        }
-
         function submitStep() {
             cy.getByText('Continue').click();
         }
@@ -162,53 +156,19 @@ describe('awards for all', function() {
         }
 
         function stepProjectCosts() {
-            function addItem(description, amount) {
-                cy.getAllByTestId('budget-row')
-                    .last()
-                    .within(() => {
-                        cy.getByLabelText('Item or activity').type(description);
-                        cy.getByLabelText('Amount').type(amount);
-                    });
-            }
-
-            function deleteLastRow() {
-                cy.getAllByText('Delete row', { exact: false })
-                    .last()
-                    .click();
-            }
-
-            addItem('Example item', 9000);
-            addItem('Example item over budget', 1050);
-
-            cy.getAllByTestId('budget-total').should('contain', '£10,050');
-
-            cy.getAllByTestId('budget-errors').should(
-                'contain',
-                'Costs you would like us to fund must be less than £10,000'
-            );
-
-            cy.getByLabelText('Tell us the total cost of your project').type(
-                9000
-            );
-
-            submitStep();
-
-            shouldDisplayErrors([
-                'Costs you would like us to fund must be less than £10,000',
-                'Total cost must be the same as or higher than the amount you’re asking us to fund'
-            ]);
-
-            // @TODO: Why does this need to be clicked once more than needed?
-            deleteLastRow();
-            deleteLastRow();
-            deleteLastRow();
-
             const amounts = new Array(random(3, 10)).fill(null).map(() => {
                 return random(100, 1000);
             });
 
             amounts.forEach((amount, index) => {
-                addItem(`Example budget item ${index + 1}`, amount);
+                cy.getAllByTestId('budget-row')
+                    .last()
+                    .within(() => {
+                        cy.getByLabelText('Item or activity').type(
+                            `Example budget item ${index + 1}`
+                        );
+                        cy.getByLabelText('Amount').type(amount.toString());
+                    });
             });
 
             cy.getAllByTestId('budget-total').should(
@@ -218,7 +178,7 @@ describe('awards for all', function() {
 
             cy.getByLabelText('Tell us the total cost of your project')
                 .clear()
-                .type(random(sum(amounts), 20000));
+                .type(random(sum(amounts), 20000).toString());
 
             submitStep();
         }
@@ -378,7 +338,7 @@ describe('awards for all', function() {
 
             cy.queryByLabelText('Companies House number', {
                 exact: false,
-                timeout: 1000
+                timeout: 500
             }).then(el => {
                 if (el) {
                     const randomCompanyNumber = random(10000, 99999999)
@@ -390,7 +350,7 @@ describe('awards for all', function() {
 
             cy.queryByLabelText('Charity registration number', {
                 exact: false,
-                timeout: 1000
+                timeout: 500
             }).then(el => {
                 if (el) {
                     const randomCharityNumber = random(10000, 9999999)
@@ -402,7 +362,7 @@ describe('awards for all', function() {
 
             cy.queryByLabelText('Department for Education number', {
                 exact: false,
-                timeout: 1000
+                timeout: 500
             }).then(el => {
                 if (el) {
                     const randomEducationNumber = random(10000, 999999)
@@ -417,7 +377,7 @@ describe('awards for all', function() {
             // Optional accounting year end step
             cy.queryByText('What is your accounting year end date?', {
                 exact: false,
-                timeout: 1000
+                timeout: 500
             }).then(el => {
                 if (el) {
                     cy.checkA11y();
@@ -436,7 +396,7 @@ describe('awards for all', function() {
         }
 
         function fillDateOfBirth(dateOfBirth) {
-            cy.queryByText('Date of birth', { timeout: 1000 }).then(el => {
+            cy.queryByText('Date of birth', { timeout: 500 }).then(el => {
                 if (el) {
                     cy.getByLabelText('Day').type(dateOfBirth.date());
                     cy.getByLabelText('Month').type(dateOfBirth.month() + 1);
@@ -446,7 +406,7 @@ describe('awards for all', function() {
         }
 
         function fillHomeAddress(address) {
-            cy.queryByText('Home address', { timeout: 1000 }).then(el => {
+            cy.queryByText('Home address', { timeout: 500 }).then(el => {
                 if (el) {
                     cy.wrap(el)
                         .parent()
@@ -458,7 +418,7 @@ describe('awards for all', function() {
 
             cy.queryByText(
                 'Have they lived at this address for the last three years?',
-                { timeout: 1000 }
+                { timeout: 500 }
             ).then(el => {
                 if (el) {
                     cy.wrap(el)
