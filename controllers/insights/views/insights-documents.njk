@@ -70,14 +70,15 @@
                     {# Filter summary #}
 
                     <ul class="filter-list">
-                        {% if entriesMeta.activeProgramme or entriesMeta.activePortfolio or entriesMeta.activeDocType or entriesMeta.activeTag or queryParams.q %}
+                        {% if entriesMeta.activeProgramme or entriesMeta.activePortfolio or entriesMeta.activeDocType or entriesMeta.activeTag or queryParams.q or documentSlug %}
 
-                            {% macro filterField(fieldName, param) %}
+                            {% macro filterField(fieldName, param, customLink = false) %}
                                 {% if fieldName %}
+                                    {% set url = '?' + queryParams | removeQueryParam(param) if not customLink else customLink %}
                                     <li class="filter-list__item">
                                         <a class="active-filter"
                                            title="{{ fieldName }}"
-                                           href="?{{ queryParams | removeQueryParam(param) }}">
+                                           href="{{ url }}">
                                             {{ fieldName }}
                                             {{ iconClose() }}
                                         </a>
@@ -86,6 +87,11 @@
                             {% endmacro %}
 
                             {{ filterField(queryParams.q, 'q') }}
+
+                            {% if documentSlug %}
+                                {{ filterField(documentSlug, false, './') }}
+                            {% endif %}
+
                             {{ filterField(entriesMeta.activeProgramme.label, 'programme') }}
                             {{ filterField(entriesMeta.activePortfolio.label, 'portfolio') }}
                             {{ filterField(entriesMeta.activeDocType.label, 'doctype') }}
