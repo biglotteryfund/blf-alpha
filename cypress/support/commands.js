@@ -120,7 +120,15 @@ Cypress.Commands.add('checkA11y', ({ context, options } = {}) => {
 
     cy.window({ log: false })
         .then(window => {
-            return window.axe.run(context || window.document, options);
+            return window.axe.run(context || window.document, {
+                ...{
+                    // @TODO: Review items in this list
+                    rules: {
+                        'landmark-unique': { enabled: false }
+                    }
+                },
+                ...options
+            });
         })
         .then(({ violations }) => {
             if (violations.length) {
