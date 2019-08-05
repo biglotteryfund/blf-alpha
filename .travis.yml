@@ -26,10 +26,8 @@ cache:
     - ~/.cache # Cypress installed into ~/.cache/Cypress
 
 script:
-  - npm audit --production
-  - npm run lint
-  - npm run test-unit
-  - npm run build-production
+  - npx concurrently "npm audit --production" npm:lint
+  - npx concurrently npm:test-unit npm:build-production
   - npm run test-integration
 
 # Prepare artefact for deployment
