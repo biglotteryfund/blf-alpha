@@ -22,10 +22,19 @@ export default {
     },
     data() {
         // Add a ready-to-use new row if the budget isn't over the limit already
-        const budgetRowsArr =
-            this.budgetData.length < this.maxItems
-                ? concat(this.budgetData, [{ item: '', cost: '' }])
-                : this.budgetData;
+        const shouldAddNewRow = () => {
+            if (!this.budgetData || this.budgetData.length >= this.maxItems) {
+                return false;
+            }
+            const lastItem = this.budgetData[this.budgetData.length - 1];
+            if (lastItem && !lastItem.item && !lastItem.cost) {
+                return false;
+            }
+            return true;
+        };
+        const budgetRowsArr = shouldAddNewRow()
+            ? concat(this.budgetData, [{ item: '', cost: '' }])
+            : this.budgetData;
         return {
             budgetRows: budgetRowsArr,
             error: {},
@@ -63,22 +72,18 @@ export default {
             this.error.OVER_BUDGET =
                 this.maxBudget && this.total > this.maxBudget;
 
-                if (this.error.OVER_BUDGET) {
-                    trackEvent('Budget Component', 'Error', 'Over budget');
-                }
+            if (this.error.OVER_BUDGET) {
+                trackEvent('Budget Component', 'Error', 'Over budget');
+            }
 
-                if (this.error.TOO_MANY_ITEMS) {
-                    trackEvent(
-                        'Budget Component',
-                        'Error',
-                        'Maximum number of items reached'
-                    );
-                }
-            },
-            deep: true
-        }
-    },
-    methods: {
+            if (this.error.TOO_MANY_ITEMS) {
+                trackEvent(
+                    'Budget Component',
+                    'Error',
+                    'Maximum number of items reached'
+                );
+            }
+        },
         getLineItemName(index, subFieldName) {
             return `${this.fieldName}[${index}][${subFieldName}]`;
         },
