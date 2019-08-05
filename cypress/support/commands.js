@@ -1,5 +1,6 @@
 // @ts-nocheck
 // https://on.cypress.io/custom-commands
+import merge from 'lodash/merge';
 
 /**
  * Percy commands
@@ -118,17 +119,17 @@ Cypress.Commands.add('checkA11y', ({ context, options } = {}) => {
         }
     });
 
+    // @TODO: Review items in this list
+    const combinedOptions = merge(
+        { rules: { 'landmark-unique': { enabled: false } } },
+        options
+    );
+
+    cy.log(combinedOptions);
+
     cy.window({ log: false })
         .then(window => {
-            return window.axe.run(context || window.document, {
-                ...{
-                    // @TODO: Review items in this list
-                    rules: {
-                        'landmark-unique': { enabled: false }
-                    }
-                },
-                ...options
-            });
+            return window.axe.run(context || window.document, combinedOptions);
         })
         .then(({ violations }) => {
             if (violations.length) {
