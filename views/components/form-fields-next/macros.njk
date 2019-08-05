@@ -207,11 +207,12 @@
         {% if field.isRequired %}required aria-required="true"{% endif %}
         {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
         {% if settings.showWordCount %} @input="onInput" ref="textarea"{% endif %}
-    >{{ field.value }}</textarea>
+    >
+        {{ field.value }}
+    </textarea>
     {% if settings.showWordCount %}
         <word-count
             :current-text="text"
-            locale="{{ locale }}"
             field-id="field-{{ field.name }}"
             :min-words={{ settings.minWords }}
             :max-words={{ settings.maxWords }}
@@ -413,9 +414,7 @@
                 label="{{ field.label }}"
                 explanation="{{ field.explanation }}"
                 field-name="{{ field.name }}"
-                locale="{{ locale }}"
                 address="{{ field.value | dump }}"
-                i18n="{{ copy | dump }}"
             >
             </address-lookup>
 
@@ -501,7 +500,6 @@
                 field-name="{{ field.name }}"
                 :max-budget="{{ field.attributes.max }}"
                 :max-items="{{ field.attributes.rowLimit }}"
-                i18n="{{ copy | dump }}"
                 {% if field.value %}:budget-data="{{ field.value | dump }}"{% endif %}>
             </budget-input>
 
