@@ -72,9 +72,9 @@
   "dependencies": {
     "@hapi/joi": "15.1.0",
     "@ideal-postcodes/core-node": "1.1.0",
-    "@sentry/browser": "5.4.3",
-    "@sentry/integrations": "5.4.2",
-    "@sentry/node": "5.4.3",
+    "@sentry/browser": "5.5.0",
+    "@sentry/integrations": "5.5.0",
+    "@sentry/node": "5.5.0",
     "aws-sdk": "2.295.0",
     "bcryptjs": "^2.4.3",
     "common-tags": "1.8.0",
