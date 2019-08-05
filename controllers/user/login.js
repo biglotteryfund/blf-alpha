@@ -102,6 +102,9 @@ router
                      * Show a generic error message here to avoid exposing account state
                      */
                     logger.warn('Login failed: Unsuccessful login attempt');
+                    res.locals.hotJarTagList = [
+                        'User: Unsuccessful login attempt'
+                    ];
                     try {
                         await LoginRateLimiter.consumeRateLimit();
                         return renderForm(req, res, req.body, [
