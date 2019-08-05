@@ -1,0 +1,100 @@
+{% extends "layouts/main.njk" %}
+{% from "components/breadcrumb-trail/macro.njk" import breadcrumbTrail %}
+{% from "components/user-status/macro.njk" import staffStatus with context %}
+{% from "components/data.njk" import statsGrid %}
+
+{% block extraHead %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block content %}
+    <main role="main" id="content">
+        <div class="content-box u-inner-wide-only">
+            {{ breadcrumbTrail(breadcrumbs) }}
+            {{ staffStatus(user) }}
+
+            <h1 class="u-margin-bottom-s">{{ title }}</h1>
+            <p>Showing users registered in the last <strong>3 months</strong></p>
+
+            <h2 class="u-no-margin">Users registered per day</h2>
+            <div class="u-margin-bottom">
+                <canvas id="js-chart" height="200"></canvas>
+            </div>
+
+            <h2 class="u-no-margin">User registration status</h2>
+            <div class="u-margin-bottom">
+                {{ statsGrid([{
+                    value: totalUsers,
+                    title: 'total users',
+                    showNumberBeforeTitle: true
+                }, {
+                    value: totalActiveUsers,
+                    title: 'users activated',
+                    showNumberBeforeTitle: true
+                }, {
+                    value: totalInactiveUsers,
+                    title: 'users not yet activated',
+                    showNumberBeforeTitle: true
+                }]) }}
+            </div>
+
+
+        </div>
+
+    </main>
+
+    <script>
+        new Chart(document.getElementById('js-chart'), {
+            type: 'bar',
+            data: {
+                datasets: [{
+                    label: 'Number of users',
+                    data: {{ chartData | dump(2) | safe }},
+                    borderColor: '#e5007d',
+                    fill: '#e5007d'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                title: {
+                    display: false,
+                    text: 'Response distribution'
+                },
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        type: 'time',
+                        display: true,
+                        scaleLabel: {
+                            display: false,
+                            labelString: 'Date'
+                        },
+                        time: {
+                            round: 'day',
+                            unit: 'day'
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Number of users"
+                        },
+                        ticks: {
+                          precision: 0
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+{% endblock %}
