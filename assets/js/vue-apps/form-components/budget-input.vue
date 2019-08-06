@@ -20,15 +20,19 @@ export default {
     },
     data() {
         // Add a ready-to-use new row if the budget isn't over the limit already
-        const initialBudgetRows =
-            this.budgetData.length < this.maxItems
-                ? concat(this.budgetData, [{ item: '', cost: '' }])
-                : this.budgetData;
-
+        const initialBudgetRows = this.shouldAddNewRow(this.budgetData)
+            ? concat(this.budgetData, [{ item: '', cost: '' }])
+            : this.budgetData;
         return {
             budgetRows: initialBudgetRows,
-            error: {}
+            error: {
+                TOO_MANY_ITEMS: initialBudgetRows.length === this.maxItems,
+                OVER_BUDGET: this.maxBudget && this.total > this.maxBudget
+            }
         };
+    },
+    mounted() {
+        this.checkErrors();
     },
     computed: {
         total() {
@@ -38,36 +42,42 @@ export default {
     watch: {
         budgetRows: {
             handler() {
-                if (this.shouldAddNewRow()) {
+                if (this.shouldAddNewRow(this.budgetRows)) {
                     this.addRow();
                 }
-                this.error.TOO_MANY_ITEMS =
-                    this.budgetRows.length === this.maxItems;
-                this.error.OVER_BUDGET =
-                    this.maxBudget && this.total > this.maxBudget;
-
-                if (this.error.OVER_BUDGET) {
-                    trackEvent('Budget Component', 'Error', 'Over budget');
-                }
-
-                if (this.error.TOO_MANY_ITEMS) {
-                    trackEvent(
-                        'Budget Component',
-                        'Error',
-                        'Maximum number of items reached'
-                    );
-                }
+                this.checkErrors();
             },
             deep: true
         }
     },
     methods: {
+        checkErrors() {
+            this.error.TOO_MANY_ITEMS =
+                this.budgetRows.length === this.maxItems;
+            this.error.OVER_BUDGET =
+                this.maxBudget && this.total > this.maxBudget;
+
+            if (this.error.OVER_BUDGET) {
+                trackEvent('Budget Component', 'Error', 'Over budget');
+            }
+
+            if (this.error.TOO_MANY_ITEMS) {
+                trackEvent(
+                    'Budget Component',
+                    'Error',
+                    'Maximum number of items reached'
+                );
+            }
+        },
         getLineItemName(index, subFieldName) {
             return `${this.fieldName}[${index}][${subFieldName}]`;
         },
-        shouldAddNewRow() {
-            const lastItem = this.budgetRows[this.budgetRows.length - 1];
-            return lastItem.item || lastItem.cost;
+        shouldAddNewRow(budgetData) {
+            if (!budgetData || budgetData.length >= this.maxItems) {
+                return false;
+            }
+            const lastItem = budgetData[budgetData.length - 1];
+            return !(lastItem && !lastItem.item && !lastItem.cost);
         },
         addRow() {
             if (this.budgetRows.length < this.maxItems) {

@@ -632,7 +632,8 @@
                 {% endif %}
             </div>
             {% if fieldErrors.length > 0 %}
-                {% if field.settings.showWordCount %}
+                {% set errorsNoscript = field.settings.showWordCount or field.type === 'budget' %}
+                {% if errorsNoscript %}
                     <noscript>
                 {% endif %}
                 <ol class="form-field__errors">
@@ -640,7 +641,7 @@
                         <li>{{ error.msg }}</li>
                     {% endfor %}
                 </ol>
-                {% if field.settings.showWordCount %}
+                {% if errorsNoscript %}
                     </noscript>
                 {% endif %}
             {% endif %}

@@ -197,8 +197,6 @@ describe('awards for all', function() {
                 'Total cost must be the same as or higher than the amount you’re asking us to fund'
             ]);
 
-            // @TODO: Why does this need to be clicked once more than needed?
-            deleteLastRow();
             deleteLastRow();
             deleteLastRow();
 
