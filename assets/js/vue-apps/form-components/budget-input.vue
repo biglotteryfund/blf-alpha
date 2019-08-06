@@ -21,17 +21,7 @@ export default {
     },
     data() {
         // Add a ready-to-use new row if the budget isn't over the limit already
-        const shouldAddNewRow = () => {
-            if (!this.budgetData || this.budgetData.length >= this.maxItems) {
-                return false;
-            }
-            const lastItem = this.budgetData[this.budgetData.length - 1];
-            if (lastItem && !lastItem.item && !lastItem.cost) {
-                return false;
-            }
-            return true;
-        };
-        const initialBudgetRows = shouldAddNewRow()
+        const initialBudgetRows = this.shouldAddNewRow(this.budgetData)
             ? concat(this.budgetData, [{ item: '', cost: '' }])
             : this.budgetData;
         return {
@@ -50,7 +40,7 @@ export default {
     watch: {
         budgetRows: {
             handler() {
-                if (this.shouldAddNewRow()) {
+                if (this.shouldAddNewRow(this.budgetRows)) {
                     this.addRow();
                 }
                 this.checkErrors();
@@ -86,9 +76,15 @@ export default {
         getLineItemName(index, subFieldName) {
             return `${this.fieldName}[${index}][${subFieldName}]`;
         },
-        shouldAddNewRow() {
-            const lastItem = this.budgetRows[this.budgetRows.length - 1];
-            return lastItem.item || lastItem.cost;
+        shouldAddNewRow(budgetData) {
+            if (!budgetData || budgetData.length >= this.maxItems) {
+                return false;
+            }
+            const lastItem = budgetData[budgetData.length - 1];
+            if (lastItem && !lastItem.item && !lastItem.cost) {
+                return false;
+            }
+            return true;
         },
         addRow() {
             if (this.budgetRows.length < this.maxItems) {
