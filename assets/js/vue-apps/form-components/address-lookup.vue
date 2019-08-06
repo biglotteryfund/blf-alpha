@@ -40,7 +40,9 @@ export default {
             },
             addressData: [],
             candidates: [],
-            selectedAddressId: ''
+            selectedAddressId: '',
+            initialSelectValue: null,
+            selectHasChanged: false
         };
     },
     mounted() {
@@ -203,6 +205,35 @@ export default {
                 'Enter Manually clicked'
             );
             this.currentState = this.states.EnteringManually;
+        },
+        selectChanged() {
+            if (!this.selectHasChanged) {
+                return false;
+            }
+            this.setSelectedAddress();
+        },
+        selectClicked() {
+            this.selectHasChanged = true;
+        },
+        selectFocused() {
+            this.initialSelectValue = this.value;
+        },
+        selectKeyed(e) {
+            const keyCodeTab = 9;
+            const keyCodeEnter = 13;
+            const keyCodeEsc = 27;
+
+            if (
+                (e.keyCode === keyCodeEnter || e.keyCode === keyCodeTab) &&
+                this.selectedAddressId !== this.initialSelectValue
+            ) {
+                this.selectHasChanged = true;
+                this.selectChanged();
+            } else if (e.keyCode === keyCodeEsc) {
+                this.selectedAddressId = this.initialSelectValue;
+            } else {
+                this.selectHasChanged = false;
+            }
         }
     },
     computed: {
@@ -314,7 +345,10 @@ export default {
                     id="address-selection"
                     :disabled="currentState === states.Loading"
                     :required="shouldShowPostcodeLookup"
-                    @blur="setSelectedAddress"
+                    @focus="selectFocused"
+                    @keydown="selectKeyed"
+                    @change="selectChanged"
+                    @click="selectClicked"
                     data-hj-suppress
                 >
                     <option disabled value="">
