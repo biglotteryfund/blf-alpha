@@ -1,5 +1,4 @@
 <script>
-import Vue from 'vue';
 import sumBy from 'lodash/sumBy';
 import concat from 'lodash/concat';
 import IconBin from '../components/icon-bin.vue';
@@ -26,7 +25,10 @@ export default {
             : this.budgetData;
         return {
             budgetRows: initialBudgetRows,
-            error: {}
+            error: {
+                TOO_MANY_ITEMS: initialBudgetRows.length === this.maxItems,
+                OVER_BUDGET: this.maxBudget && this.total > this.maxBudget
+            }
         };
     },
     mounted() {
@@ -50,16 +52,10 @@ export default {
     },
     methods: {
         checkErrors() {
-            Vue.set(
-                this.error,
-                'TOO_MANY_ITEMS',
-                this.budgetRows.length === this.maxItems
-            );
-            Vue.set(
-                this.error,
-                'OVER_BUDGET',
-                this.maxBudget && this.total > this.maxBudget
-            );
+            this.error.TOO_MANY_ITEMS =
+                this.budgetRows.length === this.maxItems;
+            this.error.OVER_BUDGET =
+                this.maxBudget && this.total > this.maxBudget;
 
             if (this.error.OVER_BUDGET) {
                 trackEvent('Budget Component', 'Error', 'Over budget');
@@ -81,10 +77,7 @@ export default {
                 return false;
             }
             const lastItem = budgetData[budgetData.length - 1];
-            if (lastItem && !lastItem.item && !lastItem.cost) {
-                return false;
-            }
-            return true;
+            return !(lastItem && !lastItem.item && !lastItem.cost);
         },
         addRow() {
             if (this.budgetRows.length < this.maxItems) {
