@@ -185,6 +185,10 @@ function getFeedbackDescriptionByAppId(appId) {
     return description;
 }
 
+router.get('/', function(req, res) {
+    res.redirect('/tools');
+});
+
 router.get('/:applicationId', async (req, res, next) => {
     try {
         const dateRange = getDateRange(req.query.start, req.query.end);
