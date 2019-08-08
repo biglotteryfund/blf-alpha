@@ -25,7 +25,7 @@ const fieldsFor = require('./fields');
 const terms = require('./terms');
 
 const { isTestServer } = require('../../../common/appData');
-const checkBankApi = require('../../../common/bank-api');
+const { checkBankAccountDetails } = require('./lib/bank-api');
 
 module.exports = function({
     locale = 'en',
@@ -707,38 +707,45 @@ module.exports = function({
 
         function messagesForStatus(bankStatus) {
             let messages = [];
-            if (bankStatus.code === 'INVALID') {
-                messages = [
-                    {
-                        msg: localise({
-                            en: `This sort code is not valid with this account number`,
-                            cy: ''
-                        }),
-                        param: 'bankSortCode',
-                        field: fields.bankSortCode
-                    },
-                    {
-                        msg: localise({
-                            en: `This account number is not valid with this sort code`,
-                            cy: ''
-                        }),
-                        param: 'bankAccountNumber',
-                        field: fields.bankAccountNumber
-                    }
-                ];
-            } else if (bankStatus.supportsBacsPayment === false) {
-                messages = [
-                    {
-                        msg: localise({
-                            en: oneLine`This bank account cannot receive BACS payments,
-                                which is a requirement for funding`,
-                            cy: ''
-                        }),
-                        param: 'bankAccountNumber',
-                        field: fields.bankAccountNumber
-                    }
-                ];
+            switch (bankStatus.code) {
+                case 'INVALID_ACCOUNT':
+                    messages = [
+                        {
+                            msg: localise({
+                                en: `This sort code is not valid with this account number`,
+                                cy: ''
+                            }),
+                            param: 'bankSortCode',
+                            field: fields.bankSortCode
+                        },
+                        {
+                            msg: localise({
+                                en: `This account number is not valid with this sort code`,
+                                cy: ''
+                            }),
+                            param: 'bankAccountNumber',
+                            field: fields.bankAccountNumber
+                        }
+                    ];
+                    break;
+                case 'INVALID_BACS':
+                    messages = [
+                        {
+                            msg: localise({
+                                en: oneLine`This bank account cannot receive BACS payments,
+                                    which is a requirement for funding`,
+                                cy: ''
+                            }),
+                            param: 'bankAccountNumber',
+                            field: fields.bankAccountNumber
+                        }
+                    ];
+                    break;
+                default:
+                    messages = [];
+                    break;
             }
+
             return messages;
         }
 
@@ -746,10 +753,9 @@ module.exports = function({
             return Promise.resolve();
         } else {
             return new Promise((resolve, reject) => {
-                checkBankApi(sortCode, accountNumber)
+                checkBankAccountDetails(sortCode, accountNumber)
                     .then(bankStatus => {
                         const messages = messagesForStatus(bankStatus);
-
                         if (messages.length > 0) {
                             return reject(messages);
                         } else {
