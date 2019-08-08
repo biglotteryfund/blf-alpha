@@ -1598,10 +1598,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'checkbox',
             options: [
-                { value: '0-12', label: localise({ en: '0-12', cy: '' }) },
-                { value: '13-24', label: localise({ en: '13-24', cy: '' }) },
-                { value: '25-64', label: localise({ en: '25-64', cy: '' }) },
-                { value: '65+', label: localise({ en: '65+', cy: '' }) }
+                { value: '0-12', label: '0-12' },
+                { value: '13-24', label: '13-24' },
+                { value: '25-64', label: '25-64' },
+                { value: '65+', label: '65+' }
             ],
             get schema() {
                 return conditionalBeneficiaryChoice({
