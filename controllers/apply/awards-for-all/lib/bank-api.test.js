@@ -19,9 +19,27 @@ test('should normalise valid response', () => {
     };
 
     expect(normalizeResponse(mockValidResponse)).toEqual({
-        code: 'VALID',
-        originalCode: '01',
-        supportsBacsPayment: true
+        code: 'VALID'
+    });
+});
+
+test('should normalise invalid bacs response', () => {
+    const mockValidResponse = {
+        resultCode: '01',
+        resultDescription: 'Sortcode and Bank Account are valid',
+        accountProperties: {
+            institution: 'TSB BANK PLC',
+            branch: '160/2 HIGH ST ACTON 308087',
+            fast_payment: 'true',
+            bacs_credit: 'false',
+            bacs_direct_debit: 'false',
+            chaps: 'true',
+            cheque: 'false'
+        }
+    };
+
+    expect(normalizeResponse(mockValidResponse)).toEqual({
+        code: 'INVALID_BACS'
     });
 });
 
@@ -32,9 +50,7 @@ test('should normalise invalid response', () => {
     };
 
     expect(normalizeResponse(mockInvalidResponse)).toEqual({
-        code: 'INVALID',
-        originalCode: '02',
-        supportsBacsPayment: false
+        code: 'INVALID_ACCOUNT'
     });
 });
 
@@ -44,5 +60,7 @@ test('should throw an error for bad response', () => {
         resultDescription: 'Key and/or password are invalid.'
     };
 
-    expect(() => normalizeResponse(mockBadResponse)).toThrow(mockBadResponse.resultDescription);
+    expect(() => normalizeResponse(mockBadResponse)).toThrow(
+        mockBadResponse.resultDescription
+    );
 });
