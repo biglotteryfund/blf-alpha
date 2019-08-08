@@ -85,6 +85,25 @@ function measureWordCounts(data) {
     return minMaxAvg(wordCounts);
 }
 
+function countRequestedAmount(data) {
+    const amounts = data.map(item => {
+        const row = item.applicationOverview.find(
+            _ => _.label === 'Requested amount'
+        );
+        return parseInt(
+            get(row, 'value', 0)
+                .replace('£', '')
+                .replace(/,/g, ''),
+            10
+        );
+    });
+    let values = minMaxAvg(amounts);
+    values.total = amounts.reduce((acc, cur) => {
+        return acc + cur;
+    }, 0);
+    return values;
+}
+
 function filterByCountry(country, appType) {
     return function(item) {
         if (!country) {
@@ -283,7 +302,9 @@ router.get('/:applicationId', async (req, res, next) => {
 
         const statistics = {
             appDurations: measureTimeTaken(submittedApplications),
-            wordCount: measureWordCounts(submittedApplications)
+            wordCount: measureWordCounts(submittedApplications),
+            requestedAmount: countRequestedAmount(submittedApplications),
+            totalSubmitted: submittedApplications.length
         };
 
         const title = 'Applications';
