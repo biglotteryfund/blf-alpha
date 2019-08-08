@@ -477,10 +477,16 @@ describe('awards for all', function() {
             });
         }
 
-        function fillContact(contact) {
+        function fillContact(contact, type) {
             cy.getByLabelText('First name').type(contact.firstName);
 
             cy.getByLabelText('Last name').type(contact.lastName);
+
+            if (type === 'main') {
+                cy.getByLabelText('Yes')
+                    .first()
+                    .click();
+            }
 
             fillDateOfBirth(contact.dateOfBirth);
 
@@ -509,7 +515,7 @@ describe('awards for all', function() {
 
         function sectionMainContact(contact) {
             cy.checkA11y();
-            fillContact(contact);
+            fillContact(contact, 'main');
             submitStep();
         }
 
