@@ -117,6 +117,7 @@ function mockFullForm({
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName()
         },
+        mainContactIsValid: 'yes',
         mainContactDateOfBirth: mockDateOfBirth(16),
         mainContactAddress: mockAddress(),
         mainContactAddressHistory: {
@@ -903,6 +904,7 @@ describe('Contacts', () => {
 
             checkFieldsForSection('main-contact', [
                 'mainContactName',
+                'mainContactIsValid',
                 'mainContactEmail',
                 'mainContactPhone',
                 'mainContactCommunicationNeeds'
