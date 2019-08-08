@@ -2,29 +2,12 @@
 const request = require('request-promise-native');
 const { BANK_API } = require('../../../../common/secrets');
 
-function normaliseResultCode(resultCode) {
-    let result;
-    switch (resultCode) {
-        case '01':
-            result = 'VALID';
-            break;
-        case '02':
-            result = 'INVALID';
-            break;
-        default:
-            result = 'UNKNOWN';
-            break;
-    }
-
-    return result;
-}
-
 function normaliseBacsCheck(accountProperties) {
     // Coerce a string ("true") into a boolean
     return accountProperties ? !!accountProperties.bacs_credit : false;
 }
 
-module.exports = function checkBankAccountDetails(sortCode, accountNumber) {
+function checkBankAccountDetails(sortCode, accountNumber) {
     return request
         .get({
             uri: 'https://www.bankaccountchecker.com/listener.php',
@@ -38,13 +21,33 @@ module.exports = function checkBankAccountDetails(sortCode, accountNumber) {
             },
             json: true
         })
-        .then(response => {
+        .then(normalizeResponse);
+}
+
+function normalizeResponse(response) {
+    switch (response.resultCode) {
+        case '01':
             return {
-                code: normaliseResultCode(response.resultCode),
+                code: 'VALID',
                 originalCode: response.resultCode,
                 supportsBacsPayment: normaliseBacsCheck(
                     response.accountProperties
                 )
             };
-        });
+        case '02':
+            return {
+                code: 'INVALID',
+                originalCode: response.resultCode,
+                supportsBacsPayment: normaliseBacsCheck(
+                    response.accountProperties
+                )
+            };
+        default:
+            throw new Error(response.resultDescription);
+    }
+}
+
+module.exports = {
+    checkBankAccountDetails,
+    normalizeResponse
 };
