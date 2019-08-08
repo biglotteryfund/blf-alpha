@@ -25,7 +25,7 @@ const fieldsFor = require('./fields');
 const terms = require('./terms');
 
 const { isTestServer } = require('../../../common/appData');
-const checkBankApi = require('../../../common/bank-api');
+const checkBankApi = require('./lib/bank-api');
 
 module.exports = function({
     locale = 'en',

@@ -1,6 +1,6 @@
 'use strict';
 const request = require('request-promise-native');
-const { BANK_API } = require('../common/secrets');
+const { BANK_API } = require('../../../../common/secrets');
 
 function normaliseResultCode(resultCode) {
     let result;
