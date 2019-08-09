@@ -638,7 +638,7 @@
                 {% endif %}
                 <ol class="form-field__errors">
                     {% for error in fieldErrors %}
-                        <li>{{ error.msg }}</li>
+                        <li>{{ error.msg | safe }}</li>
                     {% endfor %}
                 </ol>
                 {% if errorsNoscript %}
