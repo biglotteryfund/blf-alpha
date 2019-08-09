@@ -482,6 +482,19 @@ describe('awards for all', function() {
 
             cy.getByLabelText('Last name').type(contact.lastName);
 
+            cy.queryByText('I confirm that the main and senior contacts', {
+                exact: false,
+                timeout: 500
+            }).then(el => {
+                if (el) {
+                    cy.wrap(el)
+                        .parent()
+                        .within(() => {
+                            cy.getByLabelText('Yes').click();
+                        });
+                }
+            });
+
             fillDateOfBirth(contact.dateOfBirth);
 
             fillHomeAddress(contact.address);
@@ -592,7 +605,7 @@ describe('awards for all', function() {
                 firstName: faker.name.firstName(),
                 lastName: faker.name.lastName(),
                 email: Cypress.env('afa_senior_contact_email'),
-                dateOfBirth: moment().subtract(random(16, 90), 'years'),
+                dateOfBirth: moment().subtract(random(18, 90), 'years'),
                 address: {
                     streetAddress: `The Bar, 2 St James' Blvd`,
                     city: 'Newcastle',
