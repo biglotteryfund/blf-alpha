@@ -22,7 +22,8 @@ const {
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,
     CHARITY_NUMBER_TYPES,
-    EDUCATION_NUMBER_TYPES
+    EDUCATION_NUMBER_TYPES,
+    FREE_TEXT_MAXLENGTH
 } = require('./constants');
 
 const countriesFor = require('./lib/countries');
@@ -157,10 +158,42 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
+                    type: 'string.max',
+                    key: 'line1',
+                    message: localise({
+                        en: `The building and street must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    key: 'line2',
+                    message: localise({
+                        en: `The address line must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
+                        cy: ''
+                    })
+                },
+                {
                     type: 'any.empty',
                     key: 'townCity',
                     message: localise({
                         en: 'Enter a town or city',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    key: 'townCity',
+                    message: localise({
+                        en: `Town or city must be ${FREE_TEXT_MAXLENGTH.small} characters or less`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    key: 'county',
+                    message: localise({
+                        en: `County must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
                         cy: ''
                     })
                 },
@@ -224,6 +257,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 },
                 {
+                    type: 'string.max',
+                    key: 'line1',
+                    message: localise({
+                        en: `The building and street must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    key: 'line2',
+                    message: localise({
+                        en: `The address line must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
+                        cy: ''
+                    })
+                },
+                {
                     type: 'any.empty',
                     key: 'townCity',
                     message: localise({ en: 'Enter a town or city', cy: '' })
@@ -232,6 +281,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'any.empty',
                     key: 'county',
                     message: localise({ en: 'Enter a county', cy: '' })
+                },
+                {
+                    type: 'string.max',
+                    key: 'townCity',
+                    message: localise({
+                        en: `Town or city must be ${FREE_TEXT_MAXLENGTH.small} characters or less`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    key: 'county',
+                    message: localise({
+                        en: `County must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
+                        cy: ''
+                    })
                 },
                 {
                     type: 'any.empty',
@@ -267,6 +332,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'firstName',
                     message: localise({
                         en: 'Enter first name',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    key: 'firstName',
+                    message: localise({
+                        en: `First name must be ${FREE_TEXT_MAXLENGTH.small} characters or less`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    key: 'lastName',
+                    message: localise({
+                        en: `Last name must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
                         cy: ''
                     })
                 },
@@ -816,13 +897,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: stripUnlessOrgTypes(
                 COMPANY_NUMBER_TYPES,
-                Joi.string().required()
+                Joi.string().max(FREE_TEXT_MAXLENGTH.large).required()
             ),
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: 'Enter your organisation’s Companies House number',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Organisation’s Companies House number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
                         cy: ''
                     })
                 }
@@ -840,10 +928,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
          */
         const schema = Joi.when(Joi.ref('organisationType'), {
             is: Joi.exist().valid(CHARITY_NUMBER_TYPES.required),
-            then: Joi.string().required()
+            then: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required()
         }).when(Joi.ref('organisationType'), {
             is: Joi.exist().valid(CHARITY_NUMBER_TYPES.optional),
-            then: [Joi.string().optional(), Joi.allow(null)],
+            then: [Joi.string().max(FREE_TEXT_MAXLENGTH.large).optional(), Joi.allow(null)],
             otherwise: Joi.any().strip()
         });
 
@@ -863,6 +951,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         en: 'Enter your organisation’s charity number',
                         cy: ''
                     })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Organisation’s charity number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
+                        cy: ''
+                    })
                 }
             ]
         };
@@ -873,17 +968,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'educationNumber',
             label: localise({ en: 'Department for Education number', cy: '' }),
             type: 'text',
-            attributes: { size: 20 },
             isRequired: true,
             schema: stripUnlessOrgTypes(
                 EDUCATION_NUMBER_TYPES,
-                Joi.string().required()
+                Joi.string().max(FREE_TEXT_MAXLENGTH.large).required()
             ),
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: `Enter your organisation’s Department for Education number`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Organisation’s Department for Education number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
                         cy: ''
                     })
                 }
@@ -1028,12 +1129,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'text',
             isRequired: true,
-            schema: Joi.string().required(),
+            schema: Joi.string().max(FREE_TEXT_MAXLENGTH.medium).required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({ en: 'Enter a project name', cy: '' })
-                }
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `The project name must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
+                        cy: ''
+                    })
+                },
             ]
         },
         projectDateRange: fieldProjectDateRange(),
@@ -1079,13 +1187,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             }),
             type: 'text',
-            attributes: {
-                size: 60
-            },
             isRequired: true,
             schema: Joi.when('projectCountry', {
                 is: Joi.exist(),
-                then: Joi.string().required(),
+                then: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
                 otherwise: Joi.any().strip()
             }),
             messages: [
@@ -1093,6 +1198,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Tell us the towns, villages or wards your beneficiaries live in`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `The Project location description must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
                         cy: ''
                     })
                 }
@@ -1172,6 +1284,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         key: 'item',
                         message: localise({
                             en: 'Enter an item or activity',
+                            cy: ''
+                        })
+                    },
+                    {
+                        type: 'string.max',
+                        key: 'item',
+                        message: localise({
+                            en: `Item or activity must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
                             cy: ''
                         })
                     },
@@ -1390,10 +1510,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 is: 'yes',
                 then: Joi.string()
                     .allow('')
+                    .max(FREE_TEXT_MAXLENGTH.large)
                     .optional(),
                 otherwise: Joi.any().strip()
             }),
-            messages: []
+            messages: [
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `The Beneficiaries specific groups must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
+                        cy: ''
+                    })
+                }
+            ]
         },
         beneficiariesEthnicBackground: {
             name: 'beneficiariesGroupsEthnicBackground',
@@ -1731,8 +1860,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: false,
             schema: Joi.string()
                 .allow('')
+                .max(FREE_TEXT_MAXLENGTH.large)
                 .optional(),
-            messages: []
+            messages: [
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `The Religion or belief must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
+                        cy: ''
+                    })
+                }
+            ]
         },
         beneficiariesWelshLanguage: {
             name: 'beneficiariesWelshLanguage',
@@ -1765,6 +1903,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     is: 'wales',
                     then: Joi.string()
                         .valid(this.options.map(option => option.value))
+                        .max(FREE_TEXT_MAXLENGTH.large)
                         .required(),
                     otherwise: Joi.any().strip()
                 });
@@ -1774,6 +1913,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Select the amount of people who speak Welsh that will benefit from your project`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `The beneficiaries must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
                         cy: ''
                     })
                 }
@@ -1848,12 +1994,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'text',
             isRequired: true,
-            schema: Joi.string().required(),
+            schema: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: 'Enter the full legal name of the organisation',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Full legal name of the organisation must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
                         cy: ''
                     })
                 }
@@ -1869,8 +2022,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: false,
             schema: Joi.string()
                 .allow('')
+                .max(FREE_TEXT_MAXLENGTH.large)
                 .optional(),
-            messages: []
+            messages: [
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `The organisation trading name must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
+                        cy: ''
+                    })
+                }
+            ]
         },
         organisationStartDate: {
             name: 'organisationStartDate',
@@ -2172,8 +2334,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: false,
             schema: Joi.string()
                 .allow('')
+                .max(FREE_TEXT_MAXLENGTH.large)
                 .optional(),
-            messages: []
+            messages: [
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Particular communication needs must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
+                        cy: ``
+                    })
+                }
+            ]
         },
         seniorContactRole: fieldSeniorContactRole(),
         seniorContactName: nameField(
@@ -2251,8 +2422,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: false,
             schema: Joi.string()
                 .allow('')
+                .max(FREE_TEXT_MAXLENGTH.large)
                 .optional(),
-            messages: []
+            messages: [
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Particular communication needs must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
+                        cy: ``
+                    })
+                }
+            ]
         },
         bankAccountName: {
             name: 'bankAccountName',
@@ -2267,13 +2447,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'text',
             attributes: { autocomplete: 'off' },
             isRequired: true,
-            schema: Joi.string().required(),
+            schema: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: `Enter the name of your organisation, as it appears on your bank statement`,
                         cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Name of your organisation must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
+                        cy: ``
                     })
                 }
             ]
@@ -2351,8 +2538,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: false,
             schema: Joi.string()
                 .allow('')
+                .max(FREE_TEXT_MAXLENGTH.large)
                 .empty(),
-            messages: []
+            messages: [
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Building society number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
+                        cy: ''
+                    })
+                }
+            ]
         },
         bankStatement: {
             name: 'bankStatement',
@@ -2502,12 +2698,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'text',
             isRequired: true,
-            schema: Joi.string().required(),
+            schema: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: `Enter the full name of the person completing this form`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Full name of the person must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
                         cy: ''
                     })
                 }
@@ -2518,12 +2721,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'termsPersonPosition',
             label: localise({ en: 'Position in organisation', cy: '' }),
             type: 'text',
-            schema: Joi.string().required(),
+            schema: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({
                         en: `Enter the position of the person completing this form`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'string.max',
+                    message: localise({
+                        en: `Position of the person must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
                         cy: ''
                     })
                 }

@@ -1,5 +1,6 @@
 'use strict';
 const { isEmpty, isArray, reject, sumBy } = require('lodash');
+const { FREE_TEXT_MAXLENGTH } = require('../../awards-for-all/constants');
 
 module.exports = function budgetItems(joi) {
     return {
@@ -12,6 +13,7 @@ module.exports = function budgetItems(joi) {
                     item: joi
                         .string()
                         .trim()
+                        .max(FREE_TEXT_MAXLENGTH.large)
                         .required(),
                     cost: joi
                         .number()
