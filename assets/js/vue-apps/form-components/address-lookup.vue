@@ -53,9 +53,7 @@ export default {
                 ]);
             }
 
-            if (value === 'yes') {
-                this.currentState = states.NotRequired;
-            } else if (value === 'unknown') {
+            if (value === 'yes' || !value) {
                 this.currentState = states.NotRequired;
             } else if (this.fullAddress.postcode !== null) {
                 this.currentState = this.states.AlreadyAnswered;
