@@ -79,8 +79,8 @@ const SALESFORCE_AUTH = {
 
 // These expire in July 2020
 const BANK_API = {
-    KEY: process.env.SALESFORCE_TOKEN || getSecret('bank.api.key'),
-    PASSWORD: process.env.SALESFORCE_TOKEN || getSecret('bank.api.password')
+    KEY: process.env.BANK_API_TOKEN || getSecret('bank.api.key'),
+    PASSWORD: process.env.BANK_API_PASSWORD || getSecret('bank.api.password')
 };
 
 /**

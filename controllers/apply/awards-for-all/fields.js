@@ -25,6 +25,10 @@ const {
     EDUCATION_NUMBER_TYPES
 } = require('./constants');
 
+const showContactConfirmationQuestion = config.get(
+    'awardsForAll.showContactConfirmationQuestion'
+);
+
 const countriesFor = require('./lib/countries');
 const locationsFor = require('./lib/locations');
 const rolesFor = require('./lib/roles');
@@ -1015,7 +1019,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
     }
 
-    return {
+    let allFields = {
         projectName: {
             name: 'projectName',
             label: localise({
@@ -1598,10 +1602,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'checkbox',
             options: [
-                { value: '0-12', label: localise({ en: '0-12', cy: '' }) },
-                { value: '13-24', label: localise({ en: '13-24', cy: '' }) },
-                { value: '25-64', label: localise({ en: '25-64', cy: '' }) },
-                { value: '65+', label: localise({ en: '65+', cy: '' }) }
+                { value: '0-12', label: '0-12' },
+                { value: '13-24', label: '13-24' },
+                { value: '25-64', label: '25-64' },
+                { value: '65+', label: '65+' }
             ],
             get schema() {
                 return conditionalBeneficiaryChoice({
@@ -2563,4 +2567,40 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true
         }
     };
+
+    if (showContactConfirmationQuestion) {
+        allFields.mainContactIsValid = {
+            name: 'mainContactIsValid',
+            label: localise({
+                en: `I confirm that the main and senior contacts aren't married or in a long-term relationship with each other, living together at the same address, or related by blood`,
+                cy: ''
+            }),
+            type: 'checkbox',
+            options: [
+                {
+                    value: 'yes',
+                    label: localise({
+                        en: 'Yes',
+                        cy: ''
+                    })
+                }
+            ],
+            isRequired: true,
+            get schema() {
+                return multiChoice(this.options).required();
+            },
+            get messages() {
+                return [
+                    {
+                        type: 'base',
+                        message: localise({
+                            en: `Main and senior contact can't be married or in a long-term relationship with each other, living together at the same address, or related by blood `,
+                            cy: ''
+                        })
+                    }
+                ];
+            }
+        };
+    }
+    return allFields;
 };

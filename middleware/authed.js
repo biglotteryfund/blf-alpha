@@ -56,7 +56,7 @@ function requireUserAuth(req, res, next) {
     }
 }
 
-function requireActiveUser(req, res, next) {
+function requireActiveUser(req, res, next, cb = null) {
     if (req.isAuthenticated() && isStaff(req.user) === false) {
         if (isActivated(req.user) === true) {
             next();
@@ -64,8 +64,15 @@ function requireActiveUser(req, res, next) {
             redirectWithReturnUrl(req, res, '/user/activate');
         }
     } else {
+        if (cb) {
+            cb(req, res);
+        }
         redirectWithReturnUrl(req, res, '/user/login');
     }
+}
+
+function requireActiveUserWithCallback(cb) {
+    return (req, res, next) => requireActiveUser(req, res, next, cb);
 }
 
 /**
@@ -109,5 +116,6 @@ module.exports = {
     requireActiveUser,
     requireStaffAuth,
     requireNotStaffAuth,
-    redirectUrlWithFallback
+    redirectUrlWithFallback,
+    requireActiveUserWithCallback
 };

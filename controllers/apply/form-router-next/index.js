@@ -22,7 +22,7 @@ const commonLogger = require('../../../common/logger');
 const appData = require('../../../common/appData');
 const { localify } = require('../../../common/urls');
 const { noStore } = require('../../../middleware/cached');
-const { requireActiveUser } = require('../../../middleware/authed');
+const { requireActiveUserWithCallback } = require('../../../middleware/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
 const salesforceService = require('./lib/salesforce');
@@ -137,7 +137,18 @@ function initFormRouter({
      */
     router.use(
         noStore,
-        requireActiveUser,
+        requireActiveUserWithCallback(req => {
+            // Track attempts to submit form steps when session is expired/invalid
+            if (req.method === 'POST') {
+                commonLogger.info(
+                    'User submitted POST data without valid session',
+                    {
+                        service: 'apply',
+                        formId: formId
+                    }
+                );
+            }
+        }),
         handleMultipartFormData,
         injectCopy('applyNext'),
         setCommonLocals,

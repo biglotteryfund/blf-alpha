@@ -432,7 +432,7 @@ Object with properties:
 
 type: `string`
 
-Will always be "yes" (required fields)
+Will always be "yes" (required field)
 
 ### mainContactDateOfBirth
 
