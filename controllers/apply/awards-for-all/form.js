@@ -8,6 +8,7 @@ const getOr = require('lodash/fp/getOr');
 const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
 const { safeHtml, oneLine } = require('common-tags');
+const config = require('config');
 
 const { FormModel } = require('../form-router-next/lib/form-model');
 const { fromDateParts } = require('../form-router-next/lib/date-parts');
@@ -23,6 +24,7 @@ const {
 
 const fieldsFor = require('./fields');
 const terms = require('./terms');
+const { getContactFullName } = require('./lib/contacts');
 
 const { isTestServer } = require('../../../common/appData');
 const { checkBankAccountDetails } = require('./lib/bank-api');
@@ -36,12 +38,14 @@ module.exports = function({
 
     const conditionalFields = (fields, filteredFields) => {
         const filteredFieldNames = filteredFields.map(_ => _.name);
-        const allFields = fields.map(f => {
-            if (filteredFieldNames.indexOf(f.name) === -1) {
-                f.isConditional = true;
-            }
-            return f;
-        });
+        const allFields = compact(
+            fields.map(f => {
+                if (filteredFieldNames.indexOf(f.name) === -1) {
+                    f.isConditional = true;
+                }
+                return f;
+            })
+        );
 
         return showAllFields ? allFields : filteredFields;
     };
@@ -624,16 +628,12 @@ module.exports = function({
                         cy: ''
                     }),
                     get introduction() {
-                        const seniorFirstName = get(
-                            'seniorContactName.firstName'
-                        )(data);
-                        const seniorSurname = get('seniorContactName.lastName')(
-                            data
+                        const seniorName = getContactFullName(
+                            get('seniorContactName')(data)
                         );
-                        const seniorName =
-                            seniorFirstName && seniorSurname
-                                ? safeHtml`, <strong data-hj-suppress>${seniorFirstName} ${seniorSurname}</strong>`
-                                : '';
+                        const seniorNameMsg = seniorName
+                            ? `, ${seniorName}`
+                            : '';
 
                         return localise({
                             en:
@@ -646,31 +646,43 @@ module.exports = function({
                                 need to hold a particular position.    
                             </p>
                             <p>
-                                The main contact must be a different person from
-                                the senior contact` +
-                                seniorName +
-                                `. The two contacts
-                                also can't be married or in a long-term relationship
-                                with each other, living together at the same address,
-                                or related by blood.
-                            </p>`,
+                                The main contact must be a different person from the senior contact` +
+                                seniorNameMsg +
+                                `. The two contacts also can't be:
+                            </p>
+                            <ul>                            
+                                <li>married to each other</li>
+                                <li>in a long-term relationship together</li>
+                                <li>living at the same address</li>
+                                <li>or related by blood.</li> 
+                            </ul>
+                            `,
                             cy: ''
                         });
                     },
                     get fields() {
-                        const allFields = [
+                        const showContactConfirmationQuestion = config.get(
+                            'awardsForAll.showContactConfirmationQuestion'
+                        );
+
+                        const allFields = compact([
                             fields.mainContactName,
+                            showContactConfirmationQuestion &&
+                                fields.mainContactIsValid,
                             fields.mainContactDateOfBirth,
                             fields.mainContactAddress,
                             fields.mainContactAddressHistory,
                             fields.mainContactEmail,
                             fields.mainContactPhone,
                             fields.mainContactCommunicationNeeds
-                        ];
+                        ]);
+
                         return conditionalFields(
                             allFields,
                             compact([
                                 fields.mainContactName,
+                                showContactConfirmationQuestion &&
+                                    fields.mainContactIsValid,
                                 includeAddressAndDob() &&
                                     fields.mainContactDateOfBirth,
                                 includeAddressAndDob() &&

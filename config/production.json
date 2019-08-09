@@ -8,5 +8,8 @@
   "googleAnalyticsCode": "UA-637620-2",
   "features": {
     "enableHotjar": true
+  },
+  "awardsForAll": {
+    "showContactConfirmationQuestion": false
   }
 }
