@@ -38,12 +38,14 @@ module.exports = function({
 
     const conditionalFields = (fields, filteredFields) => {
         const filteredFieldNames = filteredFields.map(_ => _.name);
-        const allFields = fields.map(f => {
-            if (filteredFieldNames.indexOf(f.name) === -1) {
-                f.isConditional = true;
-            }
-            return f;
-        });
+        const allFields = compact(
+            fields.map(f => {
+                if (filteredFieldNames.indexOf(f.name) === -1) {
+                    f.isConditional = true;
+                }
+                return f;
+            })
+        );
 
         return showAllFields ? allFields : filteredFields;
     };
@@ -626,7 +628,9 @@ module.exports = function({
                         cy: ''
                     }),
                     get introduction() {
-                        const seniorName = getContactFullName(data, 'senior');
+                        const seniorName = getContactFullName(
+                            get('seniorContactName')(data)
+                        );
                         const seniorNameMsg = seniorName
                             ? `, ${seniorName}`
                             : '';

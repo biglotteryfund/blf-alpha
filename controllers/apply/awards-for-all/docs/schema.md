@@ -94,7 +94,6 @@ Each submission has two top-level keys: `meta` which contains metadata about the
             "firstName": "Nelda",
             "lastName": "Nolan"
         },
-        "mainContactIsValid": "yes",
         "mainContactDateOfBirth": "1975-10-12",
         "mainContactAddress": {
             "line1": "41465 Bashirian Oval",
@@ -428,11 +427,6 @@ Object with properties:
 | **firstName** | `string` |
 | **lastName**  | `string` |
 
-### mainContactIsValid
-
-type: `string`
-
-Will always be "yes" (required fields)
 
 ### mainContactDateOfBirth
 

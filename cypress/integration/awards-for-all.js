@@ -477,16 +477,23 @@ describe('awards for all', function() {
             });
         }
 
-        function fillContact(contact, type) {
+        function fillContact(contact) {
             cy.getByLabelText('First name').type(contact.firstName);
 
             cy.getByLabelText('Last name').type(contact.lastName);
 
-            if (type === 'main') {
-                cy.getByLabelText('Yes')
-                    .first()
-                    .click();
-            }
+            cy.queryByText('I confirm that the main and senior contacts', {
+                exact: false,
+                timeout: 500
+            }).then(el => {
+                if (el) {
+                    cy.wrap(el)
+                        .parent()
+                        .within(() => {
+                            cy.getByLabelText('Yes').click();
+                        });
+                }
+            });
 
             fillDateOfBirth(contact.dateOfBirth);
 
@@ -515,7 +522,7 @@ describe('awards for all', function() {
 
         function sectionMainContact(contact) {
             cy.checkA11y();
-            fillContact(contact, 'main');
+            fillContact(contact);
             submitStep();
         }
 
@@ -598,7 +605,7 @@ describe('awards for all', function() {
                 firstName: faker.name.firstName(),
                 lastName: faker.name.lastName(),
                 email: Cypress.env('afa_senior_contact_email'),
-                dateOfBirth: moment().subtract(random(16, 90), 'years'),
+                dateOfBirth: moment().subtract(random(18, 90), 'years'),
                 address: {
                     streetAddress: `The Bar, 2 St James' Blvd`,
                     city: 'Newcastle',
