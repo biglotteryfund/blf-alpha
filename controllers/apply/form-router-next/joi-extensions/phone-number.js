@@ -21,46 +21,19 @@ module.exports = joi => ({
     rules: [
         {
             name: 'phoneNumber',
-            params: {
-                opts: joi
-                    .object()
-                    .keys({
-                        /**
-                         * We will use the specified country code or 'US', with fallback 'BE', if no
-                         * country code provided in phone number (0494...).
-                         * Numbers with country code (+3249...) will use the data from the number and not the default.
-                         */
-                        defaultCountry: joi
-                            .array()
-                            .items(joi.string())
-                            .single(),
-                        format: joi
-                            .string()
-                            .only(
-                                'e164',
-                                'international',
-                                'national',
-                                'rfc3966'
-                            )
-                    })
-                    .default({ defaultCountry: ['US', 'BE'] })
-                    .min(1)
-            },
             validate(params, value, state, options) {
                 try {
-                    const proto = internals.parse(
-                        value,
-                        params.opts.defaultCountry
-                    );
+                    const proto = internals.parse(value, ['GB']);
 
                     if (PhoneUtil.isValidNumber(proto)) {
-                        if (!options.convert || !params.opts.format) {
+                        if (options.convert) {
+                            return PhoneUtil.format(
+                                proto,
+                                PhoneNumberFormat.NATIONAL
+                            );
+                        } else {
                             return value;
                         }
-
-                        const format =
-                            PhoneNumberFormat[params.opts.format.toUpperCase()];
-                        return PhoneUtil.format(proto, format);
                     } else {
                         return this.createError(
                             'string.phonenumber',
@@ -70,24 +43,12 @@ module.exports = joi => ({
                         );
                     }
                 } catch (err) {
-                    const knownErrors = [
-                        'Invalid country calling code',
-                        'The string supplied did not seem to be a phone number'
-                    ];
-                    // We ignore the next line for line coverage since we should always hit it but if we have a regression in our code we still want to surface that instead of just returning the default error
-                    /* istanbul ignore next */
-                    if (knownErrors.includes(err.message)) {
-                        // Generate an error, state and options need to be passed
-                        return this.createError(
-                            'string.phonenumber',
-                            { value },
-                            state,
-                            options
-                        );
-                    }
-
-                    /* istanbul ignore next */
-                    throw err;
+                    return this.createError(
+                        'string.phonenumber',
+                        { value },
+                        state,
+                        options
+                    );
                 }
             }
         }

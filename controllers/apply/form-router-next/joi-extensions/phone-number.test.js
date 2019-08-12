@@ -5,7 +5,7 @@ const Joi = baseJoi.extend(require('./phone-number'));
 
 test('validate phone numbers', () => {
     const schema = Joi.string()
-        .phoneNumber({ defaultCountry: 'GB', format: 'national' })
+        .phoneNumber()
         .required();
 
     const validUkPhoneNumbers = [
