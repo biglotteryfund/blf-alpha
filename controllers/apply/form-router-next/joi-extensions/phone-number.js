@@ -1,10 +1,7 @@
 'use strict';
 
-const libphonenumber = require('google-libphonenumber');
-const PhoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
-const PhoneNumberFormat = libphonenumber.PhoneNumberFormat;
-
-const internals = {};
+const { PhoneNumberUtil, PhoneNumberFormat } = require('google-libphonenumber');
+const phoneUtil = PhoneNumberUtil.getInstance();
 
 /**
  * Allows you to do `Joi.string().phoneNumber()`
@@ -23,12 +20,11 @@ module.exports = joi => ({
             name: 'phoneNumber',
             validate(params, value, state, options) {
                 try {
-                    const proto = internals.parse(value, ['GB']);
-
-                    if (PhoneUtil.isValidNumber(proto)) {
+                    const parsedValue = phoneUtil.parse(value, 'GB');
+                    if (phoneUtil.isValidNumber(parsedValue)) {
                         if (options.convert) {
-                            return PhoneUtil.format(
-                                proto,
+                            return phoneUtil.format(
+                                parsedValue,
                                 PhoneNumberFormat.NATIONAL
                             );
                         } else {
@@ -54,24 +50,3 @@ module.exports = joi => ({
         }
     ]
 });
-
-/**
- *
- * @param {String} value input
- * @param {Array<String>} countries countries to try and parse with
- * @returns {Object} parse result
- *
- * @throws {Error} throws when input isn't valid
- */
-internals.parse = (value, [...countries] = []) => {
-    const country = countries.shift();
-    try {
-        return PhoneUtil.parse(value, country);
-    } catch (error) {
-        if (countries.length > 0) {
-            return internals.parse(value, countries);
-        }
-
-        throw error;
-    }
-};
