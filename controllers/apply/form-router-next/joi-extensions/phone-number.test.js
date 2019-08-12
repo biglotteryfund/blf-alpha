@@ -1,7 +1,7 @@
 /* eslint-env jest */
 'use strict';
 const baseJoi = require('@hapi/joi');
-const Joi = baseJoi.extend(require('joi-phone-number'));
+const Joi = baseJoi.extend(require('./phone-number'));
 
 test('validate phone numbers', () => {
     const schema = Joi.string()
