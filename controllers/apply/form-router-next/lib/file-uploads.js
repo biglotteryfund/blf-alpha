@@ -5,6 +5,7 @@ const AWS = require('aws-sdk');
 const get = require('lodash/get');
 const keyBy = require('lodash/keyBy');
 const mapValues = require('lodash/mapValues');
+const NodeClam = require('clamscan');
 
 const { isTestServer } = require('../../../../common/appData');
 const { S3_KMS_KEY_ID } = require('../../../../common/secrets');
@@ -17,6 +18,22 @@ const S3_UPLOAD_BUCKET = config.get('aws.s3.formUploadBucket');
 const s3 = new AWS.S3({
     signatureVersion: 'v4',
     region: 'eu-west-2'
+});
+
+const ClamScan = new NodeClam().init({
+    debug_mode: true,
+    scan_recursively: false,
+    clamdscan: {
+        socket: '/usr/local/etc/clamd.socket',
+        timeout: 120000,
+        local_fallback: true,
+        path: '/usr/local/etc/clamav',
+        config_file: '/usr/local/etc/clamav/clamd.conf',
+        multiscan: false,
+        reload_db: true,
+        active: false,
+        bypass_test: true,
+    },
 });
 
 /**
@@ -111,7 +128,28 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
 
 function checkAntiVirus({ formId, applicationId, filename }) {
     const keyName = [formId, applicationId, filename].join('/');
-    return s3
+
+    if(config.get('features.enableLocalAntivirus')) {
+        // clamdscan daemon AV check
+        return ClamScan.then(async clamscan => {
+            const {
+                is_infected,
+                viruses
+            } = await clamscan.scan_file('/Users/nikhilnanjappa/Documents/good.pdf');
+
+            if (is_infected) {
+                logger.error(`${keyName} is infected with ${viruses}`);
+                throw new Error('ERR_FILE_SCAN_INFECTED');
+            } else {
+                return { Key: 'av-status', Value: 'CLEAN' };
+            }
+        }).catch(err => {
+            logger.error(`Attempted read of unscanned file at ${keyName} - ${err.message}`);
+            throw new Error('ERR_FILE_SCAN_UNKNOWN');
+        });
+    } else {
+        // s3 AV check
+        return s3
         .getObjectTagging({
             Bucket: S3_UPLOAD_BUCKET,
             Key: keyName
@@ -131,6 +169,7 @@ function checkAntiVirus({ formId, applicationId, filename }) {
                 throw new Error('ERR_FILE_SCAN_UNKNOWN');
             }
         });
+    }
 }
 
 function getObject({ formId, applicationId, filename }) {
