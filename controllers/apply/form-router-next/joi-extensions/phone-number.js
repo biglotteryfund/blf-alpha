@@ -52,13 +52,23 @@ module.exports = joi => ({
                         value,
                         params.opts.defaultCountry
                     );
-                    if (!options.convert || !params.opts.format) {
-                        return value;
-                    }
 
-                    const format =
-                        PhoneNumberFormat[params.opts.format.toUpperCase()];
-                    return PhoneUtil.format(proto, format);
+                    if (PhoneUtil.isValidNumber(proto)) {
+                        if (!options.convert || !params.opts.format) {
+                            return value;
+                        }
+
+                        const format =
+                            PhoneNumberFormat[params.opts.format.toUpperCase()];
+                        return PhoneUtil.format(proto, format);
+                    } else {
+                        return this.createError(
+                            'string.phonenumber',
+                            { value },
+                            state,
+                            options
+                        );
+                    }
                 } catch (err) {
                     const knownErrors = [
                         'Invalid country calling code',
