@@ -394,7 +394,7 @@ function initFormRouter({
                             };
 
                             try {
-                                if(!config.get('features.enableLocalAntivirus') && appData.isTestServer) {
+                                if(!config.get('features.enableLocalAntivirus') && !appData.isTestServer) {
                                     await checkAntiVirus(pathConfig);
                                 }
                             } catch (err) {
