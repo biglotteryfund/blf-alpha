@@ -52,7 +52,8 @@ export default {
                     'Apply: AFA: Contacts: User needs address history'
                 ]);
             }
-            if (value === 'yes') {
+
+            if (value === 'yes' || !value) {
                 this.currentState = states.NotRequired;
             } else if (this.fullAddress.postcode !== null) {
                 this.currentState = this.states.AlreadyAnswered;
