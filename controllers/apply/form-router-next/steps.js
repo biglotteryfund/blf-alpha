@@ -228,7 +228,7 @@ module.exports = function(formId, formBuilder) {
                                                 formId: formId,
                                                 applicationId: currentlyEditingId,
                                                 fileMetadata: file
-                                            })
+                                            });
                                         } else {
                                             logger.error('File upload skipped', {
                                                 reason: avStatus
@@ -239,7 +239,7 @@ module.exports = function(formId, formBuilder) {
                                             formId: formId,
                                             applicationId: currentlyEditingId,
                                             fileMetadata: file
-                                        })
+                                        });
                                     }
                                 })
                             );

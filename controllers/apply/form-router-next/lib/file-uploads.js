@@ -21,7 +21,7 @@ const s3 = new AWS.S3({
 });
 
 const ClamScan = new NodeClam().init({
-    debug_mode: true,
+    debug_mode: false,
     scan_recursively: false,
     clamdscan: {
         socket: config.get('clamdscan.socket'),
