@@ -8,6 +8,7 @@
     "enableAwardsForAllApplications": true,
     "enableCloudWatchLogs": false,
     "enableSeeders": true,
-    "enableSalesforceConnector": true
+    "enableSalesforceConnector": true,
+    "enableLocalAntivirus": true
   }
 }
