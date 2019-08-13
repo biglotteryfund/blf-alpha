@@ -94,7 +94,7 @@
     "fitvids": "^2.0.0",
     "fontfaceobserver": "^2.0.13",
     "formidable": "1.2.1",
-    "globby": "9.2.0",
+    "globby": "10.0.1",
     "helmet": "3.19.0",
     "html-pdf": "2.2.0",
     "html-to-text": "4.0.0",
