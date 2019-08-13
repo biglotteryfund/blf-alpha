@@ -273,6 +273,30 @@
                 ) }}
             </div>
 
+            <div class="u-margin-bottom-l">
+                <h3>Funding amount requested</h3>
+                {{ statsGrid(
+                    [
+                        {
+                            prefix: 'Applicants requested a total of',
+                            value: '£' + statistics.requestedAmount.total.toLocaleString(),
+                            title: 'over ' + statistics.totalSubmitted + ' applications',
+                            showNumberBeforeTitle: true
+                        },
+                        {
+                            value: '£' + (statistics.requestedAmount.average | round).toLocaleString(),
+                            title: 'Average funding request',
+                            showNumberBeforeTitle: false
+                        },
+                        {
+                            value: '£' + (statistics.requestedAmount.lowest).toLocaleString(),
+                            title: 'Smallest funding request',
+                            showNumberBeforeTitle: false
+                        }
+                    ]
+                ) }}
+            </div>
+
             {% if feedback %}
                 <div class="u-margin-bottom-l"  style="max-height: 400px; overflow: auto">
                     <h3>Successful applicant feedback <small>({{ feedback.length }} responses)</small></h3>
