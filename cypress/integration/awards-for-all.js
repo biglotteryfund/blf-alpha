@@ -503,9 +503,7 @@ describe('awards for all', function() {
                 contact.email || faker.internet.exampleEmail()
             );
 
-            cy.getByLabelText('Telephone number').type(
-                faker.phone.phoneNumber()
-            );
+            cy.getByLabelText('Telephone number').type(contact.phone);
 
             cy.getByLabelText(
                 'tell us about any particular communication needs',
@@ -605,6 +603,7 @@ describe('awards for all', function() {
                 firstName: faker.name.firstName(),
                 lastName: faker.name.lastName(),
                 email: Cypress.env('afa_senior_contact_email'),
+                phone: '0345 4 10 20 30',
                 dateOfBirth: moment().subtract(random(18, 90), 'years'),
                 address: {
                     streetAddress: `The Bar, 2 St James' Blvd`,
@@ -617,6 +616,7 @@ describe('awards for all', function() {
                 firstName: faker.name.firstName(),
                 lastName: faker.name.lastName(),
                 email: Cypress.env('afa_main_contact_email'),
+                phone: '020 7211 1888',
                 dateOfBirth: moment().subtract(random(18, 90), 'years'),
                 address: {
                     streetAddress: 'Pacific House, 70 Wellington St',
