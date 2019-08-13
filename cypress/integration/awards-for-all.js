@@ -497,6 +497,22 @@ describe('awards for all', function() {
 
             fillDateOfBirth(contact.dateOfBirth);
 
+            cy.queryByText(
+                'Have they lived at their home address for the last three years?',
+                {
+                    exact: false,
+                    timeout: 500
+                }
+            ).then(el => {
+                if (el) {
+                    cy.wrap(el)
+                        .parent()
+                        .within(() => {
+                            cy.getByLabelText('Yes').click();
+                        });
+                }
+            });
+
             fillHomeAddress(contact.address);
 
             cy.getByLabelText('Email').type(
