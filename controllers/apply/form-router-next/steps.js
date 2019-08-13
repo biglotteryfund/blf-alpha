@@ -221,7 +221,7 @@ module.exports = function(formId, formBuilder) {
                         try {
                             await Promise.all(
                                 preparedFiles.filesToUpload.map(async file => {
-                                    if (config.get('features.enableLocalAntivirus') && isTestServer) {
+                                    if (config.get('features.enableLocalAntivirus') && !isTestServer) {
                                         const avStatus = await checkAntiVirusClamD(formId, currentlyEditingId, file);
 
                                         if(avStatus.Value === 'CLEAN') {
