@@ -12,6 +12,7 @@ const set = require('lodash/set');
 const unset = require('lodash/unset');
 const features = require('config').get('features');
 const formidable = require('formidable');
+const config = require('config');
 
 const {
     PendingApplication,
@@ -393,7 +394,9 @@ function initFormRouter({
                             };
 
                             try {
-                                await checkAntiVirus(pathConfig);
+                                if(!config.get('features.enableLocalAntivirus')) {
+                                    await checkAntiVirus(pathConfig);
+                                }
                             } catch (err) {
                                 // We caught a suspect file
                                 fileUploadError = err.message;
