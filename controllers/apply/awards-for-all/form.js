@@ -633,7 +633,7 @@ module.exports = function({
                         );
                         const seniorNameMsg = seniorName
                             ? `, ${seniorName}`
-                            : '';
+                                : '';
 
                         return localise({
                             en:
