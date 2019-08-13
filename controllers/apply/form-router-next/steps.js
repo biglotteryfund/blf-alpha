@@ -10,6 +10,7 @@ const config = require('config');
 const logger = require('../../../common/logger');
 const { sanitiseRequestBody } = require('../../../common/sanitise');
 const { PendingApplication } = require('../../../db/models');
+const { isTestServer } = require('../../../common/appData');
 const { prepareFilesForUpload, uploadFile, checkAntiVirusClamD } = require('./lib/file-uploads');
 
 module.exports = function(formId, formBuilder) {
@@ -220,7 +221,7 @@ module.exports = function(formId, formBuilder) {
                         try {
                             await Promise.all(
                                 preparedFiles.filesToUpload.map(async file => {
-                                    if (config.get('features.enableLocalAntivirus')) {
+                                    if (config.get('features.enableLocalAntivirus') && isTestServer) {
                                         const avStatus = await checkAntiVirusClamD(formId, currentlyEditingId, file);
 
                                         if(avStatus.Value === 'CLEAN') {
