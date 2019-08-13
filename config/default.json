@@ -22,6 +22,12 @@
       "formUploadBucket": "tnlcf-uploads-dev"
     }
   },
+  "clamdscan": {
+    "socket": "/usr/local/etc/clamd.socket",
+    "timeout": 120000,
+    "path": "/usr/local/etc/clamav",
+    "config_file": "/usr/local/etc/clamav/clamd.conf"
+  },
   "domains": {
     "indexable": ["www.biglotteryfund.org.uk", "www.tnlcommunityfund.org.uk"],
     "base": "https://www.tnlcommunityfund.org.uk"

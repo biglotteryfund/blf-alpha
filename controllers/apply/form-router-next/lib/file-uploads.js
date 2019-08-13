@@ -24,11 +24,11 @@ const ClamScan = new NodeClam().init({
     debug_mode: true,
     scan_recursively: false,
     clamdscan: {
-        socket: '/usr/local/etc/clamd.socket',
-        timeout: 120000,
+        socket: config.get('clamdscan.socket'),
+        timeout: config.get('clamdscan.timeout'),
         local_fallback: true,
-        path: '/usr/local/etc/clamav',
-        config_file: '/usr/local/etc/clamav/clamd.conf',
+        path: config.get('clamdscan.path'),
+        config_file: config.get('clamdscan.config_file'),
         multiscan: false,
         reload_db: true,
         active: false,
@@ -126,50 +126,50 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
     });
 }
 
+function checkAntiVirusClamD(formId, applicationId, fileMetadata) {
+    const keyName = [formId, applicationId, fileMetadata.fileData.name].join('/');
+
+    return ClamScan.then(async clamscan => {
+        const {
+            is_infected,
+            viruses
+        } = await clamscan.scan_file(fileMetadata.fileData.path);
+
+        if (is_infected) {
+            logger.error(`${keyName} is infected with ${viruses}`);
+            throw new Error('ERR_FILE_SCAN_INFECTED');
+        } else {
+            return { Key: 'av-status', Value: 'CLEAN' };
+        }
+    }).catch(err => {
+        logger.error(`Attempted read of unscanned file at ${keyName} - ${err.message}`);
+        throw new Error('ERR_FILE_SCAN_UNKNOWN');
+    });
+}
+
 function checkAntiVirus({ formId, applicationId, filename }) {
     const keyName = [formId, applicationId, filename].join('/');
 
-    if(config.get('features.enableLocalAntivirus')) {
-        // clamdscan daemon AV check
-        return ClamScan.then(async clamscan => {
-            const {
-                is_infected,
-                viruses
-            } = await clamscan.scan_file('/Users/nikhilnanjappa/Documents/good.pdf');
+    return s3
+    .getObjectTagging({
+        Bucket: S3_UPLOAD_BUCKET,
+        Key: keyName
+    })
+    .promise()
+    .then(function(tags) {
+        const tagSet = get(tags, 'TagSet', []);
+        const avStatus = tagSet.find(t => t.Key === 'av-status');
 
-            if (is_infected) {
-                logger.error(`${keyName} is infected with ${viruses}`);
-                throw new Error('ERR_FILE_SCAN_INFECTED');
-            } else {
-                return { Key: 'av-status', Value: 'CLEAN' };
-            }
-        }).catch(err => {
-            logger.error(`Attempted read of unscanned file at ${keyName} - ${err.message}`);
+        if (avStatus && get(avStatus, 'Value') === 'CLEAN') {
+            return avStatus;
+        } else if (avStatus && get(avStatus, 'Value') === 'INFECTED') {
+            logger.error(`Infected file found at ${keyName}`);
+            throw new Error('ERR_FILE_SCAN_INFECTED');
+        } else {
+            logger.error(`Attempted read of unscanned file at ${keyName}`);
             throw new Error('ERR_FILE_SCAN_UNKNOWN');
-        });
-    } else {
-        // s3 AV check
-        return s3
-        .getObjectTagging({
-            Bucket: S3_UPLOAD_BUCKET,
-            Key: keyName
-        })
-        .promise()
-        .then(function(tags) {
-            const tagSet = get(tags, 'TagSet', []);
-            const avStatus = tagSet.find(t => t.Key === 'av-status');
-
-            if (avStatus && get(avStatus, 'Value') === 'CLEAN') {
-                return avStatus;
-            } else if (avStatus && get(avStatus, 'Value') === 'INFECTED') {
-                logger.error(`Infected file found at ${keyName}`);
-                throw new Error('ERR_FILE_SCAN_INFECTED');
-            } else {
-                logger.error(`Attempted read of unscanned file at ${keyName}`);
-                throw new Error('ERR_FILE_SCAN_UNKNOWN');
-            }
-        });
-    }
+        }
+    });
 }
 
 function getObject({ formId, applicationId, filename }) {
@@ -211,5 +211,6 @@ module.exports = {
     uploadFile,
     getObject,
     buildMultipartData,
-    checkAntiVirus
+    checkAntiVirus,
+    checkAntiVirusClamD
 };
