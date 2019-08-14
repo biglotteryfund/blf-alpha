@@ -1174,68 +1174,68 @@ apply:
     description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-2">Edefyn 2</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.
 applyNext:
   navigation:
-    applications: Applications
-    account: Account
-    logOut: Log out
-    summary: Summary
+    applications: Ceisiadau
+    account: Cyfrif
+    logOut: Allgofnodi
+    summary: Crynodeb
   startApplication:
-    title: Start an application for<br /> National Lottery Awards for All
-    intro: A quick and simple way to get small National Lottery grants of between £300 and £10,000
-    callToAction: Start a new application
+    title: Dechrau cais am Arian i Bawb y Loteri Genedlaethol
+    intro: Ffordd sydyn a syml i gael grantiau Loteri Genedlaethol bychan rhwng £300 a £10,000
+    callToAction: Dechrau cais newydd
   locationMessage: >
-      <p>Welcome to our new online application for National Lottery Awards for All.</p>
-      <p><strong>Applying for a project in Scotland?</strong></p>
-      <p>Great - you’re in the right place. You’ll need to <a href="/user/register">create a new account</a> to apply. Unless you’ve already created an account for our new online application form.</p>
-      <p><strong>Applying for a project in England or Wales?</strong></p>
-      <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
-      <p><strong>Applying for a project in Northern Ireland?</strong></p>
-      <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
+      <p>Croeso i’n cais ar-lein newydd ar gyfer Arian i Bawb y Loteri Genedlaethol.</p>
+      <p><strong>Ymgeisio am brosiect yn Yr Alban?</strong></p>
+      <p>Gwych – rydych yn y lle cywir. Bydd angen ichi <a href="/welsh/user/register">greu cyfrif newydd</a> i ymgeisio. Oni bai eich bod eisoes wedi creu cyfrif i’n ffurflen gais ar-lein newydd.</p>
+      <p><strong>Ymgeisio am brosiect yn Lloegr neu Gymru?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hwn yn lle.</a>.</p>
+      <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
+      <p><a href="/funding/programmes/awards-for-all-northern-ireland">Bydd angen ichi lawrlwytho ffurflen gais i ymgeisio</a>.</p>
   dashboard:
-    title: Your applications
+    title: Eich ceisiadau
     introduction: >
-      <p>Here you can keep going with an application you've already started.
-      You can also <a href="%s">start a brand new application</a> and see any
-      applications you've previously submitted online. You can also see the
-      <a href="%s">questions you'll be asked</a> when you apply.</p>
-    inProgressTitle: In progress
-    submitted: Submitted
-    notYetCompleted: not yet completed
-    continueApplication: Continue with this application
-    applicationStatus: Application status
-    notSubmitted: Not submitted
+      <p>Yma, gallwch barhau â chais rydych eisoes wedi dechrau.
+      Gallwch hefyd ddechrau <a href="%s">cais newydd</a> a gweld unrhyw
+      geisiadau rydych eisoes wedi ei gyflwyno ar-lein. Gallwch hefyd weld y
+      <a href="%s">cwestiynau bydd yn cael ei gofyn i chi</a> pan fyddwch yn ymgeisio.</p>
+    inProgressTitle: Ar ei ganol
+    submitted: Wedi’i gyflwyno
+    notYetCompleted: heb ei gwblhau eto
+    continueApplication: Parhau â’r cais hwn
+    applicationStatus: Statws y cais
+    notSubmitted: Heb ei gyflwyno
     expiryMessage: >
-      <p>You started your application on <strong>%s</strong>.</p>
-      <p>You have until <strong>%s</strong> to complete your application.</p>
+      <p>Dechreuoch eich cais ar <strong>%s</strong>.</p>
+      <p>Mae gennych tan <strong>%s</strong> i gwblhau eich cais.</p>
     beforeYouStart:
-      title: Before you start
+      title: Cyn i chi ddechrau
       body: >
-        You might want to look at some helpful advice and tips about <a href="/funding/under10k">applying for funding on our website</a>.
-    decisionMessage: We aim to let you know our decision in about %s weeks. If you have any questions,
-      <a href="/contact">contact a member of our advice team</a>.
+        Efallai hoffech edrych ar gyngor ac awgrymiadau defnyddiol am <a href="/welsh/funding/under10k">ymgeisio am arian ar ein gwefan</a>.
+    decisionMessage: Rydym yn anelu i adael i chi wybod am ein penderfyniad mewn oddeutu %s wythnos. Os oes unrhyw gwestiwn gennych,
+      <a href="/contact">cysylltwch ag aelod o’n tîm cynghori</a>.
     locationMessage: >
-      <p><strong>Applying for a project in England or Wales?</strong></p>
-      <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
-      <p><strong>Applying for a project in Northern Ireland?</strong></p>
-      <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
-      <p>Only applicants in Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
+      <p><strong>Ymgeisio am brosiect yn Lloegr neu Gymru?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hwn yn lle</a>.</p>
+      <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
+      <p><a href="/funding/programmes/awards-for-all-northern-ireland">Bydd angen ichi lawrlwytho ffurflen gais i ymgeisio</a>.</p>
+      <p>Dim ond ymgeiswyr yn Yr Alban all ymgeisio drwy ein ffurflen ar-lein newydd ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn hygyrch i weddill y DU.</p>
     newApplication:
-      title: New application
-      body: You can create a new funding application for %s here
-      cta: Start new application
+      title: Cais newydd
+      body: Gallwch greu cais ariannu newydd am %s yma
+      cta: Dechrau cais newydd
   summary:
-    title: Summary
+    title: Crynodeb
     introduction: >
-      <p>Here's a summary of your application. You may complete the sections in any order.</p>
-    completeTitle: All sections are complete
-    completeMessage: You’ve answered every required question on this form. Please take the time to check over and refine your answers, and click submit when you are ready.
-    incompleteTitle: Your form isn’t complete yet
-    incompleteMessage: See what you've got left to do
-    expandAll: Expand all sections
-    collapseAll: Collapse all sections
-    showQuestions: Show questions
-    notRequired: You don't need to fill this bit in because of what you've told us about your project so far.
-    errorSummaryTitle: These fields need attention before you can submit
-    featuredErrorsTitle: Some details in your application need extra attention
+      <p>Dyma grynodeb o’ch cais. Cewch gwblhau’r adrannau mewn unrhyw drefn.</p>
+    completeTitle: Mae’r holl adrannau’n gyflawn
+    completeMessage: Rydych wedi ateb bob cwestiwn gofynnol ar y ffurflen hwn. Cymrwch yr amser i wirio eich atebion, a cliciwch anfon pan rydych yn barod.
+    incompleteTitle: Nid yw eich ffurflen yn gyflawn eto
+    incompleteMessage: Gweld beth sydd ar ôl i chi ei wneud
+    expandAll: Ehangu pob adran
+    collapseAll: Cau pob adran
+    showQuestions: Dangos cwestiynau
+    notRequired: Nid oes angen i chi lenwi’r rhan yma oherwydd yr hyn rydych wedi ei ddweud wrthym am eich prosiect hyd yn hyn.
+    errorSummaryTitle: Mae’r meysydd hyn angen eich sylw cyn ichi allu ei anfon.
+    featuredErrorsTitle: Mae rhai manylion yn eich ffurflen angen sylw ychwanegol.
   delete:
     title: Are you sure you want to delete your application?
     message: >
