@@ -633,7 +633,7 @@ module.exports = function({
                         );
                         const seniorNameMsg = seniorName
                             ? `, ${seniorName}`
-                                : '';
+                            : '';
 
                         return localise({
                             en:
@@ -1008,8 +1008,6 @@ module.exports = function({
             en: 'National Lottery Awards for All',
             cy: ''
         }),
-        // @TODO: Re-enable when welsh translation has been added
-        isBilingual: false,
         allFields: fields,
         featuredErrorsAllowList: [
             'projectDateRange',

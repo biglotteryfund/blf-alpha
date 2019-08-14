@@ -17,7 +17,6 @@ const normaliseErrors = require('./normalise-errors');
 class FormModel {
     constructor(props, data = {}) {
         this.title = props.title;
-        this.isBilingual = props.isBilingual || false;
         this.allFields = props.allFields;
         this.formData = data;
 
