@@ -1004,7 +1004,7 @@ user:
       loggedOut: Rydych wedi allgofnodi’n llwyddiannus.
       passwordResetRequest: Cais am ail-osod cyfrinair. Os yw’r cyfeiriad e-bost yn gywir, byddwch yn derbyn cyfarwyddiadau pellach dros e-bost.
     activationRequired: >
-      Nawr, rydym angen sicrhau fod y cyfeiriad e-bost rydych newydd ei ddarparu yn gywir. Gwiriwch eich e-byst i actifadu eich cyfrif. Neu a oes angen i ni <a href="/user/activate">ail-anfon y ddolen actifadu</a>?
+      Nawr, rydym angen sicrhau fod y cyfeiriad e-bost rydych newydd ei ddarparu yn gywir. Gwiriwch eich e-byst i actifadu eich cyfrif. Neu a oes angen i ni <a href="/welsh/user/activate">ail-anfon y ddolen actifadu</a>?
   validationMessages:
     emailInvalid: Rhowch gyfeiriad e-bost dilys
     oldPasswordRequired: Rhowch eich cyfrinair presennol
@@ -1018,19 +1018,19 @@ user:
     title: Eich cyfrif
     sectionLinks:
     - label: Newid eich cyfrinair
-      href: /user/password/reset
+      href: /welsh/user/password/reset
     - label: Newid eich cyfeiriad e-bost
-      href: /user/update-email
+      href: /welsh/user/update-email
     - label: Gweld eich ceisiadau ariannu
-      href: /apply/awards-for-all
+      href: /welsh/apply/awards-for-all
   login:
     title: Mewngofnodi
     introduction: >
-      <p>Mae hwn yn ffurflen gais newydd. Os nad ydych wedi mewngofnodi yma eisoes, efallai na fydd gennych gyfrif â ni - a bydd angen <a href="/user/register">creu cyfrif newydd</a> i ymgeisio.</p>
+      <p>Mae hwn yn ffurflen gais newydd. Os nad ydych wedi mewngofnodi yma eisoes, efallai na fydd gennych gyfrif â ni - a bydd angen <a href="/welsh/user/register">creu cyfrif newydd</a> i ymgeisio.</p>
     actionLabel: Mewngofnodi
     registerLabel: creu cyfrif
     forgottenPasswordPrompt: Wedi anghofio eich cyfrinair?
-    credentialError: Nid yw eich enw defnyddiwr a chyfrinair yn gywir. Neu efallai nad oes gennych gyfrif, gan fod hwn yn ffurflen gais newydd – ceisiwch <a href="/user/register">greu cyfrif</a>.
+    credentialError: Nid yw eich enw defnyddiwr a chyfrinair yn gywir. Neu efallai nad oes gennych gyfrif, gan fod hwn yn ffurflen gais newydd – ceisiwch <a href="/welsh/user/register">greu cyfrif</a>.
   register:
     title: Creu cyfrif
     actionLabel: Creu cyfrif
@@ -1063,7 +1063,7 @@ user:
     introduction: >
       <p>Dewiswch gyfrinair newydd i’ch cyfrif drwy ei gofnodi isod. Sicrhewch eich bod yn dewis cyfrinair cryf.</p>
     errorMessage: Roedd problem wrth ddiweddaru eich cyfrinair – Trïwch eto
-    errorExpired: Roedd eich dolen ailosod cyfrinair yn annilys neu wedi dod i ben. <a href="/user/password/forgot">Trïwch eto</a>.
+    errorExpired: Roedd eich dolen ailosod cyfrinair yn annilys neu wedi dod i ben. <a href="/welsh/user/password/forgot">Trïwch eto</a>.
     email:
       subject: Rydych newydd newid eich cyfrinair
       body: >
@@ -1072,7 +1072,7 @@ user:
 
         <p>Helo,</p>
         <p>E-bost byr i roi gwybod eich bod wedi newid eich cyfrinair ar-lein yn llwyddiannus.</p>
-        <p>Os nad mai chi oedd hwn – ac nad ydych yn gwybod unrhyw beth am unrhyw newidiadau i gyfrinair – cysylltwch <a href="https://www.tnlcommunityfund.org.uk/contact">â ni</a> ar unwaith.</p>
+        <p>Os nad mai chi oedd hwn – ac nad ydych yn gwybod unrhyw beth am unrhyw newidiadau i gyfrinair – cysylltwch <a href="/welsh/contact">â ni</a> ar unwaith.</p>
 
         <p>Diolch,</p>
         <p>Cronfa Gymunedol y Loteri Genedlaethol</p>
