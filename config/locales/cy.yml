@@ -977,6 +977,143 @@ materials:
     <p>Mae llawer o ffyrdd eraill o ddathlu'ch grant. Gallwch ddod o hyd i fwy o adnoddau ac awgrymiadau gwych ar sut i hyrwyddo'ch grant ar ein gwefan <a href="http://www.cronfagymunedolylg.org.uk/croeso">www.cronfagymunedolylg.org.uk/croeso</a>.</p>
 
     <p>Os oes gennych unrhyw gwestiynau ynglŷn â'ch archeb, cysylltwch â ni yn <a href="mailto:brandio@cronfagymunedolylg.org.uk">brandio@cronfagymunedolylg.org.uk</a>.</p>
+user:
+  common:
+    yourAccount: Eich cyfrif
+    emailAddress: Cyfeiriad e-bost
+    password: Cyfrinair
+    passwordConfirmation:
+      label: Cadarnhad cyfrinair
+      explanation: Ail-deipiwch eich cyfrinair
+    passwordOld: Eich hen gyfrinair
+    passwordNew: Eich cyfrinair newydd
+    passwordRequirements: >
+      <p>Rhaid bod o leiaf 10 nod o hyd <br>
+      Rhaid bod yn wahanol i’ch cyfeiriad e-bost<br>
+      <a href="https://www.ncsc.gov.uk/collection/top-tips-for-staying-secure-online/use-a-strong-and-separate-password-for-email">
+        Darllenwch awgrymiadau ar sut i greu cyfrinair cryf
+        <span class="u-visually-hidden"> National Cyber Security  - Dolen allanol</span>
+      </a></p>
+    loggedInAs: Wedi mewngofnodi fel
+    logOut: allgofnodi
+    alertMessages:
+      activationSent: Mae e-bost wedi ei anfon i’ch cyfeiriad e-bost cofrestredig gyda chyfarwyddiadau i actifadu eich cyfrif.
+      activationComplete: Mae eich cyfrif wedi ei actifadu’n llwyddiannus!
+      passwordUpdated: Mae eich cyfrinair wedi ei ddiweddaru’n llwyddiannus!
+      emailUpdated: Mae eich cyfeiriad e-bost wedi ei ddiweddaru’n llwyddiannus!
+      loggedOut: Rydych wedi allgofnodi’n llwyddiannus.
+      passwordResetRequest: Cais am ail-osod cyfrinair. Os yw’r cyfeiriad e-bost yn gywir, byddwch yn derbyn cyfarwyddiadau pellach dros e-bost.
+    activationRequired: >
+      Nawr, rydym angen sicrhau fod y cyfeiriad e-bost rydych newydd ei ddarparu yn gywir. Gwiriwch eich e-byst i actifadu eich cyfrif. Neu a oes angen i ni <a href="/user/activate">ail-anfon y ddolen actifadu</a>?
+  validationMessages:
+    emailInvalid: Rhowch gyfeiriad e-bost dilys
+    oldPasswordRequired: Rhowch eich cyfrinair presennol
+    oldPasswordWrong: Roedd eich hen gyfrinair yn anghywir
+    passwordRequired: Rhowch eich cyfrinair
+    passwordMatchesEmail: Rhaid i’r cyfrinair fod yn wahanol i’ch cyfeiriad e-bost
+    passwordLength: Rhaid i’r cyfrinair fod o leiaf %s nod o hyd
+    passwordStrength: Cyfrinair yn rhy wan, ceisiwch gyfrinair gwahanol
+    passwordConfirmation: Rhaid i’r cyfrineiriau gyfateb
+  dashboard:
+    title: Eich cyfrif
+    sectionLinks:
+    - label: Newid eich cyfrinair
+      href: /user/password/reset
+    - label: Newid eich cyfeiriad e-bost
+      href: /user/update-email
+    - label: Gweld eich ceisiadau ariannu
+      href: /apply/awards-for-all
+  login:
+    title: Mewngofnodi
+    introduction: >
+      <p>Mae hwn yn ffurflen gais newydd. Os nad ydych wedi mewngofnodi yma eisoes, efallai na fydd gennych gyfrif â ni - a bydd angen <a href="/user/register">creu cyfrif newydd</a> i ymgeisio.</p>
+    actionLabel: Mewngofnodi
+    registerLabel: creu cyfrif
+    forgottenPasswordPrompt: Wedi anghofio eich cyfrinair?
+    credentialError: Nid yw eich enw defnyddiwr a chyfrinair yn gywir. Neu efallai nad oes gennych gyfrif, gan fod hwn yn ffurflen gais newydd – ceisiwch <a href="/user/register">greu cyfrif</a>.
+  register:
+    title: Creu cyfrif
+    actionLabel: Creu cyfrif
+    loginLabel: mewngofnodi
+    genericError: >
+      Roedd problem wrth greu eich cyfrif. Os ydych yn meddwl bod gennych gyfrif eisoes, ceisiwch
+      <a href="%s">ailosod eich cyfrinair</a>.
+  forgottenPassword:
+    title: Wedi anghofio eich cyfrinair?
+    emailExplanation: Rhowch y cyfeiriad e-bost sy’n gysylltiedig â’ch cyfrif.
+    resetConfirmation: Os yw’r cyfeiriad e-bost yn gywir byddwch yn derbyn cyfarwyddiadau drwy e-bost.
+    callToAction: Ailosod cyfrinair
+    loginLink: Wedi ailosod cyfrinair? <a href="%s">Mewngofnodi</a>
+    email:
+      subject: Ailosod y cyfrinair i’ch cyfrif gwefan Cronfa Gymunedol y Loteri Genedlaethol
+      body: >
+        <h1>Cronfa Gymunedol y Loteri Genedlaethol</h1>
+        <h2>Cais am ailosod cyfrinair</h2>
+
+        <p><strong>Rydym newydd dderbyn cais i newid cyfrinair i’r e-bost hwn</strong></p>
+        <h3><a href="%s">Newid eich cyfrinair</a></h3>
+
+        <p><strong>Os nad ydych yn dymuno ailosod eich cyfrinair</strong></p>
+        <p>nid oes rhaid i chi wneud dim. Anwybyddwch yr e-bost hwn.</p>
+
+        <p>Diolch,</p>
+        <p>Cronfa Gymunedol y Loteri Genedlaethol</p>
+  resetPassword:
+    title: Ailosod eich cyfrinair
+    introduction: >
+      <p>Dewiswch gyfrinair newydd i’ch cyfrif drwy ei gofnodi isod. Sicrhewch eich bod yn dewis cyfrinair cryf.</p>
+    errorMessage: Roedd problem wrth ddiweddaru eich cyfrinair – Trïwch eto
+    errorExpired: Roedd eich dolen ailosod cyfrinair yn annilys neu wedi dod i ben. <a href="/user/password/forgot">Trïwch eto</a>.
+    email:
+      subject: Rydych newydd newid eich cyfrinair
+      body: >
+        <h1>Cronfa Gymunedol y Loteri Genedlaethol</h1>
+        <h2>Rydych newydd newid eich cyfrinair</h2>
+
+        <p>Helo,</p>
+        <p>E-bost byr i roi gwybod eich bod wedi newid eich cyfrinair ar-lein yn llwyddiannus.</p>
+        <p>Os nad mai chi oedd hwn – ac nad ydych yn gwybod unrhyw beth am unrhyw newidiadau i gyfrinair – cysylltwch <a href="https://www.tnlcommunityfund.org.uk/contact">â ni</a> ar unwaith.</p>
+
+        <p>Diolch,</p>
+        <p>Cronfa Gymunedol y Loteri Genedlaethol</p>
+  updateEmail:
+    title: Diweddaru cyfeiriad e-bost
+    introduction: >
+      <p>Gallwch addasu eich cyfeiriad e-bost cofrestredig yma. Cofiwch bydd angen i chi gadarnhau eich cyfrif eto unwaith byddwch wedi gwneud hyn.</p>
+    genericError: Roedd problem wrth ddiweddaru eich manylion, trïwch eto
+  activate:
+    title: Actifadu eich cyfrif
+    introduction: >
+      Mae e-bost wedi ei anfon at <strong>%s</strong>.
+      I actifadu eich cyfrif, cliciwch ar y ddolen yn yr e-bost.
+    email:
+      subject: Actifadu eich cyfrif gwefan Cronfa Gymunedol y Loteri Genedlaethol
+      body: >
+        <h1>Cronfa Gymunedol y Loteri Genedlaethol</h1>
+        <h2>Rydych bron yn barod i ymgeisio i’r Gronfa Gymunedol y Loteri Genedlaethol</h2>
+
+        <p>Rydych wedi creu cyfrif â ni gan ddefnyddio’r cyfeiriad e-bost hwn: %s.</p>
+        <p>Nawr, rydych angen <a href="%s">actifadu eich cyfrif</a> i ddechrau ar eich cais.</p>
+
+        <p>Diolch,</p>
+        <p>Cronfa Gymunedol y Loteri Genedlaethol</p>
+    errorMessage: Roedd eich dolen actifadu yn annilys neu wedi dod i ben.
+    resendLabel: Ail-anfon dolen actifadu
+    resendMessage: Dolen actifadu wedi ei ail-anfon
+    notReceived:
+      title: Heb dderbyn unrhyw beth?
+      body: >
+        <p>Gall yr e-bost actifadu gymryd rhai munudau i’ch cyrraedd, os nad ydych wedi ei dderbyn:</p>
+        <ul>
+            <li>Gwiriwch eich blwch post sbam</li>
+            <li>
+                Gwiriwch bod eich cyfeiriad e-bost yn gywir, os na, <a href="%s">diweddarwch eich cyfeiriad e-bost</a>
+            </li>
+        </ul>
+    contact:
+      title: Dal ddim yn gweithio?
+      body: >
+        <p>Cysylltwch â ni ar <strong>0345 4 10 20 30</strong></p>
 apply:
   error:
     title: Cafwyd problem gyda'ch cyflwyniad
