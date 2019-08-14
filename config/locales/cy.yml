@@ -1237,75 +1237,66 @@ applyNext:
     errorSummaryTitle: Mae’r meysydd hyn angen eich sylw cyn ichi allu ei anfon.
     featuredErrorsTitle: Mae rhai manylion yn eich ffurflen angen sylw ychwanegol.
   delete:
-    title: Are you sure you want to delete your application?
+    title: A ydych yn siŵr eich bod eisiau dileu eich cais?
     message: >
       <p>
-        <strong>This can't be undone</strong>.
-        If you're sure you want to delete your application, then you can proceed below.
+        <strong>Ni all hwn gael ei ail-wneud</strong>.
+        Os ydych yn siŵr eich bod eisiau dileu eich cais, gallwch barhau isod.
       </p>
-    success: Your application was successfully deleted
+    success: Mae eich cais wedi’i ddileu’n llwyddiannus
   questions:
-    printLink: Print these questions
-    downloadLink: Download these questions (PDF)
-    printWarning: Application form questions for %s – <strong>Please do not attempt to fill out this form or send it to The National Lottery Community Fund.</strong> We will not accept paper copies of this form.
-  sectionPrefix: Section
-  statusNotStarted: Not started
-  statusInProgress: In progress
-  statusInvalid: Invalid
-  statusComplete: Complete
-  change: Change
-  continue: Continue
-  edit: Edit
-  submit: Submit application
+    printLink: Argraffu’r cwestiynau hyn
+    downloadLink: Lawrlwytho ‘r cwestiynau hyn (PDF)
+    printWarning: Cwestiynau ffurflen gais  %s – <strong>Peidiwch a cheisio llenwi’r ffurflen hwn na’i anfon i Gronfa Gymunedol y Loteri Genedlaethol.</strong> Ni fyddwn yn derbyn copïau papur o’r ffurflen hwn.
+  sectionPrefix: Adran
+  statusNotStarted: Heb ddechrau
+  statusInProgress: Ar ei ganol
+  statusInvalid: Annilys
+  statusComplete: Cyflawn
+  change: Newid
+  continue: Parhau
+  edit: Golygu
+  submit: Anfon cais
   fields:
     dates:
-      startDate: Start date
-      endDate: End date
+      startDate: Dyddiad dechrau
+      endDate: Dyddiad gorffen
     address:
-      label: Find address by postcode
-      required: Required
-      optional: Optional
-      helpText: eg. EC4A 1DE
-      enterManually: Enter address manually
-      selectAddress: Select an address
-      addressesFound: addresses found
-      lookupError: There was an error finding your address - please provide it below.
-      removeAddress: Remove this address
-      lookingUpAddress: Looking up address…
-      findAddress: Find address
-      warningForIncomplete: 'Please click "Find address" and choose an address from the list.'
+      label: Dod o hyd i gyfeiriad drwy gòd post
+      required: Gofynnol
+      optional: Dewisol
+      helpText: e.e. EC4A 1DE
+      enterManually: Cofnodi cyfeiriad eich hunain
+      selectAddress: Dewis cyfeiriad
+      findAddress: Dod o hyd i’r cyfeiriad
       fieldNames:
-        line1: Building and street
-        line2: Address line 2
-        townCity: Town or city
-        county: County
-        postcode: Postcode
+        line1: Adeilad a stryd
+        line2: 2il linell cyfeiriad
+        townCity: Tref neu ddinas
+        county: Sir
+        postcode: Cod post
     bankStatement:
       help:
-        title: Help with your bank statement
-        helpTitle: What we need from you
+        title: Cymorth gyda’ch cyfriflen banc
+        helpTitle: Yr hyn rydym ei angen gennych
         body: >
-          <p><strong>Please make sure that we can clearly see the following on your bank statement:</strong></p>
+          <p><strong>Sicrhewch y gallwn weld y canlynol yn glir ar eich cyfriflen banc:</strong></p>
           <ul>
-              <li>Your organisation’s legal name</li>
-              <li>The address the statements are sent to</li>
-              <li>The bank name</li>
-              <li>Account number</li>
-              <li>Sort code</li>
-              <li>Date (must be within last 3 months)</li>
+              <li>Enw cyfreithiol eich sefydliad</li>
+              <li>Y cyfeiriadau mae’r cyfriflenni’n cael eu hanfon</li>
+              <li>Enw’r banc</li>
+              <li>Rhif cyfrif</li>
+              <li>Cod didoli</li>
+              <li>Dyddiad (rhaid bod o fewn y 3 mis diwethaf)</li>
           </ul>
           <img src="/assets/images/apply/afa-bank-statement-example.png"
-               alt="An example of a bank statement we need from you, with the bank name, date, organisation address, account number and organisation legal name circled" />
+               alt="Enghraifft o gyfriflen banc rydym ei angen gennych, gydag enw’r banc, dyddiad, cyfeiriad y sefydliad, rhif cyfrif ac enw cyfreithiol y sefydliad wedi’i gylchu" />
     budget:
-      item: Item or activity
-      itemPlaceholder: eg. Posters
-      amount: Amount
-      amountPlaceholder: eg. 1234
-      deleteThisRow: Delete this row
-      deleteRow: Delete row
-      tooManyItems: Your number of budget headings must be less than or equal to
-      overBudget: Costs you would like us to fund must be less than
-      total: Total
+      item: Eitem neu weithgaredd
+      itemPlaceholder: e.e. Posteri
+      amount: Nifer
+      amountPlaceholder: e.e. 1234
+      total: Cyfanswm
   questionList:
     introduction:
       title: Questions you'll be asked
@@ -1341,18 +1332,17 @@ applyNext:
     successfulTitle: Great! You're eligible to apply to %s
     unsuccessfulTitle: Sorry, you're not eligible to apply at this time
     whatNow: What now?
-  #  @TODO: Move other common text to common:
   errors:
     file:
       errorScanInfected: This file has been blocked for security reasons.
       errorScanUnknown: This file is still being scanned for security risks - please check back shortly.
       errorOther: There was an issue retrieving your file - please try again soon.
   common:
-    delete: Delete
-    exit: Exit
-    closeThisPage: Close this page
-    deleteApplication: Delete application
-    errorUploading: There was an error uploading your file, please try again
-    untitledApplication: Untitled Application
-    startYourApplication: Start your application
-    backToApplications: Back to your applications
+    delete: Dileu
+    exit: Gadael
+    closeThisPage: Cau’r dudalen hon
+    deleteApplication: Dileu’r cais
+    errorUploading: Roedd problem wrth uwch lwytho eich ffeil, trïwch eto
+    untitledApplication: Cais heb deitl
+    startYourApplication: Dechrau ar eich cais
+    backToApplications: Yn ôl i’ch ceisiadau
