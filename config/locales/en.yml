@@ -1454,7 +1454,7 @@ applyNext:
     logOut: Log out
     summary: Summary
   startApplication:
-    title: Start an application for<br /> National Lottery Awards for All
+    title: Start an application for National Lottery Awards for All
     intro: A quick and simple way to get small National Lottery grants of between £300 and £10,000
     callToAction: Start a new application
   locationMessage: >
