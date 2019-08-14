@@ -1172,3 +1172,187 @@ apply:
   digitalFundStrand2:
     <<: *digitalFundDefaults
     description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-2">Edefyn 2</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.
+applyNext:
+  navigation:
+    applications: Applications
+    account: Account
+    logOut: Log out
+    summary: Summary
+  startApplication:
+    title: Start an application for<br /> National Lottery Awards for All
+    intro: A quick and simple way to get small National Lottery grants of between £300 and £10,000
+    callToAction: Start a new application
+  locationMessage: >
+      <p>Welcome to our new online application for National Lottery Awards for All.</p>
+      <p><strong>Applying for a project in Scotland?</strong></p>
+      <p>Great - you’re in the right place. You’ll need to <a href="/user/register">create a new account</a> to apply. Unless you’ve already created an account for our new online application form.</p>
+      <p><strong>Applying for a project in England or Wales?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
+      <p><strong>Applying for a project in Northern Ireland?</strong></p>
+      <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
+  dashboard:
+    title: Your applications
+    introduction: >
+      <p>Here you can keep going with an application you've already started.
+      You can also <a href="%s">start a brand new application</a> and see any
+      applications you've previously submitted online. You can also see the
+      <a href="%s">questions you'll be asked</a> when you apply.</p>
+    inProgressTitle: In progress
+    submitted: Submitted
+    notYetCompleted: not yet completed
+    continueApplication: Continue with this application
+    applicationStatus: Application status
+    notSubmitted: Not submitted
+    expiryMessage: >
+      <p>You started your application on <strong>%s</strong>.</p>
+      <p>You have until <strong>%s</strong> to complete your application.</p>
+    beforeYouStart:
+      title: Before you start
+      body: >
+        You might want to look at some helpful advice and tips about <a href="/funding/under10k">applying for funding on our website</a>.
+    decisionMessage: We aim to let you know our decision in about %s weeks. If you have any questions,
+      <a href="/contact">contact a member of our advice team</a>.
+    locationMessage: >
+      <p><strong>Applying for a project in England or Wales?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
+      <p><strong>Applying for a project in Northern Ireland?</strong></p>
+      <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
+      <p>Only applicants in Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
+    newApplication:
+      title: New application
+      body: You can create a new funding application for %s here
+      cta: Start new application
+  summary:
+    title: Summary
+    introduction: >
+      <p>Here's a summary of your application. You may complete the sections in any order.</p>
+    completeTitle: All sections are complete
+    completeMessage: You’ve answered every required question on this form. Please take the time to check over and refine your answers, and click submit when you are ready.
+    incompleteTitle: Your form isn’t complete yet
+    incompleteMessage: See what you've got left to do
+    expandAll: Expand all sections
+    collapseAll: Collapse all sections
+    showQuestions: Show questions
+    notRequired: You don't need to fill this bit in because of what you've told us about your project so far.
+    errorSummaryTitle: These fields need attention before you can submit
+    featuredErrorsTitle: Some details in your application need extra attention
+  delete:
+    title: Are you sure you want to delete your application?
+    message: >
+      <p>
+        <strong>This can't be undone</strong>.
+        If you're sure you want to delete your application, then you can proceed below.
+      </p>
+    success: Your application was successfully deleted
+  questions:
+    printLink: Print these questions
+    downloadLink: Download these questions (PDF)
+    printWarning: Application form questions for %s – <strong>Please do not attempt to fill out this form or send it to The National Lottery Community Fund.</strong> We will not accept paper copies of this form.
+  sectionPrefix: Section
+  statusNotStarted: Not started
+  statusInProgress: In progress
+  statusInvalid: Invalid
+  statusComplete: Complete
+  change: Change
+  continue: Continue
+  edit: Edit
+  submit: Submit application
+  fields:
+    dates:
+      startDate: Start date
+      endDate: End date
+    address:
+      label: Find address by postcode
+      required: Required
+      optional: Optional
+      helpText: eg. EC4A 1DE
+      enterManually: Enter address manually
+      selectAddress: Select an address
+      addressesFound: addresses found
+      lookupError: There was an error finding your address - please provide it below.
+      removeAddress: Remove this address
+      lookingUpAddress: Looking up address…
+      findAddress: Find address
+      warningForIncomplete: 'Please click "Find address" and choose an address from the list.'
+      fieldNames:
+        line1: Building and street
+        line2: Address line 2
+        townCity: Town or city
+        county: County
+        postcode: Postcode
+    bankStatement:
+      help:
+        title: Help with your bank statement
+        helpTitle: What we need from you
+        body: >
+          <p><strong>Please make sure that we can clearly see the following on your bank statement:</strong></p>
+          <ul>
+              <li>Your organisation’s legal name</li>
+              <li>The address the statements are sent to</li>
+              <li>The bank name</li>
+              <li>Account number</li>
+              <li>Sort code</li>
+              <li>Date (must be within last 3 months)</li>
+          </ul>
+          <img src="/assets/images/apply/afa-bank-statement-example.png"
+               alt="An example of a bank statement we need from you, with the bank name, date, organisation address, account number and organisation legal name circled" />
+    budget:
+      item: Item or activity
+      itemPlaceholder: eg. Posters
+      amount: Amount
+      amountPlaceholder: eg. 1234
+      deleteThisRow: Delete this row
+      deleteRow: Delete row
+      tooManyItems: Your number of budget headings must be less than or equal to
+      overBudget: Costs you would like us to fund must be less than
+      total: Total
+  questionList:
+    introduction:
+      title: Questions you'll be asked
+      body: >
+        Below is a list of all of the questions you may be asked when applying for %1$s. Please note that some questions are optional depending on your other answers to the form. You may find it helpful to revise our <a href="/funding/under10k">%1$s guidance</a>. <strong>Please note</strong>: in order to submit your application you'll need to agree to our terms and conditions.
+    eligibility:
+      title: Eligibility questions
+      note: You'll need to answer all of these before beginning your application form.
+      checkerTitle: Eligibility checker
+    confirmCriteria: Confirm the following criteria
+    chooseFromSelection: Choose as many options as you like from a selection
+    pickOneFromSelection: Pick one option from a selection
+    provideBudget: Provide an itemised budget
+    maxBudget: "to a maximum total of £%s"
+    maxBudgetAndRows: "to a maximum total of £%s across %s items"
+    provideFinancialFigure: Provide a financial figure
+    provideAddress: Provide an address
+    provideDate: Provide a date
+    provideEmail: Provide an email address
+    uploadFile: Upload a file
+    provideName: Provide a person's full name
+    provideNumber: Provide a number
+    providePhone: Provide a telephone number
+    provideText: Provide a sentence or two
+    provideTextLong: Provide a longer answer
+    minAndMaxWords: between %s-%s words
+    minWords: minimum of %s words
+    maxWords: maximum of %s words
+    optional: optional, but may be required depending on your circumstances
+    conditionalNote: "<strong>Note</strong>: this field may be optional depending on your other answers"
+  eligibility:
+    title: Eligibility checker
+    successfulTitle: Great! You're eligible to apply to %s
+    unsuccessfulTitle: Sorry, you're not eligible to apply at this time
+    whatNow: What now?
+  #  @TODO: Move other common text to common:
+  errors:
+    file:
+      errorScanInfected: This file has been blocked for security reasons.
+      errorScanUnknown: This file is still being scanned for security risks - please check back shortly.
+      errorOther: There was an issue retrieving your file - please try again soon.
+  common:
+    delete: Delete
+    exit: Exit
+    closeThisPage: Close this page
+    deleteApplication: Delete application
+    errorUploading: There was an error uploading your file, please try again
+    untitledApplication: Untitled Application
+    startYourApplication: Start your application
+    backToApplications: Back to your applications
