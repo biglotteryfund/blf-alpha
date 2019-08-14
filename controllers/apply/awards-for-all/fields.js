@@ -116,7 +116,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             attributes: { size: 30, autocomplete: 'tel' },
             isRequired: true,
             schema: Joi.string()
-                .phoneNumber({ defaultCountry: 'GB', format: 'national' })
+                .phoneNumber()
                 .required(),
             messages: [
                 {
