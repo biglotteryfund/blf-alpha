@@ -884,6 +884,11 @@ module.exports = function({
     }
 
     function stepTerms() {
+        const title = localise({
+            en: 'Terms and conditions of your grant',
+            cy: 'Amodau a thelerau eich  grant'
+        });
+
         const footer = localise({
             en: `<p>
                 We know the vast majority of the many thousands who
@@ -912,16 +917,10 @@ module.exports = function({
         });
 
         return {
-            title: localise({
-                en: 'Terms and conditions of your grant',
-                cy: ''
-            }),
+            title: title,
             fieldsets: [
                 {
-                    legend: localise({
-                        en: 'Terms and conditions of your grant',
-                        cy: ''
-                    }),
+                    legend: title,
                     introduction: `<ol class="o-nested-numbers">
                         ${localise(terms)
                             .map(
@@ -1117,7 +1116,10 @@ module.exports = function({
             },
             {
                 slug: 'terms-and-conditions',
-                title: localise({ en: 'Terms and conditions', cy: '' }),
+                title: localise({
+                    en: 'Terms and conditions',
+                    cy: 'Amodau a thelerau'
+                }),
                 summary: localise({
                     en: oneLine`In order to submit your application,
                         you will need to agree to our terms and conditions.`,
