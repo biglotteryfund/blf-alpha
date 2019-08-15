@@ -1,15 +1,8 @@
 'use strict';
-
 const { PhoneNumberUtil, PhoneNumberFormat } = require('google-libphonenumber');
 const phoneUtil = PhoneNumberUtil.getInstance();
 
-/**
- * Allows you to do `Joi.string().phoneNumber()`
- *
- * @param {Object} joi Joi instance
- * @return {Object} Joi plugin object
- */
-module.exports = function phoneNumber(joi) {
+module.exports = function(joi) {
     return {
         base: joi.string(),
         name: 'string',

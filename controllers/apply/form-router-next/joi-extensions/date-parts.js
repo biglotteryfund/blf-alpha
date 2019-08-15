@@ -2,7 +2,7 @@
 const moment = require('moment');
 const { fromDateParts } = require('../lib/date-parts');
 
-module.exports = function dateParts(joi) {
+module.exports = function(joi) {
     return {
         name: 'dateParts',
         base: joi.object({

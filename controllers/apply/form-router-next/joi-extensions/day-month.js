@@ -2,7 +2,7 @@
 const { toInteger } = require('lodash');
 const moment = require('moment');
 
-module.exports = function dayMonth(joi) {
+module.exports = function(joi) {
     return {
         name: 'dayMonth',
         base: joi.object({

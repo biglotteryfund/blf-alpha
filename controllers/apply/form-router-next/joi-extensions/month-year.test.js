@@ -20,3 +20,9 @@ test('valid month-year', () => {
     const invalidDate = schema.validate({ month: 31, year: 100 });
     expect(invalidDate.error.message).toContain('contains an invalid value');
 });
+
+test('past date validation rule', () => {
+    const schema = Joi.monthYear().pastDate();
+    const invalidDate = schema.validate({ month: 3, year: 2100 });
+    expect(invalidDate.error.message).toContain('must not be in the past');
+});

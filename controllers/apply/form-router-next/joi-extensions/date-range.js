@@ -1,7 +1,7 @@
 'use strict';
 const { fromDateParts } = require('../lib/date-parts');
 
-module.exports = function dateParts(joi) {
+module.exports = function(joi) {
     const datePartsConfig = {
         day: joi
             .number()

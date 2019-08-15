@@ -1,10 +1,7 @@
 'use strict';
 const postcode = require('postcode');
 
-/**
- * Joi wrapper around https://github.com/ideal-postcodes/postcode
- */
-module.exports = function postcodeString(joi) {
+module.exports = function(joi) {
     return {
         base: joi.string(),
         name: 'string',

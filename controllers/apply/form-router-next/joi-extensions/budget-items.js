@@ -1,7 +1,18 @@
 'use strict';
-const { isEmpty, isArray, reject, sumBy } = require('lodash');
+const isArray = require('lodash/isArray');
+const isEmpty = require('lodash/isEmpty');
+const reject = require('lodash/fp/reject');
+const sumBy = require('lodash/fp/sumBy');
 
-module.exports = function budgetItems(joi) {
+const sumByCost = sumBy(item => parseInt(item.cost, 10) || 0);
+
+/**
+ * Strip out anything that doesn't have an item name and a cost
+ * eg. validate things that are half-supplied, but not empty
+ */
+const rejectEmpty = reject(line => isEmpty(line.item) && isEmpty(line.cost));
+
+module.exports = function(joi) {
     return {
         name: 'budgetItems',
         base: joi
@@ -21,44 +32,46 @@ module.exports = function budgetItems(joi) {
                 })
             ),
         language: {
-            overBudget: 'over maximum budget'
+            overBudget: 'over maximum budget',
+            underBudget: 'under minimum budget'
         },
         /* eslint-disable-next-line no-unused-vars */
         coerce(value, state, options) {
             if (isArray(value)) {
-                // Strip out anything that doesn't have an item name and a cost
-                // (eg. validate things that are half-supplied, but not empty)
-                return reject(
-                    value,
-                    line => isEmpty(line.item) && isEmpty(line.cost)
-                );
+                return rejectEmpty(value);
             } else {
                 return value;
             }
         },
         rules: [
             {
-                name: 'validBudgetRange',
+                name: 'minTotal',
                 params: {
-                    minBudget: joi.number().required(),
-                    maxBudget: joi.number().required()
+                    min: joi.number().required()
                 },
                 validate(params, value, state, options) {
-                    const total = sumBy(
-                        value,
-                        item => parseInt(item.cost, 10) || 0
-                    );
-                    if (total > params.maxBudget) {
+                    if (sumByCost(value) < params.min) {
                         return this.createError(
-                            'budgetItems.overBudget',
-                            { v: value, number: params.maxBudget },
+                            'budgetItems.underBudget',
+                            { v: value, min: params.min },
                             state,
                             options
                         );
-                    } else if (total < params.minBudget) {
+                    } else {
+                        return value;
+                    }
+                }
+            },
+            {
+                name: 'maxTotal',
+                params: {
+                    max: joi.number().required()
+                },
+                validate(params, value, state, options) {
+                    if (sumByCost(value) > params.max) {
                         return this.createError(
-                            'budgetItems.underBudget',
-                            { v: value, number: params.maxBudget },
+                            'budgetItems.overBudget',
+                            { v: value, max: params.max },
                             state,
                             options
                         );

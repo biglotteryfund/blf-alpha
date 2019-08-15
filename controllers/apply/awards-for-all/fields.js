@@ -3,7 +3,9 @@ const config = require('config');
 const moment = require('moment');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
+const getOr = require('lodash/fp/getOr');
 const has = require('lodash/has');
+const sumBy = require('lodash/sumBy');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../form-router-next/joi-extensions');
@@ -43,6 +45,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return Joi.array()
             .items(Joi.string().valid(options.map(option => option.value)))
             .single();
+    }
+
+    function ukAddress() {
+        return Joi.object({
+            line1: Joi.string().required(),
+            line2: Joi.string()
+                .allow('')
+                .optional(),
+            townCity: Joi.string().required(),
+            county: Joi.string()
+                .allow('')
+                .optional(),
+            postcode: Joi.string()
+                .postcode()
+                .required()
+        });
     }
 
     function conditionalBeneficiaryChoice({ match, schema }) {
@@ -139,52 +157,58 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return { ...defaultProps, ...props };
     }
 
-    function addressField(props, additionalMessages = []) {
+    function addressField(props) {
         const defaultProps = {
             type: 'address',
             isRequired: true,
-            schema: Joi.ukAddress().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a full UK address',
-                        cy: ''
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'line1',
-                    message: localise({
-                        en: 'Enter a building and street',
-                        cy: ''
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'townCity',
-                    message: localise({
-                        en: 'Enter a town or city',
-                        cy: ''
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'postcode',
-                    message: localise({ en: 'Enter a postcode', cy: '' })
-                },
-                {
-                    type: 'string.postcode',
-                    key: 'postcode',
-                    message: localise({
-                        en: 'Enter a real postcode',
-                        cy: ''
-                    })
-                }
-            ].concat(additionalMessages)
+            schema: ukAddress().required()
         };
 
-        return { ...defaultProps, ...props };
+        const combined = {
+            ...defaultProps,
+            ...props
+        };
+
+        combined.messages = [
+            {
+                type: 'base',
+                message: localise({
+                    en: 'Enter a full UK address',
+                    cy: ''
+                })
+            },
+            {
+                type: 'any.empty',
+                key: 'line1',
+                message: localise({
+                    en: 'Enter a building and street',
+                    cy: ''
+                })
+            },
+            {
+                type: 'any.empty',
+                key: 'townCity',
+                message: localise({
+                    en: 'Enter a town or city',
+                    cy: ''
+                })
+            },
+            {
+                type: 'any.empty',
+                key: 'postcode',
+                message: localise({ en: 'Enter a postcode', cy: '' })
+            },
+            {
+                type: 'string.postcode',
+                key: 'postcode',
+                message: localise({
+                    en: 'Enter a real postcode',
+                    cy: ''
+                })
+            }
+        ].concat(props.messages || []);
+
+        return combined;
     }
 
     function addressHistoryField(props) {
@@ -200,7 +224,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         Joi.ref('currentAddressMeetsMinimum'),
                         {
                             is: 'no',
-                            then: Joi.ukAddress().required(),
+                            then: ukAddress().required(),
                             otherwise: Joi.any().strip()
                         }
                     )
@@ -253,39 +277,42 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return { ...defaultProps, ...props };
     }
 
-    function nameField(props, additionalMessages = []) {
-        const defaultProps = {
-            type: 'full-name',
-            isRequired: true,
-            schema: Joi.fullName().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter first and last name',
-                        cy: ''
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'firstName',
-                    message: localise({
-                        en: 'Enter first name',
-                        cy: ''
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'lastName',
-                    message: localise({
-                        en: 'Enter last name',
-                        cy: ''
-                    })
-                }
-            ].concat(additionalMessages)
+    function nameField(props) {
+        const combined = {
+            ...{
+                type: 'full-name',
+                isRequired: true
+            },
+            ...props
         };
 
-        return { ...defaultProps, ...props };
+        combined.messages = [
+            {
+                type: 'base',
+                message: localise({
+                    en: 'Enter first and last name',
+                    cy: ''
+                })
+            },
+            {
+                type: 'any.empty',
+                key: 'firstName',
+                message: localise({
+                    en: 'Enter first name',
+                    cy: ''
+                })
+            },
+            {
+                type: 'any.empty',
+                key: 'lastName',
+                message: localise({
+                    en: 'Enter last name',
+                    cy: ''
+                })
+            }
+        ].concat(props.messages || []);
+
+        return combined;
     }
 
     function dateOfBirthField(minAge, props) {
@@ -1019,6 +1046,65 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
     }
 
+    function fieldProjectTotalCosts() {
+        const budgetTotal = sumBy(
+            getOr([], 'projectBudget')(data),
+            item => parseInt(item.cost, 10) || 0
+        );
+
+        return {
+            name: 'projectTotalCosts',
+            label: localise({
+                en: 'Tell us the total cost of your project',
+                cy: '(WELSH) Tell us the total cost of your project'
+            }),
+            explanation: localise({
+                en: oneLine`<p>
+                    This is the cost of everything related to your project,
+                    even things you aren't asking us to fund.
+                </p>
+                <p>
+                    For example, if you are asking us for £8,000 and you are
+                    getting £10,000 from another funder to cover additional costs,
+                    then your total project cost is £18,000.
+                    If you are asking us for £8,000 and there are no other costs
+                    then your total project cost is £8,000.
+                </p>`,
+                cy: ``
+            }),
+            type: 'currency',
+            isRequired: true,
+            schema: Joi.friendlyNumber()
+                .integer()
+                .required()
+                .min(budgetTotal),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a total cost for your project',
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'number.integer',
+                    message: localise({
+                        en: `Total cost must be a whole number (eg. no decimal point)`,
+                        cy: ''
+                    })
+                },
+                {
+                    type: 'number.min',
+                    message: localise({
+                        en: oneLine`Total cost must be the same as or higher than
+                            the amount you’re asking us to fund`,
+                        cy: ``
+                    })
+                }
+            ]
+        };
+    }
+
     let allFields = {
         projectName: {
             name: 'projectName',
@@ -1148,6 +1234,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'budget',
             attributes: {
+                // @TODO: This should be in settings, not attributes
                 min: MIN_BUDGET_TOTAL_GBP,
                 max: MAX_BUDGET_TOTAL_GBP,
                 rowLimit: 10
@@ -1156,10 +1243,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             get schema() {
                 return Joi.budgetItems()
                     .max(this.attributes.rowLimit)
-                    .validBudgetRange(
-                        MIN_BUDGET_TOTAL_GBP,
-                        MAX_BUDGET_TOTAL_GBP
-                    )
+                    .minTotal(MIN_BUDGET_TOTAL_GBP)
+                    .maxTotal(MAX_BUDGET_TOTAL_GBP)
                     .required();
             },
             get messages() {
@@ -1215,46 +1300,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 ];
             }
         },
-        projectTotalCosts: {
-            name: 'projectTotalCosts',
-            label: localise({
-                en: 'Tell us the total cost of your project',
-                cy: '(WELSH) Tell us the total cost of your project'
-            }),
-            explanation: localise({
-                en: `<p>This is the cost of everything related to your project, even things you aren't asking us to fund.</p>
-
-                <p>For example, if you are asking us for £8,000 and you are getting £10,000 from another funder to cover additional costs, then your total project cost is £18,000. If you are asking us for £8,000 and there are no other costs then your total project cost is £8,000.</p>`,
-                cy: ``
-            }),
-            type: 'currency',
-            isRequired: true,
-            schema: Joi.budgetTotalCosts().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a total cost for your project',
-                        cy: ''
-                    })
-                },
-                {
-                    type: 'number.integer',
-                    message: localise({
-                        en:
-                            'Total cost must be a whole number (eg. no decimal point)',
-                        cy: ''
-                    })
-                },
-                {
-                    type: 'budgetTotalCosts.underBudget',
-                    message: localise({
-                        en: `Total cost must be the same as or higher than the amount you’re asking us to fund`,
-                        cy: ``
-                    })
-                }
-            ]
-        },
+        projectTotalCosts: fieldProjectTotalCosts(),
         beneficiariesGroupsCheck: {
             name: 'beneficiariesGroupsCheck',
             label: localise({
@@ -2093,76 +2139,75 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 ];
             }
         },
-        mainContactName: nameField(
-            {
-                name: 'mainContactName',
-                label: localise({ en: 'Full name of main contact', cy: '' }),
-                explanation: localise({
-                    en: 'This person has to live in the UK.',
-                    cy: ''
-                }),
-                get warnings() {
-                    let result = [];
+        mainContactName: nameField({
+            name: 'mainContactName',
+            label: localise({ en: 'Full name of main contact', cy: '' }),
+            explanation: localise({
+                en: 'This person has to live in the UK.',
+                cy: ''
+            }),
+            get warnings() {
+                let result = [];
 
-                    const seniorSurname = get('seniorContactName.lastName')(
-                        data
-                    );
+                const seniorSurname = get('seniorContactName.lastName')(data);
 
-                    const lastNamesMatch =
-                        seniorSurname &&
-                        seniorSurname === get('mainContactName.lastName')(data);
+                const lastNamesMatch =
+                    seniorSurname &&
+                    seniorSurname === get('mainContactName.lastName')(data);
 
-                    if (lastNamesMatch) {
-                        result.push(
-                            localise({
-                                en: `<span class="js-form-warning-surname">We've noticed that your main and senior contact
+                if (lastNamesMatch) {
+                    result.push(
+                        localise({
+                            en: `<span class="js-form-warning-surname">We've noticed that your main and senior contact
                                      have the same surname. Remember we can't fund projects
                                      where the two contacts are married or related by blood.</span>`,
-                                cy: ``
-                            })
-                        );
-                    }
+                            cy: ``
+                        })
+                    );
+                }
 
-                    return result;
-                },
-                schema: Joi.fullName()
-                    .mainContact()
-                    .required()
+                return result;
             },
-            [
+            schema: Joi.object({
+                firstName: Joi.string().required(),
+                lastName: Joi.string().required()
+            })
+                .compare(Joi.ref('seniorContactName'))
+                .required(),
+            messages: [
                 {
-                    type: 'name.matchesOther',
+                    type: 'object.isEqual',
                     message: localise({
                         en: `Main contact name must be different from the senior contact's name`,
                         cy: ``
                     })
                 }
             ]
-        ),
+        }),
         mainContactDateOfBirth: dateOfBirthField(MIN_AGE_MAIN_CONTACT, {
             name: 'mainContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })
         }),
-        mainContactAddress: addressField(
-            {
-                name: 'mainContactAddress',
-                label: localise({ en: 'Home address', cy: '' }),
-                explanation: localise({
-                    en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
-                    cy: ''
-                }),
-                schema: stripIfExcludedOrgType(Joi.ukAddress().mainContact())
-            },
-            [
+        mainContactAddress: addressField({
+            name: 'mainContactAddress',
+            label: localise({ en: 'Home address', cy: '' }),
+            explanation: localise({
+                en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
+                cy: ''
+            }),
+            schema: stripIfExcludedOrgType(
+                ukAddress().compare(Joi.ref('seniorContactAddress'))
+            ),
+            messages: [
                 {
-                    type: 'address.matchesOther',
+                    type: 'object.isEqual',
                     message: localise({
                         en: `Main contact address must be different from the senior contact's address`,
                         cy: ``
                     })
                 }
             ]
-        ),
+        }),
         mainContactAddressHistory: addressHistoryField({
             name: 'mainContactAddressHistory',
             label: localise({
@@ -2212,52 +2257,53 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: []
         },
         seniorContactRole: fieldSeniorContactRole(),
-        seniorContactName: nameField(
-            {
-                name: 'seniorContactName',
-                label: localise({ en: 'Full name of senior contact', cy: '' }),
-                explanation: localise({
-                    en: 'This person has to live in the UK.',
-                    cy: ''
-                }),
-                schema: Joi.fullName()
-                    .seniorContact()
-                    .required()
-            },
-            [
+        seniorContactName: nameField({
+            name: 'seniorContactName',
+            label: localise({ en: 'Full name of senior contact', cy: '' }),
+            explanation: localise({
+                en: 'This person has to live in the UK.',
+                cy: ''
+            }),
+            schema: Joi.object({
+                firstName: Joi.string().required(),
+                lastName: Joi.string().required()
+            })
+                .compare(Joi.ref('mainContactName'))
+                .required(),
+            messages: [
                 {
-                    type: 'name.matchesOther',
+                    type: 'object.isEqual',
                     message: localise({
                         en: `Senior contact name must be different from the main contact's name`,
                         cy: ``
                     })
                 }
             ]
-        ),
+        }),
         seniorContactDateOfBirth: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
             name: 'seniorContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })
         }),
-        seniorContactAddress: addressField(
-            {
-                name: 'seniorContactAddress',
-                label: localise({ en: 'Home address', cy: '' }),
-                explanation: localise({
-                    en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
-                    cy: ''
-                }),
-                schema: stripIfExcludedOrgType(Joi.ukAddress().seniorContact())
-            },
-            [
+        seniorContactAddress: addressField({
+            name: 'seniorContactAddress',
+            label: localise({ en: 'Home address', cy: '' }),
+            explanation: localise({
+                en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
+                cy: ''
+            }),
+            schema: stripIfExcludedOrgType(
+                ukAddress().compare(Joi.ref('mainContactAddress'))
+            ),
+            messages: [
                 {
-                    type: 'address.matchesOther',
+                    type: 'object.isEqual',
                     message: localise({
                         en: `Senior contact address must be different from the main contact's address`,
                         cy: ``
                     })
                 }
             ]
-        ),
+        }),
         seniorContactAddressHistory: addressHistoryField({
             name: 'seniorContactAddressHistory',
             label: localise({
