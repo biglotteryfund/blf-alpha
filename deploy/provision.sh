@@ -8,6 +8,12 @@ sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial m
 apt-get update
 apt-get install -y nginx-extras passenger
 
+# Installing clamav and clamav-daemon (anti-virus scan)
+apt-get install clamav
+freshclam
+apt install clamav-daemon
+service clamav-daemon start
+
 # Install Node
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 apt-get install -y nodejs

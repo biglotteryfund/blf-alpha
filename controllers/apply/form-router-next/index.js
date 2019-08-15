@@ -393,14 +393,14 @@ function initFormRouter({
                                 filename: field.value.filename
                             };
 
-                            try {
-                                if(!config.get('features.enableLocalAntivirus') && !appData.isTestServer) {
+                            if (!config.get('features.enableLocalAntivirus') && !appData.isTestServer) {
+                                try {
                                     await checkAntiVirus(pathConfig);
+                                } catch (err) {
+                                    // We caught a suspect file
+                                    fileUploadError = err.message;
+                                    return;
                                 }
-                            } catch (err) {
-                                // We caught a suspect file
-                                fileUploadError = err.message;
-                                return;
                             }
 
                             return buildMultipartData(pathConfig).then(
