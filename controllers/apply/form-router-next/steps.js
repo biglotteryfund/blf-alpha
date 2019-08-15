@@ -11,7 +11,11 @@ const logger = require('../../../common/logger');
 const { sanitiseRequestBody } = require('../../../common/sanitise');
 const { PendingApplication } = require('../../../db/models');
 const { isTestServer } = require('../../../common/appData');
-const { prepareFilesForUpload, uploadFile, checkAntiVirusClamD } = require('./lib/file-uploads');
+const {
+    prepareFilesForUpload,
+    uploadFile,
+    checkAntiVirusClamD
+} = require('./lib/file-uploads');
 
 module.exports = function(formId, formBuilder) {
     const router = express.Router();
@@ -221,19 +225,29 @@ module.exports = function(formId, formBuilder) {
                         try {
                             await Promise.all(
                                 preparedFiles.filesToUpload.map(async file => {
-                                    if (config.get('features.enableLocalAntivirus') && !isTestServer) {
-                                        const avStatus = await checkAntiVirusClamD(formId, currentlyEditingId, file);
+                                    if (
+                                        config.get(
+                                            'features.enableLocalAntivirus'
+                                        ) &&
+                                        !isTestServer
+                                    ) {
+                                        const avStatus = await checkAntiVirusClamD(
+                                            file.fileData.path
+                                        );
 
-                                        if(avStatus.Value === 'CLEAN') {
+                                        if (avStatus.Value === 'CLEAN') {
                                             uploadFile({
                                                 formId: formId,
                                                 applicationId: currentlyEditingId,
                                                 fileMetadata: file
                                             });
                                         } else {
-                                            logger.error('File upload skipped', {
-                                                reason: avStatus
-                                            });
+                                            logger.error(
+                                                'File upload skipped',
+                                                {
+                                                    reason: avStatus
+                                                }
+                                            );
                                         }
                                     } else {
                                         uploadFile({

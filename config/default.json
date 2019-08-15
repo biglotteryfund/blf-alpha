@@ -23,10 +23,10 @@
     }
   },
   "clamdscan": {
-    "socket": "/usr/local/etc/clamd.socket",
+    "socket": "/var/run/clamav/clamd.ctl",
     "timeout": 120000,
-    "path": "/usr/local/etc/clamav",
-    "config_file": "/usr/local/etc/clamav/clamd.conf"
+    "path": "/var/lib/clamav",
+    "config_file": "/etc/clamav/clamd.conf"
   },
   "domains": {
     "indexable": ["www.biglotteryfund.org.uk", "www.tnlcommunityfund.org.uk"],
