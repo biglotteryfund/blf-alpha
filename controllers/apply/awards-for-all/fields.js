@@ -35,6 +35,7 @@ const rolesFor = require('./lib/roles');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
 const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaCommunity = require('./fields/your-idea-community');
+const fieldOrganisationType = require('./fields/organisation-type');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
@@ -526,117 +527,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({
                         en: 'Select a country',
                         cy: 'Dewiswch wlad'
-                    })
-                }
-            ]
-        };
-    }
-
-    function fieldOrganisationType() {
-        const options = [
-            {
-                value: ORGANISATION_TYPES.UNREGISTERED_VCO,
-                label: localise({
-                    en: 'Unregistered voluntary or community organisation',
-                    cy: ''
-                }),
-                explanation: localise({
-                    en: `<p>My organisation has been set up with a governing document, like a constitution, but it's not a charity or a company. Some examples of these sorts of groups would be a sports club, community club or residents association.</p>`,
-                    cy: ``
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                label: localise({
-                    en: 'Registered charity (unincorporated)',
-                    cy: ''
-                }),
-                explanation: localise({
-                    en: `<p>My organisation is a voluntary or community organisation and is a registered charity, but <strong>is not</strong> a company registered with Companies House</p>`,
-                    cy: ``
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.CIO,
-                label: localise({
-                    en: 'Charitable incorporated organisation (CIO)',
-                    cy: ''
-                }),
-                explanation: localise({
-                    en: `<p>My organisation is a registered charity with limited liability, but <strong>is not</strong> a company registered with Companies House</p>`,
-                    cy: ``
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
-                label: localise({ en: 'Not-for-profit company', cy: '' }),
-                explanation: localise({
-                    en: `<p>My organisation is a not-for-profit company registered with Companies House, and <strong>may also</strong> be registered as a charity</p>`,
-                    cy: ``
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.SCHOOL,
-                label: localise({
-                    en: 'School',
-                    cy: ''
-                }),
-                explanation: localise({
-                    en: `<p>My organisation is a school</p>`,
-                    cy: ``
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY,
-                label: localise({
-                    en: 'College or University',
-                    cy: ''
-                }),
-                explanation: localise({
-                    en: `<p>My organisation is a college, university, or other registered educational establishment</p>`,
-                    cy: ``
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.STATUTORY_BODY,
-                label: localise({ en: 'Statutory body', cy: '' }),
-                explanation: localise({
-                    en: `<p>My organisation is a public body, such as a local authority, parish council, or police or health authority</p>`,
-                    cy: ''
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.FAITH_GROUP,
-                label: localise({ en: 'Faith-based group', cy: '' }),
-                explanation: localise({
-                    en: `<p>My organisation is a church, mosque, temple, synagogue etc.</p>`,
-                    cy: ''
-                })
-            }
-        ];
-
-        return {
-            name: 'organisationType',
-            label: localise({
-                en: 'What type of organisation are you?',
-                cy: ''
-            }),
-            explanation: localise({
-                en: `If you're both a charity and a company - just pick 'Registered charity' below.`,
-                cy: ''
-            }),
-            type: 'radio',
-            options: options,
-            isRequired: true,
-            schema: Joi.string()
-                .valid(options.map(option => option.value))
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Select a type of organisation',
-                        cy: ''
                     })
                 }
             ]
@@ -1756,7 +1646,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             })
         }),
-        organisationType: fieldOrganisationType(),
+        organisationType: fieldOrganisationType(locale),
         organisationSubTypeStatutoryBody: {
             name: 'organisationSubType',
             label: localise({
