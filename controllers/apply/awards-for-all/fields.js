@@ -377,7 +377,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'projectDateRange',
             label: localise({
                 en: `When would you like to start and end your project?`,
-                cy: ``
+                cy: `Pryd yr hoffech ddechrau a gorffen eich prosiect?`
             }),
             settings: {
                 minYear: minDate.format('YYYY')
@@ -401,7 +401,27 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     Just let us know the date you plan to hold the event
                     in the start and end date boxes below.
                 </p>`,
-                cy: ''
+
+                cy: `<p>
+                    Os nad ydych yn gwybod yn union, gall eich dyddiadau fod yn amcangyfrifon.
+                    Ond mae angen i chi ddechrau eich prosiect wedi 
+                    ${minDate.format('DD/MM/YYYY')}.
+                </p>
+                <p>
+                    Fel arfer, dim ond prosiectau sy’n para 
+                    ${localise(
+                        MAX_PROJECT_DURATION.label
+                    )} neu lai rydym yn eu hariannu.
+                    Felly, ni all y dyddiad gorffen fod yn hwyrach na 
+                    ${localise(
+                        MAX_PROJECT_DURATION.label
+                    )} wedi’r dyddiad cychwyn.    
+                </p>
+                <p><strong>Os yw eich prosiect yn ddigwyddiad sy’n digwydd unwaith yn unig</strong></p>
+                <p>
+                    Gadewch i ni wybod y dyddiad rydych yn bwriadu cynnal y
+                    digwyddiad yn y bocsys dyddiad dechrau a gorffen isod. 
+                </p>`
             }),
             type: 'date-range',
             isRequired: true,
