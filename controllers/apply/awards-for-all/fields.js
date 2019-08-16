@@ -702,22 +702,25 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'How does your project involve your community?',
                 cy: ''
             }),
+            labelDetails: {
+                summary: localise({
+                    en: `What do we mean by community?`,
+                    cy: ``
+                }),
+                content: localise({
+                    en: `<ol>
+                        <li>People living in the same area</li>
+                        <li>People who have similar interests or life experiences,
+                            but might not live in the same area</li>
+                        <li>Even though schools can be at the heart of a
+                            community—we'll only fund schools that also
+                            benefit the communities around them.</li>
+                    </ol>`,
+                    cy: ``
+                })
+            },
             explanation: localise({
-                en: `
-                <details class="o-details u-margin-bottom-s">
-                    <summary class="o-details__summary">What do we mean by community?</summary>
-                    <div class="o-details__content">
-                        <ol>
-                            <li>People living in the same area</li>
-                            <li>People who have similar interests or life experiences,
-                                but might not live in the same area</li>
-                            <li>Even though schools can be at the heart of a
-                                community—we'll only fund schools that also
-                                benefit the communities around them.</li>
-                        </ol>
-                    <div>
-                </details>
-                <p>
+                en: `<p>
                     We believe that people understand what's needed in their
                     communities better than anyone. Tell us how your community 
                     came up with the idea for your project. We want to know how
