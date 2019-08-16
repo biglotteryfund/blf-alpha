@@ -82,7 +82,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function emailField(props, additionalMessages = []) {
         const defaultProps = {
-            label: localise({ en: 'Email', cy: '' }),
+            label: localise({
+                en: 'Email',
+                cy: 'E-bost'
+            }),
             type: 'email',
             attributes: { autocomplete: 'email' },
             isRequired: true,
@@ -94,14 +97,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter an email address',
-                        cy: ''
+                        cy: 'Rhowch gyfeiriad e-bost'
                     })
                 },
                 {
                     type: 'string.email',
                     message: localise({
                         en: `Email address must be in the correct format, like name@example.com`,
-                        cy: ``
+                        cy: `Rhaid i’r cyfeiriad e-bost for yn y ffurf cywir, e.e enw@example.com`
                     })
                 }
             ].concat(additionalMessages)
@@ -123,14 +126,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter a UK telephone number',
-                        cy: ''
+                        cy: 'Rhowch rif ffôn Prydeinig'
                     })
                 },
                 {
                     type: 'string.phonenumber',
                     message: localise({
                         en: 'Enter a real UK telephone number',
-                        cy: ''
+                        cy: 'Rhowch rif ffôn Prydeinig go iawn'
                     })
                 }
             ]
@@ -149,7 +152,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter a full UK address',
-                        cy: ''
+                        cy: 'Rhowch gyfeiriad Prydeinig llawn'
                     })
                 },
                 {
@@ -157,7 +160,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'line1',
                     message: localise({
                         en: 'Enter a building and street',
-                        cy: ''
+                        cy: ' Rhowch adeilad a stryd'
                     })
                 },
                 {
@@ -165,20 +168,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'townCity',
                     message: localise({
                         en: 'Enter a town or city',
-                        cy: ''
+                        cy: 'Rhowch dref neu ddinas'
                     })
                 },
                 {
                     type: 'any.empty',
                     key: 'postcode',
-                    message: localise({ en: 'Enter a postcode', cy: '' })
+                    message: localise({
+                        en: 'Enter a postcode',
+                        cy: 'Rhowch gôd post'
+                    })
                 },
                 {
                     type: 'string.postcode',
                     key: 'postcode',
                     message: localise({
                         en: 'Enter a real postcode',
-                        cy: ''
+                        cy: 'Rhowch gôd post go iawn'
                     })
                 }
             ].concat(additionalMessages)
@@ -209,14 +215,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a full UK address', cy: '' })
+                    message: localise({
+                        en: 'Enter a full UK address',
+                        cy: 'Rhowch gyfeiriad Prydeining llawn'
+                    })
                 },
                 {
                     type: 'any.required',
                     key: 'currentAddressMeetsMinimum',
                     message: localise({
                         en: 'Choose from one of the options provided',
-                        cy: ''
+                        cy: 'Dewiswch o un o’r opsiynau a ddarperir'
                     })
                 },
                 {
@@ -224,28 +233,40 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'line1',
                     message: localise({
                         en: 'Enter a building and street',
-                        cy: ''
+                        cy: 'Rhowch adeilad a stryd'
                     })
                 },
                 {
                     type: 'any.empty',
                     key: 'townCity',
-                    message: localise({ en: 'Enter a town or city', cy: '' })
+                    message: localise({
+                        en: 'Enter a town or city',
+                        cy: 'Rhowch dref neu ddinas'
+                    })
                 },
                 {
                     type: 'any.empty',
                     key: 'county',
-                    message: localise({ en: 'Enter a county', cy: '' })
+                    message: localise({
+                        en: 'Enter a county',
+                        cy: 'Rhowch sir'
+                    })
                 },
                 {
                     type: 'any.empty',
                     key: 'postcode',
-                    message: localise({ en: 'Enter a postcode', cy: '' })
+                    message: localise({
+                        en: 'Enter a postcode',
+                        cy: 'Rhowch gôd post'
+                    })
                 },
                 {
                     type: 'string.postcode',
                     key: 'postcode',
-                    message: localise({ en: 'Enter a real postcode', cy: '' })
+                    message: localise({
+                        en: 'Enter a real postcode',
+                        cy: 'Rhowch gôd post go iawn'
+                    })
                 }
             ]
         };
@@ -263,7 +284,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter first and last name',
-                        cy: ''
+                        cy: 'Rhowch enw cyntaf a chyfenw'
                     })
                 },
                 {
@@ -271,7 +292,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'firstName',
                     message: localise({
                         en: 'Enter first name',
-                        cy: ''
+                        cy: 'Rhowch enw cyntaf'
                     })
                 },
                 {
@@ -279,7 +300,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'lastName',
                     message: localise({
                         en: 'Enter last name',
-                        cy: ''
+                        cy: 'Rhowch gyfenw'
                     })
                 }
             ].concat(additionalMessages)
@@ -291,8 +312,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function dateOfBirthField(minAge, props) {
         const defaultProps = {
             explanation: localise({
-                en: `We need their date of birth to help confirm who they are. And we do check their date of birth. So make sure you've entered it right. If you don't, it could delay your application.`,
-                cy: ''
+                en: oneLine`We need their date of birth to help confirm who they are.
+                    And we do check their date of birth. So make sure you've entered it right.
+                    If you don't, it could delay your application.`,
+                cy: oneLine`Rydym angen eu dyddiad geni i helpu cadarnhau pwy ydynt.
+                    Rydym yn gwirio eu dyddiad geni. Felly sicrhewch eich bod wedi ei roi yn gywir.
+                    Os nad ydych, gall oedi eich cais.`
             }),
             type: 'date',
             attributes: {
@@ -309,24 +334,30 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a date of birth', cy: '' })
+                    message: localise({
+                        en: 'Enter a date of birth',
+                        cy: 'Rhowch ddyddiad geni'
+                    })
                 },
                 {
                     type: 'any.invalid',
-                    message: localise({ en: 'Enter a real date', cy: '' })
+                    message: localise({
+                        en: 'Enter a real date',
+                        cy: 'Rhowch ddyddiad go iawn'
+                    })
                 },
                 {
                     type: 'dateParts.dob',
                     message: localise({
                         en: `Must be at least ${minAge} years old`,
-                        cy: ''
+                        cy: `Rhaid bod yn o leiaf ${minAge} oed`
                     })
                 },
                 {
                     type: 'dateParts.dob.tooOld',
                     message: localise({
-                        en: `Their birth date is not valid - please use four digits, eg. 1986`,
-                        cy: ''
+                        en: `Their birth date is not valid—please use four digits, eg. 1986`,
+                        cy: `Nid yw’r dyddiad geni yn ddilys—defnyddiwch bedwar digid, e.e. 1986`
                     })
                 }
             ]
@@ -346,7 +377,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'projectDateRange',
             label: localise({
                 en: `When would you like to start and end your project?`,
-                cy: ``
+                cy: `Pryd yr hoffech ddechrau a gorffen eich prosiect?`
             }),
             settings: {
                 minYear: minDate.format('YYYY')
@@ -370,7 +401,27 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     Just let us know the date you plan to hold the event
                     in the start and end date boxes below.
                 </p>`,
-                cy: ''
+
+                cy: `<p>
+                    Os nad ydych yn gwybod yn union, gall eich dyddiadau fod yn amcangyfrifon.
+                    Ond mae angen i chi ddechrau eich prosiect wedi 
+                    ${minDate.format('DD/MM/YYYY')}.
+                </p>
+                <p>
+                    Fel arfer, dim ond prosiectau sy’n para 
+                    ${localise(
+                        MAX_PROJECT_DURATION.label
+                    )} neu lai rydym yn eu hariannu.
+                    Felly, ni all y dyddiad gorffen fod yn hwyrach na 
+                    ${localise(
+                        MAX_PROJECT_DURATION.label
+                    )} wedi’r dyddiad cychwyn.    
+                </p>
+                <p><strong>Os yw eich prosiect yn ddigwyddiad sy’n digwydd unwaith yn unig</strong></p>
+                <p>
+                    Gadewch i ni wybod y dyddiad rydych yn bwriadu cynnal y
+                    digwyddiad yn y bocsys dyddiad dechrau a gorffen isod. 
+                </p>`
             }),
             type: 'date-range',
             isRequired: true,
@@ -385,34 +436,34 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter a project start and end date',
-                        cy: ''
+                        cy: 'Rhowch ddyddiad dechrau a gorffen y prosiect'
                     })
                 },
                 {
                     type: 'dateRange.both.invalid',
                     message: localise({
                         en: `Project start and end dates must be real dates`,
-                        cy: ''
+                        cy: `Rhaid i ddyddiadau dechrau a gorffen y prosiect fod yn rhai go iawn`
                     })
                 },
                 {
                     type: 'datesRange.startDate.invalid',
                     message: localise({
                         en: `Date you start the project must be a real date`,
-                        cy: ''
+                        cy: `Rhaid i ddyddiad dechrau’r prosiect fod yn un go iawn`
                     })
                 },
                 {
                     type: 'dateRange.endDate.invalid',
                     message: localise({
                         en: 'Date you end the project must be a real date',
-                        cy: ''
+                        cy: `Rhaid i ddyddiad gorffen y prosiect fod yn un go iawn`
                     })
                 },
                 {
                     type: 'dateRange.minDate.invalid',
                     message: localise({
-                        en: oneLine`Date you start the project must be after
+                        en: oneLine`
                             ${minDateAfter.format('D MMMM YYYY')}`,
                         cy: ''
                     })
@@ -431,7 +482,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'dateRange.endDate.beforeStartDate',
                     message: localise({
                         en: `Date you end the project must be after the start date`,
-                        cy: ''
+                        cy: `Rhaid i ddyddiad gorffen y prosiect fod ar ôl y dyddiad dechrau`
                     })
                 }
             ]
@@ -439,11 +490,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldProjectCountry() {
+        const options = countriesFor({
+            locale: locale,
+            allowedCountries: config.get('awardsForAll.allowedCountries')
+        });
+
+        const activeOptions = options.filter(
+            option => has(option, 'attributes.disabled') === false
+        );
+
         return {
             name: 'projectCountry',
             label: localise({
-                en: 'What country will your project be based in?',
-                cy: ''
+                en: `What country will your project be based in?`,
+                cy: `Pa wlad fydd eich prosiect wedi’i leoli?`
             }),
             explanation: localise({
                 en: oneLine`We work slightly differently depending on which
@@ -452,23 +512,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             }),
             type: 'radio',
-            options: countriesFor({
-                locale: locale,
-                allowedCountries: config.get('awardsForAll.allowedCountries')
-            }),
+            options: options,
             isRequired: true,
-            get schema() {
-                const allowedOptions = this.options.filter(function(option) {
-                    return has(option, 'attributes.disabled') === false;
-                });
-                return Joi.string()
-                    .valid(allowedOptions.map(option => option.value))
-                    .required();
-            },
+            schema: Joi.string()
+                .valid(activeOptions.map(option => option.value))
+                .required(),
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Select a country', cy: '' })
+                    message: localise({
+                        en: 'Select a country',
+                        cy: 'Dewiswch wlad'
+                    })
                 }
             ]
         };
@@ -481,8 +536,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return {
             name: 'yourIdeaProject',
             label: localise({
-                en: 'What would you like to do?',
-                cy: ''
+                en: `What would you like to do?`,
+                cy: `Beth yr hoffech ei wneud?`
             }),
             explanation: localise({
                 en: `<p><strong>
@@ -503,7 +558,28 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     You can write up to ${maxWords} words for this section,
                     but don't worry if you use less.
                 </strong></p>`,
-                cy: ''
+
+                cy: `<p><strong>
+                    Dyma rhai syniadau o’r hyn i ddweud wrthym am eich prosiect:
+                </strong></p>
+                <ul>
+                    <li>Beth y hoffech ei wneud?</li>
+                    <li>Pa wahaniaeth bydd eich prosiect yn ei wneud?</li>
+                    <li>Pwy fydd yn cael budd ohono?</li>
+                    <li>Am ba mor hir rydych yn disgwyl ei gynnal?
+                        Gall hyn fod yn amcangyfrif.</li> 
+                    <li>Sut y byddwch yn sicrhau fod pobl yn gwybod amdano?</li>
+                    <li>Sut rydych yn bwriadu dysgu ohono a defnyddio’r dysg hwn
+                        i siapio prosiectau yn y dyfodol?</li>
+                    <li>A yw’n rhywbeth newydd, neu ydych yn parhau â rhywbeth
+                        sydd wedi gweithio’n dda yn flaenorol? Rydym eisiau
+                        ariannu’r ddau fath o brosiectau.</li>
+
+                </ul>
+                <p><strong>
+                    Gallwch ysgrifennu hyd at ${maxWords} gair i’r adran hon,
+                    ond mae modd ysgrifennu llai.
+                </strong></p>`
             }),
             type: 'textarea',
             settings: {
@@ -523,21 +599,21 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Tell us about your project',
-                        cy: ''
+                        cy: 'Dywedwch wrthym am eich prosiect'
                     })
                 },
                 {
                     type: 'string.minWords',
                     message: localise({
                         en: `Answer must be at least ${minWords} words`,
-                        cy: ''
+                        cy: `Rhaid i’r ateb fod yn o leiaf ${minWords} gair`
                     })
                 },
                 {
                     type: 'string.maxWords',
                     message: localise({
                         en: `Answer must be no more than ${maxWords} words`,
-                        cy: ''
+                        cy: `Rhaid i’r ateb fod yn llai na ${maxWords} gair`
                     })
                 }
             ]
@@ -626,22 +702,25 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'How does your project involve your community?',
                 cy: ''
             }),
+            labelDetails: {
+                summary: localise({
+                    en: `What do we mean by community?`,
+                    cy: ``
+                }),
+                content: localise({
+                    en: `<ol>
+                        <li>People living in the same area</li>
+                        <li>People who have similar interests or life experiences,
+                            but might not live in the same area</li>
+                        <li>Even though schools can be at the heart of a
+                            community—we'll only fund schools that also
+                            benefit the communities around them.</li>
+                    </ol>`,
+                    cy: ``
+                })
+            },
             explanation: localise({
-                en: `
-                <details class="o-details u-margin-bottom-s">
-                    <summary class="o-details__summary">What do we mean by community?</summary>
-                    <div class="o-details__content">
-                        <ol>
-                            <li>People living in the same area</li>
-                            <li>People who have similar interests or life experiences,
-                                but might not live in the same area</li>
-                            <li>Even though schools can be at the heart of a
-                                community—we'll only fund schools that also
-                                benefit the communities around them.</li>
-                        </ol>
-                    <div>
-                </details>
-                <p>
+                en: `<p>
                     We believe that people understand what's needed in their
                     communities better than anyone. Tell us how your community 
                     came up with the idea for your project. We want to know how

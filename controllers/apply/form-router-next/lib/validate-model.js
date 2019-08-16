@@ -6,6 +6,7 @@ module.exports = function validateModel(formModel) {
         name: Joi.string().required(),
         label: Joi.string().required(),
         labelExisting: Joi.string().optional(),
+        labelDetails: Joi.object().optional(),
         explanation: Joi.string().optional(),
         type: Joi.string()
             .valid([

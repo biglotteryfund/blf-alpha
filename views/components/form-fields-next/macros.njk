@@ -1,4 +1,5 @@
 {% from "components/icons.njk" import iconBin %}
+{% from "components/details/macro.njk" import details %}
 
 {% macro formErrors(title, errors) %}
     {% if errors.length > 0 %}
@@ -200,6 +201,13 @@
     <label class="ff-label" for="field-{{ field.name }}">
         {{ labelFor(field) }}
     </label>
+
+    {% if field.labelDetails %}
+        {% call details(field.labelDetails.summary, extraClasses = 'ff-help s-prose') %}
+            {{ field.labelDetails.content | safe }}
+        {% endcall %}
+    {% endif %}
+
     {{ explanationFor(field) }}
     <textarea class="ff-textarea"
         id="field-{{ field.name }}"
