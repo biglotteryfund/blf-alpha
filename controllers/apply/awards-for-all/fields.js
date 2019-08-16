@@ -463,7 +463,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'dateRange.minDate.invalid',
                     message: localise({
-                        en: oneLine`
+                        en: oneLine`Date you start the project must be after
                             ${minDateAfter.format('D MMMM YYYY')}`,
                         cy: ''
                     })
