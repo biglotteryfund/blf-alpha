@@ -1,11 +1,5 @@
 {
   "logLevel": "debug",
-  "clamdscan": {
-    "socket": "/var/run/clamav/clamd.ctl",
-    "timeout": 120000,
-    "path": "/var/lib/clamav",
-    "config_file": "/etc/clamav/clamd.conf"
-  },
   "domains": {
     "base": "http://localhost:3000"
   },

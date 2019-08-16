@@ -7,7 +7,7 @@ const keyBy = require('lodash/keyBy');
 const mapValues = require('lodash/mapValues');
 const NodeClam = require('clamscan');
 
-const { isTestServer } = require('../../../../common/appData');
+const { isTestServer, isDev } = require('../../../../common/appData');
 const { S3_KMS_KEY_ID } = require('../../../../common/secrets');
 const logger = require('../../../../common/logger').child({
     service: 's3-uploads'
@@ -21,18 +21,14 @@ const s3 = new AWS.S3({
 });
 
 const ClamScan = new NodeClam().init({
-    debug_mode: false,
+    debug_mode: isDev,
     scan_recursively: false,
     clamdscan: {
-        socket: config.get('clamdscan.socket'),
-        timeout: config.get('clamdscan.timeout'),
+        socket: process.env.CLAMDSCAN_SOCKET || config.get('clamdscan.socket'),
+        timeout: parseInt(process.env.CLAMDSCAN_TIMEOUT) || config.get('clamdscan.timeout'),
         local_fallback: true,
-        path: config.get('clamdscan.path'),
-        config_file: config.get('clamdscan.config_file'),
-        multiscan: false,
-        reload_db: true,
-        active: false,
-        bypass_test: true,
+        path: process.env.CLAMDSCAN_PATH || config.get('clamdscan.path'),
+        config_file: process.env.CLAMDSCAN_CONFIG_FILE || config.get('clamdscan.config_file')
     },
 });
 
@@ -126,9 +122,7 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
     });
 }
 
-function checkAntiVirusClamD(formId, applicationId, fileMetadata) {
-    const keyName = [formId, applicationId, fileMetadata.fileData.name].join('/');
-
+function checkAntiVirusClamD(fileMetadata) {
     return ClamScan.then(async clamscan => {
         const {
             is_infected,
@@ -136,13 +130,13 @@ function checkAntiVirusClamD(formId, applicationId, fileMetadata) {
         } = await clamscan.scan_file(fileMetadata.fileData.path);
 
         if (is_infected) {
-            logger.error(`${keyName} is infected with ${viruses}`);
+            logger.error(`${fileMetadata.fileData.name} is infected with ${viruses}`);
             throw new Error('ERR_FILE_SCAN_INFECTED');
         } else {
             return { Key: 'av-status', Value: 'CLEAN' };
         }
     }).catch(err => {
-        logger.error(`Attempted read of unscanned file at ${keyName} - ${err.message}`);
+        logger.error(`Attempted read of unscanned file at ${fileMetadata.fileData.name}`, err);
         throw new Error('ERR_FILE_SCAN_UNKNOWN');
     });
 }
