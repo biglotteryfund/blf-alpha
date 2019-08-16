@@ -240,9 +240,12 @@ module.exports = function(formId, formBuilder) {
                                 param: rejection.fieldName
                             };
 
-                            return renderStep(req, res, dataToStore, [
-                                uploadError
-                            ]);
+                            return renderStep(
+                                req,
+                                res,
+                                validationResult.value,
+                                [uploadError]
+                            );
                         }
                     } else {
                         res.redirect(nextPage.url);

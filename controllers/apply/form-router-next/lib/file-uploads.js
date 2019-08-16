@@ -7,7 +7,7 @@ const keyBy = require('lodash/keyBy');
 const mapValues = require('lodash/mapValues');
 const NodeClam = require('clamscan');
 
-const { isTestServer } = require('../../../../common/appData');
+const { isTestServer, isDev } = require('../../../../common/appData');
 const { S3_KMS_KEY_ID } = require('../../../../common/secrets');
 const logger = require('../../../../common/logger').child({
     service: 'file-uploads'
@@ -119,13 +119,12 @@ async function scanFile(filePath) {
         local_fallback: true,
         path: process.env.CLAMDSCAN_PATH || config.get('clamdscan.path'),
         config_file:
-            process.env.CLAMDSCAN_CONFIG || config.get('clamdscan.config_file'),
-        multiscan: false,
-        reload_db: true
+            process.env.CLAMDSCAN_CONFIG_FILE ||
+            config.get('clamdscan.config_file')
     };
 
     const clamscan = await new NodeClam().init({
-        debug_mode: false,
+        debug_mode: isDev,
         scan_recursively: false,
         clamdscan: clamdscanConfig
     });
