@@ -79,7 +79,7 @@ ${fileErrorMessage}
     return {
         title: localise({
             en: `Your application has been submitted. Good luck!`,
-            cy: ``
+            cy: `Mae eich cais wedi’i gyflwyno. Pob lwc!`
         }),
         body: localise({
             en: enConfirmationBody(),
