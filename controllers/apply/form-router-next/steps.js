@@ -5,17 +5,11 @@ const findIndex = require('lodash/findIndex');
 const includes = require('lodash/includes');
 const omit = require('lodash/omit');
 const Sentry = require('@sentry/node');
-const config = require('config');
 
 const logger = require('../../../common/logger');
 const { sanitiseRequestBody } = require('../../../common/sanitise');
 const { PendingApplication } = require('../../../db/models');
-const { isTestServer } = require('../../../common/appData');
-const {
-    prepareFilesForUpload,
-    uploadFile,
-    checkAntiVirusClamD
-} = require('./lib/file-uploads');
+const { prepareFilesForUpload, scanAndUpload } = require('./lib/file-uploads');
 
 module.exports = function(formId, formBuilder) {
     const router = express.Router();
@@ -224,38 +218,12 @@ module.exports = function(formId, formBuilder) {
                     if (preparedFiles.filesToUpload.length > 0) {
                         try {
                             await Promise.all(
-                                preparedFiles.filesToUpload.map(async file => {
-                                    if (
-                                        config.get(
-                                            'features.enableLocalAntivirus'
-                                        ) &&
-                                        !isTestServer
-                                    ) {
-                                        const avStatus = await checkAntiVirusClamD(
-                                            file.fileData.path
-                                        );
-
-                                        if (avStatus.Value === 'CLEAN') {
-                                            uploadFile({
-                                                formId: formId,
-                                                applicationId: currentlyEditingId,
-                                                fileMetadata: file
-                                            });
-                                        } else {
-                                            logger.error(
-                                                'File upload skipped',
-                                                {
-                                                    reason: avStatus
-                                                }
-                                            );
-                                        }
-                                    } else {
-                                        uploadFile({
-                                            formId: formId,
-                                            applicationId: currentlyEditingId,
-                                            fileMetadata: file
-                                        });
-                                    }
+                                preparedFiles.filesToUpload.map(file => {
+                                    return scanAndUpload({
+                                        formId: formId,
+                                        applicationId: currentlyEditingId,
+                                        fileMetadata: file
+                                    });
                                 })
                             );
                             res.redirect(nextPage.url);
@@ -272,12 +240,9 @@ module.exports = function(formId, formBuilder) {
                                 param: rejection.fieldName
                             };
 
-                            return renderStep(
-                                req,
-                                res,
-                                validationResult.value,
-                                [uploadError]
-                            );
+                            return renderStep(req, res, dataToStore, [
+                                uploadError
+                            ]);
                         }
                     } else {
                         res.redirect(nextPage.url);

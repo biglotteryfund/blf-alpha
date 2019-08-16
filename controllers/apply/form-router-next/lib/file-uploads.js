@@ -10,7 +10,7 @@ const NodeClam = require('clamscan');
 const { isTestServer } = require('../../../../common/appData');
 const { S3_KMS_KEY_ID } = require('../../../../common/secrets');
 const logger = require('../../../../common/logger').child({
-    service: 's3-uploads'
+    service: 'file-uploads'
 });
 
 const S3_UPLOAD_BUCKET = config.get('aws.s3.formUploadBucket');
@@ -110,41 +110,35 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
     });
 }
 
-function checkAntiVirusClamD(filePath) {
-    const clamscan = new NodeClam().init({
+async function scanFile(filePath) {
+    logger.info(`Attempting virus scan for ${filePath}`);
+
+    const clamdscanConfig = {
+        socket: process.env.CLAMDSCAN_SOCKET || config.get('clamdscan.socket'),
+        timeout: config.get('clamdscan.timeout'),
+        local_fallback: true,
+        path: process.env.CLAMDSCAN_PATH || config.get('clamdscan.path'),
+        config_file:
+            process.env.CLAMDSCAN_CONFIG || config.get('clamdscan.config_file'),
+        multiscan: false,
+        reload_db: true
+    };
+
+    const clamscan = await new NodeClam().init({
         debug_mode: false,
         scan_recursively: false,
-        clamdscan: {
-            socket:
-                process.env.CLAMDSCAN_SOCKET || config.get('clamdscan.socket'),
-            timeout: config.get('clamdscan.timeout'),
-            local_fallback: true,
-            path: process.env.CLAMDSCAN_PATH || config.get('clamdscan.path'),
-            config_file:
-                process.env.CLAMDSCAN_CONFIG ||
-                config.get('clamdscan.config_file'),
-            multiscan: false,
-            reload_db: true
-        }
+        clamdscan: clamdscanConfig
     });
 
-    return clamscan
-        .then(async clamscan => {
-            const { is_infected, viruses } = await clamscan.scan_file(filePath);
+    const { is_infected, viruses } = await clamscan.scan_file(filePath);
 
-            if (is_infected) {
-                logger.error(`${keyName} is infected with ${viruses}`);
-                throw new Error('ERR_FILE_SCAN_INFECTED');
-            } else {
-                return { Key: 'av-status', Value: 'CLEAN' };
-            }
-        })
-        .catch(err => {
-            logger.error(
-                `Attempted read of unscanned file at ${keyName} - ${err.message}`
-            );
-            throw new Error('ERR_FILE_SCAN_UNKNOWN');
-        });
+    if (is_infected) {
+        logger.error(`Virus scan failed, file INFECTED`, { filePath, viruses });
+    } else {
+        logger.info(`Virus scan OK`, { filePath });
+    }
+
+    return { is_infected, viruses };
 }
 
 function checkAntiVirus({ formId, applicationId, filename }) {
@@ -170,6 +164,27 @@ function checkAntiVirus({ formId, applicationId, filename }) {
                 throw new Error('ERR_FILE_SCAN_UNKNOWN');
             }
         });
+}
+
+function scanAndUpload({ formId, applicationId, fileMetadata }) {
+    function shouldScan() {
+        return (
+            config.get('features.enableLocalAntivirus') &&
+            isTestServer === false
+        );
+    }
+
+    if (shouldScan()) {
+        return scanFile(fileMetadata.fileData.path).then(status => {
+            if (status.is_infected) {
+                throw new Error('Infected file found');
+            } else {
+                return uploadFile({ formId, applicationId, fileMetadata });
+            }
+        });
+    } else {
+        return uploadFile({ formId, applicationId, fileMetadata });
+    }
 }
 
 function getObject({ formId, applicationId, filename }) {
@@ -208,9 +223,8 @@ function buildMultipartData(pathConfig) {
 
 module.exports = {
     prepareFilesForUpload,
-    uploadFile,
     getObject,
     buildMultipartData,
     checkAntiVirus,
-    checkAntiVirusClamD
+    scanAndUpload
 };
