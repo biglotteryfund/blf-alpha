@@ -44,11 +44,11 @@ module.exports = function fieldYourIdeaPriorities(locale) {
                 <li>Gwella’r ardaloedd a gofodau sy’n bwysig i gymunedau</li>
                 <li>Helpu mwy o bobl i gyflawni eu potensial drwy eu cefnogi ar y cam cyntaf posib.</li>
             </ol>
-            <p>You can tell us if your project meets more than one priority,
-               but don't worry if it doesn't.</p>
+            <p>Gallwch ddweud wrthym os yw eich prosiect yn cwrdd â mwy nag un
+               flaenoriaeth, ond peidiwch â phoeni os na fydd.</p>
             <p><strong>
-                You can write up to ${maxWords} words for this section,
-                but don't worry if you use less.
+                Gallwch ysgrifennu hyd at ${maxWords} gair i’r adran hon, ond
+                peidiwch â phoeni os byddwch yn defnyddio llai. 
             </strong></p>`
         }),
         type: 'textarea',
@@ -71,21 +71,21 @@ module.exports = function fieldYourIdeaPriorities(locale) {
                 type: 'base',
                 message: localise({
                     en: `Tell us how your project meets at least one of our funding priorities`,
-                    cy: ``
+                    cy: `Dywedwch wrthym sut mae eich prosiect yn cwrdd ag o leiaf un o’n blaenoriaethau ariannu`
                 })
             },
             {
                 type: 'string.minWords',
                 message: localise({
                     en: `Answer must be at least ${minWords} words`,
-                    cy: ''
+                    cy: `Rhaid i’r ateb fod yn o leiaf ${minWords} gair`
                 })
             },
             {
                 type: 'string.maxWords',
                 message: localise({
                     en: `Answer must be no more than ${maxWords} words`,
-                    cy: ''
+                    cy: `Rhaid i’r ateb fod yn llai na ${maxWords} gair`
                 })
             }
         ]

@@ -17,7 +17,7 @@ module.exports = function fieldYourIdeaCommunity(locale) {
         labelDetails: {
             summary: localise({
                 en: `What do we mean by community?`,
-                cy: ``
+                cy: `Beth rydym yn ei olygu drwy gymuned?`
             }),
             content: localise({
                 en: `<ol>
@@ -28,7 +28,14 @@ module.exports = function fieldYourIdeaCommunity(locale) {
                         community—we'll only fund schools that also
                         benefit the communities around them.</li>
                 </ol>`,
-                cy: ``
+                cy: `<ol>
+                    <li>Pobl yn byw yn yr un ardal</li>
+                    <li>Pobl sydd â diddordebau neu brofiadau bywyd tebyg,
+                        ond efallai ddim yn byw yn yr un ardal</li>
+                    <li>Er gall ysgolion fod wrth wraidd cymuned—byddwn dim ond yn
+                        ariannu ysgolion sydd hefyd yn rhoi budd i gymunedau o’u cwmpas.
+                    </li>
+                </ol>`
             })
         },
         explanation: localise({
@@ -51,7 +58,25 @@ module.exports = function fieldYourIdeaCommunity(locale) {
                 You can write up to ${maxWords} words for this section,
                 but don't worry if you use less.
             </strong></p>`,
-            cy: ''
+            cy: `<p>
+                Rydym o’r gred fod pobl yn gwybod yr hyn sydd ei angen yn eu
+                cymunedau yn well nag unrhyw un. Dywedwch wrthym sut feddyliodd
+                eich cymuned am y syniad i’ch prosiect. Rydym eisiau gwybod
+                faint o bobl rydych wedi siarad â nhw, a sut y byddant yn cael
+                eu cynnwys yn y datblygiad a’r ddarpariaeth o’r prosiect.
+            </p>
+            <p><strong>Dyma rhai enghreifftiau o sut gallwch fod yn cynnwys eich cymunedau:</strong></p>
+            <ul>
+                <li>Cael sgyrsiau rheolaidd ag aelodau’r gymuned, naill ai mewn person neu gyfryngau cymdeithasol</li>
+                <li>Cynnwys aelodau cymunedol ar eich bwrdd neu bwyllgor</li>
+                <li>Arolygon rheolaidd</li>
+                <li>Sefydlu grwpiau llywio</li>
+                <li>Cynnal diwrnodau agored</li>
+            </ul>
+            <p><strong>
+                Gallwch ysgrifennu hyd at ${maxWords} gair i’r adran hon,
+                ond peidiwch â poeni os byddwch yn defnyddio llai.
+            </strong></p>`
         }),
         type: 'textarea',
         settings: {
@@ -71,21 +96,21 @@ module.exports = function fieldYourIdeaCommunity(locale) {
                 type: 'base',
                 message: localise({
                     en: `Tell us how your project involves your community`,
-                    cy: ``
+                    cy: `Dywedwch wrthym sut mae eich prosiect yn cynnwys eich cymuned`
                 })
             },
             {
                 type: 'string.minWords',
                 message: localise({
                     en: `Answer must be at least ${minWords} words`,
-                    cy: ''
+                    cy: `Rhaid i’r ateb fod yn o leiaf ${minWords} gair`
                 })
             },
             {
                 type: 'string.maxWords',
                 message: localise({
                     en: `Answer must be no more than ${maxWords} words`,
-                    cy: ''
+                    cy: `Rhaid i’r ateb fod yn llai na ${maxWords} gair`
                 })
             }
         ]
