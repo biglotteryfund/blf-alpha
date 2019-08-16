@@ -490,11 +490,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldProjectCountry() {
+        const options = countriesFor({
+            locale: locale,
+            allowedCountries: config.get('awardsForAll.allowedCountries')
+        });
+
+        const activeOptions = options.filter(
+            option => has(option, 'attributes.disabled') === false
+        );
+
         return {
             name: 'projectCountry',
             label: localise({
-                en: 'What country will your project be based in?',
-                cy: ''
+                en: `What country will your project be based in?`,
+                cy: `Pa wlad fydd eich prosiect wedi’i leoli?`
             }),
             explanation: localise({
                 en: oneLine`We work slightly differently depending on which
@@ -503,23 +512,18 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ''
             }),
             type: 'radio',
-            options: countriesFor({
-                locale: locale,
-                allowedCountries: config.get('awardsForAll.allowedCountries')
-            }),
+            options: options,
             isRequired: true,
-            get schema() {
-                const allowedOptions = this.options.filter(function(option) {
-                    return has(option, 'attributes.disabled') === false;
-                });
-                return Joi.string()
-                    .valid(allowedOptions.map(option => option.value))
-                    .required();
-            },
+            schema: Joi.string()
+                .valid(activeOptions.map(option => option.value))
+                .required(),
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Select a country', cy: '' })
+                    message: localise({
+                        en: 'Select a country',
+                        cy: 'Dewiswch wlad'
+                    })
                 }
             ]
         };
