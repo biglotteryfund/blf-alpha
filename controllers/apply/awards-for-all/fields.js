@@ -436,34 +436,34 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter a project start and end date',
-                        cy: ''
+                        cy: 'Rhowch ddyddiad dechrau a gorffen y prosiect'
                     })
                 },
                 {
                     type: 'dateRange.both.invalid',
                     message: localise({
                         en: `Project start and end dates must be real dates`,
-                        cy: ''
+                        cy: `Rhaid i ddyddiadau dechrau a gorffen y prosiect fod yn rhai go iawn`
                     })
                 },
                 {
                     type: 'datesRange.startDate.invalid',
                     message: localise({
                         en: `Date you start the project must be a real date`,
-                        cy: ''
+                        cy: `Rhaid i ddyddiad dechrau’r prosiect fod yn un go iawn`
                     })
                 },
                 {
                     type: 'dateRange.endDate.invalid',
                     message: localise({
                         en: 'Date you end the project must be a real date',
-                        cy: ''
+                        cy: `Rhaid i ddyddiad gorffen y prosiect fod yn un go iawn`
                     })
                 },
                 {
                     type: 'dateRange.minDate.invalid',
                     message: localise({
-                        en: oneLine`Date you start the project must be after
+                        en: oneLine`
                             ${minDateAfter.format('D MMMM YYYY')}`,
                         cy: ''
                     })
@@ -482,7 +482,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'dateRange.endDate.beforeStartDate',
                     message: localise({
                         en: `Date you end the project must be after the start date`,
-                        cy: ''
+                        cy: `Rhaid i ddyddiad gorffen y prosiect fod ar ôl y dyddiad dechrau`
                     })
                 }
             ]
