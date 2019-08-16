@@ -82,7 +82,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function emailField(props, additionalMessages = []) {
         const defaultProps = {
-            label: localise({ en: 'Email', cy: '' }),
+            label: localise({
+                en: 'Email',
+                cy: 'E-bost'
+            }),
             type: 'email',
             attributes: { autocomplete: 'email' },
             isRequired: true,
@@ -94,14 +97,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter an email address',
-                        cy: ''
+                        cy: 'Rhowch gyfeiriad e-bost'
                     })
                 },
                 {
                     type: 'string.email',
                     message: localise({
                         en: `Email address must be in the correct format, like name@example.com`,
-                        cy: ``
+                        cy: `Rhaid i’r cyfeiriad e-bost for yn y ffurf cywir, e.e enw@example.com`
                     })
                 }
             ].concat(additionalMessages)
@@ -123,14 +126,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter a UK telephone number',
-                        cy: ''
+                        cy: 'Rhowch rif ffôn Prydeinig'
                     })
                 },
                 {
                     type: 'string.phonenumber',
                     message: localise({
                         en: 'Enter a real UK telephone number',
-                        cy: ''
+                        cy: 'Rhowch rif ffôn Prydeinig go iawn'
                     })
                 }
             ]
@@ -149,7 +152,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter a full UK address',
-                        cy: ''
+                        cy: 'Rhowch gyfeiriad Prydeinig llawn'
                     })
                 },
                 {
@@ -157,7 +160,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'line1',
                     message: localise({
                         en: 'Enter a building and street',
-                        cy: ''
+                        cy: ' Rhowch adeilad a stryd'
                     })
                 },
                 {
@@ -165,20 +168,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'townCity',
                     message: localise({
                         en: 'Enter a town or city',
-                        cy: ''
+                        cy: 'Rhowch dref neu ddinas'
                     })
                 },
                 {
                     type: 'any.empty',
                     key: 'postcode',
-                    message: localise({ en: 'Enter a postcode', cy: '' })
+                    message: localise({
+                        en: 'Enter a postcode',
+                        cy: 'Rhowch gôd post'
+                    })
                 },
                 {
                     type: 'string.postcode',
                     key: 'postcode',
                     message: localise({
                         en: 'Enter a real postcode',
-                        cy: ''
+                        cy: 'Rhowch gôd post go iawn'
                     })
                 }
             ].concat(additionalMessages)
@@ -209,14 +215,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a full UK address', cy: '' })
+                    message: localise({
+                        en: 'Enter a full UK address',
+                        cy: 'Rhowch gyfeiriad Prydeining llawn'
+                    })
                 },
                 {
                     type: 'any.required',
                     key: 'currentAddressMeetsMinimum',
                     message: localise({
                         en: 'Choose from one of the options provided',
-                        cy: ''
+                        cy: 'Dewiswch o un o’r opsiynau a ddarperir'
                     })
                 },
                 {
@@ -224,28 +233,40 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'line1',
                     message: localise({
                         en: 'Enter a building and street',
-                        cy: ''
+                        cy: 'Rhowch adeilad a stryd'
                     })
                 },
                 {
                     type: 'any.empty',
                     key: 'townCity',
-                    message: localise({ en: 'Enter a town or city', cy: '' })
+                    message: localise({
+                        en: 'Enter a town or city',
+                        cy: 'Rhowch dref neu ddinas'
+                    })
                 },
                 {
                     type: 'any.empty',
                     key: 'county',
-                    message: localise({ en: 'Enter a county', cy: '' })
+                    message: localise({
+                        en: 'Enter a county',
+                        cy: 'Rhowch sir'
+                    })
                 },
                 {
                     type: 'any.empty',
                     key: 'postcode',
-                    message: localise({ en: 'Enter a postcode', cy: '' })
+                    message: localise({
+                        en: 'Enter a postcode',
+                        cy: 'Rhowch gôd post'
+                    })
                 },
                 {
                     type: 'string.postcode',
                     key: 'postcode',
-                    message: localise({ en: 'Enter a real postcode', cy: '' })
+                    message: localise({
+                        en: 'Enter a real postcode',
+                        cy: 'Rhowch gôd post go iawn'
+                    })
                 }
             ]
         };
@@ -263,7 +284,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter first and last name',
-                        cy: ''
+                        cy: 'Rhowch enw cyntaf a chyfenw'
                     })
                 },
                 {
@@ -271,7 +292,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'firstName',
                     message: localise({
                         en: 'Enter first name',
-                        cy: ''
+                        cy: 'Rhowch enw cyntaf'
                     })
                 },
                 {
@@ -279,7 +300,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'lastName',
                     message: localise({
                         en: 'Enter last name',
-                        cy: ''
+                        cy: 'Rhowch gyfenw'
                     })
                 }
             ].concat(additionalMessages)
@@ -291,8 +312,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function dateOfBirthField(minAge, props) {
         const defaultProps = {
             explanation: localise({
-                en: `We need their date of birth to help confirm who they are. And we do check their date of birth. So make sure you've entered it right. If you don't, it could delay your application.`,
-                cy: ''
+                en: oneLine`We need their date of birth to help confirm who they are.
+                    And we do check their date of birth. So make sure you've entered it right.
+                    If you don't, it could delay your application.`,
+                cy: oneLine`Rydym angen eu dyddiad geni i helpu cadarnhau pwy ydynt.
+                    Rydym yn gwirio eu dyddiad geni. Felly sicrhewch eich bod wedi ei roi yn gywir.
+                    Os nad ydych, gall oedi eich cais.`
             }),
             type: 'date',
             attributes: {
@@ -309,24 +334,30 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a date of birth', cy: '' })
+                    message: localise({
+                        en: 'Enter a date of birth',
+                        cy: 'Rhowch ddyddiad geni'
+                    })
                 },
                 {
                     type: 'any.invalid',
-                    message: localise({ en: 'Enter a real date', cy: '' })
+                    message: localise({
+                        en: 'Enter a real date',
+                        cy: 'Rhowch ddyddiad go iawn'
+                    })
                 },
                 {
                     type: 'dateParts.dob',
                     message: localise({
                         en: `Must be at least ${minAge} years old`,
-                        cy: ''
+                        cy: `Rhaid bod yn o leiaf ${minAge} oed`
                     })
                 },
                 {
                     type: 'dateParts.dob.tooOld',
                     message: localise({
-                        en: `Their birth date is not valid - please use four digits, eg. 1986`,
-                        cy: ''
+                        en: `Their birth date is not valid—please use four digits, eg. 1986`,
+                        cy: `Nid yw’r dyddiad geni yn ddilys—defnyddiwch bedwar digid, e.e. 1986`
                     })
                 }
             ]
