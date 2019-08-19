@@ -2093,52 +2093,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 ];
             }
         },
-        mainContactName: nameField(
-            {
-                name: 'mainContactName',
-                label: localise({ en: 'Full name of main contact', cy: '' }),
-                explanation: localise({
-                    en: 'This person has to live in the UK.',
-                    cy: ''
-                }),
-                get warnings() {
-                    let result = [];
-
-                    const seniorSurname = get('seniorContactName.lastName')(
-                        data
-                    );
-
-                    const lastNamesMatch =
-                        seniorSurname &&
-                        seniorSurname === get('mainContactName.lastName')(data);
-
-                    if (lastNamesMatch) {
-                        result.push(
-                            localise({
-                                en: `<span class="js-form-warning-surname">We've noticed that your main and senior contact
-                                     have the same surname. Remember we can't fund projects
-                                     where the two contacts are married or related by blood.</span>`,
-                                cy: ``
-                            })
-                        );
-                    }
-
-                    return result;
-                },
-                schema: Joi.fullName()
-                    .mainContact()
-                    .required()
-            },
-            [
-                {
-                    type: 'name.matchesOther',
-                    message: localise({
-                        en: `Main contact name must be different from the senior contact's name`,
-                        cy: ``
-                    })
-                }
-            ]
-        ),
         mainContactDateOfBirth: dateOfBirthField(MIN_AGE_MAIN_CONTACT, {
             name: 'mainContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: '' })
