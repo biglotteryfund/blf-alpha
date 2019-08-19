@@ -31,13 +31,16 @@ const showContactConfirmationQuestion = config.get(
 
 const countriesFor = require('./lib/countries');
 const locationsFor = require('./lib/locations');
-const rolesFor = require('./lib/roles');
+const fieldYourIdeaProject = require('./fields/your-idea-project');
+const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
+const fieldYourIdeaCommunity = require('./fields/your-idea-community');
+const fieldOrganisationType = require('./fields/organisation-type');
+const fieldSeniorContactRole = require('./fields/senior-contact-role');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
 
     const currentOrganisationType = get('organisationType')(data);
-    const currentOrganisationSubType = get('organisationSubType')(data);
 
     function multiChoice(options) {
         return Joi.array()
@@ -463,7 +466,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'dateRange.minDate.invalid',
                     message: localise({
-                        en: oneLine`
+                        en: oneLine`Date you start the project must be after
                             ${minDateAfter.format('D MMMM YYYY')}`,
                         cy: ''
                     })
@@ -529,372 +532,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
     }
 
-    function fieldYourIdeaProject() {
-        const minWords = 50;
-        const maxWords = 300;
-
-        return {
-            name: 'yourIdeaProject',
-            label: localise({
-                en: `What would you like to do?`,
-                cy: `Beth yr hoffech ei wneud?`
-            }),
-            explanation: localise({
-                en: `<p><strong>
-                    Here are some ideas of what to tell us about your project:
-                </strong></p>
-                <ul>
-                    <li>What you would like to do</li>
-                    <li>What difference your project will make</li>
-                    <li>Who will benefit from it</li>
-                    <li>How long you expect to run it for. This can be an estimate</li>
-                    <li>How you'll make sure people know about it</li>
-                    <li>How you plan to learn from it and use this
-                        learning to shape future projects</li>
-                    <li>Is it something new, or are you continuing something that
-                        has worked well previously? We want to fund both types of projects</li>
-                </ul>
-                <p><strong>
-                    You can write up to ${maxWords} words for this section,
-                    but don't worry if you use less.
-                </strong></p>`,
-
-                cy: `<p><strong>
-                    Dyma rhai syniadau o’r hyn i ddweud wrthym am eich prosiect:
-                </strong></p>
-                <ul>
-                    <li>Beth y hoffech ei wneud?</li>
-                    <li>Pa wahaniaeth bydd eich prosiect yn ei wneud?</li>
-                    <li>Pwy fydd yn cael budd ohono?</li>
-                    <li>Am ba mor hir rydych yn disgwyl ei gynnal?
-                        Gall hyn fod yn amcangyfrif.</li> 
-                    <li>Sut y byddwch yn sicrhau fod pobl yn gwybod amdano?</li>
-                    <li>Sut rydych yn bwriadu dysgu ohono a defnyddio’r dysg hwn
-                        i siapio prosiectau yn y dyfodol?</li>
-                    <li>A yw’n rhywbeth newydd, neu ydych yn parhau â rhywbeth
-                        sydd wedi gweithio’n dda yn flaenorol? Rydym eisiau
-                        ariannu’r ddau fath o brosiectau.</li>
-
-                </ul>
-                <p><strong>
-                    Gallwch ysgrifennu hyd at ${maxWords} gair i’r adran hon,
-                    ond mae modd ysgrifennu llai.
-                </strong></p>`
-            }),
-            type: 'textarea',
-            settings: {
-                stackedSummary: true,
-                showWordCount: true,
-                minWords: minWords,
-                maxWords: maxWords
-            },
-            attributes: { rows: 20 },
-            isRequired: true,
-            schema: Joi.string()
-                .minWords(minWords)
-                .maxWords(maxWords)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Tell us about your project',
-                        cy: 'Dywedwch wrthym am eich prosiect'
-                    })
-                },
-                {
-                    type: 'string.minWords',
-                    message: localise({
-                        en: `Answer must be at least ${minWords} words`,
-                        cy: `Rhaid i’r ateb fod yn o leiaf ${minWords} gair`
-                    })
-                },
-                {
-                    type: 'string.maxWords',
-                    message: localise({
-                        en: `Answer must be no more than ${maxWords} words`,
-                        cy: `Rhaid i’r ateb fod yn llai na ${maxWords} gair`
-                    })
-                }
-            ]
-        };
-    }
-
-    function fieldYourIdeaPriorities() {
-        const minWords = 50;
-        const maxWords = 150;
-
-        return {
-            name: 'yourIdeaPriorities',
-            label: localise({
-                en: `How does your project meet at least one of our funding priorities?`,
-                cy: ``
-            }),
-            explanation: localise({
-                en: `<p>
-                    National Lottery Awards for All has three funding priorities, 
-                    please tell us how your project will
-                    <strong>meet at least one of these:</strong>
-                </p>
-                <ol>
-                    <li>Bring people together and build strong
-                        relationships in and across communities</li>
-                    <li>Improve the places and spaces that matter to communities</li>
-                    <li>Help more people to reach their potential,
-                        by supporting them at the earliest possible stage</li>
-                </ol>
-                <p>You can tell us if your project meets more than one priority,
-                   but don't worry if it doesn't.</p>
-                <p><strong>
-                    You can write up to ${maxWords} words for this section,
-                    but don't worry if you use less.
-                </strong></p>`,
-                cy: ``
-            }),
-            type: 'textarea',
-            settings: {
-                stackedSummary: true,
-                showWordCount: true,
-                minWords: minWords,
-                maxWords: maxWords
-            },
-            attributes: {
-                rows: 12
-            },
-            isRequired: true,
-            schema: Joi.string()
-                .minWords(minWords)
-                .maxWords(maxWords)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: `Tell us how your project meets at least one of our funding priorities`,
-                        cy: ``
-                    })
-                },
-                {
-                    type: 'string.minWords',
-                    message: localise({
-                        en: `Answer must be at least ${minWords} words`,
-                        cy: ''
-                    })
-                },
-                {
-                    type: 'string.maxWords',
-                    message: localise({
-                        en: `Answer must be no more than ${maxWords} words`,
-                        cy: ''
-                    })
-                }
-            ]
-        };
-    }
-
-    function fieldYourIdeaCommunity() {
-        const minWords = 50;
-        const maxWords = 200;
-
-        return {
-            name: 'yourIdeaCommunity',
-            label: localise({
-                en: 'How does your project involve your community?',
-                cy: ''
-            }),
-            labelDetails: {
-                summary: localise({
-                    en: `What do we mean by community?`,
-                    cy: ``
-                }),
-                content: localise({
-                    en: `<ol>
-                        <li>People living in the same area</li>
-                        <li>People who have similar interests or life experiences,
-                            but might not live in the same area</li>
-                        <li>Even though schools can be at the heart of a
-                            community—we'll only fund schools that also
-                            benefit the communities around them.</li>
-                    </ol>`,
-                    cy: ``
-                })
-            },
-            explanation: localise({
-                en: `<p>
-                    We believe that people understand what's needed in their
-                    communities better than anyone. Tell us how your community 
-                    came up with the idea for your project. We want to know how
-                    many people you've spoken to, and how they'll be involved
-                    in the development and delivery of the project.
-                </p>
-                <p><strong>Here are some examples of how you could be involving your community:</strong></p>
-                <ul>
-                    <li>Having regular chats with community members, in person or on social media</li>
-                    <li>Including community members on your board or committee</li>
-                    <li>Regular surveys</li>
-                    <li>Setting up steering groups</li>
-                    <li>Running open days</li>
-                </ul>
-                <p><strong>
-                    You can write up to ${maxWords} words for this section,
-                    but don't worry if you use less.
-                </strong></p>`,
-                cy: ''
-            }),
-            type: 'textarea',
-            settings: {
-                stackedSummary: true,
-                showWordCount: true,
-                minWords: minWords,
-                maxWords: maxWords
-            },
-            attributes: { rows: 15 },
-            isRequired: true,
-            schema: Joi.string()
-                .minWords(minWords)
-                .maxWords(maxWords)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: `Tell us how your project involves your community`,
-                        cy: ``
-                    })
-                },
-                {
-                    type: 'string.minWords',
-                    message: localise({
-                        en: `Answer must be at least ${minWords} words`,
-                        cy: ''
-                    })
-                },
-                {
-                    type: 'string.maxWords',
-                    message: localise({
-                        en: `Answer must be no more than ${maxWords} words`,
-                        cy: ''
-                    })
-                }
-            ]
-        };
-    }
-
-    function fieldOrganisationType() {
-        const options = [
-            {
-                value: ORGANISATION_TYPES.UNREGISTERED_VCO,
-                label: localise({
-                    en: 'Unregistered voluntary or community organisation',
-                    cy: ''
-                }),
-                explanation: localise({
-                    en: `<p>My organisation has been set up with a governing document, like a constitution, but it's not a charity or a company. Some examples of these sorts of groups would be a sports club, community club or residents association.</p>`,
-                    cy: ``
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                label: localise({
-                    en: 'Registered charity (unincorporated)',
-                    cy: ''
-                }),
-                explanation: localise({
-                    en: `<p>My organisation is a voluntary or community organisation and is a registered charity, but <strong>is not</strong> a company registered with Companies House</p>`,
-                    cy: ``
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.CIO,
-                label: localise({
-                    en: 'Charitable incorporated organisation (CIO)',
-                    cy: ''
-                }),
-                explanation: localise({
-                    en: `<p>My organisation is a registered charity with limited liability, but <strong>is not</strong> a company registered with Companies House</p>`,
-                    cy: ``
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
-                label: localise({ en: 'Not-for-profit company', cy: '' }),
-                explanation: localise({
-                    en: `<p>My organisation is a not-for-profit company registered with Companies House, and <strong>may also</strong> be registered as a charity</p>`,
-                    cy: ``
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.SCHOOL,
-                label: localise({
-                    en: 'School',
-                    cy: ''
-                }),
-                explanation: localise({
-                    en: `<p>My organisation is a school</p>`,
-                    cy: ``
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY,
-                label: localise({
-                    en: 'College or University',
-                    cy: ''
-                }),
-                explanation: localise({
-                    en: `<p>My organisation is a college, university, or other registered educational establishment</p>`,
-                    cy: ``
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.STATUTORY_BODY,
-                label: localise({ en: 'Statutory body', cy: '' }),
-                explanation: localise({
-                    en: `<p>My organisation is a public body, such as a local authority, parish council, or police or health authority</p>`,
-                    cy: ''
-                })
-            },
-            {
-                value: ORGANISATION_TYPES.FAITH_GROUP,
-                label: localise({ en: 'Faith-based group', cy: '' }),
-                explanation: localise({
-                    en: `<p>My organisation is a church, mosque, temple, synagogue etc.</p>`,
-                    cy: ''
-                })
-            }
-        ];
-
-        return {
-            name: 'organisationType',
-            label: localise({
-                en: 'What type of organisation are you?',
-                cy: ''
-            }),
-            explanation: localise({
-                en: `If you're both a charity and a company - just pick 'Registered charity' below.`,
-                cy: ''
-            }),
-            type: 'radio',
-            options: options,
-            isRequired: true,
-            schema: Joi.string()
-                .valid(options.map(option => option.value))
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Select a type of organisation',
-                        cy: ''
-                    })
-                }
-            ]
-        };
-    }
-
     function fieldCompanyNumber() {
         return {
             name: 'companyNumber',
-            label: localise({ en: 'Companies House number', cy: '' }),
+            label: localise({
+                en: 'Companies House number',
+                cy: 'Rhif Tŷ’r Cwmnïau'
+            }),
             type: 'text',
             isRequired: true,
             schema: stripUnlessOrgTypes(
@@ -906,7 +550,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter your organisation’s Companies House number',
-                        cy: ''
+                        cy: 'Rhowch rif Tŷ’r Cwmnïau eich sefydliad'
                     })
                 }
             ]
@@ -932,7 +576,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
         return {
             name: 'charityNumber',
-            label: localise({ en: 'Charity registration number', cy: '' }),
+            label: localise({
+                en: 'Charity registration number',
+                cy: 'Rhif cofrestru elusen'
+            }),
             type: 'text',
             attributes: { size: 20 },
             isRequired: CHARITY_NUMBER_TYPES.required.includes(
@@ -944,7 +591,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter your organisation’s charity number',
-                        cy: ''
+                        cy: 'Rhowch rif elusen eich sefydliad'
                     })
                 }
             ]
@@ -954,7 +601,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function fieldEducationNumber() {
         return {
             name: 'educationNumber',
-            label: localise({ en: 'Department for Education number', cy: '' }),
+            label: localise({
+                en: 'Department for Education number',
+                cy: 'Eich rhif Adran Addysg'
+            }),
             type: 'text',
             attributes: { size: 20 },
             isRequired: true,
@@ -967,131 +617,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Enter your organisation’s Department for Education number`,
-                        cy: ''
-                    })
-                }
-            ]
-        };
-    }
-
-    function fieldSeniorContactRole() {
-        /**
-         * Statutory bodies require a sub-type,
-         * some of which allow free text input for roles.
-         */
-        function isFreeText() {
-            return (
-                currentOrganisationType === ORGANISATION_TYPES.STATUTORY_BODY &&
-                [
-                    STATUTORY_BODY_TYPES.PRISON_SERVICE,
-                    STATUTORY_BODY_TYPES.FIRE_SERVICE,
-                    STATUTORY_BODY_TYPES.POLICE_AUTHORITY
-                ].includes(currentOrganisationSubType)
-            );
-        }
-
-        return {
-            name: 'seniorContactRole',
-            label: localise({ en: 'Role', cy: '' }),
-            explanation: localise({
-                en: `<p>
-                    You told us what sort of organisation you are earlier.
-                    ${
-                        isFreeText()
-                            ? `So the senior contact role should be someone in a position of authority in your organisation.`
-                            : `So the senior contact role options we're giving you now are based on your 
-                               organisation type. The options given to you for selection are based on this.`
-                    }
-                </p>`,
-                cy: ''
-            }),
-            get warnings() {
-                let result = [];
-
-                const projectCountry = get('projectCountry')(data);
-
-                const isCharityOrCompany = [
-                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                    ORGANISATION_TYPES.CIO,
-                    ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-                ].includes(currentOrganisationType);
-
-                /**
-                 * Scotland doesn't include trustees in their charity commission
-                 * data, so don't show this message in Scotland.
-                 */
-                if (isCharityOrCompany && projectCountry !== 'scotland') {
-                    result.push(
-                        localise({
-                            en: `Your senior contact must be listed as a member of your organisation's
-                                 board or committee with the Charity Commission/Companies House.`,
-                            cy: ``
-                        })
-                    );
-                }
-
-                if (currentOrganisationType === ORGANISATION_TYPES.CIO) {
-                    result.push(
-                        localise({
-                            en: `As a charity, your senior contact can be one of your organisation's trustees.
-                         This can include trustees taking on the role of Chair, Vice Chair or Treasurer.`,
-                            cy: ``
-                        })
-                    );
-                }
-
-                if (
-                    currentOrganisationType ===
-                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY
-                ) {
-                    result.push(
-                        localise({
-                            en: `As a registered charity, your senior contact must be one of your organisation's trustees. 
-                                 This can include trustees taking on the role of Chair, Vice Chair or Treasurer.`,
-                            cy: ``
-                        })
-                    );
-                }
-
-                if (currentOrganisationType === ORGANISATION_TYPES.SCHOOL) {
-                    result.push(
-                        localise({
-                            en: `As a school, your senior contact must be the headteacher`,
-                            cy: ``
-                        })
-                    );
-                }
-
-                return result;
-            },
-            type: isFreeText() ? 'text' : 'radio',
-            options: rolesFor({
-                locale: locale,
-                organisationType: currentOrganisationType,
-                organisationSubType: currentOrganisationSubType
-            }),
-            isRequired: true,
-            get schema() {
-                if (isFreeText()) {
-                    return Joi.string().required();
-                } else {
-                    return Joi.string()
-                        .valid(this.options.map(option => option.value))
-                        .required();
-                }
-            },
-            messages: [
-                {
-                    type: 'base',
-                    message: isFreeText()
-                        ? localise({ en: 'Enter a role', cy: '' })
-                        : localise({ en: 'Choose a role', cy: '' })
-                },
-                {
-                    type: 'any.allowOnly',
-                    message: localise({
-                        en: 'Senior contact role is not valid',
-                        cy: ''
+                        cy: `Rhowch rif Adran Addysg eich sefydliad`
                     })
                 }
             ]
@@ -1103,11 +629,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'projectName',
             label: localise({
                 en: 'What is the name of your project?',
-                cy: ''
+                cy: 'Beth yw enw eich prosiect?'
             }),
             explanation: localise({
                 en: 'The project name should be simple and to the point',
-                cy: ''
+                cy: 'Dylai enw’r prosiect fod yn syml ac eglur'
             }),
             type: 'text',
             isRequired: true,
@@ -1115,7 +641,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a project name', cy: '' })
+                    message: localise({
+                        en: 'Enter a project name',
+                        cy: 'Rhowch enw prosiect'
+                    })
                 }
             ]
         },
@@ -1125,14 +654,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'projectLocation',
             label: localise({
                 en: 'Where will your project take place?',
-                cy: ''
+                cy: 'Lle bydd eich prosiect wedi’i leoli? '
             }),
             explanation: localise({
-                en: `If your project covers more than one area please tell us where most of it will take place`,
-                cy: ''
+                en: oneLine`If your project covers more than one area please
+                    tell us where most of it will take place`,
+                cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
+                    wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`
             }),
             type: 'select',
-            defaultOption: localise({ en: 'Select a location', cy: '' }),
+            defaultOption: localise({
+                en: 'Select a location',
+                cy: 'Dewiswch leoliad'
+            }),
             get optgroups() {
                 const country = get('projectCountry')(data);
                 return locationsFor(country);
@@ -1151,15 +685,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Select a location', cy: '' })
+                    message: localise({
+                        en: 'Select a location',
+                        cy: 'Dewiswch leoliad'
+                    })
                 }
             ]
         },
         projectLocationDescription: {
             name: 'projectLocationDescription',
             label: localise({
-                en: `Tell us the towns or villages where people who will benefit from your project live`,
-                cy: ``
+                en: oneLine`Tell us the towns or villages where people who
+                    will benefit from your project live`,
+                cy: oneLine`Dywedwch wrthym y trefi neu pentrefi mae’r bobl
+                    a fydd yn elwa o’ch prosiect yn byw`
             }),
             type: 'text',
             attributes: {
@@ -1176,7 +715,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Tell us the towns, villages or wards your beneficiaries live in`,
-                        cy: ''
+                        cy: `Dywedwch wrthym y trefi, pentrefi neu wardiau mae eich buddiolwyr yn byw`
                     })
                 }
             ]
@@ -1185,11 +724,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'projectPostcode',
             label: localise({
                 en: `What is the postcode of where your project will take place?`,
-                cy: ``
+                cy: `Beth yw côd post lleoliad eich prosiect?`
             }),
             explanation: localise({
-                en: `If your project will take place across different locations, please use the postcode where most of the project will take place.`,
-                cy: ``
+                en: oneLine`If your project will take place across different locations,
+                    please use the postcode where most of the project will take place.`,
+                cy: oneLine`Os bydd eich prosiect wedi’i leoli mewn amryw o leoliadau,
+                    defnyddiwch y côd post lle bydd y rhan fwyaf o’r prosiect wedi’i leoli.`
             }),
             type: 'text',
             attributes: {
@@ -1207,23 +748,37 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a real postcode', cy: '' })
+                    message: localise({
+                        en: 'Enter a real postcode',
+                        cy: 'Rhowch gôd post go iawn'
+                    })
                 }
             ]
         },
-        yourIdeaProject: fieldYourIdeaProject(),
-        yourIdeaPriorities: fieldYourIdeaPriorities(),
-        yourIdeaCommunity: fieldYourIdeaCommunity(),
+        yourIdeaProject: fieldYourIdeaProject(locale),
+        yourIdeaPriorities: fieldYourIdeaPriorities(locale),
+        yourIdeaCommunity: fieldYourIdeaCommunity(locale),
         projectBudget: {
             name: 'projectBudget',
             label: localise({
                 en: 'List the costs you would like us to fund',
-                cy: ''
+                cy: 'Rhestrwch y costau hoffech i ni eu hariannu'
             }),
             explanation: localise({
-                en: `<p>You should use budget headings, rather than a detailed list of items. For example, if you're applying for pens, pencils, paper and envelopes, using 'office supplies' is fine. Please enter whole numbers only.</p>
+                en: `<p>
+                    You should use budget headings, rather than a detailed list
+                    of items. For example, if you're applying for pens, pencils,
+                    paper and envelopes, using 'office supplies' is fine.
+                    Please enter whole numbers only.
+                </p>
                 <p>Please note you can only have a maximum of 10 rows.</p>`,
-                cy: ''
+                cy: `<p>
+                    Dylech ddefnyddio penawdau llai, yn hytrach na rhestr hir
+                    o eitemau. Er enghraifft, os ydych yn ymgeisio am feiros,
+                    pensiliau, papur ac amlenni, byddai defnyddio
+                    ‘offer swyddfa’ yn iawn. Rhowch y rhifau cyfan yn unig. 
+                </p>
+                <p>Sylwch mai dim ond uchafswm o 10 rhes gallwch ei gael.</p>`
             }),
             type: 'budget',
             attributes: {
@@ -1247,7 +802,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         type: 'base',
                         message: localise({
                             en: 'Enter a project budget',
-                            cy: ''
+                            cy: 'Rhowch gyllideb prosiect'
                         })
                     },
                     {
@@ -1255,40 +810,47 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         key: 'item',
                         message: localise({
                             en: 'Enter an item or activity',
-                            cy: ''
+                            cy: 'Rhowch eitem neu weithgaredd'
                         })
                     },
                     {
                         type: 'number.base',
                         key: 'cost',
-                        message: localise({ en: 'Enter an amount', cy: '' })
+                        message: localise({
+                            en: 'Enter an amount',
+                            cy: 'Rhowch nifer'
+                        })
                     },
                     {
                         type: 'array.min',
                         message: localise({
                             en: 'Enter at least one item',
-                            cy: ''
+                            cy: 'Rhowch o leiaf un eitem'
                         })
                     },
                     {
                         type: 'array.max',
                         message: localise({
                             en: `Enter no more than ${this.attributes.rowLimit} items`,
-                            cy: ''
+                            cy: `Rhowch dim mwy na ${this.attributes.rowLimit} eitem`
                         })
                     },
                     {
                         type: 'budgetItems.overBudget',
                         message: localise({
-                            en: `Costs you would like us to fund must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
-                            cy: ``
+                            en: oneLine`Costs you would like us to fund must be
+                                less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                            cy: oneLine`Rhaid i’r costau hoffech i ni eu hariannu
+                                fod yn llai na £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`
                         })
                     },
                     {
                         type: 'budgetItems.underBudget',
                         message: localise({
-                            en: `Costs you would like us to fund must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
-                            cy: ``
+                            en: oneLine`Costs you would like us to fund must be
+                                greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                            cy: oneLine`Rhaid i’r costau hoffech i ni eu hariannu
+                                fod yn fwy na £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`
                         })
                     }
                 ];
@@ -1298,13 +860,31 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'projectTotalCosts',
             label: localise({
                 en: 'Tell us the total cost of your project',
-                cy: '(WELSH) Tell us the total cost of your project'
+                cy: 'Dywedwch wrthym gyfanswm cost eich prosiect'
             }),
             explanation: localise({
-                en: `<p>This is the cost of everything related to your project, even things you aren't asking us to fund.</p>
-
-                <p>For example, if you are asking us for £8,000 and you are getting £10,000 from another funder to cover additional costs, then your total project cost is £18,000. If you are asking us for £8,000 and there are no other costs then your total project cost is £8,000.</p>`,
-                cy: ``
+                en: `<p>
+                    This is the cost of everything related to your project,
+                    even things you aren't asking us to fund.
+                </p>
+                <p>
+                    For example, if you are asking us for £8,000 and you are
+                    getting £10,000 from another funder to cover additional costs,
+                    then your total project cost is £18,000. If you are asking
+                    us for £8,000 and there are no other costs then your total
+                    project cost is £8,000.
+                </p>`,
+                cy: `<p>
+                    Dyma’r gost o bopeth sy’n gysylltiedig â’ch prosiect,
+                    hyd yn oed pethau nad ydych yn gofyn inni ei ariannu.
+                </p> 
+                <p>
+                    Er enghraifft, os ydych yn gofyn i ni am £8,000 a’ch bod yn
+                    cael £10,000 gan arianwr gwahanol i ariannu costau ychwanegol,
+                    yna cyfanswm cost eich prosiect yw £18,000. Os ydych yn gofyn
+                    i ni am £8,000 a bod dim costau ychwanegol, cyfanswm cost
+                    eich prosiect yw £8,000.
+                </p>`
             }),
             type: 'currency',
             isRequired: true,
@@ -1314,7 +894,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter a total cost for your project',
-                        cy: ''
+                        cy: 'Rhowch gyfanswm cost eich prosiect'
                     })
                 },
                 {
@@ -1322,14 +902,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({
                         en:
                             'Total cost must be a whole number (eg. no decimal point)',
-                        cy: ''
+                        cy:
+                            'Rhaid i’r cost fod yn rif cyflawn (e.e. dim pwynt degol)'
                     })
                 },
                 {
                     type: 'budgetTotalCosts.underBudget',
                     message: localise({
-                        en: `Total cost must be the same as or higher than the amount you’re asking us to fund`,
-                        cy: ``
+                        en: oneLine`Total cost must be the same as or higher
+                            than the amount you’re asking us to fund`,
+                        cy: oneLine`Rhaid i’r cyfanswm cost fod yr un peth,
+                            neu’n fwy na faint rydych yn ei ofyn amdano. `
                     })
                 }
             ]
@@ -1338,7 +921,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'beneficiariesGroupsCheck',
             label: localise({
                 en: `Is your project open to everyone or is it aimed at a specific group of people?`,
-                cy: ``
+                cy: `A yw eich prosiect yn agored i bawb neu a yw’n targedu grŵp penodol o bobl?`
             }),
             explanation: localise({
                 en: `<p>What do we mean by projects for specific groups?</p>
@@ -1349,7 +932,16 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                       specifically for people from a particular ethnic background.
                     </p>
                     <p>Check the one that applies:</p>`,
-                cy: ``
+                cy: `<p>Beth ydym yn ei olygu gan brosiectau i grwpiau penodol?</p>
+                    <p>
+                      Mae clwb chwaraeon cadair olwyn yn le i bobl anabl gymryd
+                      rhan mewn chwaraeon cadair olwyn. Felly, mae hwn yn brosiect
+                      sydd wedi ei ddylunio’n arbennig i bobl anabl. Neu grŵp
+                      sydd wedi’i gynllunio i awdurdodi menywod Affricanaidd
+                      yn y gymuned – mae’r grŵp hwn yn benodol i bobl o
+                      gefndir ethnig arbennig. 
+                    </p>
+                    <p>Gwirio’r rhai sy’n berthnasol:</p>`
             }),
             type: 'radio',
             options: [
@@ -1357,14 +949,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     value: 'no',
                     label: localise({
                         en: `My project is open to everyone and isn’t aimed at a specific group of people`,
-                        cy: ''
+                        cy: `Mae fy mhrosiect yn agored i bawb ac nid yw wedi’i anelu at grŵp penodol o bobl`
                     })
                 },
                 {
                     value: 'yes',
                     label: localise({
                         en: `My project is aimed at a specific group of people`,
-                        cy: ''
+                        cy: `Mae fy mhrosiect wedi’i anelu at grŵp penodol o bobl`
                     })
                 }
             ],
@@ -1375,7 +967,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Select yes or no', cy: '' })
+                    message: localise({
+                        en: 'Select yes or no',
+                        cy: 'Dewiswch ie neu na'
+                    })
                 }
             ]
         },
@@ -1383,11 +978,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'beneficiariesGroups',
             label: localise({
                 en: `What specific groups is your project aimed at?`,
-                cy: ``
+                cy: `Pa grwpiau penodol mae eich prosiect wedi’i anelu ar ei gyfer?`
             }),
             explanation: localise({
                 en: `Check the boxes that apply:`,
-                cy: ``
+                cy: `Ticiwch y bocsys sy’n berthnasol:`
             }),
             type: 'checkbox',
             options: [
@@ -1395,46 +990,49 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     value: BENEFICIARY_GROUPS.ETHNIC_BACKGROUND,
                     label: localise({
                         en: 'People from a particular ethnic background',
-                        cy: ''
+                        cy: 'Pobl o gefndir ethnig penodol'
                     })
                 },
                 {
                     value: BENEFICIARY_GROUPS.GENDER,
                     label: localise({
                         en: 'People of a particular gender',
-                        cy: ''
+                        cy: 'Pobl o ryw penodol'
                     })
                 },
                 {
                     value: BENEFICIARY_GROUPS.AGE,
                     label: localise({
                         en: 'People of a particular age',
-                        cy: ''
+                        cy: 'Pobl o oedran penodol'
                     })
                 },
                 {
                     value: BENEFICIARY_GROUPS.DISABLED_PEOPLE,
-                    label: localise({ en: 'Disabled people', cy: '' })
+                    label: localise({
+                        en: 'Disabled people',
+                        cy: 'Pobl anabl'
+                    })
                 },
                 {
                     value: BENEFICIARY_GROUPS.RELIGION,
                     label: localise({
                         en: 'People with a particular religious belief',
-                        cy: ''
+                        cy: 'Pobl â chred grefyddol penodol'
                     })
                 },
                 {
                     value: BENEFICIARY_GROUPS.LGBT,
                     label: localise({
                         en: 'Lesbian, gay, or bisexual people',
-                        cy: ''
+                        cy: 'Pobl lesbiaid, hoyw neu ddeurywiol'
                     })
                 },
                 {
                     value: BENEFICIARY_GROUPS.CARING,
                     label: localise({
                         en: `People with caring responsibilities`,
-                        cy: ``
+                        cy: `Pobl â chyfrifoldebau gofal`
                     })
                 }
             ],
@@ -1455,17 +1053,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Select the specific group(s) of people your project is aimed at`,
-                        cy: ''
+                        cy: `Dewiswch y grŵp(iau) o bobl mae ei prosiect wedi’i anelu ar eu cyfer`
                     })
                 }
             ]
         },
         beneficiariesGroupsOther: {
             name: 'beneficiariesGroupsOther',
-            label: localise({ en: 'Other', cy: '' }),
+            label: localise({ en: 'Other', cy: 'Arall' }),
             explanation: localise({
                 en: `If your project's for a specific group that's not mentioned above, tell us about it here:`,
-                cy: ``
+                cy: `Os yw eich prosiect ar gyfer grŵp penodol sydd heb ei grybwyll uchod, dywedwch wrthym yma:`
             }),
             type: 'text',
             isRequired: false,
@@ -1480,42 +1078,47 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         },
         beneficiariesEthnicBackground: {
             name: 'beneficiariesGroupsEthnicBackground',
-            label: localise({ en: `Ethnic background`, cy: '' }),
+            label: localise({
+                en: `Ethnic background`,
+                cy: 'Cefndir ethnig'
+            }),
             explanation: localise({
-                en: `You told us that your project mostly benefits people from a particular ethnic background. Please tell us which one(s).`,
-                cy: ``
+                en: oneLine`You told us that your project mostly benefits people
+                    from a particular ethnic background. Please tell us which one(s).`,
+                cy: oneLine`Fe ddywedoch wrthym bod eich prosiect yn bennaf o
+                    fudd i bobl o gefndir ethnig penodol. Dywedwch wrthym pa un:`
             }),
             type: 'checkbox',
             optgroups: [
                 {
                     label: localise({
                         en: 'White',
-                        cy: ''
+                        cy: 'Gwyn'
                     }),
                     options: [
                         {
                             value: 'white-british',
                             label: localise({
                                 en: `English / Welsh / Scottish / Northern Irish / British`,
-                                cy: ''
+                                cy: `Saesneg / Cymraeg / Albanaidd / Gogledd Iwerddon / Prydeinig`
                             })
                         },
                         {
                             value: 'irish',
-                            label: localise({ en: 'Irish', cy: '' })
+                            label: localise({ en: 'Irish', cy: `Gwyddeleg` })
                         },
                         {
                             value: 'gypsy-or-irish-traveller',
                             label: localise({
                                 en: 'Gypsy or Irish Traveller',
-                                cy: ''
+                                cy: 'Sipsi neu deithiwr gwyddeleg'
                             })
                         },
                         {
                             value: 'white-other',
                             label: localise({
                                 en: 'Any other White background',
-                                cy: ''
+                                cy: 'Unrhyw gefndir gwyn arall'
                             })
                         }
                     ]
@@ -1523,18 +1126,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     label: localise({
                         en: 'Mixed / Multiple ethnic groups',
-                        cy: ''
+                        cy: 'Grwpiau ethnig cymysg / lluosog'
                     }),
                     options: [
                         {
                             value: 'mixed-background',
                             label: localise({
                                 en: 'Mixed ethnic background',
-                                cy: ''
+                                cy: 'Cefndir ethnig cymysg'
                             }),
                             explanation: localise({
-                                en: `this refers to people whose parents are of a different ethnic background to each other`,
-                                cy: ``
+                                en: oneLine`this refers to people whose parents
+                                    are of a different ethnic background to each other`,
+                                cy: oneLine`mae hyn yn cyfeirio at bobl sydd o
+                                    gefndir ethnig gwahanol i’w gilydd`
                             })
                         }
                     ]
@@ -1542,30 +1147,39 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     label: localise({
                         en: 'Asian / Asian British',
-                        cy: ''
+                        cy: 'Asiaidd / Asiaidd Brydeinig'
                     }),
                     options: [
                         {
                             value: 'indian',
-                            label: localise({ en: 'Indian', cy: '' })
+                            label: localise({ en: 'Indian', cy: 'Indiaidd' })
                         },
                         {
                             value: 'pakistani',
-                            label: localise({ en: 'Pakistani', cy: '' })
+                            label: localise({
+                                en: 'Pakistani',
+                                cy: 'Pacistanaidd'
+                            })
                         },
                         {
                             value: 'bangladeshi',
-                            label: localise({ en: 'Bangladeshi', cy: '' })
+                            label: localise({
+                                en: 'Bangladeshi',
+                                cy: 'Bangladeshi'
+                            })
                         },
                         {
                             value: 'chinese',
-                            label: localise({ en: 'Chinese', cy: '' })
+                            label: localise({
+                                en: 'Chinese',
+                                cy: 'Tsieniaidd '
+                            })
                         },
                         {
                             value: 'asian-other',
                             label: localise({
                                 en: 'Any other Asian background',
-                                cy: ''
+                                cy: 'Unrhyw gefndir Asiaidd arall'
                             })
                         }
                     ]
@@ -1573,22 +1187,28 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     label: localise({
                         en: 'Black / African / Caribbean / Black British',
-                        cy: ''
+                        cy: 'Du / Affricanaidd / Caribiaidd / Du Brydeinig'
                     }),
                     options: [
                         {
                             value: 'caribbean',
-                            label: localise({ en: 'Caribbean', cy: '' })
+                            label: localise({
+                                en: 'Caribbean',
+                                cy: 'Caribiaidd '
+                            })
                         },
                         {
                             value: 'african',
-                            label: localise({ en: 'African', cy: '' })
+                            label: localise({
+                                en: 'African',
+                                cy: 'Affricanaidd '
+                            })
                         },
                         {
                             value: 'black-other',
                             label: localise({
                                 en: `Any other Black / African / Caribbean background`,
-                                cy: ''
+                                cy: `Unrhyw gefndir Du / Affricanaidd / Caribiaidd arall`
                             })
                         }
                     ]
@@ -1596,17 +1216,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     label: localise({
                         en: 'Other ethnic group',
-                        cy: ''
+                        cy: 'Grŵp ethnig arall'
                     }),
                     options: [
                         {
                             value: 'arab',
-                            label: localise({ en: 'Arab', cy: '' })
+                            label: localise({ en: 'Arab', cy: 'Arabaidd' })
                         },
 
                         {
                             value: 'other',
-                            label: localise({ en: 'Any other', cy: '' })
+                            label: localise({ en: 'Any other', cy: 'Arall' })
                         }
                     ]
                 }
@@ -1623,8 +1243,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: `Select the ethnic background(s) of the people that will benefit from your project`,
-                        cy: ''
+                        en: oneLine`Select the ethnic background(s) of the
+                            people that will benefit from your project`,
+                        cy: oneLine`Dewiswch y cefndir(oedd) ethnig o’r bobl
+                            fydd yn elwa o’ch prosiect`
                     })
                 }
             ]
@@ -1633,24 +1255,32 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'beneficiariesGroupsGender',
             label: localise({
                 en: `Gender`,
-                cy: ''
+                cy: `Rhyw`
             }),
             explanation: localise({
-                en: `You told us that your project mostly benefits people of a particular gender. Please tell us which one(s).`,
-                cy: ``
+                en: oneLine`You told us that your project mostly benefits people
+                    of a particular gender. Please tell us which one(s).`,
+                cy: oneLine`Fe ddywedoch wrthym fod eich prosiect o fudd i bobl 
+                    o ryw arbennig. Dywedwch wrthym pa rai. `
             }),
             type: 'checkbox',
             options: [
-                { value: 'male', label: localise({ en: 'Male', cy: '' }) },
-                { value: 'female', label: localise({ en: 'Female', cy: '' }) },
-                { value: 'trans', label: localise({ en: 'Trans', cy: '' }) },
+                { value: 'male', label: localise({ en: 'Male', cy: 'Gwryw' }) },
+                {
+                    value: 'female',
+                    label: localise({ en: 'Female', cy: 'Benyw' })
+                },
+                {
+                    value: 'trans',
+                    label: localise({ en: 'Trans', cy: 'Traws' })
+                },
                 {
                     value: 'non-binary',
-                    label: localise({ en: 'Non-binary', cy: '' })
+                    label: localise({ en: 'Non-binary', cy: 'Di-ddeuaidd' })
                 },
                 {
                     value: 'intersex',
-                    label: localise({ en: 'Intersex', cy: '' })
+                    label: localise({ en: 'Intersex', cy: 'Rhyngrywiol' })
                 }
             ],
             get schema() {
@@ -1664,7 +1294,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Select the gender(s) of the people that will benefit from your project`,
-                        cy: ''
+                        cy: `Dewiswch y rhyw(iau) o’r bobl a fydd yn elwa o’ch prosiect`
                     })
                 }
             ]
@@ -1673,11 +1303,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'beneficiariesGroupsAge',
             label: localise({
                 en: `Age`,
-                cy: ''
+                cy: `Oedran`
             }),
             explanation: localise({
-                en: `You told us that your project mostly benefits people from particular age groups. Please tell us which one(s).`,
-                cy: ''
+                en: oneLine`You told us that your project mostly benefits people
+                    from particular age groups. Please tell us which one(s).`,
+                cy: oneLine`Fe ddywedoch wrthym bod eich prosiect yn bennaf yn
+                    elwa pobl o grwpiau oedran penodol. Dywedwch wrthym pa rai.`
             }),
             type: 'checkbox',
             options: [
@@ -1697,18 +1329,37 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Select the age group(s) of the people that will benefit from your project`,
-                        cy: ''
+                        cy: `Dewiswch y grŵp(iau) oedran o’r bobl a fydd yn elwa o’ch prosiect`
                     })
                 }
             ]
         },
         beneficiariesGroupsDisabledPeople: {
             name: 'beneficiariesGroupsDisabledPeople',
-            label: localise({ en: `Disabled people`, cy: '' }),
+            label: localise({ en: `Disabled people`, cy: 'Pobl anabl' }),
             explanation: localise({
-                en: `<p>You told us that your project mostly benefits disabled people. Please tell us which one(s).</p>
-                <p>We use the definition from the Equality Act 2010, which defines a disabled person as someone who has a mental or physical impairment that has a substantial and long-term adverse effect on their ability to carry out normal day to day activity.</p>`,
-                cy: ``
+                en: `<p>
+                    You told us that your project mostly benefits disabled people.
+                    Please tell us which one(s).
+                </p>
+                <p>
+                    We use the definition from the Equality Act 2010,
+                    which defines a disabled person as someone who has a
+                    mental or physical impairment that has a substantial
+                    and long-term adverse effect on their ability to carry
+                    out normal day to day activity.
+                </p>`,
+                cy: `<p>
+                    Fe ddywedoch wrthym bod eich prosiect yn bennaf yn
+                    elwa pobl anabl. Dywedwch wrthym pa rai. 
+                </p>
+                <p>
+                    Rydym yn defnyddio’r diffiniad o’r Ddeddf Cydraddoldeb 2010,
+                    sy’n diffinio person anabl fel rhywun sydd â nam meddyliol
+                    neu gorfforol lle mae hynny’n cael effaith niweidiol
+                    sylweddol a hirdymor ar eu gallu i gynal gweithgaredd
+                    arferol o ddydd i ddydd. 
+                </p>`
             }),
 
             type: 'checkbox',
@@ -1717,33 +1368,39 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     value: 'sensory',
                     label: localise({
                         en: 'Disabled people with sensory impairments',
-                        cy: ''
+                        cy: 'Pobl anabl â namau synhwyraidd'
                     }),
                     explanation: localise({
                         en: 'e.g. visual and hearing impairments',
-                        cy: ''
+                        cy: 'e.e. namau ar y golwg a’r clyw'
                     })
                 },
                 {
                     value: 'physical',
                     label: localise({
                         en: `Disabled people with physical impairments`,
-                        cy: ``
+                        cy: `Pobl anabl â namau corfforol`
                     }),
                     explanation: localise({
-                        en: `e.g. neuromotor impairments, such as epilepsy and cerebral palsy, or muscular/skeletal conditions, such as missing limbs and arthritis`,
-                        cy: ''
+                        en: oneLine`e.g. neuromotor impairments, such as epilepsy
+                            and cerebral palsy, or muscular/skeletal conditions,
+                            such as missing limbs and arthritis`,
+                        cy: oneLine`e.e. namau niwromotor, fel epilepsi a pharlys
+                            yr ymennydd, neu chyflyrau cyhyrog/ysgerbydol,
+                            fel aelodau ar goll ac arthritis `
                     })
                 },
                 {
                     value: 'learning',
                     label: localise({
                         en: `Disabled people with learning or mental difficulties`,
-                        cy: ''
+                        cy: `Pobl anabl ag anawsterau dysgu neu feddyliol`
                     }),
                     explanation: localise({
-                        en: `e.g. reduced intellectual ability and difficulty with everyday activities or conditions such as autism`,
-                        cy: ''
+                        en: oneLine`e.g. reduced intellectual ability and difficulty
+                            with everyday activities or conditions such as autism`,
+                        cy: oneLine`e.e. llai o allu deallusol ac anhawster gyda
+                            gweithgareddau dydd i ddydd neu gyflyrau fel awtistiaeth`
                     })
                 }
             ],
@@ -1758,7 +1415,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Select the disabled people that will benefit from your project`,
-                        cy: ''
+                        cy: `Dewiswch y bobl anabl a fydd yn elwa o’ch prosiect`
                     })
                 }
             ]
@@ -1767,28 +1424,36 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'beneficiariesGroupsReligion',
             label: localise({
                 en: `Religion or belief`,
-                cy: ``
+                cy: `Crefydd neu gred`
             }),
             explanation: localise({
-                en: `You have indicated that your project mostly benefits people of a particular religion or belief, please select from the following`,
-                cy: ''
+                en: oneLine`You have indicated that your project mostly benefits
+                    people of a particular religion or belief, please select from the following`,
+                cy: oneLine`Rydych wedi datgan bod eich prosiect yn bennaf yn elwa
+                    pobl o grefydd neu gred penodol, dewiswch o’r canlynol`
             }),
             type: 'checkbox',
             options: [
                 {
                     value: 'buddhist',
-                    label: localise({ en: 'Buddhist', cy: '' })
+                    label: localise({ en: 'Buddhist', cy: 'Bwdhaidd' })
                 },
                 {
                     value: 'christian',
-                    label: localise({ en: 'Christian', cy: '' })
+                    label: localise({ en: 'Christian', cy: 'Cristion' })
                 },
-                { value: 'jewish', label: localise({ en: 'Jewish', cy: '' }) },
-                { value: 'muslim', label: localise({ en: 'Muslim', cy: '' }) },
-                { value: 'sikh', label: localise({ en: 'Sikh', cy: '' }) },
+                {
+                    value: 'jewish',
+                    label: localise({ en: 'Jewish', cy: 'Iddew' })
+                },
+                {
+                    value: 'muslim',
+                    label: localise({ en: 'Muslim', cy: 'Mwslim' })
+                },
+                { value: 'sikh', label: localise({ en: 'Sikh', cy: 'Sikh' }) },
                 {
                     value: 'no-religion',
-                    label: localise({ en: 'No religion', cy: '' })
+                    label: localise({ en: 'No religion', cy: 'Dim crefydd' })
                 }
             ],
             get schema() {
@@ -1802,14 +1467,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Select the religion(s) or belief(s) of the people that will benefit from your project`,
-                        cy: ''
+                        cy: `Dewiswch grefydd(au) neu gred(oau) y bobl a fydd yn elwa o’ch prosiect`
                     })
                 }
             ]
         },
         beneficiariesGroupsReligionOther: {
             name: 'beneficiariesGroupsReligionOther',
-            label: localise({ en: 'Other', cy: '' }),
+            label: localise({ en: 'Other', cy: 'Arall' }),
             type: 'text',
             isRequired: false,
             schema: Joi.string()
@@ -1821,25 +1486,31 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'beneficiariesWelshLanguage',
             label: localise({
                 en: `How many of the people who will benefit from your project speak Welsh?`,
-                cy: ``
+                cy: `Faint o’r bobl a fydd yn elwa o’ch prosiect sy’n siarad Cymraeg?`
             }),
             type: 'radio',
             options: [
                 {
                     value: 'all',
-                    label: localise({ en: 'All', cy: '' })
+                    label: localise({ en: 'All', cy: 'Pawb' })
                 },
                 {
                     value: 'more-than-half',
-                    label: localise({ en: 'More than half', cy: '' })
+                    label: localise({
+                        en: 'More than half',
+                        cy: 'Dros hanner'
+                    })
                 },
                 {
                     value: 'less-than-half',
-                    label: localise({ en: 'Less than half', cy: '' })
+                    label: localise({
+                        en: 'Less than half',
+                        cy: 'Llai na hanner'
+                    })
                 },
                 {
                     value: 'none',
-                    label: localise({ en: 'None', cy: '' })
+                    label: localise({ en: 'None', cy: 'Neb' })
                 }
             ],
             isRequired: true,
@@ -1857,7 +1528,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Select the amount of people who speak Welsh that will benefit from your project`,
-                        cy: ''
+                        cy: `Dewiswch y nifer o bobl sy’n siarad Cymraeg a fydd yn elwa o’ch prosiect`
                     })
                 }
             ]
@@ -1866,7 +1537,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'beneficiariesNorthernIrelandCommunity',
             label: localise({
                 en: `Which community do the people who will benefit from your project belong to?`,
-                cy: ``
+                cy: `Pa gymuned mae’r bobl a fydd yn elwa o’ch prosiect yn perthyn iddi?`
             }),
             type: 'radio',
             options: [
@@ -1874,28 +1545,28 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     value: 'both-catholic-and-protestant',
                     label: localise({
                         en: 'Both Catholic and Protestant',
-                        cy: ''
+                        cy: 'Catholig a phrotestanaidd'
                     })
                 },
                 {
                     value: 'mainly-protestant',
                     label: localise({
                         en: `Mainly Protestant (more than 60 per cent)`,
-                        cy: ''
+                        cy: `Protestanaidd yn bennaf (dros 60 y cant)`
                     })
                 },
                 {
                     value: 'mainly-catholic',
                     label: localise({
-                        en: 'Mainly Catholic (more than 60 per cent)',
-                        cy: ''
+                        en: `Mainly Catholic (more than 60 per cent)`,
+                        cy: `Catholig yn bennaf (dros 60 y cant)`
                     })
                 },
                 {
                     value: 'neither-catholic-or-protestant',
                     label: localise({
-                        en: 'Neither Catholic or Protestant',
-                        cy: ''
+                        en: `Neither Catholic or Protestant`,
+                        cy: `Ddim yn Gathloig nac yn Brotestanaidd`
                     })
                 }
             ],
@@ -1914,7 +1585,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Select the community that the people who will benefit from your project belong to`,
-                        cy: ''
+                        cy: `Dewiswch y gymuned mae’r pobl a fydd yn elwa o’r prosiect yn byw ynddi`
                     })
                 }
             ]
@@ -2004,7 +1675,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             })
         }),
-        organisationType: fieldOrganisationType(),
+        organisationType: fieldOrganisationType(locale),
         organisationSubTypeStatutoryBody: {
             name: 'organisationSubType',
             label: localise({
@@ -2290,7 +1961,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
-        seniorContactRole: fieldSeniorContactRole(),
+        seniorContactRole: fieldSeniorContactRole(locale, data),
         seniorContactName: nameField(
             {
                 name: 'seniorContactName',
