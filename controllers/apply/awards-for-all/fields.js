@@ -629,11 +629,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'projectName',
             label: localise({
                 en: 'What is the name of your project?',
-                cy: ''
+                cy: 'Beth yw enw eich prosiect?'
             }),
             explanation: localise({
                 en: 'The project name should be simple and to the point',
-                cy: ''
+                cy: 'Dylai enw’r prosiect fod yn syml ac eglur'
             }),
             type: 'text',
             isRequired: true,
@@ -641,7 +641,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a project name', cy: '' })
+                    message: localise({
+                        en: 'Enter a project name',
+                        cy: 'Rhowch enw prosiect'
+                    })
                 }
             ]
         },
@@ -651,14 +654,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'projectLocation',
             label: localise({
                 en: 'Where will your project take place?',
-                cy: ''
+                cy: 'Lle bydd eich prosiect wedi’i leoli? '
             }),
             explanation: localise({
-                en: `If your project covers more than one area please tell us where most of it will take place`,
-                cy: ''
+                en: oneLine`If your project covers more than one area please
+                    tell us where most of it will take place`,
+                cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
+                    wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`
             }),
             type: 'select',
-            defaultOption: localise({ en: 'Select a location', cy: '' }),
+            defaultOption: localise({
+                en: 'Select a location',
+                cy: 'Dewiswch leoliad'
+            }),
             get optgroups() {
                 const country = get('projectCountry')(data);
                 return locationsFor(country);
@@ -677,15 +685,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Select a location', cy: '' })
+                    message: localise({
+                        en: 'Select a location',
+                        cy: 'Dewiswch leoliad'
+                    })
                 }
             ]
         },
         projectLocationDescription: {
             name: 'projectLocationDescription',
             label: localise({
-                en: `Tell us the towns or villages where people who will benefit from your project live`,
-                cy: ``
+                en: oneLine`Tell us the towns or villages where people who
+                    will benefit from your project live`,
+                cy: oneLine`Dywedwch wrthym y trefi neu pentrefi mae’r bobl
+                    a fydd yn elwa o’ch prosiect yn byw`
             }),
             type: 'text',
             attributes: {
@@ -702,7 +715,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Tell us the towns, villages or wards your beneficiaries live in`,
-                        cy: ''
+                        cy: `Dywedwch wrthym y trefi, pentrefi neu wardiau mae eich buddiolwyr yn byw`
                     })
                 }
             ]
@@ -711,11 +724,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'projectPostcode',
             label: localise({
                 en: `What is the postcode of where your project will take place?`,
-                cy: ``
+                cy: `Beth yw côd post lleoliad eich prosiect?`
             }),
             explanation: localise({
-                en: `If your project will take place across different locations, please use the postcode where most of the project will take place.`,
-                cy: ``
+                en: oneLine`If your project will take place across different locations,
+                    please use the postcode where most of the project will take place.`,
+                cy: oneLine`Os bydd eich prosiect wedi’i leoli mewn amryw o leoliadau,
+                    defnyddiwch y côd post lle bydd y rhan fwyaf o’r prosiect wedi’i leoli.`
             }),
             type: 'text',
             attributes: {
@@ -733,7 +748,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a real postcode', cy: '' })
+                    message: localise({
+                        en: 'Enter a real postcode',
+                        cy: 'Rhowch gôd post go iawn'
+                    })
                 }
             ]
         },
@@ -744,12 +762,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'projectBudget',
             label: localise({
                 en: 'List the costs you would like us to fund',
-                cy: ''
+                cy: 'Rhestrwch y costau hoffech i ni eu hariannu'
             }),
             explanation: localise({
-                en: `<p>You should use budget headings, rather than a detailed list of items. For example, if you're applying for pens, pencils, paper and envelopes, using 'office supplies' is fine. Please enter whole numbers only.</p>
+                en: `<p>
+                    You should use budget headings, rather than a detailed list
+                    of items. For example, if you're applying for pens, pencils,
+                    paper and envelopes, using 'office supplies' is fine.
+                    Please enter whole numbers only.
+                </p>
                 <p>Please note you can only have a maximum of 10 rows.</p>`,
-                cy: ''
+                cy: `<p>
+                    Dylech ddefnyddio penawdau llai, yn hytrach na rhestr hir
+                    o eitemau. Er enghraifft, os ydych yn ymgeisio am feiros,
+                    pensiliau, papur ac amlenni, byddai defnyddio
+                    ‘offer swyddfa’ yn iawn. Rhowch y rhifau cyfan yn unig. 
+                </p>
+                <p>Sylwch mai dim ond uchafswm o 10 rhes gallwch ei gael.</p>`
             }),
             type: 'budget',
             attributes: {
@@ -773,7 +802,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         type: 'base',
                         message: localise({
                             en: 'Enter a project budget',
-                            cy: ''
+                            cy: 'Rhowch gyllideb prosiect'
                         })
                     },
                     {
@@ -781,40 +810,47 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         key: 'item',
                         message: localise({
                             en: 'Enter an item or activity',
-                            cy: ''
+                            cy: 'Rhowch eitem neu weithgaredd'
                         })
                     },
                     {
                         type: 'number.base',
                         key: 'cost',
-                        message: localise({ en: 'Enter an amount', cy: '' })
+                        message: localise({
+                            en: 'Enter an amount',
+                            cy: 'Rhowch nifer'
+                        })
                     },
                     {
                         type: 'array.min',
                         message: localise({
                             en: 'Enter at least one item',
-                            cy: ''
+                            cy: 'Rhowch o leiaf un eitem'
                         })
                     },
                     {
                         type: 'array.max',
                         message: localise({
                             en: `Enter no more than ${this.attributes.rowLimit} items`,
-                            cy: ''
+                            cy: `Rhowch dim mwy na ${this.attributes.rowLimit} eitem`
                         })
                     },
                     {
                         type: 'budgetItems.overBudget',
                         message: localise({
-                            en: `Costs you would like us to fund must be less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
-                            cy: ``
+                            en: oneLine`Costs you would like us to fund must be
+                                less than £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                            cy: oneLine`Rhaid i’r costau hoffech i ni eu hariannu
+                                fod yn llai na £${MAX_BUDGET_TOTAL_GBP.toLocaleString()}`
                         })
                     },
                     {
                         type: 'budgetItems.underBudget',
                         message: localise({
-                            en: `Costs you would like us to fund must be greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
-                            cy: ``
+                            en: oneLine`Costs you would like us to fund must be
+                                greater than £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`,
+                            cy: oneLine`Rhaid i’r costau hoffech i ni eu hariannu
+                                fod yn fwy na £${MIN_BUDGET_TOTAL_GBP.toLocaleString()}`
                         })
                     }
                 ];
