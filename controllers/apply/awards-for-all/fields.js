@@ -31,17 +31,16 @@ const showContactConfirmationQuestion = config.get(
 
 const countriesFor = require('./lib/countries');
 const locationsFor = require('./lib/locations');
-const rolesFor = require('./lib/roles');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
 const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaCommunity = require('./fields/your-idea-community');
 const fieldOrganisationType = require('./fields/organisation-type');
+const fieldSeniorContactRole = require('./fields/senior-contact-role');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
 
     const currentOrganisationType = get('organisationType')(data);
-    const currentOrganisationSubType = get('organisationSubType')(data);
 
     function multiChoice(options) {
         return Joi.array()
@@ -536,7 +535,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function fieldCompanyNumber() {
         return {
             name: 'companyNumber',
-            label: localise({ en: 'Companies House number', cy: '' }),
+            label: localise({
+                en: 'Companies House number',
+                cy: 'Rhif Tŷ’r Cwmnïau'
+            }),
             type: 'text',
             isRequired: true,
             schema: stripUnlessOrgTypes(
@@ -548,7 +550,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter your organisation’s Companies House number',
-                        cy: ''
+                        cy: 'Rhowch rif Tŷ’r Cwmnïau eich sefydliad'
                     })
                 }
             ]
@@ -574,7 +576,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
         return {
             name: 'charityNumber',
-            label: localise({ en: 'Charity registration number', cy: '' }),
+            label: localise({
+                en: 'Charity registration number',
+                cy: 'Rhif cofrestru elusen'
+            }),
             type: 'text',
             attributes: { size: 20 },
             isRequired: CHARITY_NUMBER_TYPES.required.includes(
@@ -586,7 +591,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter your organisation’s charity number',
-                        cy: ''
+                        cy: 'Rhowch rif elusen eich sefydliad'
                     })
                 }
             ]
@@ -596,7 +601,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     function fieldEducationNumber() {
         return {
             name: 'educationNumber',
-            label: localise({ en: 'Department for Education number', cy: '' }),
+            label: localise({
+                en: 'Department for Education number',
+                cy: 'Eich rhif Adran Addysg'
+            }),
             type: 'text',
             attributes: { size: 20 },
             isRequired: true,
@@ -609,131 +617,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Enter your organisation’s Department for Education number`,
-                        cy: ''
-                    })
-                }
-            ]
-        };
-    }
-
-    function fieldSeniorContactRole() {
-        /**
-         * Statutory bodies require a sub-type,
-         * some of which allow free text input for roles.
-         */
-        function isFreeText() {
-            return (
-                currentOrganisationType === ORGANISATION_TYPES.STATUTORY_BODY &&
-                [
-                    STATUTORY_BODY_TYPES.PRISON_SERVICE,
-                    STATUTORY_BODY_TYPES.FIRE_SERVICE,
-                    STATUTORY_BODY_TYPES.POLICE_AUTHORITY
-                ].includes(currentOrganisationSubType)
-            );
-        }
-
-        return {
-            name: 'seniorContactRole',
-            label: localise({ en: 'Role', cy: '' }),
-            explanation: localise({
-                en: `<p>
-                    You told us what sort of organisation you are earlier.
-                    ${
-                        isFreeText()
-                            ? `So the senior contact role should be someone in a position of authority in your organisation.`
-                            : `So the senior contact role options we're giving you now are based on your 
-                               organisation type. The options given to you for selection are based on this.`
-                    }
-                </p>`,
-                cy: ''
-            }),
-            get warnings() {
-                let result = [];
-
-                const projectCountry = get('projectCountry')(data);
-
-                const isCharityOrCompany = [
-                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
-                    ORGANISATION_TYPES.CIO,
-                    ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY
-                ].includes(currentOrganisationType);
-
-                /**
-                 * Scotland doesn't include trustees in their charity commission
-                 * data, so don't show this message in Scotland.
-                 */
-                if (isCharityOrCompany && projectCountry !== 'scotland') {
-                    result.push(
-                        localise({
-                            en: `Your senior contact must be listed as a member of your organisation's
-                                 board or committee with the Charity Commission/Companies House.`,
-                            cy: ``
-                        })
-                    );
-                }
-
-                if (currentOrganisationType === ORGANISATION_TYPES.CIO) {
-                    result.push(
-                        localise({
-                            en: `As a charity, your senior contact can be one of your organisation's trustees.
-                         This can include trustees taking on the role of Chair, Vice Chair or Treasurer.`,
-                            cy: ``
-                        })
-                    );
-                }
-
-                if (
-                    currentOrganisationType ===
-                    ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY
-                ) {
-                    result.push(
-                        localise({
-                            en: `As a registered charity, your senior contact must be one of your organisation's trustees. 
-                                 This can include trustees taking on the role of Chair, Vice Chair or Treasurer.`,
-                            cy: ``
-                        })
-                    );
-                }
-
-                if (currentOrganisationType === ORGANISATION_TYPES.SCHOOL) {
-                    result.push(
-                        localise({
-                            en: `As a school, your senior contact must be the headteacher`,
-                            cy: ``
-                        })
-                    );
-                }
-
-                return result;
-            },
-            type: isFreeText() ? 'text' : 'radio',
-            options: rolesFor({
-                locale: locale,
-                organisationType: currentOrganisationType,
-                organisationSubType: currentOrganisationSubType
-            }),
-            isRequired: true,
-            get schema() {
-                if (isFreeText()) {
-                    return Joi.string().required();
-                } else {
-                    return Joi.string()
-                        .valid(this.options.map(option => option.value))
-                        .required();
-                }
-            },
-            messages: [
-                {
-                    type: 'base',
-                    message: isFreeText()
-                        ? localise({ en: 'Enter a role', cy: '' })
-                        : localise({ en: 'Choose a role', cy: '' })
-                },
-                {
-                    type: 'any.allowOnly',
-                    message: localise({
-                        en: 'Senior contact role is not valid',
-                        cy: ''
+                        cy: `Rhowch rif Adran Addysg eich sefydliad`
                     })
                 }
             ]
@@ -1932,7 +1816,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 .optional(),
             messages: []
         },
-        seniorContactRole: fieldSeniorContactRole(),
+        seniorContactRole: fieldSeniorContactRole(locale, data),
         seniorContactName: nameField(
             {
                 name: 'seniorContactName',
