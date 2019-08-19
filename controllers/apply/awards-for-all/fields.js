@@ -1594,11 +1594,24 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'organisationLegalName',
             label: localise({
                 en: `What is the full legal name of your organisation?`,
-                cy: ``
+                cy: `Beth yw enw cyfreithiol llawn eich sefydliad?`
             }),
             explanation: localise({
-                en: `<p>This must be as shown on your <strong>governing document</strong>. Your governing document could be called one of several things, depending on the type of organisation you're applying on behalf of. It may be called a constitution, trust deed, memorandum and articles of association, or something else entirely.</p>`,
-                cy: ``
+                en: `<p>
+                    This must be as shown on your <strong>governing document</strong>.
+                    Your governing document could be called one of several things,
+                    depending on the type of organisation you're applying on behalf of.
+                    It may be called a constitution, trust deed, memorandum and
+                    articles of association, or something else entirely.
+                </p>`,
+
+                cy: `<p>
+                    Rhaid i hwn fod fel y dangosir ar eich <strong>dogfen lywodraethol</strong>.
+                    Gall eich dogfen lywodraethol gael ei alw yn un o amryw o bethau,
+                    gan ddibynnu ar y math o sefydliad rydych yn ymgeisio ar ei rhan.
+                    Gall gael ei alw’n gyfansoddiad, gweithred ymddiriedaeth,
+                    memorandwm ac erthyglau cymdeithasu, neu rywbeth gwbl wahanol. 
+                </p>`
             }),
             type: 'text',
             isRequired: true,
@@ -1608,7 +1621,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Enter the full legal name of the organisation',
-                        cy: ''
+                        cy: 'Rhowch enw cyfreithiol llawn eich sefydliad'
                     })
                 }
             ]
@@ -1617,7 +1630,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'organisationTradingName',
             label: localise({
                 en: `If your organisation uses a different name in your day-to-day work, tell us it here`,
-                cy: ``
+                cy: `Os yw eich sefydliad yn defnyddio enw gwahanol yn eich gwaith dydd i ddydd, dywedwch wrthym yma`
             }),
             type: 'text',
             isRequired: false,
@@ -1631,12 +1644,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'month-year',
             label: localise({
                 en: `When was your organisation set up?`,
-                cy: ''
+                cy: `Pryd sefydlwyd eich sefydliad?`
             }),
             explanation: localise({
                 en: `<p>Please tell us the month and year.</p>
                      <p><strong>For example: 11 2017</strong></p>`,
-                cy: ''
+                cy: `<p>Dywedwch wrthym y mis a’r flwyddyn.</p>
+                     <p><strong>Er enghraifft: 11 2017</strong></p>`
             }),
             isRequired: true,
             schema: Joi.monthYear()
@@ -1646,20 +1660,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a day and month', cy: '' })
+                    message: localise({
+                        en: 'Enter a day and month',
+                        cy: 'Rhowch ddiwrnod a mis'
+                    })
                 },
                 {
                     type: 'any.invalid',
                     message: localise({
                         en: 'Enter a real day and month',
-                        cy: ''
+                        cy: 'Rhowch ddiwrnod a mis go iawn'
                     })
                 },
                 {
                     type: 'monthYear.pastDate',
                     message: localise({
                         en: 'Date you enter must be in the past',
-                        cy: ''
+                        cy: 'Rhaid i’r dyddiad fod yn y gorffennol'
                     })
                 }
             ]
@@ -1668,11 +1685,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'organisationAddress',
             label: localise({
                 en: `What is the main or registered address of your organisation?`,
-                cy: ``
+                cy: `Beth yw prif gyfeiriad neu gyfeiriad gofrestredig eich sefydliad?`
             }),
             explanation: localise({
-                en: `<p>Enter the postcode and search for the address, or enter it manually below.</p>`,
-                cy: ``
+                en: `<p>Enter the postcode and search for the address, or enter it manually below.`,
+                cy: `Rhowch y cod post a chwiliwch am y cyfeiriad, neu ei deipio isod.`
             })
         }),
         organisationType: fieldOrganisationType(locale),
@@ -1680,40 +1697,58 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'organisationSubType',
             label: localise({
                 en: 'Tell us what type of statutory body you are',
-                cy: ''
+                cy: 'Dywedwch wrthym pa fath o gorff statudol ydych'
             }),
             type: 'radio',
             options: [
                 {
                     value: STATUTORY_BODY_TYPES.PARISH_COUNCIL,
-                    label: localise({ en: 'Parish Council', cy: '' })
+                    label: localise({
+                        en: 'Parish Council',
+                        cy: 'Cyngor plwyf'
+                    })
                 },
                 {
                     value: STATUTORY_BODY_TYPES.TOWN_COUNCIL,
-                    label: localise({ en: 'Town Council', cy: '' })
+                    label: localise({
+                        en: 'Town Council',
+                        cy: 'Cyngor tref'
+                    })
                 },
                 {
                     value: STATUTORY_BODY_TYPES.LOCAL_AUTHORITY,
-                    label: localise({ en: 'Local Authority', cy: '' })
+                    label: localise({
+                        en: 'Local Authority',
+                        cy: 'Awdurdod lleol'
+                    })
                 },
                 {
                     value: STATUTORY_BODY_TYPES.NHS_TRUST,
                     label: localise({
                         en: 'NHS Trust/Health Authority',
-                        cy: ''
+                        cy: 'Ymddiriedaeth GIG/Awdurdod Iechyd'
                     })
                 },
                 {
                     value: STATUTORY_BODY_TYPES.PRISON_SERVICE,
-                    label: localise({ en: 'Prison Service', cy: '' })
+                    label: localise({
+                        en: 'Prison Service',
+                        cy: 'Gwasanaeth carchar'
+                    })
                 },
                 {
                     value: STATUTORY_BODY_TYPES.FIRE_SERVICE,
-                    label: localise({ en: 'Fire Service', cy: '' })
+                    label: localise({
+                        en: 'Fire Service',
+                        cy: 'Gwasanaeth tân'
+                    })
                 },
                 {
                     value: STATUTORY_BODY_TYPES.POLICE_AUTHORITY,
-                    label: localise({ en: 'Police Authority', cy: '' })
+                    label: localise({
+                        en: 'Police Authority',
+                        cy: 'Awdurdod heddlu'
+                    })
                 }
             ],
             isRequired: true,
@@ -1727,7 +1762,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Tell us what type of statutory body you are',
-                        cy: ''
+                        cy: 'Dywedwch wrthym pa fath o gorff statudol ydych'
                     })
                 }
             ]
@@ -1739,11 +1774,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'accountingYearDate',
             label: localise({
                 en: 'What is your accounting year end date?',
-                cy: ''
+                cy: 'Beth yw eich dyddiad gorffen blwyddyn ariannol?'
             }),
             explanation: localise({
                 en: `<p><strong>For example: 31 03</strong></p>`,
-                cy: ''
+                cy: '<p><strong>Er enghraifft: 31 03</strong></p>'
             }),
             type: 'day-month',
             isRequired: true,
