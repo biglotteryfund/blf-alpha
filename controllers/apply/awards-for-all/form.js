@@ -90,7 +90,7 @@ module.exports = function({
                 cy: `
                     <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hon yn lle</a>.</p>
                     <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
-                    <p><a href="/welsh/funding/programmes/awards-for-all-northern-ireland">Byddwch angen lawrlwytho ffurflen gais i ymgeisio</a>.</p>
+                    <p><a href="funding/programmes/awards-for-all-northern-ireland">Byddwch angen lawrlwytho ffurflen gais i ymgeisio</a>.</p>
                     <p>Ymgeiswyr yn Yr Alban yn unig gall ymgeisio drwy ein ffurlfen ar-lein newydd ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn hygyrch i weddill Prydain.</p>
                 `
             })
