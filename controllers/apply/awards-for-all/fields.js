@@ -468,7 +468,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({
                         en: oneLine`Date you start the project must be after
                             ${minDateAfter.format('D MMMM YYYY')}`,
-                        cy: ''
+                        cy: oneLine`Rhaid i ddyddiad dechrau’r prosiect fod ar ôl
+                            ${minDateAfter.format('D MMMM YYYY')}`
                     })
                 },
                 {
@@ -478,7 +479,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                             ${localise(
                                 MAX_PROJECT_DURATION.label
                             )} of the start date.`,
-                        cy: ''
+                        cy: oneLine`Rhaid i ddyddiad gorffen y prosiect fod o fewn
+                            ${localise(
+                                MAX_PROJECT_DURATION.label
+                            )} o ddyddiad dechrau’r prosiect.`
                     })
                 },
                 {
@@ -512,7 +516,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: oneLine`We work slightly differently depending on which
                     country your project is based in, to meet local needs
                     and the regulations that apply there.`,
-                cy: ''
+                cy: oneLine`Rydym yn gweithredu ychydig yn wahanol, yn ddibynnol 
+                    ar pa wlad mae eich prosiect wedi’i leoli i ddiwallu 
+                    anghenion lleol a’r rheoliadau sy’n berthnasol yna.`
             }),
             type: 'radio',
             options: options,

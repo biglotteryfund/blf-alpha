@@ -684,7 +684,26 @@ module.exports = function({
                                 <li>or related by blood.</li> 
                             </ul>
                             `,
-                            cy: ''
+                            cy:
+                                safeHtml`<p>
+                                Rhowch fanylion cyswllt y person gallwn gysylltu â nhw os 
+                                oes gennym unrhyw gwestiynau. Y prif gyswllt fel arfer yw’r 
+                                person sy’n llenwi’r ffurflen – felly mae’n debyg mai chi yw hwn. 
+                                Mae’r prif gyswllt angen bod o’r sefydliad sy’n ymgeisio, ond nid 
+                                oes rhaid iddynt ddal unrhyw safle penodol o fewn y sefydliad.    
+                            </p>
+                            <p>
+                                Rhaid i’r prif gyswllt fod yn wahanol i’r uwch gyswllt` +
+                                seniorNameMsg +
+                                `. Ni all y ddau gyswllt hefyd fod:
+                            </p>
+                            <ul>                            
+                                <li>yn briod i’w gilydd</li>
+                                <li>mewn perthynas hir dymor a’u gilydd</li>
+                                <li>yn byw yn yr un cyfeiriad</li>
+                                <li>Neu yn perthyn drwy waed.</li>
+                            </ul>
+                            `
                         });
                     },
                     get fields() {
@@ -773,7 +792,8 @@ module.exports = function({
                             msg: localise({
                                 en: oneLine`This bank account cannot receive BACS payments,
                                     which is a requirement for funding`,
-                                cy: ''
+                                cy: oneLine`Ni all y cyfrif banc hwn dderbyn taliadau BACS, 
+                                    sy’n ofynnol i gael eich ariannu.`
                             }),
                             param: 'bankAccountNumber',
                             field: fields.bankAccountNumber
@@ -1130,7 +1150,9 @@ module.exports = function({
                     en: oneLine`Please tell us about your project in this section.
                         This is the most important section when it comes to
                         making a decision about whether you will receive funding.`,
-                    cy: ``
+                    cy: oneLine`Dywedwch wrthym am eich prosiect yn yr adran hon. 
+                        Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
+                        a ydych wedi bod yn llwyddiannus ai beidio.`
                 }),
                 steps: [
                     stepProjectDetails(),
@@ -1170,7 +1192,9 @@ module.exports = function({
                     en: oneLine`Please tell us about your organisation,
                         including legal name, registered address and income.
                         This helps us understand the type of organisation you are.`,
-                    cy: ''
+                    cy: oneLine`Dywedwch wrthym am eich sefydliad, gan gynnwys yr enw cyfreithiol, 
+                        cyfeiriad cofrestredig ac incwm. Mae hyn yn ein helpu 
+                        i ddeall pa fath o sefydliad ydych.`
                 }),
                 steps: [
                     stepOrganisationDetails(),
@@ -1188,7 +1212,10 @@ module.exports = function({
                         This person will be legally responsible for the funding.
                         They can't be married to, in a long-term relationship with,
                         living with, or related to the main contact.`,
-                    cy: ``
+                    cy: oneLine`Darparwch fanylion ar gyfer eich uwch gyswllt. 
+                        Bydd y person yma’n gyfreithiol gyfrifol am yr arian. 
+                        Ni allent fod yn briod i, mewn perthynas hir dymor â, 
+                        yn byw gyda na’n perthyn drwy waed i’r prif gyswllt.`
                 }),
                 steps: [stepSeniorContact()]
             },
@@ -1199,7 +1226,9 @@ module.exports = function({
                     en: oneLine`Please provide details for your main contact.
                         This will be the first person we contact if we
                         need to discuss your project.`,
-                    cy: ``
+                    cy: oneLine`Darparwch fanylion ar gyfer eich prif gyswllt. 
+                        Dyma fydd y person cyntaf i ni gysylltu â nhw os 
+                        byddwn angen trafod eich prosiect.`
                 }),
                 steps: [stepMainContact()]
             },
@@ -1211,7 +1240,10 @@ module.exports = function({
                         Before you submit your application you will
                         need to attach a copy of a bank statement
                         that is less than three months old`,
-                    cy: ''
+                    cy: oneLine`Darparwch eich manylion banc. 
+                        Cyn i chi anfon eich cais bydd angen i chi 
+                        atodi copi o’ch cyfriflen banc sy’n 
+                        llai na tair mis oed.`
                 }),
                 steps: [stepBankAccount(), stepBankStatement()]
             },
@@ -1224,7 +1256,8 @@ module.exports = function({
                 summary: localise({
                     en: oneLine`In order to submit your application,
                         you will need to agree to our terms and conditions.`,
-                    cy: ''
+                    cy: oneLine`Er mwyn anfon eich cais, 
+                        bydd angen i chi gytuno a’n Telerau ac Amodau.`
                 }),
                 steps: [stepTerms()]
             }
