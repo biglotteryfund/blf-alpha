@@ -163,7 +163,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'line1',
                     message: localise({
                         en: 'Enter a building and street',
-                        cy: ' Rhowch adeilad a stryd'
+                        cy: 'Rhowch adeilad a stryd'
                     })
                 },
                 {
@@ -1178,7 +1178,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                             value: 'chinese',
                             label: localise({
                                 en: 'Chinese',
-                                cy: 'Tsieniaidd '
+                                cy: 'Tsieniaidd'
                             })
                         },
                         {
@@ -1200,14 +1200,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                             value: 'caribbean',
                             label: localise({
                                 en: 'Caribbean',
-                                cy: 'Caribiaidd '
+                                cy: 'Caribiaidd'
                             })
                         },
                         {
                             value: 'african',
                             label: localise({
                                 en: 'African',
-                                cy: 'Affricanaidd '
+                                cy: 'Affricanaidd'
                             })
                         },
                         {
@@ -1796,7 +1796,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a day and month', cy: 'Rhowch ddiwrnod a mis' })
+                    message: localise({
+                        en: 'Enter a day and month',
+                        cy: 'Rhowch ddiwrnod a mis'
+                    })
                 },
                 {
                     type: 'any.invalid',
@@ -1830,8 +1833,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Enter a total income for the year (eg. a whole number with no commas or decimal points)',
-                        cy: 'Rhowch gyfanswm incwm am y flwyddyn (e.e. rhif cyflawn heb goma na bwyntiau degol)'
+                        en:
+                            'Enter a total income for the year (eg. a whole number with no commas or decimal points)',
+                        cy:
+                            'Rhowch gyfanswm incwm am y flwyddyn (e.e. rhif cyflawn heb goma na bwyntiau degol)'
                     })
                 },
                 {
@@ -1844,8 +1849,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'number.integer',
                     message: localise({
-                        en: 'Total income must be a whole number (eg. no decimal point)',
-                        cy: 'Rhaid i’r cyfanswm incwm fod yn rif cyflawn (e.e. dim pwynt degol)'
+                        en:
+                            'Total income must be a whole number (eg. no decimal point)',
+                        cy:
+                            'Rhaid i’r cyfanswm incwm fod yn rif cyflawn (e.e. dim pwynt degol)'
                     })
                 }
             ]
@@ -1853,7 +1860,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         mainContactName: nameField(
             {
                 name: 'mainContactName',
-                label: localise({ en: 'Full name of main contact', cy: 'Enw llawn y prif gyswllt' }),
+                label: localise({
+                    en: 'Full name of main contact',
+                    cy: 'Enw llawn y prif gyswllt'
+                }),
                 explanation: localise({
                     en: 'This person has to live in the UK.',
                     cy: 'Rhaid i’r person hwn fyw ym Mhrydain.'
@@ -1905,10 +1915,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         mainContactAddress: addressField(
             {
                 name: 'mainContactAddress',
-                label: localise({ en: 'Home address', cy: 'Cyfeiriad cartref' }),
+                label: localise({
+                    en: 'Home address',
+                    cy: 'Cyfeiriad cartref'
+                }),
                 explanation: localise({
                     en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
-                    cy: 'Rydym angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio’r cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.'
+                    cy:
+                        'Rydym angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio’r cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.'
                 }),
                 schema: stripIfExcludedOrgType(Joi.ukAddress().mainContact())
             },
@@ -1925,8 +1939,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         mainContactAddressHistory: addressHistoryField({
             name: 'mainContactAddressHistory',
             label: localise({
-                en: 'Have they lived at their home address for the last three years?',
-                cy: 'A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?'
+                en:
+                    'Have they lived at their home address for the last three years?',
+                cy:
+                    'A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?'
             })
         }),
         mainContactEmail: emailField(
@@ -1934,8 +1950,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 name: 'mainContactEmail',
                 label: localise({ en: 'Email', cy: 'E-bost' }),
                 explanation: localise({
-                    en: 'We’ll use this whenever we get in touch about the project',
-                    cy: 'Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect'
+                    en:
+                        'We’ll use this whenever we get in touch about the project',
+                    cy:
+                        'Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect'
                 }),
                 schema: Joi.string()
                     .email()
@@ -1972,7 +1990,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         seniorContactName: nameField(
             {
                 name: 'seniorContactName',
-                label: localise({ en: 'Full name of senior contact', cy: 'Enw llawn yr uwch gyswllt' }),
+                label: localise({
+                    en: 'Full name of senior contact',
+                    cy: 'Enw llawn yr uwch gyswllt'
+                }),
                 explanation: localise({
                     en: 'This person has to live in the UK.',
                     cy: 'Rhaid i’r person hwn fyw ym Mhrydain'
@@ -1998,10 +2019,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         seniorContactAddress: addressField(
             {
                 name: 'seniorContactAddress',
-                label: localise({ en: 'Home address', cy: 'Cyfeiriad cartref' }),
+                label: localise({
+                    en: 'Home address',
+                    cy: 'Cyfeiriad cartref'
+                }),
                 explanation: localise({
                     en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
-                    cy: 'Byddwn angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio eu cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.'
+                    cy: `Byddwn angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio eu cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`
                 }),
                 schema: stripIfExcludedOrgType(Joi.ukAddress().seniorContact())
             },
@@ -2027,7 +2051,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             label: localise({ en: 'Email', cy: 'E-bost' }),
             explanation: localise({
                 en: 'We’ll use this whenever we get in touch about the project',
-                cy: 'Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect'
+                cy:
+                    'Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect'
             })
         }),
         seniorContactPhone: phoneField({
@@ -2051,7 +2076,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'bankAccountName',
             label: localise({
                 en: `Tell us the name of your organisation - as it appears on the bank statement`,
-                cy: 'Dywedwch wrthym enw eich sefydliad – fel mae’n ymddangos ar eich cyfriflen banc'
+                cy: `Dywedwch wrthym enw eich sefydliad – fel mae’n ymddangos ar eich cyfriflen banc`
             }),
             explanation: localise({
                 en: `Not the name of your bank`,
@@ -2066,7 +2091,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Enter the name of your organisation, as it appears on your bank statement`,
-                        cy: 'Rhowch enw eich sefydliad, fel mae’n ymddangos ar eich cyfriflen banc'
+                        cy: `Rhowch enw eich sefydliad, fel mae’n ymddangos ar eich cyfriflen banc`
                     })
                 }
             ]
@@ -2085,7 +2110,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter a sort code', cy: 'Rhowch god didoli' })
+                    message: localise({
+                        en: 'Enter a sort code',
+                        cy: 'Rhowch god didoli'
+                    })
                 },
                 {
                     type: 'string.length',
@@ -2111,7 +2139,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             messages: [
                 {
                     type: 'base',
-                    message: localise({ en: 'Enter an account number', cy: 'Rhowch rif cyfrif' })
+                    message: localise({
+                        en: 'Enter an account number',
+                        cy: 'Rhowch rif cyfrif'
+                    })
                 },
                 {
                     type: 'string.min',
@@ -2149,7 +2180,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         },
         bankStatement: {
             name: 'bankStatement',
-            label: localise({ en: 'Upload a bank statement', cy: 'Uwch lwytho cyfriflen banc' }),
+            label: localise({
+                en: 'Upload a bank statement',
+                cy: 'Uwch lwytho cyfriflen banc'
+            }),
             // Used when editing an existing bank statement
             labelExisting: localise({
                 en: 'Upload a new bank statement',
@@ -2202,10 +2236,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'checkbox',
             label: localise({
                 en: `You have been authorised by the governing body of your organisation (the board or committee that runs your organisation) to submit this application and to accept the Terms and Conditions set out above on their behalf.`,
-                cy: 'Rydych wedi cael eich awdurdodi gan gorff lywodraethol eich sefydliad (y bwrdd neu bwyllgor sy’n rhedeg eich sefydliad) i anfon y cais hwn ac i gytuno â’r Telerau ac Amodau wedi ei osod uchod ar eu rhan.'
+                cy:
+                    'Rydych wedi cael eich awdurdodi gan gorff lywodraethol eich sefydliad (y bwrdd neu bwyllgor sy’n rhedeg eich sefydliad) i anfon y cais hwn ac i gytuno â’r Telerau ac Amodau wedi ei osod uchod ar eu rhan.'
             }),
             options: [
-                { value: 'yes', label: localise({ en: 'I agree', cy: 'Rwy’n cytuno' }) }
+                {
+                    value: 'yes',
+                    label: localise({ en: 'I agree', cy: 'Rwy’n cytuno' })
+                }
             ],
             settings: { stackedSummary: true },
             isRequired: true,
@@ -2215,7 +2253,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `You must confirm that you're authorised to submit this application`,
-                        cy: 'Rhaid ichi gadarnhau eich bod wedi cael eich awdurdodi i anfon y cais hwn'
+                        cy:
+                            'Rhaid ichi gadarnhau eich bod wedi cael eich awdurdodi i anfon y cais hwn'
                     })
                 }
             ]
@@ -2225,10 +2264,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'checkbox',
             label: localise({
                 en: `All the information you have provided in your application is accurate and complete; and you will notify us of any changes.`,
-                cy: 'Mae pob darn o wybodaeth rydych wedi ei ddarparu yn eich cais yn gywir ac yn gyflawn; a byddwch yn ein hysbysu am unrhyw newidiadau.'
+                cy:
+                    'Mae pob darn o wybodaeth rydych wedi ei ddarparu yn eich cais yn gywir ac yn gyflawn; a byddwch yn ein hysbysu am unrhyw newidiadau.'
             }),
             options: [
-                { value: 'yes', label: localise({ en: 'I agree', cy: 'Rwy’n cytuno' }) }
+                {
+                    value: 'yes',
+                    label: localise({ en: 'I agree', cy: 'Rwy’n cytuno' })
+                }
             ],
             settings: { stackedSummary: true },
             isRequired: true,
@@ -2238,7 +2281,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `You must confirm that the information you've provided in this application is accurate`,
-                        cy: 'Rhaid ichi gadarnhau bod y wybodaeth rydych wedi ei ddarparu yn y cais hwn yn gywir'
+                        cy:
+                            'Rhaid ichi gadarnhau bod y wybodaeth rydych wedi ei ddarparu yn y cais hwn yn gywir'
                     })
                 }
             ]
@@ -2248,10 +2292,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'checkbox',
             label: localise({
                 en: `You understand that we will use any personal information you have provided for the purposes described under the <a href="/about/customer-service/data-protection">Data Protection Statement</a>.`,
-                cy: 'Rydych yn deall y byddwn yn defnyddio unrhyw wybodaeth bersonol rydych wedi ei ddarparu ar gyfer dibenion wedi’i ddisgrifio dan y <a href="/welsh/about/customer-service/data-protection">Datganiad Diogelu Data</a>.'
+                cy:
+                    'Rydych yn deall y byddwn yn defnyddio unrhyw wybodaeth bersonol rydych wedi ei ddarparu ar gyfer dibenion wedi’i ddisgrifio dan y <a href="/welsh/about/customer-service/data-protection">Datganiad Diogelu Data</a>.'
             }),
             options: [
-                { value: 'yes', label: localise({ en: 'I agree', cy: 'Rwy’n cytuno' }) }
+                {
+                    value: 'yes',
+                    label: localise({ en: 'I agree', cy: 'Rwy’n cytuno' })
+                }
             ],
             settings: { stackedSummary: true },
             isRequired: true,
@@ -2261,7 +2309,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `You must confirm that you understand how we'll use any personal information you've provided`,
-                        cy: 'Rhaid ichi gadarnhau eich bod yn deall sut y byddwn yn defnyddio unrhyw wybodaeth bersonol rydych wedi ei ddarparu'
+                        cy:
+                            'Rhaid ichi gadarnhau eich bod yn deall sut y byddwn yn defnyddio unrhyw wybodaeth bersonol rydych wedi ei ddarparu'
                     })
                 }
             ]
@@ -2271,10 +2320,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'checkbox',
             label: localise({
                 en: `If information about this application is requested under the Freedom of Information Act, we will release it in line with our <a href="/about/customer-service/freedom-of-information">Freedom of Information policy.</a>`,
-                cy: 'Os gofynnir am wybodaeth o’r cais hwn o dan y Ddeddf Rhyddid Gwybodaeth, byddwn yn ei ryddhau yn unol â’n <a href="/welsh/about/customer-service/freedom-of-information">Polisi Rhyddid Gwybodaeth.</a>'
+                cy:
+                    'Os gofynnir am wybodaeth o’r cais hwn o dan y Ddeddf Rhyddid Gwybodaeth, byddwn yn ei ryddhau yn unol â’n <a href="/welsh/about/customer-service/freedom-of-information">Polisi Rhyddid Gwybodaeth.</a>'
             }),
             options: [
-                { value: 'yes', label: localise({ en: 'I agree', cy: 'Rwy’n cytuno' }) }
+                {
+                    value: 'yes',
+                    label: localise({ en: 'I agree', cy: 'Rwy’n cytuno' })
+                }
             ],
             settings: { stackedSummary: true },
             isRequired: true,
@@ -2284,7 +2337,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `You must confirm that you understand your application is subject to our Freedom of Information policy`,
-                        cy: 'Rhaid ichi gadarnhau eich bod yn deall bod eich cais yn ddarostyngedig i’n polisi Rhyddid Gwybodaeth'
+                        cy:
+                            'Rhaid ichi gadarnhau eich bod yn deall bod eich cais yn ddarostyngedig i’n polisi Rhyddid Gwybodaeth'
                     })
                 }
             ]
@@ -2303,7 +2357,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Enter the full name of the person completing this form`,
-                        cy: 'Rhowch enw llawn y person sy’n cwblhau’r ffurflen hwn'
+                        cy:
+                            'Rhowch enw llawn y person sy’n cwblhau’r ffurflen hwn'
                     })
                 }
             ],
@@ -2311,7 +2366,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         },
         termsPersonPosition: {
             name: 'termsPersonPosition',
-            label: localise({ en: 'Position in organisation', cy: 'Safle o fewn y sefydliad' }),
+            label: localise({
+                en: 'Position in organisation',
+                cy: 'Safle o fewn y sefydliad'
+            }),
             type: 'text',
             schema: Joi.string().required(),
             messages: [

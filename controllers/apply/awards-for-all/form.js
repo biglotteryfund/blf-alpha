@@ -62,7 +62,10 @@ module.exports = function({
             title: localise({ en: 'Project details', cy: 'Manylion prosiect' }),
             fieldsets: [
                 {
-                    legend: localise({ en: 'Project details', cy: 'Manylion prosiect' }),
+                    legend: localise({
+                        en: 'Project details',
+                        cy: 'Manylion prosiect'
+                    }),
                     fields: [fields.projectName, fields.projectDateRange]
                 }
             ]
@@ -100,7 +103,10 @@ module.exports = function({
             title: localise({ en: 'Project country', cy: 'Gwlad y prosiect' }),
             fieldsets: [
                 {
-                    legend: localise({ en: 'Project country', cy: 'Gwlad y prosiect' }),
+                    legend: localise({
+                        en: 'Project country',
+                        cy: 'Gwlad y prosiect'
+                    }),
                     fields: [fields.projectCountry]
                 }
             ],
@@ -110,10 +116,16 @@ module.exports = function({
 
     function stepProjectLocation() {
         return {
-            title: localise({ en: 'Project location', cy: 'Lleoliad y prosiect' }),
+            title: localise({
+                en: 'Project location',
+                cy: 'Lleoliad y prosiect'
+            }),
             fieldsets: [
                 {
-                    legend: localise({ en: 'Project location', cy: 'Lleoliad y prosiect' }),
+                    legend: localise({
+                        en: 'Project location',
+                        cy: 'Lleoliad y prosiect'
+                    }),
 
                     /**
                      * The project location fields are conditional based
@@ -324,7 +336,10 @@ module.exports = function({
             title: localise({ en: 'Disabled people', cy: 'Pobl anabl' }),
             fieldsets: [
                 {
-                    legend: localise({ en: 'Disabled people', cy: 'Pobl anabl' }),
+                    legend: localise({
+                        en: 'Disabled people',
+                        cy: 'Pobl anabl'
+                    }),
                     fields: conditionalFields(
                         [fields.beneficiariesGroupsDisabledPeople],
                         includeIfBeneficiaryType(
@@ -339,7 +354,10 @@ module.exports = function({
 
     function stepReligionOrFaith() {
         return {
-            title: localise({ en: 'Religion or belief', cy: 'Crefydd neu gred' }),
+            title: localise({
+                en: 'Religion or belief',
+                cy: 'Crefydd neu gred'
+            }),
             fieldsets: [
                 {
                     legend: localise({
@@ -397,7 +415,10 @@ module.exports = function({
 
     function stepNorthernIrelandCommunity() {
         return {
-            title: localise({ en: `Northern Ireland community`, cy: `Cymuned Gogledd Iwerddon` }),
+            title: localise({
+                en: `Northern Ireland community`,
+                cy: `Cymuned Gogledd Iwerddon`
+            }),
             fieldsets: [
                 {
                     legend: localise({
@@ -417,7 +438,10 @@ module.exports = function({
 
     function stepOrganisationDetails() {
         return {
-            title: localise({ en: 'Organisation details', cy: 'Manylion sefydliad' }),
+            title: localise({
+                en: 'Organisation details',
+                cy: 'Manylion sefydliad'
+            }),
             fieldsets: [
                 {
                     legend: localise({
@@ -437,10 +461,16 @@ module.exports = function({
 
     function stepOrganisationType() {
         return {
-            title: localise({ en: 'Organisation type', cy: 'Math o sefydliad' }),
+            title: localise({
+                en: 'Organisation type',
+                cy: 'Math o sefydliad'
+            }),
             fieldsets: [
                 {
-                    legend: localise({ en: 'Organisation type', cy: 'Math o sefydliad' }),
+                    legend: localise({
+                        en: 'Organisation type',
+                        cy: 'Math o sefydliad'
+                    }),
                     fields: [fields.organisationType]
                 }
             ]
@@ -513,7 +543,10 @@ module.exports = function({
         );
 
         return {
-            title: localise({ en: 'Registration numbers', cy: 'Rhifau cofrestru' }),
+            title: localise({
+                en: 'Registration numbers',
+                cy: 'Rhifau cofrestru'
+            }),
             fieldsets: [
                 {
                     legend: localise({
@@ -550,7 +583,10 @@ module.exports = function({
             get('organisationStartDate.isBeforeMin')(data) === true;
 
         return {
-            title: localise({ en: 'Organisation finances', cy: 'Cyllid y sefydliad' }),
+            title: localise({
+                en: 'Organisation finances',
+                cy: 'Cyllid y sefydliad'
+            }),
             fieldsets: [
                 {
                     legend: localise({
@@ -771,7 +807,8 @@ module.exports = function({
                         {
                             msg: localise({
                                 en: `This sort code is not valid with this account number`,
-                                cy: 'Nid yw’r cod didoli’n ddilys â’r rhif cyfrif hwn'
+                                cy:
+                                    'Nid yw’r cod didoli’n ddilys â’r rhif cyfrif hwn'
                             }),
                             param: 'bankSortCode',
                             field: fields.bankSortCode
@@ -779,7 +816,8 @@ module.exports = function({
                         {
                             msg: localise({
                                 en: `This account number is not valid with this sort code`,
-                                cy: 'Nid yw’r rhif cyfrif yn ddilys â’r cod didoli hwn'
+                                cy:
+                                    'Nid yw’r rhif cyfrif yn ddilys â’r cod didoli hwn'
                             }),
                             param: 'bankAccountNumber',
                             field: fields.bankAccountNumber
@@ -849,7 +887,7 @@ module.exports = function({
                         cy: `<p>
                             Rydym angen eich manylion banc i dalu’r arian i’ch cyfrif – os yw eich cais yn llwyddiannus. 
                         </p>
-                        <p><strong>We can't pay into all bank accounts</strong>:
+                        <p><strong>Ni allwn dalu i mewn i bob cyfrif banc</strong>:
                             Ni allwn drosglwyddo arian i fathau penodol o gyfrifon fel Tide, Cashplush a Paypal.
                         </p>`
                     }),
@@ -976,7 +1014,10 @@ module.exports = function({
             isMultipart: true,
             fieldsets: [
                 {
-                    legend: localise({ en: 'Bank statement', cy: 'Cyfriflen banc' }),
+                    legend: localise({
+                        en: 'Bank statement',
+                        cy: 'Cyfriflen banc'
+                    }),
                     introduction: introduction,
                     fields: [fields.bankStatement]
                 }
@@ -1085,11 +1126,17 @@ module.exports = function({
                     value: organisation
                 },
                 {
-                    label: localise({ en: 'Project dates', cy: 'Dyddiadau’r prosiect' }),
+                    label: localise({
+                        en: 'Project dates',
+                        cy: 'Dyddiadau’r prosiect'
+                    }),
                     value: projectDateRange && formatDateRange(projectDateRange)
                 },
                 {
-                    label: localise({ en: 'Requested amount', cy: 'Swm y gofynnwyd amdano' }),
+                    label: localise({
+                        en: 'Requested amount',
+                        cy: 'Swm y gofynnwyd amdano'
+                    }),
                     value: budget.length > 0 && `£${budgetSum.toLocaleString()}`
                 }
             ]
@@ -1168,7 +1215,10 @@ module.exports = function({
                     en: 'Who will benefit from your project?',
                     cy: 'Pwy fydd yn elwa o’ch prosiect?'
                 }),
-                shortTitle: localise({ en: 'Who will benefit', cy: 'Pwy fydd yn elwa' }),
+                shortTitle: localise({
+                    en: 'Who will benefit',
+                    cy: 'Pwy fydd yn elwa'
+                }),
                 summary: localise({
                     en: `We want to hear more about the people who will benefit from your project.`,
                     cy: `Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.`
@@ -1187,7 +1237,10 @@ module.exports = function({
             },
             {
                 slug: 'organisation',
-                title: localise({ en: 'Your organisation', cy: 'Eich sefydliad' }),
+                title: localise({
+                    en: 'Your organisation',
+                    cy: 'Eich sefydliad'
+                }),
                 summary: localise({
                     en: oneLine`Please tell us about your organisation,
                         including legal name, registered address and income.
