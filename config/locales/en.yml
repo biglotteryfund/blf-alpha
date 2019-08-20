@@ -1533,6 +1533,9 @@ applyNext:
   edit: Edit
   submit: Submit application
   fields:
+    fullName:
+      firstName: First name
+      lastName: Last name
     dates:
       startDate: Start date
       endDate: End date
