@@ -46,11 +46,7 @@ const passportMiddleware = require('./middleware/passport');
 const previewMiddleware = require('./middleware/preview');
 const sessionMiddleware = require('./middleware/session');
 
-const {
-    renderError,
-    renderNotFound,
-    renderUnauthorised
-} = require('./controllers/errors');
+const { renderError, renderNotFound } = require('./controllers/errors');
 
 /**
  * Configure Sentry client
@@ -305,18 +301,6 @@ forEach(routes, function(section, sectionId) {
     app.use(section.path, router);
     app.use(makeWelsh(section.path), router);
 });
-
-/**
- * Error route
- * Alias for error pages for old site -> new
- */
-app.get('/error', renderNotFound);
-
-/**
- * Plain text error route
- * Used for more high-level errors
- */
-app.get('/error-unauthorised', renderUnauthorised);
 
 /**
  * Final wildcard request handler
