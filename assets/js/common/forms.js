@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import forEach from 'lodash/forEach';
+import debounce from 'lodash/debounce';
 import { trackEvent, tagHotjarRecording } from '../helpers/metrics';
 
 function handleBeforeUnload(e) {
@@ -235,6 +236,19 @@ function init() {
 
     // Hotjar tagging
     initHotjarTracking('awards-for-all');
+
+    const handleActivity = () => {
+        console.log('activity!');
+        $.ajax({
+            type: 'get',
+            url: '/user/session',
+            dataType: 'json'
+        }).then(response => {
+            console.log(response);
+        });
+    };
+
+    $('form').on('click keypress', debounce(handleActivity, 1000));
 }
 
 export default {

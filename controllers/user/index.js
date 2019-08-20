@@ -2,6 +2,7 @@
 const express = require('express');
 const uuidv4 = require('uuid/v4');
 const features = require('config').get('features');
+const moment = require('moment');
 
 const { Users } = require('../../db/models');
 const { localify, redirectForLocale } = require('../../common/urls');
@@ -95,6 +96,17 @@ router.get('/logout', function(req, res) {
     logger.info('User logout');
     req.session.save(() => {
         redirectForLocale(req, res, '/user/login?s=loggedOut');
+    });
+});
+
+// router.get('/session', requireUserAuth, function(req, res) {
+router.get('/session', function(req, res) {
+    res.send({
+        expires: req.session.cookie.expires,
+        maxAge: req.session.cookie.maxAge,
+        originalMaxAge: req.session.cookie.originalMaxAge,
+        isExpired: moment(req.session.cookie.expires).isBefore(moment()),
+        isAuthenticated: req.isAuthenticated()
     });
 });
 

@@ -1,6 +1,5 @@
 'use strict';
 const config = require('config');
-const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
@@ -9,6 +8,10 @@ const { isDev } = require('../common/appData');
 const { sequelize } = require('../db/models');
 
 module.exports = function(app) {
+    // const IDLE_TIMEOUT_MINUTES = 120;
+    // const SESSION_EXPIRY = IDLE_TIMEOUT_MINUTES * 60 * 1000;
+    const SESSION_EXPIRY = 30 * 1000;
+
     const store = new SequelizeStore({ db: sequelize });
 
     /**
@@ -19,7 +22,6 @@ module.exports = function(app) {
     /**
      * Configure session
      */
-    const IDLE_TIMEOUT_MINUTES = 120;
     const sessionConfig = {
         store: store,
         name: config.get('cookies.session'),
@@ -30,7 +32,7 @@ module.exports = function(app) {
         cookie: {
             sameSite: false,
             secure: isDev === false,
-            maxAge: IDLE_TIMEOUT_MINUTES * 60 * 1000
+            maxAge: SESSION_EXPIRY
         }
     };
 
@@ -40,5 +42,5 @@ module.exports = function(app) {
         sessionConfig.proxy = true;
     }
 
-    return [cookieParser(SESSION_SECRET), session(sessionConfig)];
+    return session(sessionConfig);
 };
