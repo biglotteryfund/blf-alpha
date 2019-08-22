@@ -172,7 +172,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'line1',
                     message: localise({
                         en: `Building and street must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r adeilad a’r stryd fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 },
                 {
@@ -180,7 +180,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'line2',
                     message: localise({
                         en: `Address line must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r llinell cyfeiriad fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 },
                 {
@@ -196,7 +196,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'townCity',
                     message: localise({
                         en: `Town or city must be ${FREE_TEXT_MAXLENGTH.small} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r dref neu ddinas fod yn llai na ${FREE_TEXT_MAXLENGTH.small} nod`
                     })
                 },
                 {
@@ -204,7 +204,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'county',
                     message: localise({
                         en: `County must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r sir fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`
                     })
                 },
                 {
@@ -277,7 +277,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'line1',
                     message: localise({
                         en: `Building and street must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r adeilad a’r stryd fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 },
                 {
@@ -285,7 +285,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'line2',
                     message: localise({
                         en: `Address line must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r llinell cyfeiriad fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 },
                 {
@@ -309,7 +309,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'townCity',
                     message: localise({
                         en: `Town or city must be ${FREE_TEXT_MAXLENGTH.small} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r dref neu ddinas fod yn llai na ${FREE_TEXT_MAXLENGTH.small} nod`
                     })
                 },
                 {
@@ -317,7 +317,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'county',
                     message: localise({
                         en: `County must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r sir fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`
                     })
                 },
                 {
@@ -368,7 +368,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'firstName',
                     message: localise({
                         en: `First name must be ${FREE_TEXT_MAXLENGTH.small} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r enw cyntaf fod yn llai na ${FREE_TEXT_MAXLENGTH.small} nod`
                     })
                 },
                 {
@@ -376,7 +376,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     key: 'lastName',
                     message: localise({
                         en: `Last name must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r cyfenw fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`
                     })
                 },
                 {
@@ -644,7 +644,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Companies House number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r rhif Tŷ’r Cwmnïau fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ]
@@ -692,7 +692,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Charity registration number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i rif cofrestredig yr elusen fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ]
@@ -724,7 +724,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Department for Education number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i rif yr Adran Addysg fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ]
@@ -757,7 +757,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Project name must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i enw’r prosiect fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`
                     })
                 }
             ]
@@ -833,7 +833,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Project locations must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i leoliadau’r prosiect fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ]
@@ -936,7 +936,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         key: 'item',
                         message: localise({
                             en: `Item or activity must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                            cy: ''
+                            cy: `Rhaid i’r eitem neu weithgaredd fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                         })
                     },
                     {
@@ -1206,7 +1206,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Other specific groups must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i grwpiau penodol eraill fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ]
@@ -1621,7 +1621,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Other religions or beliefs must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i grefyddau neu gredoau eraill fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ]
@@ -1773,7 +1773,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Full legal name of organisation must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r enw cyfreithiol llawn fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ]
@@ -1795,7 +1795,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Organisation's day-to-day name must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i enw dydd i ddydd y sefydliad fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ]
@@ -2145,7 +2145,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Particular communication needs must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ``
+                        cy: `Rhaid i’r anghenion cyfathrebu penodol fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ]
@@ -2240,7 +2240,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Particular communication needs must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ``
+                        cy: `Rhaid i’r anghenion cyfathrebu penodol fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ]
@@ -2271,7 +2271,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Name of your organisation must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ``
+                        cy: `Rhaid i enw eich sefydliad fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ]
@@ -2362,7 +2362,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Building society number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i rif y Cymdeithas Adeiladu fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ]
@@ -2554,7 +2554,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Full name must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r enw llawn fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ],
@@ -2580,7 +2580,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.max',
                     message: localise({
                         en: `Position in organisation must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: ''
+                        cy: `Rhaid i’r safle o fewn y sefydliad fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
                     })
                 }
             ],
