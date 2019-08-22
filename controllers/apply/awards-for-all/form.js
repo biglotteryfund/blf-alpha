@@ -60,6 +60,7 @@ module.exports = function({
     function stepProjectDetails() {
         return {
             title: localise({ en: 'Project details', cy: 'Manylion prosiect' }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
