@@ -364,8 +364,6 @@ describe('common pages', () => {
             options: { rules: { 'color-contrast': { enabled: false } } }
         });
 
-        cy.percySnapshot('homepage');
-
         function interactWithMobileNav() {
             cy.viewport(375, 667);
 
@@ -396,7 +394,6 @@ describe('common pages', () => {
     it('should test welsh page', () => {
         cy.visit('/welsh');
         cy.checkA11y();
-        cy.percySnapshot('homepage-welsh');
     });
 
     it('should test programmes page', () => {
@@ -405,11 +402,6 @@ describe('common pages', () => {
         cy.checkA11y({
             options: { rules: { 'color-contrast': { enabled: false } } }
         });
-    });
-
-    it('should check patterns for visual regressions', function() {
-        cy.visit('/patterns/components');
-        cy.percySnapshot('patterns');
     });
 });
 
@@ -1201,7 +1193,6 @@ describe('past grants', function() {
         cy.visit('/funding/grants');
         cy.get('.cookie-consent button').click();
         cy.get('.qa-grant-result').should('have.length', 50);
-        cy.percySnapshot('grants-search');
 
         // Search query
         const testQuery = 'cake';
