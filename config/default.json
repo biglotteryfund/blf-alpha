@@ -55,7 +55,8 @@
     "showContactConfirmationQuestion": true
   },
   "cookies": {
-    "session": "blf-alpha-session"
+    "session": "blf-alpha-session",
+    "expiryMs": 7200000
   },
   "hotjarId": 1036292,
   "googleAnalyticsCode": "UA-98908627-1"

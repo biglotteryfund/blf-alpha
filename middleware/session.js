@@ -8,10 +8,6 @@ const { isDev } = require('../common/appData');
 const { sequelize } = require('../db/models');
 
 module.exports = function(app) {
-    // const IDLE_TIMEOUT_MINUTES = 120;
-    // const SESSION_EXPIRY = IDLE_TIMEOUT_MINUTES * 60 * 1000;
-    const SESSION_EXPIRY = 30 * 1000;
-
     const store = new SequelizeStore({ db: sequelize });
 
     /**
@@ -32,7 +28,7 @@ module.exports = function(app) {
         cookie: {
             sameSite: false,
             secure: isDev === false,
-            maxAge: SESSION_EXPIRY
+            maxAge: config.get('cookies.expiryMs')
         }
     };
 
