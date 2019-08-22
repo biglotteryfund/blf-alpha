@@ -630,6 +630,52 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
     }
 
+    function fieldContactLanguagePreference(props) {
+        const defaultProps = {
+            label: localise({
+                en: `What language should we use to contact this person?`,
+                cy: `Pa iaith y dylem ei ddefnyddio i gysylltu â’r person hwn?`
+            }),
+            type: 'radio',
+            options: [
+                {
+                    value: 'english',
+                    label: localise({
+                        en: `English`,
+                        cy: `Saesneg`
+                    })
+                },
+                {
+                    value: 'welsh',
+                    label: localise({
+                        en: `Welsh`,
+                        cy: `Cymraeg`
+                    })
+                }
+            ],
+            isRequired: true,
+            get schema() {
+                return Joi.when('projectCountry', {
+                    is: 'wales',
+                    then: Joi.string()
+                        .valid(this.options.map(option => option.value))
+                        .required(),
+                    otherwise: Joi.any().strip()
+                });
+            },
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Select a language',
+                        cy: '@TODO WELSH'
+                    })
+                }
+            ]
+        };
+        return { ...defaultProps, ...props };
+    }
+
     let allFields = {
         projectName: {
             name: 'projectName',
@@ -1973,6 +2019,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'mainContactPhone',
             label: localise({ en: 'Telephone number', cy: 'Rhif ffôn' })
         }),
+        mainContactLanguagePreference: fieldContactLanguagePreference({
+            name: 'mainContactLanguagePreference'
+        }),
         mainContactCommunicationNeeds: {
             name: 'mainContactCommunicationNeeds',
             label: localise({
@@ -2058,6 +2107,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         seniorContactPhone: phoneField({
             name: 'seniorContactPhone',
             label: localise({ en: 'Telephone number', cy: 'Rhif ffôn' })
+        }),
+        seniorContactLanguagePreference: fieldContactLanguagePreference({
+            name: 'seniorContactLanguagePreference'
         }),
         seniorContactCommunicationNeeds: {
             name: 'seniorContactCommunicationNeeds',

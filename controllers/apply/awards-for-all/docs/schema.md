@@ -113,6 +113,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         },
         "mainContactEmail": "Lizzie87@example.com",
         "mainContactPhone": "0345 4 10 20 30",
+        "mainContactLanguagePreference": "english",
         "mainContactCommunicationNeeds": [],
         "seniorContactName": {
             "firstName": "Maribel",
@@ -132,6 +133,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         },
         "seniorContactEmail": "Leora.Walker66@example.org",
         "seniorContactPhone": "020 7211 1888",
+        "seniorContactLanguagePreference": "english",
         "seniorContactCommunicationNeeds": [],
         "bankAccountName": "Kulas - Greenfelder",
         "bankSortCode": "108800",
@@ -483,6 +485,10 @@ type: `string`
 
 type: `string`
 
+### mainContactLanguagePreference
+
+type: `string`
+
 ### mainContactCommunicationNeeds
 
 type: `string`
@@ -553,6 +559,10 @@ Object with the following properties
 type: `string`
 
 ### seniorContactPhone
+
+type: `string`
+
+### seniorContactLanguagePreference
 
 type: `string`
 
