@@ -237,17 +237,54 @@ function init() {
     // Hotjar tagging
     initHotjarTracking('awards-for-all');
 
+    let isAuthenticated = true;
+    let expiryTimeRemaining = window.AppConfig.sessionExpirySeconds;
+    const expiryCheckIntervalSeconds = 5;
+
+    let sessionInterval = window.setInterval(
+        timerUpdate,
+        expiryCheckIntervalSeconds * 1000
+    );
+
+    function timerUpdate() {
+        expiryTimeRemaining = expiryTimeRemaining - expiryCheckIntervalSeconds;
+        if (expiryTimeRemaining <= 0) {
+            isAuthenticated = false;
+            console.log('Your session has been logged out');
+            window.clearInterval(sessionInterval);
+        } else {
+            console.log(
+                'There are ' +
+                    expiryTimeRemaining +
+                    ' seconds left until your session expires'
+            );
+        }
+    }
+
     const handleActivity = () => {
-        console.log('activity!');
-        $.ajax({
-            type: 'get',
-            url: '/user/session',
-            dataType: 'json'
-        }).then(response => {
-            console.log(response);
-        });
+        if (isAuthenticated) {
+            $.ajax({
+                type: 'get',
+                url: '/user/session',
+                dataType: 'json'
+            }).then(response => {
+                console.log(response);
+                expiryTimeRemaining = window.AppConfig.sessionExpirySeconds;
+                isAuthenticated = response.isAuthenticated;
+                window.clearInterval(sessionInterval);
+                // @TODO make this a function?
+                sessionInterval = window.setInterval(
+                    timerUpdate,
+                    expiryCheckIntervalSeconds * 1000
+                );
+                console.log('clock reset!');
+            });
+        } else {
+            console.log('you are not logged in :(');
+        }
     };
 
+    // @TODO should we include scroll too?
     $('form').on('click keypress', debounce(handleActivity, 1000));
 }
 
