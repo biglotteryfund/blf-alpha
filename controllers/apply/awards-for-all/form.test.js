@@ -1025,6 +1025,37 @@ describe('Contacts', () => {
             );
         }
     );
+
+    test.each([
+        'mainContactLanguagePreference',
+        'seniorContactLanguagePreference'
+    ])('%p must exist and be a valid choice for Wales', function(fieldName) {
+        assertValidByKey({
+            projectCountry: 'england',
+            [fieldName]: 'wales'
+        });
+
+        assertMessagesByKey(
+            {
+                projectCountry: 'wales',
+                [fieldName]: null
+            },
+            [expect.stringContaining('Select a language')]
+        );
+
+        assertValidByKey({
+            projectCountry: 'wales',
+            [fieldName]: 'welsh'
+        });
+
+        assertMessagesByKey(
+            {
+                projectCountry: 'wales',
+                [fieldName]: 'klingon'
+            },
+            [expect.stringContaining('Select a language')]
+        );
+    });
 });
 
 describe('Bank details', () => {
