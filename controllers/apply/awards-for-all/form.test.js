@@ -1031,8 +1031,7 @@ describe('Contacts', () => {
         'seniorContactLanguagePreference'
     ])('%p must exist and be a valid choice for Wales', function(fieldName) {
         assertValidByKey({
-            projectCountry: 'england',
-            [fieldName]: 'wales'
+            projectCountry: 'england'
         });
 
         assertMessagesByKey(
