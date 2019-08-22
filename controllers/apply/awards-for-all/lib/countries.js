@@ -11,25 +11,25 @@ module.exports = function countriesFor({ locale, allowedCountries = [] }) {
             case 'england':
                 result = localise({
                     en: 'England',
-                    cy: ''
+                    cy: 'Lloegr'
                 });
                 break;
             case 'scotland':
                 result = localise({
                     en: 'Scotland',
-                    cy: ''
+                    cy: 'Yr Alban'
                 });
                 break;
             case 'northern-ireland':
                 result = localise({
                     en: 'Northern Ireland',
-                    cy: ''
+                    cy: 'Gogledd Iwerddon'
                 });
                 break;
             case 'wales':
                 result = localise({
                     en: 'Wales',
-                    cy: ''
+                    cy: 'Cymru'
                 });
                 break;
         }
@@ -37,7 +37,7 @@ module.exports = function countriesFor({ locale, allowedCountries = [] }) {
         if (allowedCountries.includes(country) === false) {
             result += localise({
                 en: ' (coming soon)',
-                cy: ''
+                cy: ' (Dod yn fuan)'
             });
         }
 

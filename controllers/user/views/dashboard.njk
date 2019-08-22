@@ -31,7 +31,11 @@
                         <div class="u-padded u-tone-background-tint">
                             <h2>{{ __('applyNext.startApplication.title') | safe }}</h2>
                             <p>{{ __('applyNext.startApplication.intro') }}</p>
-                            <p><a class="btn btn--small" href="/apply/awards-for-all/start">{{ __('applyNext.startApplication.callToAction') }}</a></p>
+                            <p>
+                                <a class="btn btn--small" href="{{ localify("/apply/awards-for-all/start") }}">
+                                    {{ __('applyNext.startApplication.callToAction') }}
+                                </a>
+                            </p>
                         </div>
                     </div>
                 {% endif %}

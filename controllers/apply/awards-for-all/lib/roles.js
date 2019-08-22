@@ -13,74 +13,74 @@ module.exports = function rolesFor({
     const ROLES = {
         CHAIR: {
             value: 'chair',
-            label: localise({ en: 'Chair', cy: '' })
+            label: localise({ en: 'Chair', cy: 'Cadeirydd' })
         },
         CHANCELLOR: {
             value: 'chancellor',
-            label: localise({ en: 'Chancellor', cy: '' })
+            label: localise({ en: 'Chancellor', cy: 'Canghellor' })
         },
         CHIEF_EXECUTIVE: {
             value: 'chief-executive',
-            label: localise({ en: 'Chief Executive', cy: '' })
+            label: localise({ en: 'Chief Executive', cy: 'Prif Weithredwr' })
         },
         CHIEF_EXECUTIVE_OFFICER: {
             value: 'chief-executive-officer',
-            label: localise({ en: 'Chief Executive Officer', cy: '' })
+            label: localise({ en: 'Chief Executive Officer', cy: 'Swyddog Prif Weithredwr' })
         },
         COMPANY_DIRECTOR: {
             value: 'company-director',
-            label: localise({ en: 'Company Director', cy: '' })
+            label: localise({ en: 'Company Director', cy: 'Cyfarwyddwr Cwmni' })
         },
         COMPANY_SECRETARY: {
             value: 'company-secretary',
-            label: localise({ en: 'Company Secretary', cy: '' })
+            label: localise({ en: 'Company Secretary', cy: 'Ysgrifennydd cwmni' })
         },
         DEPUTY_PARISH_CLERK: {
             value: 'deputy-parish-clerk',
-            label: localise({ en: 'Deputy Parish Clerk', cy: '' })
+            label: localise({ en: 'Deputy Parish Clerk', cy: 'Dirprwy Glerc y Plwyf' })
         },
         DIRECTOR: {
             value: 'director',
-            label: localise({ en: 'Director', cy: '' })
+            label: localise({ en: 'Director', cy: 'Cyfarwyddwr' })
         },
         ELECTED_MEMBER: {
             value: 'elected-member',
-            label: localise({ en: 'Elected Member', cy: '' })
+            label: localise({ en: 'Elected Member', cy: 'Aelod etholedig' })
         },
         HEAD_TEACHER: {
             value: 'head-teacher',
-            label: localise({ en: 'Head Teacher', cy: '' })
+            label: localise({ en: 'Head Teacher', cy: 'Prifathro' })
         },
         PARISH_CLERK: {
             value: 'parish-clerk',
-            label: localise({ en: 'Parish Clerk', cy: '' })
+            label: localise({ en: 'Parish Clerk', cy: 'Clerc Plwyf' })
         },
         RELIGIOUS_LEADER: {
             value: 'religious-leader',
             label: localise({
                 en: 'Religious leader (eg. rabbi, imam, vicar)',
-                cy: ''
+                cy: 'Arweinydd crefyddol (e.e. rabi, imam, ficar)'
             })
         },
         SECRETARY: {
             value: 'secretary',
-            label: localise({ en: 'Secretary', cy: '' })
+            label: localise({ en: 'Secretary', cy: 'Ysgrifennydd' })
         },
         TREASURER: {
             value: 'treasurer',
-            label: localise({ en: 'Treasurer', cy: '' })
+            label: localise({ en: 'Treasurer', cy: 'Trysorydd' })
         },
         TRUSTEE: {
             value: 'trustee',
-            label: localise({ en: 'Trustee', cy: '' })
+            label: localise({ en: 'Trustee', cy: 'Ymddiriedolwr' })
         },
         VICE_CHAIR: {
             value: 'vice-chair',
-            label: localise({ en: 'Vice-chair', cy: '' })
+            label: localise({ en: 'Vice-chair', cy: 'Is-gadeirydd' })
         },
         VICE_CHANCELLOR: {
             value: 'vice-chancellor',
-            label: localise({ en: 'Vice-chancellor', cy: '' })
+            label: localise({ en: 'Vice-chancellor', cy: 'Is-ganghellor' })
         }
     };
 

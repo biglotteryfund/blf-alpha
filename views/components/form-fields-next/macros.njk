@@ -1,4 +1,5 @@
 {% from "components/icons.njk" import iconBin %}
+{% from "components/details/macro.njk" import details %}
 
 {% macro formErrors(title, errors) %}
     {% if errors.length > 0 %}
@@ -82,8 +83,8 @@
     <fieldset class="ff-names" id="field-{{ field.name }}-legend">
         <legend class="ff-label">{{ field.label }}</legend>
         {{ explanationFor(field) }}
-        {{ nameField(field, 'firstName', 'given-name', 'First name') }}
-        {{ nameField(field, 'lastName', 'family-name', 'Last name') }}
+        {{ nameField(field, 'firstName', 'given-name', copy.fields.fullName.firstName) }}
+        {{ nameField(field, 'lastName', 'family-name', copy.fields.fullName.lastName) }}
     </fieldset>
 {% endmacro %}
 
@@ -200,6 +201,13 @@
     <label class="ff-label" for="field-{{ field.name }}">
         {{ labelFor(field) }}
     </label>
+
+    {% if field.labelDetails %}
+        {% call details(field.labelDetails.summary, extraClasses = 'ff-help s-prose') %}
+            {{ field.labelDetails.content | safe }}
+        {% endcall %}
+    {% endif %}
+
     {{ explanationFor(field) }}
     <textarea class="ff-textarea"
         id="field-{{ field.name }}"
@@ -460,7 +468,7 @@
                 options="{{ options | dump }}"
                 field-name="{{ field.name }}"
                 sub-field-name="currentAddressMeetsMinimum"
-                initial-value="{{ field.value['currentAddressMeetsMinimum'] or 'yes' }}">
+                initial-value="{{ field.value['currentAddressMeetsMinimum'] }}">
             </conditional-radios>
 
             <div class="js-fallback-only">

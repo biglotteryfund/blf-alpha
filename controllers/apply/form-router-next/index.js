@@ -34,6 +34,7 @@ const {
 
 function initFormRouter({
     formId,
+    isBilingual = true,
     eligibilityBuilder = null,
     formBuilder,
     confirmationBuilder
@@ -71,7 +72,7 @@ function initFormRouter({
         res.locals.formBaseUrl = req.baseUrl;
 
         res.locals.user = req.user;
-        res.locals.isBilingual = form.isBilingual;
+        res.locals.isBilingual = isBilingual;
         res.locals.enableSiteSurvey = false;
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
 
@@ -470,7 +471,7 @@ function initFormRouter({
                     );
                 });
             } catch (error) {
-                logger.error('Submission failed');
+                logger.error('Submission failed', error);
 
                 /**
                  * Salesforce submission failed,

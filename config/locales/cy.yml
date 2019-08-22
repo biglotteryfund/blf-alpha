@@ -977,6 +977,143 @@ materials:
     <p>Mae llawer o ffyrdd eraill o ddathlu'ch grant. Gallwch ddod o hyd i fwy o adnoddau ac awgrymiadau gwych ar sut i hyrwyddo'ch grant ar ein gwefan <a href="http://www.cronfagymunedolylg.org.uk/croeso">www.cronfagymunedolylg.org.uk/croeso</a>.</p>
 
     <p>Os oes gennych unrhyw gwestiynau ynglŷn â'ch archeb, cysylltwch â ni yn <a href="mailto:brandio@cronfagymunedolylg.org.uk">brandio@cronfagymunedolylg.org.uk</a>.</p>
+user:
+  common:
+    yourAccount: Eich cyfrif
+    emailAddress: Cyfeiriad e-bost
+    password: Cyfrinair
+    passwordConfirmation:
+      label: Cadarnhad cyfrinair
+      explanation: Ail-deipiwch eich cyfrinair
+    passwordOld: Eich hen gyfrinair
+    passwordNew: Eich cyfrinair newydd
+    passwordRequirements: >
+      <p>Rhaid bod o leiaf 10 nod o hyd <br>
+      Rhaid bod yn wahanol i’ch cyfeiriad e-bost<br>
+      <a href="https://www.ncsc.gov.uk/collection/top-tips-for-staying-secure-online/use-a-strong-and-separate-password-for-email">
+        Darllenwch awgrymiadau ar sut i greu cyfrinair cryf
+        <span class="u-visually-hidden"> National Cyber Security  - Dolen allanol</span>
+      </a></p>
+    loggedInAs: Wedi mewngofnodi fel
+    logOut: allgofnodi
+    alertMessages:
+      activationSent: Mae e-bost wedi ei anfon i’ch cyfeiriad e-bost cofrestredig gyda chyfarwyddiadau i actifadu eich cyfrif.
+      activationComplete: Mae eich cyfrif wedi ei actifadu’n llwyddiannus!
+      passwordUpdated: Mae eich cyfrinair wedi ei ddiweddaru’n llwyddiannus!
+      emailUpdated: Mae eich cyfeiriad e-bost wedi ei ddiweddaru’n llwyddiannus!
+      loggedOut: Rydych wedi allgofnodi’n llwyddiannus.
+      passwordResetRequest: Cais am ail-osod cyfrinair. Os yw’r cyfeiriad e-bost yn gywir, byddwch yn derbyn cyfarwyddiadau pellach dros e-bost.
+    activationRequired: >
+      Nawr, rydym angen sicrhau fod y cyfeiriad e-bost rydych newydd ei ddarparu yn gywir. Gwiriwch eich e-byst i actifadu eich cyfrif. Neu a oes angen i ni <a href="/welsh/user/activate">ail-anfon y ddolen actifadu</a>?
+  validationMessages:
+    emailInvalid: Rhowch gyfeiriad e-bost dilys
+    oldPasswordRequired: Rhowch eich cyfrinair presennol
+    oldPasswordWrong: Roedd eich hen gyfrinair yn anghywir
+    passwordRequired: Rhowch eich cyfrinair
+    passwordMatchesEmail: Rhaid i’r cyfrinair fod yn wahanol i’ch cyfeiriad e-bost
+    passwordLength: Rhaid i’r cyfrinair fod o leiaf %s nod o hyd
+    passwordStrength: Cyfrinair yn rhy wan, ceisiwch gyfrinair gwahanol
+    passwordConfirmation: Rhaid i’r cyfrineiriau gyfateb
+  dashboard:
+    title: Eich cyfrif
+    sectionLinks:
+    - label: Newid eich cyfrinair
+      href: /welsh/user/password/reset
+    - label: Newid eich cyfeiriad e-bost
+      href: /welsh/user/update-email
+    - label: Gweld eich ceisiadau ariannu
+      href: /welsh/apply/awards-for-all
+  login:
+    title: Mewngofnodi
+    introduction: >
+      <p>Mae hwn yn ffurflen gais newydd. Os nad ydych wedi mewngofnodi yma eisoes, efallai na fydd gennych gyfrif â ni - a bydd angen <a href="/welsh/user/register">creu cyfrif newydd</a> i ymgeisio.</p>
+    actionLabel: Mewngofnodi
+    registerLabel: creu cyfrif
+    forgottenPasswordPrompt: Wedi anghofio eich cyfrinair?
+    credentialError: Nid yw eich enw defnyddiwr a chyfrinair yn gywir. Neu efallai nad oes gennych gyfrif, gan fod hwn yn ffurflen gais newydd – ceisiwch <a href="/welsh/user/register">greu cyfrif</a>.
+  register:
+    title: Creu cyfrif
+    actionLabel: Creu cyfrif
+    loginLabel: mewngofnodi
+    genericError: >
+      Roedd problem wrth greu eich cyfrif. Os ydych yn meddwl bod gennych gyfrif eisoes, ceisiwch
+      <a href="%s">ailosod eich cyfrinair</a>.
+  forgottenPassword:
+    title: Wedi anghofio eich cyfrinair?
+    emailExplanation: Rhowch y cyfeiriad e-bost sy’n gysylltiedig â’ch cyfrif.
+    resetConfirmation: Os yw’r cyfeiriad e-bost yn gywir byddwch yn derbyn cyfarwyddiadau drwy e-bost.
+    callToAction: Ailosod cyfrinair
+    loginLink: Wedi ailosod cyfrinair? <a href="%s">Mewngofnodi</a>
+    email:
+      subject: Ailosod y cyfrinair i’ch cyfrif gwefan Cronfa Gymunedol y Loteri Genedlaethol
+      body: >
+        <h1>Cronfa Gymunedol y Loteri Genedlaethol</h1>
+        <h2>Cais am ailosod cyfrinair</h2>
+
+        <p><strong>Rydym newydd dderbyn cais i newid cyfrinair i’r e-bost hwn</strong></p>
+        <h3><a href="%s">Newid eich cyfrinair</a></h3>
+
+        <p><strong>Os nad ydych yn dymuno ailosod eich cyfrinair</strong></p>
+        <p>nid oes rhaid i chi wneud dim. Anwybyddwch yr e-bost hwn.</p>
+
+        <p>Diolch,</p>
+        <p>Cronfa Gymunedol y Loteri Genedlaethol</p>
+  resetPassword:
+    title: Ailosod eich cyfrinair
+    introduction: >
+      <p>Dewiswch gyfrinair newydd i’ch cyfrif drwy ei gofnodi isod. Sicrhewch eich bod yn dewis cyfrinair cryf.</p>
+    errorMessage: Roedd problem wrth ddiweddaru eich cyfrinair – Trïwch eto
+    errorExpired: Roedd eich dolen ailosod cyfrinair yn annilys neu wedi dod i ben. <a href="/welsh/user/password/forgot">Trïwch eto</a>.
+    email:
+      subject: Rydych newydd newid eich cyfrinair
+      body: >
+        <h1>Cronfa Gymunedol y Loteri Genedlaethol</h1>
+        <h2>Rydych newydd newid eich cyfrinair</h2>
+
+        <p>Helo,</p>
+        <p>E-bost byr i roi gwybod eich bod wedi newid eich cyfrinair ar-lein yn llwyddiannus.</p>
+        <p>Os nad mai chi oedd hwn – ac nad ydych yn gwybod unrhyw beth am unrhyw newidiadau i gyfrinair – cysylltwch <a href="/welsh/contact">â ni</a> ar unwaith.</p>
+
+        <p>Diolch,</p>
+        <p>Cronfa Gymunedol y Loteri Genedlaethol</p>
+  updateEmail:
+    title: Diweddaru cyfeiriad e-bost
+    introduction: >
+      <p>Gallwch addasu eich cyfeiriad e-bost cofrestredig yma. Cofiwch bydd angen i chi gadarnhau eich cyfrif eto unwaith byddwch wedi gwneud hyn.</p>
+    genericError: Roedd problem wrth ddiweddaru eich manylion, trïwch eto
+  activate:
+    title: Actifadu eich cyfrif
+    introduction: >
+      Mae e-bost wedi ei anfon at <strong>%s</strong>.
+      I actifadu eich cyfrif, cliciwch ar y ddolen yn yr e-bost.
+    email:
+      subject: Actifadu eich cyfrif gwefan Cronfa Gymunedol y Loteri Genedlaethol
+      body: >
+        <h1>Cronfa Gymunedol y Loteri Genedlaethol</h1>
+        <h2>Rydych bron yn barod i ymgeisio i’r Gronfa Gymunedol y Loteri Genedlaethol</h2>
+
+        <p>Rydych wedi creu cyfrif â ni gan ddefnyddio’r cyfeiriad e-bost hwn: %s.</p>
+        <p>Nawr, rydych angen <a href="%s">actifadu eich cyfrif</a> i ddechrau ar eich cais.</p>
+
+        <p>Diolch,</p>
+        <p>Cronfa Gymunedol y Loteri Genedlaethol</p>
+    errorMessage: Roedd eich dolen actifadu yn annilys neu wedi dod i ben.
+    resendLabel: Ail-anfon dolen actifadu
+    resendMessage: Dolen actifadu wedi ei ail-anfon
+    notReceived:
+      title: Heb dderbyn unrhyw beth?
+      body: >
+        <p>Gall yr e-bost actifadu gymryd rhai munudau i’ch cyrraedd, os nad ydych wedi ei dderbyn:</p>
+        <ul>
+            <li>Gwiriwch eich blwch post sbam</li>
+            <li>
+                Gwiriwch bod eich cyfeiriad e-bost yn gywir, os na, <a href="%s">diweddarwch eich cyfeiriad e-bost</a>
+            </li>
+        </ul>
+    contact:
+      title: Dal ddim yn gweithio?
+      body: >
+        <p>Cysylltwch â ni ar <strong>0345 4 10 20 30</strong></p>
 apply:
   error:
     title: Cafwyd problem gyda'ch cyflwyniad
@@ -1035,3 +1172,183 @@ apply:
   digitalFundStrand2:
     <<: *digitalFundDefaults
     description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-2">Edefyn 2</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.
+applyNext:
+  navigation:
+    applications: Ceisiadau
+    account: Cyfrif
+    logOut: Allgofnodi
+    summary: Crynodeb
+  startApplication:
+    title: Dechrau cais am Arian i Bawb y Loteri Genedlaethol
+    intro: Ffordd sydyn a syml i gael grantiau Loteri Genedlaethol bychan rhwng £300 a £10,000
+    callToAction: Dechrau cais newydd
+  locationMessage: >
+      <p>Croeso i’n cais ar-lein newydd ar gyfer Arian i Bawb y Loteri Genedlaethol.</p>
+      <p><strong>Ymgeisio am brosiect yn Yr Alban?</strong></p>
+      <p>Gwych – rydych yn y lle cywir. Bydd angen ichi <a href="/welsh/user/register">greu cyfrif newydd</a> i ymgeisio. Oni bai eich bod eisoes wedi creu cyfrif i’n ffurflen gais ar-lein newydd.</p>
+      <p><strong>Ymgeisio am brosiect yn Lloegr neu Gymru?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hwn yn lle.</a>.</p>
+      <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
+      <p><a href="/funding/programmes/awards-for-all-northern-ireland">Bydd angen ichi lawrlwytho ffurflen gais i ymgeisio</a>.</p>
+  dashboard:
+    title: Eich ceisiadau
+    introduction: >
+      <p>Yma, gallwch barhau â chais rydych eisoes wedi dechrau.
+      Gallwch hefyd ddechrau <a href="%s">cais newydd</a> a gweld unrhyw
+      geisiadau rydych eisoes wedi ei gyflwyno ar-lein. Gallwch hefyd weld y
+      <a href="%s">cwestiynau bydd yn cael ei gofyn i chi</a> pan fyddwch yn ymgeisio.</p>
+    inProgressTitle: Ar ei ganol
+    submitted: Wedi’i gyflwyno
+    notYetCompleted: heb ei gwblhau eto
+    continueApplication: Parhau â’r cais hwn
+    applicationStatus: Statws y cais
+    notSubmitted: Heb ei gyflwyno
+    expiryMessage: >
+      <p>Dechreuoch eich cais ar <strong>%s</strong>.</p>
+      <p>Mae gennych tan <strong>%s</strong> i gwblhau eich cais.</p>
+    beforeYouStart:
+      title: Cyn i chi ddechrau
+      body: >
+        Efallai hoffech edrych ar gyngor ac awgrymiadau defnyddiol am <a href="/welsh/funding/under10k">ymgeisio am arian ar ein gwefan</a>.
+    decisionMessage: Rydym yn anelu i adael i chi wybod am ein penderfyniad mewn oddeutu %s wythnos. Os oes unrhyw gwestiwn gennych,
+      <a href="/contact">cysylltwch ag aelod o’n tîm cynghori</a>.
+    locationMessage: >
+      <p><strong>Ymgeisio am brosiect yn Lloegr neu Gymru?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hwn yn lle</a>.</p>
+      <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
+      <p><a href="/funding/programmes/awards-for-all-northern-ireland">Bydd angen ichi lawrlwytho ffurflen gais i ymgeisio</a>.</p>
+      <p>Dim ond ymgeiswyr yn Yr Alban all ymgeisio drwy ein ffurflen ar-lein newydd ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn hygyrch i weddill y DU.</p>
+    newApplication:
+      title: Cais newydd
+      body: Gallwch greu cais ariannu newydd am %s yma
+      cta: Dechrau cais newydd
+  summary:
+    title: Crynodeb
+    introduction: >
+      <p>Dyma grynodeb o’ch cais. Cewch gwblhau’r adrannau mewn unrhyw drefn.</p>
+    completeTitle: Mae’r holl adrannau’n gyflawn
+    completeMessage: Rydych wedi ateb bob cwestiwn gofynnol ar y ffurflen hwn. Cymrwch yr amser i wirio eich atebion, a cliciwch anfon pan rydych yn barod.
+    incompleteTitle: Nid yw eich ffurflen yn gyflawn eto
+    incompleteMessage: Gweld beth sydd ar ôl i chi ei wneud
+    expandAll: Ehangu pob adran
+    collapseAll: Cau pob adran
+    showQuestions: Dangos cwestiynau
+    notRequired: Nid oes angen i chi lenwi’r rhan yma oherwydd yr hyn rydych wedi ei ddweud wrthym am eich prosiect hyd yn hyn.
+    errorSummaryTitle: Mae’r meysydd hyn angen eich sylw cyn ichi allu ei anfon.
+    featuredErrorsTitle: Mae rhai manylion yn eich ffurflen angen sylw ychwanegol.
+  delete:
+    title: A ydych yn siŵr eich bod eisiau dileu eich cais?
+    message: >
+      <p>
+        <strong>Ni all hwn gael ei ail-wneud</strong>.
+        Os ydych yn siŵr eich bod eisiau dileu eich cais, gallwch barhau isod.
+      </p>
+    success: Mae eich cais wedi’i ddileu’n llwyddiannus
+  questions:
+    printLink: Argraffu’r cwestiynau hyn
+    downloadLink: Lawrlwytho ‘r cwestiynau hyn (PDF)
+    printWarning: Cwestiynau ffurflen gais  %s – <strong>Peidiwch a cheisio llenwi’r ffurflen hwn na’i anfon i Gronfa Gymunedol y Loteri Genedlaethol.</strong> Ni fyddwn yn derbyn copïau papur o’r ffurflen hwn.
+  sectionPrefix: Adran
+  statusNotStarted: Heb ddechrau
+  statusInProgress: Ar ei ganol
+  statusInvalid: Annilys
+  statusComplete: Cyflawn
+  change: Newid
+  continue: Parhau
+  edit: Golygu
+  submit: Anfon cais
+  fields:
+    fullName:
+      firstName: Enw cyntaf
+      lastName: Cyfenw
+    dates:
+      startDate: Dyddiad dechrau
+      endDate: Dyddiad gorffen
+    address:
+      label: Dod o hyd i gyfeiriad drwy gòd post
+      required: Gofynnol
+      optional: Dewisol
+      helpText: e.e. EC4A 1DE
+      enterManually: Cofnodi cyfeiriad eich hunain
+      selectAddress: Dewis cyfeiriad
+      findAddress: Dod o hyd i’r cyfeiriad
+      fieldNames:
+        line1: Adeilad a stryd
+        line2: 2il linell cyfeiriad
+        townCity: Tref neu ddinas
+        county: Sir
+        postcode: Cod post
+    bankStatement:
+      help:
+        title: Cymorth gyda’ch cyfriflen banc
+        helpTitle: Yr hyn rydym ei angen gennych
+        body: >
+          <p><strong>Sicrhewch y gallwn weld y canlynol yn glir ar eich cyfriflen banc:</strong></p>
+          <ul>
+              <li>Enw cyfreithiol eich sefydliad</li>
+              <li>Y cyfeiriadau mae’r cyfriflenni’n cael eu hanfon</li>
+              <li>Enw’r banc</li>
+              <li>Rhif cyfrif</li>
+              <li>Cod didoli</li>
+              <li>Dyddiad (rhaid bod o fewn y 3 mis diwethaf)</li>
+          </ul>
+          <img src="/assets/images/apply/afa-bank-statement-example.png"
+               alt="Enghraifft o gyfriflen banc rydym ei angen gennych, gydag enw’r banc, dyddiad, cyfeiriad y sefydliad, rhif cyfrif ac enw cyfreithiol y sefydliad wedi’i gylchu" />
+    budget:
+      item: Eitem neu weithgaredd
+      itemPlaceholder: e.e. Posteri
+      amount: Nifer
+      amountPlaceholder: e.e. 1234
+      total: Cyfanswm
+  questionList:
+    introduction:
+      title: Cwestiynau a ofynnir i chi
+      body: >
+        Isod, mae rhestr o’r holl gwestiynau gellir gofyn i chi wrth ichi ymgeisio am %1$s.
+        Mae rhai o’r cwestiynau yn ddewisol gan ddibynnu ar eich atebion eraill ar y ffurflen.
+        Efallai y bydd yn ddefnyddiol i chi adolygu ein <a href="/funding/under10k">canllaw %1$s</a>.
+        Er mwyn anfon eich cais, bydd angen i chi gytuno a’n amodau a thelerau.
+    eligibility:
+      title: Cwestiynau cymhwysedd
+      note: Bydd angen i chi ateb y rhain i gyd cyn dechrau ar eich ffurflen gais.
+      checkerTitle: Gwiriad cymhwysedd
+    confirmCriteria: Cadarnhau’r meini prawf canlynol
+    chooseFromSelection: Dewiswch gynifer o opsiynau ag y dymunwch o ddetholiad
+    pickOneFromSelection: Dewiswch un opsiwn o ddetholiad
+    provideBudget: Darparwch gyllideb wedi’i heitemeiddio
+    maxBudget: "i gyfanswm dim mwy na £%s"
+    maxBudgetAndRows: "i gyfanswm dim mwy na £%s ledled %s eitem"
+    provideFinancialFigure: Darparwch ffigwr ariannol
+    provideAddress: Darparwch gyfeiriad
+    provideDate: Darparwch ddyddiad
+    provideEmail: Darparwch gyfeiriad e-bost
+    uploadFile: Uwch lwytho ffeil
+    provideName: Darparwch enw llawn berson
+    provideNumber: Darparwch rif
+    providePhone: Darparwch rif ffôn
+    provideText: Darparwch frawddeg neu ddau
+    provideTextLong: Darparwch ateb hirach
+    minAndMaxWords: rhwng %s-%s gair
+    minWords: isafswm o %s gair
+    maxWords: uchafswm o %s gair
+    optional: dewisol, ond gall fod yn ofynnol gan ddibynnu ar eich amgylchiad
+    conditionalNote: "<strong>Nodyn</strong>: gall y maes hwn fod yn ddewisol gan ddibynnu ar eich atebion eraill"
+  eligibility:
+    title: Gwiriad cymhwysedd
+    successfulTitle: Gwych! Rydych yn gymwys i ymgeisio am %s
+    unsuccessfulTitle: Ddrwg gennym, nid ydych yn gymwys i ymgeisio ar hyn o bryd
+    whatNow: Beth nesaf?
+  errors:
+    file:
+      errorScanInfected: Mae’r ffeil wedi ei gloi am resymau diogelwch.
+      errorScanUnknown: Mae’r ffeil hwn yn dal i gael ei sganio am risgiau diogelwch—gwiriwch eto yn fuan.
+      errorOther: Roedd yna broblem wrth adfer eich ffeil—trïwch eto’n fuan.
+  common:
+    delete: Dileu
+    exit: Gadael
+    closeThisPage: Cau’r dudalen hon
+    deleteApplication: Dileu’r cais
+    errorUploading: Roedd problem wrth uwch lwytho eich ffeil, trïwch eto
+    untitledApplication: Cais heb deitl
+    startYourApplication: Dechrau ar eich cais
+    backToApplications: Yn ôl i’ch ceisiadau

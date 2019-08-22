@@ -52,7 +52,7 @@
   },
   "awardsForAll": {
     "allowedCountries": ["scotland"],
-    "showContactConfirmationQuestion": true
+    "showContactConfirmationQuestion": false
   },
   "cookies": {
     "session": "blf-alpha-session"

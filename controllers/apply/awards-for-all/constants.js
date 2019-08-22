@@ -16,7 +16,7 @@ const ORG_MIN_AGE = {
     unit: 'months',
     label: {
         en: '15 months',
-        cy: ''
+        cy: '15 mis'
     }
 };
 
@@ -25,7 +25,7 @@ const MIN_START_DATE = {
     unit: 'weeks',
     label: {
         en: '18 weeks',
-        cy: ''
+        cy: '18 wythnos'
     }
 };
 
@@ -34,7 +34,7 @@ const MAX_PROJECT_DURATION = {
     unit: 'months',
     label: {
         en: '15 months',
-        cy: ''
+        cy: '15 mis'
     }
 };
 
