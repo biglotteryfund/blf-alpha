@@ -1,12 +1,5 @@
-// @ts-nocheck
 // https://on.cypress.io/custom-commands
 import merge from 'lodash/merge';
-
-/**
- * Percy commands
- * @see https://github.com/percy/percy-cypress
- */
-import '@percy/cypress';
 
 /**
  * Cypress testing library
