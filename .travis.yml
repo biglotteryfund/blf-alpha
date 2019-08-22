@@ -27,8 +27,10 @@ cache:
 
 script:
   - npm audit --production
+  - npm run lint
+  - npm run test-unit
   - npm run build-production
-  - npm run test-ci
+  - npm run test-integration
 
 # Prepare artefact for deployment
 # Store a temporary env var to only run before_deploy once
