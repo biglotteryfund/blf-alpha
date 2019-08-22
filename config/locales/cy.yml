@@ -1174,6 +1174,8 @@ apply:
     description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-2">Edefyn 2</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.
 applyNext:
   navigation:
+    previous: Yn ôl
+    next: Ymlaen
     applications: Ceisiadau
     account: Cyfrif
     logOut: Allgofnodi
