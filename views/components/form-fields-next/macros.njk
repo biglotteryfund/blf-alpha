@@ -215,9 +215,7 @@
         {% if field.isRequired %}required aria-required="true"{% endif %}
         {% if field.attributes %}{% for attr, value in field.attributes %} {{ attr }}="{{ value }}"{% endfor %}{% endif %}
         {% if settings.showWordCount %} @input="onInput" ref="textarea"{% endif %}
-    >
-        {{ field.value }}
-    </textarea>
+    >{{ field.value }}</textarea>
     {% if settings.showWordCount %}
         <word-count
             :current-text="text"
