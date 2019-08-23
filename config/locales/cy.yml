@@ -1026,7 +1026,7 @@ user:
   login:
     title: Mewngofnodi
     introduction: >
-      <p>Mae hwn yn ffurflen gais newydd. Os nad ydych wedi mewngofnodi yma eisoes, efallai na fydd gennych gyfrif â ni - a bydd angen <a href="/welsh/user/register">creu cyfrif newydd</a> i ymgeisio.</p>
+      <p>Mae hon yn ffurflen gais newydd. Os nad ydych wedi mewngofnodi yma eisoes, efallai na fydd gennych gyfrif â ni - a bydd angen <a href="/welsh/user/register">creu cyfrif newydd</a> i ymgeisio.</p>
     actionLabel: Mewngofnodi
     registerLabel: creu cyfrif
     forgottenPasswordPrompt: Wedi anghofio eich cyfrinair?

@@ -23,8 +23,11 @@ module.exports = function({ locale }) {
             cy: oneLine`Oes gan eich sefydliad o leiaf dau berson heb gysylltiad i’w gilydd ar y bwrdd neu bwyllgor?`
         }),
         explanation: localise({
-            en: oneLine`By unconnected, we mean not a relation by blood, marriage, in a long-term relationship or people living together at the same address.`,
-            cy: oneLine`Drwy heb gysylltiad i’w gilydd, rydym yn golygu ddim yn berthynas drwy waed, perthynas hir dymor neu pobl yn byw â’u gilydd yn yr un cyfeiriad.`
+            en: oneLine`By unconnected, we mean not a relation by blood, marriage,
+                in a long-term relationship or people living together at the same address.`,
+            cy: oneLine`Drwy gysylltiad i’w gilydd, rydym yn golygu ddim yn
+                berthynas drwy waed, mewn perthynas hir dymor neu bobl
+                sy’n byw â’u gilydd yn yr un cyfeiriad’.`
         }),
         yesLabel: localise({ en: 'Yes', cy: 'Oes' }),
         noLabel: localise({ en: 'No', cy: 'Nac oes' }),
@@ -127,8 +130,10 @@ module.exports = function({ locale }) {
 
     const question5 = {
         question: localise({
-            en: `Do you produce annual accounts (or did you set up your organisation less than ${orgMinAgeLabel} ago and haven't produced annual accounts yet)?`,
-            cy: `A ydych yn cynhyrchu cyfrifon blynyddol (neu a wnaethoch sefydlu eich sefydliad llai na ${orgMinAgeLabel} yn ôl a heb gynhyrchu cyfrifon blynyddol eto)?`
+            en: oneLine`Do you produce annual accounts (or did you set up your organisation
+                less than ${orgMinAgeLabel} ago and haven't produced annual accounts yet)?`,
+            cy: oneLine`A ydych yn cynhyrchu cyfrifon blynyddol (neu a yw eich sefydliad
+                yn iau na ${orgMinAgeLabel} oed a heb gynhyrchu cyfrifon blynyddol eto)?`
         }),
         explanation: localise({
             en: `By annual accounts, we mean a summary of your financial activity. If you are a small organisation, this may be produced by your board and doesn't have to be done by an accountant.`,
@@ -168,8 +173,8 @@ module.exports = function({ locale }) {
                 a’n eich gwahodd i lenwi ein ffurflen gais.
             </p>
             <p>
-                Bydd eich cyfrif hefyd yn eich galluogi i gwblhau rhan o’ch cais
-                er mwyn ichi ei gwblhau o fewn cyfnod o amser sy’n addas i chi.
+                Bydd eich cyfrif hefyd yn eich galluogi i
+                gwblhau rhan o’ch cais er mwyn i chi ei gwblhau fesul dipyn.
             </p>`
         })
     };

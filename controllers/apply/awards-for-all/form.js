@@ -991,15 +991,14 @@ module.exports = function({
                 </div>
             </div>
             <p>
-                <strong>Rhaid i’ch cyfriflen fod yn llai na tair mis oed</strong>.
-                I gyfrifon banc sydd wedi agor o fewn y tair mis diwethaf, gallwn
-                dderbyn llythyr o groeso gan y banc. Rhaid i hwn gadarnhau'r dyddiad
-                roedd eich cyfrif wedi’i agor,  enw’r cyfrif, rhif y cyfrif a’r cod didoli.
+                <strong>Rhaid i’ch cyfriflen fod yn llai na thri mis oed</strong>.
+                I gyfrifon banc sydd wedi agor o fewn y tri mis diwethaf,
+                gallwn dderbyn llythyr o groeso gan y banc.
             </p>
             <p><strong>Os ydych yn ysgol yn defnyddio cyfrif banc awdurdod lleol</strong></p>
             <p>
                 Byddwn angen llythyr gan yr awdurdod lleol wedi’i ddyddio o
-                fewn y tair mis ddiwethaf. Dylai ddangos:
+                fewn y tri mis ddiwethaf. Dylai ddangos: 
             </p> 
             <ul>
                 <li>Enw eich ysgol</li>
@@ -1071,9 +1070,9 @@ module.exports = function({
                 asiantaethau atal twyll hyn, eich hawliau gwarchod data a sut i gysylltu â ni, ei ganfod yn ein 
                 Hysbysiad Diogelu Data a Phreifatrwydd llawn, sydd wedi’i gyhoeddi ar ein gwefan 
                 <a href="/welsh/about/customer-service/data-protection">https://www.tnlcommunityfund.org.uk/welsh/about/customer-service/data-protection</a>. 
-                Cysylltwch â ni i ofyn am gopi caled drwy ffonio ein llinell gynghori ar 0345 4 10 20 30, 
-                neu drwy ysgrifennu i Customer Services, The National Lottery Community Fund, 
-                2 St James’ Gate, Newcastle upon Tyne, NE1 4BE.
+                Cysylltwch â ni i ofyn am gopi caled drwy ffonio ein llinell gynghori ar 0300 123 0735,
+                neu drwy ysgrifennu i Cronfa Gymunedol y Loteri Genedlaethol, 10fed Llawr,
+                Tŷ Helmont, Ffordd Churchill, Caerdydd, CF10 2DY
             </p>
             <p>Pan fyddwch yn clicio anfon, mae’r Telerau ac Amodau fel y cytunwyd uchod yn dod yn rhwymol.</p>`
         });
