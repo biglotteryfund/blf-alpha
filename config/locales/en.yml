@@ -1459,9 +1459,9 @@ applyNext:
     callToAction: Start a new application
   locationMessage: >
       <p>Welcome to our new online application for National Lottery Awards for All.</p>
-      <p><strong>Applying for a project in Scotland?</strong></p>
+      <p><strong>Applying for a project in Wales or Scotland?</strong></p>
       <p>Great - you’re in the right place. You’ll need to <a href="/user/register">create a new account</a> to apply. Unless you’ve already created an account for our new online application form.</p>
-      <p><strong>Applying for a project in England or Wales?</strong></p>
+      <p><strong>Applying for a project in England?</strong></p>
       <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
       <p><strong>Applying for a project in Northern Ireland?</strong></p>
       <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
@@ -1488,11 +1488,11 @@ applyNext:
     decisionMessage: We aim to let you know our decision in about %s weeks. If you have any questions,
       <a href="/contact">contact a member of our advice team</a>.
     locationMessage: >
-      <p><strong>Applying for a project in England or Wales?</strong></p>
+      <p><strong>Applying for a project in England?</strong></p>
       <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
       <p><strong>Applying for a project in Northern Ireland?</strong></p>
       <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
-      <p>Only applicants in Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
+      <p>Only applicants in Wales or Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
     newApplication:
       title: New application
       body: You can create a new funding application for %s here
