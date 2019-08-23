@@ -448,7 +448,6 @@ module.exports = function({
                 en: 'Organisation details',
                 cy: 'Manylion sefydliad'
             }),
-            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -633,7 +632,6 @@ module.exports = function({
     function stepSeniorContact() {
         return {
             title: localise({ en: 'Senior contact', cy: 'Uwch gyswllt' }),
-            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -696,7 +694,6 @@ module.exports = function({
     function stepMainContact() {
         return {
             title: localise({ en: 'Main contact', cy: 'Prif gyswllt' }),
-            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
