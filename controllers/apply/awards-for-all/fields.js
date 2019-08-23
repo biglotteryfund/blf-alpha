@@ -1183,7 +1183,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Select the specific group(s) of people your project is aimed at`,
-                        cy: `Dewiswch y grŵp(iau) o bobl mae ei prosiect wedi’i anelu ar eu cyfer`
+                        cy: `Dewiswch y grŵp(iau) o bobl mae eich prosiect wedi'i anelu ar eu cyfer`
                     })
                 }
             ]
@@ -1496,7 +1496,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     Rydym yn defnyddio’r diffiniad o’r Ddeddf Cydraddoldeb 2010,
                     sy’n diffinio person anabl fel rhywun sydd â nam meddyliol
                     neu gorfforol lle mae hynny’n cael effaith niweidiol
-                    sylweddol a hirdymor ar eu gallu i gynal gweithgaredd
+                    sylweddol a hirdymor ar eu gallu i gynnal gweithgaredd
                     arferol o ddydd i ddydd. 
                 </p>`
             }),
@@ -2100,8 +2100,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             label: localise({
                 en:
                     'Have they lived at their home address for the last three years?',
-                cy:
-                    'A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?'
+                cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`
             })
         }),
         mainContactEmail: emailField(
