@@ -1555,6 +1555,10 @@ applyNext:
         townCity: Town or city
         county: County
         postcode: Postcode
+    addressHistory:
+      previousAddress: Previous home address
+      yes: Yes
+      no: No
     bankStatement:
       help:
         title: Help with your bank statement

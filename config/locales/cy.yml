@@ -1280,6 +1280,10 @@ applyNext:
         townCity: Tref neu ddinas
         county: Sir
         postcode: Cod post
+    addressHistory:
+      previousAddress: Cyfeiriad cartref blaenorol
+      yes: Do
+      no: Naddo
     bankStatement:
       help:
         title: Cymorth gyda’ch cyfriflen banc
