@@ -221,6 +221,77 @@ function initHotjarTracking(formId) {
     trackDetailsClicks(scopedFormClass);
 }
 
+function handleSessionExpiration() {
+    let sessionInterval;
+    let isAuthenticated = true;
+    let expiryTimeRemaining = window.AppConfig.sessionExpirySeconds;
+    const expiryCheckIntervalSeconds = 5;
+
+    function startSessionExpiryWarningTimer() {
+        sessionInterval = window.setInterval(
+            sessionTimeoutCheck,
+            expiryCheckIntervalSeconds * 1000
+        );
+    }
+
+    function clearSessionExpiryWarningTimer() {
+        window.clearInterval(sessionInterval);
+    }
+
+    function closeModals() {
+        $('body').removeClass('is-modal');
+        $('.js-modal, .js-modal__item').hide();
+    }
+
+    function showModal(id) {
+        closeModals();
+        $('body').addClass('is-modal');
+        $(`.js-modal, .js-modal--${id}`).show();
+    }
+
+    $('.js-close-modal').click(closeModals);
+
+    function sessionTimeoutCheck() {
+        expiryTimeRemaining = expiryTimeRemaining - expiryCheckIntervalSeconds;
+        console.log(
+            'There are ' +
+                expiryTimeRemaining +
+                ' seconds left until your session expires'
+        );
+        if (expiryTimeRemaining <= 0) {
+            isAuthenticated = false;
+            clearSessionExpiryWarningTimer();
+            showModal('session-timeout');
+        } else if (expiryTimeRemaining <= 10) {
+            showModal('session-about-to-expire');
+        }
+    }
+
+    const handleActivity = () => {
+        if (isAuthenticated) {
+            // Extend their session
+            $.ajax({
+                type: 'get',
+                url: '/user/session',
+                dataType: 'json'
+            }).then(response => {
+                // Reset the timeout clock
+                expiryTimeRemaining = window.AppConfig.sessionExpirySeconds;
+                isAuthenticated = response.isAuthenticated;
+                clearSessionExpiryWarningTimer();
+                startSessionExpiryWarningTimer();
+                console.log('Activity made - clock reset!');
+            });
+        } else {
+            showModal('session-timeout');
+        }
+    };
+
+    startSessionExpiryWarningTimer();
+
+    $('body').on('click keypress', debounce(handleActivity, 1000));
+}
+
 function init() {
     /**
      * Review–step–specific logic
@@ -237,64 +308,10 @@ function init() {
     // Hotjar tagging
     initHotjarTracking('awards-for-all');
 
-    let isAuthenticated = true;
-    let expiryTimeRemaining = window.AppConfig.sessionExpirySeconds;
-    const expiryCheckIntervalSeconds = 5;
-
-    let sessionInterval = window.setInterval(
-        timerUpdate,
-        expiryCheckIntervalSeconds * 1000
-    );
-
-    function timerUpdate() {
-        expiryTimeRemaining = expiryTimeRemaining - expiryCheckIntervalSeconds;
-        if (expiryTimeRemaining <= 0) {
-            isAuthenticated = false;
-            console.log('Your session has been logged out');
-            window.clearInterval(sessionInterval);
-            $('.js-modal__item').hide();
-            $('.js-modal, .js-modal--session-timeout').show();
-        } else if (expiryTimeRemaining <= 10) {
-            $('.js-modal__item').hide();
-            $('.js-modal, .js-modal--session-about-to-expire').show();
-        } else {
-            console.log(
-                'There are ' +
-                    expiryTimeRemaining +
-                    ' seconds left until your session expires'
-            );
-        }
+    const pageHasSessionForm = $('form.js-session-form').length !== 0;
+    if (pageHasSessionForm) {
+        handleSessionExpiration();
     }
-
-    const handleActivity = () => {
-        if (isAuthenticated) {
-            $.ajax({
-                type: 'get',
-                url: '/user/session',
-                dataType: 'json'
-            }).then(response => {
-                console.log(response);
-                expiryTimeRemaining = window.AppConfig.sessionExpirySeconds;
-                isAuthenticated = response.isAuthenticated;
-                window.clearInterval(sessionInterval);
-                // @TODO make this a function?
-                sessionInterval = window.setInterval(
-                    timerUpdate,
-                    expiryCheckIntervalSeconds * 1000
-                );
-                console.log('clock reset!');
-            });
-        } else {
-            console.log('you are not logged in :(');
-        }
-    };
-
-    // @TODO should we include scroll too? should it be against the whole <body>?
-    $('form').on('click keypress', debounce(handleActivity, 1000));
-    $('.js-close-modal').click(() => {
-        // todo reset clock at this stage
-        $('.js-modal, .js-modal__item').hide();
-    });
 }
 
 export default {

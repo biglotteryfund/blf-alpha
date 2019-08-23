@@ -15,4 +15,10 @@
     transform: translate(-50%,-50%);
     padding: $spacingUnit;
     max-width: 650px;
+    pointer-events: all;
+}
+
+body.is-modal {
+    pointer-events: none;
+    overflow: hidden;
 }
