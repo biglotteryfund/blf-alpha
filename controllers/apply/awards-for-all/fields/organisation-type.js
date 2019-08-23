@@ -30,7 +30,7 @@ module.exports = function fieldOrganisationType(locale) {
             value: ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY,
             label: localise({
                 en: `Registered charity (unincorporated)`,
-                cy: `Elusen cofrestredig (anghorfforedig)`
+                cy: `Elusen gofrestredig (anghorfforedig)`
             }),
             explanation: localise({
                 en: oneLine`My organisation is a voluntary or community organisation

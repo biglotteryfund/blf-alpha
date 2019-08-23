@@ -1,5 +1,7 @@
 'use strict';
-const { get } = require('lodash/fp');
+const get = require('lodash/fp/get');
+const { oneLine } = require('common-tags');
+
 const {
     MIN_BUDGET_TOTAL_GBP,
     MIN_START_DATE,
@@ -17,13 +19,18 @@ module.exports = function({ locale }) {
 
     const question1 = {
         question: localise({
-            en: `Does your organisation have at least two unconnected people on the board or committee?`,
-            cy: `Oes gan eich sefydliad o leiaf dau berson heb gysylltiad i’w gilydd ar y bwrdd neu bwyllgor?`
+            en: oneLine`Does your organisation have at least two unconnected people on the board or committee?`,
+            cy: oneLine`Oes gan eich sefydliad o leiaf dau berson heb gysylltiad i’w gilydd ar y bwrdd neu bwyllgor?`
         }),
         explanation: localise({
-            en: `By unconnected, we mean not a relation by blood, marriage, in a long-term relationship or people living together at the same address.`,
-            cy: `Drwy heb gysylltiad i’w gilydd, rydym yn golygu ddim yn berthynas drwy waed, perthynas hir dymor neu pobl yn byw â’u gilydd yn yr un cyfeiriad.`
+            en: oneLine`By unconnected, we mean not a relation by blood, marriage,
+                in a long-term relationship or people living together at the same address.`,
+            cy: oneLine`Drwy gysylltiad i’w gilydd, rydym yn golygu ddim yn
+                berthynas drwy waed, mewn perthynas hir dymor neu bobl
+                sy’n byw â’u gilydd yn yr un cyfeiriad’.`
         }),
+        yesLabel: localise({ en: 'Yes', cy: 'Oes' }),
+        noLabel: localise({ en: 'No', cy: 'Nac oes' }),
         ineligible: {
             reason: localise({
                 en: `This is because you told us that your organisation does not have at least two unconnected people on the board or committee`,
@@ -49,10 +56,12 @@ module.exports = function({ locale }) {
             en: `We know it's not always possible to complete a project in ${maxProjectDurationLabel} for lots of reasons. So we can consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.`,
             cy: `Rydym yn gwybod nad yw bob tro’n bosib i gwblhau prosiect mewn ${maxProjectDurationLabel} am nifer o resymau. Felly mi allwn ystyried prosiectau sydd ychydig yn hirach na hyn. Byddwn hefyd yn ystyried ceisiadau am ddigwyddiadau a fydd yn digwydd unwaith yn unig, megis gwyliau, diwrnod gala neu gynhadledd.`
         }),
+        yesLabel: localise({ en: 'Yes', cy: 'Ydw' }),
+        noLabel: localise({ en: 'No', cy: 'Nac ydw' }),
         ineligible: {
             reason: localise({
                 en: `This is because you can only apply for funding between £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} and £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} for a project that will be finished in about ${maxProjectDurationLabel} through National Lottery Awards for All, and it sounds like you need a different amount of funding from us.`,
-                cy: `Y rheswm dros hyn yw gallwch dim ond ymgeisio am arian rhwng £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} a £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} am brosiect a fydd wedi gorffen o fewn oddeutu ${maxProjectDurationLabel} drwy ein rhaglen arian i Bawb y Loteri Genedlaethol, ac mae’n swnio fel eich bod angen math gwahanol o grant gennym.`
+                cy: `Y rheswm dros hyn yw gallwch dim ond ymgeisio am arian rhwng £${MIN_BUDGET_TOTAL_GBP.toLocaleString()} a £${MAX_BUDGET_TOTAL_GBP.toLocaleString()} am brosiect a fydd wedi gorffen o fewn oddeutu ${maxProjectDurationLabel} drwy ein rhaglen Arian i Bawb y Loteri Genedlaethol, ac mae’n swnio fel eich bod angen math gwahanol o grant gennym.`
             }),
             detail: localise({
                 en: `<p>This isn't the end. Here are a couple of ideas about what you can do:</p>
@@ -78,6 +87,8 @@ module.exports = function({ locale }) {
             en: `We need ${minStartDateLabel} to be able to assess your application and pay your grant, if you're successful. So projects need to start at least ${minStartDateLabel} from the date you submit your application to us.`,
             cy: `Rydym angen ${minStartDateLabel} i allu asesu eich cais a thalu eich grant, os ydych yn llwyddiannus. Felly mae angen i brosiectau ddechrau o leiaf ${minStartDateLabel} o’r dyddiad rydych yn anfon eich cais.`
         }),
+        yesLabel: localise({ en: 'Yes', cy: 'Ydi' }),
+        noLabel: localise({ en: 'No', cy: 'Nac ydi' }),
         ineligible: {
             reason: localise({
                 en: `This is because you told us that your project doesn't start at least ${minStartDateLabel} from when you plan to submit your application.`,
@@ -101,6 +112,8 @@ module.exports = function({ locale }) {
             en: `This should be the legal name of your organisation as it appears on your bank statement, not the name of your bank. This will usually be the same as your organisation's name on your governing document.`,
             cy: `Dylai hwn fod yr enw cyfreithiol i’ch sefydliad fel mae’n ymddangos ar eich cyfriflen banc, nid enw eich banc. Bydd hwn fel arfer yr un peth ag enw eich sefydliad ar eich dogfen lywodraethol.`
         }),
+        yesLabel: localise({ en: 'Yes', cy: 'Oes' }),
+        noLabel: localise({ en: 'No', cy: 'Nac oes' }),
         ineligible: {
             reason: localise({
                 en: `This is because you told us that your organisation doesn't have a UK bank account in the legal name of your organisation.`,
@@ -117,13 +130,17 @@ module.exports = function({ locale }) {
 
     const question5 = {
         question: localise({
-            en: `Do you produce annual accounts (or did you set up your organisation less than ${orgMinAgeLabel} ago and haven't produced annual accounts yet)?`,
-            cy: `A ydych yn cynhyrchu cyfrifon blynyddol (neu a wnaethoch sefydlu eich sefydliad llai na ${orgMinAgeLabel} yn ôl a heb gynhyrchu cyfrifon blynyddol eto)?`
+            en: oneLine`Do you produce annual accounts (or did you set up your organisation
+                less than ${orgMinAgeLabel} ago and haven't produced annual accounts yet)?`,
+            cy: oneLine`A ydych yn cynhyrchu cyfrifon blynyddol (neu a yw eich sefydliad
+                yn iau na ${orgMinAgeLabel} oed a heb gynhyrchu cyfrifon blynyddol eto)?`
         }),
         explanation: localise({
             en: `By annual accounts, we mean a summary of your financial activity. If you are a small organisation, this may be produced by your board and doesn't have to be done by an accountant.`,
             cy: `Drwy gyfrifon blynyddol, rydym yn golygu crynodeb o’ch gweithgaredd ariannol. Os ydych yn sefydliad bach, gall hwn gael ei gynhyrchu gan eich bwrdd a nid oes rhaid iddo gael ei wneud gan gyfrifydd.`
         }),
+        yesLabel: localise({ en: 'Yes', cy: 'Ydw' }),
+        noLabel: localise({ en: 'No', cy: 'Nac ydw' }),
         ineligible: {
             reason: localise({
                 en: `This is because you told us that your organisation was set up more than ${orgMinAgeLabel} ago and hasn't produced annual accounts yet.`,
@@ -141,12 +158,24 @@ module.exports = function({ locale }) {
     return {
         questions: [question1, question2, question3, question4, question5],
         successMessage: localise({
-            en: `<p>We're excited to hear more about your project and invite you to fill in our application form.</p>
+            en: `<p>
+                We're excited to hear more about your project and
+                invite you to fill in our application form.
+            </p>
+            <p>
+                Your account will also allow you to part complete your
+                application so that you can complete it within a
+                time frame that is suitable to you.
+            </p>`,
 
-            <p>Your account will also allow you to part complete your application so that you can complete it within a time frame that is suitable to you.</p>`,
-            cy: `<p>Rydym yn edrych ymlaen i glywed mwy am eich prosiect a’n eich gwahodd i lenwi ein ffurflen gais.</p>
-
-            <p>Bydd eich cyfrif hefyd yn eich galluogi i gwblhau rhan o’ch cais er mwyn ichi ei gwblhau o fewn cyfnod o amser sy’n addas i chi.</p>`
+            cy: `<p>
+                Rydym yn edrych ymlaen i glywed mwy am eich prosiect
+                a’n eich gwahodd i lenwi ein ffurflen gais.
+            </p>
+            <p>
+                Bydd eich cyfrif hefyd yn eich galluogi i
+                gwblhau rhan o’ch cais er mwyn i chi ei gwblhau fesul dipyn.
+            </p>`
         })
     };
 };
