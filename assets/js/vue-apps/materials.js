@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import sumBy from 'lodash/sumBy';
 import Vue from 'vue';
 import queryString from 'query-string';
 
@@ -88,11 +89,7 @@ function init() {
             // work out if the user has anything in their "basket"
             // eg. should the data form be disabled or not
             isEmpty: function() {
-                let quantity = 0;
-                for (let o in this.orderData) {
-                    quantity += this.orderData[o].quantity;
-                }
-                return quantity === 0;
+                return sumBy(this.orderData, item => item.quantity) === 0;
             },
             // increment/decrement a product in the user's basket via AJAX
             changeQuantity: function(e) {
