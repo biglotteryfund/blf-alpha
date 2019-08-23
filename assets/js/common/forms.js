@@ -252,6 +252,11 @@ function init() {
             isAuthenticated = false;
             console.log('Your session has been logged out');
             window.clearInterval(sessionInterval);
+            $('.js-modal__item').hide();
+            $('.js-modal, .js-modal--session-timeout').show();
+        } else if (expiryTimeRemaining <= 10) {
+            $('.js-modal__item').hide();
+            $('.js-modal, .js-modal--session-about-to-expire').show();
         } else {
             console.log(
                 'There are ' +
@@ -284,8 +289,12 @@ function init() {
         }
     };
 
-    // @TODO should we include scroll too?
+    // @TODO should we include scroll too? should it be against the whole <body>?
     $('form').on('click keypress', debounce(handleActivity, 1000));
+    $('.js-close-modal').click(() => {
+        // todo reset clock at this stage
+        $('.js-modal, .js-modal__item').hide();
+    });
 }
 
 export default {
