@@ -102,6 +102,7 @@ module.exports = function({
 
         return {
             title: localise({ en: 'Project country', cy: 'Gwlad y prosiect' }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -121,6 +122,7 @@ module.exports = function({
                 en: 'Project location',
                 cy: 'Lleoliad y prosiect'
             }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -152,6 +154,7 @@ module.exports = function({
     function stepYourIdea() {
         return {
             title: localise({ en: 'Your idea', cy: 'Eich syniad' }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -174,6 +177,7 @@ module.exports = function({
                 en: 'Project costs',
                 cy: 'Costau’r prosiect'
             }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -192,6 +196,7 @@ module.exports = function({
                 en: `Specific groups of people`,
                 cy: `Grwpiau penodol o bobl`
             }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -443,6 +448,7 @@ module.exports = function({
                 en: 'Organisation details',
                 cy: 'Manylion sefydliad'
             }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -466,6 +472,7 @@ module.exports = function({
                 en: 'Organisation type',
                 cy: 'Math o sefydliad'
             }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -509,6 +516,7 @@ module.exports = function({
 
         return {
             title: title,
+            noValidate: true,
             fieldsets: [
                 {
                     legend: title,
@@ -548,6 +556,7 @@ module.exports = function({
                 en: 'Registration numbers',
                 cy: 'Rhifau cofrestru'
             }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -588,6 +597,7 @@ module.exports = function({
                 en: 'Organisation finances',
                 cy: 'Cyllid y sefydliad'
             }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -623,6 +633,7 @@ module.exports = function({
     function stepSeniorContact() {
         return {
             title: localise({ en: 'Senior contact', cy: 'Uwch gyswllt' }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -685,6 +696,7 @@ module.exports = function({
     function stepMainContact() {
         return {
             title: localise({ en: 'Main contact', cy: 'Prif gyswllt' }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -871,6 +883,7 @@ module.exports = function({
     function stepBankAccount() {
         return {
             title: localise({ en: 'Bank account', cy: 'Cyfrif banc' }),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -1012,6 +1025,7 @@ module.exports = function({
 
         return {
             title: localise({ en: 'Bank statement', cy: 'Cyfriflen banc' }),
+            noValidate: true,
             isMultipart: true,
             fieldsets: [
                 {
@@ -1081,6 +1095,7 @@ module.exports = function({
 
         return {
             title: title,
+            noValidate: true,
             fieldsets: [
                 {
                     legend: title,
