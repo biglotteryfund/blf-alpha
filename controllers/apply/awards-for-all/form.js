@@ -1129,7 +1129,9 @@ module.exports = function({
                         en: 'Project dates',
                         cy: 'Dyddiadau’r prosiect'
                     }),
-                    value: projectDateRange && formatDateRange(projectDateRange)
+                    value:
+                        projectDateRange &&
+                        formatDateRange(locale)(projectDateRange)
                 },
                 {
                     label: localise({
@@ -1316,5 +1318,5 @@ module.exports = function({
         ]
     };
 
-    return new FormModel(form, data);
+    return new FormModel(form, data, locale);
 };
