@@ -27,7 +27,7 @@ module.exports = function({ locale }) {
                 in a long-term relationship or people living together at the same address.`,
             cy: oneLine`Drwy gysylltiad i’w gilydd, rydym yn golygu ddim yn
                 berthynas drwy waed, mewn perthynas hir dymor neu bobl
-                sy’n byw â’u gilydd yn yr un cyfeiriad’.`
+                sy’n byw â’u gilydd yn yr un cyfeiriad.`
         }),
         yesLabel: localise({ en: 'Yes', cy: 'Oes' }),
         noLabel: localise({ en: 'No', cy: 'Nac oes' }),
