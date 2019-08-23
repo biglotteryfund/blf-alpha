@@ -1172,3 +1172,183 @@ apply:
   digitalFundStrand2:
     <<: *digitalFundDefaults
     description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-2">Edefyn 2</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.
+applyNext:
+  navigation:
+    applications: Ceisiadau
+    account: Cyfrif
+    logOut: Allgofnodi
+    summary: Crynodeb
+  startApplication:
+    title: Dechrau cais am Arian i Bawb y Loteri Genedlaethol
+    intro: Ffordd sydyn a syml i gael grantiau Loteri Genedlaethol bychan rhwng £300 a £10,000
+    callToAction: Dechrau cais newydd
+  locationMessage: >
+      <p>Croeso i’n cais ar-lein newydd ar gyfer Arian i Bawb y Loteri Genedlaethol.</p>
+      <p><strong>Ymgeisio am brosiect yn Yr Alban?</strong></p>
+      <p>Gwych – rydych yn y lle cywir. Bydd angen ichi <a href="/welsh/user/register">greu cyfrif newydd</a> i ymgeisio. Oni bai eich bod eisoes wedi creu cyfrif i’n ffurflen gais ar-lein newydd.</p>
+      <p><strong>Ymgeisio am brosiect yn Lloegr neu Gymru?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hwn yn lle.</a>.</p>
+      <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
+      <p><a href="/funding/programmes/awards-for-all-northern-ireland">Bydd angen ichi lawrlwytho ffurflen gais i ymgeisio</a>.</p>
+  dashboard:
+    title: Eich ceisiadau
+    introduction: >
+      <p>Yma, gallwch barhau â chais rydych eisoes wedi dechrau.
+      Gallwch hefyd ddechrau <a href="%s">cais newydd</a> a gweld unrhyw
+      geisiadau rydych eisoes wedi ei gyflwyno ar-lein. Gallwch hefyd weld y
+      <a href="%s">cwestiynau bydd yn cael ei gofyn i chi</a> pan fyddwch yn ymgeisio.</p>
+    inProgressTitle: Ar ei ganol
+    submitted: Wedi’i gyflwyno
+    notYetCompleted: heb ei gwblhau eto
+    continueApplication: Parhau â’r cais hwn
+    applicationStatus: Statws y cais
+    notSubmitted: Heb ei gyflwyno
+    expiryMessage: >
+      <p>Dechreuoch eich cais ar <strong>%s</strong>.</p>
+      <p>Mae gennych tan <strong>%s</strong> i gwblhau eich cais.</p>
+    beforeYouStart:
+      title: Cyn i chi ddechrau
+      body: >
+        Efallai hoffech edrych ar gyngor ac awgrymiadau defnyddiol am <a href="/welsh/funding/under10k">ymgeisio am arian ar ein gwefan</a>.
+    decisionMessage: Rydym yn anelu i adael i chi wybod am ein penderfyniad mewn oddeutu %s wythnos. Os oes unrhyw gwestiwn gennych,
+      <a href="/contact">cysylltwch ag aelod o’n tîm cynghori</a>.
+    locationMessage: >
+      <p><strong>Ymgeisio am brosiect yn Lloegr neu Gymru?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hwn yn lle</a>.</p>
+      <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
+      <p><a href="/funding/programmes/awards-for-all-northern-ireland">Bydd angen ichi lawrlwytho ffurflen gais i ymgeisio</a>.</p>
+      <p>Dim ond ymgeiswyr yn Yr Alban all ymgeisio drwy ein ffurflen ar-lein newydd ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn hygyrch i weddill y DU.</p>
+    newApplication:
+      title: Cais newydd
+      body: Gallwch greu cais ariannu newydd am %s yma
+      cta: Dechrau cais newydd
+  summary:
+    title: Crynodeb
+    introduction: >
+      <p>Dyma grynodeb o’ch cais. Cewch gwblhau’r adrannau mewn unrhyw drefn.</p>
+    completeTitle: Mae’r holl adrannau’n gyflawn
+    completeMessage: Rydych wedi ateb bob cwestiwn gofynnol ar y ffurflen hwn. Cymrwch yr amser i wirio eich atebion, a cliciwch anfon pan rydych yn barod.
+    incompleteTitle: Nid yw eich ffurflen yn gyflawn eto
+    incompleteMessage: Gweld beth sydd ar ôl i chi ei wneud
+    expandAll: Ehangu pob adran
+    collapseAll: Cau pob adran
+    showQuestions: Dangos cwestiynau
+    notRequired: Nid oes angen i chi lenwi’r rhan yma oherwydd yr hyn rydych wedi ei ddweud wrthym am eich prosiect hyd yn hyn.
+    errorSummaryTitle: Mae’r meysydd hyn angen eich sylw cyn ichi allu ei anfon.
+    featuredErrorsTitle: Mae rhai manylion yn eich ffurflen angen sylw ychwanegol.
+  delete:
+    title: A ydych yn siŵr eich bod eisiau dileu eich cais?
+    message: >
+      <p>
+        <strong>Ni all hwn gael ei ail-wneud</strong>.
+        Os ydych yn siŵr eich bod eisiau dileu eich cais, gallwch barhau isod.
+      </p>
+    success: Mae eich cais wedi’i ddileu’n llwyddiannus
+  questions:
+    printLink: Argraffu’r cwestiynau hyn
+    downloadLink: Lawrlwytho ‘r cwestiynau hyn (PDF)
+    printWarning: Cwestiynau ffurflen gais  %s – <strong>Peidiwch a cheisio llenwi’r ffurflen hwn na’i anfon i Gronfa Gymunedol y Loteri Genedlaethol.</strong> Ni fyddwn yn derbyn copïau papur o’r ffurflen hwn.
+  sectionPrefix: Adran
+  statusNotStarted: Heb ddechrau
+  statusInProgress: Ar ei ganol
+  statusInvalid: Annilys
+  statusComplete: Cyflawn
+  change: Newid
+  continue: Parhau
+  edit: Golygu
+  submit: Anfon cais
+  fields:
+    fullName:
+      firstName: Enw cyntaf
+      lastName: Cyfenw
+    dates:
+      startDate: Dyddiad dechrau
+      endDate: Dyddiad gorffen
+    address:
+      label: Dod o hyd i gyfeiriad drwy gòd post
+      required: Gofynnol
+      optional: Dewisol
+      helpText: e.e. EC4A 1DE
+      enterManually: Cofnodi cyfeiriad eich hunain
+      selectAddress: Dewis cyfeiriad
+      findAddress: Dod o hyd i’r cyfeiriad
+      fieldNames:
+        line1: Adeilad a stryd
+        line2: 2il linell cyfeiriad
+        townCity: Tref neu ddinas
+        county: Sir
+        postcode: Cod post
+    bankStatement:
+      help:
+        title: Cymorth gyda’ch cyfriflen banc
+        helpTitle: Yr hyn rydym ei angen gennych
+        body: >
+          <p><strong>Sicrhewch y gallwn weld y canlynol yn glir ar eich cyfriflen banc:</strong></p>
+          <ul>
+              <li>Enw cyfreithiol eich sefydliad</li>
+              <li>Y cyfeiriadau mae’r cyfriflenni’n cael eu hanfon</li>
+              <li>Enw’r banc</li>
+              <li>Rhif cyfrif</li>
+              <li>Cod didoli</li>
+              <li>Dyddiad (rhaid bod o fewn y 3 mis diwethaf)</li>
+          </ul>
+          <img src="/assets/images/apply/afa-bank-statement-example.png"
+               alt="Enghraifft o gyfriflen banc rydym ei angen gennych, gydag enw’r banc, dyddiad, cyfeiriad y sefydliad, rhif cyfrif ac enw cyfreithiol y sefydliad wedi’i gylchu" />
+    budget:
+      item: Eitem neu weithgaredd
+      itemPlaceholder: e.e. Posteri
+      amount: Nifer
+      amountPlaceholder: e.e. 1234
+      total: Cyfanswm
+  questionList:
+    introduction:
+      title: Cwestiynau a ofynnir i chi
+      body: >
+        Isod, mae rhestr o’r holl gwestiynau gellir gofyn i chi wrth ichi ymgeisio am %1$s.
+        Mae rhai o’r cwestiynau yn ddewisol gan ddibynnu ar eich atebion eraill ar y ffurflen.
+        Efallai y bydd yn ddefnyddiol i chi adolygu ein <a href="/funding/under10k">canllaw %1$s</a>.
+        Er mwyn anfon eich cais, bydd angen i chi gytuno a’n amodau a thelerau.
+    eligibility:
+      title: Cwestiynau cymhwysedd
+      note: Bydd angen i chi ateb y rhain i gyd cyn dechrau ar eich ffurflen gais.
+      checkerTitle: Gwiriad cymhwysedd
+    confirmCriteria: Cadarnhau’r meini prawf canlynol
+    chooseFromSelection: Dewiswch gynifer o opsiynau ag y dymunwch o ddetholiad
+    pickOneFromSelection: Dewiswch un opsiwn o ddetholiad
+    provideBudget: Darparwch gyllideb wedi’i heitemeiddio
+    maxBudget: "i gyfanswm dim mwy na £%s"
+    maxBudgetAndRows: "i gyfanswm dim mwy na £%s ledled %s eitem"
+    provideFinancialFigure: Darparwch ffigwr ariannol
+    provideAddress: Darparwch gyfeiriad
+    provideDate: Darparwch ddyddiad
+    provideEmail: Darparwch gyfeiriad e-bost
+    uploadFile: Uwch lwytho ffeil
+    provideName: Darparwch enw llawn berson
+    provideNumber: Darparwch rif
+    providePhone: Darparwch rif ffôn
+    provideText: Darparwch frawddeg neu ddau
+    provideTextLong: Darparwch ateb hirach
+    minAndMaxWords: rhwng %s-%s gair
+    minWords: isafswm o %s gair
+    maxWords: uchafswm o %s gair
+    optional: dewisol, ond gall fod yn ofynnol gan ddibynnu ar eich amgylchiad
+    conditionalNote: "<strong>Nodyn</strong>: gall y maes hwn fod yn ddewisol gan ddibynnu ar eich atebion eraill"
+  eligibility:
+    title: Gwiriad cymhwysedd
+    successfulTitle: Gwych! Rydych yn gymwys i ymgeisio am %s
+    unsuccessfulTitle: Ddrwg gennym, nid ydych yn gymwys i ymgeisio ar hyn o bryd
+    whatNow: Beth nesaf?
+  errors:
+    file:
+      errorScanInfected: Mae’r ffeil wedi ei gloi am resymau diogelwch.
+      errorScanUnknown: Mae’r ffeil hwn yn dal i gael ei sganio am risgiau diogelwch—gwiriwch eto yn fuan.
+      errorOther: Roedd yna broblem wrth adfer eich ffeil—trïwch eto’n fuan.
+  common:
+    delete: Dileu
+    exit: Gadael
+    closeThisPage: Cau’r dudalen hon
+    deleteApplication: Dileu’r cais
+    errorUploading: Roedd problem wrth uwch lwytho eich ffeil, trïwch eto
+    untitledApplication: Cais heb deitl
+    startYourApplication: Dechrau ar eich cais
+    backToApplications: Yn ôl i’ch ceisiadau

@@ -76,14 +76,44 @@ ${fileErrorMessage}
 </p>`;
     }
 
+    function cyConfirmationBody() {
+        const fileErrorMessage = getFileUploadErrorMessage();
+
+        return `<p>Diolch am anfon eich cais i Arian i Bawb y Loteri Genedlaethol.</p>
+${fileErrorMessage}
+<h2>Beth nesaf?</h2>
+<p>
+    Byddwn nawr yn adolygu eich cais ac efallai byddwn mewn cysylltiad i 
+    ddarganfod mwy am eich prosiect. Bydd yn cymryd oddeutu
+    <strong>${localise(MIN_START_DATE.label)}</strong>
+    i ni wneud penderfyniad a byddwn yn gadael i chi wybod 
+    p’un a ydych wedi bod yn llwyddiannus ai beidio drwy e-bost.
+</p>
+<p>
+    Yn y cyfamser, os oes gennych unrhyw gwestiynau, ffoniwch <strong>${phoneFor(
+        country
+    )}</strong> neu gyrrwch e-bost i <a href="mailto:${emailFor(country)}">${emailFor(
+            country
+        )}</a> a byddwn yn hapus i’ch helpu.
+</p>
+<p>
+    Rydym wedi e-bostio copi o’ch ffurflen gais ichi. 
+    Cadwch hwn ar gyfer eich cofnodion rhag ofn bydd angen ichi gyfeirio ato.
+</p>
+<p>
+    Pob lwc gyda’ch cais,<br />
+    <strong>Tîm Arian i Bawb y Loteri Genedlaethol</strong>
+</p>`;
+    }
+
     return {
         title: localise({
             en: `Your application has been submitted. Good luck!`,
-            cy: ``
+            cy: `Mae eich cais wedi’i gyflwyno. Pob lwc!`
         }),
         body: localise({
             en: enConfirmationBody(),
-            cy: ``
+            cy: cyConfirmationBody()
         })
     };
 };

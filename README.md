@@ -4,7 +4,7 @@
 
 This project contains the source-code for The National Lottery Community Fund website.
 
-The website is broken up into three distinct services:
+The website is broken up into three services:
 
 | Project                                                            | Description                                                                 |
 | ------------------------------------------------------------------ | --------------------------------------------------------------------------- |

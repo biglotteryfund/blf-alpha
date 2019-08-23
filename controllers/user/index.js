@@ -5,6 +5,7 @@ const features = require('config').get('features');
 const moment = require('moment');
 
 const { Users } = require('../../db/models');
+const { isNotProduction } = require('../../common/appData');
 const { localify, redirectForLocale } = require('../../common/urls');
 const { noCache } = require('../../middleware/cached');
 const { requireNotStaffAuth } = require('../../middleware/authed');
@@ -18,7 +19,7 @@ const router = express.Router();
 
 router.use(noCache, function(req, res, next) {
     res.setHeader('X-Robots-Tag', 'noindex');
-    res.locals.isBilingual = false;
+    res.locals.isBilingual = isNotProduction;
     next();
 });
 
