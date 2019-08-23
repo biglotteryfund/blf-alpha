@@ -1338,7 +1338,7 @@ applyNext:
   eligibility:
     title: Gwiriad cymhwysedd
     successfulTitle: Gwych! Rydych yn gymwys i ymgeisio am %s
-    unsuccessfulTitle: Ddrwg gennym, nid ydych yn gymwys i ymgeisio ar hyn o bryd
+    unsuccessfulTitle: Mae'n ddrwg gennym, nid ydych yn gymwys i ymgeisio ar hyn o bryd
     whatNow: Beth nesaf?
   errors:
     file:
