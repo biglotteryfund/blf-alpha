@@ -455,7 +455,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             MIN_START_DATE.amount,
             MIN_START_DATE.unit
         );
-        const minDateAfter = minDate.subtract(1, 'days');
+
+        function formatAfterDate() {
+            return minDate
+                .subtract(1, 'days')
+                .locale(locale)
+                .format('D MMMM YYYY');
+        }
 
         return {
             name: 'projectDateRange',
@@ -470,7 +476,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `<p>
                     If you don't know exactly, your dates can be estimates.
                     But you need to start your project after
-                    ${minDate.format('DD/MM/YYYY')}.
+                    ${formatAfterDate()}.
                 </p>
                 <p>
                     We usually only fund projects that last
@@ -489,7 +495,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `<p>
                     Os nad ydych yn gwybod yn union, gall eich dyddiadau fod yn amcangyfrifon.
                     Ond mae angen i chi ddechrau eich prosiect wedi 
-                    ${minDate.format('DD/MM/YYYY')}.
+                    ${formatAfterDate()}.
                 </p>
                 <p>
                     Fel arfer, dim ond prosiectau sy’n para 
@@ -547,10 +553,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'dateRange.minDate.invalid',
                     message: localise({
-                        en: oneLine`Date you start the project must be after
-                            ${minDateAfter.format('D MMMM YYYY')}`,
-                        cy: oneLine`Rhaid i ddyddiad dechrau’r prosiect fod ar ôl
-                            ${minDateAfter.format('D MMMM YYYY')}`
+                        en: `Date you start the project must be after ${formatAfterDate()}`,
+                        cy: `Rhaid i ddyddiad dechrau’r prosiect fod ar ôl ${formatAfterDate()}`
                     })
                 },
                 {
@@ -1179,7 +1183,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Select the specific group(s) of people your project is aimed at`,
-                        cy: `Dewiswch y grŵp(iau) o bobl mae ei prosiect wedi’i anelu ar eu cyfer`
+                        cy: `Dewiswch y grŵp(iau) o bobl mae eich prosiect wedi'i anelu ar eu cyfer`
                     })
                 }
             ]
@@ -1492,7 +1496,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     Rydym yn defnyddio’r diffiniad o’r Ddeddf Cydraddoldeb 2010,
                     sy’n diffinio person anabl fel rhywun sydd â nam meddyliol
                     neu gorfforol lle mae hynny’n cael effaith niweidiol
-                    sylweddol a hirdymor ar eu gallu i gynal gweithgaredd
+                    sylweddol a hirdymor ar eu gallu i gynnal gweithgaredd
                     arferol o ddydd i ddydd. 
                 </p>`
             }),
@@ -2096,8 +2100,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             label: localise({
                 en:
                     'Have they lived at their home address for the last three years?',
-                cy:
-                    'A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?'
+                cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`
             })
         }),
         mainContactEmail: emailField(
