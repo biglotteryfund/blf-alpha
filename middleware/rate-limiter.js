@@ -1,11 +1,9 @@
 'use strict';
-const {
-    RateLimiterMySQL,
-    RateLimiterMemory
-} = require('rate-limiter-flexible');
-const moment = require('moment');
-const { get } = require('lodash');
 const crypto = require('crypto');
+const moment = require('moment');
+const get = require('lodash/get');
+const RateLimiterMySQL = require('rate-limiter-flexible/lib/RateLimiterMySQL');
+const RateLimiterMemory = require('rate-limiter-flexible/lib/RateLimiterMemory');
 
 const { sequelize } = require('../db/models/index');
 const appData = require('../common/appData');
