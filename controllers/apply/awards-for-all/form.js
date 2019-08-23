@@ -992,14 +992,14 @@ module.exports = function({
             </div>
             <p>
                 <strong>Rhaid i’ch cyfriflen fod yn llai na tair mis oed</strong>.
-                I gyfrifon banc sydd wedi agor o fewn y tair mis diwethaf, 
-                gallwn dderbyn llythyr o groeso gan y banc. Rhaid i hwn gadarhau’r 
-                dyddiad roedd eich cyfrif wedi’i agor, 
-                enw’r cyfrif, rhif y cyfrif a’r cod didoli.
+                I gyfrifon banc sydd wedi agor o fewn y tair mis diwethaf, gallwn
+                dderbyn llythyr o groeso gan y banc. Rhaid i hwn gadarnhau'r dyddiad
+                roedd eich cyfrif wedi’i agor,  enw’r cyfrif, rhif y cyfrif a’r cod didoli.
             </p>
             <p><strong>Os ydych yn ysgol yn defnyddio cyfrif banc awdurdod lleol</strong></p>
             <p>
-                Byddwn angen llythyr gan yr awdurdod lleol wedi’i ddyddio o fewn y tair mis ddiwethaf. Dylai ddangos:
+                Byddwn angen llythyr gan yr awdurdod lleol wedi’i ddyddio o
+                fewn y tair mis ddiwethaf. Dylai ddangos:
             </p> 
             <ul>
                 <li>Enw eich ysgol</li>
@@ -1310,7 +1310,7 @@ module.exports = function({
                     en: oneLine`In order to submit your application,
                         you will need to agree to our terms and conditions.`,
                     cy: oneLine`Er mwyn anfon eich cais, 
-                        bydd angen i chi gytuno a’n Telerau ac Amodau.`
+                        bydd angen i chi gytuno â'n Telerau ac Amodau.`
                 }),
                 steps: [stepTerms()]
             }
