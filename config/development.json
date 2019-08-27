@@ -9,8 +9,5 @@
     "enableCloudWatchLogs": false,
     "enableSeeders": true,
     "enableSalesforceConnector": true
-  },
-  "cookies": {
-    "expiryMs": 30000
   }
 }
