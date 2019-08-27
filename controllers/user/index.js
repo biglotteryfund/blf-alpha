@@ -100,7 +100,6 @@ router.get('/logout', function(req, res) {
     });
 });
 
-// router.get('/session', requireUserAuth, function(req, res) {
 router.get('/session', function(req, res) {
     res.send({
         expires: req.session.cookie.expires,
