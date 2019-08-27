@@ -115,7 +115,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "mainContactEmail": "Lizzie87@example.com",
         "mainContactPhone": "0345 4 10 20 30",
         "mainContactLanguagePreference": "english",
-        "mainContactCommunicationNeeds": [],
+        "mainContactCommunicationNeeds": "email",
         "seniorContactName": {
             "firstName": "Maribel",
             "lastName": "D'Amore"
@@ -135,7 +135,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         "seniorContactEmail": "Leora.Walker66@example.org",
         "seniorContactPhone": "020 7211 1888",
         "seniorContactLanguagePreference": "english",
-        "seniorContactCommunicationNeeds": [],
+        "seniorContactCommunicationNeeds": "email",
         "bankAccountName": "Kulas - Greenfelder",
         "bankSortCode": "108800",
         "bankAccountNumber": "00012345",
