@@ -1,6 +1,5 @@
 import $ from 'jquery';
 import forEach from 'lodash/forEach';
-import debounce from 'lodash/debounce';
 import { trackEvent, tagHotjarRecording } from '../helpers/metrics';
 
 function handleBeforeUnload(e) {
@@ -221,77 +220,6 @@ function initHotjarTracking(formId) {
     trackDetailsClicks(scopedFormClass);
 }
 
-function handleSessionExpiration() {
-    let sessionInterval;
-    let isAuthenticated = true;
-    let expiryTimeRemaining = window.AppConfig.sessionExpirySeconds;
-    const expiryCheckIntervalSeconds = 5;
-
-    function startSessionExpiryWarningTimer() {
-        sessionInterval = window.setInterval(
-            sessionTimeoutCheck,
-            expiryCheckIntervalSeconds * 1000
-        );
-    }
-
-    function clearSessionExpiryWarningTimer() {
-        window.clearInterval(sessionInterval);
-    }
-
-    function closeModals() {
-        $('body').removeClass('is-modal');
-        $('.js-modal, .js-modal__item').hide();
-    }
-
-    function showModal(id) {
-        closeModals();
-        $('body').addClass('is-modal');
-        $(`.js-modal, .js-modal--${id}`).show();
-    }
-
-    $('.js-close-modal').click(closeModals);
-
-    function sessionTimeoutCheck() {
-        expiryTimeRemaining = expiryTimeRemaining - expiryCheckIntervalSeconds;
-        console.log(
-            'There are ' +
-                expiryTimeRemaining +
-                ' seconds left until your session expires'
-        );
-        if (expiryTimeRemaining <= 0) {
-            isAuthenticated = false;
-            clearSessionExpiryWarningTimer();
-            showModal('session-timeout');
-        } else if (expiryTimeRemaining <= 10) {
-            showModal('session-about-to-expire');
-        }
-    }
-
-    const handleActivity = () => {
-        if (isAuthenticated) {
-            // Extend their session
-            $.ajax({
-                type: 'get',
-                url: '/user/session',
-                dataType: 'json'
-            }).then(response => {
-                // Reset the timeout clock
-                expiryTimeRemaining = window.AppConfig.sessionExpirySeconds;
-                isAuthenticated = response.isAuthenticated;
-                clearSessionExpiryWarningTimer();
-                startSessionExpiryWarningTimer();
-                console.log('Activity made - clock reset!');
-            });
-        } else {
-            showModal('session-timeout');
-        }
-    };
-
-    startSessionExpiryWarningTimer();
-
-    $('body').on('click keypress', debounce(handleActivity, 1000));
-}
-
 function init() {
     /**
      * Review–step–specific logic
@@ -307,11 +235,6 @@ function init() {
 
     // Hotjar tagging
     initHotjarTracking('awards-for-all');
-
-    const pageHasSessionForm = $('form.js-session-form').length !== 0;
-    if (pageHasSessionForm) {
-        handleSessionExpiration();
-    }
 }
 
 export default {
