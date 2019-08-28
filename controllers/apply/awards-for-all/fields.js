@@ -801,7 +801,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             get optgroups() {
                 const country = get('projectCountry')(data);
-                return locationsFor(country);
+                return locationsFor(country, locale);
             },
             isRequired: true,
             get schema() {
