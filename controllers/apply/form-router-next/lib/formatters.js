@@ -164,11 +164,13 @@ function formatName(value) {
     }
 }
 
-function formatTextArea(value) {
-    const str = value.toString();
-    const wordCount = countWords(str);
-    // @TODO i18n
-    return str + `\n\n (${wordCount} words)`;
+function formatTextArea(locale) {
+    return function(value) {
+        const str = value.toString();
+        const wordCount = countWords(str);
+        const label = locale === 'en' ? 'words' : 'gair';
+        return str + `\n\n (${wordCount} ${label})`;
+    };
 }
 
 function formatDefault(value) {
@@ -218,7 +220,7 @@ function formatterFor(field, locale = 'en') {
             formatter = formatName;
             break;
         case 'textarea':
-            formatter = formatTextArea;
+            formatter = formatTextArea(locale);
             break;
         default:
             formatter = formatDefault;
