@@ -153,7 +153,10 @@ describe('user', () => {
             logIn(newUser.username, newUser.password);
 
             // Log out
-            cy.getByText('Log out').click();
+            cy.get('.user-nav__links')
+                .contains('Log out')
+                .click();
+
             cy.getByText('You were successfully logged out', {
                 exact: false
             }).should('be.visible');
