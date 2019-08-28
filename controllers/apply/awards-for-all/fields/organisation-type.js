@@ -60,7 +60,7 @@ module.exports = function fieldOrganisationType(locale) {
             value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY,
             label: localise({
                 en: 'Not-for-profit company',
-                cy: 'Cwmni dielw'
+                cy: 'Cwmni di-elw'
             }),
             explanation: localise({
                 en: oneLine`My organisation is a not-for-profit company

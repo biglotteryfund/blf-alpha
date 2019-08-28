@@ -1305,10 +1305,9 @@ module.exports = function({
                         Before you submit your application you will
                         need to attach a copy of a bank statement
                         that is less than three months old`,
-
-                    cy: oneLine`Darparwch eich manylion banc. Cyn i chi anfon
-                        eich cais bydd angen i chi atodi copi o’ch cyfriflen
-                        banc sy’n llai na tri mis oed.`
+                    cy: oneLine`Darparwch eich manylion banc. 
+                        Cyn i chi anfon eich cais bydd angen i chi 
+                        atodi copi o’ch cyfriflen banc sy’n llai na tri mis oed.`
                 }),
                 steps: [stepBankAccount(), stepBankStatement()]
             },

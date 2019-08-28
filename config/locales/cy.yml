@@ -1267,7 +1267,7 @@ applyNext:
       startDate: Dyddiad dechrau
       endDate: Dyddiad gorffen
     address:
-      label: Dod o hyd i gyfeiriad drwy gòd post
+      label: Dod o hyd i gyfeiriad drwy god post
       required: Gofynnol
       optional: Dewisol
       helpText: e.e. EC4A 1DE
