@@ -8,7 +8,7 @@
         environment: '{{ appData.environment }}',
         locale: '{{ locale }}',
         localePrefix: '{{ localePrefix }}',
-        sessionExpirySeconds: {{ appData.config.get('cookies.expiryMs') / 1000 }}
+        sessionExpirySeconds: {{ appData.config.get('session.expiryInSeconds') }}
     };
 
     var docEl = document.documentElement;

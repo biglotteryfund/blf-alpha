@@ -28,7 +28,7 @@ module.exports = function(app) {
         cookie: {
             sameSite: false,
             secure: isDev === false,
-            maxAge: config.get('cookies.expiryMs')
+            maxAge: config.get('session.expiryInSeconds') * 1000
         }
     };
 
