@@ -456,7 +456,7 @@ function initFormRouter({
                  */
                 unsetCurrentlyEditingId(req, function() {
                     const confirmation = confirmationBuilder({
-                        locale: 'en',
+                        locale: req.i18n.getLocale(),
                         data: currentApplicationData,
                         fileUploadError: fileUploadError
                     });
