@@ -68,7 +68,7 @@ module.exports = function fieldYourIdeaCommunity(locale) {
             <p><strong>Dyma rhai enghreifftiau o sut gallwch fod yn cynnwys eich cymunedau:</strong></p>
             <ul>
                 <li>Cael sgyrsiau rheolaidd ag aelodau’r gymuned, naill ai mewn person neu gyfryngau cymdeithasol</li>
-                <li>Cynnwys aelodau cymunedol ar eich bwrdd neu bwyllgor</li>
+                <li>Cynnwys aelodau o'r gymuned ar eich bwrdd neu bwyllgor</li>
                 <li>Arolygon rheolaidd</li>
                 <li>Sefydlu grwpiau llywio</li>
                 <li>Cynnal diwrnodau agored</li>

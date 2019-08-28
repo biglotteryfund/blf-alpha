@@ -24,6 +24,10 @@ function renderError(err, req, res) {
     res.locals.title = err.friendlyText ? err.friendlyText : 'Error';
     res.locals.sentry = res.sentry;
 
+    if (err.code === 'EBADCSRFTOKEN' && req.method === 'POST') {
+        return res.redirect(req.originalUrl);
+    }
+
     res.status(res.locals.status).render(
         path.resolve(__dirname, './views/error')
     );

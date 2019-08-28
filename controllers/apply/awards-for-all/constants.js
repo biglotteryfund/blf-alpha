@@ -5,6 +5,12 @@ const MIN_AGE_SENIOR_CONTACT = 18;
 const MAX_BUDGET_TOTAL_GBP = 10000;
 const MIN_BUDGET_TOTAL_GBP = 300;
 
+const FREE_TEXT_MAXLENGTH = {
+    small: 40,
+    medium: 80,
+    large: 255
+};
+
 const ORG_MIN_AGE = {
     amount: 15,
     unit: 'months',
@@ -118,5 +124,6 @@ module.exports = {
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,
     CHARITY_NUMBER_TYPES,
-    EDUCATION_NUMBER_TYPES
+    EDUCATION_NUMBER_TYPES,
+    FREE_TEXT_MAXLENGTH
 };

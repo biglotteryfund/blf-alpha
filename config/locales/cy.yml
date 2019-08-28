@@ -1026,7 +1026,7 @@ user:
   login:
     title: Mewngofnodi
     introduction: >
-      <p>Mae hwn yn ffurflen gais newydd. Os nad ydych wedi mewngofnodi yma eisoes, efallai na fydd gennych gyfrif â ni - a bydd angen <a href="/welsh/user/register">creu cyfrif newydd</a> i ymgeisio.</p>
+      <p>Mae hon yn ffurflen gais newydd. Os nad ydych wedi mewngofnodi yma eisoes, efallai na fydd gennych gyfrif â ni - a bydd angen <a href="/welsh/user/register">creu cyfrif newydd</a> i ymgeisio.</p>
     actionLabel: Mewngofnodi
     registerLabel: creu cyfrif
     forgottenPasswordPrompt: Wedi anghofio eich cyfrinair?
@@ -1174,6 +1174,8 @@ apply:
     description: Mae <a href="/welsh/funding/programmes/digital-fund/strand-2">Edefyn 2</a> y Gronfa Ddigidol yn cynnig grantiau hyd at £500,000 ar gyfer mudiadau eithaf newydd y maent eisoes wedi lansio gwasanaethau addawol sy'n defnyddio digidol i gyflawni graddfa neu effaith.
 applyNext:
   navigation:
+    previous: Yn ôl
+    next: Ymlaen
     applications: Ceisiadau
     account: Cyfrif
     logOut: Allgofnodi
@@ -1265,7 +1267,7 @@ applyNext:
       startDate: Dyddiad dechrau
       endDate: Dyddiad gorffen
     address:
-      label: Dod o hyd i gyfeiriad drwy gòd post
+      label: Dod o hyd i gyfeiriad drwy god post
       required: Gofynnol
       optional: Dewisol
       helpText: e.e. EC4A 1DE
@@ -1278,6 +1280,10 @@ applyNext:
         townCity: Tref neu ddinas
         county: Sir
         postcode: Cod post
+    addressHistory:
+      previousAddress: Cyfeiriad cartref blaenorol
+      yes: Do
+      no: Naddo
     bankStatement:
       help:
         title: Cymorth gyda’ch cyfriflen banc
@@ -1336,7 +1342,7 @@ applyNext:
   eligibility:
     title: Gwiriad cymhwysedd
     successfulTitle: Gwych! Rydych yn gymwys i ymgeisio am %s
-    unsuccessfulTitle: Ddrwg gennym, nid ydych yn gymwys i ymgeisio ar hyn o bryd
+    unsuccessfulTitle: Mae'n ddrwg gennym, nid ydych yn gymwys i ymgeisio ar hyn o bryd
     whatNow: Beth nesaf?
   errors:
     file:

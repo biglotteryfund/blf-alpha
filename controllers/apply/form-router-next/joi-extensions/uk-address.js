@@ -1,5 +1,6 @@
 'use strict';
 const { get } = require('lodash');
+const { FREE_TEXT_MAXLENGTH } = require('../../awards-for-all/constants');
 
 const compareAddresses = addressFieldToCompare => {
     return function(params, value, state, options) {
@@ -29,15 +30,17 @@ const compareAddresses = addressFieldToCompare => {
 module.exports = function ukAddress(joi) {
     return {
         base: joi.object({
-            line1: joi.string().required(),
+            line1: joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
             line2: joi
                 .string()
                 .allow('')
+                .max(FREE_TEXT_MAXLENGTH.large)
                 .optional(),
-            townCity: joi.string().required(),
+            townCity: joi.string().max(FREE_TEXT_MAXLENGTH.small).required(),
             county: joi
                 .string()
                 .allow('')
+                .max(FREE_TEXT_MAXLENGTH.medium)
                 .optional(),
             postcode: joi
                 .string()
