@@ -15,28 +15,6 @@
             </ul>
         </nav>
 
-        <div class="modal js-modal u-hidden u-visually-hidden">
-            <div class="modal__content">
-                <div class="js-modal__item js-modal--session-about-to-expire u-hidden">
-                    <h2>You're about to lose your work</h2>
-                    <p>We'll log you out if you don't respond in <strong>10 minutes</strong>.</p>
-                    <p>We do this to keep your information secure.</p>
-                    <p class="u-no-margin">
-                        <button class="btn btn--small js-close-modal">Continue working</button>
-                        <a href="{{ localify('/user/logout') }}" class="btn btn--outline btn--small">Log out</a>
-                    </p>
-                </div>
-                <div class="js-modal__item js-modal--session-timeout u-hidden">
-                    <h2>Sorry, we've had to log you out</h2>
-                    <p>You've not been filling in this form for over two hours now. So we've had to log you out to keep your personal information safe. Any work you haven't saved is gone now.</p>
-                    <p class="u-no-margin">
-                        <a href="{{ localify('/user') }}" class="btn btn--small">Log in again</a>
-                        <a href="{{ localify('/') }}" class="btn btn--outline btn--small">Visit our homepage</a>
-                    </p>
-                </div>
-            </div>
-        </div>
-
         <div class="global-container">
             {# Status and announcement banners #}
             {% if previewStatus.isDraftOrVersion %}

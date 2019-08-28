@@ -1,11 +1,7 @@
 'use strict';
 import $ from 'jquery';
 import debounce from 'lodash/debounce';
-import modal from './modal';
 import { trackEvent } from '../helpers/metrics';
-
-// Deploy switch - allows us to roll out this feature in phases
-const showModals = false;
 
 const expiryCheckIntervalSeconds = 30; // The interval we'll check timeouts in
 const warningShownSecondsRemaining = 5 * 60; // The time before logout we'll show a warning at
@@ -32,18 +28,10 @@ function handleSessionExpiration() {
             // The user's cookie has expired
             isAuthenticated = false;
             clearSessionExpiryWarningTimer();
-            if (showModals) {
-                modal.showModal('session-timeout');
-            } else {
-                trackEvent('Session', 'Warning', 'Timeout reached');
-            }
+            trackEvent('Session', 'Warning', 'Timeout reached');
         } else if (expiryTimeRemaining <= warningShownSecondsRemaining) {
             // The user has a few minutes remaining before logout
-            if (showModals) {
-                modal.showModal('session-about-to-expire');
-            } else {
-                trackEvent('Session', 'Warning', 'Timeout almost reached');
-            }
+            trackEvent('Session', 'Warning', 'Timeout almost reached');
         }
     }
 
@@ -61,10 +49,6 @@ function handleSessionExpiration() {
                 clearSessionExpiryWarningTimer();
                 startSessionExpiryWarningTimer();
             });
-        } else {
-            if (showModals) {
-                modal.showModal('session-timeout');
-            }
         }
     };
 
