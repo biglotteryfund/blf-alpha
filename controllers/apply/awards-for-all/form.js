@@ -993,7 +993,7 @@ module.exports = function({
                         <li>Enw’r banc</li>
                         <li>Rhif cyfrif</li>
                         <li>Cod didoli</li>
-                        <li>Dyddiad (Rhaid bod o fewn y tair mis diwethaf)</li>
+                        <li>Dyddiad (Rhaid bod o fewn y tri mis ddiwethaf)</li>
                     </ul>
                     <p>Dyma <a target="_blank" href="../help/bank-statement">
                         enghraifft o’r hyn rydym yn edrych amdano
@@ -1140,7 +1140,9 @@ module.exports = function({
                         en: 'Project dates',
                         cy: 'Dyddiadau’r prosiect'
                     }),
-                    value: projectDateRange && formatDateRange(projectDateRange)
+                    value:
+                        projectDateRange &&
+                        formatDateRange(locale)(projectDateRange)
                 },
                 {
                     label: localise({
@@ -1303,10 +1305,10 @@ module.exports = function({
                         Before you submit your application you will
                         need to attach a copy of a bank statement
                         that is less than three months old`,
-                    cy: oneLine`Darparwch eich manylion banc. 
-                        Cyn i chi anfon eich cais bydd angen i chi 
-                        atodi copi o’ch cyfriflen banc sy’n 
-                        llai na tair mis oed.`
+
+                    cy: oneLine`Darparwch eich manylion banc. Cyn i chi anfon
+                        eich cais bydd angen i chi atodi copi o’ch cyfriflen
+                        banc sy’n llai na tri mis oed.`
                 }),
                 steps: [stepBankAccount(), stepBankStatement()]
             },
@@ -1327,5 +1329,5 @@ module.exports = function({
         ]
     };
 
-    return new FormModel(form, data);
+    return new FormModel(form, data, locale);
 };
