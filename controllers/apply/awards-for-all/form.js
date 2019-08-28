@@ -382,12 +382,16 @@ module.exports = function({
         };
     }
 
+    function isForCountry(country) {
+        const currentCountry = get('projectCountry')(data);
+        return currentCountry === country;
+    }
+
     /**
      * Include fields based on the current country.
      */
     function includeIfCountry(country, fields) {
-        const currentCountry = get('projectCountry')(data);
-        return currentCountry === country ? fields : [];
+        return isForCountry(country) ? fields : [];
     }
 
     function stepWelshLanguage() {
@@ -659,8 +663,10 @@ module.exports = function({
                             fields.seniorContactAddressHistory,
                             fields.seniorContactEmail,
                             fields.seniorContactPhone,
+                            fields.seniorContactLanguagePreference,
                             fields.seniorContactCommunicationNeeds
                         ];
+
                         const filteredFields = compact([
                             fields.seniorContactRole,
                             fields.seniorContactName,
@@ -672,6 +678,8 @@ module.exports = function({
                                 fields.seniorContactAddressHistory,
                             fields.seniorContactEmail,
                             fields.seniorContactPhone,
+                            isForCountry('wales') &&
+                                fields.seniorContactLanguagePreference,
                             fields.seniorContactCommunicationNeeds
                         ]);
                         return conditionalFields(allFields, filteredFields);
@@ -756,6 +764,7 @@ module.exports = function({
                             fields.mainContactAddressHistory,
                             fields.mainContactEmail,
                             fields.mainContactPhone,
+                            fields.mainContactLanguagePreference,
                             fields.mainContactCommunicationNeeds
                         ]);
 
@@ -773,6 +782,8 @@ module.exports = function({
                                     fields.mainContactAddressHistory,
                                 fields.mainContactEmail,
                                 fields.mainContactPhone,
+                                isForCountry('wales') &&
+                                    fields.mainContactLanguagePreference,
                                 fields.mainContactCommunicationNeeds
                             ])
                         );

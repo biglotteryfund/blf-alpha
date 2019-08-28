@@ -919,6 +919,24 @@ describe('awards for all', function() {
 
             cy.getByLabelText('Telephone number').type(contact.phone);
 
+            if (country === 'Wales') {
+                cy.queryByText(
+                    'What language should we use to contact this person?',
+                    {
+                        exact: false,
+                        timeout: 500
+                    }
+                ).then(el => {
+                    if (el) {
+                        cy.wrap(el)
+                            .parent()
+                            .within(() => {
+                                cy.getByLabelText('Welsh').click();
+                            });
+                    }
+                });
+            }
+
             cy.getByLabelText(
                 'tell us about any particular communication needs',
                 { exact: false }

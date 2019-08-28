@@ -32,6 +32,7 @@ const showContactConfirmationQuestion = config.get(
 
 const countriesFor = require('./lib/countries');
 const locationsFor = require('./lib/locations');
+const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
 const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaCommunity = require('./fields/your-idea-community');
@@ -2131,6 +2132,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'mainContactPhone',
             label: localise({ en: 'Telephone number', cy: 'Rhif ffôn' })
         }),
+        mainContactLanguagePreference: fieldContactLanguagePreference(locale, {
+            name: 'mainContactLanguagePreference'
+        }),
         mainContactCommunicationNeeds: {
             name: 'mainContactCommunicationNeeds',
             label: localise({
@@ -2226,6 +2230,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'seniorContactPhone',
             label: localise({ en: 'Telephone number', cy: 'Rhif ffôn' })
         }),
+        seniorContactLanguagePreference: fieldContactLanguagePreference(
+            locale,
+            {
+                name: 'seniorContactLanguagePreference'
+            }
+        ),
         seniorContactCommunicationNeeds: {
             name: 'seniorContactCommunicationNeeds',
             label: localise({
