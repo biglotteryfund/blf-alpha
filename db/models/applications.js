@@ -87,6 +87,18 @@ class PendingApplication extends Model {
             order: [['createdAt', 'DESC']]
         });
     }
+    static findApplicationsByExpiry() {
+        const startDate = moment().toDate();
+        const endDate = moment().add('4', 'months').toDate();
+
+        return this.findAll({
+            where: {
+                expiresAt: {
+                    [Op.between]: [startDate, endDate]
+                }
+            }
+        });
+    }
     static findApplicationForForm({ formId, applicationId, userId }) {
         return this.findOne({
             where: {

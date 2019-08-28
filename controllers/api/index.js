@@ -2,9 +2,10 @@
 const express = require('express');
 const Joi = require('@hapi/joi');
 const Sentry = require('@sentry/node');
+const moment = require('moment');
 
 const { sanitise } = require('../../common/sanitise');
-const { Feedback, SurveyAnswer } = require('../../db/models');
+const { Feedback, SurveyAnswer, PendingApplication } = require('../../db/models');
 const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');
 const { csrfProtection } = require('../../middleware/cached');
@@ -147,6 +148,53 @@ router.post('/survey', async (req, res) => {
                 err: storeError.message
             });
         }
+    }
+});
+
+/**
+ * API: Application Expiry
+ */
+router.post('/applications/expiry', async (req, res) => {
+    try {
+        const expiryApplications = await PendingApplication.findApplicationsByExpiry();
+        const expiredReminderUserIds = [],
+        dayReminderUserIds = [],
+        weekReminderUserIds = [],
+        monthReminderUserIds = [],
+        expiredApplicationIds = [];
+        
+        expiryApplications.forEach((application) => {
+            const expiryInDays = Math.abs(moment(application.expiresAt).diff(moment(), 'days'));
+
+            // Collect userIds for each expiry scenarios
+            // Collect application ids to delete the records later
+            switch(true) {
+                case (expiryInDays <= 0):
+                    expiredApplicationIds.push(application.id);
+                    expiredReminderUserIds.push(application.userId);
+                    break;
+                case (expiryInDays > 0 && expiryInDays <= 2):
+                    dayReminderUserIds.push(application.userId);
+                    break;
+                case (expiryInDays > 2 && expiryInDays <= 14):
+                    weekReminderUserIds.push(application.userId);
+                    break;
+                case (expiryInDays > 14 && expiryInDays <= 30):
+                    monthReminderUserIds.push(application.userId);
+                    break;
+            }
+        });
+
+        // Handle expired application
+        // .ie. send emails + delete applications + update ApplicationExpirations table
+
+        // Handle Monthly reminder
+        // .ie. send emails + create ApplicationExpirations record
+
+        // Handle Weekly/Daily reminder
+        // .ie. send emails + update ApplicationExpirations record
+    } catch (err) {
+        console.log(err);
     }
 });
 
