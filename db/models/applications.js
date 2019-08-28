@@ -89,7 +89,7 @@ class PendingApplication extends Model {
     }
     static findApplicationsByExpiry() {
         const startDate = moment().toDate();
-        const endDate = moment().add('4', 'months').toDate();
+        const endDate = moment().add('1', 'months').toDate();
 
         return this.findAll({
             where: {
