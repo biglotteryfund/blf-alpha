@@ -60,6 +60,7 @@ module.exports = function({
     function stepProjectDetails() {
         return {
             title: localise({ en: 'Project details', cy: 'Manylion prosiect' }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -101,6 +102,7 @@ module.exports = function({
 
         return {
             title: localise({ en: 'Project country', cy: 'Gwlad y prosiect' }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -120,6 +122,7 @@ module.exports = function({
                 en: 'Project location',
                 cy: 'Lleoliad y prosiect'
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -151,6 +154,7 @@ module.exports = function({
     function stepYourIdea() {
         return {
             title: localise({ en: 'Your idea', cy: 'Eich syniad' }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -173,6 +177,7 @@ module.exports = function({
                 en: 'Project costs',
                 cy: 'Costau’r prosiect'
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -191,6 +196,7 @@ module.exports = function({
                 en: `Specific groups of people`,
                 cy: `Grwpiau penodol o bobl`
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -469,6 +475,7 @@ module.exports = function({
                 en: 'Organisation type',
                 cy: 'Math o sefydliad'
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -512,6 +519,7 @@ module.exports = function({
 
         return {
             title: title,
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: title,
@@ -551,6 +559,7 @@ module.exports = function({
                 en: 'Registration numbers',
                 cy: 'Rhifau cofrestru'
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -591,6 +600,7 @@ module.exports = function({
                 en: 'Organisation finances',
                 cy: 'Cyllid y sefydliad'
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -881,6 +891,7 @@ module.exports = function({
     function stepBankAccount() {
         return {
             title: localise({ en: 'Bank account', cy: 'Cyfrif banc' }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -1021,6 +1032,7 @@ module.exports = function({
 
         return {
             title: localise({ en: 'Bank statement', cy: 'Cyfriflen banc' }),
+            noValidate: config.get('features.enableNoValidate'),
             isMultipart: true,
             fieldsets: [
                 {
@@ -1090,6 +1102,7 @@ module.exports = function({
 
         return {
             title: title,
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: title,
