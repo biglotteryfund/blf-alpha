@@ -977,7 +977,7 @@ module.exports = function({
             
             <div class="o-media u-padded u-tone-background-tint u-margin-bottom">
                 <a href="../help/bank-statement" target="_blank">
-                    <img src="/assets/images/apply/afa-bank-statement-example-small.png"
+                    <img src="/assets/images/apply/afa-bank-statement-example-small-welsh.jpg"
                          alt="Enghraifft o gyfriflen banc rydym ei angen gennych"
                          class="o-media__figure-gutter"
                          width="300" />
