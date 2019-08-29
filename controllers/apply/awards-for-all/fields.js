@@ -18,7 +18,6 @@ const {
     MIN_AGE_SENIOR_CONTACT,
     MIN_BUDGET_TOTAL_GBP,
     MIN_START_DATE,
-    ORG_MIN_AGE,
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,
     CHARITY_NUMBER_TYPES,
@@ -38,6 +37,7 @@ const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaCommunity = require('./fields/your-idea-community');
 const fieldOrganisationType = require('./fields/organisation-type');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
+const fieldOrganisationStartDate = require('./fields/organisation-start-date');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
@@ -1822,48 +1822,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        organisationStartDate: {
-            name: 'organisationStartDate',
-            type: 'month-year',
-            label: localise({
-                en: `When was your organisation set up?`,
-                cy: `Pryd sefydlwyd eich sefydliad?`
-            }),
-            explanation: localise({
-                en: `<p>Please tell us the month and year.</p>
-                     <p><strong>For example: 11 2017</strong></p>`,
-                cy: `<p>Dywedwch wrthym y mis a’r flwyddyn.</p>
-                     <p><strong>Er enghraifft: 11 2017</strong></p>`
-            }),
-            isRequired: true,
-            schema: Joi.monthYear()
-                .pastDate()
-                .minTimeAgo(ORG_MIN_AGE.amount, ORG_MIN_AGE.unit)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a day and month',
-                        cy: 'Rhowch ddiwrnod a mis'
-                    })
-                },
-                {
-                    type: 'any.invalid',
-                    message: localise({
-                        en: 'Enter a real day and month',
-                        cy: 'Rhowch ddiwrnod a mis go iawn'
-                    })
-                },
-                {
-                    type: 'monthYear.pastDate',
-                    message: localise({
-                        en: 'Date you enter must be in the past',
-                        cy: 'Rhaid i’r dyddiad fod yn y gorffennol'
-                    })
-                }
-            ]
-        },
+        organisationStartDate: fieldOrganisationStartDate(locale),
         organisationAddress: addressField({
             name: 'organisationAddress',
             label: localise({
