@@ -327,7 +327,7 @@ module.exports = function locationsFor(country, locale) {
                     label: 'East Ayrshire'
                 },
                 {
-                    value: 'east-dumbartonshire',
+                    value: 'east-dunbartonshire',
                     label: 'East Dunbartonshire'
                 },
                 {
@@ -411,7 +411,7 @@ module.exports = function locationsFor(country, locale) {
                     label: 'The Scottish Borders'
                 },
                 {
-                    value: 'west-dumbartonshire',
+                    value: 'west-dunbartonshire',
                     label: 'West Dunbartonshire'
                 },
                 {

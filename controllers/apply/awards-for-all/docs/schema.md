@@ -229,7 +229,7 @@ type: `string`
 -   **Central Scotland**: `clackmannanshire`, `fife`, `perth-and-kinross`, `stirling`, `falkirk`
 -   **North East Scotland**: `aberdeen-city`, `aberdeenshire`, `angus`, `dundee`, `moray`
 -   **South Scotland**: `east-ayrshire`, `north-ayrshire`, `south-ayrshire`, `dumfries-and-galloway`, `the-scottish-borders`
--   **West of Scotland**: `east-dumbartonshire`, `west-dumbartonshire`, `inverclyde`, `renfrewshire`, `east-renfrewshire`
+-   **West of Scotland**: `east-dunbartonshire`, `west-dunbartonshire`, `inverclyde`, `renfrewshire`, `east-renfrewshire`
 
 #### Northern Ireland
 
