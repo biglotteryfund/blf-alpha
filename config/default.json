@@ -58,6 +58,9 @@
   "cookies": {
     "session": "blf-alpha-session"
   },
+  "session": {
+    "expiryInSeconds": 7200
+  },
   "hotjarId": 1036292,
   "googleAnalyticsCode": "UA-98908627-1"
 }
