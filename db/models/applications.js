@@ -61,7 +61,6 @@ class PendingApplication extends Model {
         };
 
         return super.init(schema, {
-            modelName: 'pendingapplication',
             sequelize
         });
     }
