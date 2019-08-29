@@ -2,15 +2,29 @@
 
 The following documents the data schema for Awards for All applications when submitted to Salesforce.
 
-Each submission has two top-level keys: `meta` which contains metadata about the submission and `application` which contains the applicants answers.
+## Changelog
+
+
+### v1.1
+
+- Added `locale` to meta
+- Added `mainContactLanguagePreference` and `seniorContactLanguagePreference` fields in Wales. 
+
+### v1.0
+       
+Initial release                                                                                     
+
+---
 
 ## Example data
+
+Each submission has two top-level keys: `meta` which contains metadata about the submission and `application` which contains the applicants answers.
 
 ```json
 {
     "meta": {
         "form": "awards-for-all",
-        "schemaVersion": "v1.0",
+        "schemaVersion": "v1.x",
         "environment": "production",
         "commitId": "b4ecf18eae01d34b296e9388f387cc42bf7c0f93",
         "locale": "en",
