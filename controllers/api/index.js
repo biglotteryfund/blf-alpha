@@ -2,10 +2,16 @@
 const express = require('express');
 const Joi = require('@hapi/joi');
 const Sentry = require('@sentry/node');
-const moment = require('moment');
+const { sendEmail } = require('../../common/mail');
 
 const { sanitise } = require('../../common/sanitise');
-const { Feedback, SurveyAnswer, PendingApplication } = require('../../db/models');
+const {
+    Feedback,
+    SurveyAnswer,
+    PendingApplication,
+    Users,
+    ApplicationExpirations
+} = require('../../db/models');
 const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');
 const { csrfProtection } = require('../../middleware/cached');
@@ -154,42 +160,65 @@ router.post('/survey', async (req, res) => {
 /**
  * API: Application Expiry
  */
+
+async function handleMonthExpiry(monthExpiryApplications) {
+    try {
+        // Fetch email addresses
+        const applicationExpirationsData = [];
+        const userIds = monthExpiryApplications.map(application => {
+            applicationExpirationsData.push({
+                applicationId: application.id,
+                expirationType: 'ONE_MONTH_REMINDER'
+            })
+            return application.userId
+        });
+
+        const monthExpiryMailList = await Users.getUsernamesByUserIds(userIds);
+
+        // Send Emails
+        if (monthExpiryMailList.length > 0) {
+            await sendEmail({
+                name: 'application_expiry',
+                mailConfig: {
+                    sendTo: appData.isNotProduction ? process.env.APPLICATION_EXPIRY_EMAIL : monthExpiryMailList,
+                    subject: 'Your Application is due to expire!',
+                    type: 'html',
+                    content: '<h1>Hello</h1>'
+                },
+                mailTransport: null
+            });
+        }
+
+        // create ApplicationExpirations records
+        if (applicationExpirationsData.length > 0) {
+            await ApplicationExpirations.createBulkExpiryApplications(applicationExpirationsData);
+        }
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 router.post('/applications/expiry', async (req, res) => {
     try {
-        const expiryApplications = await PendingApplication.findApplicationsByExpiry();
-        const expiredReminderUserIds = [],
-        dayReminderUserIds = [],
-        weekReminderUserIds = [],
-        monthReminderUserIds = [],
-        expiredApplicationIds = [];
-        
-        expiryApplications.forEach((application) => {
-            const expiryInDays = Math.abs(moment(application.expiresAt).diff(moment(), 'days'));
 
-            // Collect userIds for each expiry scenarios
-            // Collect application ids to delete the records later
-            switch(true) {
-                case (expiryInDays <= 0):
-                    expiredApplicationIds.push(application.id);
-                    expiredReminderUserIds.push(application.userId);
-                    break;
-                case (expiryInDays > 0 && expiryInDays <= 2):
-                    dayReminderUserIds.push(application.userId);
-                    break;
-                case (expiryInDays > 2 && expiryInDays <= 14):
-                    weekReminderUserIds.push(application.userId);
-                    break;
-                case (expiryInDays > 14 && expiryInDays <= 30):
-                    monthReminderUserIds.push(application.userId);
-                    break;
-            }
-        });
+        const [
+            monthExpiryApplications,
+            weekExpiryApplications,
+            dayExpiryApplications,
+            expiredApplications
+        ] = await Promise.all([
+            PendingApplication.findApplicationsByExpiry('15', '30'),
+            PendingApplication.findApplicationsByExpiry('3', '14'),
+            PendingApplication.findApplicationsByExpiry('1', '2'),
+            PendingApplication.findApplicationsByExpiry('expired')
+        ]);
 
         // Handle expired application
         // .ie. send emails + delete applications + update ApplicationExpirations table
 
         // Handle Monthly reminder
-        // .ie. send emails + create ApplicationExpirations record
+        handleMonthExpiry(monthExpiryApplications);
 
         // Handle Weekly/Daily reminder
         // .ie. send emails + update ApplicationExpirations record

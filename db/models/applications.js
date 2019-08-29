@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use strict';
 const moment = require('moment');
-const { Model, Op } = require('sequelize');
+const { Model, Op, Sequelize } = require('sequelize');
 
 class PendingApplication extends Model {
     static init(sequelize, DataTypes) {
@@ -61,6 +61,7 @@ class PendingApplication extends Model {
         };
 
         return super.init(schema, {
+            modelName: 'pendingapplication',
             sequelize
         });
     }
@@ -87,16 +88,17 @@ class PendingApplication extends Model {
             order: [['createdAt', 'DESC']]
         });
     }
-    static findApplicationsByExpiry() {
-        const startDate = moment().toDate();
-        const endDate = moment().add('1', 'months').toDate();
+    static findApplicationsByExpiry(from, to) {
+        let rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= ${from} AND DATEDIFF(expiresAt, CURDATE()) <= ${to}`;
+        // const startDate = moment().toDate();
+        // const endDate = moment().add('30', 'days').toDate();
+
+        if (from === 'expired') {
+            rawSqlStmt = 'DATEDIFF(expiresAt, CURDATE()) <= 0';
+        }
 
         return this.findAll({
-            where: {
-                expiresAt: {
-                    [Op.between]: [startDate, endDate]
-                }
-            }
+            where: Sequelize.literal(rawSqlStmt)
         });
     }
     static findApplicationForForm({ formId, applicationId, userId }) {
@@ -275,4 +277,48 @@ class SubmittedApplication extends Model {
     }
 }
 
-module.exports = { PendingApplication, SubmittedApplication };
+class ApplicationExpirations extends Model {
+    static init(sequelize, DataTypes) {
+        const schema = {
+            id: {
+                primaryKey: true,
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
+                allowNull: false
+            },
+
+            /**
+             * User model reference
+             */
+            applicationId: {
+                type: DataTypes.INTEGER,
+                references: { model: 'PendingApplications', key: 'id' }
+            },
+
+            /**
+             * Type of reminders sent
+             * e.g. ONE_MONTH_REMINDER
+             */
+            expirationType: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                get: function() {
+                    return JSON.parse(this.getDataValue('expirationType'));
+                }, 
+                set: function(val) {
+                    return this.setDataValue('expirationType', JSON.stringify(val));
+                }
+            }
+        };
+
+        return super.init(schema, {
+            sequelize
+        });
+    }
+
+    static createBulkExpiryApplications(dataArray) {
+        return this.bulkCreate(dataArray)
+    }
+}
+
+module.exports = { PendingApplication, SubmittedApplication, ApplicationExpirations };

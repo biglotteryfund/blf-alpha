@@ -50,6 +50,19 @@ class User extends Model {
         });
     }
 
+    static getUsernamesByUserIds(userIdArray) {
+        return this.findAll({
+            attributes: ['username'],
+            where: {
+                id: {
+                    [Op.in]: userIdArray
+                }
+            }
+        }).then(usernames => {
+            return usernames.map(username => username.username)
+        })
+    }
+
     static createUser({ username, password, isActive = false }) {
         return this.encryptPassword(password).then(encryptedPassword => {
             return this.create({
