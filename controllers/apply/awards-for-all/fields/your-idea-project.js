@@ -44,8 +44,8 @@ module.exports = function fieldYourIdeaProject(locale) {
                 <li>Am ba mor hir rydych yn disgwyl ei gynnal?
                     Gall hyn fod yn amcangyfrif.</li> 
                 <li>Sut y byddwch yn sicrhau fod pobl yn gwybod amdano?</li>
-                <li>Sut rydych yn bwriadu dysgu ohono a defnyddio’r dysg hwn
-                    i siapio prosiectau yn y dyfodol?</li>
+                <li>Sut rydych yn bwriadu dysgu ohono a defnyddio’r wybodaeth 
+                hwn i siapio prosiectau yn y dyfodol?</li>
                 <li>A yw’n rhywbeth newydd, neu ydych yn parhau â rhywbeth
                     sydd wedi gweithio’n dda yn flaenorol? Rydym eisiau
                     ariannu’r ddau fath o brosiectau.</li>

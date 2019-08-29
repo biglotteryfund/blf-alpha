@@ -126,7 +126,7 @@ module.exports = {
 
                 `cydnabod arian y Loteri Genedlaethol gan ddefnyddio'r brand loteri cyffredin yn unol â'r canllawiau brand perthnasol;`,
 
-                `cadw'r grant mewn cyfrif banc neu gymdeithas adeiladu Deyrnas Unedig sy'n bodloni ein gofynion fel a ddisgrifir yn y canllawiau ac yn mynnu bod o leiaf dau unigolyn nad oes unrhyw gyswllt rhyngddynt yn cymeradwyo pob trafodiad a didyniad;'`,
+                `cadw'r grant mewn cyfrif banc neu gymdeithas adeiladu Deyrnas Unedig sy'n bodloni ein gofynion fel a ddisgrifir yn y canllawiau ac yn mynnu bod o leiaf dau unigolyn nad oes unrhyw gyswllt rhyngddynt yn cymeradwyo pob trafodiad a didyniad;`,
 
                 `dychwelyd unrhyw ran o'r grant na chaiff ei defnyddio ar gyfer eich prosiect neu sy'n gymorth gwladwriaethol anghyfreithlon;`,
 

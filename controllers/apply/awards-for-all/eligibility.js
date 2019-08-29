@@ -27,7 +27,7 @@ module.exports = function({ locale }) {
                 in a long-term relationship or people living together at the same address.`,
             cy: oneLine`Drwy gysylltiad i’w gilydd, rydym yn golygu ddim yn
                 berthynas drwy waed, mewn perthynas hir dymor neu bobl
-                sy’n byw â’u gilydd yn yr un cyfeiriad’.`
+                sy’n byw â’u gilydd yn yr un cyfeiriad.`
         }),
         yesLabel: localise({ en: 'Yes', cy: 'Oes' }),
         noLabel: localise({ en: 'No', cy: 'Nac oes' }),
@@ -54,7 +54,7 @@ module.exports = function({ locale }) {
         }),
         explanation: localise({
             en: `We know it's not always possible to complete a project in ${maxProjectDurationLabel} for lots of reasons. So we can consider projects which are slightly longer than this. We will also consider applications for one-off events such as a festival, gala day or conference.`,
-            cy: `Rydym yn gwybod nad yw bob tro’n bosib i gwblhau prosiect mewn ${maxProjectDurationLabel} am nifer o resymau. Felly mi allwn ystyried prosiectau sydd ychydig yn hirach na hyn. Byddwn hefyd yn ystyried ceisiadau am ddigwyddiadau a fydd yn digwydd unwaith yn unig, megis gwyliau, diwrnod gala neu gynhadledd.`
+            cy: `Rydym yn gwybod nad yw bob tro’n bosib i gwblhau prosiect o fewn ${maxProjectDurationLabel} am nifer o resymau. Felly mi allwn ystyried prosiectau sydd ychydig yn hirach na hyn. Byddwn hefyd yn ystyried ceisiadau am ddigwyddiadau a fydd yn digwydd unwaith yn unig, megis gwyliau, diwrnod gala neu gynhadledd.`
         }),
         yesLabel: localise({ en: 'Yes', cy: 'Ydw' }),
         noLabel: localise({ en: 'No', cy: 'Nac ydw' }),
@@ -170,7 +170,7 @@ module.exports = function({ locale }) {
 
             cy: `<p>
                 Rydym yn edrych ymlaen i glywed mwy am eich prosiect
-                a’n eich gwahodd i lenwi ein ffurflen gais.
+                a'ch gwahodd i lenwi ein ffurflen gais.
             </p>
             <p>
                 Bydd eich cyfrif hefyd yn eich galluogi i

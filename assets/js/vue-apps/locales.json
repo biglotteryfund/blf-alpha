@@ -50,7 +50,7 @@
       "total": "Cyfanswm"
     },
     "address": {
-      "label": "Dod o hyd i gyfeiriad drwy gòd post",
+      "label": "Dod o hyd i gyfeiriad drwy god post",
       "optional": "Dewisol",
       "helpText": "e.e. EC4A 1DE",
       "enterManually": "Rhoi cyfeiriad eich hunain",
