@@ -50,8 +50,8 @@ module.exports = function(locale) {
                 type: 'number.min',
                 key: 'year',
                 message: localise({
-                    en: `Enter a full year e.g. ${exampleYear}`,
-                    cy: ``
+                    en: `Must be a full year e.g. ${exampleYear}`,
+                    cy: `Rhaid bod yn flwyddyn gyfan e.e ${exampleYear}`
                 })
             },
             {
