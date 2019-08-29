@@ -444,19 +444,20 @@
     {% call inputAddress(
         {
             name: field.name + '[previousAddress]',
-            label: 'Previous home address',
+            label: copy.fields.addressHistory.previousAddress,
             value: field.value.previousAddress
         },
         isNested = true
     ) %}
 
         {% set options = [{
-            label: __('global.misc.yes'),
+            label: copy.fields.addressHistory.yes,
             value: 'yes'
         }, {
-            label: __('global.misc.no'),
+            label: copy.fields.addressHistory.no,
             value: 'no'
         }] %}
+        
         <fieldset class="ff-choice ff-choice--inline">
             <legend class="ff-label">
                 {{ labelFor(field) }}

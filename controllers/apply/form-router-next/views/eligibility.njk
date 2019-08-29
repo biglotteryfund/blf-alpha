@@ -7,16 +7,9 @@
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
-            {% set prefix = __('global.misc.stepProgress', currentStepNumber, totalSteps) %}
-            {{ formHeader(
-                backUrl = backUrl,
-                title = copy.eligibility.title,
-                prefix = prefix if eligibilityStatus !== 'eligible'
-            )}}
-
             {% if eligibilityStatus === 'eligible' %}
                 <div class="s-prose u-constrained-wide">
-                    <h2>{{ __('applyNext.eligibility.successfulTitle', formTitle) }}</h2>
+                    <h1 class="t--underline">{{ __('applyNext.eligibility.successfulTitle', formTitle) }}</h1>
                     {{ eligibility.successMessage | safe }}
                     <p class="form-actions">
                         <a class="btn" href="{{ formBaseUrl }}/new">{{ copy.common.startYourApplication }}</a>
@@ -24,16 +17,23 @@
                 </div>
             {% elseif eligibilityStatus === 'ineligible' %}
                 <div class="s-prose u-constrained-wide">
-                    <h2>{{ copy.eligibility.unsuccessfulTitle }}</h2>
+                    <h1 class="t--underline">{{ copy.eligibility.unsuccessfulTitle }}</h1>
                     <p>{{ currentStep.ineligible.reason }}</p>
                     <h3>{{ copy.eligibility.whatNow }}</h3>
                     {{ currentStep.ineligible.detail | safe }}
                     <p class="form-actions">
-                        <a class="btn" href="/contact">{{ __('global.nav.contact')}}</a>
+                        <a class="btn" href="{{ localify('/contact') }}">{{ __('global.nav.contact')}}</a>
                         <a class="btn btn--outline" href="{{ formBaseUrl }}">{{ copy.common.exit }}</a>
                     </p>
                 </div>
             {% else %}
+                {% set prefix = __('global.misc.stepProgress', currentStepNumber, totalSteps) %}
+                {{ formHeader(
+                    backUrl = backUrl,
+                    title = copy.eligibility.title,
+                    prefix = prefix if eligibilityStatus !== 'eligible'
+                )}}
+
                 <form method="post" class="u-constrained-wide u-constrained-content">
                     {% if csrfToken %}
                         <input type="hidden" name="_csrf" value="{{ csrfToken }}">
@@ -47,10 +47,10 @@
                         value: queryParams.amount,
                         isRequired: true,
                         options: [{
-                            label: __('global.misc.yes'),
+                            label: currentStep.yesLabel,
                             value: "yes"
                         }, {
-                            label: __('global.misc.no'),
+                            label: currentStep.noLabel,
                             value: "no"
                         }]
                     }) }}

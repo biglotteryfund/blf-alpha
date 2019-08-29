@@ -32,6 +32,7 @@ const showContactConfirmationQuestion = config.get(
 
 const countriesFor = require('./lib/countries');
 const locationsFor = require('./lib/locations');
+const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
 const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaCommunity = require('./fields/your-idea-community');
@@ -455,7 +456,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             MIN_START_DATE.amount,
             MIN_START_DATE.unit
         );
-        const minDateAfter = minDate.subtract(1, 'days');
+
+        function formatAfterDate() {
+            return minDate
+                .subtract(1, 'days')
+                .locale(locale)
+                .format('D MMMM YYYY');
+        }
 
         return {
             name: 'projectDateRange',
@@ -470,7 +477,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `<p>
                     If you don't know exactly, your dates can be estimates.
                     But you need to start your project after
-                    ${minDate.format('DD/MM/YYYY')}.
+                    ${formatAfterDate()}.
                 </p>
                 <p>
                     We usually only fund projects that last
@@ -488,8 +495,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
                 cy: `<p>
                     Os nad ydych yn gwybod yn union, gall eich dyddiadau fod yn amcangyfrifon.
-                    Ond mae angen i chi ddechrau eich prosiect wedi 
-                    ${minDate.format('DD/MM/YYYY')}.
+                    Ond mae angen i chi ddechrau eich prosiect ar ôl 
+                    ${formatAfterDate()}.
                 </p>
                 <p>
                     Fel arfer, dim ond prosiectau sy’n para 
@@ -547,10 +554,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'dateRange.minDate.invalid',
                     message: localise({
-                        en: oneLine`Date you start the project must be after
-                            ${minDateAfter.format('D MMMM YYYY')}`,
-                        cy: oneLine`Rhaid i ddyddiad dechrau’r prosiect fod ar ôl
-                            ${minDateAfter.format('D MMMM YYYY')}`
+                        en: `Date you start the project must be after ${formatAfterDate()}`,
+                        cy: `Rhaid i ddyddiad dechrau’r prosiect fod ar ôl ${formatAfterDate()}`
                     })
                 },
                 {
@@ -630,7 +635,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: stripUnlessOrgTypes(
                 COMPANY_NUMBER_TYPES,
-                Joi.string().max(FREE_TEXT_MAXLENGTH.large).required()
+                Joi.string()
+                    .max(FREE_TEXT_MAXLENGTH.large)
+                    .required()
             ),
             messages: [
                 {
@@ -661,10 +668,17 @@ module.exports = function fieldsFor({ locale, data = {} }) {
          */
         const schema = Joi.when(Joi.ref('organisationType'), {
             is: Joi.exist().valid(CHARITY_NUMBER_TYPES.required),
-            then: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required()
+            then: Joi.string()
+                .max(FREE_TEXT_MAXLENGTH.large)
+                .required()
         }).when(Joi.ref('organisationType'), {
             is: Joi.exist().valid(CHARITY_NUMBER_TYPES.optional),
-            then: [Joi.string().max(FREE_TEXT_MAXLENGTH.large).optional(), Joi.allow(null)],
+            then: [
+                Joi.string()
+                    .max(FREE_TEXT_MAXLENGTH.large)
+                    .optional(),
+                Joi.allow(null)
+            ],
             otherwise: Joi.any().strip()
         });
 
@@ -710,7 +724,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true,
             schema: stripUnlessOrgTypes(
                 EDUCATION_NUMBER_TYPES,
-                Joi.string().max(FREE_TEXT_MAXLENGTH.large).required()
+                Joi.string()
+                    .max(FREE_TEXT_MAXLENGTH.large)
+                    .required()
             ),
             messages: [
                 {
@@ -744,7 +760,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'text',
             isRequired: true,
-            schema: Joi.string().max(FREE_TEXT_MAXLENGTH.medium).required(),
+            schema: Joi.string()
+                .max(FREE_TEXT_MAXLENGTH.medium)
+                .required(),
             messages: [
                 {
                     type: 'base',
@@ -783,7 +801,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             get optgroups() {
                 const country = get('projectCountry')(data);
-                return locationsFor(country);
+                return locationsFor(country, locale);
             },
             isRequired: true,
             get schema() {
@@ -811,14 +829,16 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             label: localise({
                 en: oneLine`Tell us the towns or villages where people who
                     will benefit from your project live`,
-                cy: oneLine`Dywedwch wrthym y trefi neu pentrefi mae’r bobl
+                cy: oneLine`Dywedwch wrthym y trefi neu bentrefi mae’r bobl
                     a fydd yn elwa o’ch prosiect yn byw`
             }),
             type: 'text',
             isRequired: true,
             schema: Joi.when('projectCountry', {
                 is: Joi.exist(),
-                then: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
+                then: Joi.string()
+                    .max(FREE_TEXT_MAXLENGTH.large)
+                    .required(),
                 otherwise: Joi.any().strip()
             }),
             messages: [
@@ -1067,7 +1087,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                       yn y gymuned – mae’r grŵp hwn yn benodol i bobl o
                       gefndir ethnig arbennig. 
                     </p>
-                    <p>Gwirio’r rhai sy’n berthnasol:</p>`
+                    <p>Dewiswch y rhai sy’n berthnasol:</p>`
             }),
             type: 'radio',
             options: [
@@ -1179,7 +1199,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: `Select the specific group(s) of people your project is aimed at`,
-                        cy: `Dewiswch y grŵp(iau) o bobl mae ei prosiect wedi’i anelu ar eu cyfer`
+                        cy: `Dewiswch y grŵp(iau) o bobl mae eich prosiect wedi'i anelu ar eu cyfer`
                     })
                 }
             ]
@@ -1246,7 +1266,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                             value: 'gypsy-or-irish-traveller',
                             label: localise({
                                 en: 'Gypsy or Irish Traveller',
-                                cy: 'Sipsi neu deithiwr gwyddeleg'
+                                cy: 'Sipsi neu deithiwr Gwyddeleg'
                             })
                         },
                         {
@@ -1492,7 +1512,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     Rydym yn defnyddio’r diffiniad o’r Ddeddf Cydraddoldeb 2010,
                     sy’n diffinio person anabl fel rhywun sydd â nam meddyliol
                     neu gorfforol lle mae hynny’n cael effaith niweidiol
-                    sylweddol a hirdymor ar eu gallu i gynal gweithgaredd
+                    sylweddol a hirdymor ar eu gallu i gynnal gweithgaredd
                     arferol o ddydd i ddydd. 
                 </p>`
             }),
@@ -1755,12 +1775,14 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     Gall eich dogfen lywodraethol gael ei alw yn un o amryw o bethau,
                     gan ddibynnu ar y math o sefydliad rydych yn ymgeisio ar ei rhan.
                     Gall gael ei alw’n gyfansoddiad, gweithred ymddiriedaeth,
-                    memorandwm ac erthyglau cymdeithasu, neu rywbeth gwbl wahanol. 
+                    memorandwm ac erthyglau cymdeithas, neu rywbeth gwbl wahanol. 
                 </p>`
             }),
             type: 'text',
             isRequired: true,
-            schema: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
+            schema: Joi.string()
+                .max(FREE_TEXT_MAXLENGTH.large)
+                .required(),
             messages: [
                 {
                     type: 'base',
@@ -2021,7 +2043,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }),
                 explanation: localise({
                     en: 'This person has to live in the UK.',
-                    cy: 'Rhaid i’r person hwn fyw ym Mhrydain.'
+                    cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.'
                 }),
                 get warnings() {
                     let result = [];
@@ -2096,8 +2118,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             label: localise({
                 en:
                     'Have they lived at their home address for the last three years?',
-                cy:
-                    'A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?'
+                cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`
             })
         }),
         mainContactEmail: emailField(
@@ -2127,6 +2148,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         mainContactPhone: phoneField({
             name: 'mainContactPhone',
             label: localise({ en: 'Telephone number', cy: 'Rhif ffôn' })
+        }),
+        mainContactLanguagePreference: fieldContactLanguagePreference(locale, {
+            name: 'mainContactLanguagePreference'
         }),
         mainContactCommunicationNeeds: {
             name: 'mainContactCommunicationNeeds',
@@ -2223,6 +2247,12 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'seniorContactPhone',
             label: localise({ en: 'Telephone number', cy: 'Rhif ffôn' })
         }),
+        seniorContactLanguagePreference: fieldContactLanguagePreference(
+            locale,
+            {
+                name: 'seniorContactLanguagePreference'
+            }
+        ),
         seniorContactCommunicationNeeds: {
             name: 'seniorContactCommunicationNeeds',
             label: localise({
@@ -2258,7 +2288,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             type: 'text',
             attributes: { autocomplete: 'off' },
             isRequired: true,
-            schema: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
+            schema: Joi.string()
+                .max(FREE_TEXT_MAXLENGTH.large)
+                .required(),
             messages: [
                 {
                     type: 'base',
@@ -2540,7 +2572,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             type: 'text',
             isRequired: true,
-            schema: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
+            schema: Joi.string()
+                .max(FREE_TEXT_MAXLENGTH.large)
+                .required(),
             messages: [
                 {
                     type: 'base',
@@ -2567,7 +2601,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: 'Safle o fewn y sefydliad'
             }),
             type: 'text',
-            schema: Joi.string().max(FREE_TEXT_MAXLENGTH.large).required(),
+            schema: Joi.string()
+                .max(FREE_TEXT_MAXLENGTH.large)
+                .required(),
             messages: [
                 {
                     type: 'base',

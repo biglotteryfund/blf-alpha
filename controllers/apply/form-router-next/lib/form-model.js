@@ -15,7 +15,7 @@ const { formatterFor } = require('./formatters');
 const normaliseErrors = require('./normalise-errors');
 
 class FormModel {
-    constructor(props, data = {}) {
+    constructor(props, data = {}, locale = 'en') {
         this.title = props.title;
         this.allFields = props.allFields;
         this.formData = data;
@@ -33,7 +33,7 @@ class FormModel {
             const fieldValue = find(data, (value, name) => name === field.name);
             if (fieldValue) {
                 field.value = fieldValue;
-                field.displayValue = formatterFor(field)(fieldValue);
+                field.displayValue = formatterFor(field, locale)(fieldValue);
             }
 
             function messageMatchesField(message) {
