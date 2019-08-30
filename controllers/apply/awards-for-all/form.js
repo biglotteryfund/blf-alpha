@@ -1209,7 +1209,7 @@ module.exports = function({
             'mainContactPhone'
         ],
         summary: summary(),
-        schemaVersion: 'v1.1',
+        schemaVersion: 'v1.2',
         forSalesforce: forSalesforce,
         sections: [
             {

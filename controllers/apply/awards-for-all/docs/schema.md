@@ -4,6 +4,9 @@ The following documents the data schema for Awards for All applications when sub
 
 ## Changelog
 
+### v1.2
+
+- Fix typo in `east-dumbartonshire` and `west-dumbartonshire`. Now listed as `east-dunbartonshire` and `west-dunbartonshire`
 
 ### v1.1
 
