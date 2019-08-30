@@ -30,8 +30,6 @@ if (features.enableDigitalFundApplications) {
 /**
  * Awards for All
  */
-if (features.enableAwardsForAllApplications) {
-    router.use('/awards-for-all', require('./awards-for-all'));
-}
+router.use('/awards-for-all', require('./awards-for-all'));
 
 module.exports = router;

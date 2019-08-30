@@ -20,8 +20,6 @@ module.exports = function(req, res, next) {
      */
     res.locals.enableSiteSurvey = features.enableSiteSurvey;
     res.locals.enableNameChangeMessage = features.enableNameChangeMessage;
-    res.locals.enableAwardsForAllApplications =
-        features.enableAwardsForAllApplications;
 
     /**
      * Global copy
