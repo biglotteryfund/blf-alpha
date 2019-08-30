@@ -459,6 +459,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
         function formatAfterDate() {
             return minDate
+                .clone()
                 .subtract(1, 'days')
                 .locale(locale)
                 .format('D MMMM YYYY');
