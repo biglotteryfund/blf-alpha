@@ -5,6 +5,7 @@
 .idea
 .map
 .vscode/
+.sequelizerc
 always_restart.txt
 assets.json
 config/app/server-dev.conf

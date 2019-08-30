@@ -205,3 +205,35 @@ Deploys to production are manual. Once a deploy has been checked on the test env
 This command will begin a deployment by listing the previous 10 releases deployed to **test** and asking which build you wish to deploy. It will then list out the commit summaries for each change which will be deployed, then confirm if you wish to proceed. Progress updates will be posted to Slack as the deployment proceeds.
 
 Please speak to [@mattandrews](https://github.com/mattandrews) or [@davidrapson](https://github.com/davidrapson) to obtain credentials to deploy.
+
+## Seeding
+
+### Prerequisites
+
+You'll need the [sequelize-cli](https://github.com/sequelize/cli) installed locally. You will also need a `.sequelizerc` file created at your root which must contain atleast the `url` property. eg:
+
+```
+module.exports = {
+  'url': 'my_db_connection_uri'
+}
+```
+
+### Generate Seeds
+
+You can generate a seed file using the following command (this will prepend a timestamp on the file name which you can remove if required)
+
+```
+npx sequelize-cli seed:generate --name file-name
+```
+
+This will create the file with placeholder conetne within the `/seeders` folder. Edit the file to interact with the db.
+
+### Running Seeds
+
+Once completed, you can run a particular seed file by 
+
+```
+npx sequelize-cli db:seed --seed seeders/file-name
+```
+
+
