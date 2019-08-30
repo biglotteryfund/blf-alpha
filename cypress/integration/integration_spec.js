@@ -410,14 +410,6 @@ describe('common pages', () => {
 
 describe('awards for all', function() {
     it('should submit full awards for all application', () => {
-        const country = 'Scotland';
-
-        function shouldDisplayErrors(errorDescriptions = []) {
-            errorDescriptions.forEach(description => {
-                cy.getByTestId('form-errors').should('contain', description);
-            });
-        }
-
         function submitStep() {
             cy.getByText('Continue').click();
         }
@@ -488,14 +480,14 @@ describe('awards for all', function() {
             submitStep();
         }
 
-        function stepProjectCountry() {
-            cy.getByLabelText(country).click();
+        function stepProjectCountry(mock) {
+            cy.getByLabelText(mock.country).click();
             submitStep();
         }
 
-        function stepProjectLocation() {
+        function stepProjectLocation(mock) {
             let location = {};
-            switch (country) {
+            switch (mock.country) {
                 case 'Northern Ireland':
                     location = {
                         option: 'Derry and Strabane',
@@ -562,51 +554,19 @@ describe('awards for all', function() {
         }
 
         function stepProjectCosts() {
-            function addItem(description, amount) {
+            const amounts = new Array(random(3, 10))
+                .fill(null)
+                .map(() => random(100, 1000));
+
+            amounts.forEach((amount, index) => {
                 cy.getAllByTestId('budget-row')
                     .last()
                     .within(() => {
-                        cy.getByLabelText('Item or activity').type(description);
-                        cy.getByLabelText('Amount').type(amount);
+                        cy.getByLabelText('Item or activity').type(
+                            `Example budget item ${index + 1}`
+                        );
+                        cy.getByLabelText('Amount').type(amount.toString());
                     });
-            }
-
-            function deleteLastRow() {
-                cy.getAllByText('Delete row', { exact: false })
-                    .last()
-                    .click();
-            }
-
-            addItem('Example item', 9000);
-            addItem('Example item over budget', 1050);
-
-            cy.getAllByTestId('budget-total').should('contain', '£10,050');
-
-            cy.getAllByTestId('budget-errors').should(
-                'contain',
-                'Costs you would like us to fund must be less than £10,000'
-            );
-
-            cy.getByLabelText('Tell us the total cost of your project').type(
-                9000
-            );
-
-            submitStep();
-
-            shouldDisplayErrors([
-                'Costs you would like us to fund must be less than £10,000',
-                'Total cost must be the same as or higher than the amount you’re asking us to fund'
-            ]);
-
-            deleteLastRow();
-            deleteLastRow();
-
-            const amounts = new Array(random(3, 10)).fill(null).map(() => {
-                return random(100, 1000);
-            });
-
-            amounts.forEach((amount, index) => {
-                addItem(`Example budget item ${index + 1}`, amount);
             });
 
             cy.getAllByTestId('budget-total').should(
@@ -616,17 +576,17 @@ describe('awards for all', function() {
 
             cy.getByLabelText('Tell us the total cost of your project')
                 .clear()
-                .type(random(sum(amounts), 20000));
+                .type(random(sum(amounts), 20000).toString());
 
             submitStep();
         }
 
-        function sectionYourProject() {
-            stepProjectDetails();
-            stepProjectCountry();
-            stepProjectLocation();
-            stepYourIdea();
-            stepProjectCosts();
+        function sectionYourProject(mock) {
+            stepProjectDetails(mock);
+            stepProjectCountry(mock);
+            stepProjectLocation(mock);
+            stepYourIdea(mock);
+            stepProjectCosts(mock);
         }
 
         function sectionBeneficiaries() {
@@ -699,21 +659,31 @@ describe('awards for all', function() {
                 submitStep();
             }
 
-            if (country === 'Wales') {
-                cy.getByText(
-                    'How many of the people who will benefit from your project speak Welsh?'
-                ).should('exist');
-                cy.getByLabelText('More than half').click();
-                submitStep();
-            }
+            cy.queryByText(
+                'How many of the people who will benefit from your project speak Welsh?',
+                {
+                    exact: false,
+                    timeout: 500
+                }
+            ).then(el => {
+                if (el) {
+                    cy.getByLabelText('More than half').click();
+                    submitStep();
+                }
+            });
 
-            if (country === 'Northern Ireland') {
-                cy.getByText(
-                    'Which community do the people who will benefit from your project belong to?'
-                ).should('exist');
-                cy.getByLabelText('Both Catholic and Protestant').click();
-                submitStep();
-            }
+            cy.queryByText(
+                'Which community do the people who will benefit from your project belong to?',
+                {
+                    exact: false,
+                    timeout: 500
+                }
+            ).then(el => {
+                if (el) {
+                    cy.getByLabelText('Both Catholic and Protestant').click();
+                    submitStep();
+                }
+            });
         }
 
         function sectionOrganisation(organisationName) {
@@ -926,23 +896,21 @@ describe('awards for all', function() {
 
             cy.getByLabelText('Telephone number').type(contact.phone);
 
-            if (country === 'Wales') {
-                cy.queryByText(
-                    'What language should we use to contact this person?',
-                    {
-                        exact: false,
-                        timeout: 500
-                    }
-                ).then(el => {
-                    if (el) {
-                        cy.wrap(el)
-                            .parent()
-                            .within(() => {
-                                cy.getByLabelText('Welsh').click();
-                            });
-                    }
-                });
-            }
+            cy.queryByText(
+                'What language should we use to contact this person?',
+                {
+                    exact: false,
+                    timeout: 500
+                }
+            ).then(el => {
+                if (el) {
+                    cy.wrap(el)
+                        .parent()
+                        .within(() => {
+                            cy.getByLabelText('Welsh').click();
+                        });
+                }
+            });
 
             cy.getByLabelText(
                 'tell us about any particular communication needs',
@@ -1032,10 +1000,14 @@ describe('awards for all', function() {
             cy.get('.cookie-consent button').click();
             startApplication();
 
+            const mock = {
+                country: sample([/*'Scotland',*/ 'Wales'])
+            };
+
             const organisationName = faker.company.companyName();
 
-            sectionYourProject();
-            sectionBeneficiaries();
+            sectionYourProject(mock);
+            sectionBeneficiaries(mock);
             sectionOrganisation(organisationName);
 
             sectionSeniorContact({
@@ -1065,7 +1037,7 @@ describe('awards for all', function() {
             });
 
             sectionBankDetails(organisationName);
-            sectionTermsAndConditions();
+            sectionTermsAndConditions(mock);
 
             cy.checkA11y();
             cy.get('h1').should('contain', 'Summary');
