@@ -1,7 +1,6 @@
 'use strict';
 const config = require('config');
 const moment = require('moment');
-const concat = require('lodash/concat');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const has = require('lodash/has');
