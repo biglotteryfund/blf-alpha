@@ -40,7 +40,6 @@
   },
   "features": {
     "enableAllowLocalhost": false,
-    "enableAwardsForAllApplications": true,
     "enableCloudWatchLogs": true,
     "enableDigitalFundApplications": false,
     "enableHotjar": false,
@@ -48,7 +47,8 @@
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
     "enableSeeders": false,
-    "enableSiteSurvey": true
+    "enableSiteSurvey": true,
+    "enableNoValidate": true
   },
   "awardsForAll": {
     "allowedCountries": ["scotland"],
@@ -56,6 +56,9 @@
   },
   "cookies": {
     "session": "blf-alpha-session"
+  },
+  "session": {
+    "expiryInSeconds": 7200
   },
   "hotjarId": 1036292,
   "googleAnalyticsCode": "UA-98908627-1"

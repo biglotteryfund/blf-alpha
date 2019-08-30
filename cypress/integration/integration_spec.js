@@ -153,7 +153,10 @@ describe('user', () => {
             logIn(newUser.username, newUser.password);
 
             // Log out
-            cy.getByText('Log out').click();
+            cy.get('.user-nav__links')
+                .contains('Log out')
+                .click();
+
             cy.getByText('You were successfully logged out', {
                 exact: false
             }).should('be.visible');
@@ -771,43 +774,47 @@ describe('awards for all', function() {
                 submitStep();
             }
 
-            cy.queryByLabelText('Companies House number', {
+            /**
+             * Registration numbers
+             * Not all organisation types require a registration number
+             * so we need to check if the step exists first.
+             */
+            cy.queryByText('Registration numbers (Step 4 of 5)', {
                 exact: false,
-                timeout: 1000
-            }).then(el => {
-                if (el) {
-                    const randomCompanyNumber = random(10000, 99999999)
+                timeout: 500
+            }).then(registrationNumbersStepEl => {
+                function randomId(digits) {
+                    return random(10000, 99999999)
                         .toString()
-                        .padStart(8, '0');
-                    cy.wrap(el).type(randomCompanyNumber);
+                        .padStart(digits, '0');
+                }
+
+                if (registrationNumbersStepEl) {
+                    const opts = { exact: false, timeout: 500 };
+
+                    cy.queryByLabelText('Companies House number', opts).then(
+                        function(el) {
+                            el && cy.wrap(el).type(randomId(8));
+                        }
+                    );
+
+                    cy.queryByLabelText(
+                        'Charity registration number',
+                        opts
+                    ).then(function(el) {
+                        el && cy.wrap(el).type(randomId(7));
+                    });
+
+                    cy.queryByLabelText(
+                        'Department for Education number',
+                        opts
+                    ).then(function(el) {
+                        el && cy.wrap(el).type(randomId(6));
+                    });
+
+                    submitStep();
                 }
             });
-
-            cy.queryByLabelText('Charity registration number', {
-                exact: false,
-                timeout: 1000
-            }).then(el => {
-                if (el) {
-                    const randomCharityNumber = random(10000, 9999999)
-                        .toString()
-                        .padStart(7, '0');
-                    cy.wrap(el).type(randomCharityNumber);
-                }
-            });
-
-            cy.queryByLabelText('Department for Education number', {
-                exact: false,
-                timeout: 1000
-            }).then(el => {
-                if (el) {
-                    const randomEducationNumber = random(10000, 999999)
-                        .toString()
-                        .padStart(6, '0');
-                    cy.wrap(el).type(randomEducationNumber);
-                }
-            });
-
-            submitStep();
 
             // Optional accounting year end step
             cy.queryByText('What is your accounting year end date?', {
@@ -918,6 +925,24 @@ describe('awards for all', function() {
             );
 
             cy.getByLabelText('Telephone number').type(contact.phone);
+
+            if (country === 'Wales') {
+                cy.queryByText(
+                    'What language should we use to contact this person?',
+                    {
+                        exact: false,
+                        timeout: 500
+                    }
+                ).then(el => {
+                    if (el) {
+                        cy.wrap(el)
+                            .parent()
+                            .within(() => {
+                                cy.getByLabelText('Welsh').click();
+                            });
+                    }
+                });
+            }
 
             cy.getByLabelText(
                 'tell us about any particular communication needs',
@@ -1196,7 +1221,7 @@ describe('past grants', function() {
 
         // Search query
         const testQuery = 'cake';
-        const textQueryCount = 78;
+        const textQueryCount = 79;
 
         cy.get('#js-past-grants')
             .find('#search-query')

@@ -116,7 +116,7 @@ module.exports = {
     ],
     cy: [
         {
-            title: `Trwy gyflwyno cais i Gronfa Gymunedol y Loteri Genedlaethol, ydych chi, y mudiad a enwir yn y cais (y cyfeirir ato fel "chi", "eich", "rydych" a "byddwch" yn yr Amodau a Thelerau hyn) yn cytuno, os dyfernir grant iddo, i`,
+            title: `Trwy gyflwyno cais i Gronfa Gymunedol y Loteri Genedlaethol, rydych chi, y sefydliad a enwir yn y cais (y cyfeirir ato fel "chi", "eich", "rydych" a "byddwch" yn yr Amodau a Thelerau hyn) yn cytuno, os dyfernir grant iddo, i`,
             clauses: [
                 `ddal y grant ar ymddiriedaeth dros Gronfa Gymunedol y Loteri Genedlaethol (y cyfeirir ati fel "ni", "ein", "rydym" a "byddwn") a'i ddefnyddio dim ond ar gyfer eich prosiect chi, neu fel y cytunir fel arall gyda ni, a dim ond ar gyfer gwariant ar ôl dyddiad y dyfarniad grant;`,
 
@@ -126,7 +126,7 @@ module.exports = {
 
                 `cydnabod arian y Loteri Genedlaethol gan ddefnyddio'r brand loteri cyffredin yn unol â'r canllawiau brand perthnasol;`,
 
-                `cadw'r grant mewn cyfrif banc neu gymdeithas adeiladu Deyrnas Unedig sy'n bodloni ein gofynion fel a ddisgrifir yn y canllawiau ac yn mynnu bod o leiaf dau unigolyn nad oes unrhyw gyswllt rhyngddynt yn cymeradwyo pob trafodiad a didyniad;'`,
+                `cadw'r grant mewn cyfrif banc neu gymdeithas adeiladu Deyrnas Unedig sy'n bodloni ein gofynion fel a ddisgrifir yn y canllawiau ac yn mynnu bod o leiaf dau unigolyn nad oes unrhyw gyswllt rhyngddynt yn cymeradwyo pob trafodiad a didyniad;`,
 
                 `dychwelyd unrhyw ran o'r grant na chaiff ei defnyddio ar gyfer eich prosiect neu sy'n gymorth gwladwriaethol anghyfreithlon;`,
 
@@ -144,7 +144,7 @@ module.exports = {
             ]
         },
         {
-            title: `You 2.	Rydych yn cydnabod bod gennym ni'r hawl i atal neu derfynu'r grant a/neu fynnu eich bod yn ad-dalu'r grant cyfan neu ran ohono mewn unrhyw un o'r sefyllfaoedd a ganlyn. Mae'n rhaid i chi ein hysbysu os yw unrhyw un o'r sefyllfaoedd hyn wedi digwydd neu'n debygol o ddigwydd:`,
+            title: `Rydych yn cydnabod bod gennym ni'r hawl i atal neu derfynu'r grant a/neu fynnu eich bod yn ad-dalu'r grant cyfan neu ran ohono mewn unrhyw un o'r sefyllfaoedd a ganlyn. Mae'n rhaid i chi ein hysbysu os yw unrhyw un o'r sefyllfaoedd hyn wedi digwydd neu'n debygol o ddigwydd:`,
             clauses: [
                 `Rydych yn defnyddio'r grant mewn unrhyw ffordd heblaw am yr hyn a gymeradwyir gennym ni neu'n methu â chydymffurfio ag unrhyw un o'r amodau a thelerau hyn.`,
 
@@ -154,11 +154,11 @@ module.exports = {
 
                 `Rydych yn darparu gwybodaeth ffug neu gamarweiniol naill ai wrth ymgeisio neu ar ôl dyfarnu'r grant, gweithredu'n anonest neu'n destun ymchwiliad gennym ni, corff rheoleiddio neu'r heddlu, neu os ydym yn ystyried am unrhyw reswm arall bod arian cyhoeddus wedi'i beryglu neu os byddwch yn gwneud unrhyw beth arall sy'n difrïo ni neu'r Loteri Genedlaethol.`,
 
-                `Rydych yn mynd, neu os yn ein barn ni rydych yn debygol o fynd, i ddwylo'r gweinyddwyr, datodiad, derbynyddiad, diddymiad neu, yn Yr Alban, os caiff ystâd eich mudiad ei secwestru.`
+                `Rydych yn mynd, neu os yn ein barn ni rydych yn debygol o fynd, i ddwylo'r gweinyddwyr, datodiad, derbynyddiad, diddymiad neu, yn Yr Alban, os caiff ystâd eich sefydliad ei secwestru.`
             ]
         },
         {
-            title: `Rydych yn cydnabod y canlynol"`,
+            title: `Rydych yn cydnabod y canlynol`,
             clauses: [
                 `mae'r grant at eich defnydd chi'n unig a gallwn fynnu eich bod yn talu cyfran o unrhyw enillion yn sgil gwaredu asedau a brynwyd neu a wellwyd gyda'r grant;`,
 

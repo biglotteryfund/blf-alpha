@@ -60,6 +60,7 @@ module.exports = function({
     function stepProjectDetails() {
         return {
             title: localise({ en: 'Project details', cy: 'Manylion prosiect' }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -101,6 +102,7 @@ module.exports = function({
 
         return {
             title: localise({ en: 'Project country', cy: 'Gwlad y prosiect' }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -120,6 +122,7 @@ module.exports = function({
                 en: 'Project location',
                 cy: 'Lleoliad y prosiect'
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -151,6 +154,7 @@ module.exports = function({
     function stepYourIdea() {
         return {
             title: localise({ en: 'Your idea', cy: 'Eich syniad' }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -173,6 +177,7 @@ module.exports = function({
                 en: 'Project costs',
                 cy: 'Costau’r prosiect'
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -191,6 +196,7 @@ module.exports = function({
                 en: `Specific groups of people`,
                 cy: `Grwpiau penodol o bobl`
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -382,12 +388,16 @@ module.exports = function({
         };
     }
 
+    function isForCountry(country) {
+        const currentCountry = get('projectCountry')(data);
+        return currentCountry === country;
+    }
+
     /**
      * Include fields based on the current country.
      */
     function includeIfCountry(country, fields) {
-        const currentCountry = get('projectCountry')(data);
-        return currentCountry === country ? fields : [];
+        return isForCountry(country) ? fields : [];
     }
 
     function stepWelshLanguage() {
@@ -465,6 +475,7 @@ module.exports = function({
                 en: 'Organisation type',
                 cy: 'Math o sefydliad'
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -508,6 +519,7 @@ module.exports = function({
 
         return {
             title: title,
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: title,
@@ -547,6 +559,7 @@ module.exports = function({
                 en: 'Registration numbers',
                 cy: 'Rhifau cofrestru'
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -587,6 +600,7 @@ module.exports = function({
                 en: 'Organisation finances',
                 cy: 'Cyllid y sefydliad'
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -659,8 +673,10 @@ module.exports = function({
                             fields.seniorContactAddressHistory,
                             fields.seniorContactEmail,
                             fields.seniorContactPhone,
+                            fields.seniorContactLanguagePreference,
                             fields.seniorContactCommunicationNeeds
                         ];
+
                         const filteredFields = compact([
                             fields.seniorContactRole,
                             fields.seniorContactName,
@@ -672,6 +688,8 @@ module.exports = function({
                                 fields.seniorContactAddressHistory,
                             fields.seniorContactEmail,
                             fields.seniorContactPhone,
+                            isForCountry('wales') &&
+                                fields.seniorContactLanguagePreference,
                             fields.seniorContactCommunicationNeeds
                         ]);
                         return conditionalFields(allFields, filteredFields);
@@ -756,6 +774,7 @@ module.exports = function({
                             fields.mainContactAddressHistory,
                             fields.mainContactEmail,
                             fields.mainContactPhone,
+                            fields.mainContactLanguagePreference,
                             fields.mainContactCommunicationNeeds
                         ]);
 
@@ -773,6 +792,8 @@ module.exports = function({
                                     fields.mainContactAddressHistory,
                                 fields.mainContactEmail,
                                 fields.mainContactPhone,
+                                isForCountry('wales') &&
+                                    fields.mainContactLanguagePreference,
                                 fields.mainContactCommunicationNeeds
                             ])
                         );
@@ -870,6 +891,7 @@ module.exports = function({
     function stepBankAccount() {
         return {
             title: localise({ en: 'Bank account', cy: 'Cyfrif banc' }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
@@ -966,7 +988,7 @@ module.exports = function({
             
             <div class="o-media u-padded u-tone-background-tint u-margin-bottom">
                 <a href="../help/bank-statement" target="_blank">
-                    <img src="/assets/images/apply/afa-bank-statement-example-small.png"
+                    <img src="/assets/images/apply/afa-bank-statement-example-small-welsh.jpg"
                          alt="Enghraifft o gyfriflen banc rydym ei angen gennych"
                          class="o-media__figure-gutter"
                          width="300" />
@@ -982,7 +1004,7 @@ module.exports = function({
                         <li>Enw’r banc</li>
                         <li>Rhif cyfrif</li>
                         <li>Cod didoli</li>
-                        <li>Dyddiad (Rhaid bod o fewn y tair mis diwethaf)</li>
+                        <li>Dyddiad (Rhaid bod o fewn y tri mis ddiwethaf)</li>
                     </ul>
                     <p>Dyma <a target="_blank" href="../help/bank-statement">
                         enghraifft o’r hyn rydym yn edrych amdano
@@ -991,15 +1013,14 @@ module.exports = function({
                 </div>
             </div>
             <p>
-                <strong>Rhaid i’ch cyfriflen fod yn llai na tair mis oed</strong>.
-                I gyfrifon banc sydd wedi agor o fewn y tair mis diwethaf, 
-                gallwn dderbyn llythyr o groeso gan y banc. Rhaid i hwn gadarhau’r 
-                dyddiad roedd eich cyfrif wedi’i agor, 
-                enw’r cyfrif, rhif y cyfrif a’r cod didoli.
+                <strong>Rhaid i’ch cyfriflen fod yn llai na thri mis oed</strong>.
+                I gyfrifon banc sydd wedi agor o fewn y tri mis diwethaf,
+                gallwn dderbyn llythyr o groeso gan y banc.
             </p>
             <p><strong>Os ydych yn ysgol yn defnyddio cyfrif banc awdurdod lleol</strong></p>
             <p>
-                Byddwn angen llythyr gan yr awdurdod lleol wedi’i ddyddio o fewn y tair mis ddiwethaf. Dylai ddangos:
+                Byddwn angen llythyr gan yr awdurdod lleol wedi’i ddyddio o
+                fewn y tri mis ddiwethaf. Dylai ddangos: 
             </p> 
             <ul>
                 <li>Enw eich ysgol</li>
@@ -1011,6 +1032,7 @@ module.exports = function({
 
         return {
             title: localise({ en: 'Bank statement', cy: 'Cyfriflen banc' }),
+            noValidate: config.get('features.enableNoValidate'),
             isMultipart: true,
             fieldsets: [
                 {
@@ -1071,15 +1093,16 @@ module.exports = function({
                 asiantaethau atal twyll hyn, eich hawliau gwarchod data a sut i gysylltu â ni, ei ganfod yn ein 
                 Hysbysiad Diogelu Data a Phreifatrwydd llawn, sydd wedi’i gyhoeddi ar ein gwefan 
                 <a href="/welsh/about/customer-service/data-protection">https://www.tnlcommunityfund.org.uk/welsh/about/customer-service/data-protection</a>. 
-                Cysylltwch â ni i ofyn am gopi caled drwy ffonio ein llinell gynghori ar 0345 4 10 20 30, 
-                neu drwy ysgrifennu i Customer Services, The National Lottery Community Fund, 
-                2 St James’ Gate, Newcastle upon Tyne, NE1 4BE.
+                Cysylltwch â ni i ofyn am gopi caled drwy ffonio ein llinell gynghori ar 0300 123 0735,
+                neu drwy ysgrifennu i Cronfa Gymunedol y Loteri Genedlaethol, 10fed Llawr,
+                Tŷ Helmont, Ffordd Churchill, Caerdydd, CF10 2DY
             </p>
             <p>Pan fyddwch yn clicio anfon, mae’r Telerau ac Amodau fel y cytunwyd uchod yn dod yn rhwymol.</p>`
         });
 
         return {
             title: title,
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: title,
@@ -1130,7 +1153,9 @@ module.exports = function({
                         en: 'Project dates',
                         cy: 'Dyddiadau’r prosiect'
                     }),
-                    value: projectDateRange && formatDateRange(projectDateRange)
+                    value:
+                        projectDateRange &&
+                        formatDateRange(locale)(projectDateRange)
                 },
                 {
                     label: localise({
@@ -1295,8 +1320,7 @@ module.exports = function({
                         that is less than three months old`,
                     cy: oneLine`Darparwch eich manylion banc. 
                         Cyn i chi anfon eich cais bydd angen i chi 
-                        atodi copi o’ch cyfriflen banc sy’n 
-                        llai na tair mis oed.`
+                        atodi copi o’ch cyfriflen banc sy’n llai na tri mis oed.`
                 }),
                 steps: [stepBankAccount(), stepBankStatement()]
             },
@@ -1310,12 +1334,12 @@ module.exports = function({
                     en: oneLine`In order to submit your application,
                         you will need to agree to our terms and conditions.`,
                     cy: oneLine`Er mwyn anfon eich cais, 
-                        bydd angen i chi gytuno a’n Telerau ac Amodau.`
+                        bydd angen i chi gytuno â'n Telerau ac Amodau.`
                 }),
                 steps: [stepTerms()]
             }
         ]
     };
 
-    return new FormModel(form, data);
+    return new FormModel(form, data, locale);
 };

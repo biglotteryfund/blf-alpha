@@ -377,6 +377,16 @@ Address history field group, consists of:
 | Required field       | Enter a UK telephone number      |
 | Invalid phone number | Enter a real UK telephone number |
 
+### Senior contact language preference
+
+| Rule           | Message          |
+| -------------- | ---------------- |
+| Required field | Select a language |
+
+#### Conditions
+
+-   If the **project country** is **Wales** this question will be shown.
+
 ### Senior contact communication needs
 
 | Rule           | Message |
@@ -450,6 +460,16 @@ Address history field group, consists of:
 | -------------------- | -------------------------------- |
 | Required field       | Enter a UK telephone number      |
 | Invalid phone number | Enter a real UK telephone number |
+
+### Main contact language preference
+
+| Rule           | Message          |
+| -------------- | ---------------- |
+| Required field | Select a language |
+
+#### Conditions
+
+-   If the **project country** is **Wales** this question will be shown.
 
 ### Main contact communication needs
 

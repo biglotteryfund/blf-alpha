@@ -39,7 +39,7 @@ module.exports = function fieldYourIdeaPriorities(locale) {
                 ariannu, dywedwch wrthym sut bydd eich prosiect yn
                 <strong>bodloni o leiaf un o’r rhain</strong>:
             </p>
-            <li>
+            <ol>
                 <li>Dod â phobl ynghyd a chreu perthnasau cryf o fewn ac ar draws cymunedau</li>
                 <li>Gwella’r ardaloedd a gofodau sy’n bwysig i gymunedau</li>
                 <li>Helpu mwy o bobl i gyflawni eu potensial drwy eu cefnogi ar y cam cyntaf posib.</li>

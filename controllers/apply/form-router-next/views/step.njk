@@ -24,10 +24,11 @@
 
             <form action=""
                   method="post"
-                  class="js-form-warn-unsaved js-apply-{{ formId }}"
+                  class="js-form-warn-unsaved js-session-form js-apply-{{ formId }}"
                   {% if errors | length > 0 %}data-form-has-errors="1"{% endif %}
-                  {% if step.isMultipart %}enctype="multipart/form-data"{% endif %}
-            >
+                  {% if step.isMultipart %}enctype="multipart/form-data"{% endif %} 
+                  {% if step.noValidate %}novalidate{% endif %}
+                  >
                 <div class="form-header">
                     <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
                     <p class="form-header__suffix">

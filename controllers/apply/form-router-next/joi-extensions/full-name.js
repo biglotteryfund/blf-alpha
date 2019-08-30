@@ -1,5 +1,6 @@
 'use strict';
 const { get } = require('lodash');
+const { FREE_TEXT_MAXLENGTH } = require('../../awards-for-all/constants');
 
 const compareNames = nameFieldToCompare => {
     return function(params, value, state, options) {
@@ -24,8 +25,8 @@ const compareNames = nameFieldToCompare => {
 module.exports = function fullName(joi) {
     return {
         base: joi.object({
-            firstName: joi.string().required(),
-            lastName: joi.string().required()
+            firstName: joi.string().max(FREE_TEXT_MAXLENGTH.small).required(),
+            lastName: joi.string().max(FREE_TEXT_MAXLENGTH.medium).required()
         }),
         name: 'fullName',
         rules: [
