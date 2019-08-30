@@ -329,7 +329,7 @@ describe('Project details', () => {
                     endDate: { day: 1, month: 1, year: 2030 }
                 }
             },
-            [expect.stringMatching(/Date you end the project must be within/)]
+            [expect.stringMatching(/Date you start the project must be after/)]
         );
     });
 
