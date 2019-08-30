@@ -88,8 +88,6 @@ module.exports = function(formBuilder) {
             }
         }
 
-        console.log(res.locals.hotJarTagList);
-
         res.render(path.resolve(__dirname, './views/summary'), {
             form: form,
             csrfToken: req.csrfToken(),
