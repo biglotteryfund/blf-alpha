@@ -1,4 +1,3 @@
-'use strict';
 import $ from 'jquery';
 import debounce from 'lodash/debounce';
 import { trackEvent } from '../helpers/metrics';
