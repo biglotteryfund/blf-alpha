@@ -59,8 +59,8 @@ class User extends Model {
                 }
             }
         }).then(usernames => {
-            return usernames.map(username => username.username)
-        })
+            return usernames.map(username => username.username);
+        });
     }
 
     static createUser({ username, password, isActive = false }) {

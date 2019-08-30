@@ -2,19 +2,13 @@
 const express = require('express');
 const Joi = require('@hapi/joi');
 const Sentry = require('@sentry/node');
-const { sendEmail } = require('../../common/mail');
 
 const { sanitise } = require('../../common/sanitise');
-const {
-    Feedback,
-    SurveyAnswer,
-    PendingApplication,
-    Users,
-    ApplicationExpirations
-} = require('../../db/models');
+const { Feedback, SurveyAnswer, PendingApplication } = require('../../db/models');
 const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');
 const { csrfProtection } = require('../../middleware/cached');
+const { handleMonthExpiry } = require('./lib/application-expiry');
 
 const { Client } = require('@ideal-postcodes/core-node');
 const postcodesClient = new Client({
@@ -161,45 +155,7 @@ router.post('/survey', async (req, res) => {
  * API: Application Expiry
  */
 
-async function handleMonthExpiry(monthExpiryApplications) {
-    try {
-        // Fetch email addresses
-        const applicationExpirationsData = [];
-        const userIds = monthExpiryApplications.map(application => {
-            applicationExpirationsData.push({
-                applicationId: application.id,
-                expirationType: 'ONE_MONTH_REMINDER'
-            })
-            return application.userId
-        });
-
-        const monthExpiryMailList = await Users.getUsernamesByUserIds(userIds);
-
-        // Send Emails
-        if (monthExpiryMailList.length > 0) {
-            await sendEmail({
-                name: 'application_expiry',
-                mailConfig: {
-                    sendTo: appData.isNotProduction ? process.env.APPLICATION_EXPIRY_EMAIL : monthExpiryMailList,
-                    subject: 'Your Application is due to expire!',
-                    type: 'html',
-                    content: '<h1>Hello</h1>'
-                },
-                mailTransport: null
-            });
-        }
-
-        // create ApplicationExpirations records
-        if (applicationExpirationsData.length > 0) {
-            await ApplicationExpirations.createBulkExpiryApplications(applicationExpirationsData);
-        }
-
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-router.post('/applications/expiry', async (req, res) => {
+router.get('/applications/expiry', async (req, res) => {
     try {
 
         const [
@@ -208,17 +164,21 @@ router.post('/applications/expiry', async (req, res) => {
             dayExpiryApplications,
             expiredApplications
         ] = await Promise.all([
-            PendingApplication.findApplicationsByExpiry('15', '30'),
-            PendingApplication.findApplicationsByExpiry('3', '14'),
-            PendingApplication.findApplicationsByExpiry('1', '2'),
-            PendingApplication.findApplicationsByExpiry('expired')
+            PendingApplication.findByDaysTilExpiryRange('15', '30'),
+            PendingApplication.findByDaysTilExpiryRange('3', '14'),
+            PendingApplication.findByDaysTilExpiryRange('1', '2'),
+            PendingApplication.findExpired()
         ]);
+
+        res.json({
+            expiredApplications
+        })
 
         // Handle expired application
         // .ie. send emails + delete applications + update ApplicationExpirations table
 
         // Handle Monthly reminder
-        handleMonthExpiry(monthExpiryApplications);
+        // handleMonthExpiry(monthExpiryApplications);
 
         // Handle Weekly/Daily reminder
         // .ie. send emails + update ApplicationExpirations record

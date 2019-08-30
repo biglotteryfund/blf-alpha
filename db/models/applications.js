@@ -87,14 +87,15 @@ class PendingApplication extends Model {
             order: [['createdAt', 'DESC']]
         });
     }
-    static findApplicationsByExpiry(from, to) {
-        let rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= ${from} AND DATEDIFF(expiresAt, CURDATE()) <= ${to}`;
-        // const startDate = moment().toDate();
-        // const endDate = moment().add('30', 'days').toDate();
+    static findByDaysTilExpiryRange(from, to) {
+        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= ${from} AND DATEDIFF(expiresAt, CURDATE()) <= ${to}`;
 
-        if (from === 'expired') {
-            rawSqlStmt = 'DATEDIFF(expiresAt, CURDATE()) <= 0';
-        }
+        return this.findAll({
+            where: Sequelize.literal(rawSqlStmt)
+        });
+    }
+    static findExpired() {
+        const rawSqlStmt = 'DATEDIFF(expiresAt, CURDATE()) <= 0';
 
         return this.findAll({
             where: Sequelize.literal(rawSqlStmt)
@@ -316,7 +317,7 @@ class ApplicationExpirations extends Model {
     }
 
     static createBulkExpiryApplications(dataArray) {
-        return this.bulkCreate(dataArray)
+        return this.bulkCreate(dataArray);
     }
 }
 
