@@ -6,7 +6,6 @@
   },
   "features": {
     "enableAllowLocalhost": false,
-    "enableAwardsForAllApplications": true,
     "enableDigitalFundApplications": false,
     "enableHotjar": true
   },
