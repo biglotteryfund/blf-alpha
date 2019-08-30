@@ -1616,12 +1616,16 @@ applyNext:
     successfulTitle: Great! You're eligible to apply to %s
     unsuccessfulTitle: Sorry, you're not eligible to apply at this time
     whatNow: What now?
-  #  @TODO: Move other common text to common:
   errors:
     file:
       errorScanInfected: This file has been blocked for security reasons.
       errorScanUnknown: This file is still being scanned for security risks - please check back shortly.
       errorOther: There was an issue retrieving your file - please try again soon.
+  feedback:
+    promptLabel: "Can you spare a minute to give us some feedback?"
+    fieldLabel: "How was your experience of this process?"
+    helpText: "This is completely anonymous and doesn't form part of your submission. Don't include any details about your idea, just tell us how you found the experience."
+  #  @TODO: Move other common text to common:
   common:
     delete: Delete
     exit: Exit

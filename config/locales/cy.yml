@@ -1349,6 +1349,10 @@ applyNext:
       errorScanInfected: Mae’r ffeil wedi ei gloi am resymau diogelwch.
       errorScanUnknown: Mae’r ffeil hwn yn dal i gael ei sganio am risgiau diogelwch—gwiriwch eto yn fuan.
       errorOther: Roedd yna broblem wrth adfer eich ffeil—trïwch eto’n fuan.
+  feedback:
+    promptLabel: "Oes gennych funud sbâr i roi adborth i ni?"
+    fieldLabel: "Sut oedd eich profiad o'r broses hon?"
+    helpText: "Mae hwn yn gwbl ddienw ac nid yw'n ffurfio rhan o'ch cyflwyniad. Peidiwch â chynnwys unrhyw fanylion am eich syniad, dim ond sut brofiad yr oedd."
   common:
     delete: Dileu
     exit: Gadael
