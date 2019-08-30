@@ -17,12 +17,12 @@ const prepareData = () => {
 };
 
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: (queryInterface) => {
     prepareData();
     return queryInterface.bulkInsert('PendingApplications', pendingApplications.data, {});
   },
 
-  down: (queryInterface, Sequelize) => {
+  down: (queryInterface) => {
    return queryInterface.bulkDelete('PendingApplications', null, {});
   }
 };
