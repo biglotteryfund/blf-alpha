@@ -774,43 +774,47 @@ describe('awards for all', function() {
                 submitStep();
             }
 
-            cy.queryByLabelText('Companies House number', {
+            /**
+             * Registration numbers
+             * Not all organisation types require a registration number
+             * so we need to check if the step exists first.
+             */
+            cy.queryByText('Registration numbers (Step 4 of 5)', {
                 exact: false,
-                timeout: 1000
-            }).then(el => {
-                if (el) {
-                    const randomCompanyNumber = random(10000, 99999999)
+                timeout: 500
+            }).then(registrationNumbersStepEl => {
+                function randomId(digits) {
+                    return random(10000, 99999999)
                         .toString()
-                        .padStart(8, '0');
-                    cy.wrap(el).type(randomCompanyNumber);
+                        .padStart(digits, '0');
+                }
+
+                if (registrationNumbersStepEl) {
+                    const opts = { exact: false, timeout: 500 };
+
+                    cy.queryByLabelText('Companies House number', opts).then(
+                        function(el) {
+                            el && cy.wrap(el).type(randomId(8));
+                        }
+                    );
+
+                    cy.queryByLabelText(
+                        'Charity registration number',
+                        opts
+                    ).then(function(el) {
+                        el && cy.wrap(el).type(randomId(7));
+                    });
+
+                    cy.queryByLabelText(
+                        'Department for Education number',
+                        opts
+                    ).then(function(el) {
+                        el && cy.wrap(el).type(randomId(6));
+                    });
+
+                    submitStep();
                 }
             });
-
-            cy.queryByLabelText('Charity registration number', {
-                exact: false,
-                timeout: 1000
-            }).then(el => {
-                if (el) {
-                    const randomCharityNumber = random(10000, 9999999)
-                        .toString()
-                        .padStart(7, '0');
-                    cy.wrap(el).type(randomCharityNumber);
-                }
-            });
-
-            cy.queryByLabelText('Department for Education number', {
-                exact: false,
-                timeout: 1000
-            }).then(el => {
-                if (el) {
-                    const randomEducationNumber = random(10000, 999999)
-                        .toString()
-                        .padStart(6, '0');
-                    cy.wrap(el).type(randomEducationNumber);
-                }
-            });
-
-            submitStep();
 
             // Optional accounting year end step
             cy.queryByText('What is your accounting year end date?', {
