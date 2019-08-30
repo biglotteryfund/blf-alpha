@@ -589,9 +589,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
 
         // @TODO post-Wales launch, use this in the schema instead of options
-        const activeOptions = options.filter(
-            option => has(option, 'attributes.disabled') === false
-        );
+        // const activeOptions = options.filter(
+        //     option => has(option, 'attributes.disabled') === false
+        // );
 
         return {
             name: 'projectCountry',
