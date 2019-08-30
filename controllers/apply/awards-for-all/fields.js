@@ -1,6 +1,7 @@
 'use strict';
 const config = require('config');
 const moment = require('moment');
+const concat = require('lodash/concat');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const has = require('lodash/has');
@@ -588,6 +589,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             allowedCountries: config.get('awardsForAll.allowedCountries')
         });
 
+        // @TODO post-Wales launch, use this in the schema instead of options
         const activeOptions = options.filter(
             option => has(option, 'attributes.disabled') === false
         );
@@ -610,7 +612,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             options: options,
             isRequired: true,
             schema: Joi.string()
-                .valid(activeOptions.map(option => option.value))
+                .valid(options.map(option => option.value))
                 .required(),
             messages: [
                 {
