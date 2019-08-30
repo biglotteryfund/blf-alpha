@@ -76,6 +76,18 @@ module.exports = function(formBuilder) {
             }
         }
 
+        if (form.progress.isComplete) {
+            const msg = ['Apply: AFA: Summary: User shown form complete'];
+            if (res.locals.hotJarTagList) {
+                res.locals.hotJarTagList = concat(
+                    res.locals.hotJarTagList,
+                    msg
+                );
+            } else {
+                res.locals.hotJarTagList = msg;
+            }
+        }
+
         res.render(path.resolve(__dirname, './views/summary'), {
             form: form,
             csrfToken: req.csrfToken(),
