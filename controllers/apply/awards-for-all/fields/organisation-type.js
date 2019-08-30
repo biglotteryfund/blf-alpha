@@ -66,7 +66,7 @@ module.exports = function fieldOrganisationType(locale) {
                 en: oneLine`My organisation is a not-for-profit company
                     registered with Companies House, and <strong>may also</strong>
                     be registered as a charity`,
-                cy: oneLine`Mae fy sefydliad yn gwmni dielw sydd yn gofrestredig
+                cy: oneLine`Mae fy sefydliad yn gwmni di-elw sydd yn gofrestredig
                     â Thŷ’r Cwmnïau, a <strong>gall hefyd</strong> fod wedi’i
                     gofrestru fel elusen.`
             })
