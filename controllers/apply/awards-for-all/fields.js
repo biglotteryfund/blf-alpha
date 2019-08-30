@@ -3,7 +3,7 @@ const config = require('config');
 const moment = require('moment');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
-// const has = require('lodash/has');
+const has = require('lodash/has');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../form-router-next/joi-extensions');
@@ -589,10 +589,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             allowedCountries: config.get('awardsForAll.allowedCountries')
         });
 
-        // @TODO post-Wales launch, use this in the schema instead of options
-        // const activeOptions = options.filter(
-        //     option => has(option, 'attributes.disabled') === false
-        // );
+        const activeOptions = options.filter(
+            option => has(option, 'attributes.disabled') === false
+        );
 
         return {
             name: 'projectCountry',
@@ -612,7 +611,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             options: options,
             isRequired: true,
             schema: Joi.string()
-                .valid(options.map(option => option.value))
+                .valid(activeOptions.map(option => option.value))
                 .required(),
             messages: [
                 {

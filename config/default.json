@@ -51,7 +51,7 @@
     "enableNoValidate": true
   },
   "awardsForAll": {
-    "allowedCountries": ["scotland"],
+    "allowedCountries": ["scotland", "wales"],
     "showContactConfirmationQuestion": false
   },
   "cookies": {
