@@ -143,9 +143,7 @@ function initAppLocals() {
      */
     app.locals.DATE_FORMATS = {
         month: 'MMMM YYYY',
-        short: 'D MMMM, YYYY',
-        numeric: 'D/MM/YYYY',
-        full: 'dddd D MMMM YYYY'
+        short: 'D MMMM, YYYY'
     };
 
     /**
