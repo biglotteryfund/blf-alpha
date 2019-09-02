@@ -332,14 +332,11 @@ describe('Project details', () => {
             [expect.stringMatching(/Date you start the project must be after/)]
         );
 
-        const validStartDate = moment().add('25', 'weeks');
-        const invalidEndDate = validStartDate.clone().add('100', 'years');
-
         assertMessagesByKey(
             {
                 projectDateRange: {
-                    startDate: toDateParts(validStartDate),
-                    endDate: toDateParts(invalidEndDate)
+                    startDate: toDateParts(moment().add('25', 'weeks')),
+                    endDate: toDateParts(moment().add('2', 'years'))
                 }
             },
             [expect.stringMatching(/Date you end the project must be within/)]
