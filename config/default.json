@@ -26,11 +26,6 @@
     "indexable": ["www.biglotteryfund.org.uk", "www.tnlcommunityfund.org.uk"],
     "base": "https://www.tnlcommunityfund.org.uk"
   },
-  "i18n": {
-    "urlPrefix": {
-      "cy": "/welsh"
-    }
-  },
   "features": {
     "enableAllowLocalhost": false,
     "enableCloudWatchLogs": true,

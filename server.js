@@ -44,7 +44,6 @@ const cspDirectives = require('./common/csp-directives');
 const contentApi = require('./common/content-api');
 
 const { defaultMaxAge } = require('./middleware/cached');
-const i18nMiddleware = require('./middleware/i18n');
 const passportMiddleware = require('./middleware/passport');
 const previewMiddleware = require('./middleware/preview');
 const sessionMiddleware = require('./middleware/session');
@@ -171,7 +170,6 @@ initViewEngine();
  */
 app.use([
     slashes(false),
-    i18nMiddleware,
     (req, res, next) => {
         vary(res, 'Cookie');
         next();
@@ -215,6 +213,20 @@ app.use(passportMiddleware());
  */
 app.use(function(req, res, next) {
     const locale = req.i18n.getLocale();
+
+    /**
+     * Set current locale
+     */
+    if (isWelsh(req.url)) {
+        req.i18n.setLocale('cy');
+        res.setHeader('Content-Language', 'cy');
+    }
+
+    /**
+     * Store locale state as request locals.
+     */
+    res.locals.locale = locale;
+    res.locals.localePrefix = isWelsh(req.url) ? '/welsh' : '';
 
     /**
      * Environment metadata
