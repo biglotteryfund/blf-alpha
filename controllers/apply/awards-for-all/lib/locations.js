@@ -328,7 +328,7 @@ module.exports = function locationsFor(country, locale) {
                 },
                 {
                     value: 'east-dumbartonshire',
-                    label: 'East Dumbartonshire'
+                    label: 'East Dunbartonshire'
                 },
                 {
                     value: 'east-lothian',
@@ -412,7 +412,7 @@ module.exports = function locationsFor(country, locale) {
                 },
                 {
                     value: 'west-dumbartonshire',
-                    label: 'West Dumbartonshire'
+                    label: 'West Dunbartonshire'
                 },
                 {
                     value: 'west-lothian',
