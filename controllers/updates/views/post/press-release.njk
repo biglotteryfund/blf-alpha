@@ -17,7 +17,7 @@
             <dt>{{ copy.datePublished }}</dt>
             <dd>
                 <time datetime="{{ entry.postDate.date }}">
-                    {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
+                    {{ formatDate(entry.postDate.date) }}
                 </time>
             </dd>
         {% endif %}

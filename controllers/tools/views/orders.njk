@@ -42,8 +42,8 @@
         <small class="text-muted">
             <br />
             {% if dateRange %}
-                {{ formatDate(dateRange.start, DATE_FORMATS.short) }} &mdash;
-                {{ formatDate(dateRange.end, DATE_FORMATS.short) }}
+                {{ formatDate(dateRange.start) }} &mdash;
+                {{ formatDate(dateRange.end) }}
             {% else %}
                 in the last five months
             {% endif %}

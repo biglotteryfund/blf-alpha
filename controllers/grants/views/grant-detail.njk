@@ -58,7 +58,7 @@
                         <aside class="grant-summary">
                             <p class="grant-summary__amount">£{{ grant.amountAwarded | numberWithCommas }}</p>
                             <p class="grant-summary__title">{{ grant.title }}</p>
-                            <p class="grant-summary__date">{{ formatDate(grant.awardDate, DATE_FORMATS.short) }}</p>
+                            <p class="grant-summary__date">{{ formatDate(grant.awardDate) }}</p>
                         </aside>
 
                         <dl class="o-definition-list o-definition-list--compact u-text-small">
@@ -67,8 +67,8 @@
                                 {% for dates in grant.plannedDates %}
                                     <dd>
                                         {{ fields.area.label }}
-                                        {{ formatDate(dates.startDate, DATE_FORMATS.short) }}{% if dates.endDate -%}
-                                            &ndash;{{ formatDate(dates.endDate, DATE_FORMATS.short) }}
+                                        {{ formatDate(dates.startDate) }}{% if dates.endDate -%}
+                                            &ndash;{{ formatDate(dates.endDate) }}
                                         {%- endif %}
                                     </dd>
                                 {% endfor %}
