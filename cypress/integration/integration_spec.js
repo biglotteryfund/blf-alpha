@@ -686,18 +686,18 @@ describe('awards for all', function() {
             });
         }
 
-        function sectionOrganisation(organisationName) {
+        function sectionOrganisation(mock) {
             cy.checkA11y();
 
             cy.getByLabelText(
                 'What is the full legal name of your organisation?',
                 { exact: false }
-            ).type(organisationName);
+            ).type(mock.organisationName);
 
             // Org age question
             const dt = moment().subtract(random(1, 20), 'years');
             cy.getByLabelText('Month').type(dt.month() + 1);
-            cy.getByLabelText('Year').type(dt.year());
+            cy.getByLabelText('Year').type(dt.year().toString());
 
             cy.getByText(
                 'What is the main or registered address of your organisation?'
@@ -715,34 +715,24 @@ describe('awards for all', function() {
 
             cy.checkA11y();
 
-            const randomOrgType = sample([
-                'Unregistered voluntary or community organisation',
-                'Registered charity (unincorporated)',
-                'Charitable incorporated organisation (CIO)',
-                'Not-for-profit company',
-                'School',
-                'College or University',
-                'Statutory body',
-                'Faith-based group'
-            ]);
-
-            cy.log(`Organisation type: ${randomOrgType}`);
-
-            cy.getByLabelText(randomOrgType, {
-                exact: false
-            }).click();
+            cy.getByLabelText(mock.organisationType, { exact: false }).click();
 
             submitStep();
 
             cy.checkA11y();
 
-            // @TODO: Should we further randomise the sub-types?
-            if (randomOrgType === 'Statutory body') {
-                cy.getByLabelText('Parish Council', {
-                    exact: false
-                }).click();
-                submitStep();
-            }
+            cy.queryByText('Tell us what type of statutory body you are', {
+                exact: false,
+                timeout: 500
+            }).then(el => {
+                if (el) {
+                    // @TODO: Should we further randomise the sub-types?
+                    cy.getByLabelText('Parish Council', {
+                        exact: false
+                    }).click();
+                    submitStep();
+                }
+            });
 
             /**
              * Registration numbers
@@ -918,25 +908,25 @@ describe('awards for all', function() {
             ).type('Example communication need');
         }
 
-        function sectionSeniorContact(contact) {
+        function sectionSeniorContact(mock) {
             cy.checkA11y();
             cy.get('label[for="field-seniorContactRole-1"]').click();
-            fillContact(contact);
+            fillContact(mock.seniorContact);
             submitStep();
         }
 
-        function sectionMainContact(contact) {
+        function sectionMainContact(mock) {
             cy.checkA11y();
-            fillContact(contact);
+            fillContact(mock.mainContact);
             submitStep();
         }
 
-        function sectionBankDetails(organisationName) {
+        function sectionBankDetails(mock) {
             cy.checkA11y();
 
             cy.getByLabelText('Tell us the name of your organisation', {
                 exact: false
-            }).type(organisationName);
+            }).type(mock.organisationName);
 
             cy.getByLabelText('Account number', { exact: false }).type(
                 '25337846'
@@ -984,6 +974,9 @@ describe('awards for all', function() {
         }
 
         function submitApplication() {
+            cy.checkA11y();
+            cy.get('h1').should('contain', 'Summary');
+
             cy.getAllByText('Submit application')
                 .first()
                 .click();
@@ -994,23 +987,25 @@ describe('awards for all', function() {
             );
         }
 
-        cy.seedAndLogin().then(() => {
-            cy.visit('/apply/awards-for-all');
-
-            cy.get('.cookie-consent button').click();
-            startApplication();
-
-            const mock = {
-                country: sample([/*'Scotland',*/ 'Wales'])
-            };
-
-            const organisationName = faker.company.companyName();
-
-            sectionYourProject(mock);
-            sectionBeneficiaries(mock);
-            sectionOrganisation(organisationName);
-
-            sectionSeniorContact({
+        const mock = {
+            country: sample([
+                'England',
+                'Northern Ireland',
+                'Scotland',
+                'Wales'
+            ]),
+            organisationType: sample([
+                'Unregistered voluntary or community organisation',
+                'Registered charity (unincorporated)',
+                'Charitable incorporated organisation (CIO)',
+                'Not-for-profit company',
+                'School',
+                'College or University',
+                'Statutory body',
+                'Faith-based group'
+            ]),
+            organisationName: faker.company.companyName(),
+            seniorContact: {
                 firstName: faker.name.firstName(),
                 lastName: faker.name.lastName(),
                 email: Cypress.env('afa_senior_contact_email'),
@@ -1021,9 +1016,8 @@ describe('awards for all', function() {
                     city: 'Newcastle',
                     postcode: 'NE4 7JH'
                 }
-            });
-
-            sectionMainContact({
+            },
+            mainContact: {
                 firstName: faker.name.firstName(),
                 lastName: faker.name.lastName(),
                 email: Cypress.env('afa_main_contact_email'),
@@ -1034,13 +1028,28 @@ describe('awards for all', function() {
                     city: 'Glasgow',
                     postcode: 'G2 6UA'
                 }
-            });
+            }
+        };
 
-            sectionBankDetails(organisationName);
+        Object.entries(mock).forEach(([key, value]) => {
+            cy.log(key, JSON.stringify(value, null, 2));
+        });
+
+        cy.seedAndLogin().then(() => {
+            cy.visit('/apply/awards-for-all');
+
+            cy.get('.cookie-consent button').click();
+            startApplication();
+
+            sectionYourProject(mock);
+            sectionBeneficiaries(mock);
+            sectionOrganisation(mock);
+
+            sectionSeniorContact(mock);
+            sectionMainContact(mock);
+
+            sectionBankDetails(mock);
             sectionTermsAndConditions(mock);
-
-            cy.checkA11y();
-            cy.get('h1').should('contain', 'Summary');
 
             submitApplication();
         });
