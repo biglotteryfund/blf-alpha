@@ -210,13 +210,7 @@ Please speak to [@mattandrews](https://github.com/mattandrews) or [@davidrapson]
 
 ### Prerequisites
 
-You'll need the [sequelize-cli](https://github.com/sequelize/cli) installed locally. You will also need a `.sequelizerc` file created at your root which must contain atleast the `url` property. eg:
-
-```
-module.exports = {
-  'url': 'my_db_connection_uri'
-}
-```
+You'll need the [sequelize-cli](https://github.com/sequelize/cli) installed locally.
 
 ### Generate Seeds
 
@@ -226,14 +220,14 @@ You can generate a seed file using the following command (this will prepend a ti
 npx sequelize-cli seed:generate --name file-name
 ```
 
-This will create the file with placeholder conetne within the `/seeders` folder. Edit the file to interact with the db.
+This will create the file with placeholder content within the 'seeders-path' (which can be found in the `.sequelizerc`). Edit the file as per the requirements to interact with the db.
 
 ### Running Seeds
 
-Once completed, you can run a particular seed file by 
+Once completed, you can run a particular seed file using the `--seed` argument. eg:
 
 ```
-npx sequelize-cli db:seed --seed seeders/file-name
+npx sequelize-cli db:seed --seed db/seeders/pending-applications
 ```
 
 
