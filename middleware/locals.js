@@ -3,6 +3,7 @@ const config = require('config');
 const moment = require('moment');
 const { isString } = require('lodash');
 
+const appData = require('../common/appData');
 const { getCurrentUrl, getAbsoluteUrl, localify } = require('../common/urls');
 
 const features = config.get('features');
@@ -16,10 +17,23 @@ module.exports = function(req, res, next) {
     const locale = req.i18n.getLocale();
 
     /**
+     * Environment metadata
+     */
+    res.locals.appData = appData;
+
+    /**
+     * Is this page bilingual?
+     * i.e. do we have a Welsh translation
+     * Default to true unless overridden by a route
+     */
+    res.locals.isBilingual = true;
+
+    /**
      * Feature flags
      */
     res.locals.enableSiteSurvey = features.enableSiteSurvey;
     res.locals.enableNameChangeMessage = features.enableNameChangeMessage;
+    res.locals.hotjarId = features.enableHotjar && config.get('hotjarId');
 
     /**
      * Global copy

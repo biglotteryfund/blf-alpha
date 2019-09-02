@@ -129,31 +129,6 @@ app.use(favicon(path.join('public', '/favicon.ico')));
 app.use('/assets', express.static(path.join(__dirname, './public')));
 
 /**
- * Define common app locals
- * @see https://expressjs.com/en/api.html#app.locals
- */
-function initAppLocals() {
-    /**
-     * Environment metadata
-     */
-    app.locals.appData = appData;
-
-    /**
-     * Is this page bilingual?
-     * i.e. do we have a Welsh translation
-     * Default to true unless overridden by a route
-     */
-    app.locals.isBilingual = true;
-
-    /**
-     * Hotjar ID
-     */
-    app.locals.hotjarId = features.enableHotjar && config.get('hotjarId');
-}
-
-initAppLocals();
-
-/**
  * Configure views
  * 1. Configure Nunjucks
  * 2. Add custom filters
