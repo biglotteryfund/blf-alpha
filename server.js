@@ -145,8 +145,7 @@ function initAppLocals() {
         month: 'MMMM YYYY',
         short: 'D MMMM, YYYY',
         numeric: 'D/MM/YYYY',
-        full: 'dddd D MMMM YYYY',
-        fullTimestamp: 'dddd D MMM YYYY (hh:mm a)'
+        full: 'dddd D MMMM YYYY'
     };
 
     /**
