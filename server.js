@@ -142,7 +142,6 @@ function initAppLocals() {
      * Common date formats
      */
     app.locals.DATE_FORMATS = {
-        month: 'MMMM YYYY',
         short: 'D MMMM, YYYY'
     };
 
