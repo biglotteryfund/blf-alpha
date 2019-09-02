@@ -338,16 +338,8 @@ describe('Project details', () => {
         assertMessagesByKey(
             {
                 projectDateRange: {
-                    startDate: {
-                        day: validStartDate.day(),
-                        month: validStartDate.month(),
-                        year: validStartDate.year()
-                    },
-                    endDate: {
-                        day: invalidEndDate.day(),
-                        month: invalidEndDate.month(),
-                        year: invalidEndDate.year()
-                    }
+                    startDate: toDateParts(validStartDate),
+                    endDate: toDateParts(invalidEndDate)
                 }
             },
             [expect.stringMatching(/Date you end the project must be within/)]
