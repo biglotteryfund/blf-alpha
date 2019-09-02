@@ -1,5 +1,4 @@
 'use strict';
-const forEach = require('lodash/forEach');
 const path = require('path');
 const config = require('config');
 const express = require('express');
@@ -13,6 +12,9 @@ const helmet = require('helmet');
 const slashes = require('connect-slashes');
 const vary = require('vary');
 const Sentry = require('@sentry/node');
+const forEach = require('lodash/forEach');
+const isString = require('lodash/isString');
+
 const features = config.get('features');
 
 const app = express();
@@ -26,6 +28,8 @@ if (appData.isDev) {
 }
 
 const {
+    getAbsoluteUrl,
+    getCurrentUrl,
     isWelsh,
     localify,
     makeWelsh,
@@ -41,7 +45,6 @@ const contentApi = require('./common/content-api');
 
 const { defaultMaxAge } = require('./middleware/cached');
 const i18nMiddleware = require('./middleware/i18n');
-const localsMiddleware = require('./middleware/locals');
 const passportMiddleware = require('./middleware/passport');
 const previewMiddleware = require('./middleware/preview');
 const sessionMiddleware = require('./middleware/session');
@@ -204,7 +207,154 @@ app.use([
 
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
-app.use(localsMiddleware);
+
+/**
+ * Set request locals
+ * - Local properties that depend on the request
+ * - Local methods for use in views that depend on the request
+ */
+app.use(function(req, res, next) {
+    const locale = req.i18n.getLocale();
+
+    /**
+     * Environment metadata
+     */
+    res.locals.appData = appData;
+
+    /**
+     * Is this page bilingual?
+     * i.e. do we have a Welsh translation
+     * Default to true unless overridden by a route
+     */
+    res.locals.isBilingual = true;
+
+    /**
+     * Feature flags
+     */
+    res.locals.enableSiteSurvey = features.enableSiteSurvey;
+    res.locals.enableNameChangeMessage = features.enableNameChangeMessage;
+    res.locals.hotjarId = features.enableHotjar && config.get('hotjarId');
+
+    /**
+     * Global copy
+     */
+    res.locals.globalCopy = {
+        brand: req.i18n.__('global.brand')
+    };
+
+    /**
+     * Global navigation model
+     */
+    const navCopy = req.i18n.__('global.nav');
+    res.locals.globalNavigation = {
+        home: {
+            label: navCopy.home,
+            url: localify(locale)('/')
+        },
+        primaryLinks: [
+            { label: navCopy.funding, url: localify(locale)('/funding') },
+            { label: navCopy.updates, url: localify(locale)('/news') },
+            { label: navCopy.insights, url: localify(locale)('/insights') },
+            { label: navCopy.contact, url: localify(locale)('/contact') }
+        ],
+        secondaryLinks: [
+            { label: navCopy.about, url: localify(locale)('/about') },
+            { label: navCopy.jobs, url: localify(locale)('/jobs') }
+        ]
+    };
+
+    /**
+     * Fallback hero image
+     * Used where there is no image but a hard requirement
+     * for the layout and the main image fails to load
+     */
+    res.locals.fallbackHeroImage = {
+        small: '/assets/images/hero/hero-fallback-2019-small.jpg',
+        medium: '/assets/images/hero/hero-fallback-2019-medium.jpg',
+        large: '/assets/images/hero/hero-fallback-2019-large.jpg',
+        default: '/assets/images/hero/hero-fallback-2019-medium.jpg',
+        caption: 'The Outdoor Partnership'
+    };
+
+    res.locals.getSocialImageUrl = function(socialImage) {
+        if (isString(socialImage)) {
+            return socialImage.indexOf('://') !== -1
+                ? socialImage
+                : getAbsoluteUrl(socialImage);
+        } else {
+            return getAbsoluteUrl(req, socialImage.default);
+        }
+    };
+
+    /**
+     * Get normalised page title for metadata
+     */
+    res.locals.getMetaTitle = function(base, pageTitle) {
+        return pageTitle ? `${pageTitle} | ${base}` : base;
+    };
+
+    /**
+     * Current path without query string
+     */
+    res.locals.currentPath = req.path;
+
+    /**
+     * Absolute URL helper
+     */
+    res.locals.getAbsoluteUrl = function(urlPath) {
+        return getAbsoluteUrl(req, urlPath);
+    };
+
+    /**
+     * Current URL helper
+     * (Returns just the path)
+     */
+    res.locals.getCurrentUrl = function(requestedLocale) {
+        return getCurrentUrl(req, requestedLocale);
+    };
+
+    /**
+     * Current absolute URL helper
+     * (Returns the absolute URL including protocol/base)
+     */
+    res.locals.getCurrentAbsoluteUrl = function(requestedLocale) {
+        return getAbsoluteUrl(req, getCurrentUrl(req, requestedLocale));
+    };
+
+    /**
+     * View helper for outputting a path in the current locale
+     */
+    res.locals.localify = function(urlPath) {
+        return localify(req.i18n.getLocale())(urlPath);
+    };
+
+    /**
+     * View helper for formatting date in the current locale
+     * @see https://momentjs.com/docs/#/displaying/format/
+     *
+     * @param {String} dateString
+     * @param {String} format
+     * @return {String}
+     */
+    res.locals.formatDate = function(dateString, format = 'D MMMM, YYYY') {
+        return moment(dateString)
+            .locale(locale)
+            .format(format);
+    };
+
+    /**
+     * View helper to represent date as relative time
+     * @param {String} dateString
+     */
+    res.locals.timeFromNow = function(dateString) {
+        return moment(dateString)
+            .locale(locale)
+            .fromNow();
+    };
+
+    next();
+});
+
 app.use(previewMiddleware);
 
 /**
