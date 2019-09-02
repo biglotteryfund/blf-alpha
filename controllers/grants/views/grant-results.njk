@@ -7,7 +7,7 @@
         {% set mainRecipient = grant.recipientOrganization[0] %}
         £{{ grant.amountAwarded | numberWithCommas}} {{ __('global.misc.to') }}
         <strong><a href="{{ localify("/funding/grants/recipients/" + mainRecipient.id) }}">{{ mainRecipient.name | striptags }}</a></strong>
-        {{ __('global.misc.on') }} {{ formatDate(grant.awardDate, DATE_FORMATS.short) }}
+        {{ __('global.misc.on') }} {{ formatDate(grant.awardDate) }}
     {% endset %}
     {% set description = false if grant.description === grant.title else grant.description %}
     {% call promoCard({

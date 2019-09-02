@@ -139,7 +139,7 @@ module.exports = function(req, res, next) {
      * @param {String} format
      * @return {String}
      */
-    res.locals.formatDate = function(dateString, format) {
+    res.locals.formatDate = function(dateString, format = 'D MMMM, YYYY') {
         return moment(dateString)
             .locale(locale)
             .format(format);

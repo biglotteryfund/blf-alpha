@@ -139,11 +139,6 @@ function initAppLocals() {
     app.locals.appData = appData;
 
     /**
-     * Common date formats
-     */
-    app.locals.DATE_FORMATS = config.get('dateFormats');
-
-    /**
      * Is this page bilingual?
      * i.e. do we have a Welsh translation
      * Default to true unless overridden by a route
