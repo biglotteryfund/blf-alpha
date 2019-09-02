@@ -81,21 +81,21 @@ module.exports = function({
          */
         const countryNoticeMessage = {
             title: localise({
-                en: `Applying for a project in England or Wales?`,
-                cy: `Ymgeisio am brosiect yn Lloegr neu Gymru?`
+                en: `Applying for a project in England?`,
+                cy: `Ymgeisio am brosiect yn Lloegr?`
             }),
             body: localise({
                 en: `
                     <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
                     <p><strong>Applying for a project in Northern Ireland?</strong></p>
                     <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
-                    <p>Only applicants in Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
+                    <p>Only applicants in Wales or Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
                 `,
                 cy: `
                     <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hon yn lle</a>.</p>
                     <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
                     <p><a href="funding/programmes/awards-for-all-northern-ireland">Byddwch angen lawrlwytho ffurflen gais i ymgeisio</a>.</p>
-                    <p>Ymgeiswyr yn Yr Alban yn unig gall ymgeisio drwy ein ffurlfen ar-lein newydd ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn hygyrch i weddill Prydain.</p>
+                    <p>Dim ond ymgeiswyr yng Nghymru neu'r Alban all ymgeisio drwy ein ffurflen ar-lein newydd ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn hygyrch i weddill y DU.</p>
                 `
             })
         };
