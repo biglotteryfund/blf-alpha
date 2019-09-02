@@ -141,7 +141,13 @@ function initAppLocals() {
     /**
      * Common date formats
      */
-    app.locals.DATE_FORMATS = config.get('dateFormats');
+    app.locals.DATE_FORMATS = {
+        month: 'MMMM YYYY',
+        short: 'D MMMM, YYYY',
+        numeric: 'D/MM/YYYY',
+        full: 'dddd D MMMM YYYY',
+        fullTimestamp: 'dddd D MMM YYYY (hh:mm a)'
+    };
 
     /**
      * Is this page bilingual?
