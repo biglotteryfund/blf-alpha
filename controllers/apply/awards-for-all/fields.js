@@ -25,10 +25,6 @@ const {
     FREE_TEXT_MAXLENGTH
 } = require('./constants');
 
-const showContactConfirmationQuestion = config.get(
-    'awardsForAll.showContactConfirmationQuestion'
-);
-
 const countriesFor = require('./lib/countries');
 const locationsFor = require('./lib/locations');
 
@@ -751,7 +747,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
     }
 
-    let allFields = {
+    return {
         projectName: {
             name: 'projectName',
             label: localise({
@@ -2480,40 +2476,4 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             isRequired: true
         }
     };
-
-    if (showContactConfirmationQuestion) {
-        allFields.mainContactIsValid = {
-            name: 'mainContactIsValid',
-            label: localise({
-                en: `I confirm that the main and senior contacts aren't married or in a long-term relationship with each other, living together at the same address, or related by blood`,
-                cy: ''
-            }),
-            type: 'checkbox',
-            options: [
-                {
-                    value: 'yes',
-                    label: localise({
-                        en: 'Yes',
-                        cy: ''
-                    })
-                }
-            ],
-            isRequired: true,
-            get schema() {
-                return multiChoice(this.options).required();
-            },
-            get messages() {
-                return [
-                    {
-                        type: 'base',
-                        message: localise({
-                            en: `Main and senior contact can't be married or in a long-term relationship with each other, living together at the same address, or related by blood `,
-                            cy: ''
-                        })
-                    }
-                ];
-            }
-        };
-    }
-    return allFields;
 };
