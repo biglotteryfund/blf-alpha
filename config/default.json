@@ -39,8 +39,7 @@
     "enableNoValidate": true
   },
   "awardsForAll": {
-    "allowedCountries": ["scotland", "wales"],
-    "showContactConfirmationQuestion": false
+    "allowedCountries": ["scotland", "wales"]
   },
   "cookies": {
     "session": "blf-alpha-session"

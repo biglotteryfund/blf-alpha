@@ -761,14 +761,8 @@ module.exports = function({
                         });
                     },
                     get fields() {
-                        const showContactConfirmationQuestion = config.get(
-                            'awardsForAll.showContactConfirmationQuestion'
-                        );
-
                         const allFields = compact([
                             fields.mainContactName,
-                            showContactConfirmationQuestion &&
-                                fields.mainContactIsValid,
                             fields.mainContactDateOfBirth,
                             fields.mainContactAddress,
                             fields.mainContactAddressHistory,
@@ -782,8 +776,6 @@ module.exports = function({
                             allFields,
                             compact([
                                 fields.mainContactName,
-                                showContactConfirmationQuestion &&
-                                    fields.mainContactIsValid,
                                 includeAddressAndDob() &&
                                     fields.mainContactDateOfBirth,
                                 includeAddressAndDob() &&
