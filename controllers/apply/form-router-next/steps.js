@@ -5,6 +5,7 @@ const findIndex = require('lodash/findIndex');
 const includes = require('lodash/includes');
 const omit = require('lodash/omit');
 const Sentry = require('@sentry/node');
+const crypto = require('crypto');
 
 const logger = require('../../../common/logger');
 const { sanitiseRequestBody } = require('../../../common/sanitise');
@@ -62,12 +63,18 @@ module.exports = function(formId, formBuilder) {
                                 res.locals.hotJarTagList = [
                                     'App: User shown form error after submitting'
                                 ];
+                                const anonymisedId = crypto
+                                    .createHash('md5')
+                                    .update(res.locals.currentlyEditingId)
+                                    .digest('hex');
                                 errors.forEach(item => {
                                     logger.info(item.msg, {
                                         service: 'step-validations',
                                         fieldName: item.param,
                                         section: section.slug,
-                                        step: stepNumber
+                                        step: stepNumber,
+                                        errorType: item.type,
+                                        applicationId: anonymisedId
                                     });
                                 });
                             }
