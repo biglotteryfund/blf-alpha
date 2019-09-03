@@ -7,7 +7,7 @@ const { sanitise } = require('../../common/sanitise');
 const { Feedback, SurveyAnswer } = require('../../db/models');
 const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');
-const { csrfProtection } = require('../../middleware/cached');
+const { csrfProtection } = require('../../common/cached');
 
 const { Client } = require('@ideal-postcodes/core-node');
 const postcodesClient = new Client({
