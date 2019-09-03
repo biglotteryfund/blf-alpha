@@ -4,16 +4,6 @@ const moment = require('moment');
 const uuidv4 = require('uuid/v4');
 
 const projectCountries = ['scotland', 'wales', 'england', 'northern-ireland'];
-const orgTypes = [
-    'unregistered-vco',
-    'unincorporated-registered-charity',
-    'charitable-incorporated-organisation',
-    'not-for-profit-company',
-    'school',
-    'college-or-university',
-    'statutory-body',
-    'faith-group'
-];
 const expiryDates = [
     moment().add('30', 'days'),
     moment().add('14', 'days'),
@@ -67,7 +57,7 @@ const generateRandomApplicationData = () => {
         mainContactCommunicationNeeds: "",
         organisationLegalName: faker.company.companyName(),
         organisationTradingName: faker.company.companyName(),
-        organisationType: faker.random.arrayElement(orgTypes),
+        organisationType: 'unincorporated-registered-charity',
         organisationStartDate: {
             year: 2017,
             month: 11,
