@@ -21,7 +21,7 @@ module.exports = function(locale) {
         isRequired: true,
         schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
             is: true,
-            then: Joi.number()
+            then: Joi.friendlyNumber()
                 .integer()
                 .required(),
             otherwise: Joi.any().strip()
