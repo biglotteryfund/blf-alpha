@@ -2,7 +2,7 @@
 const querystring = require('querystring');
 const express = require('express');
 
-const { noStore } = require('../../middleware/cached');
+const { noStore } = require('../../common/cached');
 
 const router = express.Router();
 

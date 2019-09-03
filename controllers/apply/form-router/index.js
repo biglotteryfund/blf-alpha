@@ -6,7 +6,7 @@ const express = require('express');
 const path = require('path');
 const Sentry = require('@sentry/node');
 
-const { csrfProtection, noStore } = require('../../../middleware/cached');
+const { csrfProtection, noStore } = require('../../../common/cached');
 const { localify } = require('../../../common/urls');
 
 const {

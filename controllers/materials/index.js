@@ -19,7 +19,7 @@ const {
     injectListingContent,
     injectMerchandise
 } = require('../../middleware/inject-content');
-const { csrfProtection, noStore } = require('../../middleware/cached');
+const { csrfProtection, noStore } = require('../../common/cached');
 const { Order } = require('../../db/models');
 
 const {

@@ -5,7 +5,7 @@ const domains = require('config').get('domains');
 
 const { getAbsoluteUrl } = require('../common/urls');
 const { legacyPagePaths, legacyFilesPath } = require('../common/archived');
-const { noStore } = require('../middleware/cached');
+const { noStore } = require('../common/cached');
 
 const router = express.Router();
 

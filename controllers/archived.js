@@ -8,7 +8,7 @@ const {
     legacyFilesPath
 } = require('../common/archived');
 
-const { noStore } = require('../middleware/cached');
+const { noStore } = require('../common/cached');
 
 /**
  * Archived Routes

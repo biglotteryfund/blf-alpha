@@ -39,8 +39,7 @@ const routes = require('./controllers/routes');
 const viewFilters = require('./common/filters');
 const cspDirectives = require('./common/csp-directives');
 const contentApi = require('./common/content-api');
-
-const { defaultMaxAge } = require('./middleware/cached');
+const { defaultMaxAge } = require('./common/cached');
 const passportMiddleware = require('./middleware/passport');
 const previewMiddleware = require('./middleware/preview');
 const sessionMiddleware = require('./middleware/session');
