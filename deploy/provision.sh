@@ -12,7 +12,7 @@ apt-get install -y nginx-extras passenger
 if [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_FLEET ]] ||
    [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_IN_PLACE ]];
 then
-    apt-get -y install clamav clamav-daemon
+    apt-get install -y clamav clamav-daemon
     freshclam
     service clamav-daemon start
 fi
