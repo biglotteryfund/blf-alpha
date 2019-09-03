@@ -6,7 +6,7 @@ const express = require('express');
 const path = require('path');
 const Sentry = require('@sentry/node');
 
-const cached = require('../../../middleware/cached');
+const { csrfProtection, noStore } = require('../../../middleware/cached');
 const { localify } = require('../../../common/urls');
 
 const {
@@ -40,9 +40,7 @@ function initFormRouter(form) {
                             `fields.${field.name}.errorMessage`
                         );
                         // @TODO: Translate fallback error message;
-                        const fallbackErrorMessage = `${
-                            field.label
-                        } must be provided`;
+                        const fallbackErrorMessage = `${field.label} must be provided`;
                         return req.i18n.__(
                             errorMessage || fallbackErrorMessage
                         );
@@ -94,7 +92,7 @@ function initFormRouter(form) {
     /**
      * Route: Start page
      */
-    router.get('/', cached.noCache, function(req, res) {
+    router.get('/', noStore, function(req, res) {
         const { startPage } = form;
         if (!startPage) {
             throw new Error('No startpage found');
@@ -185,7 +183,7 @@ function initFormRouter(form) {
          */
         router
             .route(`/${currentStepNumber}`)
-            .all(cached.csrfProtection)
+            .all(csrfProtection)
             .get(renderStepIfAllowed)
             .post(getValidators(step), handleSubmitStep());
 
@@ -194,7 +192,7 @@ function initFormRouter(form) {
          */
         router
             .route(`/${currentStepNumber}/edit`)
-            .all(cached.csrfProtection)
+            .all(csrfProtection)
             .get(function(req, res) {
                 const formSession = getFormSession(req);
                 const completedSteps = Object.keys(formSession).filter(key =>
@@ -224,7 +222,7 @@ function initFormRouter(form) {
      */
     router
         .route('/review')
-        .all(cached.csrfProtection)
+        .all(csrfProtection)
         .get(function(req, res) {
             const formData = getFormSession(req);
             if (isEmpty(formData)) {
@@ -270,7 +268,7 @@ function initFormRouter(form) {
     /**
      * Route: Success
      */
-    router.get('/success', cached.noCache, function(req, res) {
+    router.get('/success', noStore, function(req, res) {
         const formData = getFormSession(req);
         const stepConfig = form.successStep;
         const stepCopy = get(res.locals.copy, 'success', {});

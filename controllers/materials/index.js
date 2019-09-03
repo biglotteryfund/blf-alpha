@@ -19,7 +19,7 @@ const {
     injectListingContent,
     injectMerchandise
 } = require('../../middleware/inject-content');
-const cached = require('../../middleware/cached');
+const { csrfProtection, noStore } = require('../../middleware/cached');
 const { Order } = require('../../db/models');
 
 const {
@@ -165,7 +165,7 @@ function renderForm(req, res, status = FORM_STATES.NOT_SUBMITTED) {
 
 router
     .route('/')
-    .all(cached.csrfProtection, injectListingContent, injectBreadcrumbs)
+    .all(csrfProtection, injectListingContent, injectBreadcrumbs)
     .get(injectMerchandise({}), (req, res) => {
         renderForm(req, res, FORM_STATES.NOT_SUBMITTED);
     })
@@ -279,7 +279,7 @@ router
 router.post(
     '/update-basket',
     [sanitizeBody('action').escape(), sanitizeBody('code').escape()],
-    cached.noCache,
+    noStore,
     (req, res) => {
         // Update the session with ordered items
         modifyItems(req);

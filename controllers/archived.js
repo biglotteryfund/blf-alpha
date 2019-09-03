@@ -8,7 +8,7 @@ const {
     legacyFilesPath
 } = require('../common/archived');
 
-const { noCache } = require('../middleware/cached');
+const { noStore } = require('../middleware/cached');
 
 /**
  * Archived Routes
@@ -17,7 +17,7 @@ const { noCache } = require('../middleware/cached');
  * and b) to allow us to record the redirect as a page-view using standard analytics behaviour.
  */
 legacyPagePaths.forEach(urlPath => {
-    router.get(urlPath, noCache, function(req, res) {
+    router.get(urlPath, noStore, function(req, res) {
         res.render('static-pages/archived', {
             title: 'Archived',
             archiveUrl: buildArchiveUrl(req.originalUrl)

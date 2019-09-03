@@ -3,11 +3,11 @@ const path = require('path');
 const express = require('express');
 
 const { requireStaffAuth } = require('../../middleware/authed');
-const { noCache } = require('../../middleware/cached');
+const { noStore } = require('../../middleware/cached');
 
 const router = express.Router();
 
-router.use(noCache, requireStaffAuth, function(req, res, next) {
+router.use(noStore, requireStaffAuth, function(req, res, next) {
     res.setHeader('X-Robots-Tag', 'noindex');
     res.locals.isBilingual = false;
     res.locals.enableSiteSurvey = false;
