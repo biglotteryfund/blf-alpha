@@ -1,5 +1,4 @@
 'use strict';
-const forEach = require('lodash/forEach');
 const path = require('path');
 const config = require('config');
 const express = require('express');
@@ -13,6 +12,8 @@ const helmet = require('helmet');
 const slashes = require('connect-slashes');
 const vary = require('vary');
 const Sentry = require('@sentry/node');
+const forEach = require('lodash/forEach');
+
 const features = config.get('features');
 
 const app = express();
@@ -40,8 +41,6 @@ const cspDirectives = require('./common/csp-directives');
 const contentApi = require('./common/content-api');
 
 const { defaultMaxAge } = require('./middleware/cached');
-const i18nMiddleware = require('./middleware/i18n');
-const localsMiddleware = require('./middleware/locals');
 const passportMiddleware = require('./middleware/passport');
 const previewMiddleware = require('./middleware/preview');
 const sessionMiddleware = require('./middleware/session');
@@ -129,31 +128,6 @@ app.use(favicon(path.join('public', '/favicon.ico')));
 app.use('/assets', express.static(path.join(__dirname, './public')));
 
 /**
- * Define common app locals
- * @see https://expressjs.com/en/api.html#app.locals
- */
-function initAppLocals() {
-    /**
-     * Environment metadata
-     */
-    app.locals.appData = appData;
-
-    /**
-     * Is this page bilingual?
-     * i.e. do we have a Welsh translation
-     * Default to true unless overridden by a route
-     */
-    app.locals.isBilingual = true;
-
-    /**
-     * Hotjar ID
-     */
-    app.locals.hotjarId = features.enableHotjar && config.get('hotjarId');
-}
-
-initAppLocals();
-
-/**
  * Configure views
  * 1. Configure Nunjucks
  * 2. Add custom filters
@@ -193,7 +167,6 @@ initViewEngine();
  */
 app.use([
     slashes(false),
-    i18nMiddleware,
     (req, res, next) => {
         vary(res, 'Cookie');
         next();
@@ -229,7 +202,7 @@ app.use([
 
 app.use(sessionMiddleware(app));
 app.use(passportMiddleware());
-app.use(localsMiddleware);
+app.use(require('./common/locals'));
 app.use(previewMiddleware);
 
 /**
