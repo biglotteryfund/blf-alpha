@@ -5,6 +5,7 @@ const findIndex = require('lodash/findIndex');
 const includes = require('lodash/includes');
 const omit = require('lodash/omit');
 const Sentry = require('@sentry/node');
+const md5 = require('md5');
 
 const logger = require('../../../common/logger');
 const { sanitiseRequestBody } = require('../../../common/sanitise');
@@ -67,7 +68,11 @@ module.exports = function(formId, formBuilder) {
                                         service: 'step-validations',
                                         fieldName: item.param,
                                         section: section.slug,
-                                        step: stepNumber
+                                        step: stepNumber,
+                                        errorType: item.type,
+                                        applicationId: md5(
+                                            res.locals.currentlyEditingId
+                                        )
                                     });
                                 });
                             }
