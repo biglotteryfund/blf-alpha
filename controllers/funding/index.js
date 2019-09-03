@@ -2,10 +2,7 @@
 const path = require('path');
 const express = require('express');
 
-const {
-    injectCopy,
-    injectHeroImage
-} = require('../../middleware/inject-content');
+const { injectCopy, injectHeroImage } = require('../../common/inject-content');
 const { sMaxAge } = require('../../common/cached');
 const contentApi = require('../../common/content-api');
 

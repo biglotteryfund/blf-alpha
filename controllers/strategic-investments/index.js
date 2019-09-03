@@ -9,7 +9,7 @@ const {
     injectStrategicProgramme,
     injectStrategicProgrammes,
     setCommonLocals
-} = require('../../middleware/inject-content');
+} = require('../../common/inject-content');
 
 const router = express.Router();
 

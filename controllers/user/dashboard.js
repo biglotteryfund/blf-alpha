@@ -3,7 +3,7 @@ const path = require('path');
 const express = require('express');
 
 const { requireUserAuth } = require('../../common/authed');
-const { injectCopy } = require('../../middleware/inject-content');
+const { injectCopy } = require('../../common/inject-content');
 
 const router = express.Router();
 

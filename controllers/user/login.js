@@ -15,7 +15,7 @@ const {
 const {
     injectCopy,
     injectBreadcrumbs
-} = require('../../middleware/inject-content');
+} = require('../../common/inject-content');
 const {
     requireNoAuth,
     redirectUrlWithFallback

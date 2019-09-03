@@ -18,7 +18,7 @@ const {
     injectBreadcrumbs,
     injectListingContent,
     injectMerchandise
-} = require('../../middleware/inject-content');
+} = require('../../common/inject-content');
 const { csrfProtection, noStore } = require('../../common/cached');
 const { Order } = require('../../db/models');
 
