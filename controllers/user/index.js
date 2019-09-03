@@ -7,7 +7,7 @@ const moment = require('moment');
 const { Users } = require('../../db/models');
 const { localify, redirectForLocale } = require('../../common/urls');
 const { noStore } = require('../../common/cached');
-const { requireNotStaffAuth } = require('../../middleware/authed');
+const { requireNotStaffAuth } = require('../../common/authed');
 const { injectCopy } = require('../../middleware/inject-content');
 
 const logger = require('../../common/logger').child({

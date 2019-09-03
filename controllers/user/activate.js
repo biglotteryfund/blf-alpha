@@ -7,7 +7,7 @@ const { Users } = require('../../db/models');
 const {
     requireUserAuth,
     redirectUrlWithFallback
-} = require('../../middleware/authed');
+} = require('../../common/authed');
 const {
     injectCopy,
     injectBreadcrumbs

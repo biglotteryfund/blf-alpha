@@ -22,7 +22,7 @@ const commonLogger = require('../../../common/logger');
 const appData = require('../../../common/appData');
 const { localify } = require('../../../common/urls');
 const { noStore } = require('../../../common/cached');
-const { requireActiveUserWithCallback } = require('../../../middleware/authed');
+const { requireActiveUserWithCallback } = require('../../../common/authed');
 const { injectCopy } = require('../../../middleware/inject-content');
 
 const salesforceService = require('./lib/salesforce');

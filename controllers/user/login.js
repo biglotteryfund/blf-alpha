@@ -19,7 +19,7 @@ const {
 const {
     requireNoAuth,
     redirectUrlWithFallback
-} = require('../../middleware/authed');
+} = require('../../common/authed');
 const { csrfProtection } = require('../../common/cached');
 
 const router = express.Router();

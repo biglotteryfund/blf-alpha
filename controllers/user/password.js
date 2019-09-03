@@ -12,7 +12,7 @@ const {
     redirectForLocale,
     localify
 } = require('../../common/urls');
-const { requireNoAuth } = require('../../middleware/authed');
+const { requireNoAuth } = require('../../common/authed');
 const {
     injectCopy,
     injectBreadcrumbs

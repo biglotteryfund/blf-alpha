@@ -16,7 +16,7 @@ const {
 const {
     requireNoAuth,
     redirectUrlWithFallback
-} = require('../../middleware/authed');
+} = require('../../common/authed');
 
 const validateSchema = require('./lib/validate-schema');
 const { newAccounts } = require('./lib/account-schemas');
