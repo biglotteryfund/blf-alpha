@@ -1,9 +1,11 @@
 'use strict';
-const pendingApplications = require('./data/pending-applications');
+const { prepareSeeds } = require('./data/pending-applications');
 
 module.exports = {
-  up: (queryInterface) => {
-    return queryInterface.bulkInsert('PendingApplications', pendingApplications.data, {});
+  up: async (queryInterface) => {
+    const applications = await prepareSeeds();
+
+    return queryInterface.bulkInsert('PendingApplications', applications, {});
   },
 
   down: (queryInterface) => {

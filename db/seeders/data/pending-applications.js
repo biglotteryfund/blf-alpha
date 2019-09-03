@@ -2,6 +2,7 @@
 const faker = require('faker');
 const moment = require('moment');
 const uuidv4 = require('uuid/v4');
+const { Users } = require('../../models');
 
 const projectCountries = ['scotland', 'wales', 'england', 'northern-ireland'];
 const expiryDates = [
@@ -102,11 +103,17 @@ const generateRandomApplicationData = () => {
     };
 };
 
-module.exports = {
-    data: expiryDates.map(expiryDate => {
+const prepareSeeds = async () => {
+    const user = await Users.createUser({
+        username: faker.internet.email(),
+        password: faker.internet.password(),
+        isActive: true
+    });
+
+    return expiryDates.map(expiryDate => {
         return {
             id: uuidv4(),
-            userId: 1,
+            userId: user.id,
             formId: 'awards-for-all',
             applicationData: JSON.stringify(generateRandomApplicationData()),
             submissionAttempts: faker.random.number({ min: 0, max: 50 }),
@@ -114,5 +121,9 @@ module.exports = {
             createdAt: moment().toDate(),
             updatedAt: moment().toDate()
         };
-    })
+    });
+};
+
+module.exports = {
+    prepareSeeds
 };
