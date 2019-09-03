@@ -31,14 +31,16 @@ const showContactConfirmationQuestion = config.get(
 
 const countriesFor = require('./lib/countries');
 const locationsFor = require('./lib/locations');
+
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
-const fieldYourIdeaProject = require('./fields/your-idea-project');
-const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
-const fieldYourIdeaCommunity = require('./fields/your-idea-community');
-const fieldOrganisationType = require('./fields/organisation-type');
-const fieldSeniorContactRole = require('./fields/senior-contact-role');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
+const fieldOrganisationType = require('./fields/organisation-type');
 const fieldProjectTotalCosts = require('./fields/project-total-costs');
+const fieldSeniorContactRole = require('./fields/senior-contact-role');
+const fieldTotalIncomeYear = require('./fields/total-income-year');
+const fieldYourIdeaCommunity = require('./fields/your-idea-community');
+const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
+const fieldYourIdeaProject = require('./fields/your-idea-project');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
@@ -1888,53 +1890,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        totalIncomeYear: {
-            name: 'totalIncomeYear',
-            label: localise({
-                en: 'What is your total income for the year?',
-                cy: 'Beth yw cyfanswm eich incwm am y flwyddyn?'
-            }),
-            explanation: localise({
-                en: 'Use whole numbers only, eg. 12000',
-                cy: 'Defnyddiwch rifau cyflawn yn unig, e.e. 12000'
-            }),
-            type: 'currency',
-            isRequired: true,
-            schema: Joi.when(Joi.ref('organisationStartDate.isBeforeMin'), {
-                is: true,
-                then: Joi.number()
-                    .integer()
-                    .required(),
-                otherwise: Joi.any().strip()
-            }),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en:
-                            'Enter a total income for the year (eg. a whole number with no commas or decimal points)',
-                        cy:
-                            'Rhowch gyfanswm incwm am y flwyddyn (e.e. rhif cyflawn heb goma na bwyntiau degol)'
-                    })
-                },
-                {
-                    type: 'any.invalid',
-                    message: localise({
-                        en: 'Total income must be a real number',
-                        cy: 'Rhaid i’r cyfanswm incwm fod yn rif go iawn'
-                    })
-                },
-                {
-                    type: 'number.integer',
-                    message: localise({
-                        en:
-                            'Total income must be a whole number (eg. no decimal point)',
-                        cy:
-                            'Rhaid i’r cyfanswm incwm fod yn rif cyflawn (e.e. dim pwynt degol)'
-                    })
-                }
-            ]
-        },
+        totalIncomeYear: fieldTotalIncomeYear(locale),
         mainContactName: nameField(
             {
                 name: 'mainContactName',
