@@ -14,8 +14,6 @@ const { getAbsoluteUrl, getCurrentUrl, isWelsh, localify } = require('./urls');
  * - Local methods for use in views that depend on the request
  */
 module.exports = function(req, res, next) {
-    const locale = req.i18n.getLocale();
-
     /**
      * Set current locale
      */
@@ -23,6 +21,8 @@ module.exports = function(req, res, next) {
         req.i18n.setLocale('cy');
         res.setHeader('Content-Language', 'cy');
     }
+
+    const locale = req.i18n.getLocale();
 
     /**
      * Store locale state as request locals.
