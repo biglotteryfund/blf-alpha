@@ -5,7 +5,7 @@ const { oneLine } = require('common-tags');
 const Joi = require('../../form-router-next/joi-extensions');
 const { ORGANISATION_TYPES } = require('../constants');
 
-module.exports = function fieldOrganisationType(locale) {
+module.exports = function(locale) {
     const localise = get(locale);
 
     const options = [

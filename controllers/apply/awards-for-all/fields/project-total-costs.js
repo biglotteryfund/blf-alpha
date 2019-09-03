@@ -7,7 +7,7 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../../form-router-next/joi-extensions');
 
-module.exports = function fieldProjectTotalCosts(locale, data) {
+module.exports = function(locale, data) {
     const localise = get(locale);
 
     const budgetTotal = sumBy(
