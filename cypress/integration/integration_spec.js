@@ -415,6 +415,8 @@ it('should submit full awards for all application', () => {
     }
 
     function startApplication() {
+        cy.screenshot('dashboard');
+
         cy.getByText('Start new application').click();
         times(5, function() {
             cy.getByLabelText('Yes').click();
@@ -428,6 +430,8 @@ it('should submit full awards for all application', () => {
     }
 
     function stepProjectDetails() {
+        cy.screenshot('project-details');
+
         cy.checkA11y();
 
         cy.getByLabelText('What is the name of your project?', {
@@ -467,6 +471,8 @@ it('should submit full awards for all application', () => {
     }
 
     function stepProjectCountry(mock) {
+        cy.screenshot('project-country');
+
         cy.getByLabelText(mock.country).click();
         submitStep();
     }
