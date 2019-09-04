@@ -163,6 +163,7 @@
     "prettier": "1.18.2",
     "prompt": "1.0.0",
     "sane": "4.1.0",
+    "sequelize-cli": "5.5.1",
     "vue": "2.6.10",
     "vue-i18n": "8.14.0",
     "vue-jest": "3.0.4",
