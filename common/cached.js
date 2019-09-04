@@ -2,12 +2,11 @@
 const csurf = require('csurf');
 
 const DEFAULT_MAX_AGE_SECONDS = 30;
-const DEFAULT_S_MAX_AGE_SECONDS = 300;
 
 function defaultMaxAge(req, res, next) {
     res.cacheControl = {
         maxAge: DEFAULT_MAX_AGE_SECONDS,
-        sMaxAge: DEFAULT_S_MAX_AGE_SECONDS
+        sMaxAge: 300
     };
     next();
 }
@@ -23,7 +22,7 @@ function noStore(req, res, next) {
 /**
  * s-max-age middleware
  * @description Apply a custom shared max age value
- * @param { number } sMaxAgeValue  `s-max-age` value in natural language (e.g. 30s, 10m. 1h)
+ * @param { number } sMaxAgeValue  `s-max-age` value in seconds
  */
 function sMaxAge(sMaxAgeValue) {
     return (req, res, next) => {
@@ -43,9 +42,7 @@ const csrfProtection = [csurf(), noStore];
 
 module.exports = {
     defaultMaxAge,
-    // @TODO: Replace all instances of noCache with noStore
-    noCache: noStore,
-    noStore: noStore,
+    noStore,
     sMaxAge,
     csrfProtection
 };

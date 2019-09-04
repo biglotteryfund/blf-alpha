@@ -9,8 +9,5 @@
   "features": {
     "enableHotjar": true,
     "enableNoValidate": false
-  },
-  "awardsForAll": {
-    "showContactConfirmationQuestion": false
   }
 }

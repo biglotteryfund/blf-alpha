@@ -52,8 +52,8 @@
                 <p class="application-card__minor-title">{{ copy.dashboard.applicationStatus }}:</p>
                 <h4>{{ copy.dashboard.notSubmitted }}</h4>
                 {{ __('applyNext.dashboard.expiryMessage',
-                    formatDate(application.createdAt.toISOString(), DATE_FORMATS.short),
-                    formatDate(application.expiresAt.toISOString(), DATE_FORMATS.short)
+                    formatDate(application.createdAt.toISOString()),
+                    formatDate(application.expiresAt.toISOString())
                 ) | safe }}
             </div>
 
@@ -95,7 +95,7 @@
         <div class="application-card__progress">
             <div class="application-card__progress__status">
                 <p class="application-card__minor-title">{{ copy.dashboard.applicationStatus }}:</p>
-                <h4>{{ copy.dashboard.submitted }} {{ formatDate(application.createdAt.toISOString(), DATE_FORMATS.short) }}</h4>
+                <h4>{{ copy.dashboard.submitted }} {{ formatDate(application.createdAt.toISOString()) }}</h4>
                 <div class="s-prose">
                     <p>{{ __('applyNext.dashboard.decisionMessage', 18) | safe }}</p>
                 </div>

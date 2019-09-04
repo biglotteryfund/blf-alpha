@@ -2,7 +2,7 @@
 const get = require('lodash/fp/get');
 const Joi = require('../../form-router-next/joi-extensions');
 
-module.exports = function fieldYourIdeaPriorities(locale) {
+module.exports = function(locale) {
     const localise = get(locale);
 
     const minWords = 50;

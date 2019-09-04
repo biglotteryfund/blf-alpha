@@ -39,8 +39,8 @@
                         <p class="u-no-margin">
                             {{ __(
                                 "funding.pastGrants.search.dateRange",
-                                formatDate(grantDataDates.start, DATE_FORMATS.short),
-                                formatDate(grantDataDates.end, DATE_FORMATS.short)
+                                formatDate(grantDataDates.start),
+                                formatDate(grantDataDates.end)
                             ) | safe }}
                         </p>
                     {% endif %}

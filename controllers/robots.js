@@ -5,11 +5,11 @@ const domains = require('config').get('domains');
 
 const { getAbsoluteUrl } = require('../common/urls');
 const { legacyPagePaths, legacyFilesPath } = require('../common/archived');
-const { noCache } = require('../middleware/cached');
+const { noStore } = require('../common/cached');
 
 const router = express.Router();
 
-router.get('/', noCache, (req, res) => {
+router.get('/', noStore, (req, res) => {
     const isIndexable = includes(domains.indexable, req.get('host')) === true;
 
     // Merge archived paths with internal / deliberately excluded URLs

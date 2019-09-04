@@ -13,7 +13,7 @@ const {
     injectHeroImage,
     setHeroLocals
 } = require('../../middleware/inject-content');
-const { sMaxAge } = require('../../middleware/cached');
+const { sMaxAge } = require('../../common/cached');
 const contentApi = require('../../common/content-api');
 
 const grantsService = require('./grants-service');

@@ -6,7 +6,7 @@ const {
     injectCopy,
     injectHeroImage
 } = require('../../middleware/inject-content');
-const { sMaxAge } = require('../../middleware/cached');
+const { sMaxAge } = require('../../common/cached');
 const contentApi = require('../../common/content-api');
 
 const router = express.Router();

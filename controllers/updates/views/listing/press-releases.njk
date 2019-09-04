@@ -30,7 +30,7 @@
                                 <li class="article-listing__item">
                                     {% set subtitle %}
                                         <time class="article-teaser__pubdate" datetime="{{ props.postDate.date }}">
-                                            {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
+                                            {{ formatDate(entry.postDate.date) }}
                                         </time>
 
                                         {% if entry.regions.length > 0 %}

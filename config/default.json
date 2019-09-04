@@ -26,18 +26,6 @@
     "indexable": ["www.biglotteryfund.org.uk", "www.tnlcommunityfund.org.uk"],
     "base": "https://www.tnlcommunityfund.org.uk"
   },
-  "dateFormats": {
-    "month": "MMMM YYYY",
-    "short": "D MMMM, YYYY",
-    "numeric": "D/MM/YYYY",
-    "full": "dddd D MMMM YYYY",
-    "fullTimestamp": "dddd D MMM YYYY (hh:mm a)"
-  },
-  "i18n": {
-    "urlPrefix": {
-      "cy": "/welsh"
-    }
-  },
   "features": {
     "enableAllowLocalhost": false,
     "enableCloudWatchLogs": true,
@@ -51,8 +39,7 @@
     "enableNoValidate": true
   },
   "awardsForAll": {
-    "allowedCountries": ["scotland"],
-    "showContactConfirmationQuestion": false
+    "allowedCountries": ["scotland", "wales"]
   },
   "cookies": {
     "session": "blf-alpha-session"
