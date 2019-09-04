@@ -41,7 +41,7 @@ const cspDirectives = require('./common/csp-directives');
 const contentApi = require('./common/content-api');
 const { defaultMaxAge } = require('./common/cached');
 const passportMiddleware = require('./common/passport');
-const sessionMiddleware = require('./middleware/session');
+const sessionMiddleware = require('./common/session');
 
 const { renderError, renderNotFound } = require('./controllers/errors');
 

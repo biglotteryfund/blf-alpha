@@ -3,8 +3,8 @@ const config = require('config');
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-const { SESSION_SECRET } = require('../common/secrets');
-const { isDev } = require('../common/appData');
+const { SESSION_SECRET } = require('./secrets');
+const { isDev } = require('./appData');
 const { sequelize } = require('../db/models');
 
 module.exports = function(app) {
