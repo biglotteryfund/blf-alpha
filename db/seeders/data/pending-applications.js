@@ -105,7 +105,7 @@ const generateRandomApplicationData = () => {
 
 const prepareSeeds = async () => {
     const user = await Users.createUser({
-        username: faker.internet.email(),
+        username: `${uuidv4()}@example.com`,
         password: faker.internet.password(),
         isActive: true
     });
