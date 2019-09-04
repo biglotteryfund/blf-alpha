@@ -36,7 +36,6 @@ const {
 const { SENTRY_DSN } = require('./common/secrets');
 const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
-const viewFilters = require('./common/filters');
 const cspDirectives = require('./common/csp-directives');
 const contentApi = require('./common/content-api');
 const { defaultMaxAge } = require('./common/cached');
@@ -149,7 +148,7 @@ function initViewEngine() {
         watch: shouldWatchTemplates
     });
 
-    forEach(viewFilters, (filterFn, filterName) => {
+    forEach(require('./views/filters'), (filterFn, filterName) => {
         templateEnv.addFilter(filterName, filterFn);
     });
 
