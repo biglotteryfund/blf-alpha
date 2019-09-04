@@ -40,7 +40,7 @@ const viewFilters = require('./common/filters');
 const cspDirectives = require('./common/csp-directives');
 const contentApi = require('./common/content-api');
 const { defaultMaxAge } = require('./common/cached');
-const passportMiddleware = require('./middleware/passport');
+const passportMiddleware = require('./common/passport');
 const sessionMiddleware = require('./middleware/session');
 
 const { renderError, renderNotFound } = require('./controllers/errors');
