@@ -5,9 +5,9 @@ const get = require('lodash/get');
 const RateLimiterMySQL = require('rate-limiter-flexible/lib/RateLimiterMySQL');
 const RateLimiterMemory = require('rate-limiter-flexible/lib/RateLimiterMemory');
 
-const { sequelize } = require('../db/models/index');
-const appData = require('../common/appData');
-const logger = require('../common/logger').child({
+const { sequelize } = require('../db/models');
+const appData = require('./appData');
+const logger = require('./logger').child({
     service: 'rate-limiter'
 });
 

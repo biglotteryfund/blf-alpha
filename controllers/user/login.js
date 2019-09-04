@@ -10,7 +10,7 @@ const logger = require('../../common/logger').child({
 const {
     rateLimiterConfigs,
     RateLimiter
-} = require('../../middleware/rate-limiter');
+} = require('../../common/rate-limiter');
 
 const {
     injectCopy,
