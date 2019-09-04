@@ -29,7 +29,6 @@
   "features": {
     "enableAllowLocalhost": false,
     "enableCloudWatchLogs": true,
-    "enableDigitalFundApplications": false,
     "enableHotjar": false,
     "enableNameChangeMessage": true,
     "enableRelatedGrants": false,
