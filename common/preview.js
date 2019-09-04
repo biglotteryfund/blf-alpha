@@ -1,5 +1,5 @@
 'use strict';
-const { requireStaffAuth } = require('../common/authed');
+const { requireStaffAuth } = require('./authed');
 
 /**
  * Preview mode
