@@ -12,11 +12,11 @@ apt-get install -y nginx-extras passenger
 if [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_FLEET ]] ||
    [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_IN_PLACE ]];
 then
-  apt-get install -y clamav-daemon clamav-freshclam
-  service clamav-daemon start
-  freshclam
-  service clamav-daemon restart
-  service clamav-daemon status
+    apt-get install -y clamav clamav-daemon
+    service clamav-freshclam restart
+    wait
+    service clamav-daemon start
+    service clamav-daemon status
 fi
 
 # Install Node
