@@ -14,7 +14,7 @@ if [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_FLEET ]] ||
 then
     apt-get install -y clamav clamav-daemon
     service clamav-freshclam restart
-    sleep 3m
+    wait
     service clamav-daemon start
     service clamav-daemon status
 fi
