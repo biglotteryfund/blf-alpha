@@ -155,7 +155,7 @@ router.post('/survey', async (req, res) => {
  * API: Application Expiry
  */
 
-router.get('/applications/expiry', async (req, res) => {
+router.post('/applications/expiry', async (req, res) => {
     try {
 
         const [
@@ -164,24 +164,20 @@ router.get('/applications/expiry', async (req, res) => {
             dayExpiryApplications,
             expiredApplications
         ] = await Promise.all([
-            PendingApplication.findByDaysTilExpiryRange('15', '30'),
-            PendingApplication.findByDaysTilExpiryRange('3', '14'),
-            PendingApplication.findByDaysTilExpiryRange('1', '2'),
+            PendingApplication.findExpiringInMonth(),
+            PendingApplication.findExpiringInWeek(),
+            PendingApplication.findExpiringInDay(),
             PendingApplication.findExpired()
         ]);
 
-        res.json({
-            expiredApplications
-        })
-
         // Handle expired application
-        // .ie. send emails + delete applications + update ApplicationExpirations table
+        // .ie. send emails + delete applications
 
         // Handle Monthly reminder
-        // handleMonthExpiry(monthExpiryApplications);
+        handleMonthExpiry(monthExpiryApplications);
 
         // Handle Weekly/Daily reminder
-        // .ie. send emails + update ApplicationExpirations record
+        // .ie. send emails + update PendingApplications records
     } catch (err) {
         console.log(err);
     }

@@ -2,6 +2,7 @@
 'use strict';
 const moment = require('moment');
 const { Model, Op, Sequelize } = require('sequelize');
+const { EXPIRY_EMAIL_REMINDERS } = require('../../controllers/apply/awards-for-all/constants');
 
 class PendingApplication extends Model {
     static init(sequelize, DataTypes) {
@@ -51,6 +52,21 @@ class PendingApplication extends Model {
             },
 
             /**
+             * Last expiry email reminder sent
+             * Everytime a new reminder is sent, its pushed to the array
+             */
+            lastExpiryWarningSent: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                get: function() {
+                    return JSON.parse(this.getDataValue('lastExpiryWarningSent'));
+                }, 
+                set: function(val) {
+                    return this.setDataValue('lastExpiryWarningSent', JSON.stringify(val));
+                }
+            },
+
+            /**
              * Expiry date for pending application
              * A scheduled job runs which cleans out expired applications
              */
@@ -87,8 +103,22 @@ class PendingApplication extends Model {
             order: [['createdAt', 'DESC']]
         });
     }
-    static findByDaysTilExpiryRange(from, to) {
-        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= ${from} AND DATEDIFF(expiresAt, CURDATE()) <= ${to}`;
+    static findExpiringInMonth() {
+        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 15 AND DATEDIFF(expiresAt, CURDATE()) <= 30 AND lastExpiryWarningSent != ${EXPIRY_EMAIL_REMINDERS.MONTH}`;
+
+        return this.findAll({
+            where: Sequelize.literal(rawSqlStmt)
+        });
+    }
+    static findExpiringInWeek() {
+        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 3 AND DATEDIFF(expiresAt, CURDATE()) <= 14 AND lastExpiryWarningSent != ${EXPIRY_EMAIL_REMINDERS.WEEK}`;
+
+        return this.findAll({
+            where: Sequelize.literal(rawSqlStmt)
+        });
+    }
+    static findExpiringInDay() {
+        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 1 AND DATEDIFF(expiresAt, CURDATE()) <= 2 AND lastExpiryWarningSent != ${EXPIRY_EMAIL_REMINDERS.DAY}`;
 
         return this.findAll({
             where: Sequelize.literal(rawSqlStmt)
@@ -99,6 +129,16 @@ class PendingApplication extends Model {
 
         return this.findAll({
             where: Sequelize.literal(rawSqlStmt)
+        });
+    }
+    static updateExpiryWarningColumn(warning) {
+        console.log(warning);
+        return this.update({
+            lastExpiryWarningSent: warning,
+        }, {
+            where: {
+                submissionAttempts: { [Op.in]: [45, 39] }
+            }
         });
     }
     static findApplicationForForm({ formId, applicationId, userId }) {
@@ -277,48 +317,4 @@ class SubmittedApplication extends Model {
     }
 }
 
-class ApplicationExpirations extends Model {
-    static init(sequelize, DataTypes) {
-        const schema = {
-            id: {
-                primaryKey: true,
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
-                allowNull: false
-            },
-
-            /**
-             * User model reference
-             */
-            applicationId: {
-                type: DataTypes.INTEGER,
-                references: { model: 'PendingApplications', key: 'id' }
-            },
-
-            /**
-             * Type of reminders sent
-             * e.g. ONE_MONTH_REMINDER
-             */
-            expirationType: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                get: function() {
-                    return JSON.parse(this.getDataValue('expirationType'));
-                }, 
-                set: function(val) {
-                    return this.setDataValue('expirationType', JSON.stringify(val));
-                }
-            }
-        };
-
-        return super.init(schema, {
-            sequelize
-        });
-    }
-
-    static createBulkExpiryApplications(dataArray) {
-        return this.bulkCreate(dataArray);
-    }
-}
-
-module.exports = { PendingApplication, SubmittedApplication, ApplicationExpirations };
+module.exports = { PendingApplication, SubmittedApplication };

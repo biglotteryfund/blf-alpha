@@ -1,5 +1,6 @@
 const { sendEmail } = require('../../../common/mail');
-const { Users, ApplicationExpirations } = require('../../../db/models');
+const { Users, PendingApplication } = require('../../../db/models');
+const { EXPIRY_EMAIL_REMINDERS } = require('../../apply/awards-for-all/constants');
 
 const fetchMailList = async (expiryApplications, reminderType) => {
     const applicationExpirationsData = [];
@@ -24,7 +25,7 @@ const handleMonthExpiry = async (monthExpiryApplications) => {
         const {
             expiryMailList,
             applicationExpirationsData
-        } = fetchMailList(monthExpiryApplications, 'ONE_MONTH_REMINDER');
+        } = fetchMailList(monthExpiryApplications, EXPIRY_EMAIL_REMINDERS.MONTH);
 
         // Send Emails
         if (expiryMailList.length > 0) {
@@ -40,10 +41,12 @@ const handleMonthExpiry = async (monthExpiryApplications) => {
             });
         }
 
-        // create ApplicationExpirations records
-        if (applicationExpirationsData.length > 0) {
-            await ApplicationExpirations.createBulkExpiryApplications(applicationExpirationsData);
-        }
+        PendingApplication.updateExpiryWarningColumn(EXPIRY_EMAIL_REMINDERS.MONTH);
+
+        // update lastExpiryWarningSent column
+        // if (applicationExpirationsData.length > 0) {
+        //     await ApplicationExpirations.createBulkExpiryApplications(applicationExpirationsData);
+        // }
 
     } catch (err) {
         console.log(err);
