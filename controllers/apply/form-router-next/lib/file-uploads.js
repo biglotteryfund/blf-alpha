@@ -10,7 +10,7 @@ const NodeClam = require('clamscan');
 const { isTestServer, isDev } = require('../../../../common/appData');
 const { S3_KMS_KEY_ID } = require('../../../../common/secrets');
 const logger = require('../../../../common/logger').child({
-    service: 'file-uploads'
+    service: 's3-uploads'
 });
 
 const S3_UPLOAD_BUCKET = config.get('aws.s3.formUploadBucket');
