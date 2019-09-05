@@ -12,11 +12,11 @@ const {
     redirectForLocale,
     localify
 } = require('../../common/urls');
-const { requireNoAuth } = require('../../middleware/authed');
+const { requireNoAuth } = require('../../common/authed');
 const {
     injectCopy,
     injectBreadcrumbs
-} = require('../../middleware/inject-content');
+} = require('../../common/inject-content');
 
 const logger = require('../../common/logger').child({
     service: 'user'
@@ -267,22 +267,11 @@ router
 
                             logger.info('Password reset email sent');
 
-                            // Log the user in
-                            req.logIn(user, function(loginErr) {
-                                if (loginErr) {
-                                    redirectForLocale(
-                                        req,
-                                        res,
-                                        '/user/login?s=passwordUpdated'
-                                    );
-                                } else {
-                                    redirectForLocale(
-                                        req,
-                                        res,
-                                        '/user?s=passwordUpdated'
-                                    );
-                                }
-                            });
+                            return redirectForLocale(
+                                req,
+                                res,
+                                '/user/login?s=passwordUpdated'
+                            );
                         } else {
                             logger.info('Password reset not valid for user');
                             redirectForLocale(req, res, '/user/login');

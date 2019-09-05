@@ -1,6 +1,6 @@
 'use strict';
 const express = require('express');
-const sitemap = require('sitemap');
+const { createSitemap } = require('sitemap');
 const compose = require('lodash/fp/compose');
 const concat = require('lodash/fp/concat');
 const sortBy = require('lodash/fp/sortBy');
@@ -8,7 +8,7 @@ const uniqBy = require('lodash/fp/uniqBy');
 
 const contentApi = require('../common/content-api');
 const { getBaseUrl } = require('../common/urls');
-const { sMaxAge } = require('../middleware/cached');
+const { sMaxAge } = require('../common/cached');
 
 const router = express.Router();
 
@@ -68,20 +68,16 @@ router.get('/', sMaxAge(1800), async (req, res, next) => {
         const canonicalRoutes = await getCanonicalRoutes();
 
         // @ts-ignore
-        const sitemapInstance = sitemap.createSitemap({
+        const sitemapInstance = createSitemap({
             hostname: getBaseUrl(req),
             urls: canonicalRoutes.map(route => ({
                 url: route.path
             }))
         });
 
-        sitemapInstance.toXML(function(error, xml) {
-            if (error) {
-                next(error);
-            }
-            res.header('Content-Type', 'application/xml');
-            res.send(xml);
-        });
+        const xml = sitemapInstance.toXML();
+        res.header('Content-Type', 'application/xml');
+        res.send(xml);
     } catch (error) {
         next(error);
     }

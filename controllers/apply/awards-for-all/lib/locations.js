@@ -1,6 +1,9 @@
 'use strict';
+const get = require('lodash/fp/get');
 
-module.exports = function locationsFor(country) {
+module.exports = function locationsFor(country, locale) {
+    const localise = get(locale);
+
     const england = [
         {
             label: 'East and West Midlands',
@@ -325,7 +328,7 @@ module.exports = function locationsFor(country) {
                 },
                 {
                     value: 'east-dumbartonshire',
-                    label: 'East Dumbartonshire'
+                    label: 'East Dunbartonshire'
                 },
                 {
                     value: 'east-lothian',
@@ -409,7 +412,7 @@ module.exports = function locationsFor(country) {
                 },
                 {
                     value: 'west-dumbartonshire',
-                    label: 'West Dumbartonshire'
+                    label: 'West Dunbartonshire'
                 },
                 {
                     value: 'west-lothian',
@@ -477,95 +480,116 @@ module.exports = function locationsFor(country) {
 
     const wales = [
         {
-            label: 'Wales',
+            label: localise({ en: 'Wales', cy: 'Cymru' }),
             options: [
                 {
                     value: 'blaenau-gwent',
-                    label: 'Blaenau Gwent'
+                    label: localise({
+                        en: 'Blaenau Gwent',
+                        cy: 'Blaenau Gwent'
+                    })
                 },
                 {
                     value: 'bridgend',
-                    label: 'Bridgend'
+                    label: localise({
+                        en: 'Bridgend',
+                        cy: 'Pen-y-bont ar Ogwr'
+                    })
                 },
                 {
                     value: 'caerphilly',
-                    label: 'Caerphilly'
+                    label: localise({ en: 'Caerphilly', cy: 'Caerffili' })
                 },
                 {
                     value: 'cardiff',
-                    label: 'Cardiff'
+                    label: localise({ en: 'Cardiff', cy: 'Caerdydd' })
                 },
                 {
                     value: 'carmarthenshire',
-                    label: 'Carmarthenshire'
+                    label: localise({
+                        en: 'Carmarthenshire',
+                        cy: 'Sir Gaerfyrddin'
+                    })
                 },
                 {
                     value: 'ceredigion',
-                    label: 'Ceredigion'
+                    label: localise({ en: 'Ceredigion', cy: 'Ceredigion' })
                 },
                 {
                     value: 'conwy',
-                    label: 'Conwy'
+                    label: localise({ en: 'Conwy', cy: 'Conwy' })
                 },
                 {
                     value: 'denbighshire',
-                    label: 'Denbighshire'
+                    label: localise({ en: 'Denbighshire', cy: 'Sir Ddinbych' })
                 },
                 {
                     value: 'flintshire',
-                    label: 'Flintshire'
+                    label: localise({ en: 'Flintshire', cy: 'Sir y Fflint' })
                 },
                 {
                     value: 'gwynedd',
-                    label: 'Gwynedd'
+                    label: localise({ en: 'Gwynedd', cy: 'Gwynedd' })
                 },
                 {
                     value: 'isle-of-anglesey',
-                    label: 'Isle of Anglesey'
+                    label: localise({ en: 'Isle of Anglesey', cy: 'Ynys Môn' })
                 },
                 {
                     value: 'merthyr-tydfil',
-                    label: 'Merthyr Tydfil'
+                    label: localise({
+                        en: 'Merthyr Tydfil',
+                        cy: 'Merthyr Tydfil'
+                    })
                 },
                 {
                     value: 'monmouthshire',
-                    label: 'Monmouthshire'
+                    label: localise({ en: 'Monmouthshire', cy: 'Sir Fynwy' })
                 },
                 {
                     value: 'neath-port-talbot',
-                    label: 'Neath Port Talbot'
+                    label: localise({
+                        en: 'Neath Port Talbot',
+                        cy: 'Castell-nedd Port Talbot'
+                    })
                 },
                 {
                     value: 'newport',
-                    label: 'Newport'
+                    label: localise({ en: 'Newport', cy: 'Casnewydd' })
                 },
                 {
                     value: 'pembrokeshire',
-                    label: 'Pembrokeshire'
+                    label: localise({ en: 'Pembrokeshire', cy: 'Sir Benfro' })
                 },
                 {
                     value: 'powys',
-                    label: 'Powys'
+                    label: localise({ en: 'Powys', cy: 'Powys' })
                 },
                 {
                     value: 'rhondda-cynon-taf',
-                    label: 'Rhondda Cynon Taf (RCT)'
+                    label: localise({
+                        en: 'Rhondda Cynon Taf (RCT)',
+                        cy: 'Rhondda Cynon Taf'
+                    })
                 },
                 {
                     value: 'swansea',
-                    label: 'Swansea'
+                    label: localise({ en: 'Swansea', cy: 'Abertawe' })
                 },
                 {
                     value: 'the-vale-of-glamorgan',
-                    label: 'The Vale of Glamorgan'
+                    label: localise({
+                        en: 'The Vale of Glamorgan',
+                        cy: 'Bro Morgannwg'
+                    })
                 },
                 {
                     value: 'torfaen',
-                    label: 'Torfaen'
+                    label: localise({ en: 'Torfaen', cy: 'Torfaen' })
                 },
                 {
                     value: 'wrexham',
-                    label: 'Wrexham'
+                    label: localise({ en: 'Wrexham', cy: 'Wrecsam' })
                 }
             ]
         }

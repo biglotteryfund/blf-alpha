@@ -10,7 +10,7 @@ const valueToDate = value => {
     });
 };
 
-module.exports = function monthYear(joi) {
+module.exports = function(joi) {
     return {
         name: 'monthYear',
         base: joi.object({
@@ -21,8 +21,12 @@ module.exports = function monthYear(joi) {
             year: joi
                 .number()
                 .integer()
+                .min(1000)
                 .required()
         }),
+        language: {
+            pastDate: 'must be in the past'
+        },
         pre(value, state, options) {
             const date = valueToDate(value);
             if (date.isValid()) {

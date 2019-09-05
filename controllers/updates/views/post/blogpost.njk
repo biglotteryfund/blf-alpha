@@ -46,7 +46,7 @@
             <p class="u-margin-bottom-s">
                 <strong>{{ copy.datePublished }}:</strong>
                 <time datetime="{{ entry.postDate.date }}">
-                    {{ formatDate(entry.postDate.date, DATE_FORMATS.short) }}
+                    {{ formatDate(entry.postDate.date) }}
                 </time>
             </p>
         {% endif %}

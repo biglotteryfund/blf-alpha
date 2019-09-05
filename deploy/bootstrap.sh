@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Change ownership of app directory to web user
+chown -R www-data:www-data /var/www/biglotteryfund/
+
 # Configure the patterns for the CodeDeploy deployment group names
 TEST_FLEET="Test_Fleet";
 TEST_IN_PLACE="Test_In_Place";

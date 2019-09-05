@@ -1,11 +1,12 @@
 'use strict';
 const config = require('config');
 const moment = require('moment');
-const { isString } = require('lodash');
-
-const { getCurrentUrl, getAbsoluteUrl, localify } = require('../common/urls');
+const isString = require('lodash/isString');
 
 const features = config.get('features');
+
+const appData = require('./appData');
+const { getAbsoluteUrl, getCurrentUrl, isWelsh, localify } = require('./urls');
 
 /**
  * Set request locals
@@ -13,15 +14,40 @@ const features = config.get('features');
  * - Local methods for use in views that depend on the request
  */
 module.exports = function(req, res, next) {
+    /**
+     * Set current locale
+     */
+    if (isWelsh(req.url)) {
+        req.i18n.setLocale('cy');
+        res.setHeader('Content-Language', 'cy');
+    }
+
     const locale = req.i18n.getLocale();
+
+    /**
+     * Store locale state as request locals.
+     */
+    res.locals.locale = locale;
+    res.locals.localePrefix = isWelsh(req.url) ? '/welsh' : '';
+
+    /**
+     * Environment metadata
+     */
+    res.locals.appData = appData;
+
+    /**
+     * Is this page bilingual?
+     * i.e. do we have a Welsh translation
+     * Default to true unless overridden by a route
+     */
+    res.locals.isBilingual = true;
 
     /**
      * Feature flags
      */
     res.locals.enableSiteSurvey = features.enableSiteSurvey;
     res.locals.enableNameChangeMessage = features.enableNameChangeMessage;
-    res.locals.enableAwardsForAllApplications =
-        features.enableAwardsForAllApplications;
+    res.locals.hotjarId = features.enableHotjar && config.get('hotjarId');
 
     /**
      * Global copy
@@ -40,38 +66,21 @@ module.exports = function(req, res, next) {
             url: localify(locale)('/')
         },
         primaryLinks: [
-            {
-                label: navCopy.funding,
-                url: localify(locale)('/funding')
-            },
-            {
-                label: navCopy.updates,
-                url: localify(locale)('/news')
-            },
-            {
-                label: navCopy.insights,
-                url: localify(locale)('/insights')
-            },
-            {
-                label: navCopy.contact,
-                url: localify(locale)('/contact')
-            }
+            { label: navCopy.funding, url: localify(locale)('/funding') },
+            { label: navCopy.updates, url: localify(locale)('/news') },
+            { label: navCopy.insights, url: localify(locale)('/insights') },
+            { label: navCopy.contact, url: localify(locale)('/contact') }
         ],
         secondaryLinks: [
-            {
-                label: navCopy.about,
-                url: localify(locale)('/about')
-            },
-            {
-                label: navCopy.jobs,
-                url: localify(locale)('/jobs')
-            }
+            { label: navCopy.about, url: localify(locale)('/about') },
+            { label: navCopy.jobs, url: localify(locale)('/jobs') }
         ]
     };
 
     /**
      * Fallback hero image
-     * Used where there is no image but a hard requirement for the layout and the main image fails to load
+     * Used where there is no image but a hard requirement
+     * for the layout and the main image fails to load
      */
     res.locals.fallbackHeroImage = {
         small: '/assets/images/hero/hero-fallback-2019-small.jpg',
@@ -141,7 +150,7 @@ module.exports = function(req, res, next) {
      * @param {String} format
      * @return {String}
      */
-    res.locals.formatDate = function(dateString, format) {
+    res.locals.formatDate = function(dateString, format = 'D MMMM, YYYY') {
         return moment(dateString)
             .locale(locale)
             .format(format);

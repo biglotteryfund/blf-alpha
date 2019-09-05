@@ -59,10 +59,14 @@ module.exports = function({
 
     function stepProjectDetails() {
         return {
-            title: localise({ en: 'Project details', cy: '' }),
+            title: localise({ en: 'Project details', cy: 'Manylion prosiect' }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
-                    legend: localise({ en: 'Project details', cy: '' }),
+                    legend: localise({
+                        en: 'Project details',
+                        cy: 'Manylion prosiect'
+                    }),
                     fields: [fields.projectName, fields.projectDateRange]
                 }
             ]
@@ -77,25 +81,34 @@ module.exports = function({
          */
         const countryNoticeMessage = {
             title: localise({
-                en: `Applying for a project in England or Wales?`,
-                cy: ``
+                en: `Applying for a project in England?`,
+                cy: `Ymgeisio am brosiect yn Lloegr?`
             }),
             body: localise({
                 en: `
                     <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
                     <p><strong>Applying for a project in Northern Ireland?</strong></p>
                     <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
-                    <p>Only applicants in Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
+                    <p>Only applicants in Wales or Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
                 `,
-                cy: ``
+                cy: `
+                    <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hon yn lle</a>.</p>
+                    <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
+                    <p><a href="funding/programmes/awards-for-all-northern-ireland">Byddwch angen lawrlwytho ffurflen gais i ymgeisio</a>.</p>
+                    <p>Dim ond ymgeiswyr yng Nghymru neu'r Alban all ymgeisio drwy ein ffurflen ar-lein newydd ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn hygyrch i weddill y DU.</p>
+                `
             })
         };
 
         return {
-            title: localise({ en: 'Project country', cy: '' }),
+            title: localise({ en: 'Project country', cy: 'Gwlad y prosiect' }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
-                    legend: localise({ en: 'Project country', cy: '' }),
+                    legend: localise({
+                        en: 'Project country',
+                        cy: 'Gwlad y prosiect'
+                    }),
                     fields: [fields.projectCountry]
                 }
             ],
@@ -105,10 +118,17 @@ module.exports = function({
 
     function stepProjectLocation() {
         return {
-            title: localise({ en: 'Project location', cy: '' }),
+            title: localise({
+                en: 'Project location',
+                cy: 'Lleoliad y prosiect'
+            }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
-                    legend: localise({ en: 'Project location', cy: '' }),
+                    legend: localise({
+                        en: 'Project location',
+                        cy: 'Lleoliad y prosiect'
+                    }),
 
                     /**
                      * The project location fields are conditional based
@@ -133,12 +153,13 @@ module.exports = function({
 
     function stepYourIdea() {
         return {
-            title: localise({ en: 'Your idea', cy: '(WELSH) Your idea' }),
+            title: localise({ en: 'Your idea', cy: 'Eich syniad' }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Your idea',
-                        cy: '(WELSH) Your idea'
+                        cy: 'Eich syniad'
                     }),
                     fields: [
                         fields.yourIdeaProject,
@@ -154,13 +175,14 @@ module.exports = function({
         return {
             title: localise({
                 en: 'Project costs',
-                cy: '(WELSH) Project costs'
+                cy: 'Costau’r prosiect'
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Project costs',
-                        cy: '(WELSH) Project costs'
+                        cy: 'Costau’r prosiect'
                     }),
                     fields: [fields.projectBudget, fields.projectTotalCosts]
                 }
@@ -172,13 +194,14 @@ module.exports = function({
         return {
             title: localise({
                 en: `Specific groups of people`,
-                cy: ``
+                cy: `Grwpiau penodol o bobl`
             }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
                         en: `Specific groups of people`,
-                        cy: ``
+                        cy: `Grwpiau penodol o bobl`
                     }),
                     introduction: localise({
                         en: `<p>
@@ -196,7 +219,20 @@ module.exports = function({
                             and <strong>will not</strong> be used to decide whether you will be
                             awarded funding for your project.
                         </p>`,
-                        cy: ``
+                        cy: `<p>
+                            Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.
+                        </p>
+                        <p>
+                            Mae’n bwysig bod mor gywir â phosibl gyda’ch atebion. 
+                            Byddwn yn defnyddio’r wybodaeth hyn i wneud gwell benderfyniadau am 
+                            sut mae ein hariannu yn cefnogi pobl a chymunedau i ffynnu. 
+                            Byddwn hefyd yn ei ddefnyddio i ddweud wrth bobl am effaith 
+                            ein hariannu a phwy mae’n ei gyrraedd.
+                        </p>
+                        <p>
+                            Er hynny, <strong>nid</strong> yw’r wybodaeth rydych wedi’i ddarparu yma’n cael ei asesu 
+                            a <strong>ni fydd</strong> yn cael ei ddefnyddio i benderfynu a fyddwch yn llwyddiannus yn eich cais.
+                        </p>`
                     }),
                     fields: [fields.beneficiariesGroupsCheck]
                 }
@@ -209,13 +245,13 @@ module.exports = function({
         return {
             title: localise({
                 en: 'Specific groups of people',
-                cy: ''
+                cy: 'Grwpiau penodol o bobl'
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Specific groups of people',
-                        cy: ''
+                        cy: 'Grwpiau penodol o bobl'
                     }),
                     get fields() {
                         const allFields = [
@@ -248,12 +284,12 @@ module.exports = function({
 
     function stepEthnicBackground() {
         return {
-            title: localise({ en: 'Ethnic background', cy: '' }),
+            title: localise({ en: 'Ethnic background', cy: 'Cefndir ethnig' }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Ethnic background',
-                        cy: ''
+                        cy: 'Cefndir ethnig'
                     }),
                     fields: conditionalFields(
                         [fields.beneficiariesEthnicBackground],
@@ -269,10 +305,10 @@ module.exports = function({
 
     function stepGender() {
         return {
-            title: localise({ en: 'Gender', cy: '' }),
+            title: localise({ en: 'Gender', cy: 'Rhyw' }),
             fieldsets: [
                 {
-                    legend: localise({ en: 'Gender', cy: '' }),
+                    legend: localise({ en: 'Gender', cy: 'Rhyw' }),
                     fields: conditionalFields(
                         [fields.beneficiariesGroupsGender],
                         includeIfBeneficiaryType(BENEFICIARY_GROUPS.GENDER, [
@@ -286,10 +322,10 @@ module.exports = function({
 
     function stepAge() {
         return {
-            title: localise({ en: 'Age', cy: '' }),
+            title: localise({ en: 'Age', cy: 'Oedran' }),
             fieldsets: [
                 {
-                    legend: localise({ en: 'Age', cy: '' }),
+                    legend: localise({ en: 'Age', cy: 'Oedran' }),
                     fields: conditionalFields(
                         [fields.beneficiariesGroupsAge],
                         includeIfBeneficiaryType(BENEFICIARY_GROUPS.AGE, [
@@ -303,10 +339,13 @@ module.exports = function({
 
     function stepDisabledPeople() {
         return {
-            title: localise({ en: 'Disabled people', cy: '' }),
+            title: localise({ en: 'Disabled people', cy: 'Pobl anabl' }),
             fieldsets: [
                 {
-                    legend: localise({ en: 'Disabled people', cy: '' }),
+                    legend: localise({
+                        en: 'Disabled people',
+                        cy: 'Pobl anabl'
+                    }),
                     fields: conditionalFields(
                         [fields.beneficiariesGroupsDisabledPeople],
                         includeIfBeneficiaryType(
@@ -321,12 +360,15 @@ module.exports = function({
 
     function stepReligionOrFaith() {
         return {
-            title: localise({ en: 'Religion or belief', cy: '' }),
+            title: localise({
+                en: 'Religion or belief',
+                cy: 'Crefydd neu gred'
+            }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Religion or belief',
-                        cy: ''
+                        cy: 'Crefydd neu gred'
                     }),
                     get fields() {
                         const allFields = [
@@ -346,25 +388,29 @@ module.exports = function({
         };
     }
 
+    function isForCountry(country) {
+        const currentCountry = get('projectCountry')(data);
+        return currentCountry === country;
+    }
+
     /**
      * Include fields based on the current country.
      */
     function includeIfCountry(country, fields) {
-        const currentCountry = get('projectCountry')(data);
-        return currentCountry === country ? fields : [];
+        return isForCountry(country) ? fields : [];
     }
 
     function stepWelshLanguage() {
         return {
             title: localise({
                 en: `People who speak Welsh`,
-                cy: ``
+                cy: `Pobl sy’n siarad Cymraeg`
             }),
             fieldsets: [
                 {
                     legend: localise({
                         en: `People who speak Welsh`,
-                        cy: ``
+                        cy: `Pobl sy’n siarad Cymraeg`
                     }),
                     fields: conditionalFields(
                         [fields.beneficiariesWelshLanguage],
@@ -379,12 +425,15 @@ module.exports = function({
 
     function stepNorthernIrelandCommunity() {
         return {
-            title: localise({ en: `Northern Ireland community`, cy: `` }),
+            title: localise({
+                en: `Northern Ireland community`,
+                cy: `Cymuned Gogledd Iwerddon`
+            }),
             fieldsets: [
                 {
                     legend: localise({
                         en: `Northern Ireland community`,
-                        cy: ``
+                        cy: `Cymuned Gogledd Iwerddon`
                     }),
                     fields: conditionalFields(
                         [fields.beneficiariesNorthernIrelandCommunity],
@@ -399,12 +448,15 @@ module.exports = function({
 
     function stepOrganisationDetails() {
         return {
-            title: localise({ en: 'Organisation details', cy: '' }),
+            title: localise({
+                en: 'Organisation details',
+                cy: 'Manylion sefydliad'
+            }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Organisation details',
-                        cy: ''
+                        cy: 'Manylion sefydliad'
                     }),
                     fields: [
                         fields.organisationLegalName,
@@ -419,10 +471,17 @@ module.exports = function({
 
     function stepOrganisationType() {
         return {
-            title: localise({ en: 'Organisation type', cy: '' }),
+            title: localise({
+                en: 'Organisation type',
+                cy: 'Math o sefydliad'
+            }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
-                    legend: localise({ en: 'Organisation type', cy: '' }),
+                    legend: localise({
+                        en: 'Organisation type',
+                        cy: 'Math o sefydliad'
+                    }),
                     fields: [fields.organisationType]
                 }
             ]
@@ -448,18 +507,19 @@ module.exports = function({
     function stepOrganisationSubType() {
         let title = localise({
             en: 'Organisation sub-type',
-            cy: ''
+            cy: 'Is-fath y sefydliad'
         });
 
         if (currentOrganisationType === ORGANISATION_TYPES.STATUTORY_BODY) {
             title = localise({
                 en: 'Type of statutory body',
-                cy: ''
+                cy: 'Math o gorff statudol'
             });
         }
 
         return {
             title: title,
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: title,
@@ -495,12 +555,16 @@ module.exports = function({
         );
 
         return {
-            title: localise({ en: 'Registration numbers', cy: '' }),
+            title: localise({
+                en: 'Registration numbers',
+                cy: 'Rhifau cofrestru'
+            }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Registration numbers',
-                        cy: ''
+                        cy: 'Rhifau cofrestru'
                     }),
                     get fields() {
                         const allFields = [
@@ -532,12 +596,16 @@ module.exports = function({
             get('organisationStartDate.isBeforeMin')(data) === true;
 
         return {
-            title: localise({ en: 'Organisation finances', cy: '' }),
+            title: localise({
+                en: 'Organisation finances',
+                cy: 'Cyllid y sefydliad'
+            }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Organisation finances',
-                        cy: ''
+                        cy: 'Cyllid y sefydliad'
                     }),
                     get fields() {
                         const allFields = [
@@ -567,12 +635,12 @@ module.exports = function({
 
     function stepSeniorContact() {
         return {
-            title: localise({ en: 'Senior contact', cy: '' }),
+            title: localise({ en: 'Senior contact', cy: 'Uwch gyswllt' }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Who is your senior contact?',
-                        cy: ''
+                        cy: 'Pwy yw eich uwch gyswllt?'
                     }),
                     introduction: localise({
                         en: `
@@ -585,7 +653,16 @@ module.exports = function({
                             any funding is delivered as set out in the application form, and that the
                             funded organisation meets our monitoring requirements.
                         </p>`,
-                        cy: ``
+                        cy: `
+                        <p>
+                            Rhowch fanylion cyswllt uwch aelod o’ch sefydliad.
+                        </p>
+                        <p>
+                            Rhaid i’ch uwch gyswllt fod dros 18 oed a’n gyfreithiol gyfrifol 
+                            am sicrhau fod y cais hwn yn cael ei gefnogi gan y sefydliad sy’n ymgeisio, 
+                            bod unrhyw arian yn cael ei ddarparu fel y gosodwyd yn y ffurflen gais, a bod y 
+                            sefydliad a ariennir yn cwrdd â’n gofynion monitro.
+                        </p>`
                     }),
                     get fields() {
                         const allFields = [
@@ -596,8 +673,10 @@ module.exports = function({
                             fields.seniorContactAddressHistory,
                             fields.seniorContactEmail,
                             fields.seniorContactPhone,
+                            fields.seniorContactLanguagePreference,
                             fields.seniorContactCommunicationNeeds
                         ];
+
                         const filteredFields = compact([
                             fields.seniorContactRole,
                             fields.seniorContactName,
@@ -609,6 +688,8 @@ module.exports = function({
                                 fields.seniorContactAddressHistory,
                             fields.seniorContactEmail,
                             fields.seniorContactPhone,
+                            isForCountry('wales') &&
+                                fields.seniorContactLanguagePreference,
                             fields.seniorContactCommunicationNeeds
                         ]);
                         return conditionalFields(allFields, filteredFields);
@@ -620,12 +701,12 @@ module.exports = function({
 
     function stepMainContact() {
         return {
-            title: localise({ en: 'Main contact', cy: '' }),
+            title: localise({ en: 'Main contact', cy: 'Prif gyswllt' }),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'Who is your main contact?',
-                        cy: ''
+                        cy: 'Pwy yw eich prif gyswllt?'
                     }),
                     get introduction() {
                         const seniorName = getContactFullName(
@@ -633,7 +714,7 @@ module.exports = function({
                         );
                         const seniorNameMsg = seniorName
                             ? `, ${seniorName}`
-                                : '';
+                            : '';
 
                         return localise({
                             en:
@@ -657,23 +738,37 @@ module.exports = function({
                                 <li>or related by blood.</li> 
                             </ul>
                             `,
-                            cy: ''
+                            cy:
+                                safeHtml`<p>
+                                Rhowch fanylion cyswllt y person gallwn gysylltu â nhw os 
+                                oes gennym unrhyw gwestiynau. Y prif gyswllt fel arfer yw’r 
+                                person sy’n llenwi’r ffurflen – felly mae’n debyg mai chi yw hwn. 
+                                Mae’r prif gyswllt angen bod o’r sefydliad sy’n ymgeisio, ond nid 
+                                oes rhaid iddynt ddal unrhyw safle penodol o fewn y sefydliad.    
+                            </p>
+                            <p>
+                                Rhaid i’r prif gyswllt fod yn wahanol i’r uwch gyswllt` +
+                                seniorNameMsg +
+                                `. Ni all y ddau gyswllt hefyd fod:
+                            </p>
+                            <ul>                            
+                                <li>yn briod i’w gilydd</li>
+                                <li>mewn perthynas hir dymor a’u gilydd</li>
+                                <li>yn byw yn yr un cyfeiriad</li>
+                                <li>Neu yn perthyn drwy waed.</li>
+                            </ul>
+                            `
                         });
                     },
                     get fields() {
-                        const showContactConfirmationQuestion = config.get(
-                            'awardsForAll.showContactConfirmationQuestion'
-                        );
-
                         const allFields = compact([
                             fields.mainContactName,
-                            showContactConfirmationQuestion &&
-                                fields.mainContactIsValid,
                             fields.mainContactDateOfBirth,
                             fields.mainContactAddress,
                             fields.mainContactAddressHistory,
                             fields.mainContactEmail,
                             fields.mainContactPhone,
+                            fields.mainContactLanguagePreference,
                             fields.mainContactCommunicationNeeds
                         ]);
 
@@ -681,8 +776,6 @@ module.exports = function({
                             allFields,
                             compact([
                                 fields.mainContactName,
-                                showContactConfirmationQuestion &&
-                                    fields.mainContactIsValid,
                                 includeAddressAndDob() &&
                                     fields.mainContactDateOfBirth,
                                 includeAddressAndDob() &&
@@ -691,6 +784,8 @@ module.exports = function({
                                     fields.mainContactAddressHistory,
                                 fields.mainContactEmail,
                                 fields.mainContactPhone,
+                                isForCountry('wales') &&
+                                    fields.mainContactLanguagePreference,
                                 fields.mainContactCommunicationNeeds
                             ])
                         );
@@ -725,7 +820,8 @@ module.exports = function({
                         {
                             msg: localise({
                                 en: `This sort code is not valid with this account number`,
-                                cy: ''
+                                cy:
+                                    'Nid yw’r cod didoli’n ddilys â’r rhif cyfrif hwn'
                             }),
                             param: 'bankSortCode',
                             field: fields.bankSortCode
@@ -733,7 +829,8 @@ module.exports = function({
                         {
                             msg: localise({
                                 en: `This account number is not valid with this sort code`,
-                                cy: ''
+                                cy:
+                                    'Nid yw’r rhif cyfrif yn ddilys â’r cod didoli hwn'
                             }),
                             param: 'bankAccountNumber',
                             field: fields.bankAccountNumber
@@ -746,7 +843,8 @@ module.exports = function({
                             msg: localise({
                                 en: oneLine`This bank account cannot receive BACS payments,
                                     which is a requirement for funding`,
-                                cy: ''
+                                cy: oneLine`Ni all y cyfrif banc hwn dderbyn taliadau BACS, 
+                                    sy’n ofynnol i gael eich ariannu.`
                             }),
                             param: 'bankAccountNumber',
                             field: fields.bankAccountNumber
@@ -784,12 +882,13 @@ module.exports = function({
 
     function stepBankAccount() {
         return {
-            title: localise({ en: 'Bank account', cy: '' }),
+            title: localise({ en: 'Bank account', cy: 'Cyfrif banc' }),
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
                     legend: localise({
                         en: 'What are your bank account details?',
-                        cy: ''
+                        cy: 'Beth yw eich manylion cyfrif banc?'
                     }),
                     introduction: localise({
                         en: `<p>
@@ -799,7 +898,12 @@ module.exports = function({
                             We can't transfer money into certain types of bank
                             accounts like Tide, Cashplus and Paypal.
                         </p>`,
-                        cy: ''
+                        cy: `<p>
+                            Rydym angen eich manylion banc i dalu’r arian i’ch cyfrif – os yw eich cais yn llwyddiannus. 
+                        </p>
+                        <p><strong>Ni allwn dalu i mewn i bob cyfrif banc</strong>:
+                            Ni allwn drosglwyddo arian i fathau penodol o gyfrifon fel Tide, Cashplush a Paypal.
+                        </p>`
                     }),
                     fields: [
                         fields.bankAccountName,
@@ -867,15 +971,67 @@ module.exports = function({
                 <li>Account number</li>
                 <li>Sort code.</li>
             </ul>`,
-            cy: ''
+            cy: `
+            <p><strong>
+                Rhaid ichi atodi eich cyfriflen banc fel ffeil PDF, JPEG neu PNG. 
+                Yn anffodus, ni allwn dderbyn dogfennau Word, 
+                ond mae lluniau o’ch cyfriflenni banc yn hollol iawn.
+            </strong></p>
+            
+            <div class="o-media u-padded u-tone-background-tint u-margin-bottom">
+                <a href="../help/bank-statement" target="_blank">
+                    <img src="/assets/images/apply/afa-bank-statement-example-small-welsh.jpg"
+                         alt="Enghraifft o gyfriflen banc rydym ei angen gennych"
+                         class="o-media__figure-gutter"
+                         width="300" />
+                    <span class="u-visually-hidden">Yn agor mewn ffenest newydd</span>
+                 </a>
+                <div class="o-media__body">
+                    <p><strong>
+                        Sicrhewch fod y canlynol yn glir ar eich cyfriflen banc:
+                    </strong></p>
+                    <ul>
+                        <li>Enw cyfreithiol eich sefydliad</li>
+                        <li>Y cyfeiriad mae’r cyfriflenni’n cael eu hanfon</li>
+                        <li>Enw’r banc</li>
+                        <li>Rhif cyfrif</li>
+                        <li>Cod didoli</li>
+                        <li>Dyddiad (Rhaid bod o fewn y tri mis ddiwethaf)</li>
+                    </ul>
+                    <p>Dyma <a target="_blank" href="../help/bank-statement">
+                        enghraifft o’r hyn rydym yn edrych amdano
+                    </a>
+                    <span class="u-visually-hidden"> Yn agor mewn ffenest newydd</span>.</p>
+                </div>
+            </div>
+            <p>
+                <strong>Rhaid i’ch cyfriflen fod yn llai na thri mis oed</strong>.
+                I gyfrifon banc sydd wedi agor o fewn y tri mis diwethaf,
+                gallwn dderbyn llythyr o groeso gan y banc.
+            </p>
+            <p><strong>Os ydych yn ysgol yn defnyddio cyfrif banc awdurdod lleol</strong></p>
+            <p>
+                Byddwn angen llythyr gan yr awdurdod lleol wedi’i ddyddio o
+                fewn y tri mis ddiwethaf. Dylai ddangos: 
+            </p> 
+            <ul>
+                <li>Enw eich ysgol</li>
+                <li>Enw’r cyfrif banc</li>
+                <li>Rhif cyfrif</li>
+                <li>Cod didoli</li>
+            </ul>`
         });
 
         return {
-            title: localise({ en: 'Bank statement', cy: '' }),
+            title: localise({ en: 'Bank statement', cy: 'Cyfriflen banc' }),
+            noValidate: config.get('features.enableNoValidate'),
             isMultipart: true,
             fieldsets: [
                 {
-                    legend: localise({ en: 'Bank statement', cy: '' }),
+                    legend: localise({
+                        en: 'Bank statement',
+                        cy: 'Cyfriflen banc'
+                    }),
                     introduction: introduction,
                     fields: [fields.bankStatement]
                 }
@@ -884,6 +1040,11 @@ module.exports = function({
     }
 
     function stepTerms() {
+        const title = localise({
+            en: 'Terms and conditions of your grant',
+            cy: 'Telerau ac Amodau eich grant'
+        });
+
         const footer = localise({
             en: `<p>
                 We know the vast majority of the many thousands who
@@ -908,20 +1069,35 @@ module.exports = function({
                 2 St James’ Gate, Newcastle upon Tyne, NE1 4BE.
              </p>
              <p>When you click submit the Terms and Conditions as agreed to above become binding.</p>`,
-            cy: ''
+            cy: `<p>
+                Rydym yn gwybod bod y rhan fwyaf o’r miloedd sy’n 
+                chwilio am arian gennym yn ddiffuant. Er hynny, rydym 
+                weithiau yn derbyn ceisiadau twyllodrus ac felly mae gennym 
+                ddyletswydd i wneud gwiriadau ar unigolion mewn sefydliadau 
+                sy’n ymgeisio am grantiau. Bydd y wybodaeth bersonol rydym wedi’i 
+                gasglu gennych felly yn cael ei rannu gydag asiantaethau atal twyll, 
+                a fydd yn ei ddefnyddio i atal twyll a gwyngalchu arian, 
+                ac i wireddu eich hunaniaeth. Os oes twyll yn cael ei ganfod, 
+                gellid eich gwrthod rhag rhai gwasanaethau, arian neu gyflogaeth.
+            </p>
+            <p>
+                Gall gwybodaeth pellach ar sut bydd eich gwybodaeth yn cael ei ddefnyddio gennym a’r 
+                asiantaethau atal twyll hyn, eich hawliau gwarchod data a sut i gysylltu â ni, ei ganfod yn ein 
+                Hysbysiad Diogelu Data a Phreifatrwydd llawn, sydd wedi’i gyhoeddi ar ein gwefan 
+                <a href="/welsh/about/customer-service/data-protection">https://www.tnlcommunityfund.org.uk/welsh/about/customer-service/data-protection</a>. 
+                Cysylltwch â ni i ofyn am gopi caled drwy ffonio ein llinell gynghori ar 0300 123 0735,
+                neu drwy ysgrifennu i Cronfa Gymunedol y Loteri Genedlaethol, 10fed Llawr,
+                Tŷ Helmont, Ffordd Churchill, Caerdydd, CF10 2DY
+            </p>
+            <p>Pan fyddwch yn clicio anfon, mae’r Telerau ac Amodau fel y cytunwyd uchod yn dod yn rhwymol.</p>`
         });
 
         return {
-            title: localise({
-                en: 'Terms and conditions of your grant',
-                cy: ''
-            }),
+            title: title,
+            noValidate: config.get('features.enableNoValidate'),
             fieldsets: [
                 {
-                    legend: localise({
-                        en: 'Terms and conditions of your grant',
-                        cy: ''
-                    }),
+                    legend: title,
                     introduction: `<ol class="o-nested-numbers">
                         ${localise(terms)
                             .map(
@@ -961,15 +1137,23 @@ module.exports = function({
             country: get('projectCountry')(data),
             overview: [
                 {
-                    label: localise({ en: 'Organisation', cy: '' }),
+                    label: localise({ en: 'Organisation', cy: 'Sefydliad' }),
                     value: organisation
                 },
                 {
-                    label: localise({ en: 'Project dates', cy: '' }),
-                    value: projectDateRange && formatDateRange(projectDateRange)
+                    label: localise({
+                        en: 'Project dates',
+                        cy: 'Dyddiadau’r prosiect'
+                    }),
+                    value:
+                        projectDateRange &&
+                        formatDateRange(locale)(projectDateRange)
                 },
                 {
-                    label: localise({ en: 'Requested amount', cy: '' }),
+                    label: localise({
+                        en: 'Requested amount',
+                        cy: 'Swm y gofynnwyd amdano'
+                    }),
                     value: budget.length > 0 && `£${budgetSum.toLocaleString()}`
                 }
             ]
@@ -1006,10 +1190,8 @@ module.exports = function({
     const form = {
         title: localise({
             en: 'National Lottery Awards for All',
-            cy: ''
+            cy: 'Arian i Bawb y Loteri Genedlaethol'
         }),
-        // @TODO: Re-enable when welsh translation has been added
-        isBilingual: false,
         allFields: fields,
         featuredErrorsAllowList: [
             'projectDateRange',
@@ -1019,20 +1201,22 @@ module.exports = function({
             'mainContactPhone'
         ],
         summary: summary(),
-        schemaVersion: 'v1.0',
+        schemaVersion: 'v1.1',
         forSalesforce: forSalesforce,
         sections: [
             {
                 slug: 'your-project',
                 title: localise({
                     en: 'Your project',
-                    cy: '(WELSH) Your project'
+                    cy: 'Eich prosiect'
                 }),
                 summary: localise({
                     en: oneLine`Please tell us about your project in this section.
                         This is the most important section when it comes to
                         making a decision about whether you will receive funding.`,
-                    cy: ``
+                    cy: oneLine`Dywedwch wrthym am eich prosiect yn yr adran hon. 
+                        Dyma’r adran bwysicaf pan fydd yn dod i wneud penderfyniad p’un 
+                        a ydych wedi bod yn llwyddiannus ai beidio.`
                 }),
                 steps: [
                     stepProjectDetails(),
@@ -1046,12 +1230,15 @@ module.exports = function({
                 slug: 'beneficiaries',
                 title: localise({
                     en: 'Who will benefit from your project?',
-                    cy: ''
+                    cy: 'Pwy fydd yn elwa o’ch prosiect?'
                 }),
-                shortTitle: localise({ en: 'Who will benefit', cy: '' }),
+                shortTitle: localise({
+                    en: 'Who will benefit',
+                    cy: 'Pwy fydd yn elwa'
+                }),
                 summary: localise({
                     en: `We want to hear more about the people who will benefit from your project.`,
-                    cy: ``
+                    cy: `Rydym eisiau clywed mwy am y bobl a fydd yn elwa o’ch prosiect.`
                 }),
                 steps: [
                     stepBeneficiariesCheck(),
@@ -1067,12 +1254,17 @@ module.exports = function({
             },
             {
                 slug: 'organisation',
-                title: localise({ en: 'Your organisation', cy: '' }),
+                title: localise({
+                    en: 'Your organisation',
+                    cy: 'Eich sefydliad'
+                }),
                 summary: localise({
                     en: oneLine`Please tell us about your organisation,
                         including legal name, registered address and income.
                         This helps us understand the type of organisation you are.`,
-                    cy: ''
+                    cy: oneLine`Dywedwch wrthym am eich sefydliad, gan gynnwys yr enw cyfreithiol, 
+                        cyfeiriad cofrestredig ac incwm. Mae hyn yn ein helpu 
+                        i ddeall pa fath o sefydliad ydych.`
                 }),
                 steps: [
                     stepOrganisationDetails(),
@@ -1084,51 +1276,62 @@ module.exports = function({
             },
             {
                 slug: 'senior-contact',
-                title: localise({ en: 'Senior contact', cy: '' }),
+                title: localise({ en: 'Senior contact', cy: 'Uwch gyswllt' }),
                 summary: localise({
                     en: oneLine`Please provide details for your senior contact.
                         This person will be legally responsible for the funding.
                         They can't be married to, in a long-term relationship with,
                         living with, or related to the main contact.`,
-                    cy: ``
+                    cy: oneLine`Darparwch fanylion ar gyfer eich uwch gyswllt. 
+                        Bydd y person yma’n gyfreithiol gyfrifol am yr arian. 
+                        Ni allent fod yn briod i, mewn perthynas hir dymor â, 
+                        yn byw gyda na’n perthyn drwy waed i’r prif gyswllt.`
                 }),
                 steps: [stepSeniorContact()]
             },
             {
                 slug: 'main-contact',
-                title: localise({ en: 'Main contact', cy: '' }),
+                title: localise({ en: 'Main contact', cy: 'Prif gyswllt' }),
                 summary: localise({
                     en: oneLine`Please provide details for your main contact.
                         This will be the first person we contact if we
                         need to discuss your project.`,
-                    cy: ``
+                    cy: oneLine`Darparwch fanylion ar gyfer eich prif gyswllt. 
+                        Dyma fydd y person cyntaf i ni gysylltu â nhw os 
+                        byddwn angen trafod eich prosiect.`
                 }),
                 steps: [stepMainContact()]
             },
             {
                 slug: 'bank-details',
-                title: localise({ en: 'Bank details', cy: '' }),
+                title: localise({ en: 'Bank details', cy: 'Manylion banc' }),
                 summary: localise({
                     en: oneLine`Please provide your bank details.
                         Before you submit your application you will
                         need to attach a copy of a bank statement
                         that is less than three months old`,
-                    cy: ''
+                    cy: oneLine`Darparwch eich manylion banc. 
+                        Cyn i chi anfon eich cais bydd angen i chi 
+                        atodi copi o’ch cyfriflen banc sy’n llai na tri mis oed.`
                 }),
                 steps: [stepBankAccount(), stepBankStatement()]
             },
             {
                 slug: 'terms-and-conditions',
-                title: localise({ en: 'Terms and conditions', cy: '' }),
+                title: localise({
+                    en: 'Terms and conditions',
+                    cy: 'Telerau ac Amodau'
+                }),
                 summary: localise({
                     en: oneLine`In order to submit your application,
                         you will need to agree to our terms and conditions.`,
-                    cy: ''
+                    cy: oneLine`Er mwyn anfon eich cais, 
+                        bydd angen i chi gytuno â'n Telerau ac Amodau.`
                 }),
                 steps: [stepTerms()]
             }
         ]
     };
 
-    return new FormModel(form, data);
+    return new FormModel(form, data, locale);
 };

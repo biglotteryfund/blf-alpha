@@ -2,17 +2,32 @@
 
 The following documents the data schema for Awards for All applications when submitted to Salesforce.
 
-Each submission has two top-level keys: `meta` which contains metadata about the submission and `application` which contains the applicants answers.
+## Changelog
+
+
+### v1.1
+
+- Added `locale` to meta
+- Added `mainContactLanguagePreference` and `seniorContactLanguagePreference` fields in Wales. 
+
+### v1.0
+       
+Initial release                                                                                     
+
+---
 
 ## Example data
+
+Each submission has two top-level keys: `meta` which contains metadata about the submission and `application` which contains the applicants answers.
 
 ```json
 {
     "meta": {
         "form": "awards-for-all",
-        "schemaVersion": "v1.0",
+        "schemaVersion": "v1.x",
         "environment": "production",
         "commitId": "b4ecf18eae01d34b296e9388f387cc42bf7c0f93",
+        "locale": "en",
         "username": "example@example.com",
         "applicationId": "e9ae2cc4-fd7b-4fe5-bd55-17317a288fd4",
         "startedAt": "2019-05-17T15:34:13.000Z"
@@ -113,7 +128,8 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         },
         "mainContactEmail": "Lizzie87@example.com",
         "mainContactPhone": "0345 4 10 20 30",
-        "mainContactCommunicationNeeds": [],
+        "mainContactLanguagePreference": "english",
+        "mainContactCommunicationNeeds": "email",
         "seniorContactName": {
             "firstName": "Maribel",
             "lastName": "D'Amore"
@@ -132,7 +148,8 @@ Each submission has two top-level keys: `meta` which contains metadata about the
         },
         "seniorContactEmail": "Leora.Walker66@example.org",
         "seniorContactPhone": "020 7211 1888",
-        "seniorContactCommunicationNeeds": [],
+        "seniorContactLanguagePreference": "english",
+        "seniorContactCommunicationNeeds": "email",
         "bankAccountName": "Kulas - Greenfelder",
         "bankSortCode": "108800",
         "bankAccountNumber": "00012345",
@@ -160,6 +177,7 @@ Each submission has two top-level keys: `meta` which contains metadata about the
 | **schemaVersion** | `string` | Active schema version, e.g. `v1.0`                         |
 | **environment**   | `string` | `development`, `test`, or `production`                     |
 | **commitId**      | `string` | Git commit for website at the time of submission           |
+| **locale**        | `string` | Locale the form was submitted in: `en` or `cy`             |
 | **username**      | `string` | Username for the logged in user                            |
 | **applicationId** | `string` | UUID reference to the application as stored by the website |
 | **startedAt**     | `string` | ISO date string for the date the application was started   |
@@ -483,6 +501,10 @@ type: `string`
 
 type: `string`
 
+### mainContactLanguagePreference
+
+type: `string`
+
 ### mainContactCommunicationNeeds
 
 type: `string`
@@ -553,6 +575,10 @@ Object with the following properties
 type: `string`
 
 ### seniorContactPhone
+
+type: `string`
+
+### seniorContactLanguagePreference
 
 type: `string`
 

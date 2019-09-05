@@ -32,37 +32,26 @@
     "indexable": ["www.biglotteryfund.org.uk", "www.tnlcommunityfund.org.uk"],
     "base": "https://www.tnlcommunityfund.org.uk"
   },
-  "dateFormats": {
-    "month": "MMMM YYYY",
-    "short": "D MMMM, YYYY",
-    "numeric": "D/MM/YYYY",
-    "full": "dddd D MMMM YYYY",
-    "fullTimestamp": "dddd D MMM YYYY (hh:mm a)"
-  },
-  "i18n": {
-    "urlPrefix": {
-      "cy": "/welsh"
-    }
-  },
   "features": {
     "enableAllowLocalhost": false,
-    "enableAwardsForAllApplications": true,
     "enableCloudWatchLogs": true,
-    "enableDigitalFundApplications": false,
     "enableHotjar": false,
     "enableNameChangeMessage": true,
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
     "enableSeeders": false,
     "enableSiteSurvey": true,
-    "enableLocalAntivirus": false
+    "enableLocalAntivirus": false,
+    "enableNoValidate": true
   },
   "awardsForAll": {
-    "allowedCountries": ["scotland"],
-    "showContactConfirmationQuestion": true
+    "allowedCountries": ["scotland", "wales"]
   },
   "cookies": {
     "session": "blf-alpha-session"
+  },
+  "session": {
+    "expiryInSeconds": 7200
   },
   "hotjarId": 1036292,
   "googleAnalyticsCode": "UA-98908627-1"

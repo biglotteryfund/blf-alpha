@@ -10,17 +10,17 @@ const logger = require('../../common/logger').child({
 const {
     rateLimiterConfigs,
     RateLimiter
-} = require('../../middleware/rate-limiter');
+} = require('../../common/rate-limiter');
 
 const {
     injectCopy,
     injectBreadcrumbs
-} = require('../../middleware/inject-content');
+} = require('../../common/inject-content');
 const {
     requireNoAuth,
     redirectUrlWithFallback
-} = require('../../middleware/authed');
-const { csrfProtection } = require('../../middleware/cached');
+} = require('../../common/authed');
+const { csrfProtection } = require('../../common/cached');
 
 const router = express.Router();
 

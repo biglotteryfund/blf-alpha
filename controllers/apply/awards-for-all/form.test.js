@@ -117,7 +117,6 @@ function mockFullForm({
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName()
         },
-        mainContactIsValid: 'yes',
         mainContactDateOfBirth: mockDateOfBirth(16),
         mainContactAddress: mockAddress(),
         mainContactAddressHistory: {
@@ -327,7 +326,17 @@ describe('Project details', () => {
             {
                 projectDateRange: {
                     startDate: { day: 1, month: 1, year: 2020 },
-                    endDate: { day: 1, month: 1, year: 2030 }
+                    endDate: { day: 1, month: 1, year: 2021 }
+                }
+            },
+            [expect.stringMatching(/Date you start the project must be after/)]
+        );
+
+        assertMessagesByKey(
+            {
+                projectDateRange: {
+                    startDate: toDateParts(moment().add('25', 'weeks')),
+                    endDate: toDateParts(moment().add('2', 'years'))
                 }
             },
             [expect.stringMatching(/Date you end the project must be within/)]
@@ -904,7 +913,6 @@ describe('Contacts', () => {
 
             checkFieldsForSection('main-contact', [
                 'mainContactName',
-                'mainContactIsValid',
                 'mainContactEmail',
                 'mainContactPhone',
                 'mainContactCommunicationNeeds'
@@ -1027,6 +1035,36 @@ describe('Contacts', () => {
             );
         }
     );
+
+    test.each([
+        'mainContactLanguagePreference',
+        'seniorContactLanguagePreference'
+    ])('%p must exist and be a valid choice for Wales', function(fieldName) {
+        assertValidByKey({
+            projectCountry: 'england'
+        });
+
+        assertMessagesByKey(
+            {
+                projectCountry: 'wales',
+                [fieldName]: null
+            },
+            [expect.stringContaining('Select a language')]
+        );
+
+        assertValidByKey({
+            projectCountry: 'wales',
+            [fieldName]: 'welsh'
+        });
+
+        assertMessagesByKey(
+            {
+                projectCountry: 'wales',
+                [fieldName]: 'klingon'
+            },
+            [expect.stringContaining('Select a language')]
+        );
+    });
 });
 
 describe('Bank details', () => {

@@ -5,12 +5,18 @@ const MIN_AGE_SENIOR_CONTACT = 18;
 const MAX_BUDGET_TOTAL_GBP = 10000;
 const MIN_BUDGET_TOTAL_GBP = 300;
 
+const FREE_TEXT_MAXLENGTH = {
+    small: 40,
+    medium: 80,
+    large: 255
+};
+
 const ORG_MIN_AGE = {
     amount: 15,
     unit: 'months',
     label: {
         en: '15 months',
-        cy: ''
+        cy: '15 mis'
     }
 };
 
@@ -19,7 +25,7 @@ const MIN_START_DATE = {
     unit: 'weeks',
     label: {
         en: '18 weeks',
-        cy: ''
+        cy: '18 wythnos'
     }
 };
 
@@ -28,7 +34,7 @@ const MAX_PROJECT_DURATION = {
     unit: 'months',
     label: {
         en: '15 months',
-        cy: ''
+        cy: '15 mis'
     }
 };
 
@@ -118,5 +124,6 @@ module.exports = {
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,
     CHARITY_NUMBER_TYPES,
-    EDUCATION_NUMBER_TYPES
+    EDUCATION_NUMBER_TYPES,
+    FREE_TEXT_MAXLENGTH
 };

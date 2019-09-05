@@ -10,7 +10,7 @@ const {
     injectBreadcrumbs,
     injectCopy,
     injectHeroImage
-} = require('../../middleware/inject-content');
+} = require('../../common/inject-content');
 const contentApi = require('../../common/content-api');
 
 const router = express.Router();

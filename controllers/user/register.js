@@ -8,15 +8,15 @@ const { Users } = require('../../db/models');
 const { localify } = require('../../common/urls');
 const { sanitise } = require('../../common/sanitise');
 const logger = require('../../common/logger').child({ service: 'user' });
-const { csrfProtection } = require('../../middleware/cached');
+const { csrfProtection } = require('../../common/cached');
 const {
     injectCopy,
     injectBreadcrumbs
-} = require('../../middleware/inject-content');
+} = require('../../common/inject-content');
 const {
     requireNoAuth,
     redirectUrlWithFallback
-} = require('../../middleware/authed');
+} = require('../../common/authed');
 
 const validateSchema = require('./lib/validate-schema');
 const { newAccounts } = require('./lib/account-schemas');
@@ -58,7 +58,6 @@ router
     )
     .get(renderForm)
     .post(async function handleRegister(req, res, next) {
-
         const validationResult = validateSchema(
             newAccounts(req.i18n),
             req.body

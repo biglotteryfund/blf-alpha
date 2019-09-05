@@ -5,9 +5,9 @@ const express = require('express');
 
 const { Users } = require('../../db/models');
 const { redirectForLocale } = require('../../common/urls');
-const { csrfProtection } = require('../../middleware/cached');
-const { requireUserAuth } = require('../../middleware/authed');
-const { injectCopy } = require('../../middleware/inject-content');
+const { csrfProtection } = require('../../common/cached');
+const { requireUserAuth } = require('../../common/authed');
+const { injectCopy } = require('../../common/inject-content');
 
 const logger = require('../../common/logger').child({ service: 'user' });
 
@@ -26,11 +26,7 @@ function render(req, res, data = null, errors = []) {
 }
 
 async function handleSubmission(req, res, next) {
-
-    const validationResult = validateSchema(
-        emailOnly(req.i18n),
-        req.body
-    );
+    const validationResult = validateSchema(emailOnly(req.i18n), req.body);
 
     if (validationResult.isValid) {
         try {

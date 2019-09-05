@@ -22,9 +22,9 @@ const {
 const commonLogger = require('../../../common/logger');
 const appData = require('../../../common/appData');
 const { localify } = require('../../../common/urls');
-const { noStore } = require('../../../middleware/cached');
-const { requireActiveUserWithCallback } = require('../../../middleware/authed');
-const { injectCopy } = require('../../../middleware/inject-content');
+const { noStore } = require('../../../common/cached');
+const { requireActiveUserWithCallback } = require('../../../common/authed');
+const { injectCopy } = require('../../../common/inject-content');
 
 const salesforceService = require('./lib/salesforce');
 const {
@@ -35,6 +35,7 @@ const {
 
 function initFormRouter({
     formId,
+    isBilingual = true,
     eligibilityBuilder = null,
     formBuilder,
     confirmationBuilder
@@ -72,7 +73,7 @@ function initFormRouter({
         res.locals.formBaseUrl = req.baseUrl;
 
         res.locals.user = req.user;
-        res.locals.isBilingual = form.isBilingual;
+        res.locals.isBilingual = isBilingual;
         res.locals.enableSiteSurvey = false;
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
 
@@ -364,6 +365,7 @@ function initFormRouter({
                         schemaVersion: form.schemaVersion,
                         environment: appData.environment,
                         commitId: appData.commitId,
+                        locale: req.i18n.getLocale(),
                         username: req.user.userData.username,
                         applicationId: currentApplication.id,
                         startedAt: currentApplication.createdAt.toISOString()
@@ -457,7 +459,7 @@ function initFormRouter({
                  */
                 unsetCurrentlyEditingId(req, function() {
                     const confirmation = confirmationBuilder({
-                        locale: 'en',
+                        locale: req.i18n.getLocale(),
                         data: currentApplicationData,
                         fileUploadError: fileUploadError
                     });
@@ -473,7 +475,7 @@ function initFormRouter({
                     );
                 });
             } catch (error) {
-                logger.error('Submission failed');
+                logger.error('Submission failed', error);
 
                 /**
                  * Salesforce submission failed,

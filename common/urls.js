@@ -1,6 +1,5 @@
 'use strict';
 const { URL } = require('url');
-const config = require('config');
 const querystring = require('querystring');
 
 const WELSH_REGEX = /^\/welsh(\/|$)/;
@@ -18,7 +17,7 @@ function isWelsh(urlPath) {
  * Create a welsh version of a given URL path
  */
 function makeWelsh(urlPath) {
-    return `${config.get('i18n.urlPrefix.cy')}${urlPath}`;
+    return `/welsh${urlPath}`;
 }
 
 /**

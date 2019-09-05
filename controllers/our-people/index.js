@@ -3,7 +3,12 @@ const express = require('express');
 const path = require('path');
 const { find } = require('lodash');
 
-const { injectCopy, injectHeroImage, injectOurPeople, setCommonLocals } = require('../../middleware/inject-content');
+const {
+    injectCopy,
+    injectHeroImage,
+    injectOurPeople,
+    setCommonLocals
+} = require('../../common/inject-content');
 
 const router = express.Router();
 
@@ -28,7 +33,10 @@ router.get('/', injectHeroImage('mental-health-foundation-new'), (req, res) => {
 });
 
 router.get('/:slug', (req, res, next) => {
-    const entry = find(res.locals.ourPeople, item => item.slug === req.params.slug);
+    const entry = find(
+        res.locals.ourPeople,
+        item => item.slug === req.params.slug
+    );
     if (entry) {
         setCommonLocals({ res, entry });
         res.render(path.resolve(__dirname, './views/profiles'), { entry });

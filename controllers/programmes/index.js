@@ -9,11 +9,11 @@ const {
     injectHeroImage,
     injectFundingProgramme,
     setCommonLocals
-} = require('../../middleware/inject-content');
+} = require('../../common/inject-content');
 const { basicContent } = require('../common');
 const { buildArchiveUrl } = require('../../common/archived');
 const { getValidLocation, programmeFilters } = require('./helpers');
-const { sMaxAge } = require('../../middleware/cached');
+const { sMaxAge } = require('../../common/cached');
 const contentApi = require('../../common/content-api');
 
 const router = express.Router();

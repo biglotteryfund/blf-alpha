@@ -39,40 +39,40 @@
   },
   "cy": {
     "budget": {
-      "item": "",
-      "itemPlaceholder": "",
-      "amount": "",
-      "amountPlaceholder": "",
-      "deleteThisRow": "",
-      "deleteRow": "",
-      "tooManyItems": "",
-      "overBudget": "",
-      "total": ""
+      "item": "Eitem neu weithgaredd",
+      "itemPlaceholder": "e.e. Posteri",
+      "amount": "Nifer",
+      "amountPlaceholder": "e.e. 1234",
+      "deleteThisRow": "Dileu’r rhes hon",
+      "deleteRow": "Dileu’r rhes",
+      "tooManyItems": "Rhaid i’ch nifer o benawdau cyllideb fod yn llai, neu’n hafal i",
+      "overBudget": "Rhaid i’r costau y hoffech i ni eu hariannu fod yn llai na",
+      "total": "Cyfanswm"
     },
     "address": {
-      "label": "",
-      "optional": "",
-      "helpText": "",
-      "enterManually": "",
-      "selectAddress": "",
-      "addressesFound": "",
-      "lookupError": "",
-      "removeAddress": "",
-      "lookingUpAddress": "",
-      "findAddress": "",
-      "warningForIncomplete": "",
+      "label": "Dod o hyd i gyfeiriad drwy god post",
+      "optional": "Dewisol",
+      "helpText": "e.e. EC4A 1DE",
+      "enterManually": "Rhoi cyfeiriad eich hunain",
+      "selectAddress": "Dewis cyfeiriad",
+      "addressesFound": "Cyfeiriadau wedi eu darganfod",
+      "lookupError": "Roed problem wrth ddod o hyd i’ch cyfeiriad – darparwch ef isod",
+      "removeAddress": "Dileu’r cyfeiriad hwn",
+      "lookingUpAddress": "Chwilio’r cyfeiriad…",
+      "findAddress": "Dod o hyd i’r cyfeiriad",
+      "warningForIncomplete": "Cliciwch “Dod o hyd i’r cyfeiriad” a dewiswch gyfeiriad o’r rhestr.",
       "fieldNames": {
-        "line1": "",
-        "line2": "",
-        "townCity": "",
-        "county": "",
-        "postcode": ""
+        "line1": "Adeilad a stryd",
+        "line2": "2il linell cyfeiriad",
+        "townCity": "Tref neu ddinas",
+        "county": "Sir",
+        "postcode": "Cod Post"
       }
     },
     "wordCounter": {
-      "currentCount": "",
-      "defaultMessage": "",
-      "overLimit": ""
+      "currentCount": "{currentCount} / {maxWords} gair",
+      "defaultMessage": "Rhaid bod o leiaf {minWords} gair.",
+      "overLimit": "Mae gennych <strong>{amountOver} gair</strong> yn ormod."
     }
   }
 }
