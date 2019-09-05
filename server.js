@@ -40,10 +40,6 @@ const viewFilters = require('./common/filters');
 const cspDirectives = require('./common/csp-directives');
 const contentApi = require('./common/content-api');
 const { defaultMaxAge } = require('./common/cached');
-const passportMiddleware = require('./middleware/passport');
-const previewMiddleware = require('./middleware/preview');
-const sessionMiddleware = require('./middleware/session');
-
 const { renderError, renderNotFound } = require('./controllers/errors');
 
 /**
@@ -196,13 +192,12 @@ app.use([
         }
     }),
     express.json(),
-    express.urlencoded({ extended: true })
+    express.urlencoded({ extended: true }),
+    require('./common/session')(app),
+    require('./common/passport')(),
+    require('./common/locals'),
+    require('./common/preview')
 ]);
-
-app.use(sessionMiddleware(app));
-app.use(passportMiddleware());
-app.use(require('./common/locals'));
-app.use(previewMiddleware);
 
 /**
  * Mount utility routes

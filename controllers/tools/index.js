@@ -2,7 +2,7 @@
 const path = require('path');
 const express = require('express');
 
-const { requireStaffAuth } = require('../../middleware/authed');
+const { requireStaffAuth } = require('../../common/authed');
 const { noStore } = require('../../common/cached');
 
 const router = express.Router();

@@ -9,7 +9,7 @@ const {
     injectHeroImage,
     injectFundingProgramme,
     setCommonLocals
-} = require('../../middleware/inject-content');
+} = require('../../common/inject-content');
 const { basicContent } = require('../common');
 const { buildArchiveUrl } = require('../../common/archived');
 const { getValidLocation, programmeFilters } = require('./helpers');

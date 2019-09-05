@@ -1,5 +1,5 @@
 'use strict';
-const { localify, redirectForLocale } = require('../common/urls');
+const { localify, redirectForLocale } = require('./urls');
 
 function isStaff(user) {
     return user.userType === 'staff';

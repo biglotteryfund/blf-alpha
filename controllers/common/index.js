@@ -10,7 +10,7 @@ const {
     injectFlexibleContent,
     injectHeroImage,
     injectListingContent
-} = require('../../middleware/inject-content');
+} = require('../../common/inject-content');
 const { isWelsh } = require('../../common/urls');
 const contentApi = require('../../common/content-api');
 

@@ -12,11 +12,11 @@ const { csrfProtection } = require('../../common/cached');
 const {
     injectCopy,
     injectBreadcrumbs
-} = require('../../middleware/inject-content');
+} = require('../../common/inject-content');
 const {
     requireNoAuth,
     redirectUrlWithFallback
-} = require('../../middleware/authed');
+} = require('../../common/authed');
 
 const validateSchema = require('./lib/validate-schema');
 const { newAccounts } = require('./lib/account-schemas');

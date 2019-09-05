@@ -11,7 +11,7 @@ const reverse = require('lodash/reverse');
 const sortBy = require('lodash/sortBy');
 const take = require('lodash/take');
 
-const { injectMerchandise } = require('../../middleware/inject-content');
+const { injectMerchandise } = require('../../common/inject-content');
 const { Order } = require('../../db/models');
 const { getDateRange } = require('./helpers');
 
