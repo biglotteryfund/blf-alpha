@@ -478,6 +478,8 @@ it('should submit full awards for all application', () => {
     }
 
     function stepProjectLocation(mock) {
+        cy.screenshot('project-location');
+
         let location = {};
         switch (mock.country) {
             case 'Northern Ireland':
@@ -526,6 +528,8 @@ it('should submit full awards for all application', () => {
     }
 
     function stepYourIdea() {
+        cy.screenshot('project-idea');
+
         cy.checkA11y();
 
         cy.getByLabelText('What would you like to do?')
@@ -546,6 +550,8 @@ it('should submit full awards for all application', () => {
     }
 
     function stepProjectCosts() {
+        cy.screenshot('project-costs');
+
         const amounts = new Array(random(3, 10))
             .fill(null)
             .map(() => random(100, 1000));
@@ -582,6 +588,8 @@ it('should submit full awards for all application', () => {
     }
 
     function sectionBeneficiaries() {
+        cy.screenshot('beneficiaries-screener');
+
         cy.checkA11y();
 
         cy.getByLabelText(
@@ -589,6 +597,8 @@ it('should submit full awards for all application', () => {
         ).click();
 
         submitStep();
+
+        cy.screenshot('beneficiaries-groups');
 
         const randomBeneficiaryGroups = sampleSize(
             [
@@ -674,6 +684,8 @@ it('should submit full awards for all application', () => {
     }
 
     function sectionOrganisation(mock) {
+        cy.screenshot('organisation-details');
+
         cy.checkA11y();
 
         cy.getByLabelText('What is the full legal name of your organisation?', {
@@ -698,6 +710,8 @@ it('should submit full awards for all application', () => {
             });
 
         submitStep();
+
+        cy.screenshot('organisation-type');
 
         cy.checkA11y();
 
@@ -736,6 +750,8 @@ it('should submit full awards for all application', () => {
             }
 
             if (registrationNumbersStepEl) {
+                cy.screenshot('registration-numbers');
+
                 const opts = { exact: false, timeout: 500 };
 
                 cy.queryByLabelText('Companies House number', opts).then(
@@ -887,6 +903,7 @@ it('should submit full awards for all application', () => {
     }
 
     function sectionSeniorContact(mock) {
+        cy.screenshot('senior-contact');
         cy.checkA11y();
         cy.get('label[for="field-seniorContactRole-1"]').click();
         fillContact(mock.seniorContact);
@@ -894,12 +911,14 @@ it('should submit full awards for all application', () => {
     }
 
     function sectionMainContact(mock) {
+        cy.screenshot('main-contact');
         cy.checkA11y();
         fillContact(mock.mainContact);
         submitStep();
     }
 
-    function sectionBankDetails(mock) {
+    function stepBankAccount(mock) {
+        cy.screenshot('bank-account');
         cy.checkA11y();
 
         cy.getByLabelText('Tell us the name of your organisation', {
@@ -911,7 +930,10 @@ it('should submit full awards for all application', () => {
         cy.getByLabelText('Sort code', { exact: false }).type('308087');
 
         submitStep();
+    }
 
+    function stepBankStatement() {
+        cy.screenshot('bank-statement');
         cy.checkA11y();
 
         cy.fixture('example.pdf', 'base64').then(fileContent => {
@@ -931,7 +953,13 @@ it('should submit full awards for all application', () => {
         submitStep();
     }
 
+    function sectionBankDetails(mock) {
+        stepBankAccount(mock);
+        stepBankStatement(mock);
+    }
+
     function sectionTermsAndConditions() {
+        cy.screenshot('terms');
         cy.checkA11y();
 
         cy.getAllByLabelText('I agree').each($el => {
@@ -950,6 +978,7 @@ it('should submit full awards for all application', () => {
     }
 
     function submitApplication() {
+        cy.screenshot('summary');
         cy.checkA11y();
         cy.get('h1').should('contain', 'Summary');
 
