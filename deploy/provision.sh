@@ -8,12 +8,15 @@ sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial m
 apt-get update
 apt-get install -y nginx-extras passenger
 
-# Install clamav and fetch signatures
+# Install ClamAV
 if [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_FLEET ]] ||
    [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_IN_PLACE ]];
 then
     apt-get install -y clamav clamav-daemon
     service clamav-freshclam restart
+    sleep 3m
+    service clamav-daemon start
+    service clamav-daemon status
 fi
 
 # Install Node
@@ -29,11 +32,3 @@ unzip awscli-bundle.zip
 # Install Cloudwatch agent (for logging)
 wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
 dpkg -i -E ./amazon-cloudwatch-agent.deb
-
-# Start clamav daemon
-if [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_FLEET ]] ||
-   [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_IN_PLACE ]];
-then
-    service clamav-daemon start
-    service clamav-daemon status
-fi
