@@ -124,6 +124,7 @@ async function scanFile(filePath) {
     };
 
     const clamscan = await new NodeClam().init({
+        remove_infected: true,
         debug_mode: isDev,
         scan_recursively: false,
         clamdscan: clamdscanConfig
