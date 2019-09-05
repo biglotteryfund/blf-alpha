@@ -10,7 +10,7 @@ const crypto = require('crypto');
 const logger = require('../../../common/logger');
 const { sanitiseRequestBody } = require('../../../common/sanitise');
 const { PendingApplication } = require('../../../db/models');
-const { prepareFilesForUpload, uploadFile } = require('./lib/file-uploads');
+const { prepareFilesForUpload, scanAndUpload } = require('./lib/file-uploads');
 
 module.exports = function(formId, formBuilder) {
     const router = express.Router();
@@ -225,13 +225,13 @@ module.exports = function(formId, formBuilder) {
                     if (preparedFiles.filesToUpload.length > 0) {
                         try {
                             await Promise.all(
-                                preparedFiles.filesToUpload.map(file =>
-                                    uploadFile({
+                                preparedFiles.filesToUpload.map(file => {
+                                    return scanAndUpload({
                                         formId: formId,
                                         applicationId: currentlyEditingId,
                                         fileMetadata: file
-                                    })
-                                )
+                                    });
+                                })
                             );
                             res.redirect(nextPage.url);
                         } catch (rejection) {

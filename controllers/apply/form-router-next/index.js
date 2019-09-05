@@ -12,6 +12,7 @@ const set = require('lodash/set');
 const unset = require('lodash/unset');
 const features = require('config').get('features');
 const formidable = require('formidable');
+const config = require('config');
 
 const {
     PendingApplication,
@@ -394,12 +395,14 @@ function initFormRouter({
                                 filename: field.value.filename
                             };
 
-                            try {
-                                await checkAntiVirus(pathConfig);
-                            } catch (err) {
-                                // We caught a suspect file
-                                fileUploadError = err.message;
-                                return;
+                            if (!config.get('features.enableLocalAntivirus') && !appData.isTestServer) {
+                                try {
+                                    await checkAntiVirus(pathConfig);
+                                } catch (err) {
+                                    // We caught a suspect file
+                                    fileUploadError = err.message;
+                                    return;
+                                }
                             }
 
                             return buildMultipartData(pathConfig).then(
