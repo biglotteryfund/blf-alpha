@@ -2,13 +2,13 @@
 const express = require('express');
 const uuidv4 = require('uuid/v4');
 const features = require('config').get('features');
+const moment = require('moment');
 
 const { Users } = require('../../db/models');
-const { isNotProduction } = require('../../common/appData');
 const { localify, redirectForLocale } = require('../../common/urls');
-const { noCache } = require('../../middleware/cached');
-const { requireNotStaffAuth } = require('../../middleware/authed');
-const { injectCopy } = require('../../middleware/inject-content');
+const { noStore } = require('../../common/cached');
+const { requireNotStaffAuth } = require('../../common/authed');
+const { injectCopy } = require('../../common/inject-content');
 
 const logger = require('../../common/logger').child({
     service: 'user'
@@ -16,9 +16,8 @@ const logger = require('../../common/logger').child({
 
 const router = express.Router();
 
-router.use(noCache, function(req, res, next) {
+router.use(noStore, function(req, res, next) {
     res.setHeader('X-Robots-Tag', 'noindex');
-    res.locals.isBilingual = isNotProduction;
     next();
 });
 
@@ -96,6 +95,16 @@ router.get('/logout', function(req, res) {
     logger.info('User logout');
     req.session.save(() => {
         redirectForLocale(req, res, '/user/login?s=loggedOut');
+    });
+});
+
+router.get('/session', function(req, res) {
+    res.send({
+        expires: req.session.cookie.expires,
+        maxAge: req.session.cookie.maxAge,
+        originalMaxAge: req.session.cookie.originalMaxAge,
+        isExpired: moment(req.session.cookie.expires).isBefore(moment()),
+        isAuthenticated: req.isAuthenticated()
     });
 });
 

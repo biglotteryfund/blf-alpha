@@ -6,7 +6,7 @@ const Joi = require('../../form-router-next/joi-extensions');
 const { ORGANISATION_TYPES, STATUTORY_BODY_TYPES } = require('../constants');
 const rolesFor = require('../lib/roles');
 
-module.exports = function fieldSeniorContactRole(locale, data) {
+module.exports = function(locale, data) {
     const localise = get(locale);
 
     const currentOrganisationType = get('organisationType')(data);

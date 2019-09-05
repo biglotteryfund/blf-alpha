@@ -8,7 +8,7 @@ const uniqBy = require('lodash/fp/uniqBy');
 
 const contentApi = require('../common/content-api');
 const { getBaseUrl } = require('../common/urls');
-const { sMaxAge } = require('../middleware/cached');
+const { sMaxAge } = require('../common/cached');
 
 const router = express.Router();
 
@@ -65,7 +65,6 @@ async function getCanonicalRoutes() {
 
 router.get('/', sMaxAge(1800), async (req, res, next) => {
     try {
-
         const canonicalRoutes = await getCanonicalRoutes();
 
         // @ts-ignore
@@ -79,7 +78,6 @@ router.get('/', sMaxAge(1800), async (req, res, next) => {
         const xml = sitemapInstance.toXML();
         res.header('Content-Type', 'application/xml');
         res.send(xml);
-
     } catch (error) {
         next(error);
     }

@@ -69,9 +69,16 @@ function measureTimeTaken(data) {
     const appDurations = data.map(row => {
         const created = moment(row.startedAt);
         const submitted = moment(row.createdAt);
-        return submitted.diff(created, 'days');
+        return submitted.diff(created, 'minutes');
     });
-    return minMaxAvg(appDurations);
+    let results = minMaxAvg(appDurations);
+
+    // convert the larger amounts to days
+    const minutesToDays = input => input / 60 / 24;
+    results.average = minutesToDays(results.average);
+    results.highest = minutesToDays(results.highest);
+
+    return results;
 }
 
 function measureWordCounts(data) {

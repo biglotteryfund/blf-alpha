@@ -4,10 +4,7 @@ const express = require('express');
 const { get } = require('lodash');
 
 const contentApi = require('../../common/content-api');
-const {
-    injectCopy,
-    injectHeroImage
-} = require('../../middleware/inject-content');
+const { injectCopy, injectHeroImage } = require('../../common/inject-content');
 
 const router = express.Router();
 

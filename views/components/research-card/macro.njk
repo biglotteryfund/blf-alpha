@@ -4,7 +4,7 @@
     {% call promoCard({
         "headingLevel": 2,
         "title": research.title,
-        "subtitle": formatDate(research.postDate.date, DATE_FORMATS.month),
+        "subtitle": formatDate(research.postDate.date, 'MMMM YYYY'),
         "trailText": research.trailText,
         "image": { "url": research.trailImage, "alt": research.title },
         "link": { "url": research.linkUrl, "label": __('global.misc.readMore') }

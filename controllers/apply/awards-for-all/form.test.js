@@ -326,7 +326,17 @@ describe('Project details', () => {
             {
                 projectDateRange: {
                     startDate: { day: 1, month: 1, year: 2020 },
-                    endDate: { day: 1, month: 1, year: 2030 }
+                    endDate: { day: 1, month: 1, year: 2021 }
+                }
+            },
+            [expect.stringMatching(/Date you start the project must be after/)]
+        );
+
+        assertMessagesByKey(
+            {
+                projectDateRange: {
+                    startDate: toDateParts(moment().add('25', 'weeks')),
+                    endDate: toDateParts(moment().add('2', 'years'))
                 }
             },
             [expect.stringMatching(/Date you end the project must be within/)]

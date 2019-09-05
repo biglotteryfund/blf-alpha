@@ -26,19 +26,17 @@
                     </div>
                 </div>
 
-                {% if enableAwardsForAllApplications %}
-                    <div class="content-sidebar__secondary content-sidebar__secondary--major">
-                        <div class="u-padded u-tone-background-tint">
-                            <h2>{{ __('applyNext.startApplication.title') | safe }}</h2>
-                            <p>{{ __('applyNext.startApplication.intro') }}</p>
-                            <p>
-                                <a class="btn btn--small" href="{{ localify("/apply/awards-for-all/start") }}">
-                                    {{ __('applyNext.startApplication.callToAction') }}
-                                </a>
-                            </p>
-                        </div>
+                <div class="content-sidebar__secondary content-sidebar__secondary--major">
+                    <div class="u-padded u-tone-background-tint">
+                        <h2>{{ __('applyNext.startApplication.title') | safe }}</h2>
+                        <p>{{ __('applyNext.startApplication.intro') }}</p>
+                        <p>
+                            <a class="btn btn--small" href="{{ localify("/apply/awards-for-all/start") }}">
+                                {{ __('applyNext.startApplication.callToAction') }}
+                            </a>
+                        </p>
                     </div>
-                {% endif %}
+                </div>
             </div>
 
         </div>

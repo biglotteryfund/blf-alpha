@@ -81,21 +81,21 @@ module.exports = function({
          */
         const countryNoticeMessage = {
             title: localise({
-                en: `Applying for a project in England or Wales?`,
-                cy: `Ymgeisio am brosiect yn Lloegr neu Gymru?`
+                en: `Applying for a project in England?`,
+                cy: `Ymgeisio am brosiect yn Lloegr?`
             }),
             body: localise({
                 en: `
                     <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
                     <p><strong>Applying for a project in Northern Ireland?</strong></p>
                     <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
-                    <p>Only applicants in Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
+                    <p>Only applicants in Wales or Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
                 `,
                 cy: `
                     <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hon yn lle</a>.</p>
                     <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
                     <p><a href="funding/programmes/awards-for-all-northern-ireland">Byddwch angen lawrlwytho ffurflen gais i ymgeisio</a>.</p>
-                    <p>Ymgeiswyr yn Yr Alban yn unig gall ymgeisio drwy ein ffurlfen ar-lein newydd ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn hygyrch i weddill Prydain.</p>
+                    <p>Dim ond ymgeiswyr yng Nghymru neu'r Alban all ymgeisio drwy ein ffurflen ar-lein newydd ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn hygyrch i weddill y DU.</p>
                 `
             })
         };
@@ -761,14 +761,8 @@ module.exports = function({
                         });
                     },
                     get fields() {
-                        const showContactConfirmationQuestion = config.get(
-                            'awardsForAll.showContactConfirmationQuestion'
-                        );
-
                         const allFields = compact([
                             fields.mainContactName,
-                            showContactConfirmationQuestion &&
-                                fields.mainContactIsValid,
                             fields.mainContactDateOfBirth,
                             fields.mainContactAddress,
                             fields.mainContactAddressHistory,
@@ -782,8 +776,6 @@ module.exports = function({
                             allFields,
                             compact([
                                 fields.mainContactName,
-                                showContactConfirmationQuestion &&
-                                    fields.mainContactIsValid,
                                 includeAddressAndDob() &&
                                     fields.mainContactDateOfBirth,
                                 includeAddressAndDob() &&
@@ -988,7 +980,7 @@ module.exports = function({
             
             <div class="o-media u-padded u-tone-background-tint u-margin-bottom">
                 <a href="../help/bank-statement" target="_blank">
-                    <img src="/assets/images/apply/afa-bank-statement-example-small.png"
+                    <img src="/assets/images/apply/afa-bank-statement-example-small-welsh.jpg"
                          alt="Enghraifft o gyfriflen banc rydym ei angen gennych"
                          class="o-media__figure-gutter"
                          width="300" />
@@ -1209,7 +1201,7 @@ module.exports = function({
             'mainContactPhone'
         ],
         summary: summary(),
-        schemaVersion: 'v1.0',
+        schemaVersion: 'v1.1',
         forSalesforce: forSalesforce,
         sections: [
             {

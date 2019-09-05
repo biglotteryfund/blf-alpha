@@ -11,7 +11,7 @@ const {
     injectHeroImage,
     injectResearch,
     injectResearchEntry
-} = require('../../middleware/inject-content');
+} = require('../../common/inject-content');
 const { buildArchiveUrl } = require('../../common/archived');
 const { localify } = require('../../common/urls');
 const { buildPagination } = require('../../common/pagination');

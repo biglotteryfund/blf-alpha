@@ -7,7 +7,7 @@ const { sanitise } = require('../../common/sanitise');
 const { Feedback, SurveyAnswer, PendingApplication } = require('../../db/models');
 const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');
-const { csrfProtection } = require('../../middleware/cached');
+const { csrfProtection } = require('../../common/cached');
 const { handleMonthExpiry } = require('./lib/application-expiry');
 
 const { Client } = require('@ideal-postcodes/core-node');

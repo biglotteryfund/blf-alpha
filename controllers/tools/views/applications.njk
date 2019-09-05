@@ -63,8 +63,8 @@
             <h2>
                 Date range:
                 {% if dateRange %}
-                    {{ formatDate(dateRange.start, DATE_FORMATS.short) }} &mdash;
-                    {{ formatDate(dateRange.end, DATE_FORMATS.short) }}
+                    {{ formatDate(dateRange.start) }} &mdash;
+                    {{ formatDate(dateRange.end) }}
                 {% else %}
                     {# @TODO - what is this range? #}
                     the last five months
@@ -229,7 +229,7 @@
                     [
                         {
                             prefix: 'Quickest applicant took',
-                            value: statistics.appDurations.lowest + ' days',
+                            value: statistics.appDurations.lowest | round(2) + ' minutes',
                             title: 'to submit their form',
                             showNumberBeforeTitle: true
                         },
@@ -241,7 +241,7 @@
                         },
                         {
                             prefix: 'Slowest applicant took',
-                            value: statistics.appDurations.highest + ' days',
+                            value: statistics.appDurations.highest | round(2) + ' days',
                             title: 'to submit their form',
                             showNumberBeforeTitle: true
                         }
@@ -308,7 +308,7 @@
                                         {{ f.message | safe }}
                                     </div>
                                     <cite class="blockquote__cite">
-                                        {{ formatDate(f.createdAt.toISOString(), DATE_FORMATS.short) }}
+                                        {{ formatDate(f.createdAt.toISOString()) }}
                                     </cite>
                                 </blockquote>
                             </li>

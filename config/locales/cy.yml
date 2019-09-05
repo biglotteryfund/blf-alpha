@@ -1186,9 +1186,9 @@ applyNext:
     callToAction: Dechrau cais newydd
   locationMessage: >
       <p>Croeso i’n cais ar-lein newydd ar gyfer Arian i Bawb y Loteri Genedlaethol.</p>
-      <p><strong>Ymgeisio am brosiect yn Yr Alban?</strong></p>
+      <p><strong>Ymgeisio am brosiect yng Nghymru neu’r Alban?</strong></p>
       <p>Gwych – rydych yn y lle cywir. Bydd angen ichi <a href="/welsh/user/register">greu cyfrif newydd</a> i ymgeisio. Oni bai eich bod eisoes wedi creu cyfrif i’n ffurflen gais ar-lein newydd.</p>
-      <p><strong>Ymgeisio am brosiect yn Lloegr neu Gymru?</strong></p>
+      <p><strong>Ymgeisio am brosiect yn Lloegr?</strong></p>
       <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hwn yn lle.</a>.</p>
       <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
       <p><a href="/funding/programmes/awards-for-all-northern-ireland">Bydd angen ichi lawrlwytho ffurflen gais i ymgeisio</a>.</p>
@@ -1215,11 +1215,11 @@ applyNext:
     decisionMessage: Rydym yn anelu i adael i chi wybod am ein penderfyniad mewn oddeutu %s wythnos. Os oes unrhyw gwestiwn gennych,
       <a href="/contact">cysylltwch ag aelod o’n tîm cynghori</a>.
     locationMessage: >
-      <p><strong>Ymgeisio am brosiect yn Lloegr neu Gymru?</strong></p>
+      <p><strong>Ymgeisio am brosiect yn Lloegr?</strong></p>
       <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hwn yn lle</a>.</p>
       <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
       <p><a href="/funding/programmes/awards-for-all-northern-ireland">Bydd angen ichi lawrlwytho ffurflen gais i ymgeisio</a>.</p>
-      <p>Dim ond ymgeiswyr yn Yr Alban all ymgeisio drwy ein ffurflen ar-lein newydd ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn hygyrch i weddill y DU.</p>
+      <p>Dim ond ymgeiswyr yng Nghymru neu'r Alban all ymgeisio drwy ein ffurflen ar-lein newydd ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn hygyrch i weddill y DU.</p>
     newApplication:
       title: Cais newydd
       body: Gallwch greu cais ariannu newydd am %s yma
@@ -1298,7 +1298,7 @@ applyNext:
               <li>Cod didoli</li>
               <li>Dyddiad (rhaid bod o fewn y 3 mis diwethaf)</li>
           </ul>
-          <img src="/assets/images/apply/afa-bank-statement-example.png"
+          <img src="/assets/images/apply/afa-bank-statement-example-welsh.jpg"
                alt="Enghraifft o gyfriflen banc rydym ei angen gennych, gydag enw’r banc, dyddiad, cyfeiriad y sefydliad, rhif cyfrif ac enw cyfreithiol y sefydliad wedi’i gylchu" />
     budget:
       item: Eitem neu weithgaredd
@@ -1349,6 +1349,10 @@ applyNext:
       errorScanInfected: Mae’r ffeil wedi ei gloi am resymau diogelwch.
       errorScanUnknown: Mae’r ffeil hwn yn dal i gael ei sganio am risgiau diogelwch—gwiriwch eto yn fuan.
       errorOther: Roedd yna broblem wrth adfer eich ffeil—trïwch eto’n fuan.
+  feedback:
+    promptLabel: "Oes gennych funud sbâr i roi adborth i ni?"
+    fieldLabel: "Sut oedd eich profiad o'r broses hon?"
+    helpText: "Mae hwn yn gwbl ddienw ac nid yw'n ffurfio rhan o'ch cyflwyniad. Peidiwch â chynnwys unrhyw fanylion am eich syniad, dim ond sut brofiad yr oedd."
   common:
     delete: Dileu
     exit: Gadael

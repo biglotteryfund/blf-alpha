@@ -21,9 +21,9 @@ const {
 const commonLogger = require('../../../common/logger');
 const appData = require('../../../common/appData');
 const { localify } = require('../../../common/urls');
-const { noStore } = require('../../../middleware/cached');
-const { requireActiveUserWithCallback } = require('../../../middleware/authed');
-const { injectCopy } = require('../../../middleware/inject-content');
+const { noStore } = require('../../../common/cached');
+const { requireActiveUserWithCallback } = require('../../../common/authed');
+const { injectCopy } = require('../../../common/inject-content');
 
 const salesforceService = require('./lib/salesforce');
 const {

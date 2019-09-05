@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 
 const commonLogger = require('../../../common/logger');
-const { injectCopy } = require('../../../middleware/inject-content');
+const { injectCopy } = require('../../../common/inject-content');
 
 const logger = commonLogger.child({
     service: 'apply'

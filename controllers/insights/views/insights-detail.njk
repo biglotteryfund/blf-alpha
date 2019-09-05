@@ -40,7 +40,7 @@
                     <div class="content-meta">
                         <dl class="o-definition-list o-definition-list--compact">
                             <dt>{{ extraCopy.datePublished }}</dt>
-                            <dd>{{ formatDate(entry.postDate.date, DATE_FORMATS.month) }}</dd>
+                            <dd>{{ formatDate(entry.postDate.date, 'MMMM YYYY') }}</dd>
                             {% if entry.researchPartners %}
                                 <dt>{{ extraCopy.partners }}</dt>
                                 <dd>{{ entry.researchPartners }}</dd>

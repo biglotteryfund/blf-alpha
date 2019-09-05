@@ -3,7 +3,7 @@ const get = require('lodash/fp/get');
 
 const Joi = require('../../form-router-next/joi-extensions');
 
-module.exports = function fieldContactLanguagePreference(locale, props) {
+module.exports = function(locale, props) {
     const localise = get(locale);
     const defaultProps = {
         label: localise({
