@@ -66,15 +66,17 @@ test('minimal invalid form', () => {
     expect(mapMessages(result)).toMatchSnapshot();
 });
 
-test('strip location when applying for more than one country', () => {
+test('strip location and duration when applying for more than one country', () => {
     const result = validate(
         mockResponse({
             projectCountry: ['england', 'scotland'],
-            projectLocation: 'this-should-be-stripped'
+            projectLocation: 'this-should-be-stripped',
+            projectDurationYears: 5
         })
     );
 
     expect(result.value).not.toHaveProperty('projectLocation');
+    expect(result.value).not.toHaveProperty('projectDurationYears');
 });
 
 test.each([
@@ -112,17 +114,6 @@ test.each([
             `"projectDurationYears" must be less than or equal to ${max}`
         ])
     );
-});
-
-test('strip project duration when applying for more than one country', () => {
-    const result = validate(
-        mockResponse({
-            projectCountry: ['england', 'scotland'],
-            projectDurationYears: 'this-should-be-stripped'
-        })
-    );
-
-    expect(result.value).not.toHaveProperty('projectDurationYears');
 });
 
 test.each([['projectIdea', 50, 500], ['organisationBackground', 50, 500]])(
