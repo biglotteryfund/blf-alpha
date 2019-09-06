@@ -5,32 +5,53 @@
 const schema = require('./schema');
 
 function validate(data) {
-    const { value, error } = schema.validate(data, {
-        abortEarly: false,
-        stripUnknown: true
-    });
-
-    return { value, error };
+    return schema.validate(data, { abortEarly: false });
 }
 
-test('require one or more countries to be selected', () => {
-    const validSingle = validate({
-        country: 'england'
+function mapMessages(validationResult) {
+    return validationResult.error.details.map(detail => {
+        return detail.message;
+    });
+}
+
+function mockResponse(overrides) {
+    const defaults = {
+        projectCountry: 'england',
+        projectLocation: 'placeholder-location'
+    };
+
+    return Object.assign(defaults, overrides);
+}
+
+test('minimal valid form', () => {
+    const result = validate(mockResponse());
+    expect(result.error).toBeNull();
+
+    expect(result.value).toEqual({
+        projectCountry: ['england'],
+        projectLocation: 'placeholder-location'
+    });
+});
+
+test('minimal invalid form', () => {
+    const result = validate({
+        projectCountry: 'invalid-country',
+        projectLocation: null
     });
 
-    expect(validSingle.error).toBeNull();
-    expect(validSingle.value).toEqual({ country: ['england'] });
+    expect(mapMessages(result)).toEqual([
+        '"projectCountry" must be one of [england, scotland, northern-ireland, wales]',
+        '"projectLocation" must be a string'
+    ]);
+});
 
-    const validMultiple = validate({
-        country: ['england', 'scotland']
-    });
+test('strip location when applying for more than one country', () => {
+    const result = validate(
+        mockResponse({
+            projectCountry: ['england', 'scotland'],
+            projectLocation: 'this-should-be-stripped'
+        })
+    );
 
-    expect(validMultiple.error).toBeNull();
-    expect(validMultiple.value).toEqual({ country: ['england', 'scotland'] });
-
-    expect(
-        validate({
-            country: 'invalid country'
-        }).error.message
-    ).toContain('"country" must be one of');
+    expect(result.value).not.toHaveProperty('projectLocation');
 });

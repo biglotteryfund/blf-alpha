@@ -2,7 +2,7 @@
 const Joi = require('@hapi/joi');
 
 const schema = Joi.object({
-    country: Joi.array()
+    projectCountry: Joi.array()
         .items(
             Joi.string().valid([
                 'england',
@@ -11,7 +11,12 @@ const schema = Joi.object({
                 'wales'
             ])
         )
-        .single()
+        .single(),
+    projectLocation: Joi.when('projectCountry', {
+        is: Joi.array().min(2),
+        then: Joi.any().strip(),
+        otherwise: Joi.string().required()
+    })
 });
 
 module.exports = schema;
