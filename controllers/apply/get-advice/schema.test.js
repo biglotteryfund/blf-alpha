@@ -19,21 +19,23 @@ function mapMessages(validationResult) {
 }
 
 function mockResponse(overrides) {
+    const placeholderText = oneLine`Turnip greens yarrow ricebean rutabaga 
+        endive cauliflower sea lettuce kohlrabi amaranth water spinach avocado
+        daikon napa cabbage asparagus winter purslane kale. Celery potato
+        scallion desert raisin horseradish spinach carrot soko. Lotus root
+        water spinach fennel kombu maize bamboo shoot green bean swiss
+        chard seakale pumpkin onion chickpea gram corn pea. Brussels
+        sprout coriander water chestnut gourd swiss chard wakame kohlrabi
+        beetroot carrot watercress. Corn amaranth salsify bunya nuts nori
+        azuki bean chickweed potato bell pepper artichoke.`;
+
     const defaults = {
         projectCountry: 'england',
         projectLocation: 'placeholder-location',
         projectLocationDescription: 'optional description',
         projectCosts: '250,000',
         projectDurationYears: 3,
-        projectIdea: oneLine`Turnip greens yarrow ricebean rutabaga endive
-            cauliflower sea lettuce kohlrabi amaranth water spinach avocado
-            daikon napa cabbage asparagus winter purslane kale. Celery potato
-            scallion desert raisin horseradish spinach carrot soko. Lotus root
-            water spinach fennel kombu maize bamboo shoot green bean swiss
-            chard seakale pumpkin onion chickpea gram corn pea. Brussels
-            sprout coriander water chestnut gourd swiss chard wakame kohlrabi
-            beetroot carrot watercress. Corn amaranth salsify bunya nuts nori
-            azuki bean chickweed potato bell pepper artichoke.`,
+        projectIdea: placeholderText,
         organisationLegalName: 'Example organisation',
         organisationTradingName: 'Example trading name',
         organisationAddress: {
@@ -42,7 +44,8 @@ function mockResponse(overrides) {
             county: 'West Midlands',
             postcode: 'B15 1TR'
         },
-        organisationType: 'Social enterprise'
+        organisationType: 'Social enterprise',
+        organisationBackground: placeholderText
     };
 
     return Object.assign(defaults, overrides);
@@ -156,4 +159,30 @@ test('optional organisational trading name', () => {
     const expected = omit(mockResponse(), 'organisationTradingName');
     const result = validate(expected);
     expect(result.error).toBeNull();
+});
+
+test('organisation background must be within word-count', () => {
+    const resultMin = validate(
+        mockResponse({
+            organisationBackground: faker.lorem.words(49)
+        })
+    );
+
+    expect(mapMessages(resultMin)).toEqual(
+        expect.arrayContaining([
+            '"organisationBackground" must have at least 50 words'
+        ])
+    );
+
+    const resultMax = validate(
+        mockResponse({
+            organisationBackground: faker.lorem.words(501)
+        })
+    );
+
+    expect(mapMessages(resultMax)).toEqual(
+        expect.arrayContaining([
+            '"organisationBackground" must have less than 500 words'
+        ])
+    );
 });

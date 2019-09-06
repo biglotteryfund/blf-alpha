@@ -60,7 +60,11 @@ const schema = Joi.object({
         .allow('')
         .optional(),
     organisationAddress: Joi.ukAddress().required(),
-    organisationType: Joi.string().required()
+    organisationType: Joi.string().required(),
+    organisationBackground: Joi.string()
+        .minWords(50)
+        .maxWords(500)
+        .required()
 });
 
 module.exports = schema;
