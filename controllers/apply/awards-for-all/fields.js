@@ -6,7 +6,7 @@ const get = require('lodash/fp/get');
 const has = require('lodash/has');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../form-router-next/joi-extensions');
+const Joi = require('../lib/joi-extensions');
 const {
     BENEFICIARY_GROUPS,
     COMPANY_NUMBER_TYPES,

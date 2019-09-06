@@ -1,6 +1,6 @@
 'use strict';
 const get = require('lodash/fp/get');
-const Joi = require('../../form-router-next/joi-extensions');
+const Joi = require('../../lib/joi-extensions');
 
 module.exports = function(locale) {
     const localise = get(locale);
