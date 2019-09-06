@@ -45,7 +45,11 @@ function mockResponse(overrides) {
             postcode: 'B15 1TR'
         },
         organisationType: 'Social enterprise',
-        organisationBackground: placeholderText
+        organisationBackground: placeholderText,
+        contactName: {
+            firstName: 'Björk',
+            lastName: 'Guðmundsdóttir'
+        }
     };
 
     return Object.assign(defaults, overrides);

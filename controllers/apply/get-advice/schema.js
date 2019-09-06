@@ -64,7 +64,8 @@ const schema = Joi.object({
     organisationBackground: Joi.string()
         .minWords(50)
         .maxWords(500)
-        .required()
+        .required(),
+    contactName: Joi.fullName().required()
 });
 
 module.exports = schema;

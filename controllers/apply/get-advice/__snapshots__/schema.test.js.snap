@@ -11,11 +11,16 @@ Array [
   "\\"organisationAddress\\" is required",
   "\\"organisationType\\" is required",
   "\\"organisationBackground\\" is required",
+  "\\"contactName\\" is required",
 ]
 `;
 
 exports[`minimal valid form 1`] = `
 Object {
+  "contactName": Object {
+    "firstName": "Björk",
+    "lastName": "Guðmundsdóttir",
+  },
   "organisationAddress": Object {
     "county": "West Midlands",
     "line1": "1234 example street",
