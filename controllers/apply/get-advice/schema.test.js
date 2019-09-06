@@ -25,7 +25,8 @@ function mockResponse(overrides) {
         projectCosts: '250,000',
         projectDurationYears: 3,
         projectIdea: faker.lorem.words(random(50, 500)),
-        organisationLegalName: 'Example organisation'
+        organisationLegalName: 'Example organisation',
+        organisationTradingName: 'Example trading name'
     };
 
     return Object.assign(defaults, overrides);
@@ -42,7 +43,8 @@ test('minimal valid form', () => {
         projectCosts: 250000,
         projectDurationYears: 3,
         projectIdea: expect.any(String),
-        organisationLegalName: 'Example organisation'
+        organisationLegalName: 'Example organisation',
+        organisationTradingName: 'Example trading name'
     });
 });
 
@@ -149,4 +151,10 @@ test('project idea must be within word-count', () => {
     expect(mapMessages(resultMax)).toEqual(
         expect.arrayContaining(['"projectIdea" must have less than 500 words'])
     );
+});
+
+test('optional organisational trading name', () => {
+    const expected = omit(mockResponse(), 'organisationTradingName');
+    const result = validate(expected);
+    expect(result.error).toBeNull();
 });

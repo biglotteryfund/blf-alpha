@@ -55,7 +55,10 @@ const schema = Joi.object({
         .minWords(50)
         .maxWords(500)
         .required(),
-    organisationLegalName: Joi.string().required()
+    organisationLegalName: Joi.string().required(),
+    organisationTradingName: Joi.string()
+        .allow('')
+        .optional()
 });
 
 module.exports = schema;
