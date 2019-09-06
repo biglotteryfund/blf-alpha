@@ -1890,48 +1890,44 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         totalIncomeYear: fieldTotalIncomeYear(locale),
-        mainContactName: nameField(
-            {
-                name: 'mainContactName',
-                label: localise({
-                    en: 'Full name of main contact',
-                    cy: 'Enw llawn y prif gyswllt'
-                }),
-                explanation: localise({
-                    en: 'This person has to live in the UK.',
-                    cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.'
-                }),
-                get warnings() {
-                    let result = [];
+        mainContactName: nameField({
+            name: 'mainContactName',
+            label: localise({
+                en: 'Full name of main contact',
+                cy: 'Enw llawn y prif gyswllt'
+            }),
+            explanation: localise({
+                en: 'This person has to live in the UK.',
+                cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.'
+            }),
+            get warnings() {
+                let result = [];
 
-                    const seniorSurname = get('seniorContactName.lastName')(
-                        data
-                    );
+                const seniorSurname = get('seniorContactName.lastName')(data);
 
-                    const lastNamesMatch =
-                        seniorSurname &&
-                        seniorSurname === get('mainContactName.lastName')(data);
+                const lastNamesMatch =
+                    seniorSurname &&
+                    seniorSurname === get('mainContactName.lastName')(data);
 
-                    if (lastNamesMatch) {
-                        result.push(
-                            localise({
-                                en: `<span class="js-form-warning-surname">We've noticed that your main and senior contact
+                if (lastNamesMatch) {
+                    result.push(
+                        localise({
+                            en: `<span class="js-form-warning-surname">We've noticed that your main and senior contact
                                      have the same surname. Remember we can't fund projects
                                      where the two contacts are married or related by blood.</span>`,
-                                cy: `<span class="js-form-warning-surname">Rydym wedi sylwi bod gan eich uwch gyswllt a’ch
+                            cy: `<span class="js-form-warning-surname">Rydym wedi sylwi bod gan eich uwch gyswllt a’ch
                                      prif gyswllt yr un cyfenw. Cofiwch ni allwn ariannu prosiectau 
                                      lle mae’r ddau gyswllt yn briod neu’n perthyn drwy waed.</span>`
-                            })
-                        );
-                    }
+                        })
+                    );
+                }
 
-                    return result;
-                },
-                schema: Joi.fullName()
-                    .compare(Joi.ref('seniorContactName'))
-                    .required()
+                return result;
             },
-            [
+            schema: Joi.fullName()
+                .compare(Joi.ref('seniorContactName'))
+                .required(),
+            messages: [
                 {
                     type: 'object.isEqual',
                     message: localise({
@@ -1940,7 +1936,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 }
             ]
-        ),
+        }),
         mainContactDateOfBirth: dateOfBirthField(MIN_AGE_MAIN_CONTACT, {
             name: 'mainContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: 'Dyddiad geni' })
@@ -2033,22 +2029,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         seniorContactRole: fieldSeniorContactRole(locale, data),
-        seniorContactName: nameField(
-            {
-                name: 'seniorContactName',
-                label: localise({
-                    en: 'Full name of senior contact',
-                    cy: 'Enw llawn yr uwch gyswllt'
-                }),
-                explanation: localise({
-                    en: 'This person has to live in the UK.',
-                    cy: 'Rhaid i’r person hwn fyw ym Mhrydain'
-                }),
-                schema: Joi.fullName()
-                    .compare(Joi.ref('mainContactName'))
-                    .required()
-            },
-            [
+        seniorContactName: nameField({
+            name: 'seniorContactName',
+            label: localise({
+                en: 'Full name of senior contact',
+                cy: 'Enw llawn yr uwch gyswllt'
+            }),
+            explanation: localise({
+                en: 'This person has to live in the UK.',
+                cy: 'Rhaid i’r person hwn fyw ym Mhrydain'
+            }),
+            schema: Joi.fullName()
+                .compare(Joi.ref('mainContactName'))
+                .required(),
+            messages: [
                 {
                     type: 'object.isEqual',
                     message: localise({
@@ -2057,7 +2051,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     })
                 }
             ]
-        ),
+        }),
         seniorContactDateOfBirth: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
             name: 'seniorContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: 'Dyddad geni' })

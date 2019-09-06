@@ -8,6 +8,20 @@ Array [
 ]
 `;
 
+exports[`Contacts contact addresses must not match 1`] = `
+Array [
+  "Main contact address must be different from the senior contact's address",
+  "Senior contact address must be different from the main contact's address",
+]
+`;
+
+exports[`Contacts full names must not match 1`] = `
+Array [
+  "Main contact name must be different from the senior contact's name",
+  "Senior contact name must be different from the main contact's name",
+]
+`;
+
 exports[`Contacts include all roles if no organisation type is provided 1`] = `
 Array [
   "chair",
