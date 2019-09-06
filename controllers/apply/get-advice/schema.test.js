@@ -24,7 +24,8 @@ function mockResponse(overrides) {
         projectLocationDescription: 'optional description',
         projectCosts: '250,000',
         projectDurationYears: 3,
-        projectIdea: faker.lorem.words(random(50, 500))
+        projectIdea: faker.lorem.words(random(50, 500)),
+        organisationLegalName: 'Example organisation'
     };
 
     return Object.assign(defaults, overrides);
@@ -40,7 +41,8 @@ test('minimal valid form', () => {
         projectLocationDescription: 'optional description',
         projectCosts: 250000,
         projectDurationYears: 3,
-        projectIdea: expect.any(String)
+        projectIdea: expect.any(String),
+        organisationLegalName: 'Example organisation'
     });
 });
 
@@ -57,7 +59,8 @@ test('minimal invalid form', () => {
         '"projectLocation" must be a string',
         '"projectCosts" must be larger than or equal to 10000',
         '"projectDurationYears" must be less than or equal to 5',
-        '"projectIdea" is required'
+        '"projectIdea" is required',
+        '"organisationLegalName" is required'
     ]);
 });
 
@@ -126,7 +129,7 @@ test('strip project duration when applying for more than one country', () => {
     expect(result.value).not.toHaveProperty('projectDurationYears');
 });
 
-test('project idea must be within word-cound', () => {
+test('project idea must be within word-count', () => {
     const resultMin = validate(
         mockResponse({
             projectIdea: faker.lorem.words(49)
