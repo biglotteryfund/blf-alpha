@@ -10,6 +10,7 @@ Object {
   },
   "organisationLegalName": "Example organisation",
   "organisationTradingName": "Example trading name",
+  "organisationType": "Social enterprise",
   "projectCosts": 250000,
   "projectCountry": Array [
     "england",

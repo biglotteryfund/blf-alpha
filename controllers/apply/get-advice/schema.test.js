@@ -62,16 +62,7 @@ test('minimal invalid form', () => {
         projectDurationYears: 10
     });
 
-    expect(mapMessages(result)).toEqual([
-        '"projectCountry" must be one of [england, scotland, northern-ireland, wales]',
-        '"projectLocation" must be a string',
-        '"projectCosts" must be larger than or equal to 10000',
-        '"projectDurationYears" must be less than or equal to 5',
-        '"projectIdea" is required',
-        '"organisationLegalName" is required',
-        '"organisationAddress" is required',
-        '"organisationType" is required'
-    ]);
+    expect(mapMessages(result)).toMatchSnapshot();
 });
 
 test('strip location when applying for more than one country', () => {
