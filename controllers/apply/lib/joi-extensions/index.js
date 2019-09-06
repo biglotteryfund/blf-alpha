@@ -2,6 +2,7 @@
 const baseJoi = require('@hapi/joi');
 
 module.exports = baseJoi.extend([
+    require('./compare-object'),
     require('./friendly-number'),
     require('./budget-items'),
     require('./date-parts'),
