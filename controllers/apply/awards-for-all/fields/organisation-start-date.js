@@ -35,14 +35,14 @@ module.exports = function(locale) {
             {
                 type: 'base',
                 message: localise({
-                    en: 'Enter a day and month',
+                    en: 'Enter a month and year',
                     cy: 'Rhowch ddiwrnod a mis'
                 })
             },
             {
                 type: 'any.invalid',
                 message: localise({
-                    en: 'Enter a real day and month',
+                    en: 'Enter a real month and year',
                     cy: 'Rhowch ddiwrnod a mis go iawn'
                 })
             },

@@ -179,7 +179,7 @@ Array [
   "Enter a total cost for your project",
   "Select yes or no",
   "Enter the full legal name of the organisation",
-  "Enter a day and month",
+  "Enter a month and year",
   "Enter a full UK address",
   "Select a type of organisation",
   "Enter first and last name",
@@ -231,8 +231,8 @@ Array [
 
 exports[`Your organisation valid basic organisation details required 1`] = `
 Array [
-  "Enter a day and month",
   "Enter a full UK address",
+  "Enter a month and year",
   "Enter the full legal name of the organisation",
   "Select a type of organisation",
 ]
