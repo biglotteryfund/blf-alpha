@@ -4,6 +4,7 @@
 const omit = require('lodash/omit');
 const random = require('lodash/random');
 const faker = require('faker');
+const { oneLine } = require('common-tags');
 
 const schema = require('./schema');
 
@@ -24,7 +25,15 @@ function mockResponse(overrides) {
         projectLocationDescription: 'optional description',
         projectCosts: '250,000',
         projectDurationYears: 3,
-        projectIdea: faker.lorem.words(random(50, 500)),
+        projectIdea: oneLine`Turnip greens yarrow ricebean rutabaga endive
+            cauliflower sea lettuce kohlrabi amaranth water spinach avocado
+            daikon napa cabbage asparagus winter purslane kale. Celery potato
+            scallion desert raisin horseradish spinach carrot soko. Lotus root
+            water spinach fennel kombu maize bamboo shoot green bean swiss
+            chard seakale pumpkin onion chickpea gram corn pea. Brussels
+            sprout coriander water chestnut gourd swiss chard wakame kohlrabi
+            beetroot carrot watercress. Corn amaranth salsify bunya nuts nori
+            azuki bean chickweed potato bell pepper artichoke.`,
         organisationLegalName: 'Example organisation',
         organisationTradingName: 'Example trading name'
     };
@@ -35,17 +44,7 @@ function mockResponse(overrides) {
 test('minimal valid form', () => {
     const result = validate(mockResponse());
     expect(result.error).toBeNull();
-
-    expect(result.value).toEqual({
-        projectCountry: ['england'],
-        projectLocation: 'placeholder-location',
-        projectLocationDescription: 'optional description',
-        projectCosts: 250000,
-        projectDurationYears: 3,
-        projectIdea: expect.any(String),
-        organisationLegalName: 'Example organisation',
-        organisationTradingName: 'Example trading name'
-    });
+    expect(result.value).toMatchSnapshot();
 });
 
 test('minimal invalid form', () => {
