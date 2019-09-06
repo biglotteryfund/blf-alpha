@@ -639,7 +639,7 @@
                 {% endif %}
             </div>
             {% if fieldErrors.length > 0 %}
-                {% set errorsNoscript = field.settings.showWordCount or field.type === 'budget' %}
+                {% set errorsNoscript = field.type === 'budget' %}
                 {% if errorsNoscript %}
                     <noscript>
                 {% endif %}
