@@ -107,4 +107,6 @@ type: `string`
 
 ### contactPhone
 
-type: `string`
+type: `string` or `null`
+
+Optional field
