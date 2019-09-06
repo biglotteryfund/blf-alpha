@@ -50,7 +50,11 @@ const schema = Joi.object({
         is: singleArrayItem('scotland'),
         then: numberRange(3, 5),
         otherwise: numberRange(1, 5)
-    })
+    }),
+    projectIdea: Joi.string()
+        .minWords(50)
+        .maxWords(500)
+        .required()
 });
 
 module.exports = schema;

@@ -23,7 +23,8 @@ function mockResponse(overrides) {
         projectLocation: 'placeholder-location',
         projectLocationDescription: 'optional description',
         projectCosts: '250,000',
-        projectDurationYears: 3
+        projectDurationYears: 3,
+        projectIdea: faker.lorem.words(random(50, 500))
     };
 
     return Object.assign(defaults, overrides);
@@ -38,7 +39,8 @@ test('minimal valid form', () => {
         projectLocation: 'placeholder-location',
         projectLocationDescription: 'optional description',
         projectCosts: 250000,
-        projectDurationYears: 3
+        projectDurationYears: 3,
+        projectIdea: expect.any(String)
     });
 });
 
@@ -54,7 +56,8 @@ test('minimal invalid form', () => {
         '"projectCountry" must be one of [england, scotland, northern-ireland, wales]',
         '"projectLocation" must be a string',
         '"projectCosts" must be larger than or equal to 10000',
-        '"projectDurationYears" must be less than or equal to 5'
+        '"projectDurationYears" must be less than or equal to 5',
+        '"projectIdea" is required'
     ]);
 });
 
@@ -121,4 +124,26 @@ test('strip project duration when applying for more than one country', () => {
     );
 
     expect(result.value).not.toHaveProperty('projectDurationYears');
+});
+
+test('project idea must be within word-cound', () => {
+    const resultMin = validate(
+        mockResponse({
+            projectIdea: faker.lorem.words(49)
+        })
+    );
+
+    expect(mapMessages(resultMin)).toEqual(
+        expect.arrayContaining(['"projectIdea" must have at least 50 words'])
+    );
+
+    const resultMax = validate(
+        mockResponse({
+            projectIdea: faker.lorem.words(501)
+        })
+    );
+
+    expect(mapMessages(resultMax)).toEqual(
+        expect.arrayContaining(['"projectIdea" must have less than 500 words'])
+    );
 });
