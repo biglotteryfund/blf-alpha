@@ -23,6 +23,7 @@ Object {
     "firstName": "Björk",
     "lastName": "Guðmundsdóttir",
   },
+  "contactPhone": "0345 410 2030",
   "organisationAddress": Object {
     "county": "West Midlands",
     "line1": "1234 example street",

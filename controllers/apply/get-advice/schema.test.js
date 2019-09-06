@@ -50,7 +50,8 @@ function mockResponse(overrides) {
             firstName: 'Björk',
             lastName: 'Guðmundsdóttir'
         },
-        contactEmail: 'general.enquiries@tnlcommunityfund.org.uk'
+        contactEmail: 'general.enquiries@tnlcommunityfund.org.uk',
+        contactPhone: '0345 4 10 20 30'
     };
 
     return Object.assign(defaults, overrides);
@@ -190,4 +191,10 @@ test('organisation background must be within word-count', () => {
             '"organisationBackground" must have less than 500 words'
         ])
     );
+});
+
+test('optional contact phone number', () => {
+    const expected = omit(mockResponse(), 'contactPhone');
+    const result = validate(expected);
+    expect(result.error).toBeNull();
 });

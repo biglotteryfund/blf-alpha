@@ -68,7 +68,11 @@ const schema = Joi.object({
     contactName: Joi.fullName().required(),
     contactEmail: Joi.string()
         .email()
-        .required()
+        .required(),
+    contactPhone: Joi.string()
+        .phoneNumber()
+        .allow('')
+        .optional()
 });
 
 module.exports = schema;
