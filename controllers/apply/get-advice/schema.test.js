@@ -77,12 +77,6 @@ test('strip location when applying for more than one country', () => {
     expect(result.value).not.toHaveProperty('projectLocation');
 });
 
-test('optional project location description', () => {
-    const expected = omit(mockResponse(), 'projectLocationDescription');
-    const result = validate(expected);
-    expect(result.error).toBeNull();
-});
-
 test.each([
     ['england', 1, 5],
     ['northern-ireland', 1, 5],
@@ -153,12 +147,6 @@ test('project idea must be within word-count', () => {
     );
 });
 
-test('optional organisational trading name', () => {
-    const expected = omit(mockResponse(), 'organisationTradingName');
-    const result = validate(expected);
-    expect(result.error).toBeNull();
-});
-
 test('organisation background must be within word-count', () => {
     const resultMin = validate(
         mockResponse({
@@ -185,8 +173,12 @@ test('organisation background must be within word-count', () => {
     );
 });
 
-test('optional contact phone number', () => {
-    const expected = omit(mockResponse(), 'contactPhone');
+test.each([
+    'projectLocationDescription',
+    'organisationTradingName',
+    'contactPhone'
+])('optional %p field', function(fieldName) {
+    const expected = omit(mockResponse(), fieldName);
     const result = validate(expected);
     expect(result.error).toBeNull();
 });
