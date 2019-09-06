@@ -4,7 +4,6 @@
 const omit = require('lodash/omit');
 const random = require('lodash/random');
 const faker = require('faker');
-const { oneLine } = require('common-tags');
 
 const schema = require('./schema');
 
@@ -19,23 +18,13 @@ function mapMessages(validationResult) {
 }
 
 function mockResponse(overrides) {
-    const placeholderText = oneLine`Turnip greens yarrow ricebean rutabaga 
-        endive cauliflower sea lettuce kohlrabi amaranth water spinach avocado
-        daikon napa cabbage asparagus winter purslane kale. Celery potato
-        scallion desert raisin horseradish spinach carrot soko. Lotus root
-        water spinach fennel kombu maize bamboo shoot green bean swiss
-        chard seakale pumpkin onion chickpea gram corn pea. Brussels
-        sprout coriander water chestnut gourd swiss chard wakame kohlrabi
-        beetroot carrot watercress. Corn amaranth salsify bunya nuts nori
-        azuki bean chickweed potato bell pepper artichoke.`;
-
     const defaults = {
         projectCountry: 'england',
         projectLocation: 'placeholder-location',
         projectLocationDescription: 'optional description',
         projectCosts: '250,000',
         projectDurationYears: 3,
-        projectIdea: placeholderText,
+        projectIdea: faker.lorem.words(random(50, 500)),
         organisationLegalName: 'Example organisation',
         organisationTradingName: 'Example trading name',
         organisationAddress: {
@@ -45,7 +34,7 @@ function mockResponse(overrides) {
             postcode: 'B15 1TR'
         },
         organisationType: 'Social enterprise',
-        organisationBackground: placeholderText,
+        organisationBackground: faker.lorem.words(random(50, 500)),
         contactName: {
             firstName: 'Björk',
             lastName: 'Guðmundsdóttir'
@@ -60,7 +49,10 @@ function mockResponse(overrides) {
 test('minimal valid form', () => {
     const result = validate(mockResponse());
     expect(result.error).toBeNull();
-    expect(result.value).toMatchSnapshot();
+    expect(result.value).toMatchSnapshot({
+        projectIdea: expect.any(String),
+        organisationBackground: expect.any(String)
+    });
 });
 
 test('minimal invalid form', () => {
