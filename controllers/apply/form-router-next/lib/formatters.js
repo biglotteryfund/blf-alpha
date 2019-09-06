@@ -11,7 +11,7 @@ const sumBy = require('lodash/sumBy');
 const filesize = require('filesize');
 const mime = require('mime-types');
 
-const { fromDateParts } = require('./date-parts');
+const fromDateParts = require('../../lib/from-date-parts');
 const { countWords } = require('../../../../common/strings');
 
 function formatRadio(field) {

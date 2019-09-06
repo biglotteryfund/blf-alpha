@@ -1,5 +1,5 @@
 'use strict';
-const { fromDateParts } = require('../../form-router-next/lib/date-parts');
+const fromDateParts = require('../from-date-parts');
 
 module.exports = function dateParts(joi) {
     const datePartsConfig = {

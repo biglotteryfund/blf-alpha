@@ -11,7 +11,7 @@ const { safeHtml, oneLine } = require('common-tags');
 const config = require('config');
 
 const { FormModel } = require('../form-router-next/lib/form-model');
-const { fromDateParts } = require('../form-router-next/lib/date-parts');
+const fromDateParts = require('../lib/from-date-parts');
 const { formatDateRange } = require('../form-router-next/lib/formatters');
 const {
     BENEFICIARY_GROUPS,
