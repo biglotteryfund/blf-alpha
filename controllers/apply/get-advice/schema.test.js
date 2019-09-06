@@ -125,53 +125,34 @@ test('strip project duration when applying for more than one country', () => {
     expect(result.value).not.toHaveProperty('projectDurationYears');
 });
 
-test('project idea must be within word-count', () => {
-    const resultMin = validate(
-        mockResponse({
-            projectIdea: faker.lorem.words(49)
-        })
-    );
+test.each([['projectIdea', 50, 500], ['organisationBackground', 50, 500]])(
+    '%p must be within word-count',
+    function(fieldName, min, max) {
+        const resultMin = validate(
+            mockResponse({
+                [fieldName]: faker.lorem.words(min - 1)
+            })
+        );
 
-    expect(mapMessages(resultMin)).toEqual(
-        expect.arrayContaining(['"projectIdea" must have at least 50 words'])
-    );
+        expect(mapMessages(resultMin)).toEqual(
+            expect.arrayContaining([
+                `"${fieldName}" must have at least ${min} words`
+            ])
+        );
 
-    const resultMax = validate(
-        mockResponse({
-            projectIdea: faker.lorem.words(501)
-        })
-    );
+        const resultMax = validate(
+            mockResponse({
+                [fieldName]: faker.lorem.words(max + 1)
+            })
+        );
 
-    expect(mapMessages(resultMax)).toEqual(
-        expect.arrayContaining(['"projectIdea" must have less than 500 words'])
-    );
-});
-
-test('organisation background must be within word-count', () => {
-    const resultMin = validate(
-        mockResponse({
-            organisationBackground: faker.lorem.words(49)
-        })
-    );
-
-    expect(mapMessages(resultMin)).toEqual(
-        expect.arrayContaining([
-            '"organisationBackground" must have at least 50 words'
-        ])
-    );
-
-    const resultMax = validate(
-        mockResponse({
-            organisationBackground: faker.lorem.words(501)
-        })
-    );
-
-    expect(mapMessages(resultMax)).toEqual(
-        expect.arrayContaining([
-            '"organisationBackground" must have less than 500 words'
-        ])
-    );
-});
+        expect(mapMessages(resultMax)).toEqual(
+            expect.arrayContaining([
+                `"${fieldName}" must have less than ${max} words`
+            ])
+        );
+    }
+);
 
 test.each([
     'projectLocationDescription',
