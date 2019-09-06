@@ -12,11 +12,13 @@ Array [
   "\\"organisationType\\" is required",
   "\\"organisationBackground\\" is required",
   "\\"contactName\\" is required",
+  "\\"contactEmail\\" is required",
 ]
 `;
 
 exports[`minimal valid form 1`] = `
 Object {
+  "contactEmail": "general.enquiries@tnlcommunityfund.org.uk",
   "contactName": Object {
     "firstName": "Björk",
     "lastName": "Guðmundsdóttir",

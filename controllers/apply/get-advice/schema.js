@@ -65,7 +65,10 @@ const schema = Joi.object({
         .minWords(50)
         .maxWords(500)
         .required(),
-    contactName: Joi.fullName().required()
+    contactName: Joi.fullName().required(),
+    contactEmail: Joi.string()
+        .email()
+        .required()
 });
 
 module.exports = schema;

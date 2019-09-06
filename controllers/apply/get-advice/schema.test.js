@@ -49,7 +49,8 @@ function mockResponse(overrides) {
         contactName: {
             firstName: 'Björk',
             lastName: 'Guðmundsdóttir'
-        }
+        },
+        contactEmail: 'general.enquiries@tnlcommunityfund.org.uk'
     };
 
     return Object.assign(defaults, overrides);
