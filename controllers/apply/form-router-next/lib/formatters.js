@@ -12,7 +12,7 @@ const filesize = require('filesize');
 const mime = require('mime-types');
 
 const fromDateParts = require('../../lib/from-date-parts');
-const { countWords } = require('../../../../common/strings');
+const countWords = require('../../lib/count-words');
 
 function formatRadio(field) {
     return function(value) {

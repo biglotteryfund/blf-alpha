@@ -1,5 +1,5 @@
 'use strict';
-const { countWords } = require('../../../../common/strings');
+const countWords = require('../count-words');
 
 module.exports = function wordCount(joi) {
     return {
