@@ -58,7 +58,9 @@ const schema = Joi.object({
     organisationLegalName: Joi.string().required(),
     organisationTradingName: Joi.string()
         .allow('')
-        .optional()
+        .optional(),
+    organisationAddress: Joi.ukAddress().required(),
+    organisationType: Joi.string().required()
 });
 
 module.exports = schema;

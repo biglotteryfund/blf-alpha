@@ -2,6 +2,12 @@
 
 exports[`minimal valid form 1`] = `
 Object {
+  "organisationAddress": Object {
+    "county": "West Midlands",
+    "line1": "1234 example street",
+    "postcode": "B15 1TR",
+    "townCity": "Birmingham",
+  },
   "organisationLegalName": "Example organisation",
   "organisationTradingName": "Example trading name",
   "projectCosts": 250000,

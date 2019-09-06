@@ -35,7 +35,14 @@ function mockResponse(overrides) {
             beetroot carrot watercress. Corn amaranth salsify bunya nuts nori
             azuki bean chickweed potato bell pepper artichoke.`,
         organisationLegalName: 'Example organisation',
-        organisationTradingName: 'Example trading name'
+        organisationTradingName: 'Example trading name',
+        organisationAddress: {
+            line1: '1234 example street',
+            townCity: 'Birmingham',
+            county: 'West Midlands',
+            postcode: 'B15 1TR'
+        },
+        organisationType: 'Social enterprise'
     };
 
     return Object.assign(defaults, overrides);
@@ -61,7 +68,9 @@ test('minimal invalid form', () => {
         '"projectCosts" must be larger than or equal to 10000',
         '"projectDurationYears" must be less than or equal to 5',
         '"projectIdea" is required',
-        '"organisationLegalName" is required'
+        '"organisationLegalName" is required',
+        '"organisationAddress" is required',
+        '"organisationType" is required'
     ]);
 });
 
