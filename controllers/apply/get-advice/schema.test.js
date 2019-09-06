@@ -1,6 +1,7 @@
 /* eslint-env jest */
 // @ts-nocheck
 'use strict';
+const omit = require('lodash/omit');
 
 const schema = require('./schema');
 
@@ -17,7 +18,8 @@ function mapMessages(validationResult) {
 function mockResponse(overrides) {
     const defaults = {
         projectCountry: 'england',
-        projectLocation: 'placeholder-location'
+        projectLocation: 'placeholder-location',
+        projectLocationDescription: 'optional description'
     };
 
     return Object.assign(defaults, overrides);
@@ -29,7 +31,8 @@ test('minimal valid form', () => {
 
     expect(result.value).toEqual({
         projectCountry: ['england'],
-        projectLocation: 'placeholder-location'
+        projectLocation: 'placeholder-location',
+        projectLocationDescription: 'optional description'
     });
 });
 
@@ -54,4 +57,10 @@ test('strip location when applying for more than one country', () => {
     );
 
     expect(result.value).not.toHaveProperty('projectLocation');
+});
+
+test('optional project location description', () => {
+    const expected = omit(mockResponse(), 'projectLocationDescription');
+    const result = validate(expected);
+    expect(result.error).toBeNull();
 });

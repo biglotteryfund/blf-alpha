@@ -16,7 +16,10 @@ const schema = Joi.object({
         is: Joi.array().min(2),
         then: Joi.any().strip(),
         otherwise: Joi.string().required()
-    })
+    }),
+    projectLocationDescription: Joi.string()
+        .allow('')
+        .optional()
 });
 
 module.exports = schema;
