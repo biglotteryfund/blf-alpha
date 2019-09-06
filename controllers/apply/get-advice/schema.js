@@ -1,24 +1,6 @@
 'use strict';
 const Joi = require('../lib/joi-extensions');
 
-function singleArrayItem(item) {
-    return Joi.array()
-        .items(
-            Joi.string()
-                .only(item)
-                .required()
-        )
-        .required();
-}
-
-function numberRange(min, max) {
-    return Joi.number()
-        .integer()
-        .required()
-        .min(min)
-        .max(max);
-}
-
 const schema = Joi.object({
     projectCountry: Joi.array()
         .items(
@@ -47,9 +29,23 @@ const schema = Joi.object({
         is: Joi.array().min(2),
         then: Joi.any().strip()
     }).when('projectCountry', {
-        is: singleArrayItem('scotland'),
-        then: numberRange(3, 5),
-        otherwise: numberRange(1, 5)
+        is: Joi.array()
+            .items(
+                Joi.string()
+                    .only('scotland')
+                    .required()
+            )
+            .required(),
+        then: Joi.number()
+            .integer()
+            .required()
+            .min(3)
+            .max(5),
+        otherwise: Joi.number()
+            .integer()
+            .required()
+            .min(1)
+            .max(5)
     }),
     projectIdea: Joi.string()
         .minWords(50)
