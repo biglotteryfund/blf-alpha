@@ -1,5 +1,5 @@
 'use strict';
-const Joi = require('@hapi/joi');
+const Joi = require('../lib/joi-extensions');
 
 const schema = Joi.object({
     projectCountry: Joi.array()
@@ -19,7 +19,12 @@ const schema = Joi.object({
     }),
     projectLocationDescription: Joi.string()
         .allow('')
-        .optional()
+        .optional(),
+    projectCosts: Joi.friendlyNumber()
+        .integer()
+        .required()
+        .min(10000)
+        .required()
 });
 
 module.exports = schema;
