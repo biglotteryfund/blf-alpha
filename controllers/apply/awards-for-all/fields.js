@@ -1055,7 +1055,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'base',
                     message: localise({
                         en: 'Select an option',
-                        cy: 'Dewiswch ie neu na'
+                        cy: 'Dewis opsiwn'
                     })
                 }
             ]
