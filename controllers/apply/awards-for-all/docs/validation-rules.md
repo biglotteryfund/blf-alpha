@@ -124,7 +124,7 @@ Client-side warnings:
 
 | Rule           | Message          |
 | -------------- | ---------------- |
-| Required field | Select yes or no |
+| Required field | Select an option |
 
 ### What specific groups of people is your project aimed at?
 

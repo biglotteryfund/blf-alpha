@@ -35,15 +35,15 @@ module.exports = function(locale) {
             {
                 type: 'base',
                 message: localise({
-                    en: 'Enter a day and month',
-                    cy: 'Rhowch ddiwrnod a mis'
+                    en: 'Enter a month and year',
+                    cy: 'Rhowch fis a blwyddyn'
                 })
             },
             {
                 type: 'any.invalid',
                 message: localise({
-                    en: 'Enter a real day and month',
-                    cy: 'Rhowch ddiwrnod a mis go iawn'
+                    en: 'Enter a real month and year',
+                    cy: 'Rhowch fis a blwyddyn go iawn'
                 })
             },
             {
