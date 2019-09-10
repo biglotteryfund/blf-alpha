@@ -95,7 +95,9 @@ function measureWordCounts(data) {
 function countRequestedAmount(data) {
     const amounts = data.map(item => {
         const row = item.applicationOverview.find(
-            _ => _.label === 'Requested amount'
+            _ =>
+                _.label === 'Requested amount' ||
+                _.label === 'Swm y gofynnwyd amdano'
         );
         return parseInt(
             get(row, 'value', 0)
@@ -126,7 +128,8 @@ function filterByCountry(country, appType) {
                 const rowCountry = item.applicationSummary.find(
                     _ =>
                         _.label ===
-                        'What country will your project be based in?'
+                            'What country will your project be based in?' ||
+                        _.label === 'Pa wlad fydd eich prosiect wedi’i leoli?'
                 );
                 appCountry = get(rowCountry, 'value');
             }
