@@ -1,7 +1,9 @@
 // @ts-nocheck
 'use strict';
 const moment = require('moment');
+const env = process.env.NODE_ENV || 'development';
 const { Model, Op, Sequelize } = require('sequelize');
+const { dialect } = require('../database-config')[env];
 const { EXPIRY_EMAIL_REMINDERS } = require('../../controllers/apply/awards-for-all/constants');
 
 class PendingApplication extends Model {
@@ -53,10 +55,10 @@ class PendingApplication extends Model {
 
             /**
              * Last expiry email reminder sent
-             * Everytime a new reminder is sent, its pushed to the array
+             * Everytime a new reminder is sent, its replaced with the previous
              */
             lastExpiryWarningSent: {
-                type: DataTypes.JSON,
+                type: DataTypes.STRING,
                 allowNull: false
             },
 
@@ -98,36 +100,60 @@ class PendingApplication extends Model {
         });
     }
     static findExpiringInMonth() {
-        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 15 AND DATEDIFF(expiresAt, CURDATE()) <= 30 AND NOT JSON_CONTAINS(lastExpiryWarningSent, JSON_ARRAY('${EXPIRY_EMAIL_REMINDERS.MONTH}'))`;
+        let rawSqlStmt;
+
+        if (dialect === 'sqlite') {
+            rawSqlStmt = `julianday(expiresAt) - julianday('now') >= 15 AND julianday(expiresAt) - julianday('now') <= 30 AND lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.MONTH}'`;
+        } else {
+            rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 15 AND DATEDIFF(expiresAt, CURDATE()) <= 30 AND lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.MONTH}'`;
+        }
 
         return this.findAll({
             where: Sequelize.literal(rawSqlStmt)
         });
     }
     static findExpiringInWeek() {
-        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 3 AND DATEDIFF(expiresAt, CURDATE()) <= 14 AND NOT JSON_CONTAINS(lastExpiryWarningSent, JSON_ARRAY('${EXPIRY_EMAIL_REMINDERS.WEEK}'))`;
+        let rawSqlStmt;
+
+        if (dialect === 'sqlite') {
+            rawSqlStmt = `julianday(expiresAt) - julianday('now') >= 3 AND julianday(expiresAt) - julianday('now') <= 14 AND lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.WEEK}'`;
+        } else {
+            rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 3 AND DATEDIFF(expiresAt, CURDATE()) <= 14 AND lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.WEEK}'`;
+        }
 
         return this.findAll({
             where: Sequelize.literal(rawSqlStmt)
         });
     }
     static findExpiringInDay() {
-        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 1 AND DATEDIFF(expiresAt, CURDATE()) <= 2 AND NOT JSON_CONTAINS(lastExpiryWarningSent, JSON_ARRAY('${EXPIRY_EMAIL_REMINDERS.DAY}'))`;
+        let rawSqlStmt;
+
+        if (dialect === 'sqlite') {
+            rawSqlStmt = `julianday(expiresAt) - julianday('now') >= 1 AND julianday(expiresAt) - julianday('now') <= 2 AND lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.DAY}'`;
+        } else {
+            rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 1 AND DATEDIFF(expiresAt, CURDATE()) <= 2 AND lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.DAY}'`;
+        }
 
         return this.findAll({
             where: Sequelize.literal(rawSqlStmt)
         });
     }
     static findExpired() {
-        const rawSqlStmt = 'DATEDIFF(expiresAt, CURDATE()) <= 0';
+        let rawSqlStmt;
+
+        if (dialect === 'sqlite') {
+            rawSqlStmt = `julianday(expiresAt) - julianday('now') <= 0`;
+        } else {
+            rawSqlStmt = 'DATEDIFF(expiresAt, CURDATE()) <= 0';
+        }
 
         return this.findAll({
             where: Sequelize.literal(rawSqlStmt)
         });
     }
-    static updateExpiryWarning(applicationIds, warnings) {
+    static updateExpiryWarning(applicationIds, warning) {
         return this.update({
-            lastExpiryWarningSent: warnings,
+            lastExpiryWarningSent: warning,
         }, {
             where: {
                 id: { [Op.in]: applicationIds }

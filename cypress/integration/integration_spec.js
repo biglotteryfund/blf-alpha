@@ -357,9 +357,12 @@ describe('api endpoints', () => {
         });
     });
 
-    it('API EXPIRY', () => {
+    it('should allow application expiry API responses', () => {
         cy.request('POST', '/api/applications/expiry', {}).then(response => {
-            console.log(response);
+            expect(response.status).to.equal(200);
+            expect(response.body).to.have.property('monthlyExpiry');
+            expect(response.body).to.have.property('weeklyExpiry');
+            expect(response.body).to.have.property('dailyExpiry');
         });
     });
 });

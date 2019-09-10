@@ -32,15 +32,15 @@ const sendExpiryEmail = async (expiryMailList) => {
     return (status.response) ? true : false;
 };
 
-const updateDb = async (expiryApplications, expiryWarnings, emailStatus) => {
+const updateDb = async (expiryApplications, expiryWarning, emailStatus) => {
     let dbStatus;
 
     if (emailStatus) {
         const applicationIds = expiryApplications.map(application => application.id);
-        dbStatus = await PendingApplication.updateExpiryWarning(applicationIds, expiryWarnings);
+        dbStatus = await PendingApplication.updateExpiryWarning(applicationIds, expiryWarning);
     }
 
-    return dbStatus === expiryApplications.length ? true : false;
+    return dbStatus[0] === expiryApplications.length ? true : false;
 };
 
 const handleMonthExpiry = async (monthExpiryApplications) => {
@@ -56,7 +56,7 @@ const handleMonthExpiry = async (monthExpiryApplications) => {
         // Update db
         const dbStatus = await updateDb(
             monthExpiryApplications,
-            [ EXPIRY_EMAIL_REMINDERS.MONTH ],
+            EXPIRY_EMAIL_REMINDERS.MONTH,
             emailStatus
         );
 
@@ -83,7 +83,7 @@ const handleWeekExpiry = async (weekExpiryApplications) => {
         // Update db
         const dbStatus = await updateDb(
             weekExpiryApplications,
-            [ EXPIRY_EMAIL_REMINDERS.MONTH, EXPIRY_EMAIL_REMINDERS.WEEK ],
+            EXPIRY_EMAIL_REMINDERS.WEEK,
             emailStatus
         );
 
@@ -110,7 +110,7 @@ const handleDayExpiry = async (dayExpiryApplications) => {
         // Update db
         const dbStatus = await updateDb(
             dayExpiryApplications,
-            [ EXPIRY_EMAIL_REMINDERS.MONTH, EXPIRY_EMAIL_REMINDERS.WEEK, EXPIRY_EMAIL_REMINDERS.DAY ],
+            EXPIRY_EMAIL_REMINDERS.DAY,
             emailStatus
         );
 
