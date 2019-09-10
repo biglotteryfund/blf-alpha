@@ -56,14 +56,8 @@ class PendingApplication extends Model {
              * Everytime a new reminder is sent, its pushed to the array
              */
             lastExpiryWarningSent: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                get: function() {
-                    return JSON.parse(this.getDataValue('lastExpiryWarningSent'));
-                }, 
-                set: function(val) {
-                    return this.setDataValue('lastExpiryWarningSent', JSON.stringify(val));
-                }
+                type: DataTypes.JSON,
+                allowNull: false
             },
 
             /**
@@ -104,21 +98,21 @@ class PendingApplication extends Model {
         });
     }
     static findExpiringInMonth() {
-        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 15 AND DATEDIFF(expiresAt, CURDATE()) <= 30 AND lastExpiryWarningSent != ${EXPIRY_EMAIL_REMINDERS.MONTH}`;
+        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 15 AND DATEDIFF(expiresAt, CURDATE()) <= 30 AND NOT JSON_CONTAINS(lastExpiryWarningSent, JSON_ARRAY('${EXPIRY_EMAIL_REMINDERS.MONTH}'))`;
 
         return this.findAll({
             where: Sequelize.literal(rawSqlStmt)
         });
     }
     static findExpiringInWeek() {
-        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 3 AND DATEDIFF(expiresAt, CURDATE()) <= 14 AND lastExpiryWarningSent != ${EXPIRY_EMAIL_REMINDERS.WEEK}`;
+        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 3 AND DATEDIFF(expiresAt, CURDATE()) <= 14 AND NOT JSON_CONTAINS(lastExpiryWarningSent, JSON_ARRAY('${EXPIRY_EMAIL_REMINDERS.WEEK}'))`;
 
         return this.findAll({
             where: Sequelize.literal(rawSqlStmt)
         });
     }
     static findExpiringInDay() {
-        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 1 AND DATEDIFF(expiresAt, CURDATE()) <= 2 AND lastExpiryWarningSent != ${EXPIRY_EMAIL_REMINDERS.DAY}`;
+        const rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 1 AND DATEDIFF(expiresAt, CURDATE()) <= 2 AND NOT JSON_CONTAINS(lastExpiryWarningSent, JSON_ARRAY('${EXPIRY_EMAIL_REMINDERS.DAY}'))`;
 
         return this.findAll({
             where: Sequelize.literal(rawSqlStmt)
@@ -131,13 +125,12 @@ class PendingApplication extends Model {
             where: Sequelize.literal(rawSqlStmt)
         });
     }
-    static updateExpiryWarningColumn(warning) {
-        console.log(warning);
+    static updateExpiryWarning(applicationIds, warnings) {
         return this.update({
-            lastExpiryWarningSent: warning,
+            lastExpiryWarningSent: warnings,
         }, {
             where: {
-                submissionAttempts: { [Op.in]: [45, 39] }
+                id: { [Op.in]: applicationIds }
             }
         });
     }

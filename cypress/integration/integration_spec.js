@@ -356,6 +356,12 @@ describe('api endpoints', () => {
             expect(response.body.result.message).to.equal(data.message);
         });
     });
+
+    it('API EXPIRY', () => {
+        cy.request('POST', '/api/applications/expiry', {}).then(response => {
+            console.log(response);
+        });
+    });
 });
 
 describe('common pages', () => {

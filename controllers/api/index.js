@@ -8,7 +8,11 @@ const { Feedback, SurveyAnswer, PendingApplication } = require('../../db/models'
 const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');
 const { csrfProtection } = require('../../common/cached');
-const { handleMonthExpiry } = require('./lib/application-expiry');
+const {
+    handleMonthExpiry,
+    handleWeekExpiry,
+    handleDayExpiry
+} = require('./lib/application-expiry');
 
 const { Client } = require('@ideal-postcodes/core-node');
 const postcodesClient = new Client({
@@ -156,8 +160,9 @@ router.post('/survey', async (req, res) => {
  */
 
 router.post('/applications/expiry', async (req, res) => {
-    try {
+    let response = {};
 
+    try {
         const [
             monthExpiryApplications,
             weekExpiryApplications,
@@ -170,14 +175,31 @@ router.post('/applications/expiry', async (req, res) => {
             PendingApplication.findExpired()
         ]);
 
+        // Handle Monthly reminder
+        if (monthExpiryApplications.length > 0) {
+            response.monthlyExpiry = await handleMonthExpiry(monthExpiryApplications);
+        } else {
+            response.monthlyExpiry = 'No applications were found';
+        }
+
+        // Handle Weekly reminder
+        if (weekExpiryApplications.length > 0) {
+            response.weeklyExpiry = await handleWeekExpiry(weekExpiryApplications);
+        } else {
+            response.weeklyExpiry = 'No applications were found';
+        }
+
+        // Handle Daily reminder
+        if (dayExpiryApplications.length > 0) {
+            response.dailyExpiry = await handleDayExpiry(dayExpiryApplications);
+        } else {
+            response.dailyExpiry = 'No applications were found';
+        }
+
         // Handle expired application
         // .ie. send emails + delete applications
 
-        // Handle Monthly reminder
-        handleMonthExpiry(monthExpiryApplications);
-
-        // Handle Weekly/Daily reminder
-        // .ie. send emails + update PendingApplications records
+        res.json(response);
     } catch (err) {
         console.log(err);
     }
