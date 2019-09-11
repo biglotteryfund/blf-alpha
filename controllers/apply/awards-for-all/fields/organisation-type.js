@@ -44,8 +44,8 @@ module.exports = function(locale) {
         {
             value: ORGANISATION_TYPES.CIO,
             label: localise({
-                en: `Charitable incorporated organisation (CIO)`,
-                cy: `Sefydliad corfforedig elusennol`
+                en: `Charitable incorporated organisation (CIO / SCIO)`,
+                cy: `Sefydliad corfforedig elusennol (CIO / SCIO)`
             }),
             explanation: localise({
                 en: oneLine`My organisation is a registered charity with
@@ -69,6 +69,19 @@ module.exports = function(locale) {
                 cy: oneLine`Mae fy sefydliad yn gwmni di-elw sydd yn gofrestredig
                     â Thŷ’r Cwmnïau, a <strong>gall hefyd</strong> fod wedi’i
                     gofrestru fel elusen.`
+            })
+        },
+        {
+            value: ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY_CIC,
+            label: localise({
+                en: 'Not-for-profit company',
+                cy: 'Cwmni di-elw'
+            }),
+            explanation: localise({
+                en: oneLine`My organisation is a not-for-profit company registered 
+                    with Companies House and the Community Interest Company (CIC) 
+                    Regulator`,
+                cy: oneLine`TBD`
             })
         },
         {

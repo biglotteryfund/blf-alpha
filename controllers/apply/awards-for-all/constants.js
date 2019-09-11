@@ -43,6 +43,7 @@ const ORGANISATION_TYPES = {
     UNINCORPORATED_REGISTERED_CHARITY: 'unincorporated-registered-charity',
     CIO: 'charitable-incorporated-organisation',
     NOT_FOR_PROFIT_COMPANY: 'not-for-profit-company',
+    NOT_FOR_PROFIT_COMPANY_CIC: 'not-for-profit-company-cic',
     SCHOOL: 'school',
     COLLEGE_OR_UNIVERSITY: 'college-or-university',
     STATUTORY_BODY: 'statutory-body',
