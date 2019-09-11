@@ -109,6 +109,7 @@ class PendingApplication extends Model {
         }
 
         return this.findAll({
+            attributes: ['id', 'userId'],
             where: Sequelize.literal(rawSqlStmt)
         });
     }
@@ -122,6 +123,7 @@ class PendingApplication extends Model {
         }
 
         return this.findAll({
+            attributes: ['id', 'userId'],
             where: Sequelize.literal(rawSqlStmt)
         });
     }
@@ -135,6 +137,7 @@ class PendingApplication extends Model {
         }
 
         return this.findAll({
+            attributes: ['id', 'userId'],
             where: Sequelize.literal(rawSqlStmt)
         });
     }
@@ -148,6 +151,7 @@ class PendingApplication extends Model {
         }
 
         return this.findAll({
+            attributes: ['id', 'userId'],
             where: Sequelize.literal(rawSqlStmt)
         });
     }
