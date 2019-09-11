@@ -11,7 +11,8 @@ const { csrfProtection } = require('../../common/cached');
 const {
     handleMonthExpiry,
     handleWeekExpiry,
-    handleDayExpiry
+    handleDayExpiry,
+    handleExpired
 } = require('./lib/application-expiry');
 
 const { Client } = require('@ideal-postcodes/core-node');
@@ -158,7 +159,6 @@ router.post('/survey', async (req, res) => {
 /**
  * API: Application Expiry
  */
-
 router.post('/applications/expiry', async (req, res) => {
     let response = {};
 
@@ -197,11 +197,17 @@ router.post('/applications/expiry', async (req, res) => {
         }
 
         // Handle expired application
-        // .ie. send emails + delete applications
+        if (expiredApplications.length > 0) {
+            response.expired = await handleExpired(expiredApplications);
+        } else {
+            response.expired = 'No applications were found';
+        }
 
         res.json(response);
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        res.status(400).json({
+            err: error.message
+        });
     }
 });
 

@@ -363,6 +363,7 @@ describe('api endpoints', () => {
             expect(response.body).to.have.property('monthlyExpiry');
             expect(response.body).to.have.property('weeklyExpiry');
             expect(response.body).to.have.property('dailyExpiry');
+            expect(response.body).to.have.property('expired');
         });
     });
 });

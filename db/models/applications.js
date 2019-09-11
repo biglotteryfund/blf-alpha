@@ -103,9 +103,9 @@ class PendingApplication extends Model {
         let rawSqlStmt;
 
         if (dialect === 'sqlite') {
-            rawSqlStmt = `julianday(expiresAt) - julianday('now') >= 15 AND julianday(expiresAt) - julianday('now') <= 30 AND lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.MONTH}'`;
+            rawSqlStmt = `julianday(expiresAt) - julianday('now') >= 15 AND julianday(expiresAt) - julianday('now') <= 30 AND (lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.MONTH}' OR lastExpiryWarningSent IS NULL)`;
         } else {
-            rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 15 AND DATEDIFF(expiresAt, CURDATE()) <= 30 AND lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.MONTH}'`;
+            rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 15 AND DATEDIFF(expiresAt, CURDATE()) <= 30 AND (lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.MONTH}' OR lastExpiryWarningSent IS NULL)`;
         }
 
         return this.findAll({
