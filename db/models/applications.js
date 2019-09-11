@@ -59,7 +59,7 @@ class PendingApplication extends Model {
              */
             lastExpiryWarningSent: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: true
             },
 
             /**
@@ -155,6 +155,13 @@ class PendingApplication extends Model {
         return this.update({
             lastExpiryWarningSent: warning,
         }, {
+            where: {
+                id: { [Op.in]: applicationIds }
+            }
+        });
+    }
+    static bulkDeleteApplications(applicationIds) {
+        return this.destroy({
             where: {
                 id: { [Op.in]: applicationIds }
             }
