@@ -12,7 +12,7 @@ const { take, clone, pickBy, identity } = require('lodash');
 const moment = require('moment');
 const querystring = require('querystring');
 
-const { stripTrailingSlashes } = require('./urls');
+const { stripTrailingSlashes } = require('../common/urls');
 
 let assets = {};
 try {

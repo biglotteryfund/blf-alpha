@@ -26,19 +26,11 @@ if (appData.isDev) {
     require('dotenv').config();
 }
 
-const {
-    isWelsh,
-    localify,
-    makeWelsh,
-    pathCouldBeAlias,
-    removeWelsh
-} = require('./common/urls');
+const { localify, makeWelsh } = require('./common/urls');
 const { SENTRY_DSN } = require('./common/secrets');
 const aliases = require('./controllers/aliases');
 const routes = require('./controllers/routes');
-const viewFilters = require('./common/filters');
 const cspDirectives = require('./common/csp-directives');
-const contentApi = require('./common/content-api');
 const { defaultMaxAge } = require('./common/cached');
 const { renderError, renderNotFound } = require('./controllers/errors');
 
@@ -145,7 +137,7 @@ function initViewEngine() {
         watch: shouldWatchTemplates
     });
 
-    forEach(viewFilters, (filterFn, filterName) => {
+    forEach(require('./views/filters'), (filterFn, filterName) => {
         templateEnv.addFilter(filterName, filterFn);
     });
 
@@ -271,29 +263,8 @@ forEach(routes, function(section, sectionId) {
  * - If all else fails, pass through to the 404 handler.
  */
 app.route('*').get(
-    async function(req, res, next) {
-        if (pathCouldBeAlias(req.path)) {
-            try {
-                const urlMatch = await contentApi.getAlias(req.path);
-                if (urlMatch) {
-                    res.redirect(301, urlMatch);
-                } else {
-                    next();
-                }
-            } catch (e) {
-                next();
-            }
-        } else {
-            next();
-        }
-    },
-    function(req, res, next) {
-        if (isWelsh(req.originalUrl)) {
-            res.redirect(removeWelsh(req.originalUrl));
-        } else {
-            next();
-        }
-    }
+    require('./controllers/vanity-redirects'),
+    require('./controllers/welsh-redirect')
 );
 
 /**
