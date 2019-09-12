@@ -205,7 +205,7 @@ toplevel:
         outro: We’d like to talk to you about your ideas early on so we can
           give you the best funding advice, so please call our team on <a href="tel:02890551455">028 9055 1455</a>.
         fundingProgrammes:
-        - title: Awards for All Northern Ireland
+        - title: National Lottery Awards for All Northern Ireland
           subTitle: £300–£10,000
           summaryItems:
           - Projects bringing local people together to make positive changes in their community.
@@ -250,26 +250,34 @@ toplevel:
             Ideas might include activity like testing digital approaches, developing user led approaches or developing
             community decision making.
           linkUrl: /funding/programmes/great-ideas
+        - title: Dormant Accounts Fund
+          subTitle: Grant size - TBD
+          summaryItems:
+          - Under Section 22 of the Dormant Bank and Building Society Accounts Act 2008, we distribute money under direction from the Department of Finance to increase capacity, resilience and sustainability in the Northern Ireland Voluntary, Community and Social Enterprise sector.
+          - These funds are not derived from National Lottery activity.
+          - To ensure this funding has maximum impact in communities across Northern Ireland, we will be consulting with the sector in late 2019, with a view to opening the fund for applications in early 2020.
+          - We’ll be sending out details of how to get involved in due course.
+          linkUrl: /funding/programmes/dormant-accounts-fund
       fundingInRegion:
         title: Funding in Northern Ireland
         groups:
-        - description: A snapshot of funding in Northern Ireland for 2016/17
+        - description: A snapshot of funding in Northern Ireland for 2018/19
           facts:
-          - text: <strong>641</strong> grants in total, across every local authority area
+          - text: <strong>577</strong> grants in total, across every local authority area
             image: "total.png"
-          - text: <strong>555</strong> awards to VCSE organisations with an income of less than <strong>£1m</strong>
+          - text: <strong>533</strong> awards to VCSE organisations with an income of less than <strong>£1m</strong>
             image: "grassroots.png"
-          - text: <strong>92%</strong> of grants are Awards for All and for <strong>£10,000</strong> or less
+          - text: <strong>91%</strong> of grants are Awards for All and for <strong>£10,000</strong> or less
             image: "awards-for-all.png"
-          - text: <strong>50%</strong> of grants were to groups applying to us for the first time
+          - text: <strong>Over a quarter of grants</strong> were made to groups applying to us for the first time
             image: "applying.png"
         - description: Here are some examples of beneficiaries supported by our funding
           facts:
-          - text: <strong>£13.8m</strong> awarded to projects supporting young people
+          - text: <strong>£10m</strong> awarded to projects supporting young people
             image: "young-people.png"
-          - text: <strong>7.4m</strong> awarded to projects supporting people to improve their mental health
+          - text: <strong>£3.4m</strong> awarded to projects primarily supporting people to improve their mental health
             image: "mental-health.png"
-          - text: <strong>9.4m</strong> awarded to projects supporting people with disabilities
+          - text: <strong>£6.8m</strong> awarded to projects supporting people with disabilities
             image: "disability.png"
       aboutIdeas:
         title: About the ideas we support
