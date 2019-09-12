@@ -666,19 +666,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
          * Otherwise, strip the value from the resulting data
          * Note: .optional doesn't allow null so needs to also allow null
          */
+        const excludeRegex = /^[^O]+$/;
         const schema = Joi.when(Joi.ref('organisationType'), {
             is: Joi.exist().valid(CHARITY_NUMBER_TYPES.required),
             then: Joi.string()
+                .regex(excludeRegex)
                 .max(FREE_TEXT_MAXLENGTH.large)
                 .required()
         }).when(Joi.ref('organisationType'), {
             is: Joi.exist().valid(CHARITY_NUMBER_TYPES.optional),
-            then: [
-                Joi.string()
-                    .max(FREE_TEXT_MAXLENGTH.large)
-                    .optional(),
-                Joi.allow(null)
-            ],
+            then: Joi.string()
+                .regex(excludeRegex)
+                .max(FREE_TEXT_MAXLENGTH.large)
+                .optional()
+                .allow('', null),
             otherwise: Joi.any().strip()
         });
 
@@ -700,6 +701,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({
                         en: 'Enter your organisation’s charity number',
                         cy: 'Rhowch rif elusen eich sefydliad'
+                    })
+                },
+                {
+                    type: 'string.regex.base',
+                    message: localise({
+                        en: 'Enter a valid charity registration number',
+                        cy: 'Rhowch rif cofrestru elusennol dilys'
                     })
                 },
                 {

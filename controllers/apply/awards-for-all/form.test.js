@@ -180,6 +180,15 @@ function assertValidByKey(data) {
     expect(messagesByKey).toHaveLength(0);
 }
 
+function assertInValidByKey(data) {
+    const validationResult = formBuilder({ data }).validation;
+    const messagesByKey = validationResult.messages.filter(message => {
+        return includes(Object.keys(data), message.param);
+    });
+    
+    expect(messagesByKey).not.toHaveLength(0);
+}
+
 describe('Global validation', () => {
     test('validate model shape', () => {
         validateModel(formBuilder());
@@ -649,12 +658,21 @@ describe('Registration numbers', function() {
         );
     });
 
+    test.each(concat(CHARITY_NUMBER_TYPES.required, CHARITY_NUMBER_TYPES.optional))(
+        'Disallow letter O in charity number for %p', function(organisationType) {
+
+        assertInValidByKey({
+            organisationType: organisationType,
+            charityNumber: 'SCO123'
+        });
+    });
+
     test.each(CHARITY_NUMBER_TYPES.required)(
         'charity number required for %p',
         function(organisationType) {
             const data = {
                 organisationType: organisationType,
-                charityNumber: '23456789'
+                charityNumber: '23456789o'
             };
 
             assertValidByKey(data);
@@ -673,7 +691,7 @@ describe('Registration numbers', function() {
                     data: {
                         organisationType,
                         companyNumber: '12345678',
-                        charityNumber: '23456789',
+                        charityNumber: '23456789o',
                         educationNumber: '345678'
                     }
                 }).validation.value
@@ -686,7 +704,7 @@ describe('Registration numbers', function() {
         function(organisationType) {
             const data = {
                 organisationType: organisationType,
-                charityNumber: '23456789'
+                charityNumber: '23456789o'
             };
 
             assertValidByKey(data);
@@ -702,7 +720,7 @@ describe('Registration numbers', function() {
 
             const fullNumbers = {
                 organisationType,
-                charityNumber: '23456789',
+                charityNumber: '23456789o',
                 educationNumber: '345678'
             };
 
