@@ -666,7 +666,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
          * Otherwise, strip the value from the resulting data
          * Note: .optional doesn't allow null so needs to also allow null
          */
-        const excludeRegex = /^[^O]+$/;
+        const excludeRegex = /^[^Oo]+$/;
         const schema = Joi.when(Joi.ref('organisationType'), {
             is: Joi.exist().valid(CHARITY_NUMBER_TYPES.required),
             then: Joi.string()
