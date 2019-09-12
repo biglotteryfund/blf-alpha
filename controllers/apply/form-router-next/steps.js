@@ -174,7 +174,8 @@ module.exports = function(formId, formBuilder) {
                  */
                 await PendingApplication.saveApplicationState(
                     currentlyEditingId,
-                    dataToStore
+                    dataToStore,
+                    form.progress.isComplete
                 );
 
                 /**
