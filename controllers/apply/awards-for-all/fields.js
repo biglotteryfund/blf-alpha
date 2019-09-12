@@ -707,7 +707,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     type: 'string.regex.base',
                     message: localise({
                         en: 'Enter a valid charity registration number',
-                        cy: 'Rhowch rif cofrestru elusennol dilys'
+                        cy: 'Rhowch rif elusen gofrestredig ddilys'
                     })
                 },
                 {
