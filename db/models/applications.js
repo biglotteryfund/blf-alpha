@@ -37,7 +37,7 @@ class PendingApplication extends Model {
              */
             currentProgressState: {
                 type: DataTypes.STRING,
-                allowNull: false,
+                allowNull: true,
                 defaultValue: APPLICATION_PROGRESS_STATES.default
             },
 
