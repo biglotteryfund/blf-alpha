@@ -112,28 +112,54 @@
                 <h3>{{ appType.title }}</h3>
 
                 <div class="u-margin-bottom-l">
-                    {{ statsGrid(
-                        [
-                            {
-                                prefix: 'there were',
-                                value: appType.data.totals.applicationsToday,
-                                title: 'applications ' + appType.verb + ' today',
-                                showNumberBeforeTitle: true
-                            },
-                            {
-                                prefix: 'and a total of',
-                                value: appType.data.totals.applicationsAll,
-                                title: 'applications ' + appType.verb,
-                                showNumberBeforeTitle: true
-                            },
-                            {
-                                prefix: 'made by',
-                                value: appType.data.totals.uniqueUsers,
-                                title: 'unique users',
-                                showNumberBeforeTitle: true
-                            }
-                        ]
-                    ) }}
+                    {% if appType.id === 'pending' %}
+                        {{ statsGrid(
+                            [
+                                {
+                                    prefix: 'there were',
+                                    value: appType.data.totals.applicationsToday,
+                                    title: 'applications ' + appType.verb + ' today',
+                                    showNumberBeforeTitle: true
+                                },
+                                {
+                                    prefix: 'and a total of',
+                                    value: appType.data.totals.applicationsAll,
+                                    suffix: 'in progress',
+                                    title: 'by ' + appType.data.totals.uniqueUsers + ' unique users',
+                                    showNumberBeforeTitle: true
+                                },
+                                {
+                                    prefix: 'there are',
+                                    value: appType.data.totals.completedStates,
+                                    title: 'application(s) ready to submit',
+                                    showNumberBeforeTitle: true
+                                }
+                            ]
+                        ) }}
+                    {% else %}
+                        {{ statsGrid(
+                            [
+                                {
+                                    prefix: 'there were',
+                                    value: appType.data.totals.applicationsToday,
+                                    title: 'applications ' + appType.verb + ' today',
+                                    showNumberBeforeTitle: true
+                                },
+                                {
+                                    prefix: 'and a total of',
+                                    value: appType.data.totals.applicationsAll,
+                                    title: 'applications ' + appType.verb,
+                                    showNumberBeforeTitle: true
+                                },
+                                {
+                                    prefix: 'made by',
+                                    value: appType.data.totals.uniqueUsers,
+                                    title: 'unique users',
+                                    showNumberBeforeTitle: true
+                                }
+                            ]
+                        ) }}
+                    {% endif %}
                 </div>
 
                 <div class="u-margin-bottom-l">

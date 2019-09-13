@@ -4,6 +4,7 @@ const express = require('express');
 const moment = require('moment');
 const concat = require('lodash/concat');
 const groupBy = require('lodash/groupBy');
+const countBy = require('lodash/countBy');
 const maxBy = require('lodash/maxBy');
 const get = require('lodash/get');
 const mean = require('lodash/mean');
@@ -18,6 +19,7 @@ const {
 } = require('../../db/models');
 const { getDateRange } = require('./helpers');
 const { DATA_STUDIO_AFA_URL } = require('../../common/secrets');
+const { APPLICATION_PROGRESS_STATES } = require('../apply/awards-for-all/constants');
 
 const router = express.Router();
 
@@ -281,6 +283,12 @@ router.get('/:applicationId', async (req, res, next) => {
                     uniqueUsers: uniqBy(appType.applications, 'userId').length
                 }
             };
+
+            if (appType.id === 'pending') {
+                appType.data.totals.completedStates = countBy(appType.applications,
+                    app => app.currentProgressState === APPLICATION_PROGRESS_STATES.complete
+                ).true;
+            }
 
             let appsByCountryByDay = [];
 
