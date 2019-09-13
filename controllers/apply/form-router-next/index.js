@@ -6,7 +6,6 @@ const Sentry = require('@sentry/node');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/get');
 const includes = require('lodash/includes');
-const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
 const set = require('lodash/set');
 const unset = require('lodash/unset');
