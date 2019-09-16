@@ -2,7 +2,6 @@
 'use strict';
 const moment = require('moment');
 const { Model, Op } = require('sequelize');
-const countBy = require('lodash/countBy');
 
 class PendingApplication extends Model {
     static init(sequelize, DataTypes) {
@@ -107,10 +106,8 @@ class PendingApplication extends Model {
             }
         });
     }
-    static countCompletedApplications(applications) {
-        return countBy(applications, (application) => {
-            application.currentProgressState === 'COMPLETE';
-        }).true;
+    static countCompleted(applications) {
+        return applications.filter(app => app.currentProgressState === 'COMPLETE').length;
     }
     static createNewApplication({ userId, formId }) {
         // @TODO: Should this be defined in config?

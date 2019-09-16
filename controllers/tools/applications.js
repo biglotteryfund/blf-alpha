@@ -283,7 +283,7 @@ router.get('/:applicationId', async (req, res, next) => {
             };
 
             if (appType.id === 'pending') {
-                appType.data.totals.completedStates = PendingApplication.countCompletedApplications(appType.applications);
+                appType.data.totals.completedStates = PendingApplication.countCompleted(appType.applications);
             }
 
             let appsByCountryByDay = [];
