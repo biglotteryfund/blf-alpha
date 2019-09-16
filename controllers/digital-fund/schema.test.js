@@ -2,22 +2,18 @@
 'use strict';
 const { validateAssistance } = require('./schema');
 
-function mapMessages(validationResult) {
-    return validationResult.error.details.map(detail => {
-        return detail.message;
-    });
-}
-
 test('validate assistance schema', () => {
     const valid = validateAssistance({
         email: 'example@example.com'
     });
 
-    expect(valid.error).toBeNull();
+    expect(valid.error).toBeUndefined();
 
     const invalid = validateAssistance({
         email: 'not an email'
     });
 
-    expect(mapMessages(invalid)).toEqual(['"email" must be a valid email']);
+    expect(invalid.error.details.map(detail => detail.message)).toEqual([
+        '"email" must be a valid email'
+    ]);
 });

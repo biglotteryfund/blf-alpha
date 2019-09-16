@@ -1,6 +1,6 @@
 'use strict';
 
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joi16');
 
 function validateAssistance(data) {
     const schema = Joi.object({
