@@ -3,52 +3,32 @@
 const { PhoneNumberUtil, PhoneNumberFormat } = require('google-libphonenumber');
 const phoneUtil = PhoneNumberUtil.getInstance();
 
-/**
- * Allows you to do `Joi.string().phoneNumber()`
- *
- * @param {Object} joi Joi instance
- * @return {Object} Joi plugin object
- */
-module.exports = function phoneNumber(joi) {
+module.exports = function(joi) {
     return {
         base: joi.string(),
-        name: 'string',
-        language: {
-            phonenumber: 'did not seem to be a phone number'
+        type: 'phone',
+        messages: {
+            'phonenumber.invalid': 'did not seem to be a phone number'
         },
-        rules: [
-            {
-                name: 'phoneNumber',
-                validate(params, value, state, options) {
-                    try {
-                        const parsedValue = phoneUtil.parse(value, 'GB');
-                        if (phoneUtil.isValidNumber(parsedValue)) {
-                            if (options.convert) {
-                                return phoneUtil.format(
-                                    parsedValue,
-                                    PhoneNumberFormat.NATIONAL
-                                );
-                            } else {
-                                return value;
-                            }
-                        } else {
-                            return this.createError(
-                                'string.phonenumber',
-                                { value },
-                                state,
-                                options
-                            );
-                        }
-                    } catch (err) {
-                        return this.createError(
-                            'string.phonenumber',
-                            { value },
-                            state,
-                            options
-                        );
-                    }
+        validate(value, helpers) {
+            try {
+                const parsedValue = phoneUtil.parse(value, 'GB');
+                if (phoneUtil.isValidNumber(parsedValue)) {
+                    return {
+                        value: phoneUtil.format(
+                            parsedValue,
+                            PhoneNumberFormat.NATIONAL
+                        )
+                    };
+                } else {
+                    return {
+                        value,
+                        errors: helpers.error('phonenumber.invalid')
+                    };
                 }
+            } catch (err) {
+                return { value, errors: helpers.error('phonenumber.invalid') };
             }
-        ]
+        }
     };
 };

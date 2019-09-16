@@ -8,7 +8,7 @@ const faker = require('faker');
 const schema = require('./schema');
 
 function validate(data) {
-    return schema.validate(data, { abortEarly: false });
+    return schema.validate(data, { abortEarly: false, allowUnknown: true });
 }
 
 function mapMessages(validationResult) {
@@ -46,9 +46,9 @@ function mockResponse(overrides) {
     return Object.assign(defaults, overrides);
 }
 
-test('minimal valid form', () => {
+test.only('minimal valid form', () => {
     const result = validate(mockResponse());
-    expect(result.error).toBeNull();
+    expect(result.error).toBeUndefined();
     expect(result.value).toMatchSnapshot({
         projectIdea: expect.any(String),
         organisationBackground: expect.any(String)

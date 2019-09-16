@@ -4,12 +4,12 @@ const Joi = require('../lib/joi-extensions');
 const schema = Joi.object({
     projectCountry: Joi.array()
         .items(
-            Joi.string().valid([
+            Joi.string().valid(
                 'england',
                 'scotland',
                 'northern-ireland',
                 'wales'
-            ])
+            )
         )
         .single()
         .required(),
@@ -32,7 +32,7 @@ const schema = Joi.object({
         is: Joi.array()
             .items(
                 Joi.string()
-                    .only('scotland')
+                    .allow('scotland')
                     .required()
             )
             .required(),
@@ -48,25 +48,24 @@ const schema = Joi.object({
             .max(5)
     }),
     projectIdea: Joi.string()
-        .minWords(50)
-        .maxWords(500)
+        // .minWords(50)
+        // .maxWords(500)
         .required(),
     organisationLegalName: Joi.string().required(),
     organisationTradingName: Joi.string()
         .allow('')
         .optional(),
-    organisationAddress: Joi.ukAddress().required(),
-    organisationType: Joi.string().required(),
-    organisationBackground: Joi.string()
-        .minWords(50)
-        .maxWords(500)
-        .required(),
-    contactName: Joi.fullName().required(),
-    contactEmail: Joi.string()
-        .email()
-        .required(),
-    contactPhone: Joi.string()
-        .phoneNumber()
+    // organisationAddress: Joi.ukAddress().required(),
+    // organisationType: Joi.string().required(),
+    // organisationBackground: Joi.string()
+    //     .minWords(50)
+    //     .maxWords(500)
+    //     .required(),
+    // contactName: Joi.fullName().required(),
+    // contactEmail: Joi.string()
+    //     .email()
+    //     .required(),
+    contactPhone: Joi.phone()
         .allow('')
         .optional()
 });
