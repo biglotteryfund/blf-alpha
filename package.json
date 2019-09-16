@@ -171,7 +171,7 @@
     "vue-loader": "15.7.1",
     "vue-template-compiler": "2.6.10",
     "wait-on": "3.3.0",
-    "webpack": "4.35.0",
+    "webpack": "4.40.2",
     "webpack-cli": "3.3.8"
   }
 }
