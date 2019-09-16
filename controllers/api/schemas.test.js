@@ -15,7 +15,7 @@ test('validate feedback schema', () => {
         message: faker.lorem.words(25)
     });
 
-    expect(valid.error).toBeNull();
+    expect(valid.error).toBeUndefined();
 
     expect(mapMessages(validateFeedback({}))).toEqual([
         '"description" is required',
@@ -30,7 +30,7 @@ test('validate survey schema', () => {
         message: faker.lorem.words(25)
     });
 
-    expect(valid.error).toBeNull();
+    expect(valid.error).toBeUndefined();
 
     const invalid = validateSurvey({
         choice: 'not-a-valid-choice'

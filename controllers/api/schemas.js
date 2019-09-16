@@ -1,6 +1,5 @@
 'use strict';
-
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joi16');
 
 function validateFeedback(data = {}) {
     const schema = Joi.object({
@@ -17,7 +16,7 @@ function validateFeedback(data = {}) {
 function validateSurvey(data = {}) {
     const schema = Joi.object({
         choice: Joi.string()
-            .valid(['yes', 'no'])
+            .valid('yes', 'no')
             .required(),
         path: Joi.string().required(),
         message: Joi.string().optional()
