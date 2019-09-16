@@ -109,12 +109,6 @@ const FILE_LIMITS = {
     ]
 };
 
-const APPLICATION_PROGRESS_STATES = {
-    default: 'NOT_STARTED',
-    pending: 'PENDING',
-    complete: 'COMPLETE'
-};
-
 module.exports = {
     BENEFICIARY_GROUPS,
     COMPANY_NUMBER_TYPES,
@@ -131,6 +125,5 @@ module.exports = {
     STATUTORY_BODY_TYPES,
     CHARITY_NUMBER_TYPES,
     EDUCATION_NUMBER_TYPES,
-    FREE_TEXT_MAXLENGTH,
-    APPLICATION_PROGRESS_STATES
+    FREE_TEXT_MAXLENGTH
 };

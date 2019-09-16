@@ -2,7 +2,7 @@
 'use strict';
 const moment = require('moment');
 const { Model, Op } = require('sequelize');
-const { APPLICATION_PROGRESS_STATES } = require('../../controllers/apply/awards-for-all/constants');
+const countBy = require('lodash/countBy');
 
 class PendingApplication extends Model {
     static init(sequelize, DataTypes) {
@@ -36,9 +36,9 @@ class PendingApplication extends Model {
              * e.g. PENDING
              */
             currentProgressState: {
-                type: DataTypes.STRING,
+                type: DataTypes.ENUM('NOT_STARTED', 'PENDING', 'COMPLETE'),
                 allowNull: true,
-                defaultValue: APPLICATION_PROGRESS_STATES.default
+                defaultValue: 'NOT_STARTED'
             },
 
             /**
@@ -107,6 +107,11 @@ class PendingApplication extends Model {
             }
         });
     }
+    static countCompletedApplications(applications) {
+        return countBy(applications, (application) => {
+            application.currentProgressState === 'COMPLETE';
+        }).true;
+    }
     static createNewApplication({ userId, formId }) {
         // @TODO: Should this be defined in config?
         const expiresAt = moment()
@@ -120,11 +125,11 @@ class PendingApplication extends Model {
             expiresAt: expiresAt
         });
     }
-    static saveApplicationState(id, data, formIsComplete) {
+    static saveApplicationState(id, data, currentProgressState) {
         return this.update(
             {
                 applicationData: data,
-                currentProgressState: formIsComplete ? APPLICATION_PROGRESS_STATES.complete : APPLICATION_PROGRESS_STATES.pending
+                currentProgressState
             },
             { where: { id: { [Op.eq]: id } } }
         );
