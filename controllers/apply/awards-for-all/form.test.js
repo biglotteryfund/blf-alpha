@@ -797,6 +797,15 @@ describe('Contacts', () => {
         }
     );
 
+    test('full names must not match', function() {
+        expect(
+            messagesByKey({
+                seniorContactName: { firstName: 'Ann', lastName: 'Example' },
+                mainContactName: { firstName: 'Ann', lastName: 'Example' }
+            })
+        ).toMatchSnapshot();
+    });
+
     test('include warning if contact last names match', () => {
         const form = formBuilder();
 
@@ -1002,6 +1011,27 @@ describe('Contacts', () => {
             );
         }
     );
+
+    test('contact addresses must not match', function() {
+        expect(
+            messagesByKey({
+                seniorContactAddress: {
+                    line1: 'National Lottery Community Fund',
+                    line2: 'Apex House',
+                    county: 'West Midlands',
+                    postcode: 'B15 1TR',
+                    townCity: 'BIRMINGHAM'
+                },
+                mainContactAddress: {
+                    line1: 'National Lottery Community Fund',
+                    line2: 'Apex House',
+                    county: 'West Midlands',
+                    postcode: 'B15 1TR',
+                    townCity: 'BIRMINGHAM'
+                }
+            })
+        ).toMatchSnapshot();
+    });
 
     test('include all roles if no organisation type is provided', () => {
         const form = formBuilder({
