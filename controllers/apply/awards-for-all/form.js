@@ -8,7 +8,6 @@ const getOr = require('lodash/fp/getOr');
 const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
 const { safeHtml, oneLine } = require('common-tags');
-const config = require('config');
 
 const { FormModel } = require('../form-router-next/lib/form-model');
 const fromDateParts = require('../lib/from-date-parts');
@@ -60,7 +59,7 @@ module.exports = function({
     function stepProjectDetails() {
         return {
             title: localise({ en: 'Project details', cy: 'Manylion prosiect' }),
-            noValidate: config.get('features.enableNoValidate'),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -102,7 +101,7 @@ module.exports = function({
 
         return {
             title: localise({ en: 'Project country', cy: 'Gwlad y prosiect' }),
-            noValidate: config.get('features.enableNoValidate'),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -122,7 +121,7 @@ module.exports = function({
                 en: 'Project location',
                 cy: 'Lleoliad y prosiect'
             }),
-            noValidate: config.get('features.enableNoValidate'),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -154,7 +153,7 @@ module.exports = function({
     function stepYourIdea() {
         return {
             title: localise({ en: 'Your idea', cy: 'Eich syniad' }),
-            noValidate: config.get('features.enableNoValidate'),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -177,7 +176,7 @@ module.exports = function({
                 en: 'Project costs',
                 cy: 'Costau’r prosiect'
             }),
-            noValidate: config.get('features.enableNoValidate'),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -196,7 +195,7 @@ module.exports = function({
                 en: `Specific groups of people`,
                 cy: `Grwpiau penodol o bobl`
             }),
-            noValidate: config.get('features.enableNoValidate'),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -475,7 +474,7 @@ module.exports = function({
                 en: 'Organisation type',
                 cy: 'Math o sefydliad'
             }),
-            noValidate: config.get('features.enableNoValidate'),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -519,7 +518,7 @@ module.exports = function({
 
         return {
             title: title,
-            noValidate: config.get('features.enableNoValidate'),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: title,
@@ -559,7 +558,7 @@ module.exports = function({
                 en: 'Registration numbers',
                 cy: 'Rhifau cofrestru'
             }),
-            noValidate: config.get('features.enableNoValidate'),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -600,7 +599,7 @@ module.exports = function({
                 en: 'Organisation finances',
                 cy: 'Cyllid y sefydliad'
             }),
-            noValidate: config.get('features.enableNoValidate'),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -883,7 +882,7 @@ module.exports = function({
     function stepBankAccount() {
         return {
             title: localise({ en: 'Bank account', cy: 'Cyfrif banc' }),
-            noValidate: config.get('features.enableNoValidate'),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: localise({
@@ -1024,7 +1023,7 @@ module.exports = function({
 
         return {
             title: localise({ en: 'Bank statement', cy: 'Cyfriflen banc' }),
-            noValidate: config.get('features.enableNoValidate'),
+            noValidate: true,
             isMultipart: true,
             fieldsets: [
                 {
@@ -1094,7 +1093,7 @@ module.exports = function({
 
         return {
             title: title,
-            noValidate: config.get('features.enableNoValidate'),
+            noValidate: true,
             fieldsets: [
                 {
                     legend: title,
