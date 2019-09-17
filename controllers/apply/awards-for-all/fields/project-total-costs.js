@@ -5,7 +5,7 @@ const sumBy = require('lodash/sumBy');
 
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../form-router-next/joi-extensions');
+const Joi = require('../../lib/joi-extensions');
 
 module.exports = function(locale, data) {
     const localise = get(locale);

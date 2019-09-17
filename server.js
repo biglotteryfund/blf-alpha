@@ -188,7 +188,8 @@ app.use([
     require('./common/session')(app),
     require('./common/passport')(),
     require('./common/locals'),
-    require('./common/preview')
+    require('./common/preview'),
+    require('./common/portal')
 ]);
 
 /**

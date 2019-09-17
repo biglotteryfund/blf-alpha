@@ -6,7 +6,7 @@ const get = require('lodash/fp/get');
 const has = require('lodash/has');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../form-router-next/joi-extensions');
+const Joi = require('../lib/joi-extensions');
 const {
     BENEFICIARY_GROUPS,
     COMPANY_NUMBER_TYPES,
@@ -342,55 +342,58 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return { ...defaultProps, ...props };
     }
 
-    function nameField(props, additionalMessages = []) {
-        const defaultProps = {
-            type: 'full-name',
-            isRequired: true,
-            schema: Joi.fullName().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter first and last name',
-                        cy: 'Rhowch enw cyntaf a chyfenw'
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'firstName',
-                    message: localise({
-                        en: 'Enter first name',
-                        cy: 'Rhowch enw cyntaf'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    key: 'firstName',
-                    message: localise({
-                        en: `First name must be ${FREE_TEXT_MAXLENGTH.small} characters or less`,
-                        cy: `Rhaid i’r enw cyntaf fod yn llai na ${FREE_TEXT_MAXLENGTH.small} nod`
-                    })
-                },
-                {
-                    type: 'string.max',
-                    key: 'lastName',
-                    message: localise({
-                        en: `Last name must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
-                        cy: `Rhaid i’r cyfenw fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'lastName',
-                    message: localise({
-                        en: 'Enter last name',
-                        cy: 'Rhowch gyfenw'
-                    })
-                }
-            ].concat(additionalMessages)
+    function nameField(props) {
+        const combined = {
+            ...{
+                type: 'full-name',
+                isRequired: true
+            },
+            ...props
         };
 
-        return { ...defaultProps, ...props };
+        combined.messages = [
+            {
+                type: 'base',
+                message: localise({
+                    en: 'Enter first and last name',
+                    cy: 'Rhowch enw cyntaf a chyfenw'
+                })
+            },
+            {
+                type: 'any.empty',
+                key: 'firstName',
+                message: localise({
+                    en: 'Enter first name',
+                    cy: 'Rhowch enw cyntaf'
+                })
+            },
+            {
+                type: 'string.max',
+                key: 'firstName',
+                message: localise({
+                    en: `First name must be ${FREE_TEXT_MAXLENGTH.small} characters or less`,
+                    cy: `Rhaid i’r enw cyntaf fod yn llai na ${FREE_TEXT_MAXLENGTH.small} nod`
+                })
+            },
+            {
+                type: 'string.max',
+                key: 'lastName',
+                message: localise({
+                    en: `Last name must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
+                    cy: `Rhaid i’r cyfenw fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`
+                })
+            },
+            {
+                type: 'any.empty',
+                key: 'lastName',
+                message: localise({
+                    en: 'Enter last name',
+                    cy: 'Rhowch gyfenw'
+                })
+            }
+        ].concat(props.messages || []);
+
+        return combined;
     }
 
     function dateOfBirthField(minAge, props) {
@@ -666,19 +669,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
          * Otherwise, strip the value from the resulting data
          * Note: .optional doesn't allow null so needs to also allow null
          */
+        const excludeRegex = /^[^Oo]+$/;
         const schema = Joi.when(Joi.ref('organisationType'), {
             is: Joi.exist().valid(CHARITY_NUMBER_TYPES.required),
             then: Joi.string()
+                .regex(excludeRegex)
                 .max(FREE_TEXT_MAXLENGTH.large)
                 .required()
         }).when(Joi.ref('organisationType'), {
             is: Joi.exist().valid(CHARITY_NUMBER_TYPES.optional),
-            then: [
-                Joi.string()
-                    .max(FREE_TEXT_MAXLENGTH.large)
-                    .optional(),
-                Joi.allow(null)
-            ],
+            then: Joi.string()
+                .regex(excludeRegex)
+                .max(FREE_TEXT_MAXLENGTH.large)
+                .optional()
+                .allow('', null),
             otherwise: Joi.any().strip()
         });
 
@@ -700,6 +704,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     message: localise({
                         en: 'Enter your organisation’s charity number',
                         cy: 'Rhowch rif elusen eich sefydliad'
+                    })
+                },
+                {
+                    type: 'string.regex.base',
+                    message: localise({
+                        en: 'Enter a valid charity registration number',
+                        cy: 'Rhowch rif elusen gofrestredig ddilys'
                     })
                 },
                 {
@@ -1887,57 +1898,53 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         totalIncomeYear: fieldTotalIncomeYear(locale),
-        mainContactName: nameField(
-            {
-                name: 'mainContactName',
-                label: localise({
-                    en: 'Full name of main contact',
-                    cy: 'Enw llawn y prif gyswllt'
-                }),
-                explanation: localise({
-                    en: 'This person has to live in the UK.',
-                    cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.'
-                }),
-                get warnings() {
-                    let result = [];
+        mainContactName: nameField({
+            name: 'mainContactName',
+            label: localise({
+                en: 'Full name of main contact',
+                cy: 'Enw llawn y prif gyswllt'
+            }),
+            explanation: localise({
+                en: 'This person has to live in the UK.',
+                cy: 'Rhaid i’r person hwn fyw yn y Deyrnas Unedig.'
+            }),
+            get warnings() {
+                let result = [];
 
-                    const seniorSurname = get('seniorContactName.lastName')(
-                        data
-                    );
+                const seniorSurname = get('seniorContactName.lastName')(data);
 
-                    const lastNamesMatch =
-                        seniorSurname &&
-                        seniorSurname === get('mainContactName.lastName')(data);
+                const lastNamesMatch =
+                    seniorSurname &&
+                    seniorSurname === get('mainContactName.lastName')(data);
 
-                    if (lastNamesMatch) {
-                        result.push(
-                            localise({
-                                en: `<span class="js-form-warning-surname">We've noticed that your main and senior contact
+                if (lastNamesMatch) {
+                    result.push(
+                        localise({
+                            en: `<span class="js-form-warning-surname">We've noticed that your main and senior contact
                                      have the same surname. Remember we can't fund projects
                                      where the two contacts are married or related by blood.</span>`,
-                                cy: `<span class="js-form-warning-surname">Rydym wedi sylwi bod gan eich uwch gyswllt a’ch
+                            cy: `<span class="js-form-warning-surname">Rydym wedi sylwi bod gan eich uwch gyswllt a’ch
                                      prif gyswllt yr un cyfenw. Cofiwch ni allwn ariannu prosiectau 
                                      lle mae’r ddau gyswllt yn briod neu’n perthyn drwy waed.</span>`
-                            })
-                        );
-                    }
+                        })
+                    );
+                }
 
-                    return result;
-                },
-                schema: Joi.fullName()
-                    .mainContact()
-                    .required()
+                return result;
             },
-            [
+            schema: Joi.fullName()
+                .compare(Joi.ref('seniorContactName'))
+                .required(),
+            messages: [
                 {
-                    type: 'name.matchesOther',
+                    type: 'object.isEqual',
                     message: localise({
                         en: `Main contact name must be different from the senior contact's name`,
                         cy: `Rhaid i enw’r prif gyswllt fod yn wahanol i enw’r uwch gyswllt.`
                     })
                 }
             ]
-        ),
+        }),
         mainContactDateOfBirth: dateOfBirthField(MIN_AGE_MAIN_CONTACT, {
             name: 'mainContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: 'Dyddiad geni' })
@@ -1954,11 +1961,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     cy:
                         'Rydym angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio’r cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.'
                 }),
-                schema: stripIfExcludedOrgType(Joi.ukAddress().mainContact())
+                schema: stripIfExcludedOrgType(
+                    Joi.ukAddress().compare(Joi.ref('seniorContactAddress'))
+                )
             },
             [
                 {
-                    type: 'address.matchesOther',
+                    type: 'object.isEqual',
                     message: localise({
                         en: `Main contact address must be different from the senior contact's address`,
                         cy: `Rhaid i gyfeiriad y prif gyswllt fod yn wahanol i gyfeiriad yr uwch gyswllt`
@@ -2028,31 +2037,29 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         seniorContactRole: fieldSeniorContactRole(locale, data),
-        seniorContactName: nameField(
-            {
-                name: 'seniorContactName',
-                label: localise({
-                    en: 'Full name of senior contact',
-                    cy: 'Enw llawn yr uwch gyswllt'
-                }),
-                explanation: localise({
-                    en: 'This person has to live in the UK.',
-                    cy: 'Rhaid i’r person hwn fyw ym Mhrydain'
-                }),
-                schema: Joi.fullName()
-                    .seniorContact()
-                    .required()
-            },
-            [
+        seniorContactName: nameField({
+            name: 'seniorContactName',
+            label: localise({
+                en: 'Full name of senior contact',
+                cy: 'Enw llawn yr uwch gyswllt'
+            }),
+            explanation: localise({
+                en: 'This person has to live in the UK.',
+                cy: 'Rhaid i’r person hwn fyw ym Mhrydain'
+            }),
+            schema: Joi.fullName()
+                .compare(Joi.ref('mainContactName'))
+                .required(),
+            messages: [
                 {
-                    type: 'name.matchesOther',
+                    type: 'object.isEqual',
                     message: localise({
                         en: `Senior contact name must be different from the main contact's name`,
                         cy: `Rhaid i enw’r uwch gyswllt fod yn wahanol i enw’r prif gyswllt`
                     })
                 }
             ]
-        ),
+        }),
         seniorContactDateOfBirth: dateOfBirthField(MIN_AGE_SENIOR_CONTACT, {
             name: 'seniorContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: 'Dyddad geni' })
@@ -2068,11 +2075,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     en: `We need their home address to help confirm who they are. And we do check their address. So make sure you've entered it right. If you don't, it could delay your application.`,
                     cy: `Byddwn angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio eu cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`
                 }),
-                schema: stripIfExcludedOrgType(Joi.ukAddress().seniorContact())
+                schema: stripIfExcludedOrgType(
+                    Joi.ukAddress().compare(Joi.ref('mainContactAddress'))
+                )
             },
             [
                 {
-                    type: 'address.matchesOther',
+                    type: 'object.isEqual',
                     message: localise({
                         en: `Senior contact address must be different from the main contact's address`,
                         cy: `Rhaid i gyfeiriad e-bost yr uwch gyswllt fod yn wahanol i gyfeiriad e-bost y prif gyswllt.`

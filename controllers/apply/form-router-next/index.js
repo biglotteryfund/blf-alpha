@@ -6,7 +6,6 @@ const Sentry = require('@sentry/node');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/get');
 const includes = require('lodash/includes');
-const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
 const set = require('lodash/set');
 const unset = require('lodash/unset');
@@ -320,8 +319,13 @@ function initFormRouter({
             service: 'salesforce'
         });
 
+        const form = formBuilder({
+            locale: req.i18n.getLocale(),
+            data: currentApplicationData
+        });
+
         function canSubmit() {
-            return isEmpty(currentApplication) === false;
+            return form.progress.isComplete;
         }
 
         function canSubmitToSalesforce() {
@@ -333,11 +337,6 @@ function initFormRouter({
         }
 
         if (canSubmit() === true) {
-            const form = formBuilder({
-                locale: req.i18n.getLocale(),
-                data: currentApplicationData
-            });
-
             // Extract the fields so we can determine which files to upload to Salesforce
             const steps = flatMap(form.sections, 'steps');
             const fieldsets = flatMap(steps, 'fieldsets');
@@ -395,7 +394,10 @@ function initFormRouter({
                                 filename: field.value.filename
                             };
 
-                            if (!config.get('features.enableLocalAntivirus') && !appData.isTestServer) {
+                            if (
+                                !config.get('features.enableLocalAntivirus') &&
+                                !appData.isTestServer
+                            ) {
                                 try {
                                     await checkAntiVirus(pathConfig);
                                 } catch (err) {
