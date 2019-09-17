@@ -34,6 +34,16 @@ class PendingApplication extends Model {
             },
 
             /**
+             * Application's Current Progress Status
+             * e.g. PENDING
+             */
+            currentProgressState: {
+                type: DataTypes.ENUM('NOT_STARTED', 'PENDING', 'COMPLETE'),
+                allowNull: true,
+                defaultValue: 'NOT_STARTED'
+            },
+
+            /**
              * Temporary JSON snapshot of form data
              * Raw output from joi schema
              */
@@ -180,6 +190,9 @@ class PendingApplication extends Model {
             }
         });
     }
+    static countCompleted(applications) {
+        return applications.filter(app => app.currentProgressState === 'COMPLETE').length;
+    }
     static createNewApplication({ userId, formId }) {
         // @TODO: Should this be defined in config?
         const expiresAt = moment()
@@ -193,9 +206,12 @@ class PendingApplication extends Model {
             expiresAt: expiresAt
         });
     }
-    static saveApplicationState(id, data) {
+    static saveApplicationState(id, data, currentProgressState) {
         return this.update(
-            { applicationData: data },
+            {
+                applicationData: data,
+                currentProgressState
+            },
             { where: { id: { [Op.eq]: id } } }
         );
     }

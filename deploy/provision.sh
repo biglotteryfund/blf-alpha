@@ -9,15 +9,11 @@ apt-get update
 apt-get install -y nginx-extras passenger
 
 # Install ClamAV
-if [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_FLEET ]] ||
-   [[ $DEPLOYMENT_GROUP_NAME =~ $TEST_IN_PLACE ]];
-then
-    apt-get install -y clamav clamav-daemon
-    service clamav-freshclam restart
-    sleep 3m
-    service clamav-daemon start
-    service clamav-daemon status
-fi
+apt-get install -y clamav clamav-daemon
+service clamav-freshclam restart
+sleep 3m
+service clamav-daemon start
+service clamav-daemon status
 
 # Install Node
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -

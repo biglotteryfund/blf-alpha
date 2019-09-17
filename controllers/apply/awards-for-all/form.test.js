@@ -180,6 +180,15 @@ function assertValidByKey(data) {
     expect(messagesByKey).toHaveLength(0);
 }
 
+function assertInvalidByKey(data) {
+    const validationResult = formBuilder({ data }).validation;
+    const messagesByKey = validationResult.messages.filter(message => {
+        return includes(Object.keys(data), message.param);
+    });
+    
+    expect(messagesByKey).not.toHaveLength(0);
+}
+
 describe('Global validation', () => {
     test('validate model shape', () => {
         validateModel(formBuilder());
@@ -649,6 +658,20 @@ describe('Registration numbers', function() {
         );
     });
 
+    test.each(concat(CHARITY_NUMBER_TYPES.required, CHARITY_NUMBER_TYPES.optional))(
+        'Disallow letter O in charity number for %p', function(organisationType) {
+
+        assertInvalidByKey({
+            organisationType: organisationType,
+            charityNumber: 'SCO123'
+        });
+
+        assertInvalidByKey({
+            organisationType: organisationType,
+            charityNumber: 'SCo123'
+        });
+    });
+
     test.each(CHARITY_NUMBER_TYPES.required)(
         'charity number required for %p',
         function(organisationType) {
@@ -773,6 +796,15 @@ describe('Contacts', () => {
             );
         }
     );
+
+    test('full names must not match', function() {
+        expect(
+            messagesByKey({
+                seniorContactName: { firstName: 'Ann', lastName: 'Example' },
+                mainContactName: { firstName: 'Ann', lastName: 'Example' }
+            })
+        ).toMatchSnapshot();
+    });
 
     test('include warning if contact last names match', () => {
         const form = formBuilder();
@@ -979,6 +1011,27 @@ describe('Contacts', () => {
             );
         }
     );
+
+    test('contact addresses must not match', function() {
+        expect(
+            messagesByKey({
+                seniorContactAddress: {
+                    line1: 'National Lottery Community Fund',
+                    line2: 'Apex House',
+                    county: 'West Midlands',
+                    postcode: 'B15 1TR',
+                    townCity: 'BIRMINGHAM'
+                },
+                mainContactAddress: {
+                    line1: 'National Lottery Community Fund',
+                    line2: 'Apex House',
+                    county: 'West Midlands',
+                    postcode: 'B15 1TR',
+                    townCity: 'BIRMINGHAM'
+                }
+            })
+        ).toMatchSnapshot();
+    });
 
     test('include all roles if no organisation type is provided', () => {
         const form = formBuilder({

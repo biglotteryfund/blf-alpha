@@ -8,6 +8,10 @@ const sampleSize = require('lodash/sampleSize');
 const sum = require('lodash/sum');
 const times = require('lodash/times');
 
+function acceptCookieConsent() {
+    return cy.get('.cookie-consent button').click();
+}
+
 describe('server smoke tests', function() {
     it('should have common headers', () => {
         cy.request('/').then(response => {
@@ -1048,7 +1052,7 @@ describe('awards for all', function() {
         cy.seedAndLogin().then(() => {
             cy.visit('/apply/awards-for-all');
 
-            cy.get('.cookie-consent button').click();
+            acceptCookieConsent();
             startApplication();
 
             sectionYourProject(mock);
@@ -1204,33 +1208,29 @@ describe('free materials', function() {
     });
 });
 
-describe('past grants', function() {
-    it('should be able to browse grants search results', () => {
-        cy.visit('/funding/grants');
-        cy.get('.cookie-consent button').click();
-        cy.get('.qa-grant-result').should('have.length', 50);
+it('should be able to browse grants search results', () => {
+    const QUERY = 'cake';
 
-        // Search query
-        const testQuery = 'cake';
-        const textQueryCount = 79;
+    cy.visit('/funding/grants');
+    acceptCookieConsent();
 
-        cy.get('#js-past-grants')
-            .find('#search-query')
-            .type(testQuery)
-            .type('{enter}');
-        cy.get('.active-filter').should('contain', testQuery);
-        cy.get('.qa-grant-result').should('have.length', 50);
+    cy.getAllByLabelText('Search all grants', { exact: false })
+        .first()
+        .type(QUERY)
+        .type('{enter}');
 
-        // Use filters
-        cy.get('#field-dynamic-amount-1').click();
-        cy.get('.qa-grant-result').should('have.length', 6);
+    cy.get('.filter-list').should('contain', QUERY);
 
-        // Clear filters
-        cy.get('.search-filters__clear-all').click();
-        cy.get('.qa-grant-result').should('have.length', 50);
+    // Use filters
+    cy.getByLabelText('Under £10,000').click();
+    cy.get('.filter-list').should('contain', 'Under £10,000');
 
-        // Test pagination
-        cy.get('.split-nav__next').click();
-        cy.get('.qa-grant-result').should('have.length', textQueryCount - 50);
-    });
+    // Clear filters
+    cy.getByText('Reset filters').click();
+
+    // Test pagination
+    cy.getByText('Next page', { exact: false })
+        .should('be.visible')
+        .click();
+    cy.getByText('Previous page', { exact: false }).should('be.visible');
 });
