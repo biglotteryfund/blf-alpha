@@ -120,7 +120,15 @@ module.exports = function({ locale = 'en' } = {}) {
                 })
             }
         ],
-        projectDurationYears: [],
+        projectDurationYears: [
+            {
+                type: 'base',
+                message: localise({
+                    en: 'Select a project duration',
+                    cy: ''
+                })
+            }
+        ],
         projectIdea: [],
         organisationLegalName: [],
         organisationTradingName: [],

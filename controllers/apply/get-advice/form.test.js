@@ -1,5 +1,4 @@
 /* eslint-env jest */
-// @ts-nocheck
 'use strict';
 const omit = require('lodash/omit');
 const random = require('lodash/random');
