@@ -395,7 +395,7 @@ it('should test common pages', () => {
     });
 });
 
-it.only('should submit full awards for all application', () => {
+it('should submit full awards for all application', () => {
     function submitStep() {
         cy.findByText('Continue').click();
     }
@@ -653,10 +653,13 @@ it.only('should submit full awards for all application', () => {
             }
         ).type(mock.organisationName);
 
-        // Org age question
-        const dt = moment().subtract(random(1, 20), 'years');
-        cy.findByLabelText('Month').type(dt.month() + 1);
-        cy.findByLabelText('Year').type(dt.year().toString());
+        cy.findByText('When was your organisation set up?')
+            .parent()
+            .within(() => {
+                const dt = moment().subtract(random(5, 100), 'years');
+                cy.findByLabelText('Month').type(dt.month() + 1);
+                cy.findByLabelText('Year').type(dt.year().toString());
+            });
 
         cy.findByText(
             'What is the main or registered address of your organisation?'
@@ -680,160 +683,131 @@ it.only('should submit full awards for all application', () => {
 
         cy.checkA11y();
 
-        cy.queryByText('Tell us what type of statutory body you are', {
-            exact: false,
-            timeout: 500
-        }).then(el => {
-            if (el) {
-                // @TODO: Should we further randomise the sub-types?
-                cy.findByLabelText('Parish Council', {
-                    exact: false
-                }).click();
-                submitStep();
-            }
-        });
+        if (mock.organisationType === 'Statutory body') {
+            // @TODO: Should we further randomise the sub-types?
+            cy.findByLabelText('Parish Council', {
+                exact: false
+            }).click();
+            submitStep();
+        }
 
         /**
          * Registration numbers
          * Not all organisation types require a registration number
          * so we need to check if the step exists first.
          */
-        cy.queryByText('Registration numbers (Step 4 of 5)', {
-            exact: false,
-            timeout: 500
-        }).then(registrationNumbersStepEl => {
-            function randomId(digits) {
-                return random(10000, 99999999)
-                    .toString()
-                    .padStart(digits, '0');
-            }
+        function randomId(digits) {
+            return random(10000, 99999999)
+                .toString()
+                .padStart(digits, '0');
+        }
 
-            if (registrationNumbersStepEl) {
-                const opts = { exact: false, timeout: 500 };
+        const companyNumberTypes = ['Not-for-profit company'];
 
-                cy.queryByLabelText('Companies House number', opts).then(
-                    function(el) {
-                        el && cy.wrap(el).type(randomId(8));
-                    }
-                );
+        const charityNumberTypes = [
+            'Registered charity (unincorporated)',
+            'Charitable incorporated organisation (CIO)'
+        ];
 
-                cy.queryByLabelText('Charity registration number', opts).then(
-                    function(el) {
-                        el && cy.wrap(el).type(randomId(7));
-                    }
-                );
+        const educationNumberTypes = ['School', 'College or University'];
 
-                cy.queryByLabelText(
-                    'Department for Education number',
-                    opts
-                ).then(function(el) {
-                    el && cy.wrap(el).type(randomId(6));
-                });
+        const registrationNumberTypes = companyNumberTypes.concat(
+            charityNumberTypes,
+            educationNumberTypes
+        );
 
-                submitStep();
-            }
-        });
+        if (includes(companyNumberTypes, mock.organisationType)) {
+            cy.findByLabelText('Companies House number', { exact: false }).type(
+                randomId(8)
+            );
+        }
 
-        // Optional accounting year end step
-        cy.queryByText('What is your accounting year end date?', {
-            exact: false,
-            timeout: 1000
-        }).then(el => {
-            if (el) {
-                cy.checkA11y();
+        if (includes(charityNumberTypes, mock.organisationType)) {
+            cy.findByLabelText('Charity registration number', {
+                exact: false
+            }).type(randomId(7));
+        }
+
+        if (includes(educationNumberTypes, mock.organisationType)) {
+            cy.findByLabelText('Department for Education number', {
+                exact: false
+            }).type(randomId(6));
+        }
+
+        if (includes(registrationNumberTypes, mock.organisationType)) {
+            submitStep();
+        }
+
+        cy.checkA11y();
+        cy.findByText('What is your accounting year end date?', {
+            exact: false
+        })
+            .parent()
+            .within(() => {
                 cy.findByLabelText('Day').type(random(1, 28).toString());
                 cy.findByLabelText('Month').type(random(1, 12).toString());
-                cy.findByLabelText('What is your total income for the year?', {
-                    exact: false
-                }).type(random(25000, 150000));
+            });
 
-                submitStep();
-            }
-        });
+        cy.findByLabelText('What is your total income for the year?', {
+            exact: false
+        }).type(random(25000, 150000).toString());
+
+        submitStep();
     }
 
     function fillDateOfBirth(dateOfBirth) {
-        cy.queryByText('Date of birth', { timeout: 1000 }).then(el => {
-            if (el) {
+        cy.findByText('Date of birth')
+            .parent()
+            .within(() => {
                 cy.findByLabelText('Day').type(dateOfBirth.date());
                 cy.findByLabelText('Month').type(dateOfBirth.month() + 1);
                 cy.findByLabelText('Year').type(dateOfBirth.year());
-            }
-        });
+            });
     }
 
     function fillHomeAddress(address) {
-        cy.queryByText('Home address', { timeout: 1000 }).then(el => {
-            if (el) {
-                cy.wrap(el)
-                    .parent()
-                    .within(() => {
-                        fillAddress(address);
-                    });
-            }
+        cy.findByText('Home address', { timeout: 1000 })
+            .parent()
+            .within(() => {
+                fillAddress(address);
+            });
+
+        cy.findByText(
+            'Have they lived at this address for the last three years?'
+        ).within(() => {
+            cy.findByLabelText('No').click();
         });
 
-        cy.queryByText(
-            'Have they lived at this address for the last three years?',
-            { timeout: 1000 }
-        ).then(el => {
-            if (el) {
-                cy.wrap(el)
-                    .parent()
-                    .within(() => {
-                        cy.findByLabelText('No').click();
-                    });
-
-                cy.findByText('Previous home address')
-                    .parent()
-                    .within(() => {
-                        fillAddress({
-                            streetAddress: `Apex house, Edgbaston`,
-                            city: 'Birmingham',
-                            postcode: 'B15 1TR'
-                        });
-                    });
-            }
-        });
+        cy.findByText('Previous home address')
+            .parent()
+            .within(() => {
+                fillAddress({
+                    streetAddress: `Apex house, Edgbaston`,
+                    city: 'Birmingham',
+                    postcode: 'B15 1TR'
+                });
+            });
     }
 
-    function fillContact(contact) {
+    function fillContact(contact, includeAddressAndDob = true) {
         cy.findByLabelText('First name').type(contact.firstName);
 
         cy.findByLabelText('Last name').type(contact.lastName);
 
-        cy.queryByText('I confirm that the main and senior contacts', {
-            exact: false,
-            timeout: 500
-        }).then(el => {
-            if (el) {
-                cy.wrap(el)
-                    .parent()
-                    .within(() => {
-                        cy.findByLabelText('Yes').click();
-                    });
-            }
-        });
+        if (includeAddressAndDob) {
+            fillDateOfBirth(contact.dateOfBirth);
 
-        fillDateOfBirth(contact.dateOfBirth);
+            cy.findByText(
+                'Have they lived at their home address for the last three years?',
+                { exact: false }
+            )
+                .parent()
+                .within(() => {
+                    cy.findByLabelText('Yes').click();
+                });
 
-        cy.queryByText(
-            'Have they lived at their home address for the last three years?',
-            {
-                exact: false,
-                timeout: 500
-            }
-        ).then(el => {
-            if (el) {
-                cy.wrap(el)
-                    .parent()
-                    .within(() => {
-                        cy.findByLabelText('Yes').click();
-                    });
-            }
-        });
-
-        fillHomeAddress(contact.address);
+            fillHomeAddress(contact.address);
+        }
 
         cy.findByLabelText('Email').type(
             contact.email || faker.internet.exampleEmail()
@@ -841,34 +815,45 @@ it.only('should submit full awards for all application', () => {
 
         cy.findByLabelText('Telephone number').type(contact.phone);
 
-        cy.queryByText('What language should we use to contact this person?', {
-            exact: false,
-            timeout: 500
-        }).then(el => {
-            if (el) {
+        if (mock.country === 'Wales') {
+            cy.findByText(
+                'What language should we use to contact this person?',
+                {
+                    exact: false
+                }
+            ).then(el => {
                 cy.wrap(el)
                     .parent()
                     .within(() => {
                         cy.findByLabelText('Welsh').click();
                     });
-            }
-        });
+            });
+        }
 
         cy.findByLabelText('tell us about any particular communication needs', {
             exact: false
         }).type('Example communication need');
     }
 
+    function includeAddressAndDob(mock) {
+        return (
+            includes(
+                ['School', 'College or University', 'Statutory body'],
+                mock.organisationType
+            ) === false
+        );
+    }
+
     function sectionSeniorContact(mock) {
         cy.checkA11y();
         cy.get('label[for="field-seniorContactRole-1"]').click();
-        fillContact(mock.seniorContact);
+        fillContact(mock.seniorContact, includeAddressAndDob(mock));
         submitStep();
     }
 
     function sectionMainContact(mock) {
         cy.checkA11y();
-        fillContact(mock.mainContact);
+        fillContact(mock.mainContact, includeAddressAndDob(mock));
         submitStep();
     }
 
@@ -986,16 +971,16 @@ it.only('should submit full awards for all application', () => {
         startApplication();
 
         sectionYourProject(mock);
-        // sectionBeneficiaries(mock);
-        // sectionOrganisation(mock);
-        //
-        // sectionSeniorContact(mock);
-        // sectionMainContact(mock);
-        //
-        // sectionBankDetails(mock);
-        // sectionTermsAndConditions(mock);
-        //
-        // submitApplication();
+        sectionBeneficiaries(mock);
+        sectionOrganisation(mock);
+
+        sectionSeniorContact(mock);
+        sectionMainContact(mock);
+
+        sectionBankDetails(mock);
+        sectionTermsAndConditions(mock);
+
+        submitApplication();
     });
 });
 
