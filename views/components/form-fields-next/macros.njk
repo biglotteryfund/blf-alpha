@@ -569,7 +569,7 @@
     {% if fieldErrors.length === 0 and field.value and field.displayValue %}
         <div class="existing-data u-margin-bottom">
             <h3>Existing file</h3>
-            <p>{{ field.displayValue }}</p>
+            <p data-hj-suppress>{{ field.displayValue }}</p>
             <p class="u-no-margin" data-hj-suppress>
                 <a href="../download/{{ field.name }}/{{ field.value.filename }}">Download this file</a>
             </p>
