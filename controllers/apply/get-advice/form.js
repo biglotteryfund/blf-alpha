@@ -11,6 +11,7 @@ module.exports = function({ locale = 'en' } = {}) {
 
     const allFields = {
         projectCountry: {
+            name: 'projectCountry',
             schema: Joi.array()
                 .items(
                     Joi.string().valid([
@@ -33,6 +34,7 @@ module.exports = function({ locale = 'en' } = {}) {
             ]
         },
         projectLocation: {
+            name: 'projectLocation',
             schema: Joi.when('projectCountry', {
                 is: Joi.array().min(2),
                 then: Joi.any().strip(),
@@ -49,12 +51,14 @@ module.exports = function({ locale = 'en' } = {}) {
             ]
         },
         projectLocationDescription: {
+            name: 'projectLocationDescription',
             schema: Joi.string()
                 .allow('')
                 .optional(),
             messages: []
         },
         projectCosts: {
+            name: 'projectCosts',
             schema: Joi.friendlyNumber()
                 .integer()
                 .min(10000)
@@ -84,6 +88,7 @@ module.exports = function({ locale = 'en' } = {}) {
             ]
         },
         projectDurationYears: {
+            name: 'projectDurationYears',
             schema: Joi.when('projectCountry', {
                 is: Joi.array().min(2),
                 then: Joi.any().strip()
@@ -117,6 +122,7 @@ module.exports = function({ locale = 'en' } = {}) {
             ]
         },
         projectIdea: {
+            name: 'projectIdea',
             schema: Joi.string()
                 .minWords(50)
                 .maxWords(500)
@@ -146,6 +152,7 @@ module.exports = function({ locale = 'en' } = {}) {
             ]
         },
         organisationLegalName: {
+            name: 'organisationLegalName',
             schema: Joi.string().required(),
             messages: [
                 {
@@ -158,12 +165,14 @@ module.exports = function({ locale = 'en' } = {}) {
             ]
         },
         organisationTradingName: {
+            name: 'organisationTradingName',
             schema: Joi.string()
                 .allow('')
                 .optional(),
             messages: []
         },
         organisationAddress: {
+            name: 'organisationAddress',
             schema: Joi.ukAddress().required(),
             messages: [
                 {
@@ -208,10 +217,12 @@ module.exports = function({ locale = 'en' } = {}) {
             ]
         },
         organisationType: {
+            name: 'organisationType',
             schema: Joi.string().required(),
             messages: []
         },
         organisationBackground: {
+            name: 'organisationBackground',
             schema: Joi.string()
                 .minWords(50)
                 .maxWords(500)
@@ -241,6 +252,7 @@ module.exports = function({ locale = 'en' } = {}) {
             ]
         },
         contactName: {
+            name: 'contactName',
             schema: Joi.fullName().required(),
             messages: [
                 {
@@ -269,6 +281,7 @@ module.exports = function({ locale = 'en' } = {}) {
             ]
         },
         contactEmail: {
+            name: 'contactEmail',
             schema: Joi.string()
                 .email()
                 .required(),
@@ -292,6 +305,7 @@ module.exports = function({ locale = 'en' } = {}) {
             ]
         },
         contactPhone: {
+            name: 'contactPhone',
             schema: Joi.string()
                 .phoneNumber()
                 .allow('')
@@ -318,8 +332,8 @@ module.exports = function({ locale = 'en' } = {}) {
     const schema = Joi.object(
         reduce(
             allFields,
-            function(acc, field, name) {
-                acc[name] = field.schema;
+            function(acc, field) {
+                acc[field.name] = field.schema;
                 return acc;
             },
             {}
@@ -328,8 +342,8 @@ module.exports = function({ locale = 'en' } = {}) {
 
     const messages = reduce(
         allFields,
-        function(acc, field, name) {
-            acc[name] = field.messages;
+        function(acc, field) {
+            acc[field.name] = field.messages;
             return acc;
         },
         {}
