@@ -1,6 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
 const Joi = require('../lib/joi-extensions');
+const normaliseErrors = require('../lib/normalise-errors');
 
 module.exports = function({ locale = 'en' } = {}) {
     const localise = get(locale);
@@ -80,7 +81,8 @@ module.exports = function({ locale = 'en' } = {}) {
             {
                 type: 'base',
                 message: localise({
-                    en: 'Enter a project country'
+                    en: 'Select a country',
+                    cy: 'Dewiswch wlad'
                 })
             }
         ]
@@ -90,7 +92,24 @@ module.exports = function({ locale = 'en' } = {}) {
         schema,
         messages,
         validate(data) {
-            return schema.validate(data, { abortEarly: false });
+            const validationResult = schema.validate(data, {
+                abortEarly: false,
+                stripUnknown: true
+            });
+
+            const messages = normaliseErrors({
+                validationError: validationResult.error,
+                errorMessages: this.messages,
+                formFields: this.allFields
+            });
+
+            return {
+                value: validationResult.value,
+                error: validationResult.error,
+                isValid:
+                    validationResult.error === null && messages.length === 0,
+                messages: messages
+            };
         }
     };
 };
