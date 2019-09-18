@@ -2,12 +2,13 @@
 const express = require('express');
 const moment = require('moment');
 const path = require('path');
-const Joi = require('@hapi/joi');
 const Sentry = require('@sentry/node');
 
 const { DIGITAL_FUND_EMAIL } = require('../../common/secrets');
 const { sendEmail } = require('../../common/mail');
 const { isNotProduction } = require('../../common/appData');
+
+const { validateAssistance } = require('./schema');
 
 const router = express.Router();
 
@@ -35,14 +36,7 @@ router
     .route('/')
     .get(render)
     .post(async (req, res) => {
-        const validationResult = Joi.object({
-            email: Joi.string()
-                .email()
-                .required()
-        }).validate(req.body, {
-            abortEarly: false,
-            stripUnknown: true
-        });
+        const validationResult = validateAssistance(req.body);
 
         if (validationResult.error) {
             const errors = [
