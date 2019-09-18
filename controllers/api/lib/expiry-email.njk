@@ -1,0 +1,35 @@
+{% extends "views/layouts/emails.njk" %}
+
+{% block content %}
+    <p>Hello,</p>
+
+    <p>
+        <strong>Your National Lottery Awards for All application isn’t finished yet.</strong><br/>
+        We noticed you started applying for {{ projectName }}. But you haven’t finished your application.
+    </p>
+
+    <p>
+        <strong>You still have {{ timeToFinishApp }} to finish your application.</strong><br/>
+        If you don’t complete your application in that time, we’ll delete it - so that we can keep your data safe.
+    </p>
+
+    <p>
+        <strong>To finish your application</strong><br/>
+        <a href="https://www.tnlcommunityfund.org.uk/apply/awards-for-all/">Log in to your account</a> and answer the rest of the questions.
+    </p>
+
+    <p>
+        <strong>If you don’t want more reminders from us</strong><br/>
+        You can [tell us to stop sending emails] that remind you about your application.
+    </p>
+
+    <p>
+        <strong>If you have any questions at all</strong><br/>
+        You can call [country number]. Or email [country email]. We’ll be happy to help you.
+    </p>
+
+    <p>
+        <strong>Best wishes,</strong><br/>
+        <strong>The National Lottery Awards for All Team</strong>
+    </p>
+{% endblock %}

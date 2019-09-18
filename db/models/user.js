@@ -50,16 +50,10 @@ class User extends Model {
         });
     }
 
-    static getUsernamesByUserIds(userIdArray) {
-        return this.findAll({
+    static findEmailByUserId(userId) {
+        return this.findOne({
             attributes: ['username'],
-            where: {
-                id: {
-                    [Op.in]: userIdArray
-                }
-            }
-        }).then(usernames => {
-            return usernames.map(username => username.username);
+            where: { id: { [Op.eq]: userId } }
         });
     }
 

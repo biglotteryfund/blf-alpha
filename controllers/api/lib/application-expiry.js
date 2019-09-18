@@ -1,5 +1,6 @@
 'use strict';
-const { sendEmail } = require('../../../common/mail');
+const path = require('path');
+const { generateHtmlEmail, sendEmail } = require('../../../common/mail');
 const { Users, PendingApplication } = require('../../../db/models');
 const { EXPIRY_EMAIL_REMINDERS } = require('../../apply/awards-for-all/constants');
 const appData = require('../../../common/appData');
@@ -7,36 +8,47 @@ const logger = require('../../../common/logger').child({
     service: 'application-expiry'
 });
 
-const fetchMailList = async (expiryApplications) => {
-    const userIds = expiryApplications.map(application => application.userId);
-    const expiryMailList = await Users.getUsernamesByUserIds(userIds);
-
-    return expiryMailList;
-};
-
-const sendExpiryEmail = async (expiryMailList) => {
-    // TODO: Change the email content based on an expiryType param
+const sendExpiryEmail = async (expiryApplications, expiryType) => {
     let status;
 
-    const getSendTo = () => {
-        if (appData.isNotProduction && !process.env.APPLICATION_EXPIRY_EMAIL) {
-          throw new Error('Missing environment variable APPLICATION_EXPIRY_EMAIL');
-        } else {
-          return appData.isNotProduction ? process.env.APPLICATION_EXPIRY_EMAIL : expiryMailList;
-        }
-    };
+    if (appData.isNotProduction && !process.env.APPLICATION_EXPIRY_EMAIL) {
+        throw new Error('Missing environment variable APPLICATION_EXPIRY_EMAIL');
+    }
 
-    if (expiryMailList.length > 0) {
-        status = await sendEmail({
-            name: 'application_expiry',
-            mailConfig: {
-                sendTo: getSendTo(),
-                subject: 'Your Application is due to expire!',
-                type: 'html',
-                content: '<h1>Content needs to be decided</h1>'
+    const timeToFinishApp = ((type) => {
+        switch(type) {
+          case EXPIRY_EMAIL_REMINDERS.MONTH:
+            return 'one month';
+          case EXPIRY_EMAIL_REMINDERS.WEEK:
+            return 'two weeks';
+          default:
+            return 'two days';
+        }
+    })(expiryType);
+
+    expiryApplications.forEach(async (application) => {
+        const email = (await Users.findEmailByUserId(application.userId)).username;
+
+        const expiryHtml = await generateHtmlEmail({
+            template: path.resolve(__dirname, './expiry-email.njk'),
+            templateData: {
+                timeToFinishApp,
+                projectName: application.applicationData.projectName
             }
         });
-    }
+
+        if (email) {
+            status = await sendEmail({
+                name: 'application_expiry',
+                mailConfig: {
+                    sendTo: appData.isNotProduction ? process.env.APPLICATION_EXPIRY_EMAIL : email,
+                    subject: `You have ${timeToFinishApp} to finish your application`,
+                    type: 'html',
+                    content: expiryHtml
+                }
+            });
+        }
+    });
 
     return (status.response) ? true : false;
 };
@@ -61,12 +73,12 @@ const updateDb = async (expiryApplications, expiryWarning, emailStatus) => {
 const handleMonthExpiry = async (monthExpiryApplications) => {
     try {
         logger.info('Handling monthly expiry applications');
-
-        // Fetch email addresses
-        const expiryMailList = await fetchMailList(monthExpiryApplications);
         
-        // Send Emails
-        const emailStatus = await sendExpiryEmail(expiryMailList);
+        // Fetch and Send Emails
+        const emailStatus = await sendExpiryEmail(
+            monthExpiryApplications,
+            EXPIRY_EMAIL_REMINDERS.MONTH
+        );
 
         // Update db
         const dbStatus = await updateDb(
@@ -88,12 +100,12 @@ const handleMonthExpiry = async (monthExpiryApplications) => {
 const handleWeekExpiry = async (weekExpiryApplications) => {
     try {
         logger.info('Handling weekly expiry applications');
-
-        // Fetch email addresses
-        const expiryMailList = await fetchMailList(weekExpiryApplications);
         
-        // Send Emails
-        const emailStatus = await sendExpiryEmail(expiryMailList);
+        // Fetch and Send Emails
+        const emailStatus = await sendExpiryEmail(
+            weekExpiryApplications,
+            EXPIRY_EMAIL_REMINDERS.WEEK
+        );
 
         // Update db
         const dbStatus = await updateDb(
@@ -115,12 +127,12 @@ const handleWeekExpiry = async (weekExpiryApplications) => {
 const handleDayExpiry = async (dayExpiryApplications) => {
     try {
         logger.info('Handling daily expiry applications');
-
-        // Fetch email addresses
-        const expiryMailList = await fetchMailList(dayExpiryApplications);
         
-        // Send Emails
-        const emailStatus = await sendExpiryEmail(expiryMailList);
+        // Fetch and Send Emails
+        const emailStatus = await sendExpiryEmail(
+            dayExpiryApplications,
+            EXPIRY_EMAIL_REMINDERS.DAY
+        );
 
         // Update db
         const dbStatus = await updateDb(
@@ -143,12 +155,6 @@ const handleExpired = async (expiredApplications) => {
     try {
         logger.info('Handling expired applications');
 
-        // Fetch email addresses
-        const expiryMailList = await fetchMailList(expiredApplications);
-        
-        // Send Emails
-        const emailStatus = await sendExpiryEmail(expiryMailList);
-
         // Update db
         const dbStatus = await updateDb(
             expiredApplications,
@@ -157,7 +163,6 @@ const handleExpired = async (expiredApplications) => {
         );
 
         return {
-            emailSent: emailStatus,
             dbUpdated: dbStatus
         };
     } catch (err) {
