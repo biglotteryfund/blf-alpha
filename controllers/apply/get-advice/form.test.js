@@ -8,6 +8,10 @@ const faker = require('faker');
 const formBuilder = require('./form');
 
 function mapMessages(validationResult) {
+    return validationResult.messages.map(detail => detail.msg);
+}
+
+function mapRawMessages(validationResult) {
     return validationResult.error.details.map(detail => {
         return detail.message;
     });
@@ -62,7 +66,9 @@ test('minimal invalid form', () => {
         projectDurationYears: 10
     });
 
-    expect(mapMessages(result)).toMatchSnapshot();
+    expect(mapMessages(result)).toEqual(['Select a country']);
+
+    expect(mapRawMessages(result)).toMatchSnapshot();
 });
 
 test('strip location and duration when applying for more than one country', () => {
@@ -101,7 +107,7 @@ test.each([
         projectDurationYears: min - 1
     });
 
-    expect(mapMessages(resultMin)).toEqual(
+    expect(mapRawMessages(resultMin)).toEqual(
         expect.arrayContaining([
             `"projectDurationYears" must be larger than or equal to ${min}`
         ])
@@ -112,7 +118,7 @@ test.each([
         projectDurationYears: max + 1
     });
 
-    expect(mapMessages(resultMax)).toEqual(
+    expect(mapRawMessages(resultMax)).toEqual(
         expect.arrayContaining([
             `"projectDurationYears" must be less than or equal to ${max}`
         ])
@@ -130,7 +136,7 @@ test.each([['projectIdea', 50, 500], ['organisationBackground', 50, 500]])(
             })
         );
 
-        expect(mapMessages(resultMin)).toEqual(
+        expect(mapRawMessages(resultMin)).toEqual(
             expect.arrayContaining([
                 `"${fieldName}" must have at least ${min} words`
             ])
@@ -142,7 +148,7 @@ test.each([['projectIdea', 50, 500], ['organisationBackground', 50, 500]])(
             })
         );
 
-        expect(mapMessages(resultMax)).toEqual(
+        expect(mapRawMessages(resultMax)).toEqual(
             expect.arrayContaining([
                 `"${fieldName}" must have less than ${max} words`
             ])
