@@ -1,34 +1,23 @@
 'use strict';
 const { get } = require('lodash/fp');
 
-const { MIN_START_DATE, CONTACT_DETAILS_EMAIL, CONTACT_DETAILS_PHONE } = require('./constants');
+const { MIN_START_DATE } = require('./constants');
+const { getEmailFor, getPhoneFor } = require('./lib/contacts');
 
 module.exports = function({ locale, data = {}, fileUploadError = null }) {
     const localise = get(locale);
     const country = get('projectCountry')(data);
-
-    function emailFor(country) {
-        const options = CONTACT_DETAILS_EMAIL;
-
-        return options[country] || options.default;
-    }
-
-    function phoneFor(country) {
-        const options = CONTACT_DETAILS_PHONE;
-
-        return options[country] || options.default;
-    }
 
     function getFileUploadErrorMessage() {
         let msg = '';
         if (fileUploadError) {
             msg = `<h2>Your bank statement hasn't been sent to us</h2>
             <p>The bank statement you uploaded might have a virus or security risk. But we've received the rest of your application, so don't worry. 
-            You can call <strong>${phoneFor(
+            You can call <strong>${getPhoneFor(
                 country
-            )}</strong> or email <a href="mailto:${emailFor(
+            )}</strong> or email <a href="mailto:${getEmailFor(
                 country
-            )}">${emailFor(country)}</a> to send 
+            )}">${getEmailFor(country)}</a> to send 
             the bank statement to us - if not, we can contact you for it later.</p>`;
         }
         return msg;
@@ -48,9 +37,9 @@ ${fileErrorMessage}
     let you know whether you have been successful by email.
 </p>
 <p>
-    In the meantime, if you have any questions, please call <strong>${phoneFor(
+    In the meantime, if you have any questions, please call <strong>${getPhoneFor(
         country
-    )}</strong> or email <a href="mailto:${emailFor(country)}">${emailFor(
+    )}</strong> or email <a href="mailto:${getEmailFor(country)}">${getEmailFor(
             country
         )}</a> and we will be happy to help you.
 </p>
@@ -78,9 +67,9 @@ ${fileErrorMessage}
     p’un a ydych wedi bod yn llwyddiannus ai beidio drwy e-bost.
 </p>
 <p>
-    Yn y cyfamser, os oes gennych unrhyw gwestiynau, ffoniwch <strong>${phoneFor(
+    Yn y cyfamser, os oes gennych unrhyw gwestiynau, ffoniwch <strong>${getPhoneFor(
         country
-    )}</strong> neu gyrrwch e-bost i <a href="mailto:${emailFor(country)}">${emailFor(
+    )}</strong> neu gyrrwch e-bost i <a href="mailto:${getEmailFor(country)}">${getEmailFor(
             country
         )}</a> a byddwn yn hapus i’ch helpu.
 </p>
