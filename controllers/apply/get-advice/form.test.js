@@ -66,7 +66,7 @@ test('minimal invalid form', () => {
         projectDurationYears: 10
     });
 
-    expect(mapMessages(result)).toEqual(['Select a country']);
+    expect(mapMessages(result)).toMatchSnapshot();
 
     expect(mapRawMessages(result)).toMatchSnapshot();
 });
