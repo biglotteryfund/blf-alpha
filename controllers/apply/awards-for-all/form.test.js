@@ -284,6 +284,7 @@ describe('Global validation', () => {
             })
         });
 
+        // @TODO: Remove isValid? Handled via progress?
         expect(form.validation.isValid).toBeTruthy();
         expect(form.validation.messages).toHaveLength(0);
 
