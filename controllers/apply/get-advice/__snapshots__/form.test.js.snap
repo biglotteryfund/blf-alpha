@@ -4,6 +4,7 @@ exports[`minimal invalid form 1`] = `
 Array [
   "Select a country",
   "Select a location",
+  "Must be at least £10,000",
 ]
 `;
 
