@@ -1,5 +1,6 @@
 'use strict';
 const get = require('lodash/fp/get');
+const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
 const normaliseErrors = require('../lib/normalise-errors');
@@ -152,9 +153,57 @@ module.exports = function({ locale = 'en' } = {}) {
                 })
             }
         ],
-        organisationLegalName: [],
+        organisationLegalName: [
+            {
+                type: 'base',
+                message: localise({
+                    en: 'Enter the full legal name of the organisation',
+                    cy: 'Rhowch enw cyfreithiol llawn eich sefydliad'
+                })
+            }
+        ],
         organisationTradingName: [],
-        organisationAddress: [],
+        organisationAddress: [
+            {
+                type: 'base',
+                message: localise({
+                    en: 'Enter a full UK address',
+                    cy: 'Rhowch gyfeiriad Prydeinig llawn'
+                })
+            },
+            {
+                type: 'any.empty',
+                key: 'line1',
+                message: localise({
+                    en: 'Enter a building and street',
+                    cy: 'Rhowch adeilad a stryd'
+                })
+            },
+            {
+                type: 'any.empty',
+                key: 'townCity',
+                message: localise({
+                    en: 'Enter a town or city',
+                    cy: 'Rhowch dref neu ddinas'
+                })
+            },
+            {
+                type: 'any.empty',
+                key: 'postcode',
+                message: localise({
+                    en: 'Enter a postcode',
+                    cy: 'Rhowch gôd post'
+                })
+            },
+            {
+                type: 'string.postcode',
+                key: 'postcode',
+                message: localise({
+                    en: 'Enter a real postcode',
+                    cy: 'Rhowch gôd post go iawn'
+                })
+            }
+        ],
         organisationType: [],
         organisationBackground: [
             {
@@ -179,9 +228,65 @@ module.exports = function({ locale = 'en' } = {}) {
                 })
             }
         ],
-        contactName: [],
-        contactEmail: [],
-        contactPhone: []
+        contactName: [
+            {
+                type: 'base',
+                message: localise({
+                    en: 'Enter first and last name',
+                    cy: 'Rhowch enw cyntaf a chyfenw'
+                })
+            },
+            {
+                type: 'any.empty',
+                key: 'firstName',
+                message: localise({
+                    en: 'Enter first name',
+                    cy: 'Rhowch enw cyntaf'
+                })
+            },
+            {
+                type: 'any.empty',
+                key: 'lastName',
+                message: localise({
+                    en: 'Enter last name',
+                    cy: 'Rhowch gyfenw'
+                })
+            }
+        ],
+        contactEmail: [
+            {
+                type: 'base',
+                message: localise({
+                    en: 'Enter an email address',
+                    cy: 'Rhowch gyfeiriad e-bost'
+                })
+            },
+            {
+                type: 'string.email',
+                message: localise({
+                    en: oneLine`Email address must be in the correct format,
+                        like name@example.com`,
+                    cy: oneLine`Rhaid i’r cyfeiriad e-bost for yn y ffurf cywir,,
+                        e.e enw@example.com`
+                })
+            }
+        ],
+        contactPhone: [
+            {
+                type: 'base',
+                message: localise({
+                    en: 'Enter a UK telephone number',
+                    cy: 'Rhowch rif ffôn Prydeinig'
+                })
+            },
+            {
+                type: 'string.phonenumber',
+                message: localise({
+                    en: 'Enter a real UK telephone number',
+                    cy: 'Rhowch rif ffôn Prydeinig go iawn'
+                })
+            }
+        ]
     };
 
     return {
