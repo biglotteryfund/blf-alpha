@@ -5,6 +5,7 @@ Array [
   "Select a country",
   "Select a location",
   "Must be at least £10,000",
+  "Select a project duration",
 ]
 `;
 
