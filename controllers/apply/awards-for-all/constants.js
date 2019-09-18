@@ -112,8 +112,23 @@ const FILE_LIMITS = {
 const EXPIRY_EMAIL_REMINDERS = {
     MONTH: 'ONE_MONTH',
     WEEK: 'ONE_WEEK',
-    DAY: 'ONE_DAY',
-    EXPIRED: 'EXPIRED'
+    DAY: 'ONE_DAY'
+};
+
+const CONTACT_DETAILS_EMAIL = {
+    'default': 'general.enquiries@tnlcommunityfund.org.uk',
+    'england': 'afe@tnlcommunityfund.org.uk',
+    'scotland': 'advicescotland@tnlcommunityfund.org.uk',
+    'northern-ireland': 'enquiries.ni@tnlcommunityfund.org.uk',
+    'wales': 'wales@tnlcommunityfund.org.uk'
+};
+
+const CONTACT_DETAILS_PHONE = {
+    'default': '0345 4 10 20 30',
+    'england': '0345 4 10 20 30',
+    'scotland': '0300 123 7110',
+    'northern-ireland': '028 9055 1455',
+    'wales': '0300 123 0735'
 };
 
 module.exports = {
@@ -133,5 +148,7 @@ module.exports = {
     CHARITY_NUMBER_TYPES,
     EDUCATION_NUMBER_TYPES,
     FREE_TEXT_MAXLENGTH,
-    EXPIRY_EMAIL_REMINDERS
+    EXPIRY_EMAIL_REMINDERS,
+    CONTACT_DETAILS_EMAIL,
+    CONTACT_DETAILS_PHONE
 };

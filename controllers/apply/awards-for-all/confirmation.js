@@ -1,32 +1,20 @@
 'use strict';
 const { get } = require('lodash/fp');
 
-const { MIN_START_DATE } = require('./constants');
+const { MIN_START_DATE, CONTACT_DETAILS_EMAIL, CONTACT_DETAILS_PHONE } = require('./constants');
 
 module.exports = function({ locale, data = {}, fileUploadError = null }) {
     const localise = get(locale);
     const country = get('projectCountry')(data);
 
     function emailFor(country) {
-        const options = {
-            'default': 'general.enquiries@tnlcommunityfund.org.uk',
-            'england': 'afe@tnlcommunityfund.org.uk',
-            'scotland': 'advicescotland@tnlcommunityfund.org.uk',
-            'northern-ireland': 'enquiries.ni@tnlcommunityfund.org.uk',
-            'wales': 'wales@tnlcommunityfund.org.uk'
-        };
+        const options = CONTACT_DETAILS_EMAIL;
 
         return options[country] || options.default;
     }
 
     function phoneFor(country) {
-        const options = {
-            'default': '0345 4 10 20 30',
-            'england': '0345 4 10 20 30',
-            'scotland': '0300 123 7110',
-            'northern-ireland': '028 9055 1455',
-            'wales': '0300 123 0735'
-        };
+        const options = CONTACT_DETAILS_PHONE;
 
         return options[country] || options.default;
     }
