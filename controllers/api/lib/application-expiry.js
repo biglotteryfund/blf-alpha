@@ -58,14 +58,19 @@ const updateDb = async (expiryApplications, expiryWarning, emailStatus) => {
 
     if (emailStatus) {
         const applicationIds = expiryApplications.map(application => application.id);
-        if (expiryWarning === EXPIRY_EMAIL_REMINDERS.EXPIRED) {
-            // DELETE promise returns number of records affected directly
-            dbStatus = await PendingApplication.bulkDeleteApplications(applicationIds);
-        } else {
-            // UPDATE promise returns an array containing number of records affected
-            dbStatus = (await PendingApplication.updateExpiryWarning(applicationIds, expiryWarning))[0];
-        }
+
+        // UPDATE promise returns an array containing number of records affected
+        dbStatus = (await PendingApplication.updateExpiryWarning(applicationIds, expiryWarning))[0];
     }
+
+    return dbStatus === expiryApplications.length ? true : false;
+};
+
+const deleteExpiredApplications = async (expiryApplications) => {
+    const applicationIds = expiryApplications.map(application => application.id);
+
+    // DELETE promise returns number of records affected directly
+    const dbStatus = await PendingApplication.bulkDeleteApplications(applicationIds);
 
     return dbStatus === expiryApplications.length ? true : false;
 };
@@ -156,11 +161,7 @@ const handleExpired = async (expiredApplications) => {
         logger.info('Handling expired applications');
 
         // Update db
-        const dbStatus = await updateDb(
-            expiredApplications,
-            EXPIRY_EMAIL_REMINDERS.EXPIRED,
-            emailStatus
-        );
+        const dbStatus = await deleteExpiredApplications(expiredApplications);
 
         return {
             dbUpdated: dbStatus
