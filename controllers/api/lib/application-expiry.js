@@ -1,15 +1,15 @@
 'use strict';
 const path = require('path');
-const { generateHtmlEmail, sendEmail } = require('../../../common/mail');
+const { sendHtmlEmail } = require('../../../common/mail');
 const { Users, PendingApplication } = require('../../../db/models');
 const { EXPIRY_EMAIL_REMINDERS } = require('../../apply/awards-for-all/constants');
+const { getEmailFor, getPhoneFor } = require('../../apply/awards-for-all/lib/contacts');
 const appData = require('../../../common/appData');
 const logger = require('../../../common/logger').child({
     service: 'application-expiry'
 });
 
 const sendExpiryEmail = async (expiryApplications, expiryType) => {
-    let status;
 
     if (appData.isNotProduction && !process.env.APPLICATION_EXPIRY_EMAIL) {
         throw new Error('Missing environment variable APPLICATION_EXPIRY_EMAIL');
@@ -26,31 +26,32 @@ const sendExpiryEmail = async (expiryApplications, expiryType) => {
         }
     })(expiryType);
 
-    expiryApplications.forEach(async (application) => {
+    const emailStatuses = await Promise.all(expiryApplications.map(async (application) => {
         const email = (await Users.findEmailByUserId(application.userId)).username;
 
-        const expiryHtml = await generateHtmlEmail({
-            template: path.resolve(__dirname, './expiry-email.njk'),
-            templateData: {
-                timeToFinishApp,
-                projectName: application.applicationData.projectName
-            }
-        });
-
         if (email) {
-            status = await sendEmail({
-                name: 'application_expiry',
-                mailConfig: {
-                    sendTo: appData.isNotProduction ? process.env.APPLICATION_EXPIRY_EMAIL : email,
-                    subject: `You have ${timeToFinishApp} to finish your application`,
-                    type: 'html',
-                    content: expiryHtml
+            return await sendHtmlEmail({
+                template: path.resolve(__dirname, './expiry-email.njk'),
+                templateData: {
+                    timeToFinishApp,
+                    projectName: application.applicationData.projectName,
+                    countryPhoneNumber: getPhoneFor(application.applicationData.projectCountry),
+                    countryEmail: getEmailFor(application.applicationData.projectCountry)
                 }
+            }, {
+                name: 'application_expiry',
+                sendTo: appData.isNotProduction ? process.env.APPLICATION_EXPIRY_EMAIL : email,
+                subject: `You have ${timeToFinishApp} to finish your application`
             });
         }
-    });
+    }));
 
-    return (status.response) ? true : false;
+    // Truthy if every email status has a response property
+    return emailStatuses.every((status) => {
+        if (status) {
+          return (status.response);
+        }
+    });
 };
 
 const updateDb = async (expiryApplications, expiryWarning, emailStatus) => {
