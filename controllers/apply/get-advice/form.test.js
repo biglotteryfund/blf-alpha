@@ -135,10 +135,8 @@ test.each([['projectIdea', 50, 500], ['organisationBackground', 50, 500]])(
             })
         );
 
-        expect(mapRawMessages(resultMin)).toEqual(
-            expect.arrayContaining([
-                `"${fieldName}" must have at least ${min} words`
-            ])
+        expect(mapMessages(resultMin)).toEqual(
+            expect.arrayContaining([`Answer must be at least ${min} words`])
         );
 
         const resultMax = form.validate(
@@ -147,10 +145,8 @@ test.each([['projectIdea', 50, 500], ['organisationBackground', 50, 500]])(
             })
         );
 
-        expect(mapRawMessages(resultMax)).toEqual(
-            expect.arrayContaining([
-                `"${fieldName}" must have less than ${max} words`
-            ])
+        expect(mapMessages(resultMax)).toEqual(
+            expect.arrayContaining([`Answer must be no more than ${max} words`])
         );
     }
 );
