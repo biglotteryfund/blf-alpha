@@ -80,8 +80,7 @@ module.exports = function({ locale = 'en' } = {}) {
             {
                 type: 'base',
                 message: localise({
-                    en: 'Enter a UK telephone number',
-                    cy: 'Rhowch rif ffôn Prydeinig'
+                    en: 'Enter a project country'
                 })
             }
         ]

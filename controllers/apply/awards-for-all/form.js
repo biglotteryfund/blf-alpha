@@ -9,9 +9,9 @@ const has = require('lodash/fp/has');
 const sumBy = require('lodash/sumBy');
 const { safeHtml, oneLine } = require('common-tags');
 
-const { FormModel } = require('../form-router-next/lib/form-model');
+const { FormModel } = require('../lib/form-model');
 const fromDateParts = require('../lib/from-date-parts');
-const { formatDateRange } = require('../form-router-next/lib/formatters');
+const { formatDateRange } = require('../lib/formatters');
 const {
     BENEFICIARY_GROUPS,
     CONTACT_EXCLUDED_TYPES,
