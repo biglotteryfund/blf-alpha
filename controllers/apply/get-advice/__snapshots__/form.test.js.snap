@@ -2,6 +2,13 @@
 
 exports[`minimal invalid form 1`] = `
 Array [
+  "Select a country",
+  "Select a location",
+]
+`;
+
+exports[`minimal invalid form 2`] = `
+Array [
   "\\"projectCountry\\" must be one of [england, scotland, northern-ireland, wales]",
   "\\"projectLocation\\" must be a string",
   "\\"projectCosts\\" must be larger than or equal to 10000",

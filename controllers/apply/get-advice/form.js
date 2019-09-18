@@ -85,6 +85,15 @@ module.exports = function({ locale = 'en' } = {}) {
                     cy: 'Dewiswch wlad'
                 })
             }
+        ],
+        projectLocation: [
+            {
+                type: 'base',
+                message: localise({
+                    en: 'Select a location',
+                    cy: 'Dewiswch leoliad'
+                })
+            }
         ]
     };
 
