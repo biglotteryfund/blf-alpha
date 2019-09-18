@@ -6,6 +6,8 @@ Array [
   "Select a location",
   "Must be at least £10,000",
   "Select a project duration",
+  "Tell us about your idea",
+  "Tell us about your organisation",
 ]
 `;
 

@@ -129,12 +129,56 @@ module.exports = function({ locale = 'en' } = {}) {
                 })
             }
         ],
-        projectIdea: [],
+        projectIdea: [
+            {
+                type: 'base',
+                message: localise({
+                    en: `Tell us about your idea`,
+                    cy: ``
+                })
+            },
+            {
+                type: 'string.minWords',
+                message: localise({
+                    en: `Answer must be at least 50 words`,
+                    cy: `Rhaid i’r ateb fod yn o leiaf 50 gair`
+                })
+            },
+            {
+                type: 'string.maxWords',
+                message: localise({
+                    en: `Answer must be no more than 500 words`,
+                    cy: `Rhaid i’r ateb fod yn llai na 500 gair`
+                })
+            }
+        ],
         organisationLegalName: [],
         organisationTradingName: [],
         organisationAddress: [],
         organisationType: [],
-        organisationBackground: [],
+        organisationBackground: [
+            {
+                type: 'base',
+                message: localise({
+                    en: `Tell us about your organisation`,
+                    cy: ``
+                })
+            },
+            {
+                type: 'string.minWords',
+                message: localise({
+                    en: `Answer must be at least 50 words`,
+                    cy: `Rhaid i’r ateb fod yn o leiaf 50 gair`
+                })
+            },
+            {
+                type: 'string.maxWords',
+                message: localise({
+                    en: `Answer must be no more than 500 words`,
+                    cy: `Rhaid i’r ateb fod yn llai na 500 gair`
+                })
+            }
+        ],
         contactName: [],
         contactEmail: [],
         contactPhone: []
