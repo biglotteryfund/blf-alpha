@@ -1,5 +1,6 @@
 'use strict';
 const get = require('lodash/fp/get');
+const reduce = require('lodash/reduce');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
@@ -8,75 +9,103 @@ const normaliseErrors = require('../lib/normalise-errors');
 module.exports = function({ locale = 'en' } = {}) {
     const localise = get(locale);
 
-    const schema = Joi.object({
-        projectCountry: Joi.array()
-            .items(
-                Joi.string().valid([
-                    'england',
-                    'scotland',
-                    'northern-ireland',
-                    'wales'
-                ])
-            )
-            .single()
-            .required(),
-        projectLocation: Joi.when('projectCountry', {
-            is: Joi.array().min(2),
-            then: Joi.any().strip(),
-            otherwise: Joi.string().required()
-        }),
-        projectLocationDescription: Joi.string()
-            .allow('')
-            .optional(),
-        projectCosts: Joi.friendlyNumber()
-            .integer()
-            .min(10000)
-            .required(),
-        projectDurationYears: Joi.when('projectCountry', {
-            is: Joi.array().min(2),
-            then: Joi.any().strip()
-        }).when('projectCountry', {
-            is: Joi.array()
+    const allFields = {
+        projectCountry: {
+            schema: Joi.array()
                 .items(
-                    Joi.string()
-                        .only('scotland')
-                        .required()
+                    Joi.string().valid([
+                        'england',
+                        'scotland',
+                        'northern-ireland',
+                        'wales'
+                    ])
                 )
-                .required(),
-            then: Joi.number()
-                .integer()
+                .single()
                 .required()
-                .min(3)
-                .max(5),
-            otherwise: Joi.number()
+        },
+        projectLocation: {
+            schema: Joi.when('projectCountry', {
+                is: Joi.array().min(2),
+                then: Joi.any().strip(),
+                otherwise: Joi.string().required()
+            })
+        },
+        projectLocationDescription: {
+            schema: Joi.string()
+                .allow('')
+                .optional()
+        },
+        projectCosts: {
+            schema: Joi.friendlyNumber()
                 .integer()
+                .min(10000)
                 .required()
-                .min(1)
-                .max(5)
-        }),
-        projectIdea: Joi.string()
-            .minWords(50)
-            .maxWords(500)
-            .required(),
-        organisationLegalName: Joi.string().required(),
-        organisationTradingName: Joi.string()
-            .allow('')
-            .optional(),
-        organisationAddress: Joi.ukAddress().required(),
-        organisationType: Joi.string().required(),
-        organisationBackground: Joi.string()
-            .minWords(50)
-            .maxWords(500)
-            .required(),
-        contactName: Joi.fullName().required(),
-        contactEmail: Joi.string()
-            .email()
-            .required(),
-        contactPhone: Joi.string()
-            .phoneNumber()
-            .allow('')
-            .optional()
-    });
+        },
+        projectDurationYears: {
+            schema: Joi.when('projectCountry', {
+                is: Joi.array().min(2),
+                then: Joi.any().strip()
+            }).when('projectCountry', {
+                is: Joi.array()
+                    .items(
+                        Joi.string()
+                            .only('scotland')
+                            .required()
+                    )
+                    .required(),
+                then: Joi.number()
+                    .integer()
+                    .required()
+                    .min(3)
+                    .max(5),
+                otherwise: Joi.number()
+                    .integer()
+                    .required()
+                    .min(1)
+                    .max(5)
+            })
+        },
+        projectIdea: {
+            schema: Joi.string()
+                .minWords(50)
+                .maxWords(500)
+                .required()
+        },
+        organisationLegalName: {
+            schema: Joi.string().required()
+        },
+        organisationTradingName: {
+            schema: Joi.string()
+                .allow('')
+                .optional()
+        },
+        organisationAddress: {
+            schema: Joi.ukAddress().required()
+        },
+        organisationType: {
+            schema: Joi.string().required()
+        },
+        organisationBackground: {
+            schema: Joi.string()
+                .minWords(50)
+                .maxWords(500)
+                .required()
+        },
+        contactName: {
+            schema: Joi.fullName().required()
+        },
+        contactEmail: {
+            schema: Joi.string()
+                .email()
+                .required()
+        },
+        contactPhone: {
+            schema: Joi.string()
+                .phoneNumber()
+                .allow('')
+                .optional()
+        }
+    };
 
     const messages = {
         projectCountry: [
@@ -288,6 +317,17 @@ module.exports = function({ locale = 'en' } = {}) {
             }
         ]
     };
+
+    const schema = Joi.object(
+        reduce(
+            allFields,
+            function(acc, field, name) {
+                acc[name] = field.schema;
+                return acc;
+            },
+            {}
+        )
+    );
 
     return {
         schema,
