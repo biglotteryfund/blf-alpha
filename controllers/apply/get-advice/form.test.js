@@ -156,6 +156,20 @@ test.each([['projectIdea', 50, 500], ['organisationBackground', 50, 500]])(
     }
 );
 
+test('project costs must be at least 10,000', function() {
+    const form = formBuilder();
+
+    const resultMin = form.validate(
+        mockResponse({
+            projectCosts: '5,500'
+        })
+    );
+
+    expect(mapMessages(resultMin)).toEqual(
+        expect.arrayContaining(['Must be at least £10,000'])
+    );
+});
+
 test.each([
     'projectLocationDescription',
     'organisationTradingName',

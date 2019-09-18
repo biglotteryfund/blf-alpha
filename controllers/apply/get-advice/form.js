@@ -1,5 +1,6 @@
 'use strict';
 const get = require('lodash/fp/get');
+
 const Joi = require('../lib/joi-extensions');
 const normaliseErrors = require('../lib/normalise-errors');
 
@@ -94,7 +95,41 @@ module.exports = function({ locale = 'en' } = {}) {
                     cy: 'Dewiswch leoliad'
                 })
             }
-        ]
+        ],
+        projectLocationDescription: [],
+        projectCosts: [
+            {
+                type: 'base',
+                message: localise({
+                    en: 'Enter a total cost for your project',
+                    cy: 'Rhowch gyfanswm cost eich prosiect'
+                })
+            },
+            {
+                type: 'number.integer',
+                message: localise({
+                    en: `Total cost must be a whole number (eg. no decimal point)`,
+                    cy: `Rhaid i’r cost fod yn rif cyflawn (e.e. dim pwynt degol)`
+                })
+            },
+            {
+                type: 'number.min',
+                message: localise({
+                    en: `Must be at least £10,000`,
+                    cy: ``
+                })
+            }
+        ],
+        projectDurationYears: [],
+        projectIdea: [],
+        organisationLegalName: [],
+        organisationTradingName: [],
+        organisationAddress: [],
+        organisationType: [],
+        organisationBackground: [],
+        contactName: [],
+        contactEmail: [],
+        contactPhone: []
     };
 
     return {
