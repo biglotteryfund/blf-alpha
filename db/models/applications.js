@@ -127,9 +127,9 @@ class PendingApplication extends Model {
         let rawSqlStmt;
 
         if (dialect === 'sqlite') {
-            rawSqlStmt = `julianday(expiresAt) - julianday('now') >= 3 AND julianday(expiresAt) - julianday('now') <= 14 AND lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.WEEK}'`;
+            rawSqlStmt = `julianday(expiresAt) - julianday('now') >= 3 AND julianday(expiresAt) - julianday('now') <= 14 AND (lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.WEEK}' OR lastExpiryWarningSent IS NULL)`;
         } else {
-            rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 3 AND DATEDIFF(expiresAt, CURDATE()) <= 14 AND lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.WEEK}'`;
+            rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 3 AND DATEDIFF(expiresAt, CURDATE()) <= 14 AND (lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.WEEK}' OR lastExpiryWarningSent IS NULL)`;
         }
 
         return this.findAll({
@@ -141,9 +141,9 @@ class PendingApplication extends Model {
         let rawSqlStmt;
 
         if (dialect === 'sqlite') {
-            rawSqlStmt = `julianday(expiresAt) - julianday('now') >= 1 AND julianday(expiresAt) - julianday('now') <= 2 AND lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.DAY}'`;
+            rawSqlStmt = `julianday(expiresAt) - julianday('now') >= 1 AND julianday(expiresAt) - julianday('now') <= 2 AND (lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.DAY}' OR lastExpiryWarningSent IS NULL)`;
         } else {
-            rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 1 AND DATEDIFF(expiresAt, CURDATE()) <= 2 AND lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.DAY}'`;
+            rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 1 AND DATEDIFF(expiresAt, CURDATE()) <= 2 AND (lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.DAY}' OR lastExpiryWarningSent IS NULL)`;
         }
 
         return this.findAll({
@@ -165,12 +165,12 @@ class PendingApplication extends Model {
             where: Sequelize.literal(rawSqlStmt)
         });
     }
-    static updateExpiryWarning(applicationIds, warning) {
+    static updateExpiryWarning(applicationId, warning) {
         return this.update({
             lastExpiryWarningSent: warning,
         }, {
             where: {
-                id: { [Op.in]: applicationIds }
+                id: { [Op.eq]: applicationId }
             }
         });
     }

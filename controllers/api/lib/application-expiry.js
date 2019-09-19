@@ -9,7 +9,17 @@ const logger = require('../../../common/logger').child({
     service: 'application-expiry'
 });
 
-const sendExpiryEmail = async (expiryApplications, expiryType) => {
+/**
+ * Common Expiry Handler:
+ * Checks whether environment variable exists
+ * Calculates time-to-finish-application value based on expiry type
+ * Iterate through applications, within which it:
+ * -- Fetches email addresses
+ * -- Sends emails
+ * -- Updates db
+ * returns a array of objects containing emailSent, dbUpdated for each application
+ */
+const commonExpiryHandler = async (expiryApplications, expiryType) => {
 
     if (appData.isNotProduction && !process.env.APPLICATION_EXPIRY_EMAIL) {
         throw new Error('Missing environment variable APPLICATION_EXPIRY_EMAIL');
@@ -26,11 +36,14 @@ const sendExpiryEmail = async (expiryApplications, expiryType) => {
         }
     })(expiryType);
 
-    const emailStatuses = await Promise.all(expiryApplications.map(async (application) => {
+    return await Promise.all(expiryApplications.map(async (application) => {
+        let returnObj = { emailSent: false, dbUpdated: false };
+
         const email = (await Users.findEmailByUserId(application.userId)).username;
+        logger.info(`Retrieved email address: ${application.id}-${expiryType}`);
 
         if (email) {
-            return await sendHtmlEmail({
+            const emailStatus = await sendHtmlEmail({
                 template: path.resolve(__dirname, './expiry-email.njk'),
                 templateData: {
                     timeToFinishApp,
@@ -43,30 +56,33 @@ const sendExpiryEmail = async (expiryApplications, expiryType) => {
                 sendTo: appData.isNotProduction ? process.env.APPLICATION_EXPIRY_EMAIL : email,
                 subject: `You have ${timeToFinishApp} to finish your application`
             });
+
+            if (emailStatus.response) {
+                logger.info(`Email sent: ${application.id}-${expiryType}`);
+                returnObj.emailSent = true;
+                const dbStatus = (await PendingApplication.updateExpiryWarning(application.id, expiryType))[0];
+
+                if (dbStatus === 1) {
+                    logger.info(`Database updated: ${application.id}-${expiryType}`);
+                    returnObj.dbUpdated = true;
+                    return returnObj;
+                } else {
+                    return returnObj;
+                }
+            } else {
+                return returnObj;
+            }
+        } else {
+            return returnObj;
         }
     }));
-
-    // Truthy if every email status has a response property
-    return emailStatuses.every((status) => {
-        if (status) {
-          return (status.response);
-        }
-    });
 };
 
-const updateDb = async (expiryApplications, expiryWarning, emailStatus) => {
-    let dbStatus;
-
-    if (emailStatus) {
-        const applicationIds = expiryApplications.map(application => application.id);
-
-        // UPDATE promise returns an array containing number of records affected
-        dbStatus = (await PendingApplication.updateExpiryWarning(applicationIds, expiryWarning))[0];
-    }
-
-    return dbStatus === expiryApplications.length ? true : false;
-};
-
+/**
+ * Delete Expired Applications:
+ * Deletes all the expired applications (no emails sent)
+ * returns truthy only if no. of del records = no. of expired applications
+ */
 const deleteExpiredApplications = async (expiryApplications) => {
     const applicationIds = expiryApplications.map(application => application.id);
 
@@ -76,97 +92,84 @@ const deleteExpiredApplications = async (expiryApplications) => {
     return dbStatus === expiryApplications.length ? true : false;
 };
 
+/**
+ * Month Expiry Handler:
+ * calls the common expiry handler
+ * returns truthy only if every application has sent email and updated db
+ */
 const handleMonthExpiry = async (monthExpiryApplications) => {
     try {
         logger.info('Handling monthly expiry applications');
-        
-        // Fetch and Send Emails
-        const emailStatus = await sendExpiryEmail(
+
+        const statuses = await commonExpiryHandler(
             monthExpiryApplications,
             EXPIRY_EMAIL_REMINDERS.MONTH
         );
 
-        // Update db
-        const dbStatus = await updateDb(
-            monthExpiryApplications,
-            EXPIRY_EMAIL_REMINDERS.MONTH,
-            emailStatus
-        );
-
-        return {
-            emailSent: emailStatus,
-            dbUpdated: dbStatus
-        };
+        return statuses.every((status) => {
+            return (status.emailSent && status.dbUpdated);
+        });
     } catch (err) {
         logger.error('Error handling monthly expiry applications: ', err);
         return { error: err.message };
     }
 };
 
+/**
+ * Week Expiry Handler:
+ * calls the common expiry handler
+ * returns truthy only if every application has sent email and updated db
+ */
 const handleWeekExpiry = async (weekExpiryApplications) => {
     try {
         logger.info('Handling weekly expiry applications');
-        
-        // Fetch and Send Emails
-        const emailStatus = await sendExpiryEmail(
+
+        const statuses = await commonExpiryHandler(
             weekExpiryApplications,
             EXPIRY_EMAIL_REMINDERS.WEEK
         );
 
-        // Update db
-        const dbStatus = await updateDb(
-            weekExpiryApplications,
-            EXPIRY_EMAIL_REMINDERS.WEEK,
-            emailStatus
-        );
-
-        return {
-            emailSent: emailStatus,
-            dbUpdated: dbStatus
-        };
+        return statuses.every((status) => {
+            return (status.emailSent && status.dbUpdated);
+        });
     } catch (err) {
         logger.error('Error handling weekly expiry applications: ', err);
         return { error: err.message };
     }
 };
 
+/**
+ * Day Expiry Handler:
+ * calls the common expiry handler
+ * returns truthy only if every application has sent email and updated db
+ */
 const handleDayExpiry = async (dayExpiryApplications) => {
     try {
         logger.info('Handling daily expiry applications');
-        
-        // Fetch and Send Emails
-        const emailStatus = await sendExpiryEmail(
+
+        const statuses = await commonExpiryHandler(
             dayExpiryApplications,
             EXPIRY_EMAIL_REMINDERS.DAY
         );
 
-        // Update db
-        const dbStatus = await updateDb(
-            dayExpiryApplications,
-            EXPIRY_EMAIL_REMINDERS.DAY,
-            emailStatus
-        );
-
-        return {
-            emailSent: emailStatus,
-            dbUpdated: dbStatus
-        };
+        return statuses.every((status) => {
+            return (status.emailSent && status.dbUpdated);
+        });
     } catch (err) {
         logger.error('Error handling daily expiry applications: ', err);
         return { error: err.message };
     }
 };
 
+/**
+ * Expired Handler:
+ * Deletes all the expired applications (no emails sent)
+ * returns the result of deleteExpiredApplications
+ */
 const handleExpired = async (expiredApplications) => {
     try {
         logger.info('Handling expired applications');
-
-        // Update db
-        const dbStatus = await deleteExpiredApplications(expiredApplications);
-
-        return {
-            dbUpdated: dbStatus
-        };
+        return await deleteExpiredApplications(expiredApplications);
     } catch (err) {
         logger.error('Error handling expired applications: ', err);
         return { error: err.message };
