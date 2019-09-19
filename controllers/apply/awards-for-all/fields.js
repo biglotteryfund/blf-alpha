@@ -709,7 +709,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'string.regex.base',
                     message: localise({
-                        en: 'Enter a valid charity registration number',
+                        en: 'Enter a real charity registration number. And don’t use any spaces. Scottish charity registration numbers must also use the number ‘0’ in ‘SC0’ instead of the letter ‘O’.',
                         cy: 'Rhowch rif elusen gofrestredig ddilys'
                     })
                 },
