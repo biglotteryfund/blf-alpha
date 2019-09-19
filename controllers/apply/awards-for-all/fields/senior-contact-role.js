@@ -2,7 +2,7 @@
 const get = require('lodash/fp/get');
 const { oneLine } = require('common-tags');
 
-const Joi = require('../../form-router-next/joi-extensions');
+const Joi = require('../../lib/joi-extensions');
 const { ORGANISATION_TYPES, STATUTORY_BODY_TYPES } = require('../constants');
 const rolesFor = require('../lib/roles');
 

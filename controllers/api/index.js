@@ -1,6 +1,5 @@
 'use strict';
 const express = require('express');
-const Joi = require('@hapi/joi');
 const Sentry = require('@sentry/node');
 
 const { sanitise } = require('../../common/sanitise');
@@ -13,6 +12,8 @@ const { Client } = require('@ideal-postcodes/core-node');
 const postcodesClient = new Client({
     api_key: POSTCODES_API_KEY
 });
+
+const { validateFeedback, validateSurvey } = require('./schemas');
 
 const router = express.Router();
 
@@ -66,15 +67,7 @@ router.post('/address-lookup', csrfProtection, async (req, res) => {
  * API: Feedback endpoint
  */
 router.post('/feedback', async (req, res) => {
-    const schema = Joi.object({
-        description: Joi.string().required(),
-        message: Joi.string().required()
-    });
-
-    const validationResult = schema.validate(req.body, {
-        abortEarly: false,
-        stripUnknown: true
-    });
+    const validationResult = validateFeedback(req.body);
 
     const messageSuccess = req.i18n.__('global.feedback.success');
     const messageError = req.i18n.__('global.feedback.error');
@@ -111,18 +104,7 @@ router.post('/feedback', async (req, res) => {
  * API: Survey endpoint
  */
 router.post('/survey', async (req, res) => {
-    const schema = Joi.object({
-        choice: Joi.string()
-            .valid(['yes', 'no'])
-            .required(),
-        path: Joi.string().required(),
-        message: Joi.string().optional()
-    });
-
-    const validationResult = schema.validate(req.body, {
-        abortEarly: false,
-        stripUnknown: true
-    });
+    const validationResult = validateSurvey(req.body);
 
     if (validationResult.error) {
         res.status(400).json({

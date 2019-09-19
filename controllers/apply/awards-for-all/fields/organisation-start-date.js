@@ -2,7 +2,7 @@
 const get = require('lodash/fp/get');
 const moment = require('moment');
 
-const Joi = require('../../form-router-next/joi-extensions');
+const Joi = require('../../lib/joi-extensions');
 
 const { ORG_MIN_AGE } = require('../constants');
 
