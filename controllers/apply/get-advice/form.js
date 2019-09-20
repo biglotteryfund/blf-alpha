@@ -5,25 +5,59 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
 const normaliseErrors = require('../lib/normalise-errors');
-const { TextField } = require('../lib/field-types');
+const {
+    TextField,
+    EmailField,
+    PhoneField,
+    RadioField
+} = require('../lib/field-types');
 
 module.exports = function({ locale = 'en' } = {}) {
     const localise = get(locale);
 
     const allFields = {
-        projectCountry: {
+        projectCountry: new RadioField({
             name: 'projectCountry',
-            schema: Joi.array()
-                .items(
-                    Joi.string().valid([
-                        'england',
-                        'scotland',
-                        'northern-ireland',
-                        'wales'
-                    ])
-                )
-                .single()
-                .required(),
+            label: localise({
+                en: `What country (or countries) will your project take place in?`,
+                cy: ``
+            }),
+            explanation: localise({
+                en: oneLine`We work slightly differently depending on which
+                    country your project is based in, to meet local needs
+                    and the regulations that apply there.`,
+                cy: ``
+            }),
+            options: [
+                {
+                    label: localise({
+                        en: 'England',
+                        cy: 'Lloegr'
+                    }),
+                    value: 'england'
+                },
+                {
+                    label: localise({
+                        en: 'Scotland',
+                        cy: 'Yr Alban'
+                    }),
+                    value: 'scotland'
+                },
+                {
+                    label: localise({
+                        en: 'Northern Ireland',
+                        cy: 'Gogledd Iwerddon'
+                    }),
+                    value: 'northern-ireland'
+                },
+                {
+                    label: localise({
+                        en: 'Wales',
+                        cy: 'Cymru'
+                    }),
+                    value: 'wales'
+                }
+            ],
             messages: [
                 {
                     type: 'base',
@@ -33,7 +67,7 @@ module.exports = function({ locale = 'en' } = {}) {
                     })
                 }
             ]
-        },
+        }),
         projectLocation: {
             name: 'projectLocation',
             schema: Joi.when('projectCountry', {
@@ -312,53 +346,20 @@ module.exports = function({ locale = 'en' } = {}) {
                 }
             ]
         },
-        contactEmail: {
+        contactEmail: new EmailField({
             name: 'contactEmail',
-            schema: Joi.string()
-                .email()
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter an email address',
-                        cy: 'Rhowch gyfeiriad e-bost'
-                    })
-                },
-                {
-                    type: 'string.email',
-                    message: localise({
-                        en: oneLine`Email address must be in the correct format,
-                        like name@example.com`,
-                        cy: oneLine`Rhaid i’r cyfeiriad e-bost for yn y ffurf cywir,,
-                        e.e enw@example.com`
-                    })
-                }
-            ]
-        },
-        contactPhone: {
+            label: localise({
+                en: 'Email',
+                cy: ``
+            })
+        }),
+        contactPhone: new PhoneField({
             name: 'contactPhone',
-            schema: Joi.string()
-                .phoneNumber()
-                .allow('')
-                .optional(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a UK telephone number',
-                        cy: 'Rhowch rif ffôn Prydeinig'
-                    })
-                },
-                {
-                    type: 'string.phonenumber',
-                    message: localise({
-                        en: 'Enter a real UK telephone number',
-                        cy: 'Rhowch rif ffôn Prydeinig go iawn'
-                    })
-                }
-            ]
-        }
+            label: localise({
+                en: `Telephone number`,
+                cy: ``
+            })
+        })
     };
 
     const schema = Joi.object(

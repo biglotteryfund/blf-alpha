@@ -1,6 +1,11 @@
 /* eslint-env jest */
 'use strict';
-const { TextField, RadioField } = require('./field-types');
+const {
+    TextField,
+    EmailField,
+    PhoneField,
+    RadioField
+} = require('./field-types');
 
 test('TextField', function() {
     const field = new TextField({
@@ -22,6 +27,30 @@ test('TextField', function() {
 
     expect(optionalField.isRequired).toBeFalsy();
     expect(optionalField.schema.validate().error).toBeNull();
+});
+
+test('EmailField', function() {
+    const field = new EmailField({
+        name: 'example',
+        label: 'Email field'
+    });
+
+    expect(field.schema.validate('example@example.com').error).toBeNull();
+    expect(field.schema.validate('not.a.real-email@bad').error.message).toEqual(
+        expect.stringContaining('must be a valid email')
+    );
+});
+
+test('PhoneField', function() {
+    const field = new PhoneField({
+        name: 'example',
+        label: 'Email field'
+    });
+
+    expect(field.schema.validate('0345 4 10 20 30').error).toBeNull();
+    expect(field.schema.validate('0345 444').error.message).toEqual(
+        expect.stringContaining('did not seem to be a phone number')
+    );
 });
 
 test('RadioField', function() {
