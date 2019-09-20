@@ -1,9 +1,12 @@
 /* eslint-env jest */
 'use strict';
+const faker = require('faker');
+
 const {
     TextField,
     EmailField,
     PhoneField,
+    TextareaField,
     RadioField
 } = require('./field-types');
 
@@ -67,4 +70,38 @@ test('RadioField', function() {
     expect(field.schema.validate('bad-option').error.message).toEqual(
         expect.stringContaining('must be one of [option-1, option-2]')
     );
+});
+
+test('TextareaField', function() {
+    const minWords = 50;
+    const maxWords = 150;
+
+    const field = new TextareaField({
+        name: 'example',
+        label: 'Radio field',
+        minWords: minWords,
+        maxWords: maxWords
+    });
+
+    expect(
+        field.schema.validate(faker.lorem.words(minWords + 1)).error
+    ).toBeNull();
+
+    expect(
+        field.schema.validate(faker.lorem.words(minWords - 1)).error.message
+    ).toEqual(expect.stringContaining(`must have at least ${minWords} words`));
+
+    expect(
+        field.schema.validate(faker.lorem.words(maxWords + 1)).error.message
+    ).toEqual(expect.stringContaining(`must have less than ${maxWords} words`));
+
+    const optionalField = new TextareaField({
+        name: 'example',
+        isRequired: false,
+        label: 'Radio field',
+        minWords: minWords,
+        maxWords: maxWords
+    });
+
+    expect(optionalField.schema.validate().error).toBeNull();
 });

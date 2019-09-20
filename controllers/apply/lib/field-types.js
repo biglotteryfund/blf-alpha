@@ -88,6 +88,8 @@ class PhoneField extends TextField {
     constructor(props, locale) {
         super(props, locale);
 
+        this.type = 'tel';
+
         if (props.schema) {
             this.schema = props.schema;
         } else {
@@ -115,6 +117,50 @@ class PhoneField extends TextField {
                 })
             }
         ];
+    }
+}
+
+class TextareaField extends TextField {
+    constructor(props, locale) {
+        super(props, locale);
+
+        this.type = 'textarea';
+
+        if (!props.minWords || !props.maxWords) {
+            throw new Error('Must provide min and max words');
+        }
+
+        if (props.schema) {
+            this.schema = props.schema;
+        } else {
+            this.schema = this.isRequired
+                ? Joi.string()
+                      .minWords(props.minWords)
+                      .maxWords(props.maxWords)
+                      .required()
+                : Joi.string()
+                      .minWords(props.minWords)
+                      .maxWords(props.maxWords)
+                      .allow('')
+                      .optional();
+        }
+
+        this.messages = this.messages.concat([
+            {
+                type: 'string.minWords',
+                message: this.localise({
+                    en: `Answer must be at least ${props.minWords} words`,
+                    cy: `Rhaid i’r ateb fod yn o leiaf ${props.minWords} gair`
+                })
+            },
+            {
+                type: 'string.maxWords',
+                message: this.localise({
+                    en: `Answer must be no more than ${props.maxWords} words`,
+                    cy: `Rhaid i’r ateb fod yn llai na ${props.maxWords} gair`
+                })
+            }
+        ]);
     }
 }
 
@@ -149,5 +195,6 @@ module.exports = {
     TextField,
     EmailField,
     PhoneField,
+    TextareaField,
     RadioField
 };
