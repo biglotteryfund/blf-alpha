@@ -1,10 +1,9 @@
 'use strict';
 const get = require('lodash/fp/get');
-const reduce = require('lodash/reduce');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
-const normaliseErrors = require('../lib/normalise-errors');
+
 const {
     TextField,
     EmailField,
@@ -12,7 +11,9 @@ const {
     RadioField
 } = require('../lib/field-types');
 
-module.exports = function({ locale = 'en' } = {}) {
+const { FormModel } = require('../lib/form-model');
+
+module.exports = function({ locale = 'en', data = {} } = {}) {
     const localise = get(locale);
 
     const allFields = {
@@ -362,50 +363,36 @@ module.exports = function({ locale = 'en' } = {}) {
         })
     };
 
-    const schema = Joi.object(
-        reduce(
-            allFields,
-            function(acc, field) {
-                acc[field.name] = field.schema;
-                return acc;
-            },
-            {}
-        )
-    );
+    function stepProjectCountry() {
+        return {
+            title: localise({ en: 'Project country', cy: '' }),
+            noValidate: true,
+            fieldsets: [
+                {
+                    legend: localise({ en: 'Project country', cy: '' }),
+                    fields: [allFields.projectCountry]
+                }
+            ]
+        };
+    }
 
-    const messages = reduce(
+    const form = {
+        title: localise({
+            en: 'Get advice on your idea',
+            cy: ''
+        }),
         allFields,
-        function(acc, field) {
-            acc[field.name] = field.messages;
-            return acc;
-        },
-        {}
-    );
-
-    return {
-        schema,
-        validate(data) {
-            const validationResult = schema.validate(data, {
-                abortEarly: false,
-                stripUnknown: true
-            });
-
-            const normalisedMessages = normaliseErrors({
-                validationError: validationResult.error,
-                errorMessages: messages
-            });
-
-            // @TODO: Remove isValid? Merge validate and progress?
-            const isValid =
-                validationResult.error === null &&
-                normalisedMessages.length === 0;
-
-            return {
-                isValid: isValid,
-                value: validationResult.value,
-                error: validationResult.error,
-                messages: normalisedMessages
-            };
-        }
+        sections: [
+            {
+                slug: 'your-project',
+                title: localise({
+                    en: 'Your project',
+                    cy: 'Eich prosiect'
+                }),
+                steps: [stepProjectCountry()]
+            }
+        ]
     };
+
+    return new FormModel(form, data, locale);
 };
