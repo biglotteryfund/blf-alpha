@@ -1,5 +1,8 @@
 'use strict';
+const compact = require('lodash/compact');
 const get = require('lodash/fp/get');
+const getOr = require('lodash/fp/getOr');
+const includes = require('lodash/includes');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
@@ -8,7 +11,9 @@ const {
     TextField,
     EmailField,
     PhoneField,
-    RadioField
+    CurrencyField,
+    RadioField,
+    CheckboxField
 } = require('../lib/field-types');
 
 const { FormModel } = require('../lib/form-model');
@@ -17,7 +22,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     const localise = get(locale);
 
     function fieldProjectCountry() {
-        return new RadioField({
+        return new CheckboxField({
             name: 'projectCountry',
             label: localise({
                 en: `What country (or countries) will your project take place in?`,
@@ -109,8 +114,16 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldProjectCosts() {
-        return {
+        return new CurrencyField({
             name: 'projectCosts',
+            label: localise({
+                en: `How much money do you want from us?`,
+                cy: ``
+            }),
+            explanation: localise({
+                en: `This can be an estimate`,
+                cy: ``
+            }),
             schema: Joi.friendlyNumber()
                 .integer()
                 .min(10000)
@@ -138,12 +151,36 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     })
                 }
             ]
-        };
+        });
     }
 
     function fieldProjectDurationYears() {
-        return {
+        function options() {
+            const projectCountry = get('projectCountry')(data);
+            if (includes(projectCountry, 'scotland')) {
+                return [
+                    { label: '3 years', value: 3 },
+                    { label: '4 years', value: 4 },
+                    { label: '5 years', value: 4 }
+                ];
+            } else {
+                return [
+                    { label: '1 year', value: 1 },
+                    { label: '2 years', value: 2 },
+                    { label: '3 years', value: 3 },
+                    { label: '4 years', value: 4 },
+                    { label: '5 years', value: 4 }
+                ];
+            }
+        }
+
+        return new RadioField({
             name: 'projectDurationYears',
+            label: localise({
+                en: `How long do you need the money for?`,
+                cy: ``
+            }),
+            options: options(),
             schema: Joi.when('projectCountry', {
                 is: Joi.array().min(2),
                 then: Joi.any().strip()
@@ -175,7 +212,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     })
                 }
             ]
-        };
+        });
     }
 
     function fieldProjectIdea() {
@@ -446,16 +483,22 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function stepProjectCosts() {
+        function shouldIncludeDuration() {
+            const projectCountries = getOr([], 'projectCountry')(data);
+            return projectCountries.length < 2;
+        }
+
         return {
             title: localise({ en: 'Project costs', cy: '' }),
             noValidate: true,
             fieldsets: [
                 {
                     legend: localise({ en: 'Project costs', cy: '' }),
-                    fields: [
+                    fields: compact([
                         allFields.projectCosts,
-                        allFields.projectDurationYears
-                    ]
+                        shouldIncludeDuration() &&
+                            allFields.projectDurationYears
+                    ])
                 }
             ]
         };

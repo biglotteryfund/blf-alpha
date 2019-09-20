@@ -8,7 +8,8 @@ const {
     PhoneField,
     CurrencyField,
     TextareaField,
-    RadioField
+    RadioField,
+    CheckboxField
 } = require('./field-types');
 
 test('TextField', function() {
@@ -69,6 +70,23 @@ test('CurrencyField', function() {
     expect(field.schema.validate().error).not.toBeNull();
 });
 
+test('CheckboxField', function() {
+    const field = new CheckboxField({
+        name: 'example',
+        label: 'Checkbox field',
+        options: [
+            { label: 'Option 1', value: 'option-1' },
+            { label: 'Option 2', value: 'option-2' },
+            { label: 'Option 3', value: 'option-3' }
+        ]
+    });
+
+    expect(field.schema.validate(['option-1', 'option-2']).error).toBeNull();
+    expect(field.schema.validate(['bad-option']).error.message).toEqual(
+        expect.stringContaining('must be one of')
+    );
+});
+
 test('RadioField', function() {
     const field = new RadioField({
         name: 'example',
@@ -81,7 +99,7 @@ test('RadioField', function() {
 
     expect(field.isRequired).toBeTruthy();
     expect(field.schema.validate('bad-option').error.message).toEqual(
-        expect.stringContaining('must be one of [option-1, option-2]')
+        expect.stringContaining('must be one of')
     );
 });
 

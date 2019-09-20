@@ -197,7 +197,34 @@ class RadioField extends TextField {
 
         this.options = options;
 
-        const multiChoice = Joi.array()
+        const baseSchema = Joi.string()
+            .valid(options.map(option => option.value))
+            .required();
+
+        if (props.schema) {
+            this.schema = props.schema;
+        } else {
+            this.schema = this.isRequired
+                ? baseSchema.required()
+                : baseSchema.optional();
+        }
+    }
+}
+
+class CheckboxField extends TextField {
+    constructor(props, locale) {
+        super(props, locale);
+
+        this.type = 'checkbox';
+
+        const options = props.options || [];
+        if (options.length === 0) {
+            throw Error('Must provide options');
+        }
+
+        this.options = options;
+
+        const baseSchema = Joi.array()
             .items(Joi.string().valid(options.map(option => option.value)))
             .single();
 
@@ -205,8 +232,8 @@ class RadioField extends TextField {
             this.schema = props.schema;
         } else {
             this.schema = this.isRequired
-                ? multiChoice.required()
-                : multiChoice.optional();
+                ? baseSchema.required()
+                : baseSchema.optional();
         }
     }
 }
@@ -217,5 +244,6 @@ module.exports = {
     CurrencyField,
     PhoneField,
     TextareaField,
-    RadioField
+    RadioField,
+    CheckboxField
 };
