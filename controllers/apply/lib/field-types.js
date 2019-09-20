@@ -120,6 +120,26 @@ class PhoneField extends TextField {
     }
 }
 
+class CurrencyField extends TextField {
+    constructor(props, locale) {
+        super(props, locale);
+
+        this.type = 'currency';
+
+        if (props.schema) {
+            this.schema = props.schema;
+        } else {
+            this.schema = this.isRequired
+                ? Joi.friendlyNumber()
+                      .integer()
+                      .required()
+                : Joi.friendlyNumber()
+                      .integer()
+                      .optional();
+        }
+    }
+}
+
 class TextareaField extends TextField {
     constructor(props, locale) {
         super(props, locale);
@@ -194,6 +214,7 @@ class RadioField extends TextField {
 module.exports = {
     TextField,
     EmailField,
+    CurrencyField,
     PhoneField,
     TextareaField,
     RadioField

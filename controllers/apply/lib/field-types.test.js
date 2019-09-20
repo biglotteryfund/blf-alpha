@@ -6,6 +6,7 @@ const {
     TextField,
     EmailField,
     PhoneField,
+    CurrencyField,
     TextareaField,
     RadioField
 } = require('./field-types');
@@ -56,6 +57,18 @@ test('PhoneField', function() {
     );
 });
 
+test('CurrencyField', function() {
+    const field = new CurrencyField({
+        name: 'example',
+        label: 'Currency field'
+    });
+
+    const validationResult = field.schema.validate('120,000');
+    expect(validationResult.error).toBeNull();
+    expect(validationResult.value).toBe(120000);
+    expect(field.schema.validate().error).not.toBeNull();
+});
+
 test('RadioField', function() {
     const field = new RadioField({
         name: 'example',
@@ -78,7 +91,7 @@ test('TextareaField', function() {
 
     const field = new TextareaField({
         name: 'example',
-        label: 'Radio field',
+        label: 'Textarea field',
         minWords: minWords,
         maxWords: maxWords
     });
