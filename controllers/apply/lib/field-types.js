@@ -7,6 +7,9 @@ class TextField {
     constructor(props, locale = 'en') {
         this.locale = locale;
 
+        // @TODO: Used to switch on non-class type fields
+        this._isClass = true;
+
         if (props.name) {
             this.name = props.name;
         } else {
@@ -40,9 +43,35 @@ class TextField {
 
         this.attributes = props.attributes || {};
         this.settings = props.settings || {};
+
+        this.value = null;
+        this.errors = [];
+        this.featuredErrors = [];
     }
+
     localise(msg) {
         return get(this.locale)(msg);
+    }
+
+    get displayValue() {
+        if (this.value) {
+            return this.value.toString();
+        }
+    }
+
+    withValue(value) {
+        this.value = value;
+        return this;
+    }
+
+    withErrors(errors) {
+        this.errors = errors;
+        return this;
+    }
+
+    withFeaturedErrors(featuredErrors) {
+        this.featuredErrors = featuredErrors;
+        return this;
     }
 }
 

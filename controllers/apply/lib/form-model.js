@@ -29,7 +29,9 @@ class FormModel {
          * Enrich field
          * Assign current value and errors to field if present
          */
-        function enrichField(field) {
+        function enrichField(originalField) {
+            const field = cloneDeep(originalField);
+
             const fieldValue = find(data, (value, name) => name === field.name);
             if (fieldValue) {
                 field.value = fieldValue;
@@ -48,6 +50,25 @@ class FormModel {
             return field;
         }
 
+        function enrichFieldClass(field) {
+            const fieldValue = find(data, (value, name) => name === field.name);
+            field.withValue(fieldValue);
+
+            field.withErrors(
+                validation.messages.filter(
+                    messages => messages.param === field.name
+                )
+            );
+
+            field.withFeaturedErrors(
+                validation.featuredMessages.filter(
+                    messages => messages.param === field.name
+                )
+            );
+
+            return field;
+        }
+
         function enrichStep(section, step, stepIndex) {
             /**
              * Enrich fieldset and filter out any fieldsets with no fields
@@ -55,7 +76,13 @@ class FormModel {
              */
             step.fieldsets = reject(
                 step.fieldsets.map(fieldset => {
-                    fieldset.fields = fieldset.fields.map(enrichField);
+                    fieldset.fields = fieldset.fields.map(field => {
+                        if (field._isClass) {
+                            return enrichFieldClass(field);
+                        } else {
+                            return enrichField(field);
+                        }
+                    });
                     return fieldset;
                 }),
                 fieldset => fieldset.fields.length === 0
