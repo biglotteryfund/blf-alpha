@@ -4,7 +4,8 @@ const { TextField, RadioField } = require('./field-types');
 
 test('TextField', function() {
     const field = new TextField({
-        name: 'example'
+        name: 'example',
+        label: 'Text field'
     });
 
     expect(field.type).toBe('text');
@@ -15,6 +16,7 @@ test('TextField', function() {
 
     const optionalField = new TextField({
         name: 'example',
+        label: 'Optional text field',
         isRequired: false
     });
 
@@ -25,6 +27,7 @@ test('TextField', function() {
 test('RadioField', function() {
     const field = new RadioField({
         name: 'example',
+        label: 'Radio field',
         options: [
             { label: 'Option 1', value: 'option-1' },
             { label: 'Option 2', value: 'option-2' }
