@@ -16,8 +16,8 @@ const { FormModel } = require('../lib/form-model');
 module.exports = function({ locale = 'en', data = {} } = {}) {
     const localise = get(locale);
 
-    const allFields = {
-        projectCountry: new RadioField({
+    function fieldProjectCountry() {
+        return new RadioField({
             name: 'projectCountry',
             label: localise({
                 en: `What country (or countries) will your project take place in?`,
@@ -68,8 +68,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     })
                 }
             ]
-        }),
-        projectLocation: {
+        });
+    }
+
+    function fieldProjectLocation() {
+        return {
             name: 'projectLocation',
             schema: Joi.when('projectCountry', {
                 is: Joi.array().min(2),
@@ -85,8 +88,12 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     })
                 }
             ]
-        },
-        projectLocationDescription: new TextField({
+        };
+    }
+
+    function fieldProjectLocationDescription() {
+        return new TextField({
+            name: 'projectLocationDescription',
             label: localise({
                 en: 'Project location',
                 cy: ''
@@ -97,10 +104,12 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     'Yorkshire' or 'Glasgow, Cardiff and Belfast'`,
                 cy: ``
             }),
-            name: 'projectLocationDescription',
             isRequired: false
-        }),
-        projectCosts: {
+        });
+    }
+
+    function fieldProjectCosts() {
+        return {
             name: 'projectCosts',
             schema: Joi.friendlyNumber()
                 .integer()
@@ -129,8 +138,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     })
                 }
             ]
-        },
-        projectDurationYears: {
+        };
+    }
+
+    function fieldProjectDurationYears() {
+        return {
             name: 'projectDurationYears',
             schema: Joi.when('projectCountry', {
                 is: Joi.array().min(2),
@@ -163,8 +175,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     })
                 }
             ]
-        },
-        projectIdea: new TextField({
+        };
+    }
+
+    function fieldProjectIdea() {
+        return new TextField({
             name: 'projectIdea',
             label: localise({
                 en: 'What would you like to do?',
@@ -198,8 +213,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     })
                 }
             ]
-        }),
-        organisationLegalName: new TextField({
+        });
+    }
+
+    function fieldOrganisationLegalName() {
+        return new TextField({
             name: 'organisationLegalName',
             label: localise({
                 en: 'What is the full legal name of your organisation?',
@@ -224,8 +242,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     })
                 }
             ]
-        }),
-        organisationTradingName: new TextField({
+        });
+    }
+
+    function fieldOrganisationTradingName() {
+        return new TextField({
             name: 'organisationTradingName',
             label: localise({
                 en: 'Organisation trading name',
@@ -237,8 +258,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 cy: ``
             }),
             isRequired: false
-        }),
-        organisationAddress: {
+        });
+    }
+
+    function fieldOrganisationAddress() {
+        return {
             name: 'organisationAddress',
             schema: Joi.ukAddress().required(),
             messages: [
@@ -282,13 +306,19 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     })
                 }
             ]
-        },
-        organisationType: {
+        };
+    }
+
+    function fieldOrganisationType() {
+        return {
             name: 'organisationType',
             schema: Joi.string().required(),
             messages: []
-        },
-        organisationBackground: {
+        };
+    }
+
+    function fieldOrganisationBackground() {
+        return {
             name: 'organisationBackground',
             schema: Joi.string()
                 .minWords(50)
@@ -317,8 +347,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     })
                 }
             ]
-        },
-        contactName: {
+        };
+    }
+
+    function fieldContactName() {
+        return {
             name: 'contactName',
             schema: Joi.fullName().required(),
             messages: [
@@ -346,21 +379,44 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     })
                 }
             ]
-        },
-        contactEmail: new EmailField({
+        };
+    }
+
+    function fieldContactEmail() {
+        return new EmailField({
             name: 'contactEmail',
             label: localise({
                 en: 'Email',
                 cy: ``
             })
-        }),
-        contactPhone: new PhoneField({
+        });
+    }
+
+    function fieldContactPhone() {
+        return new PhoneField({
             name: 'contactPhone',
             label: localise({
                 en: `Telephone number`,
                 cy: ``
             })
-        })
+        });
+    }
+
+    const allFields = {
+        projectCountry: fieldProjectCountry(),
+        projectLocation: fieldProjectLocation(),
+        projectLocationDescription: fieldProjectLocationDescription(),
+        projectCosts: fieldProjectCosts(),
+        projectDurationYears: fieldProjectDurationYears(),
+        projectIdea: fieldProjectIdea(),
+        organisationLegalName: fieldOrganisationLegalName(),
+        organisationTradingName: fieldOrganisationTradingName(),
+        organisationAddress: fieldOrganisationAddress(),
+        organisationType: fieldOrganisationType(),
+        organisationBackground: fieldOrganisationBackground(),
+        contactName: fieldContactName(),
+        contactEmail: fieldContactEmail(),
+        contactPhone: fieldContactPhone()
     };
 
     function stepProjectCountry() {
@@ -371,6 +427,35 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 {
                     legend: localise({ en: 'Project country', cy: '' }),
                     fields: [allFields.projectCountry]
+                }
+            ]
+        };
+    }
+
+    function stepProjectLocation() {
+        return {
+            title: localise({ en: 'Project location', cy: '' }),
+            noValidate: true,
+            fieldsets: [
+                {
+                    legend: localise({ en: 'Project location', cy: '' }),
+                    fields: [allFields.projectLocationDescription]
+                }
+            ]
+        };
+    }
+
+    function stepProjectCosts() {
+        return {
+            title: localise({ en: 'Project costs', cy: '' }),
+            noValidate: true,
+            fieldsets: [
+                {
+                    legend: localise({ en: 'Project costs', cy: '' }),
+                    fields: [
+                        allFields.projectCosts,
+                        allFields.projectDurationYears
+                    ]
                 }
             ]
         };
@@ -389,7 +474,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     en: 'Your project',
                     cy: 'Eich prosiect'
                 }),
-                steps: [stepProjectCountry()]
+                steps: [
+                    stepProjectCountry(),
+                    stepProjectLocation(),
+                    stepProjectCosts()
+                ]
             }
         ]
     };
