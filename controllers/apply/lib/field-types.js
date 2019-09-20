@@ -1,6 +1,14 @@
 'use strict';
+const castArray = require('lodash/castArray');
+const defaults = require('lodash/defaults');
+const filter = require('lodash/filter');
+const find = require('lodash/fp/find');
 const get = require('lodash/fp/get');
+const includes = require('lodash/includes');
+
 const { oneLine } = require('common-tags');
+
+const countWords = require('./count-words');
 const Joi = require('./joi-extensions');
 
 class TextField {
@@ -27,6 +35,9 @@ class TextField {
 
         this.type = props.type || 'text';
 
+        this.attributes = defaults({ size: 30 }, props.attributes);
+        this.settings = props.settings || {};
+
         this.isRequired = props.isRequired !== false;
 
         if (props.schema) {
@@ -41,10 +52,7 @@ class TextField {
 
         this.messages = props.messages || [];
 
-        this.attributes = props.attributes || {};
-        this.settings = props.settings || {};
-
-        this.value = null;
+        this.value = undefined;
         this.errors = [];
         this.featuredErrors = [];
     }
@@ -56,6 +64,8 @@ class TextField {
     get displayValue() {
         if (this.value) {
             return this.value.toString();
+        } else {
+            return '';
         }
     }
 
@@ -73,12 +83,22 @@ class TextField {
         this.featuredErrors = featuredErrors;
         return this;
     }
+
+    validate() {
+        return this.schema.validate(this.value);
+    }
 }
 
 class EmailField extends TextField {
     constructor(props, locale) {
         super(props, locale);
+
         this.type = 'email';
+
+        this.attributes = defaults(
+            { size: 30, autocomplete: 'email' },
+            props.attributes
+        );
 
         if (props.schema) {
             this.schema = props.schema;
@@ -118,6 +138,11 @@ class PhoneField extends TextField {
         super(props, locale);
 
         this.type = 'tel';
+
+        this.attributes = defaults(
+            { size: 30, autocomplete: 'tel' },
+            props.attributes
+        );
 
         if (props.schema) {
             this.schema = props.schema;
@@ -167,6 +192,14 @@ class CurrencyField extends TextField {
                       .optional();
         }
     }
+
+    get displayValue() {
+        if (this.value) {
+            return `£${this.value.toLocaleString()}`;
+        } else {
+            return '';
+        }
+    }
 }
 
 class TextareaField extends TextField {
@@ -211,6 +244,22 @@ class TextareaField extends TextField {
             }
         ]);
     }
+
+    get displayValue() {
+        if (this.value) {
+            const str = this.value.toString();
+            const wordCount = countWords(str);
+            return (
+                str +
+                `\n\n(${wordCount} ${this.localise({
+                    en: 'words',
+                    cy: 'gair'
+                })})`
+            );
+        } else {
+            return '';
+        }
+    }
 }
 
 class RadioField extends TextField {
@@ -238,6 +287,11 @@ class RadioField extends TextField {
                 : baseSchema.optional();
         }
     }
+
+    get displayValue() {
+        const match = find(option => option.value === this.value)(this.options);
+        return match ? match.label : '';
+    }
 }
 
 class CheckboxField extends TextField {
@@ -263,6 +317,22 @@ class CheckboxField extends TextField {
             this.schema = this.isRequired
                 ? baseSchema.required()
                 : baseSchema.optional();
+        }
+    }
+
+    get displayValue() {
+        if (this.value) {
+            const choices = castArray(this.value);
+
+            const matches = filter(this.options, option =>
+                includes(choices, option.value)
+            );
+
+            return matches.length > 0
+                ? matches.map(match => match.label).join(',\n')
+                : choices.join(',\n');
+        } else {
+            return '';
         }
     }
 }

@@ -20,9 +20,9 @@ test('TextField', function() {
 
     expect(field.type).toBe('text');
     expect(field.isRequired).toBeTruthy();
-    expect(field.schema.validate().error.message).toEqual(
-        '"value" is required'
-    );
+
+    field.withValue();
+    expect(field.validate().error.message).toEqual('"value" is required');
 
     const optionalField = new TextField({
         name: 'example',
@@ -31,7 +31,7 @@ test('TextField', function() {
     });
 
     expect(optionalField.isRequired).toBeFalsy();
-    expect(optionalField.schema.validate().error).toBeNull();
+    expect(optionalField.validate().error).toBeNull();
 });
 
 test('EmailField', function() {
@@ -40,8 +40,17 @@ test('EmailField', function() {
         label: 'Email field'
     });
 
-    expect(field.schema.validate('example@example.com').error).toBeNull();
-    expect(field.schema.validate('not.a.real-email@bad').error.message).toEqual(
+    expect(field.type).toBe('email');
+
+    const goodInput = 'example@example.com';
+    const badInput = 'not.a.real-email@bad';
+
+    field.withValue(goodInput);
+    expect(field.validate().error).toBeNull();
+    expect(field.displayValue).toBe(goodInput);
+
+    field.withValue(badInput);
+    expect(field.validate().error.message).toEqual(
         expect.stringContaining('must be a valid email')
     );
 });
@@ -52,8 +61,17 @@ test('PhoneField', function() {
         label: 'Email field'
     });
 
-    expect(field.schema.validate('0345 4 10 20 30').error).toBeNull();
-    expect(field.schema.validate('0345 444').error.message).toEqual(
+    expect(field.type).toBe('tel');
+
+    const goodValue = '0345 4 10 20 30';
+    const badValue = '0345 444';
+
+    field.withValue(goodValue);
+    expect(field.validate().error).toBeNull();
+    expect(field.validate().value).toBe('0345 410 2030');
+
+    field.withValue(badValue);
+    expect(field.validate().error.message).toEqual(
         expect.stringContaining('did not seem to be a phone number')
     );
 });
@@ -64,10 +82,35 @@ test('CurrencyField', function() {
         label: 'Currency field'
     });
 
-    const validationResult = field.schema.validate('120,000');
-    expect(validationResult.error).toBeNull();
-    expect(validationResult.value).toBe(120000);
-    expect(field.schema.validate().error).not.toBeNull();
+    expect(field.type).toBe('currency');
+
+    field.withValue('120,000');
+
+    expect(field.validate().error).toBeNull();
+    expect(field.validate().value).toBe(120000);
+    expect(field.displayValue).toBe('£120,000');
+});
+
+test('RadioField', function() {
+    const field = new RadioField({
+        name: 'example',
+        label: 'Radio field',
+        options: [
+            { label: 'Option 1', value: 'option-1' },
+            { label: 'Option 2', value: 'option-2' }
+        ]
+    });
+
+    expect(field.type).toBe('radio');
+
+    field.withValue('option-1');
+    expect(field.displayValue).toBe('Option 1');
+    expect(field.validate().error).toBeNull();
+
+    field.withValue('bad-option');
+    expect(field.validate().error.message).toEqual(
+        expect.stringContaining('must be one of')
+    );
 });
 
 test('CheckboxField', function() {
@@ -81,24 +124,14 @@ test('CheckboxField', function() {
         ]
     });
 
-    expect(field.schema.validate(['option-1', 'option-2']).error).toBeNull();
-    expect(field.schema.validate(['bad-option']).error.message).toEqual(
-        expect.stringContaining('must be one of')
-    );
-});
+    expect(field.type).toBe('checkbox');
 
-test('RadioField', function() {
-    const field = new RadioField({
-        name: 'example',
-        label: 'Radio field',
-        options: [
-            { label: 'Option 1', value: 'option-1' },
-            { label: 'Option 2', value: 'option-2' }
-        ]
-    });
+    field.withValue(['option-1', 'option-2']);
+    expect(field.displayValue).toBe('Option 1,\nOption 2');
+    expect(field.validate().error).toBeNull();
 
-    expect(field.isRequired).toBeTruthy();
-    expect(field.schema.validate('bad-option').error.message).toEqual(
+    field.withValue(['bad-option']);
+    expect(field.validate().error.message).toEqual(
         expect.stringContaining('must be one of')
     );
 });
@@ -114,17 +147,25 @@ test('TextareaField', function() {
         maxWords: maxWords
     });
 
-    expect(
-        field.schema.validate(faker.lorem.words(minWords + 1)).error
-    ).toBeNull();
+    expect(field.type).toBe('textarea');
 
-    expect(
-        field.schema.validate(faker.lorem.words(minWords - 1)).error.message
-    ).toEqual(expect.stringContaining(`must have at least ${minWords} words`));
+    const goodValue = faker.lorem.words(minWords + 1);
 
-    expect(
-        field.schema.validate(faker.lorem.words(maxWords + 1)).error.message
-    ).toEqual(expect.stringContaining(`must have less than ${maxWords} words`));
+    field.withValue(goodValue);
+    expect(field.displayValue).toEqual(
+        `${goodValue}\n\n(${minWords + 1} words)`
+    );
+    expect(field.validate().error).toBeNull();
+
+    field.withValue(faker.lorem.words(minWords - 1));
+    expect(field.validate().error.message).toEqual(
+        expect.stringContaining(`must have at least ${minWords} words`)
+    );
+
+    field.withValue(faker.lorem.words(maxWords + 1));
+    expect(field.validate().error.message).toEqual(
+        expect.stringContaining(`must have less than ${maxWords} words`)
+    );
 
     const optionalField = new TextareaField({
         name: 'example',
@@ -134,5 +175,5 @@ test('TextareaField', function() {
         maxWords: maxWords
     });
 
-    expect(optionalField.schema.validate().error).toBeNull();
+    expect(optionalField.validate().error).toBeNull();
 });
