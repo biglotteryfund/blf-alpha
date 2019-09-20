@@ -5,6 +5,7 @@ const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
 const normaliseErrors = require('../lib/normalise-errors');
+const { TextField } = require('../lib/field-types');
 
 module.exports = function({ locale = 'en' } = {}) {
     const localise = get(locale);
@@ -50,13 +51,20 @@ module.exports = function({ locale = 'en' } = {}) {
                 }
             ]
         },
-        projectLocationDescription: {
+        projectLocationDescription: new TextField({
+            label: localise({
+                en: 'Project location',
+                cy: ''
+            }),
+            explanation: localise({
+                en: oneLine`In your own words, describe all of the locations
+                    that you'll be running your project in, e.g.
+                    'Yorkshire' or 'Glasgow, Cardiff and Belfast'`,
+                cy: ``
+            }),
             name: 'projectLocationDescription',
-            schema: Joi.string()
-                .allow('')
-                .optional(),
-            messages: []
-        },
+            isRequired: false
+        }),
         projectCosts: {
             name: 'projectCosts',
             schema: Joi.friendlyNumber()
@@ -121,8 +129,13 @@ module.exports = function({ locale = 'en' } = {}) {
                 }
             ]
         },
-        projectIdea: {
+        projectIdea: new TextField({
             name: 'projectIdea',
+            label: localise({
+                en: 'What would you like to do?',
+                cy: ''
+            }),
+            type: 'textarea',
             schema: Joi.string()
                 .minWords(50)
                 .maxWords(500)
@@ -150,9 +163,22 @@ module.exports = function({ locale = 'en' } = {}) {
                     })
                 }
             ]
-        },
-        organisationLegalName: {
+        }),
+        organisationLegalName: new TextField({
             name: 'organisationLegalName',
+            label: localise({
+                en: 'What is the full legal name of your organisation?',
+                cy: ''
+            }),
+            explanation: localise({
+                en: oneLine`This must be as shown on your governing document.
+                    Your governing document could be called one of several things,
+                    depending on the type of organisation you're applying
+                    on behalf of. It may be called a constitution, trust deed,
+                    memorandum and articles of association,
+                    or something else entirely.`,
+                cy: ``
+            }),
             schema: Joi.string().required(),
             messages: [
                 {
@@ -163,14 +189,20 @@ module.exports = function({ locale = 'en' } = {}) {
                     })
                 }
             ]
-        },
-        organisationTradingName: {
+        }),
+        organisationTradingName: new TextField({
             name: 'organisationTradingName',
-            schema: Joi.string()
-                .allow('')
-                .optional(),
-            messages: []
-        },
+            label: localise({
+                en: 'Organisation trading name',
+                cy: ''
+            }),
+            explanation: localise({
+                en: oneLine`If your organisation uses a different name in your
+                    day-to-day work, please write it below`,
+                cy: ``
+            }),
+            isRequired: false
+        }),
         organisationAddress: {
             name: 'organisationAddress',
             schema: Joi.ukAddress().required(),

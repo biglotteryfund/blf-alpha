@@ -12,7 +12,7 @@ class TextField {
         if (props.label) {
             this.label = props.label;
         } else {
-            // throw new Error('Must provide label');
+            throw new Error('Must provide label');
         }
 
         this.labelDetails = props.labelDetails;
