@@ -1,9 +1,16 @@
 'use strict';
 const express = require('express');
 const Sentry = require('@sentry/node');
+const { Op, Sequelize } = require('sequelize');
 
 const { sanitise } = require('../../common/sanitise');
-const { Feedback, SurveyAnswer, PendingApplication, EmailQueue } = require('../../db/models');
+const {
+    Feedback,
+    SurveyAnswer,
+    PendingApplication,
+    EmailQueue,
+    Users
+} = require('../../db/models');
 const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');
 const { csrfProtection } = require('../../common/cached');
@@ -136,14 +143,47 @@ router.post('/survey', async (req, res) => {
 /**
  * API: Application Expiry
  */
+router.get('/applications/expiry', async (req, res) => {
+    try {
+        const data = await EmailQueue.findAll({
+            where: {
+                status: { [Op.eq]: 'NOT_SENT' },
+                [Op.and]: [
+                    Sequelize.where(
+                        Sequelize.fn(
+                            'datediff',
+                            Sequelize.col('dateToSend'),
+                            Sequelize.fn('NOW')
+                        ),
+                        {
+                            [Op.lte]: 0
+                        }
+                    )
+                ]
+            },
+            include: [
+                {
+                    model: PendingApplication,
+                    include: [
+                        {
+                            model: Users
+                        }
+                    ]
+                }
+            ]
+        });
+        res.send(data);
+    } catch (err) {
+        console.log(err);
+        res.send(err);
+    }
+});
+
 router.post('/applications/expiry', async (req, res) => {
     try {
         let response = {};
 
-        const [
-            emailQueue,
-            expiredApplications
-        ] = await Promise.all([
+        const [emailQueue, expiredApplications] = await Promise.all([
             EmailQueue.getEmailsToSend(),
             PendingApplication.findExpired()
         ]);

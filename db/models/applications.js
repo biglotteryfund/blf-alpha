@@ -3,9 +3,13 @@
 const moment = require('moment');
 const env = process.env.NODE_ENV || 'development';
 const { Model, Op, Sequelize } = require('sequelize');
-const User = require('./user');
 const { dialect } = require('../database-config')[env];
-const { EXPIRY_EMAIL_REMINDERS } = require('../../controllers/apply/awards-for-all/constants');
+
+const {
+    EXPIRY_EMAIL_REMINDERS
+} = require('../../controllers/apply/awards-for-all/constants');
+
+const Users = require('./user');
 
 class PendingApplication extends Model {
     static init(sequelize, DataTypes) {
@@ -21,8 +25,7 @@ class PendingApplication extends Model {
              * User model reference
              */
             userId: {
-                type: DataTypes.INTEGER,
-                references: { model: 'users', key: 'id' }
+                type: DataTypes.INTEGER
             },
 
             /**
@@ -75,16 +78,8 @@ class PendingApplication extends Model {
         };
 
         return super.init(schema, {
-            modelName: 'pendingapplication',
+            modelName: 'PendingApplication',
             sequelize
-        });
-    }
-
-    static associate(models) {
-        this.hasOne(models.Users, {
-            as: 'userDetails',
-            foreignKey: 'id',
-            sourceKey: 'userId'
         });
     }
 
@@ -142,7 +137,9 @@ class PendingApplication extends Model {
         });
     }
     static countCompleted(applications) {
-        return applications.filter(app => app.currentProgressState === 'COMPLETE').length;
+        return applications.filter(
+            app => app.currentProgressState === 'COMPLETE'
+        ).length;
     }
     static createNewApplication({ userId, formId }) {
         // @TODO: Should this be defined in config?
@@ -190,8 +187,7 @@ class SubmittedApplication extends Model {
              * User model reference
              */
             userId: {
-                type: DataTypes.INTEGER,
-                references: { model: 'users', key: 'id' }
+                type: DataTypes.INTEGER
             },
 
             /**
@@ -269,6 +265,7 @@ class SubmittedApplication extends Model {
             sequelize
         });
     }
+
     static findAllByForm(formId, dateRange = {}) {
         let whereClause = {
             formId: { [Op.eq]: formId }
@@ -314,7 +311,6 @@ class SubmittedApplication extends Model {
     }
 }
 
-
 class EmailQueue extends Model {
     static init(sequelize, DataTypes) {
         const schema = {
@@ -329,8 +325,7 @@ class EmailQueue extends Model {
              * PendingApplication model reference
              */
             applicationId: {
-                type: DataTypes.UUID,
-                references: { model: 'pendingapplications', key: 'id' }
+                type: DataTypes.UUID
             },
 
             /**
@@ -343,8 +338,8 @@ class EmailQueue extends Model {
             },
 
             /**
-             * Email Expiry Type
-             * e.g. ONE_MONTH, ONE_WEEK etc
+             * Status of email
+             * e.g. SENT, NOT_SENT etc
              */
             status: {
                 type: DataTypes.STRING,
@@ -362,6 +357,8 @@ class EmailQueue extends Model {
         };
 
         return super.init(schema, {
+            modelName: 'EmailQueue',
+            freezeTableName: true,
             sequelize
         });
     }
@@ -386,32 +383,29 @@ class EmailQueue extends Model {
         ]);
     }
 
-    static associate(models) {
-        this.hasOne(models.PendingApplication, {
-            as: 'pendingApplication',
-            foreignKey: 'id',
-            sourceKey: 'applicationId'
-        });
-    }
-
     static getEmailsToSend() {
         return this.findAll({
             where: {
                 status: { [Op.eq]: 'NOT_SENT' },
                 [Op.and]: [
-                    Sequelize.where(Sequelize.fn('datediff', Sequelize.col('dateToSend'), Sequelize.fn("NOW")), {
-                        [Op.lte] : 0
-                    })
+                    Sequelize.where(
+                        Sequelize.fn(
+                            'datediff',
+                            Sequelize.col('dateToSend'),
+                            Sequelize.fn('NOW')
+                        ),
+                        {
+                            [Op.lte]: 0
+                        }
+                    )
                 ]
             },
             include: [
                 {
                     model: PendingApplication,
-                    as: 'pendingApplication',
                     include: [
                         {
-                            model: User,
-                            as: 'userDetails'
+                            model: Users
                         }
                     ]
                 }
@@ -420,8 +414,9 @@ class EmailQueue extends Model {
     }
 
     static updateStatusToSent(queueId) {
-        return this.update({
-                status: 'SENT',
+        return this.update(
+            {
+                status: 'SENT'
             },
             { where: { id: { [Op.eq]: queueId } } }
         );
