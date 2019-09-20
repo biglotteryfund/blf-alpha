@@ -3,16 +3,11 @@ const express = require('express');
 const Sentry = require('@sentry/node');
 
 const { sanitise } = require('../../common/sanitise');
-const { Feedback, SurveyAnswer, PendingApplication } = require('../../db/models');
+const { Feedback, SurveyAnswer, PendingApplication, EmailQueue } = require('../../db/models');
 const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');
 const { csrfProtection } = require('../../common/cached');
-const {
-    handleMonthExpiry,
-    handleWeekExpiry,
-    handleDayExpiry,
-    handleExpired
-} = require('./lib/application-expiry');
+const { handleEmailQueue, handleExpired } = require('./lib/application-expiry');
 
 const { Client } = require('@ideal-postcodes/core-node');
 const postcodesClient = new Client({
@@ -142,43 +137,23 @@ router.post('/survey', async (req, res) => {
  * API: Application Expiry
  */
 router.post('/applications/expiry', async (req, res) => {
-    let response = {};
-
     try {
+        let response = {};
+
         const [
-            monthExpiryApplications,
-            weekExpiryApplications,
-            dayExpiryApplications,
+            emailQueue,
             expiredApplications
         ] = await Promise.all([
-            PendingApplication.findExpiringInMonth(),
-            PendingApplication.findExpiringInWeek(),
-            PendingApplication.findExpiringInDay(),
+            EmailQueue.getEmailsToSend(),
             PendingApplication.findExpired()
         ]);
 
-        // Handle Monthly reminder
-        if (monthExpiryApplications.length > 0) {
-            response.monthlyExpiry = await handleMonthExpiry(monthExpiryApplications);
+        if (emailQueue.length > 0) {
+            response.emailQueue = await handleEmailQueue(emailQueue);
         } else {
-            response.monthlyExpiry = 'No applications were found';
+            response.emailQueue = 'No applications were found';
         }
 
-        // Handle Weekly reminder
-        if (weekExpiryApplications.length > 0) {
-            response.weeklyExpiry = await handleWeekExpiry(weekExpiryApplications);
-        } else {
-            response.weeklyExpiry = 'No applications were found';
-        }
-
-        // Handle Daily reminder
-        if (dayExpiryApplications.length > 0) {
-            response.dailyExpiry = await handleDayExpiry(dayExpiryApplications);
-        } else {
-            response.dailyExpiry = 'No applications were found';
-        }
-
-        // Handle expired application
         if (expiredApplications.length > 0) {
             response.expired = await handleExpired(expiredApplications);
         } else {

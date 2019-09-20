@@ -3,6 +3,7 @@
 const moment = require('moment');
 const env = process.env.NODE_ENV || 'development';
 const { Model, Op, Sequelize } = require('sequelize');
+const User = require('./user');
 const { dialect } = require('../database-config')[env];
 const { EXPIRY_EMAIL_REMINDERS } = require('../../controllers/apply/awards-for-all/constants');
 
@@ -64,15 +65,6 @@ class PendingApplication extends Model {
             },
 
             /**
-             * Last expiry email reminder sent
-             * Everytime a new reminder is sent, its replaced with the previous
-             */
-            lastExpiryWarningSent: {
-                type: DataTypes.STRING,
-                allowNull: true
-            },
-
-            /**
              * Expiry date for pending application
              * A scheduled job runs which cleans out expired applications
              */
@@ -83,9 +75,19 @@ class PendingApplication extends Model {
         };
 
         return super.init(schema, {
+            modelName: 'pendingapplication',
             sequelize
         });
     }
+
+    static associate(models) {
+        this.hasOne(models.Users, {
+            as: 'userDetails',
+            foreignKey: 'id',
+            sourceKey: 'userId'
+        });
+    }
+
     static findAllByForm(formId, dateRange = {}) {
         let whereClause = {
             formId: { [Op.eq]: formId }
@@ -109,48 +111,6 @@ class PendingApplication extends Model {
             order: [['createdAt', 'DESC']]
         });
     }
-    static findExpiringInMonth() {
-        let rawSqlStmt;
-
-        if (dialect === 'sqlite') {
-            rawSqlStmt = `julianday(expiresAt) - julianday('now') >= 15 AND julianday(expiresAt) - julianday('now') <= 30 AND (lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.MONTH}' OR lastExpiryWarningSent IS NULL)`;
-        } else {
-            rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 15 AND DATEDIFF(expiresAt, CURDATE()) <= 30 AND (lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.MONTH}' OR lastExpiryWarningSent IS NULL)`;
-        }
-
-        return this.findAll({
-            attributes: ['id', 'userId', 'applicationData'],
-            where: Sequelize.literal(rawSqlStmt)
-        });
-    }
-    static findExpiringInWeek() {
-        let rawSqlStmt;
-
-        if (dialect === 'sqlite') {
-            rawSqlStmt = `julianday(expiresAt) - julianday('now') >= 3 AND julianday(expiresAt) - julianday('now') <= 14 AND (lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.WEEK}' OR lastExpiryWarningSent IS NULL)`;
-        } else {
-            rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 3 AND DATEDIFF(expiresAt, CURDATE()) <= 14 AND (lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.WEEK}' OR lastExpiryWarningSent IS NULL)`;
-        }
-
-        return this.findAll({
-            attributes: ['id', 'userId', 'applicationData'],
-            where: Sequelize.literal(rawSqlStmt)
-        });
-    }
-    static findExpiringInDay() {
-        let rawSqlStmt;
-
-        if (dialect === 'sqlite') {
-            rawSqlStmt = `julianday(expiresAt) - julianday('now') >= 1 AND julianday(expiresAt) - julianday('now') <= 2 AND (lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.DAY}' OR lastExpiryWarningSent IS NULL)`;
-        } else {
-            rawSqlStmt = `DATEDIFF(expiresAt, CURDATE()) >= 1 AND DATEDIFF(expiresAt, CURDATE()) <= 2 AND (lastExpiryWarningSent != '${EXPIRY_EMAIL_REMINDERS.DAY}' OR lastExpiryWarningSent IS NULL)`;
-        }
-
-        return this.findAll({
-            attributes: ['id', 'userId', 'applicationData'],
-            where: Sequelize.literal(rawSqlStmt)
-        });
-    }
     static findExpired() {
         let rawSqlStmt;
 
@@ -165,16 +125,7 @@ class PendingApplication extends Model {
             where: Sequelize.literal(rawSqlStmt)
         });
     }
-    static updateExpiryWarning(applicationId, warning) {
-        return this.update({
-            lastExpiryWarningSent: warning,
-        }, {
-            where: {
-                id: { [Op.eq]: applicationId }
-            }
-        });
-    }
-    static bulkDeleteApplications(applicationIds) {
+    static deleteApplications(applicationIds) {
         return this.destroy({
             where: {
                 id: { [Op.in]: applicationIds }
@@ -363,4 +314,126 @@ class SubmittedApplication extends Model {
     }
 }
 
-module.exports = { PendingApplication, SubmittedApplication };
+
+class EmailQueue extends Model {
+    static init(sequelize, DataTypes) {
+        const schema = {
+            id: {
+                primaryKey: true,
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
+                allowNull: false
+            },
+
+            /**
+             * PendingApplication model reference
+             */
+            applicationId: {
+                type: DataTypes.UUID,
+                references: { model: 'pendingapplications', key: 'id' }
+            },
+
+            /**
+             * Email Expiry Type
+             * e.g. ONE_MONTH, ONE_WEEK etc
+             */
+            expirationType: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+
+            /**
+             * Email Expiry Type
+             * e.g. ONE_MONTH, ONE_WEEK etc
+             */
+            status: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: 'NOT_SENT'
+            },
+
+            /**
+             * Date to send out the email
+             */
+            dateToSend: {
+                type: DataTypes.DATE,
+                allowNull: false
+            }
+        };
+
+        return super.init(schema, {
+            sequelize
+        });
+    }
+
+    static createNewQueue(applicationId, expiresAt) {
+        return this.bulkCreate([
+            {
+                applicationId,
+                expirationType: EXPIRY_EMAIL_REMINDERS.MONTH,
+                dateToSend: moment(expiresAt).subtract('30', 'days')
+            },
+            {
+                applicationId,
+                expirationType: EXPIRY_EMAIL_REMINDERS.WEEK,
+                dateToSend: moment(expiresAt).subtract('14', 'days')
+            },
+            {
+                applicationId,
+                expirationType: EXPIRY_EMAIL_REMINDERS.DAY,
+                dateToSend: moment(expiresAt).subtract('2', 'days')
+            }
+        ]);
+    }
+
+    static associate(models) {
+        this.hasOne(models.PendingApplication, {
+            as: 'pendingApplication',
+            foreignKey: 'id',
+            sourceKey: 'applicationId'
+        });
+    }
+
+    static getEmailsToSend() {
+        return this.findAll({
+            where: {
+                status: { [Op.eq]: 'NOT_SENT' },
+                [Op.and]: [
+                    Sequelize.where(Sequelize.fn('datediff', Sequelize.col('dateToSend'), Sequelize.fn("NOW")), {
+                        [Op.lte] : 0
+                    })
+                ]
+            },
+            include: [
+                {
+                    model: PendingApplication,
+                    as: 'pendingApplication',
+                    include: [
+                        {
+                            model: User,
+                            as: 'userDetails'
+                        }
+                    ]
+                }
+            ]
+        });
+    }
+
+    static updateStatusToSent(queueId) {
+        return this.update({
+                status: 'SENT',
+            },
+            { where: { id: { [Op.eq]: queueId } } }
+        );
+    }
+
+    static deleteEmailQueues(applicationIds) {
+        return this.destroy({
+            where: {
+                applicationId: { [Op.in]: applicationIds }
+            }
+        });
+    }
+}
+
+module.exports = { PendingApplication, SubmittedApplication, EmailQueue };

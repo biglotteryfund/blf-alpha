@@ -15,7 +15,8 @@ const config = require('config');
 
 const {
     PendingApplication,
-    SubmittedApplication
+    SubmittedApplication,
+    EmailQueue
 } = require('../../../db/models');
 
 const commonLogger = require('../../../common/logger');
@@ -195,6 +196,10 @@ function initFormRouter({
                 formId: formId,
                 userId: req.user.userData.id
             });
+
+            if (application.id) {
+                await EmailQueue.createNewQueue(application.id, application.expiresAt);
+            }
 
             commonLogger.info('Application created', {
                 service: 'apply',

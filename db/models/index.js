@@ -10,7 +10,7 @@ const Users = require('./user');
 const Staff = require('./staff');
 const Feedback = require('./feedback');
 const SurveyAnswer = require('./survey');
-const { PendingApplication, SubmittedApplication } = require('./applications');
+const { PendingApplication, SubmittedApplication, EmailQueue } = require('./applications');
 const { Order, OrderItem } = require('./orders');
 
 logger.debug(`Using ${databaseConfig.dialect} database`);
@@ -34,6 +34,7 @@ const db = {
     Staff: Staff.init(sequelize, Sequelize),
     PendingApplication: PendingApplication.init(sequelize, Sequelize),
     SubmittedApplication: SubmittedApplication.init(sequelize, Sequelize),
+    EmailQueue: EmailQueue.init(sequelize, Sequelize),
     Feedback: Feedback.init(sequelize, Sequelize),
     SurveyAnswer: SurveyAnswer.init(sequelize, Sequelize),
     Order: Order.init(sequelize, Sequelize),

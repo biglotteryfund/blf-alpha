@@ -364,9 +364,7 @@ describe('api endpoints', () => {
     it('should allow application expiry API responses', () => {
         cy.request('POST', '/api/applications/expiry', {}).then(response => {
             expect(response.status).to.equal(200);
-            expect(response.body).to.have.property('monthlyExpiry');
-            expect(response.body).to.have.property('weeklyExpiry');
-            expect(response.body).to.have.property('dailyExpiry');
+            expect(response.body).to.have.property('emailQueue');
             expect(response.body).to.have.property('expired');
         });
     });

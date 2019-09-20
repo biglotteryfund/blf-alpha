@@ -50,13 +50,6 @@ class User extends Model {
         });
     }
 
-    static findEmailByUserId(userId) {
-        return this.findOne({
-            attributes: ['username'],
-            where: { id: { [Op.eq]: userId } }
-        });
-    }
-
     static createUser({ username, password, isActive = false }) {
         return this.encryptPassword(password).then(encryptedPassword => {
             return this.create({
