@@ -709,8 +709,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'string.regex.base',
                     message: localise({
-                        en: 'Enter a valid charity registration number',
-                        cy: 'Rhowch rif elusen gofrestredig ddilys'
+                        en: 'Enter a real charity registration number. And don’t use any spaces. Scottish charity registration numbers must also use the number ‘0’ in ‘SC0’ instead of the letter ‘O’.',
+                        cy: 'Rhowch rif cofrestru elusen go iawn. A pheidiwch â defnyddio unrhyw fylchau. Rhaid i rifau cofrestru elusennau Albanaidd ddefnyddio’r rhif ‘0’ yn ‘SC0’ yn hytrach na’r llythyren ‘O’'
                     })
                 },
                 {
