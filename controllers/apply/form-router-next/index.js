@@ -167,17 +167,23 @@ function initFormRouter({
     /**
      * Route: Eligibility
      */
-    router.use(
-        '/eligibility',
-        require('./eligibility')(eligibilityBuilder, formId)
-    );
+    if (eligibilityBuilder) {
+        router.use(
+            '/eligibility',
+            require('./eligibility')(eligibilityBuilder, formId)
+        );
+    }
 
     /**
      * Route: Start application
      * Redirect to eligibility checker
      */
     router.get('/start', function(req, res) {
-        res.redirect(`${req.baseUrl}/eligibility/1`);
+        if (eligibilityBuilder) {
+            res.redirect(`${req.baseUrl}/eligibility/1`);
+        } else {
+            res.redirect(`${req.baseUrl}/new`);
+        }
     });
 
     /**
