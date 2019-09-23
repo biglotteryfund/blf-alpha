@@ -1,7 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
 
-module.exports = function locationsFor(country, locale) {
+module.exports = function locationsFor(country, locale = 'en') {
     const localise = get(locale);
 
     const england = [
