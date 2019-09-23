@@ -2,8 +2,13 @@
 const path = require('path');
 const { sendHtmlEmail } = require('../../../common/mail');
 const { PendingApplication, EmailQueue } = require('../../../db/models');
-const { EXPIRY_EMAIL_REMINDERS } = require('../../apply/awards-for-all/constants');
-const { getEmailFor, getPhoneFor } = require('../../apply/awards-for-all/lib/contacts');
+const {
+    EXPIRY_EMAIL_REMINDERS
+} = require('../../apply/awards-for-all/constants');
+const {
+    getEmailFor,
+    getPhoneFor
+} = require('../../apply/awards-for-all/lib/contacts');
 const appData = require('../../../common/appData');
 const logger = require('../../../common/logger').child({
     service: 'application-expiry'
@@ -16,59 +21,83 @@ const logger = require('../../../common/logger').child({
  * Iterate through emailQueue, within which it:
  * -- Sends email
  * -- Updates db
- * returns a array of objects containing emailSent, dbUpdated for each queue
+ * returns an array of objects containing emailSent, dbUpdated for each queue
  */
-const handleEmailQueue = async (emailQueue) => {
+const handleEmailQueue = async emailQueue => {
     logger.info('Handling email queue');
 
     if (appData.isNotProduction && !process.env.APPLICATION_EXPIRY_EMAIL) {
-        throw new Error('Missing environment variable APPLICATION_EXPIRY_EMAIL');
+        throw new Error(
+            'Missing environment variable APPLICATION_EXPIRY_EMAIL'
+        );
     }
 
-    const calcTimeToFinish = (type) => {
-        switch(type) {
-          case EXPIRY_EMAIL_REMINDERS.MONTH:
-            return 'one month';
-          case EXPIRY_EMAIL_REMINDERS.WEEK:
-            return 'two weeks';
-          default:
-            return 'two days';
+    const calcTimeToFinish = type => {
+        switch (type) {
+            case EXPIRY_EMAIL_REMINDERS.MONTH:
+                return 'one month';
+            case EXPIRY_EMAIL_REMINDERS.WEEK:
+                return 'two weeks';
+            default:
+                return 'two days';
         }
     };
 
-    return await Promise.all(emailQueue.map(async (emailToSend) => {
-        let returnObj = { emailSent: false, dbUpdated: false };
+    return await Promise.all(
+        emailQueue.map(async emailToSend => {
+            let returnObj = { emailSent: false, dbUpdated: false };
 
-        const emailStatus = await sendHtmlEmail({
-            template: path.resolve(__dirname, './expiry-email.njk'),
-            templateData: {
-                timeToFinishApp: calcTimeToFinish(emailToSend.expirationType),
-                projectName: emailToSend.pendingApplication.applicationData.projectName,
-                countryPhoneNumber: getPhoneFor(emailToSend.pendingApplication.applicationData.projectCountry),
-                countryEmail: getEmailFor(emailToSend.pendingApplication.applicationData.projectCountry)
-            }
-        }, {
-            name: 'application_expiry',
-            sendTo: appData.isNotProduction ? process.env.APPLICATION_EXPIRY_EMAIL : emailToSend.pendingApplication.userDetails.username,
-            subject: `You have ${calcTimeToFinish(emailToSend.expirationType)} to finish your application`
-        });
+            const emailStatus = await sendHtmlEmail(
+                {
+                    template: path.resolve(__dirname, './expiry-email.njk'),
+                    templateData: {
+                        // @TODO this won't work now
+                        timeToFinishApp: calcTimeToFinish(
+                            emailToSend.emailType
+                        ),
+                        projectName:
+                            emailToSend.pendingApplication.applicationData
+                                .projectName,
+                        countryPhoneNumber: getPhoneFor(
+                            emailToSend.pendingApplication.applicationData
+                                .projectCountry
+                        ),
+                        countryEmail: getEmailFor(
+                            emailToSend.pendingApplication.applicationData
+                                .projectCountry
+                        )
+                    }
+                },
+                {
+                    name: 'application_expiry',
+                    sendTo: appData.isNotProduction
+                        ? process.env.APPLICATION_EXPIRY_EMAIL
+                        : emailToSend.pendingApplication.userDetails.username,
+                    // @TODO this won't work now
+                    subject: `You have ${calcTimeToFinish(
+                        emailToSend.emailType
+                    )} to finish your application`
+                }
+            );
 
-        if (emailStatus.response) {
-            returnObj.emailSent = true;
+            if (emailStatus.response) {
+                returnObj.emailSent = true;
 
-            const dbStatus = (await EmailQueue.updateStatusToSent(emailToSend.id))[0];
+                const dbStatus = (await EmailQueue.updateStatusToSent(
+                    emailToSend.id
+                ))[0];
 
-            if (dbStatus === 1) {
-                returnObj.dbUpdated = true;
-                return returnObj;
+                if (dbStatus === 1) {
+                    returnObj.dbUpdated = true;
+                    return returnObj;
+                } else {
+                    return returnObj;
+                }
             } else {
                 return returnObj;
             }
-        } else {
-            return returnObj;
-        }
-
-    }));
+        })
+    );
 };
 
 /**
@@ -78,16 +107,19 @@ const handleEmailQueue = async (emailQueue) => {
  * DELETE promise returns number of records affected directly
  * returns truthy only if no. of del records = no. of expired applications
  */
-const handleExpired = async (expiredApplications) => {
+const handleExpired = async expiredApplications => {
     try {
         logger.info('Handling expired applications');
-        const applicationIds = expiredApplications.map(application => application.id);
-        
+        const applicationIds = expiredApplications.map(
+            application => application.id
+        );
+
         return EmailQueue.deleteEmailQueues(applicationIds).then(async () => {
-            const dbStatus = await PendingApplication.deleteApplications(applicationIds);
+            const dbStatus = await PendingApplication.deleteApplications(
+                applicationIds
+            );
             return dbStatus === expiredApplications.length ? true : false;
         });
-        
     } catch (err) {
         logger.error('Error handling expired applications: ', err);
         return { error: err.message };

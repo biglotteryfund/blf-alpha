@@ -110,9 +110,9 @@ const FILE_LIMITS = {
 };
 
 const EXPIRY_EMAIL_REMINDERS = {
-    MONTH: 'ONE_MONTH',
-    WEEK: 'ONE_WEEK',
-    DAY: 'ONE_DAY'
+    MONTH: 'AFA_ONE_MONTH',
+    WEEK: 'AFA_ONE_WEEK',
+    DAY: 'AFA_ONE_DAY'
 };
 
 const CONTACT_DETAILS_EMAIL = {

@@ -329,10 +329,10 @@ class EmailQueue extends Model {
             },
 
             /**
-             * Email Expiry Type
-             * e.g. ONE_MONTH, ONE_WEEK etc
+             * Email type
+             * e.g. AFA_ONE_MONTH, GET_ADVICE_ONE_WEEK etc
              */
-            expirationType: {
+            emailType: {
                 type: DataTypes.STRING,
                 allowNull: false
             },
@@ -367,17 +367,17 @@ class EmailQueue extends Model {
         return this.bulkCreate([
             {
                 applicationId,
-                expirationType: EXPIRY_EMAIL_REMINDERS.MONTH,
+                emailType: EXPIRY_EMAIL_REMINDERS.MONTH,
                 dateToSend: moment(expiresAt).subtract('30', 'days')
             },
             {
                 applicationId,
-                expirationType: EXPIRY_EMAIL_REMINDERS.WEEK,
+                emailType: EXPIRY_EMAIL_REMINDERS.WEEK,
                 dateToSend: moment(expiresAt).subtract('14', 'days')
             },
             {
                 applicationId,
-                expirationType: EXPIRY_EMAIL_REMINDERS.DAY,
+                emailType: EXPIRY_EMAIL_REMINDERS.DAY,
                 dateToSend: moment(expiresAt).subtract('2', 'days')
             }
         ]);
@@ -388,6 +388,7 @@ class EmailQueue extends Model {
             where: {
                 status: { [Op.eq]: 'NOT_SENT' },
                 [Op.and]: [
+                    // @TODO make this support sqlite too
                     Sequelize.where(
                         Sequelize.fn(
                             'datediff',
