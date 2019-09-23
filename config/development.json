@@ -7,8 +7,7 @@
     "enableAllowLocalhost": false,
     "enableCloudWatchLogs": false,
     "enableSeeders": true,
-    "enableSalesforceConnector": true,
-    "enableLocalAntivirus": true
+    "enableSalesforceConnector": true
   },
   "awardsForAll": {
     "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]

@@ -22,12 +22,6 @@
       "formUploadBucket": "tnlcf-uploads-dev"
     }
   },
-  "clamdscan": {
-    "socket": "/var/run/clamav/clamd.ctl",
-    "timeout": 120000,
-    "path": "/var/lib/clamav",
-    "config_file": "/etc/clamav/clamd.conf"
-  },
   "domains": {
     "indexable": ["www.biglotteryfund.org.uk", "www.tnlcommunityfund.org.uk"],
     "base": "https://www.tnlcommunityfund.org.uk"
@@ -41,7 +35,7 @@
     "enableSalesforceConnector": true,
     "enableSeeders": false,
     "enableSiteSurvey": true,
-    "enableLocalAntivirus": false
+    "enableLocalAntivirus": true
   },
   "awardsForAll": {
     "allowedCountries": ["scotland", "wales"]
