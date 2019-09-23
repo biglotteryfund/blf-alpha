@@ -4,6 +4,7 @@ const find = require('lodash/find');
 const findIndex = require('lodash/findIndex');
 const findLastIndex = require('lodash/findLastIndex');
 const flatMap = require('lodash/flatMap');
+const has = require('lodash/has');
 const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
 const reduce = require('lodash/reduce');
@@ -77,7 +78,7 @@ class FormModel {
             step.fieldsets = reject(
                 step.fieldsets.map(fieldset => {
                     fieldset.fields = fieldset.fields.map(field => {
-                        if (field._isClass) {
+                        if (has(field, '_isClass')) {
                             return enrichFieldClass(field);
                         } else {
                             return enrichField(field);
