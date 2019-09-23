@@ -10,6 +10,7 @@ const Joi = require('../lib/joi-extensions');
 
 const {
     TextField,
+    TextareaField,
     EmailField,
     PhoneField,
     CurrencyField,
@@ -246,37 +247,31 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldYourIdeaProject() {
-        return new TextField({
+        return new TextareaField({
             name: 'yourIdeaProject',
             label: localise({
                 en: 'What would you like to do?',
                 cy: ''
             }),
+            explanation: localise({
+                en: `<p><strong>Tell us</strong>:</p><ul>
+                    <li>What you would like to do</li>
+                    <li>Who will benefit from it</li>
+                    <li>What difference your project will make</li>
+                    <li>Is it something new, or are you continuing
+                        something that has worked well previously? 
+                        We want to fund both types of ideas</li>
+                </ul>`
+            }),
             type: 'textarea',
-            schema: Joi.string()
-                .minWords(50)
-                .maxWords(500)
-                .required(),
+            minWords: 50,
+            maxWords: 500,
             messages: [
                 {
                     type: 'base',
                     message: localise({
-                        en: `Tell us about your idea`,
+                        en: `Tell us what you would like to do`,
                         cy: ``
-                    })
-                },
-                {
-                    type: 'string.minWords',
-                    message: localise({
-                        en: `Answer must be at least 50 words`,
-                        cy: `Rhaid i’r ateb fod yn o leiaf 50 gair`
-                    })
-                },
-                {
-                    type: 'string.maxWords',
-                    message: localise({
-                        en: `Answer must be no more than 500 words`,
-                        cy: `Rhaid i’r ateb fod yn llai na 500 gair`
                     })
                 }
             ]

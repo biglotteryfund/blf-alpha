@@ -213,6 +213,18 @@ class TextareaField extends TextField {
             throw new Error('Must provide min and max words');
         }
 
+        this.attributes = defaults({ rows: 20 }, props.attributes);
+
+        this.settings = defaults(
+            {
+                stackedSummary: true,
+                showWordCount: true,
+                minWords: props.minWords,
+                maxWords: props.maxWords
+            },
+            props.settings
+        );
+
         if (props.schema) {
             this.schema = props.schema;
         } else {
