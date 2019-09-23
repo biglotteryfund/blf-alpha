@@ -173,7 +173,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 {
                     type: 'number.min',
                     message: localise({
-                        en: `Must be at least £10,000`,
+                        en: oneLine`If you need £10,000 or less from us,
+                            you can apply today to through
+                            <a href="/funding/under10k">
+                                National Lottery Awards for All
+                            </a>.`,
                         cy: ``
                     })
                 }
