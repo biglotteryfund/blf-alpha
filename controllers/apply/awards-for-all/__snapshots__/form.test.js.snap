@@ -182,7 +182,40 @@ exports[`Contacts include role warning for "UNREGISTERED_VCO" 3`] = `Array []`;
 
 exports[`Contacts include role warning for "UNREGISTERED_VCO" 4`] = `Array []`;
 
-exports[`Global validation default validations for an empty form 1`] = `
+exports[`Who will benefit require additional beneficiary questions based on groups 1`] = `
+Array [
+  "Select the age group(s) of the people that will benefit from your project",
+  "Select the disabled people that will benefit from your project",
+  "Select the ethnic background(s) of the people that will benefit from your project",
+  "Select the gender(s) of the people that will benefit from your project",
+  "Select the religion(s) or belief(s) of the people that will benefit from your project",
+]
+`;
+
+exports[`Your organisation finance details required if organisation is over 15 months old 1`] = `
+Array [
+  "Enter a day and month",
+  "Enter a total income for the year (eg. a whole number with no commas or decimal points)",
+]
+`;
+
+exports[`Your organisation finance details required if organisation is over 15 months old 2`] = `
+Array [
+  "Enter a day and month",
+  "Total income must be a real number",
+]
+`;
+
+exports[`Your organisation valid basic organisation details required 1`] = `
+Array [
+  "Enter a full UK address",
+  "Enter a month and year",
+  "Enter the full legal name of the organisation",
+  "Select a type of organisation",
+]
+`;
+
+exports[`default validations for an empty form 1`] = `
 Array [
   "Enter a project name",
   "Select a country",
@@ -216,38 +249,5 @@ Array [
   "You must confirm that you understand your application is subject to our Freedom of Information policy",
   "Enter the full name of the person completing this form",
   "Enter the position of the person completing this form",
-]
-`;
-
-exports[`Who will benefit require additional beneficiary questions based on groups 1`] = `
-Array [
-  "Select the age group(s) of the people that will benefit from your project",
-  "Select the disabled people that will benefit from your project",
-  "Select the ethnic background(s) of the people that will benefit from your project",
-  "Select the gender(s) of the people that will benefit from your project",
-  "Select the religion(s) or belief(s) of the people that will benefit from your project",
-]
-`;
-
-exports[`Your organisation finance details required if organisation is over 15 months old 1`] = `
-Array [
-  "Enter a day and month",
-  "Enter a total income for the year (eg. a whole number with no commas or decimal points)",
-]
-`;
-
-exports[`Your organisation finance details required if organisation is over 15 months old 2`] = `
-Array [
-  "Enter a day and month",
-  "Total income must be a real number",
-]
-`;
-
-exports[`Your organisation valid basic organisation details required 1`] = `
-Array [
-  "Enter a full UK address",
-  "Enter a month and year",
-  "Enter the full legal name of the organisation",
-  "Select a type of organisation",
 ]
 `;
