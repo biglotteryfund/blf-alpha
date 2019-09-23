@@ -1,0 +1,97 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`include all roles if no organisation type is provided 1`] = `
+Array [
+  "chair",
+  "chancellor",
+  "chief-executive",
+  "chief-executive-officer",
+  "company-director",
+  "company-secretary",
+  "deputy-parish-clerk",
+  "director",
+  "elected-member",
+  "head-teacher",
+  "parish-clerk",
+  "religious-leader",
+  "secretary",
+  "treasurer",
+  "trustee",
+  "vice-chair",
+  "vice-chancellor",
+]
+`;
+
+exports[`include expected roles for "charitable-incorporated-organisation" 1`] = `
+Array [
+  "trustee",
+  "chief-executive-officer",
+]
+`;
+
+exports[`include expected roles for "college-or-university" 1`] = `
+Array [
+  "chancellor",
+  "vice-chancellor",
+]
+`;
+
+exports[`include expected roles for "faith-group" 1`] = `
+Array [
+  "chair",
+  "vice-chair",
+  "secretary",
+  "treasurer",
+  "religious-leader",
+]
+`;
+
+exports[`include expected roles for "not-for-profit-company" 1`] = `
+Array [
+  "company-director",
+  "company-secretary",
+]
+`;
+
+exports[`include expected roles for "school" 1`] = `
+Array [
+  "head-teacher",
+]
+`;
+
+exports[`include expected roles for "statutory-body" 1`] = `
+Array [
+  "chair",
+  "chancellor",
+  "chief-executive",
+  "chief-executive-officer",
+  "company-director",
+  "company-secretary",
+  "deputy-parish-clerk",
+  "director",
+  "elected-member",
+  "head-teacher",
+  "parish-clerk",
+  "religious-leader",
+  "secretary",
+  "treasurer",
+  "trustee",
+  "vice-chair",
+  "vice-chancellor",
+]
+`;
+
+exports[`include expected roles for "unincorporated-registered-charity" 1`] = `
+Array [
+  "trustee",
+]
+`;
+
+exports[`include expected roles for "unregistered-vco" 1`] = `
+Array [
+  "chair",
+  "vice-chair",
+  "secretary",
+  "treasurer",
+]
+`;

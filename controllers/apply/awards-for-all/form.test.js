@@ -5,7 +5,6 @@ const concat = require('lodash/concat');
 const difference = require('lodash/difference');
 const includes = require('lodash/includes');
 const map = require('lodash/map');
-const partition = require('lodash/partition');
 const random = require('lodash/random');
 const sample = require('lodash/sample');
 const times = require('lodash/times');
@@ -21,7 +20,6 @@ const {
     CHARITY_NUMBER_TYPES,
     EDUCATION_NUMBER_TYPES
 } = require('./constants');
-const rolesFor = require('./lib/roles');
 
 const validateModel = require('../lib/validate-model');
 
@@ -69,23 +67,24 @@ function mockBeneficiaries(checkAnswer = 'yes') {
     };
 }
 
-function mockFullForm({
-    country = 'scotland',
-    organisationType,
-    organisationSubType = null,
-    seniorContactRole,
-    companyNumber = null,
-    charityNumber = null,
-    educationNumber = null
-}) {
-    return {
+function mockResponse(overrides) {
+    const projectCountry =
+        overrides.projectCountry ||
+        sample(['england', 'scotland', 'wales', 'northern-ireland']);
+
+    const defaults = {
         projectName: faker.lorem.words(5),
-        projectCountry: country,
+        projectCountry: projectCountry,
         projectDateRange: {
             startDate: toDateParts(moment().add(18, 'weeks')),
             endDate: toDateParts(moment().add(30, 'weeks'))
         },
-        projectLocation: 'east-lothian',
+        projectLocation: {
+            'england': 'derbyshire',
+            'scotland': 'east-lothian',
+            'wales': 'caerphilly',
+            'northern-ireland': 'mid-ulster'
+        }[projectCountry],
         projectLocationDescription: faker.lorem.sentence(),
         projectPostcode: 'B15 1TR',
         yourIdeaProject: faker.lorem.words(random(50, 250)),
@@ -102,15 +101,20 @@ function mockFullForm({
         beneficiariesGroupsDisabledPeople: ['sensory'],
         beneficiariesGroupsReligion: ['sikh'],
         beneficiariesGroupsReligionOther: undefined,
+        beneficiariesWelshLanguage: projectCountry === 'wales' ? 'all' : null,
+        beneficiariesNorthernIrelandCommunity:
+            projectCountry === 'northern-ireland'
+                ? 'both-catholic-and-protestant'
+                : null,
         organisationLegalName: faker.company.companyName(),
         organisationTradingName: faker.company.companyName(),
         organisationStartDate: { month: 9, year: 1986 },
         organisationAddress: mockAddress(),
-        organisationType: organisationType,
-        organisationSubType: organisationSubType,
-        companyNumber: companyNumber,
-        charityNumber: charityNumber,
-        educationNumber: educationNumber,
+        organisationType: 'unincorporated-registered-charity',
+        organisationSubType: null,
+        companyNumber: null,
+        charityNumber: '0123456789',
+        educationNumber: null,
         accountingYearDate: { day: 1, month: 3 },
         totalIncomeYear: random(1000, 1000000),
         mainContactName: {
@@ -125,12 +129,14 @@ function mockFullForm({
         },
         mainContactEmail: faker.internet.exampleEmail(),
         mainContactPhone: '0345 4 10 20 30',
+        mainContactLanguagePreference:
+            projectCountry === 'wales' ? 'welsh' : null,
         mainContactCommunicationNeeds: '',
         seniorContactName: {
             firstName: faker.name.firstName(),
             lastName: faker.name.lastName()
         },
-        seniorContactRole: seniorContactRole,
+        seniorContactRole: 'trustee',
         seniorContactDateOfBirth: mockDateOfBirth(18),
         seniorContactAddress: mockAddress(),
         seniorContactAddressHistory: {
@@ -139,6 +145,8 @@ function mockFullForm({
         },
         seniorContactEmail: faker.internet.exampleEmail(),
         seniorContactPhone: '020 7211 1888',
+        seniorContactLanguagePreference:
+            projectCountry === 'wales' ? 'welsh' : null,
         seniorContactCommunicationNeeds: '',
         bankAccountName: faker.company.companyName(),
         bankSortCode: '308087',
@@ -156,6 +164,8 @@ function mockFullForm({
         termsPersonName: `${faker.name.firstName()} ${faker.name.lastName()}`,
         termsPersonPosition: faker.name.jobTitle()
     };
+
+    return Object.assign(defaults, overrides);
 }
 
 function messagesByKey(data) {
@@ -189,130 +199,108 @@ function assertInvalidByKey(data) {
     expect(messagesByKey).not.toHaveLength(0);
 }
 
-describe('Global validation', () => {
-    test('validate model shape', () => {
-        validateModel(formBuilder());
-    });
+test('validate model shape', () => {
+    validateModel(formBuilder());
+});
 
-    test('default validations for an empty form', () => {
-        const form = formBuilder();
+test('default validations for an empty form', () => {
+    const form = formBuilder();
 
-        expect(
-            form.validation.messages.map(item => item.msg)
-        ).toMatchSnapshot();
+    expect(form.validation.messages.map(item => item.msg)).toMatchSnapshot();
 
-        expect(form.progress.isComplete).toBeFalsy();
-        expect(form.progress.isPristine).toBeTruthy();
+    expect(form.progress.isComplete).toBeFalsy();
+    expect(form.progress.isPristine).toBeTruthy();
 
-        const allSectionsEmpty = form.progress.sections.every(
-            section => section.status === 'empty'
-        );
-        expect(allSectionsEmpty).toBeTruthy();
-    });
+    const allSectionsEmpty = form.progress.sections.every(
+        section => section.status === 'empty'
+    );
+    expect(allSectionsEmpty).toBeTruthy();
+});
 
-    test('progress for a partially complete form', () => {
+test.each(['england', 'scotland', 'northern-ireland', 'wales'])(
+    'valid form for %p',
+    function(projectCountry) {
         const form = formBuilder({
-            data: mockFullForm({ country: 'scotland' })
+            data: mockResponse({ projectCountry })
         });
 
-        expect(form.progress.isComplete).toBeFalsy();
-        expect(form.progress.isPristine).toBeFalsy();
-
-        const [complete, incomplete] = partition(
-            form.progress.sections,
-            function(section) {
-                return section.status === 'complete';
-            }
-        );
-
-        expect(map(complete, 'slug')).toEqual([
-            'your-project',
-            'beneficiaries',
-            'main-contact',
-            'bank-details',
-            'terms-and-conditions'
-        ]);
-
-        expect(map(incomplete, 'slug')).toEqual([
-            'organisation',
-            'senior-contact'
-        ]);
-    });
-
-    test.each(
-        Object.values(ORGANISATION_TYPES).map(function(organisationType) {
-            let data = {};
-            switch (organisationType) {
-                case ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY:
-                case ORGANISATION_TYPES.CIO:
-                    data = { charityNumber: '12345678' };
-                    break;
-                case ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY:
-                    data = { companyNumber: '12345678' };
-                    break;
-                case ORGANISATION_TYPES.SCHOOL:
-                case ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY:
-                    data = { educationNumber: '345678' };
-                    break;
-                case ORGANISATION_TYPES.STATUTORY_BODY:
-                    data = { organisationSubType: 'parish-council' };
-                    break;
-                default:
-                    data = {};
-                    break;
-            }
-
-            return [organisationType, data];
-        })
-    )('validate a complete form for %s', function(orgType, data = {}) {
-        const roles = rolesFor({
-            organisationType: orgType,
-            organisationSubType: data.organisationSubType
-        });
-
-        const sampleRole = sample(roles.map(role => role.value));
-
-        const form = formBuilder({
-            data: mockFullForm({
-                country: 'scotland', // @TODO: Vary country
-                organisationType: orgType,
-                organisationSubType: data.organisationSubType,
-                companyNumber: data.companyNumber,
-                charityNumber: data.charityNumber,
-                educationNumber: data.educationNumber,
-                seniorContactRole: sampleRole
-            })
-        });
-
-        // @TODO: Remove isValid? Handled via progress?
-        expect(form.validation.isValid).toBeTruthy();
-        expect(form.validation.messages).toHaveLength(0);
-
+        expect(form.validation.error).toBeNull();
         expect(form.progress.isComplete).toBeTruthy();
-        expect(form.progress.isPristine).toBeFalsy();
+    }
+);
 
-        const allSectionsComplete = form.progress.sections.every(
-            section => section.status === 'complete'
-        );
-        expect(allSectionsComplete).toBeTruthy();
+test.each(
+    Object.entries({
+        'unregistered-vco': {
+            seniorContactRole: 'chair'
+        },
+        'unincorporated-registered-charity': {
+            charityNumber: '12345678',
+            seniorContactRole: 'trustee'
+        },
+        'charitable-incorporated-organisation': {
+            charityNumber: '12345678',
+            seniorContactRole: 'trustee'
+        },
+        'not-for-profit-company': {
+            companyNumber: '12345678',
+            seniorContactRole: 'company-director'
+        },
+        'school': {
+            educationNumber: '345678',
+            seniorContactRole: 'head-teacher'
+        },
+        'college-or-university': {
+            educationNumber: '345678',
+            seniorContactRole: 'chancellor'
+        },
+        'statutory-body': {
+            organisationSubType: 'parish-council',
+            seniorContactRole: 'parish-clerk'
+        },
+        'faith-group': {
+            seniorContactRole: 'religious-leader'
+        }
+    })
+)('valid form for %s', function(organisationType, data) {
+    const form = formBuilder({
+        data: mockResponse({
+            organisationType: organisationType,
+            organisationSubType: data.organisationSubType,
+            companyNumber: data.companyNumber,
+            charityNumber: data.charityNumber,
+            educationNumber: data.educationNumber,
+            seniorContactRole: data.seniorContactRole
+        })
     });
 
-    test('list featured errors based on allow list', () => {
-        const form = formBuilder({
-            data: {
-                projectDateRange: {
-                    startDate: { day: 31, month: 1, year: 2019 },
-                    endDate: { day: 31, month: 1, year: 2019 }
-                },
-                seniorContactRole: 'not-a-real-role'
-            }
-        });
+    expect(form.validation.isValid).toBeTruthy();
+    expect(form.validation.messages).toHaveLength(0);
 
-        expect(form.validation.featuredMessages.map(item => item.msg)).toEqual([
-            expect.stringMatching(/Date you start the project must be after/),
-            'Senior contact role is not valid'
-        ]);
+    expect(form.progress.isComplete).toBeTruthy();
+    expect(form.progress.isPristine).toBeFalsy();
+
+    const allSectionsComplete = form.progress.sections.every(
+        section => section.status === 'complete'
+    );
+    expect(allSectionsComplete).toBeTruthy();
+});
+
+test('list featured errors based on allow list', () => {
+    const form = formBuilder({
+        data: {
+            projectDateRange: {
+                startDate: { day: 31, month: 1, year: 2019 },
+                endDate: { day: 31, month: 1, year: 2019 }
+            },
+            seniorContactRole: 'not-a-real-role'
+        }
     });
+
+    expect(form.validation.featuredMessages.map(item => item.msg)).toEqual([
+        expect.stringMatching(/Date you start the project must be after/),
+        'Senior contact role is not valid'
+    ]);
 });
 
 describe('Project details', () => {
@@ -1033,62 +1021,6 @@ describe('Contacts', () => {
             })
         ).toMatchSnapshot();
     });
-
-    test('include all roles if no organisation type is provided', () => {
-        const form = formBuilder({
-            data: { organisationType: null }
-        });
-
-        const roleOptions = form.allFields.seniorContactRole.options.map(
-            option => option.value
-        );
-
-        expect(roleOptions).toMatchSnapshot();
-    });
-
-    test.each(Object.values(ORGANISATION_TYPES))(
-        `include expected roles for %p`,
-        function(orgType) {
-            const form = formBuilder({
-                data: { organisationType: orgType, organisationSubType: null }
-            });
-
-            const roles = form.allFields.seniorContactRole.options.map(
-                option => option.value
-            );
-
-            expect(roles).toMatchSnapshot();
-
-            assertValidByKey({
-                organisationType: orgType,
-                seniorContactRole: sample(roles)
-            });
-
-            assertMessagesByKey(
-                {
-                    organisationType: orgType,
-                    seniorContactRole: 'not-an-option'
-                },
-                ['Senior contact role is not valid']
-            );
-        }
-    );
-
-    test.each(Object.keys(ORGANISATION_TYPES))(
-        'include role warning for %p',
-        function(organisationType) {
-            ['england', 'scotland', 'northern-ireland', 'wales'].forEach(
-                function(country) {
-                    const form = formBuilder({
-                        organisationType: organisationType,
-                        projectCountry: country
-                    });
-                    const field = form.allFields.seniorContactRole;
-                    expect(field.warnings).toMatchSnapshot();
-                }
-            );
-        }
-    );
 
     test.each([
         'mainContactLanguagePreference',
