@@ -111,41 +111,9 @@ function uploadFile({ formId, applicationId, fileMetadata }) {
     });
 }
 
-function checkAntiVirus({ formId, applicationId, filename }) {
-    const keyName = [formId, applicationId, filename].join('/');
-
-    return s3
-        .getObjectTagging({
-            Bucket: S3_UPLOAD_BUCKET,
-            Key: keyName
-        })
-        .promise()
-        .then(function(tags) {
-            const tagSet = get(tags, 'TagSet', []);
-            const avStatus = tagSet.find(t => t.Key === 'av-status');
-
-            if (avStatus && get(avStatus, 'Value') === 'CLEAN') {
-                return avStatus;
-            } else if (avStatus && get(avStatus, 'Value') === 'INFECTED') {
-                logger.error(`Infected file found at ${keyName}`);
-                throw new Error('ERR_FILE_SCAN_INFECTED');
-            } else {
-                logger.error(`Attempted read of unscanned file at ${keyName}`);
-                throw new Error('ERR_FILE_SCAN_UNKNOWN');
-            }
-        });
-}
-
 function scanAndUpload({ formId, applicationId, fileMetadata }) {
-    function shouldScan() {
-        return (
-            config.get('features.enableLocalAntivirus') &&
-            isTestServer === false
-        );
-    }
-
-    if (shouldScan()) {
-        return scanFile(fileMetadata.fileData.path).then(status => {
+    if (isTestServer === false) {
+        return scanFile(fileMetadata.fileData.path).then(function(status) {
             if (status.is_infected) {
                 throw new Error('Infected file found');
             } else {
@@ -195,6 +163,5 @@ module.exports = {
     prepareFilesForUpload,
     getObject,
     buildMultipartData,
-    checkAntiVirus,
     scanAndUpload
 };
