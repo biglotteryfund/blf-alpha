@@ -1,5 +1,7 @@
 'use strict';
 const compact = require('lodash/compact');
+const castArray = require('lodash/castArray');
+const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const includes = require('lodash/includes');
@@ -13,7 +15,8 @@ const {
     PhoneField,
     CurrencyField,
     RadioField,
-    CheckboxField
+    CheckboxField,
+    SelectField
 } = require('../lib/field-types');
 
 const { FormModel } = require('../lib/form-model');
@@ -21,6 +24,8 @@ const locationsFor = require('./lib/locations');
 
 module.exports = function({ locale = 'en', data = {} } = {}) {
     const localise = get(locale);
+
+    const projectCountry = getOr([], 'projectCountry')(data);
 
     function fieldProjectCountry() {
         return new CheckboxField({
@@ -78,12 +83,34 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldProjectLocation() {
-        return {
+        const optgroups = locationsFor(projectCountry, locale);
+
+        return new SelectField({
             name: 'projectLocation',
+            label: localise({
+                en: `Where will your project take place?`,
+                cy: ``
+            }),
+            explanation: localise({
+                en: oneLine`If your project covers more than one area,
+                    tell us the main location`,
+                cy: ``
+            }),
+            defaultOption: localise({
+                en: 'Select a location',
+                cy: 'Dewiswch leoliad'
+            }),
+            optgroups: optgroups,
             schema: Joi.when('projectCountry', {
                 is: Joi.array().min(2),
                 then: Joi.any().strip(),
-                otherwise: Joi.string().required()
+                otherwise: Joi.string()
+                    .valid(
+                        flatMap(optgroups, group => group.options).map(
+                            option => option.value
+                        )
+                    )
+                    .required()
             }),
             messages: [
                 {
@@ -94,7 +121,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     })
                 }
             ]
-        };
+        });
     }
 
     function fieldProjectLocationDescription() {
@@ -157,7 +184,6 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
 
     function fieldProjectDurationYears() {
         function options() {
-            const projectCountry = get('projectCountry')(data);
             if (includes(projectCountry, 'scotland')) {
                 return [
                     { label: '3 years', value: 3 },
@@ -477,7 +503,18 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             fieldsets: [
                 {
                     legend: localise({ en: 'Project location', cy: '' }),
-                    fields: [allFields.projectLocationDescription]
+                    get fields() {
+                        if (projectCountry.length > 1) {
+                            return [allFields.projectLocationDescription];
+                        } else if (projectCountry.length > 0) {
+                            return [
+                                allFields.projectLocation,
+                                allFields.projectLocationDescription
+                            ];
+                        } else {
+                            return [];
+                        }
+                    }
                 }
             ]
         };
