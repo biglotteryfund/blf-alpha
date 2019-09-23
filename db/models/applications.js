@@ -414,14 +414,6 @@ class EmailQueue extends Model {
             { where: { id: { [Op.eq]: queueId } } }
         );
     }
-
-    // static deleteEmailQueues(applicationIds) {
-    //     return this.destroy({
-    //         where: {
-    //             applicationId: { [Op.in]: applicationIds }
-    //         }
-    //     });
-    // }
 }
 
 module.exports = { PendingApplication, SubmittedApplication, EmailQueue };
