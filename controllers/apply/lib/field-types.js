@@ -213,7 +213,7 @@ class TextareaField extends TextField {
             throw new Error('Must provide min and max words');
         }
 
-        this.attributes = defaults({ rows: 20 }, props.attributes);
+        this.attributes = defaults({ rows: 15 }, props.attributes);
 
         this.settings = defaults(
             {

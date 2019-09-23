@@ -278,6 +278,46 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         });
     }
 
+    function fieldYourIdeaCommunity() {
+        return new TextareaField({
+            name: 'yourIdeaCommunity',
+            label: localise({
+                en: 'How does your project involve your community?',
+                cy: ''
+            }),
+            explanation: localise({
+                en: `<p>
+                    We believe that people understand what's needed in their
+                    communities better than anyone. Tell us how your community
+                    came up with the idea for your project. We want to know how
+                    many people you've spoken to, and how they'll be involved
+                    in the development and delivery of your project.
+                </p>
+                <p>Here are some examples of how you could be involving your community:</p>
+                <ul>
+                    <li>Setting up steering groups</li>
+                    <li>Regular surveys</li>
+                    <li>Running open days</li> 
+                    <li>Including community members on your board or committee</li>
+                    <li>Having regular chats with community members, in person or on social media</li>
+                </ul>`,
+                cy: ``
+            }),
+            type: 'textarea',
+            minWords: 50,
+            maxWords: 500,
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Tell us how your project involves your community`,
+                        cy: ``
+                    })
+                }
+            ]
+        });
+    }
+
     function fieldOrganisationLegalName() {
         return new TextField({
             name: 'organisationLegalName',
@@ -471,6 +511,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         projectCosts: fieldProjectCosts(),
         projectDurationYears: fieldProjectDurationYears(),
         yourIdeaProject: fieldYourIdeaProject(),
+        yourIdeaCommunity: fieldYourIdeaCommunity(),
         organisationLegalName: fieldOrganisationLegalName(),
         organisationTradingName: fieldOrganisationTradingName(),
         organisationAddress: fieldOrganisationAddress(),
@@ -547,7 +588,10 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             fieldsets: [
                 {
                     legend: localise({ en: 'Your idea', cy: 'Eich syniad' }),
-                    fields: [allFields.yourIdeaProject]
+                    fields: [
+                        allFields.yourIdeaProject,
+                        allFields.yourIdeaCommunity
+                    ]
                 }
             ]
         };

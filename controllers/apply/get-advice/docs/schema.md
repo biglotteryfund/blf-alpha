@@ -60,6 +60,9 @@ If more than one `projectCountry` is selected then `projectDurationYears` is not
 
 type: `string`
 
+### yourIdeaCommunity
+
+type: `string`
 
 ### organisationLegalName
 
