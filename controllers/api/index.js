@@ -16,7 +16,10 @@ const {
 const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');
 const { csrfProtection } = require('../../common/cached');
-const { handleEmailQueue, handleExpired } = require('./lib/application-expiry');
+const {
+    sendExpiryEmails,
+    deleteExpiredApplications
+} = require('./lib/application-expiry');
 
 const { Client } = require('@ideal-postcodes/core-node');
 const postcodesClient = new Client({
@@ -206,17 +209,19 @@ router.post('/applications/expiry', async (req, res) => {
 
         const [emailQueue, expiredApplications] = await Promise.all([
             EmailQueue.getEmailsToSend(),
-            PendingApplication.findExpired()
+            PendingApplication.findExpiredApplications()
         ]);
 
         if (emailQueue.length > 0) {
-            response.emailQueue = await handleEmailQueue(emailQueue);
+            response.emailQueue = await sendExpiryEmails(emailQueue);
         } else {
             response.emailQueue = 'No applications were found';
         }
 
         if (expiredApplications.length > 0) {
-            response.expired = await handleExpired(expiredApplications);
+            response.expired = await deleteExpiredApplications(
+                expiredApplications
+            );
         } else {
             response.expired = 'No applications were found';
         }

@@ -106,7 +106,7 @@ class PendingApplication extends Model {
             order: [['createdAt', 'DESC']]
         });
     }
-    static findExpired() {
+    static findExpiredApplications() {
         let rawSqlStmt;
 
         if (dialect === 'sqlite') {
@@ -415,13 +415,13 @@ class EmailQueue extends Model {
         );
     }
 
-    static deleteEmailQueues(applicationIds) {
-        return this.destroy({
-            where: {
-                applicationId: { [Op.in]: applicationIds }
-            }
-        });
-    }
+    // static deleteEmailQueues(applicationIds) {
+    //     return this.destroy({
+    //         where: {
+    //             applicationId: { [Op.in]: applicationIds }
+    //         }
+    //     });
+    // }
 }
 
 module.exports = { PendingApplication, SubmittedApplication, EmailQueue };

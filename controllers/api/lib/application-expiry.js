@@ -24,7 +24,7 @@ const logger = require('../../../common/logger').child({
  * -- Updates db
  * returns an array of objects containing emailSent, dbUpdated for each queue
  */
-const handleEmailQueue = async emailQueue => {
+const sendExpiryEmails = async emailQueue => {
     logger.info('Handling email queue');
 
     if (appData.isNotProduction && !process.env.APPLICATION_EXPIRY_EMAIL) {
@@ -33,7 +33,7 @@ const handleEmailQueue = async emailQueue => {
         );
     }
 
-    const calcTimeToFinish = type => {
+    const getLabelForEmailType = type => {
         const email = Object.values(EXPIRY_EMAIL_REMINDERS).find(
             email => email.key === type
         );
@@ -48,7 +48,7 @@ const handleEmailQueue = async emailQueue => {
                 {
                     template: path.resolve(__dirname, './expiry-email.njk'),
                     templateData: {
-                        timeToFinishApp: calcTimeToFinish(
+                        timeToFinishApp: getLabelForEmailType(
                             emailToSend.emailType
                         ),
                         projectName:
@@ -65,11 +65,11 @@ const handleEmailQueue = async emailQueue => {
                     }
                 },
                 {
-                    name: 'application_expiry',
+                    name: 'application_expiry_afa',
                     sendTo: appData.isNotProduction
                         ? process.env.APPLICATION_EXPIRY_EMAIL
-                        : emailToSend.pendingApplication.userDetails.username,
-                    subject: `You have ${calcTimeToFinish(
+                        : emailToSend.pendingApplication.user.username,
+                    subject: `You have ${getLabelForEmailType(
                         emailToSend.emailType
                     )} to finish your application`
                 }
@@ -102,19 +102,17 @@ const handleEmailQueue = async emailQueue => {
  * DELETE promise returns number of records affected directly
  * returns truthy only if no. of del records = no. of expired applications
  */
-const handleExpired = async expiredApplications => {
+const deleteExpiredApplications = async expiredApplications => {
     try {
         logger.info('Handling expired applications');
         const applicationIds = expiredApplications.map(
             application => application.id
         );
 
-        return EmailQueue.deleteEmailQueues(applicationIds).then(async () => {
-            const dbStatus = await PendingApplication.deleteApplications(
-                applicationIds
-            );
-            return dbStatus === expiredApplications.length ? true : false;
-        });
+        const dbStatus = await PendingApplication.deleteApplications(
+            applicationIds
+        );
+        return dbStatus === expiredApplications.length ? true : false;
     } catch (err) {
         logger.error('Error handling expired applications: ', err);
         return { error: err.message };
@@ -122,6 +120,6 @@ const handleExpired = async expiredApplications => {
 };
 
 module.exports = {
-    handleEmailQueue,
-    handleExpired
+    sendExpiryEmails,
+    deleteExpiredApplications
 };
