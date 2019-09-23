@@ -1,17 +1,13 @@
 'use strict';
 const express = require('express');
 const Sentry = require('@sentry/node');
-const moment = require('moment');
-
-const { Op, Sequelize } = require('sequelize');
 
 const { sanitise } = require('../../common/sanitise');
 const {
     Feedback,
     SurveyAnswer,
     PendingApplication,
-    EmailQueue,
-    Users
+    EmailQueue
 } = require('../../db/models');
 const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');
@@ -149,54 +145,9 @@ router.post('/survey', async (req, res) => {
  * API: Application Expiry
  */
 
-// Create expiry records for these applications
-router.get('/applications/expiry/seed', async (req, res) => {
-    // Expire a bunch of applications and set their user ID to a fake one
-    // const allApps = await PendingApplication.findAllByForm('awards-for-all');
-    // allApps.forEach(async application => {
-    //     const newExpiryDate = moment(application.expiresAt).subtract(
-    //         1,
-    //         'month'
-    //     );
-    //     @TODO update for new array method
-    //     await EmailQueue.createNewQueue(application.id, application.expiresAt);
-    //     application.update({
-    //         expiresAt: newExpiryDate,
-    //         userId: 1
-    //     });
-    // });
-    // res.send(allApps);
-});
-
 router.get('/applications/expiry', async (req, res) => {
     try {
-        const data = await EmailQueue.findAll({
-            where: {
-                status: { [Op.eq]: 'NOT_SENT' },
-                [Op.and]: [
-                    Sequelize.where(
-                        Sequelize.fn(
-                            'datediff',
-                            Sequelize.col('dateToSend'),
-                            Sequelize.fn('NOW')
-                        ),
-                        {
-                            [Op.lte]: 0
-                        }
-                    )
-                ]
-            },
-            include: [
-                {
-                    model: PendingApplication,
-                    include: [
-                        {
-                            model: Users
-                        }
-                    ]
-                }
-            ]
-        });
+        const data = await EmailQueue.getEmailsToSend();
         res.send(data);
     } catch (err) {
         console.log(err);

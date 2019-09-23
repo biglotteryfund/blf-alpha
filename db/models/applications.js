@@ -379,19 +379,9 @@ class EmailQueue extends Model {
         return this.findAll({
             where: {
                 status: { [Op.eq]: 'NOT_SENT' },
-                [Op.and]: [
-                    // @TODO make this support sqlite too
-                    Sequelize.where(
-                        Sequelize.fn(
-                            'datediff',
-                            Sequelize.col('dateToSend'),
-                            Sequelize.fn('NOW')
-                        ),
-                        {
-                            [Op.lte]: 0
-                        }
-                    )
-                ]
+                dateToSend: {
+                    [Op.lte]: moment().toDate()
+                }
             },
             include: [
                 {
