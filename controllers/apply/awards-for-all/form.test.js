@@ -20,7 +20,6 @@ const {
     CHARITY_NUMBER_TYPES,
     EDUCATION_NUMBER_TYPES
 } = require('./constants');
-const rolesFor = require('./lib/roles');
 
 const validateModel = require('../form-router-next/lib/validate-model');
 
@@ -231,46 +230,47 @@ test.each(['england', 'scotland', 'northern-ireland', 'wales'])(
 );
 
 test.each(
-    Object.values(ORGANISATION_TYPES).map(function(organisationType) {
-        let data = {};
-        switch (organisationType) {
-            case ORGANISATION_TYPES.UNINCORPORATED_REGISTERED_CHARITY:
-            case ORGANISATION_TYPES.CIO:
-                data = { charityNumber: '12345678' };
-                break;
-            case ORGANISATION_TYPES.NOT_FOR_PROFIT_COMPANY:
-                data = { companyNumber: '12345678' };
-                break;
-            case ORGANISATION_TYPES.SCHOOL:
-            case ORGANISATION_TYPES.COLLEGE_OR_UNIVERSITY:
-                data = { educationNumber: '345678' };
-                break;
-            case ORGANISATION_TYPES.STATUTORY_BODY:
-                data = { organisationSubType: 'parish-council' };
-                break;
-            default:
-                data = {};
-                break;
+    Object.entries({
+        'unregistered-vco': {
+            seniorContactRole: 'chair'
+        },
+        'unincorporated-registered-charity': {
+            charityNumber: '12345678',
+            seniorContactRole: 'trustee'
+        },
+        'charitable-incorporated-organisation': {
+            charityNumber: '12345678',
+            seniorContactRole: 'trustee'
+        },
+        'not-for-profit-company': {
+            companyNumber: '12345678',
+            seniorContactRole: 'company-director'
+        },
+        'school': {
+            educationNumber: '345678',
+            seniorContactRole: 'head-teacher'
+        },
+        'college-or-university': {
+            educationNumber: '345678',
+            seniorContactRole: 'chancellor'
+        },
+        'statutory-body': {
+            organisationSubType: 'parish-council',
+            seniorContactRole: 'parish-clerk'
+        },
+        'faith-group': {
+            seniorContactRole: 'religious-leader'
         }
-
-        return [organisationType, data];
     })
-)('validate a complete form for %s', function(orgType, data = {}) {
-    const roles = rolesFor({
-        organisationType: orgType,
-        organisationSubType: data.organisationSubType
-    });
-
-    const sampleRole = sample(roles.map(role => role.value));
-
+)('valid form for %s', function(organisationType, data) {
     const form = formBuilder({
         data: mockResponse({
-            organisationType: orgType,
+            organisationType: organisationType,
             organisationSubType: data.organisationSubType,
             companyNumber: data.companyNumber,
             charityNumber: data.charityNumber,
             educationNumber: data.educationNumber,
-            seniorContactRole: sampleRole
+            seniorContactRole: data.seniorContactRole
         })
     });
 
