@@ -23,7 +23,7 @@ const {
 } = require('./constants');
 const rolesFor = require('./lib/roles');
 
-const validateModel = require('../form-router-next/lib/validate-model');
+const validateModel = require('../lib/validate-model');
 
 function toDateParts(dt) {
     return { day: dt.date(), month: dt.month() + 1, year: dt.year() };
@@ -185,7 +185,7 @@ function assertInvalidByKey(data) {
     const messagesByKey = validationResult.messages.filter(message => {
         return includes(Object.keys(data), message.param);
     });
-    
+
     expect(messagesByKey).not.toHaveLength(0);
 }
 
@@ -284,6 +284,7 @@ describe('Global validation', () => {
             })
         });
 
+        // @TODO: Remove isValid? Handled via progress?
         expect(form.validation.isValid).toBeTruthy();
         expect(form.validation.messages).toHaveLength(0);
 
@@ -658,9 +659,9 @@ describe('Registration numbers', function() {
         );
     });
 
-    test.each(concat(CHARITY_NUMBER_TYPES.required, CHARITY_NUMBER_TYPES.optional))(
-        'Disallow letter O in charity number for %p', function(organisationType) {
-
+    test.each(
+        concat(CHARITY_NUMBER_TYPES.required, CHARITY_NUMBER_TYPES.optional)
+    )('Disallow letter O in charity number for %p', function(organisationType) {
         assertInvalidByKey({
             organisationType: organisationType,
             charityNumber: 'SCO123'
