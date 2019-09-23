@@ -58,6 +58,28 @@ Array [
 ]
 `;
 
+exports[`Contacts include expected roles for "community-interest-company" 1`] = `
+Array [
+  "chair",
+  "chancellor",
+  "chief-executive",
+  "chief-executive-officer",
+  "company-director",
+  "company-secretary",
+  "deputy-parish-clerk",
+  "director",
+  "elected-member",
+  "head-teacher",
+  "parish-clerk",
+  "religious-leader",
+  "secretary",
+  "treasurer",
+  "trustee",
+  "vice-chair",
+  "vice-chancellor",
+]
+`;
+
 exports[`Contacts include expected roles for "faith-group" 1`] = `
 Array [
   "chair",
@@ -117,6 +139,14 @@ Array [
   "treasurer",
 ]
 `;
+
+exports[`Contacts include role warning for "CIC" 1`] = `Array []`;
+
+exports[`Contacts include role warning for "CIC" 2`] = `Array []`;
+
+exports[`Contacts include role warning for "CIC" 3`] = `Array []`;
+
+exports[`Contacts include role warning for "CIC" 4`] = `Array []`;
 
 exports[`Contacts include role warning for "CIO" 1`] = `Array []`;
 
