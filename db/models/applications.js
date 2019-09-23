@@ -107,17 +107,13 @@ class PendingApplication extends Model {
         });
     }
     static findExpiredApplications() {
-        let rawSqlStmt;
-
-        if (dialect === 'sqlite') {
-            rawSqlStmt = `julianday(expiresAt) - julianday('now') <= 0`;
-        } else {
-            rawSqlStmt = 'DATEDIFF(expiresAt, CURDATE()) <= 0';
-        }
-
         return this.findAll({
             attributes: ['id', 'userId'],
-            where: Sequelize.literal(rawSqlStmt)
+            where: {
+                expiresAt: {
+                    [Op.lte]: moment().toDate()
+                }
+            }
         });
     }
     static deleteApplications(applicationIds) {
