@@ -64,6 +64,10 @@ type: `string`
 
 type: `string`
 
+### yourIdeaActivities
+
+type: `string`
+
 ### organisationLegalName
 
 type: `string`

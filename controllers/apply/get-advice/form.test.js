@@ -41,6 +41,7 @@ function mockResponse(overrides = {}) {
         projectDurationYears: 3,
         yourIdeaProject: faker.lorem.words(random(50, 500)),
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
+        yourIdeaActivities: faker.lorem.words(random(50, 500)),
         organisationLegalName: 'Example organisation',
         organisationTradingName: 'Example trading name',
         organisationAddress: {
@@ -72,6 +73,7 @@ test('minimal valid form', () => {
         projectLocation: expect.any(String),
         yourIdeaProject: expect.any(String),
         yourIdeaCommunity: expect.any(String),
+        yourIdeaActivities: expect.any(String),
         organisationBackground: expect.any(String)
     });
 });

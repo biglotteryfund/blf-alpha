@@ -318,6 +318,39 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         });
     }
 
+    function fieldYourIdeaActivities() {
+        return new TextareaField({
+            name: 'yourIdeaActivities',
+            label: localise({
+                en: 'How does your idea fit in with other local activities?',
+                cy: ''
+            }),
+            explanation: localise({
+                en: `<p>Here are some ideas of what to tell us about:</p>
+                <ul>
+                    <li>What reputation you already have in the community</li>
+                    <li>Any gaps in local services your work will fill</li>
+                    <li>What other local activities your work will complement</li>
+                    <li>What links you already have in the community that will help you deliver the project</li>
+                    <li>How you will work together with other organisations in your community</li>
+                </ul>`,
+                cy: ``
+            }),
+            type: 'textarea',
+            minWords: 50,
+            maxWords: 500,
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: `Tell us how your idea fits in with other local activities`,
+                        cy: ``
+                    })
+                }
+            ]
+        });
+    }
+
     function fieldOrganisationLegalName() {
         return new TextField({
             name: 'organisationLegalName',
@@ -512,6 +545,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         projectDurationYears: fieldProjectDurationYears(),
         yourIdeaProject: fieldYourIdeaProject(),
         yourIdeaCommunity: fieldYourIdeaCommunity(),
+        yourIdeaActivities: fieldYourIdeaActivities(),
         organisationLegalName: fieldOrganisationLegalName(),
         organisationTradingName: fieldOrganisationTradingName(),
         organisationAddress: fieldOrganisationAddress(),
@@ -590,7 +624,8 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     legend: localise({ en: 'Your idea', cy: 'Eich syniad' }),
                     fields: [
                         allFields.yourIdeaProject,
-                        allFields.yourIdeaCommunity
+                        allFields.yourIdeaCommunity,
+                        allFields.yourIdeaActivities
                     ]
                 }
             ]

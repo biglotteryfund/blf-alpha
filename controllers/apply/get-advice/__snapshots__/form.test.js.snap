@@ -8,6 +8,7 @@ Array [
   "Select a project duration",
   "Tell us what you would like to do",
   "Tell us how your project involves your community",
+  "Tell us how your idea fits in with other local activities",
   "Enter the full legal name of the organisation",
   "Enter a full UK address",
   "Tell us about your organisation",
@@ -24,6 +25,7 @@ Array [
   "\\"projectDurationYears\\" must be less than or equal to 5",
   "\\"yourIdeaProject\\" is required",
   "\\"yourIdeaCommunity\\" is required",
+  "\\"yourIdeaActivities\\" is required",
   "\\"organisationLegalName\\" is required",
   "\\"organisationAddress\\" is required",
   "\\"organisationType\\" is required",
@@ -56,6 +58,7 @@ Object {
   "projectDurationYears": 3,
   "projectLocation": Any<String>,
   "projectLocationDescription": "optional description",
+  "yourIdeaActivities": Any<String>,
   "yourIdeaCommunity": Any<String>,
   "yourIdeaProject": Any<String>,
 }
