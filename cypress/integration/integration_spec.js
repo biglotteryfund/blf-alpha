@@ -711,7 +711,8 @@ it('should submit full awards for all application', () => {
 
         const educationNumberTypes = ['School', 'College or University'];
 
-        const registrationNumberTypes = companyNumberTypes.concat(
+        const registrationNumberTypes = [].concat(
+            companyNumberTypes,
             charityNumberTypes,
             educationNumberTypes
         );
@@ -755,58 +756,49 @@ it('should submit full awards for all application', () => {
         submitStep();
     }
 
-    function fillDateOfBirth(dateOfBirth) {
-        cy.findByText('Date of birth')
-            .parent()
-            .within(() => {
-                cy.findByLabelText('Day').type(dateOfBirth.date());
-                cy.findByLabelText('Month').type(dateOfBirth.month() + 1);
-                cy.findByLabelText('Year').type(dateOfBirth.year());
-            });
-    }
-
-    function fillHomeAddress(address) {
-        cy.findByText('Home address', { timeout: 1000 })
-            .parent()
-            .within(() => {
-                fillAddress(address);
-            });
-
-        cy.findByText(
-            'Have they lived at this address for the last three years?'
-        ).within(() => {
-            cy.findByLabelText('No').click();
-        });
-
-        cy.findByText('Previous home address')
-            .parent()
-            .within(() => {
-                fillAddress({
-                    streetAddress: `Apex house, Edgbaston`,
-                    city: 'Birmingham',
-                    postcode: 'B15 1TR'
-                });
-            });
-    }
-
     function fillContact(contact, includeAddressAndDob = true) {
         cy.findByLabelText('First name').type(contact.firstName);
 
         cy.findByLabelText('Last name').type(contact.lastName);
 
         if (includeAddressAndDob) {
-            fillDateOfBirth(contact.dateOfBirth);
+            cy.findByText('Date of birth')
+                .parent()
+                .within(() => {
+                    cy.findByLabelText('Day').type(
+                        contact.dateOfBirth.date().toString()
+                    );
+                    cy.findByLabelText('Month').type(
+                        contact.dateOfBirth.month() + 1
+                    );
+                    cy.findByLabelText('Year').type(
+                        contact.dateOfBirth.year().toString()
+                    );
+                });
+
+            cy.findByText('Home address', { timeout: 1000 })
+                .parent()
+                .within(() => {
+                    fillAddress(contact.address);
+                });
 
             cy.findByText(
-                'Have they lived at their home address for the last three years?',
-                { exact: false }
+                'Have they lived at their home address for the last three years?'
             )
                 .parent()
                 .within(() => {
-                    cy.findByLabelText('Yes').click();
+                    cy.findByLabelText('No').click();
                 });
 
-            fillHomeAddress(contact.address);
+            cy.findByText('Previous home address')
+                .parent()
+                .within(() => {
+                    fillAddress({
+                        streetAddress: `Apex house, Edgbaston`,
+                        city: 'Birmingham',
+                        postcode: 'B15 1TR'
+                    });
+                });
         }
 
         cy.findByLabelText('Email').type(
