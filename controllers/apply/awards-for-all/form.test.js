@@ -21,7 +21,7 @@ const {
     EDUCATION_NUMBER_TYPES
 } = require('./constants');
 
-const validateModel = require('../form-router-next/lib/validate-model');
+const validateModel = require('../lib/validate-model');
 
 function toDateParts(dt) {
     return { day: dt.date(), month: dt.month() + 1, year: dt.year() };

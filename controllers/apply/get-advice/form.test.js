@@ -1,17 +1,16 @@
 /* eslint-env jest */
-// @ts-nocheck
 'use strict';
 const omit = require('lodash/omit');
 const random = require('lodash/random');
 const faker = require('faker');
 
-const schema = require('./schema');
-
-function validate(data) {
-    return schema.validate(data, { abortEarly: false });
-}
+const formBuilder = require('./form');
 
 function mapMessages(validationResult) {
+    return validationResult.messages.map(detail => detail.msg);
+}
+
+function mapRawMessages(validationResult) {
     return validationResult.error.details.map(detail => {
         return detail.message;
     });
@@ -47,7 +46,8 @@ function mockResponse(overrides) {
 }
 
 test('minimal valid form', () => {
-    const result = validate(mockResponse());
+    const form = formBuilder();
+    const result = form.validate(mockResponse());
     expect(result.error).toBeNull();
     expect(result.value).toMatchSnapshot({
         projectIdea: expect.any(String),
@@ -56,7 +56,9 @@ test('minimal valid form', () => {
 });
 
 test('minimal invalid form', () => {
-    const result = validate({
+    const form = formBuilder();
+
+    const result = form.validate({
         projectCountry: 'invalid-country',
         projectLocation: null,
         projectCosts: 5000,
@@ -64,10 +66,14 @@ test('minimal invalid form', () => {
     });
 
     expect(mapMessages(result)).toMatchSnapshot();
+
+    expect(mapRawMessages(result)).toMatchSnapshot();
 });
 
 test('strip location and duration when applying for more than one country', () => {
-    const result = validate(
+    const form = formBuilder();
+
+    const result = form.validate(
         mockResponse({
             projectCountry: ['england', 'scotland'],
             projectLocation: 'this-should-be-stripped',
@@ -85,7 +91,9 @@ test.each([
     ['scotland', 3, 5],
     ['wales', 1, 5]
 ])('project duration in %p is %p–%p years', function(country, min, max) {
-    const result = validate(
+    const form = formBuilder();
+
+    const result = form.validate(
         mockResponse({
             projectCountry: country,
             projectDurationYears: random(min, max)
@@ -93,23 +101,23 @@ test.each([
     );
     expect(result.error).toBeNull();
 
-    const resultMin = validate({
+    const resultMin = form.validate({
         projectCountry: country,
         projectDurationYears: min - 1
     });
 
-    expect(mapMessages(resultMin)).toEqual(
+    expect(mapRawMessages(resultMin)).toEqual(
         expect.arrayContaining([
             `"projectDurationYears" must be larger than or equal to ${min}`
         ])
     );
 
-    const resultMax = validate({
+    const resultMax = form.validate({
         projectCountry: country,
         projectDurationYears: max + 1
     });
 
-    expect(mapMessages(resultMax)).toEqual(
+    expect(mapRawMessages(resultMax)).toEqual(
         expect.arrayContaining([
             `"projectDurationYears" must be less than or equal to ${max}`
         ])
@@ -119,38 +127,52 @@ test.each([
 test.each([['projectIdea', 50, 500], ['organisationBackground', 50, 500]])(
     '%p must be within word-count',
     function(fieldName, min, max) {
-        const resultMin = validate(
+        const form = formBuilder();
+
+        const resultMin = form.validate(
             mockResponse({
                 [fieldName]: faker.lorem.words(min - 1)
             })
         );
 
         expect(mapMessages(resultMin)).toEqual(
-            expect.arrayContaining([
-                `"${fieldName}" must have at least ${min} words`
-            ])
+            expect.arrayContaining([`Answer must be at least ${min} words`])
         );
 
-        const resultMax = validate(
+        const resultMax = form.validate(
             mockResponse({
                 [fieldName]: faker.lorem.words(max + 1)
             })
         );
 
         expect(mapMessages(resultMax)).toEqual(
-            expect.arrayContaining([
-                `"${fieldName}" must have less than ${max} words`
-            ])
+            expect.arrayContaining([`Answer must be no more than ${max} words`])
         );
     }
 );
+
+test('project costs must be at least 10,000', function() {
+    const form = formBuilder();
+
+    const resultMin = form.validate(
+        mockResponse({
+            projectCosts: '5,500'
+        })
+    );
+
+    expect(mapMessages(resultMin)).toEqual(
+        expect.arrayContaining(['Must be at least £10,000'])
+    );
+});
 
 test.each([
     'projectLocationDescription',
     'organisationTradingName',
     'contactPhone'
 ])('optional %p field', function(fieldName) {
+    const form = formBuilder();
+
     const expected = omit(mockResponse(), fieldName);
-    const result = validate(expected);
+    const result = form.validate(expected);
     expect(result.error).toBeNull();
 });
