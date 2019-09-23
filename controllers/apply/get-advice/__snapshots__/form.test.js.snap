@@ -21,7 +21,7 @@ Array [
   "\\"projectLocation\\" must be a string",
   "\\"projectCosts\\" must be larger than or equal to 10000",
   "\\"projectDurationYears\\" must be less than or equal to 5",
-  "\\"projectIdea\\" is required",
+  "\\"yourIdeaProject\\" is required",
   "\\"organisationLegalName\\" is required",
   "\\"organisationAddress\\" is required",
   "\\"organisationType\\" is required",
@@ -52,8 +52,8 @@ Object {
   "projectCosts": 250000,
   "projectCountry": Any<Array>,
   "projectDurationYears": 3,
-  "projectIdea": Any<String>,
   "projectLocation": Any<String>,
   "projectLocationDescription": "optional description",
+  "yourIdeaProject": Any<String>,
 }
 `;

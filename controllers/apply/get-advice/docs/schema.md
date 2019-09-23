@@ -56,9 +56,10 @@ If more than one `projectCountry` is selected then `projectDurationYears` is not
 -   Scotland: 3-5 years
 -   Wales: 1-5 years
 
-### projectIdea
+### yourIdeaProject
 
 type: `string`
+
 
 ### organisationLegalName
 

@@ -245,9 +245,9 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         });
     }
 
-    function fieldProjectIdea() {
+    function fieldYourIdeaProject() {
         return new TextField({
-            name: 'projectIdea',
+            name: 'yourIdeaProject',
             label: localise({
                 en: 'What would you like to do?',
                 cy: ''
@@ -475,7 +475,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         projectLocationDescription: fieldProjectLocationDescription(),
         projectCosts: fieldProjectCosts(),
         projectDurationYears: fieldProjectDurationYears(),
-        projectIdea: fieldProjectIdea(),
+        yourIdeaProject: fieldYourIdeaProject(),
         organisationLegalName: fieldOrganisationLegalName(),
         organisationTradingName: fieldOrganisationTradingName(),
         organisationAddress: fieldOrganisationAddress(),
@@ -545,6 +545,19 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         };
     }
 
+    function stepYourIdea() {
+        return {
+            title: localise({ en: 'Your idea', cy: 'Eich syniad' }),
+            noValidate: true,
+            fieldsets: [
+                {
+                    legend: localise({ en: 'Your idea', cy: 'Eich syniad' }),
+                    fields: [allFields.yourIdeaProject]
+                }
+            ]
+        };
+    }
+
     const form = {
         title: localise({
             en: 'Get advice on your idea',
@@ -561,7 +574,8 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 steps: [
                     stepProjectCountry(),
                     stepProjectLocation(),
-                    stepProjectCosts()
+                    stepProjectCosts(),
+                    stepYourIdea()
                 ]
             }
         ]

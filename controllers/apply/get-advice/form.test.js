@@ -39,7 +39,7 @@ function mockResponse(overrides = {}) {
         projectLocationDescription: 'optional description',
         projectCosts: '250,000',
         projectDurationYears: 3,
-        projectIdea: faker.lorem.words(random(50, 500)),
+        yourIdeaProject: faker.lorem.words(random(50, 500)),
         organisationLegalName: 'Example organisation',
         organisationTradingName: 'Example trading name',
         organisationAddress: {
@@ -69,7 +69,7 @@ test('minimal valid form', () => {
     expect(result.value).toMatchSnapshot({
         projectCountry: expect.any(Array),
         projectLocation: expect.any(String),
-        projectIdea: expect.any(String),
+        yourIdeaProject: expect.any(String),
         organisationBackground: expect.any(String)
     });
 });
@@ -144,7 +144,7 @@ test.each([
     );
 });
 
-test.each([['projectIdea', 50, 500], ['organisationBackground', 50, 500]])(
+test.each([['yourIdeaProject', 50, 500], ['organisationBackground', 50, 500]])(
     '%p must be within word-count',
     function(fieldName, min, max) {
         const formMin = formBuilder({
