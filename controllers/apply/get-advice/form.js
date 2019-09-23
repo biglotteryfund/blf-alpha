@@ -17,6 +17,7 @@ const {
 } = require('../lib/field-types');
 
 const { FormModel } = require('../lib/form-model');
+const locationsFor = require('./lib/locations');
 
 module.exports = function({ locale = 'en', data = {} } = {}) {
     const localise = get(locale);

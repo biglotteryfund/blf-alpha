@@ -26,7 +26,7 @@ const {
 } = require('./constants');
 
 const countriesFor = require('./lib/countries');
-const locationsFor = require('../lib/locations');
+const locationsFor = require('./lib/locations');
 
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
