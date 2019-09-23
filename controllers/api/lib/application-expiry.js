@@ -1,5 +1,6 @@
 'use strict';
 const path = require('path');
+
 const { sendHtmlEmail } = require('../../../common/mail');
 const { PendingApplication, EmailQueue } = require('../../../db/models');
 const {
@@ -33,14 +34,10 @@ const handleEmailQueue = async emailQueue => {
     }
 
     const calcTimeToFinish = type => {
-        switch (type) {
-            case EXPIRY_EMAIL_REMINDERS.MONTH:
-                return 'one month';
-            case EXPIRY_EMAIL_REMINDERS.WEEK:
-                return 'two weeks';
-            default:
-                return 'two days';
-        }
+        const email = Object.values(EXPIRY_EMAIL_REMINDERS).find(
+            email => email.key === type
+        );
+        return email ? email.label : EXPIRY_EMAIL_REMINDERS.ONE_DAY.label;
     };
 
     return await Promise.all(
@@ -51,7 +48,6 @@ const handleEmailQueue = async emailQueue => {
                 {
                     template: path.resolve(__dirname, './expiry-email.njk'),
                     templateData: {
-                        // @TODO this won't work now
                         timeToFinishApp: calcTimeToFinish(
                             emailToSend.emailType
                         ),
@@ -73,7 +69,6 @@ const handleEmailQueue = async emailQueue => {
                     sendTo: appData.isNotProduction
                         ? process.env.APPLICATION_EXPIRY_EMAIL
                         : emailToSend.pendingApplication.userDetails.username,
-                    // @TODO this won't work now
                     subject: `You have ${calcTimeToFinish(
                         emailToSend.emailType
                     )} to finish your application`

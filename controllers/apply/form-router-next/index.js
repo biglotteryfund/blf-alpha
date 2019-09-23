@@ -12,6 +12,7 @@ const unset = require('lodash/unset');
 const features = require('config').get('features');
 const formidable = require('formidable');
 const config = require('config');
+const moment = require('moment');
 
 const {
     PendingApplication,
@@ -38,7 +39,8 @@ function initFormRouter({
     isBilingual = true,
     eligibilityBuilder = null,
     formBuilder,
-    confirmationBuilder
+    confirmationBuilder,
+    expiryEmailPeriods = null
 }) {
     const router = express.Router();
 
@@ -197,8 +199,16 @@ function initFormRouter({
                 userId: req.user.userData.id
             });
 
-            if (application.id) {
-                await EmailQueue.createNewQueue(application.id, application.expiresAt);
+            if (expiryEmailPeriods) {
+                // Convert this application's expiry periods into a set of queue items
+                const emailsToQueue = Object.values(expiryEmailPeriods).map(email => {
+                    return {
+                        applicationId: application.id,
+                        emailType: email.key,
+                        dateToSend: moment(application.expiresAt).subtract(email.periodBeforeExpiry.amount, email.periodBeforeExpiry.unit)
+                    };
+                });
+                await EmailQueue.createNewQueue(emailsToQueue);
             }
 
             commonLogger.info('Application created', {

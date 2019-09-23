@@ -363,24 +363,16 @@ class EmailQueue extends Model {
         });
     }
 
-    static createNewQueue(applicationId, expiresAt) {
-        return this.bulkCreate([
-            {
-                applicationId,
-                emailType: EXPIRY_EMAIL_REMINDERS.MONTH,
-                dateToSend: moment(expiresAt).subtract('30', 'days')
-            },
-            {
-                applicationId,
-                emailType: EXPIRY_EMAIL_REMINDERS.WEEK,
-                dateToSend: moment(expiresAt).subtract('14', 'days')
-            },
-            {
-                applicationId,
-                emailType: EXPIRY_EMAIL_REMINDERS.DAY,
-                dateToSend: moment(expiresAt).subtract('2', 'days')
-            }
-        ]);
+    /**
+     * Creates a queue of emails for a new application
+     *
+     * @param {Object[]} emailRecords - a list of emails to queue
+     * @param {string} emailRecords[].applicationId - the application id to email
+     * @param {string} emailRecords[].emailType - an email template name constant
+     * @param {date} emailRecords[].dateToSend - the date this email should be sent
+     */
+    static createNewQueue(emailRecords) {
+        return this.bulkCreate(emailRecords);
     }
 
     static getEmailsToSend() {

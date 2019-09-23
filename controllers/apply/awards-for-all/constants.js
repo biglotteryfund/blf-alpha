@@ -110,9 +110,39 @@ const FILE_LIMITS = {
 };
 
 const EXPIRY_EMAIL_REMINDERS = {
-    MONTH: 'AFA_ONE_MONTH',
-    WEEK: 'AFA_ONE_WEEK',
-    DAY: 'AFA_ONE_DAY'
+    ONE_MONTH: {
+        key: 'AFA_ONE_MONTH',
+        periodBeforeExpiry: {
+            amount: 30,
+            unit: 'days',
+        },
+        label: {
+            en: 'one month',
+            cy: '@TODO',
+        }
+    },
+    ONE_WEEK: {
+        key: 'AFA_ONE_WEEK',
+        periodBeforeExpiry: {
+            amount: 14,
+            unit: 'days',
+        },
+        label: {
+            en: 'one week',
+            cy: '@TODO',
+        }
+    },
+    ONE_DAY: {
+        key: 'AFA_ONE_DAY',
+        periodBeforeExpiry: {
+            amount: 1,
+            unit: 'days',
+        },
+        label: {
+            en: 'one day',
+            cy: '@TODO',
+        }
+    }
 };
 
 const CONTACT_DETAILS_EMAIL = {
