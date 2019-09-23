@@ -1,6 +1,5 @@
 'use strict';
 const compact = require('lodash/compact');
-const castArray = require('lodash/castArray');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
