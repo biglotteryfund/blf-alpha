@@ -1022,62 +1022,6 @@ describe('Contacts', () => {
         ).toMatchSnapshot();
     });
 
-    test('include all roles if no organisation type is provided', () => {
-        const form = formBuilder({
-            data: { organisationType: null }
-        });
-
-        const roleOptions = form.allFields.seniorContactRole.options.map(
-            option => option.value
-        );
-
-        expect(roleOptions).toMatchSnapshot();
-    });
-
-    test.each(Object.values(ORGANISATION_TYPES))(
-        `include expected roles for %p`,
-        function(orgType) {
-            const form = formBuilder({
-                data: { organisationType: orgType, organisationSubType: null }
-            });
-
-            const roles = form.allFields.seniorContactRole.options.map(
-                option => option.value
-            );
-
-            expect(roles).toMatchSnapshot();
-
-            assertValidByKey({
-                organisationType: orgType,
-                seniorContactRole: sample(roles)
-            });
-
-            assertMessagesByKey(
-                {
-                    organisationType: orgType,
-                    seniorContactRole: 'not-an-option'
-                },
-                ['Senior contact role is not valid']
-            );
-        }
-    );
-
-    test.each(Object.keys(ORGANISATION_TYPES))(
-        'include role warning for %p',
-        function(organisationType) {
-            ['england', 'scotland', 'northern-ireland', 'wales'].forEach(
-                function(country) {
-                    const form = formBuilder({
-                        organisationType: organisationType,
-                        projectCountry: country
-                    });
-                    const field = form.allFields.seniorContactRole;
-                    expect(field.warnings).toMatchSnapshot();
-                }
-            );
-        }
-    );
-
     test.each([
         'mainContactLanguagePreference',
         'seniorContactLanguagePreference'
