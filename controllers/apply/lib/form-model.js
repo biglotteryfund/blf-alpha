@@ -30,9 +30,7 @@ class FormModel {
          * Enrich field
          * Assign current value and errors to field if present
          */
-        function enrichField(originalField) {
-            const field = cloneDeep(originalField);
-
+        function enrichField(field) {
             const fieldValue = find(data, (value, name) => name === field.name);
             if (fieldValue) {
                 field.value = fieldValue;
@@ -52,8 +50,7 @@ class FormModel {
         }
 
         function enrichFieldClass(field) {
-            const fieldValue = find(data, (value, name) => name === field.name);
-            field.withValue(fieldValue);
+            field.withValue(find(data, (value, name) => name === field.name));
 
             field.withErrors(
                 validation.messages.filter(
