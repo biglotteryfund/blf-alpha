@@ -6,111 +6,11 @@ const filter = require('lodash/filter');
 const find = require('lodash/fp/find');
 const flatMap = require('lodash/flatMap');
 const includes = require('lodash/includes');
-const { oneLine } = require('common-tags');
 
 const countWords = require('../count-words');
 const Joi = require('../joi-extensions');
 
 const Field = require('./field');
-
-class EmailField extends Field {
-    constructor(props, locale) {
-        super(props, locale);
-
-        this.type = 'email';
-
-        if (!props.label) {
-            this.label = this.localise({
-                en: 'Email',
-                cy: 'E-bost'
-            });
-        }
-
-        this.attributes = defaults(
-            { size: 30, autocomplete: 'email' },
-            props.attributes
-        );
-
-        if (props.schema) {
-            this.schema = props.schema;
-        } else {
-            this.schema = this.isRequired
-                ? Joi.string()
-                      .email()
-                      .required()
-                : Joi.string()
-                      .email()
-                      .optional();
-        }
-
-        this.messages = [
-            {
-                type: 'base',
-                message: this.localise({
-                    en: 'Enter an email address',
-                    cy: 'Rhowch gyfeiriad e-bost'
-                })
-            },
-            {
-                type: 'string.email',
-                message: this.localise({
-                    en: oneLine`Email address must be in the correct format,
-                        like name@example.com`,
-                    cy: oneLine`Rhaid i’r cyfeiriad e-bost for yn y ffurf cywir,
-                        e.e enw@example.com`
-                })
-            }
-        ];
-    }
-}
-
-class PhoneField extends Field {
-    constructor(props, locale) {
-        super(props, locale);
-
-        this.type = 'tel';
-
-        if (!props.label) {
-            this.label = this.localise({
-                en: `Telephone number`,
-                cy: `Rhif ffôn`
-            });
-        }
-
-        this.attributes = defaults(
-            { size: 30, autocomplete: 'tel' },
-            props.attributes
-        );
-
-        if (props.schema) {
-            this.schema = props.schema;
-        } else {
-            this.schema = this.isRequired
-                ? Joi.string().phoneNumber()
-                : Joi.string()
-                      .phoneNumber()
-                      .allow('')
-                      .optional();
-        }
-
-        this.messages = [
-            {
-                type: 'base',
-                message: this.localise({
-                    en: 'Enter a UK telephone number',
-                    cy: 'Rhowch rif ffôn Prydeinig'
-                })
-            },
-            {
-                type: 'string.phonenumber',
-                message: this.localise({
-                    en: 'Enter a real UK telephone number',
-                    cy: 'Rhowch rif ffôn Prydeinig go iawn'
-                })
-            }
-        ];
-    }
-}
 
 class CurrencyField extends Field {
     constructor(props, locale) {
@@ -546,9 +446,9 @@ class NameField extends Field {
 
 module.exports = {
     Field: require('./field'),
-    EmailField,
+    EmailField: require('./email'),
     CurrencyField,
-    PhoneField,
+    PhoneField: require('./phone'),
     TextareaField,
     RadioField,
     CheckboxField,

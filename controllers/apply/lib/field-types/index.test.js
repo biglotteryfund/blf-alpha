@@ -3,8 +3,6 @@
 const faker = require('faker');
 
 const {
-    EmailField,
-    PhoneField,
     CurrencyField,
     TextareaField,
     RadioField,
@@ -13,48 +11,6 @@ const {
     AddressField,
     NameField
 } = require('./index');
-
-test('EmailField', function() {
-    const field = new EmailField({
-        name: 'example',
-        label: 'Email field'
-    });
-
-    expect(field.type).toBe('email');
-
-    const goodInput = 'example@example.com';
-    const badInput = 'not.a.real-email@bad';
-
-    field.withValue(goodInput);
-    expect(field.validate().error).toBeNull();
-    expect(field.displayValue).toBe(goodInput);
-
-    field.withValue(badInput);
-    expect(field.validate().error.message).toEqual(
-        expect.stringContaining('must be a valid email')
-    );
-});
-
-test('PhoneField', function() {
-    const field = new PhoneField({
-        name: 'example',
-        label: 'Email field'
-    });
-
-    expect(field.type).toBe('tel');
-
-    const goodValue = '0345 4 10 20 30';
-    const badValue = '0345 444';
-
-    field.withValue(goodValue);
-    expect(field.validate().error).toBeNull();
-    expect(field.validate().value).toBe('0345 410 2030');
-
-    field.withValue(badValue);
-    expect(field.validate().error.message).toEqual(
-        expect.stringContaining('did not seem to be a phone number')
-    );
-});
 
 test('CurrencyField', function() {
     const field = new CurrencyField({

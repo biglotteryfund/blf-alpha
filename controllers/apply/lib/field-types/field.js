@@ -1,10 +1,9 @@
 'use strict';
 const defaults = require('lodash/defaults');
 const get = require('lodash/fp/get');
-
 const Joi = require('../joi-extensions');
 
-module.exports = class Field {
+class Field {
     constructor(props, locale = 'en') {
         this.locale = locale;
 
@@ -78,4 +77,6 @@ module.exports = class Field {
             return '';
         }
     }
-};
+}
+
+module.exports = Field;
