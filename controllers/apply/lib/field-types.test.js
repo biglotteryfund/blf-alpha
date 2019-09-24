@@ -10,7 +10,8 @@ const {
     TextareaField,
     RadioField,
     CheckboxField,
-    SelectField
+    SelectField,
+    AddressField
 } = require('./field-types');
 
 test('TextField', function() {
@@ -200,4 +201,23 @@ test('TextareaField', function() {
     });
 
     expect(optionalField.validate().error).toBeNull();
+});
+
+test('AddressField', function() {
+    const field = new AddressField({
+        name: 'example',
+        label: 'Address field'
+    });
+
+    expect(field.type).toBe('address');
+
+    field.withValue({
+        line1: '1234 example street',
+        townCity: 'Birmingham',
+        county: 'West Midlands'
+    });
+
+    expect(field.validate().error.message).toEqual(
+        expect.stringContaining(`"postcode" is required`)
+    );
 });

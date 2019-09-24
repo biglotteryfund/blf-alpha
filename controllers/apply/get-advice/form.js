@@ -14,7 +14,8 @@ const {
     CurrencyField,
     RadioField,
     CheckboxField,
-    SelectField
+    SelectField,
+    AddressField
 } = require('../lib/field-types');
 
 const { FormModel } = require('../lib/form-model');
@@ -400,51 +401,13 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldOrganisationAddress() {
-        return {
+        return new AddressField({
             name: 'organisationAddress',
-            schema: Joi.ukAddress().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a full UK address',
-                        cy: 'Rhowch gyfeiriad Prydeinig llawn'
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'line1',
-                    message: localise({
-                        en: 'Enter a building and street',
-                        cy: 'Rhowch adeilad a stryd'
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'townCity',
-                    message: localise({
-                        en: 'Enter a town or city',
-                        cy: 'Rhowch dref neu ddinas'
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'postcode',
-                    message: localise({
-                        en: 'Enter a postcode',
-                        cy: 'Rhowch gôd post'
-                    })
-                },
-                {
-                    type: 'string.postcode',
-                    key: 'postcode',
-                    message: localise({
-                        en: 'Enter a real postcode',
-                        cy: 'Rhowch gôd post go iawn'
-                    })
-                }
-            ]
-        };
+            label: localise({
+                en: `What is the main or registered address of your organisation?`,
+                cy: `Beth yw prif gyfeiriad neu gyfeiriad gofrestredig eich sefydliad?`
+            })
+        });
     }
 
     function fieldOrganisationType() {
@@ -665,7 +628,8 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     }),
                     fields: [
                         allFields.organisationLegalName,
-                        allFields.organisationTradingName
+                        allFields.organisationTradingName,
+                        allFields.organisationAddress
                     ]
                 }
             ]
