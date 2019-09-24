@@ -15,7 +15,8 @@ const {
     RadioField,
     CheckboxField,
     SelectField,
-    AddressField
+    AddressField,
+    NameField
 } = require('../lib/field-types');
 
 const { FormModel } = require('../lib/form-model');
@@ -452,35 +453,13 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldContactName() {
-        return {
+        return new NameField({
             name: 'contactName',
-            schema: Joi.fullName().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter first and last name',
-                        cy: 'Rhowch enw cyntaf a chyfenw'
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'firstName',
-                    message: localise({
-                        en: 'Enter first name',
-                        cy: 'Rhowch enw cyntaf'
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'lastName',
-                    message: localise({
-                        en: 'Enter last name',
-                        cy: 'Rhowch gyfenw'
-                    })
-                }
-            ]
-        };
+            label: localise({
+                en: 'Your name',
+                cy: ''
+            })
+        });
     }
 
     function fieldContactEmail() {
@@ -489,6 +468,10 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             label: localise({
                 en: 'Email',
                 cy: ``
+            }),
+            explanation: localise({
+                en: `We’ll use this whenever we get in touch about the project`,
+                cy: `Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect`
             })
         });
     }
@@ -499,7 +482,8 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             label: localise({
                 en: `Telephone number`,
                 cy: ``
-            })
+            }),
+            isRequired: false
         });
     }
 
@@ -636,6 +620,29 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         };
     }
 
+    function stepContactDetails() {
+        return {
+            title: localise({
+                en: 'Contact details',
+                cy: ''
+            }),
+            noValidate: true,
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Contact details',
+                        cy: ''
+                    }),
+                    fields: [
+                        allFields.contactName,
+                        allFields.contactEmail,
+                        allFields.contactPhone
+                    ]
+                }
+            ]
+        };
+    }
+
     const form = {
         title: localise({
             en: 'Get advice on your idea',
@@ -663,6 +670,14 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     cy: 'Eich sefydliad'
                 }),
                 steps: [stepOrganisationDetails()]
+            },
+            {
+                slug: 'your-details',
+                title: localise({
+                    en: 'Your details',
+                    cy: ''
+                }),
+                steps: [stepContactDetails()]
             }
         ]
     };

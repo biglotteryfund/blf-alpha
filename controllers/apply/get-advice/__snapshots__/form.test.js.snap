@@ -12,7 +12,6 @@ Array [
   "Enter the full legal name of the organisation",
   "Enter a full UK address",
   "Tell us about your organisation",
-  "Enter first and last name",
   "Enter an email address",
 ]
 `;
@@ -30,7 +29,6 @@ Array [
   "\\"organisationAddress\\" is required",
   "\\"organisationType\\" is required",
   "\\"organisationBackground\\" is required",
-  "\\"contactName\\" is required",
   "\\"contactEmail\\" is required",
 ]
 `;
