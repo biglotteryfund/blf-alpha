@@ -26,13 +26,6 @@ type: `string` or `null`
 
 If more than one `projectCountry` is selected then `projectLocation` is not included.
 
-#### Allowed values
-
--   England: TBD
--   Northern Ireland: TBD
--   Scotland: TBD
--   Wales: TBD
-
 ### projectLocationDescription
 
 type: `string` or `null`
@@ -47,16 +40,17 @@ type: `integer`
 
 type: `integer`
 
-If more than one `projectCountry` is selected then `projectDurationYears` is not included.
+Value between `1` and `5`. If more than one `projectCountry` is selected then `projectDurationYears` is not included.
 
-#### Allowed values
+### yourIdeaProject
 
--   England: 1-5 years
--   Northern Ireland: 1-5 years
--   Scotland: 3-5 years
--   Wales: 1-5 years
+type: `string`
 
-### projectIdea
+### yourIdeaCommunity
+
+type: `string`
+
+### yourIdeaActivities
 
 type: `string`
 
