@@ -976,7 +976,7 @@ it('should submit full awards for all application', () => {
     });
 });
 
-it.only('should complete get advice form', () => {
+it('should complete get advice form', () => {
     const mock = {
         projectCountries: ['England'],
         projectLocation: 'Derbyshire',

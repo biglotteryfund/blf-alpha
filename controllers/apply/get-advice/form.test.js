@@ -1,9 +1,7 @@
 /* eslint-env jest */
 'use strict';
-const getOr = require('lodash/fp/getOr');
 const omit = require('lodash/omit');
 const random = require('lodash/random');
-const sample = require('lodash/sample');
 const faker = require('faker');
 
 const formBuilder = require('./form');
