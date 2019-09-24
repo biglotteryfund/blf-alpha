@@ -2,7 +2,6 @@
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
-const includes = require('lodash/includes');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
