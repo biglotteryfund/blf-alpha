@@ -17,7 +17,7 @@ const moment = require('moment');
 const {
     PendingApplication,
     SubmittedApplication,
-    EmailQueue
+    ApplicationEmailQueue
 } = require('../../../db/models');
 
 const commonLogger = require('../../../common/logger');
@@ -165,7 +165,7 @@ function initFormRouter({
                     application,
                     expiryEmailPeriods
                 );
-                await EmailQueue.createNewQueue(emailsToQueue);
+                await ApplicationEmailQueue.createNewQueue(emailsToQueue);
             }
 
             res.json(application);
@@ -242,7 +242,7 @@ function initFormRouter({
                     application,
                     expiryEmailPeriods
                 );
-                await EmailQueue.createNewQueue(emailsToQueue);
+                await ApplicationEmailQueue.createNewQueue(emailsToQueue);
             }
 
             commonLogger.info('Application created', {

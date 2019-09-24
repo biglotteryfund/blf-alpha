@@ -13,7 +13,7 @@ const SurveyAnswer = require('./survey');
 const {
     PendingApplication,
     SubmittedApplication,
-    EmailQueue
+    ApplicationEmailQueue
 } = require('./applications');
 const { Order, OrderItem } = require('./orders');
 
@@ -42,21 +42,25 @@ const db = {
     SurveyAnswer: SurveyAnswer.init(sequelize, Sequelize),
     Order: Order.init(sequelize, Sequelize),
     OrderItem: OrderItem.init(sequelize, Sequelize),
-    EmailQueue: EmailQueue.init(sequelize, Sequelize)
+    ApplicationEmailQueue: ApplicationEmailQueue.init(sequelize, Sequelize)
 };
 
 // Relations
-db.PendingApplication.belongsTo(db.Users);
+db.PendingApplication.belongsTo(db.Users, {
+    constraints: false // don't delete users when deleting applications
+});
 db.Users.hasMany(db.PendingApplication);
 
 db.SubmittedApplication.belongsTo(db.Users);
 db.Users.hasMany(db.SubmittedApplication);
 
-db.EmailQueue.belongsTo(db.PendingApplication, {
-    foreignKey: 'applicationId'
+db.ApplicationEmailQueue.belongsTo(db.PendingApplication, {
+    foreignKey: 'applicationId',
+    constraints: false
 });
-db.PendingApplication.hasMany(db.EmailQueue, {
-    foreignKey: 'applicationId'
+db.PendingApplication.hasMany(db.ApplicationEmailQueue, {
+    foreignKey: 'applicationId',
+    constraints: false
 });
 
 Object.keys(db).forEach(modelName => {

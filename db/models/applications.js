@@ -1,13 +1,7 @@
 // @ts-nocheck
 'use strict';
 const moment = require('moment');
-const env = process.env.NODE_ENV || 'development';
-const { Model, Op, Sequelize } = require('sequelize');
-const { dialect } = require('../database-config')[env];
-
-const {
-    EXPIRY_EMAIL_REMINDERS
-} = require('../../controllers/apply/awards-for-all/constants');
+const { Model, Op } = require('sequelize');
 
 const Users = require('./user');
 
@@ -108,7 +102,7 @@ class PendingApplication extends Model {
     }
     static findExpiredApplications() {
         return this.findAll({
-            attributes: ['id', 'userId'],
+            attributes: ['id'],
             where: {
                 expiresAt: {
                     [Op.lte]: moment().toDate()
@@ -309,7 +303,7 @@ class SubmittedApplication extends Model {
     }
 }
 
-class EmailQueue extends Model {
+class ApplicationEmailQueue extends Model {
     static init(sequelize, DataTypes) {
         const schema = {
             id: {
@@ -355,7 +349,7 @@ class EmailQueue extends Model {
         };
 
         return super.init(schema, {
-            modelName: 'EmailQueue',
+            modelName: 'ApplicationEmailQueue',
             freezeTableName: true,
             sequelize
         });
@@ -404,4 +398,8 @@ class EmailQueue extends Model {
     }
 }
 
-module.exports = { PendingApplication, SubmittedApplication, EmailQueue };
+module.exports = {
+    PendingApplication,
+    SubmittedApplication,
+    ApplicationEmailQueue
+};

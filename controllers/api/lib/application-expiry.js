@@ -3,7 +3,7 @@ const path = require('path');
 const get = require('lodash/get');
 
 const { sendHtmlEmail } = require('../../../common/mail');
-const { PendingApplication, EmailQueue } = require('../../../db/models');
+const { PendingApplication, ApplicationEmailQueue } = require('../../../db/models');
 const {
     EXPIRY_EMAIL_REMINDERS
 } = require('../../apply/awards-for-all/constants');
@@ -81,7 +81,7 @@ const sendExpiryEmails = async (emailQueue, locale) => {
             if (emailStatus.response || appData.isTestServer) {
                 returnObj.emailSent = true;
 
-                const dbStatus = (await EmailQueue.updateStatusToSent(
+                const dbStatus = (await ApplicationEmailQueue.updateStatusToSent(
                     emailToSend.id
                 ))[0];
 

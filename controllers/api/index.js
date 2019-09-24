@@ -7,7 +7,7 @@ const {
     Feedback,
     SurveyAnswer,
     PendingApplication,
-    EmailQueue
+    ApplicationEmailQueue
 } = require('../../db/models');
 const appData = require('../../common/appData');
 const { POSTCODES_API_KEY } = require('../../common/secrets');
@@ -150,7 +150,7 @@ router.post('/applications/expiry', async (req, res) => {
         let response = {};
 
         const [emailQueue, expiredApplications] = await Promise.all([
-            EmailQueue.getEmailsToSend(),
+            ApplicationEmailQueue.getEmailsToSend(),
             PendingApplication.findExpiredApplications()
         ]);
 
@@ -160,7 +160,7 @@ router.post('/applications/expiry', async (req, res) => {
                 req.i18n.getLocale()
             );
         } else {
-            response.emailQueue = 'No applications were found';
+            response.emailQueue = [];
         }
 
         if (expiredApplications.length > 0) {
@@ -168,7 +168,7 @@ router.post('/applications/expiry', async (req, res) => {
                 expiredApplications
             );
         } else {
-            response.expired = 'No applications were found';
+            response.expired = [];
         }
 
         res.json(response);
