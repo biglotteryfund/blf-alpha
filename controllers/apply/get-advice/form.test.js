@@ -132,31 +132,6 @@ test('project duration is between limits', () => {
     );
 });
 
-test.each([['yourIdeaProject', 50, 500]])(
-    '%p must be within word-count',
-    function(fieldName, min, max) {
-        const formMin = formBuilder({
-            data: mockResponse({
-                [fieldName]: faker.lorem.words(min - 1)
-            })
-        });
-
-        expect(mapMessages(formMin.validation)).toEqual(
-            expect.arrayContaining([`Answer must be at least ${min} words`])
-        );
-
-        const formMax = formBuilder({
-            data: mockResponse({
-                [fieldName]: faker.lorem.words(max + 1)
-            })
-        });
-
-        expect(mapMessages(formMax.validation)).toEqual(
-            expect.arrayContaining([`Answer must be no more than ${max} words`])
-        );
-    }
-);
-
 test('project costs must be at least 10,000', function() {
     const form = formBuilder({
         data: mockResponse({
