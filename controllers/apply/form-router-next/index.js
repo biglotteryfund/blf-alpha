@@ -11,7 +11,6 @@ const set = require('lodash/set');
 const unset = require('lodash/unset');
 const features = require('config').get('features');
 const formidable = require('formidable');
-const config = require('config');
 const moment = require('moment');
 
 const {
