@@ -169,7 +169,7 @@ test('project costs must be at least 10,000', function() {
     expect(mapMessages(form.validation)).toEqual(
         expect.arrayContaining([
             expect.stringContaining(
-                'If you need £10,000 or less from us, you can apply today to through'
+                'If you need £10,000 or less from us, you can apply today through'
             )
         ])
     );

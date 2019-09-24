@@ -4,7 +4,7 @@ exports[`minimal invalid form 1`] = `
 Array [
   "Select a country",
   "Select a location",
-  "If you need £10,000 or less from us, you can apply today to through <a href=\\"/funding/under10k\\"> National Lottery Awards for All </a>.",
+  "If you need £10,000 or less from us, you can apply today through <a href=\\"/funding/under10k\\"> National Lottery Awards for All </a>.",
   "Select a project duration",
   "Tell us what you would like to do",
   "Tell us how your project involves your community",

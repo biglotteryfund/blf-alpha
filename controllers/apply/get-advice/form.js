@@ -178,7 +178,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     type: 'number.min',
                     message: localise({
                         en: oneLine`If you need £10,000 or less from us,
-                            you can apply today to through
+                            you can apply today through
                             <a href="/funding/under10k">
                                 National Lottery Awards for All
                             </a>.`,
@@ -205,7 +205,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 { label: localise({ en: '2 years', cy: '' }), value: 2 },
                 { label: localise({ en: '3 years', cy: '' }), value: 3 },
                 { label: localise({ en: '4 years', cy: '' }), value: 4 },
-                { label: localise({ en: '5 years', cy: '' }), value: 4 }
+                { label: localise({ en: '5 years', cy: '' }), value: 5 }
             ],
             schema: Joi.when('projectCountry', {
                 is: Joi.array().min(2),
