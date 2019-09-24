@@ -419,39 +419,6 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         };
     }
 
-    function fieldOrganisationBackground() {
-        return {
-            name: 'organisationBackground',
-            schema: Joi.string()
-                .minWords(50)
-                .maxWords(500)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: `Tell us about your organisation`,
-                        cy: ``
-                    })
-                },
-                {
-                    type: 'string.minWords',
-                    message: localise({
-                        en: `Answer must be at least 50 words`,
-                        cy: `Rhaid i’r ateb fod yn o leiaf 50 gair`
-                    })
-                },
-                {
-                    type: 'string.maxWords',
-                    message: localise({
-                        en: `Answer must be no more than 500 words`,
-                        cy: `Rhaid i’r ateb fod yn llai na 500 gair`
-                    })
-                }
-            ]
-        };
-    }
-
     function fieldContactName() {
         return new NameField({
             name: 'contactName',
@@ -492,7 +459,6 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         organisationTradingName: fieldOrganisationTradingName(),
         organisationAddress: fieldOrganisationAddress(),
         organisationType: fieldOrganisationType(),
-        organisationBackground: fieldOrganisationBackground(),
         contactName: fieldContactName(),
         contactEmail: fieldContactEmail(),
         contactPhone: fieldContactPhone()

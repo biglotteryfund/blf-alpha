@@ -51,7 +51,6 @@ function mockResponse(overrides = {}) {
             postcode: 'B15 1TR'
         },
         organisationType: 'Social enterprise',
-        organisationBackground: faker.lorem.words(random(50, 500)),
         contactName: {
             firstName: 'Björk',
             lastName: 'Guðmundsdóttir'
@@ -73,8 +72,7 @@ test('minimal valid form', () => {
         projectLocation: expect.any(String),
         yourIdeaProject: expect.any(String),
         yourIdeaCommunity: expect.any(String),
-        yourIdeaActivities: expect.any(String),
-        organisationBackground: expect.any(String)
+        yourIdeaActivities: expect.any(String)
     });
 });
 
@@ -134,7 +132,7 @@ test('project duration is between limits', () => {
     );
 });
 
-test.each([['yourIdeaProject', 50, 500], ['organisationBackground', 50, 500]])(
+test.each([['yourIdeaProject', 50, 500]])(
     '%p must be within word-count',
     function(fieldName, min, max) {
         const formMin = formBuilder({

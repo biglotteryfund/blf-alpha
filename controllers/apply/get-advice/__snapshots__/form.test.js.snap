@@ -11,7 +11,6 @@ Array [
   "Tell us how your idea fits in with other local activities",
   "Enter the full legal name of the organisation",
   "Enter a full UK address",
-  "Tell us about your organisation",
   "Enter an email address",
 ]
 `;
@@ -28,7 +27,6 @@ Array [
   "\\"organisationLegalName\\" is required",
   "\\"organisationAddress\\" is required",
   "\\"organisationType\\" is required",
-  "\\"organisationBackground\\" is required",
   "\\"contactEmail\\" is required",
 ]
 `;
@@ -47,7 +45,6 @@ Object {
     "postcode": "B15 1TR",
     "townCity": "Birmingham",
   },
-  "organisationBackground": Any<String>,
   "organisationLegalName": "Example organisation",
   "organisationTradingName": "Example trading name",
   "organisationType": "Social enterprise",

@@ -82,10 +82,6 @@ type: `object`
 
 type: `string`
 
-### organisationBackground
-
-type: `string`
-
 ### contactName
 
 type: `object`
