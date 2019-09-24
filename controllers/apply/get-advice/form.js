@@ -191,62 +191,26 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldProjectDurationYears() {
-        function explanation() {
-            if (includes(projectCountries, 'scotland')) {
-                return localise({
-                    en: `We can fund projects for three to five years`,
-                    cy: ``
-                });
-            } else {
-                return localise({
-                    en: `We can fund projects for one to five years`,
-                    cy: ``
-                });
-            }
-        }
-
-        function options() {
-            if (includes(projectCountries, 'scotland')) {
-                return [
-                    { label: '3 years', value: 3 },
-                    { label: '4 years', value: 4 },
-                    { label: '5 years', value: 4 }
-                ];
-            } else {
-                return [
-                    { label: '1 year', value: 1 },
-                    { label: '2 years', value: 2 },
-                    { label: '3 years', value: 3 },
-                    { label: '4 years', value: 4 },
-                    { label: '5 years', value: 4 }
-                ];
-            }
-        }
-
         return new RadioField({
             name: 'projectDurationYears',
             label: localise({
                 en: `How long do you need the money for?`,
                 cy: ``
             }),
-            explanation: explanation(),
-            options: options(),
+            explanation: localise({
+                en: `We can fund projects for one to five years`,
+                cy: ``
+            }),
+            options: [
+                { label: localise({ en: '1 years', cy: '' }), value: 1 },
+                { label: localise({ en: '2 years', cy: '' }), value: 2 },
+                { label: localise({ en: '3 years', cy: '' }), value: 3 },
+                { label: localise({ en: '4 years', cy: '' }), value: 4 },
+                { label: localise({ en: '5 years', cy: '' }), value: 4 }
+            ],
             schema: Joi.when('projectCountry', {
                 is: Joi.array().min(2),
-                then: Joi.any().strip()
-            }).when('projectCountry', {
-                is: Joi.array()
-                    .items(
-                        Joi.string()
-                            .only('scotland')
-                            .required()
-                    )
-                    .required(),
-                then: Joi.number()
-                    .integer()
-                    .required()
-                    .min(3)
-                    .max(5),
+                then: Joi.any().strip(),
                 otherwise: Joi.number()
                     .integer()
                     .required()
