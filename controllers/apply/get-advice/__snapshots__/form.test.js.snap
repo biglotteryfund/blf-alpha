@@ -33,6 +33,7 @@ Array [
 
 exports[`minimal valid form 1`] = `
 Object {
+  "contactCommunicationNeeds": "Large print",
   "contactEmail": "general.enquiries@tnlcommunityfund.org.uk",
   "contactName": Object {
     "firstName": "Björk",

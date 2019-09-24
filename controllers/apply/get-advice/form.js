@@ -446,6 +446,23 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         });
     }
 
+    function fieldContactCommunicationNeeds() {
+        return new TextField({
+            name: 'contactCommunicationNeeds',
+            label: localise({
+                en: `Communication needs`,
+                cy: ``
+            }),
+            explanation: localise({
+                en: `Please tell us about any particular communication needs this contact has.`,
+                cy: `Dywedwch wrthym am unrhyw anghenion cyfathrebu penodol sydd gan y cyswllt hwn.`
+            }),
+            type: 'text',
+            isRequired: false,
+            messages: []
+        });
+    }
+
     const allFields = {
         projectCountry: fieldProjectCountry(),
         projectLocation: fieldProjectLocation(),
@@ -461,7 +478,8 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         organisationType: fieldOrganisationType(),
         contactName: fieldContactName(),
         contactEmail: fieldContactEmail(),
-        contactPhone: fieldContactPhone()
+        contactPhone: fieldContactPhone(),
+        contactCommunicationNeeds: fieldContactCommunicationNeeds()
     };
 
     function stepProjectCountry() {
@@ -594,7 +612,8 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     fields: [
                         allFields.contactName,
                         allFields.contactEmail,
-                        allFields.contactPhone
+                        allFields.contactPhone,
+                        allFields.contactCommunicationNeeds
                     ]
                 }
             ]

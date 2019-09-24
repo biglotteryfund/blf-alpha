@@ -100,3 +100,9 @@ type: `string`
 type: `string` or `null`
 
 Optional field
+
+### contactCommunicationNeeds
+
+type: `string` or `null`
+
+Optional field

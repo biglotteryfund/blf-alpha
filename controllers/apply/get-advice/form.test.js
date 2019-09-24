@@ -56,7 +56,8 @@ function mockResponse(overrides = {}) {
             lastName: 'Guðmundsdóttir'
         },
         contactEmail: 'general.enquiries@tnlcommunityfund.org.uk',
-        contactPhone: '0345 4 10 20 30'
+        contactPhone: '0345 4 10 20 30',
+        contactCommunicationNeeds: 'Large print'
     };
 
     return Object.assign(defaults, overrides);
@@ -151,7 +152,8 @@ test('project costs must be at least 10,000', function() {
 test.each([
     'projectLocationDescription',
     'organisationTradingName',
-    'contactPhone'
+    'contactPhone',
+    'contactCommunicationNeeds'
 ])('optional %p field', function(fieldName) {
     const data = mockResponse();
     const form = formBuilder({ data });
