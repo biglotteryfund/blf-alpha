@@ -653,9 +653,16 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     stepProjectCountry(),
                     stepProjectLocation(),
                     stepProjectCosts(),
-                    stepYourIdea(),
-                    stepOrganisationDetails()
+                    stepYourIdea()
                 ]
+            },
+            {
+                slug: 'your-organisation',
+                title: localise({
+                    en: 'Your organisation',
+                    cy: 'Eich sefydliad'
+                }),
+                steps: [stepOrganisationDetails()]
             }
         ]
     };
