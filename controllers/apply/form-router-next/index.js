@@ -135,6 +135,43 @@ function initFormRouter({
         }
     }
 
+    function generateEmailQueueItems(application, expiryEmailPeriods) {
+        return Object.values(expiryEmailPeriods).map(email => {
+            return {
+                applicationId: application.id,
+                emailType: email.key,
+                dateToSend: moment(application.expiresAt).subtract(
+                    email.periodBeforeExpiry.amount,
+                    email.periodBeforeExpiry.unit
+                )
+            };
+        });
+    }
+
+    /**
+     * Application seed endpoint
+     * Allows generation of seed applications in test environments
+     */
+    if (features.enableSeeders) {
+        router.post('/seed', async (req, res) => {
+            const application = await PendingApplication.createNewApplication({
+                formId: formId,
+                userId: req.body.userId,
+                customExpiry: req.body.expiresAt
+            });
+
+            if (expiryEmailPeriods) {
+                const emailsToQueue = generateEmailQueueItems(
+                    application,
+                    expiryEmailPeriods
+                );
+                await EmailQueue.createNewQueue(emailsToQueue);
+            }
+
+            res.json(application);
+        });
+    }
+
     /**
      * Common router middleware
      * Require active user past this point
@@ -201,13 +238,10 @@ function initFormRouter({
 
             if (expiryEmailPeriods) {
                 // Convert this application's expiry periods into a set of queue items
-                const emailsToQueue = Object.values(expiryEmailPeriods).map(email => {
-                    return {
-                        applicationId: application.id,
-                        emailType: email.key,
-                        dateToSend: moment(application.expiresAt).subtract(email.periodBeforeExpiry.amount, email.periodBeforeExpiry.unit)
-                    };
-                });
+                const emailsToQueue = generateEmailQueueItems(
+                    application,
+                    expiryEmailPeriods
+                );
                 await EmailQueue.createNewQueue(emailsToQueue);
             }
 

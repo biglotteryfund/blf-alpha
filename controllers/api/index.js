@@ -145,16 +145,6 @@ router.post('/survey', async (req, res) => {
  * API: Application Expiry
  */
 
-router.get('/applications/expiry', async (req, res) => {
-    try {
-        const data = await EmailQueue.getEmailsToSend();
-        res.send(data);
-    } catch (err) {
-        console.log(err);
-        res.send(err);
-    }
-});
-
 router.post('/applications/expiry', async (req, res) => {
     try {
         let response = {};
@@ -165,7 +155,10 @@ router.post('/applications/expiry', async (req, res) => {
         ]);
 
         if (emailQueue.length > 0) {
-            response.emailQueue = await sendExpiryEmails(emailQueue);
+            response.emailQueue = await sendExpiryEmails(
+                emailQueue,
+                req.i18n.getLocale()
+            );
         } else {
             response.emailQueue = 'No applications were found';
         }

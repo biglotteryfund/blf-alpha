@@ -1,5 +1,6 @@
 'use strict';
 const path = require('path');
+const get = require('lodash/get');
 
 const { sendHtmlEmail } = require('../../../common/mail');
 const { PendingApplication, EmailQueue } = require('../../../db/models');
@@ -24,7 +25,7 @@ const logger = require('../../../common/logger').child({
  * -- Updates db
  * returns an array of objects containing emailSent, dbUpdated for each queue
  */
-const sendExpiryEmails = async emailQueue => {
+const sendExpiryEmails = async (emailQueue, locale) => {
     logger.info('Handling email queue');
 
     if (appData.isNotProduction && !process.env.APPLICATION_EXPIRY_EMAIL) {
@@ -37,12 +38,27 @@ const sendExpiryEmails = async emailQueue => {
         const email = Object.values(EXPIRY_EMAIL_REMINDERS).find(
             email => email.key === type
         );
-        return email ? email.label : EXPIRY_EMAIL_REMINDERS.ONE_DAY.label;
+        return email
+            ? email.label[locale]
+            : EXPIRY_EMAIL_REMINDERS.ONE_DAY.label[locale];
     };
 
     return await Promise.all(
         emailQueue.map(async emailToSend => {
             let returnObj = { emailSent: false, dbUpdated: false };
+
+            const mailParams = {
+                name: 'application_expiry_afa',
+                sendTo: appData.isNotProduction
+                    ? process.env.APPLICATION_EXPIRY_EMAIL
+                    : emailToSend.PendingApplication.user.username,
+                subject: `You have ${getLabelForEmailType(
+                    emailToSend.emailType
+                )} to finish your application`
+            };
+
+            const getAppData = field =>
+                get(emailToSend.PendingApplication, `applicationData.${field}`);
 
             const emailStatus = await sendHtmlEmail(
                 {
@@ -51,31 +67,18 @@ const sendExpiryEmails = async emailQueue => {
                         timeToFinishApp: getLabelForEmailType(
                             emailToSend.emailType
                         ),
-                        projectName:
-                            emailToSend.pendingApplication.applicationData
-                                .projectName,
+                        projectName: getAppData('projectName'),
                         countryPhoneNumber: getPhoneFor(
-                            emailToSend.pendingApplication.applicationData
-                                .projectCountry
+                            getAppData('projectCountry')
                         ),
-                        countryEmail: getEmailFor(
-                            emailToSend.pendingApplication.applicationData
-                                .projectCountry
-                        )
+                        countryEmail: getEmailFor(getAppData('projectCountry')),
+                        application: emailToSend.PendingApplication
                     }
                 },
-                {
-                    name: 'application_expiry_afa',
-                    sendTo: appData.isNotProduction
-                        ? process.env.APPLICATION_EXPIRY_EMAIL
-                        : emailToSend.pendingApplication.user.username,
-                    subject: `You have ${getLabelForEmailType(
-                        emailToSend.emailType
-                    )} to finish your application`
-                }
+                mailParams
             );
 
-            if (emailStatus.response) {
+            if (emailStatus.response || appData.isTestServer) {
                 returnObj.emailSent = true;
 
                 const dbStatus = (await EmailQueue.updateStatusToSent(
@@ -84,13 +87,9 @@ const sendExpiryEmails = async emailQueue => {
 
                 if (dbStatus === 1) {
                     returnObj.dbUpdated = true;
-                    return returnObj;
-                } else {
-                    return returnObj;
                 }
-            } else {
-                return returnObj;
             }
+            return returnObj;
         })
     );
 };

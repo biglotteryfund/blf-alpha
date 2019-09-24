@@ -137,11 +137,13 @@ class PendingApplication extends Model {
             app => app.currentProgressState === 'COMPLETE'
         ).length;
     }
-    static createNewApplication({ userId, formId }) {
+    static createNewApplication({ userId, formId, customExpiry = null }) {
         // @TODO: Should this be defined in config?
-        const expiresAt = moment()
-            .add('3', 'months')
-            .toDate();
+        const expiresAt = customExpiry
+            ? customExpiry
+            : moment()
+                  .add('3', 'months')
+                  .toDate();
 
         return this.create({
             userId: userId,

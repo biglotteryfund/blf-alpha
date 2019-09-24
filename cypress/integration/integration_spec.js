@@ -361,11 +361,27 @@ describe('api endpoints', () => {
         });
     });
 
-    it('should allow application expiry API responses', () => {
-        cy.request('POST', '/api/applications/expiry', {}).then(response => {
-            expect(response.status).to.equal(200);
-            expect(response.body).to.have.property('emailQueue');
-            expect(response.body).to.have.property('expired');
+    it('should correctly email users with expiring applications', () => {
+        cy.seedUser().then(newUser => {
+            // Now create some applications
+            cy.seedPendingAFAApplication({
+                userId: newUser.id,
+                expiresAt: moment()
+                    .subtract(1, 'days')
+                    .toDate()
+            }).then(app => {
+                cy.log('made an app', app);
+                cy.request('POST', '/api/applications/expiry', {}).then(
+                    response => {
+                        expect(response.body).to.have.property('emailQueue');
+                        expect(response.body.emailQueue.length).to.eq(3);
+                        const successfulEmailsSent = response.body.emailQueue.filter(
+                            _ => _.emailSent === true
+                        ).length;
+                        expect(successfulEmailsSent).to.eq(3);
+                    }
+                );
+            });
         });
     });
 });
