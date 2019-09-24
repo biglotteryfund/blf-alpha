@@ -88,7 +88,7 @@ module.exports = function validateSchema({ schema, messages }, data = {}) {
     return {
         value: value,
         error: error,
-        isValid: error === null && normalisedErrors.length === 0,
+        isValid: error === undefined && normalisedErrors.length === 0,
         messages: normalisedErrors
     };
 };
