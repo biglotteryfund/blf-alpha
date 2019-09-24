@@ -1,5 +1,6 @@
 'use strict';
 const castArray = require('lodash/castArray');
+const compact = require('lodash/compact');
 const defaults = require('lodash/defaults');
 const filter = require('lodash/filter');
 const find = require('lodash/fp/find');
@@ -519,6 +520,19 @@ class AddressField extends TextField {
                 })
             }
         ].concat(props.messages || []);
+    }
+
+    get displayValue() {
+        if (this.value) {
+            return compact([
+                this.value.line1,
+                this.value.townCity,
+                this.value.county,
+                this.value.postcode
+            ]).join(',\n');
+        } else {
+            return '';
+        }
     }
 }
 
