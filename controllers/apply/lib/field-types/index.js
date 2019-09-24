@@ -5,87 +5,15 @@ const defaults = require('lodash/defaults');
 const filter = require('lodash/filter');
 const find = require('lodash/fp/find');
 const flatMap = require('lodash/flatMap');
-const get = require('lodash/fp/get');
 const includes = require('lodash/includes');
 const { oneLine } = require('common-tags');
 
-const countWords = require('./count-words');
-const Joi = require('./joi-extensions');
+const countWords = require('../count-words');
+const Joi = require('../joi-extensions');
 
-class TextField {
-    constructor(props, locale = 'en') {
-        this.locale = locale;
+const Field = require('./field');
 
-        // @TODO: Used to switch on non-class type fields
-        this._isClass = true;
-
-        if (props.name) {
-            this.name = props.name;
-        } else {
-            throw new Error('Must provide name');
-        }
-
-        this.label = props.label;
-        this.labelDetails = props.labelDetails;
-        this.explanation = props.explanation;
-
-        this.type = props.type || 'text';
-
-        this.attributes = defaults({ size: 30 }, props.attributes);
-        this.settings = props.settings || {};
-
-        this.isRequired = props.isRequired !== false;
-
-        if (props.schema) {
-            this.schema = props.schema;
-        } else {
-            this.schema = this.isRequired
-                ? Joi.string().required()
-                : Joi.string()
-                      .allow('')
-                      .optional();
-        }
-
-        this.messages = props.messages || [];
-
-        this.value = undefined;
-        this.errors = [];
-        this.featuredErrors = [];
-    }
-
-    localise(msg) {
-        return get(this.locale)(msg);
-    }
-
-    get displayValue() {
-        if (this.value) {
-            return this.value.toString();
-        } else {
-            return '';
-        }
-    }
-
-    withValue(value) {
-        this.value = value;
-        return this;
-    }
-
-    withErrors(errors) {
-        this.errors = errors;
-        return this;
-    }
-
-    withFeaturedErrors(featuredErrors) {
-        this.featuredErrors = featuredErrors;
-        return this;
-    }
-
-    validate() {
-        return this.schema.validate(this.value);
-    }
-}
-
-class EmailField extends TextField {
+class EmailField extends Field {
     constructor(props, locale) {
         super(props, locale);
 
@@ -136,7 +64,7 @@ class EmailField extends TextField {
     }
 }
 
-class PhoneField extends TextField {
+class PhoneField extends Field {
     constructor(props, locale) {
         super(props, locale);
 
@@ -184,7 +112,7 @@ class PhoneField extends TextField {
     }
 }
 
-class CurrencyField extends TextField {
+class CurrencyField extends Field {
     constructor(props, locale) {
         super(props, locale);
 
@@ -212,7 +140,7 @@ class CurrencyField extends TextField {
     }
 }
 
-class TextareaField extends TextField {
+class TextareaField extends Field {
     constructor(props, locale) {
         super(props, locale);
 
@@ -288,7 +216,7 @@ class TextareaField extends TextField {
     }
 }
 
-class RadioField extends TextField {
+class RadioField extends Field {
     constructor(props, locale) {
         super(props, locale);
 
@@ -320,7 +248,7 @@ class RadioField extends TextField {
     }
 }
 
-class CheckboxField extends TextField {
+class CheckboxField extends Field {
     constructor(props, locale) {
         super(props, locale);
 
@@ -363,7 +291,7 @@ class CheckboxField extends TextField {
     }
 }
 
-class SelectField extends TextField {
+class SelectField extends Field {
     constructor(props, locale) {
         super(props, locale);
 
@@ -415,7 +343,7 @@ class SelectField extends TextField {
     }
 }
 
-class AddressField extends TextField {
+class AddressField extends Field {
     constructor(props, locale) {
         super(props, locale);
 
@@ -545,7 +473,7 @@ class AddressField extends TextField {
     }
 }
 
-class NameField extends TextField {
+class NameField extends Field {
     constructor(props, locale) {
         super(props, locale);
 
@@ -617,7 +545,7 @@ class NameField extends TextField {
 }
 
 module.exports = {
-    TextField,
+    Field: require('./field'),
     EmailField,
     CurrencyField,
     PhoneField,

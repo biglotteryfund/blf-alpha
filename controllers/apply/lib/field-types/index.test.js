@@ -3,7 +3,6 @@
 const faker = require('faker');
 
 const {
-    TextField,
     EmailField,
     PhoneField,
     CurrencyField,
@@ -13,29 +12,7 @@ const {
     SelectField,
     AddressField,
     NameField
-} = require('./field-types');
-
-test('TextField', function() {
-    const field = new TextField({
-        name: 'example',
-        label: 'Text field'
-    });
-
-    expect(field.type).toBe('text');
-    expect(field.isRequired).toBeTruthy();
-
-    field.withValue();
-    expect(field.validate().error.message).toEqual('"value" is required');
-
-    const optionalField = new TextField({
-        name: 'example',
-        label: 'Optional text field',
-        isRequired: false
-    });
-
-    expect(optionalField.isRequired).toBeFalsy();
-    expect(optionalField.validate().error).toBeNull();
-});
+} = require('./index');
 
 test('EmailField', function() {
     const field = new EmailField({

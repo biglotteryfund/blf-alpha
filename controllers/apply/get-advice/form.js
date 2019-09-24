@@ -8,7 +8,7 @@ const { oneLine } = require('common-tags');
 const Joi = require('../lib/joi-extensions');
 
 const {
-    TextField,
+    Field,
     TextareaField,
     EmailField,
     PhoneField,
@@ -131,7 +131,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldProjectLocationDescription() {
-        return new TextField({
+        return new Field({
             name: 'projectLocationDescription',
             label: localise({
                 en: 'Project location',
@@ -358,7 +358,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldOrganisationLegalName() {
-        return new TextField({
+        return new Field({
             name: 'organisationLegalName',
             label: localise({
                 en: 'What is the full legal name of your organisation?',
@@ -387,7 +387,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldOrganisationTradingName() {
-        return new TextField({
+        return new Field({
             name: 'organisationTradingName',
             label: localise({
                 en: 'Organisation trading name',
@@ -484,7 +484,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldContactCommunicationNeeds() {
-        return new TextField({
+        return new Field({
             name: 'contactCommunicationNeeds',
             label: localise({
                 en: `Communication needs`,
