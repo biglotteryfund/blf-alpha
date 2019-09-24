@@ -19,23 +19,9 @@ function mapRawMessages(validationResult) {
 }
 
 function mockResponse(overrides = {}) {
-    function randomCountries() {
-        const overrideCountries = getOr([], 'projectCountry')(overrides);
-        return overrideCountries.length > 0
-            ? overrideCountries
-            : [sample(['england', 'scotland', 'wales', 'northern-ireland'])];
-    }
-
-    const projectCountry = randomCountries();
-
     const defaults = {
-        projectCountry: projectCountry,
-        projectLocation: {
-            'england': 'derbyshire',
-            'scotland': 'east-lothian',
-            'wales': 'caerphilly',
-            'northern-ireland': 'mid-ulster'
-        }[projectCountry],
+        projectCountry: ['england'],
+        projectLocation: 'derbyshire',
         projectLocationDescription: 'optional description',
         projectCosts: '250,000',
         projectDurationYears: 3,
@@ -146,6 +132,40 @@ test('project costs must be at least 10,000', function() {
                 'If you need £10,000 or less from us, you can apply today through'
             )
         ])
+    );
+});
+
+test('language prefrence required in wales', function() {
+    const form = formBuilder({
+        data: mockResponse({
+            projectCountry: ['wales'],
+            projectLocation: 'swansea'
+        })
+    });
+
+    expect(mapMessages(form.validation)).toEqual(
+        expect.arrayContaining([expect.stringContaining('Select a language')])
+    );
+
+    const formValid = formBuilder({
+        data: mockResponse({
+            projectCountry: ['wales'],
+            projectLocation: 'swansea',
+            contactLanguagePreference: 'welsh'
+        })
+    });
+
+    expect(formValid.validation.error).toBeNull();
+
+    const formStrip = formBuilder({
+        data: mockResponse({
+            projectCountry: ['england'],
+            contactLanguagePreference: 'welsh'
+        })
+    });
+
+    expect(formStrip.validation.value).not.toHaveProperty(
+        'contactLanguagePreference'
     );
 });
 

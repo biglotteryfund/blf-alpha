@@ -101,6 +101,12 @@ type: `string` or `null`
 
 Optional field
 
+### contactLanguagePreference
+
+type: `string` or `null`
+
+Only required and included when `projectCountry` contains `wales`.
+
 ### contactCommunicationNeeds
 
 type: `string` or `null`

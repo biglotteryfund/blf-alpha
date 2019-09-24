@@ -2,6 +2,7 @@
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
+const includes = require('lodash/includes');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
@@ -446,6 +447,50 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         });
     }
 
+    function fieldContactLanguagePreference() {
+        const options = [
+            {
+                label: localise({ en: `English`, cy: `Saesneg` }),
+                value: 'english'
+            },
+            {
+                label: localise({ en: `Welsh`, cy: `Cymraeg` }),
+                value: 'welsh'
+            }
+        ];
+
+        return new RadioField({
+            name: 'contactLanguagePreference',
+            label: localise({
+                en: `What language should we use to contact you?`,
+                cy: ``
+            }),
+            options: options,
+            schema: Joi.when('projectCountry', {
+                is: Joi.array()
+                    .items(
+                        Joi.string()
+                            .only('wales')
+                            .required()
+                    )
+                    .required(),
+                then: Joi.string()
+                    .valid(options.map(option => option.value))
+                    .required(),
+                otherwise: Joi.any().strip()
+            }),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Select a language',
+                        cy: 'Dewiswch iaith'
+                    })
+                }
+            ]
+        });
+    }
+
     function fieldContactCommunicationNeeds() {
         return new TextField({
             name: 'contactCommunicationNeeds',
@@ -479,6 +524,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         contactName: fieldContactName(),
         contactEmail: fieldContactEmail(),
         contactPhone: fieldContactPhone(),
+        contactLanguagePreference: fieldContactLanguagePreference(),
         contactCommunicationNeeds: fieldContactCommunicationNeeds()
     };
 
@@ -609,12 +655,24 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                         en: 'Contact details',
                         cy: ''
                     }),
-                    fields: [
-                        allFields.contactName,
-                        allFields.contactEmail,
-                        allFields.contactPhone,
-                        allFields.contactCommunicationNeeds
-                    ]
+                    get fields() {
+                        if (includes(projectCountries, 'wales')) {
+                            return [
+                                allFields.contactName,
+                                allFields.contactEmail,
+                                allFields.contactPhone,
+                                allFields.contactLanguagePreference,
+                                allFields.contactCommunicationNeeds
+                            ];
+                        } else {
+                            return [
+                                allFields.contactName,
+                                allFields.contactEmail,
+                                allFields.contactPhone,
+                                allFields.contactCommunicationNeeds
+                            ];
+                        }
+                    }
                 }
             ]
         };
