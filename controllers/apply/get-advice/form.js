@@ -650,6 +650,28 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         };
     }
 
+    function stepOrganisationDetails() {
+        return {
+            title: localise({
+                en: 'Organisation details',
+                cy: ''
+            }),
+            noValidate: true,
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Organisation details',
+                        cy: ''
+                    }),
+                    fields: [
+                        allFields.organisationLegalName,
+                        allFields.organisationTradingName
+                    ]
+                }
+            ]
+        };
+    }
+
     const form = {
         title: localise({
             en: 'Get advice on your idea',
@@ -667,7 +689,8 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     stepProjectCountry(),
                     stepProjectLocation(),
                     stepProjectCosts(),
-                    stepYourIdea()
+                    stepYourIdea(),
+                    stepOrganisationDetails()
                 ]
             }
         ]
