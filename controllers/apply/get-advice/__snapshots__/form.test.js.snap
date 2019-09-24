@@ -26,7 +26,6 @@ Array [
   "\\"yourIdeaActivities\\" is required",
   "\\"organisationLegalName\\" is required",
   "\\"organisationAddress\\" is required",
-  "\\"organisationType\\" is required",
   "\\"contactEmail\\" is required",
 ]
 `;
@@ -48,7 +47,6 @@ Object {
   },
   "organisationLegalName": "Example organisation",
   "organisationTradingName": "Example trading name",
-  "organisationType": "Social enterprise",
   "projectCosts": 250000,
   "projectCountry": Any<Array>,
   "projectDurationYears": 3,

@@ -36,7 +36,6 @@ function mockResponse(overrides = {}) {
             county: 'West Midlands',
             postcode: 'B15 1TR'
         },
-        organisationType: 'Social enterprise',
         contactName: {
             firstName: 'Björk',
             lastName: 'Guðmundsdóttir'

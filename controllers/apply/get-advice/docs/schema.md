@@ -78,10 +78,6 @@ type: `object`
 | **county**   | `string` or `null` | Optional |
 | **postcode** | `string`           |          |
 
-### organisationType
-
-type: `string`
-
 ### contactName
 
 type: `object`

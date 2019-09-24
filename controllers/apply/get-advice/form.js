@@ -412,14 +412,6 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         });
     }
 
-    function fieldOrganisationType() {
-        return {
-            name: 'organisationType',
-            schema: Joi.string().required(),
-            messages: []
-        };
-    }
-
     function fieldContactName() {
         return new NameField({
             name: 'contactName',
@@ -520,7 +512,6 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         organisationLegalName: fieldOrganisationLegalName(),
         organisationTradingName: fieldOrganisationTradingName(),
         organisationAddress: fieldOrganisationAddress(),
-        organisationType: fieldOrganisationType(),
         contactName: fieldContactName(),
         contactEmail: fieldContactEmail(),
         contactPhone: fieldContactPhone(),
