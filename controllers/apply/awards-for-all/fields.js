@@ -2017,8 +2017,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         mainContactCommunicationNeeds: {
             name: 'mainContactCommunicationNeeds',
             label: localise({
-                en: `Please tell us about any communication needs you have`,
-                cy: ``
+                en: `Please tell us about any particular communication needs this contact has.`,
+                cy: `Dywedwch wrthym am unrhyw anghenion cyfathrebu penodol sydd gan y cyswllt hwn.`
             }),
             type: 'text',
             isRequired: false,
