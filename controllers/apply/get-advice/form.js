@@ -191,6 +191,20 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldProjectDurationYears() {
+        function explanation() {
+            if (includes(projectCountries, 'scotland')) {
+                return localise({
+                    en: `We can fund projects for three to five years`,
+                    cy: ``
+                });
+            } else {
+                return localise({
+                    en: `We can fund projects for one to five years`,
+                    cy: ``
+                });
+            }
+        }
+
         function options() {
             if (includes(projectCountries, 'scotland')) {
                 return [
@@ -215,6 +229,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 en: `How long do you need the money for?`,
                 cy: ``
             }),
+            explanation: explanation(),
             options: options(),
             schema: Joi.when('projectCountry', {
                 is: Joi.array().min(2),
