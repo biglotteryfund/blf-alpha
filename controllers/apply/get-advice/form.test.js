@@ -106,44 +106,30 @@ test('strip location and duration when applying for more than one country', () =
     expect(form.validation.value).not.toHaveProperty('projectDurationYears');
 });
 
-test.each([
-    ['england', 1, 5],
-    ['northern-ireland', 1, 5],
-    ['scotland', 3, 5],
-    ['wales', 1, 5]
-])('project duration in %p is %p–%p years', function(country, min, max) {
-    const formValid = formBuilder({
-        data: mockResponse({
-            projectCountry: [country],
-            projectDurationYears: random(min, max)
-        })
-    });
-
-    expect(formValid.validation.error).toBeNull();
-
+test('project duration is between limits', () => {
     const formMin = formBuilder({
         data: mockResponse({
-            projectCountry: [country],
-            projectDurationYears: min - 1
+            projectCountry: ['scotland'],
+            projectDurationYears: 0
         })
     });
 
     expect(mapRawMessages(formMin.validation)).toEqual(
         expect.arrayContaining([
-            `"projectDurationYears" must be larger than or equal to ${min}`
+            `"projectDurationYears" must be larger than or equal to 1`
         ])
     );
 
     const formMax = formBuilder({
         data: mockResponse({
-            projectCountry: [country],
-            projectDurationYears: max + 1
+            projectCountry: ['wales'],
+            projectDurationYears: 6
         })
     });
 
     expect(mapRawMessages(formMax.validation)).toEqual(
         expect.arrayContaining([
-            `"projectDurationYears" must be less than or equal to ${max}`
+            `"projectDurationYears" must be less than or equal to 5`
         ])
     );
 });
