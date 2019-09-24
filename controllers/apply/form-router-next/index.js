@@ -28,11 +28,7 @@ const { requireActiveUserWithCallback } = require('../../../common/authed');
 const { injectCopy } = require('../../../common/inject-content');
 
 const salesforceService = require('./lib/salesforce');
-const {
-    getObject,
-    buildMultipartData,
-    checkAntiVirus
-} = require('./lib/file-uploads');
+const { getObject, buildMultipartData } = require('./lib/file-uploads');
 
 function initFormRouter({
     formId,
@@ -212,17 +208,23 @@ function initFormRouter({
     /**
      * Route: Eligibility
      */
-    router.use(
-        '/eligibility',
-        require('./eligibility')(eligibilityBuilder, formId)
-    );
+    if (eligibilityBuilder) {
+        router.use(
+            '/eligibility',
+            require('./eligibility')(eligibilityBuilder, formId)
+        );
+    }
 
     /**
      * Route: Start application
      * Redirect to eligibility checker
      */
     router.get('/start', function(req, res) {
-        res.redirect(`${req.baseUrl}/eligibility/1`);
+        if (eligibilityBuilder) {
+            res.redirect(`${req.baseUrl}/eligibility/1`);
+        } else {
+            res.redirect(`${req.baseUrl}/new`);
+        }
     });
 
     /**
@@ -393,7 +395,6 @@ function initFormRouter({
 
             try {
                 logger.info('Submission started');
-                let fileUploadError = false;
 
                 /**
                  * Increment submission attempts
@@ -443,19 +444,6 @@ function initFormRouter({
                                 filename: field.value.filename
                             };
 
-                            if (
-                                !config.get('features.enableLocalAntivirus') &&
-                                !appData.isTestServer
-                            ) {
-                                try {
-                                    await checkAntiVirus(pathConfig);
-                                } catch (err) {
-                                    // We caught a suspect file
-                                    fileUploadError = err.message;
-                                    return;
-                                }
-                            }
-
                             return buildMultipartData(pathConfig).then(
                                 versionData => {
                                     return salesforce.contentVersion({
@@ -470,12 +458,6 @@ function initFormRouter({
                         });
 
                     await Promise.all(contentVersionPromises);
-
-                    if (fileUploadError) {
-                        logger.error('File upload skipped', {
-                            reason: fileUploadError
-                        });
-                    }
                 } else {
                     logger.debug(`Skipped salesforce submission for ${formId}`);
                 }
@@ -511,8 +493,7 @@ function initFormRouter({
                 unsetCurrentlyEditingId(req, function() {
                     const confirmation = confirmationBuilder({
                         locale: req.i18n.getLocale(),
-                        data: currentApplicationData,
-                        fileUploadError: fileUploadError
+                        data: currentApplicationData
                     });
 
                     logger.info('Submission successful');
@@ -572,43 +553,23 @@ function initFormRouter({
                     filename: req.params.filename
                 };
 
-                try {
-                    await checkAntiVirus(pathConfig);
-                    getObject(pathConfig)
-                        .on('httpHeaders', (code, headers) => {
-                            res.status(code);
-                            if (code < 300) {
-                                res.set(
-                                    pick(
-                                        headers,
-                                        'content-type',
-                                        'content-length',
-                                        'last-modified'
-                                    )
-                                );
-                            }
-                        })
-                        .createReadStream()
-                        .on('error', next)
-                        .pipe(res);
-                } catch (err) {
-                    let userMessage;
-                    switch (err.message) {
-                        case 'ERR_FILE_SCAN_INFECTED':
-                            userMessage =
-                                res.locals.copy.errors.file.errorScanInfected;
-                            break;
-                        case 'ERR_FILE_SCAN_UNKNOWN':
-                            userMessage =
-                                res.locals.copy.errors.file.errorScanUnknown;
-                            break;
-                        default:
-                            userMessage =
-                                res.locals.copy.errors.file.errorOther;
-                            break;
-                    }
-                    return res.send(userMessage);
-                }
+                getObject(pathConfig)
+                    .on('httpHeaders', (code, headers) => {
+                        res.status(code);
+                        if (code < 300) {
+                            res.set(
+                                pick(
+                                    headers,
+                                    'content-type',
+                                    'content-length',
+                                    'last-modified'
+                                )
+                            );
+                        }
+                    })
+                    .createReadStream()
+                    .on('error', next)
+                    .pipe(res);
             } else {
                 next();
             }
