@@ -25,12 +25,7 @@ class TextField {
             throw new Error('Must provide name');
         }
 
-        if (props.label) {
-            this.label = props.label;
-        } else {
-            throw new Error('Must provide label');
-        }
-
+        this.label = props.label;
         this.labelDetails = props.labelDetails;
         this.explanation = props.explanation;
 
@@ -96,6 +91,13 @@ class EmailField extends TextField {
 
         this.type = 'email';
 
+        if (!props.label) {
+            this.label = this.localise({
+                en: 'Email',
+                cy: 'E-bost'
+            });
+        }
+
         this.attributes = defaults(
             { size: 30, autocomplete: 'email' },
             props.attributes
@@ -139,6 +141,13 @@ class PhoneField extends TextField {
         super(props, locale);
 
         this.type = 'tel';
+
+        if (!props.label) {
+            this.label = this.localise({
+                en: `Telephone number`,
+                cy: `Rhif ffôn`
+            });
+        }
 
         this.attributes = defaults(
             { size: 30, autocomplete: 'tel' },

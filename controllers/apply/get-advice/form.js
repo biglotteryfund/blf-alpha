@@ -465,10 +465,6 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     function fieldContactEmail() {
         return new EmailField({
             name: 'contactEmail',
-            label: localise({
-                en: 'Email',
-                cy: ``
-            }),
             explanation: localise({
                 en: `We’ll use this whenever we get in touch about the project`,
                 cy: `Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect`
@@ -479,10 +475,6 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     function fieldContactPhone() {
         return new PhoneField({
             name: 'contactPhone',
-            label: localise({
-                en: `Telephone number`,
-                cy: ``
-            }),
             isRequired: false
         });
     }
