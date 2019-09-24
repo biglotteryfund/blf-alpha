@@ -6,8 +6,7 @@
   },
   "features": {
     "enableAllowLocalhost": false,
-    "enableHotjar": true,
-    "enableLocalAntivirus": true
+    "enableHotjar": true
   },
   "awardsForAll": {
     "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]

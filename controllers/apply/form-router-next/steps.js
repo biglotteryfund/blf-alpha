@@ -153,7 +153,9 @@ module.exports = function(formId, formBuilder) {
 
             try {
                 let dataToStore = validationResult.value;
-                const currentProgressState = form.progress.isComplete ? 'COMPLETE' : 'PENDING';
+                const currentProgressState = form.progress.isComplete
+                    ? 'COMPLETE'
+                    : 'PENDING';
 
                 // Determine whether there were any uploaded files with errors
                 // and if so, remove them from the data object before storage
