@@ -6,7 +6,6 @@ const find = require('lodash/fp/find');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const includes = require('lodash/includes');
-
 const { oneLine } = require('common-tags');
 
 const countWords = require('./count-words');
@@ -208,6 +207,10 @@ class TextareaField extends TextField {
         super(props, locale);
 
         this.type = 'textarea';
+
+        if (props.labelDetails) {
+            this.labelDetails = props.labelDetails;
+        }
 
         if (!props.minWords || !props.maxWords) {
             throw new Error('Must provide min and max words');

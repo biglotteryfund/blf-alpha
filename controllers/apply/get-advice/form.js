@@ -1,5 +1,4 @@
 'use strict';
-const compact = require('lodash/compact');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
@@ -25,9 +24,40 @@ const locationsFor = require('./lib/locations');
 module.exports = function({ locale = 'en', data = {} } = {}) {
     const localise = get(locale);
 
-    const projectCountry = getOr([], 'projectCountry')(data);
+    const projectCountries = getOr([], 'projectCountry')(data);
 
     function fieldProjectCountry() {
+        const options = [
+            {
+                label: localise({
+                    en: 'England',
+                    cy: 'Lloegr'
+                }),
+                value: 'england'
+            },
+            {
+                label: localise({
+                    en: 'Scotland',
+                    cy: 'Yr Alban'
+                }),
+                value: 'scotland'
+            },
+            {
+                label: localise({
+                    en: 'Northern Ireland',
+                    cy: 'Gogledd Iwerddon'
+                }),
+                value: 'northern-ireland'
+            },
+            {
+                label: localise({
+                    en: 'Wales',
+                    cy: 'Cymru'
+                }),
+                value: 'wales'
+            }
+        ];
+
         return new CheckboxField({
             name: 'projectCountry',
             label: localise({
@@ -38,38 +68,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 en: oneLine`We work slightly differently depending on which
                     country your project is based in, to meet local needs
                     and the regulations that apply there.`,
-                cy: ``
+                cy: oneLine`Rydym yn gweithredu ychydig yn wahanol, yn ddibynnol
+                    ar pa wlad mae eich prosiect wedi’i leoli i ddiwallu
+                    anghenion lleol a’r rheoliadau sy’n berthnasol yna.`
             }),
-            options: [
-                {
-                    label: localise({
-                        en: 'England',
-                        cy: 'Lloegr'
-                    }),
-                    value: 'england'
-                },
-                {
-                    label: localise({
-                        en: 'Scotland',
-                        cy: 'Yr Alban'
-                    }),
-                    value: 'scotland'
-                },
-                {
-                    label: localise({
-                        en: 'Northern Ireland',
-                        cy: 'Gogledd Iwerddon'
-                    }),
-                    value: 'northern-ireland'
-                },
-                {
-                    label: localise({
-                        en: 'Wales',
-                        cy: 'Cymru'
-                    }),
-                    value: 'wales'
-                }
-            ],
+            options: options,
             messages: [
                 {
                     type: 'base',
@@ -83,18 +86,19 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldProjectLocation() {
-        const optgroups = locationsFor(projectCountry, locale);
+        const optgroups = locationsFor(projectCountries, locale);
 
         return new SelectField({
             name: 'projectLocation',
             label: localise({
                 en: `Where will your project take place?`,
-                cy: ``
+                cy: `Lle bydd eich prosiect wedi’i leoli?`
             }),
             explanation: localise({
-                en: oneLine`If your project covers more than one area,
-                    tell us the main location`,
-                cy: ``
+                en: oneLine`If your project covers more than one area please
+                    tell us where most of it will take place`,
+                cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
+                    wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`
             }),
             defaultOption: localise({
                 en: 'Select a location',
@@ -129,7 +133,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             name: 'projectLocationDescription',
             label: localise({
                 en: 'Project location',
-                cy: ''
+                cy: 'Lleoliad y prosiect'
             }),
             explanation: localise({
                 en: oneLine`In your own words, describe all of the locations
@@ -188,7 +192,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
 
     function fieldProjectDurationYears() {
         function options() {
-            if (includes(projectCountry, 'scotland')) {
+            if (includes(projectCountries, 'scotland')) {
                 return [
                     { label: '3 years', value: 3 },
                     { label: '4 years', value: 4 },
@@ -251,15 +255,16 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             name: 'yourIdeaProject',
             label: localise({
                 en: 'What would you like to do?',
-                cy: ''
+                cy: `Beth yr hoffech ei wneud?`
             }),
             explanation: localise({
-                en: `<p><strong>Tell us</strong>:</p><ul>
+                en: `<p>Tell us:</p>
+                <ul>
                     <li>What you would like to do</li>
                     <li>Who will benefit from it</li>
                     <li>What difference your project will make</li>
                     <li>Is it something new, or are you continuing
-                        something that has worked well previously? 
+                        something that has worked well previously?
                         We want to fund both types of ideas</li>
                 </ul>`
             }),
@@ -282,25 +287,39 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         return new TextareaField({
             name: 'yourIdeaCommunity',
             label: localise({
-                en: 'How does your project involve your community?',
-                cy: ''
+                en: `How does your project involve your community?`,
+                cy: `Sut mae eich prosiect yn cynnwys eich cymuned?`
             }),
+            labelDetails: {
+                summary: localise({
+                    en: `What do we mean by community?`,
+                    cy: `Beth rydym yn ei olygu drwy gymuned?`
+                }),
+                content: localise({
+                    en: `<ol>
+                        <li>People living in the same area</li>
+                        <li>People who have similar interests or life experiences,
+                            but might not live in the same area</li>
+                        <li>Even though schools can be at the heart of a
+                            community—we'll only fund schools that also
+                            benefit the communities around them.</li>
+                    </ol>`,
+                    cy: `<ol>
+                        <li>Pobl yn byw yn yr un ardal</li>
+                        <li>Pobl sydd â diddordebau neu brofiadau bywyd tebyg,
+                            ond efallai ddim yn byw yn yr un ardal</li>
+                        <li>Er gall ysgolion fod wrth wraidd cymuned—byddwn dim ond yn
+                            ariannu ysgolion sydd hefyd yn rhoi budd i gymunedau o’u cwmpas.
+                        </li>
+                    </ol>`
+                })
+            },
             explanation: localise({
-                en: `<p>
-                    We believe that people understand what's needed in their
-                    communities better than anyone. Tell us how your community
-                    came up with the idea for your project. We want to know how
-                    many people you've spoken to, and how they'll be involved
-                    in the development and delivery of your project.
-                </p>
-                <p>Here are some examples of how you could be involving your community:</p>
-                <ul>
-                    <li>Setting up steering groups</li>
-                    <li>Regular surveys</li>
-                    <li>Running open days</li> 
-                    <li>Including community members on your board or committee</li>
-                    <li>Having regular chats with community members, in person or on social media</li>
-                </ul>`,
+                en: oneLine`We believe that people understand what's needed in their
+                    communities better than anyone. Tell us how your community came
+                    up with the idea for your project. We want to know how many
+                    people you've spoken to, and how they'll be involved in the
+                    development and delivery of your project.`,
                 cy: ``
             }),
             type: 'textarea',
@@ -325,17 +344,23 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 en: 'How does your idea fit in with other local activities?',
                 cy: ''
             }),
-            explanation: localise({
-                en: `<p>Here are some ideas of what to tell us about:</p>
-                <ul>
-                    <li>What reputation you already have in the community</li>
-                    <li>Any gaps in local services your work will fill</li>
-                    <li>What other local activities your work will complement</li>
-                    <li>What links you already have in the community that will help you deliver the project</li>
-                    <li>How you will work together with other organisations in your community</li>
-                </ul>`,
-                cy: ``
-            }),
+            labelDetails: {
+                summary: localise({
+                    en: `Some ideas of what to tell us about`,
+                    cy: ``
+                }),
+                content: localise({
+                    en: `<ul>
+                        <li>What makes your organisation best placed to carry out the project</li>
+                        <li>Any gaps in local services your work will fill</li>
+                        <li>What other local activities your work will complement</li>
+                        <li>What links you already have in the community
+                            that will help you deliver the project</li>
+                        <li>How you will work together with other organisations in your community</li>
+                    </ul>`,
+                    cy: ``
+                })
+            },
             type: 'textarea',
             minWords: 50,
             maxWords: 500,
@@ -571,15 +596,21 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
 
     function stepProjectLocation() {
         return {
-            title: localise({ en: 'Project location', cy: '' }),
+            title: localise({
+                en: 'Project location',
+                cy: 'Lleoliad y prosiect'
+            }),
             noValidate: true,
             fieldsets: [
                 {
-                    legend: localise({ en: 'Project location', cy: '' }),
+                    legend: localise({
+                        en: 'Project location',
+                        cy: 'Lleoliad y prosiect'
+                    }),
                     get fields() {
-                        if (projectCountry.length > 1) {
+                        if (projectCountries.length > 1) {
                             return [allFields.projectLocationDescription];
-                        } else if (projectCountry.length > 0) {
+                        } else if (projectCountries.length > 0) {
                             return [
                                 allFields.projectLocation,
                                 allFields.projectLocationDescription
@@ -594,22 +625,28 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function stepProjectCosts() {
-        function shouldIncludeDuration() {
-            const projectCountries = getOr([], 'projectCountry')(data);
-            return projectCountries.length < 2;
-        }
-
         return {
-            title: localise({ en: 'Project costs', cy: '' }),
+            title: localise({
+                en: 'Project costs',
+                cy: 'Costau’r prosiect'
+            }),
             noValidate: true,
             fieldsets: [
                 {
-                    legend: localise({ en: 'Project costs', cy: '' }),
-                    fields: compact([
-                        allFields.projectCosts,
-                        shouldIncludeDuration() &&
-                            allFields.projectDurationYears
-                    ])
+                    legend: localise({
+                        en: 'Project costs',
+                        cy: 'Costau’r prosiect'
+                    }),
+                    get fields() {
+                        if (projectCountries.length < 2) {
+                            return [
+                                allFields.projectCosts,
+                                allFields.projectDurationYears
+                            ];
+                        } else {
+                            return [allFields.projectCosts];
+                        }
+                    }
                 }
             ]
         };
@@ -617,7 +654,10 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
 
     function stepYourIdea() {
         return {
-            title: localise({ en: 'Your idea', cy: 'Eich syniad' }),
+            title: localise({
+                en: 'Your idea',
+                cy: 'Eich syniad'
+            }),
             noValidate: true,
             fieldsets: [
                 {
