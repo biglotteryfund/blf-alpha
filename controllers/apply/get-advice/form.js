@@ -15,11 +15,13 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
 
     function stepProjectCountry() {
         return {
-            title: localise({ en: 'Project country', cy: '' }),
+            title: localise({
+                en: 'Project country',
+                cy: 'Gwlad y prosiect'
+            }),
             noValidate: true,
             fieldsets: [
                 {
-                    legend: localise({ en: 'Project country', cy: '' }),
                     fields: [allFields.projectCountry]
                 }
             ]
@@ -35,10 +37,6 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             noValidate: true,
             fieldsets: [
                 {
-                    legend: localise({
-                        en: 'Project location',
-                        cy: 'Lleoliad y prosiect'
-                    }),
                     get fields() {
                         if (projectCountries.length > 1) {
                             return [allFields.projectLocationDescription];
@@ -65,10 +63,6 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             noValidate: true,
             fieldsets: [
                 {
-                    legend: localise({
-                        en: 'Project costs',
-                        cy: 'Costau’r prosiect'
-                    }),
                     get fields() {
                         if (projectCountries.length < 2) {
                             return [
@@ -93,7 +87,6 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             noValidate: true,
             fieldsets: [
                 {
-                    legend: localise({ en: 'Your idea', cy: 'Eich syniad' }),
                     fields: [
                         allFields.yourIdeaProject,
                         allFields.yourIdeaCommunity,
@@ -113,10 +106,6 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             noValidate: true,
             fieldsets: [
                 {
-                    legend: localise({
-                        en: 'Organisation details',
-                        cy: ''
-                    }),
                     fields: [
                         allFields.organisationLegalName,
                         allFields.organisationTradingName,
@@ -136,10 +125,6 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             noValidate: true,
             fieldsets: [
                 {
-                    legend: localise({
-                        en: 'Organisation type',
-                        cy: 'Math o sefydliad'
-                    }),
                     fields: [allFields.organisationType]
                 }
             ]
@@ -155,10 +140,6 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             noValidate: true,
             fieldsets: [
                 {
-                    legend: localise({
-                        en: 'Contact details',
-                        cy: ''
-                    }),
                     get fields() {
                         if (includes(projectCountries, 'wales')) {
                             return [

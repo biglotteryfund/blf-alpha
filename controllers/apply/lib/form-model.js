@@ -87,6 +87,17 @@ class FormModel {
             );
 
             /**
+             * If there is only one fieldset set the legend to be the same as the step
+             */
+            const shouldSetDefaultLegend =
+                step.fieldsets.length === 1 &&
+                has(step.fieldsets[0], 'legend') === false;
+
+            if (shouldSetDefaultLegend) {
+                step.fieldsets[0].legend = step.title;
+            }
+
+            /**
              * Flag optional steps if there are no fields
              * i.e. to account for cases where whole step is conditional
              */
