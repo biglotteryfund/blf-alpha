@@ -2,10 +2,7 @@
 const express = require('express');
 const path = require('path');
 
-const {
-    PendingApplication,
-    ApplicationEmailQueue
-} = require('../../../db/models');
+const { PendingApplication } = require('../../../db/models');
 const logger = require('../../../common/logger').child({ service: 'apply' });
 
 module.exports = function(formId) {
