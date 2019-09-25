@@ -1,6 +1,7 @@
 'use strict';
 const express = require('express');
 const Sentry = require('@sentry/node');
+const concat = require('lodash/concat');
 
 const { sanitise } = require('../../common/sanitise');
 const {
@@ -19,6 +20,12 @@ const {
     sendExpiryEmails,
     deleteExpiredApplications
 } = require('./lib/application-expiry');
+
+// @TODO remove this logic after seeding past application email queue
+const { EXPIRY_EMAIL_REMINDERS } = require('../apply/awards-for-all/constants');
+const {
+    generateEmailQueueItems
+} = require('../apply/form-router-next/lib/emailQueue');
 
 const { Client } = require('@ideal-postcodes/core-node');
 const postcodesClient = new Client({
@@ -147,6 +154,51 @@ router.post('/survey', async (req, res) => {
 /**
  * API: Application Expiry
  */
+
+// @TODO remove this endpoint after seeding past application email queue
+
+router.post('/applications/expiry/seed', async (req, res) => {
+    if (req.body.secret !== EMAIL_EXPIRY_SECRET) {
+        return res.status(403).json({ error: 'Invalid secret' });
+    }
+
+    try {
+        let emailQueueItems = [];
+
+        const applications = await PendingApplication.findAllByForm(
+            'awards-for-all'
+        );
+
+        applications.forEach(app => {
+            emailQueueItems = concat(
+                emailQueueItems,
+                generateEmailQueueItems(app, EXPIRY_EMAIL_REMINDERS)
+            );
+        });
+
+        if (emailQueueItems.length > 0) {
+            // Clear out the existing email queue
+            await ApplicationEmailQueue.destroy({
+                truncate: true
+            });
+            await ApplicationEmailQueue.createNewQueue(emailQueueItems);
+
+            res.json({
+                status: 'ok',
+                applicationsProcessed: applications.length,
+                emailQueueItemsCreated: emailQueueItems.length
+            });
+        } else {
+            return res(403).json({
+                error: 'No application emails found to insert'
+            });
+        }
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
+        });
+    }
+});
 
 router.post('/applications/expiry', async (req, res) => {
     if (req.body.secret !== EMAIL_EXPIRY_SECRET) {

@@ -28,6 +28,7 @@ const { injectCopy } = require('../../../common/inject-content');
 
 const salesforceService = require('./lib/salesforce');
 const { getObject, buildMultipartData } = require('./lib/file-uploads');
+const { generateEmailQueueItems } = require('./lib/emailQueue');
 
 function initFormRouter({
     formId,
@@ -128,19 +129,6 @@ function initFormRouter({
         } else {
             next();
         }
-    }
-
-    function generateEmailQueueItems(application, expiryEmailPeriods) {
-        return Object.values(expiryEmailPeriods).map(email => {
-            return {
-                applicationId: application.id,
-                emailType: email.key,
-                dateToSend: moment(application.expiresAt).subtract(
-                    email.periodBeforeExpiry.amount,
-                    email.periodBeforeExpiry.unit
-                )
-            };
-        });
     }
 
     /**
