@@ -68,7 +68,9 @@ test('minimal invalid form', () => {
         projectCountry: 'invalid-country',
         projectLocation: null,
         projectCosts: 5000,
-        projectDurationYears: 10
+        projectDurationYears: 10,
+        organisationLegalName: 'Same organisation name',
+        organisationTradingName: 'Same organisation name'
     });
 
     expect(mapMessages(result)).toMatchSnapshot();
@@ -76,77 +78,26 @@ test('minimal invalid form', () => {
     expect(mapRawMessages(result)).toMatchSnapshot();
 });
 
-test('strip location and duration when applying for more than one country', () => {
+test('strip projectLocation when applying for more than one country', () => {
     const form = formBuilder({
         data: mockResponse({
             projectCountry: ['england', 'scotland'],
-            projectLocation: 'this-should-be-stripped',
-            projectDurationYears: 5
+            projectLocation: 'this-should-be-stripped'
         })
     });
 
     expect(form.validation.value).not.toHaveProperty('projectLocation');
+});
+
+test('strip projectDurationYears when applying for more than one country', () => {
+    const form = formBuilder({
+        data: mockResponse({
+            projectCountry: ['england', 'scotland'],
+            projectDurationYears: 5
+        })
+    });
+
     expect(form.validation.value).not.toHaveProperty('projectDurationYears');
-});
-
-test('project duration is between limits', () => {
-    const formMin = formBuilder({
-        data: mockResponse({
-            projectCountry: ['scotland'],
-            projectDurationYears: 0
-        })
-    });
-
-    expect(mapRawMessages(formMin.validation)).toEqual(
-        expect.arrayContaining([
-            `"projectDurationYears" must be larger than or equal to 1`
-        ])
-    );
-
-    const formMax = formBuilder({
-        data: mockResponse({
-            projectCountry: ['wales'],
-            projectDurationYears: 6
-        })
-    });
-
-    expect(mapRawMessages(formMax.validation)).toEqual(
-        expect.arrayContaining([
-            `"projectDurationYears" must be less than or equal to 5`
-        ])
-    );
-});
-
-test('project costs must be at least 10,000', function() {
-    const form = formBuilder({
-        data: mockResponse({
-            projectCosts: '5,500'
-        })
-    });
-
-    expect(mapMessages(form.validation)).toEqual(
-        expect.arrayContaining([
-            expect.stringContaining(
-                'If you need £10,000 or less from us, you can apply today through'
-            )
-        ])
-    );
-});
-
-test('organisation trading name should not be the same as legal name', function() {
-    const sameThing = 'Example organisation name';
-    const form = formBuilder({
-        data: mockResponse({
-            organisationLegalName: sameThing,
-            organisationTradingName: sameThing
-        })
-    });
-
-    expect(mapMessages(form.validation)).toEqual(
-        expect.arrayContaining([
-            'Trading name must not be the same as legal name'
-        ])
-    );
 });
 
 test('language preference required in wales', function() {
