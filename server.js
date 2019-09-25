@@ -22,7 +22,7 @@ module.exports = app;
 const appData = require('./common/appData');
 const logger = require('./common/logger').child({ service: 'server' });
 
-if (appData.isDev) {
+if (appData.isDev || appData.isTestServer) {
     require('dotenv').config();
 }
 
