@@ -425,44 +425,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         cy: `Sefydliad gwirfoddol neu gymunedol anghofrestredig`
                     }),
                     explanation: localise({
-                        en: oneLine`My organisation has been set up with a governing document,
-                            like a constitution, but it's not a charity or a company.
-                            Some examples of these sorts of groups would be a sports club,
-                            community club or residents association.`,
-                        cy: oneLine`Mae ein sefydliad wedi ei osod gyda dogfen lywodraethol,
-                            fel cyfansoddiad, ond nid yw’n elusen nac yn gwmni.
-                            Rhai enghreifftiau o’r mathau yma o grwpiau fyddai clwb chwaraeon,
-                            clwb cymunedol neu gymdeithas preswylwyr`
-                    })
-                },
-                {
-                    value: 'unregistered-vco',
-                    label: localise({
-                        en: `Registered charity (unincorporated)`,
-                        cy: `Elusen gofrestredig (anghorfforedig)`
-                    }),
-                    explanation: localise({
-                        en: oneLine`My organisation is a voluntary or community organisation
-                            and is a registered charity, but <strong>is not</strong> a
-                            company registered with Companies House`,
-                        cy: oneLine`Mae fy sefydliad yn un wirfoddol neu gymunedol
-                            ac yn elusen gofrestredig, ond <strong>nid</strong> yw’n
-                            gwmni sydd wedi cofrestru â Thŷ’r Cwmnïau`
-                    })
-                },
-                {
-                    value: 'charitable-incorporated-organisation',
-                    label: localise({
-                        en: `Charitable incorporated organisation (CIO)`,
-                        cy: `Sefydliad corfforedig elusennol`
-                    }),
-                    explanation: localise({
-                        en: oneLine`My organisation is a registered charity with
-                            limited liability, but <strong>is not</strong> a
-                            company registered with Companies House`,
-                        cy: oneLine`Mae fy sefydliad yn elusen gofrestredig gydag
-                            atebolrwydd cyfyngedig, ond <strong>ddim</strong> yn
-                            gwmni sydd wedi cofrestru â Thŷ’r Cwmnïau.`
+                        en: oneLine`An organisation set up with a governing document
+                            - like a constitution. But isn't a registered charity or company.`,
+                        cy: oneLine`Sefydliad wedi’i sefydlu â dogfen lywodraethol
+                            – fel cyfansoddiad. Ond nid yw’n elusen na chwmni cofrestredig.`
                     })
                 },
                 {
@@ -472,12 +438,48 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         cy: 'Cwmni di-elw'
                     }),
                     explanation: localise({
-                        en: oneLine`My organisation is a not-for-profit company
-                            registered with Companies House, and <strong>may also</strong>
-                            be registered as a charity`,
-                        cy: oneLine`Mae fy sefydliad yn gwmni di-elw sydd yn gofrestredig
-                            â Thŷ’r Cwmnïau, a <strong>gall hefyd</strong> fod wedi’i
-                            gofrestru fel elusen.`
+                        en: oneLine`A company limited by guarantee - registered with Companies House. 
+                            And might also be registered as a charity.`,
+                        cy: oneLine`Cwmni sy’n gyfyngedig drwy warant – yn gofrestredig â Thŷ’r Cwmnïau. 
+                            A gall hefyd fod wedi’i gofrestru fel elusen.`
+                    })
+                },
+                {
+                    value: 'unregistered-vco',
+                    label: localise({
+                        en: `Registered charity (unincorporated)`,
+                        cy: `Elusen gofrestredig (anghorfforedig)`
+                    }),
+                    explanation: localise({
+                        en: oneLine`A voluntary or community organisation that's a registered charity. 
+                            But isn't a company registered with Companies House.`,
+                        cy: oneLine`Sefydliad gwirfoddol neu gymunedol sydd yn elusen gofrestredig. 
+                            Ond nid yw’n gwmni cofrestredig â Thŷ’r Cwmnïau.`
+                    })
+                },
+                {
+                    value: 'charitable-incorporated-organisation',
+                    label: localise({
+                        en: `Charitable Incorporated Organisation (CIO or SCIO)`,
+                        cy: `Sefydliad corfforedig elusennol (CIO / SCIO)`
+                    }),
+                    explanation: localise({
+                        en: oneLine`A registered charity with limited liability. 
+                            But isn't a company registered with Companies House.`,
+                        cy: oneLine`Elusen gofrestredig gydag atebolrwydd cyfyngedig. 
+                            Ond nid yw’n gwmni cofrestredig â Thŷ’r Cwmnïau.`
+                    })
+                },
+                {
+                    value: 'community-interest-company',
+                    label: localise({
+                        en: 'Community Interest Company (CIC)',
+                        cy: 'Cwmni Budd Cymunedol'
+                    }),
+                    explanation: localise({
+                        en: oneLine`A company registered with Companies House. 
+                    And the Community Interest Company (CIC) Regulator.`,
+                        cy: oneLine`Cwmni cofrestredig â Thŷ’r Cwmnïau. A’r Rheolydd Cwmni Budd Cymunedol.`
                     })
                 },
                 {
@@ -485,10 +487,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     label: localise({
                         en: 'School',
                         cy: 'Ysgol'
-                    }),
-                    explanation: localise({
-                        en: `My organisation is a school`,
-                        cy: `Mae fy sefydliad yn ysgol`
                     })
                 },
                 {
@@ -496,12 +494,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     label: localise({
                         en: 'College or University',
                         cy: 'Coleg neu brifysgol'
-                    }),
-                    explanation: localise({
-                        en: oneLine`My organisation is a college, university, or other
-                            registered educational establishment`,
-                        cy: oneLine`Mae fy sefydliad yn goleg, prifysgol neu sefydliad
-                            addysgol cofrestredig arall`
                     })
                 },
                 {
@@ -511,10 +503,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         cy: 'Corff statudol'
                     }),
                     explanation: localise({
-                        en: oneLine`My organisation is a public body, such as a local
-                            authority, parish council, or police or health authority`,
-                        cy: oneLine`Mae fy sefydliad yn gorff cyhoeddus, megis awdurdod
-                            lleol, cyngor plwyf neu awdurdod heddlu neu iechyd`
+                        en: oneLine`A public body - like a local authority or parish council. 
+                            Or a police or health authority.`,
+                        cy: oneLine`Corff cyhoeddus – fel awdurdod lleol neu gyngor plwyf. 
+                            Neu awdurdod heddlu neu iechyd.`
                     })
                 },
                 {
@@ -524,8 +516,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         cy: 'Grŵp yn seiliedig ar ffydd'
                     }),
                     explanation: localise({
-                        en: `My organisation is a church, mosque, temple, synagogue etc.`,
-                        cy: `Mae fy sefydliad yn eglwys, mosg, teml, synagog a.y.y.b.`
+                        en: `Like a church, mosque, temple or synagogue.`,
+                        cy: `Fel eglwys, mosg, teml neu synagog.`
                     })
                 }
             ],
