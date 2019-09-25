@@ -2,19 +2,22 @@
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
+const includes = require('lodash/includes');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
 
 const {
-    TextField,
+    Field,
     TextareaField,
     EmailField,
     PhoneField,
     CurrencyField,
     RadioField,
     CheckboxField,
-    SelectField
+    SelectField,
+    AddressField,
+    NameField
 } = require('../lib/field-types');
 
 const { FormModel } = require('../lib/form-model');
@@ -128,7 +131,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldProjectLocationDescription() {
-        return new TextField({
+        return new Field({
             name: 'projectLocationDescription',
             label: localise({
                 en: 'Project location',
@@ -355,7 +358,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldOrganisationLegalName() {
-        return new TextField({
+        return new Field({
             name: 'organisationLegalName',
             label: localise({
                 en: 'What is the full legal name of your organisation?',
@@ -384,7 +387,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldOrganisationTradingName() {
-        return new TextField({
+        return new Field({
             name: 'organisationTradingName',
             label: localise({
                 en: 'Organisation trading name',
@@ -400,132 +403,31 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function fieldOrganisationAddress() {
-        return {
+        return new AddressField({
             name: 'organisationAddress',
-            schema: Joi.ukAddress().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a full UK address',
-                        cy: 'Rhowch gyfeiriad Prydeinig llawn'
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'line1',
-                    message: localise({
-                        en: 'Enter a building and street',
-                        cy: 'Rhowch adeilad a stryd'
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'townCity',
-                    message: localise({
-                        en: 'Enter a town or city',
-                        cy: 'Rhowch dref neu ddinas'
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'postcode',
-                    message: localise({
-                        en: 'Enter a postcode',
-                        cy: 'Rhowch gôd post'
-                    })
-                },
-                {
-                    type: 'string.postcode',
-                    key: 'postcode',
-                    message: localise({
-                        en: 'Enter a real postcode',
-                        cy: 'Rhowch gôd post go iawn'
-                    })
-                }
-            ]
-        };
-    }
-
-    function fieldOrganisationType() {
-        return {
-            name: 'organisationType',
-            schema: Joi.string().required(),
-            messages: []
-        };
-    }
-
-    function fieldOrganisationBackground() {
-        return {
-            name: 'organisationBackground',
-            schema: Joi.string()
-                .minWords(50)
-                .maxWords(500)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: `Tell us about your organisation`,
-                        cy: ``
-                    })
-                },
-                {
-                    type: 'string.minWords',
-                    message: localise({
-                        en: `Answer must be at least 50 words`,
-                        cy: `Rhaid i’r ateb fod yn o leiaf 50 gair`
-                    })
-                },
-                {
-                    type: 'string.maxWords',
-                    message: localise({
-                        en: `Answer must be no more than 500 words`,
-                        cy: `Rhaid i’r ateb fod yn llai na 500 gair`
-                    })
-                }
-            ]
-        };
+            label: localise({
+                en: `What is the main or registered address of your organisation?`,
+                cy: `Beth yw prif gyfeiriad neu gyfeiriad gofrestredig eich sefydliad?`
+            })
+        });
     }
 
     function fieldContactName() {
-        return {
+        return new NameField({
             name: 'contactName',
-            schema: Joi.fullName().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter first and last name',
-                        cy: 'Rhowch enw cyntaf a chyfenw'
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'firstName',
-                    message: localise({
-                        en: 'Enter first name',
-                        cy: 'Rhowch enw cyntaf'
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'lastName',
-                    message: localise({
-                        en: 'Enter last name',
-                        cy: 'Rhowch gyfenw'
-                    })
-                }
-            ]
-        };
+            label: localise({
+                en: 'Your name',
+                cy: ''
+            })
+        });
     }
 
     function fieldContactEmail() {
         return new EmailField({
             name: 'contactEmail',
-            label: localise({
-                en: 'Email',
-                cy: ``
+            explanation: localise({
+                en: `We’ll use this whenever we get in touch about the project`,
+                cy: `Fe ddefnyddiwn hwn pryd bynnag y byddwn yn cysylltu ynglŷn â’r prosiect`
             })
         });
     }
@@ -533,10 +435,68 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     function fieldContactPhone() {
         return new PhoneField({
             name: 'contactPhone',
+            isRequired: false
+        });
+    }
+
+    function fieldContactLanguagePreference() {
+        const options = [
+            {
+                label: localise({ en: `English`, cy: `Saesneg` }),
+                value: 'english'
+            },
+            {
+                label: localise({ en: `Welsh`, cy: `Cymraeg` }),
+                value: 'welsh'
+            }
+        ];
+
+        return new RadioField({
+            name: 'contactLanguagePreference',
             label: localise({
-                en: `Telephone number`,
+                en: `What language should we use to contact you?`,
                 cy: ``
-            })
+            }),
+            options: options,
+            schema: Joi.when('projectCountry', {
+                is: Joi.array()
+                    .items(
+                        Joi.string()
+                            .only('wales')
+                            .required()
+                    )
+                    .required(),
+                then: Joi.string()
+                    .valid(options.map(option => option.value))
+                    .required(),
+                otherwise: Joi.any().strip()
+            }),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Select a language',
+                        cy: 'Dewiswch iaith'
+                    })
+                }
+            ]
+        });
+    }
+
+    function fieldContactCommunicationNeeds() {
+        return new Field({
+            name: 'contactCommunicationNeeds',
+            label: localise({
+                en: `Communication needs`,
+                cy: ``
+            }),
+            explanation: localise({
+                en: `Please tell us about any particular communication needs this contact has.`,
+                cy: `Dywedwch wrthym am unrhyw anghenion cyfathrebu penodol sydd gan y cyswllt hwn.`
+            }),
+            type: 'text',
+            isRequired: false,
+            messages: []
         });
     }
 
@@ -552,11 +512,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         organisationLegalName: fieldOrganisationLegalName(),
         organisationTradingName: fieldOrganisationTradingName(),
         organisationAddress: fieldOrganisationAddress(),
-        organisationType: fieldOrganisationType(),
-        organisationBackground: fieldOrganisationBackground(),
         contactName: fieldContactName(),
         contactEmail: fieldContactEmail(),
-        contactPhone: fieldContactPhone()
+        contactPhone: fieldContactPhone(),
+        contactLanguagePreference: fieldContactLanguagePreference(),
+        contactCommunicationNeeds: fieldContactCommunicationNeeds()
     };
 
     function stepProjectCountry() {
@@ -650,6 +610,65 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         };
     }
 
+    function stepOrganisationDetails() {
+        return {
+            title: localise({
+                en: 'Organisation details',
+                cy: ''
+            }),
+            noValidate: true,
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Organisation details',
+                        cy: ''
+                    }),
+                    fields: [
+                        allFields.organisationLegalName,
+                        allFields.organisationTradingName,
+                        allFields.organisationAddress
+                    ]
+                }
+            ]
+        };
+    }
+
+    function stepContactDetails() {
+        return {
+            title: localise({
+                en: 'Contact details',
+                cy: ''
+            }),
+            noValidate: true,
+            fieldsets: [
+                {
+                    legend: localise({
+                        en: 'Contact details',
+                        cy: ''
+                    }),
+                    get fields() {
+                        if (includes(projectCountries, 'wales')) {
+                            return [
+                                allFields.contactName,
+                                allFields.contactEmail,
+                                allFields.contactPhone,
+                                allFields.contactLanguagePreference,
+                                allFields.contactCommunicationNeeds
+                            ];
+                        } else {
+                            return [
+                                allFields.contactName,
+                                allFields.contactEmail,
+                                allFields.contactPhone,
+                                allFields.contactCommunicationNeeds
+                            ];
+                        }
+                    }
+                }
+            ]
+        };
+    }
+
     const form = {
         title: localise({
             en: 'Get advice on your idea',
@@ -669,6 +688,22 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     stepProjectCosts(),
                     stepYourIdea()
                 ]
+            },
+            {
+                slug: 'your-organisation',
+                title: localise({
+                    en: 'Your organisation',
+                    cy: 'Eich sefydliad'
+                }),
+                steps: [stepOrganisationDetails()]
+            },
+            {
+                slug: 'your-details',
+                title: localise({
+                    en: 'Your details',
+                    cy: ''
+                }),
+                steps: [stepContactDetails()]
             }
         ]
     };

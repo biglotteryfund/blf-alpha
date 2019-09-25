@@ -976,6 +976,132 @@ it('should submit full awards for all application', () => {
     });
 });
 
+it('should complete get advice form', () => {
+    const mock = {
+        projectCountries: ['England'],
+        projectLocation: 'Derbyshire',
+        projectLocationDescription: faker.lorem.words(5),
+        projectCosts: random(10000, 5000000),
+        projectDurationYears: sample(['3 years', '4 years', '5 years']),
+        yourIdeaProject: faker.lorem.words(random(50, 500)),
+        yourIdeaCommunity: faker.lorem.words(random(50, 500)),
+        yourIdeaActivities: faker.lorem.words(random(50, 500)),
+        organisationName: faker.company.companyName(),
+        organisationTradingName: sample([faker.company.companyName(), '']),
+        organisationAddress: {
+            streetAddress: `The Bar, 2 St James' Blvd`,
+            city: 'Newcastle',
+            postcode: 'NE4 7JH'
+        },
+        contactEmail: 'digital.monitoring@tnlcommunityfund.org.uk',
+        contactName: {
+            firstName: faker.name.firstName(),
+            lastName: faker.name.lastName()
+        },
+        contactPhone: '0345 4 10 20 30',
+        contactCommunicationNeeds: 'Example communication need'
+    };
+
+    function submitStep() {
+        cy.findByText('Continue').click();
+    }
+
+    cy.seedAndLogin().then(() => {
+        cy.visit('/apply/get-advice/new');
+
+        acceptCookieConsent();
+
+        cy.findAllByText('Start your application')
+            .first()
+            .click();
+
+        mock.projectCountries.forEach(function(country) {
+            cy.findByLabelText(country).click();
+        });
+
+        submitStep();
+
+        cy.findByLabelText('Where will your project take place?').select(
+            mock.projectLocation
+        );
+        cy.findByLabelText('Project location', { exact: false }).type(
+            mock.projectLocationDescription
+        );
+
+        submitStep();
+
+        cy.findByLabelText('How much money do you want from us?').type(
+            mock.projectCosts
+        );
+        cy.findByLabelText(mock.projectDurationYears).click();
+        submitStep();
+
+        cy.findByLabelText('What would you like to do?')
+            .invoke('val', mock.yourIdeaProject)
+            .trigger('change');
+
+        cy.findByLabelText('How does your project involve your community?')
+            .invoke('val', mock.yourIdeaCommunity)
+            .trigger('change');
+
+        cy.findByLabelText(
+            'How does your idea fit in with other local activities?'
+        )
+            .invoke('val', mock.yourIdeaActivities)
+            .trigger('change');
+
+        submitStep();
+
+        cy.findByLabelText(
+            'What is the full legal name of your organisation?'
+        ).type(mock.organisationName);
+
+        if (mock.organisationTradingName) {
+            cy.findByLabelText('Organisation trading name', {
+                exact: false
+            }).type(mock.organisationTradingName);
+        }
+
+        cy.findByText(
+            'What is the main or registered address of your organisation?'
+        )
+            .parent()
+            .within(() => {
+                cy.findByText('Enter address manually').click();
+                cy.findByLabelText('Building and street').type(
+                    mock.organisationAddress.streetAddress
+                );
+                cy.findByLabelText('Town or city').type(
+                    mock.organisationAddress.city
+                );
+                cy.findByLabelText('Postcode').type(
+                    mock.organisationAddress.postcode
+                );
+            });
+
+        submitStep();
+
+        cy.findByLabelText('First name').type(mock.contactName.firstName);
+
+        cy.findByLabelText('Last name').type(mock.contactName.lastName);
+
+        cy.findByLabelText('Email').type(mock.contactEmail);
+
+        cy.findByLabelText('Telephone number', { exact: false }).type(
+            mock.contactPhone
+        );
+
+        cy.findByLabelText('Communication needs', { exact: false }).type(
+            mock.contactCommunicationNeeds
+        );
+        submitStep();
+
+        cy.findAllByText('All sections are complete', { exact: false })
+            .first()
+            .should('exist');
+    });
+});
+
 it('should submit an enquiry for reaching communities', () => {
     function submitStep() {
         cy.findByText('Next').click();

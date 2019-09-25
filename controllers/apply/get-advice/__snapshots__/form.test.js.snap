@@ -11,8 +11,6 @@ Array [
   "Tell us how your idea fits in with other local activities",
   "Enter the full legal name of the organisation",
   "Enter a full UK address",
-  "Tell us about your organisation",
-  "Enter first and last name",
   "Enter an email address",
 ]
 `;
@@ -28,15 +26,13 @@ Array [
   "\\"yourIdeaActivities\\" is required",
   "\\"organisationLegalName\\" is required",
   "\\"organisationAddress\\" is required",
-  "\\"organisationType\\" is required",
-  "\\"organisationBackground\\" is required",
-  "\\"contactName\\" is required",
   "\\"contactEmail\\" is required",
 ]
 `;
 
 exports[`minimal valid form 1`] = `
 Object {
+  "contactCommunicationNeeds": "Large print",
   "contactEmail": "general.enquiries@tnlcommunityfund.org.uk",
   "contactName": Object {
     "firstName": "Björk",
@@ -49,10 +45,8 @@ Object {
     "postcode": "B15 1TR",
     "townCity": "Birmingham",
   },
-  "organisationBackground": Any<String>,
   "organisationLegalName": "Example organisation",
   "organisationTradingName": "Example trading name",
-  "organisationType": "Social enterprise",
   "projectCosts": 250000,
   "projectCountry": Any<Array>,
   "projectDurationYears": 3,
