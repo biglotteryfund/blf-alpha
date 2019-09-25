@@ -154,10 +154,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: `This can be an estimate`,
                 cy: ``
             }),
-            schema: Joi.friendlyNumber()
-                .integer()
-                .min(10000)
-                .required(),
+            minAmount: 10000,
             messages: [
                 {
                     type: 'base',
@@ -369,7 +366,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     or something else entirely.`,
                 cy: ``
             }),
-            schema: Joi.string().required(),
             messages: [
                 {
                     type: 'base',
