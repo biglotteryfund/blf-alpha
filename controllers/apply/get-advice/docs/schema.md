@@ -78,14 +78,6 @@ type: `object`
 | **county**   | `string` or `null` | Optional |
 | **postcode** | `string`           |          |
 
-### organisationType
-
-type: `string`
-
-### organisationBackground
-
-type: `string`
-
 ### contactName
 
 type: `object`
@@ -100,6 +92,18 @@ type: `object`
 type: `string`
 
 ### contactPhone
+
+type: `string` or `null`
+
+Optional field
+
+### contactLanguagePreference
+
+type: `string` or `null`
+
+Only required and included when `projectCountry` contains `wales`.
+
+### contactCommunicationNeeds
 
 type: `string` or `null`
 

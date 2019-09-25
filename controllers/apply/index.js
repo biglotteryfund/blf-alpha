@@ -22,6 +22,7 @@ const { EXPIRY_EMAIL_REMINDERS } = require('./awards-for-all/constants');
 const {
     generateEmailQueueItems
 } = require('./form-router-next/lib/emailQueue');
+const { isNotProduction } = require('../../common/appData');
 
 const router = express.Router();
 
@@ -30,7 +31,7 @@ router.get('/', (req, res) => res.redirect('/'));
 router.use('/your-idea', require('./reaching-communities'));
 router.use('/awards-for-all', require('./awards-for-all'));
 
-if (isDev) {
+if (isNotProduction) {
     router.use('/get-advice', require('./get-advice'));
 }
 
