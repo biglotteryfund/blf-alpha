@@ -355,6 +355,20 @@ class ApplicationEmailQueue extends Model {
         });
     }
 
+    // Remove old email queue items once their sent date is more than 3 months ago
+    static async cleanupQueue() {
+        const expiryDate = moment()
+            .subtract(3, 'months')
+            .toDate();
+
+        this.destroy({
+            where: {
+                status: { [Op.eq]: 'SENT' },
+                dateToSend: { [Op.lte]: expiryDate }
+            }
+        });
+    }
+
     /**
      * Creates a queue of emails for a new application
      *
@@ -363,7 +377,8 @@ class ApplicationEmailQueue extends Model {
      * @param {string} emailRecords[].emailType - an email template name constant
      * @param {date} emailRecords[].dateToSend - the date this email should be sent
      */
-    static createNewQueue(emailRecords) {
+    static async createNewQueue(emailRecords) {
+        await this.cleanupQueue();
         return this.bulkCreate(emailRecords);
     }
 
