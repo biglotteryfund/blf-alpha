@@ -104,20 +104,29 @@ const S3_KMS_KEY_ID = process.env.S3_KMS_KEY_ID || getSecret('s3.kms.key.id');
 
 const DATA_STUDIO_AFA_URL = getSecret('dataStudio.url.awardsForAll');
 
+/**
+ * Email expiry secret
+ * A shared token sent in POST requests to the email API endpoints
+ * (eg. for emailing about soon-to-expire applications)
+ */
+const EMAIL_EXPIRY_SECRET =
+    process.env.EMAIL_EXPIRY_SECRET || getSecret('emailExpiry.secret');
+
 module.exports = {
     AWARDS_FOR_ALL_SECRET,
     AZURE_AUTH,
+    BANK_API,
     CONTENT_API_URL,
     DATA_STUDIO_AFA_URL,
     DB_CONNECTION_URI,
     DIGITAL_FUND_EMAIL,
+    EMAIL_EXPIRY_SECRET,
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
     POSTCODES_API_KEY,
     S3_KMS_KEY_ID,
     SALESFORCE_AUTH,
-    BANK_API,
     SENTRY_DSN,
     SESSION_SECRET
 };

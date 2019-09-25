@@ -10,7 +10,10 @@ const {
     ApplicationEmailQueue
 } = require('../../db/models');
 const appData = require('../../common/appData');
-const { POSTCODES_API_KEY } = require('../../common/secrets');
+const {
+    POSTCODES_API_KEY,
+    EMAIL_EXPIRY_SECRET
+} = require('../../common/secrets');
 const { csrfProtection } = require('../../common/cached');
 const {
     sendExpiryEmails,
@@ -146,6 +149,10 @@ router.post('/survey', async (req, res) => {
  */
 
 router.post('/applications/expiry', async (req, res) => {
+    if (req.body.secret !== EMAIL_EXPIRY_SECRET) {
+        return res.status(403).json({ error: 'Invalid secret' });
+    }
+
     try {
         let response = {};
 
