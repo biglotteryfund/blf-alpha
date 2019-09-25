@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`minimal invalid form 1`] = `
+exports[`invalid form 1`] = `
 Array [
   "Select a country",
   "Select a location",
@@ -17,24 +17,7 @@ Array [
 ]
 `;
 
-exports[`minimal invalid form 2`] = `
-Array [
-  "\\"projectCountry\\" must be one of [england, scotland, northern-ireland, wales]",
-  "\\"projectLocation\\" must be a string",
-  "\\"projectCosts\\" must be larger than or equal to 10000",
-  "\\"projectDurationYears\\" must be less than or equal to 5",
-  "\\"yourIdeaProject\\" is required",
-  "\\"yourIdeaCommunity\\" is required",
-  "\\"yourIdeaActivities\\" is required",
-  "\\"organisationTradingName\\" contains an invalid value",
-  "\\"organisationAddress\\" is required",
-  "\\"organisationType\\" is required",
-  "\\"contactName\\" is required",
-  "\\"contactEmail\\" is required",
-]
-`;
-
-exports[`minimal valid form 1`] = `
+exports[`valid form 1`] = `
 Object {
   "contactCommunicationNeeds": "Large print",
   "contactEmail": "general.enquiries@tnlcommunityfund.org.uk",

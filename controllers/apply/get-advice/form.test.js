@@ -10,12 +10,6 @@ function mapMessages(validationResult) {
     return validationResult.messages.map(detail => detail.msg);
 }
 
-function mapRawMessages(validationResult) {
-    return validationResult.error.details.map(detail => {
-        return detail.message;
-    });
-}
-
 function mockResponse(overrides = {}) {
     const defaults = {
         projectCountry: ['england'],
@@ -47,7 +41,7 @@ function mockResponse(overrides = {}) {
     return Object.assign(defaults, overrides);
 }
 
-test('minimal valid form', () => {
+test('valid form', () => {
     const data = mockResponse();
     const result = formBuilder({ data }).validation;
     expect(result.error).toBeNull();
@@ -61,7 +55,7 @@ test('minimal valid form', () => {
     });
 });
 
-test('minimal invalid form', () => {
+test('invalid form', () => {
     const form = formBuilder();
 
     const result = form.validate({
@@ -74,8 +68,6 @@ test('minimal invalid form', () => {
     });
 
     expect(mapMessages(result)).toMatchSnapshot();
-
-    expect(mapRawMessages(result)).toMatchSnapshot();
 });
 
 test('strip projectLocation when applying for more than one country', () => {
