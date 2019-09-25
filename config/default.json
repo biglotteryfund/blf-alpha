@@ -34,8 +34,7 @@
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
     "enableSeeders": false,
-    "enableSiteSurvey": true,
-    "enableLocalAntivirus": true
+    "enableSiteSurvey": true
   },
   "awardsForAll": {
     "allowedCountries": ["scotland", "wales"]

@@ -2,22 +2,37 @@
 
 exports[`minimal invalid form 1`] = `
 Array [
+  "Select a country",
+  "Select a location",
+  "If you need £10,000 or less from us, you can apply today through <a href=\\"/funding/under10k\\"> National Lottery Awards for All </a>.",
+  "Select a project duration",
+  "Tell us what you would like to do",
+  "Tell us how your project involves your community",
+  "Tell us how your idea fits in with other local activities",
+  "Enter the full legal name of the organisation",
+  "Enter a full UK address",
+  "Enter an email address",
+]
+`;
+
+exports[`minimal invalid form 2`] = `
+Array [
   "\\"projectCountry\\" must be one of [england, scotland, northern-ireland, wales]",
   "\\"projectLocation\\" must be a string",
   "\\"projectCosts\\" must be larger than or equal to 10000",
   "\\"projectDurationYears\\" must be less than or equal to 5",
-  "\\"projectIdea\\" is required",
+  "\\"yourIdeaProject\\" is required",
+  "\\"yourIdeaCommunity\\" is required",
+  "\\"yourIdeaActivities\\" is required",
   "\\"organisationLegalName\\" is required",
   "\\"organisationAddress\\" is required",
-  "\\"organisationType\\" is required",
-  "\\"organisationBackground\\" is required",
-  "\\"contactName\\" is required",
   "\\"contactEmail\\" is required",
 ]
 `;
 
 exports[`minimal valid form 1`] = `
 Object {
+  "contactCommunicationNeeds": "Large print",
   "contactEmail": "general.enquiries@tnlcommunityfund.org.uk",
   "contactName": Object {
     "firstName": "Björk",
@@ -30,17 +45,15 @@ Object {
     "postcode": "B15 1TR",
     "townCity": "Birmingham",
   },
-  "organisationBackground": Any<String>,
   "organisationLegalName": "Example organisation",
   "organisationTradingName": "Example trading name",
-  "organisationType": "Social enterprise",
   "projectCosts": 250000,
-  "projectCountry": Array [
-    "england",
-  ],
+  "projectCountry": Any<Array>,
   "projectDurationYears": 3,
-  "projectIdea": Any<String>,
-  "projectLocation": "placeholder-location",
+  "projectLocation": Any<String>,
   "projectLocationDescription": "optional description",
+  "yourIdeaActivities": Any<String>,
+  "yourIdeaCommunity": Any<String>,
+  "yourIdeaProject": Any<String>,
 }
 `;

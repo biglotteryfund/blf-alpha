@@ -22,197 +22,40 @@ Array [
 ]
 `;
 
-exports[`Contacts include all roles if no organisation type is provided 1`] = `
+exports[`Who will benefit require additional beneficiary questions based on groups 1`] = `
 Array [
-  "chair",
-  "chancellor",
-  "chief-executive",
-  "chief-executive-officer",
-  "company-director",
-  "company-secretary",
-  "deputy-parish-clerk",
-  "director",
-  "elected-member",
-  "head-teacher",
-  "parish-clerk",
-  "religious-leader",
-  "secretary",
-  "treasurer",
-  "trustee",
-  "vice-chair",
-  "vice-chancellor",
+  "Select the age group(s) of the people that will benefit from your project",
+  "Select the disabled people that will benefit from your project",
+  "Select the ethnic background(s) of the people that will benefit from your project",
+  "Select the gender(s) of the people that will benefit from your project",
+  "Select the religion(s) or belief(s) of the people that will benefit from your project",
 ]
 `;
 
-exports[`Contacts include expected roles for "charitable-incorporated-organisation" 1`] = `
+exports[`Your organisation finance details required if organisation is over 15 months old 1`] = `
 Array [
-  "trustee",
-  "chief-executive-officer",
+  "Enter a day and month",
+  "Enter a total income for the year (eg. a whole number with no commas or decimal points)",
 ]
 `;
 
-exports[`Contacts include expected roles for "college-or-university" 1`] = `
+exports[`Your organisation finance details required if organisation is over 15 months old 2`] = `
 Array [
-  "chancellor",
-  "vice-chancellor",
+  "Enter a day and month",
+  "Total income must be a real number",
 ]
 `;
 
-exports[`Contacts include expected roles for "community-interest-company" 1`] = `
+exports[`Your organisation valid basic organisation details required 1`] = `
 Array [
-  "chair",
-  "chancellor",
-  "chief-executive",
-  "chief-executive-officer",
-  "company-director",
-  "company-secretary",
-  "deputy-parish-clerk",
-  "director",
-  "elected-member",
-  "head-teacher",
-  "parish-clerk",
-  "religious-leader",
-  "secretary",
-  "treasurer",
-  "trustee",
-  "vice-chair",
-  "vice-chancellor",
+  "Enter a full UK address",
+  "Enter a month and year",
+  "Enter the full legal name of the organisation",
+  "Select a type of organisation",
 ]
 `;
 
-exports[`Contacts include expected roles for "faith-group" 1`] = `
-Array [
-  "chair",
-  "vice-chair",
-  "secretary",
-  "treasurer",
-  "religious-leader",
-]
-`;
-
-exports[`Contacts include expected roles for "not-for-profit-company" 1`] = `
-Array [
-  "company-director",
-  "company-secretary",
-]
-`;
-
-exports[`Contacts include expected roles for "school" 1`] = `
-Array [
-  "head-teacher",
-]
-`;
-
-exports[`Contacts include expected roles for "statutory-body" 1`] = `
-Array [
-  "chair",
-  "chancellor",
-  "chief-executive",
-  "chief-executive-officer",
-  "company-director",
-  "company-secretary",
-  "deputy-parish-clerk",
-  "director",
-  "elected-member",
-  "head-teacher",
-  "parish-clerk",
-  "religious-leader",
-  "secretary",
-  "treasurer",
-  "trustee",
-  "vice-chair",
-  "vice-chancellor",
-]
-`;
-
-exports[`Contacts include expected roles for "unincorporated-registered-charity" 1`] = `
-Array [
-  "trustee",
-]
-`;
-
-exports[`Contacts include expected roles for "unregistered-vco" 1`] = `
-Array [
-  "chair",
-  "vice-chair",
-  "secretary",
-  "treasurer",
-]
-`;
-
-exports[`Contacts include role warning for "CIC" 1`] = `Array []`;
-
-exports[`Contacts include role warning for "CIC" 2`] = `Array []`;
-
-exports[`Contacts include role warning for "CIC" 3`] = `Array []`;
-
-exports[`Contacts include role warning for "CIC" 4`] = `Array []`;
-
-exports[`Contacts include role warning for "CIO" 1`] = `Array []`;
-
-exports[`Contacts include role warning for "CIO" 2`] = `Array []`;
-
-exports[`Contacts include role warning for "CIO" 3`] = `Array []`;
-
-exports[`Contacts include role warning for "CIO" 4`] = `Array []`;
-
-exports[`Contacts include role warning for "COLLEGE_OR_UNIVERSITY" 1`] = `Array []`;
-
-exports[`Contacts include role warning for "COLLEGE_OR_UNIVERSITY" 2`] = `Array []`;
-
-exports[`Contacts include role warning for "COLLEGE_OR_UNIVERSITY" 3`] = `Array []`;
-
-exports[`Contacts include role warning for "COLLEGE_OR_UNIVERSITY" 4`] = `Array []`;
-
-exports[`Contacts include role warning for "FAITH_GROUP" 1`] = `Array []`;
-
-exports[`Contacts include role warning for "FAITH_GROUP" 2`] = `Array []`;
-
-exports[`Contacts include role warning for "FAITH_GROUP" 3`] = `Array []`;
-
-exports[`Contacts include role warning for "FAITH_GROUP" 4`] = `Array []`;
-
-exports[`Contacts include role warning for "NOT_FOR_PROFIT_COMPANY" 1`] = `Array []`;
-
-exports[`Contacts include role warning for "NOT_FOR_PROFIT_COMPANY" 2`] = `Array []`;
-
-exports[`Contacts include role warning for "NOT_FOR_PROFIT_COMPANY" 3`] = `Array []`;
-
-exports[`Contacts include role warning for "NOT_FOR_PROFIT_COMPANY" 4`] = `Array []`;
-
-exports[`Contacts include role warning for "SCHOOL" 1`] = `Array []`;
-
-exports[`Contacts include role warning for "SCHOOL" 2`] = `Array []`;
-
-exports[`Contacts include role warning for "SCHOOL" 3`] = `Array []`;
-
-exports[`Contacts include role warning for "SCHOOL" 4`] = `Array []`;
-
-exports[`Contacts include role warning for "STATUTORY_BODY" 1`] = `Array []`;
-
-exports[`Contacts include role warning for "STATUTORY_BODY" 2`] = `Array []`;
-
-exports[`Contacts include role warning for "STATUTORY_BODY" 3`] = `Array []`;
-
-exports[`Contacts include role warning for "STATUTORY_BODY" 4`] = `Array []`;
-
-exports[`Contacts include role warning for "UNINCORPORATED_REGISTERED_CHARITY" 1`] = `Array []`;
-
-exports[`Contacts include role warning for "UNINCORPORATED_REGISTERED_CHARITY" 2`] = `Array []`;
-
-exports[`Contacts include role warning for "UNINCORPORATED_REGISTERED_CHARITY" 3`] = `Array []`;
-
-exports[`Contacts include role warning for "UNINCORPORATED_REGISTERED_CHARITY" 4`] = `Array []`;
-
-exports[`Contacts include role warning for "UNREGISTERED_VCO" 1`] = `Array []`;
-
-exports[`Contacts include role warning for "UNREGISTERED_VCO" 2`] = `Array []`;
-
-exports[`Contacts include role warning for "UNREGISTERED_VCO" 3`] = `Array []`;
-
-exports[`Contacts include role warning for "UNREGISTERED_VCO" 4`] = `Array []`;
-
-exports[`Global validation default validations for an empty form 1`] = `
+exports[`default validations for an empty form 1`] = `
 Array [
   "Enter a project name",
   "Select a country",
@@ -246,38 +89,5 @@ Array [
   "You must confirm that you understand your application is subject to our Freedom of Information policy",
   "Enter the full name of the person completing this form",
   "Enter the position of the person completing this form",
-]
-`;
-
-exports[`Who will benefit require additional beneficiary questions based on groups 1`] = `
-Array [
-  "Select the age group(s) of the people that will benefit from your project",
-  "Select the disabled people that will benefit from your project",
-  "Select the ethnic background(s) of the people that will benefit from your project",
-  "Select the gender(s) of the people that will benefit from your project",
-  "Select the religion(s) or belief(s) of the people that will benefit from your project",
-]
-`;
-
-exports[`Your organisation finance details required if organisation is over 15 months old 1`] = `
-Array [
-  "Enter a day and month",
-  "Enter a total income for the year (eg. a whole number with no commas or decimal points)",
-]
-`;
-
-exports[`Your organisation finance details required if organisation is over 15 months old 2`] = `
-Array [
-  "Enter a day and month",
-  "Total income must be a real number",
-]
-`;
-
-exports[`Your organisation valid basic organisation details required 1`] = `
-Array [
-  "Enter a full UK address",
-  "Enter a month and year",
-  "Enter the full legal name of the organisation",
-  "Select a type of organisation",
 ]
 `;
