@@ -133,7 +133,23 @@ test('project costs must be at least 10,000', function() {
     );
 });
 
-test('language prefrence required in wales', function() {
+test('organisation trading name should not be the same as legal name', function() {
+    const sameThing = 'Example organisation name';
+    const form = formBuilder({
+        data: mockResponse({
+            organisationLegalName: sameThing,
+            organisationTradingName: sameThing
+        })
+    });
+
+    expect(mapMessages(form.validation)).toEqual(
+        expect.arrayContaining([
+            'Trading name must not be the same as legal name'
+        ])
+    );
+});
+
+test('language preference required in wales', function() {
     const form = formBuilder({
         data: mockResponse({
             projectCountry: ['wales'],

@@ -27,37 +27,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     const projectCountries = getOr([], 'projectCountry')(data);
 
     function fieldProjectCountry() {
-        const options = [
-            {
-                label: localise({
-                    en: 'England',
-                    cy: 'Lloegr'
-                }),
-                value: 'england'
-            },
-            {
-                label: localise({
-                    en: 'Scotland',
-                    cy: 'Yr Alban'
-                }),
-                value: 'scotland'
-            },
-            {
-                label: localise({
-                    en: 'Northern Ireland',
-                    cy: 'Gogledd Iwerddon'
-                }),
-                value: 'northern-ireland'
-            },
-            {
-                label: localise({
-                    en: 'Wales',
-                    cy: 'Cymru'
-                }),
-                value: 'wales'
-            }
-        ];
-
         return new CheckboxField({
             name: 'projectCountry',
             label: localise({
@@ -72,7 +41,36 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     ar pa wlad mae eich prosiect wedi’i leoli i ddiwallu
                     anghenion lleol a’r rheoliadau sy’n berthnasol yna.`
             }),
-            options: options,
+            options: [
+                {
+                    label: localise({
+                        en: 'England',
+                        cy: 'Lloegr'
+                    }),
+                    value: 'england'
+                },
+                {
+                    label: localise({
+                        en: 'Scotland',
+                        cy: 'Yr Alban'
+                    }),
+                    value: 'scotland'
+                },
+                {
+                    label: localise({
+                        en: 'Northern Ireland',
+                        cy: 'Gogledd Iwerddon'
+                    }),
+                    value: 'northern-ireland'
+                },
+                {
+                    label: localise({
+                        en: 'Wales',
+                        cy: 'Cymru'
+                    }),
+                    value: 'wales'
+                }
+            ],
             messages: [
                 {
                     type: 'base',
@@ -396,7 +394,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     day-to-day work, please write it below`,
                 cy: ``
             }),
-            isRequired: false
+            isRequired: false,
+            schema: Joi.string()
+                .allow('')
+                .optional()
+                .invalid(Joi.ref('organisationLegalName')),
+            messages: [
+                {
+                    type: 'any.invalid',
+                    message: localise({
+                        en: 'Trading name must not be the same as legal name',
+                        cy: ''
+                    })
+                }
+            ]
         });
     }
 
