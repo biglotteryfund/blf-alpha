@@ -24,6 +24,9 @@ const { localify } = require('../../../common/urls');
 const { noStore } = require('../../../common/cached');
 const { requireActiveUserWithCallback } = require('../../../common/authed');
 const { injectCopy } = require('../../../common/inject-content');
+const {
+    verifyTokenUnsubscribeApplicationEmails
+} = require('../../user/lib/jwt');
 
 const salesforceService = require('./lib/salesforce');
 const { getObject, buildMultipartData } = require('./lib/file-uploads');
@@ -291,6 +294,31 @@ function initFormRouter({
             title: title,
             item: req.params.helpItem
         });
+    });
+
+    router.get('/emails/unsubscribe', async function(req, res) {
+        if (req.query.token) {
+            try {
+                const unsubscribeRequest = await verifyTokenUnsubscribeApplicationEmails(
+                    req.query.token
+                );
+                const applicationId = unsubscribeRequest.applicationId;
+                // delete scheduled emails then redirect with message
+                await ApplicationEmailQueue.deleteEmailsForApplication(
+                    applicationId
+                );
+                res.redirect(
+                    res.locals.formBaseUrl + '?s=unsubscribedFromEmails'
+                );
+            } catch (error) {
+                commonLogger.warn('Email unsubscribe token failed', {
+                    token: req.query.token
+                });
+                res.redirect(req.baseUrl);
+            }
+        } else {
+            res.redirect(req.baseUrl);
+        }
     });
 
     /**

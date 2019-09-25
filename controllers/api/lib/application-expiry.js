@@ -3,7 +3,10 @@ const path = require('path');
 const get = require('lodash/get');
 
 const { sendHtmlEmail } = require('../../../common/mail');
-const { PendingApplication, ApplicationEmailQueue } = require('../../../db/models');
+const {
+    PendingApplication,
+    ApplicationEmailQueue
+} = require('../../../db/models');
 const {
     EXPIRY_EMAIL_REMINDERS
 } = require('../../apply/awards-for-all/constants');
@@ -11,6 +14,9 @@ const {
     getEmailFor,
     getPhoneFor
 } = require('../../apply/awards-for-all/lib/contacts');
+const { signTokenUnsubscribeApplicationEmails } = require('../../user/lib/jwt');
+const { getAbsoluteUrl } = require('../../../common/urls');
+
 const appData = require('../../../common/appData');
 const logger = require('../../../common/logger').child({
     service: 'application-expiry'
@@ -25,7 +31,7 @@ const logger = require('../../../common/logger').child({
  * -- Updates db
  * returns an array of objects containing emailSent, dbUpdated for each queue
  */
-const sendExpiryEmails = async (emailQueue, locale) => {
+const sendExpiryEmails = async (req, emailQueue, locale) => {
     logger.info('Handling email queue');
 
     if (appData.isNotProduction && !process.env.APPLICATION_EXPIRY_EMAIL) {
@@ -60,6 +66,14 @@ const sendExpiryEmails = async (emailQueue, locale) => {
             const getAppData = field =>
                 get(emailToSend.PendingApplication, `applicationData.${field}`);
 
+            const token = signTokenUnsubscribeApplicationEmails(
+                emailToSend.PendingApplication.id
+            );
+
+            const unsubscribePath =
+                '/apply/awards-for-all/emails/unsubscribe?token=' + token;
+            const unsubscribeUrl = getAbsoluteUrl(req, unsubscribePath);
+
             const emailStatus = await sendHtmlEmail(
                 {
                     template: path.resolve(__dirname, './expiry-email.njk'),
@@ -72,7 +86,8 @@ const sendExpiryEmails = async (emailQueue, locale) => {
                             getAppData('projectCountry')
                         ),
                         countryEmail: getEmailFor(getAppData('projectCountry')),
-                        application: emailToSend.PendingApplication
+                        application: emailToSend.PendingApplication,
+                        unsubscribeLink: unsubscribeUrl
                     }
                 },
                 mailParams

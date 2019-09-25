@@ -156,7 +156,6 @@ router.post('/survey', async (req, res) => {
  */
 
 // @TODO remove this endpoint after seeding past application email queue
-
 router.post('/applications/expiry/seed', async (req, res) => {
     if (req.body.secret !== EMAIL_EXPIRY_SECRET && !appData.isTestServer) {
         return res.status(403).json({ error: 'Invalid secret' });
@@ -215,6 +214,7 @@ router.post('/applications/expiry', async (req, res) => {
 
         if (emailQueue.length > 0) {
             response.emailQueue = await sendExpiryEmails(
+                req,
                 emailQueue,
                 req.i18n.getLocale()
             );
