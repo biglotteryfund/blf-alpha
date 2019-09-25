@@ -103,7 +103,7 @@ test('strip projectDurationYears when applying for more than one country', () =>
 test('language preference required in wales', function() {
     const form = formBuilder({
         data: mockResponse({
-            projectCountry: ['wales'],
+            projectCountry: ['england', 'wales'],
             projectLocation: 'swansea'
         })
     });
@@ -114,7 +114,7 @@ test('language preference required in wales', function() {
 
     const formValid = formBuilder({
         data: mockResponse({
-            projectCountry: ['wales'],
+            projectCountry: ['england', 'wales'],
             projectLocation: 'swansea',
             contactLanguagePreference: 'welsh'
         })

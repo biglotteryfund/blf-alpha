@@ -595,7 +595,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     .items(
                         Joi.string()
                             .only('wales')
-                            .required()
+                            .required(),
+                        Joi.any()
                     )
                     .required(),
                 then: Joi.string()
