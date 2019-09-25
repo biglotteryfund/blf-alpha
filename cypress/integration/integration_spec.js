@@ -8,7 +8,9 @@ const sampleSize = require('lodash/sampleSize');
 const sum = require('lodash/sum');
 const times = require('lodash/times');
 
-const { EMAIL_EXPIRY_SECRET } = require('../../common/secrets');
+// We can't get this directly from the secrets file or the build fails
+// as Travis can't retrieve the parameters from AWS and throws an error.
+const { EMAIL_EXPIRY_SECRET } = process.env.EMAIL_EXPIRY_SECRET;
 
 function acceptCookieConsent() {
     return cy.get('.cookie-consent button').click();
