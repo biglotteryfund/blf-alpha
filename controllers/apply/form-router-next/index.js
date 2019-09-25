@@ -11,7 +11,6 @@ const set = require('lodash/set');
 const unset = require('lodash/unset');
 const features = require('config').get('features');
 const formidable = require('formidable');
-const moment = require('moment');
 
 const {
     PendingApplication,
@@ -472,6 +471,11 @@ function initFormRouter({
                 await PendingApplication.deleteApplication(
                     currentApplication.id,
                     req.user.userData.id
+                );
+
+                // Delete any scheduled emails for this application
+                await ApplicationEmailQueue.deleteEmailsForApplication(
+                    currentApplication.id
                 );
 
                 /**

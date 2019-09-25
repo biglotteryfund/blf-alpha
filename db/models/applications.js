@@ -369,6 +369,14 @@ class ApplicationEmailQueue extends Model {
         });
     }
 
+    static deleteEmailsForApplication(applicationId) {
+        return this.destroy({
+            where: {
+                applicationId: { [Op.eq]: applicationId }
+            }
+        });
+    }
+
     /**
      * Creates a queue of emails for a new application
      *

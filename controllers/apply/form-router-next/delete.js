@@ -2,7 +2,10 @@
 const express = require('express');
 const path = require('path');
 
-const { PendingApplication } = require('../../../db/models');
+const {
+    PendingApplication,
+    ApplicationEmailQueue
+} = require('../../../db/models');
 const logger = require('../../../common/logger').child({ service: 'apply' });
 
 module.exports = function(formId) {
@@ -38,6 +41,12 @@ module.exports = function(formId) {
                     req.params.applicationId,
                     req.user.userData.id
                 );
+
+                // Delete any scheduled emails for this application
+                await ApplicationEmailQueue.deleteEmailsForApplication(
+                    req.params.applicationId
+                );
+
                 logger.info('Application deleted', {
                     applicationId: req.params.applicationId
                 });
