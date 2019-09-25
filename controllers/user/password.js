@@ -57,6 +57,11 @@ async function processResetRequest(req, user) {
     );
 
     await Users.updateIsInPasswordReset(user.id);
+
+    if (req.body.returnToken) {
+        // used for tests to verify reset password
+        return { token };
+    }
 }
 
 function sendPasswordResetNotification(req, email) {
@@ -121,11 +126,16 @@ router
                 res.locals.passwordWasJustReset = true;
 
                 if (user) {
-                    await processResetRequest(req, user);
-                    logger.info('Password reset request succeeded');
+                    if (req.body.returnToken) {
+                        // used for tests to verify reset password
+                        const token = await processResetRequest(req, user);
+                        res.send(token);
+                    } else {
+                        await processResetRequest(req, user);
+                        logger.info('Password reset request succeeded');
+                        renderForgotForm(req, res);
+                    }
                 }
-
-                renderForgotForm(req, res);
             } catch (error) {
                 logger.warn('Password reset request failed');
                 Sentry.captureException(error);
