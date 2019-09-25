@@ -1021,6 +1021,11 @@ it('should complete get advice form', () => {
             city: 'Newcastle',
             postcode: 'NE4 7JH'
         },
+        organisationType: sample([
+            'Unregistered voluntary or community organisation',
+            'Not-for-profit company',
+            'Charitable Incorporated Organisation'
+        ]),
         contactEmail: 'digital.monitoring@tnlcommunityfund.org.uk',
         contactName: {
             firstName: faker.name.firstName(),
@@ -1106,6 +1111,10 @@ it('should complete get advice form', () => {
                     mock.organisationAddress.postcode
                 );
             });
+
+        submitStep();
+
+        cy.findByLabelText(mock.organisationType, { exact: false }).click();
 
         submitStep();
 
