@@ -19,16 +19,19 @@ class CheckboxField extends Field {
 
         this.options = options;
 
+        this.schema = props.schema ? props.schema : this.defaultSchema();
+    }
+
+    defaultSchema() {
+        const options = this.options || [];
         const baseSchema = Joi.array()
             .items(Joi.string().valid(options.map(option => option.value)))
             .single();
 
-        if (props.schema) {
-            this.schema = props.schema;
+        if (this.isRequired) {
+            return baseSchema.required();
         } else {
-            this.schema = this.isRequired
-                ? baseSchema.required()
-                : baseSchema.optional();
+            return baseSchema.optional();
         }
     }
 

@@ -8,8 +8,6 @@ class RadioField extends Field {
     constructor(props, locale) {
         super(props, locale);
 
-        this.type = 'radio';
-
         const options = props.options || [];
         if (options.length === 0) {
             throw Error('Must provide options');
@@ -17,17 +15,20 @@ class RadioField extends Field {
 
         this.options = options;
 
+        this.schema = props.schema ? props.schema : this.defaultSchema();
+    }
+
+    getType() {
+        return 'radio';
+    }
+
+    defaultSchema() {
+        const options = this.options || [];
         const baseSchema = Joi.string().valid(
             options.map(option => option.value)
         );
 
-        if (props.schema) {
-            this.schema = props.schema;
-        } else {
-            this.schema = this.isRequired
-                ? baseSchema.required()
-                : baseSchema.optional();
-        }
+        return this.isRequired ? baseSchema.required() : baseSchema.optional();
     }
 
     get displayValue() {

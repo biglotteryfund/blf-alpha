@@ -1,39 +1,39 @@
 'use strict';
-const defaults = require('lodash/defaults');
 const Joi = require('../joi-extensions');
 
 const Field = require('./field');
 
 class PhoneField extends Field {
-    constructor(props, locale) {
-        super(props, locale);
+    getType() {
+        return 'tel';
+    }
 
-        this.type = 'tel';
+    defaultAttributes() {
+        return { autocomplete: 'tel' };
+    }
 
-        this.attributes = defaults(
-            { size: 30, autocomplete: 'tel' },
-            props.attributes
-        );
+    defaultLabel() {
+        return this.localise({
+            en: `Telephone number`,
+            cy: `Rhif ffôn`
+        });
+    }
 
-        if (props.schema) {
-            this.schema = props.schema;
+    defaultSchema() {
+        if (this.isRequired) {
+            return Joi.string()
+                .phoneNumber()
+                .required();
         } else {
-            this.schema = this.isRequired
-                ? Joi.string().phoneNumber()
-                : Joi.string()
-                      .phoneNumber()
-                      .allow('')
-                      .optional();
+            return Joi.string()
+                .phoneNumber()
+                .allow('')
+                .optional();
         }
+    }
 
-        if (!props.label) {
-            this.label = this.localise({
-                en: `Telephone number`,
-                cy: `Rhif ffôn`
-            });
-        }
-
-        this.messages = [
+    defaultMessages() {
+        return [
             {
                 type: 'base',
                 message: this.localise({

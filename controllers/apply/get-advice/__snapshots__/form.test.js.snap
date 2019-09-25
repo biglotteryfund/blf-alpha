@@ -11,6 +11,7 @@ Array [
   "Tell us how your idea fits in with other local activities",
   "Enter the full legal name of the organisation",
   "Enter a full UK address",
+  "Enter first and last name",
   "Enter an email address",
 ]
 `;
@@ -26,6 +27,7 @@ Array [
   "\\"yourIdeaActivities\\" is required",
   "\\"organisationLegalName\\" is required",
   "\\"organisationAddress\\" is required",
+  "\\"contactName\\" is required",
   "\\"contactEmail\\" is required",
 ]
 `;

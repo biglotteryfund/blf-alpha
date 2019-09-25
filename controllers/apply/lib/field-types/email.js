@@ -1,41 +1,39 @@
 'use strict';
-const defaults = require('lodash/defaults');
 const { oneLine } = require('common-tags');
 const Joi = require('../joi-extensions');
 
 const Field = require('./field');
 
 class EmailField extends Field {
-    constructor(props, locale) {
-        super(props, locale);
+    getType() {
+        return 'email';
+    }
 
-        this.type = 'email';
+    defaultAttributes() {
+        return { autocomplete: 'email' };
+    }
 
-        this.attributes = defaults(
-            { size: 30, autocomplete: 'email' },
-            props.attributes
-        );
+    defaultLabel() {
+        return this.localise({
+            en: 'Email',
+            cy: 'E-bost'
+        });
+    }
 
-        if (props.schema) {
-            this.schema = props.schema;
+    defaultSchema() {
+        if (this.isRequired) {
+            return Joi.string()
+                .email()
+                .required();
         } else {
-            this.schema = this.isRequired
-                ? Joi.string()
-                      .email()
-                      .required()
-                : Joi.string()
-                      .email()
-                      .optional();
+            return Joi.string()
+                .email()
+                .optional();
         }
+    }
 
-        if (!props.label) {
-            this.label = this.localise({
-                en: 'Email',
-                cy: 'E-bost'
-            });
-        }
-
-        this.messages = [
+    defaultMessages() {
+        return [
             {
                 type: 'base',
                 message: this.localise({

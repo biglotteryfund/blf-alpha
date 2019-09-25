@@ -7,10 +7,8 @@ class Field {
     constructor(props, locale = 'en') {
         this.locale = locale;
 
-        /**
-         * Used to switch on non-class type fields
-         * @TODO: Remove this after fully migrating to field types
-         */
+        // Used to switch on non-class type fields
+        // @TODO: Remove this after fully migrating to field types
         this._isClass = true;
 
         if (props.name) {
@@ -19,32 +17,75 @@ class Field {
             throw new Error('Must provide name');
         }
 
-        this.label = props.label;
+        const label = props.label ? props.label : this.defaultLabel();
+        if (label) {
+            this.label = label;
+        } else {
+            // throw new Error('Must provide label');
+        }
+
         this.labelDetails = props.labelDetails;
         this.explanation = props.explanation;
 
-        this.type = props.type || 'text';
+        this.type = props.type ? props.type : this.getType();
 
-        this.attributes = defaults({ size: 30 }, props.attributes);
+        this.attributes = defaults(
+            { size: 30 },
+            this.defaultAttributes(),
+            props.attributes
+        );
+
         this.settings = props.settings || {};
 
         this.isRequired = props.isRequired !== false;
 
-        if (props.schema) {
-            this.schema = props.schema;
-        } else {
-            this.schema = this.isRequired
-                ? Joi.string().required()
-                : Joi.string()
-                      .allow('')
-                      .optional();
-        }
+        this.schema = props.schema ? props.schema : this.defaultSchema();
 
-        this.messages = props.messages || [];
+        // @TODO Should this merge based on key rather than a plain concat?
+        this.messages = this.defaultMessages().concat(props.messages || []);
 
         this.value = undefined;
         this.errors = [];
         this.featuredErrors = [];
+    }
+
+    getType() {
+        return 'text';
+    }
+
+    /**
+     * Allow sub-classes to provide a default label
+     */
+    defaultLabel() {
+        return null;
+    }
+
+    /**
+     * Allow sub-classes to provide a default schema
+     * also allows it to be accessed by the instance
+     */
+    defaultSchema() {
+        if (this.isRequired) {
+            return Joi.string().required();
+        } else {
+            return Joi.string()
+                .allow('')
+                .optional();
+        }
+    }
+
+    /**
+     * Allow sub-classes to provide a default messages
+     */
+    defaultMessages() {
+        return [];
+    }
+
+    /**
+     * Allow sub-classes to provide default attributes
+     */
+    defaultAttributes() {
+        return {};
     }
 
     localise(msg) {
