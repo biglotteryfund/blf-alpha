@@ -11,6 +11,7 @@ Array [
   "Tell us how your idea fits in with other local activities",
   "Enter the full legal name of the organisation",
   "Enter a full UK address",
+  "Select a type of organisation",
   "Enter first and last name",
   "Enter an email address",
 ]
@@ -27,6 +28,7 @@ Array [
   "\\"yourIdeaActivities\\" is required",
   "\\"organisationLegalName\\" is required",
   "\\"organisationAddress\\" is required",
+  "\\"organisationType\\" is required",
   "\\"contactName\\" is required",
   "\\"contactEmail\\" is required",
 ]
@@ -49,6 +51,7 @@ Object {
   },
   "organisationLegalName": "Example organisation",
   "organisationTradingName": "Example trading name",
+  "organisationType": "not-for-profit-company",
   "projectCosts": 250000,
   "projectCountry": Any<Array>,
   "projectDurationYears": 3,
