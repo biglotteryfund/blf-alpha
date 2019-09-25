@@ -2,7 +2,10 @@
 // @ts-nocheck
 'use strict';
 const confirmationBuilder = require('./confirmation');
-const { CONTACT_DETAILS_EMAIL, CONTACT_DETAILS_PHONE } = require('./constants');
+const {
+    CONTACT_DETAILS_EMAIL,
+    CONTACT_DETAILS_PHONE
+} = require('../../../common/contacts');
 
 describe('confirmation builder', () => {
     test('should return confirmation text based on country', () => {

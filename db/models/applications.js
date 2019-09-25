@@ -156,6 +156,9 @@ class PendingApplication extends Model {
         );
     }
     static deleteApplication(id, userId) {
+        // Delete any scheduled emails for this application
+        ApplicationEmailQueue.deleteEmailsForApplication(id);
+
         return this.destroy({
             where: {
                 userId: { [Op.eq]: userId },

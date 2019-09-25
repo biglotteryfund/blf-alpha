@@ -2,7 +2,7 @@
 const { get } = require('lodash/fp');
 
 const { MIN_START_DATE } = require('./constants');
-const { getEmailFor, getPhoneFor } = require('./lib/contacts');
+const { getEmailFor, getPhoneFor } = require('../../../common/contacts');
 
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);

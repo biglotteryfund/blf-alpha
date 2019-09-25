@@ -2,14 +2,14 @@
 const moment = require('moment');
 
 function generateEmailQueueItems(application, expiryEmailPeriods) {
-    return Object.values(expiryEmailPeriods).map(email => {
+    return expiryEmailPeriods.map(emailConfig => {
         return {
             applicationId: application.id,
-            emailType: email.key,
+            emailType: emailConfig.emailTypeKey,
             dateToSend: moment(application.expiresAt)
                 .subtract(
-                    email.periodBeforeExpiry.amount,
-                    email.periodBeforeExpiry.unit
+                    emailConfig.sendBeforeExpiry.amount,
+                    emailConfig.sendBeforeExpiry.unit
                 )
                 .hour(9)
                 .minute(0)

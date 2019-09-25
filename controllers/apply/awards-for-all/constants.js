@@ -109,57 +109,29 @@ const FILE_LIMITS = {
     ]
 };
 
-const EXPIRY_EMAIL_REMINDERS = {
-    ONE_MONTH: {
-        key: 'AFA_ONE_MONTH',
-        periodBeforeExpiry: {
+const EXPIRY_EMAIL_REMINDERS = [
+    {
+        emailTypeKey: 'AFA_ONE_MONTH',
+        sendBeforeExpiry: {
             amount: 30,
-            unit: 'days',
-        },
-        label: {
-            en: 'one month',
-            cy: '@TODO',
+            unit: 'days'
         }
     },
-    ONE_WEEK: {
-        key: 'AFA_ONE_WEEK',
-        periodBeforeExpiry: {
+    {
+        emailTypeKey: 'AFA_ONE_WEEK',
+        sendBeforeExpiry: {
             amount: 14,
-            unit: 'days',
-        },
-        label: {
-            en: 'one week',
-            cy: '@TODO',
+            unit: 'days'
         }
     },
-    ONE_DAY: {
-        key: 'AFA_ONE_DAY',
-        periodBeforeExpiry: {
+    {
+        emailTypeKey: 'AFA_ONE_DAY',
+        sendBeforeExpiry: {
             amount: 1,
-            unit: 'days',
-        },
-        label: {
-            en: 'one day',
-            cy: '@TODO',
+            unit: 'days'
         }
     }
-};
-
-const CONTACT_DETAILS_EMAIL = {
-    'default': 'general.enquiries@tnlcommunityfund.org.uk',
-    'england': 'afe@tnlcommunityfund.org.uk',
-    'scotland': 'advicescotland@tnlcommunityfund.org.uk',
-    'northern-ireland': 'enquiries.ni@tnlcommunityfund.org.uk',
-    'wales': 'wales@tnlcommunityfund.org.uk'
-};
-
-const CONTACT_DETAILS_PHONE = {
-    'default': '0345 4 10 20 30',
-    'england': '0345 4 10 20 30',
-    'scotland': '0300 123 7110',
-    'northern-ireland': '028 9055 1455',
-    'wales': '0300 123 0735'
-};
+];
 
 module.exports = {
     BENEFICIARY_GROUPS,
@@ -178,7 +150,5 @@ module.exports = {
     CHARITY_NUMBER_TYPES,
     EDUCATION_NUMBER_TYPES,
     FREE_TEXT_MAXLENGTH,
-    EXPIRY_EMAIL_REMINDERS,
-    CONTACT_DETAILS_EMAIL,
-    CONTACT_DETAILS_PHONE
+    EXPIRY_EMAIL_REMINDERS
 };

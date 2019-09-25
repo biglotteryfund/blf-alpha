@@ -361,7 +361,7 @@ it('should allow survey API responses', () => {
             });
 
             // Process expiry emails for the above applications
-            cy.request('POST', '/api/applications/expiry').then(response => {
+            cy.request('POST', '/apply/handle-expiry').then(response => {
                 expect(response.body).to.have.property('emailQueue');
                 expect(response.body.emailQueue.length).to.eq(12);
 
@@ -372,11 +372,9 @@ it('should allow survey API responses', () => {
 
                 // Now check again for expiry emails to confirm there are
                 // no items left in the queue (eg. it's been processed)
-                cy.request('POST', '/api/applications/expiry').then(
-                    newResponse => {
-                        expect(newResponse.body.emailQueue.length).to.eq(0);
-                    }
-                );
+                cy.request('POST', '/apply/handle-expiry').then(newResponse => {
+                    expect(newResponse.body.emailQueue.length).to.eq(0);
+                });
             });
         });
     });

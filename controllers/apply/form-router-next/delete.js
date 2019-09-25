@@ -42,11 +42,6 @@ module.exports = function(formId) {
                     req.user.userData.id
                 );
 
-                // Delete any scheduled emails for this application
-                await ApplicationEmailQueue.deleteEmailsForApplication(
-                    req.params.applicationId
-                );
-
                 logger.info('Application deleted', {
                     applicationId: req.params.applicationId
                 });

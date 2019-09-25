@@ -67,9 +67,6 @@ module.exports = function(formId, formBuilder) {
                 res.locals.hotJarTagList = [
                     'Apply: AFA: User deleted an application'
                 ];
-            } else if (req.query.s === 'unsubscribedFromEmails') {
-                // @TODO i18n
-                res.locals.alertMessage = `We've unsubscribed you from emails about your application.`;
             }
 
             res.render(path.resolve(__dirname, './views/dashboard'), {
