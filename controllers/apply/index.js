@@ -3,7 +3,6 @@ const express = require('express');
 const concat = require('lodash/concat');
 const path = require('path');
 
-const { isDev } = require('../../common/appData');
 const { verifyTokenUnsubscribeApplicationEmails } = require('../user/lib/jwt');
 const {
     ApplicationEmailQueue,
@@ -49,6 +48,9 @@ router.get('/emails/unsubscribe', async function(req, res) {
             // delete scheduled emails then redirect with message
             await ApplicationEmailQueue.deleteEmailsForApplication(
                 applicationId
+            );
+            commonLogger.info(
+                'User unsubscribed from application expiry emails'
             );
             res.render(
                 path.resolve(
