@@ -9,7 +9,7 @@ class PhoneField extends Field {
     }
 
     defaultAttributes() {
-        return { autocomplete: 'tel' };
+        return { size: 40, autocomplete: 'tel' };
     }
 
     defaultLabel() {

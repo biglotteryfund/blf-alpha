@@ -10,7 +10,7 @@ class EmailField extends Field {
     }
 
     defaultAttributes() {
-        return { autocomplete: 'email' };
+        return { size: 40, autocomplete: 'email' };
     }
 
     defaultLabel() {

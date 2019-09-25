@@ -29,11 +29,7 @@ class Field {
 
         this.type = props.type ? props.type : this.getType();
 
-        this.attributes = defaults(
-            { size: 30 },
-            this.defaultAttributes(),
-            props.attributes
-        );
+        this.attributes = defaults(this.defaultAttributes(), props.attributes);
 
         this.settings = props.settings || {};
 
@@ -85,7 +81,7 @@ class Field {
      * Allow sub-classes to provide default attributes
      */
     defaultAttributes() {
-        return {};
+        return { size: 40 };
     }
 
     localise(msg) {
