@@ -4,6 +4,7 @@ const find = require('lodash/find');
 const findIndex = require('lodash/findIndex');
 const findLastIndex = require('lodash/findLastIndex');
 const flatMap = require('lodash/flatMap');
+const has = require('lodash/has');
 const isEmpty = require('lodash/isEmpty');
 const pick = require('lodash/pick');
 const reduce = require('lodash/reduce');
@@ -48,6 +49,24 @@ class FormModel {
             return field;
         }
 
+        function enrichFieldClass(field) {
+            field.withValue(find(data, (value, name) => name === field.name));
+
+            field.withErrors(
+                validation.messages.filter(
+                    messages => messages.param === field.name
+                )
+            );
+
+            field.withFeaturedErrors(
+                validation.featuredMessages.filter(
+                    messages => messages.param === field.name
+                )
+            );
+
+            return field;
+        }
+
         function enrichStep(section, step, stepIndex) {
             /**
              * Enrich fieldset and filter out any fieldsets with no fields
@@ -55,7 +74,13 @@ class FormModel {
              */
             step.fieldsets = reject(
                 step.fieldsets.map(fieldset => {
-                    fieldset.fields = fieldset.fields.map(enrichField);
+                    fieldset.fields = fieldset.fields.map(field => {
+                        if (has(field, '_isClass')) {
+                            return enrichFieldClass(field);
+                        } else {
+                            return enrichField(field);
+                        }
+                    });
                     return fieldset;
                 }),
                 fieldset => fieldset.fields.length === 0
