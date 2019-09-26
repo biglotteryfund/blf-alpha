@@ -129,6 +129,14 @@ module.exports = {
                             'passwordLength',
                             MIN_PASSWORD_LENGTH
                         )
+                    },
+                    {
+                        type: 'password.common',
+                        message: messageForLocale('passwordStrength')
+                    },
+                    {
+                        type: 'password.strength',
+                        message: messageForLocale('passwordStrength')
                     }
                 ],
                 passwordConfirmation: [

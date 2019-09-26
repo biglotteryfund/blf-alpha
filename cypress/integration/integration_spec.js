@@ -311,6 +311,34 @@ it('should be able to log in and update account details', () => {
     });
 });
 
+it('should be able to reset password while logged out', () => {
+    cy.seedUser().then(user => {
+        const request = {
+            username: user.username,
+            returnToken: true
+        };
+
+        cy.request('POST', '/user/password/forgot', request).then(response => {
+            const newPassword = uuid();
+
+            cy.visit(`/user/password/reset?token=${response.body.token}`);
+
+            cy.findByLabelText('Your new password').type(newPassword, {
+                delay: 0
+            });
+            cy.findByLabelText('Password confirmation').type(newPassword, {
+                delay: 0
+            });
+            cy.get('.form-actions').within(() => {
+                cy.findByText('Reset password').click();
+            });
+            cy.findByText('Your password was successfully updated!').should(
+                'be.visible'
+            );
+        });
+    });
+});
+
 it('should allow survey API responses', () => {
     const dataYes = {
         choice: 'yes',
