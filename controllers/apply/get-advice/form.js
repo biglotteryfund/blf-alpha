@@ -2,6 +2,7 @@
 const get = require('lodash/fp/get');
 const getOr = require('lodash/fp/getOr');
 const includes = require('lodash/includes');
+const { oneLine } = require('common-tags');
 
 const { FormModel } = require('../lib/form-model');
 const fieldsFor = require('./fields');
@@ -176,6 +177,12 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     en: 'Your project',
                     cy: 'Eich prosiect'
                 }),
+                summary: localise({
+                    en: oneLine`We need a line of copy to summarise this section.
+                        Praesent eget metus mi ornare est ullamcorper nullam
+                        imperdiet sociosqu turpis odio cubilia at pretium leo.`,
+                    cy: ``
+                }),
                 steps: [
                     stepProjectCountry(),
                     stepProjectLocation(),
@@ -189,6 +196,14 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     en: 'Your organisation',
                     cy: 'Eich sefydliad'
                 }),
+                summary: localise({
+                    en: oneLine`Please tell us about your organisation,
+                        including legal name, registered address and income.
+                        This helps us understand the type of organisation you are.`,
+                    cy: oneLine`Dywedwch wrthym am eich sefydliad, gan gynnwys yr
+                        enw cyfreithiol,  cyfeiriad cofrestredig ac incwm.
+                        Mae hyn yn ein helpu i ddeall pa fath o sefydliad ydych.`
+                }),
                 steps: [stepOrganisationDetails(), stepOrganisationType()]
             },
             {
@@ -196,6 +211,12 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 title: localise({
                     en: 'Your details',
                     cy: ''
+                }),
+                summary: localise({
+                    en: oneLine`We need a line of copy to summarise this section.
+                        Praesent eget metus mi ornare est ullamcorper nullam
+                        imperdiet sociosqu turpis odio cubilia at pretium leo.`,
+                    cy: ``
                 }),
                 steps: [stepContactDetails()]
             }
