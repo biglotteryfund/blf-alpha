@@ -5,7 +5,7 @@ function generateEmailQueueItems(application, expiryEmailPeriods) {
     return expiryEmailPeriods.map(emailConfig => {
         return {
             applicationId: application.id,
-            emailType: emailConfig.emailTypeKey,
+            emailType: emailConfig.emailType,
             dateToSend: moment(application.expiresAt)
                 .subtract(
                     emailConfig.sendBeforeExpiry.amount,

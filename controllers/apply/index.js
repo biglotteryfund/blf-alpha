@@ -3,7 +3,9 @@ const express = require('express');
 const concat = require('lodash/concat');
 const path = require('path');
 
-const { verifyTokenUnsubscribeApplicationEmails } = require('../user/lib/jwt');
+const {
+    verifyTokenUnsubscribeApplicationEmails
+} = require('./form-router-next/lib/jwt');
 const {
     ApplicationEmailQueue,
     PendingApplication

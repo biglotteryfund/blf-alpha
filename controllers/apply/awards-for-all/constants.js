@@ -112,21 +112,21 @@ const FILE_LIMITS = {
 
 const EXPIRY_EMAIL_REMINDERS = [
     {
-        emailTypeKey: 'AFA_ONE_MONTH',
+        emailType: 'AFA_ONE_MONTH',
         sendBeforeExpiry: {
             amount: 30,
             unit: 'days'
         }
     },
     {
-        emailTypeKey: 'AFA_ONE_WEEK',
+        emailType: 'AFA_ONE_WEEK',
         sendBeforeExpiry: {
             amount: 14,
             unit: 'days'
         }
     },
     {
-        emailTypeKey: 'AFA_ONE_DAY',
+        emailType: 'AFA_ONE_DAY',
         sendBeforeExpiry: {
             amount: 1,
             unit: 'days'

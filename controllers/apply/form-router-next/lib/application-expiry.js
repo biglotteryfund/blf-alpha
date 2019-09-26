@@ -13,9 +13,7 @@ const {
 
 const { getEmailFor, getPhoneFor } = require('../../../../common/contacts');
 
-const {
-    signTokenUnsubscribeApplicationEmails
-} = require('../../../user/lib/jwt');
+const { signTokenUnsubscribeApplicationEmails } = require('./jwt');
 const { getAbsoluteUrl } = require('../../../../common/urls');
 
 const appData = require('../../../../common/appData');

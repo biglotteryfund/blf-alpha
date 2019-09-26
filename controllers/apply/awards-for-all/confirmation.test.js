@@ -2,10 +2,6 @@
 // @ts-nocheck
 'use strict';
 const confirmationBuilder = require('./confirmation');
-const {
-    CONTACT_DETAILS_EMAIL,
-    CONTACT_DETAILS_PHONE
-} = require('../../../common/contacts');
 
 describe('confirmation builder', () => {
     test('should return confirmation text based on country', () => {
@@ -15,9 +11,6 @@ describe('confirmation builder', () => {
         });
 
         expect(england.body).toMatchSnapshot();
-        expect(england.body).toContain(CONTACT_DETAILS_PHONE.england);
-        expect(england.body).toContain(CONTACT_DETAILS_EMAIL.england);
-        expect(england.body).toContain('18 weeks');
 
         const scotland = confirmationBuilder({
             locale: 'en',
@@ -25,8 +18,5 @@ describe('confirmation builder', () => {
         });
 
         expect(scotland.body).toMatchSnapshot();
-        expect(scotland.body).toContain(CONTACT_DETAILS_PHONE.scotland);
-        expect(scotland.body).toContain(CONTACT_DETAILS_EMAIL.scotland);
-        expect(scotland.body).toContain('18 weeks');
     });
 });
