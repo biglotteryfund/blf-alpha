@@ -7,23 +7,17 @@ const get = require('lodash/get');
 const includes = require('lodash/includes');
 const pick = require('lodash/pick');
 const set = require('lodash/set');
-const unset = require('lodash/unset');
 const formidable = require('formidable');
 
-const {
-    PendingApplication,
-    SubmittedApplication
-} = require('../../../db/models');
+const { PendingApplication } = require('../../../db/models');
 
 const commonLogger = require('../../../common/logger');
-const appData = require('../../../common/appData');
 const { localify } = require('../../../common/urls');
 const { noStore } = require('../../../common/cached');
 const { requireActiveUserWithCallback } = require('../../../common/authed');
 const { injectCopy } = require('../../../common/inject-content');
 
-const salesforceService = require('./lib/salesforce');
-const { getObject, buildMultipartData } = require('./lib/file-uploads');
+const { getObject } = require('./lib/file-uploads');
 
 function initFormRouter({
     formId,
@@ -299,156 +293,16 @@ function initFormRouter({
     /**
      * Route: Submission
      */
-    router.post('/submission', async (req, res, next) => {
-        const { currentApplication, currentApplicationData } = res.locals;
-
-        const logger = commonLogger.child({ service: 'salesforce' });
-
-        const form = formBuilder({
-            locale: req.i18n.getLocale(),
-            data: currentApplicationData
-        });
-
-        if (form.progress.isComplete === true) {
-            try {
-                logger.info('Submission started');
-
-                /**
-                 * Increment submission attempts
-                 * Allows us to report on failed submission attempts.
-                 */
-                await currentApplication.increment('submissionAttempts');
-
-                /**
-                 * Construct salesforce submission data
-                 * We also attach this to the SubmittedApplication record
-                 */
-                let salesforceRecordId = null;
-                const salesforceFormData = {
-                    application: form.forSalesforce(),
-                    meta: {
-                        form: formId,
-                        schemaVersion: form.schemaVersion,
-                        environment: appData.environment,
-                        commitId: appData.commitId,
-                        locale: req.i18n.getLocale(),
-                        username: req.user.userData.username,
-                        applicationId: currentApplication.id,
-                        startedAt: currentApplication.createdAt.toISOString()
-                    }
-                };
-
-                /**
-                 * Store submission in salesforce if enabled
-                 */
-                if (
-                    enableSalesforceConnector === true &&
-                    !appData.isTestServer
-                ) {
-                    const salesforce = await salesforceService.authorise();
-                    salesforceRecordId = await salesforce.submitFormData(
-                        salesforceFormData
-                    );
-
-                    logger.info('FormData record created');
-
-                    /**
-                     * Upload each file in the submission to salesforce
-                     */
-                    const fileFields = form
-                        .getCurrentFields()
-                        .filter(field => field.type === 'file');
-
-                    const contentVersionPromises = fileFields.map(
-                        async function(field) {
-                            return buildMultipartData({
-                                formId: formId,
-                                applicationId: currentApplication.id,
-                                filename: field.value.filename
-                            }).then(versionData => {
-                                return salesforce.contentVersion({
-                                    recordId: salesforceRecordId,
-                                    attachmentName: `${
-                                        field.name
-                                    }${path.extname(field.value.filename)}`,
-                                    versionData: versionData
-                                });
-                            });
-                        }
-                    );
-
-                    await Promise.all(contentVersionPromises);
-                } else {
-                    logger.debug(`Skipped salesforce submission for ${formId}`);
-                }
-
-                /**
-                 * Create a submitted application from pending state
-                 * SubmittedApplication holds a snapshot at the time of submission,
-                 * allowing submissions to be rendered separate to form model changes.
-                 */
-                await SubmittedApplication.createFromPendingApplication({
-                    pendingApplication: currentApplication,
-                    form: form,
-                    userId: req.user.userData.id,
-                    formId: formId,
-                    salesforceRecord: {
-                        id: salesforceRecordId,
-                        submission: salesforceFormData
-                    }
-                });
-
-                /**
-                 * Delete the pending application once the
-                 * SubmittedApplication has been created.
-                 */
-                await PendingApplication.deleteApplication(
-                    currentApplication.id,
-                    req.user.userData.id
-                );
-
-                unset(req.session, `${currentlyEditingSessionKey()}`);
-                req.session.save(function() {
-                    const confirmation = confirmationBuilder({
-                        locale: req.i18n.getLocale(),
-                        data: currentApplicationData
-                    });
-
-                    logger.info('Submission successful');
-                    res.render(
-                        path.resolve(__dirname, './views/confirmation'),
-                        {
-                            title: confirmation.title,
-                            confirmation: confirmation,
-                            form: form
-                        }
-                    );
-                });
-            } catch (error) {
-                logger.error('Submission failed', error);
-
-                /**
-                 * Salesforce submission failed,
-                 * Check the instance status and log if not OK,
-                 * allows us to monitor how many applications get submitted during
-                 * maintenance windows to determine if we need some visible messaging.
-                 */
-                try {
-                    const response = await salesforceService.checkStatus();
-
-                    if (response.status !== 'OK') {
-                        logger.info(`Salesforce status ${response.status}`);
-                    }
-
-                    next(error);
-                } catch (statusError) {
-                    next(error);
-                }
-            }
-        } else {
-            res.redirect(req.baseUrl);
-        }
-    });
+    router.use(
+        '/submission',
+        require('./submission')(
+            formId,
+            formBuilder,
+            confirmationBuilder,
+            currentlyEditingSessionKey,
+            enableSalesforceConnector
+        )
+    );
 
     /**
      * Routes: Stream file from S3 if authorised
