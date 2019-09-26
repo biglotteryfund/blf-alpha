@@ -29,9 +29,9 @@ const { getObject, buildMultipartData } = require('./lib/file-uploads');
 
 function initFormRouter({
     formId,
-    isBilingual = true,
-    eligibilityBuilder = null,
     formBuilder,
+    startTemplate = null,
+    eligibilityBuilder = null,
     confirmationBuilder
 }) {
     const router = express.Router();
@@ -67,7 +67,6 @@ function initFormRouter({
         res.locals.formBaseUrl = req.baseUrl;
 
         res.locals.user = req.user;
-        res.locals.isBilingual = isBilingual;
         res.locals.enableSiteSurvey = false;
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
 
@@ -179,10 +178,16 @@ function initFormRouter({
      * Redirect to eligibility checker
      */
     router.get('/start', function(req, res) {
+        const newUrl = `${req.baseUrl}/new`;
         if (eligibilityBuilder) {
             res.redirect(`${req.baseUrl}/eligibility/1`);
+        } else if (startTemplate) {
+            res.render(startTemplate, {
+                backUrl: req.baseUrl,
+                newUrl
+            });
         } else {
-            res.redirect(`${req.baseUrl}/new`);
+            res.redirect(newUrl);
         }
     });
 
