@@ -164,12 +164,34 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         };
     }
 
+    function summary() {
+        return {
+            overview: [
+                {
+                    label: localise({ en: 'Organisation name', cy: '' }),
+                    value:
+                        get('organisationTradingName')(data) ||
+                        get('organisationLegalName')(data)
+                },
+                {
+                    label: localise({ en: 'Requested amount', cy: '' }),
+                    value: get('projectCosts')(data)
+                },
+                {
+                    label: localise({ en: 'Project duration', cy: '' }),
+                    value: get('projectDurationYears')(data)
+                }
+            ]
+        };
+    }
+
     const form = {
         title: localise({
             en: 'Get advice on your idea',
             cy: ''
         }),
         allFields,
+        summary: summary(),
         schemaVersion: 'v0.1',
         forSalesforce() {
             return data;
