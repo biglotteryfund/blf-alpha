@@ -86,6 +86,35 @@ function filterBySlugs(list, slugs) {
     return sortBy(item => slugs.indexOf(item.slug))(matches);
 }
 
+/**
+ * Build pagination
+ * Translate content API pagination into an object for use in views
+ */
+function _buildPagination(paginationMeta, currentQuery = {}) {
+    if (paginationMeta && paginationMeta.total_pages > 1) {
+        const currentPage = paginationMeta.current_page;
+        const totalPages = paginationMeta.total_pages;
+        const prevLink = `?${querystring.stringify({
+            ...currentQuery,
+            ...{ page: currentPage - 1 }
+        })}`;
+        const nextLink = `?${querystring.stringify({
+            ...currentQuery,
+            ...{ page: currentPage + 1 }
+        })}`;
+
+        return {
+            count: paginationMeta.count,
+            total: paginationMeta.total,
+            perPage: paginationMeta.per_page,
+            currentPage: currentPage,
+            totalPages: totalPages,
+            prevLink: currentPage > 1 ? prevLink : null,
+            nextLink: currentPage < totalPages ? nextLink : null
+        };
+    }
+}
+
 /***********************************************
  * API Methods
  ***********************************************/
@@ -170,7 +199,8 @@ function getUpdates({
         }).then(response => {
             return {
                 meta: response.meta,
-                result: mapAttrs(response)
+                result: mapAttrs(response),
+                pagination: _buildPagination(response.meta.pagination, query)
             };
         });
     }
@@ -236,7 +266,8 @@ function getResearch({
         }).then(response => {
             return {
                 meta: response.meta,
-                result: mapAttrs(response)
+                result: mapAttrs(response),
+                pagination: _buildPagination(response.meta.pagination, query)
             };
         });
     }
@@ -322,6 +353,9 @@ function getMerchandise(locale, showAll = false) {
 }
 
 module.exports = {
+    // Exported for tests
+    _buildPagination,
+    // API methods
     getAlias,
     getProjectStory,
     getProjectStories,

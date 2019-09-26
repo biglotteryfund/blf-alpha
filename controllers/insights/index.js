@@ -14,7 +14,6 @@ const {
 } = require('../../common/inject-content');
 const { buildArchiveUrl } = require('../../common/archived');
 const { localify } = require('../../common/urls');
-const { buildPagination } = require('../../common/pagination');
 
 const router = express.Router();
 
@@ -66,7 +65,7 @@ router.get(
 
             res.render(path.resolve(__dirname, './views/insights-documents'), {
                 entriesMeta: research.meta,
-                pagination: buildPagination(research.meta.pagination, req.query)
+                pagination: research.pagination
             });
         } catch (error) {
             next(error);

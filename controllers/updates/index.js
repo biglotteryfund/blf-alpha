@@ -3,7 +3,6 @@ const path = require('path');
 const express = require('express');
 const { concat, isArray, pick, get } = require('lodash');
 
-const { buildPagination } = require('../../common/pagination');
 const { buildArchiveUrl } = require('../../common/archived');
 const { localify } = require('../../common/urls');
 const {
@@ -90,10 +89,7 @@ router.get(
                         title: typeCopy.plural,
                         entries: response.result,
                         entriesMeta: response.meta,
-                        pagination: buildPagination(
-                            response.meta.pagination,
-                            req.query
-                        ),
+                        pagination: response.pagination,
                         pressReleaseArchiveUrl: buildArchiveUrl(
                             localify(req.i18n.getLocale())('/news-and-events'),
                             finalPressReleaseArchiveDate
@@ -211,10 +207,7 @@ router.get(
                     title: typeCopy.plural,
                     entries: response.result,
                     entriesMeta: response.meta,
-                    pagination: buildPagination(
-                        response.meta.pagination,
-                        req.query
-                    ),
+                    pagination: response.pagination,
                     breadcrumbs: crumbs
                 });
             } else {
