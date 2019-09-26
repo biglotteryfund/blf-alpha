@@ -35,25 +35,8 @@ function initFormRouter({
 }) {
     const router = express.Router();
 
-    function sessionPrefix() {
-        return `forms.${formId}`;
-    }
-
-    function getCurrentlyEditingId(req) {
-        return get(req.session, `${sessionPrefix()}.currentEditingId`);
-    }
-
-    function setCurrentlyEditingId(req, applicationId) {
-        return set(
-            req.session,
-            `${sessionPrefix()}.currentEditingId`,
-            applicationId
-        );
-    }
-
-    function unsetCurrentlyEditingId(req, callbackFn) {
-        unset(req.session, `${sessionPrefix()}.currentEditingId`);
-        req.session.save(callbackFn);
+    function currentlyEditingSessionKey() {
+        return `forms.${formId}.currentEditingId`;
     }
 
     function setCommonLocals(req, res, next) {
@@ -190,9 +173,15 @@ function initFormRouter({
         }
     });
 
+    function redirectCurrentlyEditing(req, res, applicationId) {
+        set(req.session, `${currentlyEditingSessionKey()}`, applicationId);
+        req.session.save(() => {
+            res.redirect(`${req.baseUrl}/summary`);
+        });
+    }
+
     /**
      * Route: New application
-     * Create a new blank application
      */
     router.get('/new', async function(req, res, next) {
         try {
@@ -206,28 +195,17 @@ function initFormRouter({
                 formId: formId
             });
 
-            setCurrentlyEditingId(req, application.id);
-            req.session.save(() => {
-                res.redirect(`${req.baseUrl}/summary`);
-            });
+            redirectCurrentlyEditing(application.id);
         } catch (error) {
             next(error);
         }
     });
 
     /**
-     * Route: Edit application ID
-     * Store the ID of the application currently being edited
+     * Route: Edit application
      */
-    router.get('/edit/:applicationId', async (req, res) => {
-        if (req.params.applicationId) {
-            setCurrentlyEditingId(req, req.params.applicationId);
-            req.session.save(() => {
-                res.redirect(`${req.baseUrl}/summary`);
-            });
-        } else {
-            res.redirect(req.baseUrl);
-        }
+    router.get('/edit/:applicationId', function(req, res) {
+        redirectCurrentlyEditing(req, res, req.params.applicationId);
     });
 
     /**
@@ -266,7 +244,11 @@ function initFormRouter({
      * All routes after this point require an application to be selected
      */
     router.use(async (req, res, next) => {
-        const currentEditingId = getCurrentlyEditingId(req);
+        const currentEditingId = get(
+            req.session,
+            `${currentlyEditingSessionKey()}`
+        );
+
         if (currentEditingId) {
             res.locals.currentlyEditingId = currentEditingId;
 
@@ -425,10 +407,8 @@ function initFormRouter({
                     req.user.userData.id
                 );
 
-                /**
-                 * Render confirmation
-                 */
-                unsetCurrentlyEditingId(req, function() {
+                unset(req.session, `${currentlyEditingSessionKey()}`);
+                req.session.save(function() {
                     const confirmation = confirmationBuilder({
                         locale: req.i18n.getLocale(),
                         data: currentApplicationData
