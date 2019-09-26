@@ -23,21 +23,6 @@
                                 {{ programmeCard(programme) }}
                             </li>
                         {% endfor %}
-                        {% if bigLunch %}
-                            <li class="flex-grid__item">
-                                {{ promoCard({
-                                    "title": bigLunch.title,
-                                    "trailText": bigLunch.introduction | safe,
-                                    "image": {
-                                        "url": bigLunch.heroNew.image.default,
-                                        "alt": bigLunch.heroNew.image.caption
-                                    },
-                                    "link": {
-                                        "url": bigLunch.linkUrl
-                                    }
-                                }) }}
-                            </li>
-                        {% endif %}
                     </ul>
                 </section>
             {% endif %}
