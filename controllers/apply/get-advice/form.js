@@ -170,6 +170,10 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             cy: ''
         }),
         allFields,
+        schemaVersion: 'v0.1',
+        forSalesforce() {
+            return data;
+        },
         sections: [
             {
                 slug: 'your-project',

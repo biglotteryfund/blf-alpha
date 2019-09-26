@@ -7,5 +7,6 @@ const formBuilder = require('./form');
 module.exports = initFormRouter({
     formId: 'get-advice',
     formBuilder: formBuilder,
-    startTemplate: path.resolve(__dirname, './views/startpage.njk')
+    startTemplate: path.resolve(__dirname, './views/startpage.njk'),
+    enableSalesforceConnector: false
 });

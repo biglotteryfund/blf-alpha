@@ -3,13 +3,11 @@ const express = require('express');
 const csurf = require('csurf');
 const path = require('path');
 const Sentry = require('@sentry/node');
-const flatMap = require('lodash/flatMap');
 const get = require('lodash/get');
 const includes = require('lodash/includes');
 const pick = require('lodash/pick');
 const set = require('lodash/set');
 const unset = require('lodash/unset');
-const features = require('config').get('features');
 const formidable = require('formidable');
 
 const {
@@ -32,7 +30,8 @@ function initFormRouter({
     formBuilder,
     startTemplate = null,
     eligibilityBuilder = null,
-    confirmationBuilder
+    confirmationBuilder,
+    enableSalesforceConnector = true
 }) {
     const router = express.Router();
 
@@ -321,33 +320,14 @@ function initFormRouter({
     router.post('/submission', async (req, res, next) => {
         const { currentApplication, currentApplicationData } = res.locals;
 
-        const logger = commonLogger.child({
-            service: 'salesforce'
-        });
+        const logger = commonLogger.child({ service: 'salesforce' });
 
         const form = formBuilder({
             locale: req.i18n.getLocale(),
             data: currentApplicationData
         });
 
-        function canSubmit() {
-            return form.progress.isComplete;
-        }
-
-        function canSubmitToSalesforce() {
-            if (appData.isTestServer) {
-                return false;
-            } else {
-                return features.enableSalesforceConnector;
-            }
-        }
-
-        if (canSubmit() === true) {
-            // Extract the fields so we can determine which files to upload to Salesforce
-            const steps = flatMap(form.sections, 'steps');
-            const fieldsets = flatMap(steps, 'fieldsets');
-            const fields = flatMap(fieldsets, 'fields');
-
+        if (form.progress.isComplete === true) {
             try {
                 logger.info('Submission started');
 
@@ -379,7 +359,10 @@ function initFormRouter({
                 /**
                  * Store submission in salesforce if enabled
                  */
-                if (canSubmitToSalesforce() === true) {
+                if (
+                    enableSalesforceConnector === true &&
+                    !appData.isTestServer
+                ) {
                     const salesforce = await salesforceService.authorise();
                     salesforceRecordId = await salesforce.submitFormData(
                         salesforceFormData
@@ -390,27 +373,27 @@ function initFormRouter({
                     /**
                      * Upload each file in the submission to salesforce
                      */
-                    const contentVersionPromises = fields
-                        .filter(field => field.type === 'file')
-                        .map(async field => {
-                            const pathConfig = {
+                    const fileFields = form
+                        .getCurrentFields()
+                        .filter(field => field.type === 'file');
+
+                    const contentVersionPromises = fileFields.map(
+                        async function(field) {
+                            return buildMultipartData({
                                 formId: formId,
                                 applicationId: currentApplication.id,
                                 filename: field.value.filename
-                            };
-
-                            return buildMultipartData(pathConfig).then(
-                                versionData => {
-                                    return salesforce.contentVersion({
-                                        recordId: salesforceRecordId,
-                                        attachmentName: `${
-                                            field.name
-                                        }${path.extname(field.value.filename)}`,
-                                        versionData: versionData
-                                    });
-                                }
-                            );
-                        });
+                            }).then(versionData => {
+                                return salesforce.contentVersion({
+                                    recordId: salesforceRecordId,
+                                    attachmentName: `${
+                                        field.name
+                                    }${path.extname(field.value.filename)}`,
+                                    versionData: versionData
+                                });
+                            });
+                        }
+                    );
 
                     await Promise.all(contentVersionPromises);
                 } else {
