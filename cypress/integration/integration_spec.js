@@ -733,8 +733,10 @@ it('should submit full awards for all application', () => {
         const companyNumberTypes = ['Not-for-profit company'];
 
         const charityNumberTypes = [
-            'Registered charity (unincorporated)',
-            'Charitable incorporated organisation (CIO)'
+            'Charitable incorporated organisation (CIO)',
+            'Faith-based group',
+            'Not-for-profit company',
+            'Registered charity (unincorporated)'
         ];
 
         const educationNumberTypes = ['School', 'College or University'];
