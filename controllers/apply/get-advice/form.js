@@ -165,21 +165,22 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function summary() {
+        const countries = getOr([], 'projectCountry')(data);
+        const years = get('projectDurationYears')(data);
+        const costs = get('projectCosts')(data);
+
         return {
+            // @TODO: Generate numbered title or ask for project name?
+            title: 'Get advice',
+            country: countries.length > 1 ? 'uk-wide' : countries[0],
             overview: [
                 {
-                    label: localise({ en: 'Organisation name', cy: '' }),
-                    value:
-                        get('organisationTradingName')(data) ||
-                        get('organisationLegalName')(data)
-                },
-                {
                     label: localise({ en: 'Requested amount', cy: '' }),
-                    value: get('projectCosts')(data)
+                    value: costs ? `£${costs.toLocaleString()}` : null
                 },
                 {
                     label: localise({ en: 'Project duration', cy: '' }),
-                    value: get('projectDurationYears')(data)
+                    value: years ? `${years} years` : null
                 }
             ]
         };

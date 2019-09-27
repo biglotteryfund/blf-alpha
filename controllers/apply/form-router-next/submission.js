@@ -57,14 +57,6 @@ module.exports = function(
             });
         }
 
-        /**
-         * Fake submission for get advice form
-         * @TODO: SubmittedApplication assumes project title
-         */
-        if (formId === 'get-advice' && appData.isNotProduction) {
-            return renderConfirmation();
-        }
-
         try {
             logger.info('Submission started');
 
