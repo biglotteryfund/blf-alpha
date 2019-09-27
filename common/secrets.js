@@ -8,9 +8,6 @@ const { getSecret } = require('./parameter-store');
 const SESSION_SECRET =
     process.env.SESSION_SECRET || getSecret('session.secret', true);
 
-const AWARDS_FOR_ALL_SECRET =
-    process.env.AWARDS_FOR_ALL_SECRET || getSecret('awardsForAll.secret');
-
 /**
  * Database connection uri
  * Note: Our RDS databases are not accessible outside of a VPC.
@@ -105,7 +102,6 @@ const S3_KMS_KEY_ID = process.env.S3_KMS_KEY_ID || getSecret('s3.kms.key.id');
 const DATA_STUDIO_AFA_URL = getSecret('dataStudio.url.awardsForAll');
 
 module.exports = {
-    AWARDS_FOR_ALL_SECRET,
     AZURE_AUTH,
     CONTENT_API_URL,
     DATA_STUDIO_AFA_URL,
