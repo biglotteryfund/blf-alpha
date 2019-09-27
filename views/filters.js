@@ -9,7 +9,6 @@ const path = require('path');
 const slug = require('slugify');
 const uuid = require('uuid/v4');
 const { take, clone, pickBy, identity } = require('lodash');
-const moment = require('moment');
 const querystring = require('querystring');
 
 const { stripTrailingSlashes } = require('../common/urls');
@@ -81,10 +80,6 @@ function widont(str) {
     return str.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1');
 }
 
-function timeago(date) {
-    return moment(date).fromNow();
-}
-
 function stripEmptyValues(obj) {
     return pickBy(obj, identity);
 }
@@ -117,7 +112,6 @@ module.exports = {
     slugify,
     take,
     widont,
-    timeago,
     removeQueryParam,
     addQueryParam,
     stripTrailingSlashes,
