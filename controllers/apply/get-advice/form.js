@@ -104,7 +104,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 en: 'Organisation details',
                 cy: ''
             }),
-            noValidate: true,
+            noValidate: false,
             fieldsets: [
                 {
                     fields: [
