@@ -50,16 +50,6 @@ function find(list = [], key, value) {
     return list.find(item => item[key] === value);
 }
 
-/**
- * Pluralisation helper
- * @param {number} number
- * @param {string} singular
- * @param {string} plural
- */
-function pluralise(number, singular, plural) {
-    return number === 1 ? singular : plural;
-}
-
 function slugify(str) {
     return slug(str, { lower: true });
 }
@@ -80,18 +70,14 @@ function widont(str) {
     return str.replace(/\s([^\s<]+)\s*$/, '&nbsp;$1');
 }
 
-function stripEmptyValues(obj) {
-    return pickBy(obj, identity);
-}
-
 function removeQueryParam(queryParams, param) {
-    let queryObj = stripEmptyValues(clone(queryParams));
+    let queryObj = pickBy(clone(queryParams), identity);
     delete queryObj[param];
     return querystring.stringify(queryObj);
 }
 
 function addQueryParam(queryParams, param, value) {
-    let queryObj = stripEmptyValues(clone(queryParams));
+    let queryObj = pickBy(clone(queryParams), identity);
     queryObj[param] = value;
     return querystring.stringify(queryObj);
 }
@@ -108,7 +94,6 @@ module.exports = {
     isArray,
     mailto,
     numberWithCommas,
-    pluralise,
     slugify,
     take,
     widont,
