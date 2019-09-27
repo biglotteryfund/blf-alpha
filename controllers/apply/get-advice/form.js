@@ -21,37 +21,31 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 cy: 'Gwlad y prosiect'
             }),
             noValidate: true,
-            fieldsets: [
-                {
-                    fields: [allFields.projectCountry]
-                }
-            ]
+            fieldsets: [{ fields: [allFields.projectCountry] }]
         };
     }
 
     function stepProjectLocation() {
+        function fields() {
+            if (projectCountries.length > 1) {
+                return [allFields.projectLocationDescription];
+            } else if (projectCountries.length > 0) {
+                return [
+                    allFields.projectLocation,
+                    allFields.projectLocationDescription
+                ];
+            } else {
+                return [];
+            }
+        }
+
         return {
             title: localise({
                 en: 'Project location',
                 cy: 'Lleoliad y prosiect'
             }),
             noValidate: true,
-            fieldsets: [
-                {
-                    get fields() {
-                        if (projectCountries.length > 1) {
-                            return [allFields.projectLocationDescription];
-                        } else if (projectCountries.length > 0) {
-                            return [
-                                allFields.projectLocation,
-                                allFields.projectLocationDescription
-                            ];
-                        } else {
-                            return [];
-                        }
-                    }
-                }
-            ]
+            fieldsets: [{ fields: fields() }]
         };
     }
 
@@ -62,20 +56,23 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 cy: 'Costau’r prosiect'
             }),
             noValidate: true,
-            fieldsets: [
-                {
-                    get fields() {
-                        if (projectCountries.length < 2) {
-                            return [
-                                allFields.projectCosts,
-                                allFields.projectDurationYears
-                            ];
-                        } else {
-                            return [allFields.projectCosts];
-                        }
-                    }
-                }
-            ]
+            fieldsets: [{ fields: [allFields.projectCosts] }]
+        };
+    }
+
+    function stepProjectDuration() {
+        function fields() {
+            if (projectCountries.length < 2) {
+                return [allFields.projectDurationYears];
+            } else {
+                return [];
+            }
+        }
+
+        return {
+            title: localise({ en: 'Project duration', cy: '' }),
+            noValidate: true,
+            fieldsets: [{ fields: fields() }]
         };
     }
 
@@ -133,34 +130,32 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function stepContactDetails() {
+        function fields() {
+            if (includes(projectCountries, 'wales')) {
+                return [
+                    allFields.contactName,
+                    allFields.contactEmail,
+                    allFields.contactPhone,
+                    allFields.contactLanguagePreference,
+                    allFields.contactCommunicationNeeds
+                ];
+            } else {
+                return [
+                    allFields.contactName,
+                    allFields.contactEmail,
+                    allFields.contactPhone,
+                    allFields.contactCommunicationNeeds
+                ];
+            }
+        }
+
         return {
             title: localise({
                 en: 'Contact details',
                 cy: ''
             }),
             noValidate: true,
-            fieldsets: [
-                {
-                    get fields() {
-                        if (includes(projectCountries, 'wales')) {
-                            return [
-                                allFields.contactName,
-                                allFields.contactEmail,
-                                allFields.contactPhone,
-                                allFields.contactLanguagePreference,
-                                allFields.contactCommunicationNeeds
-                            ];
-                        } else {
-                            return [
-                                allFields.contactName,
-                                allFields.contactEmail,
-                                allFields.contactPhone,
-                                allFields.contactCommunicationNeeds
-                            ];
-                        }
-                    }
-                }
-            ]
+            fieldsets: [{ fields: fields() }]
         };
     }
 
@@ -215,6 +210,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     stepProjectCountry(),
                     stepProjectLocation(),
                     stepProjectCosts(),
+                    stepProjectDuration(),
                     stepYourIdea()
                 ]
             },
