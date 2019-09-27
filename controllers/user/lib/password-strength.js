@@ -9,38 +9,35 @@ const commonPasswords = require('./common-passwords');
  */
 module.exports = function password(joi) {
     return {
+        type: 'password',
         base: joi.string(),
-        name: 'password',
-        language: {
-            common: `password is too common`,
-            strength: `password must have a strength of at least {{minScore}}`
+        messages: {
+            'password.common': `password is too common`,
+            'password.strength': `password must have a strength of at least {{#minScore}}`
         },
-        rules: [
-            {
-                name: 'strength',
-                params: {
-                    minScore: joi.number().required()
+        rules: {
+            strength: {
+                method(minScore) {
+                    return this.$_addRule({ name: 'strength', args: { minScore } });
                 },
-                validate(params, value, state, options) {
+                args: [
+                    {
+                        name: 'minScore',
+                        ref: true,
+                        assert: joi.number().required(),
+                        message: 'must be a number'
+                    }
+                ],
+                validate(value, helpers, args) {
                     if (commonPasswords.includes(value)) {
-                        return this.createError(
-                            'password.common',
-                            { value },
-                            state,
-                            options
-                        );
-                    } else if (zxcvbn(value).score < params.minScore) {
-                        return this.createError(
-                            'password.strength',
-                            { value, minScore: params.minScore },
-                            state,
-                            options
-                        );
+                        return helpers.error('password.common');
+                    } else if (zxcvbn(value).score < args.minScore) {
+                        return helpers.error('password.strength', { minScore: args.minScore });
                     } else {
                         return value;
                     }
                 }
             }
-        ]
+        }
     };
 };
