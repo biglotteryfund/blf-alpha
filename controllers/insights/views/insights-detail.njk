@@ -47,7 +47,7 @@
                             {% endif %}
                             {% if entry.contactEmail %}
                                 <dt>{{ extraCopy.contact }}</dt>
-                                <dd>{{ entry.contactEmail | mailto | safe }}</dd>
+                                <dd><a href="mailto:${entry.contactEmail}">${entry.contactEmail}</a></dd>
                             {% endif %}
                         </dl>
                     </div>
