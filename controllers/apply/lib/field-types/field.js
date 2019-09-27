@@ -21,7 +21,7 @@ class Field {
         if (label) {
             this.label = label;
         } else {
-            // throw new Error('Must provide label');
+            throw new Error('Must provide label');
         }
 
         this.labelDetails = props.labelDetails;
