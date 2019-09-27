@@ -5,7 +5,6 @@ const {
     appendUuid,
     getCachebustedPath,
     isArray,
-    mailto,
     numberWithCommas,
     slugify,
     widont
@@ -29,14 +28,6 @@ describe('getCachebustedPath', () => {
         const result = getCachebustedPath('stylesheets/style.css', true);
         expect(result).toMatch(
             /^\/assets\/build\/\w+\/stylesheets\/style.css$/
-        );
-    });
-});
-
-describe('mailto', () => {
-    it('should create a mailto link', () => {
-        expect(mailto('example@example.com')).toBe(
-            '<a href="mailto:example@example.com">example@example.com</a>'
         );
     });
 });

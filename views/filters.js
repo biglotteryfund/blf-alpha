@@ -58,10 +58,6 @@ function isArray(xs) {
     return Array.isArray(xs);
 }
 
-function mailto(str) {
-    return `<a href="mailto:${str}">${str}</a>`;
-}
-
 function numberWithCommas(str = '') {
     return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
@@ -92,7 +88,6 @@ module.exports = {
     find,
     getCachebustedPath,
     isArray,
-    mailto,
     numberWithCommas,
     slugify,
     take,
