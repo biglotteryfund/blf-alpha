@@ -1144,14 +1144,6 @@ it('should complete get advice form', () => {
         cy.findAllByText('All sections are complete', { exact: false })
             .first()
             .should('exist');
-
-        cy.checkA11y();
-
-        cy.findAllByText('Submit application')
-            .first()
-            .click();
-
-        cy.get('h1').should('contain', 'Thank you');
     });
 });
 
