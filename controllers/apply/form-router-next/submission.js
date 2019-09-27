@@ -41,7 +41,7 @@ module.exports = function(
         }
 
         function renderConfirmation() {
-            unset(req.session, `${currentlyEditingSessionKey()}`);
+            unset(req.session, currentlyEditingSessionKey());
             req.session.save(function() {
                 const confirmation = confirmationBuilder({
                     locale: req.i18n.getLocale(),

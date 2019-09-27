@@ -168,7 +168,7 @@ function initFormRouter({
     });
 
     function redirectCurrentlyEditing(req, res, applicationId) {
-        set(req.session, `${currentlyEditingSessionKey()}`, applicationId);
+        set(req.session, currentlyEditingSessionKey(), applicationId);
         req.session.save(() => {
             res.redirect(`${req.baseUrl}/summary`);
         });
@@ -189,7 +189,7 @@ function initFormRouter({
                 formId: formId
             });
 
-            redirectCurrentlyEditing(application.id);
+            redirectCurrentlyEditing(req, res, application.id);
         } catch (error) {
             next(error);
         }
@@ -238,10 +238,7 @@ function initFormRouter({
      * All routes after this point require an application to be selected
      */
     router.use(async (req, res, next) => {
-        const currentEditingId = get(
-            req.session,
-            `${currentlyEditingSessionKey()}`
-        );
+        const currentEditingId = get(req.session, currentlyEditingSessionKey());
 
         if (currentEditingId) {
             res.locals.currentlyEditingId = currentEditingId;
