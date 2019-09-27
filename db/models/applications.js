@@ -1,7 +1,6 @@
 // @ts-nocheck
 'use strict';
 const moment = require('moment');
-const getOr = require('lodash/fp/getOr');
 const { Model, Op } = require('sequelize');
 
 class PendingApplication extends Model {
@@ -271,7 +270,7 @@ class SubmittedApplication extends Model {
             id: pendingApplication.id,
             userId: userId,
             formId: formId,
-            applicationTitle: getOr('Untitled', 'title')(form.summary),
+            applicationTitle: form.summary.title || 'Untitled',
             applicationCountry: form.summary.country,
             applicationOverview: form.summary.overview,
             applicationSummary: form.fullSummary(),
