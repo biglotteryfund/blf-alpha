@@ -1,6 +1,7 @@
 // @ts-nocheck
 'use strict';
 const moment = require('moment');
+const getOr = require('lodash/fp/getOr');
 const { Model, Op } = require('sequelize');
 
 class PendingApplication extends Model {
@@ -107,7 +108,9 @@ class PendingApplication extends Model {
         });
     }
     static countCompleted(applications) {
-        return applications.filter(app => app.currentProgressState === 'COMPLETE').length;
+        return applications.filter(
+            app => app.currentProgressState === 'COMPLETE'
+        ).length;
     }
     static createNewApplication({ userId, formId }) {
         // @TODO: Should this be defined in config?
@@ -268,7 +271,7 @@ class SubmittedApplication extends Model {
             id: pendingApplication.id,
             userId: userId,
             formId: formId,
-            applicationTitle: form.summary.title,
+            applicationTitle: getOr('Untitled', 'title')(form.summary),
             applicationCountry: form.summary.country,
             applicationOverview: form.summary.overview,
             applicationSummary: form.fullSummary(),

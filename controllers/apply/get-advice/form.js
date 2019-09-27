@@ -169,20 +169,21 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         const years = get('projectDurationYears')(data);
         const costs = get('projectCosts')(data);
 
+        const overview = [
+            {
+                label: localise({ en: 'Requested amount', cy: '' }),
+                value: costs ? `£${costs.toLocaleString()}` : null
+            },
+            {
+                label: localise({ en: 'Project duration', cy: '' }),
+                value: years ? localise({ en: `${years} years`, cy: '' }) : null
+            }
+        ];
+
         return {
-            // @TODO: Generate numbered title or ask for project name?
-            title: 'Get advice',
+            title: null,
             country: countries.length > 1 ? 'uk-wide' : countries[0],
-            overview: [
-                {
-                    label: localise({ en: 'Requested amount', cy: '' }),
-                    value: costs ? `£${costs.toLocaleString()}` : null
-                },
-                {
-                    label: localise({ en: 'Project duration', cy: '' }),
-                    value: years ? `${years} years` : null
-                }
-            ]
+            overview: overview
         };
     }
 
