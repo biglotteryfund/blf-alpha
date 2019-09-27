@@ -19,7 +19,11 @@
 
 {% macro formHeaderWithData(formTitle, projectName) %}
     <div class="form-header u-tone-background-tint u-padded u-flush">
-        <p class="form-header__prefix">{{ formTitle }}</p>
-        <p class="t2 form-header__title u-wrap-words" data-hj-suppress>{{ projectName or __('applyNext.common.untitledApplication') }}</p>
+        {% if projectName %}
+            <p class="form-header__prefix">{{ formTitle }}</p>
+            <p class="t2 form-header__title u-wrap-words" data-hj-suppress>{{ projectName }}</p>
+        {% else %}
+            <p class="t2 form-header__title u-wrap-words">{{ formTitle }}</p>
+        {% endif %}
     </div>
 {% endmacro %}

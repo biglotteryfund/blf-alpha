@@ -3,58 +3,34 @@ const express = require('express');
 const csurf = require('csurf');
 const path = require('path');
 const Sentry = require('@sentry/node');
-const flatMap = require('lodash/flatMap');
 const get = require('lodash/get');
 const includes = require('lodash/includes');
 const pick = require('lodash/pick');
 const set = require('lodash/set');
-const unset = require('lodash/unset');
-const features = require('config').get('features');
 const formidable = require('formidable');
 
-const {
-    PendingApplication,
-    SubmittedApplication
-} = require('../../../db/models');
+const { PendingApplication } = require('../../../db/models');
 
 const commonLogger = require('../../../common/logger');
-const appData = require('../../../common/appData');
 const { localify } = require('../../../common/urls');
 const { noStore } = require('../../../common/cached');
 const { requireActiveUserWithCallback } = require('../../../common/authed');
 const { injectCopy } = require('../../../common/inject-content');
 
-const salesforceService = require('./lib/salesforce');
-const { getObject, buildMultipartData } = require('./lib/file-uploads');
+const { getObject } = require('./lib/file-uploads');
 
 function initFormRouter({
     formId,
-    isBilingual = true,
-    eligibilityBuilder = null,
     formBuilder,
-    confirmationBuilder
+    startTemplate = null,
+    eligibilityBuilder = null,
+    confirmationBuilder,
+    enableSalesforceConnector = true
 }) {
     const router = express.Router();
 
-    function sessionPrefix() {
-        return `forms.${formId}`;
-    }
-
-    function getCurrentlyEditingId(req) {
-        return get(req.session, `${sessionPrefix()}.currentEditingId`);
-    }
-
-    function setCurrentlyEditingId(req, applicationId) {
-        return set(
-            req.session,
-            `${sessionPrefix()}.currentEditingId`,
-            applicationId
-        );
-    }
-
-    function unsetCurrentlyEditingId(req, callbackFn) {
-        unset(req.session, `${sessionPrefix()}.currentEditingId`);
-        req.session.save(callbackFn);
+    function currentlyEditingSessionKey() {
+        return `forms.${formId}.currentEditingId`;
     }
 
     function setCommonLocals(req, res, next) {
@@ -67,7 +43,6 @@ function initFormRouter({
         res.locals.formBaseUrl = req.baseUrl;
 
         res.locals.user = req.user;
-        res.locals.isBilingual = isBilingual;
         res.locals.enableSiteSurvey = false;
         res.locals.bodyClass = 'has-static-header'; // No hero images on apply pages
 
@@ -179,16 +154,28 @@ function initFormRouter({
      * Redirect to eligibility checker
      */
     router.get('/start', function(req, res) {
+        const newUrl = `${req.baseUrl}/new`;
         if (eligibilityBuilder) {
             res.redirect(`${req.baseUrl}/eligibility/1`);
+        } else if (startTemplate) {
+            res.render(startTemplate, {
+                backUrl: req.baseUrl,
+                newUrl
+            });
         } else {
-            res.redirect(`${req.baseUrl}/new`);
+            res.redirect(newUrl);
         }
     });
 
+    function redirectCurrentlyEditing(req, res, applicationId) {
+        set(req.session, currentlyEditingSessionKey(), applicationId);
+        req.session.save(() => {
+            res.redirect(`${req.baseUrl}/summary`);
+        });
+    }
+
     /**
      * Route: New application
-     * Create a new blank application
      */
     router.get('/new', async function(req, res, next) {
         try {
@@ -202,28 +189,17 @@ function initFormRouter({
                 formId: formId
             });
 
-            setCurrentlyEditingId(req, application.id);
-            req.session.save(() => {
-                res.redirect(`${req.baseUrl}/summary`);
-            });
+            redirectCurrentlyEditing(req, res, application.id);
         } catch (error) {
             next(error);
         }
     });
 
     /**
-     * Route: Edit application ID
-     * Store the ID of the application currently being edited
+     * Route: Edit application
      */
-    router.get('/edit/:applicationId', async (req, res) => {
-        if (req.params.applicationId) {
-            setCurrentlyEditingId(req, req.params.applicationId);
-            req.session.save(() => {
-                res.redirect(`${req.baseUrl}/summary`);
-            });
-        } else {
-            res.redirect(req.baseUrl);
-        }
+    router.get('/edit/:applicationId', function(req, res) {
+        redirectCurrentlyEditing(req, res, req.params.applicationId);
     });
 
     /**
@@ -262,7 +238,8 @@ function initFormRouter({
      * All routes after this point require an application to be selected
      */
     router.use(async (req, res, next) => {
-        const currentEditingId = getCurrentlyEditingId(req);
+        const currentEditingId = get(req.session, currentlyEditingSessionKey());
+
         if (currentEditingId) {
             res.locals.currentlyEditingId = currentEditingId;
 
@@ -313,174 +290,16 @@ function initFormRouter({
     /**
      * Route: Submission
      */
-    router.post('/submission', async (req, res, next) => {
-        const { currentApplication, currentApplicationData } = res.locals;
-
-        const logger = commonLogger.child({
-            service: 'salesforce'
-        });
-
-        const form = formBuilder({
-            locale: req.i18n.getLocale(),
-            data: currentApplicationData
-        });
-
-        function canSubmit() {
-            return form.progress.isComplete;
-        }
-
-        function canSubmitToSalesforce() {
-            if (appData.isTestServer) {
-                return false;
-            } else {
-                return features.enableSalesforceConnector;
-            }
-        }
-
-        if (canSubmit() === true) {
-            // Extract the fields so we can determine which files to upload to Salesforce
-            const steps = flatMap(form.sections, 'steps');
-            const fieldsets = flatMap(steps, 'fieldsets');
-            const fields = flatMap(fieldsets, 'fields');
-
-            try {
-                logger.info('Submission started');
-
-                /**
-                 * Increment submission attempts
-                 * Allows us to report on failed submission attempts.
-                 */
-                await currentApplication.increment('submissionAttempts');
-
-                /**
-                 * Construct salesforce submission data
-                 * We also attach this to the SubmittedApplication record
-                 */
-                let salesforceRecordId = null;
-                const salesforceFormData = {
-                    application: form.forSalesforce(),
-                    meta: {
-                        form: formId,
-                        schemaVersion: form.schemaVersion,
-                        environment: appData.environment,
-                        commitId: appData.commitId,
-                        locale: req.i18n.getLocale(),
-                        username: req.user.userData.username,
-                        applicationId: currentApplication.id,
-                        startedAt: currentApplication.createdAt.toISOString()
-                    }
-                };
-
-                /**
-                 * Store submission in salesforce if enabled
-                 */
-                if (canSubmitToSalesforce() === true) {
-                    const salesforce = await salesforceService.authorise();
-                    salesforceRecordId = await salesforce.submitFormData(
-                        salesforceFormData
-                    );
-
-                    logger.info('FormData record created');
-
-                    /**
-                     * Upload each file in the submission to salesforce
-                     */
-                    const contentVersionPromises = fields
-                        .filter(field => field.type === 'file')
-                        .map(async field => {
-                            const pathConfig = {
-                                formId: formId,
-                                applicationId: currentApplication.id,
-                                filename: field.value.filename
-                            };
-
-                            return buildMultipartData(pathConfig).then(
-                                versionData => {
-                                    return salesforce.contentVersion({
-                                        recordId: salesforceRecordId,
-                                        attachmentName: `${
-                                            field.name
-                                        }${path.extname(field.value.filename)}`,
-                                        versionData: versionData
-                                    });
-                                }
-                            );
-                        });
-
-                    await Promise.all(contentVersionPromises);
-                } else {
-                    logger.debug(`Skipped salesforce submission for ${formId}`);
-                }
-
-                /**
-                 * Create a submitted application from pending state
-                 * SubmittedApplication holds a snapshot at the time of submission,
-                 * allowing submissions to be rendered separate to form model changes.
-                 */
-                await SubmittedApplication.createFromPendingApplication({
-                    pendingApplication: currentApplication,
-                    form: form,
-                    userId: req.user.userData.id,
-                    formId: formId,
-                    salesforceRecord: {
-                        id: salesforceRecordId,
-                        submission: salesforceFormData
-                    }
-                });
-
-                /**
-                 * Delete the pending application once the
-                 * SubmittedApplication has been created.
-                 */
-                await PendingApplication.deleteApplication(
-                    currentApplication.id,
-                    req.user.userData.id
-                );
-
-                /**
-                 * Render confirmation
-                 */
-                unsetCurrentlyEditingId(req, function() {
-                    const confirmation = confirmationBuilder({
-                        locale: req.i18n.getLocale(),
-                        data: currentApplicationData
-                    });
-
-                    logger.info('Submission successful');
-                    res.render(
-                        path.resolve(__dirname, './views/confirmation'),
-                        {
-                            title: confirmation.title,
-                            confirmation: confirmation,
-                            form: form
-                        }
-                    );
-                });
-            } catch (error) {
-                logger.error('Submission failed', error);
-
-                /**
-                 * Salesforce submission failed,
-                 * Check the instance status and log if not OK,
-                 * allows us to monitor how many applications get submitted during
-                 * maintenance windows to determine if we need some visible messaging.
-                 */
-                try {
-                    const response = await salesforceService.checkStatus();
-
-                    if (response.status !== 'OK') {
-                        logger.info(`Salesforce status ${response.status}`);
-                    }
-
-                    next(error);
-                } catch (statusError) {
-                    next(error);
-                }
-            }
-        } else {
-            res.redirect(req.baseUrl);
-        }
-    });
+    router.use(
+        '/submission',
+        require('./submission')(
+            formId,
+            formBuilder,
+            confirmationBuilder,
+            currentlyEditingSessionKey,
+            enableSalesforceConnector
+        )
+    );
 
     /**
      * Routes: Stream file from S3 if authorised

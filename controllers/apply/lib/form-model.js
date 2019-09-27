@@ -248,14 +248,6 @@ class FormModel {
         return flatMap(step.fieldsets, 'fields');
     }
 
-    getErrorsForStep(sectionSlug, stepIndex) {
-        const stepFields = this.getCurrentFieldsForStep(sectionSlug, stepIndex);
-        const stepFieldNames = stepFields.map(f => f.name);
-        return this.validation.messages.filter(item =>
-            stepFieldNames.includes(item.param)
-        );
-    }
-
     getErrorsByStep() {
         const allMessages = this.validation.messages;
         if (allMessages.length > 0) {
