@@ -10,12 +10,6 @@ function mapMessages(validationResult) {
     return validationResult.messages.map(detail => detail.msg);
 }
 
-function mapRawMessages(validationResult) {
-    return validationResult.error.details.map(detail => {
-        return detail.message;
-    });
-}
-
 function mockResponse(overrides = {}) {
     const defaults = {
         projectCountry: ['england'],
@@ -34,6 +28,7 @@ function mockResponse(overrides = {}) {
             county: 'West Midlands',
             postcode: 'B15 1TR'
         },
+        organisationType: 'not-for-profit-company',
         contactName: {
             firstName: 'Björk',
             lastName: 'Guðmundsdóttir'
@@ -46,7 +41,7 @@ function mockResponse(overrides = {}) {
     return Object.assign(defaults, overrides);
 }
 
-test('minimal valid form', () => {
+test('valid form', () => {
     const data = mockResponse();
     const result = formBuilder({ data }).validation;
     expect(result.error).toBeNull();
@@ -60,82 +55,47 @@ test('minimal valid form', () => {
     });
 });
 
-test('minimal invalid form', () => {
+test('invalid form', () => {
     const form = formBuilder();
 
     const result = form.validate({
         projectCountry: 'invalid-country',
         projectLocation: null,
         projectCosts: 5000,
-        projectDurationYears: 10
+        projectDurationYears: 10,
+        organisationLegalName: 'Same organisation name',
+        organisationTradingName: 'Same organisation name'
     });
 
     expect(mapMessages(result)).toMatchSnapshot();
-
-    expect(mapRawMessages(result)).toMatchSnapshot();
 });
 
-test('strip location and duration when applying for more than one country', () => {
+test('strip projectLocation when applying for more than one country', () => {
     const form = formBuilder({
         data: mockResponse({
             projectCountry: ['england', 'scotland'],
-            projectLocation: 'this-should-be-stripped',
-            projectDurationYears: 5
+            projectLocation: 'this-should-be-stripped'
         })
     });
 
     expect(form.validation.value).not.toHaveProperty('projectLocation');
+});
+
+test('strip projectDurationYears when applying for more than one country', () => {
+    const form = formBuilder({
+        data: mockResponse({
+            projectCountry: ['england', 'scotland'],
+            projectDurationYears: 5
+        })
+    });
+
     expect(form.validation.value).not.toHaveProperty('projectDurationYears');
 });
 
-test('project duration is between limits', () => {
-    const formMin = formBuilder({
-        data: mockResponse({
-            projectCountry: ['scotland'],
-            projectDurationYears: 0
-        })
-    });
-
-    expect(mapRawMessages(formMin.validation)).toEqual(
-        expect.arrayContaining([
-            `"projectDurationYears" must be larger than or equal to 1`
-        ])
-    );
-
-    const formMax = formBuilder({
-        data: mockResponse({
-            projectCountry: ['wales'],
-            projectDurationYears: 6
-        })
-    });
-
-    expect(mapRawMessages(formMax.validation)).toEqual(
-        expect.arrayContaining([
-            `"projectDurationYears" must be less than or equal to 5`
-        ])
-    );
-});
-
-test('project costs must be at least 10,000', function() {
+test('language preference required in wales', function() {
     const form = formBuilder({
         data: mockResponse({
-            projectCosts: '5,500'
-        })
-    });
-
-    expect(mapMessages(form.validation)).toEqual(
-        expect.arrayContaining([
-            expect.stringContaining(
-                'If you need £10,000 or less from us, you can apply today through'
-            )
-        ])
-    );
-});
-
-test('language prefrence required in wales', function() {
-    const form = formBuilder({
-        data: mockResponse({
-            projectCountry: ['wales'],
+            projectCountry: ['england', 'wales'],
             projectLocation: 'swansea'
         })
     });
@@ -146,7 +106,7 @@ test('language prefrence required in wales', function() {
 
     const formValid = formBuilder({
         data: mockResponse({
-            projectCountry: ['wales'],
+            projectCountry: ['england', 'wales'],
             projectLocation: 'swansea',
             contactLanguagePreference: 'welsh'
         })

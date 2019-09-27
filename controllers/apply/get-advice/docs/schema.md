@@ -66,8 +66,6 @@ Optional field
 
 ### organisationAddress
 
-### mainContactAddress
-
 type: `object`
 
 | Name         | Type               | Notes    |
@@ -77,6 +75,12 @@ type: `object`
 | **townCity** | `string`           |          |
 | **county**   | `string` or `null` | Optional |
 | **postcode** | `string`           |          |
+
+### organisationType
+
+type: `string`
+
+Allowed values: `unregistered-vco`, `unincorporated-registered-charity`, `charitable-incorporated-organisation`, `not-for-profit-company`, `school`, `college-or-university`, `statutory-body`, `faith-group`
 
 ### contactName
 
