@@ -537,6 +537,87 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
+    function fieldOrganisationSubType() {
+        const options = [
+            {
+                value: 'parish-council',
+                label: localise({
+                    en: 'Parish Council',
+                    cy: 'Cyngor plwyf'
+                })
+            },
+            {
+                value: 'town-council',
+                label: localise({
+                    en: 'Town Council',
+                    cy: 'Cyngor tref'
+                })
+            },
+            {
+                value: 'local-authority',
+                label: localise({
+                    en: 'Local Authority',
+                    cy: 'Awdurdod lleol'
+                })
+            },
+            {
+                value: 'nhs-trust-health-authority',
+                label: localise({
+                    en: 'NHS Trust/Health Authority',
+                    cy: 'Ymddiriedaeth GIG/Awdurdod Iechyd'
+                })
+            },
+            {
+                value: 'prison-service',
+                label: localise({
+                    en: 'Prison Service',
+                    cy: 'Gwasanaeth carchar'
+                })
+            },
+            {
+                value: 'fire-service',
+                label: localise({
+                    en: 'Fire Service',
+                    cy: 'Gwasanaeth tân'
+                })
+            },
+            {
+                value: 'police-authority',
+                label: localise({
+                    en: 'Police Authority',
+                    cy: 'Awdurdod heddlu'
+                })
+            }
+        ];
+
+        return new RadioField({
+            name: 'organisationSubType',
+            label: localise({
+                en: 'Tell us what type of statutory body you are',
+                cy: 'Dywedwch wrthym pa fath o gorff statudol ydych'
+            }),
+            type: 'radio',
+            options: options,
+            isRequired: true,
+            schema: Joi.when('organisationType', {
+                is: 'statutory-body',
+                then: Joi.string()
+                    .valid(options.map(option => option.value))
+                    .required(),
+                otherwise: Joi.any().strip()
+            }),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Tell us what type of statutory body you are',
+                        cy: 'Dywedwch wrthym pa fath o gorff statudol ydych'
+                    })
+                }
+            ]
+        });
+    }
+
     function fieldContactName() {
         return new NameField({
             name: 'contactName',
@@ -639,6 +720,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         organisationTradingName: fieldOrganisationTradingName(),
         organisationAddress: fieldOrganisationAddress(),
         organisationType: fieldOrganisationType(),
+        organisationSubType: fieldOrganisationSubType(),
         contactName: fieldContactName(),
         contactEmail: fieldContactEmail(),
         contactPhone: fieldContactPhone(),

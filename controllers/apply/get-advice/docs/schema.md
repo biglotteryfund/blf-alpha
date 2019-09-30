@@ -82,6 +82,15 @@ type: `string`
 
 Allowed values: `unregistered-vco`, `unincorporated-registered-charity`, `charitable-incorporated-organisation`, `not-for-profit-company`, `school`, `college-or-university`, `statutory-body`, `faith-group`
 
+### organisationSubType
+
+type: `string`
+
+Present if `organisationType` is `statutory-body`
+
+Allowed values: `parish-council`, `town-council`, `local-authority`
+`nhs-trust-health-authority`, `prison-service`, `fire-service`, `police-authority`
+
 ### contactName
 
 type: `object`
