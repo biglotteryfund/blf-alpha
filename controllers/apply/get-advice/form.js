@@ -118,14 +118,30 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         return {
             title: localise({
                 en: 'Organisation type',
-                cy: ''
+                cy: 'Math o sefydliad'
             }),
             noValidate: true,
-            fieldsets: [
-                {
-                    fields: [allFields.organisationType]
-                }
-            ]
+            fieldsets: [{ fields: [allFields.organisationType] }]
+        };
+    }
+
+    function stepOrganisationSubType() {
+        function fields() {
+            const currentOrganisationType = get('organisationType')(data);
+            if (currentOrganisationType === 'statutory-body') {
+                return [allFields.organisationSubType];
+            } else {
+                return [];
+            }
+        }
+
+        return {
+            title: localise({
+                en: 'Type of statutory body',
+                cy: 'Math o gorff statudol'
+            }),
+            noValidate: true,
+            fieldsets: [{ fields: fields() }]
         };
     }
 
@@ -228,7 +244,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                         enw cyfreithiol,  cyfeiriad cofrestredig ac incwm.
                         Mae hyn yn ein helpu i ddeall pa fath o sefydliad ydych.`
                 }),
-                steps: [stepOrganisationDetails(), stepOrganisationType()]
+                steps: [
+                    stepOrganisationDetails(),
+                    stepOrganisationType(),
+                    stepOrganisationSubType()
+                ]
             },
             {
                 slug: 'your-details',
