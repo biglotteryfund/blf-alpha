@@ -28,6 +28,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldProjectCountries() {
         return new CheckboxField({
+            locale: locale,
             name: 'projectCountries',
             label: localise({
                 en: `What country (or countries) will your project take place in?`,
@@ -103,6 +104,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         }
 
         return new SelectField({
+            locale: locale,
             name: 'projectLocation',
             label: localise({
                 en: `Where will your project take place?`,
@@ -144,6 +146,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldProjectLocationDescription() {
         return new Field({
+            locale: locale,
             name: 'projectLocationDescription',
             label: localise({
                 en: 'Project location',
@@ -161,6 +164,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldProjectCosts() {
         return new CurrencyField({
+            locale: locale,
             name: 'projectCosts',
             label: localise({
                 en: `How much money do you want from us?`,
@@ -203,6 +207,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldProjectDurationYears() {
         return new RadioField({
+            locale: locale,
             name: 'projectDurationYears',
             label: localise({
                 en: `How long do you need the money for?`,
@@ -242,6 +247,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldYourIdeaProject() {
         return new TextareaField({
+            locale: locale,
             name: 'yourIdeaProject',
             label: localise({
                 en: 'What would you like to do?',
@@ -274,6 +280,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldYourIdeaCommunity() {
         return new TextareaField({
+            locale: locale,
             name: 'yourIdeaCommunity',
             label: localise({
                 en: `How does your project involve your community?`,
@@ -365,6 +372,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldOrganisationLegalName() {
         return new Field({
+            locale: locale,
             name: 'organisationLegalName',
             label: localise({
                 en: 'What is the full legal name of your organisation?',
@@ -393,6 +401,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldOrganisationTradingName() {
         return new Field({
+            locale: locale,
             name: 'organisationTradingName',
             label: localise({
                 en: 'Organisation trading name',
@@ -422,6 +431,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldOrganisationAddress() {
         return new AddressField({
+            locale: locale,
             name: 'organisationAddress',
             label: localise({
                 en: `What is the main or registered address of your organisation?`,
@@ -432,6 +442,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldOrganisationType() {
         return new RadioField({
+            locale: locale,
             name: 'organisationType',
             label: localise({
                 en: 'What type of organisation are you?',
@@ -607,6 +618,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         ];
 
         return new RadioField({
+            locale: locale,
             name: 'organisationSubType',
             label: localise({
                 en: 'Tell us what type of statutory body you are',
@@ -636,6 +648,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldContactName() {
         return new NameField({
+            locale: locale,
             name: 'contactName',
             label: localise({
                 en: 'Your name',
@@ -646,6 +659,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldContactEmail() {
         return new EmailField({
+            locale: locale,
             name: 'contactEmail',
             explanation: localise({
                 en: `We’ll use this whenever we get in touch about the project`,
@@ -656,6 +670,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldContactPhone() {
         return new PhoneField({
+            locale: locale,
             name: 'contactPhone',
             isRequired: false
         });
@@ -674,6 +689,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         ];
 
         return new RadioField({
+            locale: locale,
             name: 'contactLanguagePreference',
             label: localise({
                 en: `What language should we use to contact you?`,
@@ -708,6 +724,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     function fieldContactCommunicationNeeds() {
         return new Field({
+            locale: locale,
             name: 'contactCommunicationNeeds',
             label: localise({
                 en: `Communication needs`,
