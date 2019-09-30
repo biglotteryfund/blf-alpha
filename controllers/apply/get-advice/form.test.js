@@ -92,6 +92,22 @@ test('strip projectDurationYears when applying for more than one country', () =>
     expect(form.validation.value).not.toHaveProperty('projectDurationYears');
 });
 
+test('organisation sub-type required for statutory-body', function() {
+    const requiredData = mockResponse({ organisationType: 'statutory-body' });
+    const requiredResult = formBuilder({ data: requiredData }).validation;
+
+    expect(mapMessages(requiredResult)).toEqual(
+        expect.arrayContaining(['Tell us what type of statutory body you are'])
+    );
+
+    const validData = mockResponse({
+        organisationType: 'statutory-body',
+        organisationSubType: 'fire-service'
+    });
+    const result = formBuilder({ data: validData }).validation;
+    expect(result.error).toBeNull();
+});
+
 test('language preference required in wales', function() {
     const form = formBuilder({
         data: mockResponse({
