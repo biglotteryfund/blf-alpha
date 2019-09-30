@@ -221,7 +221,7 @@ function sendEmail({ name, mailConfig, mailTransport = null }) {
         const transport = mailTransport ? mailTransport : createSesTransport();
 
         return transport.sendMail(buildMailOptions(mailConfig)).then(info => {
-            logger.info('Mail sent', { name: name });
+            logger.info(`Mail sent for ${name}`);
             return info;
         });
     }
