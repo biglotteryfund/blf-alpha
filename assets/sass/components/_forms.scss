@@ -904,3 +904,23 @@ $inputOutline: 3px solid get-color('border', 'outline');
         }
     }
 }
+
+.js-form-warn-unsaved.js-session-form {
+    .form-actions {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+
+        .last-save-timestamp {
+            align-self: flex-end;
+            color: get-color('brand', 'primary');
+            font-size: 16px;
+        }
+
+        @include mq('small', 'max') {
+            .last-save-timestamp {
+                font-size: 14px;
+            }
+        }
+    }
+}

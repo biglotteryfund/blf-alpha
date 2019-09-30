@@ -131,6 +131,14 @@ class PendingApplication extends Model {
             { where: { id: { [Op.eq]: id } } }
         );
     }
+    static lastUpdatedTime(applicationId) {
+        return this.findOne({
+            attributes: ['updatedAt'],
+            where: {
+                id: { [Op.eq]: applicationId },
+            }
+        });
+    }
     static deleteApplication(id, userId) {
         return this.destroy({
             where: {

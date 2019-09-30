@@ -6,6 +6,7 @@ const includes = require('lodash/includes');
 const omit = require('lodash/omit');
 const Sentry = require('@sentry/node');
 const crypto = require('crypto');
+const moment = require('moment');
 
 const logger = require('../../../common/logger');
 const { sanitiseRequestBody } = require('../../../common/sanitise');
@@ -16,7 +17,7 @@ module.exports = function(formId, formBuilder) {
     const router = express.Router();
 
     function renderStepFor(sectionSlug, stepNumber) {
-        return function(req, res, data, errors = []) {
+        return async function(req, res, data, errors = []) {
             const form = formBuilder({
                 locale: req.i18n.getLocale(),
                 data: data
@@ -55,6 +56,13 @@ module.exports = function(formId, formBuilder) {
                                 nextPage: nextPage,
                                 errors: errors
                             };
+
+                            /**
+                             * Calculate the last successful save time
+                             */
+                            viewData.lastSaveTime = await calcLastSaveTime(
+                                res.locals.currentlyEditingId
+                            );
 
                             /**
                              * Log validation errors along with section and step metadata
@@ -96,6 +104,17 @@ module.exports = function(formId, formBuilder) {
                 res.redirect(res.locals.formBaseUrl);
             }
         };
+    }
+
+    async function calcLastSaveTime(applicationId) {
+        const lastUpdatedAt = (await PendingApplication.lastUpdatedTime(applicationId)).updatedAt;
+
+        return moment(lastUpdatedAt).calendar(null, {
+            lastDay : '[Yesterday] LT',
+            sameDay : '[Today] LT',
+            lastWeek : '[last] dddd LT',
+            sameElse : 'L [in MM/DD/YYYY format]'
+        });
     }
 
     router
