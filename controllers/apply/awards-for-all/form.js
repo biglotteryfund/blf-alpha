@@ -73,32 +73,6 @@ module.exports = function({
     }
 
     function stepProjectCountry() {
-        /**
-         * We are rolling out this form on a per-country basis
-         * so we need to show a message to direct applicants to the old form
-         * if they are applying for a country we don't support yet
-         */
-        const countryNoticeMessage = {
-            title: localise({
-                en: `Applying for a project in England?`,
-                cy: `Ymgeisio am brosiect yn Lloegr?`
-            }),
-            body: localise({
-                en: `
-                    <p><a href="https://apply.tnlcommunityfund.org.uk">You'll need to use this form instead</a>.</p>
-                    <p><strong>Applying for a project in Northern Ireland?</strong></p>
-                    <p><a href="/funding/programmes/awards-for-all-northern-ireland">You'll need to download an application form to apply</a>.</p>
-                    <p>Only applicants in Wales or Scotland can apply through our new online form at the moment. We're working on making this available for the rest of the UK.</p>
-                `,
-                cy: `
-                    <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hon yn lle</a>.</p>
-                    <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
-                    <p><a href="funding/programmes/awards-for-all-northern-ireland">Byddwch angen lawrlwytho ffurflen gais i ymgeisio</a>.</p>
-                    <p>Dim ond ymgeiswyr yng Nghymru neu'r Alban all ymgeisio drwy ein ffurflen ar-lein newydd ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn hygyrch i weddill y DU.</p>
-                `
-            })
-        };
-
         return {
             title: localise({ en: 'Project country', cy: 'Gwlad y prosiect' }),
             noValidate: true,
@@ -110,8 +84,7 @@ module.exports = function({
                     }),
                     fields: [fields.projectCountry]
                 }
-            ],
-            message: countryNoticeMessage
+            ]
         };
     }
 

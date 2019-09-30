@@ -66,10 +66,6 @@ module.exports = function validateModel(formModel) {
         fieldsets: Joi.array()
             .items(fieldsetSchema)
             .required(),
-        message: Joi.object({
-            title: Joi.string().required(),
-            body: Joi.string().required()
-        }).optional(),
         preFlightCheck: Joi.func().optional(),
         isMultipart: Joi.boolean().optional()
     });

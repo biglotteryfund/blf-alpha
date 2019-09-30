@@ -14,14 +14,7 @@
             {{ userNavigation(userNavigationLinks) }}
 
             {{ formHeaderWithData(formTitle, form.summary.title) }}
-
-            {% if step.message %}
-                <div class="message message--info message--minor" role="alert">
-                    <p><strong>{{ step.message.title | safe }}</strong></p>
-                    <p>{{ step.message.body | safe }}</p>
-                </div>
-            {% endif %}
-
+            
             <form action=""
                   method="post"
                   class="js-form-warn-unsaved js-session-form js-apply-{{ formId }}"
