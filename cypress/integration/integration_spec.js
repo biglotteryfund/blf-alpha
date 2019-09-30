@@ -1052,7 +1052,7 @@ it('should complete get advice form', () => {
             cy.findAllByText('Get advice on your idea').click();
         });
 
-        cy.findAllByText('Start your application')
+        cy.findAllByText('Start')
             .first()
             .click();
 
