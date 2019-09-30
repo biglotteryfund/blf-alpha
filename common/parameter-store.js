@@ -1,40 +1,45 @@
 'use strict';
 const fs = require('fs');
-const { flow, get, keyBy, mapValues } = require('lodash/fp');
+const flow = require('lodash/fp/flow');
+const keyBy = require('lodash/fp/keyBy');
+const mapValues = require('lodash/fp/mapValues');
 
 function getRawParameters() {
     let rawParameters;
     try {
-        rawParameters = JSON.parse(fs.readFileSync('/etc/blf/parameters.json', 'utf8'));
+        rawParameters = JSON.parse(
+            fs.readFileSync('/etc/blf/parameters.json', 'utf8')
+        );
     } catch (e) {} // eslint-disable-line no-empty
     return rawParameters;
 }
 
-function parseSecrets(rawParameters) {
+function getFromRawParameters(
+    rawParameters,
+    name,
+    shouldThrowIfMissing = false
+) {
     const mapKeyedValues = flow(
         keyBy('Name'),
         mapValues('Value')
     );
-    return mapKeyedValues(rawParameters);
-}
 
-function getSecretFromRawParameters(rawParameters, name, shouldThrowIfMissing = false) {
-    const secrets = parseSecrets(rawParameters);
-    const secret = get(name)(secrets);
+    const allParameters = mapKeyedValues(rawParameters);
+    const match = allParameters[name];
 
-    if (shouldThrowIfMissing === true && typeof secret === 'undefined') {
-        throw new Error(`Secret missing: ${name}`);
+    if (shouldThrowIfMissing === true && typeof match === 'undefined') {
+        throw new Error(`parameter missing: ${name}`);
     } else {
-        return secret;
+        return match;
     }
 }
 
-function getSecret(name, shouldThrowIfMissing = false) {
+function getParameter(name, shouldThrowIfMissing = false) {
     const rawParameters = getRawParameters();
-    return getSecretFromRawParameters(rawParameters, name, shouldThrowIfMissing);
+    return getFromRawParameters(rawParameters, name, shouldThrowIfMissing);
 }
 
 module.exports = {
-    getSecretFromRawParameters,
-    getSecret
+    getFromRawParameters,
+    getParameter
 };
