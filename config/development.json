@@ -8,8 +8,5 @@
     "enableCloudWatchLogs": false,
     "enableSeeders": true,
     "enableSalesforceConnector": true
-  },
-  "awardsForAll": {
-    "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]
   }
 }
