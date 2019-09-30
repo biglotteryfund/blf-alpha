@@ -19,7 +19,7 @@ const {
     NameField
 } = require('../lib/field-types');
 
-const locationsFor = require('./lib/locations');
+const locationOptions = require('../lib/location-options');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
@@ -84,7 +84,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldProjectLocation() {
-        const optgroups = locationsFor(projectCountries, locale);
+        function optgroups() {
+            const locations = locationOptions(locale);
+
+            if (projectCountries.length > 1) {
+                return [];
+            } else if (projectCountries.includes('england')) {
+                return locations.england;
+            } else if (projectCountries.includes('northern-ireland')) {
+                return locations.northernIreland;
+            } else if (projectCountries.includes('scotland')) {
+                return locations.scotland;
+            } else if (projectCountries.includes('wales')) {
+                return locations.wales;
+            } else {
+                return [];
+            }
+        }
 
         return new SelectField({
             name: 'projectLocation',
@@ -102,13 +118,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'Select a location',
                 cy: 'Dewiswch leoliad'
             }),
-            optgroups: optgroups,
+            optgroups: optgroups(),
             schema: Joi.when('projectCountry', {
                 is: Joi.array().min(2),
                 then: Joi.any().strip(),
                 otherwise: Joi.string()
                     .valid(
-                        flatMap(optgroups, group => group.options).map(
+                        flatMap(optgroups(), group => group.options).map(
                             option => option.value
                         )
                     )
