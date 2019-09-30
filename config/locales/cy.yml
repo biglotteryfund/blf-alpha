@@ -1278,8 +1278,7 @@ applyNext:
       cta: Dechrau cais newydd
   summary:
     title: Crynodeb
-    introduction: >
-      <p>Dyma grynodeb o’ch cais. Cewch gwblhau’r adrannau mewn unrhyw drefn.</p>
+    introduction: <p>Cewch gwblhau’r adrannau mewn unrhyw drefn.</p>
     completeTitle: Mae’r holl adrannau’n gyflawn
     completeMessage: Rydych wedi ateb bob cwestiwn gofynnol ar y ffurflen hwn. Cymrwch yr amser i wirio eich atebion, a cliciwch anfon pan rydych yn barod.
     incompleteTitle: Nid yw eich ffurflen yn gyflawn eto

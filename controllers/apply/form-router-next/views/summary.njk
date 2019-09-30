@@ -169,7 +169,11 @@
 {% endmacro %}
 
 {% macro startButton() %}
-    <p class="u-no-margin"><a href="{{ formBaseUrl }}/{{ startPathSlug }}" class="btn">{{ copy.common.startYourApplication }}</a></p>
+    <p class="u-no-margin">
+        <a href="{{ formBaseUrl }}/{{ startPathSlug }}" class="btn">
+            {{ form.startLabel }}
+        </a>
+    </p>
 {% endmacro %}
 
 {% block content %}

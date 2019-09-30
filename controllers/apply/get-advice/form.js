@@ -203,6 +203,10 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             en: 'Get advice on your idea',
             cy: ''
         }),
+        startLabel: localise({
+            en: 'Start',
+            cy: 'Dechrau'
+        }),
         allFields,
         summary: summary(),
         schemaVersion: 'v0.1',
@@ -217,9 +221,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     cy: 'Eich prosiect'
                 }),
                 summary: localise({
-                    en: oneLine`We need a line of copy to summarise this section.
-                        Praesent eget metus mi ornare est ullamcorper nullam
-                        imperdiet sociosqu turpis odio cubilia at pretium leo.`,
+                    en: oneLine`Please tell us about your project in this section.`,
                     cy: ``
                 }),
                 steps: [
@@ -238,7 +240,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 }),
                 summary: localise({
                     en: oneLine`Please tell us about your organisation,
-                        including legal name, registered address and income.
+                        including legal name and registered address.
                         This helps us understand the type of organisation you are.`,
                     cy: oneLine`Dywedwch wrthym am eich sefydliad, gan gynnwys yr
                         enw cyfreithiol,  cyfeiriad cofrestredig ac incwm.
@@ -257,9 +259,8 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     cy: ''
                 }),
                 summary: localise({
-                    en: oneLine`We need a line of copy to summarise this section.
-                        Praesent eget metus mi ornare est ullamcorper nullam
-                        imperdiet sociosqu turpis odio cubilia at pretium leo.`,
+                    en: oneLine`Please provide details for the person
+                        we should contact to talk about your idea.`,
                     cy: ``
                 }),
                 steps: [stepContactDetails()]

@@ -1561,8 +1561,7 @@ applyNext:
       cta: Start new application
   summary:
     title: Summary
-    introduction: >
-      <p>Here's a summary of your application. You may complete the sections in any order.</p>
+    introduction: <p>You may complete the sections in any order.</p>
     completeTitle: All sections are complete
     completeMessage: You’ve answered every required question on this form. Please take the time to check over and refine your answers, and click submit when you are ready.
     incompleteTitle: Your form isn’t complete yet

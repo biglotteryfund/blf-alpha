@@ -10,6 +10,6 @@
     "enableSalesforceConnector": true
   },
   "awardsForAll": {
-    "allowedCountries": ["england", "scotland", "wales"]
+    "allowedCountries": ["england", "northern-ireland", "scotland", "wales"]
   }
 }
