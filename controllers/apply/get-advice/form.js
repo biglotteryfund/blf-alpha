@@ -12,16 +12,16 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
 
     const allFields = fieldsFor({ locale, data });
 
-    const projectCountries = getOr([], 'projectCountry')(data);
+    const projectCountries = getOr([], 'projectCountries')(data);
 
-    function stepProjectCountry() {
+    function stepProjectCountries() {
         return {
             title: localise({
                 en: 'Project country',
                 cy: 'Gwlad y prosiect'
             }),
             noValidate: true,
-            fieldsets: [{ fields: [allFields.projectCountry] }]
+            fieldsets: [{ fields: [allFields.projectCountries] }]
         };
     }
 
@@ -118,14 +118,30 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         return {
             title: localise({
                 en: 'Organisation type',
-                cy: ''
+                cy: 'Math o sefydliad'
             }),
             noValidate: true,
-            fieldsets: [
-                {
-                    fields: [allFields.organisationType]
-                }
-            ]
+            fieldsets: [{ fields: [allFields.organisationType] }]
+        };
+    }
+
+    function stepOrganisationSubType() {
+        function fields() {
+            const currentOrganisationType = get('organisationType')(data);
+            if (currentOrganisationType === 'statutory-body') {
+                return [allFields.organisationSubType];
+            } else {
+                return [];
+            }
+        }
+
+        return {
+            title: localise({
+                en: 'Type of statutory body',
+                cy: 'Math o gorff statudol'
+            }),
+            noValidate: true,
+            fieldsets: [{ fields: fields() }]
         };
     }
 
@@ -160,7 +176,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function summary() {
-        const countries = getOr([], 'projectCountry')(data);
+        const countries = getOr([], 'projectCountries')(data);
         const years = get('projectDurationYears')(data);
         const costs = get('projectCosts')(data);
 
@@ -207,7 +223,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     cy: ``
                 }),
                 steps: [
-                    stepProjectCountry(),
+                    stepProjectCountries(),
                     stepProjectLocation(),
                     stepProjectCosts(),
                     stepProjectDuration(),
@@ -228,7 +244,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                         enw cyfreithiol,  cyfeiriad cofrestredig ac incwm.
                         Mae hyn yn ein helpu i ddeall pa fath o sefydliad ydych.`
                 }),
-                steps: [stepOrganisationDetails(), stepOrganisationType()]
+                steps: [
+                    stepOrganisationDetails(),
+                    stepOrganisationType(),
+                    stepOrganisationSubType()
+                ]
             },
             {
                 slug: 'your-details',

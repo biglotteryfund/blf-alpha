@@ -19,16 +19,16 @@ const {
     NameField
 } = require('../lib/field-types');
 
-const locationsFor = require('./lib/locations');
+const locationOptions = require('../lib/location-options');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
 
-    const projectCountries = getOr([], 'projectCountry')(data);
+    const projectCountries = getOr([], 'projectCountries')(data);
 
-    function fieldProjectCountry() {
+    function fieldProjectCountries() {
         return new CheckboxField({
-            name: 'projectCountry',
+            name: 'projectCountries',
             label: localise({
                 en: `What country (or countries) will your project take place in?`,
                 cy: ``
@@ -84,7 +84,23 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     function fieldProjectLocation() {
-        const optgroups = locationsFor(projectCountries, locale);
+        function optgroups() {
+            const locations = locationOptions(locale);
+
+            if (projectCountries.length > 1) {
+                return [];
+            } else if (projectCountries.includes('england')) {
+                return locations.england;
+            } else if (projectCountries.includes('northern-ireland')) {
+                return locations.northernIreland;
+            } else if (projectCountries.includes('scotland')) {
+                return locations.scotland;
+            } else if (projectCountries.includes('wales')) {
+                return locations.wales;
+            } else {
+                return [];
+            }
+        }
 
         return new SelectField({
             name: 'projectLocation',
@@ -102,13 +118,13 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 en: 'Select a location',
                 cy: 'Dewiswch leoliad'
             }),
-            optgroups: optgroups,
-            schema: Joi.when('projectCountry', {
+            optgroups: optgroups(),
+            schema: Joi.when('projectCountries', {
                 is: Joi.array().min(2),
                 then: Joi.any().strip(),
                 otherwise: Joi.string()
                     .valid(
-                        flatMap(optgroups, group => group.options).map(
+                        flatMap(optgroups(), group => group.options).map(
                             option => option.value
                         )
                     )
@@ -203,7 +219,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 { label: localise({ en: '4 years', cy: '' }), value: 4 },
                 { label: localise({ en: '5 years', cy: '' }), value: 5 }
             ],
-            schema: Joi.when('projectCountry', {
+            schema: Joi.when('projectCountries', {
                 is: Joi.array().min(2),
                 then: Joi.any().strip(),
                 otherwise: Joi.number()
@@ -537,6 +553,87 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
+    function fieldOrganisationSubType() {
+        const options = [
+            {
+                value: 'parish-council',
+                label: localise({
+                    en: 'Parish Council',
+                    cy: 'Cyngor plwyf'
+                })
+            },
+            {
+                value: 'town-council',
+                label: localise({
+                    en: 'Town Council',
+                    cy: 'Cyngor tref'
+                })
+            },
+            {
+                value: 'local-authority',
+                label: localise({
+                    en: 'Local Authority',
+                    cy: 'Awdurdod lleol'
+                })
+            },
+            {
+                value: 'nhs-trust-health-authority',
+                label: localise({
+                    en: 'NHS Trust/Health Authority',
+                    cy: 'Ymddiriedaeth GIG/Awdurdod Iechyd'
+                })
+            },
+            {
+                value: 'prison-service',
+                label: localise({
+                    en: 'Prison Service',
+                    cy: 'Gwasanaeth carchar'
+                })
+            },
+            {
+                value: 'fire-service',
+                label: localise({
+                    en: 'Fire Service',
+                    cy: 'Gwasanaeth tân'
+                })
+            },
+            {
+                value: 'police-authority',
+                label: localise({
+                    en: 'Police Authority',
+                    cy: 'Awdurdod heddlu'
+                })
+            }
+        ];
+
+        return new RadioField({
+            name: 'organisationSubType',
+            label: localise({
+                en: 'Tell us what type of statutory body you are',
+                cy: 'Dywedwch wrthym pa fath o gorff statudol ydych'
+            }),
+            type: 'radio',
+            options: options,
+            isRequired: true,
+            schema: Joi.when('organisationType', {
+                is: 'statutory-body',
+                then: Joi.string()
+                    .valid(options.map(option => option.value))
+                    .required(),
+                otherwise: Joi.any().strip()
+            }),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Tell us what type of statutory body you are',
+                        cy: 'Dywedwch wrthym pa fath o gorff statudol ydych'
+                    })
+                }
+            ]
+        });
+    }
+
     function fieldContactName() {
         return new NameField({
             name: 'contactName',
@@ -583,7 +680,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             }),
             options: options,
-            schema: Joi.when('projectCountry', {
+            schema: Joi.when('projectCountries', {
                 is: Joi.array()
                     .items(
                         Joi.string()
@@ -627,7 +724,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     return {
-        projectCountry: fieldProjectCountry(),
+        projectCountries: fieldProjectCountries(),
         projectLocation: fieldProjectLocation(),
         projectLocationDescription: fieldProjectLocationDescription(),
         projectCosts: fieldProjectCosts(),
@@ -639,6 +736,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         organisationTradingName: fieldOrganisationTradingName(),
         organisationAddress: fieldOrganisationAddress(),
         organisationType: fieldOrganisationType(),
+        organisationSubType: fieldOrganisationSubType(),
         contactName: fieldContactName(),
         contactEmail: fieldContactEmail(),
         contactPhone: fieldContactPhone(),

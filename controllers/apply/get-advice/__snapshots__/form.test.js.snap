@@ -36,7 +36,7 @@ Object {
   "organisationTradingName": "Example trading name",
   "organisationType": "not-for-profit-company",
   "projectCosts": 250000,
-  "projectCountry": Any<Array>,
+  "projectCountries": Any<Array>,
   "projectDurationYears": 3,
   "projectLocation": Any<String>,
   "projectLocationDescription": "optional description",
