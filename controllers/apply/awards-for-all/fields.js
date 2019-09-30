@@ -26,7 +26,7 @@ const {
 } = require('./constants');
 
 const countriesFor = require('./lib/countries');
-const locationsFor = require('./lib/locations');
+const locationOptions = require('../lib/location-options');
 
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
@@ -709,8 +709,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'string.regex.base',
                     message: localise({
-                        en: 'Enter a real charity registration number. And don’t use any spaces. Scottish charity registration numbers must also use the number ‘0’ in ‘SC0’ instead of the letter ‘O’.',
-                        cy: 'Rhowch rif cofrestru elusen go iawn. A pheidiwch â defnyddio unrhyw fylchau. Rhaid i rifau cofrestru elusennau Albanaidd ddefnyddio’r rhif ‘0’ yn ‘SC0’ yn hytrach na’r llythyren ‘O’'
+                        en:
+                            'Enter a real charity registration number. And don’t use any spaces. Scottish charity registration numbers must also use the number ‘0’ in ‘SC0’ instead of the letter ‘O’.',
+                        cy:
+                            'Rhowch rif cofrestru elusen go iawn. A pheidiwch â defnyddio unrhyw fylchau. Rhaid i rifau cofrestru elusennau Albanaidd ddefnyddio’r rhif ‘0’ yn ‘SC0’ yn hytrach na’r llythyren ‘O’'
                     })
                 },
                 {
@@ -812,7 +814,22 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             }),
             get optgroups() {
                 const country = get('projectCountry')(data);
-                return locationsFor(country, locale);
+                const locations = locationOptions(locale);
+
+                let result;
+                if (country === 'england') {
+                    result = locations.england;
+                } else if (country === 'scotland') {
+                    result = locations.scotland;
+                } else if (country === 'northern-ireland') {
+                    result = locations.northernIreland;
+                } else if (country === 'wales') {
+                    result = locations.wales;
+                } else {
+                    result = [];
+                }
+
+                return result;
             },
             isRequired: true,
             get schema() {
