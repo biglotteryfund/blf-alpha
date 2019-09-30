@@ -47,6 +47,7 @@ module.exports = function(formId, formBuilder) {
 
                         if (step.isRequired) {
                             const viewData = {
+                                form: form,
                                 csrfToken: req.csrfToken(),
                                 section: section,
                                 step: step,

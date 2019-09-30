@@ -107,7 +107,9 @@ class PendingApplication extends Model {
         });
     }
     static countCompleted(applications) {
-        return applications.filter(app => app.currentProgressState === 'COMPLETE').length;
+        return applications.filter(
+            app => app.currentProgressState === 'COMPLETE'
+        ).length;
     }
     static createNewApplication({ userId, formId }) {
         // @TODO: Should this be defined in config?
@@ -276,7 +278,7 @@ class SubmittedApplication extends Model {
             id: pendingApplication.id,
             userId: userId,
             formId: formId,
-            applicationTitle: form.summary.title,
+            applicationTitle: form.summary.title || 'Untitled',
             applicationCountry: form.summary.country,
             applicationOverview: form.summary.overview,
             applicationSummary: form.fullSummary(),

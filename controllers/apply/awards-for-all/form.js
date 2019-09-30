@@ -1132,7 +1132,13 @@ module.exports = function({
         const budgetSum = sumBy(budget, item => parseInt(item.cost || 0));
 
         return {
-            title: get('projectName')(data),
+            title: getOr(
+                localise({
+                    en: `Untitled application`,
+                    cy: `Cais heb deitl`
+                }),
+                'projectName'
+            )(data),
             country: get('projectCountry')(data),
             overview: [
                 {

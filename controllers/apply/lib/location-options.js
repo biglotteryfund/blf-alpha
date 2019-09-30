@@ -1,8 +1,7 @@
 'use strict';
 const get = require('lodash/fp/get');
-const includes = require('lodash/includes');
 
-module.exports = function locationsFor(countries = [], locale = 'en') {
+module.exports = function(locale = 'en') {
     const localise = get(locale);
 
     const england = [
@@ -23,8 +22,7 @@ module.exports = function locationsFor(countries = [], locale = 'en') {
                 },
                 {
                     value: 'lincolnshire',
-                    label:
-                        'Lincolnshire (except North and North East Lincolnshire)'
+                    label: `Lincolnshire (except North and North East Lincolnshire)`
                 },
                 {
                     value: 'northamptonshire',
@@ -596,17 +594,5 @@ module.exports = function locationsFor(countries = [], locale = 'en') {
         }
     ];
 
-    if (countries.length > 1) {
-        return [];
-    } else if (includes(countries, 'england')) {
-        return england;
-    } else if (includes(countries, 'northern-ireland')) {
-        return northernIreland;
-    } else if (includes(countries, 'scotland')) {
-        return scotland;
-    } else if (includes(countries, 'wales')) {
-        return wales;
-    } else {
-        return [];
-    }
+    return { england, northernIreland, scotland, wales };
 };

@@ -13,7 +13,7 @@
         <div class="content-box u-inner-wide-only">
             {{ userNavigation(userNavigationLinks) }}
 
-            {{ formHeaderWithData(formTitle, currentApplicationData.projectName) }}
+            {{ formHeaderWithData(formTitle, form.summary.title) }}
 
             {% if step.message %}
                 <div class="message message--info message--minor" role="alert">

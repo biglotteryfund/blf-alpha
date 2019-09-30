@@ -9,14 +9,12 @@
 {% block content %}
     <main role="main" id="content">
         <section class="content-box u-inner-wide-only">
-
             {{ userNavigation(userNavigationLinks) }}
 
-            <h1 class="t2 u-tone-brand-primary">{{ title }}</h1>
-
-            {{ userStatus(user) }}
-
-            {{ confirmation.body | safe }}
+            <div class="s-prose u-constrained-wide u-margin-bottom-l">
+                <h1 class="u-tone-brand-primary">{{ title }}</h1>
+                {{ confirmation.body | safe }}
+            </div>
 
             {{ inlineFeedback(
                 description = formTitle,

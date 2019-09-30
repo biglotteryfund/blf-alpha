@@ -1,4 +1,6 @@
 'use strict';
+const features = require('config').get('features');
+
 const { initFormRouter } = require('../form-router-next');
 
 const formBuilder = require('./form');
@@ -9,5 +11,6 @@ module.exports = initFormRouter({
     formId: 'awards-for-all',
     eligibilityBuilder: eligibilityBuilder,
     formBuilder: formBuilder,
-    confirmationBuilder: confirmationBuilder
+    confirmationBuilder: confirmationBuilder,
+    enableSalesforceConnector: features.enableSalesforceConnector
 });

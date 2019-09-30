@@ -12,24 +12,20 @@ class TextareaField extends Field {
             this.labelDetails = props.labelDetails;
         }
 
-        if (props.minWords && props.maxWords) {
-            this.minWords = props.minWords;
-            this.maxWords = props.maxWords;
-        } else {
-            throw new Error('Must provide min and max words');
-        }
+        this.minWords = props.minWords || 0;
+        this.maxWords = props.maxWords;
 
-        // @TODO Refactor out settings in favour of inspecting field type
         this.settings = {
             stackedSummary: true,
             showWordCount: true,
-            minWords: props.minWords,
-            maxWords: props.maxWords
+            minWords: this.minWords,
+            maxWords: this.maxWords
         };
 
         const baseSchema = Joi.string()
-            .minWords(props.minWords)
-            .maxWords(props.maxWords);
+            .minWords(this.minWords)
+            .maxWords(this.maxWords);
+
         if (props.schema) {
             this.schema = props.schema;
         } else if (this.isRequired) {

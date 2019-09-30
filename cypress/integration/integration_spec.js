@@ -733,8 +733,10 @@ it('should submit full awards for all application', () => {
         const companyNumberTypes = ['Not-for-profit company'];
 
         const charityNumberTypes = [
-            'Registered charity (unincorporated)',
-            'Charitable incorporated organisation (CIO)'
+            'Charitable incorporated organisation (CIO)',
+            'Faith-based group',
+            'Not-for-profit company',
+            'Registered charity (unincorporated)'
         ];
 
         const educationNumberTypes = ['School', 'College or University'];
@@ -1011,9 +1013,9 @@ it('should complete get advice form', () => {
         projectLocationDescription: faker.lorem.words(5),
         projectCosts: random(10000, 5000000),
         projectDurationYears: sample(['3 years', '4 years', '5 years']),
-        yourIdeaProject: faker.lorem.words(random(50, 500)),
+        yourIdeaProject: faker.lorem.words(random(50, 250)),
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
-        yourIdeaActivities: faker.lorem.words(random(50, 500)),
+        yourIdeaActivities: faker.lorem.words(random(50, 350)),
         organisationName: faker.company.companyName(),
         organisationTradingName: sample([faker.company.companyName(), '']),
         organisationAddress: {
@@ -1040,9 +1042,15 @@ it('should complete get advice form', () => {
     }
 
     cy.seedAndLogin().then(() => {
-        cy.visit('/apply/get-advice/new');
+        cy.visit('/apply/get-advice');
 
         acceptCookieConsent();
+
+        cy.findAllByText('Start new application').click();
+
+        cy.get('.form-actions').within(() => {
+            cy.findAllByText('Get advice on your idea').click();
+        });
 
         cy.findAllByText('Start your application')
             .first()
@@ -1066,6 +1074,8 @@ it('should complete get advice form', () => {
         cy.findByLabelText('How much money do you want from us?').type(
             mock.projectCosts
         );
+        submitStep();
+
         cy.findByLabelText(mock.projectDurationYears).click();
         submitStep();
 
