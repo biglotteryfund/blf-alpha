@@ -24,11 +24,11 @@ const locationOptions = require('../lib/location-options');
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
 
-    const projectCountries = getOr([], 'projectCountry')(data);
+    const projectCountries = getOr([], 'projectCountries')(data);
 
-    function fieldProjectCountry() {
+    function fieldProjectCountries() {
         return new CheckboxField({
-            name: 'projectCountry',
+            name: 'projectCountries',
             label: localise({
                 en: `What country (or countries) will your project take place in?`,
                 cy: ``
@@ -119,7 +119,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: 'Dewiswch leoliad'
             }),
             optgroups: optgroups(),
-            schema: Joi.when('projectCountry', {
+            schema: Joi.when('projectCountries', {
                 is: Joi.array().min(2),
                 then: Joi.any().strip(),
                 otherwise: Joi.string()
@@ -219,7 +219,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 { label: localise({ en: '4 years', cy: '' }), value: 4 },
                 { label: localise({ en: '5 years', cy: '' }), value: 5 }
             ],
-            schema: Joi.when('projectCountry', {
+            schema: Joi.when('projectCountries', {
                 is: Joi.array().min(2),
                 then: Joi.any().strip(),
                 otherwise: Joi.number()
@@ -680,7 +680,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: ``
             }),
             options: options,
-            schema: Joi.when('projectCountry', {
+            schema: Joi.when('projectCountries', {
                 is: Joi.array()
                     .items(
                         Joi.string()
@@ -724,7 +724,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     return {
-        projectCountry: fieldProjectCountry(),
+        projectCountries: fieldProjectCountries(),
         projectLocation: fieldProjectLocation(),
         projectLocationDescription: fieldProjectLocationDescription(),
         projectCosts: fieldProjectCosts(),
