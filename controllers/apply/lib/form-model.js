@@ -18,6 +18,7 @@ const normaliseErrors = require('./normalise-errors');
 class FormModel {
     constructor(props, data = {}, locale = 'en') {
         this.title = props.title;
+        this.startLabel = props.startLabel;
         this.allFields = props.allFields;
         this.formData = data;
 

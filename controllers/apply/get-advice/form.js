@@ -203,6 +203,10 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             en: 'Get advice on your idea',
             cy: ''
         }),
+        startLabel: localise({
+            en: 'Start',
+            cy: 'Dechrau'
+        }),
         allFields,
         summary: summary(),
         schemaVersion: 'v0.1',

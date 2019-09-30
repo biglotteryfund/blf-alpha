@@ -1197,6 +1197,10 @@ module.exports = function({
             en: 'National Lottery Awards for All',
             cy: 'Arian i Bawb y Loteri Genedlaethol'
         }),
+        startLabel: localise({
+            en: 'Start your application',
+            cy: 'Dechrau ar eich cais'
+        }),
         allFields: fields,
         featuredErrorsAllowList: [
             'projectDateRange',
