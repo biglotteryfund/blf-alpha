@@ -72,7 +72,7 @@
                         <input class="btn" type="submit" value="{{ copy.continue }}"/>
                     </div>
                     <p class="form-actions__secondary form-actions__timestamp">
-                        Last successful save - 
+                        {{ copy.lastSaveTimeText }} - 
                         <time datetime="{{ lastSaveTime.dateTime }}">{{ lastSaveTime.relative }}</time>
                     </p>
                 </div>
