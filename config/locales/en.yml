@@ -1593,6 +1593,7 @@ applyNext:
   continue: Continue
   edit: Edit
   submit: Submit application
+  lastSaveTimeText: Last successful save
   fields:
     fullName:
       firstName: First name

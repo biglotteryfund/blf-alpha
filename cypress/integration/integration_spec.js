@@ -424,7 +424,12 @@ it('should test common pages', () => {
 });
 
 it('should submit full awards for all application', () => {
+    function checkLastSaveTime() {
+        cy.get('.form-actions__timestamp').contains('a few seconds ago');
+    }
+
     function submitStep() {
+        checkLastSaveTime();
         cy.findByText('Continue').click();
     }
 
@@ -733,7 +738,7 @@ it('should submit full awards for all application', () => {
         const companyNumberTypes = ['Not-for-profit company'];
 
         const charityNumberTypes = [
-            'Charitable incorporated organisation (CIO)',
+            'Charitable Incorporated Organisation (CIO or SCIO)',
             'Faith-based group',
             'Not-for-profit company',
             'Registered charity (unincorporated)'
@@ -948,7 +953,7 @@ it('should submit full awards for all application', () => {
         organisationType: sample([
             'Unregistered voluntary or community organisation',
             'Registered charity (unincorporated)',
-            'Charitable incorporated organisation (CIO)',
+            'Charitable Incorporated Organisation (CIO or SCIO)',
             'Not-for-profit company',
             'School',
             'College or University',

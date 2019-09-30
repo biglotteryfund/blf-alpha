@@ -1310,6 +1310,7 @@ applyNext:
   continue: Parhau
   edit: Golygu
   submit: Anfon cais
+  lastSaveTimeText: Arbediad llwyddiannus diwethaf
   fields:
     fullName:
       firstName: Enw cyntaf

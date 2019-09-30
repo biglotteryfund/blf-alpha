@@ -67,8 +67,14 @@
                     <input type="hidden" name="_csrf" value="{{ csrfToken }}">
                 {% endif %}
 
-                <div class="form-actions">
-                    <input class="btn" type="submit" value="{{ copy.continue }}"/>
+                <div class="form-actions form-actions--flex">
+                    <div class="form-actions__primary">
+                        <input class="btn" type="submit" value="{{ copy.continue }}"/>
+                    </div>
+                    <p class="form-actions__secondary form-actions__timestamp">
+                        {{ copy.lastSaveTimeText }} - 
+                        <time datetime="{{ lastSaveTime.dateTime }}">{{ lastSaveTime.relative }}</time>
+                    </p>
                 </div>
 
             </form>

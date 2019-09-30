@@ -904,3 +904,25 @@ $inputOutline: 3px solid get-color('border', 'outline');
         }
     }
 }
+
+.form-actions--flex {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    .form-actions__primary,
+    .form-actions__secondary {
+        flex: 0 0 auto;
+    }
+
+    .form-actions__timestamp {
+        margin-bottom: 0;
+        color: get-color('links', 'base');
+        font-size: 15px;
+
+        time {
+            font-weight: font-weight('body', 'semibold');
+        }
+    }
+}
