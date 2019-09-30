@@ -62,7 +62,8 @@ module.exports = function(formId, formBuilder) {
                              * Calculate the last successful save time
                              */
                             viewData.lastSaveTime = await calcLastSaveTime(
-                                res.locals.currentlyEditingId
+                                res.locals.currentlyEditingId,
+                                req.i18n.getLocale()
                             );
 
                             /**
@@ -107,15 +108,15 @@ module.exports = function(formId, formBuilder) {
         };
     }
 
-    async function calcLastSaveTime(applicationId) {
-        const lastUpdatedAt = (await PendingApplication.lastUpdatedTime(applicationId)).updatedAt;
+    async function calcLastSaveTime(applicationId, locale) {
+        const lastUpdatedAt = (
+            await PendingApplication.lastUpdatedTime(applicationId)
+        ).updatedAt;
 
-        return moment(lastUpdatedAt).calendar(null, {
-            lastDay : '[Yesterday] LT',
-            sameDay : '[Today] LT',
-            lastWeek : '[last] dddd LT',
-            sameElse : 'L [in MM/DD/YYYY format]'
-        });
+        return {
+            dateTime: moment(lastUpdatedAt).format('YYYY-MM-DD HH:mm'),
+            relative: moment(lastUpdatedAt).locale(locale).fromNow(),
+        };
     }
 
     router

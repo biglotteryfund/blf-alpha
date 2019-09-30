@@ -905,22 +905,24 @@ $inputOutline: 3px solid get-color('border', 'outline');
     }
 }
 
-.js-form-warn-unsaved.js-session-form {
-    .form-actions {
-        display: flex;
-        flex-flow: row wrap;
-        justify-content: space-between;
+.form-actions--flex {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
 
-        .last-save-timestamp {
-            align-self: flex-end;
-            color: get-color('brand', 'primary');
-            font-size: 16px;
-        }
+    .form-actions__primary,
+    .form-actions__secondary {
+        flex: 0 0 auto;
+    }
 
-        @include mq('small', 'max') {
-            .last-save-timestamp {
-                font-size: 14px;
-            }
+    .form-actions__timestamp {
+        margin-bottom: 0;
+        color: get-color('links', 'base');
+        font-size: 15px;
+
+        time {
+            font-weight: font-weight('body', 'semibold');
         }
     }
 }

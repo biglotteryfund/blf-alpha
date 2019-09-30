@@ -425,7 +425,7 @@ it('should test common pages', () => {
 
 it('should submit full awards for all application', () => {
     function checkLastSaveTime() {
-        cy.get('.last-save-timestamp').contains('Last successful save - Today');
+        cy.get('.form-actions__timestamp').contains('a few seconds ago');
     }
 
     function submitStep() {
