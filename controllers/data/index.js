@@ -22,8 +22,8 @@ router.get(
             }
             const dataStats = await contentApi.getDataStats({
                 locale: locale,
-                previewMode: res.locals.PREVIEW_MODE || false,
-                query: query
+                query: query,
+                requestParams: req.query
             });
 
             res.locals.openGraph = get(dataStats, 'openGraph', false);

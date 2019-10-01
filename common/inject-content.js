@@ -136,8 +136,8 @@ async function injectListingContent(req, res, next) {
         const content = await contentApi.getListingPage({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
-            previewMode: res.locals.PREVIEW_MODE || false,
-            query: query
+            query: query,
+            requestParams: req.query
         });
 
         if (content) {
@@ -160,8 +160,8 @@ async function injectFlexibleContent(req, res, next) {
         const content = await contentApi.getFlexibleContent({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
-            previewMode: res.locals.PREVIEW_MODE || false,
-            query: query
+            query: query,
+            requestParams: req.query
         });
 
         if (content) {
@@ -194,8 +194,8 @@ async function injectFundingProgramme(req, res, next) {
         const entry = await contentApi.getFundingProgramme({
             slug: slug,
             locale: req.i18n.getLocale(),
-            previewMode: res.locals.PREVIEW_MODE || false,
-            query: query
+            query: query,
+            requestParams: req.query
         });
 
         res.locals.fundingProgramme = entry;
@@ -224,8 +224,8 @@ async function injectStrategicProgramme(req, res, next) {
             const entry = await contentApi.getStrategicProgrammes({
                 slug: querySlug,
                 locale: req.i18n.getLocale(),
-                previewMode: res.locals.PREVIEW_MODE || false,
-                query: query
+                query: query,
+                requestParams: req.query
             });
 
             res.locals.strategicProgramme = entry;
@@ -245,7 +245,8 @@ async function injectStrategicProgrammes(req, res, next) {
     try {
         res.locals.strategicProgrammes = await contentApi.getStrategicProgrammes(
             {
-                locale: req.i18n.getLocale()
+                locale: req.i18n.getLocale(),
+                requestParams: req.query
             }
         );
         next();
@@ -262,7 +263,7 @@ async function injectResearch(req, res, next) {
     try {
         const research = await contentApi.getResearch({
             locale: req.i18n.getLocale(),
-            previewMode: res.locals.PREVIEW_MODE || false
+            requestParams: req.query
         });
         res.locals.researchEntries = research.result;
         res.locals.researchMeta = research.meta;
@@ -289,8 +290,8 @@ async function injectResearchEntry(req, res, next) {
             const entry = await contentApi.getResearch({
                 slug: slug,
                 locale: req.i18n.getLocale(),
-                previewMode: res.locals.PREVIEW_MODE || false,
-                query: query
+                query: query,
+                requestParams: req.query
             });
 
             res.locals.researchEntry = entry;
@@ -310,7 +311,7 @@ async function injectOurPeople(req, res, next) {
     try {
         res.locals.ourPeople = await contentApi.getOurPeople({
             locale: req.i18n.getLocale(),
-            previewMode: res.locals.PREVIEW_MODE || false
+            requestParams: req.query
         });
 
         next();
