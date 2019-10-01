@@ -96,9 +96,6 @@ const MATERIAL_SUPPLIER =
 const DIGITAL_FUND_EMAIL =
     process.env.DIGITAL_FUND_EMAIL || getParameter('emails.digitalfund.demo');
 
-const POSTCODES_API_KEY =
-    process.env.POSTCODES_API_KEY || getParameter('postcodes.api.key');
-
 const S3_KMS_KEY_ID =
     process.env.S3_KMS_KEY_ID || getParameter('s3.kms.key.id');
 
@@ -113,7 +110,6 @@ module.exports = {
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
-    POSTCODES_API_KEY,
     S3_KMS_KEY_ID,
     SALESFORCE_AUTH,
     BANK_API,
