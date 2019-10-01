@@ -1238,8 +1238,10 @@ applyNext:
     callToAction: Dechrau cais newydd
   locationMessage: >
       <p>Croeso i’n cais ar-lein newydd ar gyfer Arian i Bawb y Loteri Genedlaethol.</p>
-      <p><strong>Ymgeisio am brosiect yng Nghymru, Yr Alban neu Loegr? </strong></p>
+      <p><strong>Ymgeisio am brosiect yng Nghymru neu’r Alban?</strong></p>
       <p>Gwych – rydych yn y lle cywir. Bydd angen ichi <a href="/welsh/user/register">greu cyfrif newydd</a> i ymgeisio. Oni bai eich bod eisoes wedi creu cyfrif i’n ffurflen gais ar-lein newydd.</p>
+      <p><strong>Ymgeisio am brosiect yn Lloegr?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hwn yn lle.</a>.</p>
       <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
       <p><a href="/funding/programmes/awards-for-all-northern-ireland">Bydd angen ichi lawrlwytho ffurflen gais i ymgeisio</a>.</p>
   dashboard:
@@ -1265,9 +1267,11 @@ applyNext:
     decisionMessage: Rydym yn anelu i adael i chi wybod am ein penderfyniad mewn oddeutu %s wythnos. Os oes unrhyw gwestiwn gennych,
       <a href="/contact">cysylltwch ag aelod o’n tîm cynghori</a>.
     locationMessage: >
+      <p><strong>Ymgeisio am brosiect yn Lloegr?</strong></p>
+      <p><a href="https://apply.tnlcommunityfund.org.uk">Byddwch angen defnyddio’r ffurflen hwn yn lle</a>.</p>
       <p><strong>Ymgeisio am brosiect yng Ngogledd Iwerddon?</strong></p>
       <p><a href="/funding/programmes/awards-for-all-northern-ireland">Bydd angen ichi lawrlwytho ffurflen gais i ymgeisio</a>.</p>
-      <p>Ymgeiswyr yng Nghymru, Yr Alban neu Loegr yn unig gall ymgeisio drwy ein ffurflen gais newydd ar-lein ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn ar gael ledled Prydain.</p>
+      <p>Dim ond ymgeiswyr yng Nghymru neu'r Alban all ymgeisio drwy ein ffurflen ar-lein newydd ar hyn o bryd. Rydym yn gweithio ar wneud hwn yn hygyrch i weddill y DU.</p>
     newApplication:
       title: Cais newydd
       body: Gallwch greu cais ariannu newydd am %s yma
