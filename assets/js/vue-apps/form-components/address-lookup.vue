@@ -159,7 +159,7 @@ export default {
                                 result['line_2'],
                                 result['post_town'],
                                 result['county']
-                            ]).join(', ');
+                            ]).join(', ');                            
                             return { value: result.udprn, label: label };
                         });
                     } else {
@@ -349,7 +349,7 @@ export default {
                     @focus="selectFocused"
                     @keydown="selectKeyed"
                     @change="selectChanged"
-                    @click="selectClicked"
+                    @mousedown="selectClicked"
                     data-hj-suppress
                 >
                     <option disabled value="">
