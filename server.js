@@ -160,7 +160,6 @@ app.use([
     },
     cacheControl(),
     defaultMaxAge,
-    require('./common/preview'),
     helmet({
         contentSecurityPolicy: {
             directives: cspDirectives({
@@ -184,12 +183,7 @@ app.use([
             }
         }
     }),
-    (req, res, next) => {
-        if (res.locals.PREVIEW_MODE) {
-            res.removeHeader('X-Frame-Options');
-        }
-        next();
-    },
+    require('./common/preview'),
     express.json(),
     express.urlencoded({ extended: true }),
     require('./common/session')(app),
