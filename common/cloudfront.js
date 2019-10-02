@@ -30,8 +30,6 @@ function makeBehaviourItem({
         : ['HEAD', 'GET'];
 
     const globalQuerystrings = [
-        'draft',
-        'version',
         'social',
         'token',
         'x-craft-live-preview',

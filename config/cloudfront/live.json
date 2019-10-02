@@ -37,14 +37,12 @@
       },
       "QueryStringCacheKeys": {
         "Items": [
-          "draft",
-          "version",
           "social",
           "token",
           "x-craft-live-preview",
           "x-craft-preview"
         ],
-        "Quantity": 6
+        "Quantity": 4
       },
       "QueryString": true,
       "Cookies": {
@@ -220,8 +218,6 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
-              "draft",
-              "version",
               "social",
               "token",
               "x-craft-live-preview",
@@ -231,7 +227,7 @@
               "min",
               "max"
             ],
-            "Quantity": 10
+            "Quantity": 8
           },
           "QueryString": true,
           "Cookies": {
@@ -288,15 +284,13 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
-              "draft",
-              "version",
               "social",
               "token",
               "x-craft-live-preview",
               "x-craft-preview",
               "location"
             ],
-            "Quantity": 7
+            "Quantity": 5
           },
           "QueryString": true,
           "Cookies": {
@@ -353,8 +347,6 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
-              "draft",
-              "version",
               "social",
               "token",
               "x-craft-live-preview",
@@ -367,7 +359,7 @@
               "q",
               "sort"
             ],
-            "Quantity": 13
+            "Quantity": 11
           },
           "QueryString": true,
           "Cookies": {
@@ -424,8 +416,6 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
-              "draft",
-              "version",
               "social",
               "token",
               "x-craft-live-preview",
@@ -436,7 +426,7 @@
               "category",
               "region"
             ],
-            "Quantity": 11
+            "Quantity": 9
           },
           "QueryString": true,
           "Cookies": {
@@ -555,8 +545,6 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
-              "draft",
-              "version",
               "social",
               "token",
               "x-craft-live-preview",
@@ -565,7 +553,7 @@
               "s",
               "token"
             ],
-            "Quantity": 9
+            "Quantity": 7
           },
           "QueryString": true,
           "Cookies": {
@@ -678,8 +666,6 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
-              "draft",
-              "version",
               "social",
               "token",
               "x-craft-live-preview",
@@ -689,7 +675,7 @@
               "min",
               "max"
             ],
-            "Quantity": 10
+            "Quantity": 8
           },
           "QueryString": true,
           "Cookies": {
@@ -746,15 +732,13 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
-              "draft",
-              "version",
               "social",
               "token",
               "x-craft-live-preview",
               "x-craft-preview",
               "location"
             ],
-            "Quantity": 7
+            "Quantity": 5
           },
           "QueryString": true,
           "Cookies": {
@@ -811,8 +795,6 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
-              "draft",
-              "version",
               "social",
               "token",
               "x-craft-live-preview",
@@ -825,7 +807,7 @@
               "q",
               "sort"
             ],
-            "Quantity": 13
+            "Quantity": 11
           },
           "QueryString": true,
           "Cookies": {
@@ -882,8 +864,6 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
-              "draft",
-              "version",
               "social",
               "token",
               "x-craft-live-preview",
@@ -894,7 +874,7 @@
               "category",
               "region"
             ],
-            "Quantity": 11
+            "Quantity": 9
           },
           "QueryString": true,
           "Cookies": {
@@ -1005,14 +985,12 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
-              "draft",
-              "version",
               "social",
               "token",
               "x-craft-live-preview",
               "x-craft-preview"
             ],
-            "Quantity": 6
+            "Quantity": 4
           },
           "QueryString": true,
           "Cookies": {
@@ -1060,14 +1038,12 @@
           },
           "QueryStringCacheKeys": {
             "Items": [
-              "draft",
-              "version",
               "social",
               "token",
               "x-craft-live-preview",
               "x-craft-preview"
             ],
-            "Quantity": 6
+            "Quantity": 4
           },
           "QueryString": true,
           "Cookies": {
