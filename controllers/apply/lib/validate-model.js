@@ -95,6 +95,7 @@ module.exports = function validateModel(formModel) {
 
     const formSchema = Joi.object({
         title: Joi.string().required(),
+        startLabel: Joi.string().required(),
         allFields: Joi.object().required(),
         summary: Joi.object().required(),
         schemaVersion: Joi.string().required(),

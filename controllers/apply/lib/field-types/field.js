@@ -4,8 +4,8 @@ const get = require('lodash/fp/get');
 const Joi = require('../joi-extensions');
 
 class Field {
-    constructor(props, locale = 'en') {
-        this.locale = locale;
+    constructor(props) {
+        this.locale = props.locale || 'en';
 
         // Used to switch on non-class type fields
         // @TODO: Remove this after fully migrating to field types
@@ -21,7 +21,8 @@ class Field {
         if (label) {
             this.label = label;
         } else {
-            throw new Error('Must provide label');
+            // @TODO: Re-enable once welsh translations have been added
+            // throw new Error('Must provide label');
         }
 
         this.labelDetails = props.labelDetails;

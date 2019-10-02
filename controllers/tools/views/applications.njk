@@ -66,8 +66,7 @@
                     {{ formatDate(dateRange.start) }} &mdash;
                     {{ formatDate(dateRange.end) }}
                 {% else %}
-                    {# @TODO - what is this range? #}
-                    the last five months
+                    the last {{defaultPeriod.amount}} {{defaultPeriod.unit}}
                 {% endif %}
                 <a class="js-datepicker-trigger datepicker" href="javascript://">Change dates?</a>
                 {% if dateRange %}
@@ -214,6 +213,7 @@
                                             labelString: 'Date'
                                         },
                                         ticks: {
+                                            source: 'data',
                                             major: {
                                                 fontStyle: 'bold',
                                                 fontColor: '#FF0000'

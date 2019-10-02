@@ -51,7 +51,7 @@
                     label: 'Number of users',
                     data: {{ chartData | dump(2) | safe }},
                     borderColor: '#e5007d',
-                    fill: '#e5007d'
+                    backgroundColor: '#e5007d'
                 }]
             },
             options: {
@@ -67,10 +67,14 @@
                 scales: {
                     xAxes: [{
                         type: 'time',
+                        offset: true,
                         display: true,
                         scaleLabel: {
                             display: false,
                             labelString: 'Date'
+                        },
+                        ticks: {
+                            source: 'data'
                         },
                         time: {
                             round: 'day',

@@ -12,16 +12,16 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
 
     const allFields = fieldsFor({ locale, data });
 
-    const projectCountries = getOr([], 'projectCountry')(data);
+    const projectCountries = getOr([], 'projectCountries')(data);
 
-    function stepProjectCountry() {
+    function stepProjectCountries() {
         return {
             title: localise({
                 en: 'Project country',
                 cy: 'Gwlad y prosiect'
             }),
             noValidate: true,
-            fieldsets: [{ fields: [allFields.projectCountry] }]
+            fieldsets: [{ fields: [allFields.projectCountries] }]
         };
     }
 
@@ -118,14 +118,30 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         return {
             title: localise({
                 en: 'Organisation type',
-                cy: ''
+                cy: 'Math o sefydliad'
             }),
             noValidate: true,
-            fieldsets: [
-                {
-                    fields: [allFields.organisationType]
-                }
-            ]
+            fieldsets: [{ fields: [allFields.organisationType] }]
+        };
+    }
+
+    function stepOrganisationSubType() {
+        function fields() {
+            const currentOrganisationType = get('organisationType')(data);
+            if (currentOrganisationType === 'statutory-body') {
+                return [allFields.organisationSubType];
+            } else {
+                return [];
+            }
+        }
+
+        return {
+            title: localise({
+                en: 'Type of statutory body',
+                cy: 'Math o gorff statudol'
+            }),
+            noValidate: true,
+            fieldsets: [{ fields: fields() }]
         };
     }
 
@@ -160,7 +176,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function summary() {
-        const countries = getOr([], 'projectCountry')(data);
+        const countries = getOr([], 'projectCountries')(data);
         const years = get('projectDurationYears')(data);
         const costs = get('projectCosts')(data);
 
@@ -187,6 +203,10 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
             en: 'Get advice on your idea',
             cy: ''
         }),
+        startLabel: localise({
+            en: 'Start',
+            cy: 'Dechrau'
+        }),
         allFields,
         summary: summary(),
         schemaVersion: 'v0.1',
@@ -201,13 +221,11 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     cy: 'Eich prosiect'
                 }),
                 summary: localise({
-                    en: oneLine`We need a line of copy to summarise this section.
-                        Praesent eget metus mi ornare est ullamcorper nullam
-                        imperdiet sociosqu turpis odio cubilia at pretium leo.`,
+                    en: oneLine`Please tell us about your project in this section.`,
                     cy: ``
                 }),
                 steps: [
-                    stepProjectCountry(),
+                    stepProjectCountries(),
                     stepProjectLocation(),
                     stepProjectCosts(),
                     stepProjectDuration(),
@@ -222,13 +240,17 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                 }),
                 summary: localise({
                     en: oneLine`Please tell us about your organisation,
-                        including legal name, registered address and income.
+                        including legal name and registered address.
                         This helps us understand the type of organisation you are.`,
                     cy: oneLine`Dywedwch wrthym am eich sefydliad, gan gynnwys yr
                         enw cyfreithiol,  cyfeiriad cofrestredig ac incwm.
                         Mae hyn yn ein helpu i ddeall pa fath o sefydliad ydych.`
                 }),
-                steps: [stepOrganisationDetails(), stepOrganisationType()]
+                steps: [
+                    stepOrganisationDetails(),
+                    stepOrganisationType(),
+                    stepOrganisationSubType()
+                ]
             },
             {
                 slug: 'your-details',
@@ -237,9 +259,8 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     cy: ''
                 }),
                 summary: localise({
-                    en: oneLine`We need a line of copy to summarise this section.
-                        Praesent eget metus mi ornare est ullamcorper nullam
-                        imperdiet sociosqu turpis odio cubilia at pretium leo.`,
+                    en: oneLine`Please provide details for the person
+                        we should contact to talk about your idea.`,
                     cy: ``
                 }),
                 steps: [stepContactDetails()]

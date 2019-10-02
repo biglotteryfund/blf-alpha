@@ -220,7 +220,19 @@ router.get('/', function(req, res) {
 
 router.get('/:applicationId', async (req, res, next) => {
     try {
-        const dateRange = getDateRange(req.query.start, req.query.end);
+        let dateRange = getDateRange(req.query.start, req.query.end);
+        const defaultPeriod = {
+            amount: 30,
+            units: 'days'
+        };
+        if (!dateRange) {
+            dateRange = {
+                start: moment()
+                    .subtract(defaultPeriod.amount, defaultPeriod.units)
+                    .toDate(),
+                end: moment().toDate()
+            };
+        }
         const country = req.query.country;
         const countryTitle = country ? titleCase(country) : false;
         const applicationTitle = titleCase(req.params.applicationId);
@@ -283,7 +295,9 @@ router.get('/:applicationId', async (req, res, next) => {
             };
 
             if (appType.id === 'pending') {
-                appType.data.totals.completedStates = PendingApplication.countCompleted(appType.applications);
+                appType.data.totals.completedStates = PendingApplication.countCompleted(
+                    appType.applications
+                );
             }
 
             let appsByCountryByDay = [];
@@ -370,7 +384,8 @@ router.get('/:applicationId', async (req, res, next) => {
             country: country,
             countryTitle: countryTitle,
             dataStudioUrl: dataStudioUrl,
-            feedback: feedback
+            feedback: feedback,
+            defaultPeriod: defaultPeriod
         });
     } catch (error) {
         next(error);

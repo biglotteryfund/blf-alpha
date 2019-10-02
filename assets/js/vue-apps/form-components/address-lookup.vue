@@ -349,7 +349,7 @@ export default {
                     @focus="selectFocused"
                     @keydown="selectKeyed"
                     @change="selectChanged"
-                    @click="selectClicked"
+                    @mousedown="selectClicked"
                     data-hj-suppress
                 >
                     <option disabled value="">

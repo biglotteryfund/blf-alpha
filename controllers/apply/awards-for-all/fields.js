@@ -1,9 +1,7 @@
 'use strict';
-const config = require('config');
-const moment = require('moment');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
-const has = require('lodash/has');
+const moment = require('moment');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
@@ -25,18 +23,17 @@ const {
     FREE_TEXT_MAXLENGTH
 } = require('./constants');
 
-const countriesFor = require('./lib/countries');
-const locationsFor = require('./lib/locations');
-
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
 const fieldOrganisationType = require('./fields/organisation-type');
+const fieldProjectCountry = require('./fields/project-country');
 const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
 const fieldTotalIncomeYear = require('./fields/total-income-year');
 const fieldYourIdeaCommunity = require('./fields/your-idea-community');
 const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
+const fieldProjectLocation = require('./fields/project-location');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
@@ -585,48 +582,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
     }
 
-    function fieldProjectCountry() {
-        const options = countriesFor({
-            locale: locale,
-            allowedCountries: config.get('awardsForAll.allowedCountries')
-        });
-
-        const activeOptions = options.filter(
-            option => has(option, 'attributes.disabled') === false
-        );
-
-        return {
-            name: 'projectCountry',
-            label: localise({
-                en: `What country will your project be based in?`,
-                cy: `Pa wlad fydd eich prosiect wedi’i leoli?`
-            }),
-            explanation: localise({
-                en: oneLine`We work slightly differently depending on which
-                    country your project is based in, to meet local needs
-                    and the regulations that apply there.`,
-                cy: oneLine`Rydym yn gweithredu ychydig yn wahanol, yn ddibynnol 
-                    ar pa wlad mae eich prosiect wedi’i leoli i ddiwallu 
-                    anghenion lleol a’r rheoliadau sy’n berthnasol yna.`
-            }),
-            type: 'radio',
-            options: options,
-            isRequired: true,
-            schema: Joi.string()
-                .valid(activeOptions.map(option => option.value))
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Select a country',
-                        cy: 'Dewiswch wlad'
-                    })
-                }
-            ]
-        };
-    }
-
     function fieldCompanyNumber() {
         return {
             name: 'companyNumber',
@@ -709,8 +664,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 {
                     type: 'string.regex.base',
                     message: localise({
-                        en: 'Enter a real charity registration number. And don’t use any spaces. Scottish charity registration numbers must also use the number ‘0’ in ‘SC0’ instead of the letter ‘O’.',
-                        cy: 'Rhowch rif cofrestru elusen go iawn. A pheidiwch â defnyddio unrhyw fylchau. Rhaid i rifau cofrestru elusennau Albanaidd ddefnyddio’r rhif ‘0’ yn ‘SC0’ yn hytrach na’r llythyren ‘O’'
+                        en:
+                            'Enter a real charity registration number. And don’t use any spaces. Scottish charity registration numbers must also use the number ‘0’ in ‘SC0’ instead of the letter ‘O’.',
+                        cy:
+                            'Rhowch rif cofrestru elusen go iawn. A pheidiwch â defnyddio unrhyw fylchau. Rhaid i rifau cofrestru elusennau Albanaidd ddefnyddio’r rhif ‘0’ yn ‘SC0’ yn hytrach na’r llythyren ‘O’'
                     })
                 },
                 {
@@ -792,49 +749,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         projectDateRange: fieldProjectDateRange(),
-        projectCountry: fieldProjectCountry(),
-        projectLocation: {
-            name: 'projectLocation',
-            label: localise({
-                en: 'Where will your project take place?',
-                cy: 'Lle bydd eich prosiect wedi’i leoli? '
-            }),
-            explanation: localise({
-                en: oneLine`If your project covers more than one area please
-                    tell us where most of it will take place`,
-                cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
-                    wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`
-            }),
-            type: 'select',
-            defaultOption: localise({
-                en: 'Select a location',
-                cy: 'Dewiswch leoliad'
-            }),
-            get optgroups() {
-                const country = get('projectCountry')(data);
-                return locationsFor(country, locale);
-            },
-            isRequired: true,
-            get schema() {
-                const options = flatMap(this.optgroups, group => group.options);
-                return Joi.when('projectCountry', {
-                    is: Joi.exist(),
-                    then: Joi.string()
-                        .valid(options.map(option => option.value))
-                        .required(),
-                    otherwise: Joi.any().strip()
-                });
-            },
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Select a location',
-                        cy: 'Dewiswch leoliad'
-                    })
-                }
-            ]
-        },
+        projectCountry: fieldProjectCountry(locale),
+        projectLocation: fieldProjectLocation(locale, data),
         projectLocationDescription: {
             name: 'projectLocationDescription',
             label: localise({
