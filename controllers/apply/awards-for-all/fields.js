@@ -7,7 +7,6 @@ const { oneLine } = require('common-tags');
 const Joi = require('../lib/joi-extensions');
 const {
     BENEFICIARY_GROUPS,
-    COMPANY_NUMBER_TYPES,
     CONTACT_EXCLUDED_TYPES,
     FILE_LIMITS,
     MAX_BUDGET_TOTAL_GBP,
@@ -33,6 +32,7 @@ const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
 const fieldProjectLocation = require('./fields/project-location');
 const fieldProjectDateRange = require('./fields/project-date-range');
+const fieldCompanyNumber = require('./fields/company-number');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
@@ -447,40 +447,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
 
         return { ...defaultProps, ...props };
-    }
-
-    function fieldCompanyNumber() {
-        return {
-            name: 'companyNumber',
-            label: localise({
-                en: 'Companies House number',
-                cy: 'Rhif Tŷ’r Cwmnïau'
-            }),
-            type: 'text',
-            isRequired: true,
-            schema: stripUnlessOrgTypes(
-                COMPANY_NUMBER_TYPES,
-                Joi.string()
-                    .max(FREE_TEXT_MAXLENGTH.large)
-                    .required()
-            ),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter your organisation’s Companies House number',
-                        cy: 'Rhowch rif Tŷ’r Cwmnïau eich sefydliad'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Companies House number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i’r rhif Tŷ’r Cwmnïau fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        };
     }
 
     function fieldCharityNumber() {
@@ -1643,7 +1609,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        companyNumber: fieldCompanyNumber(),
+        companyNumber: fieldCompanyNumber(locale),
         charityNumber: fieldCharityNumber(),
         educationNumber: fieldEducationNumber(),
         accountingYearDate: {
