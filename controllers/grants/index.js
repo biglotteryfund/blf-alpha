@@ -293,15 +293,10 @@ router.get(
 
             let projectStory;
             try {
-                let query = {};
-                if (req.query.social) {
-                    query.social = req.query.social;
-                }
                 projectStory = await contentApi.getProjectStory({
                     locale: req.i18n.getLocale(),
                     grantId: req.params.id,
-                    previewMode: res.locals.PREVIEW_MODE || false,
-                    query: query
+                    requestParams: req.query
                 });
                 setHeroLocals({ res, entry: projectStory });
             } catch (e) {} // eslint-disable-line no-empty

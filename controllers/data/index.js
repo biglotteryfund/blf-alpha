@@ -16,14 +16,9 @@ router.get(
         const locale = req.i18n.getLocale();
 
         try {
-            let query = {};
-            if (req.query.social) {
-                query.social = req.query.social;
-            }
             const dataStats = await contentApi.getDataStats({
                 locale: locale,
-                previewMode: res.locals.PREVIEW_MODE || false,
-                query: query
+                requestParams: req.query
             });
 
             res.locals.openGraph = get(dataStats, 'openGraph', false);

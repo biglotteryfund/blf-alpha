@@ -74,7 +74,7 @@ router.get(
                 date: req.params.date,
                 slug: req.params.slug,
                 query: pick(req.query, ['page', 'region', 'social']),
-                previewMode: res.locals.PREVIEW_MODE || false
+                requestParams: req.query
             });
 
             if (!response.result) {
@@ -169,7 +169,7 @@ router.get(
                     'region',
                     'social'
                 ]),
-                previewMode: res.locals.PREVIEW_MODE || false
+                requestParams: req.query
             });
 
             if (!response.result) {

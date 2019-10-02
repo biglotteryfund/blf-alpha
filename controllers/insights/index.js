@@ -56,9 +56,9 @@ router.get(
         try {
             const research = await contentApi.getResearch({
                 locale: req.i18n.getLocale(),
-                previewMode: res.locals.PREVIEW_MODE || false,
                 type: 'documents',
-                query: query
+                query: query,
+                requestParams: req.query
             });
 
             res.locals.researchEntries = research.result;
