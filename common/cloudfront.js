@@ -29,7 +29,12 @@ function makeBehaviourItem({
         ? ['HEAD', 'DELETE', 'POST', 'GET', 'OPTIONS', 'PUT', 'PATCH']
         : ['HEAD', 'GET'];
 
-    const globalQuerystrings = ['draft', 'version', 'social'];
+    const globalQuerystrings = [
+        'social',
+        'token',
+        'x-craft-live-preview',
+        'x-craft-preview'
+    ];
     const queryStrings = globalQuerystrings.concat(queryStringWhitelist);
 
     const behaviour = {
