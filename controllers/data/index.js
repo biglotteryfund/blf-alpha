@@ -16,13 +16,8 @@ router.get(
         const locale = req.i18n.getLocale();
 
         try {
-            let query = {};
-            if (req.query.social) {
-                query.social = req.query.social;
-            }
             const dataStats = await contentApi.getDataStats({
                 locale: locale,
-                query: query,
                 requestParams: req.query
             });
 

@@ -129,14 +129,9 @@ function injectBreadcrumbs(req, res, next) {
 
 async function injectListingContent(req, res, next) {
     try {
-        let query = {};
-        if (req.query.social) {
-            query.social = req.query.social;
-        }
         const content = await contentApi.getListingPage({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
-            query: query,
             requestParams: req.query
         });
 
@@ -153,14 +148,9 @@ async function injectListingContent(req, res, next) {
 
 async function injectFlexibleContent(req, res, next) {
     try {
-        let query = {};
-        if (req.query.social) {
-            query.social = req.query.social;
-        }
         const content = await contentApi.getFlexibleContent({
             locale: req.i18n.getLocale(),
             path: req.baseUrl + req.path,
-            query: query,
             requestParams: req.query
         });
 
@@ -181,11 +171,6 @@ async function injectFlexibleContent(req, res, next) {
  */
 async function injectFundingProgramme(req, res, next) {
     try {
-        let query = {};
-        if (req.query.social) {
-            query.social = req.query.social;
-        }
-
         let slug = req.params.programmeSlug;
         if (req.params.childPageSlug) {
             slug += `/${req.params.childPageSlug}`;
@@ -194,7 +179,6 @@ async function injectFundingProgramme(req, res, next) {
         const entry = await contentApi.getFundingProgramme({
             slug: slug,
             locale: req.i18n.getLocale(),
-            query: query,
             requestParams: req.query
         });
 
@@ -214,17 +198,12 @@ async function injectStrategicProgramme(req, res, next) {
     try {
         // Assumes a parameter of :slug and :childPageSlug? in the request
         const { slug, childPageSlug } = req.params;
-        let query = {};
-        if (req.query.social) {
-            query.social = req.query.social;
-        }
         if (slug) {
             const querySlug = childPageSlug ? `${slug}/${childPageSlug}` : slug;
 
             const entry = await contentApi.getStrategicProgrammes({
                 slug: querySlug,
                 locale: req.i18n.getLocale(),
-                query: query,
                 requestParams: req.query
             });
 
@@ -282,15 +261,9 @@ async function injectResearchEntry(req, res, next) {
         // Assumes a parameter of :slug in the request
         const { slug } = req.params;
         if (slug) {
-            let query = {};
-            if (req.query.social) {
-                query.social = req.query.social;
-            }
-
             const entry = await contentApi.getResearch({
                 slug: slug,
                 locale: req.i18n.getLocale(),
-                query: query,
                 requestParams: req.query
             });
 
