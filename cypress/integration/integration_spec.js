@@ -103,9 +103,9 @@ it('should redirect legacy funding programmes', () => {
 it('should protect access to staff-only tools', () => {
     cy.checkRedirect({
         from:
-            '/funding/programmes/national-lottery-awards-for-all-england?draft=42',
+            '/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc',
         to:
-            '/user/staff/login?redirectUrl=/funding/programmes/national-lottery-awards-for-all-england?draft=42',
+            '/user/staff/login?redirectUrl=/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc',
         status: 302
     });
 
