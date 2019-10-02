@@ -15,7 +15,6 @@ const {
     MIN_BUDGET_TOTAL_GBP,
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,
-    EDUCATION_NUMBER_TYPES,
     FREE_TEXT_MAXLENGTH
 } = require('./constants');
 
@@ -33,6 +32,7 @@ const fieldProjectLocation = require('./fields/project-location');
 const fieldProjectDateRange = require('./fields/project-date-range');
 const fieldCompanyNumber = require('./fields/company-number');
 const fieldCharityNumber = require('./fields/charity-number');
+const fieldEducationNumber = require('./fields/education-number');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
@@ -67,14 +67,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             is: Joi.exist().valid(CONTACT_EXCLUDED_TYPES),
             then: Joi.any().strip(),
             otherwise: schema
-        });
-    }
-
-    function stripUnlessOrgTypes(types, schema) {
-        return Joi.when(Joi.ref('organisationType'), {
-            is: Joi.exist().valid(types),
-            then: schema,
-            otherwise: Joi.any().strip()
         });
     }
 
@@ -445,40 +437,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         };
 
         return { ...defaultProps, ...props };
-    }
-
-    function fieldEducationNumber() {
-        return {
-            name: 'educationNumber',
-            label: localise({
-                en: 'Department for Education number',
-                cy: 'Eich rhif Adran Addysg'
-            }),
-            type: 'text',
-            isRequired: true,
-            schema: stripUnlessOrgTypes(
-                EDUCATION_NUMBER_TYPES,
-                Joi.string()
-                    .max(FREE_TEXT_MAXLENGTH.large)
-                    .required()
-            ),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: `Enter your organisation’s Department for Education number`,
-                        cy: `Rhowch rif Adran Addysg eich sefydliad`
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Department for Education number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i rif yr Adran Addysg fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        };
     }
 
     return {
@@ -1544,7 +1502,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         },
         companyNumber: fieldCompanyNumber(locale),
         charityNumber: fieldCharityNumber(locale, data),
-        educationNumber: fieldEducationNumber(),
+        educationNumber: fieldEducationNumber(locale),
         accountingYearDate: {
             name: 'accountingYearDate',
             label: localise({
