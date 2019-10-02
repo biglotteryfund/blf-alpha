@@ -39,9 +39,12 @@
         "Items": [
           "draft",
           "version",
-          "social"
+          "social",
+          "token",
+          "x-craft-live-preview",
+          "x-craft-preview"
         ],
-        "Quantity": 3
+        "Quantity": 6
       },
       "QueryString": true,
       "Cookies": {
@@ -220,12 +223,15 @@
               "draft",
               "version",
               "social",
+              "token",
+              "x-craft-live-preview",
+              "x-craft-preview",
               "location",
               "amount",
               "min",
               "max"
             ],
-            "Quantity": 7
+            "Quantity": 10
           },
           "QueryString": true,
           "Cookies": {
@@ -285,9 +291,12 @@
               "draft",
               "version",
               "social",
+              "token",
+              "x-craft-live-preview",
+              "x-craft-preview",
               "location"
             ],
-            "Quantity": 4
+            "Quantity": 7
           },
           "QueryString": true,
           "Cookies": {
@@ -347,6 +356,9 @@
               "draft",
               "version",
               "social",
+              "token",
+              "x-craft-live-preview",
+              "x-craft-preview",
               "page",
               "programme",
               "tag",
@@ -355,7 +367,7 @@
               "q",
               "sort"
             ],
-            "Quantity": 10
+            "Quantity": 13
           },
           "QueryString": true,
           "Cookies": {
@@ -415,13 +427,16 @@
               "draft",
               "version",
               "social",
+              "token",
+              "x-craft-live-preview",
+              "x-craft-preview",
               "page",
               "tag",
               "author",
               "category",
               "region"
             ],
-            "Quantity": 8
+            "Quantity": 11
           },
           "QueryString": true,
           "Cookies": {
@@ -543,11 +558,14 @@
               "draft",
               "version",
               "social",
+              "token",
+              "x-craft-live-preview",
+              "x-craft-preview",
               "redirectUrl",
               "s",
               "token"
             ],
-            "Quantity": 6
+            "Quantity": 9
           },
           "QueryString": true,
           "Cookies": {
@@ -663,12 +681,15 @@
               "draft",
               "version",
               "social",
+              "token",
+              "x-craft-live-preview",
+              "x-craft-preview",
               "location",
               "amount",
               "min",
               "max"
             ],
-            "Quantity": 7
+            "Quantity": 10
           },
           "QueryString": true,
           "Cookies": {
@@ -728,9 +749,12 @@
               "draft",
               "version",
               "social",
+              "token",
+              "x-craft-live-preview",
+              "x-craft-preview",
               "location"
             ],
-            "Quantity": 4
+            "Quantity": 7
           },
           "QueryString": true,
           "Cookies": {
@@ -790,6 +814,9 @@
               "draft",
               "version",
               "social",
+              "token",
+              "x-craft-live-preview",
+              "x-craft-preview",
               "page",
               "programme",
               "tag",
@@ -798,7 +825,7 @@
               "q",
               "sort"
             ],
-            "Quantity": 10
+            "Quantity": 13
           },
           "QueryString": true,
           "Cookies": {
@@ -858,13 +885,16 @@
               "draft",
               "version",
               "social",
+              "token",
+              "x-craft-live-preview",
+              "x-craft-preview",
               "page",
               "tag",
               "author",
               "category",
               "region"
             ],
-            "Quantity": 8
+            "Quantity": 11
           },
           "QueryString": true,
           "Cookies": {
@@ -977,9 +1007,12 @@
             "Items": [
               "draft",
               "version",
-              "social"
+              "social",
+              "token",
+              "x-craft-live-preview",
+              "x-craft-preview"
             ],
-            "Quantity": 3
+            "Quantity": 6
           },
           "QueryString": true,
           "Cookies": {
@@ -1029,9 +1062,12 @@
             "Items": [
               "draft",
               "version",
-              "social"
+              "social",
+              "token",
+              "x-craft-live-preview",
+              "x-craft-preview"
             ],
-            "Quantity": 3
+            "Quantity": 6
           },
           "QueryString": true,
           "Cookies": {
