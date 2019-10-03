@@ -43,7 +43,7 @@ describe('URL Helpers', () => {
             expect(getCurrentUrl(req, 'cy')).toBe('/welsh/some/example/url');
         });
 
-        it('should strip version and draft query parameters', () => {
+        it('should strip CMS preview query parameters', () => {
             function withQuery(query) {
                 return httpMocks.createRequest({
                     method: 'GET',
@@ -54,20 +54,24 @@ describe('URL Helpers', () => {
                     }
                 });
             }
-            expect(getCurrentUrl(withQuery('version=123'))).toBe(
+            expect(getCurrentUrl(withQuery('token=123'))).toBe(
                 '/some/example/url'
             );
-            expect(getCurrentUrl(withQuery('draft=123'))).toBe(
+            expect(getCurrentUrl(withQuery('x-craft-live-preview=123'))).toBe(
                 '/some/example/url'
-            );
-            expect(getCurrentUrl(withQuery('version=123&something=else'))).toBe(
-                '/some/example/url?something=else'
-            );
-            expect(getCurrentUrl(withQuery('draft=2&something=else'))).toBe(
-                '/some/example/url?something=else'
             );
             expect(
-                getCurrentUrl(withQuery('version=123&draft=2&something=else'))
+                getCurrentUrl(withQuery('x-craft-preview=123&something=else'))
+            ).toBe('/some/example/url?something=else');
+            expect(
+                getCurrentUrl(
+                    withQuery('x-craft-live-preview=2&token=3&something=else')
+                )
+            ).toBe('/some/example/url?something=else');
+            expect(
+                getCurrentUrl(
+                    withQuery('x-craft-preview=123&token=2&something=else')
+                )
             ).toBe('/some/example/url?something=else');
         });
     });

@@ -1,39 +1,29 @@
 /* eslint-env jest */
 'use strict';
 
-const { getSecretFromRawParameters } = require('./parameter-store');
+const { getFromRawParameters } = require('./parameter-store');
 
-describe('Get secrets', () => {
-    const mockParameters = [
-        {
-            Name: 'some.parameter',
-            Type: 'SecureString',
-            Value: 'some-value',
-            Version: 1
-        },
-        {
-            Name: 'content-api.url',
-            Type: 'SecureString',
-            Value: 'https://content-api.example.com',
-            Version: 3
-        }
+function mockParameters() {
+    return [
+        { Name: 'some.parameter', Value: 'some-value' },
+        { Name: 'another.parameter', Value: 'another-value' }
     ];
+}
 
-    it('should get secret for a given property', () => {
-        expect(
-            getSecretFromRawParameters(mockParameters, 'some.parameter')
-        ).toBe('some-value');
-    });
+test('should get parameter by key', () => {
+    expect(getFromRawParameters(mockParameters(), 'some.parameter')).toBe(
+        'some-value'
+    );
+});
 
-    it('should return undefined for unknown values', () => {
-        expect(
-            getSecretFromRawParameters(mockParameters, 'does.not.exist')
-        ).toBe(undefined);
-    });
+test('should return undefined for unknown values', () => {
+    expect(getFromRawParameters(mockParameters(), 'does.not.exist')).toBe(
+        undefined
+    );
+});
 
-    it('should throw an error for unknown properties when shouldThrowIfMissing is true', () => {
-        expect(() =>
-            getSecretFromRawParameters(mockParameters, 'does.not.exist', true)
-        ).toThrowError('Secret missing: does.not.exist');
-    });
+test('should throw an error when shouldThrowIfMissing is true', () => {
+    expect(() =>
+        getFromRawParameters(mockParameters(), 'does.not.exist', true)
+    ).toThrowError('parameter missing: does.not.exist');
 });

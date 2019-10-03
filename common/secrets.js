@@ -1,12 +1,12 @@
 'use strict';
-const { getSecret } = require('./parameter-store');
+const { getParameter } = require('./parameter-store');
 
 /**
  * Primary session secret
  * We allow overriding through an environment variable for CI
  */
 const SESSION_SECRET =
-    process.env.SESSION_SECRET || getSecret('session.secret', true);
+    process.env.SESSION_SECRET || getParameter('session.secret', true);
 
 /**
  * Database connection uri
@@ -14,7 +14,7 @@ const SESSION_SECRET =
  * We allow overriding through an environment variable for CI and local environments.
  */
 const DB_CONNECTION_URI =
-    process.env.DB_CONNECTION_URI || getSecret('db.connection-uri', true);
+    process.env.DB_CONNECTION_URI || getParameter('db.connection-uri', true);
 
 /**
  * Content API url
@@ -22,7 +22,7 @@ const DB_CONNECTION_URI =
  * switching to a local instance of the CMS in development
  */
 const CONTENT_API_URL =
-    process.env.CONTENT_API_URL || getSecret('content-api.url', true);
+    process.env.CONTENT_API_URL || getParameter('content-api.url', true);
 
 /**
  * Past grants API
@@ -30,54 +30,56 @@ const CONTENT_API_URL =
  * switching to a local instance of the API in development
  */
 const PAST_GRANTS_API_URI =
-    process.env.PAST_GRANTS_API_URI || getSecret('pastgrants.api.uri', true);
+    process.env.PAST_GRANTS_API_URI || getParameter('pastgrants.api.uri', true);
 
 /**
  * JWT signing token, used for user authentication
  * We allow overriding through an environment variable for CI
  */
 const JWT_SIGNING_TOKEN =
-    process.env.JWT_SIGNING_TOKEN || getSecret('user.jwt.secret', true);
+    process.env.JWT_SIGNING_TOKEN || getParameter('user.jwt.secret', true);
 
 /**
  * Sentry DSN for error reporting
  */
-const SENTRY_DSN = getSecret('sentry.publicDsn');
+const SENTRY_DSN = getParameter('sentry.publicDsn');
 
 /**
  * Azure authentication secrets (optional, used for tools sign-in)
  */
 const AZURE_AUTH = {
     metadataUrl: `https://login.microsoftonline.com/tnlcommunityfund.onmicrosoft.com/.well-known/openid-configuration`,
-    clientId: getSecret('ms.auth.tnlcf.clientId'),
-    clientSecret: getSecret('ms.auth.tnlcf.clientSecret'),
-    redirectUrl: process.env.MS_REDIRECT_URL || getSecret('ms.auth.redirectUrl')
+    clientId: getParameter('ms.auth.tnlcf.clientId'),
+    clientSecret: getParameter('ms.auth.tnlcf.clientSecret'),
+    redirectUrl:
+        process.env.MS_REDIRECT_URL || getParameter('ms.auth.redirectUrl')
 };
 
 /**
  * Salesforce authentication
  */
 const SALESFORCE_AUTH = {
-    apiUrl: process.env.SALESFORCE_API_URL || getSecret('salesforce.apiUrl'),
+    apiUrl: process.env.SALESFORCE_API_URL || getParameter('salesforce.apiUrl'),
     consumerKey:
         process.env.SALESFORCE_CONSUMER_KEY ||
-        getSecret('salesforce.consumerKey'),
+        getParameter('salesforce.consumerKey'),
     consumerSecret:
         process.env.SALESFORCE_CONSUMER_SECRET ||
-        getSecret('salesforce.consumerSecret'),
+        getParameter('salesforce.consumerSecret'),
     username:
-        process.env.SALESFORCE_USERNAME || getSecret('salesforce.username'),
+        process.env.SALESFORCE_USERNAME || getParameter('salesforce.username'),
     password:
-        process.env.SALESFORCE_PASSWORD || getSecret('salesforce.password'),
-    token: process.env.SALESFORCE_TOKEN || getSecret('salesforce.token'),
+        process.env.SALESFORCE_PASSWORD || getParameter('salesforce.password'),
+    token: process.env.SALESFORCE_TOKEN || getParameter('salesforce.token'),
     instanceId:
-        process.env.SALESFORCE_INSTANCE_ID || getSecret('salesforce.instanceId')
+        process.env.SALESFORCE_INSTANCE_ID ||
+        getParameter('salesforce.instanceId')
 };
 
 // These expire in July 2020
 const BANK_API = {
-    KEY: process.env.BANK_API_TOKEN || getSecret('bank.api.key'),
-    PASSWORD: process.env.BANK_API_PASSWORD || getSecret('bank.api.password')
+    KEY: process.env.BANK_API_TOKEN || getParameter('bank.api.key'),
+    PASSWORD: process.env.BANK_API_PASSWORD || getParameter('bank.api.password')
 };
 
 /**
@@ -85,21 +87,22 @@ const BANK_API = {
  * Used for sending order emails when placing and order for free materials
  */
 const MATERIAL_SUPPLIER =
-    process.env.MATERIAL_SUPPLIER || getSecret('emails.materials.supplier');
+    process.env.MATERIAL_SUPPLIER || getParameter('emails.materials.supplier');
 
 /**
  * Digital fund email
  * Email address used to send expressions of interest from digital fund application forms
  */
 const DIGITAL_FUND_EMAIL =
-    process.env.DIGITAL_FUND_EMAIL || getSecret('emails.digitalfund.demo');
+    process.env.DIGITAL_FUND_EMAIL || getParameter('emails.digitalfund.demo');
 
 const POSTCODES_API_KEY =
-    process.env.POSTCODES_API_KEY || getSecret('postcodes.api.key');
+    process.env.POSTCODES_API_KEY || getParameter('postcodes.api.key');
 
-const S3_KMS_KEY_ID = process.env.S3_KMS_KEY_ID || getSecret('s3.kms.key.id');
+const S3_KMS_KEY_ID =
+    process.env.S3_KMS_KEY_ID || getParameter('s3.kms.key.id');
 
-const DATA_STUDIO_AFA_URL = getSecret('dataStudio.url.awardsForAll');
+const DATA_STUDIO_AFA_URL = getParameter('dataStudio.url.awardsForAll');
 
 module.exports = {
     AZURE_AUTH,

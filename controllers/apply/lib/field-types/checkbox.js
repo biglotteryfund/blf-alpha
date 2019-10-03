@@ -7,8 +7,8 @@ const Joi = require('../joi-extensions');
 const Field = require('./field');
 
 class CheckboxField extends Field {
-    constructor(props, locale) {
-        super(props, locale);
+    constructor(props) {
+        super(props);
 
         this.type = 'checkbox';
 

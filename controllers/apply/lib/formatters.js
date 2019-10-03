@@ -55,16 +55,19 @@ function formatAddress(value) {
     ]).join(',\n');
 }
 
-function formatAddressHistory(value) {
-    const meetsMinimum = get('currentAddressMeetsMinimum')(value);
-    const previousAddress = get('previousAddress')(value);
+function formatAddressHistory(locale) {
+    const localise = get(locale);
 
-    if (previousAddress && meetsMinimum === 'no') {
-        return formatAddress(previousAddress);
-    } else {
-        // @TODO i18n
-        return 'Yes';
-    }
+    return function(value) {
+        const meetsMinimum = get('currentAddressMeetsMinimum')(value);
+        const previousAddress = get('previousAddress')(value);
+
+        if (previousAddress && meetsMinimum === 'no') {
+            return formatAddress(previousAddress);
+        } else {
+            return localise({ en: 'Yes', cy: 'Do' });
+        }
+    };
 }
 
 function formatDate(locale) {
@@ -193,7 +196,7 @@ function formatterFor(field, locale = 'en') {
             formatter = formatAddress;
             break;
         case 'address-history':
-            formatter = formatAddressHistory;
+            formatter = formatAddressHistory(locale);
             break;
         case 'date':
             formatter = formatDate(locale);

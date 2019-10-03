@@ -5,8 +5,8 @@ const Joi = require('../joi-extensions');
 const Field = require('./field');
 
 class RadioField extends Field {
-    constructor(props, locale) {
-        super(props, locale);
+    constructor(props) {
+        super(props);
 
         const options = props.options || [];
         if (options.length === 0) {
