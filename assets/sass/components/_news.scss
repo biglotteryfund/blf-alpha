@@ -6,10 +6,15 @@
    Latest News
    ========================================================================= */
 
-.latest-updates {
+.related-content {
     position: relative;
 
-    .latest-updates__footer {
+    .related-content__item {
+        list-style: none;
+        margin-left: 0;
+    }
+
+    .related-content__footer {
         margin-bottom: $spacingUnit;
 
         @include mq('medium') {

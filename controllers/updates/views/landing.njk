@@ -40,11 +40,11 @@
             </section>
 
             {# Blog posts #}
-            <section class="latest-updates u-inner u-margin-bottom">
-                <header class="latest-updates__header">
+            <section class="related-content u-inner u-margin-bottom">
+                <header class="related-content__header">
                     <h2 class="t--underline">{{ copy.types.blog.plural }}</h2>
                 </header>
-                <div class="latest-updates__content">
+                <div class="related-content__content">
                     <ul class="flex-grid flex-grid--3up">
                         {% for entry in blogposts | take(3) %}
                             <li class="flex-grid__item">
@@ -53,8 +53,8 @@
                         {% endfor %}
                     </ul>
                 </div>
-                <footer class="latest-updates__footer">
-                    <a class="latest-updates__more" href="{{ localify('/news/blog') }}">
+                <footer class="related-content__footer">
+                    <a class="related-content__more" href="{{ localify('/news/blog') }}">
                         {{ copy.blogpost.viewAllBlogPosts }} &rarr;
                     </a>
                 </footer>
@@ -62,11 +62,11 @@
 
             {# People stories #}
             {% if peopleStories.length > 0 %}
-                <section class="latest-updates u-inner u-margin-bottom">
-                    <header class="latest-updates__header">
+                <section class="related-content u-inner u-margin-bottom">
+                    <header class="related-content__header">
                         <h2 class="t--underline">{{ copy.types['people-stories'].plural }}</h2>
                     </header>
-                    <div class="latest-updates__content">
+                    <div class="related-content__content">
                         <ul class="flex-grid flex-grid--3up">
                             {% for entry in peopleStories | take(3) %}
                                 <li class="flex-grid__item">
@@ -75,8 +75,8 @@
                             {% endfor %}
                         </ul>
                     </div>
-                    <footer class="latest-updates__footer">
-                        <a class="latest-updates__more" href="{{ localify('/news/people-stories') }}">
+                    <footer class="related-content__footer">
+                        <a class="related-content__more" href="{{ localify('/news/people-stories') }}">
                             {{ copy['people-stories'].viewAllPeopleStories }} &rarr;
                         </a>
                     </footer>

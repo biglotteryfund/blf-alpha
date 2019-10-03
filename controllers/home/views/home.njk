@@ -1,5 +1,5 @@
 {% extends "layouts/main.njk" %}
-{% from "components/latest-updates/macro.njk" import latestUpdates %}
+{% from "components/related-content/macro.njk" import relatedContent %}
 {% from "components/miniature-hero/macro.njk" import miniatureHero %}
 {% from "components/social-bar/macro.njk" import socialBar with context %}
 
@@ -65,7 +65,7 @@
         {# Latest News #}
         {% if promotedUpdates.length > 1 %}
             <section class="u-border-top u-inner u-padded u-margin-bottom">
-                {{ latestUpdates(
+                {{ relatedContent(
                     articles = promotedUpdates,
                     title = __('global.misc.latestNews'),
                     allLink = {

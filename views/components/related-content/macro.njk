@@ -1,14 +1,14 @@
 {% from "components/article-teaser/macro.njk" import articleTeaser %}
 
-{% macro latestUpdates(articles, title, allLink) %}
-    <section class="latest-updates">
-        <header class="latest-updates__header">
-            <h2 class="latest-updates__title t--underline">{{ title }}</h2>
+{% macro relatedContent(articles, title, allLink) %}
+    <section class="related-content">
+        <header class="related-content__header">
+            <h2 class="related-content__title t--underline">{{ title }}</h2>
         </header>
-        <div class="latest-updates__content">
+        <div class="related-content__content">
             <ul class="flex-grid flex-grid--3up">
                 {% for article in articles | take(3) %}
-                    <li class="flex-grid__item">
+                    <li class="flex-grid__item related-content__item">
                         {{ articleTeaser({
                             'title': article.trailText or article.title,
                             'linkUrl': article.linkUrl,
@@ -19,8 +19,8 @@
             </ul>
         </div>
         {% if allLink.url %}
-            <footer class="latest-updates__footer">
-                <a class="latest-updates__more" href="{{ allLink.url }}">
+            <footer class="related-content__footer">
+                <a class="related-content__more" href="{{ allLink.url }}">
                     {{ allLink.label }}
                 </a>
             </footer>
