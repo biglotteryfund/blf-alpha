@@ -73,35 +73,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
-    function phoneField(props) {
-        const defaultProps = {
-            type: 'tel',
-            attributes: { size: 30, autocomplete: 'tel' },
-            isRequired: true,
-            schema: Joi.string()
-                .phoneNumber()
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a UK telephone number',
-                        cy: 'Rhowch rif ffôn Prydeinig'
-                    })
-                },
-                {
-                    type: 'string.phonenumber',
-                    message: localise({
-                        en: 'Enter a real UK telephone number',
-                        cy: 'Rhowch rif ffôn Prydeinig go iawn'
-                    })
-                }
-            ]
-        };
-
-        return { ...defaultProps, ...props };
-    }
-
     function addressHistoryField(props) {
         const defaultProps = {
             type: 'address-history',
@@ -1638,9 +1609,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 })
             }
         ),
-        seniorContactPhone: phoneField({
-            name: 'seniorContactPhone',
-            label: localise({ en: 'Telephone number', cy: 'Rhif ffôn' })
+        seniorContactPhone: fieldPhone(locale, {
+            name: 'seniorContactPhone'
         }),
         seniorContactLanguagePreference: fieldContactLanguagePreference(
             locale,
