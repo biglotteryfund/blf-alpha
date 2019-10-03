@@ -91,7 +91,7 @@ function requireStaffAuth(req, res, next) {
             });
         }
     } else {
-        res.redirect(`/user/staff/login?redirectUrl=${req.originalUrl}`);
+        res.redirect(`/user/staff/login?redirectUrl=${encodeURIComponent(req.originalUrl)}`);
     }
 }
 

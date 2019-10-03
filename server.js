@@ -183,11 +183,11 @@ app.use([
             }
         }
     }),
-    require('./common/preview'),
     express.json(),
     express.urlencoded({ extended: true }),
     require('./common/session')(app),
     require('./common/passport')(),
+    require('./common/preview'),
     require('./common/locals')
 ]);
 

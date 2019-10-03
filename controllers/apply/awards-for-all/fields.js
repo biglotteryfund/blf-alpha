@@ -34,6 +34,8 @@ const fieldCompanyNumber = require('./fields/company-number');
 const fieldCharityNumber = require('./fields/charity-number');
 const fieldEducationNumber = require('./fields/education-number');
 const fieldPhone = require('./fields/phone');
+const fieldEmail = require('./fields/email');
+const fieldAddress = require('./fields/address');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
@@ -71,117 +73,30 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         });
     }
 
-    function emailField(props, additionalMessages = []) {
+    function phoneField(props) {
         const defaultProps = {
-            label: localise({
-                en: 'Email',
-                cy: 'E-bost'
-            }),
-            type: 'email',
-            attributes: { autocomplete: 'email' },
+            type: 'tel',
+            attributes: { size: 30, autocomplete: 'tel' },
             isRequired: true,
             schema: Joi.string()
-                .email()
+                .phoneNumber()
                 .required(),
             messages: [
                 {
                     type: 'base',
                     message: localise({
-                        en: 'Enter an email address',
-                        cy: 'Rhowch gyfeiriad e-bost'
+                        en: 'Enter a UK telephone number',
+                        cy: 'Rhowch rif ffôn Prydeinig'
                     })
                 },
                 {
-                    type: 'string.email',
+                    type: 'string.phonenumber',
                     message: localise({
-                        en: `Email address must be in the correct format, like name@example.com`,
-                        cy: `Rhaid i’r cyfeiriad e-bost for yn y ffurf cywir, e.e enw@example.com`
+                        en: 'Enter a real UK telephone number',
+                        cy: 'Rhowch rif ffôn Prydeinig go iawn'
                     })
                 }
-            ].concat(additionalMessages)
-        };
-
-        return { ...defaultProps, ...props };
-    }
-
-    function addressField(props, additionalMessages = []) {
-        const defaultProps = {
-            type: 'address',
-            isRequired: true,
-            schema: Joi.ukAddress().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a full UK address',
-                        cy: 'Rhowch gyfeiriad Prydeinig llawn'
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'line1',
-                    message: localise({
-                        en: 'Enter a building and street',
-                        cy: 'Rhowch adeilad a stryd'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    key: 'line1',
-                    message: localise({
-                        en: `Building and street must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i’r adeilad a’r stryd fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                },
-                {
-                    type: 'string.max',
-                    key: 'line2',
-                    message: localise({
-                        en: `Address line must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i’r llinell cyfeiriad fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'townCity',
-                    message: localise({
-                        en: 'Enter a town or city',
-                        cy: 'Rhowch dref neu ddinas'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    key: 'townCity',
-                    message: localise({
-                        en: `Town or city must be ${FREE_TEXT_MAXLENGTH.small} characters or less`,
-                        cy: `Rhaid i’r dref neu ddinas fod yn llai na ${FREE_TEXT_MAXLENGTH.small} nod`
-                    })
-                },
-                {
-                    type: 'string.max',
-                    key: 'county',
-                    message: localise({
-                        en: `County must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
-                        cy: `Rhaid i’r sir fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'postcode',
-                    message: localise({
-                        en: 'Enter a postcode',
-                        cy: 'Rhowch gôd post'
-                    })
-                },
-                {
-                    type: 'string.postcode',
-                    key: 'postcode',
-                    message: localise({
-                        en: 'Enter a real postcode',
-                        cy: 'Rhowch gôd post go iawn'
-                    })
-                }
-            ].concat(additionalMessages)
+            ]
         };
 
         return { ...defaultProps, ...props };
@@ -1386,17 +1301,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         organisationStartDate: fieldOrganisationStartDate(locale),
-        organisationAddress: addressField({
-            name: 'organisationAddress',
-            label: localise({
-                en: `What is the main or registered address of your organisation?`,
-                cy: `Beth yw prif gyfeiriad neu gyfeiriad gofrestredig eich sefydliad?`
-            }),
-            explanation: localise({
-                en: `<p>Enter the postcode and search for the address, or enter it manually below.`,
-                cy: `Rhowch y cod post a chwiliwch am y cyfeiriad, neu ei deipio isod.`
-            })
-        }),
+        organisationAddress: fieldAddress(
+            locale,
+            {
+                name: 'organisationAddress',
+                label: localise({
+                    en: `What is the main or registered address of your organisation?`,
+                    cy: `Beth yw prif gyfeiriad neu gyfeiriad gofrestredig eich sefydliad?`
+                }),
+                explanation: localise({
+                    en: `<p>Enter the postcode and search for the address, or enter it manually below.`,
+                    cy: `Rhowch y cod post a chwiliwch am y cyfeiriad, neu ei deipio isod.`
+                })
+            }
+        ),
         organisationType: fieldOrganisationType(locale),
         organisationSubTypeStatutoryBody: {
             name: 'organisationSubType',
@@ -1561,7 +1479,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'mainContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: 'Dyddiad geni' })
         }),
-        mainContactAddress: addressField(
+        mainContactAddress: fieldAddress(
+            locale,
             {
                 name: 'mainContactAddress',
                 label: localise({
@@ -1595,10 +1514,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`
             })
         }),
-        mainContactEmail: emailField(
+        mainContactEmail: fieldEmail(
+            locale,
             {
                 name: 'mainContactEmail',
-                label: localise({ en: 'Email', cy: 'E-bost' }),
                 explanation: localise({
                     en:
                         'We’ll use this whenever we get in touch about the project',
@@ -1675,7 +1594,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'seniorContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: 'Dyddad geni' })
         }),
-        seniorContactAddress: addressField(
+        seniorContactAddress: fieldAddress(
+            locale,
             {
                 name: 'seniorContactAddress',
                 label: localise({
@@ -1707,17 +1627,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`
             })
         }),
-        seniorContactEmail: emailField({
-            name: 'seniorContactEmail',
-            label: localise({ en: 'Email', cy: 'E-bost' }),
-            explanation: localise({
-                en: 'We’ll use this whenever we get in touch about the project',
-                cy:
-                    'Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect'
-            })
-        }),
-        seniorContactPhone: fieldPhone(locale, {
-            name: 'seniorContactPhone'
+        seniorContactEmail: fieldEmail(
+            locale,
+            {
+                name: 'seniorContactEmail',
+                explanation: localise({
+                    en: 'We’ll use this whenever we get in touch about the project',
+                    cy:
+                        'Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect'
+                })
+            }
+        ),
+        seniorContactPhone: phoneField({
+            name: 'seniorContactPhone',
+            label: localise({ en: 'Telephone number', cy: 'Rhif ffôn' })
         }),
         seniorContactLanguagePreference: fieldContactLanguagePreference(
             locale,
