@@ -13,6 +13,8 @@ $flexGridSpacing: $spacingUnit;
  */
 .flex-grid {
     @include reset-list();
+    // Overrides constrained content containers
+    max-width: 100% !important;
 
     @include mq('medium-minor') {
         display: flex;
