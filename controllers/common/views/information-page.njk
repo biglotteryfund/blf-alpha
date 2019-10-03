@@ -4,7 +4,6 @@
 {% from "components/segment-links/macro.njk" import segmentLinks %}
 {% from "components/segment/macro.njk" import segment %}
 {% from "components/flexible-content/macro.njk" import flexibleContentPart %}
-{% from "components/latest-updates/macro.njk" import latestUpdates %}
 
 {% extends "layouts/main.njk" %}
 {% if not pageHero.image %}{% set bodyClass = 'has-static-header' %}{% endif %}
@@ -63,16 +62,6 @@
 
         {# Custom content #}
         {% block customContent %}{% endblock %}
-
-        {# Related content #}
-        {% if content.relatedContent and content.relatedContent.entries.length > 1 %}
-            <section class="u-inner u-margin-bottom">
-                {{ latestUpdates(
-                    articles = content.relatedContent.entries,
-                    title = content.relatedContent.heading
-                ) }}
-            </section>
-        {% endif %}
 
         {% if content.outro %}
             {% call contentBox() %}
