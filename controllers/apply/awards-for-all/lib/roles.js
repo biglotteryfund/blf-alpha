@@ -25,7 +25,10 @@ module.exports = function rolesFor({
         },
         CHIEF_EXECUTIVE_OFFICER: {
             value: 'chief-executive-officer',
-            label: localise({ en: 'Chief Executive Officer', cy: 'Swyddog Prif Weithredwr' })
+            label: localise({
+                en: 'Chief Executive Officer',
+                cy: 'Swyddog Prif Weithredwr'
+            })
         },
         COMPANY_DIRECTOR: {
             value: 'company-director',
@@ -33,11 +36,17 @@ module.exports = function rolesFor({
         },
         COMPANY_SECRETARY: {
             value: 'company-secretary',
-            label: localise({ en: 'Company Secretary', cy: 'Ysgrifennydd cwmni' })
+            label: localise({
+                en: 'Company Secretary',
+                cy: 'Ysgrifennydd cwmni'
+            })
         },
         DEPUTY_PARISH_CLERK: {
             value: 'deputy-parish-clerk',
-            label: localise({ en: 'Deputy Parish Clerk', cy: 'Dirprwy Glerc y Plwyf' })
+            label: localise({
+                en: 'Deputy Parish Clerk',
+                cy: 'Dirprwy Glerc y Plwyf'
+            })
         },
         DIRECTOR: {
             value: 'director',
@@ -117,6 +126,9 @@ module.exports = function rolesFor({
                 ROLES.TREASURER,
                 ROLES.RELIGIOUS_LEADER
             ];
+            break;
+        case ORGANISATION_TYPES.CIC:
+            options = [ROLES.COMPANY_DIRECTOR, ROLES.COMPANY_SECRETARY];
             break;
         default:
             options = Object.values(ROLES);
