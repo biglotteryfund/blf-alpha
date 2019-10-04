@@ -172,8 +172,8 @@ module.exports = function(formId, formBuilder) {
                 stepFields.map(f => f.name).includes(item.param)
             );
 
-            function prevOrNextBtnNotClicked() {
-                return !(req.body.previousBtn || req.body.nextBtn);
+            function shouldRenderErrors() {
+                return (errorsForStep.length > 0 && !(req.body.previousBtn || req.body.nextBtn));
             }
 
             function determineRedirectUrl() {
@@ -224,7 +224,7 @@ module.exports = function(formId, formBuilder) {
                  * - Pass the full data object from validationResult to the view. Including invalid values.
                  * Otherwise, find the next suitable step and redirect there.
                  */
-                if (errorsForStep.length > 0 && prevOrNextBtnNotClicked()) {
+                if (shouldRenderErrors()) {
                     const renderStep = renderStepFor(
                         req.params.section,
                         req.params.step
@@ -254,8 +254,6 @@ module.exports = function(formId, formBuilder) {
                         }
                     }
 
-                    const redirectUrl = determineRedirectUrl();
-
                     /**
                      * Handle file uploads if we have any for the step
                      */
@@ -270,7 +268,7 @@ module.exports = function(formId, formBuilder) {
                                     });
                                 })
                             );
-                            res.redirect(redirectUrl);
+                            res.redirect(determineRedirectUrl());
                         } catch (rejection) {
                             Sentry.captureException(rejection.error);
 
@@ -292,7 +290,7 @@ module.exports = function(formId, formBuilder) {
                             );
                         }
                     } else {
-                        res.redirect(redirectUrl);
+                        res.redirect(determineRedirectUrl());
                     }
                 }
             } catch (storageError) {
