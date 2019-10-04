@@ -172,6 +172,23 @@ module.exports = function(formId, formBuilder) {
                 stepFields.map(f => f.name).includes(item.param)
             );
 
+            function prevOrNextBtnNotClicked() {
+                return !(req.body.previousBtn || req.body.nextBtn);
+            }
+
+            function determineRedirectUrl() {
+                const { previousPage, nextPage } = form.pagination({
+                    baseUrl: res.locals.formBaseUrl,
+                    sectionSlug: req.params.section,
+                    currentStepIndex: stepIndex,
+                    copy: res.locals.copy
+                });
+            
+                return req.body.previousBtn
+                    ? previousPage.url
+                    : nextPage.url;
+            }
+
             try {
                 let dataToStore = validationResult.value;
                 const currentProgressState = form.progress.isComplete
@@ -203,11 +220,11 @@ module.exports = function(formId, formBuilder) {
                 );
 
                 /**
-                 * If there are errors re-render the step with errors
+                 * If there are errors re-render the step with errors only if prev/next btn is not clicked
                  * - Pass the full data object from validationResult to the view. Including invalid values.
                  * Otherwise, find the next suitable step and redirect there.
                  */
-                if (errorsForStep.length > 0 && !(req.body.previousBtn || req.body.nextBtn)) {
+                if (errorsForStep.length > 0 && prevOrNextBtnNotClicked()) {
                     const renderStep = renderStepFor(
                         req.params.section,
                         req.params.step
@@ -237,24 +254,7 @@ module.exports = function(formId, formBuilder) {
                         }
                     }
 
-                    let redirectUrl;
-                    if (req.body.previousBtn) {
-                        const { previousPage } = form.pagination({
-                            baseUrl: res.locals.formBaseUrl,
-                            sectionSlug: req.params.section,
-                            currentStepIndex: stepIndex,
-                            copy: res.locals.copy
-                        });
-                        redirectUrl = previousPage.url;
-                    } else {
-                        const { nextPage } = form.pagination({
-                            baseUrl: res.locals.formBaseUrl,
-                            sectionSlug: req.params.section,
-                            currentStepIndex: stepIndex,
-                            copy: res.locals.copy
-                        });
-                        redirectUrl = nextPage.url;
-                    }
+                    const redirectUrl = determineRedirectUrl();
 
                     /**
                      * Handle file uploads if we have any for the step
