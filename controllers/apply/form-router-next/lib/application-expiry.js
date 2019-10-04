@@ -34,10 +34,8 @@ const logger = require('../../../../common/logger').child({
 const sendExpiryEmails = async (req, emailQueue, locale) => {
     logger.info('Handling email queue');
 
-    if (appData.isNotProduction && !process.env.APPLICATION_EXPIRY_EMAIL) {
-        throw new Error(
-            'Missing environment variable APPLICATION_EXPIRY_EMAIL'
-        );
+    if (appData.isNotProduction && !EMAIL_EXPIRY_TEST_ADDRESS) {
+        throw new Error('Missing secret EMAIL_EXPIRY_TEST_ADDRESS');
     }
 
     return await Promise.all(
