@@ -3,30 +3,25 @@ const express = require('express');
 const csurf = require('csurf');
 const path = require('path');
 const Sentry = require('@sentry/node');
-const flatMap = require('lodash/flatMap');
 const get = require('lodash/get');
 const includes = require('lodash/includes');
 const pick = require('lodash/pick');
 const set = require('lodash/set');
-const unset = require('lodash/unset');
 const features = require('config').get('features');
 const formidable = require('formidable');
 
 const {
     PendingApplication,
-    SubmittedApplication,
     ApplicationEmailQueue
 } = require('../../../db/models');
 
 const commonLogger = require('../../../common/logger');
-const appData = require('../../../common/appData');
 const { localify } = require('../../../common/urls');
 const { noStore } = require('../../../common/cached');
 const { requireActiveUserWithCallback } = require('../../../common/authed');
 const { injectCopy } = require('../../../common/inject-content');
 
-const salesforceService = require('./lib/salesforce');
-const { getObject, buildMultipartData } = require('./lib/file-uploads');
+const { getObject } = require('./lib/file-uploads');
 const { generateEmailQueueItems } = require('./lib/emailQueue');
 
 function initFormRouter({
