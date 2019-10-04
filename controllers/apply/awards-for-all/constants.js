@@ -113,6 +113,30 @@ const FILE_LIMITS = {
     ]
 };
 
+const EXPIRY_EMAIL_REMINDERS = [
+    {
+        emailType: 'AFA_ONE_MONTH',
+        sendBeforeExpiry: {
+            amount: 30,
+            unit: 'days'
+        }
+    },
+    {
+        emailType: 'AFA_ONE_WEEK',
+        sendBeforeExpiry: {
+            amount: 14,
+            unit: 'days'
+        }
+    },
+    {
+        emailType: 'AFA_ONE_DAY',
+        sendBeforeExpiry: {
+            amount: 1,
+            unit: 'days'
+        }
+    }
+];
+
 module.exports = {
     BENEFICIARY_GROUPS,
     COMPANY_NUMBER_TYPES,
@@ -129,5 +153,6 @@ module.exports = {
     STATUTORY_BODY_TYPES,
     CHARITY_NUMBER_TYPES,
     EDUCATION_NUMBER_TYPES,
-    FREE_TEXT_MAXLENGTH
+    FREE_TEXT_MAXLENGTH,
+    EXPIRY_EMAIL_REMINDERS
 };

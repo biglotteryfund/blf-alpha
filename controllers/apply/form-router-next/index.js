@@ -7,9 +7,13 @@ const get = require('lodash/get');
 const includes = require('lodash/includes');
 const pick = require('lodash/pick');
 const set = require('lodash/set');
+const features = require('config').get('features');
 const formidable = require('formidable');
 
-const { PendingApplication } = require('../../../db/models');
+const {
+    PendingApplication,
+    ApplicationEmailQueue
+} = require('../../../db/models');
 
 const commonLogger = require('../../../common/logger');
 const { localify } = require('../../../common/urls');
@@ -18,6 +22,7 @@ const { requireActiveUserWithCallback } = require('../../../common/authed');
 const { injectCopy } = require('../../../common/inject-content');
 
 const { getObject } = require('./lib/file-uploads');
+const { generateEmailQueueItems } = require('./lib/emailQueue');
 
 function initFormRouter({
     formId,
@@ -25,7 +30,8 @@ function initFormRouter({
     startTemplate = null,
     eligibilityBuilder = null,
     confirmationBuilder,
-    enableSalesforceConnector = true
+    enableSalesforceConnector = true,
+    expiryEmailPeriods = null
 }) {
     const router = express.Router();
 
@@ -100,6 +106,30 @@ function initFormRouter({
         } else {
             next();
         }
+    }
+
+    /**
+     * Application seed endpoint
+     * Allows generation of seed applications in test environments
+     */
+    if (features.enableSeeders) {
+        router.post('/seed', async (req, res) => {
+            const application = await PendingApplication.createNewApplication({
+                formId: formId,
+                userId: req.body.userId,
+                customExpiry: req.body.expiresAt
+            });
+
+            if (expiryEmailPeriods) {
+                const emailsToQueue = generateEmailQueueItems(
+                    application,
+                    expiryEmailPeriods
+                );
+                await ApplicationEmailQueue.createNewQueue(emailsToQueue);
+            }
+
+            res.json(application);
+        });
     }
 
     /**
@@ -183,6 +213,15 @@ function initFormRouter({
                 formId: formId,
                 userId: req.user.userData.id
             });
+
+            if (expiryEmailPeriods) {
+                // Convert this application's expiry periods into a set of queue items
+                const emailsToQueue = generateEmailQueueItems(
+                    application,
+                    expiryEmailPeriods
+                );
+                await ApplicationEmailQueue.createNewQueue(emailsToQueue);
+            }
 
             commonLogger.info('Application created', {
                 service: 'apply',
