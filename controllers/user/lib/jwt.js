@@ -78,5 +78,5 @@ module.exports = {
     signTokenActivate,
     verifyTokenActivate,
     signTokenPasswordReset,
-    verifyTokenPasswordReset,
+    verifyTokenPasswordReset
 };
