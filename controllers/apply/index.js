@@ -100,10 +100,7 @@ router.post('/handle-expiry/seed', async (req, res) => {
         });
 
         if (emailQueueItems.length > 0) {
-            // Clear out the existing email queue
-            await ApplicationEmailQueue.destroy({
-                truncate: true
-            });
+            // NOTE: clear out the existing email queue before running this
             await ApplicationEmailQueue.createNewQueue(emailQueueItems);
 
             res.json({
