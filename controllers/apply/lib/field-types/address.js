@@ -5,8 +5,8 @@ const Joi = require('../joi-extensions');
 const Field = require('./field');
 
 class AddressField extends Field {
-    constructor(props, locale) {
-        super(props, locale);
+    constructor(props) {
+        super(props);
 
         this.type = 'address';
 
@@ -16,8 +16,10 @@ class AddressField extends Field {
                 cy: `Rhowch y cod post a chwiliwch am y cyfeiriad, neu ei deipio isod.`
             });
         }
+    }
 
-        const defaultSchema = Joi.object({
+    defaultSchema() {
+        const schema = Joi.object({
             line1: Joi.string()
                 .max(255)
                 .required(),
@@ -37,15 +39,15 @@ class AddressField extends Field {
                 .required()
         });
 
-        if (props.schema) {
-            this.schema = props.schema;
-        } else if (this.isRequired) {
-            this.schema = defaultSchema.required();
+        if (this.isRequired) {
+            return schema.required();
         } else {
-            this.schema = defaultSchema.optional();
+            return schema.optional();
         }
+    }
 
-        this.messages = [
+    defaultMessages() {
+        return [
             {
                 type: 'base',
                 message: this.localise({
@@ -117,7 +119,7 @@ class AddressField extends Field {
                     cy: 'Rhowch gôd post go iawn'
                 })
             }
-        ].concat(props.messages || []);
+        ];
     }
 
     get displayValue() {

@@ -4,21 +4,28 @@ const Joi = require('../joi-extensions');
 const Field = require('./field');
 
 class CurrencyField extends Field {
-    constructor(props, locale) {
-        super(props, locale);
+    constructor(props) {
+        super(props);
 
-        this.type = 'currency';
+        this.minAmount = props.minAmount;
 
-        if (props.schema) {
-            this.schema = props.schema;
+        this.schema = props.schema ? props.schema : this.defaultSchema();
+    }
+
+    getType() {
+        return 'currency';
+    }
+
+    defaultSchema() {
+        const minAmount = this.minAmount || 0;
+        const baseSchema = Joi.friendlyNumber()
+            .integer()
+            .min(minAmount);
+
+        if (this.isRequired) {
+            return baseSchema.required();
         } else {
-            this.schema = this.isRequired
-                ? Joi.friendlyNumber()
-                      .integer()
-                      .required()
-                : Joi.friendlyNumber()
-                      .integer()
-                      .optional();
+            return baseSchema.optional();
         }
     }
 

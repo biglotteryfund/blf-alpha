@@ -15,29 +15,18 @@ router.get(
     injectHeroImage('funding-letterbox-new'),
     async (req, res) => {
         let latestProgrammes = [];
-        let bigLunch = false;
         try {
             const fundingProgrammes = await contentApi.getRecentFundingProgrammes(
-                {
-                    locale: req.i18n.getLocale(),
-                    limit: 2
-                }
+                { locale: req.i18n.getLocale(), limit: 3 }
             );
 
-            const bigLunchContent = await contentApi.getListingPage({
-                locale: req.i18n.getLocale(),
-                path: 'funding/the-big-lunch'
-            });
-
-            bigLunch = bigLunchContent;
             latestProgrammes = fundingProgrammes.result
                 ? fundingProgrammes.result
-                : null;
+                : [];
         } catch (error) {} // eslint-disable-line no-empty
 
         res.render(path.resolve(__dirname, './views/funding-landing'), {
-            latestProgrammes,
-            bigLunch
+            latestProgrammes
         });
     }
 );

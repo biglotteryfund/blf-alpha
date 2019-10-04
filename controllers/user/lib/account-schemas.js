@@ -1,5 +1,5 @@
 'use strict';
-const baseJoi = require('@hapi/joi');
+const baseJoi = require('@hapi/joi16');
 const Joi = baseJoi.extend(require('./password-strength'));
 
 const MIN_PASSWORD_LENGTH = 10;
@@ -129,6 +129,14 @@ module.exports = {
                             'passwordLength',
                             MIN_PASSWORD_LENGTH
                         )
+                    },
+                    {
+                        type: 'password.common',
+                        message: messageForLocale('passwordStrength')
+                    },
+                    {
+                        type: 'password.strength',
+                        message: messageForLocale('passwordStrength')
                     }
                 ],
                 passwordConfirmation: [

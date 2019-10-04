@@ -1,47 +1,48 @@
 'use strict';
-const config = require('config');
-const moment = require('moment');
 const flatMap = require('lodash/flatMap');
 const get = require('lodash/fp/get');
-const has = require('lodash/has');
+const moment = require('moment');
 const { oneLine } = require('common-tags');
 
 const Joi = require('../lib/joi-extensions');
 const {
     BENEFICIARY_GROUPS,
-    COMPANY_NUMBER_TYPES,
     CONTACT_EXCLUDED_TYPES,
-    FILE_LIMITS,
     MAX_BUDGET_TOTAL_GBP,
-    MAX_PROJECT_DURATION,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
     MIN_BUDGET_TOTAL_GBP,
-    MIN_START_DATE,
     ORGANISATION_TYPES,
     STATUTORY_BODY_TYPES,
-    CHARITY_NUMBER_TYPES,
-    EDUCATION_NUMBER_TYPES,
     FREE_TEXT_MAXLENGTH
 } = require('./constants');
-
-const countriesFor = require('./lib/countries');
-const locationsFor = require('./lib/locations');
 
 const fieldContactLanguagePreference = require('./fields/contact-language-preference');
 const fieldOrganisationStartDate = require('./fields/organisation-start-date');
 const fieldOrganisationType = require('./fields/organisation-type');
+const fieldProjectCountry = require('./fields/project-country');
 const fieldProjectTotalCosts = require('./fields/project-total-costs');
 const fieldSeniorContactRole = require('./fields/senior-contact-role');
 const fieldTotalIncomeYear = require('./fields/total-income-year');
 const fieldYourIdeaCommunity = require('./fields/your-idea-community');
 const fieldYourIdeaPriorities = require('./fields/your-idea-priorities');
 const fieldYourIdeaProject = require('./fields/your-idea-project');
+const fieldProjectLocation = require('./fields/project-location');
+const fieldProjectDateRange = require('./fields/project-date-range');
+const fieldCompanyNumber = require('./fields/company-number');
+const fieldCharityNumber = require('./fields/charity-number');
+const fieldEducationNumber = require('./fields/education-number');
+const fieldPhone = require('./fields/phone');
+const fieldEmail = require('./fields/email');
+const fieldAddress = require('./fields/address');
+const fieldBankStatement = require('./fields/bank-statement');
+const fieldBuildingSocietyNumber = require('./fields/building-society-number');
+const fieldBankAccountNumber = require('./fields/bank-account-number');
+const fieldBankSortCode = require('./fields/bank-sort-code');
+const fieldBankAccountName = require('./fields/bank-account-name');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
-
-    const currentOrganisationType = get('organisationType')(data);
 
     function multiChoice(options) {
         return Joi.array()
@@ -74,159 +75,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             then: Joi.any().strip(),
             otherwise: schema
         });
-    }
-
-    function stripUnlessOrgTypes(types, schema) {
-        return Joi.when(Joi.ref('organisationType'), {
-            is: Joi.exist().valid(types),
-            then: schema,
-            otherwise: Joi.any().strip()
-        });
-    }
-
-    function emailField(props, additionalMessages = []) {
-        const defaultProps = {
-            label: localise({
-                en: 'Email',
-                cy: 'E-bost'
-            }),
-            type: 'email',
-            attributes: { autocomplete: 'email' },
-            isRequired: true,
-            schema: Joi.string()
-                .email()
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter an email address',
-                        cy: 'Rhowch gyfeiriad e-bost'
-                    })
-                },
-                {
-                    type: 'string.email',
-                    message: localise({
-                        en: `Email address must be in the correct format, like name@example.com`,
-                        cy: `Rhaid i’r cyfeiriad e-bost for yn y ffurf cywir, e.e enw@example.com`
-                    })
-                }
-            ].concat(additionalMessages)
-        };
-
-        return { ...defaultProps, ...props };
-    }
-
-    function phoneField(props) {
-        const defaultProps = {
-            type: 'tel',
-            attributes: { size: 30, autocomplete: 'tel' },
-            isRequired: true,
-            schema: Joi.string()
-                .phoneNumber()
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a UK telephone number',
-                        cy: 'Rhowch rif ffôn Prydeinig'
-                    })
-                },
-                {
-                    type: 'string.phonenumber',
-                    message: localise({
-                        en: 'Enter a real UK telephone number',
-                        cy: 'Rhowch rif ffôn Prydeinig go iawn'
-                    })
-                }
-            ]
-        };
-
-        return { ...defaultProps, ...props };
-    }
-
-    function addressField(props, additionalMessages = []) {
-        const defaultProps = {
-            type: 'address',
-            isRequired: true,
-            schema: Joi.ukAddress().required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a full UK address',
-                        cy: 'Rhowch gyfeiriad Prydeinig llawn'
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'line1',
-                    message: localise({
-                        en: 'Enter a building and street',
-                        cy: 'Rhowch adeilad a stryd'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    key: 'line1',
-                    message: localise({
-                        en: `Building and street must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i’r adeilad a’r stryd fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                },
-                {
-                    type: 'string.max',
-                    key: 'line2',
-                    message: localise({
-                        en: `Address line must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i’r llinell cyfeiriad fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'townCity',
-                    message: localise({
-                        en: 'Enter a town or city',
-                        cy: 'Rhowch dref neu ddinas'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    key: 'townCity',
-                    message: localise({
-                        en: `Town or city must be ${FREE_TEXT_MAXLENGTH.small} characters or less`,
-                        cy: `Rhaid i’r dref neu ddinas fod yn llai na ${FREE_TEXT_MAXLENGTH.small} nod`
-                    })
-                },
-                {
-                    type: 'string.max',
-                    key: 'county',
-                    message: localise({
-                        en: `County must be ${FREE_TEXT_MAXLENGTH.medium} characters or less`,
-                        cy: `Rhaid i’r sir fod yn llai na ${FREE_TEXT_MAXLENGTH.medium} nod`
-                    })
-                },
-                {
-                    type: 'any.empty',
-                    key: 'postcode',
-                    message: localise({
-                        en: 'Enter a postcode',
-                        cy: 'Rhowch gôd post'
-                    })
-                },
-                {
-                    type: 'string.postcode',
-                    key: 'postcode',
-                    message: localise({
-                        en: 'Enter a real postcode',
-                        cy: 'Rhowch gôd post go iawn'
-                    })
-                }
-            ].concat(additionalMessages)
-        };
-
-        return { ...defaultProps, ...props };
     }
 
     function addressHistoryField(props) {
@@ -453,311 +301,6 @@ module.exports = function fieldsFor({ locale, data = {} }) {
         return { ...defaultProps, ...props };
     }
 
-    function fieldProjectDateRange() {
-        const minDate = moment().add(
-            MIN_START_DATE.amount,
-            MIN_START_DATE.unit
-        );
-
-        function formatAfterDate() {
-            return minDate
-                .clone()
-                .subtract(1, 'days')
-                .locale(locale)
-                .format('D MMMM YYYY');
-        }
-
-        return {
-            name: 'projectDateRange',
-            label: localise({
-                en: `When would you like to start and end your project?`,
-                cy: `Pryd yr hoffech ddechrau a gorffen eich prosiect?`
-            }),
-            settings: {
-                minYear: minDate.format('YYYY')
-            },
-            explanation: localise({
-                en: `<p>
-                    If you don't know exactly, your dates can be estimates.
-                    But you need to start your project after
-                    ${formatAfterDate()}.
-                </p>
-                <p>
-                    We usually only fund projects that last
-                    ${localise(MAX_PROJECT_DURATION.label)} or less.
-                    So, the end date can't be more than
-                    ${localise(
-                        MAX_PROJECT_DURATION.label
-                    )} after the start date.    
-                </p>
-                <p><strong>If your project is a one-off event</strong></p>
-                <p>
-                    Just let us know the date you plan to hold the event
-                    in the start and end date boxes below.
-                </p>`,
-
-                cy: `<p>
-                    Os nad ydych yn gwybod yn union, gall eich dyddiadau fod yn amcangyfrifon.
-                    Ond mae angen i chi ddechrau eich prosiect ar ôl 
-                    ${formatAfterDate()}.
-                </p>
-                <p>
-                    Fel arfer, dim ond prosiectau sy’n para 
-                    ${localise(
-                        MAX_PROJECT_DURATION.label
-                    )} neu lai rydym yn eu hariannu.
-                    Felly, ni all y dyddiad gorffen fod yn hwyrach na 
-                    ${localise(
-                        MAX_PROJECT_DURATION.label
-                    )} wedi’r dyddiad cychwyn.    
-                </p>
-                <p><strong>Os yw eich prosiect yn ddigwyddiad sy’n digwydd unwaith yn unig</strong></p>
-                <p>
-                    Gadewch i ni wybod y dyddiad rydych yn bwriadu cynnal y
-                    digwyddiad yn y bocsys dyddiad dechrau a gorffen isod. 
-                </p>`
-            }),
-            type: 'date-range',
-            isRequired: true,
-            schema: Joi.dateRange()
-                .minDate(minDate.format('YYYY-MM-DD'))
-                .endDateLimit(
-                    MAX_PROJECT_DURATION.amount,
-                    MAX_PROJECT_DURATION.unit
-                ),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a project start and end date',
-                        cy: 'Rhowch ddyddiad dechrau a gorffen y prosiect'
-                    })
-                },
-                {
-                    type: 'dateRange.both.invalid',
-                    message: localise({
-                        en: `Project start and end dates must be real dates`,
-                        cy: `Rhaid i ddyddiadau dechrau a gorffen y prosiect fod yn rhai go iawn`
-                    })
-                },
-                {
-                    type: 'datesRange.startDate.invalid',
-                    message: localise({
-                        en: `Date you start the project must be a real date`,
-                        cy: `Rhaid i ddyddiad dechrau’r prosiect fod yn un go iawn`
-                    })
-                },
-                {
-                    type: 'dateRange.endDate.invalid',
-                    message: localise({
-                        en: 'Date you end the project must be a real date',
-                        cy: `Rhaid i ddyddiad gorffen y prosiect fod yn un go iawn`
-                    })
-                },
-                {
-                    type: 'dateRange.minDate.invalid',
-                    message: localise({
-                        en: `Date you start the project must be after ${formatAfterDate()}`,
-                        cy: `Rhaid i ddyddiad dechrau’r prosiect fod ar ôl ${formatAfterDate()}`
-                    })
-                },
-                {
-                    type: 'dateRange.endDate.outsideLimit',
-                    message: localise({
-                        en: oneLine`Date you end the project must be within
-                            ${localise(
-                                MAX_PROJECT_DURATION.label
-                            )} of the start date.`,
-                        cy: oneLine`Rhaid i ddyddiad gorffen y prosiect fod o fewn
-                            ${localise(
-                                MAX_PROJECT_DURATION.label
-                            )} o ddyddiad dechrau’r prosiect.`
-                    })
-                },
-                {
-                    type: 'dateRange.endDate.beforeStartDate',
-                    message: localise({
-                        en: `Date you end the project must be after the start date`,
-                        cy: `Rhaid i ddyddiad gorffen y prosiect fod ar ôl y dyddiad dechrau`
-                    })
-                }
-            ]
-        };
-    }
-
-    function fieldProjectCountry() {
-        const options = countriesFor({
-            locale: locale,
-            allowedCountries: config.get('awardsForAll.allowedCountries')
-        });
-
-        const activeOptions = options.filter(
-            option => has(option, 'attributes.disabled') === false
-        );
-
-        return {
-            name: 'projectCountry',
-            label: localise({
-                en: `What country will your project be based in?`,
-                cy: `Pa wlad fydd eich prosiect wedi’i leoli?`
-            }),
-            explanation: localise({
-                en: oneLine`We work slightly differently depending on which
-                    country your project is based in, to meet local needs
-                    and the regulations that apply there.`,
-                cy: oneLine`Rydym yn gweithredu ychydig yn wahanol, yn ddibynnol 
-                    ar pa wlad mae eich prosiect wedi’i leoli i ddiwallu 
-                    anghenion lleol a’r rheoliadau sy’n berthnasol yna.`
-            }),
-            type: 'radio',
-            options: options,
-            isRequired: true,
-            schema: Joi.string()
-                .valid(activeOptions.map(option => option.value))
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Select a country',
-                        cy: 'Dewiswch wlad'
-                    })
-                }
-            ]
-        };
-    }
-
-    function fieldCompanyNumber() {
-        return {
-            name: 'companyNumber',
-            label: localise({
-                en: 'Companies House number',
-                cy: 'Rhif Tŷ’r Cwmnïau'
-            }),
-            type: 'text',
-            isRequired: true,
-            schema: stripUnlessOrgTypes(
-                COMPANY_NUMBER_TYPES,
-                Joi.string()
-                    .max(FREE_TEXT_MAXLENGTH.large)
-                    .required()
-            ),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter your organisation’s Companies House number',
-                        cy: 'Rhowch rif Tŷ’r Cwmnïau eich sefydliad'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Companies House number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i’r rhif Tŷ’r Cwmnïau fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        };
-    }
-
-    function fieldCharityNumber() {
-        /**
-         * Charity number fields schema
-         * If organisation type is in required list then this field is required
-         * Or, if organisation type is in the optional list then this field is optional
-         * Otherwise, strip the value from the resulting data
-         * Note: .optional doesn't allow null so needs to also allow null
-         */
-        const excludeRegex = /^[^Oo]+$/;
-        const schema = Joi.when(Joi.ref('organisationType'), {
-            is: Joi.exist().valid(CHARITY_NUMBER_TYPES.required),
-            then: Joi.string()
-                .regex(excludeRegex)
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .required()
-        }).when(Joi.ref('organisationType'), {
-            is: Joi.exist().valid(CHARITY_NUMBER_TYPES.optional),
-            then: Joi.string()
-                .regex(excludeRegex)
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .optional()
-                .allow('', null),
-            otherwise: Joi.any().strip()
-        });
-
-        return {
-            name: 'charityNumber',
-            label: localise({
-                en: 'Charity registration number',
-                cy: 'Rhif cofrestru elusen'
-            }),
-            type: 'text',
-            attributes: { size: 20 },
-            isRequired: CHARITY_NUMBER_TYPES.required.includes(
-                currentOrganisationType
-            ),
-            schema: schema,
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter your organisation’s charity number',
-                        cy: 'Rhowch rif elusen eich sefydliad'
-                    })
-                },
-                {
-                    type: 'string.regex.base',
-                    message: localise({
-                        en: 'Enter a real charity registration number. And don’t use any spaces. Scottish charity registration numbers must also use the number ‘0’ in ‘SC0’ instead of the letter ‘O’.',
-                        cy: 'Rhowch rif cofrestru elusen go iawn. A pheidiwch â defnyddio unrhyw fylchau. Rhaid i rifau cofrestru elusennau Albanaidd ddefnyddio’r rhif ‘0’ yn ‘SC0’ yn hytrach na’r llythyren ‘O’'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Charity registration number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i rif cofrestredig yr elusen fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        };
-    }
-
-    function fieldEducationNumber() {
-        return {
-            name: 'educationNumber',
-            label: localise({
-                en: 'Department for Education number',
-                cy: 'Eich rhif Adran Addysg'
-            }),
-            type: 'text',
-            isRequired: true,
-            schema: stripUnlessOrgTypes(
-                EDUCATION_NUMBER_TYPES,
-                Joi.string()
-                    .max(FREE_TEXT_MAXLENGTH.large)
-                    .required()
-            ),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: `Enter your organisation’s Department for Education number`,
-                        cy: `Rhowch rif Adran Addysg eich sefydliad`
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Department for Education number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i rif yr Adran Addysg fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        };
-    }
-
     return {
         projectName: {
             name: 'projectName',
@@ -791,50 +334,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        projectDateRange: fieldProjectDateRange(),
-        projectCountry: fieldProjectCountry(),
-        projectLocation: {
-            name: 'projectLocation',
-            label: localise({
-                en: 'Where will your project take place?',
-                cy: 'Lle bydd eich prosiect wedi’i leoli? '
-            }),
-            explanation: localise({
-                en: oneLine`If your project covers more than one area please
-                    tell us where most of it will take place`,
-                cy: oneLine`Os yw eich prosiect mewn mwy nag un ardal, dywedwch
-                    wrthym lle bydd y rhan fwyaf ohono yn cymryd lle.`
-            }),
-            type: 'select',
-            defaultOption: localise({
-                en: 'Select a location',
-                cy: 'Dewiswch leoliad'
-            }),
-            get optgroups() {
-                const country = get('projectCountry')(data);
-                return locationsFor(country, locale);
-            },
-            isRequired: true,
-            get schema() {
-                const options = flatMap(this.optgroups, group => group.options);
-                return Joi.when('projectCountry', {
-                    is: Joi.exist(),
-                    then: Joi.string()
-                        .valid(options.map(option => option.value))
-                        .required(),
-                    otherwise: Joi.any().strip()
-                });
-            },
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Select a location',
-                        cy: 'Dewiswch leoliad'
-                    })
-                }
-            ]
-        },
+        projectDateRange: fieldProjectDateRange(locale),
+        projectCountry: fieldProjectCountry(locale),
+        projectLocation: fieldProjectLocation(locale, data),
         projectLocationDescription: {
             name: 'projectLocationDescription',
             label: localise({
@@ -1774,17 +1276,20 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             ]
         },
         organisationStartDate: fieldOrganisationStartDate(locale),
-        organisationAddress: addressField({
-            name: 'organisationAddress',
-            label: localise({
-                en: `What is the main or registered address of your organisation?`,
-                cy: `Beth yw prif gyfeiriad neu gyfeiriad gofrestredig eich sefydliad?`
-            }),
-            explanation: localise({
-                en: `<p>Enter the postcode and search for the address, or enter it manually below.`,
-                cy: `Rhowch y cod post a chwiliwch am y cyfeiriad, neu ei deipio isod.`
-            })
-        }),
+        organisationAddress: fieldAddress(
+            locale,
+            {
+                name: 'organisationAddress',
+                label: localise({
+                    en: `What is the main or registered address of your organisation?`,
+                    cy: `Beth yw prif gyfeiriad neu gyfeiriad gofrestredig eich sefydliad?`
+                }),
+                explanation: localise({
+                    en: `<p>Enter the postcode and search for the address, or enter it manually below.`,
+                    cy: `Rhowch y cod post a chwiliwch am y cyfeiriad, neu ei deipio isod.`
+                })
+            }
+        ),
         organisationType: fieldOrganisationType(locale),
         organisationSubTypeStatutoryBody: {
             name: 'organisationSubType',
@@ -1860,9 +1365,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        companyNumber: fieldCompanyNumber(),
-        charityNumber: fieldCharityNumber(),
-        educationNumber: fieldEducationNumber(),
+        companyNumber: fieldCompanyNumber(locale),
+        charityNumber: fieldCharityNumber(locale, data),
+        educationNumber: fieldEducationNumber(locale),
         accountingYearDate: {
             name: 'accountingYearDate',
             label: localise({
@@ -1949,7 +1454,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'mainContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: 'Dyddiad geni' })
         }),
-        mainContactAddress: addressField(
+        mainContactAddress: fieldAddress(
+            locale,
             {
                 name: 'mainContactAddress',
                 label: localise({
@@ -1983,10 +1489,10 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`
             })
         }),
-        mainContactEmail: emailField(
+        mainContactEmail: fieldEmail(
+            locale,
             {
                 name: 'mainContactEmail',
-                label: localise({ en: 'Email', cy: 'E-bost' }),
                 explanation: localise({
                     en:
                         'We’ll use this whenever we get in touch about the project',
@@ -2007,9 +1513,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         ),
-        mainContactPhone: phoneField({
-            name: 'mainContactPhone',
-            label: localise({ en: 'Telephone number', cy: 'Rhif ffôn' })
+        mainContactPhone: fieldPhone(locale, {
+            name: 'mainContactPhone'
         }),
         mainContactLanguagePreference: fieldContactLanguagePreference(locale, {
             name: 'mainContactLanguagePreference'
@@ -2064,7 +1569,8 @@ module.exports = function fieldsFor({ locale, data = {} }) {
             name: 'seniorContactDateOfBirth',
             label: localise({ en: 'Date of birth', cy: 'Dyddad geni' })
         }),
-        seniorContactAddress: addressField(
+        seniorContactAddress: fieldAddress(
+            locale,
             {
                 name: 'seniorContactAddress',
                 label: localise({
@@ -2096,18 +1602,19 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 cy: `A ydynt wedi byw yn eu cyfeiriad cartref am y tair blynedd diwethaf?`
             })
         }),
-        seniorContactEmail: emailField({
-            name: 'seniorContactEmail',
-            label: localise({ en: 'Email', cy: 'E-bost' }),
-            explanation: localise({
-                en: 'We’ll use this whenever we get in touch about the project',
-                cy:
-                    'Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect'
-            })
-        }),
-        seniorContactPhone: phoneField({
-            name: 'seniorContactPhone',
-            label: localise({ en: 'Telephone number', cy: 'Rhif ffôn' })
+        seniorContactEmail: fieldEmail(
+            locale,
+            {
+                name: 'seniorContactEmail',
+                explanation: localise({
+                    en: 'We’ll use this whenever we get in touch about the project',
+                    cy:
+                        'Byddwn yn defnyddio hwn pan fyddwn yn cysylltu ynglŷn â’r prosiect'
+                })
+            }
+        ),
+        seniorContactPhone: fieldPhone(locale, {
+            name: 'seniorContactPhone'
         }),
         seniorContactLanguagePreference: fieldContactLanguagePreference(
             locale,
@@ -2137,183 +1644,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        bankAccountName: {
-            name: 'bankAccountName',
-            label: localise({
-                en: `Tell us the name of your organisation - as it appears on the bank statement`,
-                cy: `Dywedwch wrthym enw eich sefydliad – fel mae’n ymddangos ar eich cyfriflen banc`
-            }),
-            explanation: localise({
-                en: `Not the name of your bank`,
-                cy: `Nid enw eich banc`
-            }),
-            type: 'text',
-            attributes: { autocomplete: 'off' },
-            isRequired: true,
-            schema: Joi.string()
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: `Enter the name of your organisation, as it appears on your bank statement`,
-                        cy: `Rhowch enw eich sefydliad, fel mae’n ymddangos ar eich cyfriflen banc`
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Name of your organisation must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i enw eich sefydliad fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        },
-        bankSortCode: {
-            name: 'bankSortCode',
-            label: localise({ en: 'Sort code', cy: 'Cod didoli' }),
-            explanation: localise({ en: 'eg. 123456', cy: 'e.e. 123456' }),
-            type: 'text',
-            attributes: { size: 20, autocomplete: 'off' },
-            isRequired: true,
-            schema: Joi.string()
-                .replace(/\D/g, '')
-                .length(6)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a sort code',
-                        cy: 'Rhowch god didoli'
-                    })
-                },
-                {
-                    type: 'string.length',
-                    message: localise({
-                        en: 'Sort code must be six digits long',
-                        cy: 'Rhaid i’r cod didoli fod yn chwe digid o hyd'
-                    })
-                }
-            ]
-        },
-        bankAccountNumber: {
-            name: 'bankAccountNumber',
-            label: localise({ en: 'Account number', cy: 'Rhif cyfrif' }),
-            explanation: localise({ en: 'eg. 12345678', cy: 'e.e. 12345678' }),
-            type: 'text',
-            attributes: { autocomplete: 'off' },
-            isRequired: true,
-            schema: Joi.string()
-                .replace(/\D/g, '')
-                .min(6)
-                .max(11)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter an account number',
-                        cy: 'Rhowch rif cyfrif'
-                    })
-                },
-                {
-                    type: 'string.min',
-                    message: localise({
-                        en: 'Enter a valid length account number',
-                        cy: 'Rhowch rif cyfrif hyd dilys'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: 'Enter a valid length account number',
-                        cy: 'Rhowch rif cyfrif hyd dilys'
-                    })
-                }
-            ]
-        },
-        buildingSocietyNumber: {
-            name: 'buildingSocietyNumber',
-            label: localise({
-                en: 'Building society number',
-                cy: 'Rhif cymdeithas adeiladu'
-            }),
-            type: 'text',
-            attributes: { autocomplete: 'off' },
-            explanation: localise({
-                en: `You only need to fill this in if your organisation's account is with a building society.`,
-                cy: `Rydych angen llenwi hwn os yw cyfrif eich sefydliad â chymdeithas adeiladu`
-            }),
-            isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .empty(),
-            messages: [
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Building society number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i rif y Cymdeithas Adeiladu fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        },
-        bankStatement: {
-            name: 'bankStatement',
-            label: localise({
-                en: 'Upload a bank statement',
-                cy: 'Uwch lwytho cyfriflen banc'
-            }),
-            // Used when editing an existing bank statement
-            labelExisting: localise({
-                en: 'Upload a new bank statement',
-                cy: 'Uwch lwytho cyfriflen banc newydd'
-            }),
-            type: 'file',
-            attributes: {
-                accept: FILE_LIMITS.TYPES.map(type => type.mime).join(',')
-            },
-            isRequired: true,
-            schema: Joi.object({
-                filename: Joi.string().required(),
-                size: Joi.number()
-                    .max(FILE_LIMITS.SIZE.value)
-                    .required(),
-                type: Joi.string()
-                    .valid(FILE_LIMITS.TYPES.map(type => type.mime))
-                    .required()
-            }).required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Provide a bank statement',
-                        cy: 'Darparwch gyfriflen banc'
-                    })
-                },
-                {
-                    type: 'any.allowOnly',
-                    message: localise({
-                        en: `Please upload a file in one of these formats: ${FILE_LIMITS.TYPES.map(
-                            type => type.label
-                        ).join(', ')}`,
-                        cy: `Uwch lwythwch ffeil yn un o’r fformatiau hyn: ${FILE_LIMITS.TYPES.map(
-                            type => type.label
-                        ).join(', ')}`
-                    })
-                },
-                {
-                    type: 'number.max',
-                    message: localise({
-                        en: `Please upload a file below ${FILE_LIMITS.SIZE.label}`,
-                        cy: `Uwch lwythwch ffeil isod ${FILE_LIMITS.SIZE.label}`
-                    })
-                }
-            ]
-        },
+        bankAccountName: fieldBankAccountName(locale),
+        bankSortCode: fieldBankSortCode(locale),
+        bankAccountNumber: fieldBankAccountNumber(locale),
+        buildingSocietyNumber: fieldBuildingSocietyNumber(locale),
+        bankStatement: fieldBankStatement(locale),
         termsAgreement1: {
             name: 'termsAgreement1',
             type: 'checkbox',

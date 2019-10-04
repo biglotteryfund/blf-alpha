@@ -6,10 +6,8 @@ const Joi = require('../joi-extensions');
 const Field = require('./field');
 
 class SelectField extends Field {
-    constructor(props, locale) {
-        super(props, locale);
-
-        this.type = 'select';
+    constructor(props) {
+        super(props);
 
         this.optgroups = props.optgroups || [];
         this.options = props.options || [];
@@ -24,24 +22,30 @@ class SelectField extends Field {
             }
         }
 
+        this.schema = props.schema ? props.schema : this.defaultSchema();
+    }
+
+    getType() {
+        return 'select';
+    }
+
+    _normalisedOptions() {
+        const optgroups = this.optgroups || [];
+        const options = this.options || [];
+        return optgroups.length > 0
+            ? flatMap(optgroups, group => group.options)
+            : options;
+    }
+
+    defaultSchema() {
         const baseSchema = Joi.string().valid(
             this._normalisedOptions().map(option => option.value)
         );
 
-        if (props.schema) {
-            this.schema = props.schema;
+        if (this.isRequired) {
+            return baseSchema.required();
         } else {
-            this.schema = this.isRequired
-                ? baseSchema.required()
-                : baseSchema.optional();
-        }
-    }
-
-    _normalisedOptions() {
-        if (this.optgroups.length > 0) {
-            return flatMap(this.optgroups, group => group.options);
-        } else {
-            return this.options;
+            return baseSchema.optional();
         }
     }
 

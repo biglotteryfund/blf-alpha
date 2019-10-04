@@ -1,4 +1,6 @@
 'use strict';
+const features = require('config').get('features');
+
 const { initFormRouter } = require('../form-router-next');
 
 const formBuilder = require('./form');
@@ -11,5 +13,6 @@ module.exports = initFormRouter({
     eligibilityBuilder: eligibilityBuilder,
     formBuilder: formBuilder,
     confirmationBuilder: confirmationBuilder,
+    enableSalesforceConnector: features.enableSalesforceConnector,
     expiryEmailPeriods: EXPIRY_EMAIL_REMINDERS
 });

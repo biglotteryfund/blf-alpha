@@ -4,25 +4,23 @@ const Joi = require('../joi-extensions');
 const Field = require('./field');
 
 class NameField extends Field {
-    constructor(props, locale) {
-        super(props, locale);
+    getType() {
+        return 'full-name';
+    }
 
-        this.type = 'full-name';
+    defaultSchema() {
+        return Joi.object({
+            firstName: Joi.string()
+                .max(40)
+                .required(),
+            lastName: Joi.string()
+                .max(80)
+                .required()
+        }).required();
+    }
 
-        if (props.schema) {
-            this.schema = props.schema;
-        } else {
-            this.schema = Joi.object({
-                firstName: Joi.string()
-                    .max(40)
-                    .required(),
-                lastName: Joi.string()
-                    .max(80)
-                    .required()
-            });
-        }
-
-        this.messages = [
+    defaultMessages() {
+        return [
             {
                 type: 'base',
                 message: this.localise({
@@ -62,7 +60,7 @@ class NameField extends Field {
                     cy: 'Rhowch gyfenw'
                 })
             }
-        ].concat(props.messages || []);
+        ];
     }
 
     get displayValue() {

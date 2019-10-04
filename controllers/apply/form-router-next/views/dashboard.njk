@@ -27,7 +27,7 @@
             <p class="application-card__minor-title">{{ formTitle }}</p>
             <h3 class="t--underline u-tone-brand-primary" data-hj-suppress>
                 <a href="{{ application.editUrl }}" class="u-link-unstyled">
-                    {{ application.summary.title or copy.common.untitledApplication }}
+                    {{ application.summary.title }}
                 </a>
             </h3>
 
@@ -110,9 +110,11 @@
 
             {{ userNavigation(userNavigationLinks) }}
 
-            <div class="message message--info message--minor" role="alert">
-                {{  copy.dashboard.locationMessage | safe }}
-            </div>
+            {% if formId === 'awards-for-all' %}
+                <div class="message message--info message--minor" role="alert">
+                    {{  copy.dashboard.locationMessage | safe }}
+                </div>
+            {% endif %}
 
             {{ userStatus(user) }}
 

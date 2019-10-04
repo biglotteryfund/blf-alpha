@@ -1,5 +1,6 @@
 'use strict';
 const { concat } = require('lodash');
+let { CONTENT_API_URL } = require('./secrets');
 
 module.exports = function cspDirectives({
     enableHotjar = false,
@@ -25,7 +26,8 @@ module.exports = function cspDirectives({
         'sentry.io',
         'syndication.twitter.com',
         'www.google-analytics.com',
-        'use.typekit.net'
+        'use.typekit.net',
+        new URL(CONTENT_API_URL).host
     ];
 
     if (allowLocalhost) {

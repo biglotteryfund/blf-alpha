@@ -10,22 +10,16 @@ function mapMessages(validationResult) {
     return validationResult.messages.map(detail => detail.msg);
 }
 
-function mapRawMessages(validationResult) {
-    return validationResult.error.details.map(detail => {
-        return detail.message;
-    });
-}
-
 function mockResponse(overrides = {}) {
     const defaults = {
-        projectCountry: ['england'],
+        projectCountries: ['england'],
         projectLocation: 'derbyshire',
         projectLocationDescription: 'optional description',
         projectCosts: '250,000',
         projectDurationYears: 3,
-        yourIdeaProject: faker.lorem.words(random(50, 500)),
+        yourIdeaProject: faker.lorem.words(random(50, 250)),
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
-        yourIdeaActivities: faker.lorem.words(random(50, 500)),
+        yourIdeaActivities: faker.lorem.words(random(50, 350)),
         organisationLegalName: 'Example organisation',
         organisationTradingName: 'Example trading name',
         organisationAddress: {
@@ -34,6 +28,7 @@ function mockResponse(overrides = {}) {
             county: 'West Midlands',
             postcode: 'B15 1TR'
         },
+        organisationType: 'not-for-profit-company',
         contactName: {
             firstName: 'Björk',
             lastName: 'Guðmundsdóttir'
@@ -46,13 +41,13 @@ function mockResponse(overrides = {}) {
     return Object.assign(defaults, overrides);
 }
 
-test('minimal valid form', () => {
+test('valid form', () => {
     const data = mockResponse();
     const result = formBuilder({ data }).validation;
     expect(result.error).toBeNull();
 
     expect(result.value).toMatchSnapshot({
-        projectCountry: expect.any(Array),
+        projectCountries: expect.any(Array),
         projectLocation: expect.any(String),
         yourIdeaProject: expect.any(String),
         yourIdeaCommunity: expect.any(String),
@@ -60,82 +55,63 @@ test('minimal valid form', () => {
     });
 });
 
-test('minimal invalid form', () => {
+test('invalid form', () => {
     const form = formBuilder();
 
     const result = form.validate({
-        projectCountry: 'invalid-country',
+        projectCountries: 'invalid-country',
         projectLocation: null,
         projectCosts: 5000,
-        projectDurationYears: 10
+        projectDurationYears: 10,
+        organisationLegalName: 'Same organisation name',
+        organisationTradingName: 'Same organisation name'
     });
 
     expect(mapMessages(result)).toMatchSnapshot();
-
-    expect(mapRawMessages(result)).toMatchSnapshot();
 });
 
-test('strip location and duration when applying for more than one country', () => {
+test('strip projectLocation when applying for more than one country', () => {
     const form = formBuilder({
         data: mockResponse({
-            projectCountry: ['england', 'scotland'],
-            projectLocation: 'this-should-be-stripped',
-            projectDurationYears: 5
+            projectCountries: ['england', 'scotland'],
+            projectLocation: 'this-should-be-stripped'
         })
     });
 
     expect(form.validation.value).not.toHaveProperty('projectLocation');
+});
+
+test('strip projectDurationYears when applying for more than one country', () => {
+    const form = formBuilder({
+        data: mockResponse({
+            projectCountries: ['england', 'scotland'],
+            projectDurationYears: 5
+        })
+    });
+
     expect(form.validation.value).not.toHaveProperty('projectDurationYears');
 });
 
-test('project duration is between limits', () => {
-    const formMin = formBuilder({
-        data: mockResponse({
-            projectCountry: ['scotland'],
-            projectDurationYears: 0
-        })
-    });
+test('organisation sub-type required for statutory-body', function() {
+    const requiredData = mockResponse({ organisationType: 'statutory-body' });
+    const requiredResult = formBuilder({ data: requiredData }).validation;
 
-    expect(mapRawMessages(formMin.validation)).toEqual(
-        expect.arrayContaining([
-            `"projectDurationYears" must be larger than or equal to 1`
-        ])
+    expect(mapMessages(requiredResult)).toEqual(
+        expect.arrayContaining(['Tell us what type of statutory body you are'])
     );
 
-    const formMax = formBuilder({
-        data: mockResponse({
-            projectCountry: ['wales'],
-            projectDurationYears: 6
-        })
+    const validData = mockResponse({
+        organisationType: 'statutory-body',
+        organisationSubType: 'fire-service'
     });
-
-    expect(mapRawMessages(formMax.validation)).toEqual(
-        expect.arrayContaining([
-            `"projectDurationYears" must be less than or equal to 5`
-        ])
-    );
+    const result = formBuilder({ data: validData }).validation;
+    expect(result.error).toBeNull();
 });
 
-test('project costs must be at least 10,000', function() {
+test('language preference required in wales', function() {
     const form = formBuilder({
         data: mockResponse({
-            projectCosts: '5,500'
-        })
-    });
-
-    expect(mapMessages(form.validation)).toEqual(
-        expect.arrayContaining([
-            expect.stringContaining(
-                'If you need £10,000 or less from us, you can apply today through'
-            )
-        ])
-    );
-});
-
-test('language prefrence required in wales', function() {
-    const form = formBuilder({
-        data: mockResponse({
-            projectCountry: ['wales'],
+            projectCountries: ['england', 'wales'],
             projectLocation: 'swansea'
         })
     });
@@ -146,7 +122,7 @@ test('language prefrence required in wales', function() {
 
     const formValid = formBuilder({
         data: mockResponse({
-            projectCountry: ['wales'],
+            projectCountries: ['england', 'wales'],
             projectLocation: 'swansea',
             contactLanguagePreference: 'welsh'
         })
@@ -156,7 +132,7 @@ test('language prefrence required in wales', function() {
 
     const formStrip = formBuilder({
         data: mockResponse({
-            projectCountry: ['england'],
+            projectCountries: ['england'],
             contactLanguagePreference: 'welsh'
         })
     });

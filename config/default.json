@@ -37,7 +37,7 @@
     "enableSiteSurvey": true
   },
   "awardsForAll": {
-    "allowedCountries": ["scotland", "wales"],
+    "allowedCountries": ["england", "scotland", "wales"],
     "enableExpiration": false
   },
   "cookies": {

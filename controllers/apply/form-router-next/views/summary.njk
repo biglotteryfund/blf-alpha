@@ -169,7 +169,11 @@
 {% endmacro %}
 
 {% macro startButton() %}
-    <p class="u-no-margin"><a href="{{ formBaseUrl }}/{{ startPathSlug }}" class="btn">{{ copy.common.startYourApplication }}</a></p>
+    <p class="u-no-margin">
+        <a href="{{ formBaseUrl }}/{{ startPathSlug }}" class="btn">
+            {{ form.startLabel }}
+        </a>
+    </p>
 {% endmacro %}
 
 {% block content %}
@@ -178,7 +182,7 @@
 
             {{ userNavigation(userNavigationLinks) }}
 
-            {{ formHeaderWithData(formTitle, currentApplicationData.projectName) }}
+            {{ formHeaderWithData(formTitle, form.summary.title) }}
 
             <h1 class="t2 u-tone-brand-primary">{{ copy.summary.title }}</h1>
 

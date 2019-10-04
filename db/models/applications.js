@@ -155,6 +155,14 @@ class PendingApplication extends Model {
             { where: { id: { [Op.eq]: id } } }
         );
     }
+    static lastUpdatedTime(applicationId) {
+        return this.findOne({
+            attributes: ['updatedAt'],
+            where: {
+                id: { [Op.eq]: applicationId },
+            }
+        });
+    }
     static deleteApplication(id, userId) {
         // Delete any scheduled emails for this application
         ApplicationEmailQueue.deleteEmailsForApplication(id);
@@ -295,7 +303,7 @@ class SubmittedApplication extends Model {
             id: pendingApplication.id,
             userId: userId,
             formId: formId,
-            applicationTitle: form.summary.title,
+            applicationTitle: form.summary.title || 'Untitled',
             applicationCountry: form.summary.country,
             applicationOverview: form.summary.overview,
             applicationSummary: form.fullSummary(),

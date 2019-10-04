@@ -57,6 +57,11 @@ async function processResetRequest(req, user) {
     );
 
     await Users.updateIsInPasswordReset(user.id);
+
+    if (req.body.returnToken) {
+        // used for tests to verify reset password
+        return { token };
+    }
 }
 
 function sendPasswordResetNotification(req, email) {
@@ -121,11 +126,16 @@ router
                 res.locals.passwordWasJustReset = true;
 
                 if (user) {
-                    await processResetRequest(req, user);
-                    logger.info('Password reset request succeeded');
+                    if (req.body.returnToken) {
+                        // used for tests to verify reset password
+                        const token = await processResetRequest(req, user);
+                        res.send(token);
+                    } else {
+                        await processResetRequest(req, user);
+                        logger.info('Password reset request succeeded');
+                        renderForgotForm(req, res);
+                    }
                 }
-
-                renderForgotForm(req, res);
             } catch (error) {
                 logger.warn('Password reset request failed');
                 Sentry.captureException(error);
@@ -235,26 +245,29 @@ router
                 redirectForLocale(req, res, '/user/login');
             } else {
                 // Is this user's token valid to modify this password?
+                let decodedData, user;
+                try {
+                    decodedData = await verifyTokenPasswordReset(token);
+                    user = await Users.findWithActivePasswordReset(
+                        decodedData.userId
+                    );
+                } catch (jwtError) {
+                    logger.info('Password reset token invalid');
+                    return renderResetFormExpired(req, res);
+                }
+
+                if (user) {
+                    req.body.username = user.username;
+                }
+
                 const validationResult = validateSchema(
                     schemas.passwordReset(req.i18n),
                     req.body
                 );
 
                 if (validationResult.isValid) {
-                    let decodedData;
-                    try {
-                        decodedData = await verifyTokenPasswordReset(token);
-                    } catch (jwtError) {
-                        logger.info('Password reset token invalid');
-                        return renderResetFormExpired(req, res);
-                    }
-
                     try {
                         // Confirm the user was in password reset mode
-                        const user = await Users.findWithActivePasswordReset(
-                            decodedData.userId
-                        );
-
                         if (user) {
                             await Users.updateNewPassword({
                                 id: decodedData.userId,
@@ -294,6 +307,13 @@ router
                             errors
                         );
                     }
+                } else {
+                    return renderResetForm(
+                        req,
+                        res,
+                        validationResult.value,
+                        validationResult.messages
+                    );
                 }
             }
         }

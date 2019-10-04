@@ -1,5 +1,6 @@
 {% from "components/callout/macro.njk" import callout %}
 {% from "components/media-aside/macro.njk" import mediaAside %}
+{% from "components/related-content/macro.njk" import relatedContent %}
 
 {% macro flexibleContentPart(part, cycler = null) %}
     {% if part.title %}
@@ -11,6 +12,12 @@
             link = { "label": part.linkText, "url": part.linkUrl },
             image = { "url": part.photo, "caption": part.photoCaption },
             isReversed = cycler.next() if cycler else false
+        ) }}
+    {% elseif part.type === 'relatedContent' %}
+        {{ relatedContent(
+            articles = part.content,
+            title = part.heading,
+            usePromo = true
         ) }}
     {% else %}
         <div class="s-prose u-constrained-content-wide">

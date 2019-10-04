@@ -18,6 +18,7 @@ const normaliseErrors = require('./normalise-errors');
 class FormModel {
     constructor(props, data = {}, locale = 'en') {
         this.title = props.title;
+        this.startLabel = props.startLabel;
         this.allFields = props.allFields;
         this.formData = data;
 
@@ -85,6 +86,17 @@ class FormModel {
                 }),
                 fieldset => fieldset.fields.length === 0
             );
+
+            /**
+             * If there is only one fieldset set the legend to be the same as the step
+             */
+            const shouldSetDefaultLegend =
+                step.fieldsets.length === 1 &&
+                has(step.fieldsets[0], 'legend') === false;
+
+            if (shouldSetDefaultLegend) {
+                step.fieldsets[0].legend = step.title;
+            }
 
             /**
              * Flag optional steps if there are no fields
@@ -235,14 +247,6 @@ class FormModel {
     getCurrentFieldsForStep(sectionSlug, stepIndex) {
         const step = this.getStep(sectionSlug, stepIndex);
         return flatMap(step.fieldsets, 'fields');
-    }
-
-    getErrorsForStep(sectionSlug, stepIndex) {
-        const stepFields = this.getCurrentFieldsForStep(sectionSlug, stepIndex);
-        const stepFieldNames = stepFields.map(f => f.name);
-        return this.validation.messages.filter(item =>
-            stepFieldNames.includes(item.param)
-        );
     }
 
     getErrorsByStep() {

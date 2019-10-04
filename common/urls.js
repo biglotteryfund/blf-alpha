@@ -130,10 +130,11 @@ function getCurrentUrl(req, requestedLocale) {
     const parsedPathname = parsedUrl.pathname;
     const parsedQuery = parsedUrl.search.replace(/^\?/, '');
 
-    // Remove draft and version parameters
+    // Remove CMS preview parameters
     const originalQuery = querystring.parse(parsedQuery);
-    delete originalQuery.version;
-    delete originalQuery.draft;
+    delete originalQuery.token;
+    delete originalQuery['x-craft-live-preview'];
+    delete originalQuery['x-craft-preview'];
 
     // Reconstruct clean URL
     const newCleanQuery = querystring.stringify(originalQuery);

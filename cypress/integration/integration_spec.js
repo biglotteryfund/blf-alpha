@@ -103,15 +103,18 @@ it('should redirect legacy funding programmes', () => {
 it('should protect access to staff-only tools', () => {
     cy.checkRedirect({
         from:
-            '/funding/programmes/national-lottery-awards-for-all-england?draft=42',
-        to:
-            '/user/staff/login?redirectUrl=/funding/programmes/national-lottery-awards-for-all-england?draft=42',
+            '/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc',
+        to: `/user/staff/login?redirectUrl=${encodeURIComponent(
+            '/funding/programmes/national-lottery-awards-for-all-england?x-craft-preview=123&token=abc'
+        )}`,
         status: 302
     });
 
     cy.checkRedirect({
         from: '/tools/survey-results',
-        to: '/user/staff/login?redirectUrl=/tools/survey-results',
+        to: `/user/staff/login?redirectUrl=${encodeURIComponent(
+            '/tools/survey-results'
+        )}`,
         status: 302
     });
 });
@@ -311,6 +314,34 @@ it('should be able to log in and update account details', () => {
     });
 });
 
+it('should be able to reset password while logged out', () => {
+    cy.seedUser().then(user => {
+        const request = {
+            username: user.username,
+            returnToken: true
+        };
+
+        cy.request('POST', '/user/password/forgot', request).then(response => {
+            const newPassword = uuid();
+
+            cy.visit(`/user/password/reset?token=${response.body.token}`);
+
+            cy.findByLabelText('Your new password').type(newPassword, {
+                delay: 0
+            });
+            cy.findByLabelText('Password confirmation').type(newPassword, {
+                delay: 0
+            });
+            cy.get('.form-actions').within(() => {
+                cy.findByText('Reset password').click();
+            });
+            cy.findByText('Your password was successfully updated!').should(
+                'be.visible'
+            );
+        });
+    });
+});
+
 it('should allow survey API responses', () => {
     const dataYes = {
         choice: 'yes',
@@ -437,7 +468,12 @@ it('should test common pages', () => {
 });
 
 it('should submit full awards for all application', () => {
+    function checkLastSaveTime() {
+        cy.get('.form-actions__timestamp').contains('a few seconds ago');
+    }
+
     function submitStep() {
+        checkLastSaveTime();
         cy.findByText('Continue').click();
     }
 
@@ -746,8 +782,10 @@ it('should submit full awards for all application', () => {
         const companyNumberTypes = ['Not-for-profit company'];
 
         const charityNumberTypes = [
-            'Registered charity (unincorporated)',
-            'Charitable incorporated organisation (CIO)'
+            'Charitable Incorporated Organisation (CIO or SCIO)',
+            'Faith-based group',
+            'Not-for-profit company',
+            'Registered charity (unincorporated)'
         ];
 
         const educationNumberTypes = ['School', 'College or University'];
@@ -959,7 +997,7 @@ it('should submit full awards for all application', () => {
         organisationType: sample([
             'Unregistered voluntary or community organisation',
             'Registered charity (unincorporated)',
-            'Charitable incorporated organisation (CIO)',
+            'Charitable Incorporated Organisation (CIO or SCIO)',
             'Not-for-profit company',
             'School',
             'College or University',
@@ -1024,9 +1062,9 @@ it('should complete get advice form', () => {
         projectLocationDescription: faker.lorem.words(5),
         projectCosts: random(10000, 5000000),
         projectDurationYears: sample(['3 years', '4 years', '5 years']),
-        yourIdeaProject: faker.lorem.words(random(50, 500)),
+        yourIdeaProject: faker.lorem.words(random(50, 250)),
         yourIdeaCommunity: faker.lorem.words(random(50, 500)),
-        yourIdeaActivities: faker.lorem.words(random(50, 500)),
+        yourIdeaActivities: faker.lorem.words(random(50, 350)),
         organisationName: faker.company.companyName(),
         organisationTradingName: sample([faker.company.companyName(), '']),
         organisationAddress: {
@@ -1034,6 +1072,11 @@ it('should complete get advice form', () => {
             city: 'Newcastle',
             postcode: 'NE4 7JH'
         },
+        organisationType: sample([
+            'Unregistered voluntary or community organisation',
+            'Not-for-profit company',
+            'Charitable Incorporated Organisation'
+        ]),
         contactEmail: 'digital.monitoring@tnlcommunityfund.org.uk',
         contactName: {
             firstName: faker.name.firstName(),
@@ -1048,11 +1091,17 @@ it('should complete get advice form', () => {
     }
 
     cy.seedAndLogin().then(() => {
-        cy.visit('/apply/get-advice/new');
+        cy.visit('/apply/get-advice');
 
         acceptCookieConsent();
 
-        cy.findAllByText('Start your application')
+        cy.findAllByText('Start new application').click();
+
+        cy.get('.form-actions').within(() => {
+            cy.findAllByText('Get advice on your idea').click();
+        });
+
+        cy.findAllByText('Start')
             .first()
             .click();
 
@@ -1074,6 +1123,8 @@ it('should complete get advice form', () => {
         cy.findByLabelText('How much money do you want from us?').type(
             mock.projectCosts
         );
+        submitStep();
+
         cy.findByLabelText(mock.projectDurationYears).click();
         submitStep();
 
@@ -1119,6 +1170,10 @@ it('should complete get advice form', () => {
                     mock.organisationAddress.postcode
                 );
             });
+
+        submitStep();
+
+        cy.findByLabelText(mock.organisationType, { exact: false }).click();
 
         submitStep();
 

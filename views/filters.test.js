@@ -5,9 +5,7 @@ const {
     appendUuid,
     getCachebustedPath,
     isArray,
-    mailto,
     numberWithCommas,
-    pluralise,
     slugify,
     widont
 } = require('./filters');
@@ -34,25 +32,9 @@ describe('getCachebustedPath', () => {
     });
 });
 
-describe('mailto', () => {
-    it('should create a mailto link', () => {
-        expect(mailto('example@example.com')).toBe(
-            '<a href="mailto:example@example.com">example@example.com</a>'
-        );
-    });
-});
-
 describe('numberWithCommas', () => {
     it('should format a number with comma separators', () => {
         expect(numberWithCommas(1548028)).toBe('1,548,028');
-    });
-});
-
-describe('pluralise', () => {
-    it('should pluralise string', () => {
-        expect(pluralise(0, 'octopus', 'octopi')).toBe('octopi');
-        expect(pluralise(1, 'octopus', 'octopi')).toBe('octopus');
-        expect(pluralise(3, 'octopus', 'octopi')).toBe('octopi');
     });
 });
 

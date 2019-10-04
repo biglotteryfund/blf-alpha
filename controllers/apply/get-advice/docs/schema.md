@@ -14,7 +14,7 @@ Initial draft
 
 type: `string`
 
-### projectCountry
+### projectCountries
 
 type: `array[string]`
 
@@ -24,7 +24,7 @@ One or more of: `england`, `northern-ireland`, `scotland`, `wales`
 
 type: `string` or `null`
 
-If more than one `projectCountry` is selected then `projectLocation` is not included.
+If `projectCountries` contains more than one selection then `projectLocation` is not included.
 
 ### projectLocationDescription
 
@@ -40,7 +40,7 @@ type: `integer`
 
 type: `integer`
 
-Value between `1` and `5`. If more than one `projectCountry` is selected then `projectDurationYears` is not included.
+Value between `1` and `5`. If `projectCountries` contains more than one selection then `projectDurationYears` is not included.
 
 ### yourIdeaProject
 
@@ -66,8 +66,6 @@ Optional field
 
 ### organisationAddress
 
-### mainContactAddress
-
 type: `object`
 
 | Name         | Type               | Notes    |
@@ -77,6 +75,21 @@ type: `object`
 | **townCity** | `string`           |          |
 | **county**   | `string` or `null` | Optional |
 | **postcode** | `string`           |          |
+
+### organisationType
+
+type: `string`
+
+Allowed values: `unregistered-vco`, `unincorporated-registered-charity`, `charitable-incorporated-organisation`, `not-for-profit-company`, `school`, `college-or-university`, `statutory-body`, `faith-group`
+
+### organisationSubType
+
+type: `string`
+
+Present if `organisationType` is `statutory-body`
+
+Allowed values: `parish-council`, `town-council`, `local-authority`
+`nhs-trust-health-authority`, `prison-service`, `fire-service`, `police-authority`
 
 ### contactName
 
@@ -101,7 +114,7 @@ Optional field
 
 type: `string` or `null`
 
-Only required and included when `projectCountry` contains `wales`.
+Only required and included when `projectCountries` contains `wales`.
 
 ### contactCommunicationNeeds
 

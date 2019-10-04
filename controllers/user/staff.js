@@ -7,7 +7,9 @@ const router = express.Router();
 
 router.get('/interstitial', (req, res) => {
     res.render(path.resolve(__dirname, 'views/interstitial'), {
-        redirectUrl: req.query.redirectUrl ? req.query.redirectUrl : '/tools'
+        redirectUrl: req.query.redirectUrl
+            ? decodeURIComponent(req.query.redirectUrl)
+            : '/tools'
     });
 });
 
@@ -22,7 +24,7 @@ router.get('/login', function(req, res, next) {
     passport.authenticate('azuread-openidconnect', {
         failureRedirect: '/user/staff/error',
         // @ts-ignore
-        customState: req.query.redirectUrl
+        customState: encodeURIComponent(req.query.redirectUrl)
     })(req, res, next);
 });
 
