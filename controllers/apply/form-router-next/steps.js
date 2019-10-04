@@ -207,7 +207,7 @@ module.exports = function(formId, formBuilder) {
                  * - Pass the full data object from validationResult to the view. Including invalid values.
                  * Otherwise, find the next suitable step and redirect there.
                  */
-                if (errorsForStep.length > 0) {
+                if (errorsForStep.length > 0 && !(req.body.previousBtn || req.body.nextBtn)) {
                     const renderStep = renderStepFor(
                         req.params.section,
                         req.params.step
@@ -237,12 +237,24 @@ module.exports = function(formId, formBuilder) {
                         }
                     }
 
-                    const { nextPage } = form.pagination({
-                        baseUrl: res.locals.formBaseUrl,
-                        sectionSlug: req.params.section,
-                        currentStepIndex: stepIndex,
-                        copy: res.locals.copy
-                    });
+                    let redirectUrl;
+                    if (req.body.previousBtn) {
+                        const { previousPage } = form.pagination({
+                            baseUrl: res.locals.formBaseUrl,
+                            sectionSlug: req.params.section,
+                            currentStepIndex: stepIndex,
+                            copy: res.locals.copy
+                        });
+                        redirectUrl = previousPage.url;
+                    } else {
+                        const { nextPage } = form.pagination({
+                            baseUrl: res.locals.formBaseUrl,
+                            sectionSlug: req.params.section,
+                            currentStepIndex: stepIndex,
+                            copy: res.locals.copy
+                        });
+                        redirectUrl = nextPage.url;
+                    }
 
                     /**
                      * Handle file uploads if we have any for the step
@@ -258,7 +270,7 @@ module.exports = function(formId, formBuilder) {
                                     });
                                 })
                             );
-                            res.redirect(nextPage.url);
+                            res.redirect(redirectUrl);
                         } catch (rejection) {
                             Sentry.captureException(rejection.error);
 
@@ -280,7 +292,7 @@ module.exports = function(formId, formBuilder) {
                             );
                         }
                     } else {
-                        res.redirect(nextPage.url);
+                        res.redirect(redirectUrl);
                     }
                 }
             } catch (storageError) {

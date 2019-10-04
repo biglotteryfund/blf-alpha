@@ -76,9 +76,8 @@
                         <time datetime="{{ lastSaveTime.dateTime }}">{{ lastSaveTime.relative }}</time>
                     </p>
                 </div>
-
+                {{ userNavigation(userNavigationLinks, isFooter = true) }}
             </form>
-            {{ userNavigation(userNavigationLinks, isFooter = true) }}
         </div>
     </main>
 {% endblock %}
