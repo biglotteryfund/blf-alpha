@@ -11,6 +11,7 @@ const {
     ApplicationEmailQueue
 } = require('../../../../db/models');
 
+const { EMAIL_EXPIRY_TEST_ADDRESS } = require('../../../../common/secrets');
 const { getEmailFor, getPhoneFor } = require('../../../../common/contacts');
 
 const { signTokenUnsubscribeApplicationEmails } = require('./jwt');
@@ -64,11 +65,16 @@ const sendExpiryEmails = async (req, emailQueue, locale) => {
                     break;
             }
 
+            // const addressToSendTo = appData.isNotProduction
+            //     ? EMAIL_EXPIRY_TEST_ADDRESS
+            //     : emailToSend.PendingApplication.user.username
+
+            // @TODO delete this in favour of the above lines once we're confident it works as expected
+            const addressToSendTo = EMAIL_EXPIRY_TEST_ADDRESS;
+
             const mailParams = {
                 name: 'application_expiry_afa',
-                sendTo: appData.isNotProduction
-                    ? process.env.APPLICATION_EXPIRY_EMAIL
-                    : emailToSend.PendingApplication.user.username,
+                sendTo: addressToSendTo,
                 subject: subjectLine
             };
 
@@ -84,37 +90,29 @@ const sendExpiryEmails = async (req, emailQueue, locale) => {
                 '/apply/emails/unsubscribe?token=' + token
             );
 
-            let emailStatus = {};
-            if (enableExpiration) {
-                emailStatus = await sendHtmlEmail(
-                    {
-                        template: path.resolve(
-                            __dirname,
-                            '../views/expiry-email.njk'
+            let emailStatus = await sendHtmlEmail(
+                {
+                    template: path.resolve(
+                        __dirname,
+                        '../views/expiry-email.njk'
+                    ),
+                    templateData: {
+                        projectName: getAppData('projectName'),
+                        countryPhoneNumber: getPhoneFor(
+                            getAppData('projectCountry')
                         ),
-                        templateData: {
-                            projectName: getAppData('projectName'),
-                            countryPhoneNumber: getPhoneFor(
-                                getAppData('projectCountry')
-                            ),
-                            countryEmail: getEmailFor(
-                                getAppData('projectCountry')
-                            ),
-                            application: emailToSend.PendingApplication,
-                            unsubscribeLink: unsubscribeUrl,
-                            expiryDate: moment(
-                                emailToSend.PendingApplication.expiresAt
-                            )
-                                .locale(locale)
-                                .format('D MMMM, YYYY')
-                        }
-                    },
-                    mailParams
-                );
-            } else {
-                // Allow pre-launching this feature by simulating what it would have done
-                emailStatus.response = 'PENDING';
-            }
+                        countryEmail: getEmailFor(getAppData('projectCountry')),
+                        application: emailToSend.PendingApplication,
+                        unsubscribeLink: unsubscribeUrl,
+                        expiryDate: moment(
+                            emailToSend.PendingApplication.expiresAt
+                        )
+                            .locale(locale)
+                            .format('D MMMM, YYYY')
+                    }
+                },
+                mailParams
+            );
 
             let returnObj = { emailSent: false, dbUpdated: false };
 

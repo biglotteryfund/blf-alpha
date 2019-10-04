@@ -110,7 +110,10 @@ const DATA_STUDIO_AFA_URL = getParameter('dataStudio.url.awardsForAll');
  * (eg. for emailing about soon-to-expire applications)
  */
 const EMAIL_EXPIRY_SECRET =
-    process.env.EMAIL_EXPIRY_SECRET || getSecret('emailExpiry.secret');
+    process.env.EMAIL_EXPIRY_SECRET || getParameter('emailExpiry.secret');
+
+const EMAIL_EXPIRY_TEST_ADDRESS =
+    process.env.APPLICATION_EXPIRY_EMAIL || getParameter('emailExpiry.testEmail');
 
 module.exports = {
     AZURE_AUTH,
@@ -120,6 +123,7 @@ module.exports = {
     DB_CONNECTION_URI,
     DIGITAL_FUND_EMAIL,
     EMAIL_EXPIRY_SECRET,
+    EMAIL_EXPIRY_TEST_ADDRESS,
     JWT_SIGNING_TOKEN,
     MATERIAL_SUPPLIER,
     PAST_GRANTS_API_URI,
