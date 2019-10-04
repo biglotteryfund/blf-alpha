@@ -16,7 +16,8 @@
     {% elseif part.type === 'relatedContent' %}
         {{ relatedContent(
             articles = part.content,
-            title = part.heading
+            title = part.heading,
+            usePromo = true
         ) }}
     {% else %}
         <div class="s-prose u-constrained-content-wide">

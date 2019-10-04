@@ -1,19 +1,34 @@
 {% from "components/article-teaser/macro.njk" import articleTeaser %}
+{% from "components/promo-card/macro.njk" import promoCard with context %}
 
-{% macro relatedContent(articles, title, allLink) %}
+{% macro relatedContent(articles, title, allLink, usePromo = false) %}
     <section class="related-content">
         <header class="related-content__header">
             <h2 class="related-content__title t--underline">{{ title }}</h2>
         </header>
         <div class="related-content__content">
             <ul class="flex-grid flex-grid--3up">
-                {% for article in articles | take(3) %}
+                {% for article in articles %}
                     <li class="flex-grid__item related-content__item">
-                        {{ articleTeaser({
-                            'title': article.trailText or article.title,
-                            'linkUrl': article.linkUrl,
-                            'summary': article.summary
-                        }) }}
+                        {% if usePromo %}
+                            {{ promoCard({
+                                "title": article.title,
+                                "trailText": article.summary,
+                                "image": {
+                                    "url": article.trailImage,
+                                    "alt": article.title
+                                },
+                                "link": {
+                                    "url": article.linkUrl
+                                }
+                            }) }}
+                        {% else %}
+                            {{ articleTeaser({
+                                'title': article.trailText or article.title,
+                                'linkUrl': article.linkUrl,
+                                'summary': article.summary
+                            }) }}
+                        {% endif %}
                     </li>
                 {% endfor %}
             </ul>

@@ -66,7 +66,7 @@
         {% if promotedUpdates.length > 1 %}
             <section class="u-border-top u-inner u-padded u-margin-bottom">
                 {{ relatedContent(
-                    articles = promotedUpdates,
+                    articles = promotedUpdates | take(3),
                     title = __('global.misc.latestNews'),
                     allLink = {
                         "url": localify('/news'),
