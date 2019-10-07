@@ -4,9 +4,63 @@ The following documents the data schema for the get advice on your idea form whe
 
 ## Changelog
 
+### v0.2
+
+- Add `projectName` field
+
 ### v0.1
 
-Initial draft
+- Initial draft
+
+---
+
+## Example data
+
+Each submission has two top-level keys: `meta` which contains metadata about the submission and `application` which contains the answers.
+
+```json
+{
+    "meta": {
+        "form": "standard-enquiry",
+        "schemaVersion": "vX.x",
+        "environment": "development",
+        "commitId": "b4ecf18eae01d34b296e9388f387cc42bf7c0f93",
+        "locale": "en",
+        "username": "example@example.com",
+        "applicationId": "cf4a6b52-5dac-4063-8e77-ae011f3b874b",
+        "startedAt": "2019-09-30T14:47:49.000Z"
+    },
+    "application": {
+        "projectName": "Project name",
+        "projectCountries": ["england"],
+        "projectLocation": "derbyshire",
+        "projectLocationDescription": "Example location description",
+        "projectCosts": 200000,
+        "projectDurationYears": 1,
+        "yourIdeaProject": "Free text…",
+        "yourIdeaCommunity": "Free text…",
+        "yourIdeaActivities": "Free text…",
+        "organisationLegalName": "Example organisation",
+        "organisationTradingName": "",
+        "organisationType": "unregistered-vco",
+        "organisationSubType": null,
+        "organisationAddress": {
+            "line1": "1234 example street",
+            "townCity": "Birmingham",
+            "county": "West Midlands",
+            "postcode": "B15 1TR"
+        },
+        "contactName": {
+            "firstName": "Björk",
+            "lastName": "Guðmundsdóttir"
+        },
+        "contactEmail": "example@example.com",
+        "contactPhone": "0345 410 2030",
+        "contactLanguagePreference": null,
+        "contactCommunicationNeeds": "Example communication need"
+    }
+}
+```
 
 ## Data
 

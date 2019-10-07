@@ -221,7 +221,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         }),
         allFields,
         summary: summary(),
-        schemaVersion: 'v0.1',
+        schemaVersion: 'v0.2',
         forSalesforce() {
             return data;
         },
