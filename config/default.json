@@ -29,8 +29,7 @@
     "enableNameChangeMessage": true,
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
-    "enableSeeders": false,
-    "enableSiteSurvey": true
+    "enableSeeders": false
   },
   "awardsForAll": {
     "allowedCountries": ["england", "scotland", "wales"],
