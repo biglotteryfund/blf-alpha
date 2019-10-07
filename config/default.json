@@ -26,7 +26,6 @@
     "enableAllowLocalhost": false,
     "enableCloudWatchLogs": true,
     "enableHotjar": false,
-    "enableNameChangeMessage": true,
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
     "enableSeeders": false

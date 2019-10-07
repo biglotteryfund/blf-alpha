@@ -46,7 +46,6 @@ module.exports = function(req, res, next) {
      * Feature flags
      */
     res.locals.enableSiteSurvey = true;
-    res.locals.enableNameChangeMessage = features.enableNameChangeMessage;
     res.locals.hotjarId = features.enableHotjar && config.get('hotjarId');
 
     /**
