@@ -11,17 +11,6 @@
 {% block content %}
     <main role="main" id="content">
         <div class="content-box u-inner-wide-only">
-            {{ userNavigation(userNavigationLinks) }}
-
-            {{ formHeaderWithData(formTitle, form.summary.title) }}
-
-            {% if step.message %}
-                <div class="message message--info message--minor" role="alert">
-                    <p><strong>{{ step.message.title | safe }}</strong></p>
-                    <p>{{ step.message.body | safe }}</p>
-                </div>
-            {% endif %}
-
             <form action=""
                   method="post"
                   class="js-form-warn-unsaved js-session-form js-apply-{{ formId }}"
@@ -29,6 +18,18 @@
                   {% if step.isMultipart %}enctype="multipart/form-data"{% endif %} 
                   {% if step.noValidate %}novalidate{% endif %}
                   >
+
+                {{ userNavigation(userNavigationLinks) }}
+
+                {{ formHeaderWithData(formTitle, form.summary.title) }}
+
+                {% if step.message %}
+                    <div class="message message--info message--minor" role="alert">
+                        <p><strong>{{ step.message.title | safe }}</strong></p>
+                        <p>{{ step.message.body | safe }}</p>
+                    </div>
+                {% endif %}
+
                 <div class="form-header">
                     <h1 class="t2 form-header__title u-tone-brand-primary">{{ section.title }}</h1>
                     <p class="form-header__suffix">
@@ -76,9 +77,8 @@
                         <time datetime="{{ lastSaveTime.dateTime }}">{{ lastSaveTime.relative }}</time>
                     </p>
                 </div>
-
+                {{ userNavigation(userNavigationLinks, isFooter = true) }}
             </form>
-            {{ userNavigation(userNavigationLinks, isFooter = true) }}
         </div>
     </main>
 {% endblock %}
