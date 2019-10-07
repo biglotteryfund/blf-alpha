@@ -1,7 +1,6 @@
 'use strict';
 const { includes, concat } = require('lodash');
 const express = require('express');
-const domains = require('config').get('domains');
 
 const { getAbsoluteUrl } = require('../common/urls');
 const { legacyPagePaths, legacyFilesPath } = require('../common/archived');
@@ -10,7 +9,11 @@ const { noStore } = require('../common/cached');
 const router = express.Router();
 
 router.get('/', noStore, (req, res) => {
-    const isIndexable = includes(domains.indexable, req.get('host')) === true;
+    const shouldIndex =
+        includes(
+            ['www.biglotteryfund.org.uk', 'www.tnlcommunityfund.org.uk'],
+            req.get('host')
+        ) === true;
 
     // Merge archived paths with internal / deliberately excluded URLs
     const disallowList = concat(
@@ -19,14 +22,14 @@ router.get('/', noStore, (req, res) => {
         legacyPagePaths
     );
 
+    const disallowLine = shouldIndex
+        ? disallowList.map(line => `disallow: ${line}`).join('\n')
+        : 'disallow: /';
+
     const text = [
         `user-agent: *`,
         `sitemap: ${getAbsoluteUrl(req, '/sitemap.xml')}`,
-        `${
-            isIndexable
-                ? disallowList.map(line => `disallow: ${line}`).join('\n')
-                : 'disallow: /'
-        }`
+        disallowLine
     ].join('\n');
     res.setHeader('Content-Type', 'text/plain');
     res.send(text);

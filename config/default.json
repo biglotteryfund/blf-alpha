@@ -23,7 +23,6 @@
     }
   },
   "domains": {
-    "indexable": ["www.biglotteryfund.org.uk", "www.tnlcommunityfund.org.uk"],
     "base": "https://www.tnlcommunityfund.org.uk"
   },
   "features": {
