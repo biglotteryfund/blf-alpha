@@ -6,7 +6,7 @@ const includes = require('lodash/includes');
 const omit = require('lodash/omit');
 const Sentry = require('@sentry/node');
 const crypto = require('crypto');
-const moment = require('moment');
+const moment = require('moment-timezone');
 
 const logger = require('../../../common/logger');
 const { sanitiseRequestBody } = require('../../../common/sanitise');
@@ -115,7 +115,10 @@ module.exports = function(formId, formBuilder) {
 
         return {
             dateTime: moment(lastUpdatedAt).toISOString(true),
-            calendarTime: moment(lastUpdatedAt).locale(locale).calendar(),
+            calendarTime: moment(lastUpdatedAt)
+                .tz('Europe/London')
+                .locale(locale)
+                .calendar(),
         };
     }
 

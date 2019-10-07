@@ -107,6 +107,7 @@
     "lodash": "4.17.15",
     "mime-types": "2.1.24",
     "moment": "^2.18.1",
+    "moment-timezone": "0.5.26",
     "mysql2": "1.6.5",
     "nodemailer": "^4.1.0",
     "nunjucks": "^3.1.3",
