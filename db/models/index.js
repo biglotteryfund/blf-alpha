@@ -10,7 +10,11 @@ const Users = require('./user');
 const Staff = require('./staff');
 const Feedback = require('./feedback');
 const SurveyAnswer = require('./survey');
-const { PendingApplication, SubmittedApplication } = require('./applications');
+const {
+    PendingApplication,
+    SubmittedApplication,
+    ApplicationEmailQueue
+} = require('./applications');
 const { Order, OrderItem } = require('./orders');
 
 logger.debug(`Using ${databaseConfig.dialect} database`);
@@ -37,8 +41,27 @@ const db = {
     Feedback: Feedback.init(sequelize, Sequelize),
     SurveyAnswer: SurveyAnswer.init(sequelize, Sequelize),
     Order: Order.init(sequelize, Sequelize),
-    OrderItem: OrderItem.init(sequelize, Sequelize)
+    OrderItem: OrderItem.init(sequelize, Sequelize),
+    ApplicationEmailQueue: ApplicationEmailQueue.init(sequelize, Sequelize)
 };
+
+// Relations
+db.PendingApplication.belongsTo(db.Users, {
+    constraints: false // don't delete users when deleting applications
+});
+db.Users.hasMany(db.PendingApplication);
+
+db.SubmittedApplication.belongsTo(db.Users);
+db.Users.hasMany(db.SubmittedApplication);
+
+db.ApplicationEmailQueue.belongsTo(db.PendingApplication, {
+    foreignKey: 'applicationId',
+    constraints: false
+});
+db.PendingApplication.hasMany(db.ApplicationEmailQueue, {
+    foreignKey: 'applicationId',
+    constraints: false
+});
 
 Object.keys(db).forEach(modelName => {
     if ('associate' in db[modelName]) {

@@ -2,34 +2,11 @@
 const { get } = require('lodash/fp');
 
 const { MIN_START_DATE } = require('./constants');
+const { getEmailFor, getPhoneFor } = require('../../../common/contacts');
 
 module.exports = function({ locale, data = {} }) {
     const localise = get(locale);
     const country = get('projectCountry')(data);
-
-    function emailFor(country) {
-        const options = {
-            'default': 'general.enquiries@tnlcommunityfund.org.uk',
-            'england': 'afe@tnlcommunityfund.org.uk',
-            'scotland': 'advicescotland@tnlcommunityfund.org.uk',
-            'northern-ireland': 'enquiries.ni@tnlcommunityfund.org.uk',
-            'wales': 'wales@tnlcommunityfund.org.uk'
-        };
-
-        return options[country] || options.default;
-    }
-
-    function phoneFor(country) {
-        const options = {
-            'default': '0345 4 10 20 30',
-            'england': '0345 4 10 20 30',
-            'scotland': '0300 123 7110',
-            'northern-ireland': '028 9055 1455',
-            'wales': '0300 123 0735'
-        };
-
-        return options[country] || options.default;
-    }
 
     function enConfirmationBody() {
         return `<p>Thank you for submitting your application to National Lottery Awards for All.</p>
@@ -42,9 +19,9 @@ module.exports = function({ locale, data = {} }) {
     let you know whether you have been successful by email.
 </p>
 <p>
-    In the meantime, if you have any questions, please call <strong>${phoneFor(
+    In the meantime, if you have any questions, please call <strong>${getPhoneFor(
         country
-    )}</strong> or email <a href="mailto:${emailFor(country)}">${emailFor(
+    )}</strong> or email <a href="mailto:${getEmailFor(country)}">${getEmailFor(
             country
         )}</a> and we will be happy to help you.
 </p>
@@ -69,11 +46,11 @@ module.exports = function({ locale, data = {} }) {
     p’un a ydych wedi bod yn llwyddiannus ai beidio drwy e-bost.
 </p>
 <p>
-    Yn y cyfamser, os oes gennych unrhyw gwestiynau, ffoniwch <strong>${phoneFor(
+    Yn y cyfamser, os oes gennych unrhyw gwestiynau, ffoniwch <strong>${getPhoneFor(
         country
-    )}</strong> neu gyrrwch e-bost i <a href="mailto:${emailFor(
+    )}</strong> neu gyrrwch e-bost i <a href="mailto:${getEmailFor(
             country
-        )}">${emailFor(country)}</a> a byddwn yn hapus i’ch helpu.
+        )}">${getEmailFor(country)}</a> a byddwn yn hapus i’ch helpu.
 </p>
 <p>
     Rydym wedi e-bostio copi o’ch ffurflen gais ichi. 

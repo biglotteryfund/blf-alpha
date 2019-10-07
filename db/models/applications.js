@@ -3,6 +3,8 @@
 const moment = require('moment');
 const { Model, Op } = require('sequelize');
 
+const Users = require('./user');
+
 class PendingApplication extends Model {
     static init(sequelize, DataTypes) {
         const schema = {
@@ -17,8 +19,7 @@ class PendingApplication extends Model {
              * User model reference
              */
             userId: {
-                type: DataTypes.INTEGER,
-                references: { model: 'users', key: 'id' }
+                type: DataTypes.INTEGER
             },
 
             /**
@@ -71,9 +72,11 @@ class PendingApplication extends Model {
         };
 
         return super.init(schema, {
+            modelName: 'PendingApplication',
             sequelize
         });
     }
+
     static findAllByForm(formId, dateRange = {}) {
         let whereClause = {
             formId: { [Op.eq]: formId }
@@ -97,6 +100,23 @@ class PendingApplication extends Model {
             order: [['createdAt', 'DESC']]
         });
     }
+    static findExpiredApplications() {
+        return this.findAll({
+            attributes: ['id'],
+            where: {
+                expiresAt: {
+                    [Op.lte]: moment().toDate()
+                }
+            }
+        });
+    }
+    static deleteApplications(applicationIds) {
+        return this.destroy({
+            where: {
+                id: { [Op.in]: applicationIds }
+            }
+        });
+    }
     static findApplicationForForm({ formId, applicationId, userId }) {
         return this.findOne({
             where: {
@@ -111,11 +131,13 @@ class PendingApplication extends Model {
             app => app.currentProgressState === 'COMPLETE'
         ).length;
     }
-    static createNewApplication({ userId, formId }) {
+    static createNewApplication({ userId, formId, customExpiry = null }) {
         // @TODO: Should this be defined in config?
-        const expiresAt = moment()
-            .add('3', 'months')
-            .toDate();
+        const expiresAt = customExpiry
+            ? customExpiry
+            : moment()
+                  .add('3', 'months')
+                  .toDate();
 
         return this.create({
             userId: userId,
@@ -142,6 +164,9 @@ class PendingApplication extends Model {
         });
     }
     static deleteApplication(id, userId) {
+        // Delete any scheduled emails for this application
+        ApplicationEmailQueue.deleteEmailsForApplication(id);
+
         return this.destroy({
             where: {
                 userId: { [Op.eq]: userId },
@@ -165,8 +190,7 @@ class SubmittedApplication extends Model {
              * User model reference
              */
             userId: {
-                type: DataTypes.INTEGER,
-                references: { model: 'users', key: 'id' }
+                type: DataTypes.INTEGER
             },
 
             /**
@@ -244,6 +268,7 @@ class SubmittedApplication extends Model {
             sequelize
         });
     }
+
     static findAllByForm(formId, dateRange = {}) {
         let whereClause = {
             formId: { [Op.eq]: formId }
@@ -289,4 +314,126 @@ class SubmittedApplication extends Model {
     }
 }
 
-module.exports = { PendingApplication, SubmittedApplication };
+class ApplicationEmailQueue extends Model {
+    static init(sequelize, DataTypes) {
+        const schema = {
+            id: {
+                primaryKey: true,
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
+                allowNull: false
+            },
+
+            /**
+             * PendingApplication model reference
+             */
+            applicationId: {
+                type: DataTypes.UUID
+            },
+
+            /**
+             * Email type
+             * e.g. AFA_ONE_MONTH, GET_ADVICE_ONE_WEEK etc
+             */
+            emailType: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+
+            /**
+             * Status of email
+             * e.g. SENT, NOT_SENT etc
+             */
+            status: {
+                type: DataTypes.STRING,
+                allowNull: false,
+                defaultValue: 'NOT_SENT'
+            },
+
+            /**
+             * Date to send out the email
+             */
+            dateToSend: {
+                type: DataTypes.DATE,
+                allowNull: false
+            }
+        };
+
+        return super.init(schema, {
+            modelName: 'ApplicationEmailQueue',
+            freezeTableName: true,
+            sequelize
+        });
+    }
+
+    // Remove old email queue items once their sent date is more than 3 months ago
+    static async cleanupQueue() {
+        const expiryDate = moment()
+            .subtract(3, 'months')
+            .toDate();
+
+        this.destroy({
+            where: {
+                status: { [Op.eq]: 'SENT' },
+                dateToSend: { [Op.lte]: expiryDate }
+            }
+        });
+    }
+
+    static deleteEmailsForApplication(applicationId) {
+        return this.destroy({
+            where: {
+                applicationId: { [Op.eq]: applicationId }
+            }
+        });
+    }
+
+    /**
+     * Creates a queue of emails for a new application
+     *
+     * @param {Object[]} emailRecords - a list of emails to queue
+     * @param {string} emailRecords[].applicationId - the application id to email
+     * @param {string} emailRecords[].emailType - an email template name constant
+     * @param {date} emailRecords[].dateToSend - the date this email should be sent
+     */
+    static async createNewQueue(emailRecords) {
+        await this.cleanupQueue();
+        return this.bulkCreate(emailRecords);
+    }
+
+    static getEmailsToSend() {
+        return this.findAll({
+            where: {
+                status: { [Op.eq]: 'NOT_SENT' },
+                dateToSend: {
+                    [Op.lte]: moment().toDate()
+                }
+            },
+            include: [
+                {
+                    model: PendingApplication,
+                    include: [
+                        {
+                            model: Users
+                        }
+                    ]
+                }
+            ]
+        });
+    }
+
+    static updateStatusToSent(queueId) {
+        return this.update(
+            {
+                status: 'SENT'
+            },
+            { where: { id: { [Op.eq]: queueId } } }
+        );
+    }
+}
+
+module.exports = {
+    PendingApplication,
+    SubmittedApplication,
+    ApplicationEmailQueue
+};

@@ -368,6 +368,47 @@ it('should allow survey API responses', () => {
         expect(response.body.result.path).to.equal(dataNo.path);
         expect(response.body.result.message).to.equal(dataNo.message);
     });
+
+    it('should correctly email users with expiring applications', () => {
+        cy.seedUser().then(newUser => {
+            // Configure some applications with various expiry dates (past and future)
+            const now = moment();
+            const applicationExpiryDates = [
+                now.clone().subtract(1, 'days'),
+                now.clone().subtract(40, 'days'),
+                now.clone().subtract(80, 'days'),
+                now.clone().add(1, 'days'),
+                // these future expiry dates should not generate any emails to be sent
+                now.clone().add(10, 'week'),
+                now.clone().add(3, 'months')
+            ];
+
+            // Create all the applications
+            applicationExpiryDates.map(expiry => {
+                cy.seedPendingAFAApplication({
+                    userId: newUser.id,
+                    expiresAt: expiry.toDate()
+                });
+            });
+
+            // Process expiry emails for the above applications
+            cy.request('POST', '/apply/handle-expiry').then(response => {
+                expect(response.body).to.have.property('emailQueue');
+                expect(response.body.emailQueue.length).to.eq(12);
+
+                const successfulEmailsSent = response.body.emailQueue.filter(
+                    _ => _.emailSent === true
+                ).length;
+                expect(successfulEmailsSent).to.eq(12);
+
+                // Now check again for expiry emails to confirm there are
+                // no items left in the queue (eg. it's been processed)
+                cy.request('POST', '/apply/handle-expiry').then(newResponse => {
+                    expect(newResponse.body.emailQueue.length).to.eq(0);
+                });
+            });
+        });
+    });
 });
 
 it('should allow feedback API responses', () => {

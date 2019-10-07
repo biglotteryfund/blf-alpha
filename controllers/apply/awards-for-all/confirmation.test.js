@@ -11,9 +11,6 @@ describe('confirmation builder', () => {
         });
 
         expect(england.body).toMatchSnapshot();
-        expect(england.body).toContain('0345 4 10 20 30');
-        expect(england.body).toContain('afe@tnlcommunityfund.org.uk');
-        expect(england.body).toContain('18 weeks');
 
         const scotland = confirmationBuilder({
             locale: 'en',
@@ -21,10 +18,5 @@ describe('confirmation builder', () => {
         });
 
         expect(scotland.body).toMatchSnapshot();
-        expect(scotland.body).toContain('0300 123 7110');
-        expect(scotland.body).toContain(
-            'advicescotland@tnlcommunityfund.org.uk'
-        );
-        expect(scotland.body).toContain('18 weeks');
     });
 });

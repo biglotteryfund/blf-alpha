@@ -8,7 +8,6 @@ const Joi = require('../lib/joi-extensions');
 const {
     BENEFICIARY_GROUPS,
     CONTACT_EXCLUDED_TYPES,
-    FILE_LIMITS,
     MAX_BUDGET_TOTAL_GBP,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,
@@ -36,6 +35,11 @@ const fieldEducationNumber = require('./fields/education-number');
 const fieldPhone = require('./fields/phone');
 const fieldEmail = require('./fields/email');
 const fieldAddress = require('./fields/address');
+const fieldBankStatement = require('./fields/bank-statement');
+const fieldBuildingSocietyNumber = require('./fields/building-society-number');
+const fieldBankAccountNumber = require('./fields/bank-account-number');
+const fieldBankSortCode = require('./fields/bank-sort-code');
+const fieldBankAccountName = require('./fields/bank-account-name');
 
 module.exports = function fieldsFor({ locale, data = {} }) {
     const localise = get(locale);
@@ -1640,183 +1644,11 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                 }
             ]
         },
-        bankAccountName: {
-            name: 'bankAccountName',
-            label: localise({
-                en: `Tell us the name of your organisation - as it appears on the bank statement`,
-                cy: `Dywedwch wrthym enw eich sefydliad – fel mae’n ymddangos ar eich cyfriflen banc`
-            }),
-            explanation: localise({
-                en: `Not the name of your bank`,
-                cy: `Nid enw eich banc`
-            }),
-            type: 'text',
-            attributes: { autocomplete: 'off' },
-            isRequired: true,
-            schema: Joi.string()
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: `Enter the name of your organisation, as it appears on your bank statement`,
-                        cy: `Rhowch enw eich sefydliad, fel mae’n ymddangos ar eich cyfriflen banc`
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Name of your organisation must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i enw eich sefydliad fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        },
-        bankSortCode: {
-            name: 'bankSortCode',
-            label: localise({ en: 'Sort code', cy: 'Cod didoli' }),
-            explanation: localise({ en: 'eg. 123456', cy: 'e.e. 123456' }),
-            type: 'text',
-            attributes: { size: 20, autocomplete: 'off' },
-            isRequired: true,
-            schema: Joi.string()
-                .replace(/\D/g, '')
-                .length(6)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter a sort code',
-                        cy: 'Rhowch god didoli'
-                    })
-                },
-                {
-                    type: 'string.length',
-                    message: localise({
-                        en: 'Sort code must be six digits long',
-                        cy: 'Rhaid i’r cod didoli fod yn chwe digid o hyd'
-                    })
-                }
-            ]
-        },
-        bankAccountNumber: {
-            name: 'bankAccountNumber',
-            label: localise({ en: 'Account number', cy: 'Rhif cyfrif' }),
-            explanation: localise({ en: 'eg. 12345678', cy: 'e.e. 12345678' }),
-            type: 'text',
-            attributes: { autocomplete: 'off' },
-            isRequired: true,
-            schema: Joi.string()
-                .replace(/\D/g, '')
-                .min(6)
-                .max(11)
-                .required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Enter an account number',
-                        cy: 'Rhowch rif cyfrif'
-                    })
-                },
-                {
-                    type: 'string.min',
-                    message: localise({
-                        en: 'Enter a valid length account number',
-                        cy: 'Rhowch rif cyfrif hyd dilys'
-                    })
-                },
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: 'Enter a valid length account number',
-                        cy: 'Rhowch rif cyfrif hyd dilys'
-                    })
-                }
-            ]
-        },
-        buildingSocietyNumber: {
-            name: 'buildingSocietyNumber',
-            label: localise({
-                en: 'Building society number',
-                cy: 'Rhif cymdeithas adeiladu'
-            }),
-            type: 'text',
-            attributes: { autocomplete: 'off' },
-            explanation: localise({
-                en: `You only need to fill this in if your organisation's account is with a building society.`,
-                cy: `Rydych angen llenwi hwn os yw cyfrif eich sefydliad â chymdeithas adeiladu`
-            }),
-            isRequired: false,
-            schema: Joi.string()
-                .allow('')
-                .max(FREE_TEXT_MAXLENGTH.large)
-                .empty(),
-            messages: [
-                {
-                    type: 'string.max',
-                    message: localise({
-                        en: `Building society number must be ${FREE_TEXT_MAXLENGTH.large} characters or less`,
-                        cy: `Rhaid i rif y Cymdeithas Adeiladu fod yn llai na ${FREE_TEXT_MAXLENGTH.large} nod`
-                    })
-                }
-            ]
-        },
-        bankStatement: {
-            name: 'bankStatement',
-            label: localise({
-                en: 'Upload a bank statement',
-                cy: 'Uwch lwytho cyfriflen banc'
-            }),
-            // Used when editing an existing bank statement
-            labelExisting: localise({
-                en: 'Upload a new bank statement',
-                cy: 'Uwch lwytho cyfriflen banc newydd'
-            }),
-            type: 'file',
-            attributes: {
-                accept: FILE_LIMITS.TYPES.map(type => type.mime).join(',')
-            },
-            isRequired: true,
-            schema: Joi.object({
-                filename: Joi.string().required(),
-                size: Joi.number()
-                    .max(FILE_LIMITS.SIZE.value)
-                    .required(),
-                type: Joi.string()
-                    .valid(FILE_LIMITS.TYPES.map(type => type.mime))
-                    .required()
-            }).required(),
-            messages: [
-                {
-                    type: 'base',
-                    message: localise({
-                        en: 'Provide a bank statement',
-                        cy: 'Darparwch gyfriflen banc'
-                    })
-                },
-                {
-                    type: 'any.allowOnly',
-                    message: localise({
-                        en: `Please upload a file in one of these formats: ${FILE_LIMITS.TYPES.map(
-                            type => type.label
-                        ).join(', ')}`,
-                        cy: `Uwch lwythwch ffeil yn un o’r fformatiau hyn: ${FILE_LIMITS.TYPES.map(
-                            type => type.label
-                        ).join(', ')}`
-                    })
-                },
-                {
-                    type: 'number.max',
-                    message: localise({
-                        en: `Please upload a file below ${FILE_LIMITS.SIZE.label}`,
-                        cy: `Uwch lwythwch ffeil isod ${FILE_LIMITS.SIZE.label}`
-                    })
-                }
-            ]
-        },
+        bankAccountName: fieldBankAccountName(locale),
+        bankSortCode: fieldBankSortCode(locale),
+        bankAccountNumber: fieldBankAccountNumber(locale),
+        buildingSocietyNumber: fieldBuildingSocietyNumber(locale),
+        bankStatement: fieldBankStatement(locale),
         termsAgreement1: {
             name: 'termsAgreement1',
             type: 'checkbox',

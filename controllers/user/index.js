@@ -42,8 +42,8 @@ if (features.enableSeeders) {
             username: username,
             password: password,
             isActive: true
-        }).then(() => {
-            res.json({ username, password });
+        }).then((newUser) => {
+            res.json({ username, password, id: newUser.id });
         });
     });
 }

@@ -38,6 +38,7 @@ module.exports = function(formId) {
                     req.params.applicationId,
                     req.user.userData.id
                 );
+
                 logger.info('Application deleted', {
                     applicationId: req.params.applicationId
                 });
