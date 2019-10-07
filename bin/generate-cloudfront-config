@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 'use strict';
-/* eslint-disable no-console */
 const { forEach } = require('lodash');
 const config = require('config');
 const fs = require('fs');
@@ -19,7 +18,10 @@ forEach(cloudfrontDistributions, async (distribution, distributionName) => {
     const behaviours = generateBehaviours(distribution.origins);
 
     try {
-        const filePath = path.join(__dirname, `../config/cloudfront/${distributionName}.json`);
+        const filePath = path.join(
+            __dirname,
+            `../config/cloudfront/${distributionName}.json`
+        );
         await writeFile(filePath, JSON.stringify(behaviours, null, 2), 'utf8');
         console.log(
             `[${distributionName}] Cloudfront configuration with ${

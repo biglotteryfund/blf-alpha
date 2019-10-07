@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 'use strict';
-/* eslint-disable no-console */
 require('dotenv').config();
 const config = require('config');
 
 const has = require('lodash/has');
 
 if (!has(process.env, 'TEST_URL') || !has(process.env, 'PROD_URL')) {
-    console.log('Error: TEST_URL and PROD_URL environment variables must be defined');
+    console.log(
+        'Error: TEST_URL and PROD_URL environment variables must be defined'
+    );
     process.exit(1);
 }
 
@@ -143,9 +144,7 @@ function getCommitsToBeDeployed() {
 
         // first commit this returns will be the one currently on TEST
         // @TODO what if we're deploying an older build? no way to save its commit ID in AWS
-        let commitList = `https://api.github.com/repos/${CONF.githubAccount}/${CONF.githubRepo}/commits?sha=${
-            ids.test
-        }&per_page=100`;
+        let commitList = `https://api.github.com/repos/${CONF.githubAccount}/${CONF.githubRepo}/commits?sha=${ids.test}&per_page=100`;
 
         // now get commits made before the one currently on TEST
         return rp
@@ -201,27 +200,37 @@ function verifyCommitsToDeploy() {
             .then(commits => {
                 const commitStr = [
                     'This deployment will push the following commits live:',
-                    commits.map(info => `- ${info.sha.slice(0, 12)} ${info.commit.message}`).join('\n')
+                    commits
+                        .map(
+                            info =>
+                                `- ${info.sha.slice(0, 12)} ${
+                                    info.commit.message
+                                }`
+                        )
+                        .join('\n')
                 ].join('\n');
 
                 console.log(commitStr);
 
                 prompt.start();
 
-                prompt.get({
-                    description: `Are you sure you want to push the above commits live?`,
-                    name: 'yesno',
-                    type: 'string',
-                    pattern: /y[es]*|n[o]?/,
-                    message: 'Please answer the question properly',
-                    required: true
-                }, (err, result) => {
-                    if (['y', 'yes'].indexOf(result.yesno) !== -1) {
-                        resolve(commitStr);
-                    } else {
-                        reject('Bailing out!');
+                prompt.get(
+                    {
+                        description: `Are you sure you want to push the above commits live?`,
+                        name: 'yesno',
+                        type: 'string',
+                        pattern: /y[es]*|n[o]?/,
+                        message: 'Please answer the question properly',
+                        required: true
+                    },
+                    (err, result) => {
+                        if (['y', 'yes'].indexOf(result.yesno) !== -1) {
+                            resolve(commitStr);
+                        } else {
+                            reject('Bailing out!');
+                        }
                     }
-                });
+                );
             })
             .catch(err => {
                 reject(err);
@@ -231,7 +240,9 @@ function verifyCommitsToDeploy() {
 
 // trigger the deploy itself
 function pushOutDeploy(env, id) {
-    console.log(`Attempting to deploy revision ${id} to environment ${env}, please wait…`);
+    console.log(
+        `Attempting to deploy revision ${id} to environment ${env}, please wait…`
+    );
 
     const deployParams = createDeploymentConf(id);
 
@@ -239,7 +250,9 @@ function pushOutDeploy(env, id) {
         .createDeployment(deployParams)
         .promise()
         .then(() => {
-            console.log('Deployment started, check Slack or the AWS console to monitor the deployment.');
+            console.log(
+                'Deployment started, check Slack or the AWS console to monitor the deployment.'
+            );
         })
         .catch(err => {
             console.error('Error creating deployment', {
