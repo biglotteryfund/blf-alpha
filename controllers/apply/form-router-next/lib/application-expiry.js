@@ -63,12 +63,9 @@ const sendExpiryEmails = async (req, emailQueue, locale) => {
                     break;
             }
 
-            // const addressToSendTo = appData.isNotProduction
-            //     ? EMAIL_EXPIRY_TEST_ADDRESS
-            //     : emailToSend.PendingApplication.user.username
-
-            // @TODO delete this in favour of the above lines once we're confident it works as expected
-            const addressToSendTo = EMAIL_EXPIRY_TEST_ADDRESS;
+            const addressToSendTo = appData.isNotProduction
+                ? EMAIL_EXPIRY_TEST_ADDRESS
+                : emailToSend.PendingApplication.user.username;
 
             const mailParams = {
                 name: 'application_expiry_afa',

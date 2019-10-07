@@ -18,6 +18,10 @@ const {
     deleteExpiredApplications
 } = require('./form-router-next/lib/application-expiry');
 
+const logger = commonLogger.child({
+    service: 'application-expiry'
+});
+
 // @TODO remove this logic after seeding past application email queue
 const { EXPIRY_EMAIL_REMINDERS } = require('./awards-for-all/constants');
 const {
@@ -51,9 +55,7 @@ router.get('/emails/unsubscribe', async function(req, res) {
             await ApplicationEmailQueue.deleteEmailsForApplication(
                 applicationId
             );
-            commonLogger.info(
-                'User unsubscribed from application expiry emails'
-            );
+            logger.info('User unsubscribed from application expiry emails');
             res.render(
                 path.resolve(
                     __dirname,
@@ -65,7 +67,7 @@ router.get('/emails/unsubscribe', async function(req, res) {
                 }
             );
         } catch (error) {
-            commonLogger.warn('Email unsubscribe token failed', {
+            logger.warn('Email unsubscribe token failed', {
                 token: req.query.token
             });
             res.redirect(req.baseUrl);
@@ -156,6 +158,11 @@ router.post('/handle-expiry', async (req, res) => {
         } else {
             response.expired = [];
         }
+
+        logger.info('application expiries processed', {
+            emailsSent: response.emailQueue.length,
+            expiredAppsDeleted: response.expired.length
+        });
 
         res.json(response);
     } catch (error) {
