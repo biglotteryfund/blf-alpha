@@ -1,8 +1,0 @@
-#!/bin/bash
-set -e
-
-function runTest() {
-    npx cypress run --spec "cypress/integration/awards-for-all.js" --browser chrome
-}
-
-runTest & runTest & runTest & runTest & runTest
