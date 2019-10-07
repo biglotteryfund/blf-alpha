@@ -36,10 +36,8 @@
     "allowedCountries": ["england", "scotland", "wales"],
     "enableExpiration": true
   },
-  "cookies": {
-    "session": "blf-alpha-session"
-  },
   "session": {
+    "cookie": "blf-alpha-session",
     "expiryInSeconds": 7200
   },
   "hotjarId": 1036292,

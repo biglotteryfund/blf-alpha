@@ -1,5 +1,5 @@
 'use strict';
-const cookies = require('config').get('cookies');
+const config = require('config');
 const { assign, concat, flatMap, sortBy } = require('lodash');
 
 const { makeWelsh, stripTrailingSlashes } = require('./urls');
@@ -120,7 +120,7 @@ function makeBehaviourItem({
  * construct array of behaviours from a URL list
  */
 function generateBehaviours(origins) {
-    const defaultCookies = [cookies.session];
+    const defaultCookies = [config.get('session.cookie')];
     const cookiesWithoutSession = [];
 
     const defaultBehaviour = makeBehaviourItem({

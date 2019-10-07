@@ -20,7 +20,7 @@ module.exports = function(app) {
      */
     const sessionConfig = {
         store: store,
-        name: config.get('cookies.session'),
+        name: config.get('session.cookie'),
         secret: SESSION_SECRET,
         rolling: true,
         resave: false,
