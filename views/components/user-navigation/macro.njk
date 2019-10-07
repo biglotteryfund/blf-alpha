@@ -13,12 +13,26 @@
                     {% if previousPage %}
                         <li class="user-nav__pagination-link user-nav__pagination-link--prev">
                             <span class="user-nav__pagination-arrow">←</span>
-                            <input class="btn-link" name="previousBtn" type="submit" formaction="" value="{{ __('applyNext.navigation.previous') }}"/>
+                            <a href="{{ previousPage.url }}">
+                                <span>
+                                    {{ __('applyNext.navigation.previous') }}
+                                </span>
+                                <span class="user-nav__pagination-subtitle">
+                                    {{ previousPage.label }}
+                                </span>
+                            </a>
                         </li>
                     {% endif %}
                     {% if nextPage %}
                         <li class="user-nav__pagination-link user-nav__pagination-link--next">
-                            <input class="btn-link" name="nextBtn" type="submit" formaction="" value="{{ __('applyNext.navigation.next') }}"/>
+                            <a href="{{ nextPage.url }}">
+                                <span>
+                                    {{ __('applyNext.navigation.next') }}
+                                </span>
+                                <span class="user-nav__pagination-subtitle">
+                                    {{ nextPage.label }}
+                                </span>
+                            </a>
                             <span class="user-nav__pagination-arrow">→</span>
                         </li>
                     {% endif %}

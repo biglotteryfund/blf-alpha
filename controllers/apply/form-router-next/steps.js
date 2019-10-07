@@ -172,23 +172,6 @@ module.exports = function(formId, formBuilder) {
                 stepFields.map(f => f.name).includes(item.param)
             );
 
-            function shouldRenderErrors() {
-                return (errorsForStep.length > 0 && !(req.body.previousBtn || req.body.nextBtn));
-            }
-
-            function determineRedirectUrl() {
-                const { previousPage, nextPage } = form.pagination({
-                    baseUrl: res.locals.formBaseUrl,
-                    sectionSlug: req.params.section,
-                    currentStepIndex: stepIndex,
-                    copy: res.locals.copy
-                });
-            
-                return req.body.previousBtn
-                    ? previousPage.url
-                    : nextPage.url;
-            }
-
             try {
                 let dataToStore = validationResult.value;
                 const currentProgressState = form.progress.isComplete
@@ -220,11 +203,11 @@ module.exports = function(formId, formBuilder) {
                 );
 
                 /**
-                 * If there are errors re-render the step with errors only if prev/next btn is not clicked
+                 * If there are errors re-render the step with errors
                  * - Pass the full data object from validationResult to the view. Including invalid values.
                  * Otherwise, find the next suitable step and redirect there.
                  */
-                if (shouldRenderErrors()) {
+                if (errorsForStep.length > 0) {
                     const renderStep = renderStepFor(
                         req.params.section,
                         req.params.step
@@ -254,6 +237,13 @@ module.exports = function(formId, formBuilder) {
                         }
                     }
 
+                    const { nextPage } = form.pagination({
+                        baseUrl: res.locals.formBaseUrl,
+                        sectionSlug: req.params.section,
+                        currentStepIndex: stepIndex,
+                        copy: res.locals.copy
+                    });
+
                     /**
                      * Handle file uploads if we have any for the step
                      */
@@ -268,7 +258,7 @@ module.exports = function(formId, formBuilder) {
                                     });
                                 })
                             );
-                            res.redirect(determineRedirectUrl());
+                            res.redirect(nextPage.url);
                         } catch (rejection) {
                             Sentry.captureException(rejection.error);
 
@@ -290,7 +280,7 @@ module.exports = function(formId, formBuilder) {
                             );
                         }
                     } else {
-                        res.redirect(determineRedirectUrl());
+                        res.redirect(nextPage.url);
                     }
                 }
             } catch (storageError) {
