@@ -1468,7 +1468,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                         'Rydym angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio’r cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.'
                 }),
                 schema: stripIfExcludedOrgType(
-                    Joi.ukAddress().compare(Joi.ref('seniorContactAddress'))
+                    Joi.ukAddress()
+                        .required()
+                        .compare(Joi.ref('seniorContactAddress'))
                 )
             },
             [
@@ -1582,7 +1584,9 @@ module.exports = function fieldsFor({ locale, data = {} }) {
                     cy: `Byddwn angen eu cyfeiriad cartref i helpu cadarnhau pwy ydynt. Ac rydym yn gwirio eu cyfeiriad. Felly sicrhewch eich bod wedi’i deipio’n gywir. Os nad ydych, gall oedi eich cais.`
                 }),
                 schema: stripIfExcludedOrgType(
-                    Joi.ukAddress().compare(Joi.ref('mainContactAddress'))
+                    Joi.ukAddress()
+                        .required()
+                        .compare(Joi.ref('mainContactAddress'))
                 )
             },
             [
