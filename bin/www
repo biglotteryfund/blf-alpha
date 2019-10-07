@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 'use strict';
 const http = require('http');
-const config = require('config');
 
 const logger = require('../common/logger').child({
     service: 'www'
@@ -10,7 +9,7 @@ const logger = require('../common/logger').child({
 const app = require('../server');
 const { sequelize } = require('../db/models');
 
-logger.debug(`App environment: ${config.util.getEnv('NODE_ENV')}`);
+logger.debug(`App environment: ${process.env.NODE_ENV || 'development'}`);
 
 /**
  * Normalize a port into a number, string, or false.
