@@ -22,9 +22,6 @@
       "formUploadBucket": "tnlcf-uploads-dev"
     }
   },
-  "domains": {
-    "base": "https://www.tnlcommunityfund.org.uk"
-  },
   "features": {
     "enableAllowLocalhost": false,
     "enableCloudWatchLogs": true,
