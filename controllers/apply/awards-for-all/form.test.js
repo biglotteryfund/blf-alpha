@@ -173,6 +173,12 @@ function mapMessages(validationResult) {
     return validationResult.messages.map(item => item.msg);
 }
 
+function mapMessageSummary(validationResult) {
+    return validationResult.messages.map(function(item) {
+        return `${item.param}: ${item.msg}`;
+    });
+}
+
 function mapRawMessages(validationResult) {
     return validationResult.error.details.map(detail => detail.message);
 }
@@ -212,10 +218,10 @@ test('validate model shape', () => {
     validateModel(formBuilder());
 });
 
-test('default validations for an empty form', () => {
+test('empty form', () => {
     const form = formBuilder();
 
-    expect(form.validation.messages.map(item => item.msg)).toMatchSnapshot();
+    expect(mapMessageSummary(form.validation)).toMatchSnapshot();
 
     expect(form.progress.isComplete).toBeFalsy();
     expect(form.progress.isPristine).toBeTruthy();
