@@ -5,7 +5,6 @@
     }
   },
   "features": {
-    "enableAllowLocalhost": false,
     "enableHotjar": true
   },
   "awardsForAll": {

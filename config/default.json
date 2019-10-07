@@ -23,7 +23,6 @@
     }
   },
   "features": {
-    "enableAllowLocalhost": false,
     "enableCloudWatchLogs": true,
     "enableHotjar": false,
     "enableRelatedGrants": false,
