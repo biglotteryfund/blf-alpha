@@ -187,6 +187,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function summary() {
+        const title = get('projectName')(data);
         const countries = getOr([], 'projectCountries')(data);
         const years = get('projectDurationYears')(data);
         const costs = get('projectCosts')(data);
@@ -203,7 +204,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         ];
 
         return {
-            title: null,
+            title: title,
             country: countries.length > 1 ? 'uk-wide' : countries[0],
             overview: overview
         };
