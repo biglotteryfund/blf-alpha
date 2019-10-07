@@ -3,16 +3,17 @@ const get = require('lodash/fp/get');
 const moment = require('moment');
 const { oneLine } = require('common-tags');
 
-const { MAX_PROJECT_DURATION, MIN_START_DATE } = require('../constants');
+const {
+    MAX_PROJECT_DURATION,
+    MIN_START_DATE,
+    SUGGESTED_PROJECT_DURATION
+} = require('../constants');
 const Joi = require('../../lib/joi-extensions');
 
 module.exports = function(locale) {
     const localise = get(locale);
 
-    const minDate = moment().add(
-        MIN_START_DATE.amount,
-        MIN_START_DATE.unit
-    );
+    const minDate = moment().add(MIN_START_DATE.amount, MIN_START_DATE.unit);
 
     function formatAfterDate() {
         return minDate
@@ -39,10 +40,10 @@ module.exports = function(locale) {
             </p>
             <p>
                 We usually only fund projects that last
-                ${localise(MAX_PROJECT_DURATION.label)} or less.
+                ${localise(SUGGESTED_PROJECT_DURATION)} or less.
                 So, the end date can't be more than
                 ${localise(
-                    MAX_PROJECT_DURATION.label
+                    SUGGESTED_PROJECT_DURATION
                 )} after the start date.    
             </p>
             <p><strong>If your project is a one-off event</strong></p>
@@ -59,11 +60,11 @@ module.exports = function(locale) {
             <p>
                 Fel arfer, dim ond prosiectau sy’n para 
                 ${localise(
-                    MAX_PROJECT_DURATION.label
+                    SUGGESTED_PROJECT_DURATION
                 )} neu lai rydym yn eu hariannu.
                 Felly, ni all y dyddiad gorffen fod yn hwyrach na 
                 ${localise(
-                    MAX_PROJECT_DURATION.label
+                    SUGGESTED_PROJECT_DURATION
                 )} wedi’r dyddiad cychwyn.    
             </p>
             <p><strong>Os yw eich prosiect yn ddigwyddiad sy’n digwydd unwaith yn unig</strong></p>
