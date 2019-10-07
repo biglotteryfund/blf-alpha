@@ -5,6 +5,7 @@ const concat = require('lodash/concat');
 const difference = require('lodash/difference');
 const includes = require('lodash/includes');
 const map = require('lodash/map');
+const omit = require('lodash/omit');
 const random = require('lodash/random');
 const sample = require('lodash/sample');
 const times = require('lodash/times');
@@ -67,7 +68,7 @@ function mockBeneficiaries(checkAnswer = 'yes') {
     };
 }
 
-function mockResponse(overrides) {
+function mockResponse(overrides = {}) {
     const projectCountry =
         overrides.projectCountry ||
         sample(['england', 'scotland', 'wales', 'northern-ireland']);
@@ -168,6 +169,20 @@ function mockResponse(overrides) {
     return Object.assign(defaults, overrides);
 }
 
+function mapMessages(validationResult) {
+    return validationResult.messages.map(item => item.msg);
+}
+
+function mapMessageSummary(validationResult) {
+    return validationResult.messages.map(function(item) {
+        return `${item.param}: ${item.msg}`;
+    });
+}
+
+function mapRawMessages(validationResult) {
+    return validationResult.error.details.map(detail => detail.message);
+}
+
 function messagesByKey(data) {
     const validationResult = formBuilder({ data }).validation;
     const matches = validationResult.messages.filter(message => {
@@ -203,10 +218,10 @@ test('validate model shape', () => {
     validateModel(formBuilder());
 });
 
-test('default validations for an empty form', () => {
+test('empty form', () => {
     const form = formBuilder();
 
-    expect(form.validation.messages.map(item => item.msg)).toMatchSnapshot();
+    expect(mapMessageSummary(form.validation)).toMatchSnapshot();
 
     expect(form.progress.isComplete).toBeFalsy();
     expect(form.progress.isPristine).toBeTruthy();
@@ -863,6 +878,26 @@ describe('Contacts', () => {
         assertValidByKey({
             [fieldName]: mockDateOfBirth(minAge, 90)
         });
+    });
+
+    test('contact address required by default', () => {
+        const data = omit(mockResponse(), [
+            'mainContactAddress',
+            'seniorContactAddress'
+        ]);
+
+        const validationResult = formBuilder({ data }).validation;
+
+        expect(mapRawMessages(validationResult)).toEqual([
+            '"mainContactAddress" is required',
+            '"seniorContactAddress" is required'
+        ]);
+
+        expect(mapMessages(validationResult)).toEqual(
+            expect.arrayContaining(['Enter a full UK address'])
+        );
+
+        expect(validationResult.isValid).toBeFalsy();
     });
 
     test.each(CONTACT_EXCLUDED_TYPES)(
