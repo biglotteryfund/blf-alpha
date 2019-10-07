@@ -19,6 +19,8 @@
                   {% if step.noValidate %}novalidate{% endif %}
                   >
 
+                <input class="u-visually-hidden" type="submit" tabindex="-1" />
+
                 {{ userNavigation(userNavigationLinks) }}
 
                 {{ formHeaderWithData(formTitle, form.summary.title) }}
