@@ -2,6 +2,7 @@
 
 exports[`invalid form 1`] = `
 Array [
+  "Enter a project name",
   "Select a country",
   "Select a location",
   "If you need £10,000 or less from us, you can apply today through <a href=\\"/funding/under10k\\"> National Lottery Awards for All </a>.",
@@ -40,6 +41,7 @@ Object {
   "projectDurationYears": 3,
   "projectLocation": Any<String>,
   "projectLocationDescription": "optional description",
+  "projectName": "My project",
   "yourIdeaActivities": Any<String>,
   "yourIdeaCommunity": Any<String>,
   "yourIdeaProject": Any<String>,

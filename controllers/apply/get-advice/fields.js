@@ -26,6 +26,29 @@ module.exports = function fieldsFor({ locale, data = {} }) {
 
     const projectCountries = getOr([], 'projectCountries')(data);
 
+    function fieldProjectName() {
+        return new Field({
+            name: 'projectName',
+            label: localise({
+                en: 'What is the name of your project?',
+                cy: 'Beth yw enw eich prosiect?'
+            }),
+            explanation: localise({
+                en: 'The project name should be simple and to the point',
+                cy: 'Dylai enw’r prosiect fod yn syml ac eglur'
+            }),
+            messages: [
+                {
+                    type: 'base',
+                    message: localise({
+                        en: 'Enter a project name',
+                        cy: 'Rhowch enw prosiect'
+                    })
+                }
+            ]
+        });
+    }
+
     function fieldProjectCountries() {
         return new CheckboxField({
             locale: locale,
@@ -741,6 +764,7 @@ module.exports = function fieldsFor({ locale, data = {} }) {
     }
 
     return {
+        projectName: fieldProjectName(),
         projectCountries: fieldProjectCountries(),
         projectLocation: fieldProjectLocation(),
         projectLocationDescription: fieldProjectLocationDescription(),

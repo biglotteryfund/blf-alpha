@@ -12,6 +12,7 @@ function mapMessages(validationResult) {
 
 function mockResponse(overrides = {}) {
     const defaults = {
+        projectName: 'My project',
         projectCountries: ['england'],
         projectLocation: 'derbyshire',
         projectLocationDescription: 'optional description',

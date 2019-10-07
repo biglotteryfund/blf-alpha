@@ -14,6 +14,17 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
 
     const projectCountries = getOr([], 'projectCountries')(data);
 
+    function stepProjectName() {
+        return {
+            title: localise({
+                en: 'Project name',
+                cy: 'Enw eich prosiect'
+            }),
+            noValidate: true,
+            fieldsets: [{ fields: [allFields.projectName] }]
+        };
+    }
+
     function stepProjectCountries() {
         return {
             title: localise({
@@ -225,6 +236,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     cy: ``
                 }),
                 steps: [
+                    stepProjectName(),
                     stepProjectCountries(),
                     stepProjectLocation(),
                     stepProjectCosts(),
