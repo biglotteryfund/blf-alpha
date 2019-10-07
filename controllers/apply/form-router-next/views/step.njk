@@ -74,7 +74,7 @@
                     </div>
                     <p class="form-actions__secondary form-actions__timestamp">
                         {{ copy.lastSaveTimeText }} - 
-                        <time datetime="{{ lastSaveTime.dateTime }}">{{ lastSaveTime.relative }}</time>
+                        <time datetime="{{ lastSaveTime.dateTime }}">{{ lastSaveTime.calendarTime }}</time>
                     </p>
                 </div>
                 {{ userNavigation(userNavigationLinks, isFooter = true) }}

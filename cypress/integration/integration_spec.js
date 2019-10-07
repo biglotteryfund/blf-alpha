@@ -469,7 +469,7 @@ it('should test common pages', () => {
 
 it('should submit full awards for all application', () => {
     function checkLastSaveTime() {
-        cy.get('.form-actions__timestamp').contains('a few seconds ago');
+        cy.get('.form-actions__timestamp').contains('Today');
     }
 
     function submitStep() {

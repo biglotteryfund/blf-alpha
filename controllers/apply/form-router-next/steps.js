@@ -115,7 +115,7 @@ module.exports = function(formId, formBuilder) {
 
         return {
             dateTime: moment(lastUpdatedAt).toISOString(true),
-            relative: moment(lastUpdatedAt).locale(locale).fromNow(),
+            calendarTime: moment(lastUpdatedAt).locale(locale).calendar(),
         };
     }
 
