@@ -14,6 +14,17 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
 
     const projectCountries = getOr([], 'projectCountries')(data);
 
+    function stepProjectName() {
+        return {
+            title: localise({
+                en: 'Project name',
+                cy: 'Enw eich prosiect'
+            }),
+            noValidate: true,
+            fieldsets: [{ fields: [allFields.projectName] }]
+        };
+    }
+
     function stepProjectCountries() {
         return {
             title: localise({
@@ -176,6 +187,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
     }
 
     function summary() {
+        const title = get('projectName')(data);
         const countries = getOr([], 'projectCountries')(data);
         const years = get('projectDurationYears')(data);
         const costs = get('projectCosts')(data);
@@ -192,7 +204,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
         ];
 
         return {
-            title: null,
+            title: title,
             country: countries.length > 1 ? 'uk-wide' : countries[0],
             overview: overview
         };
@@ -225,6 +237,7 @@ module.exports = function({ locale = 'en', data = {} } = {}) {
                     cy: ``
                 }),
                 steps: [
+                    stepProjectName(),
                     stepProjectCountries(),
                     stepProjectLocation(),
                     stepProjectCosts(),

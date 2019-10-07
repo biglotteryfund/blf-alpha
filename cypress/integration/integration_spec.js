@@ -1057,6 +1057,7 @@ it('should submit full awards for all application', () => {
 
 it('should complete get advice form', () => {
     const mock = {
+        projectName: faker.lorem.words(5),
         projectCountries: ['England'],
         projectLocation: 'Derbyshire',
         projectLocationDescription: faker.lorem.words(5),
@@ -1104,6 +1105,12 @@ it('should complete get advice form', () => {
         cy.findAllByText('Start')
             .first()
             .click();
+
+        cy.findByLabelText('What is the name of your project?').type(
+            mock.projectName
+        );
+
+        submitStep();
 
         mock.projectCountries.forEach(function(country) {
             cy.findByLabelText(country).click();
