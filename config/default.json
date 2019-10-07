@@ -23,7 +23,6 @@
     }
   },
   "features": {
-    "enableCloudWatchLogs": true,
     "enableHotjar": false,
     "enableRelatedGrants": false,
     "enableSalesforceConnector": true,
