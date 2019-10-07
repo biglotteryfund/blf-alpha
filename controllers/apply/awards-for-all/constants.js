@@ -14,28 +14,24 @@ const FREE_TEXT_MAXLENGTH = {
 const ORG_MIN_AGE = {
     amount: 15,
     unit: 'months',
-    label: {
-        en: '15 months',
-        cy: '15 mis'
-    }
+    label: { en: '15 months', cy: '15 mis' }
 };
 
 const MIN_START_DATE = {
     amount: 18,
     unit: 'weeks',
-    label: {
-        en: '18 weeks',
-        cy: '18 wythnos'
-    }
+    label: { en: '18 weeks', cy: '18 wythnos' }
+};
+
+const SUGGESTED_PROJECT_DURATION = {
+    en: '12 months',
+    cy: '12 mis'
 };
 
 const MAX_PROJECT_DURATION = {
     amount: 15,
     unit: 'months',
-    label: {
-        en: '15 months',
-        cy: '15 mis'
-    }
+    label: { en: '15 months', cy: '15 mis' }
 };
 
 const ORGANISATION_TYPES = {
@@ -143,6 +139,7 @@ module.exports = {
     CONTACT_EXCLUDED_TYPES,
     FILE_LIMITS,
     MAX_BUDGET_TOTAL_GBP,
+    SUGGESTED_PROJECT_DURATION,
     MAX_PROJECT_DURATION,
     MIN_AGE_MAIN_CONTACT,
     MIN_AGE_SENIOR_CONTACT,

@@ -6,7 +6,7 @@ const {
     MIN_BUDGET_TOTAL_GBP,
     MIN_START_DATE,
     MAX_BUDGET_TOTAL_GBP,
-    MAX_PROJECT_DURATION,
+    SUGGESTED_PROJECT_DURATION,
     ORG_MIN_AGE
 } = require('./constants');
 
@@ -14,7 +14,7 @@ module.exports = function({ locale }) {
     const localise = get(locale);
 
     const minStartDateLabel = localise(MIN_START_DATE.label);
-    const maxProjectDurationLabel = localise(MAX_PROJECT_DURATION.label);
+    const maxProjectDurationLabel = localise(SUGGESTED_PROJECT_DURATION);
     const orgMinAgeLabel = localise(ORG_MIN_AGE.label);
 
     const question1 = {
